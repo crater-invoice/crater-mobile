@@ -335,7 +335,8 @@ export const es = {
             name: "Nombre",
             email: "Email",
             password: "Contraseña",
-            confirmPassword: "Confirmar contraseña"
+            confirmPassword: "Confirmar contraseña",
+            version: "Versión"
         },
 
         notifications: {
