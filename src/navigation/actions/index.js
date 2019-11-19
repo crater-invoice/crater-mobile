@@ -34,13 +34,28 @@ export const goBackWithFunction = (param, navigation = {}, args = '') => {
 
                 let currentRoute = getCurrentRouteName()
 
-                // Estimates 
-                currentRoute === ROUTES.ESTIMATE && args()
-                currentRoute === ROUTES.ESTIMATE_LIST && navigation.navigate(ROUTES.MAIN_MORE)
+                switch (currentRoute) {
 
-                // Invoices 
-                currentRoute === ROUTES.INVOICE && args()
-                currentRoute === ROUTES.MAIN_INVOICES && navigation.navigate(ROUTES.MAIN_INVOICES)
+                    case ROUTES.INVOICE:
+                        args && args()
+                        break;
+
+                    case ROUTES.ESTIMATE:
+                        args && args()
+                        break;
+
+                    case ROUTES.MAIN_INVOICES:
+                        navigation.navigate(ROUTES.MAIN_INVOICES)
+                        break;
+
+                    case ROUTES.ESTIMATE_LIST:
+                        navigation.navigate(ROUTES.MAIN_MORE)
+                        break;
+
+                    default:
+                        navigation.goBack(null)
+                        break;
+                }
 
                 return true;
             }
@@ -56,6 +71,7 @@ export const goBack = (param, navigation = {}, route = '') => {
     if (param === MOUNT) {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress',
             () => {
+
                 route && typeof route === 'string' ? navigation.navigate(route)
                     : navigation.goBack(null);
 
@@ -99,7 +115,7 @@ export const navigateRoute = (routeName, params = {}) => {
     );
 }
 
-export const navigateTabRoutes = (exceptRouteName, params = {}) => {
+export const navigateTabRoutes = (exceptRouteName = '', params = {}) => {
     let routes = [
         ROUTES.MAIN_INVOICES,
         ROUTES.MAIN_CUSTOMERS,
