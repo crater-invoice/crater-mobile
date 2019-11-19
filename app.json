@@ -31,6 +31,12 @@
       "package": "com.craterapp.app",
       "versionCode": 4
     },
-    "description": ""
+    "description": "",
+    "androidStatusBar": {
+      "backgroundColor": "#F9FBFF",
+      "barStyle": "dark-content",
+      "animated": true,
+      "translucent": true
+    }
   }
 }

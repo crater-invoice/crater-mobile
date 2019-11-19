@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Modal, TouchableOpacity, Text } from 'react-native';
+import { View, Modal, TouchableOpacity, Text, StatusBar } from 'react-native';
 import { Field, reset, change } from 'redux-form';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
@@ -150,6 +150,7 @@ export class Filter extends Component<IProps> {
 
         dispatch(reset(form));
         dispatch(change(form, 'search', search));
+        this.setState({ counter: 0 })
     }
 
 
@@ -224,6 +225,12 @@ export class Filter extends Component<IProps> {
                     onRequestClose={() => this.onToggleFilter()}
                     hardwareAccelerated={true}
                 >
+                    <StatusBar
+                        backgroundColor={colors.secondary}
+                        barStyle={"dark-content"}
+                        translucent={true}
+                    />
+
                     <View style={styles.modalContainer}>
 
                         <DefaultLayout

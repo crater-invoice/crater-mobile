@@ -3,10 +3,12 @@ import React, { Component } from 'react';
 import {
     View,
     Modal,
+    StatusBar
 } from 'react-native';
 import styles from './styles';
 import { ListView } from '../ListView';
 import { MainLayout, DefaultLayout } from '../Layouts';
+import { colors } from '../../styles/colors';
 
 type IProps = {
     visible: Boolean,
@@ -54,6 +56,12 @@ export class SlideModal extends Component<IProps> {
                 onRequestClose={onToggle && onToggle}
                 hardwareAccelerated={true}
             >
+                <StatusBar
+                    backgroundColor={colors.secondary}
+                    barStyle={"dark-content"}
+                    translucent={true}
+                />
+
                 <View style={styles.modalContainer}>
                     {!defaultLayout && (
                         <MainLayout
