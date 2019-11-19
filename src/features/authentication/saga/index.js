@@ -14,7 +14,7 @@ import {
     PING_ENDPOINT_URL
 } from '../constants';
 import Request from '../../../api/request';
-import { navigateToMainTabs, getTitleByLanguage, navigateRoute } from '../../../navigation/actions';
+import { navigateToMainTabs, getTitleByLanguage } from '../../../navigation/actions';
 import { ROUTES } from '../../../navigation/routes';
 import { setAccountInformation } from '../../settings/actions';
 import { GET_APP_VERSION } from '../../../api/consts';
@@ -106,13 +106,7 @@ function* getBootstrapData(payloadData) {
 
         yield put(setGlobalBootstrap(response));
 
-        yield put(getInvoices({
-            type: 'UNPAID',
-            onMeta: ({ last_page, current_page }) => {
-                let pagination = { last_page, current_page }
-                navigateRoute(ROUTES.MAIN_INVOICES, { pagination, apiCall: false })
-            }
-        }));
+        yield put(getInvoices({ type: 'UNPAID' }));
 
     } catch (error) {
         // console.log(error)

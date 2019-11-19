@@ -96,7 +96,7 @@ function* getCreatePayment(payloadData) {
 
 function* createPayment(payloadData) {
     const {
-        payload: { params, navigation, onResult },
+        payload: { params, navigation, onResult, hasRecordPayment },
     } = payloadData;
     yield put(paymentTriggerSpinner({ paymentLoading: true }));
 
@@ -110,7 +110,12 @@ function* createPayment(payloadData) {
         const response = yield call([Request, 'post'], options);
 
         if (response.success) {
+
+            hasRecordPayment && navigation.navigate(ROUTES.MAIN_INVOICES,
+                { apiCall: false }
+            )
             navigation.navigate(ROUTES.MAIN_PAYMENTS)
+
             yield call(getPayments, payload = {});
         } else {
             onResult && onResult(response.error)
