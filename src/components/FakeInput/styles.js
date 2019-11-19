@@ -57,27 +57,15 @@ export default StyleSheet.create({
     },
     rightIcon: {
         position: 'absolute',
-        top: 14,
+        top: 13,
         right: 11,
-        ...Platform.select({
-            ios: {
-                top: 13,
-                right: 11,
-            },
-        }),
     },
     leftIcon: {
         position: 'absolute',
         zIndex: 20,
         left: 15,
-        top: 15,
-        fontSize: 16,
-        ...Platform.select({
-            ios: {
-                left: 15,
-                top: 13,
-            },
-        }),
+        top: 13,
+        fontSize: 16
     },
     validation: {
         position: 'absolute',
