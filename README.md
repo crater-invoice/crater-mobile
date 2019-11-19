@@ -8,7 +8,7 @@ This repository contains the source code for the mobile app clients for [Crater]
 
 Its built with Expo (React Native).
 
-*Please note:* To use this app on your mobile device, you need to have the crater app installed on your server. Once the app is installed and configured on your server. You can simply input your endpoint URL and use your app login credentials to log into your account.
+*Please note:* To use this app on your mobile device, you need to have the crater app installed on your server. Once the app is installed and configured on your server. You can simply input your endpoint URL and use your app login credentials to log into your account. See [here](#web) to know more about the web version.
 
 # Table of Contents
 
