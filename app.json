@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "Crater",
+    "slug": "crater",
+    "privacy": "public",
+    "sdkVersion": "34.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.craterapp.app"
+    },
+    "android": {
+      "package": "com.craterapp.app",
+      "versionCode": 4
+    },
+    "description": ""
+  }
+}
