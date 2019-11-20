@@ -1,14 +1,15 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import styles from './styles';
-import { DefaultLayout, CtButton, InputField } from '../../../../components';
+import { DefaultLayout, CtButton, InputField, CtDivider } from '../../../../components';
 import { Field, change } from 'redux-form';
 import Lng from '../../../../api/lang/i18n';
 import { EDIT_ACCOUNT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 import { headerTitle } from '../../../../api/helper';
+import { env } from '../../../../config';
 
 
 let name = 'name'
@@ -165,6 +166,20 @@ export class Account extends React.Component<IProps> {
                             accountRefs.confirm = ref;
                         }}
                     />
+
+                    <CtDivider
+                        dividerStyle={styles.dividerLine}
+                    />
+
+                    <View style={styles.versionContainer}>
+                        <Text style={styles.versionTitle}>
+                            {Lng.t("settings.account.version", { locale: language })}
+                            {'  '}
+                            <Text style={styles.version}>
+                                {env.APP_VERSION}
+                            </Text>
+                        </Text>
+                    </View>
 
                 </View>
             </DefaultLayout>

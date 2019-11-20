@@ -26,6 +26,7 @@ export default StyleSheet.create({
     input: {
         color: colors.dark2,
         fontSize: 16,
+        paddingTop: 1,
         fontFamily: fonts.poppins,
         height: 40,
         ...Platform.select({

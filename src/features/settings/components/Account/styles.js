@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../../../styles/colors';
+import { fonts } from '../../../../styles/fonts';
 
 export default styles = StyleSheet.create({
     container: {
@@ -17,5 +18,22 @@ export default styles = StyleSheet.create({
     },
     eyeIcon: {
         top: 6,
+    },
+    dividerLine: {
+        marginVertical: 18,
+        backgroundColor: colors.gray,
+        borderColor: colors.lightGray,
+        borderWidth: 0.2,
+    },
+    versionContainer: {
+        marginVertical: 17,
+    },
+    versionTitle: {
+        color: colors.secondary,
+        fontFamily: fonts.poppins,
+        fontSize: 16,
+    },
+    version: {
+        fontFamily: fonts.poppinsSemiBold
     }
 });

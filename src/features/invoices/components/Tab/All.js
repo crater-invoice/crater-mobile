@@ -44,7 +44,7 @@ const All = ({
                 invoice_number,
                 user: { name, currency } = {},
                 status,
-                formattedDueDate,
+                formattedInvoiceDate,
                 total,
             } = item;
 
@@ -58,7 +58,7 @@ const All = ({
                 },
                 amount: total,
                 currency,
-                rightSubtitle: formattedDueDate,
+                rightSubtitle: formattedInvoiceDate,
                 fullItem: item,
             };
         });

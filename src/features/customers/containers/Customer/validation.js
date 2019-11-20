@@ -24,9 +24,6 @@ export const validate = (values) => {
     if (website)
         errors.website = getError(website, ['urlFormat']);
 
-    if (phone)
-        errors.phone = getError(phone, ['isNumberFormat']);
-
     /* if (enable_portal && !id) {
         errors.password = getError(
             password,

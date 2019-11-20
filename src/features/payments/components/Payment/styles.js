@@ -1,7 +1,5 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { colors } from '../../../../styles/colors';
-import { fonts } from '../../../../styles/fonts';
-import { isIPhoneX } from '../../../../api/helper';
 
 export default styles = StyleSheet.create({
     container: {
@@ -26,7 +24,12 @@ export default styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     paymentNumberField: {
-        marginVertical: 0,
+        paddingVertical: 1,
+        ...Platform.select({
+            ios: {
+                paddingVertical: 2
+            }
+        }),
     },
     inBetweenSpace: {
         paddingHorizontal: 5

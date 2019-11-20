@@ -28,7 +28,6 @@ import {
     ITEM_ADD,
     ITEM_EDIT,
     ESTIMATE_FORM,
-    ADD_ESTIMATE_ACTIONS,
     ESTIMATE_ACTIONS,
     EDIT_ESTIMATE_ACTIONS,
     MARK_AS_ACCEPT, MARK_AS_REJECT, MARK_AS_SENT
@@ -803,17 +802,14 @@ export class Estimate extends React.Component<IProps> {
 
         let hasMark = (markAsStatus === MARK_AS_ACCEPT) || (markAsStatus === MARK_AS_REJECT) || (markAsStatus === MARK_AS_SENT)
 
-        let drownDownProps = !initLoading ? {
-            options: isEditEstimate ?
-                EDIT_ESTIMATE_ACTIONS(language, markAsStatus) :
-                ADD_ESTIMATE_ACTIONS(language),
+        let drownDownProps = (isEditEstimate && !initLoading) ? {
+            options: EDIT_ESTIMATE_ACTIONS(
+                language,
+                markAsStatus
+            ),
             onSelect: this.onOptionSelect,
-            cancelButtonIndex: isEditEstimate ?
-                hasMark ? 5 : 6
-                : 1,
-            destructiveButtonIndex: isEditEstimate ?
-                hasMark ? 4 : 5
-                : 2
+            cancelButtonIndex: hasMark ? 5 : 6,
+            destructiveButtonIndex: hasMark ? 4 : 5
         } : null
 
         return (
@@ -824,12 +820,18 @@ export class Estimate extends React.Component<IProps> {
                         Lng.t("header.editEstimate", { locale: language }) :
                         Lng.t("header.addEstimate", { locale: language }),
                     titleStyle: headerTitle({ marginLeft: -15, marginRight: -15 }),
+                    rightIcon: !isEditEstimate ? 'save' : null,
+                    rightIconPress: handleSubmit((val) => this.onSubmitEstimate(val, status = 'save')),
+                    rightIconProps: {
+                        solid: true
+                    },
                     placement: "center",
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{ is: initLoading }}
                 dropdownProps={drownDownProps}
             >
+
                 <View style={styles.bodyContainer}>
                     <View style={styles.dateFieldContainer}>
                         <View style={styles.dateField}>

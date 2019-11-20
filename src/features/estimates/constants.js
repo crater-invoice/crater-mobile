@@ -133,13 +133,6 @@ export const MARK_AS_SENT = 'SENT'
 export const MARK_AS_ACCEPT = 'ACCEPTED'
 export const MARK_AS_REJECT = 'REJECTED'
 
-export const ADD_ESTIMATE_ACTIONS = (language) => {
-
-    return [{
-        label: Lng.t("estimates.actions.sendEstimate", { locale: language }),
-        value: ESTIMATE_ACTIONS.SEND
-    }]
-};
 
 export const EDIT_ESTIMATE_ACTIONS = (language, markAs = '') => {
 
