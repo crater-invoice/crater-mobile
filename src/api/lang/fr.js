@@ -525,7 +525,7 @@ export const fr = {
         byCustomer: 'Par le client',
         byItem: 'Par article',
 
-        today: "Today",
+        today: "Aujourd'hui",
         thisWeek: 'Cette semaine',
         thisMonth: 'Ce mois-ci',
         thisQuarter: 'Ce trimestre',
