@@ -44,7 +44,7 @@ const Draft = ({
                 invoice_number,
                 user: { name, currency } = {},
                 status,
-                formattedDueDate,
+                formattedInvoiceDate,
                 total,
             } = item;
 
@@ -58,7 +58,7 @@ const Draft = ({
                 },
                 amount: total,
                 currency,
-                rightSubtitle: formattedDueDate,
+                rightSubtitle: formattedInvoiceDate,
                 fullItem: item,
             };
         });
