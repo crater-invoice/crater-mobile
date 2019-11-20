@@ -24,6 +24,7 @@ export default styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     paymentNumberField: {
+        paddingVertical: 1,
         ...Platform.select({
             ios: {
                 paddingVertical: 2
