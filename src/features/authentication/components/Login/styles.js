@@ -39,6 +39,7 @@ export default styles = StyleSheet.create({
     },
     socialLoginContainer: {},
     inputField: {
-        paddingVertical: 5,
+        paddingVertical: 3,
+        borderRadius: 3,
     }
 });

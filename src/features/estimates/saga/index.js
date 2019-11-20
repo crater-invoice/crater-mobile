@@ -39,6 +39,8 @@ import {
 import { store } from '../../../store';
 import { setInvoices } from '../../invoices/actions';
 import { ROUTES } from '../../../navigation/routes';
+import { alertMe } from '../../../api/global';
+import { getTitleByLanguage } from '../../../navigation/actions';
 
 
 function* getEstimates(payloadData) {
@@ -434,6 +436,9 @@ function* changeEstimateStatus(payloadData) {
         if (response.success) {
             navigation.navigate(ROUTES.ESTIMATE_LIST)
             yield call(getEstimates, payload = {});
+        }
+        else {
+            response.error === 'user_email_does_not_exist' && alertMe({ desc: getTitleByLanguage('alert.action.emailNotExist') })
         }
 
 

@@ -2,11 +2,11 @@
 
 import React, { Component } from 'react';
 import {
-    View,
+    TouchableWithoutFeedback,
+    View
 } from 'react-native';
 import styles from './styles';
 import { SlideModal, FakeInput, AssetImage, CtButton } from '../../../../components';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import { colors } from '../../../../styles/colors';
 import Lng from '../../../../api/lang/i18n';

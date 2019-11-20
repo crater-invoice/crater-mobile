@@ -125,7 +125,7 @@ export const en = {
             removeDescription: "You will not be able to recover this Invoice",
             paymentAttachedTitle: "Action Failed",
             paymentAttachedDescription: "Cannot delete an invoice with an existing payment.",
-            draftTitle: "Save changes?",
+            draftTitle: "Save changes?"
         },
 
         empty: {
@@ -335,7 +335,8 @@ export const en = {
             name: "Name",
             email: "Email",
             password: "Password",
-            confirmPassword: "Confirm Password"
+            confirmPassword: "Confirm Password",
+            version: "Version"
         },
 
         notifications: {
@@ -570,7 +571,8 @@ export const en = {
         title: "Are you sure?",
         action: {
             discard: "Discard",
-            saveAsDraft: "Save As Draft"
+            saveAsDraft: "Save As Draft",
+            emailNotExist: "User email does not exist"
         }
     },
 

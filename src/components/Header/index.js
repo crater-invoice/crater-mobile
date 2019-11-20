@@ -169,11 +169,6 @@ export const CtHeader = ({
                 transparent && styles.transparent,
                 noBorder && styles.borderBottom
             ]}
-            statusBarProps={{
-                barStyle: 'dark-content',
-                animated: true,
-                translucent: true
-            }}
         />
     );
 };

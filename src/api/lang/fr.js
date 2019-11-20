@@ -125,7 +125,7 @@ export const fr = {
             removeDescription: "Vous ne pourrez pas récupérer cette facture",
             paymentAttachedTitle: "Action: échoué",
             paymentAttachedDescription: "Impossible de supprimer une facture avec un paiement existant.",
-            draftTitle: "Sauvegarder les modifications?",
+            draftTitle: "Sauvegarder les modifications?"
         },
 
         empty: {
@@ -335,7 +335,8 @@ export const fr = {
             name: "Nom",
             email: "Email",
             password: "Mot de passe",
-            confirmPassword: "Confirmez le mot de passe"
+            confirmPassword: "Confirmez le mot de passe",
+            version: "Version"
         },
 
         notifications: {
@@ -524,7 +525,7 @@ export const fr = {
         byCustomer: 'Par le client',
         byItem: 'Par article',
 
-        today: "Today",
+        today: "Aujourd'hui",
         thisWeek: 'Cette semaine',
         thisMonth: 'Ce mois-ci',
         thisQuarter: 'Ce trimestre',
@@ -570,7 +571,8 @@ export const fr = {
         title: "Êtes-vous sûr?",
         action: {
             discard: "Jeter",
-            saveAsDraft: "Enregistrer comme brouillon"
+            saveAsDraft: "Enregistrer comme brouillon",
+            emailNotExist: "Le courrier électronique de l'utilisateur n'existe pas"
         }
     },
 

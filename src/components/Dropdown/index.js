@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import ActionSheet from 'react-native-actionsheet'
 import { styles } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../../styles/colors';
 
 type IProps = {
@@ -52,7 +51,7 @@ export default class Dropdown extends Component<IProps> {
 
         return (
             <View>
-                 <TouchableOpacity
+                <TouchableOpacity
                     onPress={this.showActionSheet}
                     style={styles.button}
                     hitSlop={{

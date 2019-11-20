@@ -125,7 +125,7 @@ export const es = {
             removeDescription: "No podrá recuperar esta factura",
             paymentAttachedTitle: "Accion: Fallida",
             paymentAttachedDescription: "No se puede eliminar una factura con un pago existente.",
-            draftTitle: "¿Quieres ahorrar?",
+            draftTitle: "¿Quieres ahorrar?"
         },
 
         empty: {
@@ -335,7 +335,8 @@ export const es = {
             name: "Nombre",
             email: "Email",
             password: "Contraseña",
-            confirmPassword: "Confirmar contraseña"
+            confirmPassword: "Confirmar contraseña",
+            version: "Versión"
         },
 
         notifications: {
@@ -570,7 +571,8 @@ export const es = {
         title: "¿Estás seguro?",
         action: {
             discard: "Descarte",
-            saveAsDraft: "Guardar como borrador"
+            saveAsDraft: "Guardar como borrador",
+            emailNotExist: "El correo electrónico del usuario no existe"
         }
     },
 

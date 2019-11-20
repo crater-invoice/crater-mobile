@@ -37,6 +37,8 @@ import {
 import { store } from '../../../store';
 import { checkConnection } from '../../../api/helper';
 import { ROUTES } from '../../../navigation/routes';
+import { alertMe } from '../../../api/global';
+import { getTitleByLanguage } from '../../../navigation/actions';
 
 
 function* getInvoices(payloadData) {
@@ -401,6 +403,9 @@ function* changeInvoiceStatus(payloadData) {
         if (response.success) {
             navigation.navigate(ROUTES.MAIN_INVOICES)
             yield call(getInvoices, payload = {});
+        }
+        else {
+            response.error === 'user_email_does_not_exist' && alertMe({ desc: getTitleByLanguage('alert.action.emailNotExist') })
         }
 
         onResult && onResult();

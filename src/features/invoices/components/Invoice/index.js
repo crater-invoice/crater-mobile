@@ -27,7 +27,6 @@ import {
     ITEM_ADD,
     ITEM_EDIT,
     INVOICE_FORM,
-    ADD_INVOICE_ACTIONS,
     INVOICE_ACTIONS,
     EDIT_INVOICE_ACTIONS
 } from '../../constants';
@@ -799,19 +798,19 @@ export class Invoice extends React.Component<IProps> {
         let hasSentStatus = (markAsStatus === 'SENT')
         let hasCompleteStatus = (markAsStatus === 'COMPLETED')
 
-        let drownDownProps = !initLoading ? {
-            options: isEditInvoice ?
-                EDIT_INVOICE_ACTIONS(language, hasSentStatus, hasCompleteStatus) :
-                ADD_INVOICE_ACTIONS(language),
+        let drownDownProps = (isEditInvoice && !initLoading) ? {
+            options: EDIT_INVOICE_ACTIONS(
+                language,
+                hasSentStatus,
+                hasCompleteStatus
+            ),
             onSelect: this.onOptionSelect,
-            cancelButtonIndex: isEditInvoice ?
+            cancelButtonIndex:
                 hasSentStatus ? 2 :
-                    hasCompleteStatus ? 1 : 4
-                : 1,
-            destructiveButtonIndex: isEditInvoice ?
+                    hasCompleteStatus ? 1 : 4,
+            destructiveButtonIndex:
                 hasSentStatus ? 1 :
-                    hasCompleteStatus ? 2 : 3
-                : 2,
+                    hasCompleteStatus ? 2 : 3,
         } : null
 
 
@@ -822,6 +821,11 @@ export class Invoice extends React.Component<IProps> {
                     title: isEditInvoice ?
                         Lng.t("header.editInvoice", { locale: language }) :
                         Lng.t("header.addInvoice", { locale: language }),
+                    rightIcon: !isEditInvoice ? 'save' : null,
+                    rightIconPress: handleSubmit((val) => this.onSubmitInvoice(val, status = 'save')),
+                    rightIconProps: {
+                        solid: true
+                    },
                     placement: "center",
                 }}
 
