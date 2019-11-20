@@ -135,15 +135,6 @@ export const INVOICE_ACTIONS = {
     RECORD_PAYMENT: 'recordPayment',
     MARK_AS_SENT: 'markAsSent',
 }
-export const ADD_INVOICE_ACTIONS = (language) => {
-
-    return [
-        {
-            label: Lng.t("invoices.actions.sendInvoice", { locale: language }),
-            value: INVOICE_ACTIONS.SEND
-        },
-    ]
-};
 
 export const EDIT_INVOICE_ACTIONS = (language, SentStatus = false, completeStatus = false) => {
 

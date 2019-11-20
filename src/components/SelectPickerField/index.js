@@ -178,6 +178,7 @@ export class SelectPickerField extends Component<IProps> {
                                 { paddingRight: 5 },
                                 fakeInputValueStyle && fakeInputValueStyle,
                                 !isFakeInput && { paddingLeft: 39 },
+                                !selectedValue && { color: colors.darkGray }
                             ]}
                         >
                             {!selectedLabel ?

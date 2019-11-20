@@ -207,6 +207,7 @@ export class Payment extends React.Component<IProps> {
             createPayment,
             editPayment,
             navigation,
+            hasRecordPayment,
             language
         } = this.props
 
@@ -214,6 +215,7 @@ export class Payment extends React.Component<IProps> {
             createPayment({
                 params: values,
                 navigation,
+                hasRecordPayment,
                 onResult: (val) => {
                     val === 'invalid_amount' &&
                         alertMe({ title: Lng.t("payments.alertAmount", { locale: language }) })
@@ -393,7 +395,7 @@ export class Payment extends React.Component<IProps> {
                                     autoCorrect: true,
                                 }}
                                 editable={false}
-                                inputContainerStyle={{ paddingVertical: 2 }}
+                                inputContainerStyle={styles.paymentNumberField}
                                 isRequired
                             />
                         </View>

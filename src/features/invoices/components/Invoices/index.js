@@ -63,6 +63,10 @@ export class Invoices extends React.Component<IProps> {
         };
     }
 
+    componentDidMount() {
+        this.getItems({ fresh: true, q: '', type: 'UNPAID' });
+    }
+
     componentWillUpdate(nextProps, nextState) {
 
         const { navigation } = nextProps

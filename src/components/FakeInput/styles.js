@@ -57,12 +57,12 @@ export default StyleSheet.create({
     },
     rightIcon: {
         position: 'absolute',
-        top: 14,
+        top: 13,
         right: 11,
         ...Platform.select({
-            ios: {
-                top: 13,
-                right: 11,
+            android: {
+                top: 14,
+                right: 11
             },
         }),
     },
@@ -70,12 +70,12 @@ export default StyleSheet.create({
         position: 'absolute',
         zIndex: 20,
         left: 15,
-        top: 15,
+        top: 13,
         fontSize: 16,
         ...Platform.select({
-            ios: {
+            android: {
                 left: 15,
-                top: 13,
+                top: 14
             },
         }),
     },

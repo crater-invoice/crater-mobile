@@ -167,7 +167,7 @@ export default styles = StyleSheet.create({
         fontSize: 18,
         ...Platform.select({
             android: {
-                marginTop: -4,
+                marginTop: -2,
             },
         }),
         ...SymbolStyle
