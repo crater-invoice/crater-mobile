@@ -12,6 +12,7 @@ import CategoryContainer from "../../features/settings/containers/Category";
 import TaxesContainer from "../../features/settings/containers/Taxes";
 import TaxContainer from "../../features/settings/containers/Tax";
 import EndpointContainer from "../../features/authentication/containers/Endpoint";
+import UpdateAppVersionContainer from "../../components/UpdateAppVersion";
 
 export const SettingNavigator = {
 
@@ -69,6 +70,13 @@ export const SettingNavigator = {
     [ROUTES.ENDPOINTS_SETTINGS]: generateStackNavigation(
         ROUTES.ENDPOINTS_SETTINGS,
         EndpointContainer
+    ),
+
+    // Update App Version
+    // -----------------------------------------
+    [ROUTES.UPDATE_APP_VERSION]: generateStackNavigation(
+        ROUTES.UPDATE_APP_VERSION,
+        UpdateAppVersionContainer,
     ),
 
 }
