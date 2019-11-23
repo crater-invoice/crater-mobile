@@ -3,13 +3,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import styles from './styles';
-import { DefaultLayout, CtButton, InputField, CtDivider } from '../../../../components';
+import { DefaultLayout, CtButton, InputField, CtDivider, FilePicker } from '../../../../components';
 import { Field, change } from 'redux-form';
 import Lng from '../../../../api/lang/i18n';
 import { EDIT_ACCOUNT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 import { headerTitle } from '../../../../api/helper';
-import { env } from '../../../../config';
+import { env, IMAGES } from '../../../../config';
 
 
 let name = 'name'
@@ -31,13 +31,19 @@ export class Account extends React.Component<IProps> {
         super(props);
 
         this.state = {
-
+            avatar: null,
+            avatarUrl: null,
+            fileLoading: false,
         }
     }
 
     componentDidMount() {
         const { getAccount, navigation } = this.props
-        getAccount()
+        getAccount({
+            onResult: ({ avatar }) => {
+                this.setState({ avatarUrl: avatar })
+            }
+        })
         goBack(MOUNT, navigation)
     }
 
@@ -50,8 +56,16 @@ export class Account extends React.Component<IProps> {
     };
 
     onProfileUpdate = (value) => {
-        const { navigation, editAccount } = this.props
-        editAccount({ params: value, navigation })
+        const { navigation, editAccount, editAccountLoading } = this.props
+        const { avatar, fileLoading } = this.state
+
+        if (!fileLoading && !editAccountLoading) {
+            editAccount({
+                params: value,
+                avatar,
+                navigation
+            })
+        }
     }
 
     BOTTOM_ACTION = (handleSubmit) => {
@@ -61,7 +75,7 @@ export class Account extends React.Component<IProps> {
                 <CtButton
                     onPress={handleSubmit(this.onProfileUpdate)}
                     btnTitle={Lng.t("button.save", { locale: language })}
-                    loading={editAccountLoading}
+                    loading={editAccountLoading || this.state.fileLoading}
                 />
             </View>
         )
@@ -97,6 +111,26 @@ export class Account extends React.Component<IProps> {
             >
 
                 <View style={styles.mainContainer}>
+
+                    <Field
+                        name={"avatar"}
+                        component={FilePicker}
+                        navigation={navigation}
+                        onChangeCallback={(val) =>
+                            this.setState({ avatar: val })
+                        }
+                        imageUrl={this.state.avatarUrl}
+                        containerStyle={styles.avatarContainer}
+                        fileLoading={(val) => {
+                            this.setState({ fileLoading: val })
+                        }}
+                        hasAvatar
+                        imageContainerStyle={styles.imageContainerStyle}
+                        imageStyle={styles.imageStyle}
+                        loadingContainerStyle={styles.loadingContainerStyle}
+                        defaultImage={IMAGES.DEFAULT_AVATAR}
+                    />
+
                     <Field
                         name={name}
                         component={InputField}

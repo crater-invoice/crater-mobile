@@ -8,6 +8,7 @@ import EmptyItems from '../assets/empty-items-icon.png';
 import EmptyPayments from '../assets/empty-payments-icon.png';
 import LostConnection from '../assets/lost-connection.png';
 import OpenEnvelop from '../assets/envelop.png';
+import DefaultAvatar from '../assets/default-avatar.jpg';
 
 export const IMAGES = {
     LOGO_DARK: LogoDark,
@@ -19,16 +20,9 @@ export const IMAGES = {
     EMPTY_ITEMS: EmptyItems,
     EMPTY_PAYMENTS: EmptyPayments,
     LOST_CONNECTION: LostConnection,
-    OPEN_ENVELOP: OpenEnvelop
+    OPEN_ENVELOP: OpenEnvelop,
+    DEFAULT_AVATAR: DefaultAvatar
 };
 
-export const EMPTY_IMAGES = {
-    INVOICES: EmptyInvoices,
-    CUSTOMERS: EmptyCustomers,
-    ESTIMATES: EmptyEstimates,
-    EXPENSES: EmptyExpenses,
-    ITEMS: EmptyItems,
-    PAYMENTS: EmptyPayments,
-};
 
 export const ICONS = {};

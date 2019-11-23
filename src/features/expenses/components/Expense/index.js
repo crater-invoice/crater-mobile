@@ -21,7 +21,7 @@ import { Linking } from 'expo';
 import moment from 'moment';
 import { MAX_LENGTH } from '../../../../api/global';
 
-const IMAGE_TYPE = 'image/jpeg'
+const IMAGE_TYPE = 'image'
 
 export class Expense extends React.Component {
     constructor(props) {
@@ -279,8 +279,7 @@ export class Expense extends React.Component {
             >
 
                 <View style={styles.bodyContainer}>
-
-                    {fileType === IMAGE_TYPE && (
+                    {fileType.indexOf(IMAGE_TYPE) === 0 && (
                         <Field
                             name="attachment_receipt"
                             component={FilePicker}

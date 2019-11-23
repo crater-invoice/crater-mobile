@@ -336,7 +336,8 @@ export const fr = {
             email: "Email",
             password: "Mot de passe",
             confirmPassword: "Confirmez le mot de passe",
-            version: "Version"
+            version: "Version",
+            avatar: "Image de profil"
         },
 
         notifications: {
