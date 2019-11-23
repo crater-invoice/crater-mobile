@@ -417,7 +417,6 @@ export class Invoices extends React.Component<IProps> {
                         title: Lng.t("header.invoices", { locale: language }),
                     }}
                     onSearch={this.onSearch}
-                    filter
                     filterProps={{
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
                         selectFields: selectFields,
@@ -425,7 +424,8 @@ export class Invoices extends React.Component<IProps> {
                         inputFields: inputFields,
                         dropdownFields: dropdownFields,
                         clearFilter: this.props,
-                        language: language
+                        language: language,
+                        onResetFilter: () => this.onResetFilter()
                     }}
                 >
                     <Tabs

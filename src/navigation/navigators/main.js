@@ -49,6 +49,7 @@ export default createBottomTabNavigator(
                 bottom: 0,
                 left: 0,
                 right: 0,
+                marginBottom: 0
             },
             labelStyle: {
                 fontFamily: fonts.poppinsMedium,
