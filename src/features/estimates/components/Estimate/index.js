@@ -670,12 +670,11 @@ export class Estimate extends React.Component<IProps> {
                 break;
 
             case ESTIMATE_ACTIONS.SEND:
-                type === ESTIMATE_ADD ? handleSubmit((val) => this.onSubmitEstimate(val, action))() :
-                    changeEstimateStatus({
-                        id: navigation.getParam('id'),
-                        action: 'send',
-                        navigation
-                    })
+                changeEstimateStatus({
+                    id: navigation.getParam('id'),
+                    action: 'send',
+                    navigation
+                })
 
                 break;
 

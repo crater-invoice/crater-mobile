@@ -668,13 +668,11 @@ export class Invoice extends React.Component<IProps> {
 
             case INVOICE_ACTIONS.SEND:
 
-                type === INVOICE_EDIT ? changeInvoiceStatus({
+                changeInvoiceStatus({
                     id: navigation.getParam('id'),
                     action: 'send',
                     navigation
-                }) :
-                    handleSubmit((val) => this.onSubmitInvoice(val, action))()
-
+                })
                 break;
 
             case INVOICE_ACTIONS.MARK_AS_SENT:

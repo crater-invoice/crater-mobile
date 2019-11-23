@@ -29,8 +29,15 @@ import QueryString from 'qs';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 import { headerTitle } from '../../../../api/helper';
 
-
-export class Report extends React.Component {
+type IProps = {
+    navigation: Object,
+    taxTypes: Object,
+    language: String,
+    type: String,
+    loading: Boolean,
+    handleSubmit: Function,
+}
+export class Report extends React.Component<IProps> {
     constructor(props) {
         super(props);
 

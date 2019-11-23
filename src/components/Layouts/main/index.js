@@ -31,7 +31,6 @@ const MainLayoutComponent = ({
     hasSearchField = true,
     onFocus,
     bottomAction,
-    filter = false,
     filterProps,
     inputProps,
     dividerStyle,
@@ -39,7 +38,7 @@ const MainLayoutComponent = ({
     language
 }: IProps) => {
 
-    let hasFilter = filter ? { ...filterProps } : null
+    let hasFilter = filterProps ? { ...filterProps } : null
 
     return (
         <View style={styles.page}>

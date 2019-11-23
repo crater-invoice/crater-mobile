@@ -364,14 +364,14 @@ export class Estimates extends React.Component<IProps> {
                         },
                     }}
                     onSearch={this.onSearch}
-                    filter
                     filterProps={{
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
                         selectFields: selectFields,
                         datePickerFields: datePickerFields,
                         inputFields: inputFields,
                         dropdownFields: dropdownFields,
-                        clearFilter: this.props
+                        clearFilter: this.props,
+                        onResetFilter: () => this.onResetFilter()
                     }}
                 >
                     <Tabs

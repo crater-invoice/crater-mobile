@@ -351,13 +351,13 @@ export class Expenses extends React.Component<IProps> {
                     }}
                     onSearch={this.onSearch}
                     bottomDivider
-                    filter
                     filterProps={{
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
                         datePickerFields: datePickerFields,
                         dropdownFields: dropdownFields,
                         clearFilter: this.props,
-                        language: language
+                        language: language,
+                        onResetFilter: () => this.onResetFilter()
                     }}
                     loadingProps={{ is: isLoading || (loading && fresh) }}
                 >
@@ -383,7 +383,7 @@ export class Expenses extends React.Component<IProps> {
                             getItems={() => {
                                 this.loadMoreItems()
                             }}
-                            contentContainerStyle={{ flex: 2 }}
+                            contentContainerStyle={{ flex: 1 }}
                             bottomDivider
                             emptyContentProps={{
                                 title: emptyTitle,
@@ -399,4 +399,3 @@ export class Expenses extends React.Component<IProps> {
         );
     }
 }
-
