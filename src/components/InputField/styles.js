@@ -37,7 +37,8 @@ export default StyleSheet.create({
     },
     multilineField: {
         paddingHorizontal: 2,
-        paddingVertical: 7,
+        paddingTop: 6,
+        paddingBottom: 5,
     },
     inputContainerStyle: {
         backgroundColor: 'white',

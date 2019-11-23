@@ -11,13 +11,14 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         flexWrap: 'nowrap',
         flexDirection: 'row',
-        marginVertical: 15
+        marginVertical: 15,
     },
     hintStyle: {
         color: colors.secondary,
         fontFamily: fonts.poppins,
         fontSize: 16,
         marginTop: 3,
+        width: '83%'
     },
     switchStyle: {
         transform: isIosPlatform() ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [{ scaleX: 1.2 }, { scaleY: 1.2 }],

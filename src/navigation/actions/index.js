@@ -53,7 +53,9 @@ export const goBackWithFunction = (param, navigation = {}, args = '') => {
                         break;
 
                     default:
-                        navigation.goBack(null)
+                        !(currentRoute === ROUTES.PAYMENT) ?
+                            navigation.navigate(ROUTES.MAIN_INVOICES) :
+                            navigation.goBack(null)
                         break;
                 }
 
@@ -115,16 +117,18 @@ export const navigateRoute = (routeName, params = {}) => {
     );
 }
 
-export const navigateTabRoutes = (exceptRouteName = '', params = {}) => {
-    let routes = [
-        ROUTES.MAIN_INVOICES,
+export const navigateTabRoutes = (exceptRouteName = '', params = {}, initial = null) => {
+
+    const routes = [
+        initial,
         ROUTES.MAIN_CUSTOMERS,
         ROUTES.MAIN_PAYMENTS,
-        ROUTES.MAIN_EXPENSES
+        ROUTES.MAIN_EXPENSES,
+        ROUTES.MAIN_INVOICES
     ]
 
     routes.map(route => {
-        !(route === exceptRouteName) && store.dispatch(
+        route !== null && !(route === exceptRouteName) && store.dispatch(
             NavigationActions.navigate({
                 routeName: route,
                 params
