@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Crater",
+    "name": "Crater Invoice",
     "slug": "crater",
     "privacy": "public",
     "sdkVersion": "34.0.0",
@@ -25,7 +25,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.craterapp.app"
+      "bundleIdentifier": "com.craterapp.app",
+      "buildNumber": "1"
     },
     "android": {
       "package": "com.craterapp.app",
