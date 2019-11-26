@@ -1,9 +1,9 @@
 import * as Localization from 'expo-localization';
 import Lng from 'i18n-js';
 
-import { en } from './en';
-import { fr } from './fr';
-import { es } from './es';
+import en from './en.json';
+import fr from './fr.json';
+import es from './es.json';
 
 Lng.fallbacks = true;
 
