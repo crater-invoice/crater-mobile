@@ -37,9 +37,9 @@ export default class Root extends Component {
 
                 if (endpointApi) {
                     (endpointApi !== null && typeof endpointApi !== 'undefined') &&
-                        store.dispatch(getAppVersion({
-                            onResult: ({ version }) => {
-                                if (version && (compareVersion(env.APP_VERSION, version) < 0)) {
+                    store.dispatch(getAppVersion({
+                        onResult: ({ version }) => {
+                                if (version && (parseInt(env.APP_VERSION) < parseInt(version))) {
                                     store.dispatch(
                                         NavigationActions.navigate({
                                             routeName: ROUTES.UPDATE_APP_VERSION,

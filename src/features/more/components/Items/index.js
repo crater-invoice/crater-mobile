@@ -307,12 +307,12 @@ export class Items extends React.Component<IProps> {
                     onSearch={this.onSearch}
                     bottomDivider
                     onFocus={() => { }}
-                    filter
                     filterProps={{
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
                         inputFields: inputFields,
                         dropdownFields: dropdownFields,
                         clearFilter: this.props,
+                        onResetFilter: () => this.onResetFilter()
                     }}
                     loadingProps={{ is: loading }}
                 >

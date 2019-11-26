@@ -525,6 +525,9 @@ export class SelectFieldComponent extends Component<IProps> {
                             title: this.getEmptyTitle(),
                             ...emptyContentProps
                         },
+                        itemContainer: {
+                            paddingVertical: 16
+                        },
                         ...listViewProps,
                         ...multiSelectProps,
                         ...paginationContent

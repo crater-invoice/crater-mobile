@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../../../styles/colors';
 import { fonts } from '../../../../styles/fonts';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 export default styles = StyleSheet.create({
     container: {
@@ -35,5 +36,30 @@ export default styles = StyleSheet.create({
     },
     version: {
         fontFamily: fonts.poppinsSemiBold
+    },
+    avatarContainer: {
+        marginTop: 25,
+        marginBottom: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow: 'hidden',
+        flex: 1,
+    },
+    imageContainerStyle: {
+        padding: 0,
+        borderWidth: 0,
+        width: 150,
+        height: 150,
+        borderRadius: 100,
+        overflow: 'hidden',
+    },
+    imageStyle: {
+        width: 150,
+        height: 150,
+        resizeMode: 'stretch',
+        alignSelf: 'center',
+    },
+    loadingContainerStyle: {
+        borderWidth: 0
     }
 });

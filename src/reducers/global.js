@@ -6,7 +6,7 @@ import {
     SAVE_ENDPOINT_API,
     SET_APP_VERSION,
 } from "../api/consts";
-import { SET_TAX, SET_EDIT_TAX, SET_REMOVE_TAX, SET_TAXES } from "../features/settings/constants";
+import { SET_TAX, SET_EDIT_TAX, SET_REMOVE_TAX, SET_TAXES, SET_COMPANY_INFO } from "../features/settings/constants";
 import { formatTaxTypes } from "../api/global";
 
 const initialState = {
@@ -47,6 +47,9 @@ export default function globalReducer(state = initialState, action) {
                 endpointURL,
                 endpointApi: endpointURL ? `${endpointURL}/api/` : null
             };
+
+        case SET_COMPANY_INFO:
+            return { ...state, company: payload.company }
 
         case SET_APP_VERSION:
 

@@ -28,9 +28,17 @@ import { env } from '../../../../config';
 import QueryString from 'qs';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 import { headerTitle } from '../../../../api/helper';
+import { store } from '../../../../store';
 
-
-export class Report extends React.Component {
+type IProps = {
+    navigation: Object,
+    taxTypes: Object,
+    language: String,
+    type: String,
+    loading: Boolean,
+    handleSubmit: Function,
+}
+export class Report extends React.Component<IProps> {
     constructor(props) {
         super(props);
 
@@ -59,18 +67,16 @@ export class Report extends React.Component {
     };
 
     saveReport = ({ to_date, from_date, report_type }) => {
-        const {
-            company,
-            endpointURL
-        } = this.props
+
+        const { endpointURL } = store.getState().global;
+
+        const { company } = this.props
 
         const params = { from_date, to_date }
 
-        const endPoint = endpointURL || env.ENDPOINT_URL
-
         const report = this.getReport({ reportType: report_type })
 
-        Linking.openURL(`${endPoint}reports/${report}${company.unique_hash}?${QueryString.stringify(params)}`);
+        Linking.openURL(`${endpointURL}/reports/${report}${company.unique_hash}?${QueryString.stringify(params)}`);
 
     };
 

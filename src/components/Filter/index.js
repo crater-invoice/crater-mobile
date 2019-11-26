@@ -16,6 +16,8 @@ import Lng from '../../api/lang/i18n';
 type IProps = {
     visible: Boolean,
     onToggle: Function,
+    onResetFilter: Function,
+    onSubmitFilter: Function,
     headerProps: Object,
     inputFields: Object,
     dropdownFields: Object,
@@ -128,9 +130,7 @@ export class Filter extends Component<IProps> {
 
     onSubmit = (val) => {
 
-
         let counter = 0
-        const { onSubmitFilter } = this.props
 
         for (key in val) {
             !(key === 'search') && counter++
@@ -140,17 +140,20 @@ export class Filter extends Component<IProps> {
 
         this.onToggleFilter()
 
-        onSubmitFilter && onSubmitFilter()
+        this.props.onSubmitFilter()
     }
 
     onClear = () => {
 
-        const { clearFilter } = this.props
+        const { clearFilter, onResetFilter } = this.props
         const { form, dispatch, formValues: { search } } = clearFilter
 
         dispatch(reset(form));
         dispatch(change(form, 'search', search));
+
         this.setState({ counter: 0 })
+
+        onResetFilter && onResetFilter()
     }
 
 
@@ -280,4 +283,3 @@ export class Filter extends Component<IProps> {
         );
     }
 }
-

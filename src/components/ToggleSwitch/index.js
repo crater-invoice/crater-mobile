@@ -9,6 +9,7 @@ type IProps = {
     meta: Object,
     switchStyle: Object,
     containerStyle: Object,
+    descriptionStyle: Object,
     hint: string,
     description: String,
     switchType: String,
@@ -54,8 +55,9 @@ export class ToggleSwitch extends Component<IProps> {
             description,
             containerStyle,
             mainContainerStyle,
+            descriptionStyle,
             input: { value },
-            switchStyle
+            switchStyle,
         } = this.props;
 
         return (
@@ -72,7 +74,10 @@ export class ToggleSwitch extends Component<IProps> {
                 >
                     {
                         hint && (
-                            <Text style={styles.hintStyle}>
+                            <Text
+                                numberOfLines={2}
+                                style={styles.hintStyle}
+                            >
                                 {hint}
                             </Text>
                         )
@@ -93,7 +98,10 @@ export class ToggleSwitch extends Component<IProps> {
                 {
                     description && (
                         <View style={styles.descriptionContainer}>
-                            <Text style={styles.description}>
+                            <Text
+                                style={[styles.description,
+                                descriptionStyle && descriptionStyle]}
+                            >
                                 {description}
                             </Text>
                         </View>

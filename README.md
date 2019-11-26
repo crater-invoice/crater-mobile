@@ -1,4 +1,4 @@
-<p align="center"><img height="150px" src="https://res.cloudinary.com/bytefury/image/upload/v1574149856/Crater/craterframe.png"></p>
+<img height="150px" src="https://res.cloudinary.com/bytefury/image/upload/v1574149856/Crater/craterframe.png">
 
 ## Introduction
 
@@ -8,6 +8,8 @@ This repository contains the source code for the mobile app clients for [Crater]
 
 Its built with Expo (React Native).
 
+*Please note:* To use this app on your mobile device, you need to have the crater app installed on your server. Once the app is installed and configured on your server. You can simply input your endpoint URL and use your app login credentials to log into your account. See [here](#web) to know more about the web version.
+
 # Table of Contents
 
 1. [Installation](#installation)
@@ -16,7 +18,7 @@ Its built with Expo (React Native).
 6. [License](#license)
 
 ## Installation
-Below are the steps for starting up the crater app locally for development. If you aren't looking to customise or contribute the mobile apps then you can ignore the steps below and use the Crater [IOS & Android Apps](#mobile-app-links) directly.
+Below are the steps for starting up the crater app locally for development. If you aren't looking to customise or contribute to mobile apps then you can ignore the steps below and use the Crater [IOS & Android Apps](#mobile-app-links) directly.
 
 - Clone this repository
 - Install Expo CLI : `npm install -g expo-cli`

@@ -342,14 +342,14 @@ export class Payments extends React.Component<IProps> {
                     }}
                     onSearch={this.onSearch}
                     bottomDivider
-                    filter
                     filterProps={{
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
                         selectFields: selectFields,
                         inputFields: inputFields,
                         dropdownFields: dropdownFields,
                         clearFilter: this.props,
-                        language: language
+                        language: language,
+                        onResetFilter: () => this.onResetFilter()
                     }}
                     loadingProps={{ is: isLoading || (loading && fresh) }}
                 >

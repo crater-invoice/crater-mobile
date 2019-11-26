@@ -1,6 +1,5 @@
 import {
     SETTINGS_TRIGGER_SPINNER,
-    SET_COMPANY_INFO,
     SET_ACCOUNT_INFO,
     SET_PREFERENCES,
     CLEAR_PREFERENCES,
@@ -10,7 +9,6 @@ import {
     SET_REMOVE_EXPENSE_CATEGORIES,
     SET_EXPENSE_CATEGORIES,
 } from '../constants';
-import { env } from '../../../config';
 
 const initialState = {
     loading: {
@@ -38,10 +36,6 @@ const initialState = {
         removeTaxLoading: false,
     },
     preferences: null,
-    company: {
-        addresses: [],
-        company: {}
-    },
     categories: [],
     account: null,
     taxByItems: false,
@@ -49,15 +43,12 @@ const initialState = {
     taxByEstimate: false,
 };
 
-export default function authReducer(state = initialState, action) {
+export default function settingReducer(state = initialState, action) {
     const { payload, type } = action;
 
     switch (type) {
         case SETTINGS_TRIGGER_SPINNER:
             return { ...state, loading: { ...payload } };
-
-        case SET_COMPANY_INFO:
-            return { ...state, ...payload };
 
         case SET_ACCOUNT_INFO:
             return { ...state, ...payload };
