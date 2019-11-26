@@ -150,12 +150,15 @@ export const EDIT_COMPANY_URL = () => `settings/company`
 
 export const GET_ACCOUNT_URL = () => `settings/profile`
 export const EDIT_ACCOUNT_URL = () => `settings/profile`
+export const EDIT_ACCOUNT_AVATAR_URL = () => `settings/profile/upload-avatar`
 
 export const GET_PREFERENCES_URL = () => `settings/general`
 export const EDIT_PREFERENCES_URL = () => `settings/general`
 
 export const GET_GENERAL_SETTING_URL = (key) => `settings/get-setting?key=${key}`
 export const EDIT_GENERAL_SETTING_URL = () => `settings/update-setting`
+
+export const UPLOAD_LOGO_URL = () => `settings/company/upload-logo`
 
 // Expense Categories
 export const GET_EXPENSE_CATEGORIES_URL = () => `categories`

@@ -275,12 +275,12 @@ export class Customers extends React.Component<IProps> {
                         title: Lng.t("header.customers", { locale: language })
                     }}
                     onSearch={this.onSearch}
-                    filter
                     filterProps={{
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
                         inputFields: inputFields,
                         clearFilter: this.props,
-                        language: language
+                        language: language,
+                        onResetFilter: () => this.onResetFilter()
                     }}
                     bottomDivider
                     loadingProps={{ is: isLoading || (loading && fresh) }}

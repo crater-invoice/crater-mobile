@@ -28,7 +28,6 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         paddingVertical: 22,
-
     },
     loadingContainer: {
         ...container,
@@ -37,6 +36,18 @@ export const styles = StyleSheet.create({
     uploadContainer: {
         alignItems: "center",
         justifyContent: "center",
+    },
+    imageWithIconContainer: {
+        position: 'relative',
+    },
+    iconContainer: {
+        position: 'absolute',
+        right: 0,
+        backgroundColor: colors.darkGray,
+        padding: 8,
+        borderRadius: 30,
+        borderWidth: 2.5,
+        borderColor: colors.veryLightGray
     },
     imageContainer: {
         ...container,
@@ -49,9 +60,9 @@ export const styles = StyleSheet.create({
     },
     label: {
         paddingBottom: 7,
-        color: colors.dark2,
+        color: colors.secondary,
         fontSize: 14,
-        fontFamily: fonts.poppins,
+        fontFamily: fonts.poppinsMedium
     },
     loadImage: {
         width: wp('88%'),

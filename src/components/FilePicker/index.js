@@ -27,6 +27,11 @@ type IProps = {
     onChangeCallback: Function,
     mediaType: String,
     onGetBase64: Function,
+    imageStyle: Object,
+    imageContainerStyle: Object,
+    hasAvatar: Boolean,
+    loadingContainerStyle: Object,
+    defaultImage: String
 };
 
 export class FilePickerComponent extends Component<IProps> {
@@ -127,7 +132,12 @@ export class FilePickerComponent extends Component<IProps> {
             label,
             containerStyle,
             imageUrl,
-            language
+            language,
+            imageStyle,
+            imageContainerStyle,
+            hasAvatar = false,
+            loadingContainerStyle,
+            defaultImage,
         } = this.props;
 
 
@@ -135,39 +145,73 @@ export class FilePickerComponent extends Component<IProps> {
             <View style={[styles.mainContainer, containerStyle && containerStyle]}>
                 {label && <Text style={styles.label}>{label}</Text>}
 
-
                 <TouchableWithoutFeedback onPress={() => this.chooseFile()}>
                     <View>
-                        <Content
-                            loadingProps={{
-                                is: loading,
-                                style: styles.loadingContainer
-                            }}
+                        <View
+                            style={[
+                                styles.imageWithIconContainer,
+                                hasAvatar && imageContainerStyle
+                            ]}
                         >
-                            {image !== null || imageUrl ? (
-                                <View style={styles.imageContainer}>
-                                    <AssetImage
-                                        imageSource={image !== null ? image : imageUrl}
-                                        imageStyle={styles.images}
-                                        uri
-                                        loadingImageStyle={styles.loadImage}
-                                    />
-                                </View>
-                            ) : (
-
-                                    <View style={styles.container}>
-                                        <Icon
-                                            name={"cloud-upload-alt"}
-                                            size={23}
-                                            color={colors.gray}
+                            <Content
+                                loadingProps={{
+                                    is: loading,
+                                    style: { ...styles.loadingContainer, ...loadingContainerStyle }
+                                }}
+                            >
+                                {image !== null || imageUrl ? (
+                                    <View
+                                        style={[
+                                            styles.imageContainer,
+                                            imageContainerStyle
+                                        ]}
+                                    >
+                                        <AssetImage
+                                            imageSource={image !== null ? image : imageUrl}
+                                            imageStyle={[
+                                                styles.images,
+                                                imageStyle && imageStyle,
+                                            ]}
+                                            uri
+                                            loadingImageStyle={styles.loadImage}
                                         />
-                                        <Text style={styles.title}>
-                                            {Lng.t("filePicker.file", { locale: language })}
-                                        </Text>
                                     </View>
-
-                                )}
-                        </Content>
+                                ) : (
+                                        !defaultImage ? (
+                                            <View style={styles.container}>
+                                                <Icon
+                                                    name={"cloud-upload-alt"}
+                                                    size={23}
+                                                    color={colors.gray}
+                                                />
+                                                <Text style={styles.title}>
+                                                    {Lng.t("filePicker.file", { locale: language })}
+                                                </Text>
+                                            </View>
+                                        )
+                                            : (
+                                                <AssetImage
+                                                    imageSource={defaultImage}
+                                                    imageStyle={[
+                                                        styles.images,
+                                                        imageStyle && imageStyle,
+                                                    ]}
+                                                    loadingImageStyle={styles.loadImage}
+                                                />
+                                            )
+                                    )}
+                            </Content>
+                        </View>
+                        {hasAvatar && (
+                            <View style={styles.iconContainer}>
+                                <Icon
+                                    name={"camera"}
+                                    size={20}
+                                    color={colors.white}
+                                    style={styles.iconStyle}
+                                />
+                            </View>
+                        )}
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -186,4 +230,3 @@ export const FilePicker = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(FilePickerComponent);
-

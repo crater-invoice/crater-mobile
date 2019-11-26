@@ -51,7 +51,9 @@ import {
     GET_SALES_TAXES_URL,
     CREATE_SALES_TAX_URL,
     EDIT_SALES_TAX_URL,
-    REMOVE_SALES_TAX_URL
+    REMOVE_SALES_TAX_URL,
+    EDIT_ACCOUNT_AVATAR_URL,
+    UPLOAD_LOGO_URL
 } from '../constants';
 
 import Request from '../../../api/request';
@@ -74,7 +76,6 @@ function* getCompanyInformation(payloadData) {
         };
 
         const response = yield call([Request, 'get'], options);
-        yield put(setCompanyInformation({ company: response.user }));
         onResult && onResult(response.user)
 
     } catch (error) {
@@ -98,17 +99,19 @@ function* editCompanyInformation(payloadData) {
             body: params,
         };
 
-        yield call([Request, 'post'], options);
+        const response = yield call([Request, 'post'], options);
 
         if (logo) {
             const options2 = {
-                path: `settings/company/upload-logo`,
+                path: UPLOAD_LOGO_URL(),
                 image: logo,
                 imageName: 'company_logo'
             }
 
             yield call([Request, 'post'], options2);
         }
+
+        yield put(setCompanyInformation({ company: response.user.company }));
 
         navigation.goBack(null)
 
@@ -120,6 +123,9 @@ function* editCompanyInformation(payloadData) {
 }
 
 function* getAccountInformation(payloadData) {
+    const {
+        payload: { onResult },
+    } = payloadData;
 
     yield put(settingsTriggerSpinner({ getAccountInfoLoading: true }));
 
@@ -133,6 +139,7 @@ function* getAccountInformation(payloadData) {
 
         yield put(setAccountInformation({ account: response }));
 
+        onResult && onResult(response)
     } catch (error) {
         // console.log(error);
     } finally {
@@ -142,7 +149,7 @@ function* getAccountInformation(payloadData) {
 
 function* editAccountInformation(payloadData) {
     const {
-        payload: { params, navigation },
+        payload: { params, navigation, avatar },
     } = payloadData;
 
     yield put(settingsTriggerSpinner({ editAccountInfoLoading: true }));
@@ -155,7 +162,19 @@ function* editAccountInformation(payloadData) {
         };
 
         const response = yield call([Request, 'put'], options);
+
         yield put(setAccountInformation({ account: response.user }));
+
+        if (avatar) {
+            const options2 = {
+                path: EDIT_ACCOUNT_AVATAR_URL(),
+                image: avatar,
+                imageName: 'admin_avatar'
+            }
+
+            yield call([Request, 'post'], options2);
+        }
+
         navigation.goBack(null)
 
     } catch (error) {
