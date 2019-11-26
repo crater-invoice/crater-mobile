@@ -92,6 +92,15 @@ export class InputFieldComponent extends Component<IInputField> {
         const sign = this.getSign();
         const isOptions = autocomplete && isOptionsVisible && !!options.length;
 
+        let initialValueProps = {}
+
+        if(value && isCurrencyInput) {
+            const newValue =  (value / 100)
+            initialValueProps = { value: `${newValue}` }
+        } else {
+            initialValueProps = { defaultValue: `${value}` }
+        }
+
         return (
             <View
                 style={[
@@ -164,7 +173,7 @@ export class InputFieldComponent extends Component<IInputField> {
                                     onFocus(event);
                                 }
                             }}
-                            value={value && `${isCurrencyInput ? (value / 100) : value}`}
+                            {...initialValueProps}
                             secureTextEntry={isSecureTextEntry}
                             ref={(ref) => {
                                 this.inputRef = ref;
