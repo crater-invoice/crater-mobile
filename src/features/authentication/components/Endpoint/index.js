@@ -101,7 +101,7 @@ export class Endpoint extends Component<IProps> {
                         leftIconPress={() => this.onBack()}
                         title={Lng.t("header.back", { locale: language })}
                         titleOnPress={() => this.onBack()}
-                        titleStyle={{ marginLeft: -10 }}
+                        titleStyle={{ marginLeft: -10, marginTop: -1 }}
                         placement="left"
                         noBorder
                         transparent

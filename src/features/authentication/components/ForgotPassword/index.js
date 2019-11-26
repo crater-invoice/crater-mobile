@@ -79,7 +79,7 @@ export class ForgotPassword extends React.Component<IProps> {
                         leftIconPress={() => navigation.goBack(null)}
                         title={Lng.t("header.back", { locale: language })}
                         titleOnPress={() => navigation.goBack(null)}
-                        titleStyle={{ marginLeft: -10 }}
+                        titleStyle={{ marginLeft: -10, marginTop: -1 }}
                         placement="left"
                         noBorder
                         transparent

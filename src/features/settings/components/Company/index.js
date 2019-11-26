@@ -201,7 +201,6 @@ export class Company extends React.Component<IProps> {
                             returnKeyType: 'next',
                             autoCorrect: true,
                             onFocus: true,
-                            autoFocus: true,
                             onSubmitEditing: () => {
                                 companyRefs.phone.focus();
                             }

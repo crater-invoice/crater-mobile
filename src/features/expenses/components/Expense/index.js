@@ -315,7 +315,6 @@ export class Expense extends React.Component {
                         inputProps={{
                             returnKeyType: 'go',
                             keyboardType: 'numeric',
-                            autoFocus: true,
                             onSubmitEditing: () => {
                                 expenseRefs.category.focus();
                             }
