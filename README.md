@@ -14,8 +14,9 @@ Its built with Expo (React Native).
 
 1. [Installation](#installation)
 2. [Web Version Link](#web)
-5. [Mobile App Links](#mobile-app-links)
-6. [License](#license)
+3. [Mobile App Links](#mobile-app-links)
+4. [Credits](#credits)
+5. [License](#license)
 
 ## Installation
 Below are the steps for starting up the crater app locally for development. If you aren't looking to customise or contribute to mobile apps then you can ignore the steps below and use the Crater [IOS & Android Apps](#mobile-app-links) directly.
@@ -32,6 +33,9 @@ Below are the steps for starting up the crater app locally for development. If y
 ## Mobile App Links
 - [Android](https://play.google.com/store/apps/details?id=com.craterapp.app)
 - IOS - Coming Soon
+
+## Credits
+Crater is a product of [Bytefury](https://bytefury.com)
 
 ## License
 Crater is released under the Attribution Assurance License.
