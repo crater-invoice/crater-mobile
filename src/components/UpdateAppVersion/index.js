@@ -38,7 +38,7 @@ export class UpdateAppVersion extends Component {
 
         Platform.OS === 'android' ?
             Linking.openURL('https://play.google.com/store/apps/details?id=com.craterapp.app') :
-            Linking.openURL('https://craterapp.com/')
+            Linking.openURL('http://itunes.apple.com/app/id1489169767')
     }
 
     render() {
