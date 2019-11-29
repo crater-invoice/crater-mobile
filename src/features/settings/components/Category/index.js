@@ -57,7 +57,9 @@ export class Category extends React.Component<IProps> {
             });
         }
 
-        !onFirstTimeCreateExpense ? goBack(MOUNT, navigation) : goBack(MOUNT, navigation, ROUTES.MAIN_EXPENSES)
+        !onFirstTimeCreateExpense ?
+            goBack(MOUNT, navigation) :
+            goBack(MOUNT, navigation, { route: ROUTES.MAIN_EXPENSES })
     }
 
     componentWillUnmount() {

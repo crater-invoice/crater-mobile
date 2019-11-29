@@ -45,7 +45,7 @@ export class Endpoint extends Component<IProps> {
 
         const { navigation, skipEndpoint } = this.props
 
-        skipEndpoint && goBack(MOUNT, navigation, ROUTES.SETTING_LIST)
+        skipEndpoint && goBack(MOUNT, navigation, { route: ROUTES.SETTING_LIST })
     }
 
     componentWillUnmount() {

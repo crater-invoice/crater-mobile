@@ -22,7 +22,7 @@ export class LostConnection extends Component {
 
     componentDidMount() {
         const { navigation } = this.props
-        goBack(MOUNT, navigation, ROUTES.LOST_CONNECTION)
+        goBack(MOUNT, navigation, { route: ROUTES.LOST_CONNECTION } )
     }
 
     componentWillUnmount() {

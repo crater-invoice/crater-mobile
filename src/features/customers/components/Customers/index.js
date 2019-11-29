@@ -44,27 +44,8 @@ export class Customers extends React.Component<IProps> {
 
     componentDidMount() {
         const { navigation } = this.props
-        goBack(MOUNT, navigation, ROUTES.MAIN_INVOICES)
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-
-        const { navigation } = nextProps
-        const pagination = navigation.getParam('pagination', null)
-        const apiCall = navigation.getParam('apiCall', false)
-
-        if (pagination && !(apiCall)) {
-            navigation.setParams({ 'pagination': null, apiCall: true })
-
-            const { last_page, current_page } = pagination
-            this.setState({
-                pagination: {
-                    ...this.state.pagination,
-                    lastPage: last_page,
-                    page: current_page + 1,
-                }
-            });
-        }
+        goBack(MOUNT, navigation, { route: ROUTES.MAIN_INVOICES })
+        this.getItems({ fresh: true });
     }
 
     componentWillUnmount() {

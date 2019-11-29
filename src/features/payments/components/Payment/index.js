@@ -73,7 +73,6 @@ export class Payment extends React.Component<IProps> {
             hasRecordPayment,
         } = this.props;
 
-
         if (type === PAYMENT_EDIT) {
 
             let id = navigation.getParam('paymentId', null)
@@ -119,7 +118,7 @@ export class Payment extends React.Component<IProps> {
             });
         }
 
-        goBack(MOUNT, navigation)
+        goBack(MOUNT, navigation, { route: hasRecordPayment ? null : ROUTES.MAIN_PAYMENTS })
     }
 
     componentWillUnmount() {

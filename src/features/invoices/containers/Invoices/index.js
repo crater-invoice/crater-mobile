@@ -8,8 +8,9 @@ import { INVOICE_SEARCH } from '../../constants';
 import { SvgXml } from 'react-native-svg';
 import { INVOICES } from '../../../../assets/svg';
 import { getCustomers } from '../../../customers/actions';
-import { getTitleByLanguage, tabBarOnPress, navigateTabRoutes, navigateRoute } from '../../../../navigation/actions';
+import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
 import { ROUTES } from '../../../../navigation/routes';
+import { withNavigationFocus } from 'react-navigation';
 
 const mapStateToProps = (state) => {
 
@@ -61,17 +62,14 @@ InvoicesContainer.navigationOptions = ({ navigation }) => ({
             height="22"
         />
     ),
-    tabBarOnPress: () => {
+    tabBarOnPress: ({ defaultHandler }) => {
+        if (navigation.isFocused()) {
+            return;
+        }
 
-        navigateTabRoutes(ROUTES.MAIN_INVOICES, { apiCall: false })
-
-        let apiCall = navigation.getParam('apiCall', false)
-
-        apiCall ? navigateRoute(ROUTES.MAIN_INVOICES) : tabBarOnPress(
-            ROUTES.MAIN_INVOICES,
-            InvoicesAction.getInvoices
-        )
+        navigateToMainTabs(navigation, ROUTES.MAIN_INVOICES)
     }
 });
 
-export default InvoicesContainer;
+export default withNavigationFocus(InvoicesContainer);
+

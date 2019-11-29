@@ -35,7 +35,7 @@ import {
 import { BUTTON_TYPE } from '../../../../api/consts/core';
 import { colors } from '../../../../styles/colors';
 import { TemplateField } from '../TemplateField';
-import { MOUNT, UNMOUNT, goBackWithFunction } from '../../../../navigation/actions';
+import { MOUNT, UNMOUNT, goBack } from '../../../../navigation/actions';
 import Lng from '../../../../api/lang/i18n';
 import { ESTIMATE_DISCOUNT_OPTION } from '../../constants';
 import { CUSTOMER_ADD } from '../../../customers/constants';
@@ -121,18 +121,19 @@ export class Estimate extends React.Component<IProps> {
 
         this.getEstimateItemList(estimateItems)
 
+        this.androidBackHandler()
     }
 
 
     componentWillUnmount() {
         const { clearEstimate } = this.props
         clearEstimate();
-        goBackWithFunction(UNMOUNT)
+        goBack(UNMOUNT)
     }
 
     androidBackHandler = () => {
         const { navigation, handleSubmit } = this.props
-        goBackWithFunction(MOUNT, navigation, () => this.onDraft(handleSubmit))
+        goBack(MOUNT, navigation, { callback: () => this.onDraft(handleSubmit) })
     }
 
     setFormField = (field, value) => {
@@ -795,9 +796,6 @@ export class Estimate extends React.Component<IProps> {
         const isEditEstimate = (type === ESTIMATE_EDIT)
 
         const estimateRefs = {}
-
-        !initLoading && this.androidBackHandler()
-
 
         let hasMark = (markAsStatus === MARK_AS_ACCEPT) || (markAsStatus === MARK_AS_REJECT) || (markAsStatus === MARK_AS_SENT)
 

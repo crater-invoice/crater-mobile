@@ -21,7 +21,7 @@ export class More extends React.Component {
 
     componentDidMount() {
         const { navigation } = this.props
-        goBack(MOUNT, navigation, ROUTES.MAIN_INVOICES)
+        goBack(MOUNT, navigation, { route: ROUTES.MAIN_INVOICES })
     }
 
     componentWillUnmount() {

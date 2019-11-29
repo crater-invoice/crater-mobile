@@ -21,7 +21,7 @@ export class UpdateAppVersion extends Component {
 
     componentDidMount() {
         const { navigation } = this.props
-        goBack(MOUNT, navigation, ROUTES.UPDATE_APP_VERSION)
+        goBack(MOUNT, navigation, { route: ROUTES.UPDATE_APP_VERSION })
     }
 
     componentWillUnmount() {
