@@ -10,7 +10,6 @@ import { SlideModal, FakeInput, AssetImage, CtButton } from '../../../../compone
 import { Icon } from 'react-native-elements';
 import { colors } from '../../../../styles/colors';
 import Lng from '../../../../api/lang/i18n';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 import { headerTitle } from '../../../../api/helper';
 
 type IProps = {
@@ -45,12 +44,6 @@ export class TemplateField extends Component<IProps> {
         this.setState({
             selectedTemplate: template,
         })
-
-        goBack(MOUNT, navigation)
-    }
-
-    componentWillUnmount() {
-        goBack(UNMOUNT)
     }
 
     onToggle = () => {

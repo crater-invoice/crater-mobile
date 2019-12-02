@@ -21,7 +21,7 @@ import {
 } from '../../constants';
 import Lng from '../../../../api/lang/i18n';
 import { IMAGES } from '../../../../config';
-import moment from 'moment';
+import { goBack, MOUNT } from '../../../../navigation/actions';
 
 let params = {
     search: '',
@@ -64,28 +64,9 @@ export class Invoices extends React.Component<IProps> {
     }
 
     componentDidMount() {
+        const { navigation } = this.props
         this.getItems({ fresh: true, q: '', type: 'UNPAID' });
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-
-        const { navigation } = nextProps
-        const pagination = navigation.getParam('pagination', null)
-        const apiCall = navigation.getParam('apiCall', false)
-
-        if (pagination && !(apiCall)) {
-
-            navigation.setParams({ 'pagination': null, apiCall: true })
-
-            const { last_page, current_page } = pagination
-            this.setState({
-                pagination: {
-                    ...this.state.pagination,
-                    lastPage: last_page,
-                    page: current_page + 1,
-                }
-            });
-        }
+        goBack(MOUNT, navigation, { exit: true })
     }
 
     setActiveTab = (activeTab) => {

@@ -111,9 +111,6 @@ function* createPayment(payloadData) {
 
         if (response.success) {
 
-            hasRecordPayment && navigation.navigate(ROUTES.MAIN_INVOICES,
-                { apiCall: false }
-            )
             navigation.navigate(ROUTES.MAIN_PAYMENTS)
 
             yield call(getPayments, payload = {});

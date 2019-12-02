@@ -33,7 +33,7 @@ import {
 import { BUTTON_TYPE } from '../../../../api/consts/core';
 import { colors } from '../../../../styles/colors';
 import { TemplateField } from '../TemplateField';
-import { MOUNT, UNMOUNT, goBackWithFunction } from '../../../../navigation/actions';
+import { MOUNT, UNMOUNT, goBack } from '../../../../navigation/actions';
 import Lng from '../../../../api/lang/i18n';
 import { INVOICE_DISCOUNT_OPTION } from '../../constants';
 import { CUSTOMER_ADD } from '../../../customers/constants';
@@ -85,9 +85,9 @@ export class Invoice extends React.Component<IProps> {
             getCreateInvoice,
             navigation,
             invoiceItems,
-            taxTypes,
             getEditInvoice,
             type,
+            initLoading
         } = this.props;
 
         type === INVOICE_EDIT ?
@@ -115,20 +115,20 @@ export class Invoice extends React.Component<IProps> {
                 this.forceUpdate();
             }
         );
-
         this.getInvoiceItemList(invoiceItems)
 
+        this.androidBackHandler()
     }
 
     componentWillUnmount() {
         const { clearInvoice } = this.props
         clearInvoice();
-        goBackWithFunction(UNMOUNT)
+        goBack(UNMOUNT)
     }
 
     androidBackHandler = () => {
         const { navigation, handleSubmit } = this.props
-        goBackWithFunction(MOUNT, navigation, () => this.onDraft(handleSubmit))
+        goBack(MOUNT, navigation, { callback: () => this.onDraft(handleSubmit) })
     }
 
     setFormField = (field, value) => {
@@ -790,8 +790,6 @@ export class Invoice extends React.Component<IProps> {
         const { currency, customerName, markAsStatus } = this.state
 
         const isEditInvoice = (type === INVOICE_EDIT)
-
-        !initLoading && this.androidBackHandler()
 
         let hasSentStatus = (markAsStatus === 'SENT')
         let hasCompleteStatus = (markAsStatus === 'COMPLETED')
