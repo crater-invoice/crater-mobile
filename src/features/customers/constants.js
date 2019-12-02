@@ -28,17 +28,10 @@ export const CUSTOMERS_TRIGGER_SPINNER = 'customers/CUSTOMERS_TRIGGER_SPINNER';
 export const REMOVE_CUSTOMER = 'customers/REMOVE_CUSTOMER';
 
 
-// Address Country , State , City
+// Address Country 
 // -----------------------------------------
-
 export const GET_COUNTRIES = 'address/GET_COUNTRIES';
 export const SET_COUNTRIES = 'address/SET_COUNTRIES';
-
-export const GET_STATES = 'address/GET_STATES';
-export const SET_STATES = 'address/SET_STATES';
-
-export const GET_CITIES = 'address/GET_CITIES';
-export const SET_CITIES = 'address/SET_CITIES';
 
 
 export const ACTIONS_VALUE = {
@@ -67,10 +60,7 @@ export const GET_CUSTOMERS_URL = (param) => `customers?${queryString.stringify({
 })}`
 
 export const GET_EDIT_CUSTOMER_URL = (id) => `customers/${id}/edit`
-
 export const GET_COUNTRIES_URL = () => `countries`
-export const GET_STATES_URL = (countryId) => `states/${countryId}`
-export const GET_CITIES_URL = (stateID) => `cities/${stateID}`
 
 export const CREATE_CUSTOMER_URL = () => `customers`
 export const EDIT_CUSTOMER_URL = (id) => `customers/${id}`

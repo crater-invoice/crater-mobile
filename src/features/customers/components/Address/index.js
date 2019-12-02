@@ -9,12 +9,12 @@ import {
     FakeInput,
     InputField,
     CtButton,
+    SelectField,
 } from '../../../../components';
 import { CUSTOMER_ADDRESS, CUSTOMER_EDIT } from '../../constants';
-import AddressFieldContainer from '../../containers/AddressField';
 import Lng from '../../../../api/lang/i18n';
 import { colors } from '../../../../styles/colors';
-import { MAX_LENGTH } from '../../../../api/global';
+import { MAX_LENGTH, formatCountries } from '../../../../api/global';
 
 type IProps = {
     label: String,
@@ -36,8 +36,8 @@ type IProps = {
 };
 
 let country = 'country_id'
-let state = 'state_id'
-let city = 'city_id'
+let state = 'state'
+let city = 'city'
 
 let addressField = [
     "name",
@@ -46,8 +46,8 @@ let addressField = [
     "phone",
     "zip",
     "country_id",
-    "state_id",
-    "city_id",
+    "state",
+    "city",
     "type"
 ]
 
@@ -88,25 +88,14 @@ export class Address extends Component<IProps> {
         const { visible, status } = this.state
         const { addressValue,
             hasBillingAddress,
-            autoFillValue,
-            getStates,
-            getCities,
-            type
+            autoFillValue
         } = this.props
 
         if (!visible) {
             if (typeof addressValue !== 'undefined') {
-
                 addressField.map((field) => {
                     this.setFormField(field, addressValue[field])
                 })
-
-                if (type === CUSTOMER_EDIT) {
-                    addressValue.country_id && getStates({ countryId: addressValue.country_id })
-
-                    addressValue.state_id && getCities({ stateID: addressValue.state_id })
-                }
-
             }
 
             if (!hasBillingAddress && status === true && typeof addressValue === 'undefined') {
@@ -127,7 +116,6 @@ export class Address extends Component<IProps> {
     }
 
     setFormField = (field, value) => {
-
         this.props.dispatch(change(CUSTOMER_ADDRESS, field, value));
     };
 
@@ -161,6 +149,8 @@ export class Address extends Component<IProps> {
     }
 
     Screen = () => {
+
+
         const {
             handleSubmit,
             hasBillingAddress,
@@ -168,29 +158,10 @@ export class Address extends Component<IProps> {
             addressValue,
             formValues,
             language,
+            countries
         } = this.props
 
         const { status } = this.state
-
-        let selectedCountry = ''
-        let selectedState = ''
-        let selectedCity = ''
-
-        if (hasBillingAddress && typeof addressValue !== 'undefined') {
-            let { country_id, state_id, city_id } = addressValue
-
-            selectedCountry = country_id ? country_id : null
-            selectedState = state_id ? state_id : null
-            selectedCity = city_id ? city_id : null
-        }
-
-        if (!hasBillingAddress && typeof formValues !== 'undefined') {
-            let { country_id, state_id, city_id } = formValues
-
-            selectedCountry = country_id ? country_id : null
-            selectedState = state_id ? state_id : null
-            selectedCity = city_id ? city_id : null
-        }
 
         let addressRefs = {}
 
@@ -224,46 +195,58 @@ export class Address extends Component<IProps> {
 
                 <Field
                     name={country}
-                    component={AddressFieldContainer}
-                    selectedCountry={selectedCountry}
-                    addressValue={addressValue}
-                    hasBillingAddress={hasBillingAddress}
-                    type="country"
+                    items={formatCountries(countries)}
+                    displayName="name"
+                    component={SelectField}
                     label={Lng.t("customers.address.country", { locale: language })}
-                    placeholder=' '
+                    placeholder={" "}
+                    rightIcon='angle-right'
                     navigation={navigation}
-                    onChangeCallback={(val) =>
-                        this.setFormField(country, val)
-                    }
+                    searchFields={['name']}
+                    compareField="id"
+                    onSelect={({ id }) => {
+                        this.setFormField(country, id)
+                    }}
+                    headerProps={{
+                        title: Lng.t("header.country", { locale: language }),
+                        rightIconPress: null
+                    }}
+                    listViewProps={{
+                        contentContainerStyle: { flex: 7 }
+                    }}
+                    emptyContentProps={{
+                        contentType: "countries",
+                    }}
                 />
 
                 <Field
                     name={state}
-                    component={AddressFieldContainer}
-                    selectedState={selectedState}
-                    addressValue={addressValue}
-                    hasBillingAddress={hasBillingAddress}
-                    type="state"
-                    label={Lng.t("customers.address.state", { locale: language })}
-                    placeholder=' '
-                    navigation={navigation}
-                    onChangeCallback={(val) =>
-                        this.setFormField(state, val)
-                    }
+                    component={InputField}
+                    hint={Lng.t("customers.address.state", { locale: language })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        onSubmitEditing: () => {
+                            addressRefs.city.focus();
+                        }
+                    }}
                 />
 
                 <Field
                     name={city}
-                    component={AddressFieldContainer}
-                    selectedCity={selectedCity}
-                    addressValue={addressValue}
-                    hasBillingAddress={hasBillingAddress}
-                    type="city"
-                    label={Lng.t("customers.address.city", { locale: language })}
-                    placeholder=' '
-                    navigation={navigation}
-                    onChangeCallback={(val) => {
-                        this.setFormField(city, val)
+                    component={InputField}
+                    hint={Lng.t("customers.address.city", { locale: language })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        onSubmitEditing: () => {
+                            addressRefs.street1.focus();
+                        }
+                    }}
+                    refLinkFn={(ref) => {
+                        addressRefs.city = ref;
                     }}
                 />
 
@@ -348,11 +331,7 @@ export class Address extends Component<IProps> {
         } = this.props;
 
 
-
-        const {
-            visible,
-            values,
-        } = this.state
+        const { visible, values } = this.state
 
         return (
             <View style={styles.container}>

@@ -426,6 +426,11 @@
             "description": "This section will contain the list of Financial Years."
         }
     },
+    "countries": {
+        "empty": {
+            "title": "No countries yet!"
+        }
+    },
     "reports": {
         "sales": "Sales",
         "profitAndLoss": "Profit & Loss",

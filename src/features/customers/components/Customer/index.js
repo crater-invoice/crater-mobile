@@ -51,7 +51,6 @@ export class Customer extends React.Component<IProps>  {
             portal: false,
             currencyList: [],
         };
-
     }
 
     componentDidMount() {

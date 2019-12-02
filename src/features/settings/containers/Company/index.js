@@ -21,8 +21,6 @@ const mapStateToProps = (state) => {
             countries,
             loading: {
                 countriesLoading,
-                statesLoading,
-                citiesLoading,
             }
         },
     } = state
@@ -34,8 +32,6 @@ const mapStateToProps = (state) => {
         getCompanyInfoLoading,
         countries,
         countriesLoading,
-        statesLoading,
-        citiesLoading
     };
 };
 
@@ -44,8 +40,6 @@ const mapDispatchToProps = {
     editCompanyInformation: CompanyAction.editCompanyInformation,
     getCompanyInformation: CompanyAction.getCompanyInformation,
     getCountries: AddressAction.getCountries,
-    getStates: AddressAction.getStates,
-    getCities: AddressAction.getCities
 };
 
 //  Redux Forms

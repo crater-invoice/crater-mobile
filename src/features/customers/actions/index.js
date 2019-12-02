@@ -4,10 +4,6 @@ import {
     CUSTOMERS_TRIGGER_SPINNER,
     GET_COUNTRIES,
     SET_COUNTRIES,
-    GET_STATES,
-    SET_STATES,
-    GET_CITIES,
-    SET_CITIES,
     CREATE_CUSTOMER,
     SET_CREATE_CUSTOMER,
     EDIT_CUSTOMER,
@@ -75,7 +71,7 @@ export const removeCustomer = (payload = {}) => ({
 });
 
 
-// Address Country , State , City
+// Address Country
 // -----------------------------------------
 
 export const getCountries = (payload = {}) => ({
@@ -85,25 +81,5 @@ export const getCountries = (payload = {}) => ({
 
 export const setCountries = (payload = {}) => ({
     type: SET_COUNTRIES,
-    payload,
-});
-
-export const getStates = (payload = {}) => ({
-    type: GET_STATES,
-    payload,
-});
-
-export const setStates = (payload = {}) => ({
-    type: SET_STATES,
-    payload,
-});
-
-export const getCities = (payload = {}) => ({
-    type: GET_CITIES,
-    payload,
-});
-
-export const setCities = (payload = {}) => ({
-    type: SET_CITIES,
     payload,
 });
