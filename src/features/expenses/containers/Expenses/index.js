@@ -8,8 +8,9 @@ import { Expenses } from '../../components/Expenses';
 import { EXPENSE_SEARCH } from '../../constants';
 import { EXPENSES } from '../../../../assets/svg';
 import { SvgXml } from 'react-native-svg';
-import { getTitleByLanguage, tabBarOnPress, navigateTabRoutes, navigateRoute } from '../../../../navigation/actions';
+import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
 import { ROUTES } from '../../../../navigation/routes';
+import { withNavigationFocus } from 'react-navigation';
 
 
 const mapStateToProps = (state) => {
@@ -65,15 +66,12 @@ ExpensesContainer.navigationOptions = ({ navigation }) => ({
     ),
     tabBarOnPress: () => {
 
-        navigateTabRoutes(ROUTES.MAIN_EXPENSES, { apiCall: false })
+        if (navigation.isFocused()) {
+            return;
+        }
 
-        let apiCall = navigation.getParam('apiCall', false)
-
-        apiCall ? navigateRoute(ROUTES.MAIN_EXPENSES) : tabBarOnPress(
-            ROUTES.MAIN_EXPENSES,
-            ExpensesAction.getExpenses
-        )
+        navigateToMainTabs(navigation, ROUTES.MAIN_EXPENSES)
     }
 });
 
-export default ExpensesContainer;
+export default withNavigationFocus(ExpensesContainer);

@@ -50,7 +50,7 @@ export class Items extends React.Component<IProps> {
     componentDidMount() {
         const { navigation } = this.props
         this.getItems({ fresh: true });
-        goBack(MOUNT, navigation, ROUTES.MAIN_MORE)
+        goBack(MOUNT, navigation, { route: ROUTES.MAIN_MORE })
     }
 
     componentWillUnmount() {

@@ -18,6 +18,9 @@ export const loadFonts = async ({ afterLoad }) => {
     afterLoad && afterLoad();
 };
 
+
+// Format TaxTypes 
+// -----------------------------------------
 export const formatTaxTypes = (taxes) => {
     let taxTypeList = []
 
@@ -40,11 +43,40 @@ export const formatTaxTypes = (taxes) => {
     return taxTypeList
 }
 
+// Format Countries 
+// -----------------------------------------
+export const formatCountries = (countries) => {
+
+    let countriesList = []
+    if (typeof countries !== 'undefined') {
+        countriesList = countries.map((country) => {
+            const { name, code } = country
+            return {
+                title: name,
+                rightTitle: code,
+                fullItem: country
+            }
+        })
+    }
+    return countriesList
+}
+
 export const MAX_LENGTH = 255
 
 // Alert 
 // -----------------------------------------
-export const alertMe = ({ title = '', desc = '' }) => {
+export const alertMe = ({
+    title = '',
+    desc = '',
+    okPress = null,
+    showCancel = false
+}) => {
+
+    const cancel = showCancel ? {
+        text: 'Cancel',
+        onPress: () => { },
+        style: 'cancel',
+    } : {}
 
     Alert.alert(
         title,
@@ -52,12 +84,11 @@ export const alertMe = ({ title = '', desc = '' }) => {
         [
             {
                 text: 'OK',
-                onPress: () => 'cancel',
+                onPress: okPress ? okPress : () => { },
                 style: 'cancel',
             },
+            cancel
         ],
         { cancelable: false }
     );
 }
-
-

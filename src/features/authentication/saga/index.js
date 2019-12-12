@@ -14,7 +14,7 @@ import {
     PING_ENDPOINT_URL
 } from '../constants';
 import Request from '../../../api/request';
-import { navigateToMainTabs, getTitleByLanguage, navigateTabRoutes } from '../../../navigation/actions';
+import { getTitleByLanguage } from '../../../navigation/actions';
 import { ROUTES } from '../../../navigation/routes';
 import { setAccountInformation } from '../../settings/actions';
 import { GET_APP_VERSION } from '../../../api/consts';
@@ -74,7 +74,7 @@ function* socialLogin(payloadData) {
         if (idToken) {
             getBootstrap()
             yield put(saveIdToken({ idToken }));
-            navigateToMainTabs()
+            navigation.navigate(ROUTES.MAIN_INVOICES)
         }
     } catch (error) {
         // console.log(error)
@@ -90,8 +90,6 @@ function* getBootstrapData(payloadData) {
     } = payloadData
 
     try {
-
-        navigateTabRoutes(null, { apiCall: false }, ROUTES.MAIN_INVOICES)
 
         yield put(authTriggerSpinner({ getBootstrapLoginLoading: true }));
         yield put(globalTriggerSpinner({ appLoginLoading: true }));

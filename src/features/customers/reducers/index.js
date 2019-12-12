@@ -2,8 +2,6 @@ import {
     CUSTOMERS_TRIGGER_SPINNER,
     SET_CUSTOMERS,
     SET_COUNTRIES,
-    SET_STATES,
-    SET_CITIES,
     SET_CREATE_CUSTOMER,
     SET_EDIT_CUSTOMER,
     SET_REMOVE_CUSTOMER,
@@ -33,16 +31,12 @@ const initialState = {
     customers: [],
     filterCustomers: [],
     countries: [],
-    states: [],
-    cities: [],
     errors: null,
     loading: {
         customersLoading: false,
         customerLoading: false,
         getEditCustomerLoading: false,
-        countriesLoading: false,
-        statesLoading: false,
-        citiesLoading: false
+        countriesLoading: false
     }
 };
 
@@ -107,12 +101,6 @@ export default function customersReducer(state = initialState, action) {
             return { ...state, customers: remainCustomers };
 
         case SET_COUNTRIES:
-            return { ...state, ...payload };
-
-        case SET_STATES:
-            return { ...state, ...payload };
-
-        case SET_CITIES:
             return { ...state, ...payload };
 
         case CUSTOMERS_TRIGGER_SPINNER:

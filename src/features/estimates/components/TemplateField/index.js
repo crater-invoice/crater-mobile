@@ -45,12 +45,6 @@ export class TemplateField extends Component<IProps> {
         this.setState({
             selectedTemplate: template,
         })
-
-        goBack(MOUNT, navigation)
-    }
-
-    componentWillUnmount() {
-        goBack(UNMOUNT)
     }
 
     onToggle = () => {

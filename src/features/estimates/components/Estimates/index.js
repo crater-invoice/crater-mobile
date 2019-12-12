@@ -59,7 +59,7 @@ export class Estimates extends React.Component<IProps> {
         this.getItems({ fresh: true, q: '', type: 'DRAFT' });
 
         const { navigation } = this.props
-        goBack(MOUNT, navigation, ROUTES.MAIN_MORE)
+        goBack(MOUNT, navigation, { route: ROUTES.MAIN_MORE })
     }
 
     componentWillUnmount() {

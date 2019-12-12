@@ -7,8 +7,9 @@ import { CUSTOMER_SEARCH } from '../../constants';
 import { colors } from '../../../../styles/colors';
 import { SvgXml } from 'react-native-svg';
 import { CUSTOMERS } from '../../../../assets/svg';
-import { getTitleByLanguage, tabBarOnPress, navigateRoute, navigateTabRoutes } from '../../../../navigation/actions';
+import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
 import { ROUTES } from '../../../../navigation/routes';
+import { withNavigationFocus } from 'react-navigation';
 
 const mapStateToProps = (state) => {
 
@@ -55,17 +56,13 @@ CustomersContainer.navigationOptions = ({ navigation }) => ({
     ),
     tabBarOnPress: () => {
 
-        navigateTabRoutes(ROUTES.MAIN_CUSTOMERS, { apiCall: false })
+        if (navigation.isFocused()) {
+            return;
+        }
 
-        let apiCall = navigation.getParam('apiCall', false)
-
-        apiCall ? navigateRoute(ROUTES.MAIN_CUSTOMERS) : tabBarOnPress(
-            ROUTES.MAIN_CUSTOMERS,
-            CustomersAction.getCustomers,
-            navigation
-        )
+        navigateToMainTabs(navigation, ROUTES.MAIN_CUSTOMERS)
 
     }
 });
 
-export default CustomersContainer;
+export default withNavigationFocus(CustomersContainer);

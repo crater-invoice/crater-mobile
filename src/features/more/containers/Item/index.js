@@ -29,7 +29,6 @@ const mapStateToProps = (state, { navigation }) => {
         type,
         currency,
         initialValues: !isLoading ? {
-            price: 0,
             taxes: [],
             ...item
         } : null,

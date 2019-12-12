@@ -1,6 +1,6 @@
 
 import { BackHandler } from 'react-native';
-import { NavigationActions, createStackNavigator } from "react-navigation";
+import { NavigationActions, createStackNavigator, StackActions } from "react-navigation";
 import { ROUTES } from "../routes";
 import { store } from '../../store';
 import Lng from '../../api/lang/i18n';
@@ -8,11 +8,6 @@ import Lng from '../../api/lang/i18n';
 
 export const navigateBack = () => NavigationActions.back();
 
-export const navigateToMainTabs = () => {
-    NavigationActions.navigate({
-        routeName: ROUTES.MAIN_TABS
-    });
-}
 export const navigateTo = (routeName) => {
     NavigationActions.navigate({ routeName });
 }
@@ -26,63 +21,33 @@ export const MOUNT = 'mount'
 export const UNMOUNT = 'unMount'
 export const ANDROID_BACK = 'ANDROID_BACK'
 
-export const goBackWithFunction = (param, navigation = {}, args = '') => {
+export const goBack = (type, navigation = {}, params) => {
 
-    if (param === MOUNT) {
+    const { route = null,  callback = null, exit = false } = params || {}
+
+    if (type === MOUNT) {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress',
             () => {
-
-                let currentRoute = getCurrentRouteName()
-
-                switch (currentRoute) {
-
-                    case ROUTES.INVOICE:
-                        args && args()
-                        break;
-
-                    case ROUTES.ESTIMATE:
-                        args && args()
-                        break;
-
-                    case ROUTES.MAIN_INVOICES:
-                        navigation.navigate(ROUTES.MAIN_INVOICES)
-                        break;
-
-                    case ROUTES.ESTIMATE_LIST:
-                        navigation.navigate(ROUTES.MAIN_MORE)
-                        break;
-
-                    default:
-                        !(currentRoute === ROUTES.PAYMENT) ?
-                            navigation.navigate(ROUTES.MAIN_INVOICES) :
-                            navigation.goBack(null)
-                        break;
+                if(params && exit) {
+                    return true
                 }
 
-                return true;
-            }
-        )
-    } else {
-        this.backHandler.remove()
-    }
+                if(params && callback && typeof callback === 'function') {
+                    callback();
+                    return true
+                }
 
-}
-
-export const goBack = (param, navigation = {}, route = '') => {
-
-    if (param === MOUNT) {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',
-            () => {
-
-                route && typeof route === 'string' ? navigation.navigate(route)
-                    : navigation.goBack(null);
+                if(params && route && typeof route === 'string') {
+                    navigateToMainTabs(navigation, route)
+                } else {
+                    navigation.goBack(null);
+                }
 
                 return true;
             })
     } else {
         this.backHandler.remove()
     }
-
 }
 
 export const getCurrentRouteName = () => {
@@ -90,6 +55,26 @@ export const getCurrentRouteName = () => {
     const { routes } = reduxStore.nav
     const currentRoteBlock = routes[routes.length - 1];
     return currentRoteBlock.routeName;
+}
+
+export const navigateToMainTabs  = (navigation, route = null) => {
+    let action = {}
+    if(route) {
+        action = {
+            action: navigation.navigate({ routeName: route })
+        }
+    }
+    const resetAction = StackActions.reset({
+        index: 1,
+        actions: [
+            NavigationActions.navigate({ routeName: ROUTES.AUTH }),
+            NavigationActions.navigate({
+                routeName: ROUTES.MAIN_TABS,
+                ...action
+            }),
+        ],
+    });
+    navigation.dispatch(resetAction);
 }
 
 
@@ -115,27 +100,6 @@ export const navigateRoute = (routeName, params = {}) => {
             params
         }),
     );
-}
-
-export const navigateTabRoutes = (exceptRouteName = '', params = {}, initial = null) => {
-
-    const routes = [
-        initial,
-        ROUTES.MAIN_CUSTOMERS,
-        ROUTES.MAIN_PAYMENTS,
-        ROUTES.MAIN_EXPENSES,
-        ROUTES.MAIN_INVOICES
-    ]
-
-    routes.map(route => {
-        route !== null && !(route === exceptRouteName) && store.dispatch(
-            NavigationActions.navigate({
-                routeName: route,
-                params
-            }),
-        );
-    })
-
 }
 
 // onPress BottomTabNavigator
