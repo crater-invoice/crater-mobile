@@ -3,7 +3,7 @@ module.exports = {
 
     ENDPOINT_API: 'https://demo.craterapp.com/api/',
     ENDPOINT_URL: 'https://demo.craterapp.com/',
-    APP_VERSION: '1.1.0',
+    APP_VERSION: '2.1.0',
 
     /*
     * Sign in with google

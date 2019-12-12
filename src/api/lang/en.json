@@ -477,6 +477,7 @@
     },
     "alert": {
         "title": "Are you sure?",
+        "exit": "Are you sure want to exit?",
         "action": {
             "discard": "Discard",
             "saveAsDraft": "Save As Draft",

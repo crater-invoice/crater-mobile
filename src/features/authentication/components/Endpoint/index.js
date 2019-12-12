@@ -6,7 +6,8 @@ import {
     KeyboardAvoidingView,
     Text,
     StatusBar,
-    ScrollView
+    ScrollView,
+    Platform
 } from 'react-native';
 import styles from './styles';
 import { Field } from 'redux-form';
@@ -101,7 +102,7 @@ export class Endpoint extends Component<IProps> {
                         leftIconPress={() => this.onBack()}
                         title={Lng.t("header.back", { locale: language })}
                         titleOnPress={() => this.onBack()}
-                        titleStyle={{ marginLeft: -10, marginTop: -1 }}
+                        titleStyle={{ marginLeft: -10, marginTop: Platform.OS === 'ios' ? -1 : 2 }}
                         placement="left"
                         noBorder
                         transparent
@@ -115,8 +116,9 @@ export class Endpoint extends Component<IProps> {
                     )}
 
                 <ScrollView
-                    style={{ marginTop: skipEndpoint ? '18%' : '32%' }}
+                    style={{ paddingTop: skipEndpoint ? '18%' : '32%' }}
                     bounces={false}
+                    showsVerticalScrollIndicator={false}
                 >
                     <KeyboardAvoidingView
                         style={{ flex: 1 }}

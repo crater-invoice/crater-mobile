@@ -477,6 +477,7 @@
     },
     "alert": {
         "title": "Êtes-vous sûr?",
+        "exit": "Es tu sûr de vouloir partir?",
         "action": {
             "discard": "Jeter",
             "saveAsDraft": "Enregistrer comme brouillon",

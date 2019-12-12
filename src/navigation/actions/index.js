@@ -4,6 +4,7 @@ import { NavigationActions, createStackNavigator, StackActions } from "react-nav
 import { ROUTES } from "../routes";
 import { store } from '../../store';
 import Lng from '../../api/lang/i18n';
+import { alertMe } from '../../api/global';
 
 
 export const navigateBack = () => NavigationActions.back();
@@ -12,32 +13,42 @@ export const navigateTo = (routeName) => {
     NavigationActions.navigate({ routeName });
 }
 
+// Exit Crater App
+// -----------------------------------------
+export const exitApp = () => {
+    alertMe({
+        title: getTitleByLanguage("alert.exit"),
+        okText: "Exit",
+        okPress: () => BackHandler.exitApp(),
+        showCancel: true
+    })
+}
 
 // Go Back Navigation
 // -----------------------------------------
-
-
 export const MOUNT = 'mount'
 export const UNMOUNT = 'unMount'
-export const ANDROID_BACK = 'ANDROID_BACK'
 
 export const goBack = (type, navigation = {}, params) => {
 
-    const { route = null,  callback = null, exit = false } = params || {}
+    const { route = null, callback = null, exit = false } = params || {}
 
     if (type === MOUNT) {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress',
             () => {
-                if(params && exit) {
+
+                if (params && exit) {
+                    exitApp()
                     return true
                 }
 
-                if(params && callback && typeof callback === 'function') {
-                    callback();
+                if (params && callback && typeof callback === 'function' && getCurrentRouteName() !== ROUTES.ESTIMATE_LIST) {
+                    getCurrentRouteName() !== ROUTES.MAIN_TABS ?
+                        callback() : exitApp()
                     return true
                 }
 
-                if(params && route && typeof route === 'string') {
+                if (params && route && typeof route === 'string') {
                     navigateToMainTabs(navigation, route)
                 } else {
                     navigation.goBack(null);
@@ -57,9 +68,9 @@ export const getCurrentRouteName = () => {
     return currentRoteBlock.routeName;
 }
 
-export const navigateToMainTabs  = (navigation, route = null) => {
+export const navigateToMainTabs = (navigation, route = null) => {
     let action = {}
-    if(route) {
+    if (route) {
         action = {
             action: navigation.navigate({ routeName: route })
         }

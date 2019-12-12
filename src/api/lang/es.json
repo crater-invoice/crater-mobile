@@ -477,6 +477,7 @@
     },
     "alert": {
         "title": "¿Estás seguro?",
+        "exit": "¿Estás seguro que quieres salir?",
         "action": {
             "discard": "Descarte",
             "saveAsDraft": "Guardar como borrador",

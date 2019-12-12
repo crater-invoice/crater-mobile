@@ -68,13 +68,16 @@ export const MAX_LENGTH = 255
 export const alertMe = ({
     title = '',
     desc = '',
+    okText = 'OK',
     okPress = null,
-    showCancel = false
+    showCancel = false,
+    cancelText = 'Cancel',
+    cancelPress = null,
 }) => {
 
     const cancel = showCancel ? {
-        text: 'Cancel',
-        onPress: () => { },
+        text: cancelText,
+        onPress: cancelPress ? cancelPress : () => { },
         style: 'cancel',
     } : {}
 
@@ -83,12 +86,12 @@ export const alertMe = ({
         desc,
         [
             {
-                text: 'OK',
+                text: okText,
                 onPress: okPress ? okPress : () => { },
                 style: 'cancel',
             },
             cancel
         ],
-        { cancelable: false }
+        { cancelable: true },
     );
 }
