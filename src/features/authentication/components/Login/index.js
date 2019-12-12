@@ -86,8 +86,9 @@ export class Login extends React.Component<IProps> {
                 />
 
                 <ScrollView
-                    style={{ marginTop: '34%' }}
+                    style={{ paddingTop: '34%' }}
                     bounces={false}
+                    showsVerticalScrollIndicator={false}
                 >
                     <KeyboardAvoidingView
                         style={{ flex: 1 }}
