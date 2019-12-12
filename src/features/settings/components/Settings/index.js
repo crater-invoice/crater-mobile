@@ -21,7 +21,7 @@ export class Settings extends React.Component {
 
     componentDidMount() {
         const { navigation } = this.props
-        goBack(MOUNT, navigation, ROUTES.MAIN_MORE)
+        goBack(MOUNT, navigation, { route: ROUTES.MAIN_MORE })
     }
 
     componentWillUnmount() {

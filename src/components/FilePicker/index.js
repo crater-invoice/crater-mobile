@@ -44,37 +44,32 @@ export class FilePickerComponent extends Component<IProps> {
     }
 
     componentDidMount() {
-        this.getPermissionAsync();
+
     }
 
     getPermissionAsync = async () => {
-        const { language } = this.props
-
-        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        if (status !== 'granted') {
-            Alert.alert(
-                "",
-                Lng.t("filePicker.permission", { locale: language }),
-                [
-                    {
-                        text: 'Allow',
-                        onPress: () => {
-                            if (isIosPlatform()) {
-                                Linking.openURL('app-settings:');
-                            } else {
-                                IntentLauncher.startActivityAsync(IntentLauncher.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-                            }
+        Alert.alert(
+            "",
+            Lng.t("filePicker.permission", { locale: this.props.language }),
+            [
+                {
+                    text: 'Allow',
+                    onPress: () => {
+                        if (isIosPlatform()) {
+                            Linking.openURL('app-settings:');
+                        } else {
+                            IntentLauncher.startActivityAsync(IntentLauncher.ACTION_MANAGE_APPLICATIONS_SETTINGS);
                         }
-                    },
-                    {
-                        text: 'Cancel',
-                        onPress: () => console.log('cancel'),
-                        style: 'cancel',
-                    },
-                ],
-                { cancelable: false }
-            );
-        }
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    onPress: () => { },
+                    style: 'cancel',
+                },
+            ],
+            { cancelable: false }
+        );
     }
 
     onToggleLoading = () => {
@@ -90,37 +85,43 @@ export class FilePickerComponent extends Component<IProps> {
 
     chooseFile = async () => {
 
-        setTimeout(() => {
-            this.onToggleLoading()
-        }, 1000);
-
-        const { mediaType = 'Images' } = this.props
-
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions[mediaType],
-            // mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: mediaType === 'Images' ? true : false,
-            base64: true,
-            quality: 1,
-        });
-
-        if (!result.cancelled) {
-            const { onChangeCallback, input: { onChange } } = this.props
-            this.setState({ image: result.uri });
-
-            FileSystem.readAsStringAsync(result.uri, {
-                encoding: FileSystem.EncodingType.Base64
-            }).then((base64) => {
-                const res = { ...result, base64 }
-                onChangeCallback(res)
-                this.onToggleLoading()
-            })
-                .catch(error => {
-                    console.error(error);
-                });
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status !== 'granted') {
+            this.getPermissionAsync();
         }
         else {
-            this.onToggleLoading()
+            setTimeout(() => {
+                this.onToggleLoading()
+            }, 1000);
+
+            const { mediaType = 'Images' } = this.props
+
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions[mediaType],
+                // mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: mediaType === 'Images' ? true : false,
+                base64: true,
+                quality: 1,
+            });
+
+            if (!result.cancelled) {
+                const { onChangeCallback, input: { onChange } } = this.props
+                this.setState({ image: result.uri });
+
+                FileSystem.readAsStringAsync(result.uri, {
+                    encoding: FileSystem.EncodingType.Base64
+                }).then((base64) => {
+                    const res = { ...result, base64 }
+                    onChangeCallback(res)
+                    this.onToggleLoading()
+                })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+            else {
+                this.onToggleLoading()
+            }
         }
     };
 
@@ -230,3 +231,4 @@ export const FilePicker = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(FilePickerComponent);
+

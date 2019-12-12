@@ -426,6 +426,11 @@
             "description": "Esta sección contendrá la lista de ejercicios financieros."
         }
     },
+    "countries": {
+        "empty": {
+            "title": "¡Aún no hay países!"
+        }
+    },
     "reports": {
         "sales": "Ventas",
         "profitAndLoss": "Pérdida de beneficios",

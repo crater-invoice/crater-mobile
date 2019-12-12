@@ -3,35 +3,30 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { DefaultLayout, CtButton, InputField, FilePicker, AssetImage } from '../../../../components';
+import { DefaultLayout, CtButton, InputField, FilePicker, AssetImage, SelectField } from '../../../../components';
 import { Field, change } from 'redux-form';
 import Lng from '../../../../api/lang/i18n';
-import AddressFieldContainer from '../../../customers/containers/AddressField';
 import { EDIT_COMPANY } from '../../constants';
 import { goBack, UNMOUNT, MOUNT } from '../../../../navigation/actions';
-import { MAX_LENGTH } from '../../../../api/global';
+import { MAX_LENGTH, formatCountries } from '../../../../api/global';
 
 
 type IProps = {
     navigation: Object,
     getCompanyInformation: Function,
     getCountries: Function,
-    getStates: Function,
-    getCities: Function,
     editCompanyInformation: Function,
     handleSubmit: Function,
     language: String,
     editCompanyLoading: Boolean,
     getCompanyInfoLoading: Boolean,
     countriesLoading: Boolean,
-    statesLoading: Boolean,
-    citiesLoading: Boolean
 }
 
 let companyField = [
     "country_id",
-    "state_id",
-    "city_id",
+    "state",
+    "city",
     "zip",
     "address_street_1",
     "address_street_2",
@@ -42,9 +37,6 @@ export class Company extends React.Component<IProps> {
         super(props);
 
         this.state = {
-            country: ' ',
-            state: ' ',
-            city: ' ',
             image: null,
             logo: null,
             fileLoading: false,
@@ -55,8 +47,6 @@ export class Company extends React.Component<IProps> {
         const {
             getCompanyInformation,
             getCountries,
-            getStates,
-            getCities,
             navigation,
             countries
         } = this.props
@@ -73,29 +63,12 @@ export class Company extends React.Component<IProps> {
                 )
 
                 if (company.addresses[0]) {
-
                     companyField.map((field) => {
                         this.setFormField(field, company.addresses[0][field])
                     })
-
-                    if (company.addresses[0].country) {
-                        let { id, name, code } = company.addresses[0].country
-                        this.setState({ country: `${name}   (${code})` })
-                        getStates({ countryId: id })
-                    }
-                    if (company.addresses[0].state) {
-                        let { id, name } = company.addresses[0].state
-                        this.setState({ state: `${name}` })
-                        getCities({ stateID: id })
-                    }
-                    if (company.addresses[0].city) {
-                        let { name } = company.addresses[0].city
-                        this.setState({ city: `${name}` })
-                    }
-                    if (company.company.logo) {
-                        this.setState({ image: company.company.logo })
-                    }
-
+                }
+                if (company.company.logo) {
+                    this.setState({ image: company.company.logo })
                 }
             }
         });
@@ -147,11 +120,8 @@ export class Company extends React.Component<IProps> {
             language,
             getCompanyInfoLoading,
             countriesLoading,
-            statesLoading,
-            citiesLoading
+            countries,
         } = this.props;
-
-        let { country, state, city, image } = this.state
 
         let companyRefs = {}
 
@@ -183,7 +153,7 @@ export class Company extends React.Component<IProps> {
                         onChangeCallback={(val) =>
                             this.setState({ logo: val })
                         }
-                        imageUrl={image}
+                        imageUrl={this.state.image}
                         containerStyle={{
                             marginTop: 15,
                         }}
@@ -201,6 +171,7 @@ export class Company extends React.Component<IProps> {
                             returnKeyType: 'next',
                             autoCorrect: true,
                             onFocus: true,
+                            autoFocus: true,
                             onSubmitEditing: () => {
                                 companyRefs.phone.focus();
                             }
@@ -222,46 +193,60 @@ export class Company extends React.Component<IProps> {
 
                     <Field
                         name={"country_id"}
-                        component={AddressFieldContainer}
-                        isRequired
-                        type="country"
+                        items={formatCountries(countries)}
+                        displayName="name"
+                        component={SelectField}
                         label={Lng.t("customers.address.country", { locale: language })}
-                        placeholder={country}
-                        placeholderStyle={styles.fakeInputPlaceholderStyle}
+                        placeholder={" "}
+                        rightIcon='angle-right'
                         navigation={navigation}
-                        onChangeCallback={(val) =>
-                            this.setFormField("country_id", val)
-                        }
-                        countriesLoading={countriesLoading}
-                    />
-
-                    <Field
-                        name={"state_id"}
-                        component={AddressFieldContainer}
-                        type="state"
-                        label={Lng.t("customers.address.state", { locale: language })}
-                        placeholder={state}
-                        placeholderStyle={styles.fakeInputPlaceholderStyle}
-                        navigation={navigation}
-                        onChangeCallback={(val) =>
-                            this.setFormField("state_id", val)
-                        }
-                        statesLoading={statesLoading}
-                    />
-
-                    <Field
-                        name={"city_id"}
-                        component={AddressFieldContainer}
-                        type="city"
-                        label={Lng.t("customers.address.city", { locale: language })}
-                        placeholder={city}
-                        placeholderStyle={styles.fakeInputPlaceholderStyle}
-                        navigation={navigation}
-                        onChangeCallback={(val) => {
-                            this.setFormField("city_id", val)
-                            companyRefs.street1.focus();
+                        searchFields={['name']}
+                        compareField="id"
+                        onSelect={({ id }) => {
+                            this.setFormField("country_id", id)
                         }}
-                        citiesLoading={citiesLoading}
+                        headerProps={{
+                            title: Lng.t("header.country", { locale: language }),
+                            rightIconPress: null
+                        }}
+                        listViewProps={{
+                            contentContainerStyle: { flex: 7 }
+                        }}
+                        emptyContentProps={{
+                            contentType: "countries",
+                        }}
+                        isRequired
+                    />
+
+                    <Field
+                        name={"state"}
+                        component={InputField}
+                        hint={Lng.t("customers.address.state", { locale: language })}
+                        inputProps={{
+                            returnKeyType: 'next',
+                            autoCapitalize: 'none',
+                            autoCorrect: true,
+                            onSubmitEditing: () => {
+                                companyRefs.city.focus();
+                            }
+                        }}
+                    />
+
+                    <Field
+                        name={"city"}
+                        component={InputField}
+                        hint={Lng.t("customers.address.city", { locale: language })}
+                        inputProps={{
+                            returnKeyType: 'next',
+                            autoCapitalize: 'none',
+                            autoCorrect: true,
+                            onSubmitEditing: () => {
+                                companyRefs.street1.focus();
+                            }
+                        }}
+                        refLinkFn={(ref) => {
+                            companyRefs.city = ref;
+                        }}
                     />
 
                     <Field

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, StatusBar } from 'react-native';
 import ActionSheet from 'react-native-actionsheet'
 import { styles } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -16,7 +16,8 @@ export default class Dropdown extends Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {
-            labelOptions: []
+            labelOptions: [],
+            visible: false,
         };
     }
 
@@ -29,11 +30,20 @@ export default class Dropdown extends Component<IProps> {
         this.setState({ labelOptions })
     }
 
+    onToggleStatus = () => {
+        this.setState((prevState) => {
+            return { visible: !prevState.visible }
+        });
+    }
+
     showActionSheet = () => {
+        this.onToggleStatus()
         this.ActionSheet.show()
     }
 
     onSelect = (index) => {
+        this.onToggleStatus()
+
         const { options, onSelect } = this.props;
 
         const valueOptions = [...options, { label: 'Cancel', value: null }].map(
@@ -47,10 +57,19 @@ export default class Dropdown extends Component<IProps> {
 
     render() {
         const { options, onPress, cancelButtonIndex, destructiveButtonIndex } = this.props;
-        const { labelOptions } = this.state;
+        const { labelOptions, visible } = this.state;
 
         return (
             <View>
+
+                {visible && (
+                    <StatusBar
+                        backgroundColor={colors.secondary}
+                        barStyle={"dark-content"}
+                        translucent={true}
+                    />
+                )}
+
                 <TouchableOpacity
                     onPress={this.showActionSheet}
                     style={styles.button}
@@ -67,6 +86,7 @@ export default class Dropdown extends Component<IProps> {
                         style={styles.iconStyle}
                     />
                 </TouchableOpacity>
+
                 {labelOptions && (
                     <ActionSheet
                         ref={o => this.ActionSheet = o}

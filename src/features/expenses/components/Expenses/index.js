@@ -9,7 +9,6 @@ import { ROUTES } from '../../../../navigation/routes';
 import { IMAGES } from '../../../../config';
 import Lng from '../../../../api/lang/i18n';
 import { EXPENSE_ADD, EXPENSE_EDIT, EXPENSE_SEARCH } from '../../constants';
-import moment from 'moment';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 
 let params = {
@@ -49,34 +48,13 @@ export class Expenses extends React.Component<IProps> {
     }
 
     componentDidMount() {
-        const { categories, getCategories, navigation } = this.props
+        const { getCategories, navigation } = this.props
 
-        // Call Categories Api if empty
-        let hasCategoriesApiCalled = categories ? (typeof categories === 'undefined' || categories.length === 0) : true
+        getCategories()
 
-        hasCategoriesApiCalled && getCategories()
+        this.getItems({ fresh: true });
 
-        goBack(MOUNT, navigation, ROUTES.MAIN_INVOICES)
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-
-        const { navigation } = nextProps
-        const pagination = navigation.getParam('pagination', null)
-        const apiCall = navigation.getParam('apiCall', false)
-
-        if (pagination && !(apiCall)) {
-            navigation.setParams({ 'pagination': null, apiCall: true })
-
-            const { last_page, current_page } = pagination
-            this.setState({
-                pagination: {
-                    ...this.state.pagination,
-                    lastPage: last_page,
-                    page: current_page + 1,
-                }
-            });
-        }
+        goBack(MOUNT, navigation, { route: ROUTES.MAIN_INVOICES })
     }
 
     componentWillUnmount() {

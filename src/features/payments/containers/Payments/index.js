@@ -8,8 +8,9 @@ import { PAYMENT_SEARCH } from '../../constants';
 import { SvgXml } from 'react-native-svg';
 import { PAYMETNS } from '../../../../assets/svg';
 import { getCustomers } from '../../../customers/actions';
-import { getTitleByLanguage, tabBarOnPress, navigateTabRoutes, navigateRoute } from '../../../../navigation/actions';
+import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
 import { ROUTES } from '../../../../navigation/routes';
+import { withNavigationFocus } from 'react-navigation';
 
 
 const mapStateToProps = (state) => {
@@ -63,16 +64,12 @@ PaymentsContainer.navigationOptions = ({ navigation }) => ({
         />
     ),
     tabBarOnPress: () => {
+        if (navigation.isFocused()) {
+            return;
+        }
 
-        navigateTabRoutes(ROUTES.MAIN_PAYMENTS, { apiCall: false })
-
-        let apiCall = navigation.getParam('apiCall', false)
-
-        apiCall ? navigateRoute(ROUTES.MAIN_PAYMENTS) : tabBarOnPress(
-            ROUTES.MAIN_PAYMENTS,
-            PaymentsAction.getPayments
-        )
+        navigateToMainTabs(navigation, ROUTES.MAIN_PAYMENTS)
     }
 });
 
-export default PaymentsContainer;
+export default withNavigationFocus(PaymentsContainer);

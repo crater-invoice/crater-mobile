@@ -279,23 +279,22 @@ export class Expense extends React.Component {
             >
 
                 <View style={styles.bodyContainer}>
-                    {fileType.indexOf(IMAGE_TYPE) === 0 && (
-                        <Field
-                            name="attachment_receipt"
-                            component={FilePicker}
-                            mediaType={'All'}
-                            label={Lng.t("expenses.receipt", { locale: language })}
-                            navigation={navigation}
-                            onChangeCallback={(val) =>
-                                this.setState({ attachmentReceipt: val })
-                            }
-                            imageUrl={imageUrl}
-                            containerStyle={styles.filePicker}
-                            fileLoading={(val) => {
-                                this.setState({ fileLoading: val })
-                            }}
-                        />
-                    )}
+
+                    <Field
+                        name="attachment_receipt"
+                        component={FilePicker}
+                        mediaType={'All'}
+                        label={Lng.t("expenses.receipt", { locale: language })}
+                        navigation={navigation}
+                        onChangeCallback={(val) =>
+                            this.setState({ attachmentReceipt: val })
+                        }
+                        imageUrl={fileType.indexOf(IMAGE_TYPE) === 0 ? imageUrl : null}
+                        containerStyle={styles.filePicker}
+                        fileLoading={(val) => {
+                            this.setState({ fileLoading: val })
+                        }}
+                    />
 
                     {!loading && formValues.expense_date && (<Field
                         name="expense_date"
