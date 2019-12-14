@@ -32,7 +32,7 @@ Below are the steps for starting up the crater app locally for development. If y
 
 ## Mobile App Links
 - [Android](https://play.google.com/store/apps/details?id=com.craterapp.app)
-- IOS - Coming Soon
+- [IOS](https://apps.apple.com/app/id1489169767)
 
 ## Credits
 Crater is a product of [Bytefury](https://bytefury.com)
