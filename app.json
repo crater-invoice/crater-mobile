@@ -9,7 +9,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.4",
+    "version": "2.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -24,13 +24,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false,
+      "supportsTablet": true,
       "bundleIdentifier": "com.craterapp.app",
-      "buildNumber": "2"
+      "buildNumber": "4"
     },
     "android": {
       "package": "com.craterapp.app",
-      "versionCode": 7
+      "versionCode": 8
     },
     "description": "",
     "androidStatusBar": {
