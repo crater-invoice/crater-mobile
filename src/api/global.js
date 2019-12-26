@@ -61,6 +61,7 @@ export const formatCountries = (countries) => {
     return countriesList
 }
 
+
 export const MAX_LENGTH = 255
 
 // Alert 
@@ -94,4 +95,19 @@ export const alertMe = ({
         ],
         { cancelable: true },
     );
+}
+
+
+// Field Is Fillable ?
+// -----------------------------------------
+export const hasValue = (field) => {
+    return field !== null && typeof field !== "undefined"
+}
+
+export const hasLength = (field) => {
+    return field && field.length !== 0
+}
+
+export const hasObjectLength = (field) => {
+    return field && Object.keys(field).length !== 0
 }

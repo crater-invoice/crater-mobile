@@ -8,6 +8,9 @@ import {
     SET_EDI_EXPENSE_CATEGORIES,
     SET_REMOVE_EXPENSE_CATEGORIES,
     SET_EXPENSE_CATEGORIES,
+    SET_CUSTOMIZE_SETTINGS,
+    SET_PAYMENT_MODES,
+    SET_PAYMENT_MODE,
 } from '../constants';
 
 const initialState = {
@@ -34,9 +37,17 @@ const initialState = {
         addTaxLoading: false,
         getTaxLoading: false,
         removeTaxLoading: false,
+        // customize
+        getCustomizeLoading: false,
+        customizeLoading: false,
+        // payment method
+        paymentModesLoading: false,
+        paymentModeLoading: false,
     },
     preferences: null,
     categories: [],
+    paymentMethods: [],
+    customizes: null,
     account: null,
     taxByItems: false,
     taxByInvoice: true,
@@ -105,6 +116,65 @@ export default function settingReducer(state = initialState, action) {
 
             return { ...state, categories: category };
 
+        case SET_CUSTOMIZE_SETTINGS:
+
+            const checkAutoGenerateStatus = (status) => {
+                return status !== null ?
+                    status === 'YES' ? true : false
+                    : false
+            }
+
+            const { customizes } = payload
+
+            if (customizes === null) {
+                return { ...state, customizes: null };
+            }
+            else {
+                const {
+                    invoice_auto_generate,
+                    estimate_auto_generate,
+                    payment_auto_generate
+                } = customizes
+
+                let customizeUpdate = {
+                    ...customizes,
+                    invoice_auto_generate: checkAutoGenerateStatus(invoice_auto_generate),
+                    estimate_auto_generate: checkAutoGenerateStatus(estimate_auto_generate),
+                    payment_auto_generate: checkAutoGenerateStatus(payment_auto_generate)
+                }
+
+                return { ...state, customizes: customizeUpdate };
+            }
+
+        case SET_PAYMENT_MODES:
+            return { ...state, paymentMethods: payload.paymentMethods };
+
+        case SET_PAYMENT_MODE:
+            const { paymentMethod, isCreated, isUpdated, isRemove } = payload
+
+            if (isCreated) {
+                return {
+                    ...state,
+                    paymentMethods: [...paymentMethod, ...state.paymentMethods]
+                };
+            }
+            if (isUpdated) {
+                const methodList = state.paymentMethods.filter(({ id }) =>
+                    (id !== paymentMethod[0]["id"]))
+
+                return {
+                    ...state,
+                    paymentMethods: [...paymentMethod, ...methodList]
+                };
+            }
+            if (isRemove) {
+                const remainMethods = state.paymentMethods.filter(({ id }) =>
+                    (id !== payload.id))
+
+                return { ...state, paymentMethods: remainMethods };
+            }
+
+            return { ...state }
 
         default:
             return state;

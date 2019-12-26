@@ -2,7 +2,8 @@
 import React from 'react'
 import {
     EMAIL_REGEX,
-    URL_REGEX
+    URL_REGEX,
+    CHARACTER_ONLY_REGEX
 } from './consts';
 
 type IValidationOptions = {
@@ -16,6 +17,8 @@ type ErrorType =
     | 'requiredCheckArray'
     | 'minNumberRequired'
     | 'maxNumberRequired'
+    | 'maxCharacterRequired'
+    | 'characterOnlyRequired'
     | 'isNumberFormat'
     | 'passwordCompared'
     | 'moreThanDue'
@@ -26,7 +29,7 @@ export function getError(
     errorTypes: Array<ErrorType>,
     options: IValidationOptions = {},
 ) {
-    const { fieldName, minNumber, maxNumber } = options;
+    const { fieldName, minNumber, maxNumber, maxCharacter } = options;
 
     const errorTypeMap = {
 
@@ -45,6 +48,12 @@ export function getError(
         maxNumberRequired: () => {
             return (value > maxNumber ? ("validation.maximumNumber") : null)
         },
+
+        maxCharacterRequired: () => {
+            return (value.length > maxCharacter ? ("validation.maximumCharacter") : null)
+        },
+
+        characterOnlyRequired: () => (CHARACTER_ONLY_REGEX.test(value) ? null : "validation.character"),
 
         isNumberFormat: () => (
             isNaN(Number(value)) ? "validation.numeric" : null

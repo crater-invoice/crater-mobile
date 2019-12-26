@@ -138,9 +138,12 @@ export const tabBarOnPress = (routeName = '', action = '') => {
 
 // Get Value with translated
 // -----------------------------------------
-export const getTitleByLanguage = (label) => {
+export const getTitleByLanguage = (label, field = null) => {
     const reduxStore = store.getState();
     const { language = 'en' } = reduxStore.global
 
-    return Lng.t(label, { locale: language })
+    if (field) {
+        return Lng.t(label, { locale: language, field })
+    }
+    return Lng.t(label, { locale: language, })
 }

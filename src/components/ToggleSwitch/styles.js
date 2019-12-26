@@ -13,11 +13,11 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         marginVertical: 15,
     },
-    hintStyle: {
+    hint: {
         color: colors.secondary,
         fontFamily: fonts.poppins,
         fontSize: 16,
-        marginTop: 3,
+        marginTop: 4,
         width: '83%'
     },
     switchStyle: {
@@ -32,9 +32,8 @@ export const styles = StyleSheet.create({
         marginTop: -5,
     },
     description: {
-        textAlign: "justify",
         color: colors.darkGray,
-        fontFamily: fonts.poppinsLight,
+        fontFamily: fonts.poppins,
         fontSize: 14,
     }
 });

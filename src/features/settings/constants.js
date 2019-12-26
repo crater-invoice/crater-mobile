@@ -16,6 +16,8 @@ export const TAX_FORM = 'taxForm/TAX_FORM';
 export const CATEGORY_SEARCH = 'categories/CATEGORY_SEARCH';
 export const CATEGORY_FORM = 'categories/CATEGORY_FORM';
 
+export const CUSTOMIZE_FORM = 'customize/CUSTOMIZE_FORM';
+
 // Type
 // -----------------------------------------
 export const CATEGORY_ADD = 'category/CATEGORY_ADD';
@@ -52,6 +54,19 @@ export const EDIT_ACCOUNT_INFO = 'accountForm/EDIT_ACCOUNT_INFO';
 // Categories
 export const GET_EXPENSE_CATEGORIES = 'categories/GET_EXPENSE_CATEGORIES';
 export const GET_CREATE_EXPENSE_CATEGORY = 'categories/GET_CREATE_EXPENSE_CATEGORY';
+
+// Customize Settings
+export const GET_CUSTOMIZE_SETTINGS = 'customize/GET_CUSTOMIZE_SETTINGS';
+export const SET_CUSTOMIZE_SETTINGS = 'customize/SET_CUSTOMIZE_SETTINGS';
+export const EDIT_CUSTOMIZE_SETTINGS = 'categories/EDIT_CUSTOMIZE_SETTINGS';
+
+// Payment Methods
+export const GET_PAYMENT_MODES = 'payments/GET_PAYMENT_MODES';
+export const SET_PAYMENT_MODES = 'payments/SET_PAYMENT_MODES';
+export const SET_PAYMENT_MODE = 'payments/SET_PAYMENT_MODE';
+export const CREATE_PAYMENT_MODE = 'payments/CREATE_PAYMENT_MODE';
+export const EDIT_PAYMENT_MODE = 'payments/EDIT_PAYMENT_MODE';
+export const REMOVE_PAYMENT_MODE = 'payments/REMOVE_PAYMENT_MODE';
 
 // Taxes
 export const GET_TAXES = 'taxes/GET_TAXES';
@@ -117,6 +132,14 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
+            title: Lng.t("settings.customize", { locale: language }),
+            leftIcon: 'edit',
+            iconSize: 22,
+            fullItem: {
+                route: ROUTES.CUSTOMIZES
+            }
+        },
+        {
             title: Lng.t("settings.taxes", { locale: language }),
             leftIcon: 'percent',
             fullItem: {
@@ -141,10 +164,52 @@ export const SETTINGS_MENU = (language, Lng) => {
     ]
 }
 
+// Customize Type
+// -----------------------------------------
+export const CUSTOMIZE_TYPE = {
+    INVOICES: 'customize/Invoices',
+    ESTIMATES: 'customize/ESTIMATES',
+    PAYMENTS: 'customize/PAYMENTS',
+    ITEMS: 'customize/ITEMS',
+}
+
+// Customize Menu
+// -----------------------------------------
+export const CUSTOMIZES_MENU = (language, Lng) => {
+    return [
+        {
+            title: Lng.t("header.invoices", { locale: language }),
+            fullItem: {
+                route: ROUTES.CUSTOMIZE,
+                type: CUSTOMIZE_TYPE.INVOICES
+            }
+        },
+        {
+            title: Lng.t("header.estimates", { locale: language }),
+            fullItem: {
+                route: ROUTES.CUSTOMIZE,
+                type: CUSTOMIZE_TYPE.ESTIMATES
+            }
+        },
+        {
+            title: Lng.t("header.payments", { locale: language }),
+            fullItem: {
+                route: ROUTES.CUSTOMIZE,
+                type: CUSTOMIZE_TYPE.PAYMENTS
+            }
+        },
+        {
+            title: Lng.t("header.items", { locale: language }),
+            fullItem: {
+                route: ROUTES.CUSTOMIZE,
+                type: CUSTOMIZE_TYPE.ITEMS
+            }
+        }
+    ]
+}
+
 // Endpoint Api URL
 // -----------------------------------------
-
-
 export const GET_COMPANY_URL = () => `settings/company`
 export const EDIT_COMPANY_URL = () => `settings/company`
 
@@ -174,3 +239,13 @@ export const GET_SALES_TAXES_URL = () => `tax-types`
 export const CREATE_SALES_TAX_URL = () => `tax-types`
 export const EDIT_SALES_TAX_URL = (tax) => `tax-types/${tax.id}`
 export const REMOVE_SALES_TAX_URL = (id) => `tax-types/${id}`
+
+// Customize Settings
+export const GET_CUSTOMIZE_SETTINGS_URL = () => `settings/get-customize-setting`
+export const EDIT_CUSTOMIZE_SETTINGS_URL = () => `settings/update-customize-setting`
+
+// Payment Methods
+export const GET_PAYMENT_MODES_URL = () => `payment-methods`
+export const CREATE_PAYMENT_MODE_URL = () => `payment-methods`
+export const EDIT_PAYMENT_MODE_URL = (id) => `payment-methods/${id}`
+export const REMOVE_PAYMENT_MODE_URL = (id) => `payment-methods/${id}`

@@ -14,6 +14,9 @@ import {
     setTax,
     setEditTax,
     setRemoveTax,
+    setCustomizeSettings,
+    setPaymentModes,
+    setPaymentMode,
 } from '../actions';
 
 import {
@@ -34,6 +37,8 @@ import {
     REMOVE_TAX,
     TAX_ADD,
     TAX_EDIT,
+    GET_CUSTOMIZE_SETTINGS,
+    EDIT_CUSTOMIZE_SETTINGS,
     // Endpoint Api URL
     GET_COMPANY_URL,
     EDIT_COMPANY_URL,
@@ -53,11 +58,40 @@ import {
     EDIT_SALES_TAX_URL,
     REMOVE_SALES_TAX_URL,
     EDIT_ACCOUNT_AVATAR_URL,
-    UPLOAD_LOGO_URL
+    UPLOAD_LOGO_URL,
+    GET_CUSTOMIZE_SETTINGS_URL,
+    EDIT_CUSTOMIZE_SETTINGS_URL,
+    GET_PAYMENT_MODES,
+    CREATE_PAYMENT_MODE,
+    EDIT_PAYMENT_MODE,
+    REMOVE_PAYMENT_MODE,
+    GET_PAYMENT_MODES_URL,
+    CREATE_PAYMENT_MODE_URL,
+    EDIT_PAYMENT_MODE_URL,
+    REMOVE_PAYMENT_MODE_URL,
+
 } from '../constants';
 
 import Request from '../../../api/request';
 import { ROUTES } from '../../../navigation/routes';
+import { hasValue, alertMe } from '../../../api/global';
+import { getTitleByLanguage } from '../../../navigation/actions';
+
+
+const alreadyInUse = (error) => {
+
+    if (error.includes("errors") && error.includes("name")) {
+
+        setTimeout(() => {
+            alertMe({
+                desc: getTitleByLanguage('alert.alreadyInUse', "\"Name\"")
+            })
+        }, 1000);
+
+        return true;
+    }
+}
+
 
 /**
  * Company Information.
@@ -275,7 +309,12 @@ function* editPreferences(payloadData) {
 
 function* editSettingItem(payloadData) {
     const {
-        payload: { params, navigation = null, onResult = null },
+        payload: {
+            params,
+            navigation = null,
+            onResult = null,
+            hasCustomize = false
+        },
     } = payloadData;
 
     yield put(settingsTriggerSpinner({ editSettingItemLoading: true }));
@@ -290,7 +329,9 @@ function* editSettingItem(payloadData) {
         const response = yield call([Request, 'put'], options);
 
         if (response.success) {
-            yield put(setSettings({ settings: params }));
+            if (!hasCustomize) {
+                yield put(setSettings({ settings: params }));
+            }
             onResult && onResult()
         }
 
@@ -551,6 +592,152 @@ function* removeTax(payloadData) {
 }
 
 
+/**
+ * Customize Settings
+ */
+function* getCustomizeSettings(payloadData) {
+
+    yield put(settingsTriggerSpinner({ getCustomizeLoading: true }));
+
+    try {
+        const options = {
+            path: GET_CUSTOMIZE_SETTINGS_URL(),
+        };
+
+        const response = yield call([Request, 'get'], options);
+        yield put(setCustomizeSettings({ customizes: response }));
+
+    } catch (error) {
+        // console.log(error);
+    } finally {
+        yield put(settingsTriggerSpinner({ getCustomizeLoading: false }));
+    }
+}
+
+
+function* editCustomizeSettings({ payload: { params, navigation } }) {
+
+    yield put(settingsTriggerSpinner({ customizeLoading: true }));
+
+    try {
+        const options = {
+            path: EDIT_CUSTOMIZE_SETTINGS_URL(),
+            body: params
+        };
+
+        const response = yield call([Request, 'put'], options);
+
+        if (response.success) {
+            navigation.navigate(ROUTES.CUSTOMIZES)
+            yield put(setCustomizeSettings({ customizes: null }));
+        }
+
+    } catch (error) {
+        // console.log(error);
+    } finally {
+        yield put(settingsTriggerSpinner({ customizeLoading: false }));
+    }
+}
+
+
+/**
+ * Payment Methods
+ */
+
+function* getPaymentModes(payloadData = {}) {
+
+    yield put(settingsTriggerSpinner({ paymentModesLoading: true }));
+
+    try {
+        const options = {
+            path: GET_PAYMENT_MODES_URL(),
+        };
+
+        const response = yield call([Request, 'get'], options);
+
+        yield put(setPaymentModes({ paymentMethods: response.paymentMethods }));
+
+    } catch (error) {
+        console.log(error)
+    } finally {
+        yield put(settingsTriggerSpinner({ paymentModesLoading: false }));
+    }
+}
+
+
+function* createPaymentMode({ payload: { params } }) {
+
+    yield put(settingsTriggerSpinner({ paymentModeLoading: true }));
+
+    try {
+
+        const options = {
+            path: CREATE_PAYMENT_MODE_URL(),
+            body: params
+        };
+
+        const response = yield call([Request, 'post'], options);
+
+        yield put(setPaymentMode({ paymentMethod: [response.paymentMethod], isCreated: true }));
+
+    } catch ({ _bodyText }) {
+        hasValue(_bodyText) && alreadyInUse(_bodyText)
+    } finally {
+        yield put(settingsTriggerSpinner({ paymentModeLoading: false }));
+    }
+}
+
+function* editPaymentMode({ payload: { id, params } }) {
+
+    yield put(settingsTriggerSpinner({ paymentModeLoading: true }));
+
+    try {
+
+        const options = {
+            path: EDIT_PAYMENT_MODE_URL(id),
+            body: params
+        };
+
+        const response = yield call([Request, 'put'], options);
+
+        yield put(setPaymentMode({ paymentMethod: [response.paymentMethod], isUpdated: true }));
+
+    } catch ({ _bodyText }) {
+        hasValue(_bodyText) && alreadyInUse(_bodyText)
+    } finally {
+        yield put(settingsTriggerSpinner({ paymentModeLoading: false }));
+    }
+}
+
+function* removePaymentMode({ payload: { id } }) {
+
+    yield put(settingsTriggerSpinner({ paymentModeLoading: true }));
+
+    try {
+
+        const options = {
+            path: REMOVE_PAYMENT_MODE_URL(id),
+        };
+
+        const response = yield call([Request, 'delete'], options);
+
+        if (response.success)
+            yield put(setPaymentMode({ id, isRemove: true }));
+
+        if (response.error && response.error === "payments_attached")
+            setTimeout(() => {
+                alertMe({
+                    title: getTitleByLanguage("payments.alreadyInUseMode")
+                })
+            }, 1000);
+
+    } catch (error) {
+        // console.log(error);
+    } finally {
+        yield put(settingsTriggerSpinner({ paymentModeLoading: false }));
+    }
+}
+
 export default function* settingsSaga() {
     yield takeEvery(GET_COMPANY_INFO, getCompanyInformation);
     yield takeEvery(EDIT_COMPANY_INFO, editCompanyInformation);
@@ -575,4 +762,16 @@ export default function* settingsSaga() {
     yield takeEvery(TAX_ADD, addTax);
     yield takeEvery(TAX_EDIT, editTaxType);
     yield takeEvery(REMOVE_TAX, removeTax);
+
+    // Customize
+    // -----------------------------------------
+    yield takeEvery(GET_CUSTOMIZE_SETTINGS, getCustomizeSettings);
+    yield takeEvery(EDIT_CUSTOMIZE_SETTINGS, editCustomizeSettings);
+
+    // Payment Method
+    // -----------------------------------------
+    yield takeEvery(GET_PAYMENT_MODES, getPaymentModes);
+    yield takeEvery(CREATE_PAYMENT_MODE, createPaymentMode);
+    yield takeEvery(EDIT_PAYMENT_MODE, editPaymentMode);
+    yield takeEvery(REMOVE_PAYMENT_MODE, removePaymentMode);
 }

@@ -46,6 +46,7 @@
         "profitAndLossReport": "Profit & Loss Report",
         "expensesReport": "Expenses Report",
         "taxesReport": "Taxes Report",
+        "customize": "Customization",
         "filter": "Filters",
         "back": "Back"
     },
@@ -169,6 +170,9 @@
         "customer": "Customer",
         "customerPlaceholder": "Select or Add new Customer",
         "mode": "Payment Mode",
+        "addMode": "Add Payment Mode",
+        "editMode": "Edit Payment Mode",
+        "modeHint": "Mode Name",
         "modePlaceholder": "Select Payment Mode",
         "amount": "Amount",
         "notes": "Notes",
@@ -177,9 +181,12 @@
         "invoicePlaceholder": "Select Invoice",
         "alertAmount": "The payment entered is more than the total amount due for this invoice.",
         "alertDescription": "You will not be able to recover this Payment",
+        "alertMode": "You will not be able to recover this Payment Mode",
+        "alreadyInUseMode": "Payment Mode is already in use",
         "removePayment": "Delete",
         "empty": {
             "title": "No payments yet!",
+            "modeTitle": "No payment modes yet!",
             "description": "This section will contain the list of payments.",
             "buttonTitle": "Add New Payment"
         }
@@ -255,6 +262,7 @@
         "notification": "Notifications",
         "taxes": "Tax Types",
         "expenseCategory": "Expense Categories",
+        "customize": "Customization",
         "endpoint": "API Endpoint",
         "company": {
             "name": "Company Name",
@@ -471,6 +479,27 @@
             "buttonTitle": "Add Tax Type"
         }
     },
+    "customizes": {
+        "prefix": {
+            "title": "Prefix",
+            "invoice": "Invoice Prefix",
+            "estimate": "Estimate Prefix",
+            "payment": "Payment Prefix"
+        },
+        "autoGenerate": {
+            "invoice": "Autogenerate Invoice Number",
+            "invoiceDescription": "Disable this, If you don't wish to auto-generate invoice numbers when creating a new invoice.",
+            "estimate": "Autogenerate Estimate Number",
+            "estimateDescription": "Disable this, If you don't wish to auto-generate estimate numbers when creating a new estimate.",
+            "payment": "Autogenerate Payment Number",
+            "paymentDescription": "Disable this, If you don't wish to auto-generate payment numbers when creating a new payment."
+        },
+        "setting": {
+            "invoice": "Invoice Settings",
+            "estimate": "Estimate Settings",
+            "payment": "Payment Settings"
+        }
+    },
     "filePicker": {
         "file": "Click here to choose a file",
         "permission": "Sorry, we need camera roll permissions to make this work!"
@@ -478,6 +507,7 @@
     "alert": {
         "title": "Are you sure?",
         "exit": "Are you sure want to exit?",
+        "alreadyInUse": "{{field}} already in use",
         "action": {
             "discard": "Discard",
             "saveAsDraft": "Save As Draft",
@@ -487,6 +517,7 @@
     "button": {
         "remove": "Remove",
         "save": "Save",
+        "add": "Add",
         "edit": "Edit",
         "retry": "Retry",
         "done": "Done",
@@ -523,6 +554,8 @@
         "passwordCompare": "Passwords do not match",
         "minimumNumber": "must be greater than 0",
         "maximumNumber": "must be less than {{maxNumber}}",
+        "maximumCharacter": "{{fieldName}} must be less than {{maxCharacter}} characters.",
+        "character": "Characters Only",
         "numeric": "must be numeric",
         "moreThanDue": "{{hint}} Should not be more than Due Amount.",
         "url": "Invalid url (eg: https://craterapp.com)"

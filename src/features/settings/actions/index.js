@@ -30,6 +30,15 @@ import {
     TAX_EDIT,
     SET_EDIT_TAX,
     SET_REMOVE_TAX,
+    GET_CUSTOMIZE_SETTINGS,
+    SET_CUSTOMIZE_SETTINGS,
+    EDIT_CUSTOMIZE_SETTINGS,
+    GET_PAYMENT_MODES,
+    SET_PAYMENT_MODES,
+    CREATE_PAYMENT_MODE,
+    EDIT_PAYMENT_MODE,
+    REMOVE_PAYMENT_MODE,
+    SET_PAYMENT_MODE,
 } from "../constants";
 
 import { SET_SETTINGS } from "../../../api/consts";
@@ -198,5 +207,54 @@ export const setEditTax = (payload) => ({
 
 export const setRemoveTax = (payload) => ({
     type: SET_REMOVE_TAX,
+    payload,
+});
+
+// Customize Settings
+export const getCustomizeSettings = (payload = {}) => ({
+    type: GET_CUSTOMIZE_SETTINGS,
+    payload,
+});
+
+export const setCustomizeSettings = (payload = {}) => ({
+    type: SET_CUSTOMIZE_SETTINGS,
+    payload,
+});
+
+export const editCustomizeSettings = (payload = {}) => ({
+    type: EDIT_CUSTOMIZE_SETTINGS,
+    payload,
+});
+
+
+// Payment methods
+export const getPaymentModes = (payload = {}) => ({
+    type: GET_PAYMENT_MODES,
+    payload,
+});
+
+export const setPaymentModes = (payload = {}) => ({
+    type: SET_PAYMENT_MODES,
+    payload,
+});
+
+export const setPaymentMode = (payload = {}) => ({
+    type: SET_PAYMENT_MODE,
+    payload,
+});
+
+export const createPaymentMode = (payload = {}) => ({
+    type: CREATE_PAYMENT_MODE,
+    payload,
+});
+
+
+export const editPaymentMode = (payload = {}) => ({
+    type: EDIT_PAYMENT_MODE,
+    payload,
+});
+
+export const removePaymentMode = (payload = {}) => ({
+    type: REMOVE_PAYMENT_MODE,
     payload,
 });
