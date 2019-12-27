@@ -183,11 +183,13 @@
         "notesPlaceholder": "Notes complémentaires",
         "invoice": "Facture d'achat",
         "invoicePlaceholder": "Sélectionnez facture",
+        "sendReceipt": "Envoyer un reçu de paiement",
         "alertAmount": "Le paiement entré est supérieur au montant total dû pour cette facture.",
         "alertDescription": "Vous ne pourrez pas récupérer ce paiement",
         "alertMode": "Vous ne pourrez pas récupérer ce mode de paiement",
         "alreadyInUseMode": "Le mode de paiement est déjà utilisé",
         "alreadyInUseNumber": "Le numéro de paiement a déjà été pris.",
+        "alertSendDescription": "Ce paiement sera envoyé par e-mail au client",
         "removePayment": "Effacer",
         "empty": {
             "title": "Aucun paiement pour le moment!",

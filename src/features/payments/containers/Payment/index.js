@@ -50,7 +50,8 @@ const mapDispatchToProps = {
     getUnpaidInvoices: PaymentAction.getUnpaidInvoices,
     editPayment: PaymentAction.editPayment,
     removePayment: PaymentAction.removePayment,
-    getCustomers: getCustomers
+    sendPaymentReceipt: PaymentAction.sendPaymentReceipt,
+    getCustomers: getCustomers,
 };
 
 

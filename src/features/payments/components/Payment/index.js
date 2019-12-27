@@ -306,9 +306,19 @@ export class Payment extends React.Component<IProps> {
     }
 
     onOptionSelect = (action) => {
+        const { sendPaymentReceipt, navigation, language } = this.props
 
         if (action == ACTIONS_VALUE.REMOVE)
             this.removePayment()
+        else if (action == ACTIONS_VALUE.SEND)
+            alertMe({
+                title: Lng.t("alert.title", { locale: language }),
+                desc: Lng.t("payments.alertSendDescription", { locale: language }),
+                showCancel: true,
+                okPress: () => sendPaymentReceipt({
+                    params: { id: navigation.getParam('paymentId', null) }
+                })
+            })
 
     }
 
@@ -355,11 +365,11 @@ export class Payment extends React.Component<IProps> {
             isLoading
         } = this.state
 
-        let drownDownProps = type === PAYMENT_EDIT ? {
+        let drownDownProps = (type === PAYMENT_EDIT && !isLoading) ? {
             options: PAYMENT_ACTIONS(Lng, language),
             onSelect: this.onOptionSelect,
-            cancelButtonIndex: 1,
-            destructiveButtonIndex: 2
+            cancelButtonIndex: 2,
+            destructiveButtonIndex: 1
         } : null
 
 

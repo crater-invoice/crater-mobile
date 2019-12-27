@@ -183,11 +183,13 @@
         "notesPlaceholder": "Notas adicionales",
         "invoice": "Factura",
         "invoicePlaceholder": "Seleccionar factura",
+        "sendReceipt": "Enviar recibo de pago",
         "alertAmount": "El pago ingresado es mayor que el monto total adeudado por esta factura.",
         "alertDescription": "No podrá recuperar este pago",
         "alertMode": "No podrá recuperar este modo de pago",
         "alreadyInUseMode": "El modo de pago ya está en uso",
         "alreadyInUseNumber": "El número de pago ya ha sido tomado.",
+        "alertSendDescription": "Este pago se enviará por correo electrónico al cliente.",
         "removePayment": "Eliminar",
         "empty": {
             "title": "Aún no hay pagos!",

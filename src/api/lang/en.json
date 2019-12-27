@@ -183,11 +183,13 @@
         "notesPlaceholder": "Additional notes",
         "invoice": "Invoice",
         "invoicePlaceholder": "Select Invoice",
+        "sendReceipt": "Send Payment Receipt",
         "alertAmount": "The payment entered is more than the total amount due for this invoice.",
         "alertDescription": "You will not be able to recover this Payment",
         "alertMode": "You will not be able to recover this Payment Mode",
         "alreadyInUseMode": "Payment Mode is already in use",
         "alreadyInUseNumber": "The payment number has already been taken.",
+        "alertSendDescription": "This payment will be sent via email to the customer",
         "removePayment": "Delete",
         "empty": {
             "title": "No payments yet!",
