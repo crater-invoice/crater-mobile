@@ -20,9 +20,16 @@ export class Customizes extends React.Component {
 
     componentDidMount() {
 
-        const { navigation, getCustomizeSettings } = this.props
+        const {
+            navigation,
+            getCustomizeSettings,
+            getPaymentModes,
+            getItemUnits
+        } = this.props
 
         getCustomizeSettings()
+        getPaymentModes()
+        getItemUnits()
 
         goBack(MOUNT, navigation)
     }
@@ -40,7 +47,14 @@ export class Customizes extends React.Component {
     }
 
     render() {
-        const { navigation, language } = this.props;
+        const {
+            navigation,
+            language,
+            paymentModesLoading,
+            itemUnitsLoading
+        } = this.props;
+
+        let loading = paymentModesLoading || itemUnitsLoading
 
         return (
             <View style={styles.container}>
@@ -51,6 +65,7 @@ export class Customizes extends React.Component {
                         leftIconStyle: { color: colors.dark2 }
                     }}
                     hasSearchField={false}
+                    loadingProps={{ is: loading }}
                 >
                     <View style={styles.listViewContainer}>
                         <ListView

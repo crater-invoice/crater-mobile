@@ -24,14 +24,6 @@ export const GET_EDIT_PAYMENT = 'payments/GET_EDIT_PAYMENT';
 export const EDIT_PAYMENT = 'payments/EDIT_PAYMENT';
 export const REMOVE_PAYMENT = 'payments/REMOVE_PAYMENT';
 
-// Payment Mode
-// -----------------------------------------
-export const PAYMENT_MODE = [
-    { label: 'Cash', value: 'Cash' },
-    { label: 'Check', value: 'Check' },
-    { label: 'Credit Card', value: 'Credit Card' },
-    { label: 'Bank Transfer', value: 'Bank Transfer' }
-]
 
 export const ACTIONS_VALUE = {
     REMOVE: 'remove',

@@ -61,6 +61,35 @@ export const formatCountries = (countries) => {
     return countriesList
 }
 
+// Format Select Picker Name Value 
+// -----------------------------------------
+export const formatSelectPickerName = (items) => {
+    let itemList = []
+    items && hasValue(items) && hasLength(items) && (
+        itemList = items.map((item) => {
+            return {
+                label: item.name,
+                value: item.id
+            }
+        }))
+
+    return itemList
+}
+
+// Format List By Name Only
+// -----------------------------------------
+export const formatListByName = (items) => {
+    let itemList = []
+    if (items && typeof items !== 'undefined' && items.length != 0) {
+        itemList = items.map((item) => {
+            return {
+                title: item.name,
+                fullItem: item
+            }
+        })
+    }
+    return itemList
+}
 
 export const MAX_LENGTH = 255
 

@@ -24,8 +24,18 @@ import {
     setFilterPayments,
 } from '../actions';
 import { ROUTES } from '../../../navigation/routes';
+import { alertMe, hasValue } from '../../../api/global';
+import { getTitleByLanguage } from '../../../navigation/actions';
 
+const alreadyInUse = (error) => {
 
+    if (error.includes("errors") && error.includes("payment_number")) {
+        alertMe({
+            title: getTitleByLanguage("payments.alreadyInUseNumber")
+        })
+        return true;
+    }
+}
 
 function* getPayments(payloadData) {
 
@@ -118,8 +128,8 @@ function* createPayment(payloadData) {
             onResult && onResult(response.error)
         }
 
-    } catch (error) {
-        // console.log(error);
+    } catch ({ _bodyText }) {
+        hasValue(_bodyText) && alreadyInUse(_bodyText)
     } finally {
         yield put(paymentTriggerSpinner({ paymentLoading: false }));
     }
@@ -191,8 +201,8 @@ function* editPayment(payloadData) {
         navigation.navigate(ROUTES.MAIN_PAYMENTS)
         yield call(getPayments, payload = {});
 
-    } catch (error) {
-        // console.log(error);
+    } catch ({ _bodyText }) {
+        hasValue(_bodyText) && alreadyInUse(_bodyText)
     } finally {
         yield put(paymentTriggerSpinner({ paymentLoading: false }));
     }

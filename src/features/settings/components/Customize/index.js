@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Fragment } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
@@ -10,15 +10,16 @@ import {
     InputField,
     ToggleSwitch,
     CtDivider,
-    ListView,
-    InputModal,
+    Tabs,
 } from '../../../../components';
 import { ROUTES } from '../../../../navigation/routes';
-import { CUSTOMIZE_FORM, CUSTOMIZE_TYPE } from '../../constants';
+import { CUSTOMIZE_FORM, CUSTOMIZE_TYPE, PAYMENT_TABS } from '../../constants';
 import Lng from '../../../../api/lang/i18n';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 import { headerTitle } from '../../../../api/helper';
-import { alertMe } from '../../../../api/global';
+import { PaymentModes } from './PaymentModes'
+import { Units } from './Units';
+import { hasObjectLength } from '../../../../api/global';
 
 type IProps = {
     navigation: Object,
@@ -34,11 +35,13 @@ export class Customize extends React.Component<IProps> {
     constructor(props) {
         super(props);
 
+        this.paymentChild = React.createRef();
+        this.itemChild = React.createRef();
+
         this.state = {
             data: {},
             isUpdateAutoGenerate: false,
-            visible: false,
-            isCreateMethod: true
+            activeTab: PAYMENT_TABS.MODE,
         }
     }
 
@@ -48,15 +51,11 @@ export class Customize extends React.Component<IProps> {
             getCustomizeSettings,
             customizes,
             navigation,
-            type,
-            getPaymentModes,
         } = this.props
 
         let hasCustomizeApiCalled = customizes ? (typeof customizes === 'undefined' || customizes === null) : true
 
         hasCustomizeApiCalled && getCustomizeSettings()
-
-        type === CUSTOMIZE_TYPE.PAYMENTS && getPaymentModes()
 
         this.setState({ data: this.setParams() })
 
@@ -78,12 +77,6 @@ export class Customize extends React.Component<IProps> {
         this.state.isUpdateAutoGenerate &&
             this.props.setCustomizeSettings({ customizes: null })
         goBack(UNMOUNT)
-    }
-
-    onToggle = () => {
-        this.setState(({ visible }) => {
-            return { visible: !visible }
-        });
     }
 
     setParams = (values = null) => {
@@ -153,6 +146,12 @@ export class Customize extends React.Component<IProps> {
                 }
                 break;
 
+            case CUSTOMIZE_TYPE.ITEMS:
+                params = {
+                    headerTitle: "header.units",
+                }
+                break;
+
             default:
                 break;
         }
@@ -198,144 +197,31 @@ export class Customize extends React.Component<IProps> {
         })
     }
 
-    BOTTOM_ACTION = (handleSubmit) => {
-        const { language, loading } = this.props
+    BOTTOM_ACTION = () => {
+        const { language, loading, handleSubmit, type } = this.props
+        const { activeTab } = this.state
+
+        let isPaymentMode = (type === CUSTOMIZE_TYPE.PAYMENTS && activeTab === PAYMENT_TABS.MODE)
+        let isItemScreen = type === CUSTOMIZE_TYPE.ITEMS
+
+        let title = (isPaymentMode || isItemScreen) ? "button.add" : "button.save"
 
         return (
             <View style={styles.submitButton}>
                 <View style={{ flex: 1 }}>
                     <CtButton
-                        onPress={handleSubmit(this.onSave)}
-                        btnTitle={Lng.t("button.save", { locale: language })}
+                        onPress={() => isPaymentMode ?
+                            this.paymentChild.current.openModal() :
+                            isItemScreen ?
+                                this.itemChild.current.openModal()
+                                : handleSubmit(this.onSave)()
+                        }
+                        btnTitle={Lng.t(title, { locale: language })}
                         containerStyle={styles.handleBtn}
                         loading={loading}
                     />
                 </View>
             </View>
-        )
-    }
-
-    // Payment Actions
-
-    formatPaymentMethods = (methods) => {
-        let methodList = []
-        if (methods && typeof methods !== 'undefined' && methods.length != 0) {
-            methodList = methods.map((method) => {
-                return {
-                    title: method.name,
-                    fullItem: method
-                }
-            })
-        }
-        return methodList
-    }
-
-    onSelectPaymentMethod = ({ name, id }) => {
-        this.setFormField("methodId", id)
-        this.openModal(name)
-    }
-
-    onRemoveMethod = () => {
-        const {
-            language,
-            removePaymentMode,
-            formValues: { methodId = null },
-        } = this.props
-
-        alertMe({
-            title: Lng.t("alert.title", { locale: language }),
-            desc: Lng.t("payments.alertMode", { locale: language }),
-            showCancel: true,
-            okPress: () => {
-                this.onToggle()
-                removePaymentMode({ id: methodId })
-            }
-        })
-    }
-
-    onSaveMethod = () => {
-        const { isCreateMethod } = this.state
-        const {
-            formValues: { methodName = "", methodId = null },
-            createPaymentMode,
-            editPaymentMode
-        } = this.props
-
-        const params = {
-            id: methodId,
-            name: methodName
-        }
-
-        this.onToggle()
-
-        isCreateMethod ? createPaymentMode({ params }) :
-            editPaymentMode({ params, id: methodId })
-    }
-
-
-    openModal = (name = "") => {
-        this.setState({ isCreateMethod: name ? false : true })
-        this.setFormField("methodName", name)
-        this.onToggle()
-    }
-
-    PAYMENT_METHODS_LIST_VIEW = () => {
-        const { paymentMethods, language } = this.props
-
-        return (
-            <View style={styles.paymentListView}>
-                <View style={styles.rowViewContainer}>
-                    <View style={styles.rowView}>
-                        <Text style={[styles.autoGenerateHeader, { fontSize: 15 }]}>
-                            {Lng.t("payments.mode", { locale: language })}
-                        </Text>
-                    </View>
-                    <View style={styles.rowView}>
-                        <CtButton
-                            onPress={() => this.openModal()}
-                            btnTitle={Lng.t("button.add", { locale: language })}
-                            containerStyle={styles.handleBtn}
-                        />
-                    </View>
-                </View>
-
-                <ListView
-                    items={this.formatPaymentMethods(paymentMethods)}
-                    getFreshItems={(onHide) => {
-                        onHide && onHide()
-                    }}
-                    onPress={this.onSelectPaymentMethod}
-                    isEmpty={paymentMethods ? paymentMethods.length <= 0 : true}
-                    bottomDivider
-                    contentContainerStyle={{ flex: 3 }}
-                    emptyContentProps={{
-                        title: Lng.t("payments.empty.modeTitle", { locale: language }),
-                    }}
-                />
-            </View>
-        )
-    }
-
-    IMPORT_INPUT_MODAL = () => {
-        const { visible, isCreateMethod } = this.state
-        const { navigation, language } = this.props
-
-        return (
-            <InputModal
-                visible={visible}
-                onToggle={() => this.onToggle()}
-                navigation={navigation}
-                language={language}
-                headerTitle={isCreateMethod ?
-                    Lng.t("payments.addMode", { locale: language }) :
-                    Lng.t("payments.editMode", { locale: language })
-                }
-                hint={Lng.t("payments.modeHint", { locale: language })}
-                fieldName="methodName"
-                onSubmit={() => this.onSaveMethod()}
-                onRemove={() => this.onRemoveMethod()}
-                showRemoveButton={!isCreateMethod}
-            />
         )
     }
 
@@ -382,10 +268,55 @@ export class Customize extends React.Component<IProps> {
         )
     }
 
+    setActiveTab = (activeTab) => {
+        this.setState({ activeTab });
+    }
+
+    PAYMENT_CUSTOMIZE_TAB = () => {
+        const { language } = this.props
+        const { activeTab, data } = this.state
+
+        return (
+            <Tabs
+                activeTab={activeTab}
+                style={styles.tabs}
+                tabStyle={styles.tabView}
+                setActiveTab={this.setActiveTab}
+                tabs={[
+                    {
+                        Title: PAYMENT_TABS.MODE,
+                        tabName: Lng.t("payments.modes", { locale: language }),
+                        render: (
+                            <ScrollView>
+                                <PaymentModes
+                                    ref={this.paymentChild}
+                                    props={this.props}
+                                    setFormField={(field, value) => this.setFormField(field, value)}
+                                />
+                            </ScrollView>
+                        )
+                    },
+                    {
+                        Title: PAYMENT_TABS.PREFIX,
+                        tabName: Lng.t("payments.prefix", { locale: language }),
+                        render: (
+                            <View style={styles.bodyContainer}>
+
+                                {this.PREFIX_FIELD(language, data)}
+
+                                {this.TOGGLE_FIELD_VIEW(language, data)}
+
+                            </View>
+                        )
+                    }
+                ]}
+            />
+        )
+    }
+
     render() {
         const {
             navigation,
-            handleSubmit,
             language,
             type,
             isLoading,
@@ -395,8 +326,11 @@ export class Customize extends React.Component<IProps> {
         const { data } = this.state
 
         let toastMessage = navigation.getParam('toastMsg', '')
+        let isItemsScreen = (type === CUSTOMIZE_TYPE.ITEMS)
+        let isPaymentsScreen = (type === CUSTOMIZE_TYPE.PAYMENTS)
 
-        let loading = Object.keys(data).length === 0 || isLoading || Object.keys(formValues).length === 0
+        let loading = isItemsScreen ? !hasObjectLength(data) :
+            !hasObjectLength(data) || isLoading || !hasObjectLength(formValues)
 
         return (
             <DefaultLayout
@@ -404,30 +338,32 @@ export class Customize extends React.Component<IProps> {
                     leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZES),
                     title: Lng.t(data.headerTitle, { locale: language }),
                     titleStyle: headerTitle({ marginLeft: -26, marginRight: -50 }),
-                    rightIcon: "save",
-                    rightIconProps: {
-                        solid: true,
-                    },
-                    rightIconPress: handleSubmit(this.onSave),
+                    rightIconPress: null,
                     placement: "center",
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={this.BOTTOM_ACTION()}
                 toastProps={{
                     message: Lng.t(toastMessage, { locale: language }),
                     visible: toastMessage
                 }}
                 loadingProps={{ is: loading }}
+                hideScrollView
             >
 
-                {type !== 'CUSTOMIZE_TYPE.ADDRESSES' && (
+                {isPaymentsScreen && this.PAYMENT_CUSTOMIZE_TAB()}
+
+                {isItemsScreen && (
+                    <ScrollView>
+                        <Units
+                            ref={this.itemChild}
+                            props={this.props}
+                            setFormField={(field, value) => this.setFormField(field, value)}
+                        />
+                    </ScrollView>
+                )}
+
+                {!isPaymentsScreen && !isItemsScreen && (
                     <View style={styles.bodyContainer}>
-
-                        {type === CUSTOMIZE_TYPE.PAYMENTS && this.PAYMENT_METHODS_LIST_VIEW()
-                        }
-
-                        {type === CUSTOMIZE_TYPE.PAYMENTS
-                            && this.IMPORT_INPUT_MODAL()
-                        }
 
                         {this.PREFIX_FIELD(language, data)}
 

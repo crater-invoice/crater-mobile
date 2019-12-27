@@ -1,6 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { colors } from '../../../../styles/colors';
 import { fonts } from '../../../../styles/fonts';
+
+const { width, height } = Dimensions.get('window');
 
 export default styles = StyleSheet.create({
 
@@ -23,15 +25,12 @@ export default styles = StyleSheet.create({
         borderWidth: 0.2,
     },
     autoGenerateHeader: {
-        marginTop: 10,
+        marginTop: 7,
         color: colors.dark2,
         fontFamily: fonts.poppins,
-        fontSize: 21,
+        fontSize: 20,
     },
 
-    paymentListView: {
-        marginBottom: 25
-    },
     // row
     rowViewContainer: {
         flex: 1,
@@ -39,5 +38,15 @@ export default styles = StyleSheet.create({
     },
     rowView: {
         flex: 1
+    },
+
+    // tabs
+    tabs: {
+        backgroundColor: colors.veryLightGray,
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10,
+    },
+    tabView: {
+        height: 55
     }
 });

@@ -15,7 +15,12 @@ const mapStateToProps = (state, { navigation }) => {
         customers: { customers },
     } = state;
 
-    const { estimate = null, nextEstimateNumber, estimateTemplates } = estimateData;
+    const {
+        estimate = null,
+        nextEstimateNumber,
+        nextEstimateNumberAttribute,
+        estimateTemplates
+    } = estimateData;
 
     let type = navigation.getParam('type')
 
@@ -37,12 +42,12 @@ const mapStateToProps = (state, { navigation }) => {
         initialValues: !isLoading ? {
             expiry_date: moment().add(7, 'days'),
             estimate_date: moment(),
-            estimate_number: nextEstimateNumber,
             discount_type: 'fixed',
             discount: 0,
             taxes: [],
             estimate_template_id: estimateTemplates[0] && estimateTemplates[0].id,
             ...estimate,
+            estimate_number: nextEstimateNumberAttribute || nextEstimateNumber,
             customer: estimate && estimate.user,
             template: estimate && estimate.estimate_template,
         } : null

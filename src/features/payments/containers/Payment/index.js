@@ -37,7 +37,7 @@ const mapStateToProps = (state, { navigation }) => {
         formValues: getFormValues(PAYMENT_FORM)(state) || {},
 
         initialValues: {
-            payment_mode: null
+            payment_method_id: null
         }
     };
 

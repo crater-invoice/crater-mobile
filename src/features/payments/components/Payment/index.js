@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
@@ -12,16 +12,17 @@ import {
     DatePickerField,
     SelectPickerField,
     SelectField,
+    FakeInput,
 } from '../../../../components';
 import { ROUTES } from '../../../../navigation/routes';
 import { DATE_FORMAT } from '../../../../api/consts/core';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { PAYMENT_ADD, PAYMENT_MODE, PAYMENT_EDIT, PAYMENT_FORM, PAYMENT_ACTIONS, ACTIONS_VALUE } from '../../constants';
+import { PAYMENT_ADD, PAYMENT_EDIT, PAYMENT_FORM, PAYMENT_ACTIONS, ACTIONS_VALUE } from '../../constants';
 import Lng from '../../../../api/lang/i18n';
 import { IMAGES } from '../../../../config';
 import { CUSTOMER_ADD } from '../../../customers/constants';
 import { INVOICES_STATUS_BG_COLOR, INVOICES_STATUS_TEXT_COLOR } from '../../../invoices/constants';
-import { MAX_LENGTH, alertMe } from '../../../../api/global';
+import { MAX_LENGTH, alertMe, hasValue, hasLength, formatSelectPickerName } from '../../../../api/global';
 
 let paymentRefs = {}
 
@@ -44,12 +45,13 @@ type IProps = {
 
 let editPaymentData = [
     "payment_date",
-    "payment_number",
     "user_id",
     "invoice_id",
-    "payment_mode",
+    "payment_method_id",
     "amount",
-    "notes"
+    "notes",
+    "payment_number",
+    "payment_prefix"
 ]
 
 export class Payment extends React.Component<IProps> {
@@ -57,6 +59,7 @@ export class Payment extends React.Component<IProps> {
         super(props);
         this.state = {
             invoices: [],
+            methods: [],
             selectedInvoice: '',
             selectedCustomer: '',
             selectedPaymentMode: '',
@@ -80,12 +83,23 @@ export class Payment extends React.Component<IProps> {
 
             getEditPayment({
                 id,
-                onResult: ({ payment, invoices }) => {
+                onResult: ({
+                    payment,
+                    invoices,
+                    nextPaymentNumber,
+                    payment_prefix,
+                    paymentMethods
+                }) => {
 
-                    let { user_id, payment_mode, invoice_id, invoice, amount } = payment
+                    let { user_id, payment_method_id, invoice_id, invoice, amount } = payment
 
                     editPaymentData.map((field) => {
-                        this.setFormField(field, payment[field])
+                        let value = payment[field]
+
+                        field === "payment_number" && (value = nextPaymentNumber)
+                        field === "payment_prefix" && (value = payment_prefix)
+
+                        this.setFormField(field, value)
                     })
 
                     invoice_id && invoice && this.setFormField('due',
@@ -95,7 +109,8 @@ export class Payment extends React.Component<IProps> {
                     this.setState({
                         selectedCustomer: user_id ? payment.user : '',
                         selectedInvoice: invoice_id ? payment.invoice.invoice_number : '',
-                        selectedPaymentMode: payment_mode,
+                        selectedPaymentMode: payment_method_id,
+                        methods: paymentMethods
                     })
 
                     if (user_id)
@@ -107,9 +122,16 @@ export class Payment extends React.Component<IProps> {
         }
         else {
             getCreatePayment({
-                onResult: (val) => {
-                    this.setFormField('payment_number', val.nextPaymentNumber)
+                onResult: ({
+                    nextPaymentNumberAttribute = '',
+                    payment_prefix = '',
+                    paymentMethods
+                }) => {
+                    this.setFormField('payment_number', nextPaymentNumberAttribute)
                     this.setFormField('payment_date', moment())
+                    this.setFormField('payment_prefix', payment_prefix)
+
+                    this.setState({ methods: paymentMethods })
 
                     hasRecordPayment ?
                         this.SetRecordPaymentField() :
@@ -164,7 +186,7 @@ export class Payment extends React.Component<IProps> {
     setFormField = (field, value) => {
         this.props.dispatch(change(PAYMENT_FORM, field, value));
 
-        if (field === 'payment_mode') {
+        if (field === 'payment_method_id') {
             this.setState({
                 selectedPaymentMode: value
             })
@@ -210,9 +232,14 @@ export class Payment extends React.Component<IProps> {
             language
         } = this.props
 
+        let params = {
+            ...values,
+            payment_number: `${values.payment_prefix}-${values.payment_number}`,
+        }
+
         type === PAYMENT_ADD ?
             createPayment({
-                params: values,
+                params,
                 navigation,
                 hasRecordPayment,
                 onResult: (val) => {
@@ -223,7 +250,7 @@ export class Payment extends React.Component<IProps> {
             :
             editPayment({
                 id: navigation.getParam('paymentId'),
-                params: values,
+                params,
                 navigation
             })
     };
@@ -267,25 +294,15 @@ export class Payment extends React.Component<IProps> {
     removePayment = () => {
         const { removePayment, navigation, language } = this.props
 
-        Alert.alert(
-            Lng.t("alert.title", { locale: language }),
-            Lng.t("payments.alertDescription", { locale: language }),
-            [
-                {
-                    text: 'OK',
-                    onPress: () => removePayment({
-                        id: navigation.getParam('paymentId', null),
-                        navigation
-                    })
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => { },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
+        alertMe({
+            title: Lng.t("alert.title", { locale: language }),
+            desc: Lng.t("payments.alertDescription", { locale: language }),
+            showCancel: true,
+            okPress: () => removePayment({
+                id: navigation.getParam('paymentId', null),
+                navigation
+            })
+        })
     }
 
     onOptionSelect = (action) => {
@@ -325,7 +342,7 @@ export class Payment extends React.Component<IProps> {
             getUnpaidInvoicesLoading,
             type,
             getCustomers,
-            formValues: { due = '', amount = 0 },
+            formValues: { due = '', amount = 0, payment_prefix = '' },
             submitFailed = false,
         } = this.props;
 
@@ -334,6 +351,7 @@ export class Payment extends React.Component<IProps> {
             selectedCustomer,
             selectedPaymentMode,
             invoices,
+            methods,
             isLoading
         } = this.state
 
@@ -386,16 +404,13 @@ export class Payment extends React.Component<IProps> {
                         <View style={styles.numberDateField}>
                             <Field
                                 name="payment_number"
-                                component={InputField}
-                                hint={Lng.t("payments.number", { locale: language })}
-                                inputProps={{
-                                    returnKeyType: 'next',
-                                    autoCapitalize: 'none',
-                                    autoCorrect: true,
-                                }}
-                                editable={false}
-                                inputContainerStyle={styles.paymentNumberField}
+                                component={FakeInput}
+                                label={Lng.t("payments.number", { locale: language })}
                                 isRequired
+                                prefixProps={{
+                                    fieldName: "payment_number",
+                                    prefix: payment_prefix,
+                                }}
                             />
                         </View>
                     </View>
@@ -507,14 +522,14 @@ export class Payment extends React.Component<IProps> {
                     />
 
                     <Field
-                        name="payment_mode"
+                        name="payment_method_id"
                         component={SelectPickerField}
                         label={Lng.t("payments.mode", { locale: language })}
                         fieldIcon='align-center'
-                        items={PAYMENT_MODE}
+                        items={formatSelectPickerName(methods)}
                         selectedItem={selectedPaymentMode}
                         onChangeCallback={(val) => {
-                            this.setFormField('payment_mode', val)
+                            this.setFormField('payment_method_id', val)
                         }}
                         onDonePress={() => paymentRefs.notes.focus()}
                         defaultPickerOptions={{

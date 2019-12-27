@@ -24,7 +24,7 @@ import { colors } from '../../../../styles/colors';
 import Lng from '../../../../api/lang/i18n';
 import { goBack, UNMOUNT, MOUNT } from '../../../../navigation/actions';
 import { ADD_TAX } from '../../../settings/constants';
-import { MAX_LENGTH, alertMe } from '../../../../api/global';
+import { MAX_LENGTH, alertMe, formatSelectPickerName } from '../../../../api/global';
 
 export class Item extends React.Component {
     constructor(props) {
@@ -35,7 +35,9 @@ export class Item extends React.Component {
     }
 
     componentDidMount() {
-        const { navigation } = this.props
+        const { navigation, getItemUnits } = this.props
+
+        getItemUnits()
         goBack(MOUNT, navigation)
     }
     componentWillMount() {
@@ -315,6 +317,7 @@ export class Item extends React.Component {
             language,
             type,
             taxTypes,
+            units,
             formValues: { taxes }
         } = this.props;
 
@@ -336,9 +339,7 @@ export class Item extends React.Component {
                     rightIconPress: handleSubmit(this.saveItem),
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{
-                    is: loading,
-                }}
+                loadingProps={{ is: loading }}
             >
                 <View style={styles.bodyContainer}>
                     <Field
@@ -356,7 +357,6 @@ export class Item extends React.Component {
                             }
                         }}
                     />
-
 
                     <Field
                         name="price"
@@ -376,10 +376,10 @@ export class Item extends React.Component {
                     />
 
                     <Field
-                        name="unit"
+                        name="unit_id"
                         component={SelectPickerField}
                         label={Lng.t("items.unit", { locale: language })}
-                        items={ITEM_UNITS}
+                        items={formatSelectPickerName(units)}
                         fieldIcon={'balance-scale'}
                         containerStyle={styles.selectPicker}
                         defaultPickerOptions={{

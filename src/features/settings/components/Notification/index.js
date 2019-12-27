@@ -31,7 +31,6 @@ export class Notification extends React.Component<IProps> {
             invoiceStatus: null,
             estimateStatus: null,
             email: '',
-            visibleToast: ''
         }
     }
 
@@ -63,6 +62,17 @@ export class Notification extends React.Component<IProps> {
     componentDidMount() {
         const { navigation } = this.props
         goBack(MOUNT, navigation)
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+
+        const { navigation } = nextProps
+        const toastMsg = navigation.getParam('toastMsg', null)
+
+        toastMsg &&
+            setTimeout(() => {
+                navigation.setParams({ 'toastMsg': null })
+            }, 2500);
     }
 
     componentWillUnmount() {
@@ -111,7 +121,9 @@ export class Notification extends React.Component<IProps> {
     }
 
     toggleToast = (msg) => {
-        this.setState({ visibleToast: msg })
+        this.props.navigation.setParams({
+            "toastMsg": msg
+        })
     }
 
     render() {
@@ -122,7 +134,9 @@ export class Notification extends React.Component<IProps> {
             getSettingItemLoading,
         } = this.props;
 
-        const { invoiceStatus, estimateStatus, visibleToast } = this.state
+        const { invoiceStatus, estimateStatus } = this.state
+        let toastMessage = navigation.getParam('toastMsg', '')
+
         return (
             <DefaultLayout
                 headerProps={{
@@ -141,8 +155,8 @@ export class Notification extends React.Component<IProps> {
                         estimateStatus === null
                 }}
                 toastProps={{
-                    message: Lng.t(visibleToast, { locale: language }),
-                    visible: visibleToast,
+                    message: Lng.t(toastMessage, { locale: language }),
+                    visible: toastMessage,
                     containerStyle: styles.toastContainer
                 }}
             >

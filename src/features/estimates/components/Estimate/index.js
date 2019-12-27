@@ -20,6 +20,7 @@ import {
     SelectField,
     SelectPickerField,
     CurrencyFormat,
+    FakeInput
 } from '../../../../components';
 import { ROUTES } from '../../../../navigation/routes';
 import {
@@ -187,6 +188,7 @@ export class Estimate extends React.Component<IProps> {
             type,
             editEstimate,
             language,
+            estimateData: { estimate_prefix = '' } = {}
         } = this.props
 
         if (this.finalAmount() < 0) {
@@ -196,6 +198,7 @@ export class Estimate extends React.Component<IProps> {
 
         let estimate = {
             ...values,
+            estimate_number: `${estimate_prefix}-${values.estimate_number}`,
             total: this.finalAmount(),
             sub_total: this.estimateSubTotal(),
             tax: this.estimateTax() + this.estimateCompoundTax(),
@@ -778,7 +781,8 @@ export class Estimate extends React.Component<IProps> {
             estimateData: {
                 estimateTemplates,
                 discount_per_item,
-                tax_per_item
+                tax_per_item,
+                estimate_prefix
             } = {},
             estimateItems,
             getItems,
@@ -859,19 +863,15 @@ export class Estimate extends React.Component<IProps> {
 
                     <Field
                         name="estimate_number"
-                        component={InputField}
+                        component={FakeInput}
+                        label={Lng.t("estimates.estimateNumber", { locale: language })}
                         isRequired
-                        hint={Lng.t("estimates.estimateNumber", { locale: language })}
-                        leftIcon={'hashtag'}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
+                        prefixProps={{
+                            fieldName: "estimate_number",
+                            prefix: estimate_prefix,
+                            icon: 'hashtag',
+                            iconSolid: false
                         }}
-                        refLinkFn={(ref) => {
-                            estimateRefs.number = ref;
-                        }}
-                        editable={false}
                     />
 
                     <Field

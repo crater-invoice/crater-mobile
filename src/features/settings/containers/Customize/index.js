@@ -12,6 +12,7 @@ const mapStateToProps = (state, { navigation }) => {
         settings: {
             customizes,
             paymentMethods,
+            units,
             loading: {
                 getCustomizeLoading,
                 paymentModesLoading,
@@ -29,6 +30,7 @@ const mapStateToProps = (state, { navigation }) => {
         type,
         customizes,
         paymentMethods,
+        units,
         isLoading,
         loading: customizeLoading,
         initialValues: !isLoading ? {
@@ -44,10 +46,13 @@ const mapDispatchToProps = {
     editCustomizeSettings: customizeAction.editCustomizeSettings,
     editSettingItem: customizeAction.editSettingItem,
     // Payment Methods
-    getPaymentModes: customizeAction.getPaymentModes,
     createPaymentMode: customizeAction.createPaymentMode,
     editPaymentMode: customizeAction.editPaymentMode,
-    removePaymentMode: customizeAction.removePaymentMode
+    removePaymentMode: customizeAction.removePaymentMode,
+    // Item Unit
+    createItemUnit: customizeAction.createItemUnit,
+    editItemUnit: customizeAction.editItemUnit,
+    removeItemUnit: customizeAction.removeItemUnit
 };
 
 //  Redux Forms

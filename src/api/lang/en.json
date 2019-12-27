@@ -41,6 +41,7 @@
         "addItem": "Add Item",
         "editItem": "Edit Item",
         "items": "Items",
+        "units": "Units",
         "reports": "Reports",
         "salesReport": "Sales Report",
         "profitAndLossReport": "Profit & Loss Report",
@@ -91,7 +92,8 @@
             "removeDescription": "You will not be able to recover this Invoice",
             "paymentAttachedTitle": "Action Failed",
             "paymentAttachedDescription": "Cannot delete an invoice with an existing payment.",
-            "draftTitle": "Save changes?"
+            "draftTitle": "Save changes?",
+            "alreadyInUseNumber": "The invoice number has already been taken."
         },
         "empty": {
             "due": {
@@ -170,6 +172,8 @@
         "customer": "Customer",
         "customerPlaceholder": "Select or Add new Customer",
         "mode": "Payment Mode",
+        "modes": "Payment Modes",
+        "prefix": "Payment Prefix",
         "addMode": "Add Payment Mode",
         "editMode": "Edit Payment Mode",
         "modeHint": "Mode Name",
@@ -183,6 +187,7 @@
         "alertDescription": "You will not be able to recover this Payment",
         "alertMode": "You will not be able to recover this Payment Mode",
         "alreadyInUseMode": "Payment Mode is already in use",
+        "alreadyInUseNumber": "The payment number has already been taken.",
         "removePayment": "Delete",
         "empty": {
             "title": "No payments yet!",
@@ -225,8 +230,13 @@
         "taxes": "Taxes",
         "selectTax": "Select or Add New Taxes",
         "unit": "Unit",
+        "unitHint": "Unit Name",
+        "addUnit": "Add Item Unit",
+        "editUnit": "Edit Item Unit",
         "unitPlaceholder": "Select unit",
         "alertDescription": "You will not be able to recover this Item",
+        "alertUnit": "You will not be able to recover this Item unit",
+        "alreadyInUseUnit": "Item Unit is already in use",
         "lessAmount": "Total Amount should't less than 0",
         "alreadyAttachTitle": "Action Failed",
         "alreadyAttachDescription": "Cannot delete an item which is already in use",
@@ -372,7 +382,8 @@
             "convertToInvoiceDescription": "Are you sure you want to convert this Estimate into an Invoice?",
             "removeDescription": "You will not be able to recover this Estimate",
             "lessAmount": "Total Amount should't less than 0",
-            "draftTitle": "Save changes?"
+            "draftTitle": "Save changes?",
+            "alreadyInUseNumber": "The estimate number has already been taken."
         },
         "empty": {
             "sent": {

@@ -39,9 +39,19 @@ import {
 import { store } from '../../../store';
 import { setInvoices } from '../../invoices/actions';
 import { ROUTES } from '../../../navigation/routes';
-import { alertMe } from '../../../api/global';
+import { alertMe, hasValue } from '../../../api/global';
 import { getTitleByLanguage } from '../../../navigation/actions';
 
+
+const alreadyInUse = (error) => {
+
+    if (error.includes("errors") && error.includes("estimate_number")) {
+        alertMe({
+            title: getTitleByLanguage("estimates.alert.alreadyInUseNumber")
+        })
+        return true;
+    }
+}
 
 function* getEstimates(payloadData) {
 
@@ -256,8 +266,8 @@ function* createEstimate(payloadData) {
             onResult && onResult(response.url)
         }
 
-    } catch (error) {
-        // console.log(error);
+    } catch ({ _bodyText }) {
+        hasValue(_bodyText) && alreadyInUse(_bodyText)
     } finally {
         yield put(estimateTriggerSpinner({ estimateLoading: false }));
     }
@@ -288,8 +298,8 @@ function* editEstimate(payloadData) {
 
         onResult && onResult(response.url)
 
-    } catch (error) {
-        // console.log(error);
+    } catch ({ _bodyText }) {
+        hasValue(_bodyText) && alreadyInUse(_bodyText)
     } finally {
         yield put(estimateTriggerSpinner({ estimateLoading: false }));
     }

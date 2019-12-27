@@ -68,6 +68,14 @@ export const CREATE_PAYMENT_MODE = 'payments/CREATE_PAYMENT_MODE';
 export const EDIT_PAYMENT_MODE = 'payments/EDIT_PAYMENT_MODE';
 export const REMOVE_PAYMENT_MODE = 'payments/REMOVE_PAYMENT_MODE';
 
+// Item Unit
+export const GET_ITEM_UNITS = 'units/GET_ITEM_UNITS';
+export const SET_ITEM_UNITS = 'units/SET_ITEM_UNITS';
+export const SET_ITEM_UNIT = 'units/SET_ITEM_UNIT';
+export const CREATE_ITEM_UNIT = 'units/CREATE_ITEM_UNIT';
+export const EDIT_ITEM_UNIT = 'units/EDIT_ITEM_UNIT';
+export const REMOVE_ITEM_UNIT = 'units/REMOVE_ITEM_UNIT';
+
 // Taxes
 export const GET_TAXES = 'taxes/GET_TAXES';
 export const SET_TAXES = 'taxes/SET_TAXES';
@@ -208,6 +216,11 @@ export const CUSTOMIZES_MENU = (language, Lng) => {
     ]
 }
 
+export const PAYMENT_TABS = {
+    MODE: 'MODE',
+    PREFIX: 'PREFIX',
+};
+
 // Endpoint Api URL
 // -----------------------------------------
 export const GET_COMPANY_URL = () => `settings/company`
@@ -249,3 +262,9 @@ export const GET_PAYMENT_MODES_URL = () => `payment-methods`
 export const CREATE_PAYMENT_MODE_URL = () => `payment-methods`
 export const EDIT_PAYMENT_MODE_URL = (id) => `payment-methods/${id}`
 export const REMOVE_PAYMENT_MODE_URL = (id) => `payment-methods/${id}`
+
+// Item Unit
+export const GET_ITEM_UNITS_URL = () => `units`
+export const CREATE_ITEM_UNIT_URL = () => `units`
+export const EDIT_ITEM_UNIT_URL = (id) => `units/${id}`
+export const REMOVE_ITEM_UNIT_URL = (id) => `units/${id}`

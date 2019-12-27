@@ -19,6 +19,7 @@ import {
     SelectField,
     SelectPickerField,
     CurrencyFormat,
+    FakeInput
 } from '../../../../components';
 import { ROUTES } from '../../../../navigation/routes';
 import {
@@ -182,6 +183,7 @@ export class Invoice extends React.Component<IProps> {
             type,
             editInvoice,
             language,
+            invoiceData: { invoice_prefix = '' } = {}
         } = this.props
 
         if (this.finalAmount() < 0) {
@@ -191,6 +193,7 @@ export class Invoice extends React.Component<IProps> {
 
         let invoice = {
             ...values,
+            invoice_number: `${invoice_prefix}-${values.invoice_number}`,
             total: this.finalAmount(),
             sub_total: this.invoiceSubTotal(),
             tax: this.invoiceTax() + this.invoiceCompoundTax(),
@@ -773,7 +776,8 @@ export class Invoice extends React.Component<IProps> {
             invoiceData: {
                 invoiceTemplates,
                 discount_per_item,
-                tax_per_item
+                tax_per_item,
+                invoice_prefix
             } = {},
             invoiceItems,
             getItems,
@@ -859,16 +863,15 @@ export class Invoice extends React.Component<IProps> {
 
                     <Field
                         name="invoice_number"
-                        component={InputField}
+                        component={FakeInput}
+                        label={Lng.t("invoices.invoiceNumber", { locale: language })}
                         isRequired
-                        hint={Lng.t("invoices.invoiceNumber", { locale: language })}
-                        leftIcon={'hashtag'}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
+                        prefixProps={{
+                            fieldName: "invoice_number",
+                            prefix: invoice_prefix,
+                            icon: 'hashtag',
+                            iconSolid: false,
                         }}
-                        editable={false}
                     />
 
                     <Field

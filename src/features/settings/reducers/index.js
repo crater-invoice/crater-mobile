@@ -11,6 +11,8 @@ import {
     SET_CUSTOMIZE_SETTINGS,
     SET_PAYMENT_MODES,
     SET_PAYMENT_MODE,
+    SET_ITEM_UNITS,
+    SET_ITEM_UNIT,
 } from '../constants';
 
 const initialState = {
@@ -43,10 +45,14 @@ const initialState = {
         // payment method
         paymentModesLoading: false,
         paymentModeLoading: false,
+        // Item Unit
+        itemUnitsLoading: false,
+        itemUnitLoading: false,
     },
     preferences: null,
     categories: [],
     paymentMethods: [],
+    units: [],
     customizes: null,
     account: null,
     taxByItems: false,
@@ -172,6 +178,36 @@ export default function settingReducer(state = initialState, action) {
                     (id !== payload.id))
 
                 return { ...state, paymentMethods: remainMethods };
+            }
+
+            return { ...state }
+
+        case SET_ITEM_UNITS:
+            return { ...state, units: payload.units };
+
+        case SET_ITEM_UNIT:
+            const { unit } = payload
+
+            if (payload.isCreated) {
+                return {
+                    ...state,
+                    units: [...unit, ...state.units]
+                };
+            }
+            if (payload.isUpdated) {
+                const unitList = state.units.filter(({ id }) =>
+                    (id !== unit[0]["id"]))
+
+                return {
+                    ...state,
+                    units: [...unit, ...unitList]
+                };
+            }
+            if (payload.isRemove) {
+                const remainUnits = state.units.filter(({ id }) =>
+                    (id !== payload.id))
+
+                return { ...state, units: remainUnits };
             }
 
             return { ...state }

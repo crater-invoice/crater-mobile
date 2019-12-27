@@ -9,7 +9,8 @@ export const validate = (values) => {
 
     errors.estimate_date = getError(estimate_date, ['required']);
     errors.expiry_date = getError(expiry_date, ['required']);
-    errors.estimate_number = getError(estimate_number, ['requiredField']);
+
+    errors.estimate_number = getError(estimate_number, ['requiredField', 'isNumberFormat']);
 
     errors.items = getError(items, ['requiredCheckArray']);
 

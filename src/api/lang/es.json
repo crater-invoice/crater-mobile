@@ -41,6 +41,7 @@
         "addItem": "Añadir artículo",
         "editItem": "Editar elemento",
         "items": "Artículos",
+        "units": "Unidades",
         "reports": "Informes",
         "salesReport": "Reporte de ventas",
         "profitAndLossReport": "Informe de pérdidas y ganancias",
@@ -91,7 +92,8 @@
             "removeDescription": "No podrá recuperar esta factura",
             "paymentAttachedTitle": "Accion: Fallida",
             "paymentAttachedDescription": "No se puede eliminar una factura con un pago existente.",
-            "draftTitle": "¿Quieres ahorrar?"
+            "draftTitle": "¿Quieres ahorrar?",
+            "alreadyInUseNumber": "El número de factura ya ha sido tomado."
         },
         "empty": {
             "due": {
@@ -170,6 +172,8 @@
         "customer": "Cliente",
         "customerPlaceholder": "Seleccionar cliente",
         "mode": "Modo de pago",
+        "modes": "Modos de pago",
+        "prefix": "Prefijo de pago",
         "addMode": "Añadir modo de pago",
         "editMode": "Editar modo de pago",
         "modeHint": "Nombre del modo",
@@ -183,6 +187,7 @@
         "alertDescription": "No podrá recuperar este pago",
         "alertMode": "No podrá recuperar este modo de pago",
         "alreadyInUseMode": "El modo de pago ya está en uso",
+        "alreadyInUseNumber": "El número de pago ya ha sido tomado.",
         "removePayment": "Eliminar",
         "empty": {
             "title": "Aún no hay pagos!",
@@ -225,8 +230,13 @@
         "taxes": "Impuestos",
         "selectTax": "Seleccionar impuestos",
         "unit": "Unidad",
+        "unitHint": "Nombre de la unidad",
+        "addUnit": "Agregar unidad de artículo",
+        "editUnit": "Editar unidad de artículo",
         "unitPlaceholder": "Seleccionar unidad",
         "alertDescription": "No podrás recuperar este artículo",
+        "alertUnit": "No podrás recuperar esta unidad de artículo",
+        "alreadyInUseUnit": "Unidad de artículo ya está en uso",
         "lessAmount": "La cantidad total no debe ser inferior a 0",
         "alreadyAttachTitle": "Accion: Fallida",
         "alreadyAttachDescription": "No se puede eliminar un elemento que ya está en uso.",
@@ -372,7 +382,8 @@
             "convertToInvoiceDescription": "¿Está seguro de que desea convertir esta estimación en una factura?",
             "removeDescription": "No podrá recuperar esta estimación",
             "lessAmount": "La cantidad total no debe ser inferior a 0",
-            "draftTitle": "¿Guardar cambios?"
+            "draftTitle": "¿Guardar cambios?",
+            "alreadyInUseNumber": "El número estimado ya ha sido tomado."
         },
         "empty": {
             "sent": {

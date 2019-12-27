@@ -5,11 +5,16 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as MoreAction from '../../actions';
 import { ITEM_FORM, EDIT_ITEM } from '../../constants';
+import { getItemUnits } from '../../../settings/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         more: { loading, item },
-        settings: { taxByItems },
+        settings: {
+            taxByItems,
+            units,
+            loading: { itemUnitsLoading }
+        },
         global: { language, currency, taxTypes },
     } = state;
 
@@ -17,7 +22,7 @@ const mapStateToProps = (state, { navigation }) => {
 
     const type = navigation.getParam('type');
 
-    const isLoading = loading.itemLoading || (type === EDIT_ITEM && !item)
+    const isLoading = loading.itemLoading || itemUnitsLoading || (type === EDIT_ITEM && !item)
 
     return {
         loading: isLoading,
@@ -28,6 +33,8 @@ const mapStateToProps = (state, { navigation }) => {
         language,
         type,
         currency,
+        units,
+
         initialValues: !isLoading ? {
             taxes: [],
             ...item
@@ -41,6 +48,7 @@ const mapDispatchToProps = {
     getEditItem: MoreAction.getEditItem,
     removeItem: MoreAction.removeItem,
     clearItem: MoreAction.clearItem,
+    getItemUnits: getItemUnits
 };
 
 //  Redux Forms

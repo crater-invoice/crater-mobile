@@ -37,9 +37,19 @@ import {
 import { store } from '../../../store';
 import { checkConnection } from '../../../api/helper';
 import { ROUTES } from '../../../navigation/routes';
-import { alertMe } from '../../../api/global';
+import { alertMe, hasValue } from '../../../api/global';
 import { getTitleByLanguage } from '../../../navigation/actions';
 
+
+const alreadyInUse = (error) => {
+
+    if (error.includes("errors") && error.includes("invoice_number")) {
+        alertMe({
+            title: getTitleByLanguage("invoices.alert.alreadyInUseNumber")
+        })
+        return true;
+    }
+}
 
 function* getInvoices(payloadData) {
     const {
@@ -253,8 +263,8 @@ function* createInvoice(payloadData) {
             onResult && onResult(response.url)
         }
 
-    } catch (error) {
-        // console.log(error);
+    } catch ({ _bodyText }) {
+        hasValue(_bodyText) && alreadyInUse(_bodyText)
     } finally {
         yield put(invoiceTriggerSpinner({ invoiceLoading: false }));
     }
@@ -285,8 +295,8 @@ function* editInvoice(payloadData) {
 
         yield put(setInvoices({ invoices: [response.invoice], prepend: true }));
 
-    } catch (error) {
-        // console.log(error);
+    } catch ({ _bodyText }) {
+        hasValue(_bodyText) && alreadyInUse(_bodyText)
     } finally {
         yield put(invoiceTriggerSpinner({ invoiceLoading: false }));
     }
