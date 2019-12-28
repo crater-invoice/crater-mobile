@@ -47,7 +47,7 @@ const mapStateToProps = (state, { navigation }) => {
             taxes: [],
             estimate_template_id: estimateTemplates[0] && estimateTemplates[0].id,
             ...estimate,
-            estimate_number: nextEstimateNumberAttribute || nextEstimateNumber,
+            estimate_number: type === ESTIMATE_EDIT ? nextEstimateNumber : nextEstimateNumberAttribute,
             customer: estimate && estimate.user,
             template: estimate && estimate.estimate_template,
         } : null

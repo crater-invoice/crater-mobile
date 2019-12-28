@@ -93,7 +93,9 @@
             "paymentAttachedTitle": "Action: échoué",
             "paymentAttachedDescription": "Impossible de supprimer une facture avec un paiement existant.",
             "draftTitle": "Sauvegarder les modifications?",
-            "alreadyInUseNumber": "Le numéro de facture a déjà été pris."
+            "alreadyInUseNumber": "Le numéro de facture a déjà été pris.",
+            "sendEmail": "Cette facture sera envoyée par email au client",
+            "clone": "Cette facture sera clonée dans une nouvelle facture"
         },
         "empty": {
             "due": {
@@ -117,7 +119,8 @@
             "editInvoice": "Modifier la facture",
             "delete": "Effacer",
             "recordPayment": "Record de paiement",
-            "markAsSent": "Marquer comme envoyé"
+            "markAsSent": "Marquer comme envoyé",
+            "clone": "Cloner la facture"
         }
     },
     "customers": {

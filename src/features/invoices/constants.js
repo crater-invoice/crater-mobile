@@ -134,6 +134,7 @@ export const INVOICE_ACTIONS = {
     DELETE: 'delete',
     RECORD_PAYMENT: 'recordPayment',
     MARK_AS_SENT: 'markAsSent',
+    CLONE: 'clone',
 }
 
 export const EDIT_INVOICE_ACTIONS = (language, SentStatus = false, completeStatus = false) => {
@@ -159,18 +160,28 @@ export const EDIT_INVOICE_ACTIONS = (language, SentStatus = false, completeStatu
         value: INVOICE_ACTIONS.DELETE
     }]
 
+    const cloneAction = [{
+        label: Lng.t("invoices.actions.clone", { locale: language }),
+        value: INVOICE_ACTIONS.CLONE
+    }]
+
     if (SentStatus) {
         return [
+            ...cloneAction,
             ...paymentAction,
             ...deleteAction
         ]
     }
     else if (completeStatus) {
-        return [...deleteAction]
+        return [
+            ...cloneAction,
+            ...deleteAction
+        ]
     }
     else {
         return [
             ...markActions,
+            ...cloneAction,
             ...paymentAction,
             ...deleteAction
         ]

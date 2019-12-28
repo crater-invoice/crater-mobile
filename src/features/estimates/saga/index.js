@@ -164,7 +164,7 @@ function* addItem(payloadData) {
 
     try {
 
-        const { price, name, description, taxes, unit } = item
+        const { price, name, description, taxes, unit_id } = item
 
         const options = {
             path: CREATE_ITEM_URL(),
@@ -173,7 +173,7 @@ function* addItem(payloadData) {
                 description,
                 price,
                 taxes,
-                unit,
+                unit_id,
             }
         };
 

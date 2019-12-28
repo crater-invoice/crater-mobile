@@ -31,7 +31,7 @@ import { colors } from '../../../../styles/colors';
 import Lng from '../../../../api/lang/i18n';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 import { ADD_TAX } from '../../../settings/constants';
-import { MAX_LENGTH } from '../../../../api/global';
+import { MAX_LENGTH, formatSelectPickerName } from '../../../../api/global';
 import { ITEM_UNITS } from '../../../more/constants';
 
 export class InvoiceItem extends React.Component {
@@ -44,9 +44,10 @@ export class InvoiceItem extends React.Component {
     }
 
     componentWillMount() {
-        const { taxTypes } = this.props;
+        const { taxTypes, getItemUnits, itemId } = this.props;
 
         this.setState({ taxTypeList: taxTypes })
+        !itemId && getItemUnits && getItemUnits()
     }
 
     componentDidMount() {
@@ -71,6 +72,7 @@ export class InvoiceItem extends React.Component {
     };
 
     saveItem = (values) => {
+
         const {
             addItem,
             removeInvoiceItem,
@@ -386,6 +388,7 @@ export class InvoiceItem extends React.Component {
             itemId,
             taxTypes,
             taxPerItem,
+            units
         } = this.props;
 
         const isCreateItem = (type === ITEM_ADD)
@@ -465,10 +468,10 @@ export class InvoiceItem extends React.Component {
 
                     {(initialValues.unit || !itemId) && (
                         <Field
-                            name="unit"
+                            name="unit_id"
                             label={Lng.t("items.unit", { locale: language })}
                             component={SelectPickerField}
-                            items={ITEM_UNITS}
+                            items={formatSelectPickerName(units)}
                             defaultPickerOptions={{
                                 label: Lng.t("items.unitPlaceholder", { locale: language }),
                                 value: '',

@@ -93,7 +93,9 @@
             "paymentAttachedTitle": "Action Failed",
             "paymentAttachedDescription": "Cannot delete an invoice with an existing payment.",
             "draftTitle": "Save changes?",
-            "alreadyInUseNumber": "The invoice number has already been taken."
+            "alreadyInUseNumber": "The invoice number has already been taken.",
+            "sendEmail": "This invoice will be sent via email to the customer",
+            "clone": "This invoice will be cloned into a new Invoice"
         },
         "empty": {
             "due": {
@@ -117,7 +119,8 @@
             "editInvoice": "Edit Invoice",
             "delete": "Delete",
             "recordPayment": "Record Payment",
-            "markAsSent": "Mark As Sent"
+            "markAsSent": "Mark As Sent",
+            "clone": "Clone Invoice"
         }
     },
     "customers": {

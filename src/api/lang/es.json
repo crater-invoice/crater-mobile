@@ -93,7 +93,9 @@
             "paymentAttachedTitle": "Accion: Fallida",
             "paymentAttachedDescription": "No se puede eliminar una factura con un pago existente.",
             "draftTitle": "¿Quieres ahorrar?",
-            "alreadyInUseNumber": "El número de factura ya ha sido tomado."
+            "alreadyInUseNumber": "El número de factura ya ha sido tomado.",
+            "sendEmail": "Esta factura se enviará por correo electrónico al cliente.",
+            "clone": "Esta factura se clonará en una nueva factura."
         },
         "empty": {
             "due": {
@@ -117,7 +119,8 @@
             "editInvoice": "Editar factura",
             "delete": "Eliminar",
             "recordPayment": "Registro de pago",
-            "markAsSent": "Marcar como enviado"
+            "markAsSent": "Marcar como enviado",
+            "clone": "Factura de clonación"
         }
     },
     "customers": {

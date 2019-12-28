@@ -31,7 +31,7 @@ import { BUTTON_COLOR } from '../../../../api/consts/core';
 import { colors } from '../../../../styles/colors';
 import Lng from '../../../../api/lang/i18n';
 import { ADD_TAX } from '../../../settings/constants';
-import { MAX_LENGTH } from '../../../../api/global';
+import { MAX_LENGTH, formatSelectPickerName } from '../../../../api/global';
 import { ITEM_UNITS } from '../../../more/constants';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 export class EstimateItem extends React.Component {
@@ -43,7 +43,9 @@ export class EstimateItem extends React.Component {
     }
 
     componentDidMount() {
-        const { navigation } = this.props
+        const { navigation, getItemUnits, itemId } = this.props
+
+        !itemId && getItemUnits && getItemUnits()
 
         navigation.addListener(
             'didFocus',
@@ -381,6 +383,7 @@ export class EstimateItem extends React.Component {
             taxTypes,
             itemId,
             taxPerItem,
+            units
         } = this.props;
 
         const isCreateItem = (type === ITEM_ADD)
@@ -460,10 +463,10 @@ export class EstimateItem extends React.Component {
 
                     {(initialValues.unit || !itemId) && (
                         <Field
-                            name="unit"
+                            name="unit_id"
                             label={Lng.t("items.unit", { locale: language })}
                             component={SelectPickerField}
-                            items={ITEM_UNITS}
+                            items={formatSelectPickerName(units)}
                             defaultPickerOptions={{
                                 label: Lng.t("items.unitPlaceholder", { locale: language }),
                                 value: '',

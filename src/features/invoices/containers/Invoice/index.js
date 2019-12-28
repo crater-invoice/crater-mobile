@@ -48,7 +48,7 @@ const mapStateToProps = (state, { navigation }) => {
             taxes: [],
             invoice_template_id: invoiceTemplates[0] && invoiceTemplates[0].id,
             ...invoice,
-            invoice_number: nextInvoiceNumberAttribute || nextInvoiceNumber,
+            invoice_number: type === INVOICE_EDIT ? nextInvoiceNumber : nextInvoiceNumberAttribute,
             customer: invoice && invoice.user,
             template: invoice && invoice.invoice_template,
         } : null

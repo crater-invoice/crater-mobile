@@ -161,7 +161,7 @@ function* addItem(payloadData) {
 
     try {
 
-        const { price, name, description, taxes, unit } = item
+        const { price, name, description, taxes, unit_id } = item
 
         const options = {
             path: CREATE_ITEM_URL(),
@@ -169,7 +169,7 @@ function* addItem(payloadData) {
                 name,
                 description,
                 price,
-                unit,
+                unit_id,
                 taxes
             }
         };
@@ -410,7 +410,7 @@ function* changeInvoiceStatus(payloadData) {
 
         const response = yield call([Request, 'post'], options);
 
-        if (response.success) {
+        if (response.success || hasValue(response.invoice)) {
             navigation.navigate(ROUTES.MAIN_INVOICES)
             yield call(getInvoices, payload = {});
         }
