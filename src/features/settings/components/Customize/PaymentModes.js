@@ -35,10 +35,12 @@ export class PaymentModes extends Component {
             name: methodName
         }
 
-        this.onToggle()
+        if (methodName) {
+            this.onToggle()
 
-        isCreateMethod ? createPaymentMode({ params }) :
-            editPaymentMode({ params, id: methodId })
+            isCreateMethod ? createPaymentMode({ params }) :
+                editPaymentMode({ params, id: methodId })
+        }
     }
 
     onRemoveMethod = () => {

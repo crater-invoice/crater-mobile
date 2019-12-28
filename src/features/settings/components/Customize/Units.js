@@ -35,10 +35,12 @@ export class Units extends Component {
             name: unitName
         }
 
-        this.onToggle()
+        if (unitName) {
+            this.onToggle()
 
-        isCreateMethod ? createItemUnit({ params }) :
-            editItemUnit({ params, id: unitId })
+            isCreateMethod ? createItemUnit({ params }) :
+                editItemUnit({ params, id: unitId })
+        }
     }
 
     onRemove = () => {
