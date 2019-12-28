@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
@@ -102,28 +102,18 @@ export class Category extends React.Component<IProps> {
 
         const { removeCategory, navigation, language, formValues: { name } } = this.props
 
-        Alert.alert(
-            Lng.t("alert.title", { locale: language }),
-            Lng.t("categories.alertDescription", { locale: language }),
-            [
-                {
-                    text: 'OK',
-                    onPress: () => removeCategory({
-                        id: navigation.getParam('categoryId', null),
-                        navigation,
-                        onResult: () => {
-                            alertMe({ title: `${name} ${Lng.t("categories.alreadyUsed", { locale: language })}` })
-                        }
-                    })
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => { },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
+        alertMe({
+            title: Lng.t("alert.title", { locale: language }),
+            desc: Lng.t("categories.alertDescription", { locale: language }),
+            showCancel: true,
+            okPress: () => removeCategory({
+                id: navigation.getParam('categoryId', null),
+                navigation,
+                onResult: () => {
+                    alertMe({ title: `${name} ${Lng.t("categories.alreadyUsed", { locale: language })}` })
+                }
+            })
+        })
     }
 
     BOTTOM_ACTION = (handleSubmit) => {

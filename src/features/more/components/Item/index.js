@@ -1,11 +1,7 @@
 // @flow
 
 import React from 'react';
-import {
-    View,
-    Text,
-    Alert,
-} from 'react-native';
+import { View, Text } from 'react-native';
 import styles from './styles';
 import { Field, change } from 'redux-form';
 import {
@@ -104,38 +100,23 @@ export class Item extends React.Component {
 
     removeItem = () => {
         const { removeItem, itemId, navigation, language } = this.props
-        Alert.alert(
-            Lng.t("alert.title", { locale: language }),
-            Lng.t("items.alertDescription", { locale: language }),
-            [
-                {
-                    text: 'OK',
-                    onPress: () => {
-                        removeItem({
-                            id: itemId,
-                            onResult: (res) => {
-                                if (res.error) {
-                                    res.error === 'item_attached' && alertMe({
-                                        title: Lng.t("items.alreadyAttachTitle", { locale: language }),
-                                        desc: Lng.t("items.alreadyAttachDescription", { locale: language })
-                                    })
-                                }
-                                else {
-                                    navigation.navigate(ROUTES.GLOBAL_ITEMS)
-                                }
 
-                            }
+        alertMe({
+            title: Lng.t("alert.title", { locale: language }),
+            desc: Lng.t("items.alertDescription", { locale: language }),
+            showCancel: true,
+            okPress: () => removeItem({
+                id: itemId,
+                onResult: (res) => {
+                    res.error && res.error === 'item_attached' ?
+                        alertMe({
+                            title: Lng.t("items.alreadyAttachTitle", { locale: language }),
+                            desc: Lng.t("items.alreadyAttachDescription", { locale: language })
                         })
-                    }
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => { },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
+                        : navigation.navigate(ROUTES.GLOBAL_ITEMS)
+                }
+            })
+        })
 
     }
 

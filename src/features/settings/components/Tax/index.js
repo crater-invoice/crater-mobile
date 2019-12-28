@@ -9,7 +9,6 @@ import { BUTTON_COLOR } from '../../../../api/consts/core';
 import { Field } from 'redux-form';
 import Lng from '../../../../api/lang/i18n';
 import { ADD_TAX } from '../../constants';
-import { Alert } from 'react-native';
 import { UNMOUNT, MOUNT, goBack } from '../../../../navigation/actions';
 import { MAX_LENGTH, alertMe } from '../../../../api/global';
 
@@ -63,28 +62,18 @@ export class Tax extends React.Component {
             initialValues: { name }
         } = this.props
 
-        Alert.alert(
-            Lng.t("alert.title", { locale: language }),
-            Lng.t("taxes.alertDescription", { locale: language }),
-            [
-                {
-                    text: 'OK',
-                    onPress: () => removeTax({
-                        id: taxId,
-                        onResult: (val) => {
-                            val ? navigation.navigate(ROUTES.TAXES) :
-                                alertMe({ title: `${name} ${Lng.t("taxes.alreadyUsed", { locale: language })}` })
-                        }
-                    })
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => { },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
+        alertMe({
+            title: Lng.t("alert.title", { locale: language }),
+            desc: Lng.t("taxes.alertDescription", { locale: language }),
+            showCancel: true,
+            okPress: () => removeTax({
+                id: taxId,
+                onResult: (val) => {
+                    val ? navigation.navigate(ROUTES.TAXES) :
+                        alertMe({ title: `${name} ${Lng.t("taxes.alreadyUsed", { locale: language })}` })
+                }
+            })
+        })
     }
 
     BOTTOM_ACTION = (handleSubmit) => {

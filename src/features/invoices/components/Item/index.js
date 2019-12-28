@@ -1,12 +1,7 @@
 // @flow
 
 import React from 'react';
-import {
-    View,
-    Text,
-    ScrollView,
-    Alert,
-} from 'react-native';
+import { View, Text } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
@@ -31,8 +26,7 @@ import { colors } from '../../../../styles/colors';
 import Lng from '../../../../api/lang/i18n';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 import { ADD_TAX } from '../../../settings/constants';
-import { MAX_LENGTH, formatSelectPickerName } from '../../../../api/global';
-import { ITEM_UNITS } from '../../../more/constants';
+import { MAX_LENGTH, formatSelectPickerName, alertMe } from '../../../../api/global';
 
 export class InvoiceItem extends React.Component {
     constructor(props) {
@@ -132,26 +126,14 @@ export class InvoiceItem extends React.Component {
     removeItem = () => {
         const { removeInvoiceItem, itemId, navigation, language } = this.props
 
-        Alert.alert(
-            Lng.t("alert.title", { locale: language }),
-            '',
-            [
-                {
-                    text: 'OK',
-                    onPress: () => {
-                        navigation.navigate(ROUTES.INVOICE)
-                        removeInvoiceItem({ id: itemId })
-                    }
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => { },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
-
+        alertMe({
+            title: Lng.t("alert.title", { locale: language }),
+            showCancel: true,
+            okPress: () => {
+                navigation.navigate(ROUTES.INVOICE)
+                removeInvoiceItem({ id: itemId })
+            }
+        })
     }
 
     totalDiscount = () => {

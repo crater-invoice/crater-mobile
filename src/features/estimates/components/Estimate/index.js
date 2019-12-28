@@ -1,12 +1,7 @@
 // @flow
 
 import React from 'react';
-import {
-    View,
-    Text,
-    Alert,
-    Linking
-} from 'react-native';
+import { View, Text, Linking } from 'react-native';
 import { change } from 'redux-form';
 import { Field } from 'redux-form';
 import styles from './styles';
@@ -42,7 +37,7 @@ import { ESTIMATE_DISCOUNT_OPTION } from '../../constants';
 import { CUSTOMER_ADD } from '../../../customers/constants';
 import { IMAGES } from '../../../../config';
 import { ADD_TAX } from '../../../settings/constants';
-import { MAX_LENGTH } from '../../../../api/global';
+import { MAX_LENGTH, alertMe } from '../../../../api/global';
 import { itemsDescriptionStyle } from '../../../invoices/components/Invoice/styles';
 import { headerTitle } from '../../../../api/helper';
 
@@ -160,24 +155,15 @@ export class Estimate extends React.Component<IProps> {
             navigation.navigate(ROUTES.ESTIMATE_LIST)
             return
         }
-        Alert.alert(
-            Lng.t("estimates.alert.draftTitle", { locale: language }),
-            '',
-            [
-                {
-                    text: Lng.t("alert.action.saveAsDraft", { locale: language }),
-                    onPress: handleSubmit(this.onSubmitEstimate)
-                },
-                {
-                    text: Lng.t("alert.action.discard", { locale: language }),
-                    onPress: () => {
-                        navigation.navigate(ROUTES.ESTIMATE_LIST)
-                    },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
+
+        alertMe({
+            title: Lng.t("estimates.alert.draftTitle", { locale: language }),
+            showCancel: true,
+            cancelText: Lng.t("alert.action.discard", { locale: language }),
+            cancelPress: () => navigation.navigate(ROUTES.ESTIMATE_LIST),
+            okText: Lng.t("alert.action.saveAsDraft", { locale: language }),
+            okPress: handleSubmit(this.onSubmitEstimate)
+        })
     }
 
     onSubmitEstimate = (values, status = 'draft') => {
@@ -695,82 +681,38 @@ export class Estimate extends React.Component<IProps> {
                 break;
 
             case ESTIMATE_ACTIONS.CONVERT_TO_INVOICE:
-                Alert.alert(
-                    '',
-                    Lng.t("estimates.alert.convertToInvoiceDescription", { locale: language }),
-                    [
-                        {
-                            text: 'OK',
-                            onPress: () => {
-                                convertToInvoice({
-                                    id: navigation.getParam('id'),
-                                    onResult: () => {
-                                        navigation.navigate(ROUTES.MAIN_INVOICES)
-                                    }
-                                })
-                            }
-                        },
-                        {
-                            text: 'Cancel',
-                            onPress: () => { },
-                            style: 'cancel',
-                        },
-                    ],
-                    { cancelable: false }
-                );
+                alertMe({
+                    desc: Lng.t("estimates.alert.convertToInvoiceDescription", { locale: language }),
+                    showCancel: true,
+                    okPress: () => convertToInvoice({
+                        id: navigation.getParam('id'),
+                        onResult: () => {
+                            navigation.navigate(ROUTES.MAIN_INVOICES)
+                        }
+                    })
+                })
                 break;
 
             case ESTIMATE_ACTIONS.DELETE:
-                Alert.alert(
-                    Lng.t("alert.title", { locale: language }),
-                    Lng.t("estimates.alert.removeDescription", { locale: language }),
-                    [
-                        {
-                            text: 'OK',
-                            onPress: () => {
-                                removeEstimate({
-                                    id: navigation.getParam('id'),
-                                    onResult: () => {
-                                        navigation.navigate(ROUTES.ESTIMATE_LIST)
-                                    }
-                                })
-                            }
-                        },
-                        {
-                            text: 'Cancel',
-                            onPress: () => { },
-                            style: 'cancel',
-                        },
-                    ],
-                    { cancelable: false }
-                );
+
+                alertMe({
+                    title: Lng.t("alert.title", { locale: language }),
+                    desc: Lng.t("estimates.alert.removeDescription", { locale: language }),
+                    showCancel: true,
+                    okPress: () => removeEstimate({
+                        id: navigation.getParam('id'),
+                        onResult: () => {
+                            navigation.navigate(ROUTES.ESTIMATE_LIST)
+                        }
+                    })
+                })
+
                 break;
 
             default:
                 break;
         }
 
-    }
-
-    handleEstimateAction = (action, title) => {
-        const { handleSubmit } = this.props
-
-        Alert.alert(
-            title,
-            '',
-            [
-                {
-                    text: 'OK',
-                    onPress: handleSubmit((val) => this.onSubmitEstimate(val, action))
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => { },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
     }
 
     render() {
