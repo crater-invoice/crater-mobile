@@ -89,6 +89,7 @@
         "fromDate": "From Date",
         "toDate": "To Date",
         "alert": {
+            "lessAmount": "Total Amount shouldn't less than 0",
             "removeDescription": "You will not be able to recover this Invoice",
             "paymentAttachedTitle": "Action Failed",
             "paymentAttachedDescription": "Cannot delete an invoice with an existing payment.",

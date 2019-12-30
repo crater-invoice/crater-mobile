@@ -89,6 +89,7 @@
         "fromDate": "Partir de la date",
         "toDate": "À ce jour",
         "alert": {
+            "lessAmount": "Le montant total ne doit pas être inférieur à 0",
             "removeDescription": "Vous ne pourrez pas récupérer cette facture",
             "paymentAttachedTitle": "Action: échoué",
             "paymentAttachedDescription": "Impossible de supprimer une facture avec un paiement existant.",
