@@ -20,22 +20,30 @@ import { colors } from '../../../../styles/colors';
 import Lng from '../../../../api/lang/i18n';
 import { goBack, UNMOUNT, MOUNT } from '../../../../navigation/actions';
 import { ADD_TAX } from '../../../settings/constants';
-import { MAX_LENGTH, alertMe, formatSelectPickerName } from '../../../../api/global';
+import { MAX_LENGTH, alertMe, formatSelectPickerName, hasValue } from '../../../../api/global';
 
 export class Item extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            isTaxPerItem: true
         }
     }
 
     componentDidMount() {
-        const { navigation, getItemUnits } = this.props
+        const { navigation, getItemUnits, getSettingItem, type } = this.props
 
         getItemUnits()
+
+        type === ADD_ITEM && getSettingItem({
+            key: 'tax_per_item',
+            onResult: (res) => this.setState({ isTaxPerItem: res === 'YES' })
+        })
+
         goBack(MOUNT, navigation)
     }
+
     componentWillMount() {
         const { getEditItem, type, itemId } = this.props;
 
@@ -290,6 +298,59 @@ export class Item extends React.Component {
         )
     }
 
+    TAX_FIELD_VIEW = () => {
+        const {
+            navigation,
+            language,
+            taxTypes,
+            formValues: { taxes }
+        } = this.props;
+
+        return (
+            <Field
+                name="taxes"
+                items={taxTypes}
+                displayName="name"
+                label={Lng.t("items.taxes", { locale: language })}
+                component={SelectField}
+                searchFields={['name', 'percent']}
+                placeholder={Lng.t("items.selectTax", { locale: language })}
+                onlyPlaceholder
+                fakeInputProps={{
+                    icon: 'percent',
+                    rightIcon: 'angle-right',
+                    color: colors.gray,
+                }}
+                navigation={navigation}
+                isMultiSelect
+                language={language}
+                concurrentMultiSelect
+                isInternalSearch
+                compareField="id"
+                valueCompareField="tax_type_id"
+                listViewProps={{
+                    contentContainerStyle: { flex: 2 }
+                }}
+                headerProps={{
+                    title: Lng.t("taxes.title", { locale: language }),
+                }}
+                rightIconPress={
+                    () => navigation.navigate(ROUTES.TAX, {
+                        type: ADD_TAX,
+                        onSelect: (val) => {
+                            this.setFormField('taxes',
+                                [...val, ...taxes]
+                            )
+                        }
+                    })
+                }
+                emptyContentProps={{
+                    contentType: "taxes",
+                }}
+            />
+        )
+    }
+
     render() {
         const {
             navigation,
@@ -297,11 +358,10 @@ export class Item extends React.Component {
             loading,
             language,
             type,
-            taxTypes,
             units,
             formValues: { taxes }
         } = this.props;
-
+        const { isTaxPerItem } = this.state
         const isCreateItem = (type === ADD_ITEM)
         let itemRefs = {}
 
@@ -320,7 +380,7 @@ export class Item extends React.Component {
                     rightIconPress: handleSubmit(this.saveItem),
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{ is: loading }}
+                loadingProps={{ is: loading || !hasValue(isTaxPerItem) }}
             >
                 <View style={styles.bodyContainer}>
                     <Field
@@ -369,47 +429,7 @@ export class Item extends React.Component {
                         }}
                     />
 
-                    <Field
-                        name="taxes"
-                        items={taxTypes}
-                        displayName="name"
-                        label={Lng.t("items.taxes", { locale: language })}
-                        component={SelectField}
-                        searchFields={['name', 'percent']}
-                        placeholder={Lng.t("items.selectTax", { locale: language })}
-                        onlyPlaceholder
-                        fakeInputProps={{
-                            icon: 'percent',
-                            rightIcon: 'angle-right',
-                            color: colors.gray,
-                        }}
-                        navigation={navigation}
-                        isMultiSelect
-                        language={language}
-                        concurrentMultiSelect
-                        isInternalSearch
-                        compareField="id"
-                        valueCompareField="tax_type_id"
-                        listViewProps={{
-                            contentContainerStyle: { flex: 2 }
-                        }}
-                        headerProps={{
-                            title: Lng.t("taxes.title", { locale: language }),
-                        }}
-                        rightIconPress={
-                            () => navigation.navigate(ROUTES.TAX, {
-                                type: ADD_TAX,
-                                onSelect: (val) => {
-                                    this.setFormField('taxes',
-                                        [...val, ...taxes]
-                                    )
-                                }
-                            })
-                        }
-                        emptyContentProps={{
-                            contentType: "taxes",
-                        }}
-                    />
+                    {isTaxPerItem && this.TAX_FIELD_VIEW()}
 
                     {this.FINAL_AMOUNT()}
 
