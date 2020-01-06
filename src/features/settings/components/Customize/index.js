@@ -228,13 +228,15 @@ export class Customize extends React.Component<IProps> {
     TOGGLE_FIELD_VIEW = (language, data) => {
 
         return (
-            <Fragment>
+            <ScrollView
+                bounces={false}
+                showsVerticalScrollIndicator={false}
+            >
                 <CtDivider dividerStyle={styles.dividerLine} />
 
                 <Text style={styles.autoGenerateHeader}>
                     {Lng.t(data.settingLabel, { locale: language })}
                 </Text>
-
                 <Field
                     name={data.autoGenerateName}
                     component={ToggleSwitch}
@@ -244,7 +246,7 @@ export class Customize extends React.Component<IProps> {
                         this.changeAutoGenerateStatus(data.autoGenerateName, val)
                     }
                 />
-            </Fragment>
+            </ScrollView>
         )
     }
 

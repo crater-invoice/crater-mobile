@@ -117,6 +117,9 @@ export class Units extends Component {
                         emptyContentProps={{
                             title: Lng.t("payments.empty.modeTitle", { locale: language }),
                         }}
+                        itemContainer={{
+                            paddingVertical: 6
+                        }}
                     />
                 </View>
             </View>

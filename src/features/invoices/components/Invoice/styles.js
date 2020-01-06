@@ -66,7 +66,7 @@ export default styles = StyleSheet.create({
     },
     dateField: {
         flex: 1,
-        paddingHorizontal: 7,
+        paddingHorizontal: 5,
         justifyContent: 'space-between',
     },
     inputFieldStyle: {
