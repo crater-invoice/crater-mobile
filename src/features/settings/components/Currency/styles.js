@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { colors } from '../../../../styles/colors';
 import { fonts } from '../../../../styles/fonts';
 
@@ -58,6 +58,11 @@ export default styles = StyleSheet.create({
         position: "relative",
         top: 0,
         right: -70,
+        ...Platform.select({
+            android: {
+                right: -50,
+            },
+        }),
     },
     positionView: {
         alignItems: "center",
