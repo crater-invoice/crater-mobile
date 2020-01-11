@@ -1,18 +1,28 @@
 import {
     SETTINGS_TRIGGER_SPINNER,
     LOGOUT,
+
+    // company
     GET_COMPANY_INFO,
     EDIT_COMPANY_INFO,
+    SET_COMPANY_INFO,
+
+    // account
     GET_ACCOUNT_INFO,
     EDIT_ACCOUNT_INFO,
-    SET_COMPANY_INFO,
     SET_ACCOUNT_INFO,
+
+    // preferences
     GET_PREFERENCES,
     EDIT_PREFERENCES,
     SET_PREFERENCES,
     CLEAR_PREFERENCES,
+
+    // Settings
     GET_SETTING_ITEM,
     EDIT_SETTING_ITEM,
+
+    // Expense Categories
     GET_EXPENSE_CATEGORIES,
     GET_CREATE_EXPENSE_CATEGORY,
     CREATE_EXPENSE_CATEGORY,
@@ -22,6 +32,8 @@ import {
     SET_CREATE_EXPENSE_CATEGORIES,
     SET_EDI_EXPENSE_CATEGORIES,
     SET_REMOVE_EXPENSE_CATEGORIES,
+
+    //  Taxes
     GET_TAXES,
     SET_TAXES,
     REMOVE_TAX,
@@ -30,21 +42,35 @@ import {
     TAX_EDIT,
     SET_EDIT_TAX,
     SET_REMOVE_TAX,
+
+    // Customize Settings
     GET_CUSTOMIZE_SETTINGS,
     SET_CUSTOMIZE_SETTINGS,
     EDIT_CUSTOMIZE_SETTINGS,
+
+    // Payment methods
     GET_PAYMENT_MODES,
     SET_PAYMENT_MODES,
     CREATE_PAYMENT_MODE,
     EDIT_PAYMENT_MODE,
     REMOVE_PAYMENT_MODE,
     SET_PAYMENT_MODE,
+
+    // Item Units
     GET_ITEM_UNITS,
     SET_ITEM_UNITS,
     SET_ITEM_UNIT,
     CREATE_ITEM_UNIT,
     EDIT_ITEM_UNIT,
     REMOVE_ITEM_UNIT,
+
+    // Currencies
+    GET_CURRENCIES,
+    SET_CURRENCIES,
+    CREATE_CURRENCY,
+    EDIT_CURRENCY,
+    REMOVE_CURRENCY,
+    SET_GLOBAL_CURRENCIES,
 } from "../constants";
 
 import { SET_SETTINGS } from "../../../api/consts";
@@ -299,5 +325,38 @@ export const editItemUnit = (payload = {}) => ({
 
 export const removeItemUnit = (payload = {}) => ({
     type: REMOVE_ITEM_UNIT,
+    payload,
+});
+
+
+// Currencies
+// -------------------------------------------------
+export const getCurrencies = (payload = {}) => ({
+    type: GET_CURRENCIES,
+    payload,
+});
+
+export const setCurrencies = (payload = {}) => ({
+    type: SET_CURRENCIES,
+    payload,
+});
+
+export const setGlobalCurrencies = (payload = {}) => ({
+    type: SET_GLOBAL_CURRENCIES,
+    payload,
+});
+
+export const createCurrency = (payload = {}) => ({
+    type: CREATE_CURRENCY,
+    payload,
+});
+
+export const editCurrency = (payload = {}) => ({
+    type: EDIT_CURRENCY,
+    payload,
+});
+
+export const removeCurrency = (payload = {}) => ({
+    type: REMOVE_CURRENCY,
     payload,
 });

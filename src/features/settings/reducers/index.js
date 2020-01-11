@@ -13,6 +13,7 @@ import {
     SET_PAYMENT_MODE,
     SET_ITEM_UNITS,
     SET_ITEM_UNIT,
+    SET_CURRENCIES,
 } from '../constants';
 
 const initialState = {
@@ -48,11 +49,15 @@ const initialState = {
         // Item Unit
         itemUnitsLoading: false,
         itemUnitLoading: false,
+        // Currencies
+        currenciesLoading: false,
+        currencyLoading: false,
     },
     preferences: null,
     categories: [],
     paymentMethods: [],
     units: [],
+    currencies: [],
     customizes: null,
     account: null,
     taxByItems: false,
@@ -211,6 +216,16 @@ export default function settingReducer(state = initialState, action) {
             }
 
             return { ...state }
+
+        case SET_CURRENCIES:
+
+            const { currencies, fresh } = payload;
+
+            if (!fresh) {
+                return { ...state, currencies: [...state.currencies, ...currencies] };
+            }
+
+            return { ...state, currencies };
 
         default:
             return state;

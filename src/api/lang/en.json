@@ -49,7 +49,10 @@
         "taxesReport": "Taxes Report",
         "customize": "Customization",
         "filter": "Filters",
-        "back": "Back"
+        "back": "Back",
+        "currencies": "Currencies",
+        "addCurrency": "Add Currency",
+        "editCurrency": "Edit Currency"
     },
     "tabNavigation": {
         "invoices": "Invoices",
@@ -418,9 +421,21 @@
         }
     },
     "currencies": {
+        "name": "Name",
+        "code": "Code",
+        "symbol": "Symbol",
+        "precision": "Precision",
+        "thousSeparator": "Thousand Separator",
+        "decSeparator": "Decimal Separator",
+        "position": "Position",
+        "left": "Left",
+        "right": "Right",
         "title": "Select Currency",
+        "alertDescription": "You will not be able to recover this Currency",
         "empty": {
-            "title": "No currencies yet!"
+            "title": "No currencies yet!",
+            "description": "This section will contain the list of currencies.",
+            "buttonTitle": "Add New Currency"
         }
     },
     "languages": {

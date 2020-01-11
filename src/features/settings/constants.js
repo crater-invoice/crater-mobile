@@ -18,12 +18,16 @@ export const CATEGORY_FORM = 'categories/CATEGORY_FORM';
 
 export const CUSTOMIZE_FORM = 'customize/CUSTOMIZE_FORM';
 
+export const CURRENCIES_FORM = 'currencies/CURRENCIES_FORM';
+export const CURRENCY_FORM = 'currencies/CURRENCY_FORM';
 // Type
 // -----------------------------------------
 export const CATEGORY_ADD = 'category/CATEGORY_ADD';
 export const CATEGORY_EDIT = 'category/CATEGORY_EDIT';
 export const EDIT_TAX = 'taxType/EDIT_TAX';
 export const ADD_TAX = 'taxType/ADD_TAX';
+export const CREATE_CURRENCY_TYPE = 'currencies/CREATE_CURRENCY_TYPE';
+export const EDIT_CURRENCY_TYPE = 'currencies/EDIT_CURRENCY_TYPE';
 
 // Actions
 // -----------------------------------------
@@ -75,6 +79,14 @@ export const SET_ITEM_UNIT = 'units/SET_ITEM_UNIT';
 export const CREATE_ITEM_UNIT = 'units/CREATE_ITEM_UNIT';
 export const EDIT_ITEM_UNIT = 'units/EDIT_ITEM_UNIT';
 export const REMOVE_ITEM_UNIT = 'units/REMOVE_ITEM_UNIT';
+
+// Currencies
+export const GET_CURRENCIES = 'currencies/GET_CURRENCIES';
+export const SET_CURRENCIES = 'currencies/SET_CURRENCIES';
+export const SET_GLOBAL_CURRENCIES = 'currencies/SET_GLOBAL_CURRENCIES';
+export const CREATE_CURRENCY = 'currencies/CREATE_CURRENCY';
+export const EDIT_CURRENCY = 'currencies/EDIT_CURRENCY';
+export const REMOVE_CURRENCY = 'currencies/REMOVE_CURRENCY';
 
 // Taxes
 export const GET_TAXES = 'taxes/GET_TAXES';
@@ -179,6 +191,7 @@ export const CUSTOMIZE_TYPE = {
     ESTIMATES: 'customize/ESTIMATES',
     PAYMENTS: 'customize/PAYMENTS',
     ITEMS: 'customize/ITEMS',
+    CURRENCIES: 'customize/CURRENCIES',
 }
 
 // Customize Menu
@@ -211,6 +224,12 @@ export const CUSTOMIZES_MENU = (language, Lng) => {
             fullItem: {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.ITEMS
+            }
+        },
+        {
+            title: Lng.t("header.currencies", { locale: language }),
+            fullItem: {
+                route: ROUTES.CURRENCIES
             }
         }
     ]
@@ -268,3 +287,14 @@ export const GET_ITEM_UNITS_URL = () => `units`
 export const CREATE_ITEM_UNIT_URL = () => `units`
 export const EDIT_ITEM_UNIT_URL = (id) => `units/${id}`
 export const REMOVE_ITEM_UNIT_URL = (id) => `units/${id}`
+
+// Currencies
+export const GET_CURRENCIES_URL = (param) => `currencies?${queryString.stringify({
+    ...param,
+    orderByField: 'created_at',
+    orderBy: 'desc'
+})}`
+
+export const CREATE_CURRENCY_URL = () => `currencies`
+export const EDIT_CURRENCY_URL = (id) => `currencies/${id}`
+export const REMOVE_CURRENCY_URL = (id) => `currencies/${id}`
