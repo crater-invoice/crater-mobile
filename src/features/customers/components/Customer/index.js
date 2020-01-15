@@ -19,7 +19,7 @@ import Lng from '../../../../api/lang/i18n';
 import { colors } from '../../../../styles/colors';
 import { SymbolStyle } from '../../../../components/CurrencyFormat/styles';
 import { headerTitle } from '../../../../api/helper';
-import { alertMe } from '../../../../api/global';
+import { alertMe, hasValue } from '../../../../api/global';
 
 let customerField = [
     "name",
@@ -61,6 +61,7 @@ export class Customer extends React.Component<IProps>  {
             getEditCustomer,
             type,
             currencies,
+            currency,
             getCountries,
             countries
         } = this.props
@@ -107,8 +108,8 @@ export class Customer extends React.Component<IProps>  {
             });
         }
         else {
-            if (typeof currencies !== 'undefined' && currencies.length != 0) {
-                let { name, id } = currencies[0]
+            if (hasValue(currency)) {
+                const { name, id } = currency
                 this.setFormField('currency_id', id)
                 this.setState({ selectedCurrency: `${name}` })
             }

@@ -9,7 +9,7 @@ import { Customer } from '../../components/Customer';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { language, currencies },
+        global: { language, currencies, currency },
         customers: {
             countries,
             loading: {
@@ -27,6 +27,7 @@ const mapStateToProps = (state, { navigation }) => {
         type,
         language,
         currencies,
+        currency,
         countries,
         customerLoading,
         getEditCustomerLoading,
