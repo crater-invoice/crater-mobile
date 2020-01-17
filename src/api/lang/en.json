@@ -49,7 +49,11 @@
         "taxesReport": "Taxes Report",
         "customize": "Customization",
         "filter": "Filters",
-        "back": "Back"
+        "back": "Back",
+        "addresses": "Addresses",
+        "currencies": "Currencies",
+        "addCurrency": "Add Currency",
+        "editCurrency": "Edit Currency"
     },
     "tabNavigation": {
         "invoices": "Invoices",
@@ -79,6 +83,7 @@
         "addItem": "Add Item",
         "notes": "Notes",
         "notePlaceholder": "Additional notes visible on Invoice",
+        "termsCondition": "Terms and Conditions",
         "taxPlaceholder": "+ Add Tax",
         "subtotal": "SUBTOTAL",
         "totalAmount": "TOTAL AMOUNT",
@@ -134,6 +139,8 @@
         "currency": "Currency",
         "billingAddress": "Billing Address",
         "shippingAddress": "Shipping Address",
+        "customer": "Customer",
+        "company": "Company",
         "enablePortal": "Enable Portal",
         "password": "Password",
         "filterDisplayName": "Display Name",
@@ -148,6 +155,8 @@
             "address": "Address",
             "street1": "Street1",
             "street2": "Street2",
+            "addressStreet1": "Address Street 1",
+            "addressStreet2": "Address Street 2",
             "phone": "Phone",
             "zipcode": "Zip Code",
             "sameAs": "Copy from Billing Address"
@@ -515,6 +524,14 @@
             "invoice": "Invoice Settings",
             "estimate": "Estimate Settings",
             "payment": "Payment Settings"
+        },
+        "addresses": {
+            "billing": "Customer Billing Address",
+            "shipping": "Customer Shipping Address",
+            "company": "Company Address",
+            "insertFields": "Insert Fields",
+            "contact": "CONTACT",
+            "address": "ADDRESS"
         }
     },
     "filePicker": {
@@ -530,6 +547,12 @@
             "saveAsDraft": "Save As Draft",
             "emailNotExist": "User email does not exist"
         }
+    },
+    "termsCondition": {
+        "title": "Terms & Conditions",
+        "show": "Show terms and conditions on PDF?",
+        "edit": "Edit Terms and Conditions",
+        "description": "Check if you wanted to show Terms and Conditions on the PDF."
     },
     "button": {
         "remove": "Remove",
@@ -549,7 +572,8 @@
         "chooseTemplate": "Choose Template",
         "generateReport": " Generate Report",
         "recoveryEmail": "Send reset link",
-        "recoveryEmailAgain": "Send Again"
+        "recoveryEmailAgain": "Send Again",
+        "cancel": "Cancel"
     },
     "filter": {
         "empty": {

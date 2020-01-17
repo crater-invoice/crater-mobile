@@ -1,7 +1,7 @@
 // @flow
 
-import React from 'react';
-import { View, Text, Linking } from 'react-native';
+import React, { Fragment } from 'react';
+import { View, Text, Linking, TouchableOpacity } from 'react-native';
 import { change } from 'redux-form';
 import { Field } from 'redux-form';
 import styles from './styles';
@@ -15,7 +15,9 @@ import {
     SelectField,
     SelectPickerField,
     CurrencyFormat,
-    FakeInput
+    FakeInput,
+    ToggleSwitch,
+    TermsAndCondition
 } from '../../../../components';
 import { ROUTES } from '../../../../navigation/routes';
 import {
@@ -63,6 +65,11 @@ type IProps = {
     language: String,
     type: String
 
+}
+
+const termsCondition = {
+    description: 'terms_and_conditions',
+    toggle: "display_terms_and_conditions"
 }
 export class Estimate extends React.Component<IProps> {
     constructor(props) {
@@ -715,6 +722,38 @@ export class Estimate extends React.Component<IProps> {
 
     }
 
+    openTermConditionModal = () =>
+        this.props.navigation.setParams({ 'visibleTermsCondition': true })
+
+
+    TOGGLE_TERMS_CONDITION_VIEW = () => {
+        const { formValues, language } = this.props
+        let isShow = formValues?.display_terms_and_conditions
+
+        return (
+            <Fragment>
+                <Field
+                    name={termsCondition.toggle}
+                    component={ToggleSwitch}
+                    status={isShow}
+                    hint={Lng.t("termsCondition.show", { locale: language })}
+                    mainContainerStyle={{ marginTop: 12 }}
+                />
+
+                {(isShow === true || isShow === 1) && (
+                    <TouchableOpacity
+                        onPress={this.openTermConditionModal}
+                    >
+                        <Text style={styles.termsEditText}
+                        >
+                            {Lng.t("termsCondition.edit", { locale: language })}
+                        </Text>
+                    </TouchableOpacity>
+                )}
+            </Fragment>
+        )
+    }
+
     render() {
         const {
             navigation,
@@ -776,6 +815,12 @@ export class Estimate extends React.Component<IProps> {
             >
 
                 <View style={styles.bodyContainer}>
+
+                    <TermsAndCondition
+                        props={this.props}
+                        fieldName={termsCondition.description}
+                    />
+
                     <View style={styles.dateFieldContainer}>
                         <View style={styles.dateField}>
                             <Field
@@ -967,6 +1012,7 @@ export class Estimate extends React.Component<IProps> {
                         language={language}
                     />
 
+                    {this.TOGGLE_TERMS_CONDITION_VIEW()}
                 </View>
             </DefaultLayout>
         );

@@ -171,5 +171,8 @@ export default styles = StyleSheet.create({
             },
         }),
         ...SymbolStyle
+    },
+    termsEditText: {
+        color: colors.primary
     }
 });

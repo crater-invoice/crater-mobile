@@ -19,7 +19,9 @@ const mapStateToProps = (state, { navigation }) => {
         estimate = null,
         nextEstimateNumber,
         nextEstimateNumberAttribute,
-        estimateTemplates
+        estimateTemplates,
+        terms_and_conditions = null,
+        estimate_notes = '',
     } = estimateData;
 
     let type = navigation.getParam('type')
@@ -46,6 +48,9 @@ const mapStateToProps = (state, { navigation }) => {
             discount: 0,
             taxes: [],
             estimate_template_id: estimateTemplates[0] && estimateTemplates[0].id,
+            display_terms_and_conditions: false,
+            terms_and_conditions,
+            notes: estimate_notes,
             ...estimate,
             estimate_number: type === ESTIMATE_EDIT ? nextEstimateNumber : nextEstimateNumberAttribute,
             customer: estimate && estimate.user,

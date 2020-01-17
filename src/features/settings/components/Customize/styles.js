@@ -48,5 +48,21 @@ export default styles = StyleSheet.create({
     },
     tabView: {
         height: 55
-    }
+    },
+
+
+    insertFieldContainer: {
+        flex: 0,
+    },
+    label: {
+        color: colors.secondary,
+        fontSize: 14,
+        fontFamily: fonts.poppinsMedium,
+        paddingTop: 11,
+        paddingBottom: 11,
+    },
+    bodyContainerStyle: {
+        paddingHorizontal: 0,
+        paddingVertical: 0,
+    },
 });
