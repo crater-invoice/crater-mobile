@@ -26,7 +26,7 @@ export const GET_EDIT_ITEM = 'more/GET_EDIT_ITEM';
 export const SET_ITEMS = 'more/SET_ITEMS';
 export const SET_FILTER_ITEMS = 'more/SET_FILTER_ITEMS';
 export const SET_ITEM = 'more/SET_ITEM';
-
+export const GET_MAIL_CONFIGURATION = 'GET_MAIL_CONFIGURATION';
 // Report
 // -----------------------------------------
 export const GENERATE_REPORT = 'report/GENERATE_REPORT';
@@ -241,7 +241,7 @@ export const GET_ITEMS_URL = (param) => `items?${queryString.stringify({
     orderBy: 'desc'
 })}`
 export const GET_EDIT_ITEMS_URL = (id) => `items/${id}/edit`
-
+export const GET_MAIL_CONFIGURATION_URL = () => `settings/environment/mail-env`
 export const CREATE_ITEM_URL = () => `items`
 export const EDIT_ITEM_URL = (id) => `items/${id}`
 export const REMOVE_ITEM_URL = (id) => `items/${id}`

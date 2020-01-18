@@ -13,6 +13,7 @@ const initialState = {
         logoutLoading: false,
         itemsLoading: false,
         itemLoading: false,
+        getMailConfigLoading: false
     },
     items: [],
     filterItems: [],

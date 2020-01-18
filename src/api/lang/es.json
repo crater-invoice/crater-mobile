@@ -49,7 +49,8 @@
         "taxesReport": "Informe de impuestos",
         "customize": "Personalización",
         "filter": "Filtros",
-        "back": "atrás"
+        "back": "atrás",
+        "sendMailInvoice": "Enviará la factura"
     },
     "tabNavigation": {
         "invoices": "Facturas",
@@ -96,7 +97,8 @@
             "draftTitle": "¿Quieres ahorrar?",
             "alreadyInUseNumber": "El número de factura ya ha sido tomado.",
             "sendEmail": "Esta factura se enviará por correo electrónico al cliente.",
-            "clone": "Esta factura se clonará en una nueva factura."
+            "clone": "Esta factura se clonará en una nueva factura.",
+            "sendInvoice": "Esta factura se enviará por correo electrónico al cliente."
         },
         "empty": {
             "due": {
@@ -521,6 +523,13 @@
         "file": "Haga clic aquí para elegir un archivo.",
         "permission": "Lo sentimos, necesitamos permisos de cámara para hacer que esto funcione."
     },
+    "sendMail": {
+        "from": "Desde",
+        "to": "A",
+        "subject": "Tema",
+        "body": "Cuerpo",
+        "sendEmailToast": "Correo electrónico enviado con éxito"
+    },
     "alert": {
         "title": "¿Estás seguro?",
         "exit": "¿Estás seguro que quieres salir?",
@@ -549,7 +558,8 @@
         "chooseTemplate": "Elegir la plantilla",
         "generateReport": "Generar informe",
         "recoveryEmail": "Enviar enlace de reinicio",
-        "recoveryEmailAgain": "Enviar de nuevo"
+        "recoveryEmailAgain": "Enviar de nuevo",
+        "send": "Enviar"
     },
     "filter": {
         "empty": {

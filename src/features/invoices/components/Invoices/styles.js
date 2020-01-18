@@ -15,4 +15,8 @@ export default styles = StyleSheet.create({
         marginTop: 12,
         marginBottom: 2,
     },
+    toastContainer: {
+        bottom: 7,
+        paddingHorizontal: 10,
+    }
 });
