@@ -722,9 +722,7 @@ export class Estimate extends React.Component<IProps> {
 
     }
 
-    openTermConditionModal = () =>
-        this.props.navigation.setParams({ 'visibleTermsCondition': true })
-
+    openTermConditionModal = () => this.termsAndConditionRef?.onToggle()
 
     TOGGLE_TERMS_CONDITION_VIEW = () => {
         const { formValues, language } = this.props
@@ -817,6 +815,7 @@ export class Estimate extends React.Component<IProps> {
                 <View style={styles.bodyContainer}>
 
                     <TermsAndCondition
+                        termsConditionRef={ref => (this.termsAndConditionRef = ref)}
                         props={this.props}
                         fieldName={termsCondition.description}
                     />

@@ -33,27 +33,13 @@ export class TermsAndCondition extends React.Component<IProps> {
         }
     }
 
-    componentWillUpdate(nextProps, nextState) {
-
-        const { props: { navigation, formValues }, fieldName } = nextProps
-        const { value } = nextState
-        const visible = navigation.getParam('visibleTermsCondition', false)
-
-        if (visible) {
-            navigation.setParams({ 'visibleTermsCondition': false })
-
-            if (this.isEditTermsCondition() && this.hasInitialValue()) {
-                !value && this.setState({ value: formValues[fieldName] })
-                this.setFormField(fieldName, !value ? formValues[fieldName] : value)
-            }
-            else {
-                !value ? this.initialGlobalValue() : this.setFormField(fieldName, value)
-            }
-
-            this.onToggle()
-        }
+    componentDidMount() {
+        this.props.termsConditionRef(this);
     }
 
+    componentWillUnmount() {
+        this.props.termsConditionRef(undefined);
+    }
 
     isEditTermsCondition = () => {
         const { props: { type } } = this.props
@@ -77,9 +63,22 @@ export class TermsAndCondition extends React.Component<IProps> {
     }
 
     onToggle = () => {
-        this.setState((prevState) => {
-            return { visible: !prevState.visible }
-        });
+
+        this.setState(({ visible }) => { return { visible: !visible } });
+
+        const { props: { formValues }, fieldName } = this.props
+        const { value, visible } = this.state
+
+        if (!visible) {
+
+            if (this.isEditTermsCondition() && this.hasInitialValue()) {
+                !value && this.setState({ value: formValues[fieldName] })
+                this.setFormField(fieldName, !value ? formValues[fieldName] : value)
+            }
+            else {
+                !value ? this.initialGlobalValue() : this.setFormField(fieldName, value)
+            }
+        }
     }
 
     setFormField = (field, value) => {
