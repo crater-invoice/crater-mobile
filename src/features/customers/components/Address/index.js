@@ -139,7 +139,7 @@ export class Address extends Component<IProps> {
         const { language } = this.props
         return (
             <View style={styles.submitButton}>
-                <View style={{ flex: 1 }}>
+                <View style={styles.flexRow}>
                     <CtButton
                         onPress={handleSubmit(this.saveAddress)}
                         btnTitle={Lng.t("button.done", { locale: language })}
