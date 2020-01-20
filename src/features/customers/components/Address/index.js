@@ -14,7 +14,7 @@ import {
 import { CUSTOMER_ADDRESS, CUSTOMER_EDIT } from '../../constants';
 import Lng from '../../../../api/lang/i18n';
 import { colors } from '../../../../styles/colors';
-import { MAX_LENGTH, formatCountries } from '../../../../api/global';
+import { MAX_LENGTH, formatCountries, hasObjectLength } from '../../../../api/global';
 
 type IProps = {
     label: String,
@@ -62,12 +62,16 @@ export class Address extends Component<IProps> {
         };
     }
 
-    componentDidMount() {
+    shouldComponentUpdate(nextProps, nextState) {
+        const { visible, status } = nextState
+
+        if (this.state.visible !== visible || this.state.status !== status) {
+            return true
+        }
+        return false
     }
 
-
     fillShippingAddress = (status) => {
-
         if (status) {
             this.setState({ status })
             const { autoFillValue } = this.props
@@ -110,9 +114,7 @@ export class Address extends Component<IProps> {
             if (typeof addressValue === 'undefined')
                 this.clearFormField()
         }
-        this.setState((prevState) => {
-            return { visible: !prevState.visible }
-        });
+        this.setState(({ visible }) => ({ visible: !visible }));
     }
 
     setFormField = (field, value) => {
@@ -175,9 +177,7 @@ export class Address extends Component<IProps> {
                         leftIconSolid={false}
                         values={Lng.t("customers.address.sameAs", { locale: language })}
                         valueStyle={styles.sameAsToggle}
-                        onChangeCallback={
-                            () => this.fillShippingAddress(!status)
-                        }
+                        onChangeCallback={() => this.fillShippingAddress(!status)}
                     />
                 )}
 
@@ -189,7 +189,6 @@ export class Address extends Component<IProps> {
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
                         autoCorrect: true,
-                        autoFocus: true,
                     }}
                 />
 
@@ -204,9 +203,7 @@ export class Address extends Component<IProps> {
                     navigation={navigation}
                     searchFields={['name']}
                     compareField="id"
-                    onSelect={({ id }) => {
-                        this.setFormField(country, id)
-                    }}
+                    onSelect={({ id }) => this.setFormField(country, id)}
                     headerProps={{
                         title: Lng.t("header.country", { locale: language }),
                         rightIconPress: null
@@ -227,9 +224,7 @@ export class Address extends Component<IProps> {
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
                         autoCorrect: true,
-                        onSubmitEditing: () => {
-                            addressRefs.city.focus();
-                        }
+                        onSubmitEditing: () => addressRefs.city.focus()
                     }}
                 />
 
@@ -241,13 +236,9 @@ export class Address extends Component<IProps> {
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
                         autoCorrect: true,
-                        onSubmitEditing: () => {
-                            addressRefs.street1.focus();
-                        }
+                        onSubmitEditing: () => addressRefs.street1.focus()
                     }}
-                    refLinkFn={(ref) => {
-                        addressRefs.city = ref;
-                    }}
+                    refLinkFn={(ref) => addressRefs.city = ref}
                 />
 
                 <Field
@@ -264,9 +255,7 @@ export class Address extends Component<IProps> {
                     }}
                     height={60}
                     autoCorrect={true}
-                    refLinkFn={(ref) => {
-                        addressRefs.street1 = ref;
-                    }}
+                    refLinkFn={(ref) => addressRefs.street1 = ref}
                 />
 
                 <Field
@@ -293,11 +282,10 @@ export class Address extends Component<IProps> {
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
                         autoCorrect: true,
-                        keyboardType: 'phone-pad'
+                        keyboardType: 'phone-pad',
+                        onSubmitEditing: () => addressRefs.zip.focus()
                     }}
-                    refLinkFn={(ref) => {
-                        addressRefs.phone = ref;
-                    }}
+                    refLinkFn={(ref) => addressRefs.phone = ref}
                 />
 
                 <Field
@@ -310,6 +298,7 @@ export class Address extends Component<IProps> {
                         autoCorrect: true,
                         onSubmitEditing: handleSubmit(this.saveAddress)
                     }}
+                    refLinkFn={(ref) => addressRefs.zip = ref}
                 />
             </View>
         )

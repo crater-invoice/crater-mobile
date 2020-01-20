@@ -46,7 +46,8 @@
     "redux-form": "^8.2.6",
     "redux-persist": "^5.10.0",
     "redux-saga": "^1.0.5",
-    "redux-storage": "^4.1.2"
+    "redux-storage": "^4.1.2",
+    "reselect": "^4.0.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^6.0.0",

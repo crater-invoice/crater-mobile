@@ -5,11 +5,11 @@ import { validate } from './validation';
 import { CUSTOMER_FORM, CUSTOMER_ADD } from '../../constants';
 import * as customerAction from '../../actions'
 import { Customer } from '../../components/Customer';
-
+import { getSateCountries, getSateCurrencies } from '../../selectors'
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { language, currencies },
+        global: { language, currencies, currency },
         customers: {
             countries,
             loading: {
@@ -26,8 +26,9 @@ const mapStateToProps = (state, { navigation }) => {
         formValues: getFormValues(CUSTOMER_FORM)(state) || {},
         type,
         language,
-        currencies,
-        countries,
+        currencies: getSateCurrencies(currencies),
+        countries: getSateCountries(countries),
+        currency,
         customerLoading,
         getEditCustomerLoading,
         countriesLoading,

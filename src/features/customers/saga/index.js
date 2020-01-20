@@ -299,10 +299,10 @@ function* removeCustomer(payloadData) {
 }
 
 export default function* customersSaga() {
-    yield takeEvery(GET_CUSTOMERS, getCustomers);
-    yield takeEvery(GET_COUNTRIES, getCountries);
-    yield takeEvery(CREATE_CUSTOMER, createCustomer);
-    yield takeEvery(EDIT_CUSTOMER, editCustomer);
-    yield takeEvery(GET_EDIT_CUSTOMER, getEditCustomer);
-    yield takeEvery(REMOVE_CUSTOMER, removeCustomer);
+    yield takeLatest(GET_CUSTOMERS, getCustomers);
+    yield takeLatest(GET_COUNTRIES, getCountries);
+    yield takeLatest(CREATE_CUSTOMER, createCustomer);
+    yield takeLatest(EDIT_CUSTOMER, editCustomer);
+    yield takeLatest(GET_EDIT_CUSTOMER, getEditCustomer);
+    yield takeLatest(REMOVE_CUSTOMER, removeCustomer);
 }

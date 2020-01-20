@@ -91,6 +91,27 @@ export const formatListByName = (items) => {
     return itemList
 }
 
+// Format Currencies
+// -----------------------------------------
+export const formatCurrencies = (currencies) => {
+    let currencyList = []
+    if (typeof currencies !== 'undefined' && currencies.length != 0) {
+        currencyList = currencies.map((currency) => {
+
+            const { name, code, symbol } = currency
+            return {
+                title: name,
+                subtitle: {
+                    title: code,
+                },
+                rightTitle: symbol || '-',
+                fullItem: currency
+            }
+        })
+    }
+    return currencyList
+}
+
 export const MAX_LENGTH = 255
 
 // Alert 
@@ -126,6 +147,15 @@ export const alertMe = ({
     );
 }
 
+// Keyboard Type
+// -----------------------------------------
+export const KEYBOARD_TYPE = {
+    DEFAULT: "default",
+    NUMERIC: "numeric",
+    EMAIL: "email-address",
+    PHONE: "phone-pad",
+    URL: "url",
+}
 
 // Field Is Fillable ?
 // -----------------------------------------
@@ -139,4 +169,8 @@ export const hasLength = (field) => {
 
 export const hasObjectLength = (field) => {
     return field && Object.keys(field).length !== 0
+}
+
+export const isBooleanTrue = (field) => {
+    return Boolean(field)
 }
