@@ -91,6 +91,8 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
                     ) : null
                 }
                 showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps='handled'
+                keyboardDismissMode='on-drag'
             >
                 {children}
 
