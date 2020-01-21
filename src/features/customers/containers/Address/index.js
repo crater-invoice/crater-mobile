@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { CUSTOMER_ADDRESS } from '../../constants';
 import { Address } from '../../components/Address';
+import { getStateCountries } from '../../selectors';
 
 const mapStateToProps = (state) => {
     const {
@@ -13,7 +14,7 @@ const mapStateToProps = (state) => {
     return {
         formValues: getFormValues(CUSTOMER_ADDRESS)(state) || {},
         language,
-        countries
+        countries: getStateCountries(countries),
     };
 };
 

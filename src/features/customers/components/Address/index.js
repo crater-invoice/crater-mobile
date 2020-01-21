@@ -14,7 +14,7 @@ import {
 import { CUSTOMER_ADDRESS, CUSTOMER_EDIT } from '../../constants';
 import Lng from '../../../../api/lang/i18n';
 import { colors } from '../../../../styles/colors';
-import { MAX_LENGTH, formatCountries, hasObjectLength } from '../../../../api/global';
+import { MAX_LENGTH } from '../../../../api/global';
 
 type IProps = {
     label: String,
@@ -194,7 +194,7 @@ export class Address extends Component<IProps> {
 
                 <Field
                     name={country}
-                    items={formatCountries(countries)}
+                    items={countries ?? []}
                     displayName="name"
                     component={SelectField}
                     label={Lng.t("customers.address.country", { locale: language })}

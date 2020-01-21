@@ -5,7 +5,7 @@ import { validate } from './validation';
 import { CUSTOMER_FORM, CUSTOMER_ADD } from '../../constants';
 import * as customerAction from '../../actions'
 import { Customer } from '../../components/Customer';
-import { getSateCountries, getSateCurrencies } from '../../selectors'
+import { getStateCurrencies } from '../../selectors'
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -26,8 +26,8 @@ const mapStateToProps = (state, { navigation }) => {
         formValues: getFormValues(CUSTOMER_FORM)(state) || {},
         type,
         language,
-        currencies: getSateCurrencies(currencies),
-        countries: getSateCountries(countries),
+        currencies: getStateCurrencies(currencies),
+        countries,
         currency,
         customerLoading,
         getEditCustomerLoading,

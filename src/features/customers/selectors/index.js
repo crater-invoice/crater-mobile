@@ -1,18 +1,18 @@
 import { createSelector } from 'reselect'
-import { formatCurrencies } from '../../../api/global';
+import { formatCurrencies, formatCountries } from '../../../api/global';
 
-const getSateCountries = createSelector(
+const getStateCountries = createSelector(
     countries => countries,
-    countries => countries
+    countries => formatCountries(countries ?? [])
 );
 
-const getSateCurrencies = createSelector(
+const getStateCurrencies = createSelector(
     currencies => currencies,
     currencies => formatCurrencies(currencies ?? [])
 );
 
 
 export {
-    getSateCountries,
-    getSateCurrencies
+    getStateCountries,
+    getStateCurrencies
 }
