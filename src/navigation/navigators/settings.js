@@ -13,6 +13,8 @@ import TaxesContainer from "../../features/settings/containers/Taxes";
 import TaxContainer from "../../features/settings/containers/Tax";
 import EndpointContainer from "../../features/authentication/containers/Endpoint";
 import UpdateAppVersionContainer from "../../components/UpdateAppVersion";
+import CustomizesContainer from "../../features/settings/containers/Customizes";
+import CustomizeContainer from "../../features/settings/containers/Customize";
 
 export const SettingNavigator = {
 
@@ -70,6 +72,17 @@ export const SettingNavigator = {
     [ROUTES.ENDPOINTS_SETTINGS]: generateStackNavigation(
         ROUTES.ENDPOINTS_SETTINGS,
         EndpointContainer
+    ),
+
+    // Customize
+    // -----------------------------------------
+    [ROUTES.CUSTOMIZES]: generateStackNavigation(
+        ROUTES.CUSTOMIZES,
+        CustomizesContainer
+    ),
+    [ROUTES.CUSTOMIZE]: generateStackNavigation(
+        ROUTES.CUSTOMIZE,
+        CustomizeContainer
     ),
 
     // Update App Version

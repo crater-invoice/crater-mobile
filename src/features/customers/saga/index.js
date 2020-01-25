@@ -4,8 +4,6 @@ import Request from '../../../api/request';
 import {
     GET_CUSTOMERS,
     GET_COUNTRIES,
-    GET_STATES,
-    GET_CITIES,
     CREATE_CUSTOMER,
     EDIT_CUSTOMER,
     GET_EDIT_CUSTOMER,
@@ -13,8 +11,6 @@ import {
     // Endpoint Api URL
     GET_CUSTOMERS_URL,
     GET_COUNTRIES_URL,
-    GET_STATES_URL,
-    GET_CITIES_URL,
     CREATE_CUSTOMER_URL,
     EDIT_CUSTOMER_URL,
     GET_EDIT_CUSTOMER_URL,
@@ -25,8 +21,6 @@ import {
     customerTriggerSpinner,
     setCustomers,
     setCountries,
-    setStates,
-    setCities,
     setCreateCustomer,
     setEditCustomer,
     setRemoveCustomer,
@@ -42,8 +36,8 @@ const addressParams = (address, type) => {
         name: address.name ? address.name : null,
         address_street_1: address.address_street_1 ? address.address_street_1 : null,
         address_street_2: address.address_street_2 ? address.address_street_2 : null,
-        city_id: address.city_id ? address.city_id : null,
-        state_id: address.state_id ? address.state_id : null,
+        city: address.city ? address.city : null,
+        state: address.state ? address.state : null,
         country_id: address.country_id ? address.country_id : null,
         zip: address.zip ? address.zip : null,
         phone: address.phone ? address.phone : null,
@@ -97,10 +91,7 @@ function* getCustomers(payloadData) {
 
 function* getCountries(payloadData) {
     const {
-        payload: {
-            onResult,
-            countryId
-        },
+        payload: { onResult },
     } = payloadData;
 
     yield put(customerTriggerSpinner({ countriesLoading: true }));
@@ -112,62 +103,13 @@ function* getCountries(payloadData) {
         };
 
         const response = yield call([Request, 'get'], options);
-        onResult && onResult(response.countries[100]);
+        onResult && onResult(response);
         yield put(setCountries({ countries: response.countries }));
 
     } catch (error) {
         // console.log(error);
     } finally {
         yield put(customerTriggerSpinner({ countriesLoading: false }));
-    }
-}
-
-function* getStates(payloadData) {
-    const {
-        payload: { countryId, onResult },
-    } = payloadData;
-
-    yield put(customerTriggerSpinner({ statesLoading: true }));
-
-    try {
-
-        const options = {
-            path: GET_STATES_URL(countryId),
-        };
-
-        const response = yield call([Request, 'get'], options);
-
-        onResult && onResult(response.states[0]);
-        yield put(setStates({ states: response.states }));
-
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(customerTriggerSpinner({ statesLoading: false }));
-    }
-}
-
-function* getCities(payloadData) {
-    const {
-        payload: { stateID, onResult },
-    } = payloadData;
-
-    yield put(customerTriggerSpinner({ citiesLoading: true }));
-
-    try {
-
-        const options = {
-            path: GET_CITIES_URL(stateID),
-        };
-
-        const response = yield call([Request, 'get'], options);
-        onResult && onResult(response.cities[0]);
-        yield put(setCities({ cities: response.cities }));
-
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(customerTriggerSpinner({ citiesLoading: false }));
     }
 }
 
@@ -359,8 +301,6 @@ function* removeCustomer(payloadData) {
 export default function* customersSaga() {
     yield takeEvery(GET_CUSTOMERS, getCustomers);
     yield takeEvery(GET_COUNTRIES, getCountries);
-    yield takeEvery(GET_STATES, getStates);
-    yield takeEvery(GET_CITIES, getCities);
     yield takeEvery(CREATE_CUSTOMER, createCustomer);
     yield takeEvery(EDIT_CUSTOMER, editCustomer);
     yield takeEvery(GET_EDIT_CUSTOMER, getEditCustomer);

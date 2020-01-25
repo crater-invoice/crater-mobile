@@ -62,6 +62,8 @@ export const ROUTES = {
     PREFERENCES: 'PREFERENCES',
     LANGUAGE_AND_CURRENCY: 'LANGUAGE_AND_CURRENCY',
     ENDPOINTS_SETTINGS: 'ENDPOINTS_SETTINGS',
+    CUSTOMIZES: "CUSTOMIZES",
+    CUSTOMIZE: "CUSTOMIZE",
 
     // Expenses
     // -----------------------------------------

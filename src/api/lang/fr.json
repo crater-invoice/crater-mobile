@@ -41,11 +41,13 @@
         "addItem": "Ajouter un item",
         "editItem": "Modifier l'article",
         "items": "Articles",
+        "units": "Unités",
         "reports": "Rapports",
         "salesReport": "Rapport des ventes",
         "profitAndLossReport": "Compte de résultat",
         "expensesReport": "Rapport de dépenses",
         "taxesReport": "Rapport de taxes",
+        "customize": "Personnalisation",
         "filter": "Les filtres",
         "back": "Retour"
     },
@@ -87,10 +89,14 @@
         "fromDate": "Partir de la date",
         "toDate": "À ce jour",
         "alert": {
+            "lessAmount": "Le montant total ne doit pas être inférieur à 0",
             "removeDescription": "Vous ne pourrez pas récupérer cette facture",
             "paymentAttachedTitle": "Action: échoué",
             "paymentAttachedDescription": "Impossible de supprimer une facture avec un paiement existant.",
-            "draftTitle": "Sauvegarder les modifications?"
+            "draftTitle": "Sauvegarder les modifications?",
+            "alreadyInUseNumber": "Le numéro de facture a déjà été pris.",
+            "sendEmail": "Cette facture sera envoyée par email au client",
+            "clone": "Cette facture sera clonée dans une nouvelle facture"
         },
         "empty": {
             "due": {
@@ -114,7 +120,8 @@
             "editInvoice": "Modifier la facture",
             "delete": "Effacer",
             "recordPayment": "Record de paiement",
-            "markAsSent": "Marquer comme envoyé"
+            "markAsSent": "Marquer comme envoyé",
+            "clone": "Cloner la facture"
         }
     },
     "customers": {
@@ -169,17 +176,28 @@
         "customer": "Cliente",
         "customerPlaceholder": "Sélectionner un client",
         "mode": "Mode de paiement",
+        "modes": "Modes de paiement",
+        "prefix": "Préfixe de paiement",
+        "addMode": "Ajouter un mode de paiement",
+        "editMode": "Modifier le mode de paiement",
+        "modeHint": "Nom du mode",
         "modePlaceholder": "Sélectionnez le mode",
         "amount": "Montant",
         "notes": "Remarques",
         "notesPlaceholder": "Notes complémentaires",
         "invoice": "Facture d'achat",
         "invoicePlaceholder": "Sélectionnez facture",
+        "sendReceipt": "Envoyer un reçu de paiement",
         "alertAmount": "Le paiement entré est supérieur au montant total dû pour cette facture.",
         "alertDescription": "Vous ne pourrez pas récupérer ce paiement",
+        "alertMode": "Vous ne pourrez pas récupérer ce mode de paiement",
+        "alreadyInUseMode": "Le mode de paiement est déjà utilisé",
+        "alreadyInUseNumber": "Le numéro de paiement a déjà été pris.",
+        "alertSendDescription": "Ce paiement sera envoyé par e-mail au client",
         "removePayment": "Effacer",
         "empty": {
             "title": "Aucun paiement pour le moment!",
+            "modeTitle": "Pas encore de modes de paiement!",
             "description": "Cette section contiendra la liste des paiements.",
             "buttonTitle": "Ajouter un nouveau paiement"
         }
@@ -218,8 +236,13 @@
         "taxes": "Les taxes",
         "selectTax": "Sélectionnez les taxes",
         "unit": "Unité",
+        "unitHint": "Nom de l'unité",
+        "addUnit": "Ajouter une unité d'article",
+        "editUnit": "Modifier l'unité d'élément",
         "unitPlaceholder": "Sélectionnez l'unité",
         "alertDescription": "Vous ne pourrez pas récupérer cet article",
+        "alertUnit": "Vous ne pourrez pas récupérer cette unité d'objet",
+        "alreadyInUseUnit": "L'article est déjà utilisé",
         "lessAmount": "Le montant total ne devrait pas être inférieur à 0",
         "alreadyAttachTitle": "Action: échoué",
         "alreadyAttachDescription": "Impossible de supprimer un élément déjà utilisé",
@@ -255,6 +278,7 @@
         "notification": "Les notifications",
         "taxes": "Types de taxe",
         "expenseCategory": "Catégories de dépenses",
+        "customize": "Personnalisation",
         "endpoint": "point final api",
         "company": {
             "name": "Nom de la compagnie",
@@ -364,7 +388,8 @@
             "convertToInvoiceDescription": "Êtes-vous sûr de vouloir convertir cette estimation en facture?",
             "removeDescription": "Vous ne pourrez pas récupérer cette estimation",
             "lessAmount": "Le montant total ne devrait pas être inférieur à 0",
-            "draftTitle": "Sauvegarder les modifications?"
+            "draftTitle": "Sauvegarder les modifications?",
+            "alreadyInUseNumber": "Le nombre estimé a déjà été pris."
         },
         "empty": {
             "sent": {
@@ -426,6 +451,11 @@
             "description": "Cette section contient la liste des exercices financiers"
         }
     },
+    "countries": {
+        "empty": {
+            "title": "Pas encore de pays!"
+        }
+    },
     "reports": {
         "sales": "Ventes",
         "profitAndLoss": "Perte de profit",
@@ -466,12 +496,35 @@
             "buttonTitle": "Ajouter un type de taxe"
         }
     },
+    "customizes": {
+        "prefix": {
+            "title": "Préfixe",
+            "invoice": "Préfixe de facture",
+            "estimate": "Préfixe d'estimation",
+            "payment": "Préfixe de paiement"
+        },
+        "autoGenerate": {
+            "invoice": "Numéro de facture généré automatiquement",
+            "invoiceDescription": "Désactiver ceci, si vous ne souhaitez pas générer automatiquement les numéros de facture lors de la création d'une nouvelle facture.",
+            "estimate": "Nombre d'estimation généré automatiquement",
+            "estimateDescription": "Désactivez cette option, si vous ne souhaitez pas générer automatiquement des nombres d'estimation lors de la création d'une nouvelle estimation.",
+            "payment": "Numéro de paiement généré automatiquement",
+            "paymentDescription": "Désactivez cette option, si vous ne souhaitez pas générer automatiquement de numéros de paiement lors de la création d'un nouveau paiement."
+        },
+        "setting": {
+            "invoice": "Paramètres de facture",
+            "estimate": "Estimation des paramètres",
+            "payment": "Paramètres de paiement"
+        }
+    },
     "filePicker": {
         "file": "Cliquez ici pour choisir un fichier",
         "permission": "Désolé, nous avons besoin d'autorisations de rouleau de caméra pour que cela fonctionne!"
     },
     "alert": {
         "title": "Êtes-vous sûr?",
+        "exit": "Es tu sûr de vouloir partir?",
+        "alreadyInUse": "{{field}} déjà utilisé",
         "action": {
             "discard": "Jeter",
             "saveAsDraft": "Enregistrer comme brouillon",
@@ -481,6 +534,7 @@
     "button": {
         "remove": "Retirer",
         "save": "sauver",
+        "add": "Ajouter",
         "edit": "Modifier",
         "retry": "Recommencez",
         "done": "Terminé",
@@ -517,6 +571,8 @@
         "passwordCompare": "Les mots de passe ne correspondent pas",
         "minimumNumber": "doit être supérieur à 0",
         "maximumNumber": "doit être inférieur à {{maxNumber}}",
+        "maximumCharacter": "{{fieldName}} doit être inférieur à {{maxCharacter}} personnages.",
+        "character": "Caractères seulement",
         "numeric": "doit être numérique",
         "moreThanDue": "{{hint}} Ne devrait pas être plus que le montant dû.",
         "url": "URL invalide (p ex: https://craterapp.com)"

@@ -18,6 +18,9 @@ export const loadFonts = async ({ afterLoad }) => {
     afterLoad && afterLoad();
 };
 
+
+// Format TaxTypes 
+// -----------------------------------------
 export const formatTaxTypes = (taxes) => {
     let taxTypeList = []
 
@@ -40,24 +43,100 @@ export const formatTaxTypes = (taxes) => {
     return taxTypeList
 }
 
+// Format Countries 
+// -----------------------------------------
+export const formatCountries = (countries) => {
+
+    let countriesList = []
+    if (typeof countries !== 'undefined') {
+        countriesList = countries.map((country) => {
+            const { name, code } = country
+            return {
+                title: name,
+                rightTitle: code,
+                fullItem: country
+            }
+        })
+    }
+    return countriesList
+}
+
+// Format Select Picker Name Value 
+// -----------------------------------------
+export const formatSelectPickerName = (items) => {
+    let itemList = []
+    items && hasValue(items) && hasLength(items) && (
+        itemList = items.map((item) => {
+            return {
+                label: item.name,
+                value: item.id
+            }
+        }))
+
+    return itemList
+}
+
+// Format List By Name Only
+// -----------------------------------------
+export const formatListByName = (items) => {
+    let itemList = []
+    if (items && typeof items !== 'undefined' && items.length != 0) {
+        itemList = items.map((item) => {
+            return {
+                title: item.name,
+                fullItem: item
+            }
+        })
+    }
+    return itemList
+}
+
 export const MAX_LENGTH = 255
 
 // Alert 
 // -----------------------------------------
-export const alertMe = ({ title = '', desc = '' }) => {
+export const alertMe = ({
+    title = '',
+    desc = '',
+    okText = 'OK',
+    okPress = null,
+    showCancel = false,
+    cancelText = 'Cancel',
+    cancelPress = null,
+}) => {
+
+    const cancel = showCancel ? {
+        text: cancelText,
+        onPress: cancelPress ? cancelPress : () => { },
+        style: 'cancel',
+    } : {}
 
     Alert.alert(
         title,
         desc,
         [
             {
-                text: 'OK',
-                onPress: () => 'cancel',
+                text: okText,
+                onPress: okPress ? okPress : () => { },
                 style: 'cancel',
             },
+            cancel
         ],
-        { cancelable: false }
+        { cancelable: true },
     );
 }
 
 
+// Field Is Fillable ?
+// -----------------------------------------
+export const hasValue = (field) => {
+    return field !== null && typeof field !== "undefined"
+}
+
+export const hasLength = (field) => {
+    return field && field.length !== 0
+}
+
+export const hasObjectLength = (field) => {
+    return field && Object.keys(field).length !== 0
+}

@@ -14,7 +14,7 @@ export const validate = (values) => {
     } = values;
 
     errors.payment_date = getError(payment_date, ['required']);
-    errors.payment_number = getError(payment_number, ['required']);
+    errors.payment_number = getError(payment_number, ['required', 'isNumberFormat']);
 
     errors.user_id = getError(
         user_id,

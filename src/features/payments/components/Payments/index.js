@@ -11,12 +11,13 @@ import {
 import { ROUTES } from '../../../../navigation/routes';
 import { IMAGES } from '../../../../config';
 import Lng from '../../../../api/lang/i18n';
-import { PAYMENT_ADD, PAYMENT_EDIT, PAYMENT_SEARCH, PAYMENT_MODE } from '../../constants';
+import { PAYMENT_ADD, PAYMENT_EDIT, PAYMENT_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
+import { formatSelectPickerName } from '../../../../api/global';
 
 let params = {
     search: '',
-    payment_mode: '',
+    payment_method_id: '',
     payment_number: '',
     customer_id: '',
 }
@@ -48,28 +49,12 @@ export class Payments extends React.Component<IProps> {
     }
 
     componentDidMount() {
-        const { navigation } = this.props
-        goBack(MOUNT, navigation, ROUTES.MAIN_INVOICES)
-    }
+        const { navigation, getPaymentModes } = this.props
 
-    componentWillUpdate(nextProps, nextState) {
+        this.getItems({ fresh: true });
+        getPaymentModes()
 
-        const { navigation } = nextProps
-        const pagination = navigation.getParam('pagination', null)
-        const apiCall = navigation.getParam('apiCall', false)
-
-        if (pagination && !(apiCall)) {
-            navigation.setParams({ 'pagination': null, apiCall: true })
-
-            const { last_page, current_page } = pagination
-            this.setState({
-                pagination: {
-                    ...this.state.pagination,
-                    lastPage: last_page,
-                    page: current_page + 1,
-                }
-            });
-        }
+        goBack(MOUNT, navigation, { route: ROUTES.MAIN_INVOICES })
     }
 
     componentWillUnmount() {
@@ -93,7 +78,7 @@ export class Payments extends React.Component<IProps> {
     setFormField = (field, value) => {
         this.props.dispatch(change(PAYMENT_SEARCH, field, value));
 
-        if (field === 'payment_mode')
+        if (field === 'payment_method_id')
             this.setState({ selectedPaymentMode: value })
     };
 
@@ -150,9 +135,9 @@ export class Payments extends React.Component<IProps> {
         this.setState({ filter: false })
     }
 
-    onSubmitFilter = ({ customer_id = '', payment_mode = '', payment_number = '' }) => {
+    onSubmitFilter = ({ customer_id = '', payment_method_id = '', payment_number = '' }) => {
 
-        if (customer_id || payment_mode || payment_number) {
+        if (customer_id || payment_method_id || payment_number) {
             this.setState({ filter: true })
 
             this.getItems({
@@ -160,7 +145,7 @@ export class Payments extends React.Component<IProps> {
                 params: {
                     ...params,
                     customer_id,
-                    payment_mode,
+                    payment_method_id,
                     payment_number,
                 },
                 filter: true
@@ -203,7 +188,7 @@ export class Payments extends React.Component<IProps> {
         const {
             formValues: {
                 customer_id = '',
-                payment_mode = '',
+                payment_method_id = '',
                 payment_number = ''
             }
         } = this.props
@@ -215,7 +200,7 @@ export class Payments extends React.Component<IProps> {
                 params: {
                     ...params,
                     customer_id,
-                    payment_mode,
+                    payment_method_id,
                     payment_number,
                 },
                 filter: true
@@ -236,7 +221,9 @@ export class Payments extends React.Component<IProps> {
             language,
             handleSubmit,
             customers,
-            getCustomers
+            getCustomers,
+            paymentModesLoading,
+            paymentMethods
         } = this.props;
 
         const {
@@ -298,12 +285,12 @@ export class Payments extends React.Component<IProps> {
         }]
 
         let dropdownFields = [{
-            name: "payment_mode",
+            name: "payment_method_id",
             label: Lng.t("payments.mode", { locale: language }),
             fieldIcon: 'align-center',
-            items: PAYMENT_MODE,
+            items: formatSelectPickerName(paymentMethods),
             onChangeCallback: (val) => {
-                this.setFormField('payment_mode', val)
+                this.setFormField('payment_method_id', val)
             },
             defaultPickerOptions: {
                 label: Lng.t("payments.modePlaceholder", { locale: language }),
@@ -327,8 +314,6 @@ export class Payments extends React.Component<IProps> {
             : (!filter) ? Lng.t("payments.empty.title", { locale: language }) :
                 Lng.t("filter.empty.filterTitle", { locale: language })
 
-        let isLoading = navigation.getParam('loading', false)
-
         return (
             <View style={styles.container}>
                 <MainLayout
@@ -351,7 +336,7 @@ export class Payments extends React.Component<IProps> {
                         language: language,
                         onResetFilter: () => this.onResetFilter()
                     }}
-                    loadingProps={{ is: isLoading || (loading && fresh) }}
+                    loadingProps={{ is: paymentModesLoading || (loading && fresh) }}
                 >
 
                     <View style={styles.listViewContainer}>

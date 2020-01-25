@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
 import { Field, change } from 'redux-form';
 import {
@@ -19,6 +19,7 @@ import Lng from '../../../../api/lang/i18n';
 import { colors } from '../../../../styles/colors';
 import { SymbolStyle } from '../../../../components/CurrencyFormat/styles';
 import { headerTitle } from '../../../../api/helper';
+import { alertMe } from '../../../../api/global';
 
 let customerField = [
     "name",
@@ -51,7 +52,6 @@ export class Customer extends React.Component<IProps>  {
             portal: false,
             currencyList: [],
         };
-
     }
 
     componentDidMount() {
@@ -158,25 +158,15 @@ export class Customer extends React.Component<IProps>  {
     removeCustomer = () => {
         const { removeCustomer, navigation, language } = this.props
 
-        Alert.alert(
-            Lng.t("alert.title", { locale: language }),
-            Lng.t("customers.alertDescription", { locale: language }),
-            [
-                {
-                    text: 'OK',
-                    onPress: () => removeCustomer({
-                        id: navigation.getParam('customerId', null),
-                        navigation
-                    })
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => console.log('cancel'),
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
+        alertMe({
+            title: Lng.t("alert.title", { locale: language }),
+            desc: Lng.t("customers.alertDescription", { locale: language }),
+            showCancel: true,
+            okPress: () => removeCustomer({
+                id: navigation.getParam('customerId', null),
+                navigation
+            })
+        })
     }
 
 

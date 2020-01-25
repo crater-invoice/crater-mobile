@@ -5,11 +5,16 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as InvoicesAction from '../../actions';
 import { ITEM_FORM } from '../../constants';
+import { getItemUnits } from '../../../settings/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         invoices: { loading },
         global: { language, taxTypes },
+        settings: {
+            units,
+            loading: { itemUnitsLoading }
+        }
     } = state;
 
     const item = navigation.getParam('item', {});
@@ -18,7 +23,7 @@ const mapStateToProps = (state, { navigation }) => {
     const discountPerItem = navigation.getParam('discount_per_item');
     const taxPerItem = navigation.getParam('tax_per_item');
 
-    const isLoading = loading.editItemLoading || loading.removeItemLoading
+    const isLoading = loading.editItemLoading || loading.removeItemLoading || itemUnitsLoading
 
     return {
         loading: isLoading,
@@ -30,6 +35,8 @@ const mapStateToProps = (state, { navigation }) => {
         discountPerItem,
         taxPerItem,
         type,
+        units,
+
         initialValues: {
             price: null,
             quantity: 1,
@@ -42,6 +49,7 @@ const mapStateToProps = (state, { navigation }) => {
 };
 
 const mapDispatchToProps = {
+    getItemUnits: getItemUnits,
     addItem: InvoicesAction.addItem,
     setInvoiceItems: InvoicesAction.setInvoiceItems,
     removeInvoiceItem: InvoicesAction.removeInvoiceItem,

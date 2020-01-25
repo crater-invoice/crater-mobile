@@ -8,14 +8,16 @@ import {
     GET_EDIT_PAYMENT,
     EDIT_PAYMENT,
     REMOVE_PAYMENT,
-    GET_PAYMENTS_URL,
+    SEND_PAYMENT_RECEIPT,
     // Endpoint Api URL
+    GET_PAYMENTS_URL,
     GET_CREATE_PAYMENTS_URL,
     CREATE_PAYMENT_URL,
     GET_UNPAID_INVOICES_URL,
     GET_EDIT_PAYMENT_URL,
     EDIT_PAYMENT_URL,
-    REMOVE_PAYMENT_URL
+    REMOVE_PAYMENT_URL,
+    SEND_PAYMENT_RECEIPT_URL,
 } from '../constants';
 
 import {
@@ -24,8 +26,18 @@ import {
     setFilterPayments,
 } from '../actions';
 import { ROUTES } from '../../../navigation/routes';
+import { alertMe, hasValue } from '../../../api/global';
+import { getTitleByLanguage } from '../../../navigation/actions';
 
+const alreadyInUse = (error) => {
 
+    if (error.includes("errors") && error.includes("payment_number")) {
+        alertMe({
+            title: getTitleByLanguage("payments.alreadyInUseNumber")
+        })
+        return true;
+    }
+}
 
 function* getPayments(payloadData) {
 
@@ -111,9 +123,6 @@ function* createPayment(payloadData) {
 
         if (response.success) {
 
-            hasRecordPayment && navigation.navigate(ROUTES.MAIN_INVOICES,
-                { apiCall: false }
-            )
             navigation.navigate(ROUTES.MAIN_PAYMENTS)
 
             yield call(getPayments, payload = {});
@@ -121,8 +130,8 @@ function* createPayment(payloadData) {
             onResult && onResult(response.error)
         }
 
-    } catch (error) {
-        // console.log(error);
+    } catch ({ _bodyText }) {
+        hasValue(_bodyText) && alreadyInUse(_bodyText)
     } finally {
         yield put(paymentTriggerSpinner({ paymentLoading: false }));
     }
@@ -194,8 +203,8 @@ function* editPayment(payloadData) {
         navigation.navigate(ROUTES.MAIN_PAYMENTS)
         yield call(getPayments, payload = {});
 
-    } catch (error) {
-        // console.log(error);
+    } catch ({ _bodyText }) {
+        hasValue(_bodyText) && alreadyInUse(_bodyText)
     } finally {
         yield put(paymentTriggerSpinner({ paymentLoading: false }));
     }
@@ -228,6 +237,34 @@ function* removePayment(payloadData) {
     }
 }
 
+
+function* sendPaymentReceipt({ payload: { params, navigation } }) {
+
+    yield put(paymentTriggerSpinner({ paymentLoading: true }));
+
+    try {
+
+        const options = {
+            path: SEND_PAYMENT_RECEIPT_URL(),
+            body: params
+        };
+
+        const response = yield call([Request, 'post'], options);
+
+        if (response.error && response.error === "user_email_does_not_exist") {
+            alertMe({ title: getTitleByLanguage("alert.action.emailNotExist") })
+        } else {
+            navigation.navigate(ROUTES.MAIN_PAYMENTS)
+            yield call(getPayments, payload = {});
+        }
+
+    } catch (error) {
+        // console.log(error)
+    } finally {
+        yield put(paymentTriggerSpinner({ paymentLoading: false }));
+    }
+}
+
 export default function* paymentsSaga() {
     yield takeEvery(GET_PAYMENTS, getPayments);
     yield takeEvery(GET_CREATE_PAYMENT, getCreatePayment);
@@ -236,4 +273,5 @@ export default function* paymentsSaga() {
     yield takeEvery(GET_EDIT_PAYMENT, getEditPayment);
     yield takeEvery(EDIT_PAYMENT, editPayment);
     yield takeEvery(REMOVE_PAYMENT, removePayment);
+    yield takeEvery(SEND_PAYMENT_RECEIPT, sendPaymentReceipt);
 }

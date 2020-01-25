@@ -85,6 +85,7 @@ export class InputFieldComponent extends Component<IInputField> {
             leftIconStyle,
             language,
             maxNumber = 0,
+            maxCharacter = 0,
             isRequired = false,
             secureTextIconContainerStyle,
         } = this.props;
@@ -94,8 +95,8 @@ export class InputFieldComponent extends Component<IInputField> {
 
         let initialValueProps = {}
 
-        if(value && isCurrencyInput) {
-            const newValue =  (value / 100)
+        if (value && isCurrencyInput) {
+            const newValue = (value / 100)
             initialValueProps = { value: `${newValue}` }
         } else {
             initialValueProps = { defaultValue: `${value}` }
@@ -209,7 +210,12 @@ export class InputFieldComponent extends Component<IInputField> {
                                 numberOfLines={errorNumberOfLines || 3}
                                 style={{ color: 'white', fontSize: 12 }}
                             >
-                                {Lng.t(error, { locale: language, hint, maxNumber })}
+                                {Lng.t(error, {
+                                    locale: language,
+                                    hint,
+                                    maxNumber,
+                                    maxCharacter,
+                                })}
                             </Text>
                         </View>
                     )}

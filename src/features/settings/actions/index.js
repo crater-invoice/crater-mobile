@@ -30,6 +30,21 @@ import {
     TAX_EDIT,
     SET_EDIT_TAX,
     SET_REMOVE_TAX,
+    GET_CUSTOMIZE_SETTINGS,
+    SET_CUSTOMIZE_SETTINGS,
+    EDIT_CUSTOMIZE_SETTINGS,
+    GET_PAYMENT_MODES,
+    SET_PAYMENT_MODES,
+    CREATE_PAYMENT_MODE,
+    EDIT_PAYMENT_MODE,
+    REMOVE_PAYMENT_MODE,
+    SET_PAYMENT_MODE,
+    GET_ITEM_UNITS,
+    SET_ITEM_UNITS,
+    SET_ITEM_UNIT,
+    CREATE_ITEM_UNIT,
+    EDIT_ITEM_UNIT,
+    REMOVE_ITEM_UNIT,
 } from "../constants";
 
 import { SET_SETTINGS } from "../../../api/consts";
@@ -45,6 +60,7 @@ export const logout = (payload) => ({
 });
 
 // company
+// -------------------------------------------------
 export const getCompanyInformation = (payload) => ({
     type: GET_COMPANY_INFO,
     payload,
@@ -61,6 +77,7 @@ export const editCompanyInformation = (payload) => ({
 });
 
 // account
+// -------------------------------------------------
 export const getAccountInformation = (payload) => ({
     type: GET_ACCOUNT_INFO,
     payload,
@@ -77,6 +94,7 @@ export const editAccountInformation = (payload) => ({
 });
 
 // preferences
+// -------------------------------------------------
 export const getPreferences = (payload) => ({
     type: GET_PREFERENCES,
     payload,
@@ -98,7 +116,7 @@ export const editPreferences = (payload) => ({
 });
 
 // Settings
-
+// -------------------------------------------------
 export const getSettingItem = (payload) => ({
     type: GET_SETTING_ITEM,
     payload,
@@ -115,6 +133,7 @@ export const setSettings = (payload) => ({
 });
 
 // Expense Categories
+// -------------------------------------------------
 export const getExpenseCategories = (payload) => ({
     type: GET_EXPENSE_CATEGORIES,
     payload,
@@ -161,6 +180,7 @@ export const editExpenseCategory = (payload = {}) => ({
 });
 
 //  Taxes
+// -------------------------------------------------
 export const getTaxes = (payload) => ({
     type: GET_TAXES,
     payload,
@@ -198,5 +218,86 @@ export const setEditTax = (payload) => ({
 
 export const setRemoveTax = (payload) => ({
     type: SET_REMOVE_TAX,
+    payload,
+});
+
+// Customize Settings
+// -------------------------------------------------
+export const getCustomizeSettings = (payload = {}) => ({
+    type: GET_CUSTOMIZE_SETTINGS,
+    payload,
+});
+
+export const setCustomizeSettings = (payload = {}) => ({
+    type: SET_CUSTOMIZE_SETTINGS,
+    payload,
+});
+
+export const editCustomizeSettings = (payload = {}) => ({
+    type: EDIT_CUSTOMIZE_SETTINGS,
+    payload,
+});
+
+// Payment methods
+// -------------------------------------------------
+export const getPaymentModes = (payload = {}) => ({
+    type: GET_PAYMENT_MODES,
+    payload,
+});
+
+export const setPaymentModes = (payload = {}) => ({
+    type: SET_PAYMENT_MODES,
+    payload,
+});
+
+export const setPaymentMode = (payload = {}) => ({
+    type: SET_PAYMENT_MODE,
+    payload,
+});
+
+export const createPaymentMode = (payload = {}) => ({
+    type: CREATE_PAYMENT_MODE,
+    payload,
+});
+
+export const editPaymentMode = (payload = {}) => ({
+    type: EDIT_PAYMENT_MODE,
+    payload,
+});
+
+export const removePaymentMode = (payload = {}) => ({
+    type: REMOVE_PAYMENT_MODE,
+    payload,
+});
+
+// Item Units
+// -------------------------------------------------
+export const getItemUnits = (payload = {}) => ({
+    type: GET_ITEM_UNITS,
+    payload,
+});
+
+export const setItemUnits = (payload = {}) => ({
+    type: SET_ITEM_UNITS,
+    payload,
+});
+
+export const setItemUnit = (payload = {}) => ({
+    type: SET_ITEM_UNIT,
+    payload,
+});
+
+export const createItemUnit = (payload = {}) => ({
+    type: CREATE_ITEM_UNIT,
+    payload,
+});
+
+export const editItemUnit = (payload = {}) => ({
+    type: EDIT_ITEM_UNIT,
+    payload,
+});
+
+export const removeItemUnit = (payload = {}) => ({
+    type: REMOVE_ITEM_UNIT,
     payload,
 });

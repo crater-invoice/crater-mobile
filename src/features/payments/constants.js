@@ -23,22 +23,20 @@ export const PAYMENTS_TRIGGER_SPINNER = 'payments/PAYMENTS_TRIGGER_SPINNER';
 export const GET_EDIT_PAYMENT = 'payments/GET_EDIT_PAYMENT';
 export const EDIT_PAYMENT = 'payments/EDIT_PAYMENT';
 export const REMOVE_PAYMENT = 'payments/REMOVE_PAYMENT';
-
-// Payment Mode
-// -----------------------------------------
-export const PAYMENT_MODE = [
-    { label: 'Cash', value: 'Cash' },
-    { label: 'Check', value: 'Check' },
-    { label: 'Credit Card', value: 'Credit Card' },
-    { label: 'Bank Transfer', value: 'Bank Transfer' }
-]
+export const SEND_PAYMENT_RECEIPT = 'payments/SEND_PAYMENT_RECEIPT';
 
 export const ACTIONS_VALUE = {
+    SEND: "send",
     REMOVE: 'remove',
 }
 
 export const PAYMENT_ACTIONS = (Lng, language) => {
     return [
+        {
+            label: Lng.t("payments.sendReceipt", { locale: language })
+            ,
+            value: ACTIONS_VALUE.SEND
+        },
         {
             label: Lng.t("payments.removePayment", { locale: language })
             ,
@@ -63,3 +61,5 @@ export const REMOVE_PAYMENT_URL = (id) => `payments/${id}`
 export const GET_EDIT_PAYMENT_URL = (id) => `payments/${id}/edit`
 export const GET_CREATE_PAYMENTS_URL = () => `payments/create`
 export const GET_UNPAID_INVOICES_URL = (id) => `invoices/unpaid/${id}`
+
+export const SEND_PAYMENT_RECEIPT_URL = () => `payments/send`

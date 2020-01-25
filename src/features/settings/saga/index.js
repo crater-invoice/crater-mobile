@@ -1,4 +1,4 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import {
     settingsTriggerSpinner,
@@ -6,14 +6,7 @@ import {
     setAccountInformation,
     setPreferences,
     setSettings,
-    setExpenseCategories,
-    setCreateExpenseCategories,
-    setEditExpenseCategories,
-    setRemoveExpenseCategories,
-    setTaxes,
-    setTax,
-    setEditTax,
-    setRemoveTax,
+    setCustomizeSettings,
 } from '../actions';
 
 import {
@@ -25,15 +18,8 @@ import {
     EDIT_PREFERENCES,
     GET_SETTING_ITEM,
     EDIT_SETTING_ITEM,
-    GET_EXPENSE_CATEGORIES,
-    CREATE_EXPENSE_CATEGORY,
-    GET_CREATE_EXPENSE_CATEGORY,
-    EDIT_EXPENSE_CATEGORY,
-    REMOVE_EXPENSE_CATEGORY,
-    GET_TAXES,
-    REMOVE_TAX,
-    TAX_ADD,
-    TAX_EDIT,
+    GET_CUSTOMIZE_SETTINGS,
+    EDIT_CUSTOMIZE_SETTINGS,
     // Endpoint Api URL
     GET_COMPANY_URL,
     EDIT_COMPANY_URL,
@@ -43,21 +29,19 @@ import {
     GET_GENERAL_SETTING_URL,
     EDIT_PREFERENCES_URL,
     EDIT_GENERAL_SETTING_URL,
-    GET_EXPENSE_CATEGORIES_URL,
-    CREATE_EXPENSE_CATEGORIES_URL,
-    GET_EDIT_EXPENSE_CATEGORIES_URL,
-    EDIT_EXPENSE_CATEGORIES_URL,
-    REMOVE_EXPENSE_CATEGORIES_URL,
-    GET_SALES_TAXES_URL,
-    CREATE_SALES_TAX_URL,
-    EDIT_SALES_TAX_URL,
-    REMOVE_SALES_TAX_URL,
     EDIT_ACCOUNT_AVATAR_URL,
-    UPLOAD_LOGO_URL
+    UPLOAD_LOGO_URL,
+    GET_CUSTOMIZE_SETTINGS_URL,
+    EDIT_CUSTOMIZE_SETTINGS_URL,
 } from '../constants';
 
 import Request from '../../../api/request';
 import { ROUTES } from '../../../navigation/routes';
+
+import categories from './categories';
+import taxes from './taxes';
+import modes from './modes';
+import units from './units';
 
 /**
  * Company Information.
@@ -275,7 +259,12 @@ function* editPreferences(payloadData) {
 
 function* editSettingItem(payloadData) {
     const {
-        payload: { params, navigation = null, onResult = null },
+        payload: {
+            params,
+            navigation = null,
+            onResult = null,
+            hasCustomize = false
+        },
     } = payloadData;
 
     yield put(settingsTriggerSpinner({ editSettingItemLoading: true }));
@@ -290,7 +279,9 @@ function* editSettingItem(payloadData) {
         const response = yield call([Request, 'put'], options);
 
         if (response.success) {
-            yield put(setSettings({ settings: params }));
+            if (!hasCustomize) {
+                yield put(setSettings({ settings: params }));
+            }
             onResult && onResult()
         }
 
@@ -304,249 +295,51 @@ function* editSettingItem(payloadData) {
     }
 }
 
+
 /**
- * Expense Categories
+ * Customize Settings
  */
-function* getExpenseCategories(payloadData) {
+function* getCustomizeSettings(payloadData) {
 
-    yield put(settingsTriggerSpinner({ expensesCategoryLoading: true }));
+    yield put(settingsTriggerSpinner({ getCustomizeLoading: true }));
 
     try {
-
         const options = {
-            path: GET_EXPENSE_CATEGORIES_URL(),
+            path: GET_CUSTOMIZE_SETTINGS_URL(),
         };
 
         const response = yield call([Request, 'get'], options);
-        yield put(setExpenseCategories({ categories: response.categories }));
+        yield put(setCustomizeSettings({ customizes: response }));
 
     } catch (error) {
         // console.log(error);
     } finally {
-        yield put(settingsTriggerSpinner({ expensesCategoryLoading: false }));
+        yield put(settingsTriggerSpinner({ getCustomizeLoading: false }));
     }
 }
 
-function* createExpenseCategory(payloadData) {
-    const {
-        payload: { params, onResult },
-    } = payloadData;
 
-    yield put(settingsTriggerSpinner({ expenseCategoryLoading: true }));
+function* editCustomizeSettings({ payload: { params, navigation } }) {
+
+    yield put(settingsTriggerSpinner({ customizeLoading: true }));
 
     try {
-
         const options = {
-            path: CREATE_EXPENSE_CATEGORIES_URL(),
-            body: params
-        };
-
-        const response = yield call([Request, 'post'], options);
-
-        yield put(setCreateExpenseCategories({ categories: [response.category] }));
-
-        onResult && onResult(response.category)
-
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(settingsTriggerSpinner({ expenseCategoryLoading: false }));
-    }
-}
-
-function* getEditExpenseCategory(payloadData) {
-    const {
-        payload: { id, onResult },
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ initExpenseCategoryLoading: true }));
-
-    try {
-
-        const options = {
-            path: GET_EDIT_EXPENSE_CATEGORIES_URL(id),
-        };
-
-        const response = yield call([Request, 'get'], options);
-        onResult && onResult(response.category)
-
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(settingsTriggerSpinner({ initExpenseCategoryLoading: false }));
-    }
-}
-
-function* editExpenseCategory(payloadData) {
-    const {
-        payload: { id, params, navigation },
-    } = payloadData;
-
-
-    yield put(settingsTriggerSpinner({ expenseCategoryLoading: true }));
-
-    try {
-
-        const options = {
-            path: EDIT_EXPENSE_CATEGORIES_URL(id),
+            path: EDIT_CUSTOMIZE_SETTINGS_URL(),
             body: params
         };
 
         const response = yield call([Request, 'put'], options);
-        navigation.navigate(ROUTES.CATEGORIES)
-        yield put(setEditExpenseCategories({ categories: [response.category], id }));
-
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(settingsTriggerSpinner({ expenseCategoryLoading: false }));
-    }
-}
-
-function* removeExpenseCategory(payloadData) {
-    const {
-        payload: { id, navigation, onResult },
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ expenseCategoryLoading: true }));
-
-    try {
-
-        const options = {
-            path: REMOVE_EXPENSE_CATEGORIES_URL(id),
-        };
-
-        const response = yield call([Request, 'delete'], options);
 
         if (response.success) {
-            navigation.navigate(ROUTES.CATEGORIES)
-            yield put(setRemoveExpenseCategories({ id }));
+            navigation.navigate(ROUTES.CUSTOMIZES)
+            yield put(setCustomizeSettings({ customizes: null }));
         }
-        else
-            onResult && onResult()
 
     } catch (error) {
         // console.log(error);
     } finally {
-        yield put(settingsTriggerSpinner({ expenseCategoryLoading: false }));
-    }
-}
-
-/**
- * Tax Types
- */
-function* getTaxTypes(payloadData) {
-    const {
-        payload: {
-            onResult,
-        } = {},
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ getTaxesLoading: true }));
-
-    try {
-
-        const options = {
-            path: GET_SALES_TAXES_URL(),
-        };
-
-        const response = yield call([Request, 'get'], options);
-
-        yield put(setTaxes({ taxTypes: response.taxTypes }));
-
-        onResult && onResult(response);
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(settingsTriggerSpinner({ getTaxesLoading: false }));
-    }
-}
-
-function* addTax(payloadData) {
-    const {
-        payload: {
-            tax,
-            onResult,
-        },
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ addTaxLoading: true }));
-
-    try {
-
-        const options = {
-            path: CREATE_SALES_TAX_URL(),
-            body: tax
-        };
-
-        const response = yield call([Request, 'post'], options);
-
-        yield put(setTax({ taxType: [response.taxType] }));
-
-        onResult && onResult(response.taxType);
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(settingsTriggerSpinner({ addTaxLoading: false }));
-    }
-}
-
-function* editTaxType(payloadData) {
-    const {
-        payload: {
-            tax,
-            onResult,
-        },
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ editTaxLoading: true }));
-
-    try {
-
-        const options = {
-            path: EDIT_SALES_TAX_URL(tax),
-            body: tax
-        };
-
-        const response = yield call([Request, 'put'], options);
-
-        yield put(setEditTax({ taxType: [response.taxType], taxId: tax.id }));
-
-        onResult && onResult(response);
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(settingsTriggerSpinner({ editTaxLoading: false }));
-    }
-}
-
-function* removeTax(payloadData) {
-    const {
-        payload: {
-            id,
-            onResult,
-        },
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ removeTaxLoading: true }));
-
-    try {
-
-        const options = {
-            path: REMOVE_SALES_TAX_URL(id),
-        };
-
-        const response = yield call([Request, 'delete'], options);
-
-        if (response.success)
-            yield put(setRemoveTax({ taxId: id }));
-
-        onResult && onResult(response.success);
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(settingsTriggerSpinner({ removeTaxLoading: false }));
-
+        yield put(settingsTriggerSpinner({ customizeLoading: false }));
     }
 }
 
@@ -561,18 +354,15 @@ export default function* settingsSaga() {
     yield takeEvery(EDIT_PREFERENCES, editPreferences);
     yield takeEvery(EDIT_SETTING_ITEM, editSettingItem);
 
-    // Expense Categories
+    // Customize
     // -----------------------------------------
-    yield takeEvery(GET_EXPENSE_CATEGORIES, getExpenseCategories);
-    yield takeEvery(CREATE_EXPENSE_CATEGORY, createExpenseCategory);
-    yield takeEvery(GET_CREATE_EXPENSE_CATEGORY, getEditExpenseCategory);
-    yield takeEvery(EDIT_EXPENSE_CATEGORY, editExpenseCategory);
-    yield takeEvery(REMOVE_EXPENSE_CATEGORY, removeExpenseCategory);
+    yield takeEvery(GET_CUSTOMIZE_SETTINGS, getCustomizeSettings);
+    yield takeEvery(EDIT_CUSTOMIZE_SETTINGS, editCustomizeSettings);
 
-    // Tax Types
-    // -----------------------------------------
-    yield takeEvery(GET_TAXES, getTaxTypes);
-    yield takeEvery(TAX_ADD, addTax);
-    yield takeEvery(TAX_EDIT, editTaxType);
-    yield takeEvery(REMOVE_TAX, removeTax);
+    yield all([
+        categories(),
+        taxes(),
+        modes(),
+        units()
+    ]);
 }

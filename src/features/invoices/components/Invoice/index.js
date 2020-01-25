@@ -1,12 +1,7 @@
 // @flow
 
 import React from 'react';
-import {
-    View,
-    Text,
-    Alert,
-    Linking
-} from 'react-native';
+import { View, Text, Linking } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles, { itemsDescriptionStyle } from './styles';
 import {
@@ -19,6 +14,7 @@ import {
     SelectField,
     SelectPickerField,
     CurrencyFormat,
+    FakeInput
 } from '../../../../components';
 import { ROUTES } from '../../../../navigation/routes';
 import {
@@ -33,14 +29,14 @@ import {
 import { BUTTON_TYPE } from '../../../../api/consts/core';
 import { colors } from '../../../../styles/colors';
 import { TemplateField } from '../TemplateField';
-import { MOUNT, UNMOUNT, goBackWithFunction } from '../../../../navigation/actions';
+import { MOUNT, UNMOUNT, goBack } from '../../../../navigation/actions';
 import Lng from '../../../../api/lang/i18n';
 import { INVOICE_DISCOUNT_OPTION } from '../../constants';
 import { CUSTOMER_ADD } from '../../../customers/constants';
 import { IMAGES } from '../../../../config';
 import { ADD_TAX } from '../../../settings/constants';
 import { PAYMENT_ADD } from '../../../payments/constants';
-import { MAX_LENGTH } from '../../../../api/global';
+import { MAX_LENGTH, alertMe } from '../../../../api/global';
 
 
 type IProps = {
@@ -85,7 +81,6 @@ export class Invoice extends React.Component<IProps> {
             getCreateInvoice,
             navigation,
             invoiceItems,
-            taxTypes,
             getEditInvoice,
             type,
         } = this.props;
@@ -115,20 +110,20 @@ export class Invoice extends React.Component<IProps> {
                 this.forceUpdate();
             }
         );
-
         this.getInvoiceItemList(invoiceItems)
 
+        this.androidBackHandler()
     }
 
     componentWillUnmount() {
         const { clearInvoice } = this.props
         clearInvoice();
-        goBackWithFunction(UNMOUNT)
+        goBack(UNMOUNT)
     }
 
     androidBackHandler = () => {
         const { navigation, handleSubmit } = this.props
-        goBackWithFunction(MOUNT, navigation, () => this.onDraft(handleSubmit))
+        goBack(MOUNT, navigation, { callback: () => this.onDraft(handleSubmit) })
     }
 
     setFormField = (field, value) => {
@@ -155,24 +150,15 @@ export class Invoice extends React.Component<IProps> {
             navigation.navigate(ROUTES.MAIN_INVOICES)
             return
         }
-        Alert.alert(
-            Lng.t("invoices.alert.draftTitle", { locale: language }),
-            '',
-            [
-                {
-                    text: Lng.t("alert.action.saveAsDraft", { locale: language }),
-                    onPress: handleSubmit(this.onSubmitInvoice)
-                },
-                {
-                    text: Lng.t("alert.action.discard", { locale: language }),
-                    onPress: () => {
-                        navigation.navigate(ROUTES.MAIN_INVOICES)
-                    },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
+
+        alertMe({
+            title: Lng.t("invoices.alert.draftTitle", { locale: language }),
+            showCancel: true,
+            cancelText: Lng.t("alert.action.discard", { locale: language }),
+            cancelPress: () => navigation.navigate(ROUTES.MAIN_INVOICES),
+            okText: Lng.t("alert.action.saveAsDraft", { locale: language }),
+            okPress: handleSubmit(this.onSubmitInvoice)
+        })
     }
 
     onSubmitInvoice = (values, status = 'draft') => {
@@ -182,6 +168,7 @@ export class Invoice extends React.Component<IProps> {
             type,
             editInvoice,
             language,
+            invoiceData: { invoice_prefix = '' } = {}
         } = this.props
 
         if (this.finalAmount() < 0) {
@@ -191,6 +178,7 @@ export class Invoice extends React.Component<IProps> {
 
         let invoice = {
             ...values,
+            invoice_number: `${invoice_prefix}-${values.invoice_number}`,
             total: this.finalAmount(),
             sub_total: this.invoiceSubTotal(),
             tax: this.invoiceTax() + this.invoiceCompoundTax(),
@@ -667,12 +655,17 @@ export class Invoice extends React.Component<IProps> {
         switch (action) {
 
             case INVOICE_ACTIONS.SEND:
-
-                changeInvoiceStatus({
-                    id: navigation.getParam('id'),
-                    action: 'send',
-                    navigation
+                alertMe({
+                    title: Lng.t("alert.title", { locale: language }),
+                    desc: Lng.t("invoices.alert.sendEmail", { locale: language }),
+                    showCancel: true,
+                    okPress: () => changeInvoiceStatus({
+                        id: navigation.getParam('id'),
+                        action: 'send',
+                        navigation
+                    })
                 })
+
                 break;
 
             case INVOICE_ACTIONS.MARK_AS_SENT:
@@ -698,72 +691,46 @@ export class Invoice extends React.Component<IProps> {
                 )
                 break;
 
-            case INVOICE_ACTIONS.DELETE:
-                Alert.alert(
-                    Lng.t("alert.title", { locale: language }),
-                    Lng.t("invoices.alert.removeDescription", { locale: language }),
-                    [
-                        {
-                            text: 'OK',
-                            onPress: () => {
-                                removeInvoice({
-                                    id: navigation.getParam('id'),
-                                    onResult: (res) => {
-                                        res.success &&
-                                            navigation.navigate(ROUTES.MAIN_INVOICES)
+            case INVOICE_ACTIONS.CLONE:
+                alertMe({
+                    title: Lng.t("alert.title", { locale: language }),
+                    desc: Lng.t("invoices.alert.clone", { locale: language }),
+                    showCancel: true,
+                    okPress: () => changeInvoiceStatus({
+                        id: navigation.getParam('id'),
+                        action: 'clone',
+                        navigation
+                    })
+                })
 
-                                        res.error && (res.error === 'payment_attached') &&
-                                            Alert.alert(
-                                                Lng.t("invoices.alert.paymentAttachedTitle", { locale: language }),
-                                                Lng.t("invoices.alert.paymentAttachedDescription", { locale: language }),
-                                                [
-                                                    {
-                                                        text: 'OK',
-                                                        onPress: () => { },
-                                                        style: 'cancel',
-                                                    },
-                                                ],
-                                                { cancelable: false }
-                                            );
-                                    }
+                break;
+
+            case INVOICE_ACTIONS.DELETE:
+                alertMe({
+                    title: Lng.t("alert.title", { locale: language }),
+                    desc: Lng.t("invoices.alert.removeDescription", { locale: language }),
+                    showCancel: true,
+                    okPress: () => removeInvoice({
+                        id: navigation.getParam('id'),
+                        onResult: (res) => {
+                            res.success &&
+                                navigation.navigate(ROUTES.MAIN_INVOICES)
+
+                            res.error && (res.error === 'payment_attached') &&
+                                alertMe({
+                                    title: Lng.t("invoices.alert.paymentAttachedTitle", { locale: language }),
+                                    desc: Lng.t("invoices.alert.paymentAttachedDescription", { locale: language }),
                                 })
-                            }
-                        },
-                        {
-                            text: 'Cancel',
-                            onPress: () => { },
-                            style: 'cancel',
-                        },
-                    ],
-                    { cancelable: false }
-                );
+                        }
+                    })
+                })
+
                 break;
 
             default:
                 break;
         }
 
-    }
-
-    handleInvoiceAction = (action, title) => {
-        const { handleSubmit } = this.props
-
-        Alert.alert(
-            title,
-            '',
-            [
-                {
-                    text: 'OK',
-                    onPress: handleSubmit((val) => this.onSubmitInvoice(val, action))
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => { },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
     }
 
     render() {
@@ -773,7 +740,8 @@ export class Invoice extends React.Component<IProps> {
             invoiceData: {
                 invoiceTemplates,
                 discount_per_item,
-                tax_per_item
+                tax_per_item,
+                invoice_prefix
             } = {},
             invoiceItems,
             getItems,
@@ -791,9 +759,7 @@ export class Invoice extends React.Component<IProps> {
 
         const isEditInvoice = (type === INVOICE_EDIT)
 
-        !initLoading && this.androidBackHandler()
-
-        let hasSentStatus = (markAsStatus === 'SENT')
+        let hasSentStatus = (markAsStatus === 'SENT' || markAsStatus === 'VIEWED')
         let hasCompleteStatus = (markAsStatus === 'COMPLETED')
 
         let drownDownProps = (isEditInvoice && !initLoading) ? {
@@ -804,11 +770,11 @@ export class Invoice extends React.Component<IProps> {
             ),
             onSelect: this.onOptionSelect,
             cancelButtonIndex:
+                hasSentStatus ? 3 :
+                    hasCompleteStatus ? 2 : 5,
+            destructiveButtonIndex:
                 hasSentStatus ? 2 :
                     hasCompleteStatus ? 1 : 4,
-            destructiveButtonIndex:
-                hasSentStatus ? 1 :
-                    hasCompleteStatus ? 2 : 3,
         } : null
 
 
@@ -861,16 +827,15 @@ export class Invoice extends React.Component<IProps> {
 
                     <Field
                         name="invoice_number"
-                        component={InputField}
+                        component={FakeInput}
+                        label={Lng.t("invoices.invoiceNumber", { locale: language })}
                         isRequired
-                        hint={Lng.t("invoices.invoiceNumber", { locale: language })}
-                        leftIcon={'hashtag'}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
+                        prefixProps={{
+                            fieldName: "invoice_number",
+                            prefix: invoice_prefix,
+                            icon: 'hashtag',
+                            iconSolid: false,
                         }}
-                        editable={false}
                     />
 
                     <Field

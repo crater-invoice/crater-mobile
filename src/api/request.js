@@ -96,12 +96,14 @@ export default class Request {
         const defaultHeaders = image
             ? {
                 Authorization: `Bearer ${idToken}` || `Bearer ${ID_TOKEN}`,
-                company: company ? company.id : 1
+                company: company ? company.id : 1,
+                Accept: 'application/json'
             }
             : {
                 Authorization: `Bearer ${idToken}` || `Bearer ${ID_TOKEN}`,
                 'Content-Type': 'application/json',
-                company: company ? company.id : 1
+                company: company ? company.id : 1,
+                Accept: 'application/json'
             };
 
         const formData = new FormData();

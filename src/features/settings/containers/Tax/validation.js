@@ -11,7 +11,7 @@ export const validate = (values) => {
     errors.percent = getError(
         percent,
         ['requiredField', 'isNumberFormat', 'maxNumberRequired', 'minNumberRequired'],
-        options = { fieldName: 'Tax Percent', maxNumber: 100, minNumber: 0 }
+        options = { fieldName: 'Tax Percent', maxNumber: 100, minNumber: -1 }
     );
 
     return errors;

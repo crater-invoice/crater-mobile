@@ -9,8 +9,8 @@ export const validate = (values) => {
 
     errors.invoice_date = getError(invoice_date, ['required']);
     errors.due_date = getError(due_date, ['required']);
-    errors.invoice_number = getError(invoice_number, ['requiredField']);
 
+    errors.invoice_number = getError(invoice_number, ['requiredField', 'isNumberFormat']);
     errors.items = getError(items, ['requiredCheckArray']);
 
     errors.user_id = getError(

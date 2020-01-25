@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import { Field } from 'redux-form';
 import styles from './styles';
 import {
@@ -9,7 +9,7 @@ import {
     AssetImage,
     CtGradientButton,
     CtHeader,
-    CtButton,
+    CtButton
 } from '../../../../components';
 import { Text } from 'react-native-elements';
 import { IMAGES } from '../../../../config';
@@ -79,7 +79,7 @@ export class ForgotPassword extends React.Component<IProps> {
                         leftIconPress={() => navigation.goBack(null)}
                         title={Lng.t("header.back", { locale: language })}
                         titleOnPress={() => navigation.goBack(null)}
-                        titleStyle={{ marginLeft: -10 }}
+                        titleStyle={{ marginLeft: -10, marginTop: Platform.OS === 'ios' ? -1 : 2 }}
                         placement="left"
                         noBorder
                         transparent
@@ -95,8 +95,9 @@ export class ForgotPassword extends React.Component<IProps> {
                     )}
 
                 <ScrollView
-                    style={{ marginTop: !isMailSended ? '23%' : '8%' }}
+                    style={{ paddingTop: !isMailSended ? '23%' : '8%' }}
                     bounces={false}
+                    showsVerticalScrollIndicator={false}
                 >
                     <KeyboardAvoidingView
                         style={{ flex: 1 }}

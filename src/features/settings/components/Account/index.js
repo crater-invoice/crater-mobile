@@ -139,7 +139,6 @@ export class Account extends React.Component<IProps> {
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
-                            autoFocus: true,
                             onSubmitEditing: () => {
                                 accountRefs.email.focus();
                             }

@@ -8,8 +8,10 @@ import { PAYMENT_SEARCH } from '../../constants';
 import { SvgXml } from 'react-native-svg';
 import { PAYMETNS } from '../../../../assets/svg';
 import { getCustomers } from '../../../customers/actions';
-import { getTitleByLanguage, tabBarOnPress, navigateTabRoutes, navigateRoute } from '../../../../navigation/actions';
+import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
 import { ROUTES } from '../../../../navigation/routes';
+import { withNavigationFocus } from 'react-navigation';
+import { getPaymentModes } from '../../../settings/actions';
 
 
 const mapStateToProps = (state) => {
@@ -21,6 +23,10 @@ const mapStateToProps = (state) => {
             payments,
             filterPayments,
             loading: { paymentsLoading }
+        },
+        settings: {
+            paymentMethods,
+            loading: { paymentModesLoading }
         }
     } = state;
 
@@ -28,8 +34,11 @@ const mapStateToProps = (state) => {
         payments,
         filterPayments,
         loading: paymentsLoading,
+        paymentModesLoading,
         language,
         customers,
+        paymentMethods,
+
         formValues: getFormValues(PAYMENT_SEARCH)(state) || {},
     };
 };
@@ -37,7 +46,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getPayments: PaymentsAction.getPayments,
-    getCustomers: getCustomers
+    getCustomers: getCustomers,
+    getPaymentModes: getPaymentModes
 };
 
 //  Redux Forms
@@ -63,16 +73,12 @@ PaymentsContainer.navigationOptions = ({ navigation }) => ({
         />
     ),
     tabBarOnPress: () => {
+        if (navigation.isFocused()) {
+            return;
+        }
 
-        navigateTabRoutes(ROUTES.MAIN_PAYMENTS, { apiCall: false })
-
-        let apiCall = navigation.getParam('apiCall', false)
-
-        apiCall ? navigateRoute(ROUTES.MAIN_PAYMENTS) : tabBarOnPress(
-            ROUTES.MAIN_PAYMENTS,
-            PaymentsAction.getPayments
-        )
+        navigateToMainTabs(navigation, ROUTES.MAIN_PAYMENTS)
     }
 });
 
-export default PaymentsContainer;
+export default withNavigationFocus(PaymentsContainer);

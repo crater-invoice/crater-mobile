@@ -41,11 +41,13 @@
         "addItem": "Añadir artículo",
         "editItem": "Editar elemento",
         "items": "Artículos",
+        "units": "Unidades",
         "reports": "Informes",
         "salesReport": "Reporte de ventas",
         "profitAndLossReport": "Informe de pérdidas y ganancias",
         "expensesReport": "Informe de gastos",
         "taxesReport": "Informe de impuestos",
+        "customize": "Personalización",
         "filter": "Filtros",
         "back": "atrás"
     },
@@ -87,10 +89,14 @@
         "fromDate": "Partir de la fecha",
         "toDate": "Hasta la fecha",
         "alert": {
+            "lessAmount": "La cantidad total no debe ser inferior a 0",
             "removeDescription": "No podrá recuperar esta factura",
             "paymentAttachedTitle": "Accion: Fallida",
             "paymentAttachedDescription": "No se puede eliminar una factura con un pago existente.",
-            "draftTitle": "¿Quieres ahorrar?"
+            "draftTitle": "¿Quieres ahorrar?",
+            "alreadyInUseNumber": "El número de factura ya ha sido tomado.",
+            "sendEmail": "Esta factura se enviará por correo electrónico al cliente.",
+            "clone": "Esta factura se clonará en una nueva factura."
         },
         "empty": {
             "due": {
@@ -114,7 +120,8 @@
             "editInvoice": "Editar factura",
             "delete": "Eliminar",
             "recordPayment": "Registro de pago",
-            "markAsSent": "Marcar como enviado"
+            "markAsSent": "Marcar como enviado",
+            "clone": "Factura de clonación"
         }
     },
     "customers": {
@@ -169,17 +176,28 @@
         "customer": "Cliente",
         "customerPlaceholder": "Seleccionar cliente",
         "mode": "Modo de pago",
+        "modes": "Modos de pago",
+        "prefix": "Prefijo de pago",
+        "addMode": "Añadir modo de pago",
+        "editMode": "Editar modo de pago",
+        "modeHint": "Nombre del modo",
         "modePlaceholder": "Seleccionar modo",
         "amount": "Cantidad",
         "notes": "Notas",
         "notesPlaceholder": "Notas adicionales",
         "invoice": "Factura",
         "invoicePlaceholder": "Seleccionar factura",
+        "sendReceipt": "Enviar recibo de pago",
         "alertAmount": "El pago ingresado es mayor que el monto total adeudado por esta factura.",
         "alertDescription": "No podrá recuperar este pago",
+        "alertMode": "No podrá recuperar este modo de pago",
+        "alreadyInUseMode": "El modo de pago ya está en uso",
+        "alreadyInUseNumber": "El número de pago ya ha sido tomado.",
+        "alertSendDescription": "Este pago se enviará por correo electrónico al cliente.",
         "removePayment": "Eliminar",
         "empty": {
             "title": "Aún no hay pagos!",
+            "modeTitle": "¡Aún no hay modos de pago!",
             "description": "Esta sección contendrá la lista de pagos.",
             "buttonTitle": "Agregar nuevo pago"
         }
@@ -218,8 +236,13 @@
         "taxes": "Impuestos",
         "selectTax": "Seleccionar impuestos",
         "unit": "Unidad",
+        "unitHint": "Nombre de la unidad",
+        "addUnit": "Agregar unidad de artículo",
+        "editUnit": "Editar unidad de artículo",
         "unitPlaceholder": "Seleccionar unidad",
         "alertDescription": "No podrás recuperar este artículo",
+        "alertUnit": "No podrás recuperar esta unidad de artículo",
+        "alreadyInUseUnit": "Unidad de artículo ya está en uso",
         "lessAmount": "La cantidad total no debe ser inferior a 0",
         "alreadyAttachTitle": "Accion: Fallida",
         "alreadyAttachDescription": "No se puede eliminar un elemento que ya está en uso.",
@@ -255,6 +278,7 @@
         "notification": "Notificaciones",
         "taxes": "Tipos de impuestos",
         "expenseCategory": "Categorías de gastos",
+        "customize": "Personalización",
         "endpoint": "point final api",
         "company": {
             "name": "nombre de empresa",
@@ -364,7 +388,8 @@
             "convertToInvoiceDescription": "¿Está seguro de que desea convertir esta estimación en una factura?",
             "removeDescription": "No podrá recuperar esta estimación",
             "lessAmount": "La cantidad total no debe ser inferior a 0",
-            "draftTitle": "¿Guardar cambios?"
+            "draftTitle": "¿Guardar cambios?",
+            "alreadyInUseNumber": "El número estimado ya ha sido tomado."
         },
         "empty": {
             "sent": {
@@ -426,6 +451,11 @@
             "description": "Esta sección contendrá la lista de ejercicios financieros."
         }
     },
+    "countries": {
+        "empty": {
+            "title": "¡Aún no hay países!"
+        }
+    },
     "reports": {
         "sales": "Ventas",
         "profitAndLoss": "Pérdida de beneficios",
@@ -466,12 +496,35 @@
             "buttonTitle": "Agregar tipo de impuesto"
         }
     },
+    "customizes": {
+        "prefix": {
+            "title": "Prefijo",
+            "invoice": "Prefijo de factura",
+            "estimate": "Prefijo de estimación",
+            "payment": "Prefijo de pago"
+        },
+        "autoGenerate": {
+            "invoice": "Número de factura autogenerada",
+            "invoiceDescription": "Desactive esto, si no desea generar automáticamente números de factura al crear una nueva factura.",
+            "estimate": "Número de estimación autogenerada",
+            "estimateDescription": "Deshabilite esto, si no desea generar automáticamente números de estimación al crear una nueva estimación.",
+            "payment": "Número de pago autogenerado",
+            "paymentDescription": "Deshabilite esto, si no desea generar automáticamente números de pago al crear un nuevo pago."
+        },
+        "setting": {
+            "invoice": "Configuración de factura",
+            "estimate": "Configuraciones de estimación",
+            "payment": "Configuraciones de pago"
+        }
+    },
     "filePicker": {
         "file": "Haga clic aquí para elegir un archivo.",
         "permission": "Lo sentimos, necesitamos permisos de cámara para hacer que esto funcione."
     },
     "alert": {
         "title": "¿Estás seguro?",
+        "exit": "¿Estás seguro que quieres salir?",
+        "alreadyInUse": "{{field}} ya en uso",
         "action": {
             "discard": "Descarte",
             "saveAsDraft": "Guardar como borrador",
@@ -481,6 +534,7 @@
     "button": {
         "remove": "Eliminar",
         "save": "Salvar",
+        "add": "Añadir",
         "edit": "Editar",
         "retry": "Procesar de nuevo",
         "done": "Hecho",
@@ -517,6 +571,8 @@
         "passwordCompare": "Las contraseñas no coinciden",
         "minimumNumber": "debe ser mayor que 0",
         "maximumNumber": "debe ser menor que {{maxNumber}}",
+        "maximumCharacter": "{{fieldName}} debe ser menor que {{maxCharacter}} caracteres.",
+        "character": "Solo personajes",
         "numeric": "debe ser numérico",
         "moreThanDue": "{{hint}} No debe ser más que el monto adeudado.",
         "url": "URL invalida (p.ej: https://craterapp.com)"

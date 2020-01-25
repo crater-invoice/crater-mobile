@@ -41,11 +41,13 @@
         "addItem": "Add Item",
         "editItem": "Edit Item",
         "items": "Items",
+        "units": "Units",
         "reports": "Reports",
         "salesReport": "Sales Report",
         "profitAndLossReport": "Profit & Loss Report",
         "expensesReport": "Expenses Report",
         "taxesReport": "Taxes Report",
+        "customize": "Customization",
         "filter": "Filters",
         "back": "Back"
     },
@@ -87,10 +89,14 @@
         "fromDate": "From Date",
         "toDate": "To Date",
         "alert": {
+            "lessAmount": "Total Amount shouldn't less than 0",
             "removeDescription": "You will not be able to recover this Invoice",
             "paymentAttachedTitle": "Action Failed",
             "paymentAttachedDescription": "Cannot delete an invoice with an existing payment.",
-            "draftTitle": "Save changes?"
+            "draftTitle": "Save changes?",
+            "alreadyInUseNumber": "The invoice number has already been taken.",
+            "sendEmail": "This invoice will be sent via email to the customer",
+            "clone": "This invoice will be cloned into a new Invoice"
         },
         "empty": {
             "due": {
@@ -114,7 +120,8 @@
             "editInvoice": "Edit Invoice",
             "delete": "Delete",
             "recordPayment": "Record Payment",
-            "markAsSent": "Mark As Sent"
+            "markAsSent": "Mark As Sent",
+            "clone": "Clone Invoice"
         }
     },
     "customers": {
@@ -169,17 +176,28 @@
         "customer": "Customer",
         "customerPlaceholder": "Select or Add new Customer",
         "mode": "Payment Mode",
+        "modes": "Payment Modes",
+        "prefix": "Payment Prefix",
+        "addMode": "Add Payment Mode",
+        "editMode": "Edit Payment Mode",
+        "modeHint": "Mode Name",
         "modePlaceholder": "Select Payment Mode",
         "amount": "Amount",
         "notes": "Notes",
         "notesPlaceholder": "Additional notes",
         "invoice": "Invoice",
         "invoicePlaceholder": "Select Invoice",
+        "sendReceipt": "Send Payment Receipt",
         "alertAmount": "The payment entered is more than the total amount due for this invoice.",
         "alertDescription": "You will not be able to recover this Payment",
+        "alertMode": "You will not be able to recover this Payment Mode",
+        "alreadyInUseMode": "Payment Mode is already in use",
+        "alreadyInUseNumber": "The payment number has already been taken.",
+        "alertSendDescription": "This payment will be sent via email to the customer",
         "removePayment": "Delete",
         "empty": {
             "title": "No payments yet!",
+            "modeTitle": "No payment modes yet!",
             "description": "This section will contain the list of payments.",
             "buttonTitle": "Add New Payment"
         }
@@ -218,8 +236,13 @@
         "taxes": "Taxes",
         "selectTax": "Select or Add New Taxes",
         "unit": "Unit",
+        "unitHint": "Unit Name",
+        "addUnit": "Add Item Unit",
+        "editUnit": "Edit Item Unit",
         "unitPlaceholder": "Select unit",
         "alertDescription": "You will not be able to recover this Item",
+        "alertUnit": "You will not be able to recover this Item unit",
+        "alreadyInUseUnit": "Item Unit is already in use",
         "lessAmount": "Total Amount should't less than 0",
         "alreadyAttachTitle": "Action Failed",
         "alreadyAttachDescription": "Cannot delete an item which is already in use",
@@ -255,6 +278,7 @@
         "notification": "Notifications",
         "taxes": "Tax Types",
         "expenseCategory": "Expense Categories",
+        "customize": "Customization",
         "endpoint": "API Endpoint",
         "company": {
             "name": "Company Name",
@@ -364,7 +388,8 @@
             "convertToInvoiceDescription": "Are you sure you want to convert this Estimate into an Invoice?",
             "removeDescription": "You will not be able to recover this Estimate",
             "lessAmount": "Total Amount should't less than 0",
-            "draftTitle": "Save changes?"
+            "draftTitle": "Save changes?",
+            "alreadyInUseNumber": "The estimate number has already been taken."
         },
         "empty": {
             "sent": {
@@ -426,6 +451,11 @@
             "description": "This section will contain the list of Financial Years."
         }
     },
+    "countries": {
+        "empty": {
+            "title": "No countries yet!"
+        }
+    },
     "reports": {
         "sales": "Sales",
         "profitAndLoss": "Profit & Loss",
@@ -466,12 +496,35 @@
             "buttonTitle": "Add Tax Type"
         }
     },
+    "customizes": {
+        "prefix": {
+            "title": "Prefix",
+            "invoice": "Invoice Prefix",
+            "estimate": "Estimate Prefix",
+            "payment": "Payment Prefix"
+        },
+        "autoGenerate": {
+            "invoice": "Autogenerate Invoice Number",
+            "invoiceDescription": "Disable this, If you don't wish to auto-generate invoice numbers when creating a new invoice.",
+            "estimate": "Autogenerate Estimate Number",
+            "estimateDescription": "Disable this, If you don't wish to auto-generate estimate numbers when creating a new estimate.",
+            "payment": "Autogenerate Payment Number",
+            "paymentDescription": "Disable this, If you don't wish to auto-generate payment numbers when creating a new payment."
+        },
+        "setting": {
+            "invoice": "Invoice Settings",
+            "estimate": "Estimate Settings",
+            "payment": "Payment Settings"
+        }
+    },
     "filePicker": {
         "file": "Click here to choose a file",
         "permission": "Sorry, we need camera roll permissions to make this work!"
     },
     "alert": {
         "title": "Are you sure?",
+        "exit": "Are you sure want to exit?",
+        "alreadyInUse": "{{field}} already in use",
         "action": {
             "discard": "Discard",
             "saveAsDraft": "Save As Draft",
@@ -481,6 +534,7 @@
     "button": {
         "remove": "Remove",
         "save": "Save",
+        "add": "Add",
         "edit": "Edit",
         "retry": "Retry",
         "done": "Done",
@@ -517,6 +571,8 @@
         "passwordCompare": "Passwords do not match",
         "minimumNumber": "must be greater than 0",
         "maximumNumber": "must be less than {{maxNumber}}",
+        "maximumCharacter": "{{fieldName}} must be less than {{maxCharacter}} characters.",
+        "character": "Characters Only",
         "numeric": "must be numeric",
         "moreThanDue": "{{hint}} Should not be more than Due Amount.",
         "url": "Invalid url (eg: https://craterapp.com)"

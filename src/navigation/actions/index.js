@@ -1,88 +1,64 @@
 
 import { BackHandler } from 'react-native';
-import { NavigationActions, createStackNavigator } from "react-navigation";
+import { NavigationActions, createStackNavigator, StackActions } from "react-navigation";
 import { ROUTES } from "../routes";
 import { store } from '../../store';
 import Lng from '../../api/lang/i18n';
+import { alertMe } from '../../api/global';
 
 
 export const navigateBack = () => NavigationActions.back();
 
-export const navigateToMainTabs = () => {
-    NavigationActions.navigate({
-        routeName: ROUTES.MAIN_TABS
-    });
-}
 export const navigateTo = (routeName) => {
     NavigationActions.navigate({ routeName });
 }
 
+// Exit Crater App
+// -----------------------------------------
+export const exitApp = () => {
+    alertMe({
+        title: getTitleByLanguage("alert.exit"),
+        okText: "Exit",
+        okPress: () => BackHandler.exitApp(),
+        showCancel: true
+    })
+}
 
 // Go Back Navigation
 // -----------------------------------------
-
-
 export const MOUNT = 'mount'
 export const UNMOUNT = 'unMount'
-export const ANDROID_BACK = 'ANDROID_BACK'
 
-export const goBackWithFunction = (param, navigation = {}, args = '') => {
+export const goBack = (type, navigation = {}, params) => {
 
-    if (param === MOUNT) {
+    const { route = null, callback = null, exit = false } = params || {}
+
+    if (type === MOUNT) {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress',
             () => {
 
-                let currentRoute = getCurrentRouteName()
-
-                switch (currentRoute) {
-
-                    case ROUTES.INVOICE:
-                        args && args()
-                        break;
-
-                    case ROUTES.ESTIMATE:
-                        args && args()
-                        break;
-
-                    case ROUTES.MAIN_INVOICES:
-                        navigation.navigate(ROUTES.MAIN_INVOICES)
-                        break;
-
-                    case ROUTES.ESTIMATE_LIST:
-                        navigation.navigate(ROUTES.MAIN_MORE)
-                        break;
-
-                    default:
-                        !(currentRoute === ROUTES.PAYMENT) ?
-                            navigation.navigate(ROUTES.MAIN_INVOICES) :
-                            navigation.goBack(null)
-                        break;
+                if (params && exit) {
+                    exitApp()
+                    return true
                 }
 
-                return true;
-            }
-        )
-    } else {
-        this.backHandler.remove()
-    }
+                if (params && callback && typeof callback === 'function' && getCurrentRouteName() !== ROUTES.ESTIMATE_LIST) {
+                    getCurrentRouteName() !== ROUTES.MAIN_TABS ?
+                        callback() : exitApp()
+                    return true
+                }
 
-}
-
-export const goBack = (param, navigation = {}, route = '') => {
-
-    if (param === MOUNT) {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',
-            () => {
-
-                route && typeof route === 'string' ? navigation.navigate(route)
-                    : navigation.goBack(null);
+                if (params && route && typeof route === 'string') {
+                    navigateToMainTabs(navigation, route)
+                } else {
+                    navigation.goBack(null);
+                }
 
                 return true;
             })
     } else {
         this.backHandler.remove()
     }
-
 }
 
 export const getCurrentRouteName = () => {
@@ -90,6 +66,26 @@ export const getCurrentRouteName = () => {
     const { routes } = reduxStore.nav
     const currentRoteBlock = routes[routes.length - 1];
     return currentRoteBlock.routeName;
+}
+
+export const navigateToMainTabs = (navigation, route = null) => {
+    let action = {}
+    if (route) {
+        action = {
+            action: navigation.navigate({ routeName: route })
+        }
+    }
+    const resetAction = StackActions.reset({
+        index: 1,
+        actions: [
+            NavigationActions.navigate({ routeName: ROUTES.AUTH }),
+            NavigationActions.navigate({
+                routeName: ROUTES.MAIN_TABS,
+                ...action
+            }),
+        ],
+    });
+    navigation.dispatch(resetAction);
 }
 
 
@@ -117,27 +113,6 @@ export const navigateRoute = (routeName, params = {}) => {
     );
 }
 
-export const navigateTabRoutes = (exceptRouteName = '', params = {}, initial = null) => {
-
-    const routes = [
-        initial,
-        ROUTES.MAIN_CUSTOMERS,
-        ROUTES.MAIN_PAYMENTS,
-        ROUTES.MAIN_EXPENSES,
-        ROUTES.MAIN_INVOICES
-    ]
-
-    routes.map(route => {
-        route !== null && !(route === exceptRouteName) && store.dispatch(
-            NavigationActions.navigate({
-                routeName: route,
-                params
-            }),
-        );
-    })
-
-}
-
 // onPress BottomTabNavigator
 // -----------------------------------------
 export const tabBarOnPress = (routeName = '', action = '') => {
@@ -163,9 +138,12 @@ export const tabBarOnPress = (routeName = '', action = '') => {
 
 // Get Value with translated
 // -----------------------------------------
-export const getTitleByLanguage = (label) => {
+export const getTitleByLanguage = (label, field = null) => {
     const reduxStore = store.getState();
     const { language = 'en' } = reduxStore.global
 
-    return Lng.t(label, { locale: language })
+    if (field) {
+        return Lng.t(label, { locale: language, field })
+    }
+    return Lng.t(label, { locale: language, })
 }

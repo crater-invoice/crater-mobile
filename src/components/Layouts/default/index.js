@@ -29,7 +29,8 @@ export const DefaultLayout = ({
     onFocus,
     loadingProps,
     dropdownProps,
-    toastProps
+    toastProps,
+    hideScrollView = false
 }: IProps) => {
     return (
         <View style={styles.page}>
@@ -59,10 +60,12 @@ export const DefaultLayout = ({
                     keyboardVerticalOffset={0}
                     behavior="height"
                 >
-                    <ScrollView>
+                    {hideScrollView ? children : (
+                        <ScrollView>
+                            {children}
+                        </ScrollView>
+                    )}
 
-                        {children}
-                    </ScrollView>
                 </KeyboardAvoidingView>
 
             </Content>

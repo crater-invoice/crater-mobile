@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
 import { MainLayout, ListView } from '../../../../components';
 import { MORE_MENU } from '../../constants';
@@ -9,6 +9,7 @@ import { colors } from '../../../../styles/colors';
 import Lng from '../../../../api/lang/i18n';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 import { ROUTES } from '../../../../navigation/routes';
+import { alertMe } from '../../../../api/global';
 
 export class More extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ export class More extends React.Component {
 
     componentDidMount() {
         const { navigation } = this.props
-        goBack(MOUNT, navigation, ROUTES.MAIN_INVOICES)
+        goBack(MOUNT, navigation, { route: ROUTES.MAIN_INVOICES })
     }
 
     componentWillUnmount() {
@@ -41,23 +42,12 @@ export class More extends React.Component {
     onLogout = () => {
         const { navigation, logout, language } = this.props
 
-        Alert.alert(
-            Lng.t("logout.confirmation", { locale: language }),
-            '',
-            [
-                {
-                    text: Lng.t("logout.title", { locale: language }),
-                    onPress: () => logout({ navigation })
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => { },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
-
+        alertMe({
+            title: Lng.t("logout.confirmation", { locale: language }),
+            showCancel: true,
+            okText: Lng.t("logout.title", { locale: language }),
+            okPress: () => logout({ navigation })
+        })
     }
 
     toggleEndpointModal = () => {
