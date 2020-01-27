@@ -65,7 +65,7 @@ export class PaymentModes extends Component {
 
     IMPORT_INPUT_MODAL = () => {
         const { visible, isCreateMethod } = this.state
-        const { props: { navigation, language } } = this.props
+        const { props: { navigation, language, paymentModeLoading = false } } = this.props
 
         return (
             <InputModal
@@ -82,6 +82,8 @@ export class PaymentModes extends Component {
                 onSubmit={() => this.onSaveMethod()}
                 onRemove={() => this.onRemoveMethod()}
                 showRemoveButton={!isCreateMethod}
+                onSubmitLoading={paymentModeLoading}
+                onRemoveLoading={paymentModeLoading}
             />
         )
     }

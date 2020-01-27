@@ -16,7 +16,9 @@ const mapStateToProps = (state, { navigation }) => {
             loading: {
                 getCustomizeLoading,
                 paymentModesLoading,
-                customizeLoading
+                customizeLoading,
+                paymentModeLoading,
+                itemUnitLoading,
             }
         }
     } = state;
@@ -33,6 +35,8 @@ const mapStateToProps = (state, { navigation }) => {
         units,
         isLoading,
         loading: customizeLoading,
+        paymentModeLoading,
+        itemUnitLoading,
         initialValues: !isLoading ? {
             ...customizes,
         } : null

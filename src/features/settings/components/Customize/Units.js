@@ -65,7 +65,7 @@ export class Units extends Component {
 
     IMPORT_INPUT_MODAL = () => {
         const { visible, isCreateMethod } = this.state
-        const { props: { navigation, language } } = this.props
+        const { props: { navigation, language, itemUnitLoading = false } } = this.props
 
         return (
             <InputModal
@@ -82,6 +82,8 @@ export class Units extends Component {
                 onSubmit={() => this.onSave()}
                 onRemove={() => this.onRemove()}
                 showRemoveButton={!isCreateMethod}
+                onSubmitLoading={itemUnitLoading}
+                onRemoveLoading={itemUnitLoading}
             />
         )
     }
@@ -118,7 +120,7 @@ export class Units extends Component {
                             title: Lng.t("payments.empty.modeTitle", { locale: language }),
                         }}
                         itemContainer={{
-                            paddingVertical: 6
+                            paddingVertical: 8
                         }}
                     />
                 </View>

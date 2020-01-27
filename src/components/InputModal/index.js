@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { styles } from './styles'
 import { AnimateModal } from '../AnimateModal';
 import { Field } from 'redux-form';
@@ -33,9 +33,11 @@ export class InputModal extends Component<Iprops>{
     BUTTON_VIEW = () => {
         const {
             showRemoveButton = false,
+            onSubmitLoading = false,
+            onRemoveLoading = false,
             onRemove,
             onSubmit,
-            language
+            language,
         } = this.props
 
         return (
@@ -43,19 +45,21 @@ export class InputModal extends Component<Iprops>{
                 {showRemoveButton && (
                     <View style={styles.rowView}>
                         <CtButton
-                            onPress={() => onRemove && onRemove()}
+                            onPress={() => onRemove?.()}
                             btnTitle={Lng.t("button.remove", { locale: language })}
                             containerStyle={styles.handleBtn}
                             buttonColor={BUTTON_COLOR.DANGER}
+                            loading={onRemoveLoading}
                         />
                     </View>
                 )}
 
                 <View style={styles.rowView}>
                     <CtButton
-                        onPress={() => onSubmit && onSubmit()}
+                        onPress={() => onSubmit?.()}
                         btnTitle={Lng.t("button.save", { locale: language })}
                         containerStyle={styles.handleBtn}
+                        loading={onSubmitLoading}
                     />
                 </View>
             </View>
@@ -67,17 +71,27 @@ export class InputModal extends Component<Iprops>{
 
         return (
             <View style={styles.fieldView}>
-                <Field
-                    name={fieldName}
-                    component={InputField}
-                    hint={hint}
-                    inputProps={{
-                        returnKeyType: 'next',
-                        autoCorrect: true,
-                        onSubmitEditing: () => onSubmit && onSubmit()
-                    }}
-                    isRequired
-                />
+                <KeyboardAvoidingView
+                    keyboardVerticalOffset={0}
+                    behavior="position"
+                >
+                    <ScrollView
+                        bounces={false}
+                        showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps='handled'
+                    >
+                        <Field
+                            name={fieldName}
+                            component={InputField}
+                            hint={hint}
+                            inputProps={{
+                                returnKeyType: 'next',
+                                autoCorrect: true
+                            }}
+                            isRequired
+                        />
+                    </ScrollView>
+                </KeyboardAvoidingView>
             </View>
 
         )

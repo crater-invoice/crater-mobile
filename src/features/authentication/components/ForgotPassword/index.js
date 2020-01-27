@@ -98,6 +98,7 @@ export class ForgotPassword extends React.Component<IProps> {
                     style={{ paddingTop: !isMailSended ? '23%' : '8%' }}
                     bounces={false}
                     showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps='handled'
                 >
                     <KeyboardAvoidingView
                         style={{ flex: 1 }}

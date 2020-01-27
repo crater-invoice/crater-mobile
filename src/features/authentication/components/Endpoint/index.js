@@ -119,6 +119,7 @@ export class Endpoint extends Component<IProps> {
                     style={{ paddingTop: skipEndpoint ? '18%' : '32%' }}
                     bounces={false}
                     showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps='handled'
                 >
                     <KeyboardAvoidingView
                         style={{ flex: 1 }}

@@ -289,7 +289,7 @@ export class Customize extends React.Component<IProps> {
                         Title: PAYMENT_TABS.MODE,
                         tabName: Lng.t("payments.modes", { locale: language }),
                         render: (
-                            <ScrollView>
+                            <ScrollView keyboardShouldPersistTaps='handled'>
                                 <PaymentModes
                                     ref={this.paymentChild}
                                     props={this.props}
@@ -355,7 +355,7 @@ export class Customize extends React.Component<IProps> {
                 {isPaymentsScreen && this.PAYMENT_CUSTOMIZE_TAB()}
 
                 {isItemsScreen && (
-                    <ScrollView>
+                    <ScrollView keyboardShouldPersistTaps='handled'>
                         <Units
                             ref={this.itemChild}
                             props={this.props}
