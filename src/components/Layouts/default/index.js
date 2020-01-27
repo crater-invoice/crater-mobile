@@ -61,7 +61,9 @@ export const DefaultLayout = ({
                     behavior="height"
                 >
                     {hideScrollView ? children : (
-                        <ScrollView>
+                        <ScrollView
+                            keyboardShouldPersistTaps='handled'
+                        >
                             {children}
                         </ScrollView>
                     )}
