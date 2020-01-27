@@ -1,12 +1,7 @@
 // @flow
 
 import React from 'react';
-import {
-    View,
-    Text,
-    ScrollView,
-    Alert,
-} from 'react-native';
+import { View, Text } from 'react-native';
 import styles from './styles';
 import { Field, change } from 'redux-form';
 
@@ -31,9 +26,9 @@ import { BUTTON_COLOR } from '../../../../api/consts/core';
 import { colors } from '../../../../styles/colors';
 import Lng from '../../../../api/lang/i18n';
 import { ADD_TAX } from '../../../settings/constants';
-import { MAX_LENGTH } from '../../../../api/global';
-import { ITEM_UNITS } from '../../../more/constants';
+import { MAX_LENGTH, formatSelectPickerName, alertMe } from '../../../../api/global';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
+
 export class EstimateItem extends React.Component {
     constructor(props) {
         super(props);
@@ -43,7 +38,9 @@ export class EstimateItem extends React.Component {
     }
 
     componentDidMount() {
-        const { navigation } = this.props
+        const { navigation, getItemUnits, itemId } = this.props
+
+        !itemId && getItemUnits && getItemUnits()
 
         navigation.addListener(
             'didFocus',
@@ -125,26 +122,14 @@ export class EstimateItem extends React.Component {
     removeItem = () => {
         const { removeEstimateItem, itemId, navigation, language } = this.props
 
-        Alert.alert(
-            Lng.t("alert.title", { locale: language }),
-            '',
-            [
-                {
-                    text: 'OK',
-                    onPress: () => {
-                        navigation.navigate(ROUTES.ESTIMATE)
-                        removeEstimateItem({ id: itemId })
-                    }
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => { },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
-
+        alertMe({
+            title: Lng.t("alert.title", { locale: language }),
+            showCancel: true,
+            okPress: () => {
+                navigation.navigate(ROUTES.ESTIMATE)
+                removeEstimateItem({ id: itemId })
+            }
+        })
     }
 
     totalDiscount = () => {
@@ -381,6 +366,7 @@ export class EstimateItem extends React.Component {
             taxTypes,
             itemId,
             taxPerItem,
+            units
         } = this.props;
 
         const isCreateItem = (type === ITEM_ADD)
@@ -460,10 +446,10 @@ export class EstimateItem extends React.Component {
 
                     {(initialValues.unit || !itemId) && (
                         <Field
-                            name="unit"
+                            name="unit_id"
                             label={Lng.t("items.unit", { locale: language })}
                             component={SelectPickerField}
-                            items={ITEM_UNITS}
+                            items={formatSelectPickerName(units)}
                             defaultPickerOptions={{
                                 label: Lng.t("items.unitPlaceholder", { locale: language }),
                                 value: '',

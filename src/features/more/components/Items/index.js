@@ -11,9 +11,10 @@ import {
 import { ROUTES } from '../../../../navigation/routes';
 import { IMAGES } from '../../../../config';
 import Lng from '../../../../api/lang/i18n';
-import { ADD_ITEM, EDIT_ITEM, ITEM_SEARCH, ITEM_UNITS } from '../../constants';
+import { ADD_ITEM, EDIT_ITEM, ITEM_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 import { itemsDescriptionStyle } from '../../../invoices/components/Invoice/styles';
+import { formatSelectPickerName } from '../../../../api/global';
 
 type IProps = {
     navigation: Object,
@@ -26,7 +27,7 @@ type IProps = {
 
 let params = {
     search: '',
-    unit: '',
+    unit_id: '',
     price: '',
 }
 
@@ -48,8 +49,10 @@ export class Items extends React.Component<IProps> {
     }
 
     componentDidMount() {
-        const { navigation } = this.props
+        const { navigation, getItemUnits } = this.props
         this.getItems({ fresh: true });
+        getItemUnits()
+
         goBack(MOUNT, navigation, { route: ROUTES.MAIN_MORE })
     }
 
@@ -116,9 +119,9 @@ export class Items extends React.Component<IProps> {
         this.setState({ filter: false })
     }
 
-    onSubmitFilter = ({ unit = '', name = '', price = '' }) => {
+    onSubmitFilter = ({ unit_id = '', name = '', price = '' }) => {
 
-        if (unit || name || price) {
+        if (unit_id || name || price) {
             this.setState({ filter: true })
 
             this.getItems({
@@ -126,7 +129,7 @@ export class Items extends React.Component<IProps> {
                 params: {
                     ...params,
                     search: name,
-                    unit,
+                    unit_id,
                     price,
                 },
                 filter: true
@@ -139,7 +142,7 @@ export class Items extends React.Component<IProps> {
     setFormField = (field, value) => {
         this.props.dispatch(change(ITEM_SEARCH, field, value));
 
-        if (field === 'unit')
+        if (field === 'unit_id')
             this.setState({ selectedUnit: value })
     };
 
@@ -179,7 +182,7 @@ export class Items extends React.Component<IProps> {
 
         const {
             formValues: {
-                unit = '',
+                unit_id = '',
                 name = '',
                 price = ''
             }
@@ -190,7 +193,7 @@ export class Items extends React.Component<IProps> {
                 params: {
                     ...params,
                     search: name,
-                    unit,
+                    unit_id,
                     price,
                 },
                 filter: true
@@ -207,7 +210,9 @@ export class Items extends React.Component<IProps> {
             navigation,
             items,
             filterItems,
+            units,
             loading,
+            itemUnitsLoading = false,
             language,
             handleSubmit
         } = this.props;
@@ -256,12 +261,12 @@ export class Items extends React.Component<IProps> {
         ]
 
         let dropdownFields = [{
-            name: "unit",
+            name: "unit_id",
             label: Lng.t("items.unit", { locale: language }),
             fieldIcon: 'align-center',
-            items: ITEM_UNITS,
+            items: formatSelectPickerName(units),
             onChangeCallback: (val) => {
-                this.setFormField('unit', val)
+                this.setFormField('unit_id', val)
             },
             defaultPickerOptions: {
                 label: Lng.t("items.unitPlaceholder", { locale: language }),
@@ -314,7 +319,7 @@ export class Items extends React.Component<IProps> {
                         clearFilter: this.props,
                         onResetFilter: () => this.onResetFilter()
                     }}
-                    loadingProps={{ is: loading }}
+                    loadingProps={{ is: loading || itemUnitsLoading }}
                 >
                     <View style={styles.listViewContainer} >
                         <ListView

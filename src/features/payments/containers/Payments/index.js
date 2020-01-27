@@ -11,6 +11,7 @@ import { getCustomers } from '../../../customers/actions';
 import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
 import { ROUTES } from '../../../../navigation/routes';
 import { withNavigationFocus } from 'react-navigation';
+import { getPaymentModes } from '../../../settings/actions';
 
 
 const mapStateToProps = (state) => {
@@ -22,6 +23,10 @@ const mapStateToProps = (state) => {
             payments,
             filterPayments,
             loading: { paymentsLoading }
+        },
+        settings: {
+            paymentMethods,
+            loading: { paymentModesLoading }
         }
     } = state;
 
@@ -29,8 +34,11 @@ const mapStateToProps = (state) => {
         payments,
         filterPayments,
         loading: paymentsLoading,
+        paymentModesLoading,
         language,
         customers,
+        paymentMethods,
+
         formValues: getFormValues(PAYMENT_SEARCH)(state) || {},
     };
 };
@@ -38,7 +46,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getPayments: PaymentsAction.getPayments,
-    getCustomers: getCustomers
+    getCustomers: getCustomers,
+    getPaymentModes: getPaymentModes
 };
 
 //  Redux Forms

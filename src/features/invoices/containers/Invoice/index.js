@@ -15,7 +15,12 @@ const mapStateToProps = (state, { navigation }) => {
         customers: { customers, loading: { customersLoading } },
     } = state;
 
-    const { invoice = null, nextInvoiceNumber, invoiceTemplates } = invoiceData;
+    const {
+        invoice = null,
+        nextInvoiceNumber,
+        invoiceTemplates,
+        nextInvoiceNumberAttribute
+    } = invoiceData;
 
     let type = navigation.getParam('type')
 
@@ -38,12 +43,12 @@ const mapStateToProps = (state, { navigation }) => {
         initialValues: !isLoading ? {
             due_date: moment().add(7, 'days'),
             invoice_date: moment(),
-            invoice_number: nextInvoiceNumber,
             discount_type: 'fixed',
             discount: 0,
             taxes: [],
             invoice_template_id: invoiceTemplates[0] && invoiceTemplates[0].id,
             ...invoice,
+            invoice_number: type === INVOICE_EDIT ? nextInvoiceNumber : nextInvoiceNumberAttribute,
             customer: invoice && invoice.user,
             template: invoice && invoice.invoice_template,
         } : null

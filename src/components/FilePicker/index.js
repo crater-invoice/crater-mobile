@@ -3,7 +3,6 @@ import {
     View,
     Text,
     TouchableWithoutFeedback,
-    Alert,
     Linking,
 } from 'react-native';
 import * as IntentLauncher from 'expo-intent-launcher';
@@ -18,6 +17,7 @@ import { colors } from '../../styles/colors';
 import { isIosPlatform } from '../../api/helper';
 import Lng from '../../api/lang/i18n';
 import { Content } from '../Content';
+import { alertMe } from '../../api/global';
 
 type IProps = {
     label: String,
@@ -43,33 +43,19 @@ export class FilePickerComponent extends Component<IProps> {
         };
     }
 
-    componentDidMount() {
-
-    }
-
     getPermissionAsync = async () => {
-        Alert.alert(
-            "",
-            Lng.t("filePicker.permission", { locale: this.props.language }),
-            [
-                {
-                    text: 'Allow',
-                    onPress: () => {
-                        if (isIosPlatform()) {
-                            Linking.openURL('app-settings:');
-                        } else {
-                            IntentLauncher.startActivityAsync(IntentLauncher.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-                        }
-                    }
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => { },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
+        alertMe({
+            desc: Lng.t("filePicker.permission", { locale: this.props.language }),
+            showCancel: true,
+            okText: 'Allow',
+            okPress: () => {
+                if (isIosPlatform()) {
+                    Linking.openURL('app-settings:');
+                } else {
+                    IntentLauncher.startActivityAsync(IntentLauncher.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+                }
+            }
+        })
     }
 
     onToggleLoading = () => {
@@ -231,4 +217,3 @@ export const FilePicker = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(FilePickerComponent);
-

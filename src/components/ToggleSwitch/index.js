@@ -10,6 +10,7 @@ type IProps = {
     switchStyle: Object,
     containerStyle: Object,
     descriptionStyle: Object,
+    hintStyle: Object,
     hint: string,
     description: String,
     switchType: String,
@@ -55,6 +56,7 @@ export class ToggleSwitch extends Component<IProps> {
             description,
             containerStyle,
             mainContainerStyle,
+            hintStyle,
             descriptionStyle,
             input: { value },
             switchStyle,
@@ -76,7 +78,7 @@ export class ToggleSwitch extends Component<IProps> {
                         hint && (
                             <Text
                                 numberOfLines={2}
-                                style={styles.hintStyle}
+                                style={[styles.hint, hintStyle && hintStyle]}
                             >
                                 {hint}
                             </Text>

@@ -102,5 +102,62 @@ export default StyleSheet.create({
     pickerError: {
         borderColor: colors.dangerLight,
         borderWidth: 1,
-    }
+    },
+
+    // Prefix Auto Generate
+    prefixInput: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        paddingTop: 10,
+        paddingBottom: 8,
+        ...Platform.select({
+            ios: {
+                paddingTop: 11,
+                paddingBottom: 9,
+            },
+        }),
+        paddingRight: 5,
+        borderWidth: 1,
+        borderColor: colors.lightGray,
+        backgroundColor: colors.white,
+        marginBottom: 10,
+    },
+    prefixLabelContainer: {
+        marginTop: 1,
+    },
+    prefixInputContainer: {
+        flex: 1
+    },
+    prefixInputContainerStyle: {
+        borderWidth: 0,
+        borderBottomWidth: 0,
+        paddingLeft: 0,
+    },
+    prefixInputFieldStyle: {
+        marginTop: -14,
+        marginBottom: -10,
+    },
+    prefixInputText: {
+        fontSize: 16.5,
+        ...Platform.select({
+            android: {
+                marginTop: 1,
+                fontSize: 17,
+            },
+        }),
+    },
+    prefixLeftIcon: {
+        position: 'absolute',
+        zIndex: 20,
+        left: 14,
+        top: 3,
+        fontSize: 16,
+        ...Platform.select({
+            android: {
+                left: 14,
+                top: 5
+            },
+        }),
+    },
 });

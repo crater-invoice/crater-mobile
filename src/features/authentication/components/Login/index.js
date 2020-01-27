@@ -89,6 +89,7 @@ export class Login extends React.Component<IProps> {
                     style={{ paddingTop: '34%' }}
                     bounces={false}
                     showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps='handled'
                 >
                     <KeyboardAvoidingView
                         style={{ flex: 1 }}

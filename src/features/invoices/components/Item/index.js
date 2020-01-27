@@ -1,12 +1,7 @@
 // @flow
 
 import React from 'react';
-import {
-    View,
-    Text,
-    ScrollView,
-    Alert,
-} from 'react-native';
+import { View, Text } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
@@ -31,8 +26,7 @@ import { colors } from '../../../../styles/colors';
 import Lng from '../../../../api/lang/i18n';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 import { ADD_TAX } from '../../../settings/constants';
-import { MAX_LENGTH } from '../../../../api/global';
-import { ITEM_UNITS } from '../../../more/constants';
+import { MAX_LENGTH, formatSelectPickerName, alertMe } from '../../../../api/global';
 
 export class InvoiceItem extends React.Component {
     constructor(props) {
@@ -44,9 +38,10 @@ export class InvoiceItem extends React.Component {
     }
 
     componentWillMount() {
-        const { taxTypes } = this.props;
+        const { taxTypes, getItemUnits, itemId } = this.props;
 
         this.setState({ taxTypeList: taxTypes })
+        !itemId && getItemUnits && getItemUnits()
     }
 
     componentDidMount() {
@@ -71,6 +66,7 @@ export class InvoiceItem extends React.Component {
     };
 
     saveItem = (values) => {
+
         const {
             addItem,
             removeInvoiceItem,
@@ -130,26 +126,14 @@ export class InvoiceItem extends React.Component {
     removeItem = () => {
         const { removeInvoiceItem, itemId, navigation, language } = this.props
 
-        Alert.alert(
-            Lng.t("alert.title", { locale: language }),
-            '',
-            [
-                {
-                    text: 'OK',
-                    onPress: () => {
-                        navigation.navigate(ROUTES.INVOICE)
-                        removeInvoiceItem({ id: itemId })
-                    }
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => { },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
-
+        alertMe({
+            title: Lng.t("alert.title", { locale: language }),
+            showCancel: true,
+            okPress: () => {
+                navigation.navigate(ROUTES.INVOICE)
+                removeInvoiceItem({ id: itemId })
+            }
+        })
     }
 
     totalDiscount = () => {
@@ -386,6 +370,7 @@ export class InvoiceItem extends React.Component {
             itemId,
             taxTypes,
             taxPerItem,
+            units
         } = this.props;
 
         const isCreateItem = (type === ITEM_ADD)
@@ -465,10 +450,10 @@ export class InvoiceItem extends React.Component {
 
                     {(initialValues.unit || !itemId) && (
                         <Field
-                            name="unit"
+                            name="unit_id"
                             label={Lng.t("items.unit", { locale: language })}
                             component={SelectPickerField}
-                            items={ITEM_UNITS}
+                            items={formatSelectPickerName(units)}
                             defaultPickerOptions={{
                                 label: Lng.t("items.unitPlaceholder", { locale: language }),
                                 value: '',

@@ -93,10 +93,7 @@ function* getItems(payloadData) {
     }
 }
 
-function* getEditItem(payloadData) {
-    const {
-        payload: { id },
-    } = payloadData;
+function* getEditItem({ payload: { id, onResult } }) {
 
     yield put(moreTriggerSpinner({ itemLoading: true }));
 
@@ -109,6 +106,8 @@ function* getEditItem(payloadData) {
         const response = yield call([Request, 'get'], options);
 
         yield put(setItem(response));
+
+        onResult && onResult(response)
 
     } catch (error) {
         // console.log(error);

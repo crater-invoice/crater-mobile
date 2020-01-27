@@ -37,7 +37,7 @@ const mapStateToProps = (state, { navigation }) => {
         formValues: getFormValues(PAYMENT_FORM)(state) || {},
 
         initialValues: {
-            payment_mode: null
+            payment_method_id: null
         }
     };
 
@@ -50,7 +50,8 @@ const mapDispatchToProps = {
     getUnpaidInvoices: PaymentAction.getUnpaidInvoices,
     editPayment: PaymentAction.editPayment,
     removePayment: PaymentAction.removePayment,
-    getCustomers: getCustomers
+    sendPaymentReceipt: PaymentAction.sendPaymentReceipt,
+    getCustomers: getCustomers,
 };
 
 

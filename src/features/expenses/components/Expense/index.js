@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
@@ -19,7 +19,7 @@ import Lng from '../../../../api/lang/i18n';
 import { CATEGORY_ADD } from '../../../settings/constants';
 import { Linking } from 'expo';
 import moment from 'moment';
-import { MAX_LENGTH } from '../../../../api/global';
+import { MAX_LENGTH, alertMe } from '../../../../api/global';
 
 const IMAGE_TYPE = 'image'
 
@@ -72,29 +72,18 @@ export class Expense extends React.Component {
                 onResult: ({ categories }) => {
 
                     if (typeof categories === 'undefined' || categories.length === 0) {
-                        Alert.alert(
-                            Lng.t("expenses.noCategories", { locale: language }),
-                            '',
-                            [
-                                {
-                                    text: 'Add',
-                                    onPress: () => {
-                                        navigation.navigate(ROUTES.CATEGORY, {
-                                            type: CATEGORY_ADD,
-                                            onSelect: (val) => {
-                                                this.setNewCategory(val)
-                                            }
-                                        })
-                                    }
-                                },
-                                {
-                                    text: 'Cancel',
-                                    onPress: () => navigation.goBack(null),
-                                    style: 'cancel',
+                        alertMe({
+                            title: Lng.t("expenses.noCategories", { locale: language }),
+                            okText: 'Add',
+                            okPress: () => navigation.navigate(ROUTES.CATEGORY, {
+                                type: CATEGORY_ADD,
+                                onSelect: (val) => {
+                                    this.setNewCategory(val)
                                 }
-                            ],
-                            { cancelable: false }
-                        );
+                            }),
+                            showCancel: true,
+                            cancelPress: () => navigation.goBack(null)
+                        })
                     }
                     else {
                         this.setState({ isLoading: false })
@@ -152,25 +141,15 @@ export class Expense extends React.Component {
     removeExpense = () => {
         const { removeExpense, navigation, language } = this.props
 
-        Alert.alert(
-            Lng.t("alert.title", { locale: language }),
-            Lng.t("expenses.alertDescription", { locale: language }),
-            [
-                {
-                    text: 'OK',
-                    onPress: () => removeExpense({
-                        id: navigation.getParam('id', null),
-                        navigation
-                    })
-                },
-                {
-                    text: 'Cancel',
-                    onPress: () => { },
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: false }
-        );
+        alertMe({
+            title: Lng.t("alert.title", { locale: language }),
+            desc: Lng.t("expenses.alertDescription", { locale: language }),
+            showCancel: true,
+            okPress: () => removeExpense({
+                id: navigation.getParam('id', null),
+                navigation
+            })
+        })
     }
 
     onOptionSelect = (action) => {
@@ -366,4 +345,3 @@ export class Expense extends React.Component {
         );
     }
 }
-

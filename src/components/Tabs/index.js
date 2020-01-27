@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, ScrollView } from 'react-native';
 
 import { styles } from './styles';
 import { getConditionStyles } from '../../api/helper';
@@ -23,13 +23,13 @@ export class Tabs extends Component<IProps> {
     }
 
     render() {
-        const { activeTab, tabs, setActiveTab, style } = this.props;
+        const { activeTab, tabs, setActiveTab, style, tabStyle } = this.props;
 
         let { render } = tabs.find(({ id, Title }) => [id, Title].includes(activeTab));
 
         return (
             <View style={{ ...styles.container, ...style }}>
-                <View style={styles.tabs}>
+                <View style={[styles.tabs, tabStyle && tabStyle]}>
                     {tabs.map(({ id, Title, tabName }) => (
                         <TouchableOpacity
                             key={Title}
@@ -55,7 +55,6 @@ export class Tabs extends Component<IProps> {
                         </TouchableOpacity>
                     ))}
                 </View>
-
                 {render}
             </View>
         );

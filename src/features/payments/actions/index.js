@@ -10,6 +10,7 @@ import {
     EDIT_PAYMENT,
     SET_FILTER_PAYMENTS,
     REMOVE_PAYMENT,
+    SEND_PAYMENT_RECEIPT,
 } from "../constants";
 
 
@@ -62,5 +63,10 @@ export const editPayment = (payload = {}) => ({
 
 export const removePayment = (payload = {}) => ({
     type: REMOVE_PAYMENT,
+    payload,
+});
+
+export const sendPaymentReceipt = (payload = {}) => ({
+    type: SEND_PAYMENT_RECEIPT,
     payload,
 });
