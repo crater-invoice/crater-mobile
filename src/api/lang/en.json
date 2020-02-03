@@ -519,7 +519,9 @@
     },
     "filePicker": {
         "file": "Click here to choose a file",
-        "permission": "Sorry, we need camera roll permissions to make this work!"
+        "permission": "Sorry, we need camera roll permissions to make this work!",
+        "camera": "Camera",
+        "gallery": "Gallery"
     },
     "alert": {
         "title": "Are you sure?",

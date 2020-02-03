@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { TouchableOpacity, View, StatusBar } from 'react-native';
 import ActionSheet from 'react-native-actionsheet'
 import { styles } from './styles';
@@ -53,23 +53,10 @@ export default class Dropdown extends Component<IProps> {
         onSelect && onSelect(valueOptions[index]);
     }
 
-
-
-    render() {
-        const { options, onPress, cancelButtonIndex, destructiveButtonIndex } = this.props;
-        const { labelOptions, visible } = this.state;
-
+    BUTTON_VIEW = () => {
+        const { hasIcon = true } = this.props
         return (
-            <View>
-
-                {visible && (
-                    <StatusBar
-                        backgroundColor={colors.secondary}
-                        barStyle={"dark-content"}
-                        translucent={true}
-                    />
-                )}
-
+            !hasIcon ? <Fragment /> :
                 <TouchableOpacity
                     onPress={this.showActionSheet}
                     style={styles.button}
@@ -86,6 +73,30 @@ export default class Dropdown extends Component<IProps> {
                         style={styles.iconStyle}
                     />
                 </TouchableOpacity>
+        )
+    }
+
+    render() {
+        const {
+            options,
+            onPress,
+            cancelButtonIndex,
+            destructiveButtonIndex,
+        } = this.props;
+        const { labelOptions, visible } = this.state;
+
+        return (
+            <View>
+
+                {visible && (
+                    <StatusBar
+                        backgroundColor={colors.secondary}
+                        barStyle={"dark-content"}
+                        translucent={true}
+                    />
+                )}
+
+                {this.BUTTON_VIEW()}
 
                 {labelOptions && (
                     <ActionSheet

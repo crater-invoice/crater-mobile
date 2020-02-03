@@ -519,7 +519,9 @@
     },
     "filePicker": {
         "file": "Cliquez ici pour choisir un fichier",
-        "permission": "Désolé, nous avons besoin d'autorisations de rouleau de caméra pour que cela fonctionne!"
+        "permission": "Désolé, nous avons besoin d'autorisations de rouleau de caméra pour que cela fonctionne!",
+        "camera": "Caméra",
+        "gallery": "Galerie"
     },
     "alert": {
         "title": "Êtes-vous sûr?",

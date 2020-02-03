@@ -18,6 +18,7 @@ import { isIosPlatform } from '../../api/helper';
 import Lng from '../../api/lang/i18n';
 import { Content } from '../Content';
 import { alertMe } from '../../api/global';
+import Dropdown from '../Dropdown';
 
 type IProps = {
     label: String,
@@ -34,9 +35,15 @@ type IProps = {
     defaultImage: String
 };
 
+const UPLOAD_BUTTON_ACTIONS = {
+    GALLERY: 'GALLERY',
+    CAMERA: 'CAMERA',
+};
+
 export class FilePickerComponent extends Component<IProps> {
     constructor(props) {
         super(props);
+        this.actionSheet = React.createRef();
         this.state = {
             image: null,
             loading: false
@@ -58,59 +65,154 @@ export class FilePickerComponent extends Component<IProps> {
         })
     }
 
-    onToggleLoading = () => {
-        const { fileLoading } = this.props
-        const { loading } = this.state
-
-        this.setState((prevState) => {
-            return { loading: !prevState.loading }
-        });
-
-        fileLoading && fileLoading(!loading)
+    onToggleLoading = (loading) => {
+        this.setState({ loading })
+        this.props?.fileLoading?.(loading)
     }
 
-    chooseFile = async () => {
+    GALLERY_UPLOAD_BUTTON_OPTIONS = (language) => {
+        return [
+            {
+                label: Lng.t("filePicker.gallery", { locale: language }),
+                value: UPLOAD_BUTTON_ACTIONS.GALLERY
+            },
+            {
+                label: Lng.t("filePicker.camera", { locale: language }),
+                value: UPLOAD_BUTTON_ACTIONS.CAMERA
+            }
+        ]
+    };
 
-        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    onOptionSelect = async (action) => {
+
+        const { mediaType = 'Images' } = this.props
+        let asyncFun = "", permission = "", type = mediaType
+
+        if (action == UPLOAD_BUTTON_ACTIONS.CAMERA) {
+            asyncFun = "launchCameraAsync"
+            permission = "CAMERA"
+            type = "Images"
+
+        } else if (action == UPLOAD_BUTTON_ACTIONS.GALLERY) {
+            asyncFun = "launchImageLibraryAsync"
+            permission = "CAMERA_ROLL"
+        }
+
+        const { status } = await Permissions.askAsync(Permissions[permission]);
         if (status !== 'granted') {
             this.getPermissionAsync();
         }
         else {
-            setTimeout(() => {
-                this.onToggleLoading()
-            }, 1000);
-
-            const { mediaType = 'Images' } = this.props
-
-            let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions[mediaType],
-                // mediaTypes: ImagePicker.MediaTypeOptions.All,
-                allowsEditing: mediaType === 'Images' ? true : false,
-                base64: true,
-                quality: 1,
-            });
-
-            if (!result.cancelled) {
-                const { onChangeCallback, input: { onChange } } = this.props
-                this.setState({ image: result.uri });
-
-                FileSystem.readAsStringAsync(result.uri, {
-                    encoding: FileSystem.EncodingType.Base64
-                }).then((base64) => {
-                    const res = { ...result, base64 }
-                    onChangeCallback(res)
-                    this.onToggleLoading()
-                })
-                    .catch(error => {
-                        console.error(error);
-                    });
+            if (action == UPLOAD_BUTTON_ACTIONS.CAMERA) {
+                const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+                if (status !== 'granted') {
+                    this.getPermissionAsync();
+                    return true;
+                }
             }
-            else {
-                this.onToggleLoading()
-            }
+
+            this.chooseFile({ asyncFun, type })
+
         }
+
     };
 
+    chooseFile = async ({ asyncFun, type }) => {
+
+        setTimeout(() => {
+            this.onToggleLoading(true)
+        }, 500);
+
+        let result = await ImagePicker[asyncFun]({
+            mediaTypes: ImagePicker.MediaTypeOptions[type],
+            allowsEditing: true,
+            base64: true,
+            quality: 1,
+        });
+
+        if (!result.cancelled) {
+            this.setState({ image: result.uri });
+
+            FileSystem.readAsStringAsync(result.uri, {
+                encoding: FileSystem.EncodingType.Base64
+            }).then((base64) => {
+                const res = { ...result, base64 }
+                this.props?.onChangeCallback?.(res)
+                this.onToggleLoading(false)
+            })
+                .catch(error => console.error(error));
+        }
+        else {
+            this.onToggleLoading(false)
+        }
+    }
+
+    toggleActionSheet = () => this.actionSheet.current.showActionSheet()
+
+    AVATAR_VIEW = () => {
+        return (
+            <View style={styles.iconContainer}>
+                <Icon
+                    name={"camera"}
+                    size={20}
+                    color={colors.white}
+                    style={styles.iconStyle}
+                />
+            </View>
+        )
+    }
+
+    DEFAULT_VIEW = (language) => {
+        return (
+            <View style={styles.container}>
+                <Icon
+                    name={"cloud-upload-alt"}
+                    size={23}
+                    color={colors.gray}
+                />
+                <Text style={styles.title}>
+                    {Lng.t("filePicker.file", { locale: language })}
+                </Text>
+            </View>
+        )
+    }
+
+    SELECTED_IMAGE = () => {
+        const { image } = this.state;
+        const { imageUrl, imageStyle, imageContainerStyle } = this.props;
+        return (
+            <View
+                style={[
+                    styles.imageContainer,
+                    imageContainerStyle
+                ]}
+            >
+                <AssetImage
+                    imageSource={image !== null ? image : imageUrl}
+                    imageStyle={[
+                        styles.images,
+                        imageStyle && imageStyle,
+                    ]}
+                    uri
+                    loadingImageStyle={styles.loadImage}
+                />
+            </View>
+        )
+    }
+
+    DEFAULT_IMAGE = () => {
+        const { imageStyle, defaultImage } = this.props;
+        return (
+            <AssetImage
+                imageSource={defaultImage}
+                imageStyle={[
+                    styles.images,
+                    imageStyle && imageStyle,
+                ]}
+                loadingImageStyle={styles.loadImage}
+            />
+        )
+    }
 
     render() {
 
@@ -119,20 +221,28 @@ export class FilePickerComponent extends Component<IProps> {
             label,
             containerStyle,
             imageUrl,
-            language,
-            imageStyle,
             imageContainerStyle,
             hasAvatar = false,
             loadingContainerStyle,
             defaultImage,
+            language
         } = this.props;
-
 
         return (
             <View style={[styles.mainContainer, containerStyle && containerStyle]}>
+
                 {label && <Text style={styles.label}>{label}</Text>}
 
-                <TouchableWithoutFeedback onPress={() => this.chooseFile()}>
+                <Dropdown
+                    ref={this.actionSheet}
+                    options={this.GALLERY_UPLOAD_BUTTON_OPTIONS(language)}
+                    onSelect={this.onOptionSelect}
+                    cancelButtonIndex={2}
+                    destructiveButtonIndex={3}
+                    hasIcon={false}
+                />
+
+                <TouchableWithoutFeedback onPress={() => this.toggleActionSheet()}>
                     <View>
                         <View
                             style={[
@@ -146,59 +256,18 @@ export class FilePickerComponent extends Component<IProps> {
                                     style: { ...styles.loadingContainer, ...loadingContainerStyle }
                                 }}
                             >
-                                {image !== null || imageUrl ? (
-                                    <View
-                                        style={[
-                                            styles.imageContainer,
-                                            imageContainerStyle
-                                        ]}
-                                    >
-                                        <AssetImage
-                                            imageSource={image !== null ? image : imageUrl}
-                                            imageStyle={[
-                                                styles.images,
-                                                imageStyle && imageStyle,
-                                            ]}
-                                            uri
-                                            loadingImageStyle={styles.loadImage}
-                                        />
-                                    </View>
-                                ) : (
-                                        !defaultImage ? (
-                                            <View style={styles.container}>
-                                                <Icon
-                                                    name={"cloud-upload-alt"}
-                                                    size={23}
-                                                    color={colors.gray}
-                                                />
-                                                <Text style={styles.title}>
-                                                    {Lng.t("filePicker.file", { locale: language })}
-                                                </Text>
-                                            </View>
-                                        )
-                                            : (
-                                                <AssetImage
-                                                    imageSource={defaultImage}
-                                                    imageStyle={[
-                                                        styles.images,
-                                                        imageStyle && imageStyle,
-                                                    ]}
-                                                    loadingImageStyle={styles.loadImage}
-                                                />
-                                            )
-                                    )}
+                                {image !== null || imageUrl ?
+                                    this.SELECTED_IMAGE() :
+                                    !defaultImage ?
+                                        this.DEFAULT_VIEW(language) :
+                                        this.DEFAULT_IMAGE()
+                                }
+
                             </Content>
                         </View>
-                        {hasAvatar && (
-                            <View style={styles.iconContainer}>
-                                <Icon
-                                    name={"camera"}
-                                    size={20}
-                                    color={colors.white}
-                                    style={styles.iconStyle}
-                                />
-                            </View>
-                        )}
+
+                        {hasAvatar && this.AVATAR_VIEW()}
+
                     </View>
                 </TouchableWithoutFeedback>
             </View>

@@ -519,7 +519,9 @@
     },
     "filePicker": {
         "file": "Haga clic aquí para elegir un archivo.",
-        "permission": "Lo sentimos, necesitamos permisos de cámara para hacer que esto funcione."
+        "permission": "Lo sentimos, necesitamos permisos de cámara para hacer que esto funcione.",
+        "camera": "Cámara",
+        "gallery": "Galería"
     },
     "alert": {
         "title": "¿Estás seguro?",
