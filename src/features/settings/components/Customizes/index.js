@@ -38,7 +38,7 @@ export class Customizes extends React.Component {
         goBack(UNMOUNT)
     }
 
-    onSelectMenu = ({ route, type }) => {
+    onSelectMenu = ({ route, type = null }) => {
         const { navigation } = this.props
 
         if (route) {

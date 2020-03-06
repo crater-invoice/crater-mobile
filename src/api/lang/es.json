@@ -51,7 +51,10 @@
         "filter": "Filtros",
         "back": "atrás",
         "addresses": "Direcciones",
-        "sendMailInvoice": "Enviará la factura"
+        "sendMailInvoice": "Enviará la factura",
+        "currencies": "Monedas",
+        "addCurrency": "Agregar moneda",
+        "editCurrency": "Editar moneda"
     },
     "tabNavigation": {
         "invoices": "Facturas",
@@ -426,9 +429,21 @@
         }
     },
     "currencies": {
+        "name": "Nombre",
+        "code": "Código",
+        "symbol": "Símbolo",
+        "precision": "Precisión",
+        "thousSeparator": "Mil separadores",
+        "decSeparator": "Separador decimal",
+        "position": "Posición",
+        "left": "Izquierda",
+        "right": "Derecho",
         "title": "Seleccione el tipo de moneda",
+        "alertDescription": "No podrá recuperar esta moneda",
         "empty": {
-            "title": "¡Aún no hay monedas!"
+            "title": "¡Aún no hay monedas!",
+            "description": "Esta sección contendrá la lista de monedas.",
+            "buttonTitle": "Agregar nueva moneda"
         }
     },
     "languages": {

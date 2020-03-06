@@ -25,7 +25,7 @@ import {
     hasValue,
     isBooleanTrue,
     hasLength,
-    KEYBOARD_TYPE
+    KEYBOARD_TYPE,
 } from '../../../../api/global';
 
 let customerField = [
@@ -68,6 +68,8 @@ export class Customer extends React.Component<IProps>  {
             navigation,
             getEditCustomer,
             type,
+            currencies,
+            currency,
             getCountries,
             countries,
             currency,

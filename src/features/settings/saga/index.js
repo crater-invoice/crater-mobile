@@ -42,6 +42,7 @@ import categories from './categories';
 import taxes from './taxes';
 import modes from './modes';
 import units from './units';
+import currencies from './currencies';
 
 /**
  * Company Information.
@@ -363,6 +364,7 @@ export default function* settingsSaga() {
         categories(),
         taxes(),
         modes(),
-        units()
+        units(),
+        currencies()
     ]);
 }

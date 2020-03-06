@@ -15,6 +15,8 @@ import EndpointContainer from "../../features/authentication/containers/Endpoint
 import UpdateAppVersionContainer from "../../components/UpdateAppVersion";
 import CustomizesContainer from "../../features/settings/containers/Customizes";
 import CustomizeContainer from "../../features/settings/containers/Customize";
+import CurrenciesContainer from "../../features/settings/containers/Currencies";
+import CurrencyContainer from "../../features/settings/containers/Currency";
 
 export const SettingNavigator = {
 
@@ -83,6 +85,17 @@ export const SettingNavigator = {
     [ROUTES.CUSTOMIZE]: generateStackNavigation(
         ROUTES.CUSTOMIZE,
         CustomizeContainer
+    ),
+
+    // Currencies
+    // -----------------------------------------
+    [ROUTES.CURRENCIES]: generateStackNavigation(
+        ROUTES.CURRENCIES,
+        CurrenciesContainer
+    ),
+    [ROUTES.CURRENCY]: generateStackNavigation(
+        ROUTES.CURRENCY,
+        CurrencyContainer
     ),
 
     // Update App Version

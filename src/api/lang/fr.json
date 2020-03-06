@@ -51,7 +51,10 @@
         "filter": "Les filtres",
         "back": "Retour",
         "addresses": "Adresses",
-        "sendMailInvoice": "Envoyer une facture"
+        "sendMailInvoice": "Envoyer une facture",
+        "currencies": "Devises",
+        "addCurrency": "Ajouter une devise",
+        "editCurrency": "Modifier la devise"
     },
     "tabNavigation": {
         "invoices": "Factures",
@@ -426,9 +429,21 @@
         }
     },
     "currencies": {
+        "name": "Nom",
+        "code": "Code",
+        "symbol": "symbole",
+        "precision": "Précision",
+        "thousSeparator": "Séparateur de milliers",
+        "decSeparator": "Séparateur décimal",
+        "position": "Position",
+        "left": "La gauche",
+        "right": "Droit",
         "title": "Sélectionnez la devise",
+        "alertDescription": "Vous ne pourrez pas récupérer cette devise",
         "empty": {
-            "title": "Aucune devise pour le moment!"
+            "title": "Pas encore de devises!",
+            "description": "Cette section contiendra la liste des devises.",
+            "buttonTitle": "Ajouter une nouvelle devise"
         }
     },
     "languages": {

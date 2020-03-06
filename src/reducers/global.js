@@ -7,7 +7,7 @@ import {
     SET_APP_VERSION,
     SET_MAIL_CONFIGURATION,
 } from "../api/consts";
-import { SET_TAX, SET_EDIT_TAX, SET_REMOVE_TAX, SET_TAXES, SET_COMPANY_INFO } from "../features/settings/constants";
+import { SET_TAX, SET_EDIT_TAX, SET_REMOVE_TAX, SET_TAXES, SET_COMPANY_INFO, SET_GLOBAL_CURRENCIES } from "../features/settings/constants";
 import { formatTaxTypes } from "../api/global";
 
 const initialState = {
@@ -160,6 +160,33 @@ export default function globalReducer(state = initialState, action) {
 
         case SET_MAIL_CONFIGURATION:
             return { ...state, mailDriver: payload.mailDriver }
+
+        case SET_GLOBAL_CURRENCIES:
+            const { currency } = payload
+
+            if (payload.isCreated) {
+                return {
+                    ...state,
+                    currencies: [...currency, ...state.currencies]
+                };
+            }
+            if (payload.isUpdated) {
+                const currencyList = state.currencies.filter(({ id }) =>
+                    (id !== currency[0]["id"]))
+
+                return {
+                    ...state,
+                    currencies: [...currency, ...currencyList]
+                };
+            }
+            if (payload.isRemove) {
+                const remainCurrencies = state.currencies.filter(({ id }) =>
+                    (id !== payload.id))
+
+                return { ...state, currencies: remainCurrencies };
+            }
+
+            return { ...state }
 
         default:
             return state;
