@@ -5,6 +5,7 @@ import {
     DATE_FORMAT,
     SAVE_ENDPOINT_API,
     SET_APP_VERSION,
+    SET_MAIL_CONFIGURATION,
 } from "../api/consts";
 import { SET_TAX, SET_EDIT_TAX, SET_REMOVE_TAX, SET_TAXES, SET_COMPANY_INFO } from "../features/settings/constants";
 import { formatTaxTypes } from "../api/global";
@@ -25,6 +26,7 @@ const initialState = {
     dateFormat: DATE_FORMAT,
     endpointApi: null,
     endpointURL: null,
+    mailDriver: null,
     fiscalYear: '2-1',
     appVersion: '1.0.0'
 };
@@ -155,6 +157,9 @@ export default function globalReducer(state = initialState, action) {
                     fiscalYear: payload.settings.fiscal_year,
                     currency: payload.currency,
                 };
+
+        case SET_MAIL_CONFIGURATION:
+            return { ...state, mailDriver: payload.mailDriver }
 
         default:
             return state;

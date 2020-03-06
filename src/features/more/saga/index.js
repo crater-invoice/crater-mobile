@@ -6,6 +6,7 @@ import {
     setItem,
     deleteItem,
     setFilterItems,
+    setMailConfiguration,
 } from '../actions';
 import {
     LOGOUT,
@@ -14,12 +15,14 @@ import {
     GET_EDIT_ITEM,
     ITEM_EDIT,
     REMOVE_ITEM,
+    GET_MAIL_CONFIGURATION,
     // Endpoint Api URL
     GET_ITEMS_URL,
     GET_EDIT_ITEMS_URL,
     CREATE_ITEM_URL,
     EDIT_ITEM_URL,
     REMOVE_ITEM_URL,
+    GET_MAIL_CONFIGURATION_URL,
 } from '../constants';
 import Request from '../../../api/request';
 import { resetIdToken } from '../../authentication/actions';
@@ -212,6 +215,25 @@ function* removeItem(payloadData) {
     }
 }
 
+function* getMailConfiguration({ payload: { onResult } }) {
+
+    yield put(moreTriggerSpinner({ getMailConfigLoading: true }));
+
+    try {
+
+        const options = { path: GET_MAIL_CONFIGURATION_URL() };
+
+        const response = yield call([Request, 'get'], options);
+
+        onResult?.(response)
+        yield put(setMailConfiguration({ mailDriver: response }));
+
+    } catch (error) {
+        // console.log(error);
+    } finally {
+        yield put(moreTriggerSpinner({ getMailConfigLoading: false }));
+    }
+}
 
 export default function* moreSaga() {
     yield takeEvery(LOGOUT, logout);
@@ -223,4 +245,6 @@ export default function* moreSaga() {
     yield takeEvery(REMOVE_ITEM, removeItem);
     yield takeEvery(GET_EDIT_ITEM, getEditItem);
 
+    // Mail Configuration
+    yield takeEvery(GET_MAIL_CONFIGURATION, getMailConfiguration);
 }

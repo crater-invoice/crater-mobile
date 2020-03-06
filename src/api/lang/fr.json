@@ -50,7 +50,8 @@
         "customize": "Personnalisation",
         "filter": "Les filtres",
         "back": "Retour",
-        "addresses": "Adresses"
+        "addresses": "Adresses",
+        "sendMailInvoice": "Envoyer une facture"
     },
     "tabNavigation": {
         "invoices": "Factures",
@@ -98,7 +99,8 @@
             "draftTitle": "Sauvegarder les modifications?",
             "alreadyInUseNumber": "Le numéro de facture a déjà été pris.",
             "sendEmail": "Cette facture sera envoyée par email au client",
-            "clone": "Cette facture sera clonée dans une nouvelle facture"
+            "clone": "Cette facture sera clonée dans une nouvelle facture",
+            "sendInvoice": "Cette facture sera envoyée par courrier électronique au client."
         },
         "empty": {
             "due": {
@@ -537,6 +539,13 @@
         "camera": "Caméra",
         "gallery": "Galerie"
     },
+    "sendMail": {
+        "from": "De",
+        "to": "À",
+        "subject": "Assujettir",
+        "body": "Corps",
+        "sendEmailToast": "Email envoyé avec succès"
+    },
     "alert": {
         "title": "Êtes-vous sûr?",
         "exit": "Es tu sûr de vouloir partir?",
@@ -572,7 +581,8 @@
         "generateReport": "Générer un rapport",
         "recoveryEmail": "Envoyer le lien de réinitialisation",
         "recoveryEmailAgain": "Envoyer à nouveau",
-        "cancel": "Annuler"
+        "cancel": "Annuler",
+        "send": "Envoyer"
     },
     "filter": {
         "empty": {

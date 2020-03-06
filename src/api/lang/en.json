@@ -53,7 +53,8 @@
         "addresses": "Addresses",
         "currencies": "Currencies",
         "addCurrency": "Add Currency",
-        "editCurrency": "Edit Currency"
+        "editCurrency": "Edit Currency",
+        "sendMailInvoice": "Send Invoice"
     },
     "tabNavigation": {
         "invoices": "Invoices",
@@ -101,7 +102,8 @@
             "draftTitle": "Save changes?",
             "alreadyInUseNumber": "The invoice number has already been taken.",
             "sendEmail": "This invoice will be sent via email to the customer",
-            "clone": "This invoice will be cloned into a new Invoice"
+            "clone": "This invoice will be cloned into a new Invoice",
+            "sendInvoice": "This invoice will be sent via email to the customer"
         },
         "empty": {
             "due": {
@@ -540,6 +542,13 @@
         "camera": "Camera",
         "gallery": "Gallery"
     },
+    "sendMail": {
+        "from": "From",
+        "to": "To",
+        "subject": "Subject",
+        "body": "Body",
+        "sendEmailToast": "Email Send Successfully"
+    },
     "alert": {
         "title": "Are you sure?",
         "exit": "Are you sure want to exit?",
@@ -575,7 +584,8 @@
         "generateReport": " Generate Report",
         "recoveryEmail": "Send reset link",
         "recoveryEmailAgain": "Send Again",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "send": "Send"
     },
     "filter": {
         "empty": {

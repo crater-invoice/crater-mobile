@@ -392,7 +392,8 @@ function* removeInvoice(payloadData) {
 function* changeInvoiceStatus(payloadData) {
     const {
         payload: {
-            onResult,
+            onResult = null,
+            params = null,
             id,
             action,
             navigation
@@ -401,17 +402,21 @@ function* changeInvoiceStatus(payloadData) {
 
     yield put(invoiceTriggerSpinner({ invoiceLoading: true }));
 
+    const param = { id, ...params }
+
     try {
 
         const options = {
             path: CHANGE_INVOICE_STATUS_URL(action),
-            body: { id }
+            body: { ...param },
         };
 
         const response = yield call([Request, 'post'], options);
 
         if (response.success || hasValue(response.invoice)) {
-            navigation.navigate(ROUTES.MAIN_INVOICES)
+            action === 'send' ?
+                navigation.navigate(ROUTES.MAIN_INVOICES, { mailSendMsg: "sendMail.sendEmailToast" })
+                : navigation.navigate(ROUTES.MAIN_INVOICES)
             yield call(getInvoices, payload = {});
         }
         else {

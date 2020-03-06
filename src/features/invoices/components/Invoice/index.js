@@ -16,7 +16,8 @@ import {
     CurrencyFormat,
     FakeInput,
     ToggleSwitch,
-    TermsAndCondition
+    TermsAndCondition,
+    SendMail
 } from '../../../../components';
 import { ROUTES } from '../../../../navigation/routes';
 import {
@@ -72,6 +73,7 @@ const termsCondition = {
 export class Invoice extends React.Component<IProps> {
     constructor(props) {
         super(props);
+
         this.state = {
             taxTypeList: [],
             currency: {},
@@ -80,7 +82,6 @@ export class Invoice extends React.Component<IProps> {
             markAsStatus: null,
         };
     }
-
 
     componentDidMount() {
 
@@ -662,17 +663,7 @@ export class Invoice extends React.Component<IProps> {
         switch (action) {
 
             case INVOICE_ACTIONS.SEND:
-                alertMe({
-                    title: Lng.t("alert.title", { locale: language }),
-                    desc: Lng.t("invoices.alert.sendEmail", { locale: language }),
-                    showCancel: true,
-                    okPress: () => changeInvoiceStatus({
-                        id: navigation.getParam('id'),
-                        action: 'send',
-                        navigation
-                    })
-                })
-
+                this.sendMailRef?.onToggle()
                 break;
 
             case INVOICE_ACTIONS.MARK_AS_SENT:
@@ -790,7 +781,8 @@ export class Invoice extends React.Component<IProps> {
             getCustomers,
             customers,
             customersLoading,
-            formValues: { display_terms_and_conditions }
+            formValues: { display_terms_and_conditions },
+            changeInvoiceStatus,
         } = this.props;
 
         const { currency, customerName, markAsStatus } = this.state
@@ -842,6 +834,20 @@ export class Invoice extends React.Component<IProps> {
                         props={this.props}
                         fieldName={termsCondition.description}
                     />
+                    {(isEditInvoice && !hasSentStatus && !hasCompleteStatus) && (
+                        <SendMail
+                            mailReference={ref => (this.sendMailRef = ref)}
+                            props={this.props}
+                            headerTitle={'header.sendMailInvoice'}
+                            alertDesc={'invoices.alert.sendInvoice'}
+                            onSendMail={(params) => changeInvoiceStatus({
+                                id: navigation.getParam('id'),
+                                action: 'send',
+                                navigation,
+                                params
+                            })}
+                        />
+                    )}
 
                     <View style={styles.dateFieldContainer}>
                         <View style={styles.dateField}>

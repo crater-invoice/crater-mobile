@@ -9,6 +9,7 @@ import { styles } from './styles';
 import { InputField, CtHeader, CtDivider } from '../..';
 import { Content } from '../../Content';
 import Lng from '../../../api/lang/i18n';
+import Toast from '../../Toast';
 
 type IProps = {
     children: Object,
@@ -20,7 +21,8 @@ type IProps = {
     filterProps: Object,
     inputProps: Object,
     dividerStyle: Object,
-    loadingProps: Object
+    loadingProps: Object,
+    toastProps: Object
 };
 
 const MainLayoutComponent = ({
@@ -35,13 +37,17 @@ const MainLayoutComponent = ({
     inputProps,
     dividerStyle,
     loadingProps,
-    language
+    language,
+    toastProps
 }: IProps) => {
 
     let hasFilter = filterProps ? { ...filterProps } : null
 
     return (
         <View style={styles.page}>
+
+            {toastProps && (<Toast {...toastProps} />)}
+
             <NavigationEvents
                 onWillFocus={onFocus && onFocus}
             />

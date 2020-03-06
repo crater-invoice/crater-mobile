@@ -11,8 +11,11 @@ import {
     SET_ITEM,
     DELETE_ITEM,
     GENERATE_REPORT,
-    SET_FILTER_ITEMS
+    SET_FILTER_ITEMS,
+    GET_MAIL_CONFIGURATION
 } from "../constants";
+import { SET_MAIL_CONFIGURATION } from "../../../api/consts";
+
 
 export const moreTriggerSpinner = (payload) => ({
     type: MORE_TRIGGER_SPINNER,
@@ -78,5 +81,17 @@ export const getEditItem = (payload = {}) => ({
 // Reports
 export const generateReport = (payload) => ({
     type: GENERATE_REPORT,
+    payload,
+});
+
+
+// Mail Configuration
+export const getMailConfiguration = (payload = {}) => ({
+    type: GET_MAIL_CONFIGURATION,
+    payload,
+});
+
+export const setMailConfiguration = (payload = {}) => ({
+    type: SET_MAIL_CONFIGURATION,
     payload,
 });
