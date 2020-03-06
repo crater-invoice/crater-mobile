@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import styles from './styles';
 import { Field, change } from 'redux-form';
 import {
@@ -19,7 +19,14 @@ import Lng from '../../../../api/lang/i18n';
 import { colors } from '../../../../styles/colors';
 import { SymbolStyle } from '../../../../components/CurrencyFormat/styles';
 import { headerTitle } from '../../../../api/helper';
-import { alertMe, hasValue } from '../../../../api/global';
+import {
+    alertMe,
+    hasObjectLength,
+    hasValue,
+    isBooleanTrue,
+    hasLength,
+    KEYBOARD_TYPE
+} from '../../../../api/global';
 
 let customerField = [
     "name",
@@ -44,13 +51,14 @@ type IProps = {
     formValues: Object,
 }
 
+let customerRefs = {}
+
 export class Customer extends React.Component<IProps>  {
     constructor(props) {
         super(props);
         this.state = {
             selectedCurrency: '',
             portal: false,
-            currencyList: [],
         };
     }
 
@@ -60,17 +68,13 @@ export class Customer extends React.Component<IProps>  {
             navigation,
             getEditCustomer,
             type,
-            currencies,
-            currency,
             getCountries,
-            countries
+            countries,
+            currency,
         } = this.props
 
-        this.setState({ currencyList: currencies })
-
         // Country
-        let hasCountryApiCalled = countries ? (typeof countries === 'undefined' || countries.length === 0) : true
-
+        let hasCountryApiCalled = !hasValue(countries) || !hasLength(countries)
         hasCountryApiCalled && getCountries()
 
         if (type === CUSTOMER_EDIT) {
@@ -122,6 +126,30 @@ export class Customer extends React.Component<IProps>  {
         goBack(UNMOUNT)
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        const {
+            getEditCustomerLoading,
+            countriesLoading,
+            formValues } = this.props
+        const {
+            customerLoading,
+            formValues: { billingAddress = null, shippingAddress = null }
+        } = nextProps
+
+        if (
+            isBooleanTrue(getEditCustomerLoading) ||
+            isBooleanTrue(countriesLoading) ||
+            isBooleanTrue(customerLoading) ||
+            !hasObjectLength(formValues) ||
+            hasValue(billingAddress) && formValues?.billingAddress !== billingAddress ||
+            hasValue(shippingAddress) && formValues?.shippingAddress !== shippingAddress
+        ) {
+            return true
+        }
+
+        return false
+    }
+
     setFormField = (field, value) => {
         this.props.dispatch(change(CUSTOMER_FORM, field, value));
     };
@@ -130,9 +158,7 @@ export class Customer extends React.Component<IProps>  {
 
         this.setFormField('enable_portal', status)
         this.setState({ portal: status })
-
-        if (!status)
-            this.setFormField('password', '')
+        !status && this.setFormField('password', '')
     }
 
     onCustomerSubmit = (values) => {
@@ -143,16 +169,14 @@ export class Customer extends React.Component<IProps>  {
             navigation
         } = this.props
 
-        if (type === CUSTOMER_ADD)
-            createCustomer({
-                params: values,
-                onResult: (res) => {
-                    const onSelect = navigation.getParam('onSelect', null)
-                    onSelect && onSelect(res)
-                    navigation.goBack(null)
-                }
-            })
-        else
+        type === CUSTOMER_ADD ? createCustomer({
+            params: values,
+            onResult: (res) => {
+                const onSelect = navigation.getParam('onSelect', null)
+                onSelect?.(res)
+                navigation.goBack(null)
+            }
+        }) :
             editCustomer({ params: values, navigation })
     };
 
@@ -172,49 +196,23 @@ export class Customer extends React.Component<IProps>  {
 
 
     BOTTOM_ACTION = (handleSubmit) => {
-        const {
-            customerLoading,
-            language,
-            type
-        } = this.props
-
-        let buttonTitle = Lng.t("button.save", { locale: language })
+        const { customerLoading, language } = this.props
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.onCustomerSubmit)}
-                    btnTitle={buttonTitle}
+                    btnTitle={Lng.t("button.save", { locale: language })}
                     loading={customerLoading}
                 />
             </View>
         )
     }
 
-    getCurrenciesList = (currencies) => {
-        let currencyList = []
-        if (typeof currencies !== 'undefined' && currencies.length != 0) {
-            currencyList = currencies.map((currency) => {
-
-                const { name, code, symbol } = currency
-                return {
-                    title: name,
-                    subtitle: {
-                        title: code,
-                    },
-                    rightTitle: symbol || '-',
-                    fullItem: currency
-                }
-            })
-        }
-        return currencyList
-    }
-
     onOptionSelect = (action) => {
 
         if (action == ACTIONS_VALUE.REMOVE)
             this.removeCustomer()
-
     }
 
     render() {
@@ -230,18 +228,17 @@ export class Customer extends React.Component<IProps>  {
             language,
             getEditCustomerLoading,
             countriesLoading,
-            type
+            type,
+            currencies
         } = this.props;
 
-        const { selectedCurrency, portal, currencyList } = this.state
+        const { selectedCurrency, portal } = this.state
         let drownDownProps = type === CUSTOMER_EDIT ? {
             options: CUSTOMER_ACTIONS(Lng, language),
             onSelect: this.onOptionSelect,
             cancelButtonIndex: 1,
             destructiveButtonIndex: 2,
         } : null
-
-        let customerRefs = {}
 
         return (
             <DefaultLayout
@@ -262,7 +259,7 @@ export class Customer extends React.Component<IProps>  {
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
-                    is: getEditCustomerLoading || typeof enable_portal === 'undefined' || countriesLoading
+                    is: getEditCustomerLoading || !hasValue(enable_portal) || countriesLoading
                 }}
                 dropdownProps={drownDownProps}
             >
@@ -278,12 +275,11 @@ export class Customer extends React.Component<IProps>  {
                             returnKeyType: 'next',
                             autoCorrect: true,
                             autoFocus: true,
-                            keyboardType: "ascii-capable",
-                            onSubmitEditing: () => {
-                                customerRefs.contactName.focus();
-                            }
+                            keyboardType: KEYBOARD_TYPE.DEFAULT,
+                            onSubmitEditing: () => customerRefs.contactName.focus()
                         }}
                         validationStyle={styles.inputFieldValidation}
+                        withRef
                     />
 
                     <Field
@@ -294,15 +290,12 @@ export class Customer extends React.Component<IProps>  {
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
-                            keyboardType: "ascii-capable",
-                            onSubmitEditing: () => {
-                                customerRefs.email.focus();
-                            }
+                            keyboardType: KEYBOARD_TYPE.DEFAULT,
+                            onSubmitEditing: () => customerRefs.email.focus()
                         }}
-                        refLinkFn={(ref) => {
-                            customerRefs.contactName = ref;
-                        }}
+                        refLinkFn={(ref) => customerRefs.contactName = ref}
                         validationStyle={styles.inputFieldValidation}
+                        withRef
                     />
 
                     <Field
@@ -314,10 +307,8 @@ export class Customer extends React.Component<IProps>  {
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
                             autoCorrect: true,
-                            keyboardType: "email-address",
-                            onSubmitEditing: () => {
-                                customerRefs.phone.focus();
-                            }
+                            keyboardType: KEYBOARD_TYPE.EMAIL,
+                            onSubmitEditing: () => customerRefs.phone.focus()
                         }}
                         refLinkFn={(ref) => {
                             customerRefs.email = ref;
@@ -334,10 +325,8 @@ export class Customer extends React.Component<IProps>  {
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
                             autoCorrect: true,
-                            keyboardType: 'phone-pad',
-                            onSubmitEditing: () => {
-                                customerRefs.website.focus();
-                            }
+                            keyboardType: KEYBOARD_TYPE.PHONE,
+                            onSubmitEditing: () => customerRefs.website.focus()
                         }}
                         refLinkFn={(ref) => {
                             customerRefs.phone = ref;
@@ -354,11 +343,9 @@ export class Customer extends React.Component<IProps>  {
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
                             autoCorrect: true,
-                            keyboardType: "url"
+                            keyboardType: KEYBOARD_TYPE.URL,
                         }}
-                        refLinkFn={(ref) => {
-                            customerRefs.website = ref;
-                        }}
+                        refLinkFn={(ref) => customerRefs.website = ref}
                         validationStyle={styles.inputFieldValidation}
                     />
 
@@ -367,7 +354,7 @@ export class Customer extends React.Component<IProps>  {
 
                         <Field
                             name="currency_id"
-                            items={this.getCurrenciesList(currencyList)}
+                            items={currencies ?? []}
                             displayName="name"
                             component={SelectField}
                             icon='dollar-sign'
@@ -376,9 +363,7 @@ export class Customer extends React.Component<IProps>  {
                             navigation={navigation}
                             searchFields={['name']}
                             compareField="id"
-                            onSelect={(val) => {
-                                this.setFormField('currency_id', val.id)
-                            }}
+                            onSelect={(val) => this.setFormField('currency_id', val.id)}
                             headerProps={{
                                 title: Lng.t("currencies.title", { locale: language }),
                                 titleStyle: headerTitle({ marginLeft: -30, marginRight: -65 }),
@@ -408,7 +393,7 @@ export class Customer extends React.Component<IProps>  {
                             containerStyle={styles.addressField}
                             type={type}
                             fakeInputProps={{
-                                color: billingAddress && (Object.keys(billingAddress).length !== 0) ? colors.primaryLight : null,
+                                color: hasObjectLength(billingAddress) ? colors.primaryLight : null,
                             }}
                         />
 
@@ -427,13 +412,13 @@ export class Customer extends React.Component<IProps>  {
                             containerStyle={styles.addressField}
                             type={type}
                             fakeInputProps={{
-                                color: shippingAddress && (Object.keys(shippingAddress).length !== 0) ? colors.primaryLight : null,
+                                color: hasObjectLength(shippingAddress) ? colors.primaryLight : null,
                             }}
                         />
 
                     </View>
 
-                    {/* 
+                    {/*
                     <CtDivider dividerStyle={styles.dividerStyle} />
 
                     <Field
