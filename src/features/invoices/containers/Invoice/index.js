@@ -19,7 +19,9 @@ const mapStateToProps = (state, { navigation }) => {
         invoice = null,
         nextInvoiceNumber,
         invoiceTemplates,
-        nextInvoiceNumberAttribute
+        nextInvoiceNumberAttribute,
+        terms_and_conditions = null,
+        invoice_notes = '',
     } = invoiceData;
 
     let type = navigation.getParam('type')
@@ -47,6 +49,9 @@ const mapStateToProps = (state, { navigation }) => {
             discount: 0,
             taxes: [],
             invoice_template_id: invoiceTemplates[0] && invoiceTemplates[0].id,
+            display_terms_and_conditions: false,
+            terms_and_conditions,
+            notes: invoice_notes,
             ...invoice,
             invoice_number: type === INVOICE_EDIT ? nextInvoiceNumber : nextInvoiceNumberAttribute,
             customer: invoice && invoice.user,
