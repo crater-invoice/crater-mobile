@@ -64,7 +64,7 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
             contentContainerStyle,
             style,
             loaderHeight,
-            size = 'small',
+            size = 'large',
         } = this.props;
         const { refreshing } = this.state;
 

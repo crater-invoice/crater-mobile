@@ -10,6 +10,6 @@ type IProps = {
     style: Object,
 };
 
-export const Loading = ({ size = 'small', color = colors.veryDarkGray, style }: IProps) => (
+export const Loading = ({ size = 'large', color = colors.veryDarkGray, style }: IProps) => (
     <ActivityIndicator size={size} style={{ flex: 1, ...style }} color={color} />
 );

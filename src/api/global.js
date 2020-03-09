@@ -1,5 +1,5 @@
 import * as Font from 'expo-font';
-import { Alert } from 'react-native';
+import { Alert, Keyboard } from 'react-native';
 import Poppins from '../assets/fonts/Poppins-Regular.ttf';
 import PoppinsLight from '../assets/fonts/Poppins-Light.ttf';
 import PoppinsMedium from '../assets/fonts/Poppins-Medium.ttf';
@@ -19,7 +19,7 @@ export const loadFonts = async ({ afterLoad }) => {
 };
 
 
-// Format TaxTypes 
+// Format TaxTypes
 // -----------------------------------------
 export const formatTaxTypes = (taxes) => {
     let taxTypeList = []
@@ -43,7 +43,7 @@ export const formatTaxTypes = (taxes) => {
     return taxTypeList
 }
 
-// Format Countries 
+// Format Countries
 // -----------------------------------------
 export const formatCountries = (countries) => {
 
@@ -61,7 +61,7 @@ export const formatCountries = (countries) => {
     return countriesList
 }
 
-// Format Select Picker Name Value 
+// Format Select Picker Name Value
 // -----------------------------------------
 export const formatSelectPickerName = (items) => {
     let itemList = []
@@ -114,7 +114,7 @@ export const formatCurrencies = (currencies) => {
 
 export const MAX_LENGTH = 255
 
-// Alert 
+// Alert
 // -----------------------------------------
 export const alertMe = ({
     title = '',
@@ -173,4 +173,8 @@ export const hasObjectLength = (field) => {
 
 export const isBooleanTrue = (field) => {
     return Boolean(field)
+}
+
+export function dismissKeyboard() {
+    Keyboard.dismiss()
 }

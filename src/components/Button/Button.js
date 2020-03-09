@@ -10,6 +10,7 @@ import { Button } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AssetImage } from '../AssetImage';
 import { BUTTON_TYPE, BUTTON_COLOR } from '../../api/consts/core';
+import { dismissKeyboard } from '../../api/global';
 
 type IProps = {
     children: any,
@@ -43,20 +44,14 @@ export class CtGradientButton extends Component<IProps> {
         const { buttonFocus } = nextState
 
         if (!loading && buttonFocus) {
-            this.setState({
-                buttonFocus: false
-            })
+            this.setState({ buttonFocus: false })
         }
     }
 
     onBtnPress = () => {
-
-        this.setState({
-            buttonFocus: true
-        })
-
-        const { onPress } = this.props
-        onPress && onPress()
+        dismissKeyboard()
+        this.setState({ buttonFocus: true })
+        this.props?.onPress?.()
     }
 
     render() {
@@ -164,20 +159,14 @@ export class CtButton extends Component<IProps> {
         const { buttonFocus } = nextState
 
         if (!loading && buttonFocus) {
-            this.setState({
-                buttonFocus: false
-            })
+            this.setState({ buttonFocus: false })
         }
     }
 
     onBtnPress = () => {
-        const { onPress } = this.props
-
-        this.setState({
-            buttonFocus: true
-        })
-
-        onPress && onPress()
+        dismissKeyboard()
+        this.setState({ buttonFocus: true })
+        this.props?.onPress?.()
     }
 
     render() {

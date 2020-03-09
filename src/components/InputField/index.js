@@ -11,7 +11,6 @@ import { colors } from '../../styles/colors';
 import Lng from '../../api/lang/i18n';
 
 export class InputFieldComponent extends Component<IInputField> {
-    inputRef = {};
 
     constructor(props) {
         super(props);
@@ -25,12 +24,7 @@ export class InputFieldComponent extends Component<IInputField> {
     }
 
     toggleSecureTextEntry = () => {
-        this.inputRef.blur();
-        this.setState((prevState) => ({ isSecureTextEntry: !prevState.isSecureTextEntry }));
-
-        setTimeout(() => {
-            this.inputRef.focus();
-        }, 100);
+        this.setState(({ isSecureTextEntry }) => ({ isSecureTextEntry: !isSecureTextEntry }));
     };
 
     getSign = () => {
@@ -151,35 +145,24 @@ export class InputFieldComponent extends Component<IInputField> {
                                 submitFailed && error && styles.inputError,
                             ]}
                             {...inputProps}
-                            onChangeText={(enteredValue: string) => {
-                                onChangeText && onChangeText(enteredValue);
+                            onChangeText={(enteredValue) => {
+                                onChangeText?.(enteredValue);
                                 isCurrencyInput ?
                                     onChange(enteredValue * 100) : onChange(enteredValue);
-
-                                setTimeout(() => {
-                                    if (this.inputRef) {
-                                        this.inputRef.setNativeProps({ text: enteredValue });
-                                        this.inputRef.value = isCurrencyInput ?
-                                            (enteredValue * 100) : enteredValue;
-                                    }
-                                });
                             }}
                             onFocus={(event) => {
                                 this.setState({
                                     active: true,
                                     isOptionsVisible: true,
                                 });
-                                setActivity && setActivity(true);
+                                setActivity?.(true);
                                 if (onFocus) {
                                     onFocus(event);
                                 }
                             }}
                             {...initialValueProps}
                             secureTextEntry={isSecureTextEntry}
-                            ref={(ref) => {
-                                this.inputRef = ref;
-                                refLinkFn && refLinkFn(ref);
-                            }}
+                            ref={(ref) => refLinkFn?.(ref)}
                             placeholderTextColor={colors.darkGray}
                             editable={editable && !disabled}
                             allowFontScaling={false}

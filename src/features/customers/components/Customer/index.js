@@ -69,7 +69,6 @@ export class Customer extends React.Component<IProps>  {
             getEditCustomer,
             type,
             currencies,
-            currency,
             getCountries,
             countries,
             currency,

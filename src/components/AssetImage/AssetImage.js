@@ -27,6 +27,7 @@ export class AssetImage extends Component<IProps> {
         return (
             <View>
                 {loading && <ActivityIndicator
+                    size="large"
                     style={[imageStyle, loadingImageStyle && loadingImageStyle, { position: 'absolute' }]}
                 />
                 }
