@@ -54,7 +54,10 @@
         "currencies": "Currencies",
         "addCurrency": "Add Currency",
         "editCurrency": "Edit Currency",
-        "sendMailInvoice": "Send Invoice"
+        "sendMailInvoice": "Send Invoice",
+        "recurringInvoice": "Recurring Invoices",
+        "addRecurring": "Add Recurring Invoice",
+        "editRecurring": "Edit Recurring Invoice"
     },
     "tabNavigation": {
         "invoices": "Invoices",
@@ -94,6 +97,26 @@
         "paidStatusPlaceholder": "Select a Paid Status",
         "fromDate": "From Date",
         "toDate": "To Date",
+        "profileName": "Profile Name",
+        "repeatEvery": "Repeat Every",
+        "repeatRecurring": {
+            "week": "Week",
+            "weeks": "{{week}} Week",
+            "month": "Month",
+            "months": "{{month}} Month",
+            "year": "Year",
+            "years": "{{year}} Year",
+            "custom": "Custom"
+        },
+        "customRepeatRecurring": {
+            "days": "Day(s)",
+            "weeks": "Week(s)",
+            "months": "Month(s)",
+            "years": "Year(s)"
+        },
+        "startOn": "Start On",
+        "endsOn": "Ends On",
+        "neverExpire": "Never Expires",
         "alert": {
             "lessAmount": "Total Amount shouldn't less than 0",
             "removeDescription": "You will not be able to recover this Invoice",
@@ -265,6 +288,7 @@
     },
     "more": {
         "estimate": "Estimates",
+        "recurringInvoice": "Recurring Invoices",
         "items": "Items",
         "reports": "Reports",
         "settings": "Settings",

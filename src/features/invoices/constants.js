@@ -2,9 +2,17 @@ import queryString from 'query-string';
 import Lng from "../../api/lang/i18n";
 import { colors } from "../../styles/colors";
 
+// Invoice Refs
+// -----------------------------------------
+export let invoiceRefs = {}
+export const setInvoiceRefs = refs => (invoiceRefs = refs)
+
+
 //  Forms
 // -----------------------------------------
 export const INVOICE_SEARCH = 'invoiceForm/INVOICE_SEARCH';
+export const RECURRING_INVOICES_FORM = 'recurringInvoice/RECURRING_INVOICES';
+export const RECURRING_FORM = 'recurringInvoice/RECURRING_FORM';
 export const INVOICE_FORM = 'invoiceForm/INVOICE_EDIT';
 export const ITEM_FORM = 'item/ITEM_FORM';
 
@@ -12,6 +20,8 @@ export const ITEM_FORM = 'item/ITEM_FORM';
 // -----------------------------------------
 export const INVOICE_ADD = 'invoiceForm/INVOICE_ADD';
 export const INVOICE_EDIT = 'invoiceForm/INVOICE_EDIT';
+export const RECURRING_ADD = 'recurringInvoice/RECURRING_ADD';
+export const RECURRING_EDIT = 'recurringInvoice/RECURRING_EDIT';
 
 // Actions
 // -----------------------------------------
@@ -19,7 +29,6 @@ export const INVOICES_TRIGGER_SPINNER = 'invoice/INVOICES_TRIGGER_SPINNER';
 export const GET_INVOICES = 'invoice/GET_INVOICES';
 export const SET_INVOICES = 'invoice/SET_INVOICES';
 
-export const CLEAR_INVOICES = 'invoice/CLEAR_INVOICES';
 export const CLEAR_INVOICE = 'invoice/CLEAR_INVOICE';
 export const GET_CREATE_INVOICE = 'invoice/GET_CREATE_INVOICE';
 export const GET_EDIT_INVOICE = 'invoice/GET_EDIT_INVOICE';
@@ -30,7 +39,12 @@ export const EDIT_INVOICE = 'invoice/EDIT_INVOICE';
 export const REMOVE_INVOICE = 'invoice/REMOVE_INVOICE';
 export const REMOVE_FROM_INVOICES = 'invoice/REMOVE_FROM_INVOICES';
 export const CHANGE_INVOICE_STATUS = 'invoice/CHANGE_INVOICE_STATUS';
-export const SET_ACTIVE_TAB = 'invoice/SET_ACTIVE_TAB';
+
+export const GET_RECURRING_INVOICES = 'recurring/GET_RECURRING_INVOICES';
+export const SET_RECURRING_INVOICES = 'recurring/SET_RECURRING_INVOICES';
+export const CREATE_RECURRING_INVOICE = 'recurring/CREATE_RECURRING_INVOICE';
+export const EDIT_RECURRING_INVOICE = 'recurring/EDIT_RECURRING_INVOICE';
+export const REMOVE_RECURRING_INVOICE = 'recurring/REMOVE_RECURRING_INVOICE';
 
 // Items
 // -----------------------------------------
@@ -189,6 +203,98 @@ export const EDIT_INVOICE_ACTIONS = (language, SentStatus = false, completeStatu
 
 };
 
+export const REPEAT_RECURRING_INVOICE_OPTION_VALUE = {
+    WEEK: "week",
+    WEEK2: "week2",
+    MONTH: "month",
+    MONTH2: "month2",
+    MONTH3: "month3",
+    MONTH6: "month6",
+    YEAR: "year",
+    YEAR2: "year2",
+    YEAR3: "year3",
+    CUSTOM: "custom",
+}
+
+export const CUSTOM_REPEAT_RECURRING_OPTION_VALUE = {
+    DAYS: "days",
+    WEEKS: "weeks",
+    MONTHS: "months",
+    YEARS: "years",
+}
+// Custom Repeat Recurring Invoice
+// -----------------------------------------
+export const CUSTOM_REPEAT_RECURRING_OPTION = (language, Lng) => {
+    const VALUE = CUSTOM_REPEAT_RECURRING_OPTION_VALUE
+
+    return [
+        {
+            label: Lng.t("invoices.customRepeatRecurring.days", { locale: language }),
+            value: VALUE.DAYS
+        },
+        {
+            label: Lng.t("invoices.customRepeatRecurring.weeks", { locale: language }),
+            value: VALUE.WEEKS
+        },
+        {
+            label: Lng.t("invoices.customRepeatRecurring.months", { locale: language }),
+            value: VALUE.MONTHS
+        },
+        {
+            label: Lng.t("invoices.customRepeatRecurring.years", { locale: language }),
+            value: VALUE.YEARS
+        },
+    ]
+}
+// Repeat Recurring Invoice
+// -----------------------------------------
+export const REPEAT_RECURRING_INVOICE_OPTION = (language, Lng) => {
+    const VALUE = REPEAT_RECURRING_INVOICE_OPTION_VALUE
+
+    return [
+        {
+            label: Lng.t("invoices.repeatRecurring.week", { locale: language }),
+            value: VALUE.WEEK
+        },
+        {
+            label: Lng.t("invoices.repeatRecurring.weeks", { locale: language, week: 2 }),
+            value: VALUE.WEEK2
+        },
+        {
+            label: Lng.t("invoices.repeatRecurring.month", { locale: language }),
+            value: VALUE.MONTH
+        },
+        {
+            label: Lng.t("invoices.repeatRecurring.months", { locale: language, month: 2 }),
+            value: VALUE.MONTH2
+        },
+        {
+            label: Lng.t("invoices.repeatRecurring.months", { locale: language, month: 3 }),
+            value: VALUE.MONTH3
+        },
+        {
+            label: Lng.t("invoices.repeatRecurring.months", { locale: language, month: 6 }),
+            value: VALUE.MONTH6
+        },
+
+        {
+            label: Lng.t("invoices.repeatRecurring.year", { locale: language }),
+            value: VALUE.YEAR
+        },
+        {
+            label: Lng.t("invoices.repeatRecurring.years", { locale: language, year: 2 }),
+            value: VALUE.YEAR2
+        },
+        {
+            label: Lng.t("invoices.repeatRecurring.years", { locale: language, year: 3 }),
+            value: VALUE.YEAR3
+        },
+        {
+            label: Lng.t("invoices.repeatRecurring.custom", { locale: language, year: 3 }),
+            value: VALUE.CUSTOM
+        },
+    ]
+}
 // Endpoint Api URL
 // -----------------------------------------
 
@@ -211,3 +317,12 @@ export const GET_EDIT_INVOICE_URL = (id) => `invoices/${id}/edit`
 export const GET_CREATE_INVOICE_URL = () => `invoices/create`
 
 export const CHANGE_INVOICE_STATUS_URL = (action) => `invoices/${action}`
+
+// Recurring Invoice
+export const GET_RECURRING_INVOICES_URL = (type, param) => `invoices?status=${type}&${queryString.stringify({
+    ...param,
+    orderByField: 'created_at',
+    orderBy: 'desc'
+})}`
+export const CREATE_RECURRING_INVOICE_URL = () => `invoices`
+export const EDIT_RECURRING_INVOICE_URL = (invoice) => `invoices/${invoice.id}`

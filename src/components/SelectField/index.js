@@ -489,7 +489,7 @@ export class SelectFieldComponent extends Component<IProps> {
                     onChangeCallback={this.onToggle}
                     containerStyle={containerStyle}
                     meta={meta}
-                    rightIcon={'angle-right'}
+                    rightIcon={'angle-down'}
                     {...fakeInputProps}
                 />
 

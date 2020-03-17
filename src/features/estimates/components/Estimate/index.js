@@ -115,13 +115,6 @@ export class Estimate extends React.Component<IProps> {
                 }
             });
 
-        navigation.addListener(
-            'didFocus',
-            payload => {
-                this.forceUpdate();
-            }
-        );
-
         this.getEstimateItemList(estimateItems)
 
         this.androidBackHandler()

@@ -4,7 +4,6 @@ import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { Field } from 'redux-form';
-import { NavigationEvents } from 'react-navigation';
 import { styles } from './styles';
 import { InputField, CtHeader, CtDivider } from '../..';
 import { Content } from '../../Content';
@@ -31,7 +30,6 @@ const MainLayoutComponent = ({
     onSearch,
     bottomDivider,
     hasSearchField = true,
-    onFocus,
     bottomAction,
     filterProps,
     inputProps,
@@ -48,9 +46,6 @@ const MainLayoutComponent = ({
 
             {toastProps && (<Toast {...toastProps} />)}
 
-            <NavigationEvents
-                onWillFocus={onFocus && onFocus}
-            />
             <View style={styles.content}>
                 <CtHeader
                     titleStyle={styles.headerTitleStyle}

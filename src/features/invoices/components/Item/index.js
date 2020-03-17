@@ -47,13 +47,6 @@ export class InvoiceItem extends React.Component {
     componentDidMount() {
         const { navigation } = this.props
 
-        navigation.addListener(
-            'didFocus',
-            payload => {
-                this.forceUpdate();
-            }
-        );
-
         goBack(MOUNT, navigation)
     }
 
@@ -118,7 +111,7 @@ export class InvoiceItem extends React.Component {
 
             setInvoiceItems({ invoiceItem })
 
-            navigation.navigate(ROUTES.INVOICE)
+            navigation.goBack(null)
         }
 
     };
@@ -130,7 +123,7 @@ export class InvoiceItem extends React.Component {
             title: Lng.t("alert.title", { locale: language }),
             showCancel: true,
             okPress: () => {
-                navigation.navigate(ROUTES.INVOICE)
+                navigation.goBack(null)
                 removeInvoiceItem({ id: itemId })
             }
         })
@@ -379,7 +372,7 @@ export class InvoiceItem extends React.Component {
         return (
             <DefaultLayout
                 headerProps={{
-                    leftIconPress: () => navigation.navigate(ROUTES.INVOICE),
+                    leftIconPress: () => navigation.goBack(null),
                     title: isCreateItem ?
                         Lng.t("header.addItem", { locale: language }) :
                         Lng.t("header.editItem", { locale: language }),

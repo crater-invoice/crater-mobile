@@ -84,16 +84,16 @@ export class ListView extends Component<IProps> {
                             ]}
                         >
                             {labelComponent ? labelComponent : (
-                                    <Text
-                                        style={[
-                                            { color: labelTextColor },
-                                            styles.leftSubTitleLabel,
-                                            leftSubTitleLabelStyle && leftSubTitleLabelStyle,
-                                        ]}
-                                    >
-                                        {label}
-                                    </Text>
-                                )
+                                <Text
+                                    style={[
+                                        { color: labelTextColor },
+                                        styles.leftSubTitleLabel,
+                                        leftSubTitleLabelStyle && leftSubTitleLabelStyle,
+                                    ]}
+                                >
+                                    {label}
+                                </Text>
+                            )
                             }
                         </View>
                     </View>

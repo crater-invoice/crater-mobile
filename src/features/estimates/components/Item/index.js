@@ -42,13 +42,6 @@ export class EstimateItem extends React.Component {
 
         !itemId && getItemUnits && getItemUnits()
 
-        navigation.addListener(
-            'didFocus',
-            payload => {
-                this.forceUpdate();
-            }
-        );
-
         goBack(MOUNT, navigation)
     }
 

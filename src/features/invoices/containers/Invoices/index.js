@@ -11,6 +11,11 @@ import { getCustomers } from '../../../customers/actions';
 import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
 import { ROUTES } from '../../../../navigation/routes';
 import { withNavigationFocus } from 'react-navigation';
+import {
+    getDueInvoicesState,
+    getDraftInvoicesState,
+    getAllInvoicesState
+} from '../../selectors';
 
 const mapStateToProps = (state) => {
 
@@ -25,18 +30,18 @@ const mapStateToProps = (state) => {
 
     return {
         invoices,
+        dueInvoices: getDueInvoicesState(invoices ?? []),
+        draftInvoices: getDraftInvoicesState(invoices ?? []),
+        allInvoices: getAllInvoicesState(invoices ?? []),
         loading: invoicesLoading,
         language,
         customers,
         formValues: getFormValues(INVOICE_SEARCH)(state) || {},
-
     };
 };
 
 const mapDispatchToProps = {
     getInvoices: InvoicesAction.getInvoices,
-    clearInvoices: InvoicesAction.clearInvoices,
-    setInvoiceActiveTab: InvoicesAction.setInvoiceActiveTab,
     getCustomers: getCustomers
 };
 

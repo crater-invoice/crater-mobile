@@ -20,9 +20,9 @@ export default styles = StyleSheet.create({
         flexDirection: 'row',
         marginHorizontal: -10,
     },
-    dateField: {
+    expireToggle: {
         flex: 1,
-        paddingHorizontal: 5,
+        marginHorizontal: 5,
         justifyContent: 'space-between',
     },
     inputTextStyle: {
@@ -73,5 +73,20 @@ export default styles = StyleSheet.create({
     },
     termsEditText: {
         color: colors.primary
+    },
+    row: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+    column: {
+        flex: 3,
+        marginLeft: 15,
+        marginTop: 4,
+        alignSelf: "center"
+    },
+    customRepeatField: {
+        textAlign: "center",
+        justifyContent: "center",
+        alignSelf: "center"
     }
 });

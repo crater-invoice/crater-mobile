@@ -113,29 +113,6 @@ export const navigateRoute = (routeName, params = {}) => {
     );
 }
 
-// onPress BottomTabNavigator
-// -----------------------------------------
-export const tabBarOnPress = (routeName = '', action = '') => {
-
-    routeName && navigateRoute(routeName, { loading: true })
-
-    let activeTabIfInvoices = ''
-
-    if (routeName === ROUTES.MAIN_INVOICES) {
-        const reduxStore = store.getState();
-        activeTabIfInvoices = reduxStore.invoices.activeTab
-    }
-
-    store.dispatch(action({
-        type: activeTabIfInvoices,
-        onMeta: ({ last_page, current_page }) => {
-            let pagination = { last_page, current_page }
-            routeName && navigateRoute(routeName, { pagination, loading: false })
-        }
-    }))
-}
-
-
 // Get Value with translated
 // -----------------------------------------
 export const getTitleByLanguage = (label, field = null) => {

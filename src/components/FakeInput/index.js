@@ -136,7 +136,8 @@ export class FakeInputComponent extends Component<IProps> {
                             <Content
                                 loadingProps={{
                                     is: loading,
-                                    style: styles.loadingFakeInput
+                                    style: styles.loadingFakeInput,
+                                    size: "small"
                                 }}
                             >
 

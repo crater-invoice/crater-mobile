@@ -15,15 +15,16 @@ import {
     FakeInput,
     ToggleSwitch,
     TermsAndCondition,
-    SendMail
+    SendMail,
+    SelectPickerField
 } from '../../../../components';
 import { ROUTES } from '../../../../navigation/routes';
 import {
-    INVOICE_ADD,
-    INVOICE_EDIT,
+    RECURRING_ADD,
+    RECURRING_EDIT,
     ITEM_ADD,
     ITEM_EDIT,
-    INVOICE_FORM,
+    RECURRING_FORM,
     INVOICE_ACTIONS,
     EDIT_INVOICE_ACTIONS,
     setInvoiceRefs
@@ -36,7 +37,7 @@ import Lng from '../../../../api/lang/i18n';
 import { CUSTOMER_ADD } from '../../../customers/constants';
 import { IMAGES } from '../../../../config';
 import { PAYMENT_ADD } from '../../../payments/constants';
-import { MAX_LENGTH, alertMe } from '../../../../api/global';
+import { MAX_LENGTH, alertMe, KEYBOARD_TYPE } from '../../../../api/global';
 import {
     invoiceSubTotal,
     invoiceTax,
@@ -48,6 +49,11 @@ import {
     finalAmount,
 } from '../InvoiceCalculation';
 import FinalAmount from '../FinalAmount';
+import {
+    REPEAT_RECURRING_INVOICE_OPTION,
+    CUSTOM_REPEAT_RECURRING_OPTION,
+    REPEAT_RECURRING_INVOICE_OPTION_VALUE as REPEAT_SELECT_VALUE,
+} from '../../constants'
 
 type IProps = {
     navigation: Object,
@@ -76,7 +82,8 @@ const termsCondition = {
     description: 'terms_and_conditions',
     toggle: "display_terms_and_conditions"
 }
-export class Invoice extends React.Component<IProps> {
+
+export class RecurringInvoice extends React.Component<IProps> {
     constructor(props) {
         super(props);
 
@@ -101,7 +108,7 @@ export class Invoice extends React.Component<IProps> {
             type,
         } = this.props;
 
-        type === INVOICE_EDIT ?
+        type === RECURRING_EDIT ?
             getEditInvoice({
                 id: navigation.getParam('id'),
                 onResult: ({ user: { currency, name }, status }) => {
@@ -138,7 +145,7 @@ export class Invoice extends React.Component<IProps> {
     }
 
     setFormField = (field, value) => {
-        this.props.dispatch(change(INVOICE_FORM, field, value));
+        this.props.dispatch(change(RECURRING_FORM, field, value));
     };
 
     onEditItem = (item) => {
@@ -157,8 +164,8 @@ export class Invoice extends React.Component<IProps> {
     onDraft = (handleSubmit) => {
         const { language, navigation, type } = this.props
 
-        if (type === INVOICE_EDIT) {
-            navigation.navigate(ROUTES.MAIN_INVOICES)
+        if (type === RECURRING_EDIT) {
+            navigation.navigate(ROUTES.RECURRING_INVOICES)
             return
         }
 
@@ -166,67 +173,68 @@ export class Invoice extends React.Component<IProps> {
             title: Lng.t("invoices.alert.draftTitle", { locale: language }),
             showCancel: true,
             cancelText: Lng.t("alert.action.discard", { locale: language }),
-            cancelPress: () => navigation.navigate(ROUTES.MAIN_INVOICES),
+            cancelPress: () => navigation.navigate(ROUTES.RECURRING_INVOICES),
             okText: Lng.t("alert.action.saveAsDraft", { locale: language }),
             okPress: handleSubmit(this.onSubmitInvoice)
         })
     }
 
     onSubmitInvoice = (values, status = 'draft') => {
-        const {
-            createInvoice,
-            navigation,
-            type,
-            editInvoice,
-            language,
-            invoiceData: { invoice_prefix = '' } = {}
-        } = this.props
+        console.log({ values })
+        // const {
+        //     createInvoice,
+        //     navigation,
+        //     type,
+        //     editInvoice,
+        //     language,
+        //     invoiceData: { invoice_prefix = '' } = {}
+        // } = this.props
 
-        if (finalAmount() < 0) {
-            alert(Lng.t("invoices.alert.lessAmount", { locale: language }))
-            return
-        }
+        // if (finalAmount() < 0) {
+        //     alert(Lng.t("invoices.alert.lessAmount", { locale: language }))
+        //     return
+        // }
 
-        let invoice = {
-            ...values,
-            invoice_number: `${invoice_prefix}-${values.invoice_number}`,
-            total: finalAmount(),
-            sub_total: invoiceSubTotal(),
-            tax: invoiceTax() + invoiceCompoundTax(),
-            discount_val: totalDiscount(),
-            taxes: values.taxes ? values.taxes.map(val => {
-                return {
-                    ...val,
-                    amount: val.compound_tax ?
-                        getCompoundTaxValue(val.percent) :
-                        getTaxValue(val.percent),
-                }
-            }) : [],
-        }
+        // let invoice = {
+        //     ...values,
+        //     invoice_number: `${invoice_prefix}-${values.invoice_number}`,
+        //     total: finalAmount(),
+        //     sub_total: invoiceSubTotal(),
+        //     tax: invoiceTax() + invoiceCompoundTax(),
+        //     discount_val: totalDiscount(),
+        //     taxes: values.taxes ? values.taxes.map(val => {
+        //         return {
+        //             ...val,
+        //             amount: val.compound_tax ?
+        //                 getCompoundTaxValue(val.percent) :
+        //                 getTaxValue(val.percent),
+        //         }
+        //     }) : [],
+        // }
 
-        if (status === 'send') {
-            invoice.invoiceSend = true
-        }
+        // if (status === 'send') {
+        //     invoice.invoiceSend = true
+        // }
 
-        type === INVOICE_ADD ?
-            createInvoice({
-                invoice,
-                onResult: (url) => {
-                    if (status === 'download') {
-                        Linking.openURL(url);
-                    }
-                    navigation.navigate(ROUTES.MAIN_INVOICES)
-                }
-            }) :
-            editInvoice({
-                invoice: { ...invoice, id: navigation.getParam('id') },
-                onResult: (url) => {
-                    if (status === 'download') {
-                        Linking.openURL(url);
-                    }
-                    navigation.navigate(ROUTES.MAIN_INVOICES)
-                }
-            })
+        // type === RECURRING_ADD ?
+        //     createInvoice({
+        //         invoice,
+        //         onResult: (url) => {
+        //             if (status === 'download') {
+        //                 Linking.openURL(url);
+        //             }
+        //             navigation.navigate(ROUTES.RECURRING_INVOICES)
+        //         }
+        //     }) :
+        //     editInvoice({
+        //         invoice: { ...invoice, id: navigation.getParam('id') },
+        //         onResult: (url) => {
+        //             if (status === 'download') {
+        //                 Linking.openURL(url);
+        //             }
+        //             navigation.navigate(ROUTES.RECURRING_INVOICES)
+        //         }
+        //     })
     };
 
 
@@ -235,14 +243,14 @@ export class Invoice extends React.Component<IProps> {
 
         return (
             <View style={styles.submitButton}>
-                <CtButton
+                {/* <CtButton
                     onPress={handleSubmit((val) => this.onSubmitInvoice(val, status = INVOICE_ACTIONS.VIEW))}
                     btnTitle={Lng.t("button.viewPdf", { locale: language })}
                     type={BUTTON_TYPE.OUTLINE}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                     loading={loading}
-                />
+                /> */}
 
                 <CtButton
                     onPress={handleSubmit((val) => this.onSubmitInvoice(val, status = 'save'))}
@@ -362,7 +370,7 @@ export class Invoice extends React.Component<IProps> {
                         id: navigation.getParam('id'),
                         onResult: (res) => {
                             res.success &&
-                                navigation.navigate(ROUTES.MAIN_INVOICES)
+                                navigation.navigate(ROUTES.RECURRING_INVOICES)
 
                             res.error && (res.error === 'payment_attached') &&
                                 alertMe({
@@ -411,6 +419,39 @@ export class Invoice extends React.Component<IProps> {
         )
     }
 
+    CustomRepeat = () => {
+        const { language } = this.props
+        return (
+            <View style={styles.row}>
+                <View style={{ flex: 1 }}>
+                    <Field
+                        name="custom_day"
+                        component={InputField}
+                        inputProps={{
+                            returnKeyType: 'next',
+                            autoCorrect: true,
+                            keyboardType: KEYBOARD_TYPE.NUMERIC,
+                        }}
+                        textStyle={styles.customRepeatField}
+                    />
+                </View>
+                <View style={styles.column}>
+                    <Field
+                        name="custom_options"
+                        component={SelectPickerField}
+                        isRequired
+                        fieldIcon='calendar-week'
+                        items={CUSTOM_REPEAT_RECURRING_OPTION(language, Lng)}
+                        defaultPickerOptions={{
+                            label: Lng.t("invoices.repeatEvery", { locale: language }),
+                            value: '',
+                        }}
+                    />
+                </View>
+            </View>
+        )
+    }
+
     render() {
         const {
             navigation,
@@ -419,7 +460,6 @@ export class Invoice extends React.Component<IProps> {
                 invoiceTemplates,
                 discount_per_item,
                 tax_per_item,
-                invoice_prefix
             } = {},
             invoiceItems,
             getItems,
@@ -431,13 +471,13 @@ export class Invoice extends React.Component<IProps> {
             getCustomers,
             customers,
             customersLoading,
-            formValues: { display_terms_and_conditions },
             changeInvoiceStatus,
+            formValues,
         } = this.props;
 
         const { currency, customerName, markAsStatus } = this.state
 
-        const isEditInvoice = (type === INVOICE_EDIT)
+        const isEditInvoice = (type === RECURRING_EDIT)
 
         let hasSentStatus = (markAsStatus === 'SENT' || markAsStatus === 'VIEWED')
         let hasCompleteStatus = (markAsStatus === 'COMPLETED')
@@ -459,13 +499,15 @@ export class Invoice extends React.Component<IProps> {
 
         this.invoiceRefs(this)
 
+        console.log({ formValues })
+
         return (
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => this.onDraft(handleSubmit),
                     title: isEditInvoice ?
-                        Lng.t("header.editInvoice", { locale: language }) :
-                        Lng.t("header.addInvoice", { locale: language }),
+                        Lng.t("header.editRecurring", { locale: language }) :
+                        Lng.t("header.addRecurring", { locale: language }),
                     rightIcon: !isEditInvoice ? 'save' : null,
                     rightIconPress: handleSubmit((val) => this.onSubmitInvoice(val, status = 'save')),
                     rightIconProps: {
@@ -500,44 +542,15 @@ export class Invoice extends React.Component<IProps> {
                         />
                     )}
 
-                    <View style={styles.dateFieldContainer}>
-                        <View style={styles.dateField}>
-                            <Field
-                                name={'invoice_date'}
-                                isRequired
-                                component={DatePickerField}
-                                label={Lng.t("invoices.invoiceDate", { locale: language })}
-                                icon={'calendar-alt'}
-                                onChangeCallback={(val) =>
-                                    this.setFormField('invoice_date', val)
-                                }
-                            />
-                        </View>
-                        <View style={styles.dateField}>
-                            <Field
-                                name="due_date"
-                                isRequired
-                                component={DatePickerField}
-                                label={Lng.t("invoices.dueDate", { locale: language })}
-                                icon={'calendar-alt'}
-                                onChangeCallback={(val) =>
-                                    this.setFormField('due_date', val)
-                                }
-                            />
-                        </View>
-                    </View>
-
                     <Field
-                        name="invoice_number"
-                        component={FakeInput}
-                        label={Lng.t("invoices.invoiceNumber", { locale: language })}
+                        name={'startOn'}
                         isRequired
-                        prefixProps={{
-                            fieldName: "invoice_number",
-                            prefix: invoice_prefix,
-                            icon: 'hashtag',
-                            iconSolid: false,
-                        }}
+                        component={DatePickerField}
+                        label={Lng.t("invoices.startOn", { locale: language })}
+                        icon={'calendar-alt'}
+                        onChangeCallback={(val) =>
+                            this.setFormField('invoice_date', val)
+                        }
                     />
 
                     <Field
@@ -582,6 +595,57 @@ export class Invoice extends React.Component<IProps> {
                         }}
                         fakeInputProps={{ loading: customersLoading }}
                     />
+
+                    <Field
+                        name="profileName"
+                        component={InputField}
+                        isRequired
+                        hint={Lng.t("invoices.profileName", { locale: language })}
+                        inputProps={{
+                            returnKeyType: 'next',
+                            autoCorrect: true,
+                            keyboardType: KEYBOARD_TYPE.DEFAULT,
+                        }}
+                    />
+
+                    <Field
+                        name="repeat_every"
+                        label={Lng.t("invoices.repeatEvery", { locale: language })}
+                        component={SelectPickerField}
+                        isRequired
+                        fieldIcon='calendar-week'
+                        items={REPEAT_RECURRING_INVOICE_OPTION(language, Lng)}
+                        defaultPickerOptions={{
+                            label: Lng.t("invoices.repeatEvery", { locale: language }),
+                            value: '',
+                        }}
+                    />
+
+                    {formValues?.repeat_every === REPEAT_SELECT_VALUE.CUSTOM
+                        && this.CustomRepeat()
+                    }
+
+                    <View style={styles.row}>
+                        <View style={styles.expireToggle}>
+                            <Field
+                                name="neverExpire"
+                                component={ToggleSwitch}
+                                hint={Lng.t("invoices.neverExpire", { locale: language })}
+                                mainContainerStyle={{ marginTop: 12 }}
+                            />
+                        </View>
+                        <View style={styles.expireToggle} />
+                    </View>
+
+                    {!formValues?.neverExpire && (
+                        <Field
+                            name={'endsOn'}
+                            isRequired
+                            component={DatePickerField}
+                            label={Lng.t("invoices.endsOn", { locale: language })}
+                            icon={'calendar-alt'}
+                        />
+                    )}
 
                     <Text style={[styles.inputTextStyle, styles.label]}>
                         {Lng.t("invoices.items", { locale: language })}

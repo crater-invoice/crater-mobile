@@ -4,7 +4,7 @@ export const ROUTES = {
     FORGOT_PASSWORD: 'FORGOT_PASSWORD',
     ENDPOINTS: 'ENDPOINTS',
 
-    // Main Bottom Tabs
+    // Main Tabs
     // -----------------------------------------
     MAIN_TABS: 'MAIN_TABS',
     MAIN_INVOICES: 'MAIN_INVOICES',
@@ -19,6 +19,8 @@ export const ROUTES = {
     // -----------------------------------------
     INVOICE: 'INVOICE',
     INVOICE_ITEM: 'INVOICE_ITEM',
+    RECURRING_INVOICES: 'RECURRING_INVOICES',
+    RECURRING_INVOICE: 'RECURRING_INVOICE',
 
     // Items
     // -----------------------------------------

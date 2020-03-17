@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
 import Request from '../../../api/request';
 import {
     GET_INVOICES,
@@ -35,11 +35,11 @@ import {
     removeFromInvoices,
 } from '../actions';
 import { store } from '../../../store';
-import { checkConnection } from '../../../api/helper';
 import { ROUTES } from '../../../navigation/routes';
 import { alertMe, hasValue } from '../../../api/global';
 import { getTitleByLanguage } from '../../../navigation/actions';
 
+import recurring from './recurringInvoice';
 
 const alreadyInUse = (error) => {
 
@@ -66,7 +66,6 @@ function* getInvoices(payloadData) {
     yield put(invoiceTriggerSpinner({ invoicesLoading: true }));
 
     try {
-        yield call(checkConnection, payloadData);
         let param = {
             ...params,
             page,
@@ -431,6 +430,7 @@ function* changeInvoiceStatus(payloadData) {
     }
 }
 
+
 export default function* invoicesSaga() {
     yield takeEvery(GET_INVOICES, getInvoices);
     yield takeEvery(GET_CREATE_INVOICE, getCreateInvoice);
@@ -443,4 +443,8 @@ export default function* invoicesSaga() {
     yield takeEvery(REMOVE_ITEM, removeItem);
     yield takeEvery(REMOVE_INVOICE, removeInvoice);
     yield takeEvery(CHANGE_INVOICE_STATUS, changeInvoiceStatus);
+
+    yield all([
+        recurring(),
+    ]);
 }

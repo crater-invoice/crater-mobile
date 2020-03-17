@@ -1,9 +1,7 @@
 import {
     GET_INVOICES,
     SET_INVOICES,
-    CLEAR_INVOICES,
     GET_CREATE_INVOICE,
-    SET_CREATE_INVOICE,
     INVOICES_TRIGGER_SPINNER,
     ADD_ITEM,
     GET_ITEMS,
@@ -23,7 +21,13 @@ import {
     REMOVE_INVOICE,
     REMOVE_FROM_INVOICES,
     CHANGE_INVOICE_STATUS,
-    SET_ACTIVE_TAB,
+
+    // Recurring Invoice
+    GET_RECURRING_INVOICES,
+    SET_RECURRING_INVOICES,
+    CREATE_RECURRING_INVOICE,
+    EDIT_RECURRING_INVOICE,
+    REMOVE_RECURRING_INVOICE,
 } from "../constants";
 
 export const getInvoices = (payload = {}) => ({
@@ -33,11 +37,6 @@ export const getInvoices = (payload = {}) => ({
 
 export const setInvoices = (payload = {}) => ({
     type: SET_INVOICES,
-    payload,
-});
-
-export const clearInvoices = (payload = {}) => ({
-    type: CLEAR_INVOICES,
     payload,
 });
 
@@ -140,7 +139,30 @@ export const changeInvoiceStatus = (payload = {}) => ({
     payload,
 });
 
-export const setInvoiceActiveTab = (payload = {}) => ({
-    type: SET_ACTIVE_TAB,
+
+// Recurring Invoice Actions
+// -----------------------------------------
+export const getRecurringInvoices = (payload = {}) => ({
+    type: GET_RECURRING_INVOICES,
+    payload,
+});
+
+export const setRecurringInvoices = (payload = {}) => ({
+    type: SET_RECURRING_INVOICES,
+    payload,
+});
+
+export const createRecurringInvoice = (payload = {}) => ({
+    type: CREATE_RECURRING_INVOICE,
+    payload,
+});
+
+export const editRecurringInvoice = (payload = {}) => ({
+    type: EDIT_RECURRING_INVOICE,
+    payload,
+});
+
+export const removeRecurringInvoice = (payload = {}) => ({
+    type: REMOVE_RECURRING_INVOICE,
     payload,
 });

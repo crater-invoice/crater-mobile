@@ -1,6 +1,5 @@
 import {
     SET_INVOICES,
-    CLEAR_INVOICES,
     INVOICES_TRIGGER_SPINNER,
     GET_INVOICES,
     GET_ITEMS,
@@ -14,8 +13,8 @@ import {
     CLEAR_INVOICE,
     SET_INVOICE,
     REMOVE_FROM_INVOICES,
-    SET_ACTIVE_TAB,
-    INVOICES_TABS
+    INVOICES_TABS,
+    SET_RECURRING_INVOICES
 } from "../constants";
 
 const initialState = {
@@ -58,9 +57,6 @@ export default function invoicesReducer(state = initialState, action) {
             }
 
             return { ...state, invoices };
-
-        case CLEAR_INVOICES:
-            return { ...state, invoices: [] };
 
         case CLEAR_INVOICE:
             return {
@@ -116,9 +112,20 @@ export default function invoicesReducer(state = initialState, action) {
 
             return { ...state, invoices: newInvoices };
 
-        case SET_ACTIVE_TAB:
+        case SET_RECURRING_INVOICES:
 
-            return { ...state, activeTab: payload.activeTab };
+            if (payload.prepend) {
+                return {
+                    ...state,
+                    invoices: [...payload.invoices, ...state.invoices]
+                };
+            }
+
+            if (!payload.fresh) {
+                return { ...state, invoices: [...state.invoices, ...payload.invoices] };
+            }
+
+            return { ...state, invoices: payload.invoices };
 
         default:
             return state;

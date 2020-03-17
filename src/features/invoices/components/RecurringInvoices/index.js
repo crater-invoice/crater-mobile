@@ -11,9 +11,9 @@ import All from '../Tab/All';
 import { ROUTES } from '../../../../navigation/routes';
 import {
     INVOICES_TABS,
-    INVOICE_ADD,
-    INVOICE_EDIT,
-    INVOICE_SEARCH,
+    RECURRING_ADD,
+    RECURRING_EDIT,
+    RECURRING_INVOICES_FORM,
     TAB_NAME,
 } from '../../constants';
 import Lng from '../../../../api/lang/i18n';
@@ -38,7 +38,7 @@ type IProps = {
     getCustomers: Function,
 }
 
-export class Invoices extends React.Component<IProps> {
+export class RecurringInvoices extends React.Component<IProps> {
     constructor(props) {
         super(props);
 
@@ -95,7 +95,7 @@ export class Invoices extends React.Component<IProps> {
         q = '',
         resetFilter = false
     } = {}) => {
-        const { getInvoices } = this.props;
+        const { getRecurringInvoices } = this.props;
         const { refreshing, pagination } = this.state;
 
         if (refreshing) {
@@ -116,7 +116,7 @@ export class Invoices extends React.Component<IProps> {
             return;
         }
 
-        getInvoices({
+        getRecurringInvoices({
             fresh,
             type,
             pagination: paginationParams,
@@ -141,15 +141,15 @@ export class Invoices extends React.Component<IProps> {
     };
 
     setFormField = (field, value) => {
-        this.props.dispatch(change(INVOICE_SEARCH, field, value));
+        this.props.dispatch(change(RECURRING_INVOICES_FORM, field, value));
     };
 
     onInvoiceSelect = (invoice) => {
         const { navigation } = this.props
         this.setActiveTab(INVOICES_TABS.ALL)
         this.onResetFilter(INVOICES_TABS.ALL)
-        navigation.navigate(ROUTES.INVOICE,
-            { id: invoice.id, type: INVOICE_EDIT }
+        navigation.navigate(ROUTES.RECURRING_INVOICE,
+            { id: invoice.id, type: RECURRING_EDIT }
         )
     };
 
@@ -255,15 +255,31 @@ export class Invoices extends React.Component<IProps> {
         const { navigation } = this.props
         this.setActiveTab(INVOICES_TABS.ALL)
         this.onResetFilter(INVOICES_TABS.ALL)
-        navigation.navigate(ROUTES.INVOICE, { type: INVOICE_ADD })
+        navigation.navigate(ROUTES.RECURRING_INVOICE, { type: RECURRING_ADD })
     }
 
     onChangeState = (field, value) => this.setState({ [field]: value })
 
     render() {
-        const { language, navigation, handleSubmit } = this.props;
+        const {
+            language,
+            navigation,
+            invoices,
+            loading,
+            handleSubmit,
+            dueInvoices,
+            draftInvoices,
+            allInvoices,
+        } = this.props;
 
-        const { activeTab, pagination: { lastPage, page } } = this.state;
+        const {
+            activeTab,
+            refreshing,
+            pagination: { lastPage, page },
+            fresh,
+            search,
+            filter,
+        } = this.state;
 
         const canLoadMore = lastPage >= page;
 
@@ -273,9 +289,13 @@ export class Invoices extends React.Component<IProps> {
             <View style={styles.container}>
                 <MainLayout
                     headerProps={{
+                        leftIcon: "long-arrow-alt-left",
+                        leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
+                        title: Lng.t("header.recurringInvoice", { locale: language }),
+                        placement: "center",
                         rightIcon: 'plus',
                         rightIconPress: () => this.onAddInvoice(),
-                        title: Lng.t("header.invoices", { locale: language }),
+                        titleStyle: styles.headerTitle,
                     }}
                     onSearch={this.onSearch}
                     filterProps={{
@@ -304,7 +324,7 @@ export class Invoices extends React.Component<IProps> {
                                         canLoadMore={canLoadMore}
                                         parentProps={this}
                                     />
-                                )
+                                ),
                             },
                             {
                                 Title: INVOICES_TABS.DRAFT,
@@ -314,7 +334,7 @@ export class Invoices extends React.Component<IProps> {
                                         canLoadMore={canLoadMore}
                                         parentProps={this}
                                     />
-                                )
+                                ),
                             },
                             {
                                 Title: INVOICES_TABS.ALL,
@@ -324,8 +344,8 @@ export class Invoices extends React.Component<IProps> {
                                         canLoadMore={canLoadMore}
                                         parentProps={this}
                                     />
-                                )
-                            }
+                                ),
+                            },
                         ]}
                     />
                 </MainLayout>

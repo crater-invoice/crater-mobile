@@ -48,9 +48,18 @@ export const MORE_MENU = (language, Lng) => {
         {
             title: Lng.t("more.estimate", { locale: language }),
             leftIcon: 'file-alt',
-            iconSize: 28,
+            leftIconSolid: true,
+            iconSize: 27,
             fullItem: {
                 route: ROUTES.ESTIMATE_LIST
+            }
+        },
+        {
+            title: Lng.t("more.recurringInvoice", { locale: language }),
+            leftIcon: 'file-alt',
+            iconSize: 27,
+            fullItem: {
+                route: ROUTES.RECURRING_INVOICES
             }
         },
         {
