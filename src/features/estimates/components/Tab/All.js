@@ -1,69 +1,28 @@
 // @flow
 import React from 'react';
-import { View, ScrollView, Alert } from 'react-native';
+import { View } from 'react-native';
 import { styles } from './styles';
 import { ListView, Content } from '../../../../components';
 import { IMAGES } from '../../../../config';
-import { ESTIMATES_STATUS, ESTIMATE_ADD, ESTIMATES_STATUS_BG_COLOR, ESTIMATES_STATUS_TEXT_COLOR } from '../../constants';
-import { ROUTES } from '../../../../navigation/routes';
 import Lng from '../../../../api/lang/i18n';
 
 type IProps = {
-    estimates: Array,
-    onEstimateSelect: Function,
-    getEstimates: Function,
-    loading: String,
     canLoadMore: Boolean,
-    refreshing: Boolean,
-    fresh: Boolean,
-    search: String,
-    onAddEstimate: Function,
-    loadMoreItems: Function,
-    filter: Boolean
+    parentProps: any
 };
 
-const All = ({
-    estimates,
-    onEstimateSelect,
-    refreshing,
-    loading,
-    canLoadMore,
-    getEstimates,
-    fresh,
-    search,
-    language,
-    navigation,
-    onAddEstimate,
-    loadMoreItems,
-    filter
-}: IProps) => {
-    let items = [];
+const All = ({ canLoadMore, parentProps }: IProps) => {
 
-    if (typeof estimates !== 'undefined' && estimates.length != 0) {
-        items = estimates.map((item) => {
-            const {
-                estimate_number,
-                user: { name, currency } = {},
-                status,
-                formattedEstimateDate,
-                total,
-            } = item;
-
-            return {
-                title: name,
-                subtitle: {
-                    title: estimate_number,
-                    label: status,
-                    labelBgColor: ESTIMATES_STATUS_BG_COLOR[status],
-                    labelTextColor: ESTIMATES_STATUS_TEXT_COLOR[status],
-                },
-                amount: total,
-                currency,
-                rightSubtitle: formattedEstimateDate,
-                fullItem: item,
-            };
-        });
-    }
+    const {
+        props,
+        state,
+        getItems,
+        onEstimateSelect,
+        loadMoreItems,
+        onAddEstimate
+    } = parentProps
+    const { allEstimates = [], loading, language } = props
+    const { refreshing, fresh, search, filter } = state
 
     let empty = (!filter && !search) ? {
         description: Lng.t("estimates.empty.all.description", { locale: language }),
@@ -79,14 +38,14 @@ const All = ({
         <View style={styles.content}>
             <Content loadingProps={{ is: refreshing && fresh }}>
                 <ListView
-                    items={items}
+                    items={allEstimates}
                     onPress={onEstimateSelect}
                     refreshing={refreshing}
                     loading={loading}
-                    isEmpty={items.length <= 0}
+                    isEmpty={allEstimates.length <= 0}
                     canLoadMore={canLoadMore}
                     getFreshItems={(onHide) => {
-                        getEstimates({
+                        getItems({
                             fresh: true,
                             onResult: onHide,
                             type: '',

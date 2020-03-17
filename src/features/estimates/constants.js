@@ -2,6 +2,13 @@ import queryString from 'query-string';
 import Lng from "../../api/lang/i18n";
 import { colors } from "../../styles/colors";
 
+
+// Estimate Refs
+// -----------------------------------------
+export let estimateRefs = {}
+export const setEstimateRefs = refs => (estimateRefs = refs)
+
+
 //  Forms
 // -----------------------------------------
 export const ESTIMATE_SEARCH = 'estimateForm/ESTIMATE_SEARCH';

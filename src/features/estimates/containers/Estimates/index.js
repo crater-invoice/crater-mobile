@@ -5,6 +5,11 @@ import { reduxForm, getFormValues } from 'redux-form';
 import * as EstimatesAction from '../../actions';
 import { ESTIMATE_SEARCH } from '../../constants';
 import { getCustomers } from '../../../customers/actions';
+import {
+    getDraftEstimatesState,
+    getSentEstimatesState,
+    getAllEstimatesState
+} from '../../selectors';
 
 const mapStateToProps = (state) => {
 
@@ -19,6 +24,9 @@ const mapStateToProps = (state) => {
 
     return {
         estimates,
+        draftEstimates: getDraftEstimatesState(estimates ?? []),
+        sentEstimates: getSentEstimatesState(estimates ?? []),
+        allEstimates: getAllEstimatesState(estimates ?? []),
         customers,
         loading: estimatesLoading,
         language,

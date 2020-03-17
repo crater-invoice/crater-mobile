@@ -1,19 +1,18 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
 import { Tabs, MainLayout } from '../../../../components';
 import Sent from '../Tab/Sent';
 import Draft from '../Tab/Draft';
 import All from '../Tab/All';
-
 import { ROUTES } from '../../../../navigation/routes';
-import { ESTIMATES_TABS, ESTIMATE_ADD, ESTIMATE_EDIT, ESTIMATE_SEARCH, FILTER_ESTIMATE_STATUS, TAB_NAME } from '../../constants';
+import { ESTIMATES_TABS, ESTIMATE_ADD, ESTIMATE_EDIT, ESTIMATE_SEARCH, TAB_NAME } from '../../constants';
 import Lng from '../../../../api/lang/i18n';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { IMAGES } from '../../../../config';
+import estimateFilterFields from './filterFields'
 
 let params = {
     search: '',
@@ -22,7 +21,6 @@ let params = {
     from_date: '',
     to_date: '',
 }
-
 
 type IProps = {
     language: String,
@@ -47,11 +45,7 @@ export class Estimates extends React.Component<IProps> {
                 lastPage: 1,
             },
             search: '',
-            filter: false,
-            selectedFromDate: '',
-            selectedToDate: '',
-            selectedFromDateValue: '',
-            selectedToDateValue: ''
+            filter: false
         };
     }
 
@@ -244,109 +238,15 @@ export class Estimates extends React.Component<IProps> {
         const {
             language,
             navigation,
-            estimates,
-            loading,
             handleSubmit,
-            customers,
-            getCustomers,
         } = this.props;
 
         const {
             activeTab,
-            refreshing,
             pagination: { lastPage, page },
-            fresh,
-            search,
-            selectedFromDate,
-            selectedToDate,
-            selectedFromDateValue,
-            selectedToDateValue,
-            filter
         } = this.state;
 
         const canLoadMore = lastPage >= page;
-
-        let estimateItem = [];
-        typeof estimates !== 'undefined' && (estimateItem = estimates);
-
-        let selectFields = [
-            {
-                name: "customer_id",
-                apiSearch: true,
-                hasPagination: true,
-                getItems: getCustomers,
-                items: customers,
-                displayName: "name",
-                label: Lng.t("estimates.customer", { locale: language }),
-                icon: 'user',
-                placeholder: Lng.t("customers.placeholder", { locale: language }),
-                navigation: navigation,
-                compareField: "id",
-                onSelect: (item) => this.setFormField('customer_id', item.id),
-                headerProps: {
-                    title: Lng.t("customers.title", { locale: language }),
-                    rightIconPress: null
-                },
-                listViewProps: {
-                    hasAvatar: true,
-                },
-                emptyContentProps: {
-                    contentType: "customers",
-                    image: IMAGES.EMPTY_CUSTOMERS,
-                }
-            }
-        ]
-
-        let datePickerFields = [
-            {
-                name: "from_date",
-                label: Lng.t("estimates.fromDate", { locale: language }),
-                onChangeCallback: (formDate, displayDate) => {
-                    this.setState({
-                        selectedFromDate: displayDate,
-                        selectedFromDateValue: formDate
-                    })
-                },
-                selectedDate: selectedFromDate,
-                selectedDateValue: selectedFromDateValue
-            },
-            {
-                name: "to_date",
-                label: Lng.t("estimates.toDate", { locale: language }),
-                onChangeCallback: (formDate, displayDate) => {
-                    this.setState({
-                        selectedToDate: displayDate,
-                        selectedToDateValue: formDate
-                    })
-                },
-                selectedDate: selectedToDate,
-                selectedDateValue: selectedToDateValue
-            }
-        ]
-
-        let inputFields = [{
-            name: 'estimate_number',
-            hint: Lng.t("estimates.estimateNumber", { locale: language }),
-            inputProps: {
-                autoCapitalize: 'none',
-                autoCorrect: true,
-            }
-        }]
-
-        let dropdownFields = [{
-            name: "filterStatus",
-            label: Lng.t("estimates.status", { locale: language }),
-            fieldIcon: 'align-center',
-            items: FILTER_ESTIMATE_STATUS,
-            onChangeCallback: (val) => {
-                this.setFormField('filterStatus', val)
-            },
-            defaultPickerOptions: {
-                label: Lng.t("estimates.statusPlaceholder", { locale: language }),
-                value: '',
-            },
-            containerStyle: styles.selectPicker
-        }]
 
         return (
             <View style={styles.container}>
@@ -366,10 +266,7 @@ export class Estimates extends React.Component<IProps> {
                     onSearch={this.onSearch}
                     filterProps={{
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
-                        selectFields: selectFields,
-                        datePickerFields: datePickerFields,
-                        inputFields: inputFields,
-                        dropdownFields: dropdownFields,
+                        ...estimateFilterFields(this),
                         clearFilter: this.props,
                         onResetFilter: () => this.onResetFilter()
                     }}
@@ -384,19 +281,8 @@ export class Estimates extends React.Component<IProps> {
                                 tabName: TAB_NAME(ESTIMATES_TABS.DRAFT, language, Lng),
                                 render: (
                                     <Draft
-                                        estimates={estimateItem}
-                                        getEstimates={this.getItems}
+                                        parentProps={this}
                                         canLoadMore={canLoadMore}
-                                        onEstimateSelect={this.onEstimateSelect}
-                                        loading={loading}
-                                        refreshing={refreshing}
-                                        search={search}
-                                        navigation={navigation}
-                                        language={language}
-                                        loadMoreItems={this.loadMoreItems}
-                                        onAddEstimate={this.onAddEstimate}
-                                        fresh={fresh}
-                                        filter={filter}
                                     />
                                 ),
                             },
@@ -405,19 +291,8 @@ export class Estimates extends React.Component<IProps> {
                                 tabName: TAB_NAME(ESTIMATES_TABS.SENT, language, Lng),
                                 render: (
                                     <Sent
-                                        estimates={estimateItem}
-                                        getEstimates={this.getItems}
+                                        parentProps={this}
                                         canLoadMore={canLoadMore}
-                                        onEstimateSelect={this.onEstimateSelect}
-                                        loading={loading}
-                                        refreshing={refreshing}
-                                        fresh={fresh}
-                                        search={search}
-                                        navigation={navigation}
-                                        language={language}
-                                        loadMoreItems={this.loadMoreItems}
-                                        onAddEstimate={this.onAddEstimate}
-                                        filter={filter}
                                     />
                                 ),
                             },
@@ -426,19 +301,8 @@ export class Estimates extends React.Component<IProps> {
                                 tabName: TAB_NAME(ESTIMATES_TABS.ALL, language, Lng),
                                 render: (
                                     <All
-                                        estimates={estimateItem}
-                                        getEstimates={this.getItems}
+                                        parentProps={this}
                                         canLoadMore={canLoadMore}
-                                        onEstimateSelect={this.onEstimateSelect}
-                                        loading={loading}
-                                        refreshing={refreshing}
-                                        fresh={fresh}
-                                        search={search}
-                                        navigation={navigation}
-                                        language={language}
-                                        loadMoreItems={this.loadMoreItems}
-                                        onAddEstimate={this.onAddEstimate}
-                                        filter={filter}
                                     />
                                 ),
                             },

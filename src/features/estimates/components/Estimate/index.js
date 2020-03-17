@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Fragment } from 'react';
 import { View, Text, Linking, TouchableOpacity } from 'react-native';
 import { change } from 'redux-form';
@@ -8,12 +7,10 @@ import styles from './styles';
 import {
     InputField,
     DatePickerField,
-    CtDivider,
     CtButton,
     ListView,
     DefaultLayout,
     SelectField,
-    SelectPickerField,
     CurrencyFormat,
     FakeInput,
     ToggleSwitch,
@@ -28,20 +25,29 @@ import {
     ESTIMATE_FORM,
     ESTIMATE_ACTIONS,
     EDIT_ESTIMATE_ACTIONS,
-    MARK_AS_ACCEPT, MARK_AS_REJECT, MARK_AS_SENT
+    MARK_AS_ACCEPT, MARK_AS_REJECT, MARK_AS_SENT,
+    setEstimateRefs
 } from '../../constants';
 import { BUTTON_TYPE } from '../../../../api/consts/core';
 import { colors } from '../../../../styles/colors';
 import { TemplateField } from '../TemplateField';
 import { MOUNT, UNMOUNT, goBack } from '../../../../navigation/actions';
 import Lng from '../../../../api/lang/i18n';
-import { ESTIMATE_DISCOUNT_OPTION } from '../../constants';
 import { CUSTOMER_ADD } from '../../../customers/constants';
 import { IMAGES } from '../../../../config';
-import { ADD_TAX } from '../../../settings/constants';
 import { MAX_LENGTH, alertMe } from '../../../../api/global';
 import { itemsDescriptionStyle } from '../../../invoices/components/Invoice/styles';
 import { headerTitle } from '../../../../api/helper';
+import {
+    estimateSubTotal,
+    estimateTax,
+    getTaxValue,
+    totalDiscount,
+    getCompoundTaxValue,
+    finalAmount,
+    getItemList,
+} from '../EstimateCalculation';
+import FinalAmount from '../FinalAmount';
 
 type IProps = {
     navigation: Object,
@@ -74,6 +80,8 @@ const termsCondition = {
 export class Estimate extends React.Component<IProps> {
     constructor(props) {
         super(props);
+        this.estimateRefs = setEstimateRefs.bind(this);
+
         this.state = {
             taxTypeList: [],
             currency: {},
@@ -124,6 +132,7 @@ export class Estimate extends React.Component<IProps> {
     componentWillUnmount() {
         const { clearEstimate } = this.props
         clearEstimate();
+        this.estimateRefs(undefined)
         goBack(UNMOUNT)
     }
 
@@ -177,7 +186,7 @@ export class Estimate extends React.Component<IProps> {
             estimateData: { estimate_prefix = '' } = {}
         } = this.props
 
-        if (this.finalAmount() < 0) {
+        if (finalAmount() < 0) {
             alert(Lng.t("estimates.alert.lessAmount", { locale: language }))
             return
         }
@@ -185,16 +194,16 @@ export class Estimate extends React.Component<IProps> {
         let estimate = {
             ...values,
             estimate_number: `${estimate_prefix}-${values.estimate_number}`,
-            total: this.finalAmount(),
-            sub_total: this.estimateSubTotal(),
-            tax: this.estimateTax() + this.estimateCompoundTax(),
-            discount_val: this.totalDiscount(),
+            total: finalAmount(),
+            sub_total: estimateSubTotal(),
+            tax: estimateTax() + this.estimateCompoundTax(),
+            discount_val: totalDiscount(),
             taxes: values.taxes ? values.taxes.map(val => {
                 return {
                     ...val,
                     amount: val.compound_tax ?
-                        this.getCompoundTaxValue(val.percent) :
-                        this.getTaxValue(val.percent),
+                        getCompoundTaxValue(val.percent) :
+                        getTaxValue(val.percent),
                 }
             }) : [],
         }
@@ -224,92 +233,6 @@ export class Estimate extends React.Component<IProps> {
             })
     };
 
-    estimateSubTotal = () => {
-        const { estimateItems } = this.props
-        let subTotal = 0
-        estimateItems.map(val => {
-            subTotal += JSON.parse(val.total)
-        })
-
-        return JSON.parse(subTotal)
-    }
-
-    subTotal = () => {
-        let estimateTax = 0
-        this.estimateItemTotalTaxes().filter(val => {
-            estimateTax += val.amount
-        })
-        return (this.estimateSubTotal() + estimateTax) - this.totalDiscount()
-    }
-
-    estimateTax = () => {
-        const { formValues: { taxes } } = this.props
-
-        let totalTax = 0
-
-        taxes && taxes.map(val => {
-            if (!val.compound_tax) {
-                totalTax += this.getTaxValue(val.percent)
-            }
-        })
-
-        return totalTax
-    }
-
-    estimateCompoundTax = () => {
-        const { formValues: { taxes } } = this.props
-
-        let totalTax = 0
-
-        taxes && taxes.map(val => {
-            if (val.compound_tax) {
-                totalTax += this.getCompoundTaxValue(val.percent)
-            }
-        })
-
-        return totalTax
-    }
-
-    getTaxValue = (tax) => {
-        return (tax * JSON.parse(this.subTotal())) / 100
-    }
-
-    getCompoundTaxValue = (tax) => {
-        return (tax * JSON.parse(this.totalAmount())) / 100
-    }
-
-    getTaxName = (tax) => {
-        const { taxTypes } = this.props
-        let taxName = ''
-        const type = taxTypes && taxTypes.filter(val => val.fullItem.id === tax.tax_type_id)
-
-        if (type.length > 0) {
-            taxName = type[0]['fullItem'].name
-        }
-        return taxName
-    }
-
-    totalDiscount = () => {
-        const { formValues: { discount, discount_type } } = this.props
-
-        let discountPrice = 0
-
-        if (discount_type === 'percentage') {
-            discountPrice = ((discount * this.estimateSubTotal()) / 100)
-        } else {
-            discountPrice = (discount * 100)
-        }
-
-        return discountPrice
-    }
-
-    totalAmount = () => {
-        return this.subTotal() + this.estimateTax()
-    }
-
-    finalAmount = () => {
-        return this.totalAmount() + this.estimateCompoundTax()
-    }
 
     estimateItemTotalTaxes = () => {
         const { estimateItems } = this.props
@@ -339,192 +262,6 @@ export class Estimate extends React.Component<IProps> {
         return taxes
     }
 
-    FINAL_AMOUNT = () => {
-        const { currency } = this.state
-
-        const {
-            language,
-            taxTypes,
-            navigation,
-            estimateData: { discount_per_item, tax_per_item },
-            formValues: { taxes }
-        } = this.props
-
-        let taxPerItem = !(tax_per_item === 'NO' || typeof tax_per_item === 'undefined' || tax_per_item === null)
-
-        let discountPerItem = !(discount_per_item === 'NO' || typeof discount_per_item === 'undefined' || discount_per_item === null)
-
-        return (
-            <View style={styles.amountContainer}>
-                <View style={styles.subContainer}>
-                    <View>
-                        <Text style={styles.amountHeading}>
-                            {Lng.t("estimates.subtotal", { locale: language })}
-                        </Text>
-                    </View>
-                    <View>
-                        <CurrencyFormat
-                            amount={this.estimateSubTotal()}
-                            currency={currency}
-                            style={styles.subAmount}
-                        />
-                    </View>
-                </View>
-
-                {(!discountPerItem) && (
-                    <View style={[styles.subContainer, styles.discount]}>
-                        <View>
-                            <Text style={styles.amountHeading}>
-                                {Lng.t("estimates.discount", { locale: language })}
-                            </Text>
-                        </View>
-                        <View style={[styles.subAmount, styles.discountField]}>
-                            <Field
-                                name="discount"
-                                component={InputField}
-                                inputProps={{
-                                    returnKeyType: 'next',
-                                    autoCapitalize: 'none',
-                                    autoCorrect: true,
-                                    keyboardType: 'numeric',
-                                }}
-                                fieldStyle={styles.fieldStyle}
-                            />
-
-                            <Field
-                                name="discount_type"
-                                component={SelectPickerField}
-                                items={ESTIMATE_DISCOUNT_OPTION}
-                                onChangeCallback={(val) => {
-                                    this.setFormField('discount_type', val)
-                                }}
-                                isFakeInput
-                                defaultPickerOptions={{
-                                    label: 'Fixed',
-                                    value: 'fixed',
-                                    color: colors.secondary,
-                                    displayLabel: currency ? currency.symbol : '$',
-                                }}
-                                fakeInputValueStyle={styles.fakeInputValueStyle}
-                                fakeInputContainerStyle={styles.selectPickerField}
-                                containerStyle={styles.SelectPickerContainer}
-                            />
-                        </View>
-                    </View>
-                )}
-
-                {taxes &&
-                    taxes.map((val, index) => !val.compound_tax ? (
-                        <View
-                            style={styles.subContainer}
-                            key={index}
-                        >
-                            <View>
-                                <Text style={styles.amountHeading}>
-                                    {this.getTaxName(val)} ({val.percent} %)
-                                </Text>
-                            </View>
-                            <View>
-                                <CurrencyFormat
-                                    amount={this.getTaxValue(val.percent)}
-                                    currency={currency}
-                                    style={styles.subAmount}
-                                />
-                            </View>
-                        </View>
-                    ) : null
-                    )
-                }
-
-                {taxes &&
-                    taxes.map((val, index) => val.compound_tax ? (
-                        <View
-                            style={styles.subContainer}
-                            key={index}
-                        >
-                            <View>
-                                <Text style={styles.amountHeading}>
-                                    {this.getTaxName(val)} ({val.percent} %)
-                                </Text>
-                            </View>
-                            <View>
-                                <CurrencyFormat
-                                    amount={this.getCompoundTaxValue(val.percent)}
-                                    currency={currency}
-                                    style={styles.subAmount}
-                                />
-                            </View>
-                        </View>
-                    ) : null
-                    )
-                }
-
-                {this.DISPLAY_ITEM_TAX()}
-
-                {(!taxPerItem) && (
-                    <Field
-                        name="taxes"
-                        items={taxTypes}
-                        displayName="name"
-                        component={SelectField}
-                        searchFields={['name', 'percent']}
-                        onlyPlaceholder
-                        fakeInputProps={{
-                            fakeInput: (
-                                <Text style={styles.taxFakeInput}>
-                                    {Lng.t("estimates.taxPlaceholder", { locale: language })}
-                                </Text>
-                            )
-                        }}
-                        navigation={navigation}
-                        isMultiSelect
-                        isInternalSearch
-                        language={language}
-                        concurrentMultiSelect
-                        compareField="id"
-                        valueCompareField="tax_type_id"
-                        headerProps={{
-                            title: Lng.t("taxes.title", { locale: language })
-                        }}
-                        rightIconPress={
-                            () => navigation.navigate(ROUTES.TAX, {
-                                type: ADD_TAX,
-                                onSelect: (val) => {
-                                    this.setFormField('taxes',
-                                        [...val, ...taxes]
-                                    )
-                                }
-                            })
-                        }
-                        listViewProps={{
-                            contentContainerStyle: { flex: 2 }
-                        }}
-                        emptyContentProps={{
-                            contentType: "taxes",
-                        }}
-                    />
-                )}
-
-                <CtDivider dividerStyle={styles.divider} />
-
-                <View style={styles.subContainer}>
-                    <View>
-                        <Text style={styles.amountHeading}>
-                            {Lng.t("estimates.totalAmount", { locale: language })}:
-                        </Text>
-                    </View>
-                    <View>
-                        <CurrencyFormat
-                            amount={this.finalAmount()}
-                            currency={currency}
-                            style={styles.finalAmount}
-                        />
-                    </View>
-                </View>
-            </View>
-        )
-    };
-
     BOTTOM_ACTION = () => {
         const { language, loading, handleSubmit } = this.props
 
@@ -549,35 +286,6 @@ export class Estimate extends React.Component<IProps> {
 
             </View>
         )
-    }
-
-    DISPLAY_ITEM_TAX = () => {
-        const { currency } = this.state
-
-        let taxes = this.estimateItemTotalTaxes()
-
-        return taxes ? (
-            taxes.map((val, index) => (
-                <View
-                    style={styles.subContainer}
-                    key={index}
-                >
-                    <View>
-                        <Text style={styles.amountHeading}>
-                            {this.getTaxName(val)} ({val.percent} %)
-                        </Text>
-                    </View>
-                    <View>
-                        <CurrencyFormat
-                            amount={val.amount}
-                            currency={currency}
-                            style={styles.subAmount}
-                        />
-                    </View>
-                </View>
-            )
-            )
-        ) : null
     }
 
     getEstimateItemList = (estimateItems) => {
@@ -615,32 +323,6 @@ export class Estimate extends React.Component<IProps> {
         }
 
         return estimateItemList
-    }
-
-    getItemList = (items) => {
-        const { currency } = this.state
-
-        let itemList = []
-
-        if (typeof items !== 'undefined' && items.length != 0) {
-
-            itemList = items.map((item) => {
-
-                let { name, description, price } = item
-
-                return {
-                    title: name,
-                    subtitle: {
-                        title: description,
-                    },
-                    amount: price,
-                    currency,
-                    fullItem: item,
-                };
-            });
-        }
-
-        return itemList
     }
 
     onOptionSelect = (action) => {
@@ -785,6 +467,8 @@ export class Estimate extends React.Component<IProps> {
             destructiveButtonIndex: hasMark ? 4 : 5
         } : null
 
+        this.estimateRefs(this)
+
         return (
             <DefaultLayout
                 headerProps={{
@@ -913,7 +597,7 @@ export class Estimate extends React.Component<IProps> {
 
                     <Field
                         name="items"
-                        items={this.getItemList(items)}
+                        items={getItemList(items)}
                         displayName="name"
                         component={SelectField}
                         hasPagination
@@ -963,7 +647,10 @@ export class Estimate extends React.Component<IProps> {
                         }}
                     />
 
-                    {this.FINAL_AMOUNT(estimateItems)}
+                    <FinalAmount
+                        state={this.state}
+                        props={this.props}
+                    />
 
                     <Field
                         name="reference_number"
