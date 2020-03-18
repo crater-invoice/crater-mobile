@@ -1,19 +1,15 @@
 // @flow
 import React from 'react';
 import { View } from 'react-native';
-
 import { change } from 'redux-form';
 import styles from './styles';
-import {
-    MainLayout,
-    ListView
-} from '../../../../components';
+import { MainLayout, ListView } from '../../../../components';
 import { ROUTES } from '../../../../navigation/routes';
 import { IMAGES } from '../../../../config';
 import Lng from '../../../../api/lang/i18n';
 import { PAYMENT_ADD, PAYMENT_EDIT, PAYMENT_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { formatSelectPickerName } from '../../../../api/global';
+import paymentsFilterFields from './filterFields'
 
 let params = {
     search: '',
@@ -155,33 +151,6 @@ export class Payments extends React.Component<IProps> {
             this.onResetFilter()
     }
 
-    getPaymentsList = (payments) => {
-        let paymentList = []
-        if (typeof payments !== 'undefined' && payments.length != 0) {
-            paymentList = payments.map((payment) => {
-                const {
-                    notes,
-                    formattedPaymentDate,
-                    amount,
-                    payment_mode,
-                    user: { name, currency }
-                } = payment;
-
-                return {
-                    title: `${name}`,
-                    subtitle: {
-                        title: `${payment_mode ? '(' + payment_mode + ')' : ''}`,
-                    },
-                    amount,
-                    currency,
-                    rightSubtitle: formattedPaymentDate,
-                    fullItem: payment,
-                };
-            });
-        }
-        return paymentList
-    }
-
     loadMoreItems = () => {
         const { search, filter } = this.state
 
@@ -192,8 +161,6 @@ export class Payments extends React.Component<IProps> {
                 payment_number = ''
             }
         } = this.props
-
-
 
         if (filter) {
             this.getItems({
@@ -220,10 +187,7 @@ export class Payments extends React.Component<IProps> {
             loading,
             language,
             handleSubmit,
-            customers,
-            getCustomers,
             paymentModesLoading,
-            paymentMethods
         } = this.props;
 
         const {
@@ -231,75 +195,10 @@ export class Payments extends React.Component<IProps> {
             pagination: { lastPage, page },
             fresh,
             search,
-            selectedPaymentMode,
             filter,
         } = this.state;
 
         const canLoadMore = lastPage >= page;
-
-
-        let paymentsItem = this.getPaymentsList(payments)
-        let filterPaymentItem = this.getPaymentsList(filterPayments)
-
-        let filterRefs = {}
-
-        let selectFields = [
-            {
-                name: "customer_id",
-                apiSearch: true,
-                hasPagination: true,
-                getItems: getCustomers,
-                items: customers,
-                displayName: "name",
-                label: Lng.t("payments.customer", { locale: language }),
-                icon: 'user',
-                placeholder: Lng.t("customers.placeholder", { locale: language }),
-                navigation: navigation,
-                compareField: "id",
-                onSelect: (item) => this.setFormField('customer_id', item.id),
-                headerProps: {
-                    title: Lng.t("customers.title", { locale: language }),
-                    rightIconPress: null
-                },
-                listViewProps: {
-                    hasAvatar: true,
-                },
-                emptyContentProps: {
-                    contentType: "customers",
-                    image: IMAGES.EMPTY_CUSTOMERS,
-                }
-            }
-        ]
-
-        let inputFields = [{
-            name: 'payment_number',
-            hint: Lng.t("payments.number", { locale: language }),
-            leftIcon: 'hashtag',
-            inputProps: {
-                autoCapitalize: 'none',
-                autoCorrect: true,
-            },
-            refLinkFn: (ref) => {
-                filterRefs.paymentNumber = ref;
-            }
-        }]
-
-        let dropdownFields = [{
-            name: "payment_method_id",
-            label: Lng.t("payments.mode", { locale: language }),
-            fieldIcon: 'align-center',
-            items: formatSelectPickerName(paymentMethods),
-            onChangeCallback: (val) => {
-                this.setFormField('payment_method_id', val)
-            },
-            defaultPickerOptions: {
-                label: Lng.t("payments.modePlaceholder", { locale: language }),
-                value: '',
-            },
-            selectedItem: selectedPaymentMode,
-            onDonePress: () => filterRefs.paymentNumber.focus(),
-            containerStyle: styles.selectPicker
-        }]
 
         let empty = (!filter && !search) ? {
             description: Lng.t("payments.empty.description", { locale: language }),
@@ -329,9 +228,7 @@ export class Payments extends React.Component<IProps> {
                     bottomDivider
                     filterProps={{
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
-                        selectFields: selectFields,
-                        inputFields: inputFields,
-                        dropdownFields: dropdownFields,
+                        ...paymentsFilterFields(this),
                         clearFilter: this.props,
                         language: language,
                         onResetFilter: () => this.onResetFilter()
@@ -342,12 +239,12 @@ export class Payments extends React.Component<IProps> {
                     <View style={styles.listViewContainer}>
 
                         <ListView
-                            items={!filter ? paymentsItem : filterPaymentItem}
+                            items={!filter ? payments : filterPayments}
                             onPress={this.onPaymentSelect}
                             refreshing={refreshing}
                             loading={loading}
-                            isEmpty={!filter ? paymentsItem.length <= 0 :
-                                filterPaymentItem.length <= 0
+                            isEmpty={!filter ? payments.length <= 0 :
+                                filterPayments.length <= 0
                             }
                             canLoadMore={canLoadMore}
                             getFreshItems={(onHide) => {
@@ -358,9 +255,7 @@ export class Payments extends React.Component<IProps> {
                                     params: { ...params, search }
                                 });
                             }}
-                            getItems={() => {
-                                this.loadMoreItems()
-                            }}
+                            getItems={() => this.loadMoreItems()}
                             contentContainerStyle={{ flex: 0 }}
                             bottomDivider
                             emptyContentProps={{

@@ -12,6 +12,7 @@ import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/a
 import { ROUTES } from '../../../../navigation/routes';
 import { withNavigationFocus } from 'react-navigation';
 import { getPaymentModes } from '../../../settings/actions';
+import { getPaymentsState, getFilterPaymentsState, getPaymentMethodsState } from '../../selectors';
 
 
 const mapStateToProps = (state) => {
@@ -31,13 +32,13 @@ const mapStateToProps = (state) => {
     } = state;
 
     return {
-        payments,
-        filterPayments,
+        payments: getPaymentsState(payments),
+        filterPayments: getFilterPaymentsState(filterPayments),
         loading: paymentsLoading,
         paymentModesLoading,
         language,
         customers,
-        paymentMethods,
+        paymentMethods: getPaymentMethodsState(paymentMethods),
 
         formValues: getFormValues(PAYMENT_SEARCH)(state) || {},
     };

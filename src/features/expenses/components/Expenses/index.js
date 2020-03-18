@@ -10,6 +10,7 @@ import { IMAGES } from '../../../../config';
 import Lng from '../../../../api/lang/i18n';
 import { EXPENSE_ADD, EXPENSE_EDIT, EXPENSE_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
+import expenseFilterFields from './filterFields'
 
 let params = {
     search: '',
@@ -39,11 +40,7 @@ export class Expenses extends React.Component<IProps> {
             },
             search: '',
             selectedCategory: '',
-            filter: false,
-            selectedFromDate: '',
-            selectedToDate: '',
-            selectedFromDateValue: '',
-            selectedToDateValue: ''
+            filter: false
         };
     }
 
@@ -183,48 +180,6 @@ export class Expenses extends React.Component<IProps> {
 
     }
 
-    getExpensesList = (expenses) => {
-        let expensesList = []
-        const { currency } = this.props
-
-        if (typeof expenses !== 'undefined' && expenses.length != 0) {
-            expensesList = expenses.map((expense) => {
-                const {
-                    notes,
-                    formattedExpenseDate,
-                    amount,
-                    category
-                } = expense;
-
-                return {
-                    title: category.name ? category.name[0].toUpperCase() +
-                        category.name.slice(1) : '',
-                    subtitle: {
-                        title: notes,
-                    },
-                    amount,
-                    currency,
-                    rightSubtitle: formattedExpenseDate,
-                    fullItem: expense,
-                };
-            });
-        }
-        return expensesList
-    }
-
-    getCategoriesList = (categories) => {
-        let CategoriesList = []
-        if (typeof categories !== 'undefined' && categories.length != 0) {
-            CategoriesList = categories.map((category) => {
-                return {
-                    label: category.name,
-                    value: category.id
-                }
-            })
-        }
-        return CategoriesList
-    }
-
     render() {
 
         const {
@@ -233,73 +188,17 @@ export class Expenses extends React.Component<IProps> {
             filterExpenses,
             loading,
             language,
-            currency,
             handleSubmit,
-            categories,
         } = this.props;
-
         const {
             refreshing,
             pagination: { lastPage, page },
             fresh,
             search,
             filter,
-            selectedCategory,
-            selectedFromDate,
-            selectedToDate,
-            selectedFromDateValue,
-            selectedToDateValue
         } = this.state;
 
         const canLoadMore = lastPage >= page;
-
-        let expensesItem = this.getExpensesList(expenses);
-        let filterExpensesItem = this.getExpensesList(filterExpenses);
-        let CategoriesList = this.getCategoriesList(categories)
-
-
-        let dropdownFields = [{
-            name: "expense_category_id",
-            label: Lng.t("expenses.category", { locale: language }),
-            fieldIcon: 'align-center',
-            items: CategoriesList,
-            onChangeCallback: (val) => {
-                this.setFormField('expense_category_id', val)
-            },
-            defaultPickerOptions: {
-                label: Lng.t("expenses.categoryPlaceholder", { locale: language }),
-                value: '',
-            },
-            selectedItem: selectedCategory,
-            containerStyle: styles.selectPicker
-        }]
-
-        let datePickerFields = [
-            {
-                name: "from_date",
-                label: Lng.t("expenses.fromDate", { locale: language }),
-                onChangeCallback: (formDate, displayDate) => {
-                    this.setState({
-                        selectedFromDate: displayDate,
-                        selectedFromDateValue: formDate
-                    })
-                },
-                selectedDate: selectedFromDate,
-                selectedDateValue: selectedFromDateValue
-            },
-            {
-                name: "to_date",
-                label: Lng.t("expenses.toDate", { locale: language }),
-                onChangeCallback: (formDate, displayDate) => {
-                    this.setState({
-                        selectedToDate: displayDate,
-                        selectedToDateValue: formDate
-                    })
-                },
-                selectedDate: selectedToDate,
-                selectedDateValue: selectedToDateValue
-            }
-        ]
 
         let empty = (!filter && !search) ? {
             description: Lng.t("expenses.empty.description", { locale: language }),
@@ -331,8 +230,7 @@ export class Expenses extends React.Component<IProps> {
                     bottomDivider
                     filterProps={{
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
-                        datePickerFields: datePickerFields,
-                        dropdownFields: dropdownFields,
+                        ...expenseFilterFields(this),
                         clearFilter: this.props,
                         language: language,
                         onResetFilter: () => this.onResetFilter()
@@ -342,12 +240,12 @@ export class Expenses extends React.Component<IProps> {
 
                     <View style={styles.listViewContainer} >
                         <ListView
-                            items={!filter ? expensesItem : filterExpensesItem}
+                            items={!filter ? expenses : filterExpenses}
                             onPress={this.onExpenseSelect}
                             refreshing={refreshing}
                             loading={loading}
-                            isEmpty={!filter ? expensesItem.length <= 0 :
-                                filterExpensesItem.length <= 0
+                            isEmpty={!filter ? expenses.length <= 0 :
+                                filterExpenses.length <= 0
                             }
                             canLoadMore={canLoadMore}
                             getFreshItems={(onHide) => {
@@ -358,9 +256,7 @@ export class Expenses extends React.Component<IProps> {
                                     params: { ...params, search }
                                 });
                             }}
-                            getItems={() => {
-                                this.loadMoreItems()
-                            }}
+                            getItems={() => this.loadMoreItems()}
                             contentContainerStyle={{ flex: 1 }}
                             bottomDivider
                             emptyContentProps={{

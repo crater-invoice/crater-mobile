@@ -1,0 +1,43 @@
+import { createSelector } from 'reselect'
+import { hasLength, formatSelectPickerName } from '../../../api/global';
+
+const formatPaymentItems = (payments) => payments.map((payment) => {
+    const {
+        formattedPaymentDate,
+        amount,
+        payment_mode,
+        user: { name, currency }
+    } = payment;
+
+    return {
+        title: `${name}`,
+        subtitle: {
+            title: `${payment_mode ? '(' + payment_mode + ')' : ''}`,
+        },
+        amount,
+        currency,
+        rightSubtitle: formattedPaymentDate,
+        fullItem: payment,
+    };
+});
+
+const getPaymentsState = createSelector(
+    payments => payments,
+    payments => !hasLength(payments) ? [] : formatPaymentItems(payments)
+);
+
+const getFilterPaymentsState = createSelector(
+    payments => payments,
+    payments => !hasLength(payments) ? [] : formatPaymentItems(payments)
+);
+
+const getPaymentMethodsState = createSelector(
+    methods => methods,
+    methods => !hasLength(methods) ? [] : formatSelectPickerName(methods)
+);
+
+export {
+    getPaymentsState,
+    getFilterPaymentsState,
+    getPaymentMethodsState
+}

@@ -454,9 +454,7 @@ export class Payment extends React.Component<IProps> {
                         headerProps={{
                             title: Lng.t("customers.title", { locale: language }),
                         }}
-                        listViewProps={{
-                            hasAvatar: true,
-                        }}
+                        listViewProps={{ hasAvatar: true }}
                         emptyContentProps={{
                             contentType: "customers",
                             image: IMAGES.EMPTY_CUSTOMERS,
@@ -479,9 +477,7 @@ export class Payment extends React.Component<IProps> {
                             keyboardType: 'numeric',
                         }}
                         isCurrencyInput
-                        refLinkFn={(ref) => {
-                            paymentRefs.amount = ref;
-                        }}
+                        refLinkFn={(ref) => paymentRefs.amount = ref}
                         isRequired
                     />
 
@@ -515,8 +511,6 @@ export class Payment extends React.Component<IProps> {
                             title: Lng.t("invoices.title", { locale: language }),
                             rightIconPress: null
                         }}
-                        listViewProps={{
-                        }}
                         emptyContentProps={{
                             contentType: "invoices",
                             image: IMAGES.EMPTY_INVOICES,
@@ -546,9 +540,7 @@ export class Payment extends React.Component<IProps> {
                             label: Lng.t("payments.modePlaceholder", { locale: language }),
                             value: '',
                         }}
-                        refLinkFn={(ref) => {
-                            paymentRefs.mode = ref;
-                        }}
+                        refLinkFn={(ref) => paymentRefs.mode = ref}
                         containerStyle={styles.selectPicker}
                     />
 
@@ -566,9 +558,7 @@ export class Payment extends React.Component<IProps> {
                         }}
                         height={80}
                         autoCorrect={true}
-                        refLinkFn={(ref) => {
-                            paymentRefs.notes = ref;
-                        }}
+                        refLinkFn={(ref) => paymentRefs.notes = ref}
                     />
 
                 </View>

@@ -11,6 +11,7 @@ import { SvgXml } from 'react-native-svg';
 import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
 import { ROUTES } from '../../../../navigation/routes';
 import { withNavigationFocus } from 'react-navigation';
+import { getExpensesState, getFilterExpensesState, getCategoriesState } from '../../selectors';
 
 
 const mapStateToProps = (state) => {
@@ -28,11 +29,11 @@ const mapStateToProps = (state) => {
 
     return {
         loading: expensesLoading,
-        expenses,
-        filterExpenses,
+        expenses: getExpensesState(expenses, currency),
+        filterExpenses: getFilterExpensesState(filterExpenses, currency),
         language,
         currency,
-        categories,
+        categories: getCategoriesState(categories),
         formValues: getFormValues(EXPENSE_SEARCH)(state) || {},
     };
 };
