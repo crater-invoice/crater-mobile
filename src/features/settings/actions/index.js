@@ -71,6 +71,13 @@ import {
     EDIT_CURRENCY,
     REMOVE_CURRENCY,
     SET_GLOBAL_CURRENCIES,
+
+    // Custom Fields
+    GET_CUSTOM_FIELDS,
+    SET_CUSTOM_FIELDS,
+    CREATE_CUSTOM_FIELD,
+    EDIT_CUSTOM_FIELD,
+    REMOVE_CUSTOM_FIELD,
 } from "../constants";
 
 import { SET_SETTINGS } from "../../../api/consts";
@@ -358,5 +365,33 @@ export const editCurrency = (payload = {}) => ({
 
 export const removeCurrency = (payload = {}) => ({
     type: REMOVE_CURRENCY,
+    payload,
+});
+
+
+// Custom Fields
+// -------------------------------------------------
+export const getCustomFields = (payload = {}) => ({
+    type: GET_CUSTOM_FIELDS,
+    payload,
+});
+
+export const setCustomFields = (payload = {}) => ({
+    type: SET_CUSTOM_FIELDS,
+    payload,
+});
+
+export const createCustomField = (payload = {}) => ({
+    type: CREATE_CUSTOM_FIELD,
+    payload,
+});
+
+export const editCustomField = (payload = {}) => ({
+    type: EDIT_CUSTOM_FIELD,
+    payload,
+});
+
+export const removeCustomField = (payload = {}) => ({
+    type: REMOVE_CUSTOM_FIELD,
     payload,
 });

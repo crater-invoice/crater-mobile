@@ -14,6 +14,7 @@ import {
     SET_ITEM_UNITS,
     SET_ITEM_UNIT,
     SET_CURRENCIES,
+    SET_CUSTOM_FIELDS,
 } from '../constants';
 
 const initialState = {
@@ -52,12 +53,16 @@ const initialState = {
         // Currencies
         currenciesLoading: false,
         currencyLoading: false,
+        // Custom Fields
+        customFieldsLoading: false,
+        customFieldLoading: false,
     },
     preferences: null,
     categories: [],
     paymentMethods: [],
     units: [],
     currencies: [],
+    customFields: [],
     customizes: null,
     account: null,
     taxByItems: false,
@@ -226,6 +231,16 @@ export default function settingReducer(state = initialState, action) {
             }
 
             return { ...state, currencies };
+
+        case SET_CUSTOM_FIELDS:
+
+            const { customFields } = payload;
+
+            if (!payload.fresh) {
+                return { ...state, customFields: [...state.customFields, ...customFields] };
+            }
+
+            return { ...state, customFields };
 
         default:
             return state;

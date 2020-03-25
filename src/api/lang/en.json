@@ -57,7 +57,10 @@
         "sendMailInvoice": "Send Invoice",
         "recurringInvoice": "Recurring Invoices",
         "addRecurring": "Add Recurring Invoice",
-        "editRecurring": "Edit Recurring Invoice"
+        "editRecurring": "Edit Recurring Invoice",
+        "customFields": "Custom Fields",
+        "addCustomField": "Add Custom Field",
+        "editCustomField": "Edit Custom Field"
     },
     "tabNavigation": {
         "invoices": "Invoices",
@@ -468,6 +471,39 @@
             "title": "No currencies yet!",
             "description": "This section will contain the list of currencies.",
             "buttonTitle": "Add New Currency"
+        }
+    },
+    "customFields": {
+        "name": "Label Name",
+        "type": "Data Type",
+        "select": "Select Option",
+        "isMandatory": "Is Mandatory",
+        "displayInPortal": "Display in portal",
+        "yes": "Yes",
+        "no": "No",
+        "help": "Help Text",
+        "helpText": "Enter some text to help users understand the purpose of this custom field.",
+        "defaultValue": "Default Value",
+        "options": {
+            "textBox": "Text Box (Single Line)",
+            "multiTextBox": "Text Box (Multi Line)",
+            "email": "Email",
+            "url": "URL",
+            "decimal": "Decimal",
+            "amount": "Amount",
+            "checkbox": "Check Box",
+            "percent": "Percent",
+            "date": "Date",
+            "phone": "Phone",
+            "dropdown": "DropDown",
+            "multiSelect": "Multi-Select",
+            "lookup": "Lookup",
+            "autoGenerate": "Auto-Generate Number"
+        },
+        "empty": {
+            "title": "No custom fields yet!",
+            "description": "This section will contain the list of custom fields.",
+            "buttonTitle": "Add New Custom Field"
         }
     },
     "languages": {

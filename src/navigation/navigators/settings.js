@@ -17,6 +17,8 @@ import CustomizesContainer from "../../features/settings/containers/Customizes";
 import CustomizeContainer from "../../features/settings/containers/Customize";
 import CurrenciesContainer from "../../features/settings/containers/Currencies";
 import CurrencyContainer from "../../features/settings/containers/Currency";
+import CustomFieldsContainer from "../../features/settings/containers/CustomFields";
+import CustomFieldContainer from "../../features/settings/containers/CustomField";
 
 export const SettingNavigator = {
 
@@ -96,6 +98,17 @@ export const SettingNavigator = {
     [ROUTES.CURRENCY]: generateStackNavigation(
         ROUTES.CURRENCY,
         CurrencyContainer
+    ),
+
+    // Custom Fields
+    // -----------------------------------------
+    [ROUTES.CUSTOM_FIELDS]: generateStackNavigation(
+        ROUTES.CUSTOM_FIELDS,
+        CustomFieldsContainer
+    ),
+    [ROUTES.CUSTOMER_FIELD]: generateStackNavigation(
+        ROUTES.CUSTOMER_FIELD,
+        CustomFieldContainer
     ),
 
     // Update App Version

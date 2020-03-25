@@ -20,6 +20,10 @@ export const CUSTOMIZE_FORM = 'customize/CUSTOMIZE_FORM';
 
 export const CURRENCIES_FORM = 'currencies/CURRENCIES_FORM';
 export const CURRENCY_FORM = 'currencies/CURRENCY_FORM';
+
+export const CUSTOM_FIELDS_FORM = 'custom-field/CUSTOM_FIELDS_FORM';
+export const CUSTOM_FIELD_FORM = 'custom-field/CUSTOM_FIELD_FORM';
+
 // Type
 // -----------------------------------------
 export const CATEGORY_ADD = 'category/CATEGORY_ADD';
@@ -28,6 +32,8 @@ export const EDIT_TAX = 'taxType/EDIT_TAX';
 export const ADD_TAX = 'taxType/ADD_TAX';
 export const CREATE_CURRENCY_TYPE = 'currencies/CREATE_CURRENCY_TYPE';
 export const EDIT_CURRENCY_TYPE = 'currencies/EDIT_CURRENCY_TYPE';
+export const CREATE_CUSTOM_FIELD_TYPE = 'custom-field/CREATE_CUSTOM_FIELD_TYPE';
+export const EDIT_CUSTOM_FIELD_TYPE = 'custom-field/EDIT_CUSTOM_FIELD_TYPE';
 
 // Actions
 // -----------------------------------------
@@ -88,6 +94,13 @@ export const CREATE_CURRENCY = 'currencies/CREATE_CURRENCY';
 export const EDIT_CURRENCY = 'currencies/EDIT_CURRENCY';
 export const REMOVE_CURRENCY = 'currencies/REMOVE_CURRENCY';
 
+// Custom Fields
+export const GET_CUSTOM_FIELDS = 'custom-field/GET_CUSTOM_FIELDS';
+export const SET_CUSTOM_FIELDS = 'custom-field/SET_CUSTOM_FIELDS';
+export const CREATE_CUSTOM_FIELD = 'custom-field/CREATE_CUSTOM_FIELD';
+export const EDIT_CUSTOM_FIELD = 'custom-field/EDIT_CUSTOM_FIELD';
+export const REMOVE_CUSTOM_FIELD = 'custom-field/REMOVE_CUSTOM_FIELD';
+
 // Taxes
 export const GET_TAXES = 'taxes/GET_TAXES';
 export const SET_TAXES = 'taxes/SET_TAXES';
@@ -107,6 +120,103 @@ export const SET_CREATE_EXPENSE_CATEGORIES = 'categories/SET_CREATE_EXPENSE_CATE
 export const SET_EDI_EXPENSE_CATEGORIES = 'categories/SET_EDI_EXPENSE_CATEGORIES';
 export const SET_REMOVE_EXPENSE_CATEGORIES = 'categories/SET_REMOVE_EXPENSE_CATEGORIES';
 
+
+// CustomField Form Fields
+// -----------------------------------------
+export const CUSTOM_FIELDS = {
+    FIELD: "field", // root object
+    NAME: "name",
+    TYPE: "type",
+    IS_MANDATORY: "is_mandatory",
+    DISPLAY_PORTAL: "display_portal",
+
+    HELP: "help",
+    DEFAULT_VALUE: "default_value",
+}
+
+// Custom Field Data Type Option Values
+// -----------------------------------------
+export const DATA_TYPE_OPTION_VALUE = {
+    TEXT_BOX: "text-box",
+    MULTILINE_TEXT_BOX: "multiline-text-box",
+    EMAIL: "Email",
+    URL: "URL",
+    DECIMAL: "Decimal",
+    AMOUNT: "Amount",
+    CHECKBOX: "Check Box",
+    PERCENT: "Percent",
+    DATE: "Date",
+    PHONE: "Phone",
+    DROPDOWN: "DropDown",
+    MULTI_SELECT: "Multi-Select",
+    LOOKUP: "Lookup",
+    AUTO_GENERATE: "Auto-Generate Number"
+}
+
+// Custom Field Data Type Options
+// -----------------------------------------
+export const DATA_TYPE_OPTION = (language, Lng) => {
+    const VALUE = DATA_TYPE_OPTION_VALUE
+
+    return [
+        {
+            label: Lng.t("customFields.options.textBox", { locale: language }),
+            value: VALUE.TEXT_BOX
+        },
+        {
+            label: Lng.t("customFields.options.multiTextBox", { locale: language }),
+            value: VALUE.MULTILINE_TEXT_BOX
+        },
+        {
+            label: Lng.t("customFields.options.email", { locale: language }),
+            value: VALUE.EMAIL
+        },
+        {
+            label: Lng.t("customFields.options.url", { locale: language }),
+            value: VALUE.URL
+        },
+        {
+            label: Lng.t("customFields.options.decimal", { locale: language }),
+            value: VALUE.DECIMAL
+        },
+        {
+            label: Lng.t("customFields.options.amount", { locale: language }),
+            value: VALUE.AMOUNT
+        },
+        {
+            label: Lng.t("customFields.options.checkbox", { locale: language }),
+            value: VALUE.CHECKBOX
+        },
+        {
+            label: Lng.t("customFields.options.percent", { locale: language }),
+            value: VALUE.PERCENT
+        },
+        {
+            label: Lng.t("customFields.options.date", { locale: language }),
+            value: VALUE.DATE
+        },
+        {
+            label: Lng.t("customFields.options.phone", { locale: language }),
+            value: VALUE.PHONE
+        },
+        {
+            label: Lng.t("customFields.options.dropdown", { locale: language }),
+            value: VALUE.DROPDOWN
+        },
+        {
+            label: Lng.t("customFields.options.multiSelect", { locale: language }),
+            value: VALUE.MULTI_SELECT
+        },
+        {
+            label: Lng.t("customFields.options.lookup", { locale: language }),
+            value: VALUE.LOOKUP
+        },
+        {
+            label: Lng.t("customFields.options.autoGenerate", { locale: language }),
+            value: VALUE.AUTO_GENERATE
+        }
+    ]
+}
 // Menus
 // -----------------------------------------
 export const SETTINGS_MENU = (language, Lng) => {
@@ -238,6 +348,12 @@ export const CUSTOMIZES_MENU = (language, Lng) => {
             title: Lng.t("header.currencies", { locale: language }),
             fullItem: {
                 route: ROUTES.CURRENCIES
+            }
+        },
+        {
+            title: Lng.t("header.customFields", { locale: language }),
+            fullItem: {
+                route: ROUTES.CUSTOM_FIELDS
             }
         }
     ]
@@ -445,3 +561,14 @@ export const GET_CURRENCIES_URL = (param) => `currencies?${queryString.stringify
 export const CREATE_CURRENCY_URL = () => `currencies`
 export const EDIT_CURRENCY_URL = (id) => `currencies/${id}`
 export const REMOVE_CURRENCY_URL = (id) => `currencies/${id}`
+
+// Custom Fields
+export const GET_CUSTOM_FIELDS_URL = (param) => `custom-field?${queryString.stringify({
+    ...param,
+    orderByField: 'created_at',
+    orderBy: 'desc'
+})}`
+
+export const CREATE_CUSTOM_FIELD_URL = () => `custom-field`
+export const EDIT_CUSTOM_FIELD_URL = (id) => `custom-field/${id}`
+export const REMOVE_CUSTOM_FIELD_URL = (id) => `custom-field/${id}`

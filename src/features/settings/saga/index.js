@@ -43,6 +43,7 @@ import taxes from './taxes';
 import modes from './modes';
 import units from './units';
 import currencies from './currencies';
+import customFields from './custom-fields';
 
 /**
  * Company Information.
@@ -365,6 +366,7 @@ export default function* settingsSaga() {
         taxes(),
         modes(),
         units(),
-        currencies()
+        currencies(),
+        customFields(),
     ]);
 }

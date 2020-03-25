@@ -68,6 +68,8 @@ export const ROUTES = {
     CUSTOMIZE: "CUSTOMIZE",
     CURRENCIES: "CURRENCIES",
     CURRENCY: "CURRENCY",
+    CUSTOM_FIELDS: "CUSTOM_FIELDS",
+    CUSTOM_FIELD: "CUSTOM_FIELD",
 
     // Expenses
     // -----------------------------------------
