@@ -132,6 +132,7 @@ export const CUSTOM_FIELDS = {
 
     HELP: "help",
     DEFAULT_VALUE: "default_value",
+    DEFAULT_CHECK_BOX_VALUE: "default_checkbox_value",
 }
 
 // Custom Field Data Type Option Values

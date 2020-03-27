@@ -14,9 +14,22 @@ import {
 import { BUTTON_COLOR } from '../../../../api/consts/core';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 import Lng from '../../../../api/lang/i18n';
-import { EDIT_CUSTOM_FIELD_TYPE, CREATE_CUSTOM_FIELD_TYPE, CUSTOM_FIELD_FORM, CUSTOM_FIELDS as FIELDS, DATA_TYPE_OPTION, DATA_TYPE_OPTION_VALUE as OPTION_VALUE } from '../../constants';
 import { alertMe, hasObjectLength, hasLength } from '../../../../api/global';
-import { setCustomFieldRefs, HELP_TEXT, DEFAULT_VALUE } from './options';
+import {
+    setCustomFieldRefs,
+    HELP_TEXT_FIELD,
+    DEFAULT_VALUE_FIELD,
+    DEFAULT_NUMBER_FIELD,
+    DEFAULT_CHECKBOX_FIELD
+} from './options';
+import {
+    EDIT_CUSTOM_FIELD_TYPE,
+    CREATE_CUSTOM_FIELD_TYPE,
+    CUSTOM_FIELD_FORM,
+    CUSTOM_FIELDS as FIELDS,
+    DATA_TYPE_OPTION,
+    DATA_TYPE_OPTION_VALUE as OPTION_VALUE
+} from '../../constants';
 
 type IProps = {
     navigation: Object,
@@ -188,11 +201,22 @@ export class CustomField extends React.Component<IProps> {
             case OPTION_VALUE.MULTILINE_TEXT_BOX:
             case OPTION_VALUE.EMAIL:
             case OPTION_VALUE.URL:
-                optionView = [HELP_TEXT(), DEFAULT_VALUE()]
+            case OPTION_VALUE.DECIMAL:
+            case OPTION_VALUE.PHONE:
+                optionView = [HELP_TEXT_FIELD(), DEFAULT_VALUE_FIELD()]
                 break;
-            // case OPTION_VALUE.TEXT_BOX:
-            //     optionView = [HELP_TEXT(), DEFAULT_VALUE()]
-            //     break;
+
+            case OPTION_VALUE.AMOUNT:
+                optionView = [HELP_TEXT_FIELD(), DEFAULT_NUMBER_FIELD()]
+                break;
+
+            case OPTION_VALUE.CHECKBOX:
+                optionView = [HELP_TEXT_FIELD(), DEFAULT_CHECKBOX_FIELD()]
+                break;
+
+            case OPTION_VALUE.PERCENT:
+                optionView = [HELP_TEXT_FIELD(), DEFAULT_NUMBER_FIELD('%')]
+                break;
 
             default:
                 break;
@@ -211,7 +235,7 @@ export class CustomField extends React.Component<IProps> {
             handleSubmit,
             language,
             type,
-            formValues
+            formValues,
         } = this.props;
 
         this.customFieldRefs(this)

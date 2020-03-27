@@ -484,6 +484,7 @@
         "help": "Help Text",
         "helpText": "Enter some text to help users understand the purpose of this custom field.",
         "defaultValue": "Default Value",
+        "check": "Ticked by default",
         "options": {
             "textBox": "Text Box (Single Line)",
             "multiTextBox": "Text Box (Multi Line)",

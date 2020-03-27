@@ -10,7 +10,7 @@ import { CustomField } from '../../components/CustomField';
 const mapStateToProps = (state, { navigation }) => {
 
     const {
-        global: { language },
+        global: { language, currency },
         settings: {
             loading: { currencyLoading }
         }
@@ -22,6 +22,7 @@ const mapStateToProps = (state, { navigation }) => {
 
     return {
         currencyLoading,
+        currency,
         type,
         id,
         language,

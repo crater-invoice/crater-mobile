@@ -58,5 +58,6 @@ export type IInputField = {
     language: String,
     textColor: String,
     returnKeyType: string,
-    autoCapitalize: string
+    autoCapitalize: string,
+    leftSymbol: String,
 };

@@ -82,6 +82,7 @@ export class InputFieldComponent extends Component<IInputField> {
             maxCharacter = 0,
             isRequired = false,
             secureTextIconContainerStyle,
+            leftSymbol
         } = this.props;
         const { isSecureTextEntry, active, inputHeight, isOptionsVisible } = this.state;
         const sign = this.getSign();
@@ -94,6 +95,25 @@ export class InputFieldComponent extends Component<IInputField> {
             initialValueProps = { value: `${newValue}` }
         } else {
             initialValueProps = { defaultValue: `${value}` }
+        }
+
+        let leftIconSymbol = {}
+        if (leftIcon) {
+            leftIconSymbol = {
+                leftIcon: (
+                    <Icon name={leftIcon} solid={leftIconSolid} size={18} color={colors.darkGray} />
+                ),
+                leftIconContainerStyle: [styles.leftIcon, leftIconStyle && leftIconStyle]
+            }
+        }
+        if (leftSymbol) {
+            leftIconSymbol = {
+                leftIcon: (
+                    <View style={styles.leftSymbolView}>
+                        <Text style={styles.leftSymbol}>{leftSymbol}</Text>
+                    </View>
+                )
+            }
         }
 
         return (
@@ -120,14 +140,7 @@ export class InputFieldComponent extends Component<IInputField> {
                                 containerStyle && containerStyle,
                                 styles.containerStyle,
                             ]}
-                            leftIcon={
-                                leftIcon && (
-                                    <Icon name={leftIcon} solid={leftIconSolid} size={18} color={colors.darkGray} />
-                                )
-                            }
-                            leftIconContainerStyle={leftIcon &&
-                                [styles.leftIcon, leftIconStyle && leftIconStyle]
-                            }
+                            {...leftIconSymbol}
                             inputStyle={[
                                 styles.input,
                                 active && styles.activeInput,

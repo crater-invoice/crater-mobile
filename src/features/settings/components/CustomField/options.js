@@ -1,17 +1,18 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import { CUSTOM_FIELDS as FIELDS } from '../../constants';
-import { InputField } from '../../../../components';
+import { InputField, CheckBox } from '../../../../components';
 import Lng from '../../../../api/lang/i18n';
 import { View, Text } from 'react-native';
 import styles from './styles';
+import { KEYBOARD_TYPE } from '../../../../api/global';
 
 // Custom Field Refs
 // -----------------------------------------
 export let customFieldRefs = {}
 export const setCustomFieldRefs = refs => (customFieldRefs = refs)
 
-const HELP_TEXT = () => {
+const HELP_TEXT_FIELD = () => {
     const { language } = customFieldRefs?.props
     return (
         <>
@@ -33,8 +34,24 @@ const HELP_TEXT = () => {
     )
 }
 
+const DEFAULT_NUMBER_FIELD = (symbol) => {
+    const { language, currency } = customFieldRefs?.props
+    return (
+        <Field
+            name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
+            component={InputField}
+            hint={Lng.t("customFields.defaultValue", { locale: language })}
+            inputProps={{
+                returnKeyType: 'next',
+                autoCorrect: true,
+                keyboardType: KEYBOARD_TYPE.NUMERIC
+            }}
+            leftSymbol={symbol ?? currency?.symbol}
+        />
+    )
+}
 
-const DEFAULT_VALUE = () => {
+const DEFAULT_VALUE_FIELD = () => {
     const { language } = customFieldRefs?.props
     return (
         <Field
@@ -49,7 +66,21 @@ const DEFAULT_VALUE = () => {
     )
 }
 
+const DEFAULT_CHECKBOX_FIELD = () => {
+    const { language } = customFieldRefs?.props
+    return (
+        <Field
+            name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_CHECK_BOX_VALUE}`}
+            component={CheckBox}
+            hint={Lng.t("customFields.defaultValue", { locale: language })}
+            label={Lng.t("customFields.check", { locale: language })}
+        />
+    )
+}
+
 export {
-    HELP_TEXT,
-    DEFAULT_VALUE,
+    HELP_TEXT_FIELD,
+    DEFAULT_VALUE_FIELD,
+    DEFAULT_NUMBER_FIELD,
+    DEFAULT_CHECKBOX_FIELD
 }
