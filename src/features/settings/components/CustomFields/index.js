@@ -154,7 +154,6 @@ export class CustomFields extends React.Component<IProps> {
                         titleStyle: styles.headerTitle,
                         rightIcon: "plus",
                         placement: "center",
-                        rightIcon: "plus",
                         rightIconPress: () => {
                             navigation.navigate(ROUTES.CUSTOMER_FIELD, { type: CREATE_CUSTOM_FIELD_TYPE })
                         },

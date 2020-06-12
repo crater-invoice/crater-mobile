@@ -21,7 +21,7 @@ export class AnimateModal extends React.Component<IProps> {
 
     render() {
 
-        const { onToggle, visible, children, modalProps } = this.props
+        const { onToggle, visible, children, modalProps ,style} = this.props
         return (
             <Modal
                 isVisible={visible}
@@ -31,7 +31,7 @@ export class AnimateModal extends React.Component<IProps> {
                 backdropTransitionInTiming={100}
                 backdropTransitionOutTiming={0}
                 onBackButtonPress={() => onToggle()}
-                style={styles.modalContainer}
+                style={[styles.modalContainer,style]}
                 {...modalProps}
             >
 

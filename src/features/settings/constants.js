@@ -143,6 +143,7 @@ export const DATA_TYPE_OPTION_VALUE = {
     EMAIL: "Email",
     URL: "URL",
     DECIMAL: "Decimal",
+    TIME:"Time",
     AMOUNT: "Amount",
     CHECKBOX: "Check Box",
     PERCENT: "Percent",
@@ -151,7 +152,9 @@ export const DATA_TYPE_OPTION_VALUE = {
     DROPDOWN: "DropDown",
     MULTI_SELECT: "Multi-Select",
     LOOKUP: "Lookup",
-    AUTO_GENERATE: "Auto-Generate Number"
+    AUTO_GENERATE: "Auto-Generate Number",
+    DATE_TIME:"Date_Time"
+    
 }
 
 // Custom Field Data Type Options
@@ -165,57 +168,42 @@ export const DATA_TYPE_OPTION = (language, Lng) => {
             value: VALUE.TEXT_BOX
         },
         {
-            label: Lng.t("customFields.options.multiTextBox", { locale: language }),
-            value: VALUE.MULTILINE_TEXT_BOX
-        },
-        {
-            label: Lng.t("customFields.options.email", { locale: language }),
-            value: VALUE.EMAIL
+            label: Lng.t("customFields.options.phone", { locale: language }),
+            value: VALUE.PHONE
         },
         {
             label: Lng.t("customFields.options.url", { locale: language }),
             value: VALUE.URL
         },
         {
-            label: Lng.t("customFields.options.decimal", { locale: language }),
-            value: VALUE.DECIMAL
-        },
-        {
             label: Lng.t("customFields.options.amount", { locale: language }),
             value: VALUE.AMOUNT
         },
+       
         {
             label: Lng.t("customFields.options.checkbox", { locale: language }),
             value: VALUE.CHECKBOX
         },
+        
         {
-            label: Lng.t("customFields.options.percent", { locale: language }),
-            value: VALUE.PERCENT
+            label: Lng.t("customFields.options.button", { locale: language }),
+            value: VALUE.RADIO_BUTTON
         },
         {
             label: Lng.t("customFields.options.date", { locale: language }),
             value: VALUE.DATE
         },
         {
-            label: Lng.t("customFields.options.phone", { locale: language }),
-            value: VALUE.PHONE
+            label: Lng.t("customFields.options.time", { locale: language }),
+            value: VALUE.TIME
         },
         {
-            label: Lng.t("customFields.options.dropdown", { locale: language }),
-            value: VALUE.DROPDOWN
+            label: Lng.t("customFields.options.date_time", { locale: language }),
+            value: VALUE.DATE_TIME
         },
-        {
-            label: Lng.t("customFields.options.multiSelect", { locale: language }),
-            value: VALUE.MULTI_SELECT
-        },
-        {
-            label: Lng.t("customFields.options.lookup", { locale: language }),
-            value: VALUE.LOOKUP
-        },
-        {
-            label: Lng.t("customFields.options.autoGenerate", { locale: language }),
-            value: VALUE.AUTO_GENERATE
-        }
+        
+       
+       
     ]
 }
 // Menus

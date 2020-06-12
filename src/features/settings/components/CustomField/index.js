@@ -9,7 +9,8 @@ import {
     CtButton,
     DefaultLayout,
     ToggleSwitch,
-    SelectPickerField
+    SelectPickerField,
+    TimePickerFIeld
 } from '../../../../components';
 import { BUTTON_COLOR } from '../../../../api/consts/core';
 import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
@@ -20,7 +21,8 @@ import {
     HELP_TEXT_FIELD,
     DEFAULT_VALUE_FIELD,
     DEFAULT_NUMBER_FIELD,
-    DEFAULT_CHECKBOX_FIELD
+    DEFAULT_CHECKBOX_FIELD,
+    DEFAULT_DATE_FIELD,DEFAULT_TIME_FIELD
 } from './options';
 import {
     EDIT_CUSTOM_FIELD_TYPE,
@@ -30,6 +32,7 @@ import {
     DATA_TYPE_OPTION,
     DATA_TYPE_OPTION_VALUE as OPTION_VALUE
 } from '../../constants';
+import moment from 'moment';
 
 type IProps = {
     navigation: Object,
@@ -145,16 +148,12 @@ export class CustomField extends React.Component<IProps> {
                     <Field
                         name={`${FIELDS.FIELD}.${FIELDS.IS_MANDATORY}`}
                         component={ToggleSwitch}
-                        hint={Lng.t("customFields.no", { locale: language })}
+                        switchStyle={{marginRight:100}}
                         hintStyle={styles.leftText}
                     />
                 </View>
 
-                <View style={styles.columnRight}>
-                    <Text style={styles.textStyle}>
-                        {Lng.t("customFields.yes", { locale: language })}
-                    </Text>
-                </View>
+            
 
             </View>
         )
@@ -198,25 +197,30 @@ export class CustomField extends React.Component<IProps> {
         switch (dataType) {
 
             case OPTION_VALUE.TEXT_BOX:
-            case OPTION_VALUE.MULTILINE_TEXT_BOX:
             case OPTION_VALUE.EMAIL:
             case OPTION_VALUE.URL:
-            case OPTION_VALUE.DECIMAL:
+            case OPTION_VALUE.NUMBER:
             case OPTION_VALUE.PHONE:
-                optionView = [HELP_TEXT_FIELD(), DEFAULT_VALUE_FIELD()]
+                optionView = [DEFAULT_VALUE_FIELD()]
                 break;
 
             case OPTION_VALUE.AMOUNT:
-                optionView = [HELP_TEXT_FIELD(), DEFAULT_NUMBER_FIELD()]
+                optionView = [ DEFAULT_NUMBER_FIELD()]
                 break;
 
             case OPTION_VALUE.CHECKBOX:
-                optionView = [HELP_TEXT_FIELD(), DEFAULT_CHECKBOX_FIELD()]
+                optionView = [ DEFAULT_CHECKBOX_FIELD()]
                 break;
 
-            case OPTION_VALUE.PERCENT:
-                optionView = [HELP_TEXT_FIELD(), DEFAULT_NUMBER_FIELD('%')]
+            case OPTION_VALUE.DATE:
+                optionView = [DEFAULT_DATE_FIELD()]
                 break;
+
+            case OPTION_VALUE.TIME:
+                optionView=[DEFAULT_TIME_FIELD()]   
+
+            case OPTION_VALUE.DATE_TIME:
+                optionView=[DEFAULT_DATE_FIELD(),DEFAULT_TIME_FIELD()]   
 
             default:
                 break;
@@ -261,7 +265,7 @@ export class CustomField extends React.Component<IProps> {
             >
                 <View style={styles.bodyContainer}>
 
-                    <Field
+                     <Field
                         name={`${FIELDS.FIELD}.${FIELDS.NAME}`}
                         component={InputField}
                         isRequired
@@ -271,6 +275,17 @@ export class CustomField extends React.Component<IProps> {
                             autoCorrect: true,
                         }}
                     />
+                     <Field
+                        name={`${FIELDS.FIELD}.${FIELDS.NAME}`}
+                        component={InputField}
+                        isRequired
+                        hint={Lng.t("customFields.model", { locale: language })}
+                        inputProps={{
+                            returnKeyType: 'next',
+                            autoCorrect: true,
+                        }}
+                    />
+                                        {this.MANDATORY_TOGGLE_VIEW()}
 
                     <Field
                         name={`${FIELDS.FIELD}.${FIELDS.TYPE}`}
@@ -285,11 +300,28 @@ export class CustomField extends React.Component<IProps> {
                         }}
                     />
 
-                    {this.DATA_TYPE_OPTION_BASE_VIEW()}
+                                        {this.DATA_TYPE_OPTION_BASE_VIEW()}
 
-                    {this.MANDATORY_TOGGLE_VIEW()}
+                      <Field
+                        name={`${FIELDS.FIELD}.${FIELDS.NAME}`}
+                        component={InputField}
+                        isRequired
+                        hint={Lng.t("customFields.label", { locale: language })}
+                        inputProps={{
+                            returnKeyType: 'next',
+                            autoCorrect: true,
+                        }}
+                    />
 
-                    {this.DISPLAY_PORTAL_TOGGLE_VIEW()}
+                    <Field
+                        name={`${FIELDS.FIELD}.${FIELDS.NAME}`}
+                        component={InputField}
+                        hint={Lng.t("customFields.placeholder", { locale: language })}
+                        inputProps={{
+                            returnKeyType: 'next',
+                            autoCorrect: true,
+                        }}
+                    />
 
                 </View>
             </DefaultLayout>

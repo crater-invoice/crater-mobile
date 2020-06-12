@@ -36,6 +36,7 @@ export default styles = StyleSheet.create({
     },
     column: {
         flex: 1,
+       marginLeft:-60,
     },
     columnRight: {
         paddingLeft: 5,
