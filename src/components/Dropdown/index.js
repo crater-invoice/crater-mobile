@@ -56,7 +56,7 @@ export default class Dropdown extends Component<IProps> {
 
 
     render() {
-        const { options, onPress, cancelButtonIndex, destructiveButtonIndex } = this.props;
+        const { options, onPress, cancelButtonIndex = 2, destructiveButtonIndex = 1 } = this.props;
         const { labelOptions, visible } = this.state;
 
         return (
@@ -92,8 +92,8 @@ export default class Dropdown extends Component<IProps> {
                         ref={o => this.ActionSheet = o}
                         tintColor={colors.primary}
                         options={labelOptions}
-                        cancelButtonIndex={cancelButtonIndex || 2}
-                        destructiveButtonIndex={destructiveButtonIndex || 1}
+                        cancelButtonIndex={cancelButtonIndex}
+                        destructiveButtonIndex={destructiveButtonIndex}
                         onPress={this.onSelect}
                     />
                 )}
@@ -101,5 +101,3 @@ export default class Dropdown extends Component<IProps> {
         );
     }
 }
-
-
