@@ -19,6 +19,7 @@
     "eslint-plugin-flowtype": "^4.3.0",
     "expo": "^37.0.0",
     "expo-constants": "~9.0.0",
+    "expo-device": "~2.1.0",
     "expo-file-system": "~8.1.0",
     "expo-image-picker": "~8.1.0",
     "expo-intent-launcher": "~8.1.0",

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
     StatusBar,
     ScrollView,
@@ -8,15 +8,22 @@ import {
     KeyboardAvoidingView,
     Text,
     TouchableOpacity
-} from 'react-native';
-import { Field } from 'redux-form';
-import styles from './styles';
-import { InputField, CtButton, AssetImage, CtDivider, CtGradientButton } from '../../../../components';
+} from 'react-native'
+import { Field } from 'redux-form'
+import styles from './styles'
+import {
+    InputField,
+    CtButton,
+    AssetImage,
+    CtDivider,
+    CtGradientButton
+} from '../../../../components'
 // import * as Google from 'expo-google-app-auth';
-import { env, IMAGES } from '../../../../config';
-import { colors } from '../../../../styles/colors';
-import { ROUTES } from '../../../../navigation/routes';
-import Lng from '../../../../api/lang/i18n';
+import { env, IMAGES } from '../../../../config'
+import { colors } from '../../../../styles/colors'
+import { ROUTES } from '../../../../navigation/routes'
+import Lng from '../../../../api/lang/i18n'
+import Constants from 'expo-constants'
 
 type IProps = {
     navigation: Object,
@@ -24,13 +31,16 @@ type IProps = {
     handleSubmit: Function,
     loading: Boolean,
     socialLoading: Boolean,
-    language: String,
+    language: String
 }
 export class Login extends React.Component<IProps> {
     constructor(props) {
-        super(props);
+        super(props)
     }
 
+    componentDidMount() {
+        console.log(Constants.deviceName)
+    }
     /*
      * Sign in with google
      onSocialLogin = async () => {
@@ -55,30 +65,22 @@ export class Login extends React.Component<IProps> {
          }
      }; */
 
-    onLogin = (values) => {
-
-        const { navigation, login } = this.props;
+    onLogin = values => {
+        const { navigation, login } = this.props
         login({
-            params: values,
-            navigation,
-        });
-    };
+            params: { ...values, device_name: Constants.deviceName },
+            navigation
+        })
+    }
 
     render() {
-        let passwordInput = {};
-        const {
-            loading,
-            socialLoading,
-            navigation,
-            language,
-        } = this.props;
+        let passwordInput = {}
+        const { loading, socialLoading, navigation, language } = this.props
 
         let loginRefs = {}
 
         return (
-
             <View style={styles.container}>
-
                 <StatusBar
                     barStyle="dark-content"
                     hidden={false}
@@ -89,7 +91,7 @@ export class Login extends React.Component<IProps> {
                     style={{ paddingTop: '34%' }}
                     bounces={false}
                     showsVerticalScrollIndicator={false}
-                    keyboardShouldPersistTaps='handled'
+                    keyboardShouldPersistTaps="handled"
                 >
                     <KeyboardAvoidingView
                         style={{ flex: 1 }}
@@ -112,42 +114,54 @@ export class Login extends React.Component<IProps> {
                                     inputProps={{
                                         returnKeyType: 'next',
                                         autoCapitalize: 'none',
-                                        placeholder: Lng.t("login.email", { locale: language }),
+                                        placeholder: Lng.t('login.email', {
+                                            locale: language
+                                        }),
                                         autoCorrect: true,
                                         keyboardType: 'email-address',
                                         onSubmitEditing: () => {
-                                            loginRefs.password.focus();
+                                            loginRefs.password.focus()
                                         }
                                     }}
                                     placeholderColor={colors.white5}
                                     inputContainerStyle={styles.inputField}
                                 />
                                 <Field
-                                    refLinkFn={(ref) => {
-                                        passwordInput = ref;
+                                    refLinkFn={ref => {
+                                        passwordInput = ref
                                     }}
                                     name="password"
                                     component={InputField}
                                     inputProps={{
                                         returnKeyType: 'go',
                                         autoCapitalize: 'none',
-                                        placeholder: Lng.t("login.password", { locale: language }),
+                                        placeholder: Lng.t('login.password', {
+                                            locale: language
+                                        }),
                                         autoCorrect: true,
-                                        onSubmitEditing: this.props.handleSubmit(this.onLogin),
+                                        onSubmitEditing: this.props.handleSubmit(
+                                            this.onLogin
+                                        )
                                     }}
                                     inputContainerStyle={styles.inputField}
                                     secureTextEntry
-                                    refLinkFn={(ref) => {
-                                        loginRefs.password = ref;
+                                    refLinkFn={ref => {
+                                        loginRefs.password = ref
                                     }}
                                 />
 
                                 <View style={styles.forgetPasswordContainer}>
                                     <TouchableOpacity
-                                        onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)}
+                                        onPress={() =>
+                                            navigation.navigate(
+                                                ROUTES.FORGOT_PASSWORD
+                                            )
+                                        }
                                     >
                                         <Text style={styles.forgetPassword}>
-                                            {Lng.t("button.forget", { locale: language })}
+                                            {Lng.t('button.forget', {
+                                                locale: language
+                                            })}
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
@@ -155,12 +169,15 @@ export class Login extends React.Component<IProps> {
 
                             <View style={{ marginTop: 25 }}>
                                 <CtGradientButton
-                                    onPress={this.props.handleSubmit(this.onLogin)}
-                                    btnTitle={Lng.t("button.singIn", { locale: language })}
+                                    onPress={this.props.handleSubmit(
+                                        this.onLogin
+                                    )}
+                                    btnTitle={Lng.t('button.singIn', {
+                                        locale: language
+                                    })}
                                     loading={loading}
                                 />
                             </View>
-
 
                             {/*
                             * Sign in with google
@@ -181,11 +198,10 @@ export class Login extends React.Component<IProps> {
                                 />
                             </View>
                         */}
-
                         </View>
                     </KeyboardAvoidingView>
                 </ScrollView>
             </View>
-        );
+        )
     }
 }
