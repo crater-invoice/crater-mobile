@@ -27,7 +27,7 @@ type IProps = {
     backgroundColor: String,
     compareField: String,
     checkedItems: Array,
-    listViewContainerStyle: Object,
+    listViewContainerStyle: Object
 };
 
 export class ListView extends Component<IProps> {
@@ -35,32 +35,47 @@ export class ListView extends Component<IProps> {
         super(props);
     }
 
-    leftTitle = (title) => {
+    leftTitle = title => {
         const { leftTitleStyle } = this.props;
         return (
-            <Text numberOfLines={1} style={[styles.leftTitle, leftTitleStyle && leftTitleStyle]}>
+            <Text
+                numberOfLines={1}
+                style={[styles.leftTitle, leftTitleStyle && leftTitleStyle]}
+            >
                 {title}
             </Text>
         );
     };
 
-    getCheckedItem = (item) => {
-        const { compareField, checkedItems, valueCompareField } = this.props
+    getCheckedItem = item => {
+        const { compareField, checkedItems, valueCompareField } = this.props;
 
         if (checkedItems) {
-            return checkedItems.filter(
-                val => val[valueCompareField] === item.fullItem[compareField]
-            ).length > 0
+            return (
+                checkedItems.filter(
+                    val =>
+                        val[valueCompareField] === item.fullItem[compareField]
+                ).length > 0
+            );
         }
 
+        return false;
+    };
 
-        return false
-    }
-
-    leftSubTitle = ({ title, label, labelBgColor, labelTextColor, labelComponent } = {}) => {
-        const { leftSubTitleLabelStyle, leftSubTitleStyle } = this.props;
+    leftSubTitle = ({
+        title,
+        label,
+        labelBgColor,
+        labelTextColor,
+        labelComponent
+    } = {}) => {
+        const {
+            leftSubTitleLabelStyle,
+            leftSubTitleStyle,
+            leftSubTitleContainerStyle
+        } = this.props;
         if (!title && !label && !labelComponent) {
-            return
+            return;
         }
 
         return (
@@ -76,25 +91,32 @@ export class ListView extends Component<IProps> {
                 </Text>
 
                 {(label || labelComponent) && (
-                    <View style={styles.leftSubTitleLabelContainer}>
+                    <View
+                        style={[
+                            styles.leftSubTitleLabelContainer,
+                            leftSubTitleContainerStyle
+                        ]}
+                    >
                         <View
                             style={[
                                 styles.labelInnerContainerStyle,
                                 { backgroundColor: labelBgColor }
                             ]}
                         >
-                            {labelComponent ? labelComponent : (
+                            {labelComponent ? (
+                                labelComponent
+                            ) : (
                                 <Text
                                     style={[
                                         { color: labelTextColor },
                                         styles.leftSubTitleLabel,
-                                        leftSubTitleLabelStyle && leftSubTitleLabelStyle,
+                                        leftSubTitleLabelStyle &&
+                                            leftSubTitleLabelStyle
                                     ]}
                                 >
                                     {label}
                                 </Text>
-                            )
-                            }
+                            )}
                         </View>
                     </View>
                 )}
@@ -112,7 +134,7 @@ export class ListView extends Component<IProps> {
             itemContainer,
             listItemProps,
             hasCheckbox,
-            contentContainerStyle,
+            contentContainerStyle
         } = this.props;
         return (
             <ListItem
@@ -129,7 +151,9 @@ export class ListView extends Component<IProps> {
                                 rightTitleStyle && rightTitleStyle
                             ]}
                         />
-                    ) : item.rightTitle
+                    ) : (
+                        item.rightTitle
+                    )
                 }
                 rightSubtitle={item.rightSubtitle}
                 bottomDivider={bottomDivider}
@@ -147,23 +171,24 @@ export class ListView extends Component<IProps> {
                     styles.containerStyle,
                     {
                         backgroundColor:
-                            (backgroundColor && backgroundColor) || colors.veryLightGray,
+                            (backgroundColor && backgroundColor) ||
+                            colors.veryLightGray
                     },
-                    itemContainer && itemContainer,
+                    itemContainer && itemContainer
                 ]}
-                leftElement={hasCheckbox && (
-                    <CheckBox
-                        checkedIcon='check-square'
-                        containerStyle={[
-                            styles.checkboxContainerStyle,
-                        ]}
-                        size={20}
-                        checkedColor={colors.primary}
-                        uncheckedColor={colors.lightGray}
-                        checked={this.getCheckedItem(item)}
-                        onPress={() => onPress(item.fullItem)}
-                    />
-                )}
+                leftElement={
+                    hasCheckbox && (
+                        <CheckBox
+                            checkedIcon="check-square"
+                            containerStyle={[styles.checkboxContainerStyle]}
+                            size={20}
+                            checkedColor={colors.primary}
+                            uncheckedColor={colors.lightGray}
+                            checked={this.getCheckedItem(item)}
+                            onPress={() => onPress(item.fullItem)}
+                        />
+                    )
+                }
                 fontFamily={fonts.poppins}
                 onPress={() => onPress(item.fullItem)}
                 {...listItemProps}
@@ -172,8 +197,22 @@ export class ListView extends Component<IProps> {
     };
 
     itemsWithAvatar = (item, index) => {
-        const { onPress, bottomDivider = false, itemContainer, listItemProps, leftIconStyle } = this.props;
-        const { title, subtitle, fullItem, leftAvatar, leftIcon, leftIconSolid = false, iconSize = 22 } = item
+        const {
+            onPress,
+            bottomDivider = false,
+            itemContainer,
+            listItemProps,
+            leftIconStyle
+        } = this.props;
+        const {
+            title,
+            subtitle,
+            fullItem,
+            leftAvatar,
+            leftIcon,
+            leftIconSolid = false,
+            iconSize = 22
+        } = item;
 
         return (
             <ListItem
@@ -195,18 +234,21 @@ export class ListView extends Component<IProps> {
                             rounded
                             title={leftAvatar}
                             overlayContainerStyle={{
-                                backgroundColor: leftIcon ? 'transparent' : colors.gray,
+                                backgroundColor: leftIcon
+                                    ? 'transparent'
+                                    : colors.gray
                             }}
                         />
                     ) : (
-                            <Icon
-                                name={leftIcon}
-                                size={iconSize}
-                                color={colors.primaryLight}
-                                solid={leftIconSolid}
-                                style={leftIconStyle && leftIconStyle}
-                            />
-                        )}
+                        <Icon
+                            name={leftIcon}
+                            size={iconSize}
+                            color={colors.primaryLight}
+                            solid={leftIconSolid}
+                            style={leftIconStyle && leftIconStyle}
+                        />
+                    )
+                }
                 {...listItemProps}
             />
         );
@@ -224,7 +266,7 @@ export class ListView extends Component<IProps> {
             isEmpty,
             containerStyle,
             emptyContentProps,
-            listViewContainerStyle,
+            listViewContainerStyle
         } = this.props;
 
         return (
@@ -235,14 +277,16 @@ export class ListView extends Component<IProps> {
                 style={listViewContainerStyle && listViewContainerStyle}
                 onEndReached={getItems}
                 refreshControlColor={colors.veryDarkGray}
-                onPullToRefresh={refreshing ? (onHide) => onHide && onHide() : getFreshItems}
+                onPullToRefresh={
+                    refreshing ? onHide => onHide && onHide() : getFreshItems
+                }
             >
                 {!isEmpty
                     ? items.map((item, index) =>
-                        !hasAvatar
-                            ? this.itemsList(item, index)
-                            : this.itemsWithAvatar(item, index),
-                    )
+                          !hasAvatar
+                              ? this.itemsList(item, index)
+                              : this.itemsWithAvatar(item, index)
+                      )
                     : !loading && <Empty {...emptyContentProps} />}
             </InfiniteScroll>
         );

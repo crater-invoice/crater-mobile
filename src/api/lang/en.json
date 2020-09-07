@@ -474,33 +474,23 @@
         }
     },
     "customFields": {
-        "name": "Label Name",
-        "type": "Data Type",
+        "name": "Name",
+        "model": "Model",
+        "modelPlaceholder": "Select an Model",
+        "type": "Type",
+        "typePlaceholder": "Select an Type",
         "select": "Select Option",
-        "isMandatory": "Is Mandatory",
+        "required": "Required",
+        "label": "Label",
+        "defaultValue": "Default Value",
         "displayInPortal": "Display in portal",
+        "placeholder": "Placeholder",
         "yes": "Yes",
         "no": "No",
         "help": "Help Text",
         "helpText": "Enter some text to help users understand the purpose of this custom field.",
-        "defaultValue": "Default Value",
         "check": "Ticked by default",
-        "options": {
-            "textBox": "Text Box (Single Line)",
-            "multiTextBox": "Text Box (Multi Line)",
-            "email": "Email",
-            "url": "URL",
-            "decimal": "Decimal",
-            "amount": "Amount",
-            "checkbox": "Check Box",
-            "percent": "Percent",
-            "date": "Date",
-            "phone": "Phone",
-            "dropdown": "DropDown",
-            "multiSelect": "Multi-Select",
-            "lookup": "Lookup",
-            "autoGenerate": "Auto-Generate Number"
-        },
+        "removeAlertDescription": "You will not be able to recover this Custom Field",
         "empty": {
             "title": "No custom fields yet!",
             "description": "This section will contain the list of custom fields.",
@@ -658,7 +648,8 @@
         "recoveryEmail": "Send reset link",
         "recoveryEmailAgain": "Send Again",
         "cancel": "Cancel",
-        "send": "Send"
+        "send": "Send",
+        "change": "Change"
     },
     "filter": {
         "empty": {

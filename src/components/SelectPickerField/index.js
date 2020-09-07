@@ -18,7 +18,7 @@ type IProps = {
     disabled: boolean,
     input: {
         onChange: Function,
-        value: string,
+        value: string
     },
     meta: Object,
     fakeInputContainerStyle: Object,
@@ -26,6 +26,7 @@ type IProps = {
     items: Array<Object>,
     ref: Function,
     onChangeCallback: Function,
+    callbackWhenMount: Function,
     refLinkFn: Function,
     onDonePress: Function,
     doneText: string,
@@ -34,51 +35,53 @@ type IProps = {
     fakeInputValueStyle: Object,
     label: String,
     isRequired: Boolean,
-    isFakeInput: Boolean,
+    isFakeInput: Boolean
 };
 
 export class SelectPickerField extends Component<IProps> {
-
     constructor(props) {
         super(props);
         this.state = {
             icon: 'angle-down',
-            initialValue: '',
+            initialValue: ''
         };
     }
 
     componentDidMount() {
-        const { input: { value, onChange }, onChangeCallback } = this.props
+        const {
+            input: { value, onChange },
+            onChangeCallback,
+            callbackWhenMount
+        } = this.props;
 
-        onChange(value)
-
-        onChangeCallback && onChangeCallback(value);
+        onChange(value);
+        callbackWhenMount ? callbackWhenMount?.() : onChangeCallback?.(value);
     }
 
     toggleIcon = () => {
-        const { icon } = this.state
+        const { icon } = this.state;
         this.setState({
-            icon: icon === 'angle-down' ? 'angle-up' : 'angle-down',
-        })
-    }
+            icon: icon === 'angle-down' ? 'angle-up' : 'angle-down'
+        });
+    };
 
-    onChange = (v) => {
+    onChange = v => {
         const {
             onChangeCallback,
             input: { onChange }
-        } = this.props
+        } = this.props;
 
-        onChange(v)
+        onChange(v);
 
-        this.setState({ initialValue: v })
+        this.setState({ initialValue: v });
         onChangeCallback && onChangeCallback(v);
-    }
+    };
 
-    onDonePress = (selectRef) => {
-        const { onDonePress, isFakeInput } = this.props
+    onDonePress = selectRef => {
+        const { onDonePress, isFakeInput } = this.props;
 
-        onDonePress && onDonePress()
-    }
+        onDonePress && onDonePress();
+    };
 
     render() {
         const {
@@ -97,25 +100,29 @@ export class SelectPickerField extends Component<IProps> {
             containerStyle,
             label,
             isFakeInput,
-            fakeInputValueStyle,
+            fakeInputValueStyle
         } = this.props;
 
-        const { icon } = this.state
-        let selectRef = null
-        let selected = items && items.find((item) => item.value === value);
-        let selectedLabel = selected && (selected.displayLabel || selected.label);
+        const { icon } = this.state;
+        let selectRef = null;
+        let selected = items && items.find(item => item.value === value);
+        let selectedLabel =
+            selected && (selected.displayLabel || selected.label);
         let selectedValue = selected && selected.value;
 
         let placeHolder = {
             ...{ color: colors.darkGray },
-            ...defaultPickerOptions,
-        }
+            ...defaultPickerOptions
+        };
 
         const pickerField = (
             <RNPickerSelect
                 placeholder={defaultPickerOptions && placeHolder}
-                items={items.map((item) => ({ ...item, color: colors.secondary }))}
-                onValueChange={(v) => {
+                items={items.map(item => ({
+                    ...item,
+                    color: colors.secondary
+                }))}
+                onValueChange={v => {
                     this.onChange(v);
                 }}
                 style={{
@@ -130,11 +137,11 @@ export class SelectPickerField extends Component<IProps> {
                     },
                     iconContainer: {
                         top: 13,
-                        right: 11,
+                        right: 11
                     },
                     placeholder: {
-                        fontSize: 15,
-                    },
+                        fontSize: 15
+                    }
                 }}
                 onOpen={() => this.toggleIcon()}
                 onClose={() => this.toggleIcon()}
@@ -144,17 +151,14 @@ export class SelectPickerField extends Component<IProps> {
                     refLinkFn &&
                         refLinkFn({
                             ...dropdownRef,
-                            focus: () => dropdownRef && dropdownRef.togglePicker(),
-                        })
-                    selectRef = dropdownRef && dropdownRef
+                            focus: () =>
+                                dropdownRef && dropdownRef.togglePicker()
+                        });
+                    selectRef = dropdownRef && dropdownRef;
                 }}
                 Icon={() => (
                     <View>
-                        <Icon
-                            name={icon}
-                            size={18}
-                            color={colors.darkGray}
-                        />
+                        <Icon name={icon} size={18} color={colors.darkGray} />
                     </View>
                 )}
                 modalProps={{
@@ -168,7 +172,7 @@ export class SelectPickerField extends Component<IProps> {
                     <View
                         style={[
                             styles.fakeInput,
-                            fakeInputContainerStyle && fakeInputContainerStyle,
+                            fakeInputContainerStyle && fakeInputContainerStyle
                         ]}
                     >
                         <Text
@@ -181,9 +185,11 @@ export class SelectPickerField extends Component<IProps> {
                                 !selectedValue && { color: colors.darkGray }
                             ]}
                         >
-                            {!selectedLabel ?
-                                (defaultPickerOptions && (defaultPickerOptions.displayLabel || defaultPickerOptions.label)) : selectedLabel
-                            }
+                            {!selectedLabel
+                                ? defaultPickerOptions &&
+                                  (defaultPickerOptions.displayLabel ||
+                                      defaultPickerOptions.label)
+                                : selectedLabel}
                         </Text>
                         <Icon
                             name={icon}
@@ -196,7 +202,7 @@ export class SelectPickerField extends Component<IProps> {
             </RNPickerSelect>
         );
 
-        const isFakeDisplay = isIosPlatform() && isFakeInput
+        const isFakeDisplay = isIosPlatform() && isFakeInput;
 
         return (
             <View>
@@ -204,23 +210,34 @@ export class SelectPickerField extends Component<IProps> {
                     meta={meta}
                     label={label}
                     isRequired={isRequired}
-                    values={isFakeDisplay && (!selectedLabel ?
-                        (defaultPickerOptions && (defaultPickerOptions.displayLabel || defaultPickerOptions.label)) : selectedLabel)}
+                    values={
+                        isFakeDisplay &&
+                        (!selectedLabel
+                            ? defaultPickerOptions &&
+                              (defaultPickerOptions.displayLabel ||
+                                  defaultPickerOptions.label)
+                            : selectedLabel)
+                    }
                     fakeInput={!isFakeDisplay && pickerField}
-                    fakeInputContainerStyle={isFakeDisplay && {
-                        ...styles.inputIOS,
-                        ...(disabled ? styles.disabledSelectedValue : {}),
-                        ...(fakeInputContainerStyle && fakeInputContainerStyle),
-                    }}
+                    fakeInputContainerStyle={
+                        isFakeDisplay && {
+                            ...styles.inputIOS,
+                            ...(disabled ? styles.disabledSelectedValue : {}),
+                            ...(fakeInputContainerStyle &&
+                                fakeInputContainerStyle)
+                        }
+                    }
                     leftIcon={fieldIcon}
                     disabled={disabled}
                     valueStyle={fakeInputValueStyle}
                     rightIcon={isFakeDisplay && icon}
-                    onChangeCallback={() => isFakeDisplay && selectRef.togglePicker()}
+                    onChangeCallback={() =>
+                        isFakeDisplay && selectRef.togglePicker()
+                    }
                     containerStyle={containerStyle}
                 />
                 {isFakeDisplay && pickerField}
-            </View >
+            </View>
         );
     }
 }

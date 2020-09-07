@@ -14,7 +14,7 @@ import {
     SET_ITEM_UNITS,
     SET_ITEM_UNIT,
     SET_CURRENCIES,
-    SET_CUSTOM_FIELDS,
+    SET_CUSTOM_FIELDS
 } from '../constants';
 
 const initialState = {
@@ -56,6 +56,8 @@ const initialState = {
         // Custom Fields
         customFieldsLoading: false,
         customFieldLoading: false,
+        getCustomFieldLoading: false,
+        removeCustomFieldLoading: false
     },
     preferences: null,
     categories: [],
@@ -67,7 +69,7 @@ const initialState = {
     account: null,
     taxByItems: false,
     taxByInvoice: true,
-    taxByEstimate: false,
+    taxByEstimate: false
 };
 
 export default function settingReducer(state = initialState, action) {
@@ -81,83 +83,82 @@ export default function settingReducer(state = initialState, action) {
             return { ...state, ...payload };
 
         case SET_PREFERENCES:
-            return { ...state, ...payload }
+            return { ...state, ...payload };
 
         case CLEAR_PREFERENCES:
             return { ...state, preferences: null };
 
         case SET_SETTING_ITEM:
-            const { key, value } = payload
+            const { key, value } = payload;
             if (key === 'discount_per_item') {
-
                 return { ...state, discountPerItem: value };
             }
 
-            if (key === 'tax_per_item')
-                return { ...state, taxPerItem: value };
-            else
-                return { ...state, ...payload }
+            if (key === 'tax_per_item') return { ...state, taxPerItem: value };
+            else return { ...state, ...payload };
 
         case SET_EXPENSE_CATEGORIES:
-
             return { ...state, ...payload };
 
         case SET_CREATE_EXPENSE_CATEGORIES:
-
             return {
-                ...state, categories:
-                    [...payload.categories, ...state.categories]
+                ...state,
+                categories: [...payload.categories, ...state.categories]
             };
 
         case SET_EDI_EXPENSE_CATEGORIES:
-
             let itemIndex = 0;
 
             state.categories.map((val, index) => {
-                if (val.id === payload.id)
-                    itemIndex = index
-            })
+                if (val.id === payload.id) itemIndex = index;
+            });
 
-            state.categories.splice(itemIndex, 1)
+            state.categories.splice(itemIndex, 1);
 
             return {
                 ...state,
                 categories: [...payload.categories, ...state.categories]
-            }
+            };
 
         case SET_REMOVE_EXPENSE_CATEGORIES:
-
-            const category = state.categories.filter((val) =>
-                (val.id !== payload.id))
+            const category = state.categories.filter(
+                val => val.id !== payload.id
+            );
 
             return { ...state, categories: category };
 
         case SET_CUSTOMIZE_SETTINGS:
+            const checkAutoGenerateStatus = status => {
+                return status !== null
+                    ? status === 'YES'
+                        ? true
+                        : false
+                    : false;
+            };
 
-            const checkAutoGenerateStatus = (status) => {
-                return status !== null ?
-                    status === 'YES' ? true : false
-                    : false
-            }
-
-            const { customizes } = payload
+            const { customizes } = payload;
 
             if (customizes === null) {
                 return { ...state, customizes: null };
-            }
-            else {
+            } else {
                 const {
                     invoice_auto_generate,
                     estimate_auto_generate,
                     payment_auto_generate
-                } = customizes
+                } = customizes;
 
                 let customizeUpdate = {
                     ...customizes,
-                    invoice_auto_generate: checkAutoGenerateStatus(invoice_auto_generate),
-                    estimate_auto_generate: checkAutoGenerateStatus(estimate_auto_generate),
-                    payment_auto_generate: checkAutoGenerateStatus(payment_auto_generate)
-                }
+                    invoice_auto_generate: checkAutoGenerateStatus(
+                        invoice_auto_generate
+                    ),
+                    estimate_auto_generate: checkAutoGenerateStatus(
+                        estimate_auto_generate
+                    ),
+                    payment_auto_generate: checkAutoGenerateStatus(
+                        payment_auto_generate
+                    )
+                };
 
                 return { ...state, customizes: customizeUpdate };
             }
@@ -166,7 +167,7 @@ export default function settingReducer(state = initialState, action) {
             return { ...state, paymentMethods: payload.paymentMethods };
 
         case SET_PAYMENT_MODE:
-            const { paymentMethod, isCreated, isUpdated, isRemove } = payload
+            const { paymentMethod, isCreated, isUpdated, isRemove } = payload;
 
             if (isCreated) {
                 return {
@@ -175,8 +176,9 @@ export default function settingReducer(state = initialState, action) {
                 };
             }
             if (isUpdated) {
-                const methodList = state.paymentMethods.filter(({ id }) =>
-                    (id !== paymentMethod[0]["id"]))
+                const methodList = state.paymentMethods.filter(
+                    ({ id }) => id !== paymentMethod[0]['id']
+                );
 
                 return {
                     ...state,
@@ -184,19 +186,20 @@ export default function settingReducer(state = initialState, action) {
                 };
             }
             if (isRemove) {
-                const remainMethods = state.paymentMethods.filter(({ id }) =>
-                    (id !== payload.id))
+                const remainMethods = state.paymentMethods.filter(
+                    ({ id }) => id !== payload.id
+                );
 
                 return { ...state, paymentMethods: remainMethods };
             }
 
-            return { ...state }
+            return { ...state };
 
         case SET_ITEM_UNITS:
             return { ...state, units: payload.units };
 
         case SET_ITEM_UNIT:
-            const { unit } = payload
+            const { unit } = payload;
 
             if (payload.isCreated) {
                 return {
@@ -205,8 +208,9 @@ export default function settingReducer(state = initialState, action) {
                 };
             }
             if (payload.isUpdated) {
-                const unitList = state.units.filter(({ id }) =>
-                    (id !== unit[0]["id"]))
+                const unitList = state.units.filter(
+                    ({ id }) => id !== unit[0]['id']
+                );
 
                 return {
                     ...state,
@@ -214,33 +218,29 @@ export default function settingReducer(state = initialState, action) {
                 };
             }
             if (payload.isRemove) {
-                const remainUnits = state.units.filter(({ id }) =>
-                    (id !== payload.id))
+                const remainUnits = state.units.filter(
+                    ({ id }) => id !== payload.id
+                );
 
                 return { ...state, units: remainUnits };
             }
 
-            return { ...state }
+            return { ...state };
 
         case SET_CURRENCIES:
-
             const { currencies, fresh } = payload;
 
             if (!fresh) {
-                return { ...state, currencies: [...state.currencies, ...currencies] };
+                return {
+                    ...state,
+                    currencies: [...state.currencies, ...currencies]
+                };
             }
 
             return { ...state, currencies };
 
         case SET_CUSTOM_FIELDS:
-
-            const { customFields } = payload;
-
-            if (!payload.fresh) {
-                return { ...state, customFields: [...state.customFields, ...customFields] };
-            }
-
-            return { ...state, customFields };
+            return { ...state, customFields: payload.customFields };
 
         default:
             return state;

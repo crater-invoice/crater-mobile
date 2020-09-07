@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { CheckBox } from 'react-native-elements'
+import React, { Component } from 'react';
+import { CheckBox } from 'react-native-elements';
 import { styles } from './styles';
 import { colors } from '../../styles/colors';
 import { Text } from 'react-native';
@@ -8,20 +8,21 @@ type IProps = {
     label: String,
     containerStyle: Object,
     input: Object,
-    onChangeCallback: Function,
-}
+    onChangeCallback: Function
+};
 
 export class CtCheckbox extends Component<IProps> {
-
     toggleChecked = () => {
-        const { input: { onChange, value }, onChangeCallback } = this.props;
+        const {
+            input: { onChange, value },
+            onChangeCallback
+        } = this.props;
 
         onChange(!value);
-        onChangeCallback && onChangeCallback(!value)
+        onChangeCallback && onChangeCallback(!value);
     };
 
     render() {
-
         const {
             input: { value },
             label,
@@ -30,26 +31,27 @@ export class CtCheckbox extends Component<IProps> {
             disable = false,
             hint,
             hintStyle
-        } = this.props
+        } = this.props;
 
         return (
             <>
-                {
-                    hint && (
-                        <Text
-                            numberOfLines={2}
-                            style={[styles.hint, hintStyle && hintStyle]}
-                        >
-                            {hint}
-                        </Text>
-                    )
-                }
+                {hint && (
+                    <Text
+                        numberOfLines={2}
+                        style={[styles.hint, hintStyle && hintStyle]}
+                    >
+                        {hint}
+                    </Text>
+                )}
                 <CheckBox
                     title={label}
                     checked={value || false}
                     size={25}
                     onPress={() => !disable && this.toggleChecked()}
-                    containerStyle={[styles.container, containerStyle && containerStyle]}
+                    containerStyle={[
+                        styles.container,
+                        containerStyle && containerStyle
+                    ]}
                     textStyle={styles.label}
                     checkedColor={colors.primaryLight}
                     uncheckedColor={colors.secondary}
@@ -57,7 +59,7 @@ export class CtCheckbox extends Component<IProps> {
                     activeOpacity={disable ? 1 : 0.4}
                 />
             </>
-        )
+        );
     }
 }
 

@@ -5,67 +5,42 @@ import {
     CREATE_CUSTOM_FIELD,
     EDIT_CUSTOM_FIELD,
     REMOVE_CUSTOM_FIELD,
+    GET_CUSTOM_FIELD,
     // Endpoint Api URL
     GET_CUSTOM_FIELDS_URL,
     CREATE_CUSTOM_FIELD_URL,
+    GET_CUSTOM_FIELD_URL,
     EDIT_CUSTOM_FIELD_URL,
-    REMOVE_CUSTOM_FIELD_URL,
+    REMOVE_CUSTOM_FIELD_URL
 } from '../../constants';
-import Request from '../../../../api/request';
-import { hasValue, alertMe } from '../../../../api/global';
-import { getTitleByLanguage } from '../../../../navigation/actions';
-import { ROUTES } from '../../../../navigation/routes';
+import Request from '@/api/request';
+import { hasValue, alertMe } from '@/api/global';
+import { getTitleByLanguage } from '@/navigation/actions';
+import { ROUTES } from '@/navigation/routes';
 
-
-const alreadyInUse = (error) => {
-
-    if (error.includes("errors") && error.includes("name")) {
+const alreadyInUse = error => {
+    if (error.includes('errors') && error.includes('name')) {
         alertMe({
-            desc: getTitleByLanguage('alert.alreadyInUse', "\"Name\"")
-        })
+            desc: getTitleByLanguage('alert.alreadyInUse', '"Name"')
+        });
         return true;
     }
-}
+};
 
-function* getCustomFields(payloadData) {
-    const {
-        payload: {
-            onResult = null,
-            onMeta = null,
-            fresh = true,
-            search,
-            pagination: { page = 1, limit = 10 } = {},
-        } = {},
-    } = payloadData;
-
+function* getCustomFields({ payload: { type = null, onResult = null } }) {
     yield put(settingsTriggerSpinner({ customFieldsLoading: true }));
 
     try {
-
-        let param = {
-            search,
-            page,
-            limit
-        }
-
         const options = {
-            path: GET_CUSTOM_FIELDS_URL(param),
+            path: GET_CUSTOM_FIELDS_URL(type)
         };
 
-        yield delay(400);
-        // const response = yield call([Request, 'get'], options);
-        const response = {
-            customFields: {
-                data: [
-                    { id: "1", name: "Email Field", type: "EMAIL" },
-                    { id: "2", name: "Date Field", type: "Date" }
-                ]
-            }
-        }
-        yield put(setCustomFields({ customFields: response.customFields.data, fresh }));
+        const response = yield call([Request, 'get'], options);
 
-        onMeta?.(response.customFields);
-        onResult?.(response.customFields);
+        if (response.customFields) {
+            yield put(setCustomFields({ customFields: response.customFields }));
+            onResult?.(response.customFields);
+        }
     } catch (error) {
         console.log(error);
     } finally {
@@ -73,38 +48,52 @@ function* getCustomFields(payloadData) {
     }
 }
 
-
 function* createCustomField({ payload: { params, navigation } }) {
-
     yield put(settingsTriggerSpinner({ customFieldLoading: true }));
 
     try {
-
         const options = {
-            path: CREATE_CUSTOM_FIELD_URL(),
+            path: CREATE_CUSTOM_FIELD_URL,
             body: params
         };
 
         const response = yield call([Request, 'post'], options);
 
         if (response.success) {
-            navigation.navigate(ROUTES.CUSTOM_FIELDS)
-            yield call(getCustomFields, payload = {});
+            navigation.navigate(ROUTES.CUSTOM_FIELDS);
+            yield call(getCustomFields, { payload: {} });
         }
-
     } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText)
+        hasValue(_bodyText) && alreadyInUse(_bodyText);
     } finally {
         yield put(settingsTriggerSpinner({ customFieldLoading: false }));
     }
 }
 
-function* editCustomField({ payload: { id, params, navigation } }) {
+function* getCustomField({ payload: { id, onResult = null } }) {
+    yield put(settingsTriggerSpinner({ getCustomFieldLoading: true }));
 
+    try {
+        const options = {
+            path: GET_CUSTOM_FIELD_URL(id)
+        };
+
+        const response = yield call([Request, 'get'], options);
+
+        if (response.customField) {
+            onResult?.(response.customField);
+        }
+    } catch (error) {
+        console.log(error);
+    } finally {
+        yield put(settingsTriggerSpinner({ getCustomFieldLoading: false }));
+    }
+}
+
+function* editCustomField({ payload: { id, params, navigation } }) {
     yield put(settingsTriggerSpinner({ customFieldLoading: true }));
 
     try {
-
         const options = {
             path: EDIT_CUSTOM_FIELD_URL(id),
             body: params
@@ -113,38 +102,34 @@ function* editCustomField({ payload: { id, params, navigation } }) {
         const response = yield call([Request, 'put'], options);
 
         if (response.success) {
-            navigation.navigate(ROUTES.CUSTOM_FIELDS)
-            yield call(getCustomFields, payload = {});
+            navigation.navigate(ROUTES.CUSTOM_FIELDS);
+            yield call(getCustomFields, { payload: {} });
         }
-
     } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText)
+        hasValue(_bodyText) && alreadyInUse(_bodyText);
     } finally {
         yield put(settingsTriggerSpinner({ customFieldLoading: false }));
     }
 }
 
 function* removeCustomField({ payload: { id, navigation } }) {
-
-    yield put(settingsTriggerSpinner({ customFieldLoading: true }));
+    yield put(settingsTriggerSpinner({ removeCustomFieldLoading: true }));
 
     try {
-
         const options = {
-            path: REMOVE_CUSTOM_FIELD_URL(id),
+            path: REMOVE_CUSTOM_FIELD_URL(id)
         };
 
         const response = yield call([Request, 'delete'], options);
 
         if (response.success) {
-            navigation.navigate(ROUTES.CUSTOM_FIELDS)
-            yield call(getCustomFields, payload = {});
+            navigation.navigate(ROUTES.CUSTOM_FIELDS);
+            yield call(getCustomFields, { payload: {} });
         }
-
     } catch (error) {
         // console.log(error);
     } finally {
-        yield put(settingsTriggerSpinner({ customFieldLoading: false }));
+        yield put(settingsTriggerSpinner({ removeCustomFieldLoading: false }));
     }
 }
 
@@ -153,6 +138,7 @@ export default function* customFieldsSaga() {
     // -----------------------------------------
     yield takeEvery(GET_CUSTOM_FIELDS, getCustomFields);
     yield takeEvery(CREATE_CUSTOM_FIELD, createCustomField);
+    yield takeEvery(GET_CUSTOM_FIELD, getCustomField);
     yield takeEvery(EDIT_CUSTOM_FIELD, editCustomField);
     yield takeEvery(REMOVE_CUSTOM_FIELD, removeCustomField);
 }

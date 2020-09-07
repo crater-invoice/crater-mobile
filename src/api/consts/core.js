@@ -3,7 +3,7 @@ export const NAVIGATION_PERSIST_KEY = 'persist:root';
 export const BUTTON_TYPE = {
     SOLID: 'solid',
     OUTLINE: 'outline',
-    CLEAR: 'clear',
+    CLEAR: 'clear'
 };
 
 export const BUTTON_COLOR = {
@@ -28,19 +28,19 @@ export const BUTTON_COLOR = {
     VERY_DARK_GRAY: 'veryDarkGray',
     PINK: 'pink',
     LIGHT_GREEN: 'lightGreen',
-    WHITE: 'white',
+    WHITE: 'white'
 };
 
 // type
-export const ENDPOINT_SETTINGS = 'global/ENDPOINT_SETTINGS'
-export const ENDPOINT_INITIAL = 'global/ENDPOINT_INITIAL'
+export const ENDPOINT_SETTINGS = 'global/ENDPOINT_SETTINGS';
+export const ENDPOINT_INITIAL = 'global/ENDPOINT_INITIAL';
 
 /**
- *  Date format for sending backend request
+ *  Date Time format for sending backend request
  */
 export const DATE_FORMAT = 'DD/MM/YYYY';
-
-
+export const TIME_FORMAT = 'HH:mm:ss';
+export const TIME_FORMAT_MERIDIEM = 'hh:mm A';
 /**
  * Global action const
  */

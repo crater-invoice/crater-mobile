@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import { CUSTOMER_FORM, CUSTOMER_ADD } from '../../constants';
-import * as customerAction from '../../actions'
+import * as customerAction from '../../actions';
 import { Customer } from '../../components/Customer';
-import { getStateCurrencies } from '../../selectors'
+import { getStateCurrencies } from '../../selectors';
+import { getCustomFields } from '@/features/settings/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -17,10 +18,12 @@ const mapStateToProps = (state, { navigation }) => {
                 getEditCustomerLoading,
                 countriesLoading
             }
-        }
-    } = state
+        },
+        settings: { customFields }
+    } = state;
+
     let customerId = navigation.getParam('customerId', null);
-    let type = navigation.getParam('type', CUSTOMER_ADD)
+    let type = navigation.getParam('type', CUSTOMER_ADD);
 
     return {
         formValues: getFormValues(CUSTOMER_FORM)(state) || {},
@@ -29,6 +32,7 @@ const mapStateToProps = (state, { navigation }) => {
         currencies: getStateCurrencies(currencies),
         countries,
         currency,
+        customFields,
         customerLoading,
         getEditCustomerLoading,
         countriesLoading,
@@ -36,7 +40,7 @@ const mapStateToProps = (state, { navigation }) => {
         initialValues: {
             enable_portal: false,
             currency_id: null,
-            id: customerId,
+            id: customerId
         }
     };
 };
@@ -47,23 +51,23 @@ const mapDispatchToProps = {
     getEditCustomer: customerAction.getEditCustomer,
     removeCustomer: customerAction.removeCustomer,
     getCountries: customerAction.getCountries,
+    getCustomFields
 };
 
 //  Redux Forms
 const addEditCustomerReduxForm = reduxForm({
     form: CUSTOMER_FORM,
-    validate,
+    validate
 })(Customer);
 
 //  connect
 const AddEditCustomerContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(addEditCustomerReduxForm);
 
 AddEditCustomerContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
-
 
 export default AddEditCustomerContainer;

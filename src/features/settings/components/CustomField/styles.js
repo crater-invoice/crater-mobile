@@ -5,10 +5,10 @@ import { fonts } from '../../../../styles/fonts';
 export default styles = StyleSheet.create({
     bodyContainer: {
         paddingHorizontal: 22,
-        paddingVertical: 17,
+        paddingVertical: 17
     },
     submitButton: {
-        paddingHorizontal: 10,
+        paddingHorizontal: 10
     },
     multipleButton: {
         display: 'flex',
@@ -16,13 +16,13 @@ export default styles = StyleSheet.create({
         flexDirection: 'row'
     },
     btnContainerStyle: {
-        marginHorizontal: 10,
+        marginHorizontal: 10
     },
     flex: {
         flex: 1
     },
     handleBtn: {
-        marginHorizontal: 5,
+        marginHorizontal: 5
     },
     textStyle: {
         color: colors.secondary,
@@ -32,38 +32,38 @@ export default styles = StyleSheet.create({
     },
     // Row Column
     row: {
-        flexDirection: 'row',
+        flexDirection: 'row'
     },
     column: {
         flex: 1,
-       marginLeft:-60,
+        marginLeft: -65
     },
     columnRight: {
         paddingLeft: 5,
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     leftText: {
         marginTop: 4,
         width: '50%',
-        textAlign: "right",
-        position: "relative",
+        textAlign: 'right',
+        position: 'relative',
         top: 0,
         right: 0,
         ...Platform.select({
             android: {
-                right: -50,
-            },
-        }),
+                right: -50
+            }
+        })
     },
     positionView: {
-        justifyContent: "center",
-        width: "54%",
+        justifyContent: 'center',
+        width: '45%'
     },
     // help
     helpText: {
         color: colors.darkGray,
         fontFamily: fonts.poppins,
-        fontSize: 14,
+        fontSize: 14
     }
 });

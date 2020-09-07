@@ -1,43 +1,61 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, getFormValues } from 'redux-form';
+import { reduxForm, getFormValues, clearFields } from 'redux-form';
 import { validate } from './validation';
 import * as CustomFieldAction from '../../actions';
-import { CREATE_CUSTOM_FIELD_TYPE, CUSTOM_FIELD_FORM, CUSTOM_FIELDS } from '../../constants';
+import {
+    CREATE_CUSTOM_FIELD_TYPE,
+    CUSTOM_FIELD_FORM,
+    CUSTOM_FIELDS as FIELDS,
+    CUSTOM_FIELD_MODAL_TYPES as MODAL_TYPES,
+    CUSTOM_FIELD_DATA_TYPE_LIST as DATA_TYPES
+} from '../../constants';
 import { hasValue } from '../../../../api/global';
 import { CustomField } from '../../components/CustomField';
 
 const mapStateToProps = (state, { navigation }) => {
-
     const {
         global: { language, currency },
         settings: {
-            loading: { currencyLoading }
+            loading: {
+                customFieldLoading,
+                getCustomFieldLoading,
+                removeCustomFieldLoading
+            }
         }
-    } = state
+    } = state;
 
-    let type = navigation.getParam('type', CREATE_CUSTOM_FIELD_TYPE)
-    let field = navigation.getParam('field', {})
-    let id = field?.id
+    let type = navigation.getParam('type', CREATE_CUSTOM_FIELD_TYPE);
+    let field = navigation.getParam('field', {});
+    let id = field?.id;
 
     return {
-        currencyLoading,
+        loading: customFieldLoading,
+        getCustomFieldLoading,
+        removeCustomFieldLoading,
         currency,
         type,
+        field,
         id,
         language,
         formValues: getFormValues(CUSTOM_FIELD_FORM)(state) || {},
-        initialValues: type === CREATE_CUSTOM_FIELD_TYPE ? {
-            [CUSTOM_FIELDS.FIELD]: {
-                [CUSTOM_FIELDS.IS_MANDATORY]: true
-            }
-        } : {
-            }
+        initialValues:
+            type === CREATE_CUSTOM_FIELD_TYPE
+                ? {
+                      [FIELDS.FIELD]: {
+                          [FIELDS.IS_REQUIRED]: false,
+                          [FIELDS.MODAL_TYPE]: MODAL_TYPES[0].value,
+                          [FIELDS.TYPE]: DATA_TYPES[0].value,
+                          [FIELDS.OPTIONS]: []
+                      }
+                  }
+                : null
     };
 };
 
 const mapDispatchToProps = {
     createCustomField: CustomFieldAction.createCustomField,
+    getCustomField: CustomFieldAction.getCustomField,
     editCustomField: CustomFieldAction.editCustomField,
     removeCustomField: CustomFieldAction.removeCustomField
 };
@@ -45,17 +63,17 @@ const mapDispatchToProps = {
 //  Redux Forms
 const customFieldForm = reduxForm({
     form: CUSTOM_FIELD_FORM,
-    validate,
+    validate
 })(CustomField);
 
 //  connect
 const CustomFieldContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(customFieldForm);
 
 CustomFieldContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default CustomFieldContainer;

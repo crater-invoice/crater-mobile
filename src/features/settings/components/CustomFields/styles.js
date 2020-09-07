@@ -5,13 +5,25 @@ import { isIPhoneX } from '../../../../api/helper';
 export default styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     headerContainer: {
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     listViewContainer: {
         flex: 1,
-        paddingBottom: isIPhoneX() ? 30 : 0,
+        paddingBottom: isIPhoneX() ? 30 : 0
     },
+    leftTitleContainer: {
+        marginTop: -12
+    },
+    leftTitleText: {
+        width: '140%'
+    },
+    leftSubTitleText: {
+        textTransform: 'capitalize'
+    },
+    rightTitleText: {
+        fontSize: 15
+    }
 });
