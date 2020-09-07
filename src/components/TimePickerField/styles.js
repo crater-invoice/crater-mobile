@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     button: {
@@ -6,6 +6,6 @@ const styles = StyleSheet.create({
         marginHorizontal: -5,
         width: '110%'
     }
-});
+})
 
-export default styles;
+export default styles

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { InputField } from '@/components/InputField';
+import { InputField } from '../../InputField';
+import { KEYBOARD_TYPE } from '@/api/global';
 
-export function InputType({ field, name }) {
+export function NumberType({ field, name }) {
     const { label = null, is_required = false, placeholder = null } = field;
 
     return (
@@ -13,7 +14,8 @@ export function InputType({ field, name }) {
             inputProps={{
                 returnKeyType: 'next',
                 autoCorrect: true,
-                placeholder
+                placeholder,
+                keyboardType: KEYBOARD_TYPE.NUMERIC
             }}
             isRequired={is_required}
         />

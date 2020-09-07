@@ -4,14 +4,13 @@ import { fonts } from '../../styles/fonts';
 import { isIosPlatform } from '../../api/helper';
 
 export const styles = StyleSheet.create({
-    mainContainer: {
-    },
+    mainContainer: {},
     container: {
         display: 'flex',
         justifyContent: 'space-between',
         flexWrap: 'nowrap',
         flexDirection: 'row',
-        marginVertical: 15,
+        marginVertical: 15
     },
     hint: {
         color: colors.secondary,
@@ -21,19 +20,24 @@ export const styles = StyleSheet.create({
         width: '83%'
     },
     switchStyle: {
-        transform: isIosPlatform() ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [{ scaleX: 1.2 }, { scaleY: 1.2 }],
+        transform: isIosPlatform()
+            ? [{ scaleX: 0.8 }, { scaleY: 0.8 }]
+            : [{ scaleX: 1.2 }, { scaleY: 1.2 }]
     },
     switchContainer: {
-        height: 20,
+        height: 20
     },
     descriptionContainer: {
         flex: 1,
         paddingRight: 8,
-        marginTop: -5,
+        marginTop: -5
     },
     description: {
         color: colors.darkGray,
         fontFamily: fonts.poppins,
-        fontSize: 14,
+        fontSize: 14
+    },
+    required: {
+        color: colors.danger
     }
 });

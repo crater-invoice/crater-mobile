@@ -102,6 +102,7 @@ export const CREATE_CUSTOM_FIELD = 'custom-field/CREATE_CUSTOM_FIELD';
 export const GET_CUSTOM_FIELD = 'custom-field/GET_CUSTOM_FIELD';
 export const EDIT_CUSTOM_FIELD = 'custom-field/EDIT_CUSTOM_FIELD';
 export const REMOVE_CUSTOM_FIELD = 'custom-field/REMOVE_CUSTOM_FIELD';
+export const RESET_CUSTOM_FIELDS = 'custom-field/RESET_CUSTOM_FIELDS';
 
 // Taxes
 export const GET_TAXES = 'taxes/GET_TAXES';

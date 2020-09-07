@@ -104,7 +104,12 @@ export class TimePickerField extends Component {
         );
     };
     render() {
-        const { label, placeholder = TIME_FORMAT } = this.props;
+        const {
+            label,
+            placeholder = TIME_FORMAT,
+            fakeInputProps,
+            isRequired
+        } = this.props;
         const { time } = this.state;
 
         return (
@@ -116,6 +121,8 @@ export class TimePickerField extends Component {
                     onChangeCallback={this.onToggleModal}
                     values={time}
                     placeholder={placeholder}
+                    isRequired={isRequired}
+                    {...fakeInputProps}
                 />
                 {this.renderPicker()}
             </>

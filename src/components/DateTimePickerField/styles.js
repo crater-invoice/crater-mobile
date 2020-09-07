@@ -17,7 +17,10 @@ const styles = StyleSheet.create({
     dateColumn: {
         flex: 1.2
     },
-    timeColumn: { flex: 1 }
+    timeColumn: { flex: 1 },
+    required: {
+        color: colors.danger
+    }
 });
 
 export default styles;

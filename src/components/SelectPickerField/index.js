@@ -43,7 +43,7 @@ export class SelectPickerField extends Component<IProps> {
         super(props);
         this.state = {
             icon: 'angle-down',
-            initialValue: ''
+            selectedItemValue: ''
         };
     }
 
@@ -55,6 +55,7 @@ export class SelectPickerField extends Component<IProps> {
         } = this.props;
 
         onChange(value);
+        this.setState({ selectedItemValue: value });
         callbackWhenMount ? callbackWhenMount?.() : onChangeCallback?.(value);
     }
 
@@ -73,7 +74,7 @@ export class SelectPickerField extends Component<IProps> {
 
         onChange(v);
 
-        this.setState({ initialValue: v });
+        this.setState({ selectedItemValue: v });
         onChangeCallback && onChangeCallback(v);
     };
 
@@ -100,12 +101,20 @@ export class SelectPickerField extends Component<IProps> {
             containerStyle,
             label,
             isFakeInput,
-            fakeInputValueStyle
+            fakeInputValueStyle,
+            findValueByForm = true
         } = this.props;
 
-        const { icon } = this.state;
+        const { icon, selectedItemValue } = this.state;
         let selectRef = null;
-        let selected = items && items.find(item => item.value === value);
+        let selected = [];
+
+        if (findValueByForm)
+            selected = items && items.find(item => item.value === value);
+        else
+            selected =
+                items && items.find(item => item.value === selectedItemValue);
+
         let selectedLabel =
             selected && (selected.displayLabel || selected.label);
         let selectedValue = selected && selected.value;

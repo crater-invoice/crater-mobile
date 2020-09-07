@@ -1,8 +1,8 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { InputField } from '@/components/InputField';
+import { InputField } from '../../InputField';
 
-export function InputType({ field, name }) {
+export function UrlType({ field, name }) {
     const { label = null, is_required = false, placeholder = null } = field;
 
     return (

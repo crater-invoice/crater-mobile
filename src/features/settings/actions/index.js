@@ -317,3 +317,8 @@ export const removeCustomField = (payload = {}) => ({
     type: TYPES.REMOVE_CUSTOM_FIELD,
     payload
 });
+
+export const resetCustomFields = (payload = {}) => ({
+    type: TYPES.RESET_CUSTOM_FIELDS,
+    payload
+});

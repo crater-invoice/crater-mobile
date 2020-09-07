@@ -11,7 +11,6 @@ import { colors } from '../../styles/colors';
 import Lng from '../../api/lang/i18n';
 
 export class InputFieldComponent extends Component<IInputField> {
-
     constructor(props) {
         super(props);
 
@@ -19,12 +18,14 @@ export class InputFieldComponent extends Component<IInputField> {
             isSecureTextEntry: this.props.secureTextEntry,
             active: false,
             inputHeight: 0,
-            isOptionsVisible: false,
+            isOptionsVisible: false
         };
     }
 
     toggleSecureTextEntry = () => {
-        this.setState(({ isSecureTextEntry }) => ({ isSecureTextEntry: !isSecureTextEntry }));
+        this.setState(({ isSecureTextEntry }) => ({
+            isSecureTextEntry: !isSecureTextEntry
+        }));
     };
 
     getSign = () => {
@@ -41,7 +42,7 @@ export class InputFieldComponent extends Component<IInputField> {
         return null;
     };
 
-    saveInputHeight = (event) => {
+    saveInputHeight = event => {
         const { height } = event.nativeEvent.layout;
 
         this.setState({ inputHeight: height });
@@ -84,27 +85,40 @@ export class InputFieldComponent extends Component<IInputField> {
             secureTextIconContainerStyle,
             leftSymbol
         } = this.props;
-        const { isSecureTextEntry, active, inputHeight, isOptionsVisible } = this.state;
+        const {
+            isSecureTextEntry,
+            active,
+            inputHeight,
+            isOptionsVisible
+        } = this.state;
         const sign = this.getSign();
         const isOptions = autocomplete && isOptionsVisible && !!options.length;
 
-        let initialValueProps = {}
+        let initialValueProps = {};
 
         if (value && isCurrencyInput) {
-            const newValue = (value / 100)
-            initialValueProps = { value: `${newValue}` }
+            const newValue = value / 100;
+            initialValueProps = { value: `${newValue}` };
         } else {
-            initialValueProps = { defaultValue: `${value}` }
+            initialValueProps = { defaultValue: `${value}` };
         }
 
-        let leftIconSymbol = {}
+        let leftIconSymbol = {};
         if (leftIcon) {
             leftIconSymbol = {
                 leftIcon: (
-                    <Icon name={leftIcon} solid={leftIconSolid} size={18} color={colors.darkGray} />
+                    <Icon
+                        name={leftIcon}
+                        solid={leftIconSolid}
+                        size={18}
+                        color={colors.darkGray}
+                    />
                 ),
-                leftIconContainerStyle: [styles.leftIcon, leftIconStyle && leftIconStyle]
-            }
+                leftIconContainerStyle: [
+                    styles.leftIcon,
+                    leftIconStyle && leftIconStyle
+                ]
+            };
         }
         if (leftSymbol) {
             leftIconSymbol = {
@@ -113,23 +127,22 @@ export class InputFieldComponent extends Component<IInputField> {
                         <Text style={styles.leftSymbol}>{leftSymbol}</Text>
                     </View>
                 )
-            }
+            };
         }
 
         return (
             <View
                 style={[
                     styles.inputFieldWrapper,
-                    fieldStyle && { ...fieldStyle },
+                    fieldStyle && { ...fieldStyle }
                 ]}
             >
                 {hint && (
-                    <Text h6 bold
-                        style={[styles.hint, hintStyle && hintStyle]}>
+                    <Text h6 bold style={[styles.hint, hintStyle && hintStyle]}>
                         {hint}
-                        {isRequired && (
+                        {isRequired ? (
                             <Text style={styles.required}> *</Text>
-                        )}
+                        ) : null}
                     </Text>
                 )}
 
@@ -138,7 +151,7 @@ export class InputFieldComponent extends Component<IInputField> {
                         <Input
                             containerStyle={[
                                 containerStyle && containerStyle,
-                                styles.containerStyle,
+                                styles.containerStyle
                             ]}
                             {...leftIconSymbol}
                             inputStyle={[
@@ -155,18 +168,19 @@ export class InputFieldComponent extends Component<IInputField> {
                                 inputContainerStyle && inputContainerStyle,
                                 rounded && { borderRadius: 5 },
                                 disabled && styles.disabledInput,
-                                submitFailed && error && styles.inputError,
+                                submitFailed && error && styles.inputError
                             ]}
                             {...inputProps}
-                            onChangeText={(enteredValue) => {
+                            onChangeText={enteredValue => {
                                 onChangeText?.(enteredValue);
-                                isCurrencyInput ?
-                                    onChange(enteredValue * 100) : onChange(enteredValue);
+                                isCurrencyInput
+                                    ? onChange(enteredValue * 100)
+                                    : onChange(enteredValue);
                             }}
-                            onFocus={(event) => {
+                            onFocus={event => {
                                 this.setState({
                                     active: true,
-                                    isOptionsVisible: true,
+                                    isOptionsVisible: true
                                 });
                                 setActivity?.(true);
                                 if (onFocus) {
@@ -175,23 +189,34 @@ export class InputFieldComponent extends Component<IInputField> {
                             }}
                             {...initialValueProps}
                             secureTextEntry={isSecureTextEntry}
-                            ref={(ref) => refLinkFn?.(ref)}
+                            ref={ref => refLinkFn?.(ref)}
                             placeholderTextColor={colors.darkGray}
                             editable={editable && !disabled}
                             allowFontScaling={false}
-                            textAlignVertical={inputProps && inputProps.multiline && 'top'}
+                            textAlignVertical={
+                                inputProps && inputProps.multiline && 'top'
+                            }
                         />
                     </View>
                     {sign && (
-                        <Text style={styles.signField} opacity={0.6} >
+                        <Text style={styles.signField} opacity={0.6}>
                             {sign}
                         </Text>
                     )}
                     {secureTextEntry && (
-                        <TouchableOpacity onPress={this.toggleSecureTextEntry}
-                            style={[styles.icon, secureTextIconContainerStyle && secureTextIconContainerStyle]}
+                        <TouchableOpacity
+                            onPress={this.toggleSecureTextEntry}
+                            style={[
+                                styles.icon,
+                                secureTextIconContainerStyle &&
+                                    secureTextIconContainerStyle
+                            ]}
                         >
-                            <Icon name={isSecureTextEntry ? 'eye' : 'eye-slash'} size={18} color={colors.dark3} />
+                            <Icon
+                                name={isSecureTextEntry ? 'eye' : 'eye-slash'}
+                                size={18}
+                                color={colors.dark3}
+                            />
                         </TouchableOpacity>
                     )}
                     {!hideError && submitFailed && error && (
@@ -199,7 +224,7 @@ export class InputFieldComponent extends Component<IInputField> {
                             style={[
                                 styles.validation,
                                 { top: inputHeight },
-                                validationStyle && validationStyle,
+                                validationStyle && validationStyle
                             ]}
                         >
                             <Text
@@ -210,7 +235,7 @@ export class InputFieldComponent extends Component<IInputField> {
                                     locale: language,
                                     hint,
                                     maxNumber,
-                                    maxCharacter,
+                                    maxCharacter
                                 })}
                             </Text>
                         </View>
@@ -227,12 +252,12 @@ export class InputFieldComponent extends Component<IInputField> {
 }
 
 const mapStateToProps = ({ global }) => ({
-    language: global.language,
+    language: global.language
 });
 
 const mapDispatchToProps = {};
 
 export const InputField = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(InputFieldComponent);

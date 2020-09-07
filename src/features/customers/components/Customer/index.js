@@ -41,7 +41,8 @@ const customerField = [
     'email',
     'phone',
     'website',
-    'enable_portal'
+    'enable_portal',
+    'fields'
 ];
 
 type IProps = {
@@ -52,6 +53,7 @@ type IProps = {
     editCustomer: Function,
     handleSubmit: Function,
     getCustomFields: Function,
+    resetCustomFields: Function,
     customFields: any,
     customerLoading: Boolean,
     getEditCustomerLoading: Boolean,
@@ -117,6 +119,8 @@ export class Customer extends React.Component<IProps> {
                         );
                         this.setState({ selectedCurrency: `${name}` });
                     }
+
+                    getCustomFields({ type: CUSTOM_FIELD_TYPES.CUSTOMER });
                     // this.setState({ portal: enable_portal === 1 ? true : false })
                 }
             });
@@ -126,15 +130,15 @@ export class Customer extends React.Component<IProps> {
                 this.setFormField('currency_id', id);
                 this.setState({ selectedCurrency: name });
             }
+            getCustomFields({ type: CUSTOM_FIELD_TYPES.CUSTOMER });
         }
-
-        getCustomFields({ type: CUSTOM_FIELD_TYPES.CUSTOMER });
 
         goBack(MOUNT, navigation);
     }
 
     componentWillUnmount() {
         goBack(UNMOUNT);
+        this.props.resetCustomFields?.();
     }
 
     setFormField = (field, value) => {
@@ -203,7 +207,8 @@ export class Customer extends React.Component<IProps> {
                 billingAddress,
                 shippingAddress,
                 enable_portal,
-                currency_id
+                currency_id,
+                fields
             },
             language,
             getEditCustomerLoading,
@@ -426,7 +431,13 @@ export class Customer extends React.Component<IProps> {
                     </View>
 
                     {hasFieldValue(customFields) && (
-                        <CustomField locale={language} fields={customFields} />
+                        <Field
+                            name="customFields"
+                            component={CustomField}
+                            locale={language}
+                            fields={customFields}
+                            initialFieldValues={fields}
+                        />
                     )}
                     {/*
                     <CtDivider dividerStyle={styles.dividerStyle} />

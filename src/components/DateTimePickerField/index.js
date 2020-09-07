@@ -9,21 +9,35 @@ import { DATE_FORMAT } from '@/api/consts';
 
 const DATE_TIME_PICKER_FORM = 'DATE_TIME_PICKER_FORM';
 
-class DateTimePickerFieldComponent extends Component {
+type Props = {
+    dateFieldName: String,
+    timeFieldName: String,
+    input: any,
+    onChangeCallback: Function
+};
+
+class DateTimePickerFieldComponent extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = { loading: true };
     }
 
+    static defaultProps = {
+        dateFieldName: 'date',
+        timeFieldName: 'time'
+    };
+
     componentDidMount() {
         const {
-            input: { value }
+            input: { value },
+            dateFieldName,
+            timeFieldName
         } = this.props;
 
         if (value) {
             const split = value.split(' ');
-            this.setFormField('date', value);
-            this.setFormField('time', split?.[1] ?? '00:00:00');
+            this.setFormField(dateFieldName, value);
+            this.setFormField(timeFieldName, split?.[1] ?? '00:00:00');
 
             this.setState({ loading: false });
         } else {
@@ -77,7 +91,10 @@ class DateTimePickerFieldComponent extends Component {
         const {
             label,
             labelStyle,
-            input: { value }
+            isRequired,
+            input: { value },
+            dateFieldName,
+            timeFieldName
         } = this.props;
 
         if (loading) return null;
@@ -85,13 +102,18 @@ class DateTimePickerFieldComponent extends Component {
         return (
             <View style={styles.container}>
                 {label && (
-                    <Text style={[styles.label, labelStyle]}>{label}</Text>
+                    <Text style={[styles.label, labelStyle]}>
+                        {label}
+                        {isRequired ? (
+                            <Text style={styles.required}> *</Text>
+                        ) : null}
+                    </Text>
                 )}
 
                 <View style={styles.row}>
                     <View style={styles.dateColumn}>
                         <Field
-                            name="date"
+                            name={dateFieldName}
                             component={DatePickerField}
                             onChangeCallback={val =>
                                 this.onChange({ date: val })
@@ -102,7 +124,7 @@ class DateTimePickerFieldComponent extends Component {
                     </View>
                     <View style={styles.timeColumn}>
                         <Field
-                            name="time"
+                            name={timeFieldName}
                             component={TimePickerField}
                             placeholder={this.getDefaultTimeValue(value)}
                             onChangeCallback={val =>

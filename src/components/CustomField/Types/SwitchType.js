@@ -1,21 +1,29 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { InputField } from '../../InputField';
+import { StyleSheet } from 'react-native';
+import ToggleSwitch from '@/components/ToggleSwitch';
 
-export function InputType({ field, name }) {
-    const { label = null, is_required = false, placeholder = null } = field;
+export function SwitchType({ field, name }) {
+    const { label = null, is_required = false } = field;
 
     return (
         <Field
             name={name}
-            component={InputField}
-            hint={label}
-            inputProps={{
-                returnKeyType: 'next',
-                autoCorrect: true,
-                placeholder
-            }}
+            component={ToggleSwitch}
             isRequired={is_required}
+            hint={label ?? ' '}
+            hintStyle={styles.label}
+            containerStyle={styles.container}
         />
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        justifyContent: 'flex-start'
+    },
+    label: {
+        width: 'auto',
+        marginRight: 15
+    }
+});

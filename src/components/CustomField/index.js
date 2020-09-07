@@ -1,20 +1,32 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { reduxForm, Field, FieldArray, change } from 'redux-form';
+import { View } from 'react-native';
+import { reduxForm, FieldArray, change } from 'redux-form';
+import lodash from 'lodash';
 import { FakeInput } from '../FakeInput';
 import styles from './styles';
 import { ICONS } from '@/config';
 import Lng from '@/api/lang/i18n';
 import { SlideModal } from '../SlideModal';
 import { CtButton } from '../Button';
-import { InputField } from '../InputField';
-import { hasFieldValue } from '@/api/global';
-import { InputType } from './Types';
+import { hasFieldValue, hasValue } from '@/api/global';
 import { CUSTOM_FIELD_DATA_TYPES as DATA_TYPES } from '@/features/settings/constants';
+import {
+    InputType,
+    SwitchType,
+    TextAreaType,
+    PhoneType,
+    UrlType,
+    NumberType,
+    DropdownType,
+    DateType,
+    TimeType,
+    DateTimeType
+} from './Types';
 
 type Props = {
     locale: String,
     fields: Array<any>,
+    initialFieldValues: Array<any>,
     dispatch: Function,
     handleSubmit: Function
 };
@@ -25,7 +37,7 @@ const FIELDS = 'fields';
 class CustomFieldComponent extends Component<Props> {
     constructor(props) {
         super(props);
-        this.state = { visible: false };
+        this.state = { visible: false, loading: true };
     }
 
     componentDidMount() {
@@ -33,15 +45,35 @@ class CustomFieldComponent extends Component<Props> {
     }
 
     initialValues = () => {
-        const { fields = [] } = this.props;
+        const { fields = [], initialFieldValues } = this.props;
         const items = [];
 
-        if (hasFieldValue(fields)) {
+        if (hasFieldValue(initialFieldValues) && hasFieldValue(fields)) {
+            fields.map(field => {
+                const { id, defaultAnswer = '', default_answer = '' } = field;
+                let value = defaultAnswer ?? default_answer;
+
+                const defaultValue = lodash.find(initialFieldValues, {
+                    custom_field_id: id
+                });
+
+                if (hasValue(defaultValue))
+                    value =
+                        defaultValue?.defaultAnswer ??
+                        defaultValue?.default_answer;
+
+                items.push({ id, value });
+            });
+
+            this.setFormField(FIELDS, items);
+            this.setState({ loading: false });
+        } else if (hasFieldValue(fields)) {
             fields.map(field => {
                 const { id, defaultAnswer = '', default_answer = '' } = field;
                 items.push({ id, value: defaultAnswer ?? default_answer });
             });
             this.setFormField(FIELDS, items);
+            this.setState({ loading: false });
         }
     };
 
@@ -53,8 +85,11 @@ class CustomFieldComponent extends Component<Props> {
         this.setState(({ visible }) => ({ visible: !visible }));
     };
 
-    onSubmit = values => {
-        console.log({ values });
+    onSubmit = ({ fields }) => {
+        const { input } = this.props;
+
+        this.onToggle();
+        input?.onChange?.(fields);
     };
 
     bottomAction = () => {
@@ -69,7 +104,6 @@ class CustomFieldComponent extends Component<Props> {
     };
 
     FIELDS = ({ fields }) => {
-        // console.log({ fields })
         const items = [];
 
         if (fields.length === 0) return null;
@@ -78,82 +112,81 @@ class CustomFieldComponent extends Component<Props> {
 
         this.props.fields.map((field, index) => {
             const { type } = field;
+            const name = `fields[${index}].value`;
 
             switch (type) {
                 case DATA_TYPES.INPUT:
                     items.push(
-                        <InputType
-                            field={field}
-                            name={`fields[${index}].value`}
-                        />
+                        <InputType field={field} name={name} key={index} />
                     );
                     break;
 
-                // case DATA_TYPES.TEXTAREA:
-                //     optionView = [DEFAULT_TEXTAREA_FIELD(), PLACEHOLDER_FIELD()]
-                //     break
+                case DATA_TYPES.TEXTAREA:
+                    items.push(
+                        <TextAreaType field={field} name={name} key={index} />
+                    );
+                    break;
 
-                // case DATA_TYPES.PHONE:
-                //     optionView = [DEFAULT_INPUT_FIELD(), PLACEHOLDER_FIELD()]
-                //     break
+                case DATA_TYPES.PHONE:
+                    items.push(
+                        <PhoneType field={field} name={name} key={index} />
+                    );
+                    break;
 
-                // case DATA_TYPES.URL:
-                //     optionView = [DEFAULT_INPUT_FIELD(), PLACEHOLDER_FIELD()]
-                //     break
+                case DATA_TYPES.URL:
+                    items.push(
+                        <UrlType field={field} name={name} key={index} />
+                    );
+                    break;
 
-                // case DATA_TYPES.NUMBER:
-                //     optionView = [DEFAULT_NUMBER_FIELD(), PLACEHOLDER_FIELD()]
-                //     break
+                case DATA_TYPES.NUMBER:
+                    items.push(
+                        <NumberType field={field} name={name} key={index} />
+                    );
+                    break;
 
-                // case DATA_TYPES.DROPDOWN:
-                //     optionView = [
-                //         SELECT_FIELD_OPTIONS(),
-                //         SELECT_FIELD_DEFAULT_VALUE(),
-                //         PLACEHOLDER_FIELD()
-                //     ]
-                //     break
+                case DATA_TYPES.DROPDOWN:
+                    items.push(
+                        <DropdownType field={field} name={name} key={index} />
+                    );
+                    break;
 
-                // case DATA_TYPES.SWITCH:
-                //     optionView = [DEFAULT_CHECKBOX_FIELD()]
-                //     break
+                case DATA_TYPES.SWITCH:
+                    items.push(
+                        <SwitchType field={field} name={name} key={index} />
+                    );
+                    break;
 
-                // case DATA_TYPES.DATE:
-                //     optionView = [DEFAULT_DATE_FIELD(), PLACEHOLDER_FIELD()]
-                //     break
+                case DATA_TYPES.DATE:
+                    items.push(
+                        <DateType field={field} name={name} key={index} />
+                    );
+                    break;
 
-                // case DATA_TYPES.TIME:
-                //     optionView = [DEFAULT_TIME_FIELD(), PLACEHOLDER_FIELD()]
-                //     break
+                case DATA_TYPES.TIME:
+                    items.push(
+                        <TimeType field={field} name={name} key={index} />
+                    );
+                    break;
 
-                // case DATA_TYPES.DATE_TIME:
-                //     optionView = [DEFAULT_DATE_TIME_FIELD(), PLACEHOLDER_FIELD()]
+                case DATA_TYPES.DATE_TIME:
+                    items.push(
+                        <DateTimeType field={field} name={name} key={index} />
+                    );
+                    break;
 
                 default:
                     break;
             }
-            // console.log(field)
-
-            // items.push(InputType())
-            // items.push(
-            //     <Field
-            //         key={index}
-            //         name={`fields[${index}].value`}
-            //         component={InputField}
-            //         hint={'Enter Name'}
-            //         inputProps={{
-            //             returnKeyType: 'next',
-            //             autoCorrect: true
-            //         }}
-            //     />
-            // )
         });
 
         return items;
     };
 
     render() {
-        const { locale } = this.props;
-        const { visible } = this.state;
+        const { locale, fields } = this.props;
+        const { visible, loading } = this.state;
+        const isLoading = !hasFieldValue(fields) || loading;
 
         return (
             <View>
@@ -163,7 +196,7 @@ class CustomFieldComponent extends Component<Props> {
                     values={Lng.t('header.customFields', { locale })}
                     leftIconStyle={styles.paintIcon}
                     containerStyle={styles.container}
-                    onChangeCallback={this.onToggle}
+                    onChangeCallback={() => !isLoading && this.onToggle()}
                 />
 
                 <SlideModal

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
     StatusBar,
     ScrollView,
@@ -8,22 +8,22 @@ import {
     KeyboardAvoidingView,
     Text,
     TouchableOpacity
-} from 'react-native'
-import { Field } from 'redux-form'
-import styles from './styles'
+} from 'react-native';
+import { Field } from 'redux-form';
+import styles from './styles';
 import {
     InputField,
     CtButton,
     AssetImage,
     CtDivider,
     CtGradientButton
-} from '../../../../components'
+} from '../../../../components';
 // import * as Google from 'expo-google-app-auth';
-import { env, IMAGES } from '../../../../config'
-import { colors } from '../../../../styles/colors'
-import { ROUTES } from '../../../../navigation/routes'
-import Lng from '../../../../api/lang/i18n'
-import Constants from 'expo-constants'
+import Constants from 'expo-constants';
+import { env, IMAGES } from '@/config';
+import { colors } from '@/styles/colors';
+import { ROUTES } from '@/navigation/routes';
+import Lng from '@/api/lang/i18n';
 
 type IProps = {
     navigation: Object,
@@ -32,15 +32,12 @@ type IProps = {
     loading: Boolean,
     socialLoading: Boolean,
     language: String
-}
+};
 export class Login extends React.Component<IProps> {
     constructor(props) {
-        super(props)
+        super(props);
     }
 
-    componentDidMount() {
-        console.log(Constants.deviceName)
-    }
     /*
      * Sign in with google
      onSocialLogin = async () => {
@@ -66,18 +63,18 @@ export class Login extends React.Component<IProps> {
      }; */
 
     onLogin = values => {
-        const { navigation, login } = this.props
+        const { navigation, login } = this.props;
         login({
             params: { ...values, device_name: Constants.deviceName },
             navigation
-        })
-    }
+        });
+    };
 
     render() {
-        let passwordInput = {}
-        const { loading, socialLoading, navigation, language } = this.props
+        let passwordInput = {};
+        const { loading, socialLoading, navigation, language } = this.props;
 
-        let loginRefs = {}
+        let loginRefs = {};
 
         return (
             <View style={styles.container}>
@@ -120,7 +117,7 @@ export class Login extends React.Component<IProps> {
                                         autoCorrect: true,
                                         keyboardType: 'email-address',
                                         onSubmitEditing: () => {
-                                            loginRefs.password.focus()
+                                            loginRefs.password.focus();
                                         }
                                     }}
                                     placeholderColor={colors.white5}
@@ -128,7 +125,7 @@ export class Login extends React.Component<IProps> {
                                 />
                                 <Field
                                     refLinkFn={ref => {
-                                        passwordInput = ref
+                                        passwordInput = ref;
                                     }}
                                     name="password"
                                     component={InputField}
@@ -146,7 +143,7 @@ export class Login extends React.Component<IProps> {
                                     inputContainerStyle={styles.inputField}
                                     secureTextEntry
                                     refLinkFn={ref => {
-                                        loginRefs.password = ref
+                                        loginRefs.password = ref;
                                     }}
                                 />
 
@@ -202,6 +199,6 @@ export class Login extends React.Component<IProps> {
                     </KeyboardAvoidingView>
                 </ScrollView>
             </View>
-        )
+        );
     }
 }

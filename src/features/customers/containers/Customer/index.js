@@ -6,7 +6,7 @@ import { CUSTOMER_FORM, CUSTOMER_ADD } from '../../constants';
 import * as customerAction from '../../actions';
 import { Customer } from '../../components/Customer';
 import { getStateCurrencies } from '../../selectors';
-import { getCustomFields } from '@/features/settings/actions';
+import * as settingsAction from '@/features/settings/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -51,7 +51,8 @@ const mapDispatchToProps = {
     getEditCustomer: customerAction.getEditCustomer,
     removeCustomer: customerAction.removeCustomer,
     getCountries: customerAction.getCountries,
-    getCustomFields
+    getCustomFields: settingsAction.getCustomFields,
+    resetCustomFields: settingsAction.resetCustomFields
 };
 
 //  Redux Forms

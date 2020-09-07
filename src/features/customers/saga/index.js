@@ -14,7 +14,7 @@ import {
     CREATE_CUSTOMER_URL,
     EDIT_CUSTOMER_URL,
     GET_EDIT_CUSTOMER_URL,
-    REMOVE_CUSTOMER_URL,
+    REMOVE_CUSTOMER_URL
 } from '../constants';
 
 import {
@@ -24,27 +24,30 @@ import {
     setCreateCustomer,
     setEditCustomer,
     setRemoveCustomer,
-    setFilterCustomers,
+    setFilterCustomers
 } from '../actions';
 import { ROUTES } from '../../../navigation/routes';
 import { alertMe } from '../../../api/global';
 import { getTitleByLanguage } from '../../../navigation/actions';
 
-
 const addressParams = (address, type) => {
     let params = {
         name: address.name ? address.name : null,
-        address_street_1: address.address_street_1 ? address.address_street_1 : null,
-        address_street_2: address.address_street_2 ? address.address_street_2 : null,
+        address_street_1: address.address_street_1
+            ? address.address_street_1
+            : null,
+        address_street_2: address.address_street_2
+            ? address.address_street_2
+            : null,
         city: address.city ? address.city : null,
         state: address.state ? address.state : null,
         country_id: address.country_id ? address.country_id : null,
         zip: address.zip ? address.zip : null,
         phone: address.phone ? address.phone : null,
-        type: type,
-    }
-    return params
-}
+        type: type
+    };
+    return params;
+};
 
 function* getCustomers(payloadData) {
     const {
@@ -54,30 +57,34 @@ function* getCustomers(payloadData) {
             onMeta = null,
             params = null,
             filter = false,
-            pagination: { page = 1, limit = 10 } = {},
-        } = {},
+            pagination: { page = 1, limit = 10 } = {}
+        } = {}
     } = payloadData;
-
 
     yield put(customerTriggerSpinner({ customersLoading: true }));
 
     try {
-
         let param = {
             ...params,
             page,
             limit
-        }
+        };
         const options = {
-            path: GET_CUSTOMERS_URL(param),
+            path: GET_CUSTOMERS_URL(param)
         };
         const response = yield call([Request, 'get'], options);
 
         if (!filter)
-            yield put(setCustomers({ customers: response.customers.data, fresh }));
-
+            yield put(
+                setCustomers({ customers: response.customers.data, fresh })
+            );
         else
-            yield put(setFilterCustomers({ customers: response.customers.data, fresh }));
+            yield put(
+                setFilterCustomers({
+                    customers: response.customers.data,
+                    fresh
+                })
+            );
 
         onMeta && onMeta(response.customers);
 
@@ -91,21 +98,19 @@ function* getCustomers(payloadData) {
 
 function* getCountries(payloadData) {
     const {
-        payload: { onResult },
+        payload: { onResult }
     } = payloadData;
 
     yield put(customerTriggerSpinner({ countriesLoading: true }));
 
     try {
-
         const options = {
-            path: GET_COUNTRIES_URL(),
+            path: GET_COUNTRIES_URL()
         };
 
         const response = yield call([Request, 'get'], options);
         onResult && onResult(response);
         yield put(setCountries({ countries: response.countries }));
-
     } catch (error) {
         // console.log(error);
     } finally {
@@ -127,27 +132,33 @@ function* createCustomer(payloadData) {
                 contact_name,
                 currency_id,
                 password,
+                customFields
             },
             onResult,
             navigation
-        },
+        }
     } = payloadData;
 
-    let addresses = []
+    let addresses = [];
 
-    if (typeof billingAddress !== 'undefined' && (billingAddress && Object.keys(billingAddress).length !== 0)) {
-        let billing = addressParams(billingAddress, "BILLING")
-        addresses.push(billing)
+    if (
+        typeof billingAddress !== 'undefined' &&
+        (billingAddress && Object.keys(billingAddress).length !== 0)
+    ) {
+        let billing = addressParams(billingAddress, 'BILLING');
+        addresses.push(billing);
     }
-    if (typeof shippingAddress !== 'undefined' && (shippingAddress && Object.keys(shippingAddress).length !== 0)) {
-        let shipping = addressParams(shippingAddress, "SHIPPING")
-        addresses.push(shipping)
+    if (
+        typeof shippingAddress !== 'undefined' &&
+        (shippingAddress && Object.keys(shippingAddress).length !== 0)
+    ) {
+        let shipping = addressParams(shippingAddress, 'SHIPPING');
+        addresses.push(shipping);
     }
 
     yield put(customerTriggerSpinner({ customerLoading: true }));
 
     try {
-
         const options = {
             path: CREATE_CUSTOMER_URL(),
             body: {
@@ -159,19 +170,21 @@ function* createCustomer(payloadData) {
                 website,
                 enable_portal,
                 password,
-                addresses
+                addresses,
+                customFields
             }
         };
 
         const response = yield call([Request, 'post'], options);
 
         if (response.error) {
-            alertMe({ desc: getTitleByLanguage('customers.alertEmailAlreadyInUse') })
+            alertMe({
+                desc: getTitleByLanguage('customers.alertEmailAlreadyInUse')
+            });
         }
 
         yield put(setCreateCustomer({ customers: [response.customer] }));
-        onResult && onResult(response.customer)
-
+        onResult && onResult(response.customer);
     } catch (error) {
         // console.log(error);
     } finally {
@@ -193,27 +206,33 @@ function* editCustomer(payloadData) {
                 shippingAddress,
                 contact_name,
                 currency_id,
-                id
+                id,
+                customFields
             },
             navigation
-        },
+        }
     } = payloadData;
 
-    let addresses = []
+    let addresses = [];
 
-    if (typeof billingAddress !== 'undefined' && (billingAddress && Object.keys(billingAddress).length !== 0)) {
-        let billing = addressParams(billingAddress, "BILLING")
-        addresses.push(billing)
+    if (
+        typeof billingAddress !== 'undefined' &&
+        (billingAddress && Object.keys(billingAddress).length !== 0)
+    ) {
+        let billing = addressParams(billingAddress, 'BILLING');
+        addresses.push(billing);
     }
-    if (typeof shippingAddress !== 'undefined' && (shippingAddress && Object.keys(shippingAddress).length !== 0)) {
-        let shipping = addressParams(shippingAddress, "SHIPPING")
-        addresses.push(shipping)
+    if (
+        typeof shippingAddress !== 'undefined' &&
+        (shippingAddress && Object.keys(shippingAddress).length !== 0)
+    ) {
+        let shipping = addressParams(shippingAddress, 'SHIPPING');
+        addresses.push(shipping);
     }
 
     yield put(customerTriggerSpinner({ customerLoading: true }));
 
     try {
-
         const options = {
             path: EDIT_CUSTOMER_URL(id),
             body: {
@@ -225,19 +244,24 @@ function* editCustomer(payloadData) {
                 website,
                 enable_portal,
                 password,
-                addresses
+                addresses,
+                customFields
             }
         };
 
         const response = yield call([Request, 'put'], options);
 
         if (response.error) {
-            alertMe({ desc: getTitleByLanguage('customers.alertEmailAlreadyInUse') })
+            alertMe({
+                desc: getTitleByLanguage('customers.alertEmailAlreadyInUse')
+            });
         }
 
         if (response.success) {
-            navigation.navigate(ROUTES.MAIN_CUSTOMERS)
-            yield put(setEditCustomer({ customers: [response.customer], id: id }));
+            navigation.navigate(ROUTES.MAIN_CUSTOMERS);
+            yield put(
+                setEditCustomer({ customers: [response.customer], id: id })
+            );
         }
     } catch (error) {
         // console.log(error);
@@ -246,24 +270,20 @@ function* editCustomer(payloadData) {
     }
 }
 
-
-
 function* getEditCustomer(payloadData) {
     const {
-        payload: { id, onResult },
+        payload: { id, onResult }
     } = payloadData;
 
     yield put(customerTriggerSpinner({ getEditCustomerLoading: true }));
 
     try {
-
         const options = {
-            path: GET_EDIT_CUSTOMER_URL(id),
+            path: GET_EDIT_CUSTOMER_URL(id)
         };
 
         const response = yield call([Request, 'get'], options);
-        onResult && onResult(response.customer)
-
+        onResult && onResult(response.customer);
     } catch (error) {
         // console.log(error);
     } finally {
@@ -273,24 +293,20 @@ function* getEditCustomer(payloadData) {
 
 function* removeCustomer(payloadData) {
     const {
-        payload: { id, navigation },
+        payload: { id, navigation }
     } = payloadData;
 
     yield put(customerTriggerSpinner({ customerLoading: true }));
 
     try {
-
         const options = {
-            path: REMOVE_CUSTOMER_URL(id),
+            path: REMOVE_CUSTOMER_URL(id)
         };
 
         const response = yield call([Request, 'delete'], options);
 
-
-        navigation.navigate(ROUTES.MAIN_CUSTOMERS)
-        if (response.success)
-            yield put(setRemoveCustomer({ id }));
-
+        navigation.navigate(ROUTES.MAIN_CUSTOMERS);
+        if (response.success) yield put(setRemoveCustomer({ id }));
     } catch (error) {
         // console.log(error);
     } finally {
