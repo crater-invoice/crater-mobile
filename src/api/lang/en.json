@@ -620,7 +620,8 @@
             "discard": "Discard",
             "saveAsDraft": "Save As Draft",
             "emailNotExist": "User email does not exist"
-        }
+        },
+        "requiredFields": "Required fields is empty"
     },
     "termsCondition": {
         "title": "Terms & Conditions",

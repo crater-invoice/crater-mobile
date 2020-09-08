@@ -51,10 +51,16 @@
         "filter": "Les filtres",
         "back": "Retour",
         "addresses": "Adresses",
-        "sendMailInvoice": "Envoyer une facture",
         "currencies": "Devises",
         "addCurrency": "Ajouter une devise",
-        "editCurrency": "Modifier la devise"
+        "editCurrency": "Modifier la devise",
+        "sendMailInvoice": "Envoyer une facture",
+        "recurringInvoice": "Factures récurrentes",
+        "addRecurring": "Ajouter une facture récurrente",
+        "editRecurring": "Modifier la facture récurrente",
+        "customFields": "Les champs personnalisés",
+        "addCustomField": "Ajouter un champ personnalisé",
+        "editCustomField": "Modifier le champ personnalisé"
     },
     "tabNavigation": {
         "invoices": "Factures",
@@ -94,6 +100,26 @@
         "paidStatusPlaceholder": "Sélectionnez le statut payé",
         "fromDate": "Partir de la date",
         "toDate": "À ce jour",
+        "profileName": "Nom de profil",
+        "repeatEvery": "Répéter tous les",
+        "repeatRecurring": {
+            "week": "Week",
+            "weeks": "{{week}} Week",
+            "month": "Month",
+            "months": "{{month}} Month",
+            "year": "Year",
+            "years": "{{year}} Year",
+            "custom": "Custom"
+        },
+        "customRepeatRecurring": {
+            "days": "Day(s)",
+            "weeks": "Week(s)",
+            "months": "Month(s)",
+            "years": "Year(s)"
+        },
+        "startOn": "Démarrer",
+        "endsOn": "Se termine le",
+        "neverExpire": "N'expire jamais",
         "alert": {
             "lessAmount": "Le montant total ne doit pas être inférieur à 0",
             "removeDescription": "Vous ne pourrez pas récupérer cette facture",
@@ -265,6 +291,7 @@
     },
     "more": {
         "estimate": "Estimations",
+        "recurringInvoice": "Factures récurrentes",
         "items": "Articles",
         "reports": "Rapports",
         "settings": "Paramètres",
@@ -446,6 +473,30 @@
             "buttonTitle": "Ajouter une nouvelle devise"
         }
     },
+    "customFields": {
+        "name": "Nom",
+        "model": "Modèle",
+        "modelPlaceholder": "Sélectionnez un modèle",
+        "type": "Type",
+        "typePlaceholder": "Sélectionnez un type",
+        "select": "Sélectionnez une option",
+        "required": "Obligatoire",
+        "label": "Étiquette",
+        "defaultValue": "Valeur par défaut 0",
+        "displayInPortal": "Afficher dans le portail",
+        "placeholder": "Espace réservé",
+        "yes": "Oui",
+        "no": "Non",
+        "help": "Texte d'aide",
+        "helpText": "Saisissez du texte pour aider les utilisateurs à comprendre l'objectif de ce champ personnalisé.",
+        "check": "Coché par défaut",
+        "removeAlertDescription": "Vous ne pourrez pas récupérer ce champ personnalisé",
+        "empty": {
+            "title": "Pas encore de champs personnalisés!",
+            "description": "Cette section contiendra la liste des champs personnalisés.",
+            "buttonTitle": "Ajouter un nouveau champ personnalisé"
+        }
+    },
     "languages": {
         "title": "Choisir la langue",
         "empty": {
@@ -569,7 +620,8 @@
             "discard": "Jeter",
             "saveAsDraft": "Enregistrer comme brouillon",
             "emailNotExist": "Le courrier électronique de l'utilisateur n'existe pas"
-        }
+        },
+        "requiredFields": "Les champs obligatoires sont vides"
     },
     "termsCondition": {
         "title": "termes et conditions",
@@ -597,7 +649,8 @@
         "recoveryEmail": "Envoyer le lien de réinitialisation",
         "recoveryEmailAgain": "Envoyer à nouveau",
         "cancel": "Annuler",
-        "send": "Envoyer"
+        "send": "Envoyer",
+        "change": "Changement"
     },
     "filter": {
         "empty": {

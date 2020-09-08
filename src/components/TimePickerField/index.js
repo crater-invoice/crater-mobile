@@ -108,7 +108,8 @@ export class TimePickerField extends Component {
             label,
             placeholder = TIME_FORMAT,
             fakeInputProps,
-            isRequired
+            isRequired,
+            meta
         } = this.props;
         const { time } = this.state;
 
@@ -122,6 +123,7 @@ export class TimePickerField extends Component {
                     values={time}
                     placeholder={placeholder}
                     isRequired={isRequired}
+                    meta={meta}
                     {...fakeInputProps}
                 />
                 {this.renderPicker()}

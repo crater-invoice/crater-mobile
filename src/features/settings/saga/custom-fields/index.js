@@ -134,7 +134,7 @@ function* removeCustomField({ payload: { id, navigation } }) {
 }
 
 export default function* customFieldsSaga() {
-    // Currencies
+    // Custom Fields
     // -----------------------------------------
     yield takeEvery(GET_CUSTOM_FIELDS, getCustomFields);
     yield takeEvery(CREATE_CUSTOM_FIELD, createCustomField);

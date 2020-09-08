@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { reduxForm, FieldArray, change } from 'redux-form';
+import { reduxForm, FieldArray, change, SubmissionError } from 'redux-form';
 import lodash from 'lodash';
 import { FakeInput } from '../FakeInput';
 import styles from './styles';
@@ -8,8 +8,10 @@ import { ICONS } from '@/config';
 import Lng from '@/api/lang/i18n';
 import { SlideModal } from '../SlideModal';
 import { CtButton } from '../Button';
-import { hasFieldValue, hasValue } from '@/api/global';
+import { hasFieldValue, hasValue, hasObjectLength } from '@/api/global';
 import { CUSTOM_FIELD_DATA_TYPES as DATA_TYPES } from '@/features/settings/constants';
+import { validate } from './validation';
+import { getError } from '@/api/validation';
 import {
     InputType,
     SwitchType,
@@ -28,7 +30,8 @@ type Props = {
     fields: Array<any>,
     initialFieldValues: Array<any>,
     dispatch: Function,
-    handleSubmit: Function
+    handleSubmit: Function,
+    input: any
 };
 
 const CUSTOM_FIELD_FORM = 'CUSTOM_FIELD_FORM';
@@ -37,7 +40,7 @@ const FIELDS = 'fields';
 class CustomFieldComponent extends Component<Props> {
     constructor(props) {
         super(props);
-        this.state = { visible: false, loading: true };
+        this.state = { visible: false, loading: true, oldValues: null };
     }
 
     componentDidMount() {
@@ -45,35 +48,44 @@ class CustomFieldComponent extends Component<Props> {
     }
 
     initialValues = () => {
-        const { fields = [], initialFieldValues } = this.props;
+        const { fields = [], initialFieldValues, input } = this.props;
         const items = [];
+        const hasInitialValues = hasFieldValue(initialFieldValues);
 
-        if (hasFieldValue(initialFieldValues) && hasFieldValue(fields)) {
+        if (hasFieldValue(fields)) {
             fields.map(field => {
-                const { id, defaultAnswer = '', default_answer = '' } = field;
+                const {
+                    id,
+                    defaultAnswer = '',
+                    default_answer = '',
+                    is_required = false,
+                    type = ''
+                } = field;
+
                 let value = defaultAnswer ?? default_answer;
 
-                const defaultValue = lodash.find(initialFieldValues, {
-                    custom_field_id: id
+                if (hasInitialValues) {
+                    const defaultValue = lodash.find(initialFieldValues, {
+                        custom_field_id: id
+                    });
+
+                    if (hasValue(defaultValue))
+                        value =
+                            defaultValue?.defaultAnswer ??
+                            defaultValue?.default_answer;
+                }
+
+                items.push({
+                    id,
+                    value: value?.toString(),
+                    required: is_required,
+                    type
                 });
-
-                if (hasValue(defaultValue))
-                    value =
-                        defaultValue?.defaultAnswer ??
-                        defaultValue?.default_answer;
-
-                items.push({ id, value });
             });
 
+            input?.onChange?.(items);
             this.setFormField(FIELDS, items);
-            this.setState({ loading: false });
-        } else if (hasFieldValue(fields)) {
-            fields.map(field => {
-                const { id, defaultAnswer = '', default_answer = '' } = field;
-                items.push({ id, value: defaultAnswer ?? default_answer });
-            });
-            this.setFormField(FIELDS, items);
-            this.setState({ loading: false });
+            this.setState({ loading: false, oldValues: items });
         }
     };
 
@@ -82,21 +94,63 @@ class CustomFieldComponent extends Component<Props> {
     };
 
     onToggle = () => {
-        this.setState(({ visible }) => ({ visible: !visible }));
+        const { visible, oldValues } = this.state;
+        const { initialFieldValues } = this.props;
+
+        this.setState({ visible: !visible });
+
+        if (!visible && hasFieldValue(initialFieldValues)) {
+            this.setFormField(FIELDS, oldValues);
+        }
+    };
+
+    checkSubmissionError = fields => {
+        let errors = {};
+        let fieldErrors = [];
+
+        if (!hasFieldValue(fields)) return errors;
+
+        fields.forEach((field, index) => {
+            let fieldError = {};
+            const { required, type, value } = field;
+
+            if (required && type !== DATA_TYPES.SWITCH && !value) {
+                if (value !== 0 || value !== '0')
+                    fieldError['value'] = getError(field['value'], [
+                        'requiredField'
+                    ]);
+                fieldErrors[index] = fieldError;
+            }
+        });
+
+        fieldErrors.length && (errors.fields = fieldErrors);
+
+        return errors;
+    };
+
+    throwError = errors => {
+        throw new SubmissionError({ ...errors });
     };
 
     onSubmit = ({ fields }) => {
         const { input } = this.props;
+        const errors = this.checkSubmissionError(fields);
+
+        if (hasObjectLength(errors)) {
+            this.throwError(errors);
+            return;
+        }
 
         this.onToggle();
         input?.onChange?.(fields);
+        this.setState({ oldValues: fields });
     };
 
     bottomAction = () => {
         const { locale, handleSubmit } = this.props;
         return (
             <CtButton
-                onPress={handleSubmit(handleSubmit(this.onSubmit))}
+                onPress={handleSubmit(this.onSubmit)}
                 btnTitle={Lng.t('button.done', { locale })}
                 containerStyle={styles.bottomButton}
             />
@@ -104,6 +158,7 @@ class CustomFieldComponent extends Component<Props> {
     };
 
     FIELDS = ({ fields }) => {
+        const { locale } = this.props;
         const items = [];
 
         if (fields.length === 0) return null;
@@ -113,66 +168,52 @@ class CustomFieldComponent extends Component<Props> {
         this.props.fields.map((field, index) => {
             const { type } = field;
             const name = `fields[${index}].value`;
+            const fieldProps = {
+                field,
+                name,
+                key: index,
+                locale
+            };
 
             switch (type) {
                 case DATA_TYPES.INPUT:
-                    items.push(
-                        <InputType field={field} name={name} key={index} />
-                    );
+                    items.push(<InputType {...fieldProps} />);
                     break;
 
                 case DATA_TYPES.TEXTAREA:
-                    items.push(
-                        <TextAreaType field={field} name={name} key={index} />
-                    );
+                    items.push(<TextAreaType {...fieldProps} />);
                     break;
 
                 case DATA_TYPES.PHONE:
-                    items.push(
-                        <PhoneType field={field} name={name} key={index} />
-                    );
+                    items.push(<PhoneType {...fieldProps} />);
                     break;
 
                 case DATA_TYPES.URL:
-                    items.push(
-                        <UrlType field={field} name={name} key={index} />
-                    );
+                    items.push(<UrlType {...fieldProps} />);
                     break;
 
                 case DATA_TYPES.NUMBER:
-                    items.push(
-                        <NumberType field={field} name={name} key={index} />
-                    );
+                    items.push(<NumberType {...fieldProps} />);
                     break;
 
                 case DATA_TYPES.DROPDOWN:
-                    items.push(
-                        <DropdownType field={field} name={name} key={index} />
-                    );
+                    items.push(<DropdownType {...fieldProps} />);
                     break;
 
                 case DATA_TYPES.SWITCH:
-                    items.push(
-                        <SwitchType field={field} name={name} key={index} />
-                    );
+                    items.push(<SwitchType {...fieldProps} />);
                     break;
 
                 case DATA_TYPES.DATE:
-                    items.push(
-                        <DateType field={field} name={name} key={index} />
-                    );
+                    items.push(<DateType {...fieldProps} />);
                     break;
 
                 case DATA_TYPES.TIME:
-                    items.push(
-                        <TimeType field={field} name={name} key={index} />
-                    );
+                    items.push(<TimeType {...fieldProps} />);
                     break;
 
                 case DATA_TYPES.DATE_TIME:
-                    items.push(
-                        <DateTimeType field={field} name={name} key={index} />
-                    );
+                    items.push(<DateTimeType {...fieldProps} />);
                     break;
 
                 default:
@@ -184,7 +225,7 @@ class CustomFieldComponent extends Component<Props> {
     };
 
     render() {
-        const { locale, fields } = this.props;
+        const { locale, fields, meta } = this.props;
         const { visible, loading } = this.state;
         const isLoading = !hasFieldValue(fields) || loading;
 
@@ -197,6 +238,7 @@ class CustomFieldComponent extends Component<Props> {
                     leftIconStyle={styles.paintIcon}
                     containerStyle={styles.container}
                     onChangeCallback={() => !isLoading && this.onToggle()}
+                    meta={meta}
                 />
 
                 <SlideModal
@@ -223,5 +265,6 @@ class CustomFieldComponent extends Component<Props> {
 
 //  Redux Forms
 export const CustomField = reduxForm({
-    form: CUSTOM_FIELD_FORM
+    form: CUSTOM_FIELD_FORM,
+    validate
 })(CustomFieldComponent);

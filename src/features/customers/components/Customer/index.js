@@ -3,7 +3,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { Field, change } from 'redux-form';
+import { Field, change, SubmissionError } from 'redux-form';
 import {
     InputField,
     CtButton,
@@ -33,7 +33,10 @@ import Lng from '@/api/lang/i18n';
 import { colors } from '@/styles/colors';
 import { SymbolStyle } from '@/components/CurrencyFormat/styles';
 import { headerTitle } from '@/api/helper';
-import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
+import {
+    CUSTOM_FIELD_TYPES,
+    CUSTOM_FIELD_DATA_TYPES
+} from '@/features/settings/constants';
 
 const customerField = [
     'name',
@@ -137,8 +140,10 @@ export class Customer extends React.Component<IProps> {
     }
 
     componentWillUnmount() {
+        const { resetCustomFields } = this.props;
+
         goBack(UNMOUNT);
-        this.props.resetCustomFields?.();
+        resetCustomFields?.();
     }
 
     setFormField = (field, value) => {
@@ -151,8 +156,50 @@ export class Customer extends React.Component<IProps> {
         !status && this.setFormField('password', '');
     };
 
+    checkHasCustomFieldsRequired = (values, customFields) => {
+        let isRequired = false;
+
+        if (
+            hasFieldValue(customFields) &&
+            hasFieldValue(values?.customFields)
+        ) {
+            for (const { required, type, value } of values?.customFields) {
+                if (
+                    required &&
+                    type !== CUSTOM_FIELD_DATA_TYPES.SWITCH &&
+                    !value
+                ) {
+                    isRequired = true;
+                    break;
+                }
+            }
+        }
+
+        return isRequired;
+    };
+
+    throwError = () => {
+        throw new SubmissionError({ customFields: 'validation.required' });
+    };
+
     onCustomerSubmit = values => {
-        const { type, createCustomer, editCustomer, navigation } = this.props;
+        const {
+            type,
+            createCustomer,
+            editCustomer,
+            navigation,
+            customFields
+        } = this.props;
+
+        const hasCustomFieldRequired = this.checkHasCustomFieldsRequired(
+            values,
+            customFields
+        );
+
+        if (hasCustomFieldRequired) {
+            this.throwError();
+            return;
+        }
 
         type === CUSTOMER_ADD
             ? createCustomer({

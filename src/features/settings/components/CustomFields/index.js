@@ -13,13 +13,12 @@ import {
     EDIT_CUSTOM_FIELD_TYPE
 } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation/actions';
-import { itemsDescriptionStyle } from '@/features/invoices/components/Invoice/styles';
-import { hasLength } from '@/api/global';
-import { moreTriggerSpinner } from '@/features/more/actions';
+import { hasLength, hasFieldValue, hasValue } from '@/api/global';
 
 type IProps = {
     navigation: Object,
     getCustomFields: Function,
+    resetCustomFields: Function,
     customFields: Object,
     loading: Boolean,
     language: String
@@ -29,7 +28,9 @@ export class CustomFields extends React.Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {
-            search: ''
+            search: '',
+            found: true,
+            fieldsFilter: []
         };
     }
 
@@ -40,7 +41,10 @@ export class CustomFields extends React.Component<IProps> {
     }
 
     componentWillUnmount() {
+        const { customFields, resetCustomFields } = this.props;
+
         goBack(UNMOUNT);
+        customFields && resetCustomFields?.();
     }
 
     onSelect = field => {
@@ -64,13 +68,44 @@ export class CustomFields extends React.Component<IProps> {
     };
 
     onSearch = search => {
+        const { customFields } = this.props;
+        let searchFields = ['name', 'label', 'model_type', 'type'];
+
+        if (hasFieldValue(customFields)) {
+            let newData = customFields.filter(({ fullItem }) => {
+                let filterData = false;
+
+                searchFields.filter(field => {
+                    let itemField = fullItem?.[field] ?? '';
+
+                    if (typeof itemField === 'number') {
+                        itemField = itemField.toString();
+                    }
+
+                    if (hasValue(itemField)) {
+                        itemField = itemField.toLowerCase();
+
+                        let searchData = search.toString().toLowerCase();
+
+                        if (itemField.indexOf(searchData) > -1) {
+                            filterData = true;
+                        }
+                    }
+                });
+                return filterData;
+            });
+
+            this.setState({
+                fieldsFilter: newData,
+                found: newData.length != 0 ? true : false
+            });
+        }
         this.setState({ search });
     };
 
     render() {
         const { navigation, customFields, loading, language } = this.props;
-
-        const { search } = this.state;
+        const { search, found, fieldsFilter } = this.state;
 
         let empty = !search
             ? {
@@ -116,11 +151,17 @@ export class CustomFields extends React.Component<IProps> {
                 >
                     <View style={styles.listViewContainer}>
                         <ListView
-                            items={customFields ?? []}
+                            items={
+                                hasFieldValue(fieldsFilter)
+                                    ? fieldsFilter
+                                    : found
+                                    ? customFields
+                                    : []
+                            }
                             onPress={this.onSelect}
                             refreshing={false}
                             loading={loading}
-                            isEmpty={!hasLength(customFields)}
+                            isEmpty={found ? customFields.length <= 0 : true}
                             canLoadMore={false}
                             getFreshItems={onHide => {
                                 this.getItems({ onResult: onHide });

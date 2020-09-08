@@ -20,6 +20,19 @@ const styles = StyleSheet.create({
     timeColumn: { flex: 1 },
     required: {
         color: colors.danger
+    },
+    validation: {
+        paddingVertical: 2,
+        paddingHorizontal: 5,
+        borderRadius: 2,
+        overflow: 'hidden',
+        flex: 1,
+        zIndex: 100,
+        backgroundColor: colors.danger,
+        marginTop: -9
+    },
+    inputError: {
+        borderColor: colors.dangerLight
     }
 });
 

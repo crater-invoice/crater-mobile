@@ -110,7 +110,8 @@ export class DatePickerComponent extends Component<IProps> {
             displayValue,
             isRequired = false,
             input,
-            placeholder = ' '
+            placeholder = ' ',
+            fakeInputProps
         } = this.props;
 
         const { isDateTimePickerVisible, value } = this.state;
@@ -136,6 +137,7 @@ export class DatePickerComponent extends Component<IProps> {
                     meta={meta}
                     isRequired={isRequired}
                     containerStyle={containerStyle}
+                    {...fakeInputProps}
                 />
 
                 <DateTimePicker

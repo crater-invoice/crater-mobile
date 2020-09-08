@@ -40,7 +40,8 @@ const mapStateToProps = (state, { navigation }) => {
         initialValues: {
             enable_portal: false,
             currency_id: null,
-            id: customerId
+            id: customerId,
+            customFields: null
         }
     };
 };

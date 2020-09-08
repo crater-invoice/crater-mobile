@@ -2,12 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { CUSTOM_FIELDS_FORM } from '../../constants';
-import * as CustomFieldsAction from '../../actions'
+import * as CustomFieldsAction from '../../actions';
 import { CustomFields } from '../../components/CustomFields';
 import { getCustomFieldsState } from '../../selectors';
 
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
     const {
         global: { language },
         settings: {
@@ -19,12 +18,13 @@ const mapStateToProps = (state) => {
     return {
         language,
         loading: customFieldsLoading,
-        customFields: getCustomFieldsState(customFields),
+        customFields: getCustomFieldsState(customFields)
     };
 };
 
 const mapDispatchToProps = {
-    getCustomFields: CustomFieldsAction.getCustomFields
+    getCustomFields: CustomFieldsAction.getCustomFields,
+    resetCustomFields: CustomFieldsAction.resetCustomFields
 };
 
 //  Redux Forms
@@ -35,11 +35,11 @@ const customFieldsForm = reduxForm({
 //  connect
 const CustomFieldsContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(customFieldsForm);
 
 CustomFieldsContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default CustomFieldsContainer;

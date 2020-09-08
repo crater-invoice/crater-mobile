@@ -6,6 +6,7 @@ import { TimePickerField } from '../TimePickerField';
 import styles from './styles';
 import moment from 'moment';
 import { DATE_FORMAT } from '@/api/consts';
+import Lng from '@/api/lang/i18n';
 
 const DATE_TIME_PICKER_FORM = 'DATE_TIME_PICKER_FORM';
 
@@ -13,7 +14,9 @@ type Props = {
     dateFieldName: String,
     timeFieldName: String,
     input: any,
-    onChangeCallback: Function
+    onChangeCallback: Function,
+    hideError: Boolean,
+    meta: any
 };
 
 class DateTimePickerFieldComponent extends Component<Props> {
@@ -93,11 +96,17 @@ class DateTimePickerFieldComponent extends Component<Props> {
             labelStyle,
             isRequired,
             input: { value },
+            meta: { error, submitFailed },
+            meta,
             dateFieldName,
-            timeFieldName
+            timeFieldName,
+            hideError,
+            locale
         } = this.props;
 
         if (loading) return null;
+
+        const hasError = !hideError && submitFailed && error;
 
         return (
             <View style={styles.container}>
@@ -120,6 +129,10 @@ class DateTimePickerFieldComponent extends Component<Props> {
                             }
                             placeholder={this.getDefaultDateValue(value)}
                             formDateFormat="YYYY-MM-DD"
+                            fakeInputProps={{
+                                fakeInputContainerStyle:
+                                    hasError && styles.inputError
+                            }}
                         />
                     </View>
                     <View style={styles.timeColumn}>
@@ -130,9 +143,20 @@ class DateTimePickerFieldComponent extends Component<Props> {
                             onChangeCallback={val =>
                                 this.onChange({ time: val })
                             }
+                            fakeInputProps={{
+                                fakeInputContainerStyle:
+                                    hasError && styles.inputError
+                            }}
                         />
                     </View>
                 </View>
+                {hasError && (
+                    <View style={styles.validation}>
+                        <Text style={{ color: 'white', fontSize: 12 }}>
+                            {Lng.t(error, { locale, hint: label })}
+                        </Text>
+                    </View>
+                )}
             </View>
         );
     }
