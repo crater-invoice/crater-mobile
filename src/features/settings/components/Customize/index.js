@@ -426,9 +426,12 @@ export class Customize extends React.Component<IProps> {
                 headerProps={{
                     leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZES),
                     title: Lng.t(data.headerTitle, { locale: language }),
-                    titleStyle: headerTitle({ marginLeft: -26, marginRight: -50 }),
+                    titleStyle: headerTitle({
+                        marginLeft: -26,
+                        marginRight: -50
+                    }),
                     rightIconPress: null,
-                    placement: "center",
+                    placement: 'center'
                 }}
                 bottomAction={this.BOTTOM_ACTION()}
                 toastProps={{
@@ -438,21 +441,22 @@ export class Customize extends React.Component<IProps> {
                 loadingProps={{ is: loading }}
                 hideScrollView
             >
-
                 {isPaymentsScreen && this.PAYMENT_CUSTOMIZE_TAB()}
 
                 {isItemsScreen && (
-                    <ScrollView keyboardShouldPersistTaps='handled'>
+                    <ScrollView keyboardShouldPersistTaps="handled">
                         <Units
                             ref={this.itemChild}
                             props={this.props}
-                            setFormField={(field, value) => this.setFormField(field, value)}
+                            setFormField={(field, value) =>
+                                this.setFormField(field, value)
+                            }
                         />
                     </ScrollView>
                 )}
 
                 {isAddressScreen && (
-                    <ScrollView>
+                    <ScrollView keyboardShouldPersistTaps="handled">
                         <CustomizeAddresses
                             customizeProps={this.props}
                             addresses={CUSTOMIZE_ADDRESSES()}
@@ -464,18 +468,17 @@ export class Customize extends React.Component<IProps> {
                     <View style={styles.bodyContainer}>
                         <ScrollView
                             showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps="handled"
                         >
                             {this.PREFIX_FIELD(language, data)}
 
                             {showTextAreaField &&
-                                this.TextAreaFieldView(data, language)
-                            }
+                                this.TextAreaFieldView(data, language)}
 
                             {this.TOGGLE_FIELD_VIEW(language, data)}
                         </ScrollView>
                     </View>
                 )}
-
             </DefaultLayout>
         );
     }
