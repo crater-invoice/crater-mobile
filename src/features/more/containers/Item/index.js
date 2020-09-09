@@ -13,16 +13,19 @@ const mapStateToProps = (state, { navigation }) => {
         settings: {
             taxByItems,
             units,
-            loading: { itemUnitsLoading }
+            loading: { itemUnitsLoading, getItemLoading }
         },
-        global: { language, currency, taxTypes },
+        global: { language, currency, taxTypes }
     } = state;
 
     const itemId = navigation.getParam('id', {});
 
     const type = navigation.getParam('type');
 
-    const isLoading = loading.itemLoading || itemUnitsLoading || (type === EDIT_ITEM && !item)
+    const isLoading =
+        loading.itemLoading ||
+        itemUnitsLoading ||
+        (type === EDIT_ITEM && !item);
 
     return {
         loading: isLoading,
@@ -34,11 +37,13 @@ const mapStateToProps = (state, { navigation }) => {
         type,
         currency,
         units,
-
-        initialValues: !isLoading ? {
-            taxes: [],
-            ...item
-        } : null,
+        getItemLoading: getItemLoading || (type === EDIT_ITEM && !item),
+        initialValues: !isLoading
+            ? {
+                  taxes: [],
+                  ...item
+              }
+            : null
     };
 };
 
@@ -49,23 +54,23 @@ const mapDispatchToProps = {
     removeItem: MoreAction.removeItem,
     clearItem: MoreAction.clearItem,
     getItemUnits: getItemUnits,
-    getSettingItem: getSettingItem,
+    getSettingItem: getSettingItem
 };
 
 //  Redux Forms
 const ItemReduxForm = reduxForm({
     form: ITEM_FORM,
-    validate,
+    validate
 })(Item);
 
 //  connect
 const ItemContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(ItemReduxForm);
 
 ItemContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default ItemContainer;

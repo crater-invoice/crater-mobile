@@ -6,7 +6,7 @@ import {
     setItem,
     deleteItem,
     setFilterItems,
-    setMailConfiguration,
+    setMailConfiguration
 } from '../actions';
 import {
     LOGOUT,
@@ -22,7 +22,7 @@ import {
     CREATE_ITEM_URL,
     EDIT_ITEM_URL,
     REMOVE_ITEM_URL,
-    GET_MAIL_CONFIGURATION_URL,
+    GET_MAIL_CONFIGURATION_URL
 } from '../constants';
 import Request from '../../../api/request';
 import { resetIdToken } from '../../authentication/actions';
@@ -33,7 +33,7 @@ import { ROUTES } from '../../../navigation/routes';
  */
 function* logout(payloadData) {
     const {
-        payload: { navigation },
+        payload: { navigation }
     } = payloadData;
 
     yield put(moreTriggerSpinner({ logoutLoading: true }));
@@ -41,8 +41,7 @@ function* logout(payloadData) {
     try {
         yield put(resetIdToken());
 
-        navigation.navigate(ROUTES.AUTH)
-
+        navigation.navigate(ROUTES.AUTH);
     } catch (error) {
         alert('something went wrong');
     } finally {
@@ -62,29 +61,26 @@ function* getItems(payloadData) {
             params = null,
             pagination: { page = 1, limit = 10 },
             filter
-        },
+        }
     } = payloadData;
 
     yield put(moreTriggerSpinner({ itemsLoading: true }));
 
     try {
-
         let param = {
             ...params,
             page,
             limit
-        }
+        };
 
         const options = {
-            path: GET_ITEMS_URL(param),
+            path: GET_ITEMS_URL(param)
         };
 
         const response = yield call([Request, 'get'], options);
 
-        if (!filter)
-            yield put(setItems({ items: response.items.data, fresh }));
-        else
-            yield put(setFilterItems({ items: response.items.data, fresh }));
+        if (!filter) yield put(setItems({ items: response.items.data, fresh }));
+        else yield put(setFilterItems({ items: response.items.data, fresh }));
 
         onMeta && onMeta(response.items);
 
@@ -97,41 +93,33 @@ function* getItems(payloadData) {
 }
 
 function* getEditItem({ payload: { id, onResult } }) {
-
-    yield put(moreTriggerSpinner({ itemLoading: true }));
+    yield put(moreTriggerSpinner({ getItemLoading: true }));
 
     try {
-
         const options = {
-            path: GET_EDIT_ITEMS_URL(id),
+            path: GET_EDIT_ITEMS_URL(id)
         };
 
         const response = yield call([Request, 'get'], options);
 
         yield put(setItem(response));
 
-        onResult && onResult(response)
-
+        onResult && onResult(response);
     } catch (error) {
         // console.log(error);
     } finally {
-        yield put(moreTriggerSpinner({ itemLoading: false }));
+        yield put(moreTriggerSpinner({ getItemLoading: false }));
     }
 }
 
 function* addItem(payloadData) {
     const {
-        payload: {
-            item,
-            onResult,
-        },
+        payload: { item, onResult }
     } = payloadData;
 
     yield put(moreTriggerSpinner({ itemLoading: true }));
 
     try {
-
-
         const options = {
             path: CREATE_ITEM_URL(),
             body: item
@@ -139,10 +127,9 @@ function* addItem(payloadData) {
 
         const res = yield call([Request, 'post'], options);
 
-        yield put(setItems({ items: [res.item], prepend: true }))
+        yield put(setItems({ items: [res.item], prepend: true }));
 
-        onResult && onResult()
-
+        onResult && onResult();
     } catch (error) {
         // console.log(error);
     } finally {
@@ -152,18 +139,12 @@ function* addItem(payloadData) {
 
 function* editItem(payloadData) {
     const {
-        payload: {
-            item,
-            id,
-            onResult,
-        },
+        payload: { item, id, onResult }
     } = payloadData;
 
     yield put(moreTriggerSpinner({ itemLoading: true }));
 
     try {
-
-
         const options = {
             path: EDIT_ITEM_URL(id),
             body: item
@@ -175,8 +156,7 @@ function* editItem(payloadData) {
 
         yield put(setItems({ items: [response.item], prepend: true }));
 
-        onResult && onResult()
-
+        onResult && onResult();
     } catch (error) {
         // console.log(error);
     } finally {
@@ -186,28 +166,23 @@ function* editItem(payloadData) {
 
 function* removeItem(payloadData) {
     const {
-        payload: {
-            id,
-            onResult,
-        },
+        payload: { id, onResult }
     } = payloadData;
 
     yield put(moreTriggerSpinner({ itemLoading: true }));
 
     try {
-
         const options = {
-            path: REMOVE_ITEM_URL(id),
+            path: REMOVE_ITEM_URL(id)
         };
 
         const response = yield call([Request, 'delete'], options);
 
         if (response.success) {
-            yield put(deleteItem({ id }))
+            yield put(deleteItem({ id }));
         }
 
-        onResult && onResult(response)
-
+        onResult && onResult(response);
     } catch (error) {
         // console.log(error);
     } finally {
@@ -216,18 +191,15 @@ function* removeItem(payloadData) {
 }
 
 function* getMailConfiguration({ payload: { onResult } }) {
-
     yield put(moreTriggerSpinner({ getMailConfigLoading: true }));
 
     try {
-
         const options = { path: GET_MAIL_CONFIGURATION_URL() };
 
         const response = yield call([Request, 'get'], options);
 
-        onResult?.(response)
+        onResult?.(response);
         yield put(setMailConfiguration({ mailDriver: response }));
-
     } catch (error) {
         // console.log(error);
     } finally {

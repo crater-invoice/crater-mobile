@@ -11,16 +11,21 @@ import {
     DefaultLayout,
     SelectField,
     SelectPickerField,
-    CurrencyFormat,
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
+    CurrencyFormat
+} from '@/components';
+import { ROUTES } from '@/navigation/routes';
 import { ITEM_FORM, EDIT_ITEM, ADD_ITEM, ITEM_UNITS } from '../../constants';
-import { BUTTON_COLOR } from '../../../../api/consts/core';
-import { colors } from '../../../../styles/colors';
-import Lng from '../../../../api/lang/i18n';
-import { goBack, UNMOUNT, MOUNT } from '../../../../navigation/actions';
+import { BUTTON_COLOR } from '@/api/consts';
+import { colors } from '@/styles/colors';
+import Lng from '@/api/lang/i18n';
+import { goBack, UNMOUNT, MOUNT } from '@/navigation/actions';
 import { ADD_TAX } from '../../../settings/constants';
-import { MAX_LENGTH, alertMe, formatSelectPickerName, hasValue } from '../../../../api/global';
+import {
+    MAX_LENGTH,
+    alertMe,
+    formatSelectPickerName,
+    hasValue
+} from '@/api/global';
 
 export class Item extends React.Component {
     constructor(props) {
@@ -28,180 +33,201 @@ export class Item extends React.Component {
 
         this.state = {
             isTaxPerItem: true
-        }
+        };
     }
 
     componentDidMount() {
-        const { navigation, getItemUnits, getSettingItem, type } = this.props
+        const { navigation, getItemUnits, getSettingItem, type } = this.props;
 
-        getItemUnits()
+        getItemUnits();
 
-        type === ADD_ITEM && getSettingItem({
-            key: 'tax_per_item',
-            onResult: (res) => this.setState({ isTaxPerItem: res === 'YES' })
-        })
+        type === ADD_ITEM &&
+            getSettingItem({
+                key: 'tax_per_item',
+                onResult: res => this.setState({ isTaxPerItem: res === 'YES' })
+            });
 
-        goBack(MOUNT, navigation)
+        goBack(MOUNT, navigation);
     }
 
     componentWillMount() {
         const { getEditItem, type, itemId } = this.props;
 
-        const isEdit = (type === EDIT_ITEM)
+        const isEdit = type === EDIT_ITEM;
 
-        isEdit && getEditItem({ id: itemId })
+        isEdit && getEditItem({ id: itemId });
     }
 
     componentWillUnmount() {
-        const { clearItem } = this.props
-        clearItem()
-        goBack(UNMOUNT)
+        const { clearItem } = this.props;
+        clearItem();
+        goBack(UNMOUNT);
     }
 
     setFormField = (field, value) => {
         this.props.dispatch(change(ITEM_FORM, field, value));
     };
 
-    saveItem = (values) => {
+    saveItem = values => {
         const {
             addItem,
             editItem,
             itemId,
             navigation,
             type,
-            language,
-        } = this.props
+            language
+        } = this.props;
 
         if (this.finalAmount() < 0) {
-            alert(Lng.t("items.lessAmount", { locale: language }))
-            return
+            alert(Lng.t('items.lessAmount', { locale: language }));
+            return;
         }
 
         const item = {
             ...values,
             total: this.finalAmount(),
             tax: this.itemTax() + this.itemCompoundTax(),
-            taxes: values.taxes && values.taxes.map(val => {
-                return {
-                    ...val,
-                    amount: val.compound_tax ?
-                        this.getCompoundTaxValue(val.percent) :
-                        this.getTaxValue(val.percent),
-                }
-            }),
-        }
+            taxes:
+                values.taxes &&
+                values.taxes.map(val => {
+                    return {
+                        ...val,
+                        amount: val.compound_tax
+                            ? this.getCompoundTaxValue(val.percent)
+                            : this.getTaxValue(val.percent)
+                    };
+                })
+        };
 
-        type == ADD_ITEM ? addItem({
-            item,
-            onResult: () => {
-                navigation.navigate(ROUTES.GLOBAL_ITEMS)
-            }
-        }) : editItem({
-            item: { ...item },
-            id: itemId,
-            onResult: () => {
-                navigation.navigate(ROUTES.GLOBAL_ITEMS)
-            }
-        })
-
+        type == ADD_ITEM
+            ? addItem({
+                  item,
+                  onResult: () => {
+                      navigation.navigate(ROUTES.GLOBAL_ITEMS);
+                  }
+              })
+            : editItem({
+                  item: { ...item },
+                  id: itemId,
+                  onResult: () => {
+                      navigation.navigate(ROUTES.GLOBAL_ITEMS);
+                  }
+              });
     };
 
     removeItem = () => {
-        const { removeItem, itemId, navigation, language } = this.props
+        const { removeItem, itemId, navigation, language } = this.props;
 
         alertMe({
-            title: Lng.t("alert.title", { locale: language }),
-            desc: Lng.t("items.alertDescription", { locale: language }),
+            title: Lng.t('alert.title', { locale: language }),
+            desc: Lng.t('items.alertDescription', { locale: language }),
             showCancel: true,
-            okPress: () => removeItem({
-                id: itemId,
-                onResult: (res) => {
-                    res.error && res.error === 'item_attached' ?
-                        alertMe({
-                            title: Lng.t("items.alreadyAttachTitle", { locale: language }),
-                            desc: Lng.t("items.alreadyAttachDescription", { locale: language })
-                        })
-                        : navigation.navigate(ROUTES.GLOBAL_ITEMS)
-                }
-            })
-        })
-
-    }
+            okPress: () =>
+                removeItem({
+                    id: itemId,
+                    onResult: res => {
+                        res.error && res.error === 'item_attached'
+                            ? alertMe({
+                                  title: Lng.t('items.alreadyAttachTitle', {
+                                      locale: language
+                                  }),
+                                  desc: Lng.t(
+                                      'items.alreadyAttachDescription',
+                                      { locale: language }
+                                  )
+                              })
+                            : navigation.navigate(ROUTES.GLOBAL_ITEMS);
+                    }
+                })
+        });
+    };
 
     totalAmount = () => {
-        const { formValues: { price } } = this.props
+        const {
+            formValues: { price }
+        } = this.props;
 
-        return price + this.itemTax()
-    }
+        return price + this.itemTax();
+    };
 
     itemTax = () => {
-        const { formValues: { taxes } } = this.props
+        const {
+            formValues: { taxes }
+        } = this.props;
 
-        let totalTax = 0
+        let totalTax = 0;
 
-        taxes && taxes.map(val => {
-            if (!val.compound_tax) {
-                totalTax += this.getTaxValue(val.percent)
-            }
-        })
+        taxes &&
+            taxes.map(val => {
+                if (!val.compound_tax) {
+                    totalTax += this.getTaxValue(val.percent);
+                }
+            });
 
-        return totalTax
-    }
+        return totalTax;
+    };
 
     itemCompoundTax = () => {
-        const { formValues: { taxes } } = this.props
+        const {
+            formValues: { taxes }
+        } = this.props;
 
-        let totalTax = 0
+        let totalTax = 0;
 
-        taxes && taxes.map(val => {
-            if (val.compound_tax) {
-                totalTax += this.getCompoundTaxValue(val.percent)
-            }
-        })
+        taxes &&
+            taxes.map(val => {
+                if (val.compound_tax) {
+                    totalTax += this.getCompoundTaxValue(val.percent);
+                }
+            });
 
-        return totalTax
-    }
+        return totalTax;
+    };
 
-    getTaxValue = (tax) => {
-        const { formValues: { price } } = this.props
-        return (tax * price) / 100
-    }
+    getTaxValue = tax => {
+        const {
+            formValues: { price }
+        } = this.props;
+        return (tax * price) / 100;
+    };
 
-    getCompoundTaxValue = (tax) => {
-        return (tax * JSON.parse(this.totalAmount())) / 100
-    }
+    getCompoundTaxValue = tax => {
+        return (tax * JSON.parse(this.totalAmount())) / 100;
+    };
 
-    getTaxName = (tax) => {
-        const { taxTypes } = this.props
-        let taxName = ''
+    getTaxName = tax => {
+        const { taxTypes } = this.props;
+        let taxName = '';
 
-        const type = taxTypes && taxTypes.filter(val => val.fullItem.id === tax.tax_type_id)
+        const type =
+            taxTypes &&
+            taxTypes.filter(val => val.fullItem.id === tax.tax_type_id);
 
         if (taxTypes && type.length > 0) {
-            taxName = type[0]['fullItem'].name
+            taxName = type[0]['fullItem'].name;
         }
-        return taxName
-    }
+        return taxName;
+    };
 
     finalAmount = () => {
-        return this.totalAmount() + this.itemCompoundTax()
-    }
+        return this.totalAmount() + this.itemCompoundTax();
+    };
 
     FINAL_AMOUNT = () => {
         const {
             language,
             formValues: { taxes, price },
-            navigation,
-        } = this.props
+            navigation
+        } = this.props;
 
-        const currency = navigation.getParam('currency')
+        const currency = navigation.getParam('currency');
 
         return (
             <View style={styles.amountContainer}>
                 <View style={styles.subContainer}>
                     <View>
                         <Text style={styles.label}>
-                            {Lng.t("items.subTotal", { locale: language })}
+                            {Lng.t('items.subTotal', { locale: language })}
                         </Text>
                     </View>
                     <View>
@@ -214,49 +240,53 @@ export class Item extends React.Component {
                 </View>
 
                 {taxes &&
-                    taxes.map(val => !val.compound_tax ? (
-                        <View style={styles.subContainer}>
-                            <View>
-                                <Text style={styles.label}>
-                                    {this.getTaxName(val)} ({val.percent} %)
-                            </Text>
+                    taxes.map(val =>
+                        !val.compound_tax ? (
+                            <View style={styles.subContainer}>
+                                <View>
+                                    <Text style={styles.label}>
+                                        {this.getTaxName(val)} ({val.percent} %)
+                                    </Text>
+                                </View>
+                                <View>
+                                    <CurrencyFormat
+                                        amount={this.getTaxValue(val.percent)}
+                                        currency={currency}
+                                        style={styles.price}
+                                    />
+                                </View>
                             </View>
-                            <View>
-                                <CurrencyFormat
-                                    amount={this.getTaxValue(val.percent)}
-                                    currency={currency}
-                                    style={styles.price}
-                                />
-                            </View>
-                        </View>
-                    ) : null)
-                }
+                        ) : null
+                    )}
 
                 {taxes &&
-                    taxes.map(val => val.compound_tax ? (
-                        <View style={styles.subContainer}>
-                            <View>
-                                <Text style={styles.label}>
-                                    {this.getTaxName(val)} ({val.percent} %)
-                            </Text>
+                    taxes.map(val =>
+                        val.compound_tax ? (
+                            <View style={styles.subContainer}>
+                                <View>
+                                    <Text style={styles.label}>
+                                        {this.getTaxName(val)} ({val.percent} %)
+                                    </Text>
+                                </View>
+                                <View>
+                                    <CurrencyFormat
+                                        amount={this.getCompoundTaxValue(
+                                            val.percent
+                                        )}
+                                        currency={currency}
+                                        style={styles.price}
+                                    />
+                                </View>
                             </View>
-                            <View>
-                                <CurrencyFormat
-                                    amount={this.getCompoundTaxValue(val.percent)}
-                                    currency={currency}
-                                    style={styles.price}
-                                />
-                            </View>
-                        </View>
-                    ) : null)
-                }
+                        ) : null
+                    )}
 
                 <CtDivider dividerStyle={styles.divider} />
 
                 <View style={styles.subContainer}>
                     <View>
                         <Text style={styles.label}>
-                            {Lng.t("items.finalAmount", { locale: language })}
+                            {Lng.t('items.finalAmount', { locale: language })}
                         </Text>
                     </View>
                     <View>
@@ -268,18 +298,18 @@ export class Item extends React.Component {
                     </View>
                 </View>
             </View>
-        )
+        );
     };
 
-    BOTTOM_ACTION = (handleSubmit) => {
-        const { language, loading, type } = this.props
-        const isCreateItem = (type === ADD_ITEM)
+    BOTTOM_ACTION = handleSubmit => {
+        const { language, loading, type } = this.props;
+        const isCreateItem = type === ADD_ITEM;
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.saveItem)}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    btnTitle={Lng.t('button.save', { locale: language })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                     loading={loading}
@@ -287,7 +317,7 @@ export class Item extends React.Component {
                 {!isCreateItem && (
                     <CtButton
                         onPress={this.removeItem}
-                        btnTitle={Lng.t("button.remove", { locale: language })}
+                        btnTitle={Lng.t('button.remove', { locale: language })}
                         containerStyle={styles.handleBtn}
                         buttonContainerStyle={styles.buttonContainer}
                         buttonColor={BUTTON_COLOR.DANGER}
@@ -295,8 +325,8 @@ export class Item extends React.Component {
                     />
                 )}
             </View>
-        )
-    }
+        );
+    };
 
     TAX_FIELD_VIEW = () => {
         const {
@@ -311,15 +341,15 @@ export class Item extends React.Component {
                 name="taxes"
                 items={taxTypes}
                 displayName="name"
-                label={Lng.t("items.taxes", { locale: language })}
+                label={Lng.t('items.taxes', { locale: language })}
                 component={SelectField}
                 searchFields={['name', 'percent']}
-                placeholder={Lng.t("items.selectTax", { locale: language })}
+                placeholder={Lng.t('items.selectTax', { locale: language })}
                 onlyPlaceholder
                 fakeInputProps={{
                     icon: 'percent',
                     rightIcon: 'angle-right',
-                    color: colors.gray,
+                    color: colors.gray
                 }}
                 navigation={navigation}
                 isMultiSelect
@@ -332,24 +362,22 @@ export class Item extends React.Component {
                     contentContainerStyle: { flex: 2 }
                 }}
                 headerProps={{
-                    title: Lng.t("taxes.title", { locale: language }),
+                    title: Lng.t('taxes.title', { locale: language })
                 }}
-                rightIconPress={
-                    () => navigation.navigate(ROUTES.TAX, {
+                rightIconPress={() =>
+                    navigation.navigate(ROUTES.TAX, {
                         type: ADD_TAX,
-                        onSelect: (val) => {
-                            this.setFormField('taxes',
-                                [...val, ...taxes]
-                            )
+                        onSelect: val => {
+                            this.setFormField('taxes', [...val, ...taxes]);
                         }
                     })
                 }
                 emptyContentProps={{
-                    contentType: "taxes",
+                    contentType: 'taxes'
                 }}
             />
-        )
-    }
+        );
+    };
 
     render() {
         const {
@@ -359,35 +387,37 @@ export class Item extends React.Component {
             language,
             type,
             units,
-            formValues: { taxes }
+            formValues: { taxes },
+            getItemLoading
         } = this.props;
-        const { isTaxPerItem } = this.state
-        const isCreateItem = (type === ADD_ITEM)
-        let itemRefs = {}
+        const { isTaxPerItem } = this.state;
+        const isCreateItem = type === ADD_ITEM;
+        let itemRefs = {};
 
         return (
             <DefaultLayout
                 headerProps={{
-                    leftIconPress: () => navigation.navigate(ROUTES.GLOBAL_ITEMS),
-                    title: isCreateItem ?
-                        Lng.t("header.addItem", { locale: language }) :
-                        Lng.t("header.editItem", { locale: language }),
-                    placement: "center",
+                    leftIconPress: () =>
+                        navigation.navigate(ROUTES.GLOBAL_ITEMS),
+                    title: isCreateItem
+                        ? Lng.t('header.addItem', { locale: language })
+                        : Lng.t('header.editItem', { locale: language }),
+                    placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {
                         solid: true
                     },
-                    rightIconPress: handleSubmit(this.saveItem),
+                    rightIconPress: handleSubmit(this.saveItem)
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{ is: loading || !hasValue(isTaxPerItem) }}
+                loadingProps={{ is: getItemLoading || !hasValue(isTaxPerItem) }}
             >
                 <View style={styles.bodyContainer}>
                     <Field
                         name="name"
                         component={InputField}
                         isRequired
-                        hint={Lng.t("items.name", { locale: language })}
+                        hint={Lng.t('items.name', { locale: language })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -403,7 +433,7 @@ export class Item extends React.Component {
                         name="price"
                         component={InputField}
                         isRequired
-                        hint={Lng.t("items.price", { locale: language })}
+                        hint={Lng.t('items.price', { locale: language })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -411,7 +441,7 @@ export class Item extends React.Component {
                             keyboardType: 'numeric'
                         }}
                         isCurrencyInput
-                        refLinkFn={(ref) => {
+                        refLinkFn={ref => {
                             itemRefs.price = ref;
                         }}
                     />
@@ -419,13 +449,15 @@ export class Item extends React.Component {
                     <Field
                         name="unit_id"
                         component={SelectPickerField}
-                        label={Lng.t("items.unit", { locale: language })}
+                        label={Lng.t('items.unit', { locale: language })}
                         items={formatSelectPickerName(units)}
                         fieldIcon={'balance-scale'}
                         containerStyle={styles.selectPicker}
                         defaultPickerOptions={{
-                            label: Lng.t("items.unitPlaceholder", { locale: language }),
-                            value: '',
+                            label: Lng.t('items.unitPlaceholder', {
+                                locale: language
+                            }),
+                            value: ''
                         }}
                     />
 
@@ -436,7 +468,7 @@ export class Item extends React.Component {
                     <Field
                         name="description"
                         component={InputField}
-                        hint={Lng.t("items.description", { locale: language })}
+                        hint={Lng.t('items.description', { locale: language })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -445,15 +477,12 @@ export class Item extends React.Component {
                             maxLength: MAX_LENGTH
                         }}
                         height={80}
-                        refLinkFn={(ref) => {
+                        refLinkFn={ref => {
                             itemRefs.description = ref;
                         }}
                     />
-
                 </View>
-
             </DefaultLayout>
-
         );
     }
 }
