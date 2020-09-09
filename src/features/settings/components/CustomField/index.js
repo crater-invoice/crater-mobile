@@ -3,7 +3,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Field, change } from 'redux-form';
-import { alertMe, hasObjectLength, hasLength } from '@/api/global';
+import {
+    alertMe,
+    hasObjectLength,
+    hasLength,
+    hasFieldValue,
+    hasValue
+} from '@/api/global';
 import Lng from '@/api/lang/i18n';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation/actions';
 import { BUTTON_COLOR } from '@/api/consts';
@@ -91,6 +97,10 @@ export class CustomField extends React.Component<IProps> {
         this.props.dispatch(change(CUSTOM_FIELD_FORM, fieldName, value));
     };
 
+    getOptionsValue = options => {
+        return options.filter(option => hasValue(option) && option !== '');
+    };
+
     onSubmit = ({ field }) => {
         const {
             id,
@@ -110,10 +120,15 @@ export class CustomField extends React.Component<IProps> {
             !removeCustomFieldLoading &&
             formValues
         ) {
+            const options = hasFieldValue(field[FIELDS.OPTIONS])
+                ? this.getOptionsValue(field[FIELDS.OPTIONS])
+                : [];
+            const params = { ...field, [FIELDS.OPTIONS]: options };
+
             if (type === CREATE_CUSTOM_FIELD_TYPE)
-                createCustomField({ params: field, navigation });
+                createCustomField({ params, navigation });
             else {
-                editCustomField({ id, params: field, navigation });
+                editCustomField({ id, params, navigation });
             }
         }
     };
