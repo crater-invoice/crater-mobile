@@ -8,6 +8,9 @@ import customers from '../features/customers/saga';
 import expenses from '../features/expenses/saga';
 import payments from '../features/payments/saga';
 import settings from '../features/settings/saga';
+import categories from '../features/categories/saga';
+import items from '../features/items/saga';
+import taxes from '../features/taxes/saga';
 import more from '../features/more/saga';
 import { ROUTES } from '../navigation/routes';
 import { store } from '../store';
@@ -41,6 +44,9 @@ export default function* rootSaga() {
             expenses(),
             payments(),
             settings(),
+            categories(),
+            items(),
+            taxes(),
         ]);
     });
 }
