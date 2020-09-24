@@ -10,6 +10,10 @@ import { InvoiceNavigator } from "./invoice";
 import { EstimateNavigator } from "./estimate";
 import { ExpenseNavigator } from "./expense";
 import { SettingNavigator } from "./settings";
+import { CategoryNavigator } from "./category";
+import { ItemNavigator } from "./item";
+import { TaxNavigator } from "./tax";
+import { ReportNavigator } from "./report";
 import { MoreNavigator } from "./more";
 
 const appNavigator = createStackNavigator(
@@ -41,6 +45,18 @@ const appNavigator = createStackNavigator(
 
         // Payments
         ...PaymentNavigator,
+
+        // Category
+        ...CategoryNavigator,
+
+        // Item
+        ...ItemNavigator,
+
+        // Tax
+        ...TaxNavigator,
+
+        // Report
+        ...ReportNavigator,
 
         // More
         ...MoreNavigator,

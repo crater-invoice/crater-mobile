@@ -7,10 +7,6 @@ import LanguageAndCurrencyContainer from "../../features/settings/containers/Lan
 import { generateStackNavigation } from "../actions";
 import NotificationContainer from "../../features/settings/containers/Notification";
 import PreferencesContainer from "../../features/settings/containers/Preferences";
-import CategoriesContainer from "../../features/settings/containers/Categories";
-import CategoryContainer from "../../features/settings/containers/Category";
-import TaxesContainer from "../../features/settings/containers/Taxes";
-import TaxContainer from "../../features/settings/containers/Tax";
 import EndpointContainer from "../../features/authentication/containers/Endpoint";
 import UpdateAppVersionContainer from "../../components/UpdateAppVersion";
 import CustomizesContainer from "../../features/settings/containers/Customizes";
@@ -48,27 +44,6 @@ export const SettingNavigator = {
         CompanyContainer,
     ),
 
-    // Taxes
-    // -----------------------------------------
-    [ROUTES.TAXES]: generateStackNavigation(
-        ROUTES.TAXES,
-        TaxesContainer,
-    ),
-    [ROUTES.TAX]: generateStackNavigation(
-        ROUTES.TAX,
-        TaxContainer,
-    ),
-
-    // Categories
-    // -----------------------------------------
-    [ROUTES.CATEGORIES]: generateStackNavigation(
-        ROUTES.CATEGORIES,
-        CategoriesContainer,
-    ),
-    [ROUTES.CATEGORY]: generateStackNavigation(
-        ROUTES.CATEGORY,
-        CategoryContainer,
-    ),
     [ROUTES.ENDPOINTS_SETTINGS]: generateStackNavigation(
         ROUTES.ENDPOINTS_SETTINGS,
         EndpointContainer
