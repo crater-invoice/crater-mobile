@@ -38,8 +38,6 @@ import {
 import Request from '../../../api/request';
 import { ROUTES } from '../../../navigation/routes';
 
-import categories from './categories';
-import taxes from './taxes';
 import modes from './modes';
 import units from './units';
 
@@ -360,8 +358,6 @@ export default function* settingsSaga() {
     yield takeEvery(EDIT_CUSTOMIZE_SETTINGS, editCustomizeSettings);
 
     yield all([
-        categories(),
-        taxes(),
         modes(),
         units()
     ]);

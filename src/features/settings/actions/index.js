@@ -13,23 +13,6 @@ import {
     CLEAR_PREFERENCES,
     GET_SETTING_ITEM,
     EDIT_SETTING_ITEM,
-    GET_EXPENSE_CATEGORIES,
-    GET_CREATE_EXPENSE_CATEGORY,
-    CREATE_EXPENSE_CATEGORY,
-    EDIT_EXPENSE_CATEGORY,
-    REMOVE_EXPENSE_CATEGORY,
-    SET_EXPENSE_CATEGORIES,
-    SET_CREATE_EXPENSE_CATEGORIES,
-    SET_EDI_EXPENSE_CATEGORIES,
-    SET_REMOVE_EXPENSE_CATEGORIES,
-    GET_TAXES,
-    SET_TAXES,
-    REMOVE_TAX,
-    SET_TAX,
-    TAX_ADD,
-    TAX_EDIT,
-    SET_EDIT_TAX,
-    SET_REMOVE_TAX,
     GET_CUSTOMIZE_SETTINGS,
     SET_CUSTOMIZE_SETTINGS,
     EDIT_CUSTOMIZE_SETTINGS,
@@ -39,12 +22,6 @@ import {
     EDIT_PAYMENT_MODE,
     REMOVE_PAYMENT_MODE,
     SET_PAYMENT_MODE,
-    GET_ITEM_UNITS,
-    SET_ITEM_UNITS,
-    SET_ITEM_UNIT,
-    CREATE_ITEM_UNIT,
-    EDIT_ITEM_UNIT,
-    REMOVE_ITEM_UNIT,
 } from "../constants";
 
 import { SET_SETTINGS } from "../../../api/consts";
@@ -132,95 +109,6 @@ export const setSettings = (payload) => ({
     payload,
 });
 
-// Expense Categories
-// -------------------------------------------------
-export const getExpenseCategories = (payload) => ({
-    type: GET_EXPENSE_CATEGORIES,
-    payload,
-});
-
-export const setExpenseCategories = (payload) => ({
-    type: SET_EXPENSE_CATEGORIES,
-    payload,
-});
-
-export const setCreateExpenseCategories = (payload) => ({
-    type: SET_CREATE_EXPENSE_CATEGORIES,
-    payload,
-});
-
-export const setEditExpenseCategories = (payload) => ({
-    type: SET_EDI_EXPENSE_CATEGORIES,
-    payload,
-});
-
-export const setRemoveExpenseCategories = (payload) => ({
-    type: SET_REMOVE_EXPENSE_CATEGORIES,
-    payload,
-});
-
-export const createExpenseCategory = (payload = {}) => ({
-    type: CREATE_EXPENSE_CATEGORY,
-    payload,
-});
-
-export const getEditExpenseCategory = (payload = {}) => ({
-    type: GET_CREATE_EXPENSE_CATEGORY,
-    payload,
-});
-
-export const removeExpenseCategory = (payload = {}) => ({
-    type: REMOVE_EXPENSE_CATEGORY,
-    payload,
-});
-
-export const editExpenseCategory = (payload = {}) => ({
-    type: EDIT_EXPENSE_CATEGORY,
-    payload,
-});
-
-//  Taxes
-// -------------------------------------------------
-export const getTaxes = (payload) => ({
-    type: GET_TAXES,
-    payload,
-});
-
-export const setTaxes = (payload) => ({
-    type: SET_TAXES,
-    payload,
-});
-
-export const addTax = (payload) => ({
-    type: TAX_ADD,
-    payload,
-});
-
-export const editTax = (payload) => ({
-    type: TAX_EDIT,
-    payload,
-});
-
-export const removeTax = (payload) => ({
-    type: REMOVE_TAX,
-    payload,
-});
-
-export const setTax = (payload) => ({
-    type: SET_TAX,
-    payload,
-});
-
-export const setEditTax = (payload) => ({
-    type: SET_EDIT_TAX,
-    payload,
-});
-
-export const setRemoveTax = (payload) => ({
-    type: SET_REMOVE_TAX,
-    payload,
-});
-
 // Customize Settings
 // -------------------------------------------------
 export const getCustomizeSettings = (payload = {}) => ({
@@ -267,37 +155,5 @@ export const editPaymentMode = (payload = {}) => ({
 
 export const removePaymentMode = (payload = {}) => ({
     type: REMOVE_PAYMENT_MODE,
-    payload,
-});
-
-// Item Units
-// -------------------------------------------------
-export const getItemUnits = (payload = {}) => ({
-    type: GET_ITEM_UNITS,
-    payload,
-});
-
-export const setItemUnits = (payload = {}) => ({
-    type: SET_ITEM_UNITS,
-    payload,
-});
-
-export const setItemUnit = (payload = {}) => ({
-    type: SET_ITEM_UNIT,
-    payload,
-});
-
-export const createItemUnit = (payload = {}) => ({
-    type: CREATE_ITEM_UNIT,
-    payload,
-});
-
-export const editItemUnit = (payload = {}) => ({
-    type: EDIT_ITEM_UNIT,
-    payload,
-});
-
-export const removeItemUnit = (payload = {}) => ({
-    type: REMOVE_ITEM_UNIT,
     payload,
 });

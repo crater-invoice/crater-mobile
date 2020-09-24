@@ -4,15 +4,9 @@ import {
     SET_PREFERENCES,
     CLEAR_PREFERENCES,
     SET_SETTING_ITEM,
-    SET_CREATE_EXPENSE_CATEGORIES,
-    SET_EDI_EXPENSE_CATEGORIES,
-    SET_REMOVE_EXPENSE_CATEGORIES,
-    SET_EXPENSE_CATEGORIES,
     SET_CUSTOMIZE_SETTINGS,
     SET_PAYMENT_MODES,
     SET_PAYMENT_MODE,
-    SET_ITEM_UNITS,
-    SET_ITEM_UNIT,
 } from '../constants';
 
 const initialState = {
@@ -27,30 +21,14 @@ const initialState = {
         // preferences
         getPreferencesLoading: false,
         editPreferencesLoading: false,
-        // item
-        getSettingItemLoading: false,
-        setSettingItemLoading: false,
-        editSettingItemLoading: false,
-        // categories
-        expensesCategoryLoading: false,
-        expenseCategoryLoading: false,
-        initExpenseCategoryLoading: false,
-        // taxes
-        addTaxLoading: false,
-        getTaxLoading: false,
-        removeTaxLoading: false,
         // customize
         getCustomizeLoading: false,
         customizeLoading: false,
         // payment method
         paymentModesLoading: false,
         paymentModeLoading: false,
-        // Item Unit
-        itemUnitsLoading: false,
-        itemUnitLoading: false,
     },
     preferences: null,
-    categories: [],
     paymentMethods: [],
     units: [],
     customizes: null,
@@ -87,40 +65,6 @@ export default function settingReducer(state = initialState, action) {
                 return { ...state, taxPerItem: value };
             else
                 return { ...state, ...payload }
-
-        case SET_EXPENSE_CATEGORIES:
-
-            return { ...state, ...payload };
-
-        case SET_CREATE_EXPENSE_CATEGORIES:
-
-            return {
-                ...state, categories:
-                    [...payload.categories, ...state.categories]
-            };
-
-        case SET_EDI_EXPENSE_CATEGORIES:
-
-            let itemIndex = 0;
-
-            state.categories.map((val, index) => {
-                if (val.id === payload.id)
-                    itemIndex = index
-            })
-
-            state.categories.splice(itemIndex, 1)
-
-            return {
-                ...state,
-                categories: [...payload.categories, ...state.categories]
-            }
-
-        case SET_REMOVE_EXPENSE_CATEGORIES:
-
-            const category = state.categories.filter((val) =>
-                (val.id !== payload.id))
-
-            return { ...state, categories: category };
 
         case SET_CUSTOMIZE_SETTINGS:
 
@@ -178,36 +122,6 @@ export default function settingReducer(state = initialState, action) {
                     (id !== payload.id))
 
                 return { ...state, paymentMethods: remainMethods };
-            }
-
-            return { ...state }
-
-        case SET_ITEM_UNITS:
-            return { ...state, units: payload.units };
-
-        case SET_ITEM_UNIT:
-            const { unit } = payload
-
-            if (payload.isCreated) {
-                return {
-                    ...state,
-                    units: [...unit, ...state.units]
-                };
-            }
-            if (payload.isUpdated) {
-                const unitList = state.units.filter(({ id }) =>
-                    (id !== unit[0]["id"]))
-
-                return {
-                    ...state,
-                    units: [...unit, ...unitList]
-                };
-            }
-            if (payload.isRemove) {
-                const remainUnits = state.units.filter(({ id }) =>
-                    (id !== payload.id))
-
-                return { ...state, units: remainUnits };
             }
 
             return { ...state }
