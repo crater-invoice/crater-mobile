@@ -3,21 +3,23 @@ import { ROUTES } from "../../navigation/routes";
 
 // Forms
 // -----------------------------------------
-export const ITEM_FORM = 'moreForm/ITEM_FORM';
-export const ITEM_SEARCH = 'moreForm/ITEM_SEARCH';
+export const ITEM_FORM = 'itemForm/ITEM_FORM';
+export const ITEM_SEARCH = 'itemForm/ITEM_SEARCH';
 
 // Actions
 // -----------------------------------------
-export const ITEM_EDIT = 'more/ITEM_EDIT';
-export const ITEM_ADD = 'more/ITEM_ADD';
-export const CLEAR_ITEM = 'more/CLEAR_ITEM';
-export const DELETE_ITEM = 'more/DELETE_ITEM';
-export const REMOVE_ITEM = 'more/REMOVE_ITEM';
-export const GET_ITEMS = 'more/GET_ITEMS';
-export const GET_EDIT_ITEM = 'more/GET_EDIT_ITEM';
-export const SET_ITEMS = 'more/SET_ITEMS';
-export const SET_FILTER_ITEMS = 'more/SET_FILTER_ITEMS';
-export const SET_ITEM = 'more/SET_ITEM';
+export const ADD_ITEM = 'itemType/ADD_ITEM';
+export const EDIT_ITEM = 'itemType/EDIT_ITEM';
+export const ITEM_EDIT = 'item/ITEM_EDIT';
+export const ITEM_ADD = 'item/ITEM_ADD';
+export const CLEAR_ITEM = 'item/CLEAR_ITEM';
+export const DELETE_ITEM = 'item/DELETE_ITEM';
+export const REMOVE_ITEM = 'item/REMOVE_ITEM';
+export const GET_ITEMS = 'item/GET_ITEMS';
+export const GET_EDIT_ITEM = 'item/GET_EDIT_ITEM';
+export const SET_ITEMS = 'item/SET_ITEMS';
+export const SET_FILTER_ITEMS = 'item/SET_FILTER_ITEMS';
+export const SET_ITEM = 'item/SET_ITEM';
 
 // Item Unit
 // -----------------------------------------

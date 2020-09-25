@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Item } from '../../components/Item';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
-import * as MoreAction from '../../actions';
+import * as ItemAction from '../../actions';
 import { ITEM_FORM, EDIT_ITEM } from '../../constants';
 import { getItemUnits, getSettingItem } from '../../../settings/actions';
 
@@ -44,11 +44,11 @@ const mapStateToProps = (state, { navigation }) => {
 };
 
 const mapDispatchToProps = {
-    addItem: MoreAction.addItem,
-    editItem: MoreAction.editItem,
-    getEditItem: MoreAction.getEditItem,
-    removeItem: MoreAction.removeItem,
-    clearItem: MoreAction.clearItem,
+    addItem: ItemAction.addItem,
+    editItem: ItemAction.editItem,
+    getEditItem: ItemAction.getEditItem,
+    removeItem: ItemAction.removeItem,
+    clearItem: ItemAction.clearItem,
     getItemUnits: getItemUnits,
     getSettingItem: getSettingItem,
 };

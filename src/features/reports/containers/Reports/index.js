@@ -5,14 +5,12 @@ import { Reports } from '../../components/Reports';
 import { colors } from '../../../../styles/colors';
 import { reduxForm } from 'redux-form';
 import { REPORTS_SEARCH } from '../../constants';
-import * as SettingAction from '../../actions';
 
-const mapStateToProps = ({ more, global }) => ({
+const mapStateToProps = ({ global }) => ({
     language: global.language
 });
 
 const mapDispatchToProps = {
-    // logout: SettingAction.logout
 };
 
 // Redux Forms
