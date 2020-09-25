@@ -76,25 +76,6 @@ export const CREATE_ITEM_UNIT = 'units/CREATE_ITEM_UNIT';
 export const EDIT_ITEM_UNIT = 'units/EDIT_ITEM_UNIT';
 export const REMOVE_ITEM_UNIT = 'units/REMOVE_ITEM_UNIT';
 
-// Taxes
-export const GET_TAXES = 'taxes/GET_TAXES';
-export const SET_TAXES = 'taxes/SET_TAXES';
-export const SET_TAX = 'taxes/SET_TAX';
-export const SET_EDIT_TAX = 'taxes/SET_EDIT_TAX';
-export const SET_REMOVE_TAX = 'taxes/SET_REMOVE_TAX';
-export const TAX_EDIT = 'taxes/TAX_EDIT';
-export const TAX_ADD = 'taxes/TAX_ADD';
-export const REMOVE_TAX = 'taxes/REMOVE_TAX';
-
-export const CREATE_EXPENSE_CATEGORY = 'categories/CREATE_EXPENSE_CATEGORY';
-export const EDIT_EXPENSE_CATEGORY = 'categories/EDIT_EXPENSE_CATEGORY';
-export const REMOVE_EXPENSE_CATEGORY = 'categories/REMOVE_EXPENSE_CATEGORY';
-
-export const SET_EXPENSE_CATEGORIES = 'categories/SET_EXPENSE_CATEGORIES';
-export const SET_CREATE_EXPENSE_CATEGORIES = 'categories/SET_CREATE_EXPENSE_CATEGORIES';
-export const SET_EDI_EXPENSE_CATEGORIES = 'categories/SET_EDI_EXPENSE_CATEGORIES';
-export const SET_REMOVE_EXPENSE_CATEGORIES = 'categories/SET_REMOVE_EXPENSE_CATEGORIES';
-
 // Menus
 // -----------------------------------------
 export const SETTINGS_MENU = (language, Lng) => {
@@ -237,21 +218,6 @@ export const GET_GENERAL_SETTING_URL = (key) => `settings/get-setting?key=${key}
 export const EDIT_GENERAL_SETTING_URL = () => `settings/update-setting`
 
 export const UPLOAD_LOGO_URL = () => `settings/company/upload-logo`
-
-// Expense Categories
-export const GET_EXPENSE_CATEGORIES_URL = () => `categories`
-export const GET_EDIT_EXPENSE_CATEGORIES_URL = (id) => `categories/${id}/edit`
-
-export const CREATE_EXPENSE_CATEGORIES_URL = () => `categories`
-export const EDIT_EXPENSE_CATEGORIES_URL = (id) => `categories/${id}`
-export const REMOVE_EXPENSE_CATEGORIES_URL = (id) => `categories/${id}`
-
-// Tax Types
-export const GET_SALES_TAXES_URL = () => `tax-types`
-
-export const CREATE_SALES_TAX_URL = () => `tax-types`
-export const EDIT_SALES_TAX_URL = (tax) => `tax-types/${tax.id}`
-export const REMOVE_SALES_TAX_URL = (id) => `tax-types/${id}`
 
 // Customize Settings
 export const GET_CUSTOMIZE_SETTINGS_URL = () => `settings/get-customize-setting`

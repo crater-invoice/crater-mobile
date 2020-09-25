@@ -10,7 +10,8 @@ import { getItemUnits } from '../../../settings/actions';
 const mapStateToProps = (state) => {
 
     const {
-        items: { items, filterItems, loading },
+        more: { loading },
+        items: { items, filterItems },
         global: { currency, language },
         settings: {
             units,

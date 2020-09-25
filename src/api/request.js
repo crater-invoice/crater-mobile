@@ -121,7 +121,7 @@ export default class Request {
             type && formData.append('type', type)
 
             for (const key in body) {
-                if (body.hasOwnProperty(key)) {
+                if (body.hasOwnProperty && body.hasOwnProperty(key)) {
                     formData.append(key, body[key]);
                 }
             }

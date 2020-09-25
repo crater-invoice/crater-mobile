@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as ExpensesAction from '../../actions'
-import * as CategoriesAction from '../../../settings/actions';
+import * as CategoriesAction from '../../../categories/actions';
 import { colors } from '../../../../styles/colors';
 import { Expenses } from '../../components/Expenses';
 import { EXPENSE_SEARCH } from '../../constants';

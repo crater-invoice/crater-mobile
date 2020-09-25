@@ -6,6 +6,8 @@ import { env } from '../../../config';
 const initialState = {
     loading: {
         logoutLoading: false,
+        itemsLoading: false,
+        itemLoading: false,
     },
 };
 

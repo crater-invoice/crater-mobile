@@ -2,6 +2,8 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 
 import {
     settingsTriggerSpinner,
+} from '../../settings/actions';
+import {
     setTaxes,
     setTax,
     setEditTax,

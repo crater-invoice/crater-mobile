@@ -6,12 +6,6 @@ import {
 } from '../constants';
 
 const initialState = {
-    loading: {
-        // categories
-        expensesCategoryLoading: false,
-        expenseCategoryLoading: false,
-        initExpenseCategoryLoading: false,
-    },
     categories: [],
 };
 

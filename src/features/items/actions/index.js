@@ -1,6 +1,4 @@
 import {
-    MORE_TRIGGER_SPINNER,
-    LOGOUT,
     GET_ITEMS,
     SET_ITEMS,
     ITEM_ADD,
@@ -10,19 +8,8 @@ import {
     ITEM_EDIT,
     SET_ITEM,
     DELETE_ITEM,
-    GENERATE_REPORT,
     SET_FILTER_ITEMS
 } from "../constants";
-
-export const moreTriggerSpinner = (payload) => ({
-    type: MORE_TRIGGER_SPINNER,
-    payload,
-});
-
-export const logout = (payload) => ({
-    type: LOGOUT,
-    payload,
-});
 
 export const addItem = (payload = {}) => ({
     type: ITEM_ADD,
@@ -71,12 +58,5 @@ export const deleteItem = (payload = {}) => ({
 
 export const getEditItem = (payload = {}) => ({
     type: GET_EDIT_ITEM,
-    payload,
-});
-
-
-// Reports
-export const generateReport = (payload) => ({
-    type: GENERATE_REPORT,
     payload,
 });

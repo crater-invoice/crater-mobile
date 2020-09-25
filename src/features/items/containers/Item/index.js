@@ -9,14 +9,14 @@ import { getItemUnits, getSettingItem } from '../../../settings/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        items: { loading, item },
+        more: { loading },
+        items: { item },
         settings: {
             taxByItems,
             units,
             loading: { itemUnitsLoading }
         },
-        global: { language, currency },
-        taxes: { taxTypes },
+        global: { language, currency, taxTypes },
     } = state;
 
     const itemId = navigation.getParam('id', {});

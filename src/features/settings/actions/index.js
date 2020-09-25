@@ -22,6 +22,12 @@ import {
     EDIT_PAYMENT_MODE,
     REMOVE_PAYMENT_MODE,
     SET_PAYMENT_MODE,
+    GET_ITEM_UNITS,
+    SET_ITEM_UNITS,
+    SET_ITEM_UNIT,
+    CREATE_ITEM_UNIT,
+    EDIT_ITEM_UNIT,
+    REMOVE_ITEM_UNIT,
 } from "../constants";
 
 import { SET_SETTINGS } from "../../../api/consts";
@@ -155,5 +161,37 @@ export const editPaymentMode = (payload = {}) => ({
 
 export const removePaymentMode = (payload = {}) => ({
     type: REMOVE_PAYMENT_MODE,
+    payload,
+});
+
+// Item Units
+// -------------------------------------------------
+export const getItemUnits = (payload = {}) => ({
+    type: GET_ITEM_UNITS,
+    payload,
+});
+
+export const setItemUnits = (payload = {}) => ({
+    type: SET_ITEM_UNITS,
+    payload,
+});
+
+export const setItemUnit = (payload = {}) => ({
+    type: SET_ITEM_UNIT,
+    payload,
+});
+
+export const createItemUnit = (payload = {}) => ({
+    type: CREATE_ITEM_UNIT,
+    payload,
+});
+
+export const editItemUnit = (payload = {}) => ({
+    type: EDIT_ITEM_UNIT,
+    payload,
+});
+
+export const removeItemUnit = (payload = {}) => ({
+    type: REMOVE_ITEM_UNIT,
     payload,
 });

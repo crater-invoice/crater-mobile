@@ -15,6 +15,10 @@ export const CATEGORY_EDIT = 'category/CATEGORY_EDIT';
 // Actions
 // -----------------------------------------
 
+// Categories
+export const GET_EXPENSE_CATEGORIES = 'categories/GET_EXPENSE_CATEGORIES';
+export const GET_CREATE_EXPENSE_CATEGORY = 'categories/GET_CREATE_EXPENSE_CATEGORY';
+
 export const CREATE_EXPENSE_CATEGORY = 'categories/CREATE_EXPENSE_CATEGORY';
 export const EDIT_EXPENSE_CATEGORY = 'categories/EDIT_EXPENSE_CATEGORY';
 export const REMOVE_EXPENSE_CATEGORY = 'categories/REMOVE_EXPENSE_CATEGORY';

@@ -21,12 +21,27 @@ const initialState = {
         // preferences
         getPreferencesLoading: false,
         editPreferencesLoading: false,
+        // item
+        getSettingItemLoading: false,
+        setSettingItemLoading: false,
+        editSettingItemLoading: false,
+        // categories
+        expensesCategoryLoading: false,
+        expenseCategoryLoading: false,
+        initExpenseCategoryLoading: false,
+        // taxes
+        addTaxLoading: false,
+        getTaxLoading: false,
+        removeTaxLoading: false,
         // customize
         getCustomizeLoading: false,
         customizeLoading: false,
         // payment method
         paymentModesLoading: false,
         paymentModeLoading: false,
+        // Item Unit
+        itemUnitsLoading: false,
+        itemUnitLoading: false,
     },
     preferences: null,
     paymentMethods: [],

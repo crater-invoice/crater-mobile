@@ -8,10 +8,6 @@ import {
 import { env } from '../../../config';
 
 const initialState = {
-    loading: {
-        itemsLoading: false,
-        itemLoading: false,
-    },
     items: [],
     filterItems: [],
     item: null

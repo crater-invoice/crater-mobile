@@ -5,9 +5,9 @@ import { reduxForm } from 'redux-form';
 import { Categories } from '../../components/Categories';
 import { CATEGORY_SEARCH } from '../../constants';
 
-const mapStateToProps = ({ global, categories }) => ({
+const mapStateToProps = ({ global, settings, categories }) => ({
     language: global.language,
-    loading: categories.loading.expensesCategoryLoading,
+    loading: settings.loading.expensesCategoryLoading,
     categories: categories.categories
 });
 

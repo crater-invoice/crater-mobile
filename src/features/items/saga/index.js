@@ -2,6 +2,8 @@ import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import {
     moreTriggerSpinner,
+} from '../../more/actions';
+import {
     setItems,
     setItem,
     deleteItem,
