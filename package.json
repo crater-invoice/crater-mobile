@@ -17,6 +17,7 @@
     "babel-eslint": "^10.0.3",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-flowtype": "^4.3.0",
+    "axios": "^0.19.2",
     "expo": "^37.0.0",
     "expo-constants": "~9.0.0",
     "expo-device": "~2.1.0",

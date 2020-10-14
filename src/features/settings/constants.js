@@ -509,6 +509,20 @@ export const PAYMENT_TABS = {
     PREFIX: 'PREFIX'
 };
 
+// Term & Condition Field
+// -----------------------------------------
+export const COMPANY_SETTINGS_TYPE = [
+    'payment_auto_generate',
+    'payment_prefix',
+    'payment_mail_body',
+    'invoice_auto_generate',
+    'invoice_prefix',
+    'invoice_mail_body',
+    'estimate_auto_generate',
+    'estimate_prefix',
+    'estimate_mail_body'
+];
+
 // Endpoint Api URL
 // -----------------------------------------
 export const GET_COMPANY_URL = () => `settings/company`;
@@ -542,8 +556,7 @@ export const EDIT_SALES_TAX_URL = tax => `tax-types/${tax.id}`;
 export const REMOVE_SALES_TAX_URL = id => `tax-types/${id}`;
 
 // Customize Settings
-export const GET_CUSTOMIZE_SETTINGS_URL = () =>
-    `settings/get-customize-setting`;
+export const GET_CUSTOMIZE_SETTINGS_URL = () => `company/settings`;
 export const EDIT_CUSTOMIZE_SETTINGS_URL = () =>
     `settings/update-customize-setting`;
 

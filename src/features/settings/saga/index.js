@@ -20,6 +20,7 @@ import {
     EDIT_SETTING_ITEM,
     GET_CUSTOMIZE_SETTINGS,
     EDIT_CUSTOMIZE_SETTINGS,
+    COMPANY_SETTINGS_TYPE,
     // Endpoint Api URL
     GET_COMPANY_URL,
     EDIT_COMPANY_URL,
@@ -308,8 +309,10 @@ function* getCustomizeSettings(payloadData) {
     try {
         const options = {
             path: GET_CUSTOMIZE_SETTINGS_URL(),
+            axiosProps: {
+                params: { settings: COMPANY_SETTINGS_TYPE }
+            }
         };
-
         const response = yield call([Request, 'get'], options);
         yield put(setCustomizeSettings({ customizes: response }));
 
