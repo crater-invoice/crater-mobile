@@ -8,8 +8,7 @@ import { INVOICE_SEARCH } from '../../constants';
 import { SvgXml } from 'react-native-svg';
 import { INVOICES } from '../../../../assets/svg';
 import { getCustomers } from '../../../customers/actions';
-import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
-import { ROUTES } from '../../../../navigation/routes';
+import { getTitleByLanguage } from '../../../../navigation/actions';
 import { withNavigationFocus } from 'react-navigation';
 import {
     getDueInvoicesState,
@@ -17,8 +16,7 @@ import {
     getAllInvoicesState
 } from '../../selectors';
 
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
     const {
         global: { language },
         customers: { customers },
@@ -36,7 +34,7 @@ const mapStateToProps = (state) => {
         loading: invoicesLoading,
         language,
         customers,
-        formValues: getFormValues(INVOICE_SEARCH)(state) || {},
+        formValues: getFormValues(INVOICE_SEARCH)(state) || {}
     };
 };
 
@@ -47,13 +45,13 @@ const mapDispatchToProps = {
 
 //  Redux Forms
 const invoiceSearchReduxForm = reduxForm({
-    form: INVOICE_SEARCH,
+    form: INVOICE_SEARCH
 })(Invoices);
 
 //  connect
 const InvoicesContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(invoiceSearchReduxForm);
 
 InvoicesContainer.navigationOptions = ({ navigation }) => ({
@@ -66,15 +64,7 @@ InvoicesContainer.navigationOptions = ({ navigation }) => ({
             width="22"
             height="22"
         />
-    ),
-    tabBarOnPress: ({ defaultHandler }) => {
-        if (navigation.isFocused()) {
-            return;
-        }
-
-        navigateToMainTabs(navigation, ROUTES.MAIN_INVOICES)
-    }
+    )
 });
 
 export default withNavigationFocus(InvoicesContainer);
-

@@ -10,76 +10,68 @@ import {
     SET_EDIT_CUSTOMER,
     GET_EDIT_CUSTOMER,
     REMOVE_CUSTOMER,
-    SET_REMOVE_CUSTOMER,
-    SET_FILTER_CUSTOMERS
-} from "../constants";
+    SET_REMOVE_CUSTOMER
+} from '../constants';
 
 export const getCustomers = (payload = {}) => ({
     type: GET_CUSTOMERS,
-    payload,
+    payload
 });
 
 export const setCustomers = (payload = {}) => ({
     type: SET_CUSTOMERS,
-    payload,
+    payload
 });
 
-export const setFilterCustomers = (payload = {}) => ({
-    type: SET_FILTER_CUSTOMERS,
-    payload,
-});
-
-
-export const customerTriggerSpinner = (payload) => ({
+export const customerTriggerSpinner = payload => ({
     type: CUSTOMERS_TRIGGER_SPINNER,
-    payload,
+    payload
 });
 
 export const createCustomer = (payload = {}) => ({
     type: CREATE_CUSTOMER,
-    payload,
+    payload
 });
 
 export const setCreateCustomer = (payload = {}) => ({
     type: SET_CREATE_CUSTOMER,
-    payload,
+    payload
 });
 
 export const editCustomer = (payload = {}) => ({
     type: EDIT_CUSTOMER,
-    payload,
+    payload
 });
 
 export const setEditCustomer = (payload = {}) => ({
     type: SET_EDIT_CUSTOMER,
-    payload,
+    payload
 });
 
-export const setRemoveCustomer = (payload) => ({
+export const setRemoveCustomer = payload => ({
     type: SET_REMOVE_CUSTOMER,
-    payload,
+    payload
 });
 
 export const getEditCustomer = (payload = {}) => ({
     type: GET_EDIT_CUSTOMER,
-    payload,
+    payload
 });
 
 export const removeCustomer = (payload = {}) => ({
     type: REMOVE_CUSTOMER,
-    payload,
+    payload
 });
-
 
 // Address Country
 // -----------------------------------------
 
 export const getCountries = (payload = {}) => ({
     type: GET_COUNTRIES,
-    payload,
+    payload
 });
 
 export const setCountries = (payload = {}) => ({
     type: SET_COUNTRIES,
-    payload,
+    payload
 });

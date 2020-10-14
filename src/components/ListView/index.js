@@ -10,13 +10,7 @@ import { colors } from '../../styles/colors';
 import { CurrencyFormat } from '../CurrencyFormat';
 
 type IProps = {
-    loading: Boolean,
-    onRefresh: Function,
-    refreshing: Boolean,
     hasAvatar: Boolean,
-    getItems: Function,
-    getFreshItems: Function,
-    canLoadMore: Boolean,
     isEmpty: Boolean,
     containerStyle: Object,
     emptyContentProps: Object,
@@ -257,38 +251,23 @@ export class ListView extends Component<IProps> {
     render() {
         const {
             items,
-            loading = false,
-            refreshing = true,
             hasAvatar = false,
-            getItems,
-            getFreshItems,
-            canLoadMore,
             isEmpty,
-            containerStyle,
-            emptyContentProps,
-            listViewContainerStyle
+            emptyContentProps
         } = this.props;
 
         return (
-            <InfiniteScroll
-                loading={loading}
-                isEmpty={isEmpty}
-                canLoadMore={canLoadMore}
-                style={listViewContainerStyle && listViewContainerStyle}
-                onEndReached={getItems}
-                refreshControlColor={colors.veryDarkGray}
-                onPullToRefresh={
-                    refreshing ? onHide => onHide && onHide() : getFreshItems
-                }
-            >
-                {!isEmpty
-                    ? items.map((item, index) =>
-                          !hasAvatar
-                              ? this.itemsList(item, index)
-                              : this.itemsWithAvatar(item, index)
-                      )
-                    : !loading && <Empty {...emptyContentProps} />}
-            </InfiniteScroll>
+            <>
+                {!isEmpty ? (
+                    items.map((item, index) =>
+                        !hasAvatar
+                            ? this.itemsList(item, index)
+                            : this.itemsWithAvatar(item, index)
+                    )
+                ) : (
+                    <Empty {...emptyContentProps} />
+                )}
+            </>
         );
     }
 }

@@ -4,32 +4,28 @@ import {
     SET_COUNTRIES,
     SET_CREATE_CUSTOMER,
     SET_EDIT_CUSTOMER,
-    SET_REMOVE_CUSTOMER,
-    SET_FILTER_CUSTOMERS
-} from "../constants";
+    SET_REMOVE_CUSTOMER
+} from '../constants';
 
-const formatCustomers = (customers) => {
-
-    let customerList = []
+const formatCustomers = customers => {
+    let customerList = [];
     if (typeof customers !== 'undefined' && customers.length != 0) {
-        customerList = customers.map((customer) => {
-
+        customerList = customers.map(customer => {
             return {
                 title: customer.name,
                 subtitle: {
-                    title: customer.contact_name || '',
+                    title: customer.contact_name || ''
                 },
                 leftAvatar: customer.name.toUpperCase().charAt(0),
-                fullItem: customer,
-            }
-        })
+                fullItem: customer
+            };
+        });
     }
-    return customerList
-}
+    return customerList;
+};
 
 const initialState = {
     customers: [],
-    filterCustomers: [],
     countries: [],
     errors: null,
     loading: {
@@ -44,12 +40,9 @@ export default function customersReducer(state = initialState, action) {
     const { payload, type } = action;
 
     switch (type) {
-
-
         case SET_CUSTOMERS:
-
             let { customers, fresh } = payload;
-            let customerList = formatCustomers(customers)
+            let customerList = formatCustomers(customers);
             if (!fresh) {
                 return {
                     ...state,
@@ -59,25 +52,12 @@ export default function customersReducer(state = initialState, action) {
 
             return { ...state, customers: customerList };
 
-        case SET_FILTER_CUSTOMERS:
-
-            let filterCustomerList = formatCustomers(payload.customers)
-
-            if (!payload.fresh) {
-                return {
-                    ...state,
-                    filterCustomers: [...state.filterCustomers, ...filterCustomerList]
-                };
-            }
-
-            return { ...state, filterCustomers: filterCustomerList };
-
         case SET_EDIT_CUSTOMER:
+            let editCustomer = formatCustomers(payload.customers);
 
-            let editCustomer = formatCustomers(payload.customers)
-
-            const customersList = state.customers.filter(({ fullItem }) =>
-                (fullItem.id !== payload.id))
+            const customersList = state.customers.filter(
+                ({ fullItem }) => fullItem.id !== payload.id
+            );
 
             return {
                 ...state,
@@ -85,8 +65,7 @@ export default function customersReducer(state = initialState, action) {
             };
 
         case SET_CREATE_CUSTOMER:
-
-            let newCustomer = formatCustomers(payload.customers)
+            let newCustomer = formatCustomers(payload.customers);
 
             return {
                 ...state,
@@ -94,9 +73,9 @@ export default function customersReducer(state = initialState, action) {
             };
 
         case SET_REMOVE_CUSTOMER:
-
-            const remainCustomers = state.customers.filter(({ fullItem }) =>
-                (fullItem.id !== payload.id))
+            const remainCustomers = state.customers.filter(
+                ({ fullItem }) => fullItem.id !== payload.id
+            );
 
             return { ...state, customers: remainCustomers };
 

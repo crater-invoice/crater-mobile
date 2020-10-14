@@ -8,15 +8,16 @@ import { PAYMENT_SEARCH } from '../../constants';
 import { SvgXml } from 'react-native-svg';
 import { PAYMETNS } from '../../../../assets/svg';
 import { getCustomers } from '../../../customers/actions';
-import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
-import { ROUTES } from '../../../../navigation/routes';
+import { getTitleByLanguage } from '../../../../navigation/actions';
 import { withNavigationFocus } from 'react-navigation';
 import { getPaymentModes } from '../../../settings/actions';
-import { getPaymentsState, getFilterPaymentsState, getPaymentMethodsState } from '../../selectors';
+import {
+    getPaymentsState,
+    getFilterPaymentsState,
+    getPaymentMethodsState
+} from '../../selectors';
 
-
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
     const {
         global: { language },
         customers: { customers },
@@ -40,10 +41,9 @@ const mapStateToProps = (state) => {
         customers,
         paymentMethods: getPaymentMethodsState(paymentMethods),
 
-        formValues: getFormValues(PAYMENT_SEARCH)(state) || {},
+        formValues: getFormValues(PAYMENT_SEARCH)(state) || {}
     };
 };
-
 
 const mapDispatchToProps = {
     getPayments: PaymentsAction.getPayments,
@@ -53,13 +53,13 @@ const mapDispatchToProps = {
 
 //  Redux Forms
 const paymentSearchReduxForm = reduxForm({
-    form: PAYMENT_SEARCH,
+    form: PAYMENT_SEARCH
 })(Payments);
 
 //  connect
 const PaymentsContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(paymentSearchReduxForm);
 
 PaymentsContainer.navigationOptions = ({ navigation }) => ({
@@ -72,14 +72,7 @@ PaymentsContainer.navigationOptions = ({ navigation }) => ({
             width="22"
             height="22"
         />
-    ),
-    tabBarOnPress: () => {
-        if (navigation.isFocused()) {
-            return;
-        }
-
-        navigateToMainTabs(navigation, ROUTES.MAIN_PAYMENTS)
-    }
+    )
 });
 
 export default withNavigationFocus(PaymentsContainer);

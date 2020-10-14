@@ -37,3 +37,4 @@ export * from './TimePickerField';
 export * from './SelectFieldOptions';
 export * from './DateTimePickerField';
 export * from './CustomField';
+export * from './InfiniteScroll';

@@ -23,8 +23,7 @@ import {
     setCountries,
     setCreateCustomer,
     setEditCustomer,
-    setRemoveCustomer,
-    setFilterCustomers
+    setRemoveCustomer
 } from '../actions';
 import { ROUTES } from '../../../navigation/routes';
 import { alertMe } from '../../../api/global';
@@ -49,48 +48,30 @@ const addressParams = (address, type) => {
     return params;
 };
 
-function* getCustomers(payloadData) {
+function* getCustomers({ payload }) {
     const {
-        payload: {
-            onResult = null,
-            fresh = true,
-            onMeta = null,
-            params = null,
-            filter = false,
-            pagination: { page = 1, limit = 10 } = {}
-        } = {}
-    } = payloadData;
+        fresh = true,
+        onSuccess = null,
+        queryString = ({ page = 1, limit = 10 } = {})
+    } = payload;
 
     yield put(customerTriggerSpinner({ customersLoading: true }));
 
     try {
-        let param = {
-            ...params,
-            page,
-            limit
-        };
         const options = {
-            path: GET_CUSTOMERS_URL(param)
+            path: GET_CUSTOMERS_URL(queryString)
         };
+
         const response = yield call([Request, 'get'], options);
 
-        if (!filter)
-            yield put(
-                setCustomers({ customers: response.customers.data, fresh })
-            );
-        else
-            yield put(
-                setFilterCustomers({
-                    customers: response.customers.data,
-                    fresh
-                })
-            );
+        if (response?.customers) {
+            const { data } = response.customers;
+            yield put(setCustomers({ customers: data, fresh }));
+        }
 
-        onMeta && onMeta(response.customers);
-
-        onResult && onResult(true);
+        onSuccess?.(response?.customers);
     } catch (error) {
-        onResult && onResult(false);
+        console.log({ error });
     } finally {
         yield put(customerTriggerSpinner({ customersLoading: false }));
     }

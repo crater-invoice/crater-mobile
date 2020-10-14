@@ -477,7 +477,7 @@ export class Customer extends React.Component<IProps> {
                         />
                     </View>
 
-                    {hasFieldValue(customFields) && (
+                    {/* {hasFieldValue(customFields) && (
                         <Field
                             name="customFields"
                             component={CustomField}
@@ -485,7 +485,7 @@ export class Customer extends React.Component<IProps> {
                             fields={customFields}
                             initialFieldValues={fields}
                         />
-                    )}
+                    )} */}
                     {/*
                     <CtDivider dividerStyle={styles.dividerStyle} />
 

@@ -1,21 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
-import * as ExpensesAction from '../../actions'
+import * as ExpensesAction from '../../actions';
 import * as CategoriesAction from '../../../settings/actions';
 import { colors } from '../../../../styles/colors';
 import { Expenses } from '../../components/Expenses';
 import { EXPENSE_SEARCH } from '../../constants';
 import { EXPENSES } from '../../../../assets/svg';
 import { SvgXml } from 'react-native-svg';
-import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
-import { ROUTES } from '../../../../navigation/routes';
+import { getTitleByLanguage } from '../../../../navigation/actions';
 import { withNavigationFocus } from 'react-navigation';
-import { getExpensesState, getFilterExpensesState, getCategoriesState } from '../../selectors';
+import {
+    getExpensesState,
+    getFilterExpensesState,
+    getCategoriesState
+} from '../../selectors';
 
-
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
     const {
         global: { language, currency },
         expenses: {
@@ -26,7 +27,6 @@ const mapStateToProps = (state) => {
         settings: { categories }
     } = state;
 
-
     return {
         loading: expensesLoading,
         expenses: getExpensesState(expenses, currency),
@@ -34,13 +34,13 @@ const mapStateToProps = (state) => {
         language,
         currency,
         categories: getCategoriesState(categories),
-        formValues: getFormValues(EXPENSE_SEARCH)(state) || {},
+        formValues: getFormValues(EXPENSE_SEARCH)(state) || {}
     };
 };
 
 const mapDispatchToProps = {
     getExpenses: ExpensesAction.getExpenses,
-    getCategories: CategoriesAction.getExpenseCategories,
+    getCategories: CategoriesAction.getExpenseCategories
 };
 //  Redux Forms
 const ExpensesSearchReduxForm = reduxForm({
@@ -50,11 +50,10 @@ const ExpensesSearchReduxForm = reduxForm({
 //  connect
 const ExpensesContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(ExpensesSearchReduxForm);
 
 ExpensesContainer.navigationOptions = ({ navigation }) => ({
-
     gesturesEnabled: false,
     tabBarLabel: getTitleByLanguage('tabNavigation.expenses'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
@@ -64,15 +63,7 @@ ExpensesContainer.navigationOptions = ({ navigation }) => ({
             width="22"
             height="22"
         />
-    ),
-    tabBarOnPress: () => {
-
-        if (navigation.isFocused()) {
-            return;
-        }
-
-        navigateToMainTabs(navigation, ROUTES.MAIN_EXPENSES)
-    }
+    )
 });
 
 export default withNavigationFocus(ExpensesContainer);

@@ -16,7 +16,6 @@ import Lng from '../../api/lang/i18n';
 type IProps = {
     visible: Boolean,
     onToggle: Function,
-    onResetFilter: Function,
     onSubmitFilter: Function,
     headerProps: Object,
     inputFields: Object,
@@ -24,22 +23,21 @@ type IProps = {
     selectFields: Object,
     datePickerFields: Object,
     language: String,
+    onResetFilter: Function
 };
-
 
 export class Filter extends Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {
             visible: false,
-            counter: 0,
+            counter: 0
         };
     }
 
-
-    inputField = (fields) => {
+    inputField = fields => {
         return fields.map((field, index) => {
-            const { name, hint, inputProps } = field
+            const { name, hint, inputProps } = field;
             return (
                 <View key={index}>
                     <Field
@@ -54,16 +52,15 @@ export class Filter extends Component<IProps> {
                         leftIconStyle={field.leftIcon && styles.inputIconStyle}
                     />
                 </View>
-            )
-        })
-    }
+            );
+        });
+    };
 
-
-    selectField = (fields) => {
-        const { counter } = this.state
+    selectField = fields => {
+        const { counter } = this.state;
 
         return fields.map((field, index) => {
-            const { name, items } = field
+            const { name, items } = field;
 
             return (
                 <View key={index}>
@@ -75,13 +72,13 @@ export class Filter extends Component<IProps> {
                         {...field}
                     />
                 </View>
-            )
-        })
-    }
+            );
+        });
+    };
 
-    dropdownField = (fields) => {
+    dropdownField = fields => {
         return fields.map((field, index) => {
-            const { name, items } = field
+            const { name, items } = field;
 
             return (
                 <View key={index}>
@@ -92,20 +89,16 @@ export class Filter extends Component<IProps> {
                         {...field}
                     />
                 </View>
-            )
-        })
-    }
+            );
+        });
+    };
 
-    datePickerField = (fields) => {
-
+    datePickerField = fields => {
         return fields.map((field, index) => {
-            const { name } = field
+            const { name } = field;
 
             return (
-                <View
-                    key={index}
-                    style={styles.dateField}
-                >
+                <View key={index} style={styles.dateField}>
                     <Field
                         name={name}
                         component={DatePickerField}
@@ -113,62 +106,62 @@ export class Filter extends Component<IProps> {
                         {...field}
                     />
                 </View>
-            )
-        })
-    }
+            );
+        });
+    };
 
     setFormField = (field, value) => {
-        const { form, dispatch } = this.props.clearFilter
+        const { form, dispatch } = this.props.clearFilter;
         dispatch(change(form, field, value));
     };
 
     onToggleFilter = () => {
-        this.setState((prevState) => {
-            return { visible: !prevState.visible }
+        this.setState(prevState => {
+            return { visible: !prevState.visible };
         });
-    }
+    };
 
-    onSubmit = (val) => {
+    onSubmit = val => {
+        let counter = 0;
 
-        let counter = 0
-
-        for (key in val) {
-            !(key === 'search') && counter++
+        for (const key in val) {
+            key !== 'search' && counter++;
         }
 
-        this.setState({ counter })
+        this.setState({ counter });
 
-        this.onToggleFilter()
+        this.onToggleFilter();
 
-        this.props.onSubmitFilter()
-    }
+        this.props.onSubmitFilter?.();
+    };
 
     onClear = () => {
-
-        const { clearFilter, onResetFilter } = this.props
-        const { form, dispatch, formValues: { search } } = clearFilter
+        const { clearFilter, onResetFilter } = this.props;
+        const {
+            form,
+            dispatch,
+            formValues: { search }
+        } = clearFilter;
 
         dispatch(reset(form));
         dispatch(change(form, 'search', search));
 
-        this.setState({ counter: 0 })
+        this.setState({ counter: 0 });
 
-        onResetFilter && onResetFilter()
-    }
-
+        onResetFilter?.();
+    };
 
     BOTTOM_ACTION = () => {
-
         const {
             language,
             clearFilter: { handleSubmit }
-        } = this.props
+        } = this.props;
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={() => this.onClear()}
-                    btnTitle={Lng.t("button.clear", { locale: language })}
+                    btnTitle={Lng.t('button.clear', { locale: language })}
                     type={BUTTON_TYPE.OUTLINE}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
@@ -176,16 +169,15 @@ export class Filter extends Component<IProps> {
 
                 <CtButton
                     onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t("search.title", { locale: language })}
+                    btnTitle={Lng.t('search.title', { locale: language })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                 />
             </View>
-        )
-    }
+        );
+    };
 
     render() {
-
         const {
             headerProps,
             inputFields,
@@ -194,9 +186,9 @@ export class Filter extends Component<IProps> {
             datePickerFields,
             language,
             clearFilter: { handleSubmit }
-        } = this.props
+        } = this.props;
 
-        const { visible, counter } = this.state
+        const { visible, counter } = this.state;
 
         return (
             <View>
@@ -213,14 +205,10 @@ export class Filter extends Component<IProps> {
 
                     {counter > 0 && (
                         <View style={styles.counter}>
-                            <Text style={styles.counterText}>
-                                {counter}
-                            </Text>
+                            <Text style={styles.counterText}>{counter}</Text>
                         </View>
                     )}
-
                 </TouchableOpacity>
-
 
                 <Modal
                     animationType="slide"
@@ -230,19 +218,20 @@ export class Filter extends Component<IProps> {
                 >
                     <StatusBar
                         backgroundColor={colors.secondary}
-                        barStyle={"dark-content"}
+                        barStyle={'dark-content'}
                         translucent={true}
                     />
 
                     <View style={styles.modalContainer}>
-
                         <DefaultLayout
                             headerProps={{
                                 leftIcon: 'long-arrow-alt-left',
                                 leftIconStyle: styles.backIcon,
-                                title: Lng.t("header.filter", { locale: language }),
-                                placement: "center",
-                                rightIcon: "search",
+                                title: Lng.t('header.filter', {
+                                    locale: language
+                                }),
+                                placement: 'center',
+                                rightIcon: 'search',
                                 hasCircle: false,
                                 noBorder: false,
                                 transparent: false,
@@ -253,28 +242,17 @@ export class Filter extends Component<IProps> {
                             bottomAction={this.BOTTOM_ACTION()}
                         >
                             <View style={styles.bodyContainer}>
+                                {selectFields && this.selectField(selectFields)}
 
-                                {selectFields &&
-                                    this.selectField(selectFields)
-                                }
-
-                                <View
-                                    style={styles.dateFieldContainer}
-                                >
-
+                                <View style={styles.dateFieldContainer}>
                                     {datePickerFields &&
-                                        this.datePickerField(datePickerFields)
-                                    }
+                                        this.datePickerField(datePickerFields)}
                                 </View>
 
                                 {dropdownFields &&
-                                    this.dropdownField(dropdownFields)
-                                }
+                                    this.dropdownField(dropdownFields)}
 
-                                {inputFields &&
-                                    this.inputField(inputFields)
-                                }
-
+                                {inputFields && this.inputField(inputFields)}
                             </View>
                         </DefaultLayout>
                     </View>

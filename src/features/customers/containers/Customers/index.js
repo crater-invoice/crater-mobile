@@ -7,23 +7,19 @@ import { CUSTOMER_SEARCH } from '../../constants';
 import { colors } from '../../../../styles/colors';
 import { SvgXml } from 'react-native-svg';
 import { CUSTOMERS } from '../../../../assets/svg';
-import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
-import { ROUTES } from '../../../../navigation/routes';
+import { getTitleByLanguage } from '../../../../navigation/actions';
 import { withNavigationFocus } from 'react-navigation';
 
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
     const {
-        customers: { customers, filterCustomers, loading },
+        customers: { customers, loading },
         global: { language }
     } = state;
 
     return {
         customers,
-        filterCustomers,
-        loading: loading.customersLoading,
         language,
-        formValues: getFormValues(CUSTOMER_SEARCH)(state) || {},
+        formValues: getFormValues(CUSTOMER_SEARCH)(state) || {}
     };
 };
 
@@ -33,15 +29,14 @@ const mapDispatchToProps = {
 
 //  Redux Forms
 const customerSearchReduxForm = reduxForm({
-    form: CUSTOMER_SEARCH,
+    form: CUSTOMER_SEARCH
 })(Customers);
 
 //  connect
 const CustomersContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(customerSearchReduxForm);
-
 
 CustomersContainer.navigationOptions = ({ navigation }) => ({
     gesturesEnabled: false,
@@ -53,16 +48,7 @@ CustomersContainer.navigationOptions = ({ navigation }) => ({
             width="22"
             height="22"
         />
-    ),
-    tabBarOnPress: () => {
-
-        if (navigation.isFocused()) {
-            return;
-        }
-
-        navigateToMainTabs(navigation, ROUTES.MAIN_CUSTOMERS)
-
-    }
+    )
 });
 
 export default withNavigationFocus(CustomersContainer);
