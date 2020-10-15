@@ -21,7 +21,8 @@ type IProps = {
     inputProps: Object,
     dividerStyle: Object,
     loadingProps: Object,
-    toastProps: Object
+    toastProps: Object,
+    searchFieldProps: any
 };
 
 const MainLayoutComponent = ({
@@ -36,7 +37,8 @@ const MainLayoutComponent = ({
     dividerStyle,
     loadingProps,
     language,
-    toastProps
+    toastProps,
+    searchFieldProps
 }: IProps) => {
 
     let hasFilter = filterProps ? { ...filterProps } : null
@@ -73,6 +75,7 @@ const MainLayoutComponent = ({
                             height={40}
                             rounded
                             fieldStyle={styles.inputField}
+                            {...searchFieldProps}
                         />
                     </View>
                 )}

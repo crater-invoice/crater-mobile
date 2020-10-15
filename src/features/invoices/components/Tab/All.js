@@ -1,77 +1,61 @@
 // @flow
-import React from 'react';
-import { View } from 'react-native';
-import { styles } from './styles';
-import { ListView, Content } from '../../../../components';
-import { IMAGES } from '../../../../config';
-import Lng from '../../../../api/lang/i18n';
+import React, { useRef, useEffect } from "react";
+import { View } from "react-native";
+import { styles } from "./styles";
+import { ListView, InfiniteScroll } from "@/components";
+import { getFilterStatusType } from "../../constants";
 
 type IProps = {
-    canLoadMore: Boolean,
+    reference: any,
     parentProps: any
 };
 
-const All = ({ canLoadMore, parentProps }: IProps) => {
+export const All = ({ reference, parentProps }: IProps) => {
+    let scrollViewReference = useRef(null);
+    const { props, state, onSelect, getEmptyContentProps } = parentProps;
+    const { allInvoices = [], getInvoices } = props;
+    const { search } = state;
 
-    const {
-        props,
-        state,
-        getItems,
-        onInvoiceSelect,
-        loadMoreItems,
-        onAddInvoice
-    } = parentProps
-    const { allInvoices = [], navigation, loading, language } = props
-    const { refreshing, fresh, search, filter } = state
+    useEffect(() => {
+        const values = parentProps?.props?.formValues;
 
+        const type = values?.filterStatus
+            ? getFilterStatusType(values?.filterStatus)
+            : values?.paid_status;
 
-    let empty = (!filter && !search) ? {
-        description: Lng.t("invoices.empty.description", { locale: language }),
-        buttonTitle: Lng.t("invoices.empty.buttonTitle", { locale: language }),
-        buttonPress: () => onAddInvoice(),
-    } : {}
+        const queryString = {
+            type: type ?? "",
+            search,
+            ...values
+        };
 
-    let emptyTitle = search ? Lng.t("search.noResult", { locale: language, search })
-        : (!filter) ? Lng.t("invoices.empty.all.title", { locale: language }) :
-            Lng.t("filter.empty.filterTitle", { locale: language })
+        scrollViewReference?.getItems?.({
+            queryString
+        });
+        return () => {};
+    }, []);
 
-    let isLoading = navigation.getParam('loading', false)
+    const isEmpty = allInvoices.length <= 0;
 
     return (
         <View style={styles.content}>
-            <Content loadingProps={{ is: isLoading || (refreshing && fresh) }}>
+            <InfiniteScroll
+                getItems={getInvoices}
+                hideRefreshControl={isEmpty}
+                getItemsInMount={false}
+                reference={ref => {
+                    scrollViewReference = ref;
+                    reference?.(ref);
+                }}
+            >
                 <ListView
                     items={allInvoices}
-                    onPress={onInvoiceSelect}
-                    refreshing={refreshing}
-                    loading={loading}
-                    isEmpty={allInvoices.length <= 0}
-                    canLoadMore={canLoadMore}
-                    getFreshItems={(onHide) => {
-                        getItems({
-                            fresh: true,
-                            onResult: onHide,
-                            type: '',
-                            q: search,
-                            resetFilter: true
-                        });
-                    }}
-                    getItems={() => {
-                        loadMoreItems({
-                            type: '',
-                            q: search,
-                        });
-                    }}
+                    onPress={onSelect}
+                    isEmpty={isEmpty}
                     bottomDivider
-                    emptyContentProps={{
-                        title: emptyTitle,
-                        image: IMAGES.EMPTY_INVOICES,
-                        ...empty
-                    }}
+                    emptyContentProps={getEmptyContentProps()}
                 />
-            </Content>
+            </InfiniteScroll>
         </View>
     );
 };
-
-export default All;

@@ -201,7 +201,7 @@ export class SelectFieldComponent extends Component<IProps> {
     }
 
     onToggle = () => {
-        const { meta, isEditable = true } = this.props
+        const { meta, isEditable = true ,input } = this.props
         const { visible, defaultItem } = this.state
 
 
@@ -212,8 +212,8 @@ export class SelectFieldComponent extends Component<IProps> {
             this.setState((prevState) => {
                 return { visible: !prevState.visible }
             });
-
-            meta.dispatch(change(meta.form, 'search', ''));
+            console.log(this.props);
+            meta.dispatch(change(meta.form, `search-${input?.name}`, ''));
         }
     }
 
@@ -423,6 +423,7 @@ export class SelectFieldComponent extends Component<IProps> {
             emptyContentProps,
             apiSearch,
             searchInputProps,
+            input,
             input: { value },
             isRequired,
             isInternalSearch
@@ -509,6 +510,7 @@ export class SelectFieldComponent extends Component<IProps> {
                         ...headerProps
                     }}
                     searchInputProps={searchInputProps && searchInputProps}
+                    searchFieldProps={{ name:`search-${input?.name}` }}
                     onSearch={this.onSearch}
                     bottomDivider
                     {...paginationContent}

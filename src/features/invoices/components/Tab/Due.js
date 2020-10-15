@@ -1,76 +1,57 @@
 // @flow
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { View } from 'react-native';
 import { styles } from './styles';
-import { ListView, Content } from '../../../../components';
-import { IMAGES } from '../../../../config';
-import Lng from '../../../../api/lang/i18n';
+import { ListView, InfiniteScroll } from '@/components';
+import { INVOICES_TABS } from '../../constants';
 
 type IProps = {
-    canLoadMore: Boolean,
+    reference: any,
     parentProps: any
 };
 
-const Due = ({ canLoadMore, parentProps }: IProps) => {
+export const Due = ({ reference, parentProps }: IProps) => {
+    let scrollViewReference = useRef(null);
+    const { props, state, onSelect, getEmptyContentProps } = parentProps;
+    const { dueInvoices = [], getInvoices } = props;
+    const { search } = state;
 
-    const {
-        props,
-        state,
-        getItems,
-        onInvoiceSelect,
-        loadMoreItems,
-        onAddInvoice
-    } = parentProps
-    const { dueInvoices = [], navigation, loading, language } = props
-    const { refreshing, fresh, search, filter } = state
+    useEffect(() => {
+        const values = parentProps?.props?.formValues;
 
-    let empty = (!filter && !search) ? {
-        description: Lng.t("invoices.empty.due.description", { locale: language }),
-        buttonTitle: Lng.t("invoices.empty.buttonTitle", { locale: language }),
-        buttonPress: () => onAddInvoice(),
-    } : {}
+        const queryString = {
+            type: 'UNPAID',
+            search,
+            ...values
+        };
 
-    let emptyTitle = search ? Lng.t("search.noResult", { locale: language, search })
-        : (!filter) ? Lng.t("invoices.empty.due.title", { locale: language }) :
-            Lng.t("filter.empty.filterTitle", { locale: language })
+        scrollViewReference?.getItems?.({
+            queryString
+        });
+        return () => {};
+    }, []);
 
-    let isLoading = navigation.getParam('loading', false)
+    const isEmpty = dueInvoices.length <= 0;
 
     return (
         <View style={styles.content}>
-            <Content loadingProps={{ is: isLoading || (refreshing && fresh) }}>
+            <InfiniteScroll
+                getItems={getInvoices}
+                hideRefreshControl={isEmpty}
+                getItemsInMount={false}
+                reference={ref => {
+                    scrollViewReference = ref;
+                    reference?.(ref);
+                }}
+            >
                 <ListView
                     items={dueInvoices}
-                    onPress={onInvoiceSelect}
-                    refreshing={refreshing}
-                    loading={loading}
-                    isEmpty={dueInvoices.length <= 0}
-                    canLoadMore={canLoadMore}
-                    getFreshItems={(onHide) => {
-                        getItems({
-                            fresh: true,
-                            onResult: onHide,
-                            type: 'UNPAID',
-                            q: search,
-                            resetFilter: true
-                        });
-                    }}
-                    getItems={() => {
-                        loadMoreItems({
-                            type: 'UNPAID',
-                            q: search,
-                        });
-                    }}
+                    onPress={onSelect}
+                    isEmpty={isEmpty}
                     bottomDivider
-                    emptyContentProps={{
-                        title: emptyTitle,
-                        image: IMAGES.EMPTY_INVOICES,
-                        ...empty
-                    }}
+                    emptyContentProps={getEmptyContentProps(INVOICES_TABS.DUE)}
                 />
-            </Content>
+            </InfiniteScroll>
         </View>
     );
 };
-
-export default Due;

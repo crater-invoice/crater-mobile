@@ -24,6 +24,7 @@ interface IProps {
     reference?: any;
     hideRefreshControl?: boolean;
     getItems: Function;
+    getItemsInMount: boolean;
 }
 
 interface IState {
@@ -61,9 +62,15 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
         };
     }
 
+    static defaultProps = {
+        getItemsInMount: true
+    };
+
     componentDidMount() {
-        this.props.reference?.(this);
-        this.getItems();
+        const { getItemsInMount, reference } = this.props;
+
+        reference?.(this);
+        getItemsInMount && this.getItems();
         this.getItems = debounce(this.getItems, 300);
     }
 
@@ -88,6 +95,10 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
             return;
         }
 
+        if (!this.props?.getItems) {
+            return;
+        }
+
         if (showLoader) {
             this.setState({ loading: true });
         }
@@ -107,7 +118,7 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
             ...params
         };
 
-        this.props.getItems?.({
+        this.props?.getItems?.({
             fresh,
             ...getItemProps,
             onSuccess: res => {

@@ -22,6 +22,7 @@ type IProps = {
     children: Object,
     bottomAction: Object,
     searchInputProps: Object,
+    searchFieldProps: any
 };
 
 export class SlideModal extends Component<IProps> {
@@ -46,7 +47,8 @@ export class SlideModal extends Component<IProps> {
             children,
             hasSearchField,
             bottomAction,
-            searchInputProps
+            searchInputProps,
+            searchFieldProps
         } = this.props
 
         return (
@@ -70,6 +72,7 @@ export class SlideModal extends Component<IProps> {
                             bottomDivider={bottomDivider}
                             bottomAction={bottomAction}
                             inputProps={searchInputProps && searchInputProps}
+                            searchFieldProps={searchFieldProps}
                         >
                             <View style={styles.listViewContainer}>
                                 <ListView

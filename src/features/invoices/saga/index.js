@@ -1,5 +1,5 @@
-import { all, call, put, takeEvery } from 'redux-saga/effects';
-import Request from '../../../api/request';
+import { all, call, put, takeEvery } from "redux-saga/effects";
+import Request from "../../../api/request";
 import {
     GET_INVOICES,
     GET_CREATE_INVOICE,
@@ -22,8 +22,8 @@ import {
     EDIT_INVOICE_URL,
     GET_ITEMS_URL,
     REMOVE_INVOICE_URL,
-    CHANGE_INVOICE_STATUS_URL,
-} from '../constants';
+    CHANGE_INVOICE_STATUS_URL
+} from "../constants";
 import {
     invoiceTriggerSpinner,
     setInvoices,
@@ -32,57 +32,45 @@ import {
     removeInvoiceItem,
     removeInvoiceItems,
     setInvoice,
-    removeFromInvoices,
-} from '../actions';
-import { store } from '../../../store';
-import { ROUTES } from '../../../navigation/routes';
-import { alertMe, hasValue } from '../../../api/global';
-import { getTitleByLanguage } from '../../../navigation/actions';
+    removeFromInvoices
+} from "../actions";
+import { store } from "../../../store";
+import { ROUTES } from "../../../navigation/routes";
+import { alertMe, hasValue } from "../../../api/global";
+import { getTitleByLanguage } from "../../../navigation/actions";
 
-import recurring from './recurringInvoice';
+import recurring from "./recurringInvoice";
 
-const alreadyInUse = (error) => {
-
+const alreadyInUse = error => {
     if (error.includes("errors") && error.includes("invoice_number")) {
         alertMe({
             title: getTitleByLanguage("invoices.alert.alreadyInUseNumber")
-        })
+        });
         return true;
     }
-}
+};
 
-function* getInvoices(payloadData) {
+function* getInvoices({ payload }) {
     const {
-        payload: {
-            onResult = null,
-            fresh = true,
-            type = '',
-            onMeta = null,
-            params = null,
-            pagination: { page = 1, limit = 10 } = {},
-        } = {},
-    } = payloadData;
+        fresh = true,
+        onSuccess = null,
+        queryString = ({ page = 1, limit = 10 } = {})
+    } = payload;
 
     yield put(invoiceTriggerSpinner({ invoicesLoading: true }));
 
     try {
-        let param = {
-            ...params,
-            page,
-            limit
-        }
-
         const options = {
-            path: GET_INVOICES_URL(type, param),
+            path: GET_INVOICES_URL(queryString)
         };
 
-        const response = yield call([Request, 'get'], options);
+        const response = yield call([Request, "get"], options);
 
-        yield put(setInvoices({ invoices: response.invoices.data, fresh }));
-
-        onMeta && onMeta(response.invoices);
-
-        onResult && onResult(true);
+        if (response?.invoices) {
+            const { data } = response.invoices;
+            yield put(setInvoices({ invoices: data, fresh }));
+        }
+        onSuccess?.(response?.invoices);
     } catch (error) {
         onResult && onResult(false);
     } finally {
@@ -92,23 +80,21 @@ function* getInvoices(payloadData) {
 
 function* getCreateInvoice(payloadData) {
     const {
-        payload: { onResult },
+        payload: { onResult }
     } = payloadData;
 
     yield put(invoiceTriggerSpinner({ initInvoiceLoading: true }));
 
     try {
-
         const options = {
-            path: GET_CREATE_INVOICE_URL(),
+            path: GET_CREATE_INVOICE_URL()
         };
 
-        const response = yield call([Request, 'get'], options);
+        const response = yield call([Request, "get"], options);
 
         yield put(setInvoice(response));
 
         onResult && onResult(response);
-
     } catch (error) {
         // console.log(error);
     } finally {
@@ -118,20 +104,21 @@ function* getCreateInvoice(payloadData) {
 
 function* getEditInvoice(payloadData) {
     const {
-        payload: { id, onResult },
+        payload: { id, onResult }
     } = payloadData;
 
     yield put(invoiceTriggerSpinner({ initInvoiceLoading: true }));
 
     try {
-
-        const { settings: { taxTypes } } = store.getState();
+        const {
+            settings: { taxTypes }
+        } = store.getState();
 
         const options = {
-            path: GET_EDIT_INVOICE_URL(id),
+            path: GET_EDIT_INVOICE_URL(id)
         };
 
-        const response = yield call([Request, 'get'], options);
+        const response = yield call([Request, "get"], options);
 
         yield put(setInvoice(response));
 
@@ -140,7 +127,6 @@ function* getEditInvoice(payloadData) {
         yield put(setInvoiceItems({ invoiceItem: response.invoice.items }));
 
         onResult && onResult(response.invoice);
-
     } catch (error) {
         // console.log(error);
     } finally {
@@ -150,17 +136,13 @@ function* getEditInvoice(payloadData) {
 
 function* addItem(payloadData) {
     const {
-        payload: {
-            item,
-            onResult,
-        },
+        payload: { item, onResult }
     } = payloadData;
 
     yield put(invoiceTriggerSpinner({ createInvoiceItemLoading: true }));
 
     try {
-
-        const { price, name, description, taxes, unit_id } = item
+        const { price, name, description, taxes, unit_id } = item;
 
         const options = {
             path: CREATE_ITEM_URL(),
@@ -173,18 +155,19 @@ function* addItem(payloadData) {
             }
         };
 
-        const response = yield call([Request, 'post'], options);
+        const response = yield call([Request, "post"], options);
 
-        const invoiceItem = [{
-            ...response.item,
-            item_id: response.item.id,
-            ...item
-        }]
+        const invoiceItem = [
+            {
+                ...response.item,
+                item_id: response.item.id,
+                ...item
+            }
+        ];
 
         yield put(setInvoiceItems({ invoiceItem }));
 
-        onResult && onResult()
-
+        onResult && onResult();
     } catch (error) {
         // console.log(error);
     } finally {
@@ -194,40 +177,37 @@ function* addItem(payloadData) {
 
 function* editItem(payloadData) {
     const {
-        payload: {
-            item,
-            onResult,
-        },
+        payload: { item, onResult }
     } = payloadData;
 
     yield put(invoiceTriggerSpinner({ createInvoiceItemLoading: true }));
 
     try {
-
-        const { price, name, description, item_id } = item
+        const { price, name, description, item_id } = item;
 
         const options = {
             path: EDIT_ITEM_URL(item_id),
             body: {
                 name,
                 description,
-                price,
+                price
             }
         };
 
-        const response = yield call([Request, 'put'], options);
+        const response = yield call([Request, "put"], options);
 
-        const invoiceItem = [{
-            ...response.item,
-            ...item,
-        }]
+        const invoiceItem = [
+            {
+                ...response.item,
+                ...item
+            }
+        ];
 
         yield put(removeInvoiceItem({ id: invoiceItem.id }));
 
         yield put(setInvoiceItems({ invoiceItem }));
 
-        onResult && onResult()
-
+        onResult && onResult();
     } catch (error) {
         // console.log(error);
     } finally {
@@ -237,33 +217,30 @@ function* editItem(payloadData) {
 
 function* createInvoice(payloadData) {
     const {
-        payload: {
-            invoice,
-            onResult,
-        },
+        payload: { invoice, onResult }
     } = payloadData;
 
     yield put(invoiceTriggerSpinner({ invoiceLoading: true }));
 
     try {
-
         const options = {
             path: CREATE_INVOICE_URL(),
-            body: invoice,
+            body: invoice
         };
 
-        const response = yield call([Request, 'post'], options);
+        const response = yield call([Request, "post"], options);
 
-        if (!(response.error)) {
-            yield put(removeInvoiceItems())
+        if (!response.error) {
+            yield put(removeInvoiceItems());
 
-            yield put(setInvoices({ invoices: [response.invoice], prepend: true }));
+            yield put(
+                setInvoices({ invoices: [response.invoice], prepend: true })
+            );
 
-            onResult && onResult(response.url)
+            onResult && onResult(response.url);
         }
-
     } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText)
+        hasValue(_bodyText) && alreadyInUse(_bodyText);
     } finally {
         yield put(invoiceTriggerSpinner({ invoiceLoading: false }));
     }
@@ -271,31 +248,26 @@ function* createInvoice(payloadData) {
 
 function* editInvoice(payloadData) {
     const {
-        payload: {
-            invoice,
-            onResult,
-        },
+        payload: { invoice, onResult }
     } = payloadData;
 
     yield put(invoiceTriggerSpinner({ invoiceLoading: true }));
 
     try {
-
         const options = {
             path: EDIT_INVOICE_URL(invoice),
             body: invoice
         };
 
-        const response = yield call([Request, 'put'], options);
+        const response = yield call([Request, "put"], options);
 
-        onResult && onResult(response.url)
+        onResult && onResult(response.url);
 
-        yield put(removeFromInvoices({ id: invoice.id }))
+        yield put(removeFromInvoices({ id: invoice.id }));
 
         yield put(setInvoices({ invoices: [response.invoice], prepend: true }));
-
     } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText)
+        hasValue(_bodyText) && alreadyInUse(_bodyText);
     } finally {
         yield put(invoiceTriggerSpinner({ invoiceLoading: false }));
     }
@@ -307,21 +279,20 @@ function* getItems(payloadData) {
             onResult,
             fresh,
             onMeta,
-            search = '',
-            q = '',
-            pagination: { page, limit },
-        },
+            search = "",
+            q = "",
+            pagination: { page, limit }
+        }
     } = payloadData;
 
     yield put(invoiceTriggerSpinner({ itemsLoading: true }));
 
     try {
-
         const options = {
-            path: GET_ITEMS_URL(q, search, page, limit),
+            path: GET_ITEMS_URL(q, search, page, limit)
         };
 
-        const response = yield call([Request, 'get'], options);
+        const response = yield call([Request, "get"], options);
 
         yield put(setItems({ items: response.items.data, fresh }));
 
@@ -337,16 +308,12 @@ function* getItems(payloadData) {
 
 function* removeItem(payloadData) {
     const {
-        payload: {
-            onResult,
-            id,
-        },
+        payload: { onResult, id }
     } = payloadData;
 
     yield put(invoiceTriggerSpinner({ removeItemLoading: true }));
 
     try {
-
         yield put(removeInvoiceItem({ id }));
 
         onResult && onResult();
@@ -359,28 +326,21 @@ function* removeItem(payloadData) {
 
 function* removeInvoice(payloadData) {
     const {
-        payload: {
-            onResult,
-            id,
-        },
+        payload: { onResult, id }
     } = payloadData;
 
     yield put(invoiceTriggerSpinner({ invoiceLoading: true }));
 
     try {
-
-
         const options = {
-            path: REMOVE_INVOICE_URL(id),
+            path: REMOVE_INVOICE_URL(id)
         };
 
-        const response = yield call([Request, 'delete'], options);
+        const response = yield call([Request, "delete"], options);
 
-        if (response.success)
-            yield put(removeFromInvoices({ id }))
+        if (response.success) yield put(removeFromInvoices({ id }));
 
         onResult && onResult(response);
-
     } catch (error) {
         // console.log(error);
     } finally {
@@ -390,36 +350,32 @@ function* removeInvoice(payloadData) {
 
 function* changeInvoiceStatus(payloadData) {
     const {
-        payload: {
-            onResult = null,
-            params = null,
-            id,
-            action,
-            navigation
-        },
+        payload: { onResult = null, params = null, id, action, navigation }
     } = payloadData;
 
     yield put(invoiceTriggerSpinner({ invoiceLoading: true }));
 
-    const param = { id, ...params }
+    const param = { id, ...params };
 
     try {
-
         const options = {
             path: CHANGE_INVOICE_STATUS_URL(action),
-            body: { ...param },
+            body: { ...param }
         };
 
-        const response = yield call([Request, 'post'], options);
+        const response = yield call([Request, "post"], options);
 
         if (response.success || hasValue(response.invoice)) {
-            action === 'send' ?
-                navigation.navigate(ROUTES.MAIN_INVOICES, { mailSendMsg: "sendMail.sendEmailToast" })
-                : navigation.navigate(ROUTES.MAIN_INVOICES)
-            yield call(getInvoices, payload = {});
-        }
-        else {
-            response.error === 'user_email_does_not_exist' && alertMe({ desc: getTitleByLanguage('alert.action.emailNotExist') })
+            action === "send"
+                ? navigation.navigate(ROUTES.MAIN_INVOICES, {
+                      mailSendMsg: "sendMail.sendEmailToast"
+                  })
+                : navigation.navigate(ROUTES.MAIN_INVOICES);
+        } else {
+            response.error === "user_email_does_not_exist" &&
+                alertMe({
+                    desc: getTitleByLanguage("alert.action.emailNotExist")
+                });
         }
 
         onResult && onResult();
@@ -429,7 +385,6 @@ function* changeInvoiceStatus(payloadData) {
         yield put(invoiceTriggerSpinner({ invoiceLoading: false }));
     }
 }
-
 
 export default function* invoicesSaga() {
     yield takeEvery(GET_INVOICES, getInvoices);
@@ -444,7 +399,5 @@ export default function* invoicesSaga() {
     yield takeEvery(REMOVE_INVOICE, removeInvoice);
     yield takeEvery(CHANGE_INVOICE_STATUS, changeInvoiceStatus);
 
-    yield all([
-        recurring(),
-    ]);
+    yield all([recurring()]);
 }
