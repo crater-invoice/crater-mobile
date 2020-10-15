@@ -100,13 +100,12 @@ function* getBootstrapData(payloadData) {
 
         const response = yield call([Request, 'get'], options)
 
-        const { user, customers } = response
+        const { user } = response
 
         yield put(setAccountInformation({ account: user }))
 
         yield put(setGlobalBootstrap(response))
 
-        yield put(getInvoices({ type: 'UNPAID' }))
     } catch (error) {
         yield put(globalTriggerSpinner({ appLoginLoading: false }))
     } finally {

@@ -18,7 +18,7 @@ import {
 } from '../../constants';
 import Lng from '../../../../api/lang/i18n';
 import { goBack, MOUNT } from '../../../../navigation/actions';
-import invoiceFilterFields from '../InvoiceFilterFields';
+import {invoicesFilterFields as filterFields } from '../Invoices/filterFields';
 
 let params = {
     search: '',
@@ -300,7 +300,7 @@ export class RecurringInvoices extends React.Component<IProps> {
                     onSearch={this.onSearch}
                     filterProps={{
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
-                        ...invoiceFilterFields(this),
+                        ...filterFields(this),
                         clearFilter: this.props,
                         language: language,
                         onResetFilter: () => this.onResetFilter()
