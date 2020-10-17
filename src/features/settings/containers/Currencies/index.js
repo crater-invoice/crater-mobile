@@ -16,7 +16,7 @@ const mapStateToProps = (state) => {
     } = state;
 
     return {
-        language: global.language,
+        locale: global.locale,
         globalCurrencies: global.currencies,
         loading: currenciesLoading,
         currencies,

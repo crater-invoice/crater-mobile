@@ -374,14 +374,14 @@ export class SelectFieldComponent extends Component<IProps> {
     }
 
     BOTTOM_ACTION = () => {
-        const { language } = this.props
+        const { locale } = this.props
 
         return (
             <View style={styles.submitButton}>
                 <View style={{ flex: 1 }}>
                     <CtButton
                         onPress={this.onSubmit}
-                        btnTitle={Lng.t("button.done", { locale: language })}
+                        btnTitle={Lng.t("button.done", { locale })}
                         containerStyle={styles.handleBtn}
                     />
                 </View>
@@ -390,16 +390,16 @@ export class SelectFieldComponent extends Component<IProps> {
     }
 
     getEmptyTitle = () => {
-        const { language, emptyContentProps: { contentType } } = this.props
+        const { locale, emptyContentProps: { contentType } } = this.props
         const { search } = this.state
 
         let emptyTitle = ''
 
         if (contentType) {
-            emptyTitle = Lng.t(`${contentType}.empty.title`, { locale: language })
+            emptyTitle = Lng.t(`${contentType}.empty.title`, { locale })
         }
 
-        let noSearchResult = Lng.t("search.noSearchResult", { locale: language })
+        let noSearchResult = Lng.t("search.noSearchResult", { locale })
 
         return search ? `${noSearchResult} "${search}"` : emptyTitle
     }
@@ -541,7 +541,7 @@ export class SelectFieldComponent extends Component<IProps> {
 }
 
 const mapStateToProps = ({ global }) => ({
-    language: global.language,
+    locale: global?.locale,
 });
 
 const mapDispatchToProps = {};

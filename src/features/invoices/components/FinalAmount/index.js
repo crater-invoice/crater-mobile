@@ -56,7 +56,7 @@ const FinalAmount = ({ state, props }) => {
     const { currency } = state
 
     const {
-        language,
+        locale,
         taxTypes,
         navigation,
         invoiceData: { discount_per_item, tax_per_item },
@@ -78,7 +78,7 @@ const FinalAmount = ({ state, props }) => {
             <View style={styles.subContainer}>
                 <View>
                     <Text style={styles.amountHeading}>
-                        {Lng.t("invoices.subtotal", { locale: language })}
+                        {Lng.t("invoices.subtotal", { locale })}
                     </Text>
                 </View>
                 <View>
@@ -94,7 +94,7 @@ const FinalAmount = ({ state, props }) => {
                 <View style={[styles.subContainer, styles.discount]}>
                     <View>
                         <Text style={styles.amountHeading}>
-                            {Lng.t("invoices.discount", { locale: language })}
+                            {Lng.t("invoices.discount", { locale })}
                         </Text>
                     </View>
                     <View style={[styles.subAmount, styles.discountField]}>
@@ -190,19 +190,19 @@ const FinalAmount = ({ state, props }) => {
                     fakeInputProps={{
                         fakeInput: (
                             <Text style={styles.taxFakeInput}>
-                                {Lng.t("invoices.taxPlaceholder", { locale: language })}
+                                {Lng.t("invoices.taxPlaceholder", { locale })}
                             </Text>
                         )
                     }}
                     navigation={navigation}
                     isMultiSelect
                     isInternalSearch
-                    language={language}
+                    locale={locale}
                     concurrentMultiSelect
                     compareField="id"
                     valueCompareField="tax_type_id"
                     headerProps={{
-                        title: Lng.t("taxes.title", { locale: language })
+                        title: Lng.t("taxes.title", { locale })
                     }}
                     rightIconPress={
                         () => navigation.navigate(ROUTES.TAX, {
@@ -228,7 +228,7 @@ const FinalAmount = ({ state, props }) => {
             <View style={styles.subContainer}>
                 <View>
                     <Text style={styles.amountHeading}>
-                        {Lng.t("invoices.totalAmount", { locale: language })}:
+                        {Lng.t("invoices.totalAmount", { locale })}:
                     </Text>
                 </View>
                 <View>

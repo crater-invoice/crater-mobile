@@ -18,7 +18,7 @@ type IProps = {
     getItems: Function,
     items: Object,
     loading: Boolean,
-    language: String
+    locale: String
 };
 
 let params = {
@@ -193,7 +193,7 @@ export class Items extends React.Component<IProps> {
             units,
             loading,
             itemUnitsLoading = false,
-            language,
+            locale,
             handleSubmit
         } = this.props;
 
@@ -213,7 +213,7 @@ export class Items extends React.Component<IProps> {
         let inputFields = [
             {
                 name: 'name',
-                hint: Lng.t('items.name', { locale: language }),
+                hint: Lng.t('items.name', { locale }),
                 inputProps: {
                     returnKeyType: 'next',
                     autoCorrect: true,
@@ -228,7 +228,7 @@ export class Items extends React.Component<IProps> {
             },
             {
                 name: 'price',
-                hint: Lng.t('items.price', { locale: language }),
+                hint: Lng.t('items.price', { locale }),
                 inputProps: {
                     returnKeyType: 'next',
                     keyboardType: 'numeric'
@@ -243,14 +243,14 @@ export class Items extends React.Component<IProps> {
         let dropdownFields = [
             {
                 name: 'unit_id',
-                label: Lng.t('items.unit', { locale: language }),
+                label: Lng.t('items.unit', { locale }),
                 fieldIcon: 'align-center',
                 items: formatSelectPickerName(units),
                 onChangeCallback: val => {
                     this.setFormField('unit_id', val);
                 },
                 defaultPickerOptions: {
-                    label: Lng.t('items.unitPlaceholder', { locale: language }),
+                    label: Lng.t('items.unitPlaceholder', { locale }),
                     value: ''
                 },
                 selectedItem: selectedUnit,
@@ -263,10 +263,10 @@ export class Items extends React.Component<IProps> {
             !filter && !search
                 ? {
                       description: Lng.t('items.empty.description', {
-                          locale: language
+                          locale
                       }),
                       buttonTitle: Lng.t('items.empty.buttonTitle', {
-                          locale: language
+                          locale
                       }),
                       buttonPress: () => {
                           navigation.navigate(ROUTES.GLOBAL_ITEM, {
@@ -278,20 +278,20 @@ export class Items extends React.Component<IProps> {
                 : {};
 
         let emptyTitle = search
-            ? Lng.t('search.noResult', { locale: language, search })
+            ? Lng.t('search.noResult', { locale, search })
             : !filter
-            ? Lng.t('items.empty.title', { locale: language })
-            : Lng.t('filter.empty.filterTitle', { locale: language });
+            ? Lng.t('items.empty.title', { locale })
+            : Lng.t('filter.empty.filterTitle', { locale });
 
         return (
             <View style={styles.container}>
                 <MainLayout
                     headerProps={{
-                        title: Lng.t('header.items', { locale: language }),
+                        title: Lng.t('header.items', { locale }),
                         leftIcon: 'long-arrow-alt-left',
                         leftIconPress: () =>
                             navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t('header.items', { locale: language }),
+                        title: Lng.t('header.items', { locale }),
                         titleStyle: styles.headerTitle,
                         rightIcon: 'plus',
                         placement: 'center',

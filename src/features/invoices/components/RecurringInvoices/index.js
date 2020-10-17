@@ -29,7 +29,7 @@ let params = {
 }
 
 type IProps = {
-    language: String,
+    locale: String,
     navigation: Object,
     invoices: Object,
     customers: Object,
@@ -262,7 +262,7 @@ export class RecurringInvoices extends React.Component<IProps> {
 
     render() {
         const {
-            language,
+            locale,
             navigation,
             invoices,
             loading,
@@ -291,7 +291,7 @@ export class RecurringInvoices extends React.Component<IProps> {
                     headerProps={{
                         leftIcon: "long-arrow-alt-left",
                         leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t("header.recurringInvoice", { locale: language }),
+                        title: Lng.t("header.recurringInvoice", { locale }),
                         placement: "center",
                         rightIcon: 'plus',
                         rightIconPress: () => this.onAddInvoice(),
@@ -302,11 +302,11 @@ export class RecurringInvoices extends React.Component<IProps> {
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
                         ...filterFields(this),
                         clearFilter: this.props,
-                        language: language,
+                        locale,
                         onResetFilter: () => this.onResetFilter()
                     }}
                     toastProps={{
-                        message: Lng.t(mailSendMsg, { locale: language }),
+                        message: Lng.t(mailSendMsg, { locale }),
                         visible: mailSendMsg,
                         containerStyle: styles.toastContainer
                     }}
@@ -318,7 +318,7 @@ export class RecurringInvoices extends React.Component<IProps> {
                         tabs={[
                             {
                                 Title: INVOICES_TABS.DUE,
-                                tabName: TAB_NAME(INVOICES_TABS.DUE, language, Lng),
+                                tabName: TAB_NAME(INVOICES_TABS.DUE, locale, Lng),
                                 render: (
                                     <Due
                                         canLoadMore={canLoadMore}
@@ -328,7 +328,7 @@ export class RecurringInvoices extends React.Component<IProps> {
                             },
                             {
                                 Title: INVOICES_TABS.DRAFT,
-                                tabName: TAB_NAME(INVOICES_TABS.DRAFT, language, Lng),
+                                tabName: TAB_NAME(INVOICES_TABS.DRAFT, locale, Lng),
                                 render: (
                                     <Draft
                                         canLoadMore={canLoadMore}
@@ -338,7 +338,7 @@ export class RecurringInvoices extends React.Component<IProps> {
                             },
                             {
                                 Title: INVOICES_TABS.ALL,
-                                tabName: TAB_NAME(INVOICES_TABS.ALL, language, Lng),
+                                tabName: TAB_NAME(INVOICES_TABS.ALL, locale, Lng),
                                 render: (
                                     <All
                                         canLoadMore={canLoadMore}

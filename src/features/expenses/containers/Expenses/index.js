@@ -18,7 +18,7 @@ import {
 
 const mapStateToProps = state => {
     const {
-        global: { language, currency },
+        global: { locale, currency },
         expenses: {
             expenses,
             filterExpenses,
@@ -31,7 +31,7 @@ const mapStateToProps = state => {
         loading: expensesLoading,
         expenses: getExpensesState(expenses, currency),
         filterExpenses: getFilterExpensesState(filterExpenses, currency),
-        language,
+        locale,
         currency,
         categories: getCategoriesState(categories),
         formValues: getFormValues(EXPENSE_SEARCH)(state) || {}

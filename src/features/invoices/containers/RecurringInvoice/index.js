@@ -10,7 +10,7 @@ import { RecurringInvoice } from '../../components/RecurringInvoice';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { language, taxTypes },
+        global: { locale, taxTypes },
         invoices: { loading, invoiceItems, invoiceData, items },
         customers: { customers, loading: { customersLoading } },
     } = state;
@@ -38,7 +38,7 @@ const mapStateToProps = (state, { navigation }) => {
         type,
         customers,
         itemsLoading: loading.itemsLoading,
-        language,
+        locale,
         formValues: getFormValues(RECURRING_FORM)(state) || {},
         taxTypes,
         initialValues: !isLoading ? {

@@ -17,7 +17,7 @@ import { headerTitle } from '../../../../api/helper';
 
 type IProps = {
     navigation: Object,
-    language: String,
+    locale: String,
     handleSubmit: Function,
     handleSubmit: Function,
     formValues: Object,
@@ -83,12 +83,12 @@ export class LanguageAndCurrency extends React.Component<IProps> {
     }
 
     BOTTOM_ACTION = (handleSubmit) => {
-        const { editPreferencesLoading, language } = this.props
+        const { editPreferencesLoading, locale } = this.props
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    btnTitle={Lng.t("button.save", { locale })}
                     loading={editPreferencesLoading}
                 />
             </View>
@@ -160,7 +160,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            language,
+            locale,
             formValues: {
                 currency,
             },
@@ -174,7 +174,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t("header.setting.LanguageAndCurrency", { locale: language }),
+                    title: Lng.t("header.setting.LanguageAndCurrency", { locale }),
                     placement: "center",
                     rightIcon: "save",
                     rightIconProps: {
@@ -195,13 +195,13 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                         name="language"
                         items={languagesList}
                         component={SelectField}
-                        label={Lng.t("settings.preferences.language", { locale: language })}
+                        label={Lng.t("settings.preferences.language", { locale })}
                         icon='language'
                         rightIcon='angle-right'
                         displayName="name"
-                        placeholder={formValues.language ?
+                        placeholder={formValues?.language ?
                             this.getSelectedField(languagesList, formValues.language, 'code') :
-                            Lng.t("settings.preferences.languagePlaceholder", { locale: language })
+                            Lng.t("settings.preferences.languagePlaceholder", { locale })
                         }
                         navigation={navigation}
                         fakeInputProps={{
@@ -214,7 +214,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                             this.setFormField('language', val.code)
                         }}
                         headerProps={{
-                            title: Lng.t("languages.title", { locale: language }),
+                            title: Lng.t("languages.title", { locale }),
                             rightIconPress: null
                         }}
                         listViewProps={{
@@ -231,12 +231,12 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                         items={currencyList}
                         displayName="name"
                         component={SelectField}
-                        label={Lng.t("settings.preferences.currency", { locale: language })}
+                        label={Lng.t("settings.preferences.currency", { locale })}
                         icon='dollar-sign'
                         rightIcon='angle-right'
                         placeholder={currency ?
                             this.getSelectedField(currencyList, currency, 'id') :
-                            Lng.t("settings.preferences.currencyPlaceholder", { locale: language })
+                            Lng.t("settings.preferences.currencyPlaceholder", { locale })
                         }
                         navigation={navigation}
                         searchFields={['name']}
@@ -252,7 +252,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                             this.setFormField('currency', val.id)
                         }}
                         headerProps={{
-                            title: Lng.t("currencies.title", { locale: language }),
+                            title: Lng.t("currencies.title", { locale }),
                             titleStyle: headerTitle({ marginLeft: -20, marginRight: -52 }),
                             rightIconPress: null
                         }}

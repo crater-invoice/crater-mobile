@@ -13,12 +13,12 @@ import { withNavigationFocus } from 'react-navigation';
 const mapStateToProps = state => {
     const {
         customers: { customers, loading },
-        global: { language }
+        global: { locale }
     } = state;
 
     return {
         customers,
-        language,
+        locale,
         formValues: getFormValues(CUSTOMER_SEARCH)(state) || {}
     };
 };

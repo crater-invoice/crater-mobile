@@ -10,7 +10,7 @@ import * as settingsAction from '@/features/settings/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { language, currencies, currency },
+        global: { locale, currencies, currency },
         customers: {
             countries,
             loading: {
@@ -28,7 +28,7 @@ const mapStateToProps = (state, { navigation }) => {
     return {
         formValues: getFormValues(CUSTOMER_FORM)(state) || {},
         type,
-        language,
+        locale,
         currencies: getStateCurrencies(currencies),
         countries,
         currency,

@@ -10,7 +10,7 @@ import { validate } from './validation';
 const mapStateToProps = (state, { navigation }) => {
 
     const {
-        global: { language, endpointURL },
+        global: { locale, endpointURL },
         auth: { loading }
     } = state
 
@@ -19,7 +19,7 @@ const mapStateToProps = (state, { navigation }) => {
     let skipEndpoint = navigation.getParam('skipEndpoint', false)
 
     return {
-        language,
+        locale,
         skipEndpoint,
         CRATER_URL,
         loading: loading && loading.pingEndpointLoading,

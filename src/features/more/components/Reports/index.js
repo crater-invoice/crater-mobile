@@ -37,21 +37,21 @@ export class Reports extends React.Component {
     }
 
     render() {
-        const { navigation, language } = this.props;
+        const { navigation, locale } = this.props;
 
         return (
             <View style={styles.container}>
                 <DefaultLayout
                     headerProps={{
                         leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t("header.reports", { locale: language }),
+                        title: Lng.t("header.reports", { locale }),
                         leftIconStyle: { color: colors.dark2 }
                     }}
                     hasSearchField={false}
                 >
                     <View style={styles.listViewContainer}>
                         <ListView
-                            items={REPORTS_MENU(language, Lng)}
+                            items={REPORTS_MENU(locale, Lng)}
                             onPress={this.onSelectMenu}
                             leftTitleStyle={styles.listViewTitle}
                             listItemProps={{

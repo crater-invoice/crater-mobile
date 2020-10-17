@@ -23,7 +23,7 @@ type IProps = {
     getPayments: Function,
     payments: Object,
     loading: Boolean,
-    language: String,
+    locale: String,
     getCustomers: Function,
 }
 
@@ -185,7 +185,7 @@ export class Payments extends React.Component<IProps> {
             payments,
             filterPayments,
             loading,
-            language,
+            locale,
             handleSubmit,
             paymentModesLoading,
         } = this.props;
@@ -201,17 +201,17 @@ export class Payments extends React.Component<IProps> {
         const canLoadMore = lastPage >= page;
 
         let empty = (!filter && !search) ? {
-            description: Lng.t("payments.empty.description", { locale: language }),
-            buttonTitle: Lng.t("payments.empty.buttonTitle", { locale: language }),
+            description: Lng.t("payments.empty.description", { locale }),
+            buttonTitle: Lng.t("payments.empty.buttonTitle", { locale }),
             buttonPress: () => {
                 navigation.navigate(ROUTES.PAYMENT, { type: PAYMENT_ADD })
                 this.onResetFilter()
             }
         } : {}
 
-        let emptyTitle = search ? Lng.t("search.noResult", { locale: language, search })
-            : (!filter) ? Lng.t("payments.empty.title", { locale: language }) :
-                Lng.t("filter.empty.filterTitle", { locale: language })
+        let emptyTitle = search ? Lng.t("search.noResult", { locale, search })
+            : (!filter) ? Lng.t("payments.empty.title", { locale }) :
+                Lng.t("filter.empty.filterTitle", { locale })
 
         return (
             <View style={styles.container}>
@@ -222,7 +222,7 @@ export class Payments extends React.Component<IProps> {
                             navigation.navigate(ROUTES.PAYMENT, { type: PAYMENT_ADD })
                             this.onResetFilter()
                         },
-                        title: Lng.t("header.payments", { locale: language })
+                        title: Lng.t("header.payments", { locale })
                     }}
                     onSearch={this.onSearch}
                     bottomDivider
@@ -230,7 +230,7 @@ export class Payments extends React.Component<IProps> {
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
                         ...paymentsFilterFields(this),
                         clearFilter: this.props,
-                        language: language,
+                        locale,
                         onResetFilter: () => this.onResetFilter()
                     }}
                     loadingProps={{ is: paymentModesLoading || (loading && fresh) }}

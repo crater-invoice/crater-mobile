@@ -18,7 +18,7 @@ import { headerTitle } from '../../../../api/helper';
 
 type IProps = {
     navigation: Object,
-    language: String,
+    locale: String,
     handleSubmit: Function,
     handleSubmit: Function,
     formValues: Object,
@@ -102,12 +102,12 @@ export class Preferences extends React.Component<IProps> {
     }
 
     BOTTOM_ACTION = (handleSubmit) => {
-        const { editPreferencesLoading, language } = this.props
+        const { editPreferencesLoading, locale } = this.props
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.onSubmitPreferences)}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    btnTitle={Lng.t("button.save", { locale })}
                     loading={editPreferencesLoading}
                 />
             </View>
@@ -197,7 +197,7 @@ export class Preferences extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            language,
+            locale,
             formValues: {
                 time_zone,
             },
@@ -218,7 +218,7 @@ export class Preferences extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t("header.setting.preferences", { locale: language }),
+                    title: Lng.t("header.setting.preferences", { locale }),
                     placement: "center",
                     rightIcon: "save",
                     rightIconProps: {
@@ -231,7 +231,7 @@ export class Preferences extends React.Component<IProps> {
                     is: isLoading || timezoneList.length === 0 || dateFormatList.length === 0 || discountPerItem === null || taxPerItem === null
                 }}
                 toastProps={{
-                    message: Lng.t("settings.preferences.settingUpdate", { locale: language }),
+                    message: Lng.t("settings.preferences.settingUpdate", { locale }),
                     visible: visibleToast
                 }}
             >
@@ -243,12 +243,12 @@ export class Preferences extends React.Component<IProps> {
                         items={timezoneList}
                         displayName="key"
                         component={SelectField}
-                        label={Lng.t("settings.preferences.timeZone", { locale: language })}
+                        label={Lng.t("settings.preferences.timeZone", { locale })}
                         icon='clock'
                         rightIcon='angle-right'
                         placeholder={time_zone ?
                             time_zone :
-                            Lng.t("settings.preferences.timeZonePlaceholder", { locale: language })
+                            Lng.t("settings.preferences.timeZonePlaceholder", { locale })
                         }
                         fakeInputProps={{
                             valueStyle: styles.selectedField,
@@ -261,7 +261,7 @@ export class Preferences extends React.Component<IProps> {
                             this.setFormField('time_zone', val.value)
                         }}
                         headerProps={{
-                            title: Lng.t("timeZones.title", { locale: language }),
+                            title: Lng.t("timeZones.title", { locale }),
                             titleStyle: headerTitle({ marginLeft: -23, marginRight: -40 }),
                             rightIconPress: null
                         }}
@@ -276,10 +276,10 @@ export class Preferences extends React.Component<IProps> {
                         items={dateFormatList}
                         displayName="display_date"
                         component={SelectField}
-                        label={Lng.t("settings.preferences.dateFormat", { locale: language })}
+                        label={Lng.t("settings.preferences.dateFormat", { locale })}
                         icon='calendar-alt'
                         rightIcon='angle-right'
-                        placeholder={Lng.t("settings.preferences.dateFormatPlaceholder", { locale: language })}
+                        placeholder={Lng.t("settings.preferences.dateFormatPlaceholder", { locale })}
                         fakeInputProps={{
                             valueStyle: styles.selectedField,
                             placeholderStyle: styles.selectedField,
@@ -293,7 +293,7 @@ export class Preferences extends React.Component<IProps> {
                             this.setFormField('date_format', val.carbon_format_value)
                         }}
                         headerProps={{
-                            title: Lng.t("dateFormats.title", { locale: language }),
+                            title: Lng.t("dateFormats.title", { locale }),
                             titleStyle: headerTitle({ marginLeft: -20, marginRight: -55 }),
                             rightIconPress: null
                         }}
@@ -308,10 +308,10 @@ export class Preferences extends React.Component<IProps> {
                         items={fiscalYearLst}
                         displayName="key"
                         component={SelectField}
-                        label={Lng.t("settings.preferences.fiscalYear", { locale: language })}
+                        label={Lng.t("settings.preferences.fiscalYear", { locale })}
                         icon='calendar-alt'
                         rightIcon='angle-right'
-                        placeholder={Lng.t("settings.preferences.fiscalYearPlaceholder", { locale: language })}
+                        placeholder={Lng.t("settings.preferences.fiscalYearPlaceholder", { locale })}
                         fakeInputProps={{
                             valueStyle: styles.selectedField,
                             placeholderStyle: styles.selectedField,
@@ -323,7 +323,7 @@ export class Preferences extends React.Component<IProps> {
                             this.setFormField('fiscal_year', val.value)
                         }}
                         headerProps={{
-                            title: Lng.t("fiscalYears.title", { locale: language }),
+                            title: Lng.t("fiscalYears.title", { locale }),
                             titleStyle: headerTitle({ marginLeft: -15, marginRight: -35 }),
                             rightIconPress: null
                         }}
@@ -340,8 +340,8 @@ export class Preferences extends React.Component<IProps> {
                         name="discount_per_item"
                         component={ToggleSwitch}
                         status={discountPerItem === 'YES' ? true : false}
-                        hint={Lng.t("settings.preferences.discountPerItem", { locale: language })}
-                        description={Lng.t("settings.preferences.discountPerItemPlaceholder", { locale: language })}
+                        hint={Lng.t("settings.preferences.discountPerItem", { locale })}
+                        description={Lng.t("settings.preferences.discountPerItemPlaceholder", { locale })}
                         onChangeCallback={(val) => this.setDiscountPerItem(val)
                         }
                     />
@@ -350,8 +350,8 @@ export class Preferences extends React.Component<IProps> {
                         name="tax_per_item"
                         component={ToggleSwitch}
                         status={taxPerItem === 'YES' ? true : false}
-                        hint={Lng.t("settings.preferences.taxPerItem", { locale: language })}
-                        description={Lng.t("settings.preferences.taxPerItemPlaceholder", { locale: language })}
+                        hint={Lng.t("settings.preferences.taxPerItem", { locale })}
+                        description={Lng.t("settings.preferences.taxPerItemPlaceholder", { locale })}
                         onChangeCallback={(val) => this.setTaxPerItem(val)
                         }
                         mainContainerStyle={{ marginVertical: 12 }}

@@ -52,7 +52,7 @@ type IProps = {
     editCustomField: Function,
     getCustomField: Function,
     removeCustomField: Function,
-    language: String,
+    locale: String,
     type: String,
     loading: boolean,
     id: Number,
@@ -134,12 +134,12 @@ export class CustomField extends React.Component<IProps> {
     };
 
     removeField = () => {
-        const { removeCustomField, navigation, language, id } = this.props;
+        const { removeCustomField, navigation, locale, id } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale: language }),
+            title: Lng.t('alert.title', { locale }),
             desc: Lng.t('customFields.removeAlertDescription', {
-                locale: language
+                locale
             }),
             showCancel: true,
             okPress: () => removeCustomField({ id, navigation })
@@ -154,7 +154,7 @@ export class CustomField extends React.Component<IProps> {
 
     BOTTOM_ACTION = handleSubmit => {
         const {
-            language,
+            locale,
             loading,
             type,
             removeCustomFieldLoading
@@ -169,7 +169,7 @@ export class CustomField extends React.Component<IProps> {
             >
                 <CtButton
                     onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t('button.save', { locale: language })}
+                    btnTitle={Lng.t('button.save', { locale })}
                     buttonContainerStyle={
                         type === EDIT_CUSTOM_FIELD_TYPE && styles.flex
                     }
@@ -181,7 +181,7 @@ export class CustomField extends React.Component<IProps> {
                     <CtButton
                         onPress={this.removeField}
                         btnTitle={Lng.t('button.remove', {
-                            locale: language
+                            locale
                         })}
                         buttonColor={BUTTON_COLOR.DANGER}
                         containerStyle={styles.btnContainerStyle}
@@ -195,13 +195,13 @@ export class CustomField extends React.Component<IProps> {
     };
 
     REQUIRE_FIELD_VIEW = () => {
-        const { language } = this.props;
+        const { locale } = this.props;
         return (
             <View style={[styles.row, { marginTop: 10 }]}>
                 <View style={styles.positionView}>
                     <Text style={styles.textStyle}>
                         {Lng.t('customFields.required', {
-                            locale: language
+                            locale
                         })}
                     </Text>
                 </View>
@@ -219,13 +219,13 @@ export class CustomField extends React.Component<IProps> {
     };
 
     DISPLAY_PORTAL_TOGGLE_VIEW = () => {
-        const { language } = this.props;
+        const { locale } = this.props;
         return (
             <View style={styles.row}>
                 <View style={styles.positionView}>
                     <Text style={styles.textStyle}>
                         {Lng.t('customFields.displayInPortal', {
-                            locale: language
+                            locale
                         })}
                     </Text>
                 </View>
@@ -235,7 +235,7 @@ export class CustomField extends React.Component<IProps> {
                         name={`${FIELDS.FIELD}.${FIELDS.DISPLAY_PORTAL}`}
                         component={ToggleSwitch}
                         hint={Lng.t('customFields.no', {
-                            locale: language
+                            locale
                         })}
                         hintStyle={styles.leftText}
                     />
@@ -243,7 +243,7 @@ export class CustomField extends React.Component<IProps> {
 
                 <View style={styles.columnRight}>
                     <Text style={styles.textStyle}>
-                        {Lng.t('customFields.yes', { locale: language })}
+                        {Lng.t('customFields.yes', { locale })}
                     </Text>
                 </View>
             </View>
@@ -310,7 +310,7 @@ export class CustomField extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            language,
+            locale,
             type,
             formValues,
             getCustomFieldLoading
@@ -332,10 +332,10 @@ export class CustomField extends React.Component<IProps> {
                     title:
                         type === EDIT_CUSTOM_FIELD_TYPE
                             ? Lng.t('header.editCustomField', {
-                                  locale: language
+                                  locale
                               })
                             : Lng.t('header.addCustomField', {
-                                  locale: language
+                                  locale
                               }),
                     placement: 'center',
                     rightIcon: 'save',
@@ -353,7 +353,7 @@ export class CustomField extends React.Component<IProps> {
                         component={InputField}
                         isRequired
                         hint={Lng.t('customFields.name', {
-                            locale: language
+                            locale
                         })}
                         inputProps={{
                             returnKeyType: 'next',
@@ -365,13 +365,13 @@ export class CustomField extends React.Component<IProps> {
                         name={`${FIELDS.FIELD}.${FIELDS.MODAL_TYPE}`}
                         component={SelectPickerField}
                         label={Lng.t('customFields.model', {
-                            locale: language
+                            locale
                         })}
                         fieldIcon="align-center"
                         items={MODAL_TYPES}
                         defaultPickerOptions={{
                             label: Lng.t('customFields.modelPlaceholder', {
-                                locale: language
+                                locale
                             }),
                             value: ''
                         }}
@@ -383,7 +383,7 @@ export class CustomField extends React.Component<IProps> {
                     <Field
                         name={`${FIELDS.FIELD}.${FIELDS.TYPE}`}
                         label={Lng.t('customFields.type', {
-                            locale: language
+                            locale
                         })}
                         component={SelectPickerField}
                         isRequired
@@ -391,7 +391,7 @@ export class CustomField extends React.Component<IProps> {
                         items={DATA_TYPES}
                         defaultPickerOptions={{
                             label: Lng.t('customFields.typePlaceholder', {
-                                locale: language
+                                locale
                             }),
                             value: ''
                         }}
@@ -404,7 +404,7 @@ export class CustomField extends React.Component<IProps> {
                         component={InputField}
                         isRequired
                         hint={Lng.t('customFields.label', {
-                            locale: language
+                            locale
                         })}
                         inputProps={{
                             returnKeyType: 'next',

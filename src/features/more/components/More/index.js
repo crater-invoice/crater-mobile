@@ -40,12 +40,12 @@ export class More extends React.Component {
     }
 
     onLogout = () => {
-        const { navigation, logout, language } = this.props
+        const { navigation, logout, locale } = this.props
 
         alertMe({
-            title: Lng.t("logout.confirmation", { locale: language }),
+            title: Lng.t("logout.confirmation", { locale }),
             showCancel: true,
-            okText: Lng.t("logout.title", { locale: language }),
+            okText: Lng.t("logout.title", { locale }),
             okPress: () => logout({ navigation })
         })
     }
@@ -57,14 +57,14 @@ export class More extends React.Component {
     }
 
     render() {
-        const { language } = this.props;
+        const { locale } = this.props;
 
         return (
             <View style={styles.container}>
                 <MainLayout
                     headerProps={{
                         hasCircle: false,
-                        title: Lng.t("header.more", { locale: language })
+                        title: Lng.t("header.more", { locale })
                     }}
                     bottomDivider
                     dividerStyle={styles.dividerStyle}
@@ -72,7 +72,7 @@ export class More extends React.Component {
                 >
                     <View style={styles.listViewContainer}>
                         <ListView
-                            items={MORE_MENU(language, Lng)}
+                            items={MORE_MENU(locale, Lng)}
                             onPress={this.onSelectMenu}
                             hasAvatar
                             refreshing={false}

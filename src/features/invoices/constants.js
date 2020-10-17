@@ -95,8 +95,8 @@ export const getFilterStatusType = type => {
 
     return type;
 };
-export const TAB_NAME = (name, language) => {
-    return Lng.t(`invoices.tabs.${name}`, { locale: language });
+export const TAB_NAME = (name, locale) => {
+    return Lng.t(`invoices.tabs.${name}`, { locale });
 };
 
 // Filter Invoice Mode
@@ -157,17 +157,17 @@ export const INVOICE_ACTIONS = {
 };
 
 export const EDIT_INVOICE_ACTIONS = (
-    language,
+    locale,
     SentStatus = false,
     completeStatus = false
 ) => {
     const markActions = [
         {
-            label: Lng.t('invoices.actions.sendInvoice', { locale: language }),
+            label: Lng.t('invoices.actions.sendInvoice', { locale }),
             value: INVOICE_ACTIONS.SEND
         },
         {
-            label: Lng.t('invoices.actions.markAsSent', { locale: language }),
+            label: Lng.t('invoices.actions.markAsSent', { locale }),
             value: INVOICE_ACTIONS.MARK_AS_SENT
         }
     ];
@@ -175,7 +175,7 @@ export const EDIT_INVOICE_ACTIONS = (
     const paymentAction = [
         {
             label: Lng.t('invoices.actions.recordPayment', {
-                locale: language
+                locale
             }),
             value: INVOICE_ACTIONS.RECORD_PAYMENT
         }
@@ -183,14 +183,14 @@ export const EDIT_INVOICE_ACTIONS = (
 
     const deleteAction = [
         {
-            label: Lng.t('invoices.actions.delete', { locale: language }),
+            label: Lng.t('invoices.actions.delete', { locale }),
             value: INVOICE_ACTIONS.DELETE
         }
     ];
 
     const cloneAction = [
         {
-            label: Lng.t('invoices.actions.clone', { locale: language }),
+            label: Lng.t('invoices.actions.clone', { locale }),
             value: INVOICE_ACTIONS.CLONE
         }
     ];
@@ -230,31 +230,31 @@ export const CUSTOM_REPEAT_RECURRING_OPTION_VALUE = {
 };
 // Custom Repeat Recurring Invoice
 // -----------------------------------------
-export const CUSTOM_REPEAT_RECURRING_OPTION = (language, Lng) => {
+export const CUSTOM_REPEAT_RECURRING_OPTION = (locale, Lng) => {
     const VALUE = CUSTOM_REPEAT_RECURRING_OPTION_VALUE;
 
     return [
         {
             label: Lng.t('invoices.customRepeatRecurring.days', {
-                locale: language
+                locale
             }),
             value: VALUE.DAYS
         },
         {
             label: Lng.t('invoices.customRepeatRecurring.weeks', {
-                locale: language
+                locale
             }),
             value: VALUE.WEEKS
         },
         {
             label: Lng.t('invoices.customRepeatRecurring.months', {
-                locale: language
+                locale
             }),
             value: VALUE.MONTHS
         },
         {
             label: Lng.t('invoices.customRepeatRecurring.years', {
-                locale: language
+                locale
             }),
             value: VALUE.YEARS
         }
@@ -262,70 +262,70 @@ export const CUSTOM_REPEAT_RECURRING_OPTION = (language, Lng) => {
 };
 // Repeat Recurring Invoice
 // -----------------------------------------
-export const REPEAT_RECURRING_INVOICE_OPTION = (language, Lng) => {
+export const REPEAT_RECURRING_INVOICE_OPTION = (locale, Lng) => {
     const VALUE = REPEAT_RECURRING_INVOICE_OPTION_VALUE;
 
     return [
         {
-            label: Lng.t('invoices.repeatRecurring.week', { locale: language }),
+            label: Lng.t('invoices.repeatRecurring.week', { locale }),
             value: VALUE.WEEK
         },
         {
             label: Lng.t('invoices.repeatRecurring.weeks', {
-                locale: language,
+                locale,
                 week: 2
             }),
             value: VALUE.WEEK2
         },
         {
             label: Lng.t('invoices.repeatRecurring.month', {
-                locale: language
+                locale
             }),
             value: VALUE.MONTH
         },
         {
             label: Lng.t('invoices.repeatRecurring.months', {
-                locale: language,
+                locale,
                 month: 2
             }),
             value: VALUE.MONTH2
         },
         {
             label: Lng.t('invoices.repeatRecurring.months', {
-                locale: language,
+                locale,
                 month: 3
             }),
             value: VALUE.MONTH3
         },
         {
             label: Lng.t('invoices.repeatRecurring.months', {
-                locale: language,
+                locale,
                 month: 6
             }),
             value: VALUE.MONTH6
         },
 
         {
-            label: Lng.t('invoices.repeatRecurring.year', { locale: language }),
+            label: Lng.t('invoices.repeatRecurring.year', { locale }),
             value: VALUE.YEAR
         },
         {
             label: Lng.t('invoices.repeatRecurring.years', {
-                locale: language,
+                locale,
                 year: 2
             }),
             value: VALUE.YEAR2
         },
         {
             label: Lng.t('invoices.repeatRecurring.years', {
-                locale: language,
+                locale,
                 year: 3
             }),
             value: VALUE.YEAR3
         },
         {
             label: Lng.t('invoices.repeatRecurring.custom', {
-                locale: language,
+                locale,
                 year: 3
             }),
             value: VALUE.CUSTOM

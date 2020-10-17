@@ -23,7 +23,7 @@ import {
 } from '../../constants';
 
 type IProps = {
-    language: String,
+    locale: String,
     navigation: Object,
     invoices: Object,
     customers: Object,
@@ -204,7 +204,7 @@ export class Invoices extends React.Component<IProps> {
     };
 
     getEmptyContentProps = activeTab => {
-        const { language, navigation } = this.props;
+        const { locale, navigation } = this.props;
         const { search } = this.state;
         let description = '';
 
@@ -223,17 +223,17 @@ export class Invoices extends React.Component<IProps> {
             : 'invoices.empty.title';
 
         return {
-            title: Lng.t(emptyTitle, { locale: language, search }),
+            title: Lng.t(emptyTitle, { locale, search }),
             image: IMAGES.EMPTY_INVOICES,
             ...(!search && {
                 description: Lng.t(description, {
-                    locale: language
+                    locale
                 })
             }),
             ...(!search &&
                 !this.isFilterApply() && {
                     buttonTitle: Lng.t('invoices.empty.buttonTitle', {
-                        locale: language
+                        locale
                     }),
                     buttonPress: () =>
                         navigation.navigate(ROUTES.INVOICE, {
@@ -244,7 +244,7 @@ export class Invoices extends React.Component<IProps> {
     };
 
     render() {
-        const { language, navigation, handleSubmit } = this.props;
+        const { locale, navigation, handleSubmit } = this.props;
 
         const { activeTab } = this.state;
 
@@ -253,19 +253,19 @@ export class Invoices extends React.Component<IProps> {
         const headerProps = {
             rightIcon: 'plus',
             rightIconPress: () => this.onAddInvoice(),
-            title: Lng.t('header.invoices', { locale: language })
+            title: Lng.t('header.invoices', { locale })
         };
 
         const filterProps = {
             onSubmitFilter: handleSubmit(this.onSubmitFilter),
             ...FilterFields(this),
             clearFilter: this.props,
-            language: language,
+            locale,
             onResetFilter: () => this.onResetFilter()
         };
 
         const toastProps = {
-            message: Lng.t(mailSendMsg, { locale: language }),
+            message: Lng.t(mailSendMsg, { locale }),
             visible: mailSendMsg,
             containerStyle: styles.toastContainer
         };
@@ -285,7 +285,7 @@ export class Invoices extends React.Component<IProps> {
                         tabs={[
                             {
                                 Title: INVOICES_TABS.DUE,
-                                tabName: TAB_NAME(INVOICES_TABS.DUE, language),
+                                tabName: TAB_NAME(INVOICES_TABS.DUE, locale),
                                 render: (
                                     <Due
                                         parentProps={this}
@@ -299,7 +299,7 @@ export class Invoices extends React.Component<IProps> {
                                 Title: INVOICES_TABS.DRAFT,
                                 tabName: TAB_NAME(
                                     INVOICES_TABS.DRAFT,
-                                    language
+                                    locale
                                 ),
                                 render: (
                                     <Draft
@@ -312,7 +312,7 @@ export class Invoices extends React.Component<IProps> {
                             },
                             {
                                 Title: INVOICES_TABS.ALL,
-                                tabName: TAB_NAME(INVOICES_TABS.ALL, language),
+                                tabName: TAB_NAME(INVOICES_TABS.ALL, locale),
                                 render: (
                                     <All
                                         parentProps={this}

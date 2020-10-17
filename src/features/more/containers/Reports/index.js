@@ -8,7 +8,7 @@ import { REPORTS_SEARCH } from '../../constants';
 import * as SettingAction from '../../actions';
 
 const mapStateToProps = ({ more, global }) => ({
-    language: global.language
+    locale: global?.locale
 });
 
 const mapDispatchToProps = {

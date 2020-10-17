@@ -60,7 +60,7 @@ type IProps = {
     customFields: any,
     customerLoading: Boolean,
     getEditCustomerLoading: Boolean,
-    language: String,
+    locale: String,
     formValues: Object
 };
 
@@ -214,11 +214,11 @@ export class Customer extends React.Component<IProps> {
     };
 
     removeCustomer = () => {
-        const { removeCustomer, navigation, language } = this.props;
+        const { removeCustomer, navigation, locale } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale: language }),
-            desc: Lng.t('customers.alertDescription', { locale: language }),
+            title: Lng.t('alert.title', { locale }),
+            desc: Lng.t('customers.alertDescription', { locale }),
             showCancel: true,
             okPress: () =>
                 removeCustomer({
@@ -229,13 +229,13 @@ export class Customer extends React.Component<IProps> {
     };
 
     BOTTOM_ACTION = handleSubmit => {
-        const { customerLoading, language } = this.props;
+        const { customerLoading, locale } = this.props;
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.onCustomerSubmit)}
-                    btnTitle={Lng.t('button.save', { locale: language })}
+                    btnTitle={Lng.t('button.save', { locale })}
                     loading={customerLoading}
                 />
             </View>
@@ -257,7 +257,7 @@ export class Customer extends React.Component<IProps> {
                 currency_id,
                 fields
             },
-            language,
+            locale,
             getEditCustomerLoading,
             countriesLoading,
             type,
@@ -269,7 +269,7 @@ export class Customer extends React.Component<IProps> {
         let drownDownProps =
             type === CUSTOMER_EDIT
                 ? {
-                      options: CUSTOMER_ACTIONS(Lng, language),
+                      options: CUSTOMER_ACTIONS(Lng, locale),
                       onSelect: this.onOptionSelect,
                       cancelButtonIndex: 1,
                       destructiveButtonIndex: 2
@@ -284,8 +284,8 @@ export class Customer extends React.Component<IProps> {
                     leftIconPress: () => navigation.goBack(null),
                     title:
                         type === CUSTOMER_EDIT
-                            ? Lng.t('header.editCustomer', { locale: language })
-                            : Lng.t('header.addCustomer', { locale: language }),
+                            ? Lng.t('header.editCustomer', { locale })
+                            : Lng.t('header.addCustomer', { locale }),
                     titleStyle: styles.headerTitle,
                     placement: 'center',
                     rightIcon: type !== CUSTOMER_EDIT ? 'save' : null,
@@ -306,7 +306,7 @@ export class Customer extends React.Component<IProps> {
                         component={InputField}
                         isRequired
                         hint={Lng.t('customers.displayName', {
-                            locale: language
+                            locale
                         })}
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
@@ -325,7 +325,7 @@ export class Customer extends React.Component<IProps> {
                         name="contact_name"
                         component={InputField}
                         hint={Lng.t('customers.contactName', {
-                            locale: language
+                            locale
                         })}
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
@@ -342,7 +342,7 @@ export class Customer extends React.Component<IProps> {
                     <Field
                         name="email"
                         component={InputField}
-                        hint={Lng.t('customers.email', { locale: language })}
+                        hint={Lng.t('customers.email', { locale })}
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
                             returnKeyType: 'next',
@@ -360,7 +360,7 @@ export class Customer extends React.Component<IProps> {
                     <Field
                         name="phone"
                         component={InputField}
-                        hint={Lng.t('customers.phone', { locale: language })}
+                        hint={Lng.t('customers.phone', { locale })}
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
                             returnKeyType: 'next',
@@ -378,7 +378,7 @@ export class Customer extends React.Component<IProps> {
                     <Field
                         name="website"
                         component={InputField}
-                        hint={Lng.t('customers.website', { locale: language })}
+                        hint={Lng.t('customers.website', { locale })}
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
                             returnKeyType: 'next',
@@ -402,7 +402,7 @@ export class Customer extends React.Component<IProps> {
                                 selectedCurrency
                                     ? selectedCurrency
                                     : Lng.t('customers.currency', {
-                                          locale: language
+                                          locale
                                       })
                             }
                             navigation={navigation}
@@ -413,7 +413,7 @@ export class Customer extends React.Component<IProps> {
                             }
                             headerProps={{
                                 title: Lng.t('currencies.title', {
-                                    locale: language
+                                    locale
                                 }),
                                 titleStyle: headerTitle({
                                     marginLeft: -30,
@@ -438,7 +438,7 @@ export class Customer extends React.Component<IProps> {
                             icon="map-marker-alt"
                             rightIcon="angle-right"
                             placeholder={Lng.t('customers.billingAddress', {
-                                locale: language
+                                locale
                             })}
                             navigation={navigation}
                             onChangeCallback={val =>
@@ -461,7 +461,7 @@ export class Customer extends React.Component<IProps> {
                             icon="map-marker-alt"
                             rightIcon="angle-right"
                             placeholder={Lng.t('customers.shippingAddress', {
-                                locale: language
+                                locale
                             })}
                             navigation={navigation}
                             onChangeCallback={val =>
@@ -481,7 +481,7 @@ export class Customer extends React.Component<IProps> {
                         <Field
                             name="customFields"
                             component={CustomField}
-                            locale={language}
+                            locale={locale}
                             fields={customFields}
                             initialFieldValues={fields}
                         />
@@ -493,7 +493,7 @@ export class Customer extends React.Component<IProps> {
                         name="enable_portal"
                         component={ToggleSwitch}
                         status={enable_portal === 1 ? true : false}
-                        hint={Lng.t("customers.enablePortal", { locale: language })}
+                        hint={Lng.t("customers.enablePortal", { locale })}
                         onChangeCallback={(val) =>
                             this.onTogglePortal(val)
                         }
@@ -503,7 +503,7 @@ export class Customer extends React.Component<IProps> {
                         <Field
                             name={'password'}
                             component={InputField}
-                            hint={Lng.t("customers.password", { locale: language })}
+                            hint={Lng.t("customers.password", { locale })}
                             inputProps={{
                                 returnKeyType: 'go',
                                 autoCapitalize: 'none',

@@ -19,7 +19,7 @@ import {
 
 const mapStateToProps = state => {
     const {
-        global: { language },
+        global: { locale },
         customers: { customers },
         payments: {
             payments,
@@ -37,7 +37,7 @@ const mapStateToProps = state => {
         filterPayments: getFilterPaymentsState(filterPayments),
         loading: paymentsLoading,
         paymentModesLoading,
-        language,
+        locale,
         customers,
         paymentMethods: getPaymentMethodsState(paymentMethods),
 

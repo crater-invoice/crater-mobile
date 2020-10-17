@@ -7,13 +7,13 @@ import { getStateCountries } from '../../selectors';
 
 const mapStateToProps = (state) => {
     const {
-        global: { language },
+        global: { locale },
         customers: { countries }
     } = state
 
     return {
         formValues: getFormValues(CUSTOMER_ADDRESS)(state) || {},
-        language,
+        locale,
         countries: getStateCountries(countries),
     };
 };

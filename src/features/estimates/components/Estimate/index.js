@@ -68,7 +68,7 @@ type IProps = {
     estimateData: Object,
     estimateItems: Object,
     items: Object,
-    language: String,
+    locale: String,
     type: String
 
 }
@@ -159,18 +159,18 @@ export class Estimate extends React.Component<IProps> {
     }
 
     onDraft = (handleSubmit) => {
-        const { language, navigation, type } = this.props
+        const { locale, navigation, type } = this.props
         if (type === ESTIMATE_EDIT) {
             navigation.navigate(ROUTES.ESTIMATE_LIST)
             return
         }
 
         alertMe({
-            title: Lng.t("estimates.alert.draftTitle", { locale: language }),
+            title: Lng.t("estimates.alert.draftTitle", { locale }),
             showCancel: true,
-            cancelText: Lng.t("alert.action.discard", { locale: language }),
+            cancelText: Lng.t("alert.action.discard", { locale }),
             cancelPress: () => navigation.navigate(ROUTES.ESTIMATE_LIST),
-            okText: Lng.t("alert.action.saveAsDraft", { locale: language }),
+            okText: Lng.t("alert.action.saveAsDraft", { locale }),
             okPress: handleSubmit(this.onSubmitEstimate)
         })
     }
@@ -182,12 +182,12 @@ export class Estimate extends React.Component<IProps> {
             navigation,
             type,
             editEstimate,
-            language,
+            locale,
             estimateData: { estimate_prefix = '' } = {}
         } = this.props
 
         if (finalAmount() < 0) {
-            alert(Lng.t("estimates.alert.lessAmount", { locale: language }))
+            alert(Lng.t("estimates.alert.lessAmount", { locale }))
             return
         }
 
@@ -263,13 +263,13 @@ export class Estimate extends React.Component<IProps> {
     }
 
     BOTTOM_ACTION = () => {
-        const { language, loading, handleSubmit } = this.props
+        const { locale, loading, handleSubmit } = this.props
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={() => this.onOptionSelect(ESTIMATE_ACTIONS.VIEW)}
-                    btnTitle={Lng.t("button.viewPdf", { locale: language })}
+                    btnTitle={Lng.t("button.viewPdf", { locale })}
                     type={BUTTON_TYPE.OUTLINE}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
@@ -278,7 +278,7 @@ export class Estimate extends React.Component<IProps> {
 
                 <CtButton
                     onPress={handleSubmit((val) => this.onSubmitEstimate(val, status = 'save'))}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    btnTitle={Lng.t("button.save", { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                     loading={loading}
@@ -329,7 +329,7 @@ export class Estimate extends React.Component<IProps> {
         const {
             removeEstimate,
             navigation,
-            language,
+            locale,
             convertToInvoice,
             handleSubmit,
             changeEstimateStatus,
@@ -364,7 +364,7 @@ export class Estimate extends React.Component<IProps> {
 
             case ESTIMATE_ACTIONS.CONVERT_TO_INVOICE:
                 alertMe({
-                    desc: Lng.t("estimates.alert.convertToInvoiceDescription", { locale: language }),
+                    desc: Lng.t("estimates.alert.convertToInvoiceDescription", { locale }),
                     showCancel: true,
                     okPress: () => convertToInvoice({
                         id: navigation.getParam('id'),
@@ -378,8 +378,8 @@ export class Estimate extends React.Component<IProps> {
             case ESTIMATE_ACTIONS.DELETE:
 
                 alertMe({
-                    title: Lng.t("alert.title", { locale: language }),
-                    desc: Lng.t("estimates.alert.removeDescription", { locale: language }),
+                    title: Lng.t("alert.title", { locale }),
+                    desc: Lng.t("estimates.alert.removeDescription", { locale }),
                     showCancel: true,
                     okPress: () => removeEstimate({
                         id: navigation.getParam('id'),
@@ -400,7 +400,7 @@ export class Estimate extends React.Component<IProps> {
     openTermConditionModal = () => this.termsAndConditionRef?.onToggle()
 
     TOGGLE_TERMS_CONDITION_VIEW = () => {
-        const { formValues, language } = this.props
+        const { formValues, locale } = this.props
         let isShow = formValues?.display_terms_and_conditions
 
         return (
@@ -409,7 +409,7 @@ export class Estimate extends React.Component<IProps> {
                     name={termsCondition.toggle}
                     component={ToggleSwitch}
                     status={isShow}
-                    hint={Lng.t("termsCondition.show", { locale: language })}
+                    hint={Lng.t("termsCondition.show", { locale })}
                     mainContainerStyle={{ marginTop: 12 }}
                 />
 
@@ -419,7 +419,7 @@ export class Estimate extends React.Component<IProps> {
                     >
                         <Text style={styles.termsEditText}
                         >
-                            {Lng.t("termsCondition.edit", { locale: language })}
+                            {Lng.t("termsCondition.edit", { locale })}
                         </Text>
                     </TouchableOpacity>
                 )}
@@ -442,7 +442,7 @@ export class Estimate extends React.Component<IProps> {
             getItems,
             itemsLoading,
             items,
-            language,
+            locale,
             initLoading,
             type,
             getCustomers,
@@ -459,7 +459,7 @@ export class Estimate extends React.Component<IProps> {
 
         let drownDownProps = (isEditEstimate && !initLoading) ? {
             options: EDIT_ESTIMATE_ACTIONS(
-                language,
+                locale,
                 markAsStatus
             ),
             onSelect: this.onOptionSelect,
@@ -474,8 +474,8 @@ export class Estimate extends React.Component<IProps> {
                 headerProps={{
                     leftIconPress: () => this.onDraft(handleSubmit),
                     title: isEditEstimate ?
-                        Lng.t("header.editEstimate", { locale: language }) :
-                        Lng.t("header.addEstimate", { locale: language }),
+                        Lng.t("header.editEstimate", { locale }) :
+                        Lng.t("header.addEstimate", { locale }),
                     titleStyle: headerTitle({ marginLeft: -15, marginRight: -15 }),
                     rightIcon: !isEditEstimate ? 'save' : null,
                     rightIconPress: handleSubmit((val) => this.onSubmitEstimate(val, status = 'save')),
@@ -503,7 +503,7 @@ export class Estimate extends React.Component<IProps> {
                                 name={'estimate_date'}
                                 isRequired
                                 component={DatePickerField}
-                                label={Lng.t("estimates.estimateDate", { locale: language })}
+                                label={Lng.t("estimates.estimateDate", { locale })}
                                 icon={'calendar-alt'}
                                 onChangeCallback={(val) =>
                                     this.setFormField('estimate_date', val)
@@ -515,7 +515,7 @@ export class Estimate extends React.Component<IProps> {
                                 name="expiry_date"
                                 isRequired
                                 component={DatePickerField}
-                                label={Lng.t("estimates.expiryDate", { locale: language })}
+                                label={Lng.t("estimates.expiryDate", { locale })}
                                 icon={'calendar-alt'}
                                 onChangeCallback={(val) =>
                                     this.setFormField('expiry_date', val)
@@ -527,7 +527,7 @@ export class Estimate extends React.Component<IProps> {
                     <Field
                         name="estimate_number"
                         component={FakeInput}
-                        label={Lng.t("estimates.estimateNumber", { locale: language })}
+                        label={Lng.t("estimates.estimateNumber", { locale })}
                         isRequired
                         prefixProps={{
                             fieldName: "estimate_number",
@@ -546,10 +546,10 @@ export class Estimate extends React.Component<IProps> {
                         getItems={getCustomers}
                         displayName="name"
                         component={SelectField}
-                        label={Lng.t("estimates.customer", { locale: language })}
+                        label={Lng.t("estimates.customer", { locale })}
                         icon={'user'}
                         placeholder={customerName ? customerName :
-                            Lng.t("estimates.customerPlaceholder", { locale: language })
+                            Lng.t("estimates.customerPlaceholder", { locale })
                         }
                         navigation={navigation}
                         compareField="id"
@@ -568,7 +568,7 @@ export class Estimate extends React.Component<IProps> {
                             })
                         }
                         headerProps={{
-                            title: Lng.t("customers.title", { locale: language }),
+                            title: Lng.t("customers.title", { locale }),
                         }}
                         listViewProps={{
                             hasAvatar: true,
@@ -580,7 +580,7 @@ export class Estimate extends React.Component<IProps> {
                     />
 
                     <Text style={[styles.inputTextStyle, styles.label]}>
-                        {Lng.t("estimates.items", { locale: language })}
+                        {Lng.t("estimates.items", { locale })}
                         <Text style={styles.required}> *</Text>
                     </Text>
 
@@ -606,7 +606,7 @@ export class Estimate extends React.Component<IProps> {
                         compareField="id"
                         valueCompareField="item_id"
                         icon={'percent'}
-                        placeholder={Lng.t("estimates.addItem", { locale: language })}
+                        placeholder={Lng.t("estimates.addItem", { locale })}
                         navigation={navigation}
                         onlyPlaceholder
                         isMultiSelect
@@ -636,7 +636,7 @@ export class Estimate extends React.Component<IProps> {
                             })
                         }
                         headerProps={{
-                            title: Lng.t("items.title", { locale: language }),
+                            title: Lng.t("items.title", { locale }),
                         }}
                         emptyContentProps={{
                             contentType: "items",
@@ -655,7 +655,7 @@ export class Estimate extends React.Component<IProps> {
                     <Field
                         name="reference_number"
                         component={InputField}
-                        hint={Lng.t("invoices.referenceNumber", { locale: language })}
+                        hint={Lng.t("invoices.referenceNumber", { locale })}
                         leftIcon={'hashtag'}
                         inputProps={{
                             returnKeyType: 'next',
@@ -667,10 +667,10 @@ export class Estimate extends React.Component<IProps> {
                     <Field
                         name="notes"
                         component={InputField}
-                        hint={Lng.t("estimates.notes", { locale: language })}
+                        hint={Lng.t("estimates.notes", { locale })}
                         inputProps={{
                             returnKeyType: 'next',
-                            placeholder: Lng.t("estimates.notePlaceholder", { locale: language }),
+                            placeholder: Lng.t("estimates.notePlaceholder", { locale }),
                             autoCorrect: true,
                             multiline: true,
                             maxLength: MAX_LENGTH
@@ -684,11 +684,11 @@ export class Estimate extends React.Component<IProps> {
                         name="estimate_template_id"
                         templates={estimateTemplates}
                         component={TemplateField}
-                        label={Lng.t("estimates.template", { locale: language })}
+                        label={Lng.t("estimates.template", { locale })}
                         icon={'file-alt'}
-                        placeholder={Lng.t("estimates.templatePlaceholder", { locale: language })}
+                        placeholder={Lng.t("estimates.templatePlaceholder", { locale })}
                         navigation={navigation}
-                        language={language}
+                        locale={locale}
                     />
 
                     {this.TOGGLE_TERMS_CONDITION_VIEW()}

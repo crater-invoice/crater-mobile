@@ -120,19 +120,19 @@ export class TermsAndCondition extends React.Component<IProps> {
 
     BOTTOM_ACTION = () => {
         const {
-            props: { language }
+            props: { locale }
         } = this.props;
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={() => this.onToggle()}
-                    btnTitle={Lng.t('button.cancel', { locale: language })}
+                    btnTitle={Lng.t('button.cancel', { locale })}
                     type={BUTTON_TYPE.OUTLINE}
                     buttonOutlineStyle={styles.buttonOutline}
                 />
                 <CtButton
                     onPress={() => this.onSave()}
-                    btnTitle={Lng.t('button.update', { locale: language })}
+                    btnTitle={Lng.t('button.update', { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                 />

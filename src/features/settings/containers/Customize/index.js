@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import { CUSTOMIZE_FORM } from '../../constants';
-import * as customizeAction from '../../actions'
+import * as customizeAction from '../../actions';
 import { Customize } from '../../components/Customize';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { language },
+        global: { locale },
         settings: {
             customizes,
             paymentMethods,
@@ -18,17 +18,21 @@ const mapStateToProps = (state, { navigation }) => {
                 paymentModesLoading,
                 customizeLoading,
                 paymentModeLoading,
-                itemUnitLoading,
+                itemUnitLoading
             }
         }
     } = state;
 
     const type = navigation.getParam('type');
-    let isLoading = getCustomizeLoading || paymentModesLoading || customizes === null || typeof customizes === 'undefined'
+    let isLoading =
+        getCustomizeLoading ||
+        paymentModesLoading ||
+        customizes === null ||
+        typeof customizes === 'undefined';
 
     return {
         formValues: getFormValues(CUSTOMIZE_FORM)(state) || {},
-        language,
+        locale,
         type,
         customizes,
         paymentMethods,
@@ -37,9 +41,11 @@ const mapStateToProps = (state, { navigation }) => {
         loading: customizeLoading,
         paymentModeLoading,
         itemUnitLoading,
-        initialValues: !isLoading ? {
-            ...customizes,
-        } : null
+        initialValues: !isLoading
+            ? {
+                  ...customizes
+              }
+            : null
     };
 };
 
@@ -62,17 +68,17 @@ const mapDispatchToProps = {
 //  Redux Forms
 const CustomizeReduxForm = reduxForm({
     form: CUSTOMIZE_FORM,
-    validate,
+    validate
 })(Customize);
 
 //  connect
 const CustomizeContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(CustomizeReduxForm);
 
 CustomizeContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default CustomizeContainer;

@@ -18,7 +18,7 @@ type IProps = {
     getPayments: Function,
     payments: Object,
     loading: Boolean,
-    language: String,
+    locale: String,
 }
 
 export class Categories extends React.Component<IProps> {
@@ -120,7 +120,7 @@ export class Categories extends React.Component<IProps> {
         const {
             navigation,
             loading,
-            language,
+            locale,
             categories,
         } = this.props;
 
@@ -135,8 +135,8 @@ export class Categories extends React.Component<IProps> {
         categoriesList = this.itemList(categories)
 
         let empty = (!search) ? {
-            description: Lng.t("categories.empty.description", { locale: language }),
-            buttonTitle: Lng.t("categories.empty.buttonTitle", { locale: language }),
+            description: Lng.t("categories.empty.description", { locale }),
+            buttonTitle: Lng.t("categories.empty.buttonTitle", { locale }),
             buttonPress: () => navigation.navigate(ROUTES.CATEGORY, { type: CATEGORY_ADD }),
         } : {}
 
@@ -147,7 +147,7 @@ export class Categories extends React.Component<IProps> {
                     headerProps={{
                         leftIcon: "long-arrow-alt-left",
                         leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
-                        title: Lng.t("header.expenseCategory", { locale: language }),
+                        title: Lng.t("header.expenseCategory", { locale }),
                         titleStyle: styles.titleStyle,
                         placement: "center",
                         rightIcon: "plus",
@@ -173,8 +173,8 @@ export class Categories extends React.Component<IProps> {
                             bottomDivider
                             emptyContentProps={{
                                 title: found ?
-                                    Lng.t("categories.empty.title", { locale: language }) :
-                                    Lng.t("search.noResult", { locale: language, search }),
+                                    Lng.t("categories.empty.title", { locale }) :
+                                    Lng.t("search.noResult", { locale, search }),
                                 ...empty
                             }}
                         />

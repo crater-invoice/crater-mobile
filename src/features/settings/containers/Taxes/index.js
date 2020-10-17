@@ -8,7 +8,7 @@ import * as TaxesAction from '../../actions';
 const mapStateToProps = ({ settings, global }) => ({
     loading: settings.loading.getTaxLoading,
     taxTypes: global.taxTypes,
-    language: global.language
+    locale: global?.locale
 });
 
 const mapDispatchToProps = {
@@ -17,17 +17,17 @@ const mapDispatchToProps = {
 
 //  Redux Forms
 const TaxesReduxForm = reduxForm({
-    form: SEARCH_TAX,
+    form: SEARCH_TAX
 })(Taxes);
 
 //  connect
 const TaxesContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(TaxesReduxForm);
 
 TaxesContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default TaxesContainer;

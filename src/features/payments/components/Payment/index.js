@@ -36,7 +36,7 @@ type IProps = {
     editPayment: Function,
     handleSubmit: Function,
     type: String,
-    language: String,
+    locale: String,
     paymentLoading: Boolean,
     initPaymentLoading: Boolean,
     getUnpaidInvoicesLoading: Boolean,
@@ -229,7 +229,7 @@ export class Payment extends React.Component<IProps> {
             editPayment,
             navigation,
             hasRecordPayment,
-            language
+            locale
         } = this.props
 
         let params = {
@@ -244,7 +244,7 @@ export class Payment extends React.Component<IProps> {
                 hasRecordPayment,
                 onResult: (val) => {
                     val === 'invalid_amount' &&
-                        alertMe({ title: Lng.t("payments.alertAmount", { locale: language }) })
+                        alertMe({ title: Lng.t("payments.alertAmount", { locale }) })
                 }
             })
             :
@@ -292,11 +292,11 @@ export class Payment extends React.Component<IProps> {
     }
 
     removePayment = () => {
-        const { removePayment, navigation, language } = this.props
+        const { removePayment, navigation, locale } = this.props
 
         alertMe({
-            title: Lng.t("alert.title", { locale: language }),
-            desc: Lng.t("payments.alertDescription", { locale: language }),
+            title: Lng.t("alert.title", { locale }),
+            desc: Lng.t("payments.alertDescription", { locale }),
             showCancel: true,
             okPress: () => removePayment({
                 id: navigation.getParam('paymentId', null),
@@ -306,14 +306,14 @@ export class Payment extends React.Component<IProps> {
     }
 
     onOptionSelect = (action) => {
-        const { sendPaymentReceipt, navigation, language } = this.props
+        const { sendPaymentReceipt, navigation, locale } = this.props
 
         if (action == ACTIONS_VALUE.REMOVE)
             this.removePayment()
         else if (action == ACTIONS_VALUE.SEND)
             alertMe({
-                title: Lng.t("alert.title", { locale: language }),
-                desc: Lng.t("payments.alertSendDescription", { locale: language }),
+                title: Lng.t("alert.title", { locale }),
+                desc: Lng.t("payments.alertSendDescription", { locale }),
                 showCancel: true,
                 okPress: () => sendPaymentReceipt({
                     params: { id: navigation.getParam('paymentId', null) }
@@ -325,11 +325,11 @@ export class Payment extends React.Component<IProps> {
     BOTTOM_ACTION = (handleSubmit) => {
 
         const {
-            language,
+            locale,
             paymentLoading
         } = this.props
 
-        let buttonTitle = Lng.t("button.save", { locale: language })
+        let buttonTitle = Lng.t("button.save", { locale })
 
         return (
             <View style={styles.submitButton}>
@@ -347,7 +347,7 @@ export class Payment extends React.Component<IProps> {
             navigation,
             handleSubmit,
             customers,
-            language,
+            locale,
             initPaymentLoading,
             getUnpaidInvoicesLoading,
             type,
@@ -366,7 +366,7 @@ export class Payment extends React.Component<IProps> {
         } = this.state
 
         let drownDownProps = (type === PAYMENT_EDIT && !isLoading) ? {
-            options: PAYMENT_ACTIONS(Lng, language),
+            options: PAYMENT_ACTIONS(Lng, locale),
             onSelect: this.onOptionSelect,
             cancelButtonIndex: 2,
             destructiveButtonIndex: 1
@@ -378,8 +378,8 @@ export class Payment extends React.Component<IProps> {
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
                     title: type === PAYMENT_EDIT ?
-                        Lng.t("header.editPayment", { locale: language }) :
-                        Lng.t("header.addPayment", { locale: language }),
+                        Lng.t("header.editPayment", { locale }) :
+                        Lng.t("header.addPayment", { locale }),
                     placement: "center",
                     rightIcon: type !== PAYMENT_EDIT ? "save" : null,
                     rightIconProps: {
@@ -402,7 +402,7 @@ export class Payment extends React.Component<IProps> {
                                 name="payment_date"
                                 component={DatePickerField}
                                 dateTimeFormat={DATE_FORMAT}
-                                label={Lng.t("payments.date", { locale: language })}
+                                label={Lng.t("payments.date", { locale })}
                                 icon={'calendar-alt'}
                                 onChangeCallback={(val) => {
                                     this.setFormField('payment_date', val)
@@ -415,7 +415,7 @@ export class Payment extends React.Component<IProps> {
                             <Field
                                 name="payment_number"
                                 component={FakeInput}
-                                label={Lng.t("payments.number", { locale: language })}
+                                label={Lng.t("payments.number", { locale })}
                                 isRequired
                                 prefixProps={{
                                     fieldName: "payment_number",
@@ -433,9 +433,9 @@ export class Payment extends React.Component<IProps> {
                         items={customers}
                         displayName="name"
                         component={SelectField}
-                        label={Lng.t("payments.customer", { locale: language })}
+                        label={Lng.t("payments.customer", { locale })}
                         icon={'user'}
-                        placeholder={selectedCustomer ? selectedCustomer.name : Lng.t("payments.customerPlaceholder", { locale: language })}
+                        placeholder={selectedCustomer ? selectedCustomer.name : Lng.t("payments.customerPlaceholder", { locale })}
                         navigation={navigation}
                         compareField="id"
                         onSelect={(item) => {
@@ -452,7 +452,7 @@ export class Payment extends React.Component<IProps> {
                             })
                         }
                         headerProps={{
-                            title: Lng.t("customers.title", { locale: language }),
+                            title: Lng.t("customers.title", { locale }),
                         }}
                         listViewProps={{ hasAvatar: true }}
                         emptyContentProps={{
@@ -470,7 +470,7 @@ export class Payment extends React.Component<IProps> {
                         name="amount"
                         component={InputField}
                         leftIcon={'dollar-sign'}
-                        hint={Lng.t("payments.amount", { locale: language })}
+                        hint={Lng.t("payments.amount", { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
@@ -486,9 +486,9 @@ export class Payment extends React.Component<IProps> {
                         items={this.getInvoicesList(invoices)}
                         displayName="invoice_number"
                         component={SelectField}
-                        label={Lng.t("payments.invoice", { locale: language })}
+                        label={Lng.t("payments.invoice", { locale })}
                         icon={'file-invoice'}
-                        placeholder={selectedInvoice ? selectedInvoice : Lng.t("payments.invoicePlaceholder", { locale: language })}
+                        placeholder={selectedInvoice ? selectedInvoice : Lng.t("payments.invoicePlaceholder", { locale })}
                         navigation={navigation}
                         fakeInputProps={{
                             loading: getUnpaidInvoicesLoading
@@ -508,7 +508,7 @@ export class Payment extends React.Component<IProps> {
                             paymentRefs.amount.focus();
                         }}
                         headerProps={{
-                            title: Lng.t("invoices.title", { locale: language }),
+                            title: Lng.t("invoices.title", { locale }),
                             rightIconPress: null
                         }}
                         emptyContentProps={{
@@ -528,7 +528,7 @@ export class Payment extends React.Component<IProps> {
                     <Field
                         name="payment_method_id"
                         component={SelectPickerField}
-                        label={Lng.t("payments.mode", { locale: language })}
+                        label={Lng.t("payments.mode", { locale })}
                         fieldIcon='align-center'
                         items={formatSelectPickerName(methods)}
                         selectedItem={selectedPaymentMode}
@@ -537,7 +537,7 @@ export class Payment extends React.Component<IProps> {
                         }}
                         onDonePress={() => paymentRefs.notes.focus()}
                         defaultPickerOptions={{
-                            label: Lng.t("payments.modePlaceholder", { locale: language }),
+                            label: Lng.t("payments.modePlaceholder", { locale }),
                             value: '',
                         }}
                         refLinkFn={(ref) => paymentRefs.mode = ref}
@@ -547,11 +547,11 @@ export class Payment extends React.Component<IProps> {
                     <Field
                         name="notes"
                         component={InputField}
-                        hint={Lng.t("payments.notes", { locale: language })}
+                        hint={Lng.t("payments.notes", { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
-                            placeholder: Lng.t("payments.notesPlaceholder", { locale: language }),
+                            placeholder: Lng.t("payments.notesPlaceholder", { locale }),
                             autoCorrect: true,
                             multiline: true,
                             maxLength: MAX_LENGTH

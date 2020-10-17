@@ -83,7 +83,7 @@ export class Taxes extends React.Component {
             taxTypes,
             navigation,
             loading,
-            language,
+            locale,
             getTaxes
         } = this.props
 
@@ -94,11 +94,11 @@ export class Taxes extends React.Component {
             taxesFilter,
         } = this.state
 
-        let emptyTitle = Lng.t("taxes.empty.title", { locale: language })
+        let emptyTitle = Lng.t("taxes.empty.title", { locale })
 
         let empty = (!search) ? {
-            description: Lng.t("taxes.empty.description", { locale: language }),
-            buttonTitle: Lng.t("taxes.empty.buttonTitle", { locale: language }),
+            description: Lng.t("taxes.empty.description", { locale }),
+            buttonTitle: Lng.t("taxes.empty.buttonTitle", { locale }),
             buttonPress: () => {
                 navigation.navigate(ROUTES.TAX, { type: ADD_TAX })
             },
@@ -111,7 +111,7 @@ export class Taxes extends React.Component {
                     headerProps={{
                         leftIcon: "long-arrow-alt-left",
                         leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
-                        title: Lng.t("header.taxes", { locale: language }),
+                        title: Lng.t("header.taxes", { locale }),
                         titleStyle: styles.headerTitle,
                         placement: "center",
                         rightIcon: "plus",
@@ -140,7 +140,7 @@ export class Taxes extends React.Component {
                             emptyContentProps={{
                                 title: found ? emptyTitle :
                                     search ?
-                                        Lng.t("search.noResult", { locale: language, search })
+                                        Lng.t("search.noResult", { locale, search })
                                         : emptyTitle,
                                 ...empty
                             }}

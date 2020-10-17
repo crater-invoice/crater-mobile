@@ -22,7 +22,7 @@ type IProps = {
     getCurrencies: Function,
     currencies: Object,
     loading: Boolean,
-    language: String,
+    locale: String,
 }
 
 export class Currencies extends React.Component<IProps> {
@@ -153,7 +153,7 @@ export class Currencies extends React.Component<IProps> {
             navigation,
             currencies,
             loading,
-            language,
+            locale,
         } = this.props;
 
         const {
@@ -169,21 +169,21 @@ export class Currencies extends React.Component<IProps> {
 
 
         let empty = (!search) ? {
-            description: Lng.t("currencies.empty.description", { locale: language }),
-            buttonTitle: Lng.t("currencies.empty.buttonTitle", { locale: language }),
+            description: Lng.t("currencies.empty.description", { locale }),
+            buttonTitle: Lng.t("currencies.empty.buttonTitle", { locale }),
             buttonPress: () => {
                 navigation.navigate(ROUTES.CURRENCY, { type: CREATE_CURRENCY_TYPE })
             }
         } : {}
 
-        let emptyTitle = search ? Lng.t("search.noResult", { locale: language, search })
-            : Lng.t("currencies.empty.title", { locale: language })
+        let emptyTitle = search ? Lng.t("search.noResult", { locale, search })
+            : Lng.t("currencies.empty.title", { locale })
 
         return (
             <View style={styles.container}>
                 <MainLayout
                     headerProps={{
-                        title: Lng.t("header.currencies", { locale: language }),
+                        title: Lng.t("header.currencies", { locale }),
                         leftIcon: "long-arrow-alt-left",
                         leftIconPress: () => navigation.goBack(null),
                         titleStyle: styles.headerTitle,

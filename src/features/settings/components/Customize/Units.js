@@ -46,15 +46,15 @@ export class Units extends Component {
     onRemove = () => {
         const {
             props: {
-                language,
+                locale,
                 removeItemUnit,
                 formValues: { unitId = null },
             }
         } = this.props
 
         alertMe({
-            title: Lng.t("alert.title", { locale: language }),
-            desc: Lng.t("items.alertUnit", { locale: language }),
+            title: Lng.t("alert.title", { locale }),
+            desc: Lng.t("items.alertUnit", { locale }),
             showCancel: true,
             okPress: () => {
                 this.onToggle()
@@ -65,19 +65,19 @@ export class Units extends Component {
 
     IMPORT_INPUT_MODAL = () => {
         const { visible, isCreateMethod } = this.state
-        const { props: { navigation, language, itemUnitLoading = false } } = this.props
+        const { props: { navigation, locale, itemUnitLoading = false } } = this.props
 
         return (
             <InputModal
                 visible={visible}
                 onToggle={() => this.onToggle()}
                 navigation={navigation}
-                language={language}
+                locale={locale}
                 headerTitle={isCreateMethod ?
-                    Lng.t("items.addUnit", { locale: language }) :
-                    Lng.t("items.editUnit", { locale: language })
+                    Lng.t("items.addUnit", { locale }) :
+                    Lng.t("items.editUnit", { locale })
                 }
-                hint={Lng.t("items.unitHint", { locale: language })}
+                hint={Lng.t("items.unitHint", { locale })}
                 fieldName="unitName"
                 onSubmit={() => this.onSave()}
                 onRemove={() => this.onRemove()}
@@ -100,7 +100,7 @@ export class Units extends Component {
     }
 
     render() {
-        const { props: { units, language } } = this.props
+        const { props: { units, locale } } = this.props
 
         return (
             <View style={styles.bodyContainer}>
@@ -117,7 +117,7 @@ export class Units extends Component {
                         bottomDivider
                         contentContainerStyle={{ flex: 3 }}
                         emptyContentProps={{
-                            title: Lng.t("payments.empty.modeTitle", { locale: language }),
+                            title: Lng.t("payments.empty.modeTitle", { locale }),
                         }}
                         itemContainer={{
                             paddingVertical: 8

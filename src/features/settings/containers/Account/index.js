@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
             },
             account
         },
-        global: { language }
+        global: { locale }
     } = state
 
     let isLoading = getAccountInfoLoading || !account
@@ -24,7 +24,7 @@ const mapStateToProps = (state) => {
     return {
         isLoading,
         editAccountLoading: editAccountInfoLoading,
-        language,
+        locale,
 
         initialValues: !isLoading ? {
             name: account.name,

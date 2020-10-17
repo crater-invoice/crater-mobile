@@ -22,7 +22,7 @@ type IProps = {
     dropdownFields: Object,
     selectFields: Object,
     datePickerFields: Object,
-    language: String,
+    locale: String,
     onResetFilter: Function
 };
 
@@ -153,7 +153,7 @@ export class Filter extends Component<IProps> {
 
     BOTTOM_ACTION = () => {
         const {
-            language,
+            locale,
             clearFilter: { handleSubmit }
         } = this.props;
 
@@ -161,7 +161,7 @@ export class Filter extends Component<IProps> {
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={() => this.onClear()}
-                    btnTitle={Lng.t('button.clear', { locale: language })}
+                    btnTitle={Lng.t('button.clear', { locale })}
                     type={BUTTON_TYPE.OUTLINE}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
@@ -169,7 +169,7 @@ export class Filter extends Component<IProps> {
 
                 <CtButton
                     onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t('search.title', { locale: language })}
+                    btnTitle={Lng.t('search.title', { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                 />
@@ -184,7 +184,7 @@ export class Filter extends Component<IProps> {
             dropdownFields,
             selectFields,
             datePickerFields,
-            language,
+            locale,
             clearFilter: { handleSubmit }
         } = this.props;
 
@@ -228,7 +228,7 @@ export class Filter extends Component<IProps> {
                                 leftIcon: 'long-arrow-alt-left',
                                 leftIconStyle: styles.backIcon,
                                 title: Lng.t('header.filter', {
-                                    locale: language
+                                    locale
                                 }),
                                 placement: 'center',
                                 rightIcon: 'search',

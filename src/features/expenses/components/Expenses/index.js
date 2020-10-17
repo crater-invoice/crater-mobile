@@ -24,7 +24,7 @@ type IProps = {
     getExpenses: Function,
     expenses: Object,
     loading: Boolean,
-    language: String,
+    locale: String,
 }
 
 export class Expenses extends React.Component<IProps> {
@@ -187,7 +187,7 @@ export class Expenses extends React.Component<IProps> {
             expenses,
             filterExpenses,
             loading,
-            language,
+            locale,
             handleSubmit,
         } = this.props;
         const {
@@ -201,17 +201,17 @@ export class Expenses extends React.Component<IProps> {
         const canLoadMore = lastPage >= page;
 
         let empty = (!filter && !search) ? {
-            description: Lng.t("expenses.empty.description", { locale: language }),
-            buttonTitle: Lng.t("expenses.empty.buttonTitle", { locale: language }),
+            description: Lng.t("expenses.empty.description", { locale }),
+            buttonTitle: Lng.t("expenses.empty.buttonTitle", { locale }),
             buttonPress: () => {
                 navigation.navigate(ROUTES.EXPENSE, { type: EXPENSE_ADD })
                 this.onResetFilter()
             }
         } : {}
 
-        let emptyTitle = search ? Lng.t("search.noResult", { locale: language, search })
-            : (!filter) ? Lng.t("expenses.empty.title", { locale: language }) :
-                Lng.t("filter.empty.filterTitle", { locale: language })
+        let emptyTitle = search ? Lng.t("search.noResult", { locale, search })
+            : (!filter) ? Lng.t("expenses.empty.title", { locale }) :
+                Lng.t("filter.empty.filterTitle", { locale })
 
         let isLoading = navigation.getParam('loading', false)
 
@@ -224,7 +224,7 @@ export class Expenses extends React.Component<IProps> {
                             navigation.navigate(ROUTES.EXPENSE, { type: EXPENSE_ADD })
                             this.onResetFilter()
                         },
-                        title: Lng.t("header.expenses", { locale: language })
+                        title: Lng.t("header.expenses", { locale })
                     }}
                     onSearch={this.onSearch}
                     bottomDivider
@@ -232,7 +232,7 @@ export class Expenses extends React.Component<IProps> {
                         onSubmitFilter: handleSubmit(this.onSubmitFilter),
                         ...expenseFilterFields(this),
                         clearFilter: this.props,
-                        language: language,
+                        locale,
                         onResetFilter: () => this.onResetFilter()
                     }}
                     loadingProps={{ is: isLoading || (loading && fresh) }}

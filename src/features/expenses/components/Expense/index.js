@@ -44,7 +44,7 @@ export class Expense extends React.Component {
             type,
             getEditExpense,
             getReceipt,
-            language,
+            locale,
         } = this.props
 
         if (type === EXPENSE_EDIT) {
@@ -73,7 +73,7 @@ export class Expense extends React.Component {
 
                     if (typeof categories === 'undefined' || categories.length === 0) {
                         alertMe({
-                            title: Lng.t("expenses.noCategories", { locale: language }),
+                            title: Lng.t("expenses.noCategories", { locale }),
                             okText: 'Add',
                             okPress: () => navigation.navigate(ROUTES.CATEGORY, {
                                 type: CATEGORY_ADD,
@@ -139,11 +139,11 @@ export class Expense extends React.Component {
     };
 
     removeExpense = () => {
-        const { removeExpense, navigation, language } = this.props
+        const { removeExpense, navigation, locale } = this.props
 
         alertMe({
-            title: Lng.t("alert.title", { locale: language }),
-            desc: Lng.t("expenses.alertDescription", { locale: language }),
+            title: Lng.t("alert.title", { locale }),
+            desc: Lng.t("expenses.alertDescription", { locale }),
             showCancel: true,
             okPress: () => removeExpense({
                 id: navigation.getParam('id', null),
@@ -178,14 +178,14 @@ export class Expense extends React.Component {
     }
 
     BOTTOM_ACTION = (handleSubmit) => {
-        const { loading, language } = this.props
+        const { loading, locale } = this.props
         const { fileLoading } = this.state
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.onSubmitExpense)}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    btnTitle={Lng.t("button.save", { locale })}
                     loading={loading || fileLoading}
                 />
             </View>
@@ -200,7 +200,7 @@ export class Expense extends React.Component {
             handleSubmit,
             initLoading,
             categories,
-            language,
+            locale,
             type,
             clearExpense,
             formValues
@@ -227,7 +227,7 @@ export class Expense extends React.Component {
         let loading = !newCategoryLoading ? (initLoading || isLoading) : false
 
         let drownDownProps = (type === EXPENSE_EDIT && !loading) ? {
-            options: EXPENSE_ACTIONS(Lng, language, imageUrl),
+            options: EXPENSE_ACTIONS(Lng, locale, imageUrl),
             onSelect: this.onOptionSelect,
             cancelButtonIndex: imageUrl ? 2 : 1,
             destructiveButtonIndex: imageUrl ? 1 : 2
@@ -241,8 +241,8 @@ export class Expense extends React.Component {
                         clearExpense()
                     },
                     title: isCreateExpense ?
-                        Lng.t("header.addExpense", { locale: language }) :
-                        Lng.t("header.editExpense", { locale: language }),
+                        Lng.t("header.addExpense", { locale }) :
+                        Lng.t("header.editExpense", { locale }),
                     placement: "center",
                     rightIcon: isCreateExpense ? 'save' : null,
                     rightIconPress: handleSubmit(this.onSubmitExpense),
@@ -263,7 +263,7 @@ export class Expense extends React.Component {
                         name="attachment_receipt"
                         component={FilePicker}
                         mediaType={'All'}
-                        label={Lng.t("expenses.receipt", { locale: language })}
+                        label={Lng.t("expenses.receipt", { locale })}
                         navigation={navigation}
                         onChangeCallback={(val) =>
                             this.setState({ attachmentReceipt: val })
@@ -279,7 +279,7 @@ export class Expense extends React.Component {
                         name="expense_date"
                         component={DatePickerField}
                         isRequired
-                        label={Lng.t("expenses.date", { locale: language })}
+                        label={Lng.t("expenses.date", { locale })}
                         icon={'calendar-alt'}
                     />)}
 
@@ -288,7 +288,7 @@ export class Expense extends React.Component {
                         name="amount"
                         component={InputField}
                         isRequired
-                        hint={Lng.t("expenses.amount", { locale: language })}
+                        hint={Lng.t("expenses.amount", { locale })}
                         leftIcon={'dollar-sign'}
                         inputProps={{
                             returnKeyType: 'go',
@@ -305,14 +305,14 @@ export class Expense extends React.Component {
                         name="expense_category_id"
                         component={SelectPickerField}
                         isRequired
-                        label={Lng.t("expenses.category", { locale: language })}
+                        label={Lng.t("expenses.category", { locale })}
                         fieldIcon='align-center'
                         items={CategoriesName}
                         onChangeCallback={(val) => {
                             this.setFormField('expense_category_id', val)
                         }}
                         defaultPickerOptions={{
-                            label: Lng.t("expenses.categoryPlaceholder", { locale: language }),
+                            label: Lng.t("expenses.categoryPlaceholder", { locale }),
                             value: '',
                         }}
                         containerStyle={styles.selectPicker}
@@ -325,10 +325,10 @@ export class Expense extends React.Component {
                     <Field
                         name={'notes'}
                         component={InputField}
-                        hint={Lng.t("expenses.notes", { locale: language })}
+                        hint={Lng.t("expenses.notes", { locale })}
                         inputProps={{
                             returnKeyType: 'next',
-                            placeholder: Lng.t("expenses.notesPlaceholder", { locale: language }),
+                            placeholder: Lng.t("expenses.notesPlaceholder", { locale }),
                             autoCorrect: true,
                             multiline: true,
                             maxLength: MAX_LENGTH

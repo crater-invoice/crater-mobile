@@ -22,7 +22,7 @@ type IProps = {
     handleSubmit: Function,
     loading: Boolean,
     socialLoading: Boolean,
-    language: String
+    locale: String
 }
 export class ForgotPassword extends React.Component<IProps> {
     constructor(props) {
@@ -68,7 +68,7 @@ export class ForgotPassword extends React.Component<IProps> {
     render() {
         let passwordInput = {}
 
-        const { handleSubmit, navigation, loading, language } = this.props
+        const { handleSubmit, navigation, loading, locale } = this.props
         const { isMailSended, email } = this.state
 
         return (
@@ -77,7 +77,7 @@ export class ForgotPassword extends React.Component<IProps> {
                     <CtHeader
                         leftIcon="angle-left"
                         leftIconPress={() => navigation.goBack(null)}
-                        title={Lng.t('header.back', { locale: language })}
+                        title={Lng.t('header.back', { locale })}
                         titleOnPress={() => navigation.goBack(null)}
                         titleStyle={{
                             marginLeft: -10,
@@ -127,7 +127,7 @@ export class ForgotPassword extends React.Component<IProps> {
                                             autoCapitalize: 'none',
                                             placeholder: Lng.t(
                                                 'forgot.emailPlaceholder',
-                                                { locale: language }
+                                                { locale }
                                             ),
                                             autoCorrect: true,
                                             keyboardType: 'email-address',
@@ -139,7 +139,7 @@ export class ForgotPassword extends React.Component<IProps> {
                                     />
                                     <Text style={styles.forgotTextTitle}>
                                         {Lng.t('forgot.emailLabel', {
-                                            locale: language
+                                            locale
                                         })}
                                     </Text>
                                 </View>
@@ -151,7 +151,7 @@ export class ForgotPassword extends React.Component<IProps> {
                                     />
                                     <Text style={styles.emailSendDescription}>
                                         {Lng.t('forgot.emailSendDescription', {
-                                            locale: language
+                                            locale
                                         })}
                                     </Text>
                                 </View>
@@ -160,7 +160,7 @@ export class ForgotPassword extends React.Component<IProps> {
                                 <CtGradientButton
                                     onPress={handleSubmit(this.onSendMail)}
                                     btnTitle={Lng.t('button.recoveryEmail', {
-                                        locale: language
+                                        locale
                                     })}
                                     loading={loading}
                                     style={styles.buttonStyle}
@@ -173,7 +173,7 @@ export class ForgotPassword extends React.Component<IProps> {
                                     onPress={this.resendMail}
                                     btnTitle={Lng.t(
                                         'button.recoveryEmailAgain',
-                                        { locale: language }
+                                        { locale }
                                     )}
                                     loading={loading}
                                     style={styles.buttonStyle}

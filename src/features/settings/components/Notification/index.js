@@ -20,7 +20,7 @@ import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
 type IProps = {
     navigation: Object,
     handleSubmit: Function,
-    language: String,
+    locale: String,
     getAccountLoading: Boolean,
 }
 export class Notification extends React.Component<IProps> {
@@ -130,7 +130,7 @@ export class Notification extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            language,
+            locale,
             getSettingItemLoading,
         } = this.props;
 
@@ -141,7 +141,7 @@ export class Notification extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t("header.notifications", { locale: language }),
+                    title: Lng.t("header.notifications", { locale }),
                     placement: "center",
                     rightIcon: "save",
                     rightIconProps: {
@@ -155,7 +155,7 @@ export class Notification extends React.Component<IProps> {
                         estimateStatus === null
                 }}
                 toastProps={{
-                    message: Lng.t(toastMessage, { locale: language }),
+                    message: Lng.t(toastMessage, { locale }),
                     visible: toastMessage,
                     containerStyle: styles.toastContainer
                 }}
@@ -165,7 +165,7 @@ export class Notification extends React.Component<IProps> {
                     <Field
                         name={"notification_email"}
                         component={InputField}
-                        hint={Lng.t("settings.notifications.send", { locale: language })}
+                        hint={Lng.t("settings.notifications.send", { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -184,8 +184,8 @@ export class Notification extends React.Component<IProps> {
                         name="notify_invoice_viewed"
                         component={ToggleSwitch}
                         status={invoiceStatus === 'YES' ? true : false}
-                        hint={Lng.t("settings.notifications.invoiceViewed", { locale: language })}
-                        description={Lng.t("settings.notifications.invoiceViewedDescription", { locale: language })}
+                        hint={Lng.t("settings.notifications.invoiceViewed", { locale })}
+                        description={Lng.t("settings.notifications.invoiceViewedDescription", { locale })}
                         onChangeCallback={(val) =>
                             this.invoiceStatus(val)
                         }
@@ -195,8 +195,8 @@ export class Notification extends React.Component<IProps> {
                         name="notify_estimate_viewed"
                         component={ToggleSwitch}
                         status={estimateStatus === 'YES' ? true : false}
-                        hint={Lng.t("settings.notifications.estimateViewed", { locale: language })}
-                        description={Lng.t("settings.notifications.estimateViewedDescription", { locale: language })}
+                        hint={Lng.t("settings.notifications.estimateViewed", { locale })}
+                        description={Lng.t("settings.notifications.estimateViewedDescription", { locale })}
                         onChangeCallback={(val) =>
                             this.estimateStatus(val)
                         }

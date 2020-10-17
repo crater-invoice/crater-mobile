@@ -22,24 +22,24 @@ export let customFieldRefs = {};
 export const setCustomFieldRefs = refs => (customFieldRefs = refs);
 
 const DEFAULT_TIME_FIELD = () => {
-    const { language } = customFieldRefs?.props;
+    const { locale } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={TimePickerField}
-            label={Lng.t('customFields.defaultValue', { locale: language })}
-            language={language}
+            label={Lng.t('customFields.defaultValue', { locale })}
+            locale={locale}
         />
     );
 };
 
 const DEFAULT_NUMBER_FIELD = symbol => {
-    const { language, currency } = customFieldRefs?.props;
+    const { locale, currency } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={InputField}
-            hint={Lng.t('customFields.defaultValue', { locale: language })}
+            hint={Lng.t('customFields.defaultValue', { locale })}
             inputProps={{
                 returnKeyType: 'next',
                 autoCorrect: true,
@@ -51,12 +51,12 @@ const DEFAULT_NUMBER_FIELD = symbol => {
 };
 
 const DEFAULT_DATE_FIELD = () => {
-    const { language } = customFieldRefs?.props;
+    const { locale } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={DatePickerField}
-            label={Lng.t('customFields.defaultValue', { locale: language })}
+            label={Lng.t('customFields.defaultValue', { locale })}
             icon={'calendar-alt'}
             formDateFormat="YYYY-MM-DD"
         />
@@ -64,13 +64,13 @@ const DEFAULT_DATE_FIELD = () => {
 };
 
 const DEFAULT_INPUT_FIELD = () => {
-    const { language } = customFieldRefs?.props;
+    const { locale } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={InputField}
             hint={Lng.t('customFields.defaultValue', {
-                locale: language
+                locale
             })}
             inputProps={{
                 returnKeyType: 'next',
@@ -81,13 +81,13 @@ const DEFAULT_INPUT_FIELD = () => {
 };
 
 const DEFAULT_TEXTAREA_FIELD = () => {
-    const { language } = customFieldRefs?.props;
+    const { locale } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={InputField}
             hint={Lng.t('customFields.defaultValue', {
-                locale: language
+                locale
             })}
             inputProps={{
                 returnKeyType: 'next',
@@ -102,13 +102,13 @@ const DEFAULT_TEXTAREA_FIELD = () => {
 };
 
 const PLACEHOLDER_FIELD = () => {
-    const { language } = customFieldRefs?.props;
+    const { locale } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.PLACEHOLDER}`}
             component={InputField}
             hint={Lng.t('customFields.placeholder', {
-                locale: language
+                locale
             })}
             inputProps={{
                 returnKeyType: 'next',
@@ -128,7 +128,7 @@ const SELECT_FIELD_OPTIONS = () => (
 );
 
 const SELECT_FIELD_DEFAULT_VALUE = () => {
-    const { language, formValues } = customFieldRefs?.props;
+    const { locale, formValues } = customFieldRefs?.props;
     const options = formValues?.[FIELDS.FIELD][FIELDS.OPTIONS];
 
     const optionsFormat = () => {
@@ -151,7 +151,7 @@ const SELECT_FIELD_DEFAULT_VALUE = () => {
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={SelectPickerField}
             label={Lng.t('customFields.defaultValue', {
-                locale: language
+                locale
             })}
             fieldIcon="align-center"
             items={optionsFormat()}
@@ -160,25 +160,25 @@ const SELECT_FIELD_DEFAULT_VALUE = () => {
 };
 
 const DEFAULT_CHECKBOX_FIELD = () => {
-    const { language } = customFieldRefs?.props;
+    const { locale } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={CheckBox}
-            hint={Lng.t('customFields.defaultValue', { locale: language })}
-            label={Lng.t('customFields.check', { locale: language })}
+            hint={Lng.t('customFields.defaultValue', { locale })}
+            label={Lng.t('customFields.check', { locale })}
         />
     );
 };
 
 const DEFAULT_DATE_TIME_FIELD = () => {
-    const { language } = customFieldRefs?.props;
+    const { locale } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={DateTimePickerField}
-            label={Lng.t('customFields.defaultValue', { locale: language })}
-            language={language}
+            label={Lng.t('customFields.defaultValue', { locale })}
+            locale={locale}
         />
     );
 };

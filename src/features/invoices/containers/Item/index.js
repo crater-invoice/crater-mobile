@@ -10,7 +10,7 @@ import { getItemUnits } from '../../../settings/actions';
 const mapStateToProps = (state, { navigation }) => {
     const {
         invoices: { loading },
-        global: { language, taxTypes },
+        global: { locale, taxTypes },
         settings: {
             units,
             loading: { itemUnitsLoading }
@@ -31,7 +31,7 @@ const mapStateToProps = (state, { navigation }) => {
         itemId: item && (item.item_id || item.id),
         taxTypes,
         currency: navigation.getParam('currency'),
-        language: language,
+        locale,
         discountPerItem,
         taxPerItem,
         type,

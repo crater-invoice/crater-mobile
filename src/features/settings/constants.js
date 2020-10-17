@@ -200,10 +200,10 @@ export const CUSTOM_FIELD_MODAL_TYPES = [
 
 // Menus
 // -----------------------------------------
-export const SETTINGS_MENU = (language, Lng) => {
+export const SETTINGS_MENU = (locale, Lng) => {
     return [
         {
-            title: Lng.t('settings.accountSettings', { locale: language }),
+            title: Lng.t('settings.accountSettings', { locale }),
             leftIcon: 'user',
             iconSize: 24,
             fullItem: {
@@ -211,7 +211,7 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t('settings.companyInformation', { locale: language }),
+            title: Lng.t('settings.companyInformation', { locale }),
             leftIcon: 'building',
             iconSize: 24,
             fullItem: {
@@ -219,7 +219,7 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t('settings.preference', { locale: language }),
+            title: Lng.t('settings.preference', { locale }),
             leftIcon: 'sun',
             leftIconSolid: true,
             fullItem: {
@@ -227,7 +227,7 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t('settings.notification', { locale: language }),
+            title: Lng.t('settings.notification', { locale }),
             leftIcon: 'bell',
             iconSize: 25,
             fullItem: {
@@ -235,7 +235,7 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t('settings.LanguageAndCurrency', { locale: language }),
+            title: Lng.t('settings.LanguageAndCurrency', { locale: locale }),
             leftIcon: 'language',
             iconSize: 21,
             fullItem: {
@@ -243,7 +243,7 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t('settings.customize', { locale: language }),
+            title: Lng.t('settings.customize', { locale }),
             leftIcon: 'edit',
             iconSize: 22,
             fullItem: {
@@ -251,14 +251,14 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t('settings.taxes', { locale: language }),
+            title: Lng.t('settings.taxes', { locale }),
             leftIcon: 'percent',
             fullItem: {
                 route: ROUTES.TAXES
             }
         },
         {
-            title: Lng.t('settings.expenseCategory', { locale: language }),
+            title: Lng.t('settings.expenseCategory', { locale }),
             leftIcon: 'clipboard-list',
             iconSize: 24,
             fullItem: {
@@ -266,7 +266,7 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t('settings.endpoint', { locale: language }),
+            title: Lng.t('settings.endpoint', { locale }),
             leftIcon: 'link',
             fullItem: {
                 route: ROUTES.ENDPOINTS_SETTINGS
@@ -288,51 +288,51 @@ export const CUSTOMIZE_TYPE = {
 
 // Customize Menu
 // -----------------------------------------
-export const CUSTOMIZES_MENU = (language, Lng) => {
+export const CUSTOMIZES_MENU = (locale, Lng) => {
     return [
         {
-            title: Lng.t('header.addresses', { locale: language }),
+            title: Lng.t('header.addresses', { locale }),
             fullItem: {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.ADDRESSES
             }
         },
         {
-            title: Lng.t('header.invoices', { locale: language }),
+            title: Lng.t('header.invoices', { locale }),
             fullItem: {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.INVOICES
             }
         },
         {
-            title: Lng.t('header.estimates', { locale: language }),
+            title: Lng.t('header.estimates', { locale }),
             fullItem: {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.ESTIMATES
             }
         },
         {
-            title: Lng.t('header.payments', { locale: language }),
+            title: Lng.t('header.payments', { locale }),
             fullItem: {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.PAYMENTS
             }
         },
         {
-            title: Lng.t('header.items', { locale: language }),
+            title: Lng.t('header.items', { locale }),
             fullItem: {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.ITEMS
             }
         },
         {
-            title: Lng.t('header.currencies', { locale: language }),
+            title: Lng.t('header.currencies', { locale }),
             fullItem: {
                 route: ROUTES.CURRENCIES
             }
         },
         {
-            title: Lng.t('header.customFields', { locale: language }),
+            title: Lng.t('header.customFields', { locale }),
             fullItem: {
                 route: ROUTES.CUSTOM_FIELDS
             }

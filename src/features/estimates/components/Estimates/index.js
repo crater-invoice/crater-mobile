@@ -23,7 +23,7 @@ let params = {
 }
 
 type IProps = {
-    language: String,
+    locale: String,
     navigation: Object,
     estimates: Object,
     customers: Object,
@@ -236,7 +236,7 @@ export class Estimates extends React.Component<IProps> {
 
     render() {
         const {
-            language,
+            locale,
             navigation,
             handleSubmit,
         } = this.props;
@@ -252,10 +252,10 @@ export class Estimates extends React.Component<IProps> {
             <View style={styles.container}>
                 <MainLayout
                     headerProps={{
-                        title: Lng.t("header.estimates", { locale: language }),
+                        title: Lng.t("header.estimates", { locale }),
                         leftIcon: "long-arrow-alt-left",
                         leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t("header.estimates", { locale: language }),
+                        title: Lng.t("header.estimates", { locale }),
                         titleStyle: styles.headerTitle,
                         placement: "center",
                         rightIcon: "plus",
@@ -278,7 +278,7 @@ export class Estimates extends React.Component<IProps> {
                         tabs={[
                             {
                                 Title: ESTIMATES_TABS.DRAFT,
-                                tabName: TAB_NAME(ESTIMATES_TABS.DRAFT, language, Lng),
+                                tabName: TAB_NAME(ESTIMATES_TABS.DRAFT, locale, Lng),
                                 render: (
                                     <Draft
                                         parentProps={this}
@@ -288,7 +288,7 @@ export class Estimates extends React.Component<IProps> {
                             },
                             {
                                 Title: ESTIMATES_TABS.SENT,
-                                tabName: TAB_NAME(ESTIMATES_TABS.SENT, language, Lng),
+                                tabName: TAB_NAME(ESTIMATES_TABS.SENT, locale, Lng),
                                 render: (
                                     <Sent
                                         parentProps={this}
@@ -298,7 +298,7 @@ export class Estimates extends React.Component<IProps> {
                             },
                             {
                                 Title: ESTIMATES_TABS.ALL,
-                                tabName: TAB_NAME(ESTIMATES_TABS.ALL, language, Lng),
+                                tabName: TAB_NAME(ESTIMATES_TABS.ALL, locale, Lng),
                                 render: (
                                     <All
                                         parentProps={this}

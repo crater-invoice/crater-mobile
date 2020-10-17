@@ -21,18 +21,18 @@ const Draft = ({ canLoadMore, parentProps }: IProps) => {
         loadMoreItems,
         onAddEstimate
     } = parentProps
-    const { draftEstimates = [], loading, language } = props
+    const { draftEstimates = [], loading, locale } = props
     const { refreshing, fresh, search, filter } = state
 
     let empty = (!filter && !search) ? {
-        description: Lng.t("estimates.empty.draft.description", { locale: language }),
-        buttonTitle: Lng.t("estimates.empty.buttonTitle", { locale: language }),
+        description: Lng.t("estimates.empty.draft.description", { locale }),
+        buttonTitle: Lng.t("estimates.empty.buttonTitle", { locale }),
         buttonPress: () => onAddEstimate(),
     } : {}
 
-    let emptyTitle = search ? Lng.t("search.noResult", { locale: language, search })
-        : (!filter) ? Lng.t("estimates.empty.draft.title", { locale: language }) :
-            Lng.t("filter.empty.filterTitle", { locale: language })
+    let emptyTitle = search ? Lng.t("search.noResult", { locale, search })
+        : (!filter) ? Lng.t("estimates.empty.draft.title", { locale }) :
+            Lng.t("filter.empty.filterTitle", { locale })
 
     return (
         <View style={styles.content}>

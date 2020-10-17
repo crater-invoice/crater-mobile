@@ -43,7 +43,7 @@ export class UpdateAppVersion extends Component {
 
     render() {
 
-        const { language } = this.props;
+        const { locale } = this.props;
         const { loading } = this.state
 
         return (
@@ -61,11 +61,11 @@ export class UpdateAppVersion extends Component {
                     <View style={styles.bodyContainer}>
 
                         <Text h4 style={styles.title}>
-                            {Lng.t("updateApp.title", { locale: language })}
+                            {Lng.t("updateApp.title", { locale })}
                         </Text>
 
                         <Text h6 style={styles.description}>
-                            {Lng.t("updateApp.description", { locale: language })}
+                            {Lng.t("updateApp.description", { locale })}
                         </Text>
 
                     </View>
@@ -73,7 +73,7 @@ export class UpdateAppVersion extends Component {
                     <View style={{ marginTop: 25 }}>
                         <CtGradientButton
                             onPress={() => this.onUpdateApp()}
-                            btnTitle={Lng.t("button.updateCapital", { locale: language })}
+                            btnTitle={Lng.t("button.updateCapital", { locale })}
                             loading={loading}
                         />
                     </View>
@@ -85,7 +85,7 @@ export class UpdateAppVersion extends Component {
 }
 
 const mapStateToProps = ({ global }) => ({
-    language: global.language,
+    locale: global?.locale,
 });
 
 const mapDispatchToProps = {

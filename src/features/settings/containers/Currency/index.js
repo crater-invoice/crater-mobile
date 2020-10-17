@@ -10,7 +10,7 @@ import { hasValue } from '../../../../api/global';
 const mapStateToProps = (state, { navigation }) => {
 
     const {
-        global: { language },
+        global: { locale },
         settings: {
             loading: { currencyLoading }
         }
@@ -25,7 +25,7 @@ const mapStateToProps = (state, { navigation }) => {
         type,
         currency,
         id,
-        language,
+        locale,
         formValues: getFormValues(CURRENCY_FORM)(state) || {},
         initialValues: type === CREATE_CURRENCY_TYPE ? {
             position: false

@@ -37,16 +37,16 @@ export const ACTIONS_VALUE = {
     DOWNLOAD: 'download',
 }
 
-export const EXPENSE_ACTIONS = (Lng, language, imageUrl = '') => {
+export const EXPENSE_ACTIONS = (Lng, locale, imageUrl = '') => {
 
 
     let viewReceipt = {
-        label: Lng.t("expenses.viewReceipt", { locale: language }),
+        label: Lng.t("expenses.viewReceipt", { locale }),
         value: ACTIONS_VALUE.DOWNLOAD
     }
 
     let actions = {
-        label: Lng.t("expenses.removeExpense", { locale: language }),
+        label: Lng.t("expenses.removeExpense", { locale }),
         value: ACTIONS_VALUE.REMOVE
     }
 

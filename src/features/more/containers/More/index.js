@@ -11,7 +11,7 @@ import { getTitleByLanguage } from '../../../../navigation/actions';
 
 const mapStateToProps = ({ more, global }) => ({
     loading: more.loading.logoutLoading,
-    language: global.language
+    locale: global?.locale
 });
 
 const mapDispatchToProps = {

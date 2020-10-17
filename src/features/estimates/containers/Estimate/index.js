@@ -10,7 +10,7 @@ import * as CustomersAction from '../../../customers/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { language, taxTypes },
+        global: { locale, taxTypes },
         estimates: { loading, estimateItems, estimateData, items },
         customers: { customers },
     } = state;
@@ -38,7 +38,7 @@ const mapStateToProps = (state, { navigation }) => {
         type,
         customers,
         itemsLoading: loading.itemsLoading,
-        language,
+        locale,
         formValues: getFormValues(ESTIMATE_FORM)(state) || {},
         taxTypes,
         initialValues: !isLoading ? {

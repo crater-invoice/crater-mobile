@@ -11,7 +11,7 @@ const mapStateToProps = (state, { navigation }) => {
 
     const {
         customers: { customers },
-        global: { language },
+        global: { locale },
         payments: {
             loading: {
                 initPaymentLoading,
@@ -28,7 +28,7 @@ const mapStateToProps = (state, { navigation }) => {
     return {
         type,
         customers,
-        language: language,
+        locale,
         invoice,
         hasRecordPayment,
         initPaymentLoading,

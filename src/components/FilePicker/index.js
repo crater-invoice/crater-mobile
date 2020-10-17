@@ -52,7 +52,7 @@ export class FilePickerComponent extends Component<IProps> {
 
     getPermissionAsync = async () => {
         alertMe({
-            desc: Lng.t("filePicker.permission", { locale: this.props.language }),
+            desc: Lng.t("filePicker.permission", { locale: this.props.locale }),
             showCancel: true,
             okText: 'Allow',
             okPress: () => {
@@ -70,14 +70,14 @@ export class FilePickerComponent extends Component<IProps> {
         this.props?.fileLoading?.(loading)
     }
 
-    GALLERY_UPLOAD_BUTTON_OPTIONS = (language) => {
+    GALLERY_UPLOAD_BUTTON_OPTIONS = (locale) => {
         return [
             {
-                label: Lng.t("filePicker.gallery", { locale: language }),
+                label: Lng.t("filePicker.gallery", { locale }),
                 value: UPLOAD_BUTTON_ACTIONS.GALLERY
             },
             {
-                label: Lng.t("filePicker.camera", { locale: language }),
+                label: Lng.t("filePicker.camera", { locale }),
                 value: UPLOAD_BUTTON_ACTIONS.CAMERA
             }
         ]
@@ -162,7 +162,7 @@ export class FilePickerComponent extends Component<IProps> {
         )
     }
 
-    DEFAULT_VIEW = (language) => {
+    DEFAULT_VIEW = (locale) => {
         return (
             <View style={styles.container}>
                 <Icon
@@ -171,7 +171,7 @@ export class FilePickerComponent extends Component<IProps> {
                     color={colors.gray}
                 />
                 <Text style={styles.title}>
-                    {Lng.t("filePicker.file", { locale: language })}
+                    {Lng.t("filePicker.file", { locale })}
                 </Text>
             </View>
         )
@@ -225,7 +225,7 @@ export class FilePickerComponent extends Component<IProps> {
             hasAvatar = false,
             loadingContainerStyle,
             defaultImage,
-            language
+            locale
         } = this.props;
 
         return (
@@ -235,7 +235,7 @@ export class FilePickerComponent extends Component<IProps> {
 
                 <Dropdown
                     ref={this.actionSheet}
-                    options={this.GALLERY_UPLOAD_BUTTON_OPTIONS(language)}
+                    options={this.GALLERY_UPLOAD_BUTTON_OPTIONS(locale)}
                     onSelect={this.onOptionSelect}
                     cancelButtonIndex={2}
                     destructiveButtonIndex={3}
@@ -259,7 +259,7 @@ export class FilePickerComponent extends Component<IProps> {
                                 {image !== null || imageUrl ?
                                     this.SELECTED_IMAGE() :
                                     !defaultImage ?
-                                        this.DEFAULT_VIEW(language) :
+                                        this.DEFAULT_VIEW(locale) :
                                         this.DEFAULT_IMAGE()
                                 }
 
@@ -277,7 +277,7 @@ export class FilePickerComponent extends Component<IProps> {
 
 
 const mapStateToProps = ({ global }) => ({
-    language: global.language,
+    locale: global?.locale,
 });
 
 const mapDispatchToProps = {};

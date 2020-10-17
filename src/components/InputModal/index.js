@@ -15,7 +15,7 @@ type Iprops = {
     headerTitle: String,
     hint: String,
     fieldName: String,
-    language: String,
+    locale: String,
     onToggle: Function,
     onRemove: Function,
     onSubmit: Function,
@@ -36,7 +36,7 @@ export class InputModal extends Component<Iprops> {
             onRemoveLoading = false,
             onRemove,
             onSubmit,
-            language
+            locale
         } = this.props;
 
         return (
@@ -46,7 +46,7 @@ export class InputModal extends Component<Iprops> {
                         <CtButton
                             onPress={() => onRemove?.()}
                             btnTitle={Lng.t('button.remove', {
-                                locale: language
+                                locale
                             })}
                             containerStyle={styles.handleBtn}
                             buttonColor={BUTTON_COLOR.DANGER}
@@ -58,7 +58,7 @@ export class InputModal extends Component<Iprops> {
                 <View style={styles.rowView}>
                     <CtButton
                         onPress={() => onSubmit?.()}
-                        btnTitle={Lng.t('button.save', { locale: language })}
+                        btnTitle={Lng.t('button.save', { locale })}
                         containerStyle={styles.handleBtn}
                         loading={onSubmitLoading}
                     />

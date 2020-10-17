@@ -13,7 +13,7 @@ let selectedToDateValue = '';
 export const invoicesFilterFields = ({ props, setFormField }) => {
     const filterRefs = {};
 
-    const { getCustomers, customers, language, navigation } = props;
+    const { getCustomers, customers, locale, navigation } = props;
 
     const dropdownStyle = {
         marginTop: 12,
@@ -28,14 +28,14 @@ export const invoicesFilterFields = ({ props, setFormField }) => {
             getItems: getCustomers,
             items: customers,
             displayName: 'name',
-            label: Lng.t('invoices.customer', { locale: language }),
+            label: Lng.t('invoices.customer', { locale }),
             icon: 'user',
-            placeholder: Lng.t('customers.placeholder', { locale: language }),
+            placeholder: Lng.t('customers.placeholder', { locale }),
             navigation: navigation,
             compareField: 'id',
             onSelect: item => setFormField('customer_id', item.id),
             headerProps: {
-                title: Lng.t('customers.title', { locale: language }),
+                title: Lng.t('customers.title', { locale }),
                 rightIconPress: null
             },
             listViewProps: { hasAvatar: true },
@@ -49,7 +49,7 @@ export const invoicesFilterFields = ({ props, setFormField }) => {
     const datePickerFields = [
         {
             name: 'from_date',
-            label: Lng.t('invoices.fromDate', { locale: language }),
+            label: Lng.t('invoices.fromDate', { locale }),
             onChangeCallback: (formDate, displayDate) => {
                 selectedFromDate = displayDate;
                 selectedFromDateValue = formDate;
@@ -59,7 +59,7 @@ export const invoicesFilterFields = ({ props, setFormField }) => {
         },
         {
             name: 'to_date',
-            label: Lng.t('invoices.toDate', { locale: language }),
+            label: Lng.t('invoices.toDate', { locale }),
             onChangeCallback: (formDate, displayDate) => {
                 selectedToDate = displayDate;
                 selectedToDateValue = formDate;
@@ -72,7 +72,7 @@ export const invoicesFilterFields = ({ props, setFormField }) => {
     const inputFields = [
         {
             name: 'invoice_number',
-            hint: Lng.t('invoices.invoiceNumber', { locale: language }),
+            hint: Lng.t('invoices.invoiceNumber', { locale }),
             leftIcon: 'hashtag',
             inputProps: {
                 autoCapitalize: 'none',
@@ -85,13 +85,13 @@ export const invoicesFilterFields = ({ props, setFormField }) => {
     const dropdownFields = [
         {
             name: 'filterStatus',
-            label: Lng.t('invoices.status', { locale: language }),
+            label: Lng.t('invoices.status', { locale }),
             fieldIcon: 'align-center',
             items: FILTER_INVOICE_STATUS,
             onChangeCallback: val => setFormField('filterStatus', val),
             defaultPickerOptions: {
                 label: Lng.t('invoices.statusPlaceholder', {
-                    locale: language
+                    locale
                 }),
                 value: ''
             },
@@ -99,13 +99,13 @@ export const invoicesFilterFields = ({ props, setFormField }) => {
         },
         {
             name: 'paid_status',
-            label: Lng.t('invoices.paidStatus', { locale: language }),
+            label: Lng.t('invoices.paidStatus', { locale }),
             fieldIcon: 'align-center',
             items: FILTER_INVOICE_PAID_STATUS,
             onChangeCallback: val => setFormField('paid_status', val),
             defaultPickerOptions: {
                 label: Lng.t('invoices.paidStatusPlaceholder', {
-                    locale: language
+                    locale
                 }),
                 value: ''
             },

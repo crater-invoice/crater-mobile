@@ -21,7 +21,7 @@ type IProps = {
     resetCustomFields: Function,
     customFields: Object,
     loading: Boolean,
-    language: String
+    locale: String
 };
 
 export class CustomFields extends React.Component<IProps> {
@@ -104,16 +104,16 @@ export class CustomFields extends React.Component<IProps> {
     };
 
     render() {
-        const { navigation, customFields, loading, language } = this.props;
+        const { navigation, customFields, loading, locale } = this.props;
         const { search, found, fieldsFilter } = this.state;
 
         let empty = !search
             ? {
                   description: Lng.t('customFields.empty.description', {
-                      locale: language
+                      locale
                   }),
                   buttonTitle: Lng.t('customFields.empty.buttonTitle', {
-                      locale: language
+                      locale
                   }),
                   buttonPress: () => {
                       navigation.navigate(ROUTES.CUSTOMER_FIELD, {
@@ -124,15 +124,15 @@ export class CustomFields extends React.Component<IProps> {
             : {};
 
         let emptyTitle = search
-            ? Lng.t('search.noResult', { locale: language, search })
-            : Lng.t('customFields.empty.title', { locale: language });
+            ? Lng.t('search.noResult', { locale, search })
+            : Lng.t('customFields.empty.title', { locale });
 
         return (
             <View style={styles.container}>
                 <MainLayout
                     headerProps={{
                         title: Lng.t('header.customFields', {
-                            locale: language
+                            locale
                         }),
                         leftIcon: 'long-arrow-alt-left',
                         leftIconPress: () => navigation.goBack(null),

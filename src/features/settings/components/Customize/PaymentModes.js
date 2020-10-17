@@ -46,15 +46,15 @@ export class PaymentModes extends Component {
     onRemoveMethod = () => {
         const {
             props: {
-                language,
+                locale,
                 removePaymentMode,
                 formValues: { methodId = null },
             }
         } = this.props
 
         alertMe({
-            title: Lng.t("alert.title", { locale: language }),
-            desc: Lng.t("payments.alertMode", { locale: language }),
+            title: Lng.t("alert.title", { locale }),
+            desc: Lng.t("payments.alertMode", { locale }),
             showCancel: true,
             okPress: () => {
                 this.onToggle()
@@ -65,19 +65,19 @@ export class PaymentModes extends Component {
 
     IMPORT_INPUT_MODAL = () => {
         const { visible, isCreateMethod } = this.state
-        const { props: { navigation, language, paymentModeLoading = false } } = this.props
+        const { props: { navigation, locale, paymentModeLoading = false } } = this.props
 
         return (
             <InputModal
                 visible={visible}
                 onToggle={() => this.onToggle()}
                 navigation={navigation}
-                language={language}
+                locale={locale}
                 headerTitle={isCreateMethod ?
-                    Lng.t("payments.addMode", { locale: language }) :
-                    Lng.t("payments.editMode", { locale: language })
+                    Lng.t("payments.addMode", { locale }) :
+                    Lng.t("payments.editMode", { locale })
                 }
-                hint={Lng.t("payments.modeHint", { locale: language })}
+                hint={Lng.t("payments.modeHint", { locale })}
                 fieldName="methodName"
                 onSubmit={() => this.onSaveMethod()}
                 onRemove={() => this.onRemoveMethod()}
@@ -100,7 +100,7 @@ export class PaymentModes extends Component {
     }
 
     render() {
-        const { props: { paymentMethods, language } } = this.props
+        const { props: { paymentMethods, locale } } = this.props
 
         return (
             <View style={styles.bodyContainer}>
@@ -117,7 +117,7 @@ export class PaymentModes extends Component {
                         bottomDivider
                         contentContainerStyle={{ flex: 3 }}
                         emptyContentProps={{
-                            title: Lng.t("payments.empty.modeTitle", { locale: language }),
+                            title: Lng.t("payments.empty.modeTitle", { locale }),
                         }}
                     />
                 </View>

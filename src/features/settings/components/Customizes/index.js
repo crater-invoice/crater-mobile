@@ -49,7 +49,7 @@ export class Customizes extends React.Component {
     render() {
         const {
             navigation,
-            language,
+            locale,
             paymentModesLoading,
             itemUnitsLoading
         } = this.props;
@@ -61,7 +61,7 @@ export class Customizes extends React.Component {
                 <DefaultLayout
                     headerProps={{
                         leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
-                        title: Lng.t("header.customize", { locale: language }),
+                        title: Lng.t("header.customize", { locale }),
                         leftIconStyle: { color: colors.dark2 }
                     }}
                     hasSearchField={false}
@@ -69,7 +69,7 @@ export class Customizes extends React.Component {
                 >
                     <View style={styles.listViewContainer}>
                         <ListView
-                            items={CUSTOMIZES_MENU(language, Lng)}
+                            items={CUSTOMIZES_MENU(locale, Lng)}
                             onPress={this.onSelectMenu}
                             leftTitleStyle={styles.listViewTitle}
                             listItemProps={{

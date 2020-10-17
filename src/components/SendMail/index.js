@@ -91,13 +91,13 @@ class SendMailComponent extends Component<IProps> {
         this.props.dispatch(change(MAIL_FORM, field, value || undefined));
     };
 
-    BOTTOM_ACTION = (handleSubmit, language) => {
+    BOTTOM_ACTION = (handleSubmit, locale) => {
         return (
             <View style={styles.submitButton}>
                 <View style={{ flex: 1 }}>
                     <CtButton
                         onPress={handleSubmit(this.onSendMail)}
-                        btnTitle={Lng.t("button.send", { locale: language })}
+                        btnTitle={Lng.t("button.send", { locale })}
                         containerStyle={styles.handleBtn}
                     />
                 </View>
@@ -107,7 +107,7 @@ class SendMailComponent extends Component<IProps> {
 
     onSendMail = ({ from = '', to = '', subject = '', body = '' }) => {
         const {
-            props: { language },
+            props: { locale },
             alertDesc = '',
             onSendMail
         } = this.props
@@ -121,8 +121,8 @@ class SendMailComponent extends Component<IProps> {
 
         if (from && to && subject) {
             alertMe({
-                title: Lng.t("alert.title", { locale: language }),
-                desc: Lng.t(alertDesc, { locale: language }),
+                title: Lng.t("alert.title", { locale }),
+                desc: Lng.t(alertDesc, { locale }),
                 showCancel: true,
                 okPress: () => {
                     this.onToggle()
@@ -132,7 +132,7 @@ class SendMailComponent extends Component<IProps> {
         }
     }
 
-    Screen = (language) => {
+    Screen = (locale) => {
 
         let mailRefs = {}
 
@@ -141,7 +141,7 @@ class SendMailComponent extends Component<IProps> {
                 <Field
                     name={emailField.from}
                     component={InputField}
-                    hint={Lng.t("sendMail.from", { locale: language })}
+                    hint={Lng.t("sendMail.from", { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -156,7 +156,7 @@ class SendMailComponent extends Component<IProps> {
                 <Field
                     name={emailField.to}
                     component={InputField}
-                    hint={Lng.t("sendMail.to", { locale: language })}
+                    hint={Lng.t("sendMail.to", { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -174,7 +174,7 @@ class SendMailComponent extends Component<IProps> {
                 <Field
                     name={emailField.subject}
                     component={InputField}
-                    hint={Lng.t("sendMail.subject", { locale: language })}
+                    hint={Lng.t("sendMail.subject", { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCorrect: true,
@@ -190,7 +190,7 @@ class SendMailComponent extends Component<IProps> {
                 <Field
                     name={emailField.msg}
                     component={InputField}
-                    hint={Lng.t("sendMail.body", { locale: language })}
+                    hint={Lng.t("sendMail.body", { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -212,7 +212,7 @@ class SendMailComponent extends Component<IProps> {
             handleSubmit,
             headerTitle = '',
             loading = true,
-            props: { language }
+            props: { locale }
         } = this.props
         const { visible } = this.state
 
@@ -224,7 +224,7 @@ class SendMailComponent extends Component<IProps> {
                 headerProps={{
                     leftIcon: "long-arrow-alt-left",
                     leftIconPress: () => this.onToggle(),
-                    title: Lng.t(headerTitle, { locale: language }),
+                    title: Lng.t(headerTitle, { locale }),
                     rightIcon: "paper-plane",
                     rightIconPress: handleSubmit(this.onSendMail),
                     placement: "center",
@@ -232,10 +232,10 @@ class SendMailComponent extends Component<IProps> {
                     noBorder: false,
                     transparent: false,
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit, language)}
+                bottomAction={this.BOTTOM_ACTION(handleSubmit, locale)}
             >
                 <Content loadingProps={{ is: loading, style: styles.loadingContainer }}>
-                    {this.Screen(language)}
+                    {this.Screen(locale)}
                 </Content>
             </SlideModal>
         );

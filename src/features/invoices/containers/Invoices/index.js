@@ -18,7 +18,7 @@ import {
 
 const mapStateToProps = state => {
     const {
-        global: { language },
+        global: { locale },
         customers: { customers },
         invoices: {
             invoices,
@@ -32,7 +32,7 @@ const mapStateToProps = state => {
         draftInvoices: getDraftInvoicesState(invoices ?? []),
         allInvoices: getAllInvoicesState(invoices ?? []),
         loading: invoicesLoading,
-        language,
+        locale,
         customers,
         formValues: getFormValues(INVOICE_SEARCH)(state) || {}
     };

@@ -21,7 +21,7 @@ type IProps = {
     getAccount: Function,
     editAccount: Function,
     navigation: Object,
-    language: String,
+    locale: String,
     handleSubmit: Function,
     isLoading: Boolean,
     editAccountLoading: Boolean
@@ -69,12 +69,12 @@ export class Account extends React.Component<IProps> {
     }
 
     BOTTOM_ACTION = (handleSubmit) => {
-        const { editAccountLoading, language } = this.props
+        const { editAccountLoading, locale } = this.props
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.onProfileUpdate)}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    btnTitle={Lng.t("button.save", { locale })}
                     loading={editAccountLoading || this.state.fileLoading}
                 />
             </View>
@@ -85,7 +85,7 @@ export class Account extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            language,
+            locale,
             isLoading,
         } = this.props;
 
@@ -95,7 +95,7 @@ export class Account extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t("header.setting.account", { locale: language }),
+                    title: Lng.t("header.setting.account", { locale }),
                     titleStyle: headerTitle({ marginLeft: -20, marginRight: -25 }),
                     placement: "center",
                     rightIcon: "save",
@@ -135,7 +135,7 @@ export class Account extends React.Component<IProps> {
                         name={name}
                         component={InputField}
                         isRequired
-                        hint={Lng.t("settings.account.name", { locale: language })}
+                        hint={Lng.t("settings.account.name", { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
@@ -149,7 +149,7 @@ export class Account extends React.Component<IProps> {
                         name={Email}
                         component={InputField}
                         isRequired
-                        hint={Lng.t("settings.account.email", { locale: language })}
+                        hint={Lng.t("settings.account.email", { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -167,7 +167,7 @@ export class Account extends React.Component<IProps> {
                     <Field
                         name={password}
                         component={InputField}
-                        hint={Lng.t("settings.account.password", { locale: language })}
+                        hint={Lng.t("settings.account.password", { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -186,7 +186,7 @@ export class Account extends React.Component<IProps> {
                     <Field
                         name={cpassword}
                         component={InputField}
-                        hint={Lng.t("settings.account.confirmPassword", { locale: language })}
+                        hint={Lng.t("settings.account.confirmPassword", { locale })}
                         inputProps={{
                             returnKeyType: 'go',
                             autoCapitalize: 'none',
@@ -206,7 +206,7 @@ export class Account extends React.Component<IProps> {
 
                     <View style={styles.versionContainer}>
                         <Text style={styles.versionTitle}>
-                            {Lng.t("settings.account.version", { locale: language })}
+                            {Lng.t("settings.account.version", { locale })}
                             {'  '}
                             <Text style={styles.version}>
                                 {env.APP_VERSION}

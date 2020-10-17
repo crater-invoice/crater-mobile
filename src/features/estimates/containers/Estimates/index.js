@@ -14,7 +14,7 @@ import {
 const mapStateToProps = (state) => {
 
     const {
-        global: { language },
+        global: { locale },
         estimates: {
             estimates,
             loading: { estimatesLoading }
@@ -29,7 +29,7 @@ const mapStateToProps = (state) => {
         allEstimates: getAllEstimatesState(estimates ?? []),
         customers,
         loading: estimatesLoading,
-        language,
+        locale,
         formValues: getFormValues(ESTIMATE_SEARCH)(state) || {},
     };
 };

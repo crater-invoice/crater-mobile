@@ -5,15 +5,22 @@ import {
     DATE_FORMAT,
     SAVE_ENDPOINT_API,
     SET_APP_VERSION,
-    SET_MAIL_CONFIGURATION,
-} from "../api/consts";
-import { SET_TAX, SET_EDIT_TAX, SET_REMOVE_TAX, SET_TAXES, SET_COMPANY_INFO, SET_GLOBAL_CURRENCIES } from "../features/settings/constants";
-import { formatTaxTypes } from "../api/global";
+    SET_MAIL_CONFIGURATION
+} from '../api/consts';
+import {
+    SET_TAX,
+    SET_EDIT_TAX,
+    SET_REMOVE_TAX,
+    SET_TAXES,
+    SET_COMPANY_INFO,
+    SET_GLOBAL_CURRENCIES
+} from '../features/settings/constants';
+import { formatTaxTypes } from '../api/global';
 
 const initialState = {
     customers: [],
     currencies: [],
-    language: 'en',
+    locale: 'en',
     timeZone: null,
     discountPerItem: false,
     taxPerItem: false,
@@ -36,13 +43,12 @@ export default function globalReducer(state = initialState, action) {
 
     switch (type) {
         case GLOBAL_TRIGGER_SPINNER:
-            const { appLoginLoading } = payload
+            const { appLoginLoading } = payload;
 
-            return { ...state, loading: appLoginLoading }
+            return { ...state, loading: appLoginLoading };
 
         case SAVE_ENDPOINT_API:
-
-            const { endpointURL = '' } = payload
+            const { endpointURL = '' } = payload;
 
             return {
                 ...state,
@@ -51,15 +57,13 @@ export default function globalReducer(state = initialState, action) {
             };
 
         case SET_COMPANY_INFO:
-            return { ...state, company: payload.company }
+            return { ...state, company: payload.company };
 
         case SET_APP_VERSION:
-
-            const { app_version } = payload
-            return { ...state, appVersion: app_version }
+            const { app_version } = payload;
+            return { ...state, appVersion: app_version };
 
         case SET_GLOBAL_BOOTSTRAP:
-
             const {
                 currencies,
                 customers,
@@ -69,9 +73,9 @@ export default function globalReducer(state = initialState, action) {
                 moment_date_format,
                 fiscal_year,
                 default_language = 'en'
-            } = payload
+            } = payload;
 
-            const taxList = formatTaxTypes(taxTypes)
+            const taxList = formatTaxTypes(taxTypes);
 
             return {
                 ...state,
@@ -82,18 +86,16 @@ export default function globalReducer(state = initialState, action) {
                 dateFormat: moment_date_format,
                 taxTypes: taxList,
                 fiscalYear: fiscal_year,
-                language: default_language
+                locale: default_language
             };
 
         case SET_TAXES:
-
-            const taxes = formatTaxTypes(payload.taxTypes)
+            const taxes = formatTaxTypes(payload.taxTypes);
 
             return { ...state, taxTypes: taxes };
 
         case SET_TAX:
-
-            const tax = formatTaxTypes(payload.taxType)
+            const tax = formatTaxTypes(payload.taxType);
 
             return {
                 ...state,
@@ -101,10 +103,10 @@ export default function globalReducer(state = initialState, action) {
             };
 
         case SET_EDIT_TAX:
-
-            let editTax = formatTaxTypes(payload.taxType)
-            const taxTypeList = state.taxTypes.filter(({ fullItem }) =>
-                (fullItem.id !== payload.taxId))
+            let editTax = formatTaxTypes(payload.taxType);
+            const taxTypeList = state.taxTypes.filter(
+                ({ fullItem }) => fullItem.id !== payload.taxId
+            );
 
             return {
                 ...state,
@@ -112,15 +114,14 @@ export default function globalReducer(state = initialState, action) {
             };
 
         case SET_REMOVE_TAX:
-
-            const remainTaxes = state.taxTypes.filter(({ fullItem }) =>
-                (fullItem.id !== payload.taxId))
+            const remainTaxes = state.taxTypes.filter(
+                ({ fullItem }) => fullItem.id !== payload.taxId
+            );
 
             return { ...state, taxTypes: remainTaxes };
 
         case SET_SETTINGS:
-
-            let { key, value } = payload.settings
+            let { key, value } = payload.settings;
 
             if (key) {
                 if (key === 'discount_per_item') {
@@ -147,22 +148,21 @@ export default function globalReducer(state = initialState, action) {
                         notifyEstimateViewed: value === 'YES' ? true : false
                     };
                 }
-            }
-            else
+            } else
                 return {
                     ...state,
-                    language: payload.settings.language,
+                    locale: payload.settings.language,
                     timeZone: payload.settings.time_zone,
                     dateFormat: payload.settings.moment_date_format,
                     fiscalYear: payload.settings.fiscal_year,
-                    currency: payload.currency,
+                    currency: payload.currency
                 };
 
         case SET_MAIL_CONFIGURATION:
-            return { ...state, mailDriver: payload.mailDriver }
+            return { ...state, mailDriver: payload.mailDriver };
 
         case SET_GLOBAL_CURRENCIES:
-            const { currency } = payload
+            const { currency } = payload;
 
             if (payload.isCreated) {
                 return {
@@ -171,8 +171,9 @@ export default function globalReducer(state = initialState, action) {
                 };
             }
             if (payload.isUpdated) {
-                const currencyList = state.currencies.filter(({ id }) =>
-                    (id !== currency[0]["id"]))
+                const currencyList = state.currencies.filter(
+                    ({ id }) => id !== currency[0]['id']
+                );
 
                 return {
                     ...state,
@@ -180,13 +181,14 @@ export default function globalReducer(state = initialState, action) {
                 };
             }
             if (payload.isRemove) {
-                const remainCurrencies = state.currencies.filter(({ id }) =>
-                    (id !== payload.id))
+                const remainCurrencies = state.currencies.filter(
+                    ({ id }) => id !== payload.id
+                );
 
                 return { ...state, currencies: remainCurrencies };
             }
 
-            return { ...state }
+            return { ...state };
 
         default:
             return state;

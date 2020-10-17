@@ -13,7 +13,7 @@ const mapStateToProps = ({
 }) => ({
     loading: auth.loading && auth.loading.loginLoading,
     socialLoading: auth.loading && auth.loading.socialLoginLoading,
-    language: global.language,
+    locale: global?.locale,
     initialValues: {
         username: (typeof account !== 'undefined' && account !== null) ? account.email ? account.email : '' : '',
     }

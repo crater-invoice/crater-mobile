@@ -31,7 +31,7 @@ type IProps = {
     handleSubmit: Function,
     loading: Boolean,
     socialLoading: Boolean,
-    language: String
+    locale: String
 };
 export class Login extends React.Component<IProps> {
     constructor(props) {
@@ -72,7 +72,7 @@ export class Login extends React.Component<IProps> {
 
     render() {
         let passwordInput = {};
-        const { loading, socialLoading, navigation, language } = this.props;
+        const { loading, socialLoading, navigation, locale } = this.props;
 
         let loginRefs = {};
 
@@ -112,7 +112,7 @@ export class Login extends React.Component<IProps> {
                                         returnKeyType: 'next',
                                         autoCapitalize: 'none',
                                         placeholder: Lng.t('login.email', {
-                                            locale: language
+                                            locale
                                         }),
                                         autoCorrect: true,
                                         keyboardType: 'email-address',
@@ -133,7 +133,7 @@ export class Login extends React.Component<IProps> {
                                         returnKeyType: 'go',
                                         autoCapitalize: 'none',
                                         placeholder: Lng.t('login.password', {
-                                            locale: language
+                                            locale
                                         }),
                                         autoCorrect: true,
                                         onSubmitEditing: this.props.handleSubmit(
@@ -157,7 +157,7 @@ export class Login extends React.Component<IProps> {
                                     >
                                         <Text style={styles.forgetPassword}>
                                             {Lng.t('button.forget', {
-                                                locale: language
+                                                locale
                                             })}
                                         </Text>
                                     </TouchableOpacity>
@@ -170,7 +170,7 @@ export class Login extends React.Component<IProps> {
                                         this.onLogin
                                     )}
                                     btnTitle={Lng.t('button.singIn', {
-                                        locale: language
+                                        locale
                                     })}
                                     loading={loading}
                                 />
@@ -188,7 +188,7 @@ export class Login extends React.Component<IProps> {
                                     imageSource={IMAGES.GOOGLE_ICON}
                                     imageIcon
                                     onPress={() => this.onSocialLogin()}
-                                    btnTitle={Lng.t("button.singInGoogle", { locale: language })}
+                                    btnTitle={Lng.t("button.singInGoogle", { locale })}
                                     loading={socialLoading}
                                     buttonType={BUTTON_COLOR.WHITE}
                                     color={colors.dark3}

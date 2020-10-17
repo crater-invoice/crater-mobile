@@ -68,7 +68,7 @@ type IProps = {
     invoiceData: Object,
     invoiceItems: Object,
     items: Object,
-    language: String,
+    locale: String,
     type: String
 }
 
@@ -155,7 +155,7 @@ export class Invoice extends React.Component<IProps> {
     }
 
     onDraft = (handleSubmit) => {
-        const { language, navigation, type } = this.props
+        const { locale, navigation, type } = this.props
 
         if (type === INVOICE_EDIT) {
             navigation.navigate(ROUTES.MAIN_INVOICES)
@@ -163,11 +163,11 @@ export class Invoice extends React.Component<IProps> {
         }
 
         alertMe({
-            title: Lng.t("invoices.alert.draftTitle", { locale: language }),
+            title: Lng.t("invoices.alert.draftTitle", { locale }),
             showCancel: true,
-            cancelText: Lng.t("alert.action.discard", { locale: language }),
+            cancelText: Lng.t("alert.action.discard", { locale }),
             cancelPress: () => navigation.navigate(ROUTES.MAIN_INVOICES),
-            okText: Lng.t("alert.action.saveAsDraft", { locale: language }),
+            okText: Lng.t("alert.action.saveAsDraft", { locale }),
             okPress: handleSubmit(this.onSubmitInvoice)
         })
     }
@@ -178,12 +178,12 @@ export class Invoice extends React.Component<IProps> {
             navigation,
             type,
             editInvoice,
-            language,
+            locale,
             invoiceData: { invoice_prefix = '' } = {}
         } = this.props
 
         if (finalAmount() < 0) {
-            alert(Lng.t("invoices.alert.lessAmount", { locale: language }))
+            alert(Lng.t("invoices.alert.lessAmount", { locale }))
             return
         }
 
@@ -231,13 +231,13 @@ export class Invoice extends React.Component<IProps> {
 
 
     BOTTOM_ACTION = () => {
-        const { language, loading, handleSubmit } = this.props
+        const { locale, loading, handleSubmit } = this.props
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit((val) => this.onSubmitInvoice(val, status = INVOICE_ACTIONS.VIEW))}
-                    btnTitle={Lng.t("button.viewPdf", { locale: language })}
+                    btnTitle={Lng.t("button.viewPdf", { locale })}
                     type={BUTTON_TYPE.OUTLINE}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
@@ -246,7 +246,7 @@ export class Invoice extends React.Component<IProps> {
 
                 <CtButton
                     onPress={handleSubmit((val) => this.onSubmitInvoice(val, status = 'save'))}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    btnTitle={Lng.t("button.save", { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                     loading={loading}
@@ -297,7 +297,7 @@ export class Invoice extends React.Component<IProps> {
         const {
             removeInvoice,
             navigation,
-            language,
+            locale,
             formValues: {
                 user,
                 user_id,
@@ -341,8 +341,8 @@ export class Invoice extends React.Component<IProps> {
 
             case INVOICE_ACTIONS.CLONE:
                 alertMe({
-                    title: Lng.t("alert.title", { locale: language }),
-                    desc: Lng.t("invoices.alert.clone", { locale: language }),
+                    title: Lng.t("alert.title", { locale }),
+                    desc: Lng.t("invoices.alert.clone", { locale }),
                     showCancel: true,
                     okPress: () => changeInvoiceStatus({
                         id: navigation.getParam('id'),
@@ -355,8 +355,8 @@ export class Invoice extends React.Component<IProps> {
 
             case INVOICE_ACTIONS.DELETE:
                 alertMe({
-                    title: Lng.t("alert.title", { locale: language }),
-                    desc: Lng.t("invoices.alert.removeDescription", { locale: language }),
+                    title: Lng.t("alert.title", { locale }),
+                    desc: Lng.t("invoices.alert.removeDescription", { locale }),
                     showCancel: true,
                     okPress: () => removeInvoice({
                         id: navigation.getParam('id'),
@@ -366,8 +366,8 @@ export class Invoice extends React.Component<IProps> {
 
                             res.error && (res.error === 'payment_attached') &&
                                 alertMe({
-                                    title: Lng.t("invoices.alert.paymentAttachedTitle", { locale: language }),
-                                    desc: Lng.t("invoices.alert.paymentAttachedDescription", { locale: language }),
+                                    title: Lng.t("invoices.alert.paymentAttachedTitle", { locale }),
+                                    desc: Lng.t("invoices.alert.paymentAttachedDescription", { locale }),
                                 })
                         }
                     })
@@ -384,7 +384,7 @@ export class Invoice extends React.Component<IProps> {
     openTermConditionModal = () => this.termsAndConditionRef?.onToggle()
 
     TOGGLE_TERMS_CONDITION_VIEW = () => {
-        const { formValues, language } = this.props
+        const { formValues, locale } = this.props
         let isShow = formValues?.display_terms_and_conditions
 
         return (
@@ -393,7 +393,7 @@ export class Invoice extends React.Component<IProps> {
                     name={termsCondition.toggle}
                     component={ToggleSwitch}
                     status={isShow}
-                    hint={Lng.t("termsCondition.show", { locale: language })}
+                    hint={Lng.t("termsCondition.show", { locale })}
                     mainContainerStyle={{ marginTop: 12 }}
                 />
 
@@ -403,7 +403,7 @@ export class Invoice extends React.Component<IProps> {
                     >
                         <Text style={styles.termsEditText}
                         >
-                            {Lng.t("termsCondition.edit", { locale: language })}
+                            {Lng.t("termsCondition.edit", { locale })}
                         </Text>
                     </TouchableOpacity>
                 )}
@@ -425,7 +425,7 @@ export class Invoice extends React.Component<IProps> {
             getItems,
             itemsLoading,
             items,
-            language,
+            locale,
             initLoading,
             type,
             getCustomers,
@@ -444,7 +444,7 @@ export class Invoice extends React.Component<IProps> {
 
         let drownDownProps = (isEditInvoice && !initLoading) ? {
             options: EDIT_INVOICE_ACTIONS(
-                language,
+                locale,
                 hasSentStatus,
                 hasCompleteStatus
             ),
@@ -464,8 +464,8 @@ export class Invoice extends React.Component<IProps> {
                 headerProps={{
                     leftIconPress: () => this.onDraft(handleSubmit),
                     title: isEditInvoice ?
-                        Lng.t("header.editInvoice", { locale: language }) :
-                        Lng.t("header.addInvoice", { locale: language }),
+                        Lng.t("header.editInvoice", { locale }) :
+                        Lng.t("header.addInvoice", { locale }),
                     rightIcon: !isEditInvoice ? 'save' : null,
                     rightIconPress: handleSubmit((val) => this.onSubmitInvoice(val, status = 'save')),
                     rightIconProps: {
@@ -506,7 +506,7 @@ export class Invoice extends React.Component<IProps> {
                                 name={'invoice_date'}
                                 isRequired
                                 component={DatePickerField}
-                                label={Lng.t("invoices.invoiceDate", { locale: language })}
+                                label={Lng.t("invoices.invoiceDate", { locale })}
                                 icon={'calendar-alt'}
                                 onChangeCallback={(val) =>
                                     this.setFormField('invoice_date', val)
@@ -518,7 +518,7 @@ export class Invoice extends React.Component<IProps> {
                                 name="due_date"
                                 isRequired
                                 component={DatePickerField}
-                                label={Lng.t("invoices.dueDate", { locale: language })}
+                                label={Lng.t("invoices.dueDate", { locale })}
                                 icon={'calendar-alt'}
                                 onChangeCallback={(val) =>
                                     this.setFormField('due_date', val)
@@ -530,7 +530,7 @@ export class Invoice extends React.Component<IProps> {
                     <Field
                         name="invoice_number"
                         component={FakeInput}
-                        label={Lng.t("invoices.invoiceNumber", { locale: language })}
+                        label={Lng.t("invoices.invoiceNumber", { locale })}
                         isRequired
                         prefixProps={{
                             fieldName: "invoice_number",
@@ -549,10 +549,10 @@ export class Invoice extends React.Component<IProps> {
                         getItems={getCustomers}
                         displayName="name"
                         component={SelectField}
-                        label={Lng.t("invoices.customer", { locale: language })}
+                        label={Lng.t("invoices.customer", { locale })}
                         icon={'user'}
                         placeholder={customerName ? customerName :
-                            Lng.t("invoices.customerPlaceholder", { locale: language })
+                            Lng.t("invoices.customerPlaceholder", { locale })
                         }
                         navigation={navigation}
                         compareField="id"
@@ -571,7 +571,7 @@ export class Invoice extends React.Component<IProps> {
                             })
                         }
                         headerProps={{
-                            title: Lng.t("customers.title", { locale: language }),
+                            title: Lng.t("customers.title", { locale }),
                         }}
                         listViewProps={{
                             hasAvatar: true,
@@ -584,7 +584,7 @@ export class Invoice extends React.Component<IProps> {
                     />
 
                     <Text style={[styles.inputTextStyle, styles.label]}>
-                        {Lng.t("invoices.items", { locale: language })}
+                        {Lng.t("invoices.items", { locale })}
                         <Text style={styles.required}> *</Text>
                     </Text>
 
@@ -610,7 +610,7 @@ export class Invoice extends React.Component<IProps> {
                         compareField="id"
                         valueCompareField="item_id"
                         icon={'percent'}
-                        placeholder={Lng.t("invoices.addItem", { locale: language })}
+                        placeholder={Lng.t("invoices.addItem", { locale })}
                         navigation={navigation}
                         onlyPlaceholder
                         isMultiSelect
@@ -640,7 +640,7 @@ export class Invoice extends React.Component<IProps> {
                             })
                         }
                         headerProps={{
-                            title: Lng.t("items.title", { locale: language }),
+                            title: Lng.t("items.title", { locale }),
                         }}
                         emptyContentProps={{
                             contentType: "items",
@@ -659,7 +659,7 @@ export class Invoice extends React.Component<IProps> {
                     <Field
                         name="reference_number"
                         component={InputField}
-                        hint={Lng.t("invoices.referenceNumber", { locale: language })}
+                        hint={Lng.t("invoices.referenceNumber", { locale })}
                         leftIcon={'hashtag'}
                         inputProps={{
                             returnKeyType: 'next',
@@ -671,10 +671,10 @@ export class Invoice extends React.Component<IProps> {
                     <Field
                         name="notes"
                         component={InputField}
-                        hint={Lng.t("invoices.notes", { locale: language })}
+                        hint={Lng.t("invoices.notes", { locale })}
                         inputProps={{
                             returnKeyType: 'next',
-                            placeholder: Lng.t("invoices.notePlaceholder", { locale: language }),
+                            placeholder: Lng.t("invoices.notePlaceholder", { locale }),
                             autoCorrect: true,
                             multiline: true,
                             maxLength: MAX_LENGTH
@@ -688,11 +688,11 @@ export class Invoice extends React.Component<IProps> {
                         name="invoice_template_id"
                         templates={invoiceTemplates}
                         component={TemplateField}
-                        label={Lng.t("invoices.template", { locale: language })}
+                        label={Lng.t("invoices.template", { locale })}
                         icon={'file-alt'}
-                        placeholder={Lng.t("invoices.templatePlaceholder", { locale: language })}
+                        placeholder={Lng.t("invoices.templatePlaceholder", { locale })}
                         navigation={navigation}
-                        language={language}
+                        locale={locale}
                     />
 
                     {this.TOGGLE_TERMS_CONDITION_VIEW()}

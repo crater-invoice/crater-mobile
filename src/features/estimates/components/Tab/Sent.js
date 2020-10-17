@@ -21,18 +21,18 @@ const Sent = ({ canLoadMore, parentProps }: IProps) => {
         loadMoreItems,
         onAddEstimate
     } = parentProps
-    const { sentEstimates = [], loading, language } = props
+    const { sentEstimates = [], loading, locale } = props
     const { refreshing, fresh, search, filter } = state
 
     let empty = (!filter && !search) ? {
-        description: Lng.t("estimates.empty.sent.description", { locale: language }),
-        buttonTitle: Lng.t("estimates.empty.buttonTitle", { locale: language }),
+        description: Lng.t("estimates.empty.sent.description", { locale }),
+        buttonTitle: Lng.t("estimates.empty.buttonTitle", { locale }),
         buttonPress: () => onAddEstimate(),
     } : {}
 
-    let emptyTitle = search ? Lng.t("search.noResult", { locale: language, search })
-        : (!filter) ? Lng.t("estimates.empty.sent.title", { locale: language }) :
-            Lng.t("filter.empty.filterTitle", { locale: language })
+    let emptyTitle = search ? Lng.t("search.noResult", { locale, search })
+        : (!filter) ? Lng.t("estimates.empty.sent.title", { locale }) :
+            Lng.t("filter.empty.filterTitle", { locale })
 
     return (
         <View style={styles.content}>

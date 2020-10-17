@@ -75,11 +75,11 @@ export class Item extends React.Component {
             itemId,
             navigation,
             type,
-            language
+            locale
         } = this.props;
 
         if (this.finalAmount() < 0) {
-            alert(Lng.t('items.lessAmount', { locale: language }));
+            alert(Lng.t('items.lessAmount', { locale }));
             return;
         }
 
@@ -116,11 +116,11 @@ export class Item extends React.Component {
     };
 
     removeItem = () => {
-        const { removeItem, itemId, navigation, language } = this.props;
+        const { removeItem, itemId, navigation, locale } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale: language }),
-            desc: Lng.t('items.alertDescription', { locale: language }),
+            title: Lng.t('alert.title', { locale }),
+            desc: Lng.t('items.alertDescription', { locale }),
             showCancel: true,
             okPress: () =>
                 removeItem({
@@ -129,11 +129,11 @@ export class Item extends React.Component {
                         res.error && res.error === 'item_attached'
                             ? alertMe({
                                   title: Lng.t('items.alreadyAttachTitle', {
-                                      locale: language
+                                      locale
                                   }),
                                   desc: Lng.t(
                                       'items.alreadyAttachDescription',
-                                      { locale: language }
+                                      { locale }
                                   )
                               })
                             : navigation.navigate(ROUTES.GLOBAL_ITEMS);
@@ -215,7 +215,7 @@ export class Item extends React.Component {
 
     FINAL_AMOUNT = () => {
         const {
-            language,
+            locale,
             formValues: { taxes, price },
             navigation
         } = this.props;
@@ -227,7 +227,7 @@ export class Item extends React.Component {
                 <View style={styles.subContainer}>
                     <View>
                         <Text style={styles.label}>
-                            {Lng.t('items.subTotal', { locale: language })}
+                            {Lng.t('items.subTotal', { locale })}
                         </Text>
                     </View>
                     <View>
@@ -286,7 +286,7 @@ export class Item extends React.Component {
                 <View style={styles.subContainer}>
                     <View>
                         <Text style={styles.label}>
-                            {Lng.t('items.finalAmount', { locale: language })}
+                            {Lng.t('items.finalAmount', { locale })}
                         </Text>
                     </View>
                     <View>
@@ -302,14 +302,14 @@ export class Item extends React.Component {
     };
 
     BOTTOM_ACTION = handleSubmit => {
-        const { language, loading, type } = this.props;
+        const { locale, loading, type } = this.props;
         const isCreateItem = type === ADD_ITEM;
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.saveItem)}
-                    btnTitle={Lng.t('button.save', { locale: language })}
+                    btnTitle={Lng.t('button.save', { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                     loading={loading}
@@ -317,7 +317,7 @@ export class Item extends React.Component {
                 {!isCreateItem && (
                     <CtButton
                         onPress={this.removeItem}
-                        btnTitle={Lng.t('button.remove', { locale: language })}
+                        btnTitle={Lng.t('button.remove', { locale })}
                         containerStyle={styles.handleBtn}
                         buttonContainerStyle={styles.buttonContainer}
                         buttonColor={BUTTON_COLOR.DANGER}
@@ -331,7 +331,7 @@ export class Item extends React.Component {
     TAX_FIELD_VIEW = () => {
         const {
             navigation,
-            language,
+            locale,
             taxTypes,
             formValues: { taxes }
         } = this.props;
@@ -341,10 +341,10 @@ export class Item extends React.Component {
                 name="taxes"
                 items={taxTypes}
                 displayName="name"
-                label={Lng.t('items.taxes', { locale: language })}
+                label={Lng.t('items.taxes', { locale })}
                 component={SelectField}
                 searchFields={['name', 'percent']}
-                placeholder={Lng.t('items.selectTax', { locale: language })}
+                placeholder={Lng.t('items.selectTax', { locale })}
                 onlyPlaceholder
                 fakeInputProps={{
                     icon: 'percent',
@@ -353,7 +353,7 @@ export class Item extends React.Component {
                 }}
                 navigation={navigation}
                 isMultiSelect
-                language={language}
+                locale={locale}
                 concurrentMultiSelect
                 isInternalSearch
                 compareField="id"
@@ -362,7 +362,7 @@ export class Item extends React.Component {
                     contentContainerStyle: { flex: 2 }
                 }}
                 headerProps={{
-                    title: Lng.t('taxes.title', { locale: language })
+                    title: Lng.t('taxes.title', { locale })
                 }}
                 rightIconPress={() =>
                     navigation.navigate(ROUTES.TAX, {
@@ -384,7 +384,7 @@ export class Item extends React.Component {
             navigation,
             handleSubmit,
             loading,
-            language,
+            locale,
             type,
             units,
             formValues: { taxes },
@@ -400,8 +400,8 @@ export class Item extends React.Component {
                     leftIconPress: () =>
                         navigation.navigate(ROUTES.GLOBAL_ITEMS),
                     title: isCreateItem
-                        ? Lng.t('header.addItem', { locale: language })
-                        : Lng.t('header.editItem', { locale: language }),
+                        ? Lng.t('header.addItem', { locale })
+                        : Lng.t('header.editItem', { locale }),
                     placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {
@@ -417,7 +417,7 @@ export class Item extends React.Component {
                         name="name"
                         component={InputField}
                         isRequired
-                        hint={Lng.t('items.name', { locale: language })}
+                        hint={Lng.t('items.name', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -433,7 +433,7 @@ export class Item extends React.Component {
                         name="price"
                         component={InputField}
                         isRequired
-                        hint={Lng.t('items.price', { locale: language })}
+                        hint={Lng.t('items.price', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -449,13 +449,13 @@ export class Item extends React.Component {
                     <Field
                         name="unit_id"
                         component={SelectPickerField}
-                        label={Lng.t('items.unit', { locale: language })}
+                        label={Lng.t('items.unit', { locale })}
                         items={formatSelectPickerName(units)}
                         fieldIcon={'balance-scale'}
                         containerStyle={styles.selectPicker}
                         defaultPickerOptions={{
                             label: Lng.t('items.unitPlaceholder', {
-                                locale: language
+                                locale
                             }),
                             value: ''
                         }}
@@ -468,7 +468,7 @@ export class Item extends React.Component {
                     <Field
                         name="description"
                         component={InputField}
-                        hint={Lng.t('items.description', { locale: language })}
+                        hint={Lng.t('items.description', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',

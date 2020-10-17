@@ -8,7 +8,7 @@ import { getCustomFieldsState } from '../../selectors';
 
 const mapStateToProps = state => {
     const {
-        global: { language },
+        global: { locale },
         settings: {
             customFields,
             loading: { customFieldsLoading }
@@ -16,7 +16,7 @@ const mapStateToProps = state => {
     } = state;
 
     return {
-        language,
+        locale,
         loading: customFieldsLoading,
         customFields: getCustomFieldsState(customFields)
     };

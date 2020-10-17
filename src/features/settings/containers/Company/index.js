@@ -16,7 +16,7 @@ const mapStateToProps = (state) => {
                 getCompanyInfoLoading
             }
         },
-        global: { language },
+        global: { locale },
         customers: {
             countries,
             loading: {
@@ -27,7 +27,7 @@ const mapStateToProps = (state) => {
 
     return {
         formValues: getFormValues(EDIT_COMPANY)(state) || {},
-        language,
+        locale,
         editCompanyLoading: editCompanyInfoLoading,
         getCompanyInfoLoading,
         countries,

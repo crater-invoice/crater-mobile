@@ -47,7 +47,7 @@ export class LostConnection extends Component {
 
     render() {
 
-        const { language } = this.props;
+        const { locale } = this.props;
         const { loading } = this.state
 
         return (
@@ -57,7 +57,7 @@ export class LostConnection extends Component {
 
                     <View style={styles.bodyContainer}>
                         <Text style={styles.title}>
-                            {Lng.t("lostInternet.title", { locale: language })}
+                            {Lng.t("lostInternet.title", { locale })}
                         </Text>
 
                         <View style={styles.logoContainer}>
@@ -68,14 +68,14 @@ export class LostConnection extends Component {
                         </View>
 
                         <Text h6 style={styles.description}>
-                            {Lng.t("lostInternet.description", { locale: language })}
+                            {Lng.t("lostInternet.description", { locale })}
                         </Text>
                     </View>
 
                     <View style={{ marginTop: 25 }}>
                         <CtGradientButton
                             onPress={() => this.onRetry()}
-                            btnTitle={Lng.t("button.retry", { locale: language })}
+                            btnTitle={Lng.t("button.retry", { locale })}
                             loading={loading}
                         />
                     </View>
@@ -88,7 +88,7 @@ export class LostConnection extends Component {
 }
 
 const mapStateToProps = ({ global }) => ({
-    language: global.language,
+    locale: global?.locale,
 });
 
 const mapDispatchToProps = {};

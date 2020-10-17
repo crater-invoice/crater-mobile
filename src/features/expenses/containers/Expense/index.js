@@ -10,7 +10,7 @@ import { EXPENSE_FORM, EXPENSE_EDIT, EXPENSE_ADD } from '../../constants';
 const mapStateToProps = (state, { navigation }) => {
 
     const {
-        global: { company, endpointURL, language },
+        global: { company, endpointURL, locale },
         expenses: { loading, categories, expense } = {}
     } = state;
 
@@ -19,7 +19,7 @@ const mapStateToProps = (state, { navigation }) => {
         || !categories || categories.length <= 0
 
     return {
-        language,
+        locale,
         categories,
         company,
         endpointURL,

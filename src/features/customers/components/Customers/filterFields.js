@@ -1,14 +1,14 @@
 import React from 'react';
 import Lng from '@/api/lang/i18n';
 
-export const customersFilterFields = language => {
+export const customersFilterFields = locale => {
     const filterRefs: any = {};
 
     return [
         {
             name: 'name',
             hint: Lng.t('customers.filterDisplayName', {
-                locale: language
+                locale
             }),
             inputProps: {
                 autoCorrect: true,
@@ -19,7 +19,7 @@ export const customersFilterFields = language => {
         {
             name: 'contact_name',
             hint: Lng.t('customers.filterContactName', {
-                locale: language
+                locale
             }),
             inputProps: {
                 autoCorrect: true,
@@ -29,7 +29,7 @@ export const customersFilterFields = language => {
         },
         {
             name: 'phone',
-            hint: Lng.t('customers.phone', { locale: language }),
+            hint: Lng.t('customers.phone', { locale }),
             inputProps: {
                 keyboardType: 'phone-pad'
             },

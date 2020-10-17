@@ -78,7 +78,7 @@ export class InputFieldComponent extends Component<IInputField> {
             rounded,
             isCurrencyInput = false,
             leftIconStyle,
-            language,
+            locale,
             maxNumber = 0,
             maxCharacter = 0,
             isRequired = false,
@@ -232,7 +232,7 @@ export class InputFieldComponent extends Component<IInputField> {
                                 style={{ color: 'white', fontSize: 12 }}
                             >
                                 {Lng.t(error, {
-                                    locale: language,
+                                    locale,
                                     hint,
                                     maxNumber,
                                     maxCharacter
@@ -252,7 +252,7 @@ export class InputFieldComponent extends Component<IInputField> {
 }
 
 const mapStateToProps = ({ global }) => ({
-    language: global.language
+    locale: global?.locale
 });
 
 const mapDispatchToProps = {};

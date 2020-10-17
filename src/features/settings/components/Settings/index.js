@@ -46,7 +46,7 @@ export class Settings extends React.Component {
     }
 
     render() {
-        const { navigation, language } = this.props;
+        const { navigation, locale } = this.props;
 
         const { endpointVisible } = this.state;
 
@@ -55,14 +55,14 @@ export class Settings extends React.Component {
                 <DefaultLayout
                     headerProps={{
                         leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t("header.settings", { locale: language }),
+                        title: Lng.t("header.settings", { locale }),
                         leftIconStyle: { color: colors.dark2 }
                     }}
                     hasSearchField={false}
                 >
                     <View style={styles.listViewContainer}>
                         <ListView
-                            items={SETTINGS_MENU(language, Lng)}
+                            items={SETTINGS_MENU(locale, Lng)}
                             onPress={this.onSelectMenu}
                             leftTitleStyle={styles.listViewTitle}
                             leftIconStyle={styles.listViewIcon}

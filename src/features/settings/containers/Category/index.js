@@ -9,7 +9,7 @@ import { CATEGORY_FORM, CATEGORY_ADD } from '../../constants';
 const mapStateToProps = (state, { navigation }) => {
 
     const {
-        global: { language },
+        global: { locale },
         settings: {
             loading: {
                 expenseCategoryLoading,
@@ -25,7 +25,7 @@ const mapStateToProps = (state, { navigation }) => {
         categoryLoading: expenseCategoryLoading,
         getEditCategoryLoading: initExpenseCategoryLoading,
         type,
-        language,
+        locale,
         onFirstTimeCreateExpense,
         formValues: getFormValues(CATEGORY_FORM)(state) || {},
     };

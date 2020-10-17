@@ -117,10 +117,10 @@ export const navigateRoute = (routeName, params = {}) => {
 // -----------------------------------------
 export const getTitleByLanguage = (label, field = null) => {
     const reduxStore = store.getState();
-    const { language = 'en' } = reduxStore.global
+    const { locale = 'en' } = reduxStore.global
 
     if (field) {
-        return Lng.t(label, { locale: language, field })
+        return Lng.t(label, { locale, field })
     }
-    return Lng.t(label, { locale: language, })
+    return Lng.t(label, { locale, })
 }

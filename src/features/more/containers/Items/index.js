@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 
     const {
         more: { items, filterItems, loading },
-        global: { currency, language },
+        global: { currency, locale },
         settings: {
             units,
             loading: { itemUnitsLoading }
@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
         items,
         filterItems,
         loading: loading.itemsLoading,
-        language,
+        locale,
         currency,
         units,
         itemUnitsLoading,

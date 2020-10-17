@@ -59,14 +59,14 @@ export class Endpoint extends Component<IProps> {
 
         this.setState({ isFocus: false })
 
-        const { checkEndpointApi, navigation, language } = this.props
+        const { checkEndpointApi, navigation, locale } = this.props
         let URL = endpointURL
 
         checkEndpointApi({
             endpointURL: !(URL.charAt(URL.length - 1) === '/') ? URL
                 : URL.slice(0, -1),
             onResult: (val) => {
-                !val ? alertMe({ title: Lng.t("endpoint.alertInvalidUrl", { locale: language }) }) :
+                !val ? alertMe({ title: Lng.t("endpoint.alertInvalidUrl", { locale }) }) :
                     navigation.navigate(ROUTES.LOGIN)
 
             }
@@ -86,7 +86,7 @@ export class Endpoint extends Component<IProps> {
     render() {
         const {
             handleSubmit,
-            language,
+            locale,
             navigation,
             skipEndpoint = false,
             loading
@@ -100,7 +100,7 @@ export class Endpoint extends Component<IProps> {
                     <CtHeader
                         leftIcon="angle-left"
                         leftIconPress={() => this.onBack()}
-                        title={Lng.t("header.back", { locale: language })}
+                        title={Lng.t("header.back", { locale })}
                         titleOnPress={() => this.onBack()}
                         titleStyle={{ marginLeft: -10, marginTop: Platform.OS === 'ios' ? -1 : 2 }}
                         placement="left"
@@ -139,10 +139,10 @@ export class Endpoint extends Component<IProps> {
                                 <Field
                                     name="endpointURL"
                                     component={InputField}
-                                    hint={Lng.t("endpoint.endpointURL", { locale: language })}
+                                    hint={Lng.t("endpoint.endpointURL", { locale })}
                                     inputProps={{
                                         autoCapitalize: 'none',
-                                        placeholder: Lng.t("endpoint.urlPlaceHolder", { locale: language }),
+                                        placeholder: Lng.t("endpoint.urlPlaceHolder", { locale }),
                                         autoCorrect: true,
                                         keyboardType: "url",
                                         onSubmitEditing: () => this.toggleFocus()
@@ -151,13 +151,13 @@ export class Endpoint extends Component<IProps> {
                                     inputContainerStyle={styles.inputField}
                                 />
                                 <Text style={styles.endpointTextTitle}>
-                                    {Lng.t("endpoint.endpointDesc", { locale: language })}
+                                    {Lng.t("endpoint.endpointDesc", { locale })}
                                 </Text>
                             </View>
 
                             <CtGradientButton
                                 onPress={handleSubmit(this.onSetEndpointApi)}
-                                btnTitle={Lng.t("button.save", { locale: language })}
+                                btnTitle={Lng.t("button.save", { locale })}
                                 loading={this.state.isFocus ? false : loading}
                                 style={styles.buttonStyle}
                                 buttonContainerStyle={styles.buttonContainer}

@@ -35,10 +35,10 @@ export const ACTIONS_VALUE = {
     REMOVE: 'remove'
 };
 
-export const CUSTOMER_ACTIONS = (Lng, language) => {
+export const CUSTOMER_ACTIONS = (Lng, locale) => {
     return [
         {
-            label: Lng.t('customers.removeCustomer', { locale: language }),
+            label: Lng.t('customers.removeCustomer', { locale }),
             value: ACTIONS_VALUE.REMOVE
         }
     ];

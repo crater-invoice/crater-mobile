@@ -43,10 +43,10 @@ export const TAXES = 'reportType/TAXES';
 
 // Menus
 // -----------------------------------------
-export const MORE_MENU = (language, Lng) => {
+export const MORE_MENU = (locale, Lng) => {
     return [
         {
-            title: Lng.t("more.estimate", { locale: language }),
+            title: Lng.t("more.estimate", { locale }),
             leftIcon: 'file-alt',
             leftIconSolid: true,
             iconSize: 27,
@@ -55,7 +55,7 @@ export const MORE_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t("more.recurringInvoice", { locale: language }),
+            title: Lng.t("more.recurringInvoice", { locale }),
             leftIcon: 'file-alt',
             iconSize: 27,
             fullItem: {
@@ -63,7 +63,7 @@ export const MORE_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t("more.items", { locale: language }),
+            title: Lng.t("more.items", { locale }),
             leftIcon: 'product-hunt',
             iconSize: 27,
             fullItem: {
@@ -71,21 +71,21 @@ export const MORE_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t("more.reports", { locale: language }),
+            title: Lng.t("more.reports", { locale }),
             leftIcon: 'signal',
             fullItem: {
                 route: ROUTES.REPORTS
             }
         },
         {
-            title: Lng.t("more.settings", { locale: language }),
+            title: Lng.t("more.settings", { locale }),
             leftIcon: 'cogs',
             fullItem: {
                 route: ROUTES.SETTING_LIST
             }
         },
         {
-            title: Lng.t("more.logout", { locale: language }),
+            title: Lng.t("more.logout", { locale }),
             leftIcon: 'sign-out-alt',
             iconSize: 26,
             fullItem: {
@@ -95,17 +95,17 @@ export const MORE_MENU = (language, Lng) => {
     ]
 }
 
-export const REPORTS_MENU = (language, Lng) => {
+export const REPORTS_MENU = (locale, Lng) => {
     return [
         {
-            title: Lng.t("reports.sales", { locale: language }),
+            title: Lng.t("reports.sales", { locale }),
             fullItem: {
                 route: ROUTES.GENERATE_REPORT,
                 type: SALES
             }
         },
         {
-            title: Lng.t("reports.profitAndLoss", { locale: language }),
+            title: Lng.t("reports.profitAndLoss", { locale }),
             leftIcon: 'building',
             fullItem: {
                 route: ROUTES.GENERATE_REPORT,
@@ -113,14 +113,14 @@ export const REPORTS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t("reports.expenses", { locale: language }),
+            title: Lng.t("reports.expenses", { locale }),
             fullItem: {
                 route: ROUTES.GENERATE_REPORT,
                 type: EXPENSES
             }
         },
         {
-            title: Lng.t("reports.taxes", { locale: language }),
+            title: Lng.t("reports.taxes", { locale }),
             fullItem: {
                 route: ROUTES.GENERATE_REPORT,
                 type: TAXES
@@ -129,14 +129,14 @@ export const REPORTS_MENU = (language, Lng) => {
     ]
 }
 
-export const REPORT_TYPE_OPTION = (language, Lng) => {
+export const REPORT_TYPE_OPTION = (locale, Lng) => {
     return [
         {
-            label: Lng.t("reports.byCustomer", { locale: language }),
+            label: Lng.t("reports.byCustomer", { locale }),
             value: 'byCustomer'
         },
         {
-            label: Lng.t("reports.byItem", { locale: language }),
+            label: Lng.t("reports.byItem", { locale }),
             value: 'byItem'
         },
     ]
@@ -159,62 +159,62 @@ export const DATE_RANGE = {
     CUSTOM: 'custom',
 }
 
-export const DATE_RANGE_OPTION = (language, Lng) => {
+export const DATE_RANGE_OPTION = (locale, Lng) => {
     return [
         {
-            label: Lng.t("reports.today", { locale: language }),
+            label: Lng.t("reports.today", { locale }),
             value: DATE_RANGE.TODAY
         },
         {
-            label: Lng.t("reports.thisWeek", { locale: language }),
+            label: Lng.t("reports.thisWeek", { locale }),
             value: DATE_RANGE.THIS_WEEK
         },
         {
-            label: Lng.t("reports.thisMonth", { locale: language }),
+            label: Lng.t("reports.thisMonth", { locale }),
             value: DATE_RANGE.THIS_MONTH
         },
         {
-            label: Lng.t("reports.thisQuarter", { locale: language }),
+            label: Lng.t("reports.thisQuarter", { locale }),
             value: DATE_RANGE.THIS_QUARTER
         },
         {
-            label: Lng.t("reports.thisYear", { locale: language }),
+            label: Lng.t("reports.thisYear", { locale }),
             value: DATE_RANGE.THIS_YEAR
         },
         // {
-        //     label: Lng.t("reports.currentFiscalQuarter", { locale: language }),
+        //     label: Lng.t("reports.currentFiscalQuarter", { locale }),
         //     value: DATE_RANGE.CURRENT_FISCAL_QUARTER
         // },
         {
-            label: Lng.t("reports.currentFiscalYear", { locale: language }),
+            label: Lng.t("reports.currentFiscalYear", { locale }),
             value: DATE_RANGE.CURRENT_FISCAL_YEAR
         },
         {
-            label: Lng.t("reports.previousWeek", { locale: language }),
+            label: Lng.t("reports.previousWeek", { locale }),
             value: DATE_RANGE.PREVIOUS_WEEK
         },
         {
-            label: Lng.t("reports.previousMonth", { locale: language }),
+            label: Lng.t("reports.previousMonth", { locale }),
             value: DATE_RANGE.PREVIOUS_MONTH
         },
         {
-            label: Lng.t("reports.previousQuarter", { locale: language }),
+            label: Lng.t("reports.previousQuarter", { locale }),
             value: DATE_RANGE.PREVIOUS_QUARTER
         },
         {
-            label: Lng.t("reports.previousYear", { locale: language }),
+            label: Lng.t("reports.previousYear", { locale }),
             value: DATE_RANGE.PREVIOUS_YEAR
         },
         // {
-        //     label: Lng.t("reports.previousFiscalQuarter", { locale: language }),
+        //     label: Lng.t("reports.previousFiscalQuarter", { locale }),
         //     value: DATE_RANGE.PREVIOUS_FISCAL_QUARTER
         // },
         {
-            label: Lng.t("reports.previousFiscalYear", { locale: language }),
+            label: Lng.t("reports.previousFiscalYear", { locale }),
             value: DATE_RANGE.PREVIOUS_FISCAL_YEAR
         },
         {
-            label: Lng.t("reports.custom", { locale: language }),
+            label: Lng.t("reports.custom", { locale }),
             value: DATE_RANGE.CUSTOM
         },
     ]

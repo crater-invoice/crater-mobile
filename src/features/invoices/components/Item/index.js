@@ -67,11 +67,11 @@ export class InvoiceItem extends React.Component {
             itemId,
             navigation,
             type,
-            language,
+            locale,
         } = this.props
 
         if (this.finalAmount() < 0) {
-            alert(Lng.t("items.lessAmount", { locale: language }))
+            alert(Lng.t("items.lessAmount", { locale }))
             return
         }
 
@@ -117,10 +117,10 @@ export class InvoiceItem extends React.Component {
     };
 
     removeItem = () => {
-        const { removeInvoiceItem, itemId, navigation, language } = this.props
+        const { removeInvoiceItem, itemId, navigation, locale } = this.props
 
         alertMe({
-            title: Lng.t("alert.title", { locale: language }),
+            title: Lng.t("alert.title", { locale }),
             showCancel: true,
             okPress: () => {
                 navigation.goBack(null)
@@ -217,7 +217,7 @@ export class InvoiceItem extends React.Component {
 
     FINAL_AMOUNT = () => {
         const {
-            language,
+            locale,
             formValues: { quantity, price, taxes },
             navigation,
             discountPerItem,
@@ -249,7 +249,7 @@ export class InvoiceItem extends React.Component {
                     <View style={styles.subContainer}>
                         <View>
                             <Text style={styles.label}>
-                                {Lng.t("items.finalDiscount", { locale: language })}
+                                {Lng.t("items.finalDiscount", { locale })}
                             </Text>
                         </View>
                         <View>
@@ -308,7 +308,7 @@ export class InvoiceItem extends React.Component {
                 <View style={styles.subContainer}>
                     <View>
                         <Text style={styles.label}>
-                            {Lng.t("items.finalAmount", { locale: language })}
+                            {Lng.t("items.finalAmount", { locale })}
                         </Text>
                     </View>
                     <View>
@@ -324,13 +324,13 @@ export class InvoiceItem extends React.Component {
     };
 
     BOTTOM_ACTION = (handleSubmit) => {
-        const { language, loading, type } = this.props
+        const { locale, loading, type } = this.props
         const isCreateItem = (type === ITEM_ADD)
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.saveItem)}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    btnTitle={Lng.t("button.save", { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                     loading={loading}
@@ -338,7 +338,7 @@ export class InvoiceItem extends React.Component {
                 {!isCreateItem && (
                     <CtButton
                         onPress={this.removeItem}
-                        btnTitle={Lng.t("button.remove", { locale: language })}
+                        btnTitle={Lng.t("button.remove", { locale })}
                         containerStyle={styles.handleBtn}
                         buttonColor={BUTTON_COLOR.DANGER}
                         buttonContainerStyle={styles.buttonContainer}
@@ -357,7 +357,7 @@ export class InvoiceItem extends React.Component {
             loading,
             formValues: { discount_type, taxes },
             initialValues,
-            language,
+            locale,
             type,
             discountPerItem,
             itemId,
@@ -374,8 +374,8 @@ export class InvoiceItem extends React.Component {
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
                     title: isCreateItem ?
-                        Lng.t("header.addItem", { locale: language }) :
-                        Lng.t("header.editItem", { locale: language }),
+                        Lng.t("header.addItem", { locale }) :
+                        Lng.t("header.editItem", { locale }),
                     placement: "center",
                     rightIcon: 'save',
                     rightIconProps: {
@@ -393,7 +393,7 @@ export class InvoiceItem extends React.Component {
                         name="name"
                         isRequired
                         component={InputField}
-                        hint={Lng.t("items.name", { locale: language })}
+                        hint={Lng.t("items.name", { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -410,7 +410,7 @@ export class InvoiceItem extends React.Component {
                                 name={'quantity'}
                                 component={InputField}
                                 isRequired
-                                hint={Lng.t("items.quantity", { locale: language })}
+                                hint={Lng.t("items.quantity", { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',
                                     keyboardType: 'numeric',
@@ -428,7 +428,7 @@ export class InvoiceItem extends React.Component {
                                 name="price"
                                 isRequired
                                 component={InputField}
-                                hint={Lng.t("items.price", { locale: language })}
+                                hint={Lng.t("items.price", { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',
                                     keyboardType: 'numeric'
@@ -444,11 +444,11 @@ export class InvoiceItem extends React.Component {
                     {(initialValues.unit || !itemId) && (
                         <Field
                             name="unit_id"
-                            label={Lng.t("items.unit", { locale: language })}
+                            label={Lng.t("items.unit", { locale })}
                             component={SelectPickerField}
                             items={formatSelectPickerName(units)}
                             defaultPickerOptions={{
-                                label: Lng.t("items.unitPlaceholder", { locale: language }),
+                                label: Lng.t("items.unitPlaceholder", { locale }),
                                 value: '',
                             }}
                             disabled={itemId ? true : false}
@@ -461,7 +461,7 @@ export class InvoiceItem extends React.Component {
                             <Field
                                 name="discount_type"
                                 component={RadioButtonGroup}
-                                hint={Lng.t("items.discountType", { locale: language })}
+                                hint={Lng.t("items.discountType", { locale })}
                                 options={ITEM_DISCOUNT_OPTION}
                                 initialValue={initialValues.discount_type}
                             />
@@ -469,7 +469,7 @@ export class InvoiceItem extends React.Component {
                             <Field
                                 name="discount"
                                 component={InputField}
-                                hint={Lng.t("items.discount", { locale: language })}
+                                hint={Lng.t("items.discount", { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',
                                     autoCapitalize: 'none',
@@ -486,10 +486,10 @@ export class InvoiceItem extends React.Component {
                             name="taxes"
                             items={taxTypes}
                             displayName="name"
-                            label={Lng.t("items.taxes", { locale: language })}
+                            label={Lng.t("items.taxes", { locale })}
                             component={SelectField}
                             searchFields={['name', 'percent']}
-                            placeholder={Lng.t("items.selectTax", { locale: language })}
+                            placeholder={Lng.t("items.selectTax", { locale })}
                             onlyPlaceholder
                             fakeInputProps={{
                                 icon: 'percent',
@@ -499,7 +499,7 @@ export class InvoiceItem extends React.Component {
                             navigation={navigation}
                             isInternalSearch
                             isMultiSelect
-                            language={language}
+                            locale={locale}
                             concurrentMultiSelect
                             compareField="id"
                             valueCompareField="tax_type_id"
@@ -507,7 +507,7 @@ export class InvoiceItem extends React.Component {
                                 contentContainerStyle: { flex: 3 }
                             }}
                             headerProps={{
-                                title: Lng.t("taxes.title", { locale: language })
+                                title: Lng.t("taxes.title", { locale })
                             }}
                             rightIconPress={
                                 () => navigation.navigate(ROUTES.TAX, {
@@ -530,7 +530,7 @@ export class InvoiceItem extends React.Component {
                     <Field
                         name="description"
                         component={InputField}
-                        hint={Lng.t("items.description", { locale: language })}
+                        hint={Lng.t("items.description", { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',

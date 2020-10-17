@@ -22,7 +22,7 @@ type IProps = {
     getEditCategory: Function,
     createCategory: Function,
     editCategory: Function,
-    language: String,
+    locale: String,
     type: String,
     getEditCategoryLoading: Boolean,
     categoryLoading: Boolean,
@@ -100,17 +100,17 @@ export class Category extends React.Component<IProps> {
 
     removeCategory = () => {
 
-        const { removeCategory, navigation, language, formValues: { name } } = this.props
+        const { removeCategory, navigation, locale, formValues: { name } } = this.props
 
         alertMe({
-            title: Lng.t("alert.title", { locale: language }),
-            desc: Lng.t("categories.alertDescription", { locale: language }),
+            title: Lng.t("alert.title", { locale }),
+            desc: Lng.t("categories.alertDescription", { locale }),
             showCancel: true,
             okPress: () => removeCategory({
                 id: navigation.getParam('categoryId', null),
                 navigation,
                 onResult: () => {
-                    alertMe({ title: `${name} ${Lng.t("categories.alreadyUsed", { locale: language })}` })
+                    alertMe({ title: `${name} ${Lng.t("categories.alreadyUsed", { locale })}` })
                 }
             })
         })
@@ -119,7 +119,7 @@ export class Category extends React.Component<IProps> {
     BOTTOM_ACTION = (handleSubmit) => {
 
         const {
-            language,
+            locale,
             categoryLoading,
             type
         } = this.props
@@ -128,7 +128,7 @@ export class Category extends React.Component<IProps> {
             <View style={[styles.submitButton, type === CATEGORY_EDIT && styles.multipleButton]}>
                 <CtButton
                     onPress={handleSubmit(this.onSubmitCategory)}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    btnTitle={Lng.t("button.save", { locale })}
                     buttonContainerStyle={type === CATEGORY_EDIT && styles.flex}
                     containerStyle={styles.btnContainerStyle}
                     loading={categoryLoading}
@@ -137,7 +137,7 @@ export class Category extends React.Component<IProps> {
                 {type === CATEGORY_EDIT &&
                     <CtButton
                         onPress={this.removeCategory}
-                        btnTitle={Lng.t("button.remove", { locale: language })}
+                        btnTitle={Lng.t("button.remove", { locale })}
                         buttonColor={BUTTON_COLOR.DANGER}
                         containerStyle={styles.btnContainerStyle}
                         buttonContainerStyle={styles.flex}
@@ -152,7 +152,7 @@ export class Category extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            language,
+            locale,
             getEditCategoryLoading,
             type,
             onFirstTimeCreateExpense,
@@ -169,8 +169,8 @@ export class Category extends React.Component<IProps> {
                             navigation.navigate(ROUTES.MAIN_EXPENSES)
                     },
                     title: type === CATEGORY_EDIT ?
-                        Lng.t("header.editCategory", { locale: language }) :
-                        Lng.t("header.addCategory", { locale: language }),
+                        Lng.t("header.editCategory", { locale }) :
+                        Lng.t("header.addCategory", { locale }),
                     placement: "center",
                     rightIcon: "save",
                     rightIconProps: {
@@ -189,7 +189,7 @@ export class Category extends React.Component<IProps> {
                         name="name"
                         component={InputField}
                         isRequired
-                        hint={Lng.t("categories.title", { locale: language })}
+                        hint={Lng.t("categories.title", { locale })}
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
                             returnKeyType: 'next',
@@ -205,7 +205,7 @@ export class Category extends React.Component<IProps> {
                     <Field
                         name="description"
                         component={InputField}
-                        hint={Lng.t("categories.description", { locale: language })}
+                        hint={Lng.t("categories.description", { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',

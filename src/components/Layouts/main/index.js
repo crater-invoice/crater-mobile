@@ -36,7 +36,7 @@ const MainLayoutComponent = ({
     inputProps,
     dividerStyle,
     loadingProps,
-    language,
+    locale,
     toastProps,
     searchFieldProps
 }: IProps) => {
@@ -67,7 +67,7 @@ const MainLayoutComponent = ({
                             inputProps={{
                                 returnKeyType: 'next',
                                 autoCapitalize: 'none',
-                                placeholder: Lng.t("search.title", { locale: language }),
+                                placeholder: Lng.t("search.title", { locale }),
                                 autoCorrect: true,
                                 ...inputProps
                             }}
@@ -100,7 +100,7 @@ const MainLayoutComponent = ({
 };
 
 const mapStateToProps = ({ global }) => ({
-    language: global.language,
+    locale: global?.locale,
 });
 
 const mapDispatchToProps = {};

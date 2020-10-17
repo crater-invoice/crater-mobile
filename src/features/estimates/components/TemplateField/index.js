@@ -77,13 +77,13 @@ export class TemplateField extends Component<IProps> {
     }
 
     BOTTOM_ACTION = () => {
-        const { language } = this.props
+        const { locale } = this.props
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={this.onSubmit}
-                    btnTitle={Lng.t("button.chooseTemplate", { locale: language })}
+                    btnTitle={Lng.t("button.chooseTemplate", { locale })}
                 />
             </View>
         )
@@ -97,7 +97,7 @@ export class TemplateField extends Component<IProps> {
             icon,
             placeholder,
             meta,
-            language
+            locale
         } = this.props;
 
         const {
@@ -124,7 +124,7 @@ export class TemplateField extends Component<IProps> {
                     headerProps={{
                         leftIcon: "long-arrow-alt-left",
                         leftIconPress: () => this.onToggle(),
-                        title: Lng.t("header.template", { locale: language }),
+                        title: Lng.t("header.template", { locale }),
                         titleStyle: headerTitle({ marginLeft: -19, marginRight: -19 }),
                         placement: "center",
                         hasCircle: false,

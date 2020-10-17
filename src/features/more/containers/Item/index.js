@@ -15,7 +15,7 @@ const mapStateToProps = (state, { navigation }) => {
             units,
             loading: { itemUnitsLoading, getItemLoading }
         },
-        global: { language, currency, taxTypes }
+        global: { locale, currency, taxTypes }
     } = state;
 
     const itemId = navigation.getParam('id', {});
@@ -33,7 +33,7 @@ const mapStateToProps = (state, { navigation }) => {
         itemId,
         taxTypes,
         taxByItems,
-        language,
+        locale,
         type,
         currency,
         units,

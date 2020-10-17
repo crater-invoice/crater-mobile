@@ -6,7 +6,7 @@ import { Categories } from '../../components/Categories';
 import { CATEGORY_SEARCH } from '../../constants';
 
 const mapStateToProps = ({ global, settings }) => ({
-    language: global.language,
+    locale: global.locale,
     loading: settings.loading.expensesCategoryLoading,
     categories: settings.categories
 });

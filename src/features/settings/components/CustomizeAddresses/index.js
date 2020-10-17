@@ -13,7 +13,7 @@ type IProps = {
     navigation: Object,
     customizeProps: Object,
     modalProps: Object,
-    language: String,
+    locale: String,
     type: String,
     loading: Boolean,
     handleSubmit: Function,
@@ -21,7 +21,7 @@ type IProps = {
 
 export const listOFAddresses = ({
     addresses,
-    language,
+    locale,
     onPress,
     insertFieldContainerStyle = null,
     inputProps = null,
@@ -39,7 +39,7 @@ export const listOFAddresses = ({
             >
 
                 <Text style={[styles.label, hintStyle && hintStyle]}>
-                    {Lng.t(label, { locale: language })}
+                    {Lng.t(label, { locale })}
                 </Text>
 
                 <View
@@ -50,7 +50,7 @@ export const listOFAddresses = ({
                 >
                     <View style={styles.insertFieldLabelContainer}>
                         <Text style={styles.insertFieldLabel}>
-                            {Lng.t("customizes.addresses.insertFields", { locale: language })}
+                            {Lng.t("customizes.addresses.insertFields", { locale })}
                         </Text>
                     </View>
                     <View style={styles.insertFieldButton}>
@@ -121,7 +121,7 @@ export class CustomizeAddresses extends React.Component<IProps> {
     }
 
     listOfFields = (fields) => {
-        const { customizeProps: { language } } = this.props;
+        const { customizeProps: { locale } } = this.props;
 
         return fields.map((field, index) => {
             const { label, value } = field
@@ -133,7 +133,7 @@ export class CustomizeAddresses extends React.Component<IProps> {
                     onPress={() => this.onSelectFormatField(label, value)}
                 >
                     <Text style={styles.buttonFieldText}>
-                        {Lng.t(label, { locale: language })}
+                        {Lng.t(label, { locale })}
                     </Text>
                 </TouchableOpacity>
             )
@@ -172,7 +172,7 @@ export class CustomizeAddresses extends React.Component<IProps> {
         return selectedType
     }
 
-    formatAddressView = (language) => {
+    formatAddressView = (locale) => {
 
         let listOfAddressFormatList = addressFields.filter(this.checkRecentAddressType)
         let hasOnlyOneFormatList = (listOfAddressFormatList.length === 1)
@@ -198,7 +198,7 @@ export class CustomizeAddresses extends React.Component<IProps> {
                                 >
                                     <View style={styles.field}>
                                         <Text style={styles.heading}>
-                                            {Lng.t(label, { locale: language })}
+                                            {Lng.t(label, { locale })}
                                         </Text>
 
 
@@ -220,7 +220,7 @@ export class CustomizeAddresses extends React.Component<IProps> {
         const {
             addresses,
             addressesProps = null,
-            customizeProps: { language },
+            customizeProps: { locale },
             bodyContainerStyle,
             modalProps
         } = this.props;
@@ -232,7 +232,7 @@ export class CustomizeAddresses extends React.Component<IProps> {
 
                 {listOFAddresses({
                     addresses: addresses,
-                    language: language,
+                    locale,
                     onPress: (value) => this.selectedFormatType(value),
                     ...addressesProps
                 })
@@ -245,7 +245,7 @@ export class CustomizeAddresses extends React.Component<IProps> {
                 >
                     <View style={styles.modalViewContainer}>
                         <View style={styles.selectFieldContainer}>
-                            {this.formatAddressView(language)}
+                            {this.formatAddressView(locale)}
                         </View>
                     </View>
                 </AnimateModal>

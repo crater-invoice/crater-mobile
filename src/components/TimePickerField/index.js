@@ -96,7 +96,7 @@ export class TimePickerField extends Component {
                 <CtButton
                     onPress={this.onChangeTime}
                     btnTitle={Lng.t('button.change', {
-                        locale: this.props.language
+                        locale: this.props.locale
                     })}
                     containerStyle={styles.button}
                 />

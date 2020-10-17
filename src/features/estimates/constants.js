@@ -97,8 +97,8 @@ export const ESTIMATES_STATUS_TEXT_COLOR = {
 };
 
 
-export const TAB_NAME = (name, language, Lng) => {
-    return Lng.t(`estimates.tabs.${name}`, { locale: language })
+export const TAB_NAME = (name, locale, Lng) => {
+    return Lng.t(`estimates.tabs.${name}`, { locale })
 };
 
 export const ESTIMATES_TABS = {
@@ -141,35 +141,35 @@ export const MARK_AS_ACCEPT = 'ACCEPTED'
 export const MARK_AS_REJECT = 'REJECTED'
 
 
-export const EDIT_ESTIMATE_ACTIONS = (language, markAs = '') => {
+export const EDIT_ESTIMATE_ACTIONS = (locale, markAs = '') => {
 
     const markAsSent = [{
-        label: Lng.t("estimates.actions.markAsSent", { locale: language }),
+        label: Lng.t("estimates.actions.markAsSent", { locale }),
         value: ESTIMATE_ACTIONS.MARK_AS_SENT
     }]
 
     const markAsAccept = [{
-        label: Lng.t("estimates.actions.markAsAccepted", { locale: language }),
+        label: Lng.t("estimates.actions.markAsAccepted", { locale }),
         value: ESTIMATE_ACTIONS.MARK_AS_ACCEPTED
     }]
 
     const markAsReject = [{
-        label: Lng.t("estimates.actions.markAsRejected", { locale: language }),
+        label: Lng.t("estimates.actions.markAsRejected", { locale }),
         value: ESTIMATE_ACTIONS.MARK_AS_REJECTED
     }]
 
     const deleteAction = [{
-        label: Lng.t("estimates.actions.delete", { locale: language }),
+        label: Lng.t("estimates.actions.delete", { locale }),
         value: ESTIMATE_ACTIONS.DELETE
     }]
 
     const actions = [
         {
-            label: Lng.t("estimates.actions.convertToInvoice", { locale: language }),
+            label: Lng.t("estimates.actions.convertToInvoice", { locale }),
             value: ESTIMATE_ACTIONS.CONVERT_TO_INVOICE
         },
         {
-            label: Lng.t("estimates.actions.sendEstimate", { locale: language }),
+            label: Lng.t("estimates.actions.sendEstimate", { locale }),
             value: ESTIMATE_ACTIONS.SEND
         }
     ]

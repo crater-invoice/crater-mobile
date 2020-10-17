@@ -7,17 +7,17 @@ let selectedToDateValue = ''
 
 export default expenseFilterFields = ({ props, state, setFormField }) => {
 
-    const { language, categories } = props
+    const { locale, categories } = props
     const { selectedCategory } = state
 
     const dropdownFields = [{
         name: "expense_category_id",
-        label: Lng.t("expenses.category", { locale: language }),
+        label: Lng.t("expenses.category", { locale }),
         fieldIcon: 'align-center',
         items: categories,
         onChangeCallback: (val) => setFormField('expense_category_id', val),
         defaultPickerOptions: {
-            label: Lng.t("expenses.categoryPlaceholder", { locale: language }),
+            label: Lng.t("expenses.categoryPlaceholder", { locale }),
             value: '',
         },
         selectedItem: selectedCategory,
@@ -27,7 +27,7 @@ export default expenseFilterFields = ({ props, state, setFormField }) => {
     const datePickerFields = [
         {
             name: "from_date",
-            label: Lng.t("expenses.fromDate", { locale: language }),
+            label: Lng.t("expenses.fromDate", { locale }),
             onChangeCallback: (formDate, displayDate) => {
                 selectedFromDate = displayDate,
                     selectedFromDateValue = formDate
@@ -37,7 +37,7 @@ export default expenseFilterFields = ({ props, state, setFormField }) => {
         },
         {
             name: "to_date",
-            label: Lng.t("expenses.toDate", { locale: language }),
+            label: Lng.t("expenses.toDate", { locale }),
             onChangeCallback: (formDate, displayDate) => {
                 selectedToDate = displayDate,
                     selectedToDateValue = formDate

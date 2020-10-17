@@ -15,7 +15,7 @@ import { customersFilterFields as filterFields } from './filterFields';
 type IProps = {
     customers: Object,
     navigation: Object,
-    language: String,
+    locale: String,
     formValues: any
 };
 
@@ -93,7 +93,7 @@ export class Customers extends React.Component<IProps> {
         const {
             customers,
             navigation,
-            language,
+            locale,
             handleSubmit,
             getCustomer
         } = this.props;
@@ -108,17 +108,17 @@ export class Customers extends React.Component<IProps> {
             : 'customers.empty.title';
 
         const emptyContentProps = {
-            title: Lng.t(emptyTitle, { locale: language, search }),
+            title: Lng.t(emptyTitle, { locale, search }),
             image: IMAGES.EMPTY_CUSTOMERS,
             ...(!search && {
                 description: Lng.t('customers.empty.description', {
-                    locale: language
+                    locale
                 })
             }),
             ...(!search &&
                 !this.isFilterApply() && {
                     buttonTitle: Lng.t('customers.empty.buttonTitle', {
-                        locale: language
+                        locale
                     }),
                     buttonPress: () => {
                         navigation.navigate(ROUTES.CUSTOMER, {
@@ -135,14 +135,14 @@ export class Customers extends React.Component<IProps> {
                     type: CUSTOMER_ADD
                 });
             },
-            title: Lng.t('header.customers', { locale: language })
+            title: Lng.t('header.customers', { locale })
         };
 
         const filterProps = {
             onSubmitFilter: handleSubmit(this.onSubmitFilter),
-            inputFields: filterFields(language),
+            inputFields: filterFields(locale),
             clearFilter: this.props,
-            language: language,
+            locale: locale,
             onResetFilter: () => this.onResetFilter()
         };
 

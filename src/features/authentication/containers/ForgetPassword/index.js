@@ -8,7 +8,7 @@ import { FORGOT_PASSWORD_FORM } from '../../constants';
 const mapStateToProps = ({ auth, global }) => ({
     loading: auth.loading.forgetPasswordLoading,
     validation: true,
-    language: global.language,
+    locale: global?.locale,
 });
 
 const mapDispatchToProps = {

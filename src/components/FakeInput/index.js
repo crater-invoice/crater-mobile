@@ -31,7 +31,7 @@ type IProps = {
     valueStyle: Object,
     prefixProps: Object,
     loading: Boolean,
-    language: String,
+    locale: String,
     isRequired: Boolean,
     leftIconSolid: Boolean,
     disabled: Boolean
@@ -62,7 +62,7 @@ export class FakeInputComponent extends Component<IProps> {
             loading = false,
             placeholderStyle,
             leftIconStyle,
-            language,
+            locale,
             isRequired = false,
             leftIconSolid = true,
             disabled = false,
@@ -235,7 +235,7 @@ export class FakeInputComponent extends Component<IProps> {
                             style={{ color: 'white', fontSize: 12 }}
                         >
                             {Lng.t(error, {
-                                locale: language,
+                                locale,
                                 hint: label
                             })}
                         </Text>
@@ -247,7 +247,7 @@ export class FakeInputComponent extends Component<IProps> {
 }
 
 const mapStateToProps = ({ global }) => ({
-    language: global.language
+    locale: global?.locale
 });
 
 const mapDispatchToProps = {};

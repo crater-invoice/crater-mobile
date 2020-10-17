@@ -31,7 +31,7 @@ type IProps = {
     hasBillingAddress: Boolean,
     meta: Object,
     handleSubmit: Function,
-    language: String,
+    locale: String,
     type: String
 };
 
@@ -136,13 +136,13 @@ export class Address extends Component<IProps> {
     }
 
     BOTTOM_ACTION = (handleSubmit) => {
-        const { language } = this.props
+        const { locale } = this.props
         return (
             <View style={styles.submitButton}>
                 <View style={styles.flexRow}>
                     <CtButton
                         onPress={handleSubmit(this.saveAddress)}
-                        btnTitle={Lng.t("button.done", { locale: language })}
+                        btnTitle={Lng.t("button.done", { locale })}
                         containerStyle={styles.handleBtn}
                     />
                 </View>
@@ -159,7 +159,7 @@ export class Address extends Component<IProps> {
             navigation,
             addressValue,
             formValues,
-            language,
+            locale,
             countries
         } = this.props
 
@@ -175,7 +175,7 @@ export class Address extends Component<IProps> {
                         icon={'copy'}
                         color={colors.primaryLight}
                         leftIconSolid={false}
-                        values={Lng.t("customers.address.sameAs", { locale: language })}
+                        values={Lng.t("customers.address.sameAs", { locale })}
                         valueStyle={styles.sameAsToggle}
                         onChangeCallback={() => this.fillShippingAddress(!status)}
                     />
@@ -184,7 +184,7 @@ export class Address extends Component<IProps> {
                 <Field
                     name={"name"}
                     component={InputField}
-                    hint={Lng.t("customers.address.name", { locale: language })}
+                    hint={Lng.t("customers.address.name", { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -197,7 +197,7 @@ export class Address extends Component<IProps> {
                     items={countries ?? []}
                     displayName="name"
                     component={SelectField}
-                    label={Lng.t("customers.address.country", { locale: language })}
+                    label={Lng.t("customers.address.country", { locale })}
                     placeholder={" "}
                     rightIcon='angle-right'
                     navigation={navigation}
@@ -205,7 +205,7 @@ export class Address extends Component<IProps> {
                     compareField="id"
                     onSelect={({ id }) => this.setFormField(country, id)}
                     headerProps={{
-                        title: Lng.t("header.country", { locale: language }),
+                        title: Lng.t("header.country", { locale }),
                         rightIconPress: null
                     }}
                     listViewProps={{
@@ -219,7 +219,7 @@ export class Address extends Component<IProps> {
                 <Field
                     name={state}
                     component={InputField}
-                    hint={Lng.t("customers.address.state", { locale: language })}
+                    hint={Lng.t("customers.address.state", { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -231,7 +231,7 @@ export class Address extends Component<IProps> {
                 <Field
                     name={city}
                     component={InputField}
-                    hint={Lng.t("customers.address.city", { locale: language })}
+                    hint={Lng.t("customers.address.city", { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -244,11 +244,11 @@ export class Address extends Component<IProps> {
                 <Field
                     name={"address_street_1"}
                     component={InputField}
-                    hint={Lng.t("customers.address.address", { locale: language })}
+                    hint={Lng.t("customers.address.address", { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
-                        placeholder: Lng.t("customers.address.street1", { locale: language }),
+                        placeholder: Lng.t("customers.address.street1", { locale }),
                         autoCorrect: true,
                         multiline: true,
                         maxLength: MAX_LENGTH
@@ -264,7 +264,7 @@ export class Address extends Component<IProps> {
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
-                        placeholder: Lng.t("customers.address.street2", { locale: language }),
+                        placeholder: Lng.t("customers.address.street2", { locale }),
                         autoCorrect: true,
                         multiline: true,
                         maxLength: MAX_LENGTH
@@ -277,7 +277,7 @@ export class Address extends Component<IProps> {
                 <Field
                     name={"phone"}
                     component={InputField}
-                    hint={Lng.t("customers.address.phone", { locale: language })}
+                    hint={Lng.t("customers.address.phone", { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -291,7 +291,7 @@ export class Address extends Component<IProps> {
                 <Field
                     name={"zip"}
                     component={InputField}
-                    hint={Lng.t("customers.address.zipcode", { locale: language })}
+                    hint={Lng.t("customers.address.zipcode", { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -314,7 +314,7 @@ export class Address extends Component<IProps> {
             rightIcon,
             hasBillingAddress,
             handleSubmit,
-            language,
+            locale,
             type,
             fakeInputProps,
         } = this.props;
@@ -343,7 +343,7 @@ export class Address extends Component<IProps> {
                     headerProps={{
                         leftIcon: "long-arrow-alt-left",
                         leftIconPress: () => this.onToggle(),
-                        title: hasBillingAddress ? Lng.t("header.billingAddress", { locale: language }) : Lng.t("header.shippingAddress", { locale: language }),
+                        title: hasBillingAddress ? Lng.t("header.billingAddress", { locale }) : Lng.t("header.shippingAddress", { locale }),
                         placement: "center",
                         hasCircle: false,
                         noBorder: false,
