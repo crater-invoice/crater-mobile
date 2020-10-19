@@ -52,11 +52,15 @@ function* login(payloadData) {
             return
         }
 
-        if (response?.token) {
-            yield put(saveIdToken({ idToken: response.token, expiresIn: null }))
-            yield put(getBootstrap())
-            navigation.navigate(ROUTES.MAIN_INVOICES)
+        if (!response?.token) {
+            alertMe({ desc: getTitleByLanguage('login.invalid') })
+            return;
         }
+
+        yield put(saveIdToken({ idToken: response.token, expiresIn: null }))
+        yield put(getBootstrap())
+        navigation.navigate(ROUTES.MAIN_INVOICES)
+
     } catch (error) {
         yield put(authTriggerSpinner({ loginLoading: false }))
         alertMe({ desc: getTitleByLanguage('login.invalid') })
