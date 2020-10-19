@@ -1,13 +1,14 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
     StatusBar,
     ScrollView,
     View,
     KeyboardAvoidingView,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Keyboard
 } from 'react-native';
 import { Field } from 'redux-form';
 import styles from './styles';
@@ -18,6 +19,7 @@ import { colors } from '@/styles/colors';
 import { ROUTES } from '@/navigation';
 import Lng from '@/lang/i18n';
 import { IMAGES } from '@/assets';
+import { isIPhoneX } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -30,7 +32,26 @@ type IProps = {
 export class Login extends React.Component<IProps> {
     constructor(props) {
         super(props);
+        this.state = {
+            isKeyboardVisible: false
+        };
     }
+
+    componentDidMount = () => {
+        this.keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            () => this.setState({ isKeyboardVisible: true })
+        );
+        this.keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => this.setState({ isKeyboardVisible: false })
+        );
+    };
+
+    componentWillUnmount = () => {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    };
 
     /*
      * Sign in with google
@@ -67,6 +88,7 @@ export class Login extends React.Component<IProps> {
     render() {
         let passwordInput = {};
         const { loading, socialLoading, navigation, locale } = this.props;
+        const { isKeyboardVisible } = this.state;
 
         let loginRefs = {};
 
@@ -79,8 +101,8 @@ export class Login extends React.Component<IProps> {
                 />
 
                 <ScrollView
-                    style={{ paddingTop: '34%' }}
-                    bounces={false}
+                    style={{ paddingTop: isKeyboardVisible && !isIPhoneX() ? '20%' : '34%' }}
+                    bounces={true}
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="handled"
                 >

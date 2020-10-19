@@ -25,21 +25,35 @@ import { ROUTES } from '@/navigation';
 import Request from '@/api/request';
 
 
-function* getExpenseCategories(payloadData) {
+function* getExpenseCategories({ payload }) {
+
+    const {
+        onResult = null,
+        onMeta = null,
+        fresh = true,
+        pagination: { page = 1, limit = 10 } = {},
+        search = null
+    } = {} = payload;
 
     yield put(settingsTriggerSpinner({ expensesCategoryLoading: true }));
 
     try {
 
+        const param = { page, limit, search }
+
         const options = {
-            path: GET_EXPENSE_CATEGORIES_URL(),
+            path: GET_EXPENSE_CATEGORIES_URL(param),
         };
 
         const response = yield call([Request, 'get'], options);
-        yield put(setExpenseCategories({ categories: response.categories }));
+        if (response.categories) {
+            yield put(setExpenseCategories({ categories: response.categories.data, fresh }));
+            onMeta?.(response.categories);
+            onResult?.();
+        }
 
     } catch (error) {
-        // console.log(error);
+        console.log(error);
     } finally {
         yield put(settingsTriggerSpinner({ expensesCategoryLoading: false }));
     }

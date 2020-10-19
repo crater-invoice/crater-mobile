@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import { View, KeyboardAvoidingView, ScrollView, Platform } from 'react-native'
+import { View, KeyboardAvoidingView, ScrollView, Platform, Keyboard } from 'react-native'
 import { Field } from 'redux-form'
 import styles from './styles'
 import {
@@ -14,6 +14,7 @@ import { Text } from 'react-native-elements'
 import { IMAGES } from '@/assets';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import { isIPhoneX } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -29,17 +30,30 @@ export class ForgotPassword extends React.Component<IProps> {
 
         this.state = {
             email: '',
-            isMailSended: false
+            isMailSended: false,
+            isKeyboardVisible: false
         }
     }
 
     componentDidMount() {
         const { navigation } = this.props
         goBack(MOUNT, navigation)
+
+        this.keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            () => this.setState({ isKeyboardVisible: true })
+        );
+        this.keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => this.setState({ isKeyboardVisible: false })
+        );
     }
 
     componentWillUnmount() {
         goBack(UNMOUNT)
+
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
     }
 
     onSendMail = ({ email }) => {
@@ -68,7 +82,7 @@ export class ForgotPassword extends React.Component<IProps> {
         let passwordInput = {}
 
         const { handleSubmit, navigation, loading, locale } = this.props
-        const { isMailSended, email } = this.state
+        const { isMailSended, email, isKeyboardVisible } = this.state
 
         return (
             <View style={styles.container}>
@@ -97,8 +111,14 @@ export class ForgotPassword extends React.Component<IProps> {
                 )}
 
                 <ScrollView
-                    style={{ paddingTop: !isMailSended ? '23%' : '8%' }}
-                    bounces={false}
+                    style={{
+                        paddingTop: isKeyboardVisible && !isIPhoneX()
+                            ? '5%'
+                            : !isMailSended
+                            ? '23%'
+                            : '8%',
+                    }}
+                    bounces={true}
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="handled"
                 >

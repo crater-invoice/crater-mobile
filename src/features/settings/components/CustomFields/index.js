@@ -29,14 +29,19 @@ export class CustomFields extends React.Component<IProps> {
         super(props);
         this.state = {
             search: '',
-            found: true,
-            fieldsFilter: []
+            refreshing: false,
+            pagination: {
+                page: 1,
+                limit: 10,
+                isLastPage: false
+            },
+            fresh: true,
         };
     }
 
     componentDidMount() {
-        this.getItems({});
         const { navigation } = this.props;
+        this.getItems({ fresh: true });
         goBack(MOUNT, navigation);
     }
 
@@ -55,11 +60,40 @@ export class CustomFields extends React.Component<IProps> {
         });
     };
 
-    getItems = ({ onResult } = {}) => {
+    getItems = ({ fresh = false, onResult = null , search = null }: any = {}) => {
         const { getCustomFields } = this.props;
+        const { refreshing, pagination } = this.state;
+
+        if (refreshing) { return; }
+
+        this.setState({
+            refreshing: true,
+            fresh,
+        });
+
+        const paginationParams = fresh ? { ...pagination, page: 1 } : pagination;
+
+        if (!fresh && paginationParams.lastPage < paginationParams.page) {
+            return;
+        }
 
         getCustomFields({
-            onResult: () => onResult?.()
+            fresh,
+            pagination: paginationParams,
+            search,
+            onMeta: ({ last_page, current_page}) => {
+                this.setState({
+                    pagination: {
+                        ...paginationParams,
+                        lastPage: last_page,
+                        page: current_page + 1,
+                    },
+                });
+            },
+            onResult: () => {
+                this.setState({ refreshing: false });
+                onResult?.()
+            }
         });
     };
 
@@ -68,44 +102,23 @@ export class CustomFields extends React.Component<IProps> {
     };
 
     onSearch = search => {
-        const { customFields } = this.props;
-        let searchFields = ['name', 'label', 'model_type', 'type'];
-
-        if (hasFieldValue(customFields)) {
-            let newData = customFields.filter(({ fullItem }) => {
-                let filterData = false;
-
-                searchFields.filter(field => {
-                    let itemField = fullItem?.[field] ?? '';
-
-                    if (typeof itemField === 'number') {
-                        itemField = itemField.toString();
-                    }
-
-                    if (hasValue(itemField)) {
-                        itemField = itemField.toLowerCase();
-
-                        let searchData = search.toString().toLowerCase();
-
-                        if (itemField.indexOf(searchData) > -1) {
-                            filterData = true;
-                        }
-                    }
-                });
-                return filterData;
-            });
-
-            this.setState({
-                fieldsFilter: newData,
-                found: newData.length != 0 ? true : false
-            });
-        }
+        
         this.setState({ search });
+        this.getItems({ fresh: true, search })
     };
+
+    loadMoreItems = () => {
+        const { search } = this.state
+        this.getItems({ search });
+    }
 
     render() {
         const { navigation, customFields, loading, locale } = this.props;
-        const { search, found, fieldsFilter } = this.state;
+        const { search, 
+            refreshing,
+            pagination: { lastPage, page },
+            fresh 
+        } = this.state;
 
         let empty = !search
             ? {
@@ -126,6 +139,8 @@ export class CustomFields extends React.Component<IProps> {
         let emptyTitle = search
             ? Lng.t('search.noResult', { locale, search })
             : Lng.t('customFields.empty.title', { locale });
+        
+        const canLoadMore = lastPage >= page;
 
         return (
             <View style={styles.container}>
@@ -151,20 +166,21 @@ export class CustomFields extends React.Component<IProps> {
                 >
                     <View style={styles.listViewContainer}>
                         <ListView
-                            items={
-                                hasFieldValue(fieldsFilter)
-                                    ? fieldsFilter
-                                    : found
-                                    ? customFields
-                                    : []
-                            }
+                            items={customFields}
                             onPress={this.onSelect}
-                            refreshing={false}
+                            refreshing={refreshing}
                             loading={loading}
-                            isEmpty={found ? customFields.length <= 0 : true}
+                            isEmpty={customFields.length <= 0}
                             canLoadMore={false}
                             getFreshItems={onHide => {
-                                this.getItems({ onResult: onHide });
+                                this.getItems({ fresh: true,
+                                    onResult: onHide,
+                                    search
+                                });
+                            }}
+                            getItems={() => {
+                                console.log('getItems')
+                                this.loadMoreItems()
                             }}
                             bottomDivider
                             emptyContentProps={{
@@ -177,6 +193,7 @@ export class CustomFields extends React.Component<IProps> {
                                 styles.leftTitleContainer
                             }
                             rightTitleStyle={styles.rightTitleText}
+                            canLoadMore={canLoadMore}
                         />
                     </View>
                 </MainLayout>

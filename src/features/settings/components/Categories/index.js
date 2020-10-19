@@ -14,7 +14,7 @@ type IProps = {
     getPayments: Function,
     payments: Object,
     loading: Boolean,
-    locale: String,
+    language: String,
 }
 
 export class Categories extends React.Component<IProps> {
@@ -22,22 +22,62 @@ export class Categories extends React.Component<IProps> {
         super(props);
         this.state = {
             search: '',
-            categoriesFilter: [],
-            found: true,
-            refreshing: false
+            refreshing: false,
+            pagination: {
+                page: 1,
+                limit: 10,
+                isLastPage: false
+            },
+            fresh: true,
         };
     }
 
     componentDidMount() {
-        const { getExpenseCategories, navigation } = this.props
-        getExpenseCategories()
-
+        const { navigation } = this.props
+        this.getItems({ fresh: true })
         goBack(MOUNT, navigation)
     }
 
     componentWillUnmount() {
         goBack(UNMOUNT)
     }
+
+    getItems = ({ fresh = false, onResult = null , search = null }: any = {}) => {
+        const { getExpenseCategories } = this.props;
+        const { refreshing, pagination } = this.state;
+
+        if (refreshing) { return; }
+
+        this.setState({
+            refreshing: true,
+            fresh,
+        });
+
+        const paginationParams = fresh ? { ...pagination, page: 1 } : pagination;
+        
+        if (!fresh && paginationParams.lastPage < paginationParams.page) {
+            return;
+        }
+
+        getExpenseCategories({
+            fresh,
+            pagination: paginationParams,
+            search,
+            onMeta: ({ last_page, current_page}) => {
+                this.setState({
+                    pagination: {
+                        ...paginationParams,
+                        lastPage: last_page,
+                        page: current_page + 1,
+                    },
+                });
+            },
+            onResult: () => {
+                this.setState({ refreshing: false });
+                onResult?.();
+            }
+        });
+    };
 
     onSelectCategory = (category) => {
 
@@ -48,39 +88,8 @@ export class Categories extends React.Component<IProps> {
     }
 
     onSearch = (search) => {
-
-        const { categories } = this.props;
-        let searchFields = ['name'];
-
-        if (typeof categories !== 'undefined' && categories.length != 0) {
-
-            let newData = categories.filter((category) => {
-                let filterData = false
-
-                searchFields.filter((field) => {
-                    let itemField = category[field] ? category[field] : ''
-
-                    if (itemField !== null && itemField !== 'undefined') {
-                        itemField = itemField.toLowerCase()
-
-                        let searchData = search.toString().toLowerCase()
-
-                        if (itemField.indexOf(searchData) > -1) {
-                            filterData = true
-                        }
-                    }
-                })
-                return filterData
-            });
-
-            let categoriesFilter = this.itemList(newData)
-
-            this.setState({
-                categoriesFilter,
-                found: categoriesFilter.length != 0 ? true : false,
-                search
-            })
-        }
+        this.setState({ search })
+        this.getItems({ fresh: true, search })
     };
 
     itemList = (categories) => {
@@ -101,14 +110,9 @@ export class Categories extends React.Component<IProps> {
         return categoriesList
     }
 
-    getFreshItems = (onHide) => {
-        const { getExpenseCategories } = this.props
-        getExpenseCategories()
-
-        setTimeout(() => {
-            onHide && onHide()
-        }, 400);
-
+    loadMoreItems = () => {
+        const { search } = this.state
+        this.getItems({ search } );
     }
 
     render() {
@@ -116,34 +120,35 @@ export class Categories extends React.Component<IProps> {
         const {
             navigation,
             loading,
-            locale,
+            language,
             categories,
         } = this.props;
 
         const {
             search,
-            categoriesFilter,
-            found,
-            refreshing
+            refreshing,
+            pagination: { lastPage, page },
+            fresh
         } = this.state
 
         let categoriesList = [];
         categoriesList = this.itemList(categories)
 
         let empty = (!search) ? {
-            description: Lng.t("categories.empty.description", { locale }),
-            buttonTitle: Lng.t("categories.empty.buttonTitle", { locale }),
+            description: Lng.t("categories.empty.description", { locale: language }),
+            buttonTitle: Lng.t("categories.empty.buttonTitle", { locale: language }),
             buttonPress: () => navigation.navigate(ROUTES.CATEGORY, { type: CATEGORY_ADD }),
         } : {}
 
-
+        const canLoadMore = lastPage >= page;
+      
         return (
             <View style={styles.container}>
                 <MainLayout
                     headerProps={{
                         leftIcon: "long-arrow-alt-left",
                         leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
-                        title: Lng.t("header.expenseCategory", { locale }),
+                        title: Lng.t("header.expenseCategory", { locale: language }),
                         titleStyle: styles.titleStyle,
                         placement: "center",
                         rightIcon: "plus",
@@ -151,26 +156,33 @@ export class Categories extends React.Component<IProps> {
                     }}
                     onSearch={this.onSearch}
                     bottomDivider
-                    loadingProps={{ is: loading }}
+                    loadingProps={{ is: loading && fresh }}
                 >
 
                     <View style={styles.listViewContainer}>
                         <ListView
-                            items={categoriesFilter.length != 0 ?
-                                categoriesFilter : found ? categoriesList : []
-                            }
+                            items={categoriesList}
+                            loading={loading}
                             refreshing={refreshing}
                             getFreshItems={(onHide) => {
-                                this.getFreshItems(onHide)
+                                this.getItems({
+                                    fresh: true,
+                                    onResult: onHide,
+                                    search
+                                });
+                            }}
+                            getItems={() => {
+                                console.log('getItems')
+                                this.loadMoreItems()
                             }}
                             onPress={this.onSelectCategory}
-                            loading={loading}
-                            isEmpty={found ? categoriesList.length <= 0 : true}
+                            isEmpty={categoriesList.length <= 0}
                             bottomDivider
+                            canLoadMore={canLoadMore}
                             emptyContentProps={{
-                                title: found ?
-                                    Lng.t("categories.empty.title", { locale }) :
-                                    Lng.t("search.noResult", { locale, search }),
+                                title: search ?
+                                    Lng.t("categories.empty.title", { locale: language }) :
+                                    Lng.t("search.noResult", { locale: language, search }),
                                 ...empty
                             }}
                         />

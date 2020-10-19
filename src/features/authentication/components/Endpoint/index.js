@@ -7,7 +7,8 @@ import {
     Text,
     StatusBar,
     ScrollView,
-    Platform
+    Platform,
+    Keyboard
 } from 'react-native';
 import styles from './styles';
 import { Field } from 'redux-form';
@@ -15,7 +16,7 @@ import { InputField, AssetImage, CtGradientButton, CtHeader } from '@/components
 import Lng from '@/lang/i18n';
 import { IMAGES } from '@/assets';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import { alertMe } from '@/constants';
+import { alertMe, isIPhoneX } from '@/constants';
 
 type IProps = {
     label: String,
@@ -36,7 +37,8 @@ export class Endpoint extends Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {
-            isFocus: false
+            isFocus: false,
+            isKeyboardVisible: false
         };
     }
 
@@ -46,11 +48,23 @@ export class Endpoint extends Component<IProps> {
         const { navigation, skipEndpoint } = this.props
 
         skipEndpoint && goBack(MOUNT, navigation, { route: ROUTES.SETTING_LIST })
+
+        this.keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            () => this.setState({ isKeyboardVisible: true })
+        );
+        this.keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => this.setState({ isKeyboardVisible: false })
+        );
     }
 
     componentWillUnmount() {
         const { skipEndpoint } = this.props
         skipEndpoint && goBack(UNMOUNT)
+
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
     }
 
 
@@ -91,6 +105,8 @@ export class Endpoint extends Component<IProps> {
             loading
         } = this.props;
 
+        const { isKeyboardVisible } = this.state;
+
 
         return (
             <View style={styles.container}>
@@ -115,7 +131,13 @@ export class Endpoint extends Component<IProps> {
                     )}
 
                 <ScrollView
-                    style={{ paddingTop: skipEndpoint ? '18%' : '32%' }}
+                    style={{
+                        paddingTop: isKeyboardVisible
+                            && !isIPhoneX() ? '5%'
+                            : skipEndpoint
+                            ? '18%'
+                            : '32%',
+                    }}
                     bounces={false}
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps='handled'

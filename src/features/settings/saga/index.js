@@ -63,6 +63,9 @@ function* getCompanyInformation(payloadData) {
         };
 
         const response = yield call([Request, 'get'], options);
+
+        yield put(setCompanyInformation({ company: response.user.company }));
+
         onResult && onResult(response.user)
 
     } catch (error) {
@@ -124,7 +127,7 @@ function* getAccountInformation(payloadData) {
 
         const response = yield call([Request, 'get'], options);
 
-        yield put(setAccountInformation({ account: response }));
+        yield put(setAccountInformation({ account: response.user }));
 
         onResult && onResult(response)
     } catch (error) {

@@ -22,7 +22,7 @@ export default styles = StyleSheet.create({
     logoContainer: {
         paddingBottom: 40,
         alignItems: 'center',
-        marginTop: -40,
+        marginTop: -35,
     },
     imgLogo: {
         width: width - 150,

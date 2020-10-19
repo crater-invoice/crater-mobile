@@ -525,11 +525,11 @@ export const COMPANY_SETTINGS_TYPE = [
 
 // Endpoint Api URL
 // -----------------------------------------
-export const GET_COMPANY_URL = () => `settings/company`;
-export const EDIT_COMPANY_URL = () => `settings/company`;
+export const GET_COMPANY_URL = () => `me`;
+export const EDIT_COMPANY_URL = () => `me`;
 
-export const GET_ACCOUNT_URL = () => `settings/profile`;
-export const EDIT_ACCOUNT_URL = () => `settings/profile`;
+export const GET_ACCOUNT_URL = () => `me`;
+export const EDIT_ACCOUNT_URL = () => `me`;
 export const EDIT_ACCOUNT_AVATAR_URL = () => `settings/profile/upload-avatar`;
 
 export const GET_PREFERENCES_URL = () => `settings/general`;
@@ -541,7 +541,12 @@ export const EDIT_GENERAL_SETTING_URL = () => `settings/update-setting`;
 export const UPLOAD_LOGO_URL = () => `settings/company/upload-logo`;
 
 // Expense Categories
-export const GET_EXPENSE_CATEGORIES_URL = () => `categories`;
+export const GET_EXPENSE_CATEGORIES_URL = param =>
+    `categories?${queryString.stringify({
+        ...param,
+        orderByField: 'created_at',
+        orderBy: 'desc'
+    })}`;
 export const GET_EDIT_EXPENSE_CATEGORIES_URL = id => `categories/${id}/edit`;
 
 export const CREATE_EXPENSE_CATEGORIES_URL = () => `categories`;
@@ -585,9 +590,9 @@ export const EDIT_CURRENCY_URL = id => `currencies/${id}`;
 export const REMOVE_CURRENCY_URL = id => `currencies/${id}`;
 
 // Custom Fields
-export const GET_CUSTOM_FIELDS_URL = type =>
+export const GET_CUSTOM_FIELDS_URL = param =>
     `custom-fields?${queryString.stringify({
-        type,
+        ...param,
         orderByField: 'created_at',
         orderBy: 'desc'
     })}`;
