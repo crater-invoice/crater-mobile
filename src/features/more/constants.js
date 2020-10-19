@@ -1,5 +1,5 @@
 import queryString from 'query-string';
-import { ROUTES } from "../../navigation/routes";
+import { ROUTES } from '@/navigation';
 
 // Forms
 // -----------------------------------------

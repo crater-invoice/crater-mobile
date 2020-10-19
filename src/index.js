@@ -4,23 +4,24 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { NavigationActions } from 'react-navigation';
 import { store, persistor } from './store';
-import { loadFonts } from './api/global';
 import ApplicationNavigator from "./navigation/containers";
 import { getBootstrap, getAppVersion } from './features/authentication/actions';
 import { AppLoader } from './components';
-import compareVersion from './api/compareVersion';
-import { ROUTES } from './navigation/routes';
-import { env } from './config';
+import { env } from '@/config';
+import { ROUTES } from '@/navigation';
+import { loadFonts } from './constants';
 
 console.disableYellowBox = true;
+console.warn = () => { };
 
-export default class Root extends Component {
+interface IState {
+    fontLoaded: boolean
+}
+
+export default class Root extends Component<{}, IState>{
     constructor(props) {
         super(props);
-
-        this.state = {
-            fontLoaded: false,
-        };
+        this.state = { fontLoaded: false };
     }
 
     componentWillMount() {

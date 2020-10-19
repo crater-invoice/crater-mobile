@@ -1,5 +1,5 @@
+import { hasLength } from '@/constants';
 import { createSelector } from 'reselect'
-import { hasLength } from '../../../api/global';
 import {
     ESTIMATES_STATUS_BG_COLOR,
     ESTIMATES_STATUS_TEXT_COLOR

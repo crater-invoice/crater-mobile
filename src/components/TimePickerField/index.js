@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { colors } from '../../../src/styles/colors';
 import { AnimateModal } from '../AnimateModal';
 import moment from 'moment';
 import { FakeInput } from '../FakeInput';
-import Lng from '../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { CtButton } from '../Button';
-import { TIME_FORMAT, TIME_FORMAT_MERIDIEM, DATE_FORMAT } from '@/api/consts';
+import { TIME_FORMAT, TIME_FORMAT_MERIDIEM } from '@/constants';
+import { colors } from '@/styles';
 import styles from './styles';
 
 export class TimePickerField extends Component {

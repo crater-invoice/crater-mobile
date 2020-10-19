@@ -1,3 +1,4 @@
+import Request from '@/api/request';
 import { call, put, takeEvery } from 'redux-saga/effects';
 
 import {
@@ -19,9 +20,6 @@ import {
     EDIT_SALES_TAX_URL,
     REMOVE_SALES_TAX_URL,
 } from '../../constants';
-
-import Request from '../../../../api/request';
-
 
 function* getTaxTypes({ payload: { onResult } = {} }) {
 

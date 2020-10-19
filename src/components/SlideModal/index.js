@@ -8,7 +8,7 @@ import {
 import styles from './styles';
 import { ListView } from '../ListView';
 import { MainLayout, DefaultLayout } from '../Layouts';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
 
 type IProps = {
     visible: Boolean,

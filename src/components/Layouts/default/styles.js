@@ -1,7 +1,6 @@
+import { definePlatformParam, isIPhoneX } from '@/constants';
 import { StyleSheet } from 'react-native';
-import { colors } from '../../../styles/colors';
-import { fonts } from '../../../styles/fonts';
-import { definePlatformParam, isIPhoneX, headerTitle } from '../../../api/helper';
+import { colors, fonts, headerTitle } from '@/styles';
 
 export const styles = StyleSheet.create({
     page: {

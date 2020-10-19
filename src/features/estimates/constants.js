@@ -1,6 +1,6 @@
 import queryString from 'query-string';
-import Lng from "../../api/lang/i18n";
-import { colors } from "../../styles/colors";
+import Lng from '@/lang/i18n';
+import { colors } from '@/styles';
 
 
 // Estimate Refs

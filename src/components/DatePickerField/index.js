@@ -7,7 +7,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import { FakeInput } from '../FakeInput';
 import { connect } from 'react-redux';
-import { DATE_FORMAT } from '../../api/consts';
+import { DATE_FORMAT } from '@/constants';
 
 type IProps = {
     label: String,

@@ -3,10 +3,8 @@ import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { styles } from './styles';
 import { ListItem, Avatar, CheckBox } from 'react-native-elements';
-import { InfiniteScroll } from '../InfiniteScroll';
 import { Empty } from '../Empty';
-import { fonts } from '../../styles/fonts';
-import { colors } from '../../styles/colors';
+import { colors, fonts } from '@/styles';
 import { CurrencyFormat } from '../CurrencyFormat';
 
 type IProps = {

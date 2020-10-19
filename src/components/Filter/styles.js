@@ -1,7 +1,6 @@
+import { isIPhoneX } from '@/constants';
 import { Platform, StyleSheet } from 'react-native';
-import { colors } from '../../styles/colors';
-import { fonts } from '../../styles/fonts';
-import { isIPhoneX } from '../../api/helper';
+import { colors } from '@/styles';
 
 export default StyleSheet.create({
     listViewContainer: {

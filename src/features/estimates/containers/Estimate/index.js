@@ -6,7 +6,7 @@ import { validate } from './validation';
 import * as EstimatesAction from '../../actions';
 import { ESTIMATE_FORM, ESTIMATE_EDIT } from '../../constants';
 import moment from 'moment';
-import * as CustomersAction from '../../../customers/actions';
+import * as CustomersAction from '@/features/customers/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {

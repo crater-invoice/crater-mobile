@@ -5,15 +5,15 @@ import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
 import { MainLayout, ListView } from '@/components';
-import { ROUTES } from '@/navigation/routes';
-import Lng from '@/api/lang/i18n';
+import { ROUTES } from '@/navigation';
+import Lng from '@/lang/i18n';
 import {
     CUSTOM_FIELDS_FORM,
     CREATE_CUSTOM_FIELD_TYPE,
     EDIT_CUSTOM_FIELD_TYPE
 } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '@/navigation/actions';
-import { hasLength, hasFieldValue, hasValue } from '@/api/global';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import { hasLength, hasFieldValue, hasValue } from '@/constants';
 
 type IProps = {
     navigation: Object,

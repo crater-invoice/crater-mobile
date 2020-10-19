@@ -8,13 +8,12 @@ import {
     InputField,
     AssetImage,
     CtGradientButton,
-    CtHeader,
-    CtButton
-} from '../../../../components'
+    CtHeader
+} from '@/components';
 import { Text } from 'react-native-elements'
-import { IMAGES } from '../../../../config'
-import Lng from '../../../../api/lang/i18n'
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions'
+import { IMAGES } from '@/assets';
+import Lng from '@/lang/i18n';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 
 type IProps = {
     navigation: Object,

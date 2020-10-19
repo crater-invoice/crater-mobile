@@ -1,14 +1,11 @@
 // @flow
 import React from 'react'
-import {
-    EMAIL_REGEX,
-    URL_REGEX,
-    CHARACTER_ONLY_REGEX
-} from './consts';
+import { EMAIL_REGEX, URL_REGEX, CHARACTER_ONLY_REGEX } from './regex';
 
 type IValidationOptions = {
     fieldName?: string,
 };
+
 type ErrorType =
     | 'emailFormat'
     | 'required'

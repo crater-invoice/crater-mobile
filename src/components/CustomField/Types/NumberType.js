@@ -1,7 +1,7 @@
+import { KEYBOARD_TYPE } from '@/constants';
 import React from 'react';
 import { Field } from 'redux-form';
 import { InputField } from '../../InputField';
-import { KEYBOARD_TYPE } from '@/api/global';
 
 export function NumberType({ field, name }) {
     const { label = null, is_required = false, placeholder = null } = field;

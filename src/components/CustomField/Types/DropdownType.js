@@ -1,8 +1,8 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { InputField } from '../../InputField';
 import { SelectPickerField } from '@/components/SelectPickerField';
-import { hasFieldValue } from '@/api/global';
+import { hasFieldValue } from '@/constants';
+
 
 export function DropdownType({ field, name }) {
     const {

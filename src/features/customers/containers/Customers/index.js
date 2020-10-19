@@ -4,11 +4,11 @@ import { Customers } from '../../components/Customers';
 import * as CustomersAction from '../../actions';
 import { reduxForm, getFormValues } from 'redux-form';
 import { CUSTOMER_SEARCH } from '../../constants';
-import { colors } from '../../../../styles/colors';
+import { colors } from '@/styles';
 import { SvgXml } from 'react-native-svg';
-import { CUSTOMERS } from '../../../../assets/svg';
-import { getTitleByLanguage } from '../../../../navigation/actions';
+import { getTitleByLanguage } from '@/utils';
 import { withNavigationFocus } from 'react-navigation';
+import { CUSTOMERS_ICON } from '@/assets';
 
 const mapStateToProps = state => {
     const {
@@ -43,7 +43,7 @@ CustomersContainer.navigationOptions = ({ navigation }) => ({
     tabBarLabel: getTitleByLanguage('tabNavigation.customers'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
         <SvgXml
-            xml={CUSTOMERS}
+            xml={CUSTOMERS_ICON}
             fill={focused ? colors.primary : colors.darkGray}
             width="22"
             height="22"

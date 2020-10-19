@@ -37,7 +37,6 @@ export const Due = ({ reference, parentProps }: IProps) => {
         <View style={styles.content}>
             <InfiniteScroll
                 getItems={getInvoices}
-                hideRefreshControl={isEmpty}
                 getItemsInMount={false}
                 reference={ref => {
                     scrollViewReference = ref;

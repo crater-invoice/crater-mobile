@@ -9,8 +9,9 @@ import { FakeInput } from '../FakeInput';
 import FakeInputStyle from '../FakeInput/styles';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { colors } from '../../styles/colors';
-import { isIosPlatform } from '../../api/helper';
+import { colors } from '@/styles';
+import { isIosPlatform } from '@/constants';
+
 
 type IProps = {
     hint: string,

@@ -9,8 +9,7 @@ import {
     DefaultLayout,
     DatePickerField,
     SelectPickerField,
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
+} from '@/components';
 import {
     REPORT_FORM,
     SALES,
@@ -20,15 +19,14 @@ import {
     REPORT_TYPE_OPTION,
     DATE_RANGE
 } from '../../constants';
-import { DATE_FORMAT, REPORT_DATE_FORMAT } from '../../../../api/consts/core';
-import Lng from '../../../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import moment from 'moment';
 import { Linking } from 'expo';
-import { env } from '../../../../config';
 import QueryString from 'qs';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { headerTitle } from '../../../../api/helper';
-import { store } from '../../../../store';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { headerTitle } from '@/styles';
+import { DATE_FORMAT } from '@/constants';
+import { store } from '@/store';
 
 type IProps = {
     navigation: Object,

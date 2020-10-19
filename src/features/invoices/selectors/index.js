@@ -1,5 +1,5 @@
+import { hasLength } from '@/constants';
 import { createSelector } from 'reselect'
-import { hasLength } from '../../../api/global';
 import { INVOICES_STATUS_BG_COLOR, INVOICES_STATUS_TEXT_COLOR } from '../constants';
 
 const getDueInvoicesState = createSelector(

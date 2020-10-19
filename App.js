@@ -5,6 +5,6 @@
  * @author [crater](https://craterapp.com)
  */
 
-import App from './src/index'
+import App from './src'
 
 export default App

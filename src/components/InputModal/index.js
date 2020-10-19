@@ -5,10 +5,10 @@ import { AnimateModal } from '../AnimateModal';
 import { Field } from 'redux-form';
 import { InputField } from '../InputField';
 import { CtButton } from '../Button';
-import { BUTTON_COLOR } from '../../api/consts';
-import Lng from '../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { Icon } from 'react-native-elements';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
+import { BUTTON_COLOR } from '@/constants';
 
 type Iprops = {
     modalProps: Object,

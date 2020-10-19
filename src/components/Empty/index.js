@@ -3,8 +3,7 @@ import { View, Text } from 'react-native';
 import { AssetImage } from '../AssetImage';
 import { styles } from './styles';
 import { CtButton } from '../Button';
-import { BUTTON_TYPE } from '../../api/consts';
-import { colors } from '../../styles/colors';
+import { BUTTON_TYPE } from '@/constants';
 
 type IProps = {
     title: String,

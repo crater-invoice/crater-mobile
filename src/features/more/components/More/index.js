@@ -3,13 +3,12 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { MainLayout, ListView } from '../../../../components';
+import { MainLayout, ListView } from '@/components';
 import { MORE_MENU } from '../../constants';
-import { colors } from '../../../../styles/colors';
-import Lng from '../../../../api/lang/i18n';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { ROUTES } from '../../../../navigation/routes';
-import { alertMe } from '../../../../api/global';
+import { colors } from '@/styles';
+import Lng from '@/lang/i18n';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { alertMe } from '@/constants';
 
 export class More extends React.Component {
     constructor(props) {

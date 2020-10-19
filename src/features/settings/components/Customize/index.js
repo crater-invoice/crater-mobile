@@ -11,8 +11,7 @@ import {
     ToggleSwitch,
     CtDivider,
     Tabs,
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
+} from '@/components';
 import {
     CUSTOMIZE_FORM,
     CUSTOMIZE_TYPE,
@@ -20,13 +19,13 @@ import {
     CUSTOMIZE_ADDRESSES,
     TERMS_CONDITION_INSERT_FIELDS
 } from '../../constants';
-import Lng from '../../../../api/lang/i18n';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { headerTitle } from '../../../../api/helper';
+import Lng from '@/lang/i18n';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { PaymentModes } from './PaymentModes'
 import { Units } from './Units';
-import { hasObjectLength, MAX_LENGTH } from '../../../../api/global';
 import { CustomizeAddresses } from '../CustomizeAddresses';
+import { headerTitle } from '@/styles';
+import { hasObjectLength, MAX_LENGTH } from '@/constants';
 
 type IProps = {
     navigation: Object,

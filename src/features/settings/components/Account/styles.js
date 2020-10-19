@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../../../styles/colors';
-import { fonts } from '../../../../styles/fonts';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { colors, fonts } from '@/styles';
 
 export default styles = StyleSheet.create({
     container: {

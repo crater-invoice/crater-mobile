@@ -1,5 +1,5 @@
-import { getError } from '@/api/validation';
-import { hasObjectLength } from '@/api/global';
+import { getError } from "@/constants";
+import { hasObjectLength } from '@/constants';
 import {
     CUSTOM_FIELDS as FIELDS,
     DATA_TYPE_OPTION_VALUE as OPTION_VALUE

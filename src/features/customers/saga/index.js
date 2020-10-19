@@ -1,6 +1,5 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
-
-import Request from '../../../api/request';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import Request from '@/api/request';
 import {
     GET_CUSTOMERS,
     GET_COUNTRIES,
@@ -25,9 +24,9 @@ import {
     setEditCustomer,
     setRemoveCustomer
 } from '../actions';
-import { ROUTES } from '../../../navigation/routes';
-import { alertMe } from '../../../api/global';
-import { getTitleByLanguage } from '../../../navigation/actions';
+import { ROUTES } from '@/navigation';
+import { alertMe } from '@/constants';
+import { getTitleByLanguage } from '@/utils';
 
 const addressParams = (address, type) => {
     let params = {

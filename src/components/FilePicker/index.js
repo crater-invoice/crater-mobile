@@ -13,12 +13,12 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { styles } from './styles';
 import { AssetImage } from '../AssetImage';
-import { colors } from '../../styles/colors';
-import { isIosPlatform } from '../../api/helper';
-import Lng from '../../api/lang/i18n';
+import { colors } from '@/styles';
+import Lng from '@/lang/i18n';
 import { Content } from '../Content';
-import { alertMe } from '../../api/global';
+import { alertMe } from '@/constants';
 import Dropdown from '../Dropdown';
+import { isIosPlatform } from '@/constants';
 
 type IProps = {
     label: String,

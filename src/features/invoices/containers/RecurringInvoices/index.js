@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as InvoicesAction from '../../actions';
 import { RECURRING_INVOICES_FORM } from '../../constants';
-import { getCustomers } from '../../../customers/actions';
 import { RecurringInvoices } from '../../components/RecurringInvoices';
+import { getCustomers } from '@/features/customers/actions';
 import {
     getDueInvoicesState,
     getDraftInvoicesState,

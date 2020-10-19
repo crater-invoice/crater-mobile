@@ -1,5 +1,5 @@
+import { hasLength } from '@/constants';
 import { createSelector } from 'reselect'
-import { hasLength } from '../../../api/global';
 
 const formatExpenseItems = (expenses, currency) => expenses.map((expense) => {
     const {
@@ -34,10 +34,11 @@ const getFilterExpensesState = createSelector(
 
 const getCategoriesState = createSelector(
     categories => categories,
-    categories => !hasLength(categories) ? [] : categories.map((category) => ({
-        label: category.name,
-        value: category.id
-    }))
+    categories => []
+    // categories => !hasLength(categories) ? [] : categories.map((category) => ({
+    //     label: category.name,
+    //     value: category.id
+    // }))
 );
 
 export {

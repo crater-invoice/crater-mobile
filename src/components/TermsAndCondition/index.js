@@ -5,12 +5,11 @@ import { View, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
 import { CtButton } from '../Button';
-import { BUTTON_TYPE } from '../../api/consts';
 import { AnimateModal } from '../AnimateModal';
-import { isIPhoneX } from '../../api/helper';
 import { CustomizeAddresses } from '../../features/settings/components/CustomizeAddresses';
 import { CUSTOMIZE_ADDRESSES_ACTION } from '../../features/settings/constants';
-import Lng from '../../api/lang/i18n';
+import Lng from '@/lang/i18n';
+import { BUTTON_TYPE, isIPhoneX } from '@/constants';
 
 type IProps = {
     type: String,

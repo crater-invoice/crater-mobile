@@ -7,12 +7,12 @@ import { omit } from 'lodash';
 import styles from './styles';
 import { All, Draft, Due } from '../Tab';
 import { invoicesFilterFields as FilterFields } from './filterFields';
-import { goBack, MOUNT } from '@/navigation/actions';
-import Lng from '@/api/lang/i18n';
-import { ROUTES } from '@/navigation/routes';
+import { goBack, MOUNT } from '@/navigation';
+import Lng from '@/lang/i18n';
+import { ROUTES } from '@/navigation';
 import { MainLayout, Tabs } from '@/components';
-import { hasObjectLength } from '@/api/global';
-import { IMAGES } from '@/config';
+import { IMAGES } from '@/assets';
+import { hasObjectLength } from '@/constants';
 import {
     getFilterStatusType,
     INVOICES_TABS,

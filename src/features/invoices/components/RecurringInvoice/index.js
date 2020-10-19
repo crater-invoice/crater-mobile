@@ -17,8 +17,7 @@ import {
     TermsAndCondition,
     SendMail,
     SelectPickerField
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
+} from '@/components';
 import {
     RECURRING_ADD,
     RECURRING_EDIT,
@@ -29,15 +28,14 @@ import {
     EDIT_INVOICE_ACTIONS,
     setInvoiceRefs
 } from '../../constants';
-import { BUTTON_TYPE } from '../../../../api/consts/core';
-import { colors } from '../../../../styles/colors';
+import { colors } from '@/styles';
 import { TemplateField } from '../TemplateField';
-import { MOUNT, UNMOUNT, goBack } from '../../../../navigation/actions';
-import Lng from '../../../../api/lang/i18n';
-import { CUSTOMER_ADD } from '../../../customers/constants';
-import { IMAGES } from '../../../../config';
-import { PAYMENT_ADD } from '../../../payments/constants';
-import { MAX_LENGTH, alertMe, KEYBOARD_TYPE } from '../../../../api/global';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import Lng from '@/lang/i18n';
+import { IMAGES } from '@/assets';
+import { CUSTOMER_ADD } from '@/features/customers/constants';
+import { PAYMENT_ADD } from '@/features/payments/constants';
+import { alertMe, KEYBOARD_TYPE, MAX_LENGTH } from '@/constants';
 import {
     invoiceSubTotal,
     invoiceTax,
@@ -54,6 +52,7 @@ import {
     CUSTOM_REPEAT_RECURRING_OPTION,
     REPEAT_RECURRING_INVOICE_OPTION_VALUE as REPEAT_SELECT_VALUE,
 } from '../../constants'
+
 
 type IProps = {
     navigation: Object,

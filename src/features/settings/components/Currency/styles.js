@@ -1,6 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
-import { colors } from '../../../../styles/colors';
-import { fonts } from '../../../../styles/fonts';
+import { colors, fonts } from '@/styles';
 
 export default styles = StyleSheet.create({
     container: {
@@ -39,7 +38,7 @@ export default styles = StyleSheet.create({
         fontFamily: fonts.poppins,
         fontSize: 16,
     },
-    // Row Column 
+    // Row Column
     row: {
         flexDirection: 'row',
     },

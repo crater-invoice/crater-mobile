@@ -4,11 +4,11 @@ import React from 'react';
 import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
-import { Tabs, MainLayout } from '../../../../components';
+import { Tabs, MainLayout } from '@/components';
 import Due from '../Tab/Due';
 import Draft from '../Tab/Draft';
 import All from '../Tab/All';
-import { ROUTES } from '../../../../navigation/routes';
+import { goBack, MOUNT, ROUTES } from '@/navigation';
 import {
     INVOICES_TABS,
     RECURRING_ADD,
@@ -16,8 +16,7 @@ import {
     RECURRING_INVOICES_FORM,
     TAB_NAME,
 } from '../../constants';
-import Lng from '../../../../api/lang/i18n';
-import { goBack, MOUNT } from '../../../../navigation/actions';
+import Lng from '@/lang/i18n';
 import {invoicesFilterFields as filterFields } from '../Invoices/filterFields';
 
 let params = {

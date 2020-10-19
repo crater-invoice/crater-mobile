@@ -5,10 +5,9 @@ import styles from './styles';
 import { AssetImage } from '../AssetImage';
 import { CtGradientButton } from '../Button';
 import { Text } from 'react-native-elements';
-import { IMAGES } from '../../config';
-import Lng from '../../api/lang/i18n';
-import { goBack, MOUNT, UNMOUNT } from '../../navigation/actions';
-import { ROUTES } from '../../navigation/routes';
+import { IMAGES } from '@/assets';
+import Lng from '@/lang/i18n';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 
 export class UpdateAppVersion extends Component {
 

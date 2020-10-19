@@ -11,12 +11,11 @@ import {
 } from 'react-native';
 import styles from './styles';
 import { Field } from 'redux-form';
-import { InputField, CtButton, AssetImage, CtGradientButton, CtHeader } from '../../../../components';
-import Lng from '../../../../api/lang/i18n';
-import { ROUTES } from '../../../../navigation/routes';
-import { IMAGES } from '../../../../config';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { alertMe } from '../../../../api/global';
+import { InputField, AssetImage, CtGradientButton, CtHeader } from '@/components';
+import Lng from '@/lang/i18n';
+import { IMAGES } from '@/assets';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { alertMe } from '@/constants';
 
 type IProps = {
     label: String,

@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { fonts } from '../../styles/fonts';
-import { colors } from '../../styles/colors';
+import { colors, fonts } from '@/styles';
 
 export const styles = StyleSheet.create({
     leftTitle: {

@@ -24,9 +24,9 @@ import {
     REMOVE_ITEM_URL,
     GET_MAIL_CONFIGURATION_URL
 } from '../constants';
-import Request from '../../../api/request';
 import { resetIdToken } from '../../authentication/actions';
-import { ROUTES } from '../../../navigation/routes';
+import { ROUTES } from '@/navigation';
+import Request from '@/api/request';
 
 /**
  * app logout action.

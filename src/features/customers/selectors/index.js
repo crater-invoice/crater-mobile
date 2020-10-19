@@ -1,5 +1,6 @@
+import { formatCurrencies, formatCountries } from '@/utils';
 import { createSelector } from 'reselect'
-import { formatCurrencies, formatCountries } from '../../../api/global';
+
 
 const getStateCountries = createSelector(
     countries => countries,

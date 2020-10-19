@@ -4,7 +4,7 @@ import { reduxForm, getFormValues } from 'redux-form';
 import * as ItemsAction from '../../actions'
 import { Items } from '../../components/Items';
 import { ITEM_SEARCH } from '../../constants';
-import { getItemUnits } from '../../../settings/actions';
+import { getItemUnits } from '@/features/settings/actions';
 
 
 const mapStateToProps = (state) => {

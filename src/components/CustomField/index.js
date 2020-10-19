@@ -4,14 +4,13 @@ import { reduxForm, FieldArray, change, SubmissionError } from 'redux-form';
 import lodash from 'lodash';
 import { FakeInput } from '../FakeInput';
 import styles from './styles';
-import { ICONS } from '@/config';
-import Lng from '@/api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { SlideModal } from '../SlideModal';
+import { ICONS } from '@/assets';
 import { CtButton } from '../Button';
-import { hasFieldValue, hasValue, hasObjectLength } from '@/api/global';
 import { CUSTOM_FIELD_DATA_TYPES as DATA_TYPES } from '@/features/settings/constants';
 import { validate } from './validation';
-import { getError } from '@/api/validation';
+import { getError, hasFieldValue, hasObjectLength, hasValue } from '@/constants';
 import {
     InputType,
     SwitchType,

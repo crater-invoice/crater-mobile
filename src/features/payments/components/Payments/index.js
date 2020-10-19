@@ -3,12 +3,11 @@ import React from 'react';
 import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
-import { MainLayout, ListView } from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
-import { IMAGES } from '../../../../config';
-import Lng from '../../../../api/lang/i18n';
+import { MainLayout, ListView } from '@/components';
+import { IMAGES } from '@/assets';
+import Lng from '@/lang/i18n';
 import { PAYMENT_ADD, PAYMENT_EDIT, PAYMENT_SEARCH } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import paymentsFilterFields from './filterFields'
 
 let params = {

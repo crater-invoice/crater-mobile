@@ -2,12 +2,11 @@ import { createBottomTabNavigator } from "react-navigation";
 import InvoicesContainer from '../../features/invoices/containers/Invoices';
 import CustomersContainer from '../../features/customers/containers/Customers';
 import { ROUTES } from "../routes";
-import { isIPhoneX } from "../../api/helper";
-import { fonts } from "../../styles/fonts";
-import { colors } from "../../styles/colors";
+import { colors, fonts } from '@/styles';
 import MoreContainer from "../../features/more/containers/More";
 import ExpensesContainer from "../../features/expenses/containers/Expenses";
 import PaymentsContainer from "../../features/payments/containers/Payments";
+import { isIPhoneX } from "@/constants";
 
 export default createBottomTabNavigator(
     {

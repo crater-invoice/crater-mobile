@@ -11,19 +11,13 @@ import {
 } from 'react-native';
 import { Field } from 'redux-form';
 import styles from './styles';
-import {
-    InputField,
-    CtButton,
-    AssetImage,
-    CtDivider,
-    CtGradientButton
-} from '../../../../components';
+import { InputField, AssetImage, CtGradientButton } from '@/components';
 // import * as Google from 'expo-google-app-auth';
 import Constants from 'expo-constants';
-import { env, IMAGES } from '@/config';
 import { colors } from '@/styles/colors';
-import { ROUTES } from '@/navigation/routes';
-import Lng from '@/api/lang/i18n';
+import { ROUTES } from '@/navigation';
+import Lng from '@/lang/i18n';
+import { IMAGES } from '@/assets';
 
 type IProps = {
     navigation: Object,

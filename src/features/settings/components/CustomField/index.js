@@ -9,10 +9,9 @@ import {
     hasLength,
     hasFieldValue,
     hasValue
-} from '@/api/global';
-import Lng from '@/api/lang/i18n';
-import { goBack, MOUNT, UNMOUNT } from '@/navigation/actions';
-import { BUTTON_COLOR } from '@/api/consts';
+} from '@/constants';
+import Lng from '@/lang/i18n';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import {
     InputField,
     CtButton,
@@ -43,6 +42,7 @@ import {
     CUSTOM_FIELD_DATA_TYPE_LIST as DATA_TYPES
 } from '../../constants';
 import styles from './styles';
+import { BUTTON_COLOR } from '@/constants';
 
 type IProps = {
     navigation: Object,

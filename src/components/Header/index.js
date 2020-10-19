@@ -5,7 +5,7 @@ import { View, TouchableOpacity, Alert } from 'react-native';
 import { Header, Text } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
 import { Filter } from '../Filter';
 
 type IProps = {

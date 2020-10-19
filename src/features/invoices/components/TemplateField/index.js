@@ -6,11 +6,10 @@ import {
     View
 } from 'react-native';
 import styles from './styles';
-import { SlideModal, FakeInput, AssetImage, CtButton } from '../../../../components';
+import { SlideModal, FakeInput, AssetImage, CtButton } from '@/components';
 import { Icon } from 'react-native-elements';
-import { colors } from '../../../../styles/colors';
-import Lng from '../../../../api/lang/i18n';
-import { headerTitle } from '../../../../api/helper';
+import { colors, headerTitle } from '@/styles';
+import Lng from '@/lang/i18n';
 
 type IProps = {
     label: String,

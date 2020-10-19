@@ -15,8 +15,7 @@ import {
     FakeInput,
     ToggleSwitch,
     TermsAndCondition
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
+} from '@/components';
 import {
     ESTIMATE_ADD,
     ESTIMATE_EDIT,
@@ -28,16 +27,14 @@ import {
     MARK_AS_ACCEPT, MARK_AS_REJECT, MARK_AS_SENT,
     setEstimateRefs
 } from '../../constants';
-import { BUTTON_TYPE } from '../../../../api/consts/core';
-import { colors } from '../../../../styles/colors';
+
+import { colors, headerTitle } from '@/styles';
 import { TemplateField } from '../TemplateField';
-import { MOUNT, UNMOUNT, goBack } from '../../../../navigation/actions';
-import Lng from '../../../../api/lang/i18n';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import Lng from '@/lang/i18n';
 import { CUSTOMER_ADD } from '../../../customers/constants';
-import { IMAGES } from '../../../../config';
-import { MAX_LENGTH, alertMe } from '../../../../api/global';
-import { itemsDescriptionStyle } from '../../../invoices/components/Invoice/styles';
-import { headerTitle } from '../../../../api/helper';
+import { IMAGES } from '@/assets';
+import { itemsDescriptionStyle } from '@/features/invoices/components/Invoice/styles';
 import {
     estimateSubTotal,
     estimateTax,
@@ -48,6 +45,8 @@ import {
     getItemList,
 } from '../EstimateCalculation';
 import FinalAmount from '../FinalAmount';
+import { alertMe, BUTTON_TYPE, MAX_LENGTH } from '@/constants';
+
 
 type IProps = {
     navigation: Object,

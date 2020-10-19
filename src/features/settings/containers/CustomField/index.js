@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, getFormValues, clearFields } from 'redux-form';
+import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as CustomFieldAction from '../../actions';
 import {
@@ -10,7 +10,6 @@ import {
     CUSTOM_FIELD_MODAL_TYPES as MODAL_TYPES,
     CUSTOM_FIELD_DATA_TYPE_LIST as DATA_TYPES
 } from '../../constants';
-import { hasValue } from '../../../../api/global';
 import { CustomField } from '../../components/CustomField';
 
 const mapStateToProps = (state, { navigation }) => {

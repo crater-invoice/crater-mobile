@@ -18,9 +18,9 @@ import {
     REMOVE_PAYMENT_MODE_URL,
 } from '../../constants';
 
-import Request from '../../../../api/request';
-import { hasValue, alertMe } from '../../../../api/global';
-import { getTitleByLanguage } from '../../../../navigation/actions';
+import { getTitleByLanguage } from '@/utils';
+import Request from '@/api/request';
+import { alertMe, hasValue } from '@/constants';
 
 
 const alreadyInUse = (error) => {

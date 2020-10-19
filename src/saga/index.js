@@ -9,9 +9,9 @@ import expenses from '../features/expenses/saga';
 import payments from '../features/payments/saga';
 import settings from '../features/settings/saga';
 import more from '../features/more/saga';
-import { ROUTES } from '../navigation/routes';
 import { store } from '../store';
 import moment from 'moment';
+import { ROUTES } from '@/navigation';
 
 export default function* rootSaga() {
     yield takeEvery(REHYDRATE, function* boot() {

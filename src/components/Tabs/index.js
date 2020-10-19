@@ -1,8 +1,8 @@
+import { getConditionStyles } from '@/constants';
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Text, ScrollView } from 'react-native';
-
 import { styles } from './styles';
-import { getConditionStyles } from '../../api/helper';
+
 
 type IProps = {
     activeTab: boolean,

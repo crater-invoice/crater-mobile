@@ -7,8 +7,8 @@ import { Input } from 'react-native-elements';
 import styles from './styles';
 import { IInputField } from './type';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { colors } from '../../styles/colors';
-import Lng from '../../api/lang/i18n';
+import { colors } from '@/styles';
+import Lng from '@/lang/i18n';
 
 export class InputFieldComponent extends Component<IInputField> {
     constructor(props) {

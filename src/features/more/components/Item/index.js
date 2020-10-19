@@ -13,19 +13,15 @@ import {
     SelectPickerField,
     CurrencyFormat
 } from '@/components';
-import { ROUTES } from '@/navigation/routes';
+import { ROUTES } from '@/navigation';
 import { ITEM_FORM, EDIT_ITEM, ADD_ITEM, ITEM_UNITS } from '../../constants';
-import { BUTTON_COLOR } from '@/api/consts';
 import { colors } from '@/styles/colors';
-import Lng from '@/api/lang/i18n';
-import { goBack, UNMOUNT, MOUNT } from '@/navigation/actions';
-import { ADD_TAX } from '../../../settings/constants';
-import {
-    MAX_LENGTH,
-    alertMe,
-    formatSelectPickerName,
-    hasValue
-} from '@/api/global';
+import Lng from '@/lang/i18n';
+import { goBack, UNMOUNT, MOUNT } from '@/navigation';
+import { BUTTON_COLOR } from '@/constants';
+import { formatSelectPickerName } from '@/utils';
+import { alertMe, hasValue, MAX_LENGTH } from '@/constants';
+import { ADD_TAX } from '@/features/settings/constants';
 
 export class Item extends React.Component {
     constructor(props) {

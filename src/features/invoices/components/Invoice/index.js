@@ -16,8 +16,7 @@ import {
     ToggleSwitch,
     TermsAndCondition,
     SendMail
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
+} from '@/components';
 import {
     INVOICE_ADD,
     INVOICE_EDIT,
@@ -28,15 +27,15 @@ import {
     EDIT_INVOICE_ACTIONS,
     setInvoiceRefs
 } from '../../constants';
-import { BUTTON_TYPE } from '../../../../api/consts/core';
-import { colors } from '../../../../styles/colors';
+import { colors } from '@/styles';
 import { TemplateField } from '../TemplateField';
-import { MOUNT, UNMOUNT, goBack } from '../../../../navigation/actions';
-import Lng from '../../../../api/lang/i18n';
-import { CUSTOMER_ADD } from '../../../customers/constants';
-import { IMAGES } from '../../../../config';
-import { PAYMENT_ADD } from '../../../payments/constants';
-import { MAX_LENGTH, alertMe } from '../../../../api/global';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import Lng from '@/lang/i18n';
+import { IMAGES } from '@/assets';
+import FinalAmount from '../FinalAmount';
+import { alertMe, BUTTON_TYPE, MAX_LENGTH } from '@/constants';
+import { CUSTOMER_ADD } from '@/features/customers/constants';
+import { PAYMENT_ADD } from '@/features/payments/constants';
 import {
     invoiceSubTotal,
     invoiceTax,
@@ -47,7 +46,6 @@ import {
     getItemList,
     finalAmount,
 } from '../InvoiceCalculation';
-import FinalAmount from '../FinalAmount';
 
 type IProps = {
     navigation: Object,

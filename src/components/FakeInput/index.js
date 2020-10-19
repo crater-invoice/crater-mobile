@@ -11,9 +11,9 @@ import { connect } from 'react-redux';
 import { Field } from 'redux-form';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
 import { Content } from '../Content';
-import Lng from '../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { InputField } from '../InputField';
 
 type IProps = {

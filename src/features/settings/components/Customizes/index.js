@@ -3,12 +3,11 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { ListView, DefaultLayout } from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
-import { colors } from '../../../../styles/colors';
-import Lng from '../../../../api/lang/i18n';
+import { ListView, DefaultLayout } from '@/components';
+import { colors } from '@/styles';
+import Lng from '@/lang/i18n';
 import { CUSTOMIZES_MENU } from '../../constants';
-import { MOUNT, goBack, UNMOUNT } from '../../../../navigation/actions';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 
 export class Customizes extends React.Component {
     constructor(props) {

@@ -5,11 +5,10 @@ import styles from './styles';
 import { AssetImage } from '../AssetImage';
 import { CtGradientButton } from '../Button';
 import { Text } from 'react-native-elements';
-import { IMAGES } from '../../config';
-import Lng from '../../api/lang/i18n';
-import { goBack, MOUNT, UNMOUNT } from '../../navigation/actions';
-import { checkConnection } from '../../api/helper';
-import { ROUTES } from '../../navigation/routes';
+import Lng from '@/lang/i18n';
+import { checkConnection } from '@/constants';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { IMAGES } from '@/assets';
 
 export class LostConnection extends Component {
 

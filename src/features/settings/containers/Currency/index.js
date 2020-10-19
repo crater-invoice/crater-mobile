@@ -5,7 +5,6 @@ import { validate } from './validation';
 import * as CurrencyAction from '../../actions';
 import { CREATE_CURRENCY_TYPE, CURRENCY_FORM } from '../../constants';
 import { Currency } from '../../components/Currency';
-import { hasValue } from '../../../../api/global';
 
 const mapStateToProps = (state, { navigation }) => {
 

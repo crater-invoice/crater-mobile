@@ -1,7 +1,7 @@
 import { StyleSheet, Platform } from 'react-native';
 
 import styles from '../FakeInput/styles';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
 
 export default StyleSheet.create({
     fakeInput: {

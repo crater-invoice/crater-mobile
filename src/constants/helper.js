@@ -2,9 +2,8 @@ import React, { Fragment } from 'react';
 import { Platform, findNodeHandle, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 import NetInfo from "@react-native-community/netinfo";
-import { Text } from 'react-native-elements';
 import moment from 'moment';
-import { fonts } from '../styles/fonts';
+import { fonts } from '@/styles';
 
 const model = Constants.deviceName.toLowerCase();
 
@@ -108,13 +107,4 @@ export const checkExpiredToken = (expiresIn) => {
         return !moment().isBefore(moment(expiresIn))
     }
     return true
-}
-
-export const headerTitle = ({ marginLeft = -7, marginRight = -12 }) => {
-    return {
-        marginLeft: isIPhoneX() ? 0 : marginLeft,
-        marginRight: isIPhoneX() ? 0 : marginRight,
-        textAlign: "center",
-        fontFamily: fonts.poppins,
-    }
 }

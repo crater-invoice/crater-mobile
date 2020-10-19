@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { reduxForm, Field, change } from 'redux-form';
+import moment from 'moment';
 import { DatePickerField } from '../DatePickerField';
 import { TimePickerField } from '../TimePickerField';
+import { DATE_FORMAT } from '@/constants';
+import Lng from '@/lang/i18n';
 import styles from './styles';
-import moment from 'moment';
-import { DATE_FORMAT } from '@/api/consts';
-import Lng from '@/api/lang/i18n';
+
 
 const DATE_TIME_PICKER_FORM = 'DATE_TIME_PICKER_FORM';
 

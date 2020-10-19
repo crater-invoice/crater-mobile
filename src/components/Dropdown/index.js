@@ -3,7 +3,7 @@ import { TouchableOpacity, View, StatusBar } from 'react-native';
 import ActionSheet from 'react-native-actionsheet'
 import { styles } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
 
 type IProps = {
     options: Array,

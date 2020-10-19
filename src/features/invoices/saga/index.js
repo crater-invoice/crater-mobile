@@ -1,5 +1,5 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
-import Request from "../../../api/request";
+import Request from "@/api/request";
 import {
     GET_INVOICES,
     GET_CREATE_INVOICE,
@@ -34,12 +34,11 @@ import {
     setInvoice,
     removeFromInvoices
 } from "../actions";
-import { store } from "../../../store";
-import { ROUTES } from "../../../navigation/routes";
-import { alertMe, hasValue } from "../../../api/global";
-import { getTitleByLanguage } from "../../../navigation/actions";
-
+import { ROUTES } from '@/navigation';
+import { alertMe, hasValue } from '@/constants';
 import recurring from "./recurringInvoice";
+import { store } from "@/store";
+import { getTitleByLanguage } from "@/utils";
 
 const alreadyInUse = error => {
     if (error.includes("errors") && error.includes("invoice_number")) {

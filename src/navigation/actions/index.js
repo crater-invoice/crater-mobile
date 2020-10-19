@@ -3,8 +3,8 @@ import { BackHandler } from 'react-native';
 import { NavigationActions, createStackNavigator, StackActions } from "react-navigation";
 import { ROUTES } from "../routes";
 import { store } from '../../store';
-import Lng from '../../api/lang/i18n';
-import { alertMe } from '../../api/global';
+import Lng from '@/lang/i18n';
+import { alertMe } from '@/constants';
 
 
 export const navigateBack = () => NavigationActions.back();
@@ -111,16 +111,4 @@ export const navigateRoute = (routeName, params = {}) => {
             params
         }),
     );
-}
-
-// Get Value with translated
-// -----------------------------------------
-export const getTitleByLanguage = (label, field = null) => {
-    const reduxStore = store.getState();
-    const { locale = 'en' } = reduxStore.global
-
-    if (field) {
-        return Lng.t(label, { locale, field })
-    }
-    return Lng.t(label, { locale, })
 }

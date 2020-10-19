@@ -23,20 +23,19 @@ import {
     alertMe,
     hasObjectLength,
     hasValue,
-    isBooleanTrue,
     hasLength,
     KEYBOARD_TYPE,
     hasFieldValue
-} from '@/api/global';
-import { goBack, MOUNT, UNMOUNT } from '@/navigation/actions';
-import Lng from '@/api/lang/i18n';
+} from '@/constants';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import Lng from '@/lang/i18n';
 import { colors } from '@/styles/colors';
 import { SymbolStyle } from '@/components/CurrencyFormat/styles';
-import { headerTitle } from '@/api/helper';
 import {
     CUSTOM_FIELD_TYPES,
     CUSTOM_FIELD_DATA_TYPES
 } from '@/features/settings/constants';
+import { headerTitle } from '@/styles';
 
 const customerField = [
     'name',

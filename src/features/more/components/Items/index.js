@@ -5,13 +5,14 @@ import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
 import { MainLayout, ListView } from '@/components';
-import { ROUTES } from '@/navigation/routes';
-import { IMAGES } from '@/config';
-import Lng from '@/api/lang/i18n';
+import { ROUTES } from '@/navigation';
+import { IMAGES } from '@/assets';
+import Lng from '@/lang/i18n';
 import { ADD_ITEM, EDIT_ITEM, ITEM_SEARCH } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '@/navigation/actions';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { itemsDescriptionStyle } from '@/features/invoices/components/Invoice/styles';
-import { formatSelectPickerName } from '@/api/global';
+import { formatSelectPickerName } from '@/utils';
+
 
 type IProps = {
     navigation: Object,

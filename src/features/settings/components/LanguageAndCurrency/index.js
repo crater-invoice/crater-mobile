@@ -7,13 +7,13 @@ import {
     DefaultLayout,
     CtButton,
     SelectField,
-} from '../../../../components';
+} from '@/components';
 import { Field, change } from 'redux-form';
-import Lng from '../../../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { EDIT_LANGUAGE_AND_CURRENCY } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { SymbolStyle } from '../../../../components/CurrencyFormat/styles';
-import { headerTitle } from '../../../../api/helper';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import { headerTitle } from '@/styles';
+import { SymbolStyle } from '@/components/CurrencyFormat/styles';
 
 type IProps = {
     navigation: Object,

@@ -1,5 +1,5 @@
 import React from 'react';
-import Lng from '@/api/lang/i18n';
+import Lng from '@/lang/i18n';
 
 export const customersFilterFields = locale => {
     const filterRefs: any = {};

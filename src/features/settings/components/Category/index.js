@@ -4,17 +4,12 @@ import React from 'react';
 import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
-import {
-    InputField,
-    CtButton,
-    DefaultLayout
-} from '../../../../components';
-import { BUTTON_COLOR } from '../../../../api/consts/core';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import Lng from '../../../../api/lang/i18n';
+import { InputField, CtButton, DefaultLayout } from '@/components';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import Lng from '@/lang/i18n';
 import { CATEGORY_EDIT, CATEGORY_ADD, CATEGORY_FORM } from '../../constants';
-import { ROUTES } from '../../../../navigation/routes';
-import { MAX_LENGTH, alertMe } from '../../../../api/global';
+import { alertMe, BUTTON_COLOR, MAX_LENGTH } from '@/constants';
+
 
 type IProps = {
     navigation: Object,

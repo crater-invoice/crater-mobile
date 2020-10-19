@@ -1,20 +1,21 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import styles from './styles';
+import { View } from 'react-native';
 import { Field, change } from 'redux-form';
+import { CUSTOMER_ADDRESS } from '../../constants';
+import Lng from '@/lang/i18n';
+import { colors } from '@/styles';
+import { MAX_LENGTH } from '@/constants';
 import {
     SlideModal,
     FakeInput,
     InputField,
     CtButton,
     SelectField,
-} from '../../../../components';
-import { CUSTOMER_ADDRESS, CUSTOMER_EDIT } from '../../constants';
-import Lng from '../../../../api/lang/i18n';
-import { colors } from '../../../../styles/colors';
-import { MAX_LENGTH } from '../../../../api/global';
+} from '@/components';
+import styles from './styles';
+
 
 type IProps = {
     label: String,

@@ -1,5 +1,5 @@
+import { SET_SETTINGS } from '@/constants';
 import * as TYPES from '../constants';
-import { SET_SETTINGS } from '@/api/consts';
 
 export const settingsTriggerSpinner = payload => ({
     type: TYPES.SETTINGS_TRIGGER_SPINNER,

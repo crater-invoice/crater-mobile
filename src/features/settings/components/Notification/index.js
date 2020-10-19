@@ -1,20 +1,19 @@
 // @flow
 
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
 import {
     DefaultLayout,
-    CtButton,
     InputField,
     ToggleSwitch,
     CtDivider
-} from '../../../../components';
+} from '@/components';
 import { Field, change } from 'redux-form';
-import Lng from '../../../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { NOTIFICATION } from '../../constants';
-import { colors } from '../../../../styles/colors';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
+import { colors } from '@/styles';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 
 
 type IProps = {

@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { Invoices } from '../../components/Invoices';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as InvoicesAction from '../../actions';
-import { colors } from '../../../../styles/colors';
+import { colors } from '@/styles';
 import { INVOICE_SEARCH } from '../../constants';
 import { SvgXml } from 'react-native-svg';
-import { INVOICES } from '../../../../assets/svg';
+import { INVOICES_ICON } from '@/assets';
 import { getCustomers } from '../../../customers/actions';
-import { getTitleByLanguage } from '../../../../navigation/actions';
+import { getTitleByLanguage } from '@/utils';
 import { withNavigationFocus } from 'react-navigation';
 import {
     getDueInvoicesState,
@@ -59,7 +59,7 @@ InvoicesContainer.navigationOptions = ({ navigation }) => ({
     tabBarLabel: getTitleByLanguage('tabNavigation.invoices'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
         <SvgXml
-            xml={INVOICES}
+            xml={INVOICES_ICON}
             fill={focused ? colors.primary : colors.darkGray}
             width="22"
             height="22"

@@ -3,12 +3,11 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { ListView, MainLayout } from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
-import Lng from '../../../../api/lang/i18n';
+import { ListView, MainLayout } from '@/components';
+import Lng from '@/lang/i18n';
 import { EDIT_TAX, ADD_TAX } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { itemsDescriptionStyle } from '../../../invoices/components/Invoice/styles';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { itemsDescriptionStyle } from '@/features/invoices/components/Invoice/styles';
 
 export class Taxes extends React.Component {
     constructor(props) {

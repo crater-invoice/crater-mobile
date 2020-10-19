@@ -1,4 +1,4 @@
-import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
 
 import {
     settingsTriggerSpinner,
@@ -36,8 +36,7 @@ import {
     EDIT_CUSTOMIZE_SETTINGS_URL,
 } from '../constants';
 
-import Request from '../../../api/request';
-import { ROUTES } from '../../../navigation/routes';
+import { ROUTES } from '@/navigation';
 
 import categories from './categories';
 import taxes from './taxes';
@@ -45,6 +44,7 @@ import modes from './modes';
 import units from './units';
 import currencies from './currencies';
 import customFields from './custom-fields';
+import Request from '@/api/request';
 
 /**
  * Company Information.

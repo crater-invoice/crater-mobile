@@ -18,7 +18,7 @@ import {
     SAVE_ENDPOINT_API,
     GET_APP_VERSION,
     SET_APP_VERSION
-} from '../../../api/consts';
+ } from '@/constants';
 
 export const login = (payload: ILoginPayload) => ({
     type: LOGIN,

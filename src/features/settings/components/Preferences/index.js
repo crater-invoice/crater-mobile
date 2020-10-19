@@ -9,12 +9,12 @@ import {
     SelectField,
     ToggleSwitch,
     CtDivider
-} from '../../../../components';
+} from '@/components';
 import { Field, change } from 'redux-form';
-import Lng from '../../../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { EDIT_PREFERENCES } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { headerTitle } from '../../../../api/helper';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import { headerTitle } from '@/styles';
 
 type IProps = {
     navigation: Object,

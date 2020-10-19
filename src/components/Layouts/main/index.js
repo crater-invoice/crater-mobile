@@ -7,7 +7,7 @@ import { Field } from 'redux-form';
 import { styles } from './styles';
 import { InputField, CtHeader, CtDivider } from '../..';
 import { Content } from '../../Content';
-import Lng from '../../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import Toast from '../../Toast';
 
 type IProps = {

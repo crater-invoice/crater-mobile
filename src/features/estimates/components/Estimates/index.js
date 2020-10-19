@@ -4,14 +4,13 @@ import React from 'react';
 import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
-import { Tabs, MainLayout } from '../../../../components';
+import { Tabs, MainLayout } from '@/components';
 import Sent from '../Tab/Sent';
 import Draft from '../Tab/Draft';
 import All from '../Tab/All';
-import { ROUTES } from '../../../../navigation/routes';
 import { ESTIMATES_TABS, ESTIMATE_ADD, ESTIMATE_EDIT, ESTIMATE_SEARCH, TAB_NAME } from '../../constants';
-import Lng from '../../../../api/lang/i18n';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
+import Lng from '@/lang/i18n';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import estimateFilterFields from './filterFields'
 
 let params = {

@@ -4,17 +4,18 @@ import React from 'react';
 import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
-import { MainLayout, ListView } from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
-import Lng from '../../../../api/lang/i18n';
+import { MainLayout, ListView } from '@/components';
+import Lng from '@/lang/i18n';
 import {
     CURRENCIES_FORM,
     CREATE_CURRENCY_TYPE,
     EDIT_CURRENCY_TYPE
 } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { itemsDescriptionStyle } from '../../../invoices/components/Invoice/styles';
-import { formatListByName, hasValue, hasLength } from '../../../../api/global'
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { formatListByName } from '@/utils';
+import { hasLength, hasValue } from '@/constants';
+import { itemsDescriptionStyle } from '@/features/invoices/components/Invoice/styles';
+
 
 type IProps = {
     navigation: Object,

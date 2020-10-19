@@ -2,15 +2,15 @@
 import React from 'react';
 import { View } from 'react-native';
 import { omit } from 'lodash';
-import Lng from '@/api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { ListView, MainLayout, InfiniteScroll } from '@/components';
-import { IMAGES } from '@/config';
-import { ROUTES } from '@/navigation/routes';
+import { ROUTES } from '@/navigation';
 import { CUSTOMER_ADD, CUSTOMER_EDIT } from '../../constants';
-import { hasObjectLength } from '@/api/global';
-import { goBack, MOUNT, UNMOUNT } from '@/navigation/actions';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import styles from './styles';
 import { customersFilterFields as filterFields } from './filterFields';
+import { IMAGES } from '@/assets';
+import { hasObjectLength } from '@/constants';
 
 type IProps = {
     customers: Object,
@@ -158,7 +158,6 @@ export class Customers extends React.Component<IProps> {
                         <InfiniteScroll
                             getItems={getCustomer}
                             reference={ref => (this.scrollViewReference = ref)}
-                            hideRefreshControl={isEmpty}
                         >
                             <ListView
                                 items={customers}

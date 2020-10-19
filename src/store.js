@@ -24,7 +24,7 @@ const navigationMiddleware = createReactNavigationReduxMiddleware(
 );
 const middleware = [sagaMiddleware, navigationMiddleware];
 
-export const store = createStore(
+export const store:any = createStore(
     persistedReducer,
     applyMiddleware(...middleware)
 );

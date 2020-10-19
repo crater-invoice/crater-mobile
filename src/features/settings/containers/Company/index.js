@@ -5,8 +5,7 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { EDIT_COMPANY } from '../../constants';
 import * as CompanyAction from '../../actions';
 import { validate } from './validation';
-import * as AddressAction from '../../../customers/actions';
-
+import { getCountries } from '@/features/customers/actions';
 
 const mapStateToProps = (state) => {
     const {
@@ -39,7 +38,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     editCompanyInformation: CompanyAction.editCompanyInformation,
     getCompanyInformation: CompanyAction.getCompanyInformation,
-    getCountries: AddressAction.getCountries,
+    getCountries
 };
 
 //  Redux Forms

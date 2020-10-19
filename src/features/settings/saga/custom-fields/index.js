@@ -14,9 +14,9 @@ import {
     REMOVE_CUSTOM_FIELD_URL
 } from '../../constants';
 import Request from '@/api/request';
-import { hasValue, alertMe } from '@/api/global';
-import { getTitleByLanguage } from '@/navigation/actions';
-import { ROUTES } from '@/navigation/routes';
+import { hasValue, alertMe } from '@/constants';
+import { ROUTES } from '@/navigation';
+import { getTitleByLanguage } from '@/utils';
 
 const alreadyInUse = error => {
     if (error.includes('errors') && error.includes('name')) {

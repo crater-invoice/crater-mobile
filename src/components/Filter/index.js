@@ -7,11 +7,11 @@ import { DefaultLayout } from '../Layouts';
 import { InputField } from '../InputField';
 import { SelectField } from '../SelectField';
 import { SelectPickerField } from '../SelectPickerField';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
 import { DatePickerField } from '../DatePickerField';
-import { BUTTON_TYPE } from '../../api/consts';
 import { CtButton } from '../Button';
-import Lng from '../../api/lang/i18n';
+import Lng from '@/lang/i18n';
+import { BUTTON_TYPE } from '@/constants';
 
 type IProps = {
     visible: Boolean,

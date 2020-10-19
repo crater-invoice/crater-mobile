@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import Request from '../../../api/request';
+import Request from '@/api/request';
 import {
     GET_ESTIMATES,
     GET_CREATE_ESTIMATE,
@@ -36,11 +36,10 @@ import {
     setEstimate,
     removeFromEstimates
 } from '../actions';
-import { store } from '../../../store';
 import { setInvoices } from '../../invoices/actions';
-import { ROUTES } from '../../../navigation/routes';
-import { alertMe, hasValue } from '../../../api/global';
-import { getTitleByLanguage } from '../../../navigation/actions';
+import { ROUTES } from '@/navigation';
+import { alertMe, hasValue } from '@/constants';
+import { getTitleByLanguage } from '@/utils';
 
 
 const alreadyInUse = (error) => {

@@ -3,14 +3,12 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { DefaultLayout, CtButton, InputField, ToggleSwitch } from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
-import { BUTTON_COLOR } from '../../../../api/consts/core';
+import { DefaultLayout, CtButton, InputField, ToggleSwitch } from '@/components';
 import { Field } from 'redux-form';
-import Lng from '../../../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { ADD_TAX } from '../../constants';
-import { UNMOUNT, MOUNT, goBack } from '../../../../navigation/actions';
-import { MAX_LENGTH, alertMe } from '../../../../api/global';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { alertMe, BUTTON_COLOR, MAX_LENGTH } from '@/constants';
 
 export class Tax extends React.Component {
     constructor(props) {

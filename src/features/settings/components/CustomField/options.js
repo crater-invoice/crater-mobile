@@ -10,11 +10,8 @@ import {
     CheckBox,
     DateTimePickerField
 } from '@/components';
-import { View, Text } from 'react-native';
-import styles from './styles';
-import { KEYBOARD_TYPE, MAX_LENGTH, hasFieldValue } from '@/api/global';
-import moment from 'moment';
-import Lng from '@/api/lang/i18n';
+import { KEYBOARD_TYPE, MAX_LENGTH, hasFieldValue } from '@/constants';
+import Lng from '@/lang/i18n';
 
 // Custom Field Refs
 // -----------------------------------------

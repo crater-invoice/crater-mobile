@@ -1,3 +1,4 @@
+import { formatTaxTypes } from '@/utils';
 import {
     SET_GLOBAL_BOOTSTRAP,
     SET_SETTINGS,
@@ -6,7 +7,7 @@ import {
     SAVE_ENDPOINT_API,
     SET_APP_VERSION,
     SET_MAIL_CONFIGURATION
-} from '../api/consts';
+} from '@/constants';
 import {
     SET_TAX,
     SET_EDIT_TAX,
@@ -15,7 +16,7 @@ import {
     SET_COMPANY_INFO,
     SET_GLOBAL_CURRENCIES
 } from '../features/settings/constants';
-import { formatTaxTypes } from '../api/global';
+
 
 const initialState = {
     customers: [],

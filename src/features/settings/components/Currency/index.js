@@ -9,12 +9,11 @@ import {
     CtButton,
     DefaultLayout,
     ToggleSwitch
-} from '../../../../components';
-import { BUTTON_COLOR } from '../../../../api/consts/core';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import Lng from '../../../../api/lang/i18n';
+} from '@/components';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import Lng from '@/lang/i18n';
 import { EDIT_CURRENCY_TYPE, CREATE_CURRENCY_TYPE, CURRENCY_FORM } from '../../constants';
-import { alertMe, hasObjectLength } from '../../../../api/global';
+import { alertMe, BUTTON_COLOR, hasObjectLength } from '@/constants';
 
 type IProps = {
     navigation: Object,

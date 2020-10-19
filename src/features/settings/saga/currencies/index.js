@@ -23,10 +23,10 @@ import {
     REMOVE_CURRENCY_URL,
 } from '../../constants';
 
-import Request from '../../../../api/request';
-import { hasValue, alertMe } from '../../../../api/global';
-import { getTitleByLanguage } from '../../../../navigation/actions';
-import { ROUTES } from '../../../../navigation/routes';
+import { getTitleByLanguage } from '@/utils';
+import { ROUTES } from '@/navigation';
+import Request from '@/api/request';
+import { alertMe, hasValue } from '@/constants';
 
 
 const alreadyInUse = (error) => {

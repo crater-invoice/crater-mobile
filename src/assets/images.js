@@ -23,9 +23,3 @@ export const IMAGES = {
     OPEN_ENVELOP: OpenEnvelop,
     DEFAULT_AVATAR: DefaultAvatar
 };
-
-export const ICONS = {
-    LEFT_LONG: 'long-arrow-alt-left',
-    RIGHT: 'angle-right',
-    PAINT: 'palette'
-};

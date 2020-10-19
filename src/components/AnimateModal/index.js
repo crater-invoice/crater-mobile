@@ -4,7 +4,7 @@ import React from 'react';
 import Modal from "react-native-modal";
 import styles from './styles';
 import { StatusBar } from 'react-native';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
 
 type IProps = {
     onToggle: Function,

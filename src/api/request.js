@@ -2,9 +2,9 @@
 import axios from 'axios';
 import { NavigationActions } from 'react-navigation';
 import { store } from '../store';
-import { env } from '../config';
-import { ROUTES } from '../navigation/routes';
-import { checkConnection } from './helper';
+import { env } from '@/config';
+import { ROUTES } from '@/navigation';
+import { checkConnection } from '@/constants';
 
 type IProps = {
     path: string,

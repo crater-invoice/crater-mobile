@@ -9,12 +9,12 @@ import {
     SelectField,
     SelectPickerField,
     CurrencyFormat,
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
-import { colors } from '../../../../styles/colors';
-import Lng from '../../../../api/lang/i18n';
+} from '@/components';
+import { ROUTES } from '@/navigation';
+import { colors } from '@/styles';
+import Lng from '@/lang/i18n';
 import { INVOICE_DISCOUNT_OPTION } from '../../constants';
-import { ADD_TAX } from '../../../settings/constants';
+import { ADD_TAX } from '@/features/settings/constants';
 import {
     invoiceSubTotal,
     getCompoundTaxValue,

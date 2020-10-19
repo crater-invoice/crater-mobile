@@ -1,5 +1,5 @@
-import Lng from '@/api/lang/i18n';
-import { IMAGES } from '@/config';
+import Lng from '@/lang/i18n';
+import { IMAGES } from '@/assets';
 import {
     FILTER_INVOICE_STATUS,
     FILTER_INVOICE_PAID_STATUS

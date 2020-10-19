@@ -21,9 +21,8 @@ import {
     EDIT_EXPENSE_CATEGORIES_URL,
     REMOVE_EXPENSE_CATEGORIES_URL,
 } from '../../constants';
-
-import Request from '../../../../api/request';
-import { ROUTES } from '../../../../navigation/routes';
+import { ROUTES } from '@/navigation';
+import Request from '@/api/request';
 
 
 function* getExpenseCategories(payloadData) {

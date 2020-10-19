@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
-import { hasLength } from '@/api/global';
-import { colors } from '@/styles/colors';
+import { hasLength } from '@/constants';
+import { colors } from '@/styles';
 import moment from 'moment';
 
 const getCustomFieldsState = createSelector(

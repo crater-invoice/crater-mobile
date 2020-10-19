@@ -6,7 +6,7 @@ import { validate } from './validation';
 import * as InvoicesAction from '../../actions';
 import { INVOICE_FORM, INVOICE_EDIT } from '../../constants';
 import moment from 'moment';
-import * as CustomersAction from '../../../customers/actions';
+import { getCustomers } from '@/features/customers/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -70,7 +70,7 @@ const mapDispatchToProps = {
     removeInvoice: InvoicesAction.removeInvoice,
     clearInvoice: InvoicesAction.clearInvoice,
     changeInvoiceStatus: InvoicesAction.changeInvoiceStatus,
-    getCustomers: CustomersAction.getCustomers,
+    getCustomers
 };
 
 //  Redux Forms

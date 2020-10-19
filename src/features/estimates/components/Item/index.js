@@ -14,20 +14,19 @@ import {
     SelectPickerField,
     CurrencyFormat,
     RadioButtonGroup,
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
+} from '@/components';
 import {
     ITEM_DISCOUNT_OPTION,
     ITEM_EDIT,
     ITEM_ADD,
     ITEM_FORM
 } from '../../constants';
-import { BUTTON_COLOR } from '../../../../api/consts/core';
-import { colors } from '../../../../styles/colors';
-import Lng from '../../../../api/lang/i18n';
-import { ADD_TAX } from '../../../settings/constants';
-import { MAX_LENGTH, formatSelectPickerName, alertMe } from '../../../../api/global';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
+import { colors } from '@/styles';
+import Lng from '@/lang/i18n';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { formatSelectPickerName } from '@/utils';
+import { alertMe, BUTTON_COLOR, MAX_LENGTH } from '@/constants';
+import { ADD_TAX } from '@/features/settings/constants';
 
 export class EstimateItem extends React.Component {
     constructor(props) {

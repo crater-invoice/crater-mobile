@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { Field } from 'redux-form';
 import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './styles';
-import { hasFieldValue } from '@/api/global';
 import { InputField } from '../InputField';
 import { CtButton } from '../Button';
+import { hasFieldValue } from '@/constants';
 
 const removeItem = (fields, index, removeFirstItemOnPress) => {
     if (fields?.length === 1 && removeFirstItemOnPress) return;

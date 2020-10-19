@@ -4,7 +4,6 @@ import { Endpoint } from '../../components/Endpoint';
 import { reduxForm } from 'redux-form';
 import { SET_ENDPOINT_API } from '../../constants';
 import * as AuthAction from '../../actions';
-import { env } from '../../../../config';
 import { validate } from './validation';
 
 const mapStateToProps = (state, { navigation }) => {

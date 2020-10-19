@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
-import { ListView, InputModal, CtDivider } from '../../../../components';
-import { formatListByName, alertMe } from '../../../../api/global';
-import Lng from '../../../../api/lang/i18n';
+import { ListView, InputModal } from '@/components';
+import Lng from '@/lang/i18n';
+import { formatListByName } from '@/utils';
+import { alertMe } from '@/constants';
 
 export class Units extends Component {
     constructor(props) {

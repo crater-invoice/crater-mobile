@@ -3,14 +3,14 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import styles from './styles';
-import { DefaultLayout, CtButton, InputField, CtDivider, FilePicker } from '../../../../components';
+import { DefaultLayout, CtButton, InputField, CtDivider, FilePicker } from '@/components';
 import { Field, change } from 'redux-form';
-import Lng from '../../../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { EDIT_ACCOUNT } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { headerTitle } from '../../../../api/helper';
-import { env, IMAGES } from '../../../../config';
-
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import { headerTitle } from '@/styles';
+import { IMAGES } from '@/assets';
+import { env } from '@/config';
 
 let name = 'name'
 let Email = 'email'

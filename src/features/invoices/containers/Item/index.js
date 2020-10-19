@@ -5,7 +5,8 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as InvoicesAction from '../../actions';
 import { ITEM_FORM } from '../../constants';
-import { getItemUnits } from '../../../settings/actions';
+import { getItemUnits } from '@/features/settings/actions';
+
 
 const mapStateToProps = (state, { navigation }) => {
     const {

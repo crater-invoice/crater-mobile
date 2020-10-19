@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { CheckBox } from 'react-native-elements';
 import { styles } from './styles';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
 import { Text } from 'react-native';
 
 type IProps = {

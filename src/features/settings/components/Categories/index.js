@@ -3,14 +3,10 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import {
-    MainLayout,
-    ListView
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
-import Lng from '../../../../api/lang/i18n';
+import { MainLayout, ListView } from '@/components';
+import Lng from '@/lang/i18n';
 import { CATEGORY_ADD, CATEGORY_EDIT } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 
 
 type IProps = {

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
 
 type IProps = {
     size: 'small' | 'large',

@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as ExpensesAction from '../../actions';
 import * as CategoriesAction from '../../../settings/actions';
-import { colors } from '../../../../styles/colors';
+import { colors } from '@/styles';
 import { Expenses } from '../../components/Expenses';
 import { EXPENSE_SEARCH } from '../../constants';
-import { EXPENSES } from '../../../../assets/svg';
+import { EXPENSES_ICON } from '@/assets';
 import { SvgXml } from 'react-native-svg';
-import { getTitleByLanguage } from '../../../../navigation/actions';
+import { getTitleByLanguage } from '@/utils';
 import { withNavigationFocus } from 'react-navigation';
 import {
     getExpensesState,
@@ -58,7 +58,7 @@ ExpensesContainer.navigationOptions = ({ navigation }) => ({
     tabBarLabel: getTitleByLanguage('tabNavigation.expenses'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
         <SvgXml
-            xml={EXPENSES}
+            xml={EXPENSES_ICON}
             fill={focused ? colors.primary : colors.darkGray}
             width="22"
             height="22"

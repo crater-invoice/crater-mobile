@@ -1,17 +1,15 @@
 // @flow
 
 import React, { Component } from 'react';
-import {
-    View,
-} from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
 import { SlideModal, FakeInput } from '..';
 import { change } from 'redux-form';
 import { CtButton } from '../Button';
-import Lng from '../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { connect } from 'react-redux';
 import { IProps } from './type';
-import { headerTitle } from '../../api/helper';
+import { headerTitle } from '@/styles';
 
 export class SelectFieldComponent extends Component<IProps> {
     constructor(props) {
@@ -212,7 +210,7 @@ export class SelectFieldComponent extends Component<IProps> {
             this.setState((prevState) => {
                 return { visible: !prevState.visible }
             });
-            console.log(this.props);
+
             meta.dispatch(change(meta.form, `search-${input?.name}`, ''));
         }
     }

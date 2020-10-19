@@ -4,10 +4,10 @@ import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
-import { CtButton, InputField, AnimateModal } from '../../../../components';
+import { CtButton, InputField, AnimateModal } from '@/components';
 import { CUSTOMIZE_ADDRESSES_ACTION, addressFields, } from '../../constants';
-import Lng from '../../../../api/lang/i18n';
-import { hasValue } from '../../../../api/global';
+import Lng from '@/lang/i18n';
+import { hasValue } from '@/constants';
 
 type IProps = {
     navigation: Object,

@@ -5,7 +5,7 @@ import { validate } from './validation';
 import * as PaymentAction from '../../actions';
 import { PAYMENT_FORM, PAYMENT_ADD } from '../../constants';
 import { Payment } from '../../components/Payment';
-import { getCustomers } from '../../../customers/actions';
+import { getCustomers } from '@/features/customers/actions';
 
 const mapStateToProps = (state, { navigation }) => {
 
@@ -51,7 +51,7 @@ const mapDispatchToProps = {
     editPayment: PaymentAction.editPayment,
     removePayment: PaymentAction.removePayment,
     sendPaymentReceipt: PaymentAction.sendPaymentReceipt,
-    getCustomers: getCustomers,
+    getCustomers,
 };
 
 

@@ -1,4 +1,4 @@
-import Lng from "../../../../api/lang/i18n"
+import Lng from '@/lang/i18n';
 
 let selectedFromDate = ''
 let selectedFromDateValue = ''

@@ -1,5 +1,4 @@
-import { hasFieldValue } from '@/api/global';
-import { getError } from '@/api/validation';
+import { getError, hasFieldValue } from '@/constants';
 import { CUSTOM_FIELD_DATA_TYPES as DATA_TYPES } from '@/features/settings/constants';
 
 export const validate = ({ fields = [] }) => {

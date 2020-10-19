@@ -2,20 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as PaymentsAction from '../../actions';
-import { colors } from '../../../../styles/colors';
+import { colors } from '@/styles';
 import { Payments } from '../../components/Payments';
 import { PAYMENT_SEARCH } from '../../constants';
 import { SvgXml } from 'react-native-svg';
-import { PAYMETNS } from '../../../../assets/svg';
-import { getCustomers } from '../../../customers/actions';
-import { getTitleByLanguage } from '../../../../navigation/actions';
+import { PAYMENTS_ICON } from '@/assets';
+import { getTitleByLanguage } from '@/utils';
 import { withNavigationFocus } from 'react-navigation';
-import { getPaymentModes } from '../../../settings/actions';
 import {
     getPaymentsState,
     getFilterPaymentsState,
     getPaymentMethodsState
 } from '../../selectors';
+import { getCustomers } from '@/features/customers/actions';
+import { getPaymentModes } from '@/features/settings/actions';
 
 const mapStateToProps = state => {
     const {
@@ -67,7 +67,7 @@ PaymentsContainer.navigationOptions = ({ navigation }) => ({
     tabBarLabel: getTitleByLanguage('tabNavigation.payments'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
         <SvgXml
-            xml={PAYMETNS}
+            xml={PAYMENTS_ICON}
             fill={focused ? colors.primary : colors.darkGray}
             width="22"
             height="22"

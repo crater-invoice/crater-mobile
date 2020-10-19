@@ -11,9 +11,9 @@ import {
 import debounce from 'lodash/debounce';
 import { styles } from './styles';
 import { colors } from '@/styles/colors';
-import { hasValue } from '@/api/global';
 import Empty from '../Empty';
 import { Content } from '../Content';
+import { hasValue } from '@/constants';
 
 interface IProps {
     style?: StyleProp<ViewStyle>;
@@ -104,8 +104,8 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
         }
 
         this.isLoading = true;
-        this.allParams = !resetParams ? { ...this.allParams, ...params } : {};
 
+        this.updateParamsValues(resetParams, params);
         this.updateQueryStringValues(resetQueryString, queryString);
 
         const getItemProps = {
@@ -141,10 +141,14 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
         };
     };
 
+    updateParamsValues = (reset, params) => {
+        this.allParams = { ...(!reset && this.allParams), ...params };
+    };
+
     updateQueryStringValues = (reset, queryString) => {
         this.allQueryStrings = !reset
             ? { ...this.allQueryStrings, ...queryString }
-            : { orderByField: 'created_at', orderBy: 'desc' };
+            : { orderByField: 'created_at', orderBy: 'desc', ...queryString };
     };
 
     updateInitialState = ({ next_page_url, current_page }) => {

@@ -1,3 +1,4 @@
+import { SET_MAIL_CONFIGURATION } from "@/constants";
 import {
     MORE_TRIGGER_SPINNER,
     LOGOUT,
@@ -14,8 +15,6 @@ import {
     SET_FILTER_ITEMS,
     GET_MAIL_CONFIGURATION
 } from "../constants";
-import { SET_MAIL_CONFIGURATION } from "../../../api/consts";
-
 
 export const moreTriggerSpinner = (payload) => ({
     type: MORE_TRIGGER_SPINNER,

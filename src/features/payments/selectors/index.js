@@ -1,5 +1,6 @@
+import { hasLength } from '@/constants';
+import { formatSelectPickerName } from '@/utils';
 import { createSelector } from 'reselect'
-import { hasLength, formatSelectPickerName } from '../../../api/global';
 
 const formatPaymentItems = (payments) => payments.map((payment) => {
     const {
