@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import { View } from 'react-native';
-import { omit } from 'lodash';
 import Lng from '@/lang/i18n';
 import { ListView, MainLayout, InfiniteScroll } from '@/components';
 import { ROUTES } from '@/navigation';
@@ -10,7 +9,7 @@ import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import styles from './styles';
 import { customersFilterFields as filterFields } from './filterFields';
 import { IMAGES } from '@/assets';
-import { hasObjectLength } from '@/constants';
+import { isFilterApply } from '@/utils';
 
 type IProps = {
     customers: Object,
@@ -80,30 +79,23 @@ export class Customers extends React.Component<IProps> {
         });
     };
 
-    isFilterApply = () => {
-        const { formValues } = this.props;
-
-        if (!formValues) return false;
-
-        const values = omit(formValues, 'search');
-        return hasObjectLength(values);
-    };
-
     render() {
         const {
             customers,
             navigation,
             locale,
             handleSubmit,
-            getCustomer
+            getCustomer,
+            formValues
         } = this.props;
 
         const { search } = this.state;
         const isEmpty = customers && customers.length <= 0;
+        const isFilter = isFilterApply(formValues);
 
         const emptyTitle = search
             ? 'search.noResult'
-            : this.isFilterApply()
+            : isFilter
             ? 'filter.empty.filterTitle'
             : 'customers.empty.title';
 
@@ -116,7 +108,7 @@ export class Customers extends React.Component<IProps> {
                 })
             }),
             ...(!search &&
-                !this.isFilterApply() && {
+                !isFilter && {
                     buttonTitle: Lng.t('customers.empty.buttonTitle', {
                         locale
                     }),

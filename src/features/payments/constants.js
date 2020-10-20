@@ -48,11 +48,7 @@ export const PAYMENT_ACTIONS = (Lng, locale) => {
 // Endpoint Api URL
 // -----------------------------------------
 
-export const GET_PAYMENTS_URL = (param) => `payments?${queryString.stringify({
-    ...param,
-    orderByField: 'created_at',
-    orderBy: 'desc'
-})}`
+export const GET_PAYMENTS_URL = (param) => `payments?${queryString.stringify(param)}`
 
 export const CREATE_PAYMENT_URL = () => `payments`
 export const EDIT_PAYMENT_URL = (id) => `payments/${id}`

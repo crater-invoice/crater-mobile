@@ -36,10 +36,9 @@ function* getExpenseCategories(payloadData) {
         };
 
         const response = yield call([Request, 'get'], options);
-        yield put(setExpenseCategories({ categories: response.categories }));
+        yield put(setExpenseCategories({ categories: response.categories.data }));
 
     } catch (error) {
-        // console.log(error);
     } finally {
         yield put(settingsTriggerSpinner({ expensesCategoryLoading: false }));
     }

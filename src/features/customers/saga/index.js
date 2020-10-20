@@ -70,7 +70,6 @@ function* getCustomers({ payload }) {
 
         onSuccess?.(response?.customers);
     } catch (error) {
-        console.log({ error });
     } finally {
         yield put(customerTriggerSpinner({ customersLoading: false }));
     }

@@ -7,7 +7,6 @@ import { CUSTOMER_SEARCH } from '../../constants';
 import { colors } from '@/styles';
 import { SvgXml } from 'react-native-svg';
 import { getTitleByLanguage } from '@/utils';
-import { withNavigationFocus } from 'react-navigation';
 import { CUSTOMERS_ICON } from '@/assets';
 
 const mapStateToProps = state => {
@@ -51,4 +50,4 @@ CustomersContainer.navigationOptions = ({ navigation }) => ({
     )
 });
 
-export default withNavigationFocus(CustomersContainer);
+export default CustomersContainer;

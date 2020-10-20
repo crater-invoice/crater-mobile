@@ -85,3 +85,22 @@ export const formatTaxTypes = taxes => {
         };
     });
 };
+
+// Format Categories
+// -----------------------------------------
+export const formatCategories = categories => {
+    if (!isArray(categories)) {
+        return [];
+    }
+
+    return categories.map(category => {
+        const { name, description } = category;
+        return {
+            title: name || '',
+            subtitle: {
+                title: description,
+            },
+            fullItem: category,
+        };
+    });
+};

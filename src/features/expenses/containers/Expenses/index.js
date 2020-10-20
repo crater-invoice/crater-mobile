@@ -9,19 +9,13 @@ import { EXPENSE_SEARCH } from '../../constants';
 import { EXPENSES_ICON } from '@/assets';
 import { SvgXml } from 'react-native-svg';
 import { getTitleByLanguage } from '@/utils';
-import { withNavigationFocus } from 'react-navigation';
-import {
-    getExpensesState,
-    getFilterExpensesState,
-    getCategoriesState
-} from '../../selectors';
+import { getExpensesState, getCategoriesState } from '../../selectors';
 
 const mapStateToProps = state => {
     const {
         global: { locale, currency },
         expenses: {
             expenses,
-            filterExpenses,
             loading: { expensesLoading }
         },
         settings: { categories }
@@ -30,7 +24,6 @@ const mapStateToProps = state => {
     return {
         loading: expensesLoading,
         expenses: getExpensesState(expenses, currency),
-        filterExpenses: getFilterExpensesState(filterExpenses, currency),
         locale,
         currency,
         categories: getCategoriesState(categories),
@@ -66,4 +59,4 @@ ExpensesContainer.navigationOptions = ({ navigation }) => ({
     )
 });
 
-export default withNavigationFocus(ExpensesContainer);
+export default ExpensesContainer;

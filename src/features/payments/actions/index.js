@@ -1,4 +1,3 @@
-
 import {
     GET_PAYMENTS,
     SET_PAYMENTS,
@@ -10,63 +9,55 @@ import {
     EDIT_PAYMENT,
     SET_FILTER_PAYMENTS,
     REMOVE_PAYMENT,
-    SEND_PAYMENT_RECEIPT,
-} from "../constants";
-
+    SEND_PAYMENT_RECEIPT
+} from '../constants';
 
 export const getPayments = (payload = {}) => ({
     type: GET_PAYMENTS,
-    payload,
+    payload
 });
 
 export const setPayments = (payload = {}) => ({
     type: SET_PAYMENTS,
-    payload,
-});
-
-export const setFilterPayments = (payload = {}) => ({
-    type: SET_FILTER_PAYMENTS,
-    payload,
+    payload
 });
 
 export const getCreatePayment = (payload = {}) => ({
     type: GET_CREATE_PAYMENT,
-    payload,
+    payload
 });
 
 export const createPayment = (payload = {}) => ({
     type: CREATE_PAYMENT,
-    payload,
+    payload
 });
-
 
 export const getUnpaidInvoices = (payload = {}) => ({
     type: GET_UNPAID_INVOICES,
-    payload,
+    payload
 });
 
-export const paymentTriggerSpinner = (payload) => ({
+export const paymentTriggerSpinner = payload => ({
     type: PAYMENTS_TRIGGER_SPINNER,
-    payload,
+    payload
 });
 
 export const getEditPayment = (payload = {}) => ({
     type: GET_EDIT_PAYMENT,
-    payload,
+    payload
 });
-
 
 export const editPayment = (payload = {}) => ({
     type: EDIT_PAYMENT,
-    payload,
+    payload
 });
 
 export const removePayment = (payload = {}) => ({
     type: REMOVE_PAYMENT,
-    payload,
+    payload
 });
 
 export const sendPaymentReceipt = (payload = {}) => ({
     type: SEND_PAYMENT_RECEIPT,
-    payload,
+    payload
 });

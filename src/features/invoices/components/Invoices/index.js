@@ -3,7 +3,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import { change } from 'redux-form';
-import { omit } from 'lodash';
 import styles from './styles';
 import { All, Draft, Due } from '../Tab';
 import { invoicesFilterFields as FilterFields } from './filterFields';
@@ -12,7 +11,6 @@ import Lng from '@/lang/i18n';
 import { ROUTES } from '@/navigation';
 import { MainLayout, Tabs } from '@/components';
 import { IMAGES } from '@/assets';
-import { hasObjectLength } from '@/constants';
 import {
     getFilterStatusType,
     INVOICES_TABS,
@@ -21,6 +19,7 @@ import {
     INVOICE_SEARCH,
     TAB_NAME
 } from '../../constants';
+import { isFilterApply } from '@/utils';
 
 type IProps = {
     locale: String,
@@ -194,18 +193,10 @@ export class Invoices extends React.Component<IProps> {
 
     onChangeState = (field, value) => this.setState({ [field]: value });
 
-    isFilterApply = () => {
-        const { formValues } = this.props;
-
-        if (!formValues) return false;
-
-        const values = omit(formValues, 'search');
-        return hasObjectLength(values);
-    };
-
     getEmptyContentProps = activeTab => {
-        const { locale, navigation } = this.props;
+        const { locale, navigation, formValues } = this.props;
         const { search } = this.state;
+        const isFilter = isFilterApply(formValues);
         let description = '';
 
         if (activeTab === INVOICES_TABS.DUE) {
@@ -218,7 +209,7 @@ export class Invoices extends React.Component<IProps> {
 
         const emptyTitle = search
             ? 'search.noResult'
-            : this.isFilterApply()
+            : isFilter
             ? 'filter.empty.filterTitle'
             : 'invoices.empty.title';
 
@@ -231,7 +222,7 @@ export class Invoices extends React.Component<IProps> {
                 })
             }),
             ...(!search &&
-                !this.isFilterApply() && {
+                !isFilter && {
                     buttonTitle: Lng.t('invoices.empty.buttonTitle', {
                         locale
                     }),
@@ -297,10 +288,7 @@ export class Invoices extends React.Component<IProps> {
                             },
                             {
                                 Title: INVOICES_TABS.DRAFT,
-                                tabName: TAB_NAME(
-                                    INVOICES_TABS.DRAFT,
-                                    locale
-                                ),
+                                tabName: TAB_NAME(INVOICES_TABS.DRAFT, locale),
                                 render: (
                                     <Draft
                                         parentProps={this}

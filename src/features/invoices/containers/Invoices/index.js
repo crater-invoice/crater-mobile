@@ -9,7 +9,6 @@ import { SvgXml } from 'react-native-svg';
 import { INVOICES_ICON } from '@/assets';
 import { getCustomers } from '../../../customers/actions';
 import { getTitleByLanguage } from '@/utils';
-import { withNavigationFocus } from 'react-navigation';
 import {
     getDueInvoicesState,
     getDraftInvoicesState,
@@ -67,4 +66,4 @@ InvoicesContainer.navigationOptions = ({ navigation }) => ({
     )
 });
 
-export default withNavigationFocus(InvoicesContainer);
+export default InvoicesContainer;
