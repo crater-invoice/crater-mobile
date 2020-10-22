@@ -24,7 +24,6 @@ interface IProps {
     navigation: any;
     estimates: Object;
     customers: Object;
-    loading: Boolean;
     handleSubmit: Function;
     getCustomers: Function;
     dispatch: Function;

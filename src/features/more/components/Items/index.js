@@ -19,7 +19,6 @@ type IProps = {
     navigation: Object,
     getItems: Function,
     items: Object,
-    loading: Boolean,
     locale: String
 };
 

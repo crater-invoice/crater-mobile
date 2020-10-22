@@ -8,21 +8,16 @@ import { getItemUnits } from '@/features/settings/actions';
 
 const mapStateToProps = state => {
     const {
-        more: { items, loading },
+        more: { items },
         global: { currency, locale },
-        settings: {
-            units,
-            loading: { itemUnitsLoading }
-        }
+        settings: { units }
     } = state;
 
     return {
         items,
-        loading: loading.itemsLoading,
         locale,
         currency,
         units,
-        itemUnitsLoading,
         formValues: getFormValues(ITEM_SEARCH)(state) || {}
     };
 };

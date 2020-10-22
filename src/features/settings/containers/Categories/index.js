@@ -6,28 +6,27 @@ import { Categories } from '../../components/Categories';
 import { CATEGORY_SEARCH } from '../../constants';
 
 const mapStateToProps = ({ global, settings }) => ({
-    locale: global.locale,
-    loading: settings.loading.expensesCategoryLoading,
-    categories: settings.categories
+    locale: global?.locale,
+    categories: settings?.categories
 });
 
 const mapDispatchToProps = {
-    getExpenseCategories: CategoriesAction.getExpenseCategories,
+    getExpenseCategories: CategoriesAction.getExpenseCategories
 };
 
 //  Redux Forms
 const categoriesSearchReduxForm = reduxForm({
-    form: CATEGORY_SEARCH,
+    form: CATEGORY_SEARCH
 })(Categories);
 
 //  connect
 const CategoriesContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(categoriesSearchReduxForm);
 
 CategoriesContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default CategoriesContainer;

@@ -35,7 +35,6 @@ const initialState = {
         setSettingItemLoading: false,
         editSettingItemLoading: false,
         // categories
-        expensesCategoryLoading: false,
         expenseCategoryLoading: false,
         initExpenseCategoryLoading: false,
         // taxes
@@ -99,7 +98,14 @@ export default function settingReducer(state = initialState, action) {
             else return { ...state, ...payload };
 
         case SET_EXPENSE_CATEGORIES:
-            return { ...state, ...payload };
+            if (!payload.fresh) {
+                return {
+                    ...state,
+                    categories: [...state.categories, ...payload.categories]
+                };
+            }
+
+            return { ...state, categories: payload.categories };
 
         case SET_CREATE_EXPENSE_CATEGORIES:
             return {

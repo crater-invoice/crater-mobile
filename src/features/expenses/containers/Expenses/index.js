@@ -14,15 +14,11 @@ import { getExpensesState, getCategoriesState } from '../../selectors';
 const mapStateToProps = state => {
     const {
         global: { locale, currency },
-        expenses: {
-            expenses,
-            loading: { expensesLoading }
-        },
+        expenses: { expenses },
         settings: { categories }
     } = state;
 
     return {
-        loading: expensesLoading,
         expenses: getExpensesState(expenses, currency),
         locale,
         currency,

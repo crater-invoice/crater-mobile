@@ -48,7 +48,7 @@ export class Taxes extends React.Component {
     };
 
     render() {
-        const { taxTypes, navigation, loading, locale, getTaxes } = this.props;
+        const { taxTypes, navigation, locale, getTaxes } = this.props;
         const { search } = this.state;
 
         const isEmpty = taxTypes && taxTypes.length <= 0;

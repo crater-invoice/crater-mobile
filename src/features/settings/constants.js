@@ -540,16 +540,7 @@ export const EDIT_GENERAL_SETTING_URL = () => `settings/update-setting`;
 
 export const UPLOAD_LOGO_URL = () => `settings/company/upload-logo`;
 
-// Expense Categories
-export const GET_EXPENSE_CATEGORIES_URL = () => `categories`;
-export const GET_EDIT_EXPENSE_CATEGORIES_URL = id => `categories/${id}/edit`;
-
-export const CREATE_EXPENSE_CATEGORIES_URL = () => `categories`;
-export const EDIT_EXPENSE_CATEGORIES_URL = id => `categories/${id}`;
-export const REMOVE_EXPENSE_CATEGORIES_URL = id => `categories/${id}`;
-
 // Tax Types
-
 export const CREATE_SALES_TAX_URL = () => `tax-types`;
 export const EDIT_SALES_TAX_URL = tax => `tax-types/${tax.id}`;
 export const REMOVE_SALES_TAX_URL = id => `tax-types/${id}`;

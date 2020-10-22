@@ -71,7 +71,9 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
 
         reference?.(this);
         getItemsInMount && this.getItems();
-        this.getItems = debounce(this.getItems, 300);
+        setTimeout(() => {
+            this.getItems = debounce(this.getItems, 300);
+        }, 1000);
     }
 
     componentWillUnmount() {

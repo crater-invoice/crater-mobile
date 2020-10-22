@@ -14,7 +14,6 @@ const initialState = {
     expense: null,
     customers: null,
     loading: {
-        expensesLoading: false,
         expenseLoading: false,
         initExpenseLoading: false,
         categoriesLoading: false

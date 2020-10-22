@@ -3,182 +3,125 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { MainLayout, ListView } from '@/components';
+import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import Lng from '@/lang/i18n';
 import { CATEGORY_ADD, CATEGORY_EDIT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-
+import { formatCategories } from '@/utils';
 
 type IProps = {
     navigation: Object,
     getPayments: Function,
     payments: Object,
-    loading: Boolean,
-    locale: String,
-}
+    locale: String
+};
 
 export class Categories extends React.Component<IProps> {
     constructor(props) {
         super(props);
-        this.state = {
-            search: '',
-            categoriesFilter: [],
-            found: true,
-            refreshing: false
-        };
+        this.scrollViewReference = React.createRef();
+        this.state = { search: '' };
     }
 
     componentDidMount() {
-        const { getExpenseCategories, navigation } = this.props
-        getExpenseCategories()
+        const { navigation } = this.props;
 
-        goBack(MOUNT, navigation)
+        goBack(MOUNT, navigation);
+        this.onFocus();
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
+        this.focusListener?.remove?.();
     }
 
-    onSelectCategory = (category) => {
-
-        const { navigation } = this.props
-        navigation.navigate(ROUTES.CATEGORY,
-            { type: CATEGORY_EDIT, categoryId: category.id }
-        )
-    }
-
-    onSearch = (search) => {
-
-        const { categories } = this.props;
-        let searchFields = ['name'];
-
-        if (typeof categories !== 'undefined' && categories.length != 0) {
-
-            let newData = categories.filter((category) => {
-                let filterData = false
-
-                searchFields.filter((field) => {
-                    let itemField = category[field] ? category[field] : ''
-
-                    if (itemField !== null && itemField !== 'undefined') {
-                        itemField = itemField.toLowerCase()
-
-                        let searchData = search.toString().toLowerCase()
-
-                        if (itemField.indexOf(searchData) > -1) {
-                            filterData = true
-                        }
-                    }
-                })
-                return filterData
-            });
-
-            let categoriesFilter = this.itemList(newData)
-
-            this.setState({
-                categoriesFilter,
-                found: categoriesFilter.length != 0 ? true : false,
-                search
-            })
-        }
+    onFocus = () => {
+        const { navigation } = this.props;
+        this.focusListener = navigation.addListener('didFocus', () => {
+            this.scrollViewReference?.getItems?.();
+        });
     };
 
-    itemList = (categories) => {
-        let categoriesList = []
-        if (typeof categories !== 'undefined' && categories.length != 0) {
-            categoriesList = categories.map((category) => {
-                const { name, description } = category;
+    onSearch = search => {
+        this.setState({ search });
+        this.scrollViewReference?.getItems?.({
+            queryString: { search },
+            showLoader: true
+        });
+    };
 
-                return {
-                    title: name || '',
-                    subtitle: {
-                        title: description,
-                    },
-                    fullItem: category,
-                };
-            });
-        }
-        return categoriesList
-    }
-
-    getFreshItems = (onHide) => {
-        const { getExpenseCategories } = this.props
-        getExpenseCategories()
-
-        setTimeout(() => {
-            onHide && onHide()
-        }, 400);
-
-    }
+    onSelect = category => {
+        const { navigation } = this.props;
+        navigation.navigate(ROUTES.CATEGORY, {
+            type: CATEGORY_EDIT,
+            categoryId: category.id
+        });
+    };
 
     render() {
-
         const {
             navigation,
-            loading,
             locale,
             categories,
+            getExpenseCategories
         } = this.props;
 
-        const {
-            search,
-            categoriesFilter,
-            found,
-            refreshing
-        } = this.state
+        const { search } = this.state;
+        const isEmpty = categories && categories.length <= 0;
 
-        let categoriesList = [];
-        categoriesList = this.itemList(categories)
+        const emptyTitle = search
+            ? 'search.noResult'
+            : 'categories.empty.title';
+        const emptyContentProps = {
+            title: Lng.t(emptyTitle, { locale, search }),
+            ...(!search && {
+                description: Lng.t('categories.empty.description', { locale }),
+                buttonTitle: Lng.t('categories.empty.buttonTitle', { locale }),
+                buttonPress: () => {
+                    navigation.navigate(ROUTES.CATEGORY, {
+                        type: CATEGORY_ADD
+                    });
+                }
+            })
+        };
 
-        let empty = (!search) ? {
-            description: Lng.t("categories.empty.description", { locale }),
-            buttonTitle: Lng.t("categories.empty.buttonTitle", { locale }),
-            buttonPress: () => navigation.navigate(ROUTES.CATEGORY, { type: CATEGORY_ADD }),
-        } : {}
-
+        const headerProps = {
+            leftIcon: 'long-arrow-alt-left',
+            leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
+            title: Lng.t('header.expenseCategory', { locale }),
+            titleStyle: styles.titleStyle,
+            placement: 'center',
+            rightIcon: 'plus',
+            rightIconPress: () =>
+                navigation.navigate(ROUTES.CATEGORY, {
+                    type: CATEGORY_ADD
+                })
+        };
 
         return (
             <View style={styles.container}>
                 <MainLayout
-                    headerProps={{
-                        leftIcon: "long-arrow-alt-left",
-                        leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
-                        title: Lng.t("header.expenseCategory", { locale }),
-                        titleStyle: styles.titleStyle,
-                        placement: "center",
-                        rightIcon: "plus",
-                        rightIconPress: () => navigation.navigate(ROUTES.CATEGORY, { type: CATEGORY_ADD }),
-                    }}
+                    headerProps={headerProps}
                     onSearch={this.onSearch}
                     bottomDivider
-                    loadingProps={{ is: loading }}
                 >
-
                     <View style={styles.listViewContainer}>
-                        <ListView
-                            items={categoriesFilter.length != 0 ?
-                                categoriesFilter : found ? categoriesList : []
-                            }
-                            refreshing={refreshing}
-                            getFreshItems={(onHide) => {
-                                this.getFreshItems(onHide)
-                            }}
-                            onPress={this.onSelectCategory}
-                            loading={loading}
-                            isEmpty={found ? categoriesList.length <= 0 : true}
-                            bottomDivider
-                            emptyContentProps={{
-                                title: found ?
-                                    Lng.t("categories.empty.title", { locale }) :
-                                    Lng.t("search.noResult", { locale, search }),
-                                ...empty
-                            }}
-                        />
+                        <InfiniteScroll
+                            getItems={getExpenseCategories}
+                            reference={ref => (this.scrollViewReference = ref)}
+                            getItemsInMount={false}
+                        >
+                            <ListView
+                                items={formatCategories(categories)}
+                                onPress={this.onSelect}
+                                isEmpty={isEmpty}
+                                bottomDivider
+                                emptyContentProps={emptyContentProps}
+                            />
+                        </InfiniteScroll>
                     </View>
-
                 </MainLayout>
             </View>
         );
     }
 }
-

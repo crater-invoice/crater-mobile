@@ -11,15 +11,11 @@ import {
     getAllEstimatesState
 } from '../../selectors';
 
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
     const {
         global: { locale },
-        estimates: {
-            estimates,
-            loading: { estimatesLoading }
-        },
-        customers: { customers },
+        estimates: { estimates },
+        customers: { customers }
     } = state;
 
     return {
@@ -28,9 +24,8 @@ const mapStateToProps = (state) => {
         sentEstimates: getSentEstimatesState(estimates ?? []),
         allEstimates: getAllEstimatesState(estimates ?? []),
         customers,
-        loading: estimatesLoading,
         locale,
-        formValues: getFormValues(ESTIMATE_SEARCH)(state) || {},
+        formValues: getFormValues(ESTIMATE_SEARCH)(state) || {}
     };
 };
 
@@ -42,17 +37,17 @@ const mapDispatchToProps = {
 
 //  Redux Forms
 const estimateSearchReduxForm = reduxForm({
-    form: ESTIMATE_SEARCH,
+    form: ESTIMATE_SEARCH
 })(Estimates);
 
 //  connect
 const EstimatesContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(estimateSearchReduxForm);
 
-EstimatesContainer.navigationOptions = (props) => ({
-    header: null,
+EstimatesContainer.navigationOptions = props => ({
+    header: null
 });
 
 export default EstimatesContainer;
