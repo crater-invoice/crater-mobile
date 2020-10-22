@@ -39,6 +39,7 @@ export class Payments extends React.Component<IProps> {
 
     componentWillUnmount() {
         goBack(UNMOUNT);
+        this.focusListener?.remove?.();
     }
 
     onFocus = () => {

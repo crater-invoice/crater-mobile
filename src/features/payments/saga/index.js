@@ -35,11 +35,8 @@ const alreadyInUse = error => {
 };
 
 function* getPayments({ payload }) {
-    const {
-        fresh = true,
-        onSuccess = null,
-        queryString = ({ page = 1, limit = 10 } = {})
-    } = payload;
+    const { fresh = true, onSuccess, queryString } = payload;
+
     try {
         const options = {
             path: GET_PAYMENTS_URL(queryString)

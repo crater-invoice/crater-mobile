@@ -1,54 +1,50 @@
 import Request from '@/api/request';
 import { call, put, takeEvery } from 'redux-saga/effects';
-
+import * as queryStrings from 'query-string';
 import {
     settingsTriggerSpinner,
     setTaxes,
     setTax,
     setEditTax,
-    setRemoveTax,
+    setRemoveTax
 } from '../../actions';
-
 import {
     GET_TAXES,
     REMOVE_TAX,
     TAX_ADD,
     TAX_EDIT,
     // Endpoint Api URL
-    GET_SALES_TAXES_URL,
     CREATE_SALES_TAX_URL,
     EDIT_SALES_TAX_URL,
-    REMOVE_SALES_TAX_URL,
+    REMOVE_SALES_TAX_URL
 } from '../../constants';
 
-function* getTaxTypes({ payload: { onResult } = {} }) {
-
-    yield put(settingsTriggerSpinner({ getTaxesLoading: true }));
+function* getTaxTypes({ payload }) {
+    const { fresh = true, onSuccess, queryString } = payload;
 
     try {
-
         const options = {
-            path: GET_SALES_TAXES_URL(),
+            path: `tax-types?${queryStrings.stringify(queryString)}`
         };
 
         const response = yield call([Request, 'get'], options);
 
-        yield put(setTaxes({ taxTypes: response.taxTypes }));
+        if (response?.taxTypes) {
+            const { data } = response.taxTypes;
+            yield put(setTaxes({ taxTypes: data, fresh }));
+        }
 
-        onResult && onResult(response);
+        onSuccess?.(response?.taxTypes);
     } catch (error) {
         // console.log(error);
     } finally {
-        yield put(settingsTriggerSpinner({ getTaxesLoading: false }));
     }
 }
 
 function* addTax({ payload: { tax, onResult } }) {
-
     yield put(settingsTriggerSpinner({ addTaxLoading: true }));
 
     try {
-
         const options = {
             path: CREATE_SALES_TAX_URL(),
             body: tax
@@ -67,11 +63,9 @@ function* addTax({ payload: { tax, onResult } }) {
 }
 
 function* editTaxType({ payload: { tax, onResult } }) {
-
     yield put(settingsTriggerSpinner({ editTaxLoading: true }));
 
     try {
-
         const options = {
             path: EDIT_SALES_TAX_URL(tax),
             body: tax
@@ -90,29 +84,24 @@ function* editTaxType({ payload: { tax, onResult } }) {
 }
 
 function* removeTax({ payload: { id, onResult } }) {
-
     yield put(settingsTriggerSpinner({ removeTaxLoading: true }));
 
     try {
-
         const options = {
-            path: REMOVE_SALES_TAX_URL(id),
+            path: REMOVE_SALES_TAX_URL(id)
         };
 
         const response = yield call([Request, 'delete'], options);
 
-        if (response.success)
-            yield put(setRemoveTax({ taxId: id }));
+        if (response.success) yield put(setRemoveTax({ taxId: id }));
 
         onResult && onResult(response.success);
     } catch (error) {
         // console.log(error);
     } finally {
         yield put(settingsTriggerSpinner({ removeTaxLoading: false }));
-
     }
 }
-
 
 export default function* taxesSaga() {
     // Tax Types

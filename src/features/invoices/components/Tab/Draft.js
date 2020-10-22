@@ -20,7 +20,7 @@ export const Draft = ({ reference, parentProps }: IProps) => {
         const values = parentProps?.props?.formValues;
 
         const queryString = {
-            type: 'DRAFT',
+            status: 'DRAFT',
             search,
             ...values
         };
@@ -31,7 +31,7 @@ export const Draft = ({ reference, parentProps }: IProps) => {
         return () => {};
     }, []);
 
-    const isEmpty = draftInvoices.length <= 0;
+    const isEmpty = draftInvoices && draftInvoices.length <= 0;
 
     return (
         <View style={styles.content}>

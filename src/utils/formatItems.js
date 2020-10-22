@@ -98,9 +98,28 @@ export const formatCategories = categories => {
         return {
             title: name || '',
             subtitle: {
-                title: description,
+                title: description
             },
-            fullItem: category,
+            fullItem: category
+        };
+    });
+};
+
+// Format Items
+// -----------------------------------------
+export const formatItems = (items, currency) => {
+    if (!isArray(items)) {
+        return [];
+    }
+
+    return items.map(item => {
+        const { name, description, price, title } = item;
+        return {
+            title: title || name,
+            subtitle: { title: description },
+            amount: price,
+            currency,
+            fullItem: item
         };
     });
 };

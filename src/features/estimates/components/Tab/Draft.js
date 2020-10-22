@@ -1,74 +1,52 @@
 // @flow
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { View } from 'react-native';
 import { styles } from './styles';
-import { ListView, Content } from '@/components';
-import { IMAGES } from '@/assets';
-import Lng from '@/lang/i18n';
+import { ListView, InfiniteScroll } from '@/components';
+import { ESTIMATES_TABS } from '../../constants';
 
 type IProps = {
-    canLoadMore: Boolean,
+    reference: any,
     parentProps: any
 };
 
-const Draft = ({ canLoadMore, parentProps }: IProps) => {
+export const Draft = ({ reference, parentProps }: IProps) => {
+    let scrollViewReference = useRef(null);
+    const { props, state, onSelect, getEmptyContentProps } = parentProps;
+    const { draftEstimates = [], getEstimates } = props;
+    const { search } = state;
 
-    const {
-        props,
-        state,
-        getItems,
-        onEstimateSelect,
-        loadMoreItems,
-        onAddEstimate
-    } = parentProps
-    const { draftEstimates = [], loading, locale } = props
-    const { refreshing, fresh, search, filter } = state
+    useEffect(() => {
+        const values = parentProps?.props?.formValues;
 
-    let empty = (!filter && !search) ? {
-        description: Lng.t("estimates.empty.draft.description", { locale }),
-        buttonTitle: Lng.t("estimates.empty.buttonTitle", { locale }),
-        buttonPress: () => onAddEstimate(),
-    } : {}
+        const queryString = { status: 'DRAFT', search, ...values };
 
-    let emptyTitle = search ? Lng.t("search.noResult", { locale, search })
-        : (!filter) ? Lng.t("estimates.empty.draft.title", { locale }) :
-            Lng.t("filter.empty.filterTitle", { locale })
+        scrollViewReference?.getItems?.({ queryString });
+        return () => {};
+    }, []);
+
+    const isEmpty = draftEstimates && draftEstimates.length <= 0;
 
     return (
         <View style={styles.content}>
-            <Content loadingProps={{ is: refreshing && fresh }}>
+            <InfiniteScroll
+                getItems={getEstimates}
+                getItemsInMount={false}
+                reference={ref => {
+                    scrollViewReference = ref;
+                    reference?.(ref);
+                }}
+            >
                 <ListView
                     items={draftEstimates}
-                    onPress={onEstimateSelect}
-                    refreshing={refreshing}
-                    loading={loading}
-                    isEmpty={draftEstimates.length <= 0}
-                    canLoadMore={canLoadMore}
-                    getFreshItems={(onHide) => {
-                        getItems({
-                            fresh: true,
-                            onResult: onHide,
-                            type: 'DRAFT',
-                            q: search,
-                            resetFilter: true
-                        });
-                    }}
-                    getItems={() => {
-                        loadMoreItems({
-                            type: 'DRAFT',
-                            q: search,
-                        });
-                    }}
+                    onPress={onSelect}
+                    isEmpty={isEmpty}
                     bottomDivider
-                    emptyContentProps={{
-                        title: emptyTitle,
-                        image: IMAGES.EMPTY_ESTIMATES,
-                        ...empty
-                    }}
+                    emptyContentProps={getEmptyContentProps(
+                        ESTIMATES_TABS.DRAFT
+                    )}
                 />
-            </Content>
+            </InfiniteScroll>
         </View>
     );
 };
-
-export default Draft;

@@ -88,12 +88,12 @@ export class Invoices extends React.Component<IProps> {
     };
 
     onSearch = search => {
-        const { type, ref } = this.getActiveTab();
+        const { status, ref } = this.getActiveTab();
 
         this.setState({ search });
 
         ref?.getItems?.({
-            queryString: { type, search },
+            queryString: { status, search },
             showLoader: true
         });
     };
@@ -101,30 +101,30 @@ export class Invoices extends React.Component<IProps> {
     getActiveTab = (activeTab = this.state.activeTab) => {
         if (activeTab == INVOICES_TABS.DUE) {
             return {
-                type: 'UNPAID',
+                status: 'UNPAID',
                 ref: this.dueReference
             };
         }
 
         if (activeTab == INVOICES_TABS.DRAFT) {
             return {
-                type: 'DRAFT',
+                status: 'DRAFT',
                 ref: this.draftReference
             };
         }
 
         return {
-            type: '',
+            status: '',
             ref: this.allReference
         };
     };
 
     onResetFilter = () => {
         const { search } = this.state;
-        const { type, ref } = this.getActiveTab();
+        const { status, ref } = this.getActiveTab();
 
         ref?.getItems?.({
-            queryString: { type, search },
+            queryString: { status, search },
             resetQueryString: true,
             resetParams: true,
             showLoader: true
@@ -162,7 +162,7 @@ export class Invoices extends React.Component<IProps> {
     }) => {
         const { search } = this.state;
 
-        const type = filterStatus
+        const status = filterStatus
             ? getFilterStatusType(filterStatus)
             : paid_status;
 
@@ -175,7 +175,7 @@ export class Invoices extends React.Component<IProps> {
 
         ref?.getItems?.({
             queryString: {
-                type,
+                status,
                 search,
                 customer_id,
                 invoice_number,
@@ -197,13 +197,17 @@ export class Invoices extends React.Component<IProps> {
         const { locale, navigation, formValues } = this.props;
         const { search } = this.state;
         const isFilter = isFilterApply(formValues);
+        let title = '';
         let description = '';
 
         if (activeTab === INVOICES_TABS.DUE) {
+            title = 'invoices.empty.due.title';
             description = 'invoices.empty.due.description';
         } else if (activeTab === INVOICES_TABS.DRAFT) {
+            title = 'invoices.empty.draft.title';
             description = 'invoices.empty.draft.description';
         } else {
+            title = 'invoices.empty.all.title';
             description = 'invoices.empty.description';
         }
 
@@ -211,15 +215,13 @@ export class Invoices extends React.Component<IProps> {
             ? 'search.noResult'
             : isFilter
             ? 'filter.empty.filterTitle'
-            : 'invoices.empty.title';
+            : title;
 
         return {
             title: Lng.t(emptyTitle, { locale, search }),
             image: IMAGES.EMPTY_INVOICES,
             ...(!search && {
-                description: Lng.t(description, {
-                    locale
-                })
+                description: Lng.t(description, { locale })
             }),
             ...(!search &&
                 !isFilter && {
@@ -261,6 +263,39 @@ export class Invoices extends React.Component<IProps> {
             containerStyle: styles.toastContainer
         };
 
+        const tabs = [
+            {
+                Title: INVOICES_TABS.DUE,
+                tabName: TAB_NAME(INVOICES_TABS.DUE, locale),
+                render: (
+                    <Due
+                        parentProps={this}
+                        reference={ref => (this.dueReference = ref)}
+                    />
+                )
+            },
+            {
+                Title: INVOICES_TABS.DRAFT,
+                tabName: TAB_NAME(INVOICES_TABS.DRAFT, locale),
+                render: (
+                    <Draft
+                        parentProps={this}
+                        reference={ref => (this.draftReference = ref)}
+                    />
+                )
+            },
+            {
+                Title: INVOICES_TABS.ALL,
+                tabName: TAB_NAME(INVOICES_TABS.ALL, locale),
+                render: (
+                    <All
+                        parentProps={this}
+                        reference={ref => (this.allReference = ref)}
+                    />
+                )
+            }
+        ];
+
         return (
             <View style={styles.container}>
                 <MainLayout
@@ -273,44 +308,7 @@ export class Invoices extends React.Component<IProps> {
                         style={styles.Tabs}
                         activeTab={activeTab}
                         setActiveTab={this.setActiveTab}
-                        tabs={[
-                            {
-                                Title: INVOICES_TABS.DUE,
-                                tabName: TAB_NAME(INVOICES_TABS.DUE, locale),
-                                render: (
-                                    <Due
-                                        parentProps={this}
-                                        reference={ref =>
-                                            (this.dueReference = ref)
-                                        }
-                                    />
-                                )
-                            },
-                            {
-                                Title: INVOICES_TABS.DRAFT,
-                                tabName: TAB_NAME(INVOICES_TABS.DRAFT, locale),
-                                render: (
-                                    <Draft
-                                        parentProps={this}
-                                        reference={ref =>
-                                            (this.draftReference = ref)
-                                        }
-                                    />
-                                )
-                            },
-                            {
-                                Title: INVOICES_TABS.ALL,
-                                tabName: TAB_NAME(INVOICES_TABS.ALL, locale),
-                                render: (
-                                    <All
-                                        parentProps={this}
-                                        reference={ref =>
-                                            (this.allReference = ref)
-                                        }
-                                    />
-                                )
-                            }
-                        ]}
+                        tabs={tabs}
                     />
                 </MainLayout>
             </View>

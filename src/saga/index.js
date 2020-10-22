@@ -15,21 +15,24 @@ import { ROUTES } from '@/navigation';
 
 export default function* rootSaga() {
     yield takeEvery(REHYDRATE, function* boot() {
-        const { routes } = yield select((state) => state.nav);
+        const { routes } = yield select(state => state.nav);
         const currentRoteBlock = routes[routes.length - 1];
         const currentRouteBlockName = currentRoteBlock.routeName;
 
         const reduxStore = store.getState();
 
         if (currentRouteBlockName !== ROUTES.AUTH) {
-            yield put(NavigationActions.navigate({ routeName: ROUTES.MAIN_INVOICES }));
+            yield put(
+                NavigationActions.navigate({ routeName: ROUTES.SETTING_LIST })
+            );
         } else {
-            const { endpointApi, endpointURL } = reduxStore.global
+            const { endpointApi, endpointURL } = reduxStore.global;
 
             if (!endpointApi || !endpointURL) {
-                yield put(NavigationActions.navigate({ routeName: ROUTES.ENDPOINTS }));
+                yield put(
+                    NavigationActions.navigate({ routeName: ROUTES.ENDPOINTS })
+                );
             }
-
         }
 
         yield all([
@@ -40,7 +43,7 @@ export default function* rootSaga() {
             more(),
             expenses(),
             payments(),
-            settings(),
+            settings()
         ]);
     });
 }

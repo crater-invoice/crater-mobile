@@ -3,46 +3,40 @@ import { colors, fonts } from '@/styles';
 
 const { width } = Dimensions.get('window');
 
-export const itemsDescriptionStyle = (widthMinus = 43) => {
-    return {
-        width: width - widthMinus,
-        textAlign: "justify"
-    }
-}
 export default styles = StyleSheet.create({
     bodyContainer: {
         paddingHorizontal: 22,
-        paddingVertical: 17,
+        paddingVertical: 17
     },
     dateFieldContainer: {
         flex: 1,
         flexDirection: 'row',
-        marginHorizontal: -10,
+        marginHorizontal: -10
     },
     dateField: {
         flex: 1,
         paddingHorizontal: 5,
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
     },
     inputTextStyle: {
         color: colors.dark3,
-        fontFamily: fonts.poppinsMedium,
+        fontFamily: fonts.poppinsMedium
     },
     noteHintStyle: {
         paddingBottom: 6,
         color: colors.dark2,
         fontSize: 14,
-        fontFamily: fonts.poppins,
+        fontFamily: fonts.poppins
     },
     submitButton: {
-        flexDirection: "row",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     handleBtn: {
-        marginHorizontal: 9,
+        marginHorizontal: 9
     },
     buttonContainer: {
-        flex: 1,
+        flex: 1
     },
     itemContainer: {
         marginVertical: 4,
@@ -55,11 +49,11 @@ export default styles = StyleSheet.create({
         color: colors.dark
     },
     itemLeftSubTitleLabel: {
-        marginLeft: -6,
+        marginLeft: -6
     },
     itemLeftSubTitle: {
         color: colors.darkGray,
-        fontSize: 13,
+        fontSize: 13
     },
     itemRightTitle: {
         fontFamily: fonts.poppins,
@@ -68,7 +62,7 @@ export default styles = StyleSheet.create({
     },
     label: {
         paddingBottom: 4,
-        paddingTop: 12,
+        paddingTop: 12
     },
     termsEditText: {
         color: colors.primary

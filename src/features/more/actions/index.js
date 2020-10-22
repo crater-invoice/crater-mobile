@@ -1,4 +1,4 @@
-import { SET_MAIL_CONFIGURATION } from "@/constants";
+import { SET_MAIL_CONFIGURATION } from '@/constants';
 import {
     MORE_TRIGGER_SPINNER,
     LOGOUT,
@@ -12,85 +12,77 @@ import {
     SET_ITEM,
     DELETE_ITEM,
     GENERATE_REPORT,
-    SET_FILTER_ITEMS,
     GET_MAIL_CONFIGURATION
-} from "../constants";
+} from '../constants';
 
-export const moreTriggerSpinner = (payload) => ({
+export const moreTriggerSpinner = payload => ({
     type: MORE_TRIGGER_SPINNER,
-    payload,
+    payload
 });
 
-export const logout = (payload) => ({
+export const logout = payload => ({
     type: LOGOUT,
-    payload,
+    payload
 });
 
 export const addItem = (payload = {}) => ({
     type: ITEM_ADD,
-    payload,
+    payload
 });
 
 export const editItem = (payload = {}) => ({
     type: ITEM_EDIT,
-    payload,
+    payload
 });
 
 export const getItems = (payload = {}) => ({
     type: GET_ITEMS,
-    payload,
+    payload
 });
 
 export const removeItem = (payload = {}) => ({
     type: REMOVE_ITEM,
-    payload,
+    payload
 });
 
 export const setItems = (payload = {}) => ({
     type: SET_ITEMS,
-    payload,
-});
-
-export const setFilterItems = (payload = {}) => ({
-    type: SET_FILTER_ITEMS,
-    payload,
+    payload
 });
 
 export const setItem = (payload = {}) => ({
     type: SET_ITEM,
-    payload,
+    payload
 });
 
 export const clearItem = (payload = {}) => ({
     type: CLEAR_ITEM,
-    payload,
+    payload
 });
 
 export const deleteItem = (payload = {}) => ({
     type: DELETE_ITEM,
-    payload,
+    payload
 });
 
 export const getEditItem = (payload = {}) => ({
     type: GET_EDIT_ITEM,
-    payload,
+    payload
 });
-
 
 // Reports
-export const generateReport = (payload) => ({
+export const generateReport = payload => ({
     type: GENERATE_REPORT,
-    payload,
+    payload
 });
-
 
 // Mail Configuration
 export const getMailConfiguration = (payload = {}) => ({
     type: GET_MAIL_CONFIGURATION,
-    payload,
+    payload
 });
 
 export const setMailConfiguration = (payload = {}) => ({
     type: SET_MAIL_CONFIGURATION,
-    payload,
+    payload
 });

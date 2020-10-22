@@ -1,9 +1,9 @@
 // @flow
-import React, { useRef, useEffect } from "react";
-import { View } from "react-native";
-import { styles } from "./styles";
-import { ListView, InfiniteScroll } from "@/components";
-import { getFilterStatusType } from "../../constants";
+import React, { useRef, useEffect } from 'react';
+import { View } from 'react-native';
+import { styles } from './styles';
+import { ListView, InfiniteScroll } from '@/components';
+import { getFilterStatusType } from '../../constants';
 
 type IProps = {
     reference: any,
@@ -19,12 +19,12 @@ export const All = ({ reference, parentProps }: IProps) => {
     useEffect(() => {
         const values = parentProps?.props?.formValues;
 
-        const type = values?.filterStatus
+        const status = values?.filterStatus
             ? getFilterStatusType(values?.filterStatus)
             : values?.paid_status;
 
         const queryString = {
-            type: type ?? "",
+            status: status ?? '',
             search,
             ...values
         };
@@ -35,7 +35,7 @@ export const All = ({ reference, parentProps }: IProps) => {
         return () => {};
     }, []);
 
-    const isEmpty = allInvoices.length <= 0;
+    const isEmpty = allInvoices && allInvoices.length <= 0;
 
     return (
         <View style={styles.content}>

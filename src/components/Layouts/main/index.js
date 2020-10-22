@@ -8,21 +8,21 @@ import { styles } from './styles';
 import { InputField, CtHeader, CtDivider } from '../..';
 import { Content } from '../../Content';
 import Lng from '@/lang/i18n';
-import Toast from '../../Toast';
+import Toast from '@/components/Toast';
 
 type IProps = {
-    children: Object,
-    headerProps: Object,
-    onSearch: Function,
-    bottomDivider: Boolean,
-    hasSearchField: Boolean,
-    onToggleFilter: Function,
-    filterProps: Object,
-    inputProps: Object,
-    dividerStyle: Object,
-    loadingProps: Object,
-    toastProps: Object,
-    searchFieldProps: any
+    children: any,
+    headerProps?: any,
+    onSearch?: Function,
+    bottomDivider?: Boolean,
+    hasSearchField?: Boolean,
+    onToggleFilter?: Function,
+    filterProps?: Object,
+    inputProps?: Object,
+    dividerStyle?: Object,
+    loadingProps?: Object,
+    toastProps?: Object,
+    searchFieldProps?: any
 };
 
 const MainLayoutComponent = ({
@@ -40,13 +40,11 @@ const MainLayoutComponent = ({
     toastProps,
     searchFieldProps
 }: IProps) => {
-
-    let hasFilter = filterProps ? { ...filterProps } : null
+    let hasFilter = filterProps ? { ...filterProps } : null;
 
     return (
         <View style={styles.page}>
-
-            {toastProps && (<Toast {...toastProps} />)}
+            {toastProps && <Toast {...toastProps} />}
 
             <View style={styles.content}>
                 <CtHeader
@@ -67,7 +65,7 @@ const MainLayoutComponent = ({
                             inputProps={{
                                 returnKeyType: 'next',
                                 autoCapitalize: 'none',
-                                placeholder: Lng.t("search.title", { locale }),
+                                placeholder: Lng.t('search.title', { locale }),
                                 autoCorrect: true,
                                 ...inputProps
                             }}
@@ -80,33 +78,26 @@ const MainLayoutComponent = ({
                     </View>
                 )}
 
-                {bottomDivider &&
+                {bottomDivider && (
                     <CtDivider dividerStyle={dividerStyle && dividerStyle} />
-                }
+                )}
 
-                <Content loadingProps={loadingProps}>
-                    {children}
-                </Content>
-
+                <Content loadingProps={loadingProps}>{children}</Content>
             </View>
 
             {bottomAction && (
-                <View style={styles.bottomView}>
-                    {bottomAction}
-                </View>
+                <View style={styles.bottomView}>{bottomAction}</View>
             )}
         </View>
     );
 };
 
 const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
+    locale: global?.locale
 });
-
-const mapDispatchToProps = {};
 
 //  connect
 export const MainLayout = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    {}
 )(MainLayoutComponent);

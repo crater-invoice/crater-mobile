@@ -48,13 +48,7 @@ const addressParams = (address, type) => {
 };
 
 function* getCustomers({ payload }) {
-    const {
-        fresh = true,
-        onSuccess = null,
-        queryString = ({ page = 1, limit = 10 } = {})
-    } = payload;
-
-    yield put(customerTriggerSpinner({ customersLoading: true }));
+    const { fresh = true, onSuccess, queryString } = payload;
 
     try {
         const options = {
@@ -71,7 +65,6 @@ function* getCustomers({ payload }) {
         onSuccess?.(response?.customers);
     } catch (error) {
     } finally {
-        yield put(customerTriggerSpinner({ customersLoading: false }));
     }
 }
 

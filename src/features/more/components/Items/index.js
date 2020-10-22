@@ -4,15 +4,16 @@ import React from 'react';
 import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
-import { MainLayout, ListView } from '@/components';
+import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { ROUTES } from '@/navigation';
 import { IMAGES } from '@/assets';
 import Lng from '@/lang/i18n';
 import { ADD_ITEM, EDIT_ITEM, ITEM_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import { itemsDescriptionStyle } from '@/features/invoices/components/Invoice/styles';
-import { formatSelectPickerName } from '@/utils';
-
+import { formatItems, isFilterApply } from '@/utils';
+import { hasTextLength } from '@/constants';
+import filterFields from './filterFields';
+import { itemsDescriptionStyle } from '@/styles';
 
 type IProps = {
     navigation: Object,
@@ -22,335 +23,163 @@ type IProps = {
     locale: String
 };
 
-let params = {
-    search: '',
-    unit_id: '',
-    price: ''
-};
-
 export class Items extends React.Component<IProps> {
     constructor(props) {
         super(props);
+        this.scrollViewReference = React.createRef();
         this.state = {
-            refreshing: false,
-            fresh: true,
-            pagination: {
-                page: 1,
-                limit: 10,
-                lastPage: 1
-            },
             search: '',
-            selectedUnit: '',
-            filter: false
+            selectedUnit: ''
         };
     }
 
     componentDidMount() {
         const { navigation, getItemUnits } = this.props;
-        this.getItems({ fresh: true });
-        getItemUnits();
-
         goBack(MOUNT, navigation, { route: ROUTES.MAIN_MORE });
+        this.onFocus();
+        getItemUnits();
     }
 
     componentWillUnmount() {
         goBack(UNMOUNT);
+        this.focusListener?.remove?.();
     }
 
-    onItemSelect = ({ id }) => {
+    onFocus = () => {
         const { navigation } = this.props;
-        navigation.navigate(ROUTES.GLOBAL_ITEM, { type: EDIT_ITEM, id });
-        this.onResetFilter();
+        this.focusListener = navigation.addListener('didFocus', () => {
+            this.scrollViewReference?.getItems?.();
+        });
     };
 
-    getItems = ({ fresh = false, onResult, params, filter = false } = {}) => {
-        const { getItems } = this.props;
-        const { refreshing, pagination } = this.state;
-
-        if (refreshing) {
-            return;
-        }
-
-        this.setState({
-            refreshing: true,
-            fresh
-        });
-
-        const paginationParams = fresh
-            ? { ...pagination, page: 1 }
-            : pagination;
-
-        if (!fresh && paginationParams.lastPage < paginationParams.page) {
-            return;
-        }
-
-        getItems({
-            fresh,
-            pagination: paginationParams,
-            params,
-            filter,
-            onMeta: ({ last_page, current_page }) => {
-                this.setState({
-                    pagination: {
-                        ...paginationParams,
-                        lastPage: last_page,
-                        page: current_page + 1
-                    }
-                });
-            },
-            onResult: val => {
-                this.setState({
-                    refreshing: false,
-                    fresh: !val
-                });
-                onResult && onResult();
-            }
-        });
+    onSelect = ({ id }) => {
+        const { navigation } = this.props;
+        navigation.navigate(ROUTES.GLOBAL_ITEM, { type: EDIT_ITEM, id });
     };
 
     onResetFilter = () => {
-        this.setState({ filter: false });
+        const { search } = this.state;
+
+        this.scrollViewReference?.getItems?.({
+            queryString: { search },
+            resetQueryString: true,
+            showLoader: true
+        });
     };
 
     onSubmitFilter = ({ unit_id = '', name = '', price = '' }) => {
-        if (unit_id || name || price) {
-            this.setState({ filter: true });
+        const { search } = this.state;
 
-            this.getItems({
-                fresh: true,
-                params: {
-                    ...params,
-                    search: name,
-                    unit_id,
-                    price
-                },
-                filter: true
-            });
-        } else this.onResetFilter();
+        this.scrollViewReference?.getItems?.({
+            queryString: {
+                unit_id,
+                price,
+                search: hasTextLength(name) ? name : search
+            },
+            showLoader: true
+        });
     };
 
     setFormField = (field, value) => {
         this.props.dispatch(change(ITEM_SEARCH, field, value));
-
         if (field === 'unit_id') this.setState({ selectedUnit: value });
     };
 
     onSearch = search => {
-        this.onResetFilter();
         this.setState({ search });
-        this.getItems({ fresh: true, params: { ...params, search } });
-    };
-
-    getItemList = items => {
-        const { currency } = this.props;
-        let itemList = [];
-
-        if (typeof items !== 'undefined' && items.length != 0) {
-            itemList = items.map(item => {
-                let { name, description, price, title } = item;
-
-                return {
-                    title: title || name,
-                    subtitle: {
-                        title: description
-                    },
-                    amount: price,
-                    currency,
-                    fullItem: item
-                };
-            });
-        }
-
-        return itemList;
-    };
-
-    loadMoreItems = () => {
-        const { search, filter } = this.state;
-
-        const {
-            formValues: { unit_id = '', name = '', price = '' }
-        } = this.props;
-
-        if (filter) {
-            this.getItems({
-                params: {
-                    ...params,
-                    search: name,
-                    unit_id,
-                    price
-                },
-                filter: true
-            });
-        } else {
-            this.getItems({ params: { ...params, search } });
-        }
+        this.scrollViewReference?.getItems?.({
+            queryString: { search },
+            showLoader: true
+        });
     };
 
     render() {
         const {
             navigation,
             items,
-            filterItems,
-            units,
-            loading,
-            itemUnitsLoading = false,
             locale,
-            handleSubmit
+            handleSubmit,
+            formValues,
+            getItems,
+            currency
         } = this.props;
 
-        const {
-            refreshing,
-            pagination: { lastPage, page },
-            fresh,
-            search,
-            selectedUnit,
-            filter
-        } = this.state;
+        const { search } = this.state;
 
-        const canLoadMore = lastPage >= page;
+        const headerProps = {
+            title: Lng.t('header.items', { locale }),
+            leftIcon: 'long-arrow-alt-left',
+            leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
+            title: Lng.t('header.items', { locale }),
+            titleStyle: styles.headerTitle,
+            rightIcon: 'plus',
+            placement: 'center',
+            rightIcon: 'plus',
+            rightIconPress: () => {
+                navigation.navigate(ROUTES.GLOBAL_ITEM, {
+                    type: ADD_ITEM
+                });
+                this.onResetFilter();
+            }
+        };
 
-        let filterRefs = {};
+        const filterProps = {
+            onSubmitFilter: handleSubmit(this.onSubmitFilter),
+            ...filterFields(this),
+            clearFilter: this.props,
+            onResetFilter: () => this.onResetFilter()
+        };
 
-        let inputFields = [
-            {
-                name: 'name',
-                hint: Lng.t('items.name', { locale }),
-                inputProps: {
-                    returnKeyType: 'next',
-                    autoCorrect: true,
-                    autoFocus: true,
-                    onSubmitEditing: () => {
-                        filterRefs.price.focus();
+        const isEmpty = items && items.length <= 0;
+        const isFilter = isFilterApply(formValues);
+
+        const emptyTitle = search
+            ? 'search.noResult'
+            : isFilter
+            ? 'filter.empty.filterTitle'
+            : 'items.empty.title';
+
+        const emptyContentProps = {
+            title: Lng.t(emptyTitle, { locale, search }),
+            image: IMAGES.EMPTY_ITEMS,
+            ...(!search && {
+                description: Lng.t('items.empty.description', { locale })
+            }),
+            ...(!search &&
+                !isFilter && {
+                    buttonTitle: Lng.t('items.empty.buttonTitle', { locale }),
+                    buttonPress: () => {
+                        navigation.navigate(ROUTES.GLOBAL_ITEM, {
+                            type: ADD_ITEM
+                        });
                     }
-                },
-                refLinkFn: ref => {
-                    filterRefs.name = ref;
-                }
-            },
-            {
-                name: 'price',
-                hint: Lng.t('items.price', { locale }),
-                inputProps: {
-                    returnKeyType: 'next',
-                    keyboardType: 'numeric'
-                },
-                isCurrencyInput: true,
-                refLinkFn: ref => {
-                    filterRefs.price = ref;
-                }
-            }
-        ];
-
-        let dropdownFields = [
-            {
-                name: 'unit_id',
-                label: Lng.t('items.unit', { locale }),
-                fieldIcon: 'align-center',
-                items: formatSelectPickerName(units),
-                onChangeCallback: val => {
-                    this.setFormField('unit_id', val);
-                },
-                defaultPickerOptions: {
-                    label: Lng.t('items.unitPlaceholder', { locale }),
-                    value: ''
-                },
-                selectedItem: selectedUnit,
-                onDonePress: () => filterRefs.name.focus(),
-                containerStyle: styles.selectPicker
-            }
-        ];
-
-        let empty =
-            !filter && !search
-                ? {
-                      description: Lng.t('items.empty.description', {
-                          locale
-                      }),
-                      buttonTitle: Lng.t('items.empty.buttonTitle', {
-                          locale
-                      }),
-                      buttonPress: () => {
-                          navigation.navigate(ROUTES.GLOBAL_ITEM, {
-                              type: ADD_ITEM
-                          });
-                          this.onResetFilter();
-                      }
-                  }
-                : {};
-
-        let emptyTitle = search
-            ? Lng.t('search.noResult', { locale, search })
-            : !filter
-            ? Lng.t('items.empty.title', { locale })
-            : Lng.t('filter.empty.filterTitle', { locale });
+                })
+        };
 
         return (
             <View style={styles.container}>
                 <MainLayout
-                    headerProps={{
-                        title: Lng.t('header.items', { locale }),
-                        leftIcon: 'long-arrow-alt-left',
-                        leftIconPress: () =>
-                            navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t('header.items', { locale }),
-                        titleStyle: styles.headerTitle,
-                        rightIcon: 'plus',
-                        placement: 'center',
-                        rightIcon: 'plus',
-                        rightIconPress: () => {
-                            navigation.navigate(ROUTES.GLOBAL_ITEM, {
-                                type: ADD_ITEM
-                            });
-                            this.onResetFilter();
-                        }
-                    }}
+                    headerProps={headerProps}
                     onSearch={this.onSearch}
                     bottomDivider
                     onFocus={() => {}}
-                    filterProps={{
-                        onSubmitFilter: handleSubmit(this.onSubmitFilter),
-                        inputFields: inputFields,
-                        dropdownFields: dropdownFields,
-                        clearFilter: this.props,
-                        onResetFilter: () => this.onResetFilter()
-                    }}
-                    loadingProps={{ is: loading && fresh }}
+                    filterProps={filterProps}
                 >
                     <View style={styles.listViewContainer}>
-                        <ListView
-                            items={
-                                !filter
-                                    ? this.getItemList(items)
-                                    : this.getItemList(filterItems)
-                            }
-                            onPress={this.onItemSelect}
-                            refreshing={refreshing}
-                            loading={loading}
-                            isEmpty={
-                                !filter
-                                    ? items && items.length <= 0
-                                    : filterItems.length <= 0
-                            }
-                            canLoadMore={canLoadMore}
-                            getFreshItems={onHide => {
-                                this.onResetFilter();
-                                this.getItems({
-                                    fresh: true,
-                                    onResult: onHide,
-                                    params: { ...params, search }
-                                });
-                            }}
-                            getItems={() => {
-                                this.loadMoreItems();
-                            }}
-                            bottomDivider
-                            leftSubTitleStyle={itemsDescriptionStyle()}
-                            emptyContentProps={{
-                                title: emptyTitle,
-                                image: IMAGES.EMPTY_ITEMS,
-                                ...empty
-                            }}
-                        />
+                        <InfiniteScroll
+                            getItems={getItems}
+                            reference={ref => (this.scrollViewReference = ref)}
+                            getItemsInMount={false}
+                        >
+                            <ListView
+                                items={formatItems(items, currency)}
+                                onPress={this.onSelect}
+                                isEmpty={isEmpty}
+                                bottomDivider
+                                leftSubTitleStyle={itemsDescriptionStyle()}
+                                emptyContentProps={emptyContentProps}
+                            />
+                        </InfiniteScroll>
                     </View>
                 </MainLayout>
             </View>

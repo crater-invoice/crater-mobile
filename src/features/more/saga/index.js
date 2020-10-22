@@ -1,11 +1,12 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
-
+import { call, put, takeEvery } from 'redux-saga/effects';
+import { resetIdToken } from '../../authentication/actions';
+import { ROUTES } from '@/navigation';
+import Request from '@/api/request';
 import {
     moreTriggerSpinner,
     setItems,
     setItem,
     deleteItem,
-    setFilterItems,
     setMailConfiguration
 } from '../actions';
 import {
@@ -24,18 +25,11 @@ import {
     REMOVE_ITEM_URL,
     GET_MAIL_CONFIGURATION_URL
 } from '../constants';
-import { resetIdToken } from '../../authentication/actions';
-import { ROUTES } from '@/navigation';
-import Request from '@/api/request';
 
 /**
  * app logout action.
  */
-function* logout(payloadData) {
-    const {
-        payload: { navigation }
-    } = payloadData;
-
+function* logout({ payload: { navigation } }) {
     yield put(moreTriggerSpinner({ logoutLoading: true }));
 
     try {
@@ -52,43 +46,25 @@ function* logout(payloadData) {
 /**
  * Global Items.
  */
-function* getItems(payloadData) {
-    const {
-        payload: {
-            onResult,
-            fresh,
-            onMeta,
-            params = null,
-            pagination: { page = 1, limit = 10 },
-            filter
-        }
-    } = payloadData;
-
-    yield put(moreTriggerSpinner({ itemsLoading: true }));
+function* getItems({ payload }) {
+    const { fresh = true, onSuccess, queryString } = payload;
 
     try {
-        let param = {
-            ...params,
-            page,
-            limit
-        };
-
         const options = {
-            path: GET_ITEMS_URL(param)
+            path: GET_ITEMS_URL(queryString)
         };
 
         const response = yield call([Request, 'get'], options);
 
-        if (!filter) yield put(setItems({ items: response.items.data, fresh }));
-        else yield put(setFilterItems({ items: response.items.data, fresh }));
+        if (response?.items) {
+            const { data } = response.items;
+            yield put(setItems({ items: data, fresh }));
+        }
 
-        onMeta && onMeta(response.items);
-
-        onResult && onResult(response.items);
+        onSuccess?.(response?.items);
     } catch (error) {
         // console.log(error);
     } finally {
-        yield put(moreTriggerSpinner({ itemsLoading: false }));
     }
 }
 
@@ -112,11 +88,7 @@ function* getEditItem({ payload: { id, onResult } }) {
     }
 }
 
-function* addItem(payloadData) {
-    const {
-        payload: { item, onResult }
-    } = payloadData;
-
+function* addItem({ payload: { item, onResult } }) {
     yield put(moreTriggerSpinner({ itemLoading: true }));
 
     try {
@@ -129,7 +101,7 @@ function* addItem(payloadData) {
 
         yield put(setItems({ items: [res.item], prepend: true }));
 
-        onResult && onResult();
+        onResult?.();
     } catch (error) {
         // console.log(error);
     } finally {
@@ -137,11 +109,7 @@ function* addItem(payloadData) {
     }
 }
 
-function* editItem(payloadData) {
-    const {
-        payload: { item, id, onResult }
-    } = payloadData;
-
+function* editItem({ payload: { item, id, onResult } }) {
     yield put(moreTriggerSpinner({ itemLoading: true }));
 
     try {
@@ -156,7 +124,7 @@ function* editItem(payloadData) {
 
         yield put(setItems({ items: [response.item], prepend: true }));
 
-        onResult && onResult();
+        onResult?.();
     } catch (error) {
         // console.log(error);
     } finally {
@@ -164,11 +132,7 @@ function* editItem(payloadData) {
     }
 }
 
-function* removeItem(payloadData) {
-    const {
-        payload: { id, onResult }
-    } = payloadData;
-
+function* removeItem({ payload: { id, onResult } }) {
     yield put(moreTriggerSpinner({ itemLoading: true }));
 
     try {
@@ -182,7 +146,7 @@ function* removeItem(payloadData) {
             yield put(deleteItem({ id }));
         }
 
-        onResult && onResult(response);
+        onResult?.(response);
     } catch (error) {
         // console.log(error);
     } finally {

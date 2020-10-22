@@ -14,8 +14,7 @@ import {
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { formatListByName } from '@/utils';
 import { hasLength, hasValue } from '@/constants';
-import { itemsDescriptionStyle } from '@/features/invoices/components/Invoice/styles';
-
+import { itemsDescriptionStyle } from '@/styles';
 
 type IProps = {
     navigation: Object,
@@ -23,8 +22,8 @@ type IProps = {
     getCurrencies: Function,
     currencies: Object,
     loading: Boolean,
-    locale: String,
-}
+    locale: String
+};
 
 export class Currencies extends React.Component<IProps> {
     constructor(props) {
@@ -35,34 +34,32 @@ export class Currencies extends React.Component<IProps> {
             pagination: {
                 page: 1,
                 limit: 10,
-                lastPage: 1,
+                lastPage: 1
             },
             search: '',
             found: true,
-            currenciesFilter: [],
+            currenciesFilter: []
         };
     }
 
     componentDidMount() {
         this.getItems({ fresh: true });
-        goBack(MOUNT, this.props.navigation)
+        goBack(MOUNT, this.props.navigation);
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
 
-    onSelect = (currency) => {
-        const { navigation } = this.props
-        navigation.navigate(ROUTES.CURRENCY, { type: EDIT_CURRENCY_TYPE, currency })
-    }
+    onSelect = currency => {
+        const { navigation } = this.props;
+        navigation.navigate(ROUTES.CURRENCY, {
+            type: EDIT_CURRENCY_TYPE,
+            currency
+        });
+    };
 
-    getItems = ({
-        fresh = false,
-        onResult,
-        search,
-        filter = false
-    } = {}) => {
+    getItems = ({ fresh = false, onResult, search, filter = false } = {}) => {
         const { getCurrencies } = this.props;
         const { refreshing, pagination } = this.state;
 
@@ -72,10 +69,12 @@ export class Currencies extends React.Component<IProps> {
 
         this.setState({
             refreshing: true,
-            fresh,
+            fresh
         });
 
-        const paginationParams = fresh ? { ...pagination, page: 1 } : pagination;
+        const paginationParams = fresh
+            ? { ...pagination, page: 1 }
+            : pagination;
 
         if (!fresh && paginationParams.lastPage < paginationParams.page) {
             return;
@@ -91,71 +90,62 @@ export class Currencies extends React.Component<IProps> {
                     pagination: {
                         ...paginationParams,
                         lastPage: last_page,
-                        page: current_page + 1,
-                    },
+                        page: current_page + 1
+                    }
                 });
             },
-            onResult: (val) => {
+            onResult: val => {
                 this.setState({
                     refreshing: false,
-                    fresh: !val,
+                    fresh: !val
                 });
                 onResult && onResult();
-            },
+            }
         });
     };
 
     setFormField = (field, value) => {
         this.props.dispatch(change(CURRENCIES_FORM, field, value));
-    }
+    };
 
-
-    onSearch = (search) => {
-
+    onSearch = search => {
         const { globalCurrencies } = this.props;
         let searchFields = ['name'];
 
         if (hasValue(globalCurrencies) && hasLength(globalCurrencies)) {
+            let newData = globalCurrencies.filter(currency => {
+                let filterData = false;
 
-            let newData = globalCurrencies.filter((currency) => {
-                let filterData = false
-
-                searchFields.filter((field) => {
-                    let itemField = currency[field] ? currency[field] : ''
+                searchFields.filter(field => {
+                    let itemField = currency[field] ? currency[field] : '';
 
                     if (hasValue(itemField)) {
-                        itemField = itemField.toLowerCase()
+                        itemField = itemField.toLowerCase();
 
-                        let searchData = search.toString().toLowerCase()
+                        let searchData = search.toString().toLowerCase();
 
                         if (itemField.indexOf(searchData) > -1) {
-                            filterData = true
+                            filterData = true;
                         }
                     }
-                })
-                return filterData
+                });
+                return filterData;
             });
 
-            let currenciesFilter = formatListByName(newData)
+            let currenciesFilter = formatListByName(newData);
 
             this.setState({
                 currenciesFilter,
                 found: hasLength(currenciesFilter),
                 search
-            })
+            });
         }
     };
 
     loadMoreItems = () => this.getItems({ search: this.state.search });
 
     render() {
-
-        const {
-            navigation,
-            currencies,
-            loading,
-            locale,
-        } = this.props;
+        const { navigation, currencies, loading, locale } = this.props;
 
         const {
             refreshing,
@@ -163,53 +153,67 @@ export class Currencies extends React.Component<IProps> {
             fresh,
             search,
             currenciesFilter,
-            found,
+            found
         } = this.state;
 
         const canLoadMore = lastPage >= page;
 
+        let empty = !search
+            ? {
+                  description: Lng.t('currencies.empty.description', {
+                      locale
+                  }),
+                  buttonTitle: Lng.t('currencies.empty.buttonTitle', {
+                      locale
+                  }),
+                  buttonPress: () => {
+                      navigation.navigate(ROUTES.CURRENCY, {
+                          type: CREATE_CURRENCY_TYPE
+                      });
+                  }
+              }
+            : {};
 
-        let empty = (!search) ? {
-            description: Lng.t("currencies.empty.description", { locale }),
-            buttonTitle: Lng.t("currencies.empty.buttonTitle", { locale }),
-            buttonPress: () => {
-                navigation.navigate(ROUTES.CURRENCY, { type: CREATE_CURRENCY_TYPE })
-            }
-        } : {}
-
-        let emptyTitle = search ? Lng.t("search.noResult", { locale, search })
-            : Lng.t("currencies.empty.title", { locale })
+        let emptyTitle = search
+            ? Lng.t('search.noResult', { locale, search })
+            : Lng.t('currencies.empty.title', { locale });
 
         return (
             <View style={styles.container}>
                 <MainLayout
                     headerProps={{
-                        title: Lng.t("header.currencies", { locale }),
-                        leftIcon: "long-arrow-alt-left",
+                        title: Lng.t('header.currencies', { locale }),
+                        leftIcon: 'long-arrow-alt-left',
                         leftIconPress: () => navigation.goBack(null),
                         titleStyle: styles.headerTitle,
-                        rightIcon: "plus",
-                        placement: "center",
-                        rightIcon: "plus",
+                        rightIcon: 'plus',
+                        placement: 'center',
+                        rightIcon: 'plus',
                         rightIconPress: () => {
-                            navigation.navigate(ROUTES.CURRENCY, { type: CREATE_CURRENCY_TYPE })
-                        },
+                            navigation.navigate(ROUTES.CURRENCY, {
+                                type: CREATE_CURRENCY_TYPE
+                            });
+                        }
                     }}
                     onSearch={this.onSearch}
                     bottomDivider
                     loadingProps={{ is: loading && fresh }}
                 >
-                    <View style={styles.listViewContainer} >
+                    <View style={styles.listViewContainer}>
                         <ListView
-                            items={hasLength(currenciesFilter) ?
-                                currenciesFilter : found ? formatListByName(currencies) : []
+                            items={
+                                hasLength(currenciesFilter)
+                                    ? currenciesFilter
+                                    : found
+                                    ? formatListByName(currencies)
+                                    : []
                             }
                             onPress={this.onSelect}
                             refreshing={refreshing}
                             loading={loading}
                             isEmpty={found ? !hasLength(currencies) : true}
                             canLoadMore={canLoadMore}
-                            getFreshItems={(onHide) => {
+                            getFreshItems={onHide => {
                                 this.getItems({
                                     fresh: true,
                                     onResult: onHide,
@@ -217,7 +221,7 @@ export class Currencies extends React.Component<IProps> {
                                 });
                             }}
                             getItems={() => {
-                                this.loadMoreItems()
+                                this.loadMoreItems();
                             }}
                             bottomDivider
                             leftSubTitleStyle={itemsDescriptionStyle()}
@@ -227,10 +231,8 @@ export class Currencies extends React.Component<IProps> {
                             }}
                         />
                     </View>
-
                 </MainLayout>
             </View>
         );
     }
 }
-

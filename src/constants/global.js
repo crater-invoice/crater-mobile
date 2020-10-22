@@ -87,6 +87,10 @@ export const isBooleanTrue = field => {
     return Boolean(field);
 };
 
+export const hasTextLength = string => {
+    return hasValue(string) && string.length !== 0
+};
+
 export function dismissKeyboard() {
     Keyboard.dismiss();
 }

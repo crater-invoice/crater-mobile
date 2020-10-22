@@ -27,6 +27,10 @@ export const trim = (data) => {
 
 export const isIosPlatform = () => Platform.OS === 'ios';
 
+export const SCREEN_WIDTH = Dimensions.get('window').width
+
+export const SCREEN_HEIGHT = Dimensions.get('window').height
+
 export const definePlatformParam = (ios, android) => (isIosPlatform() ? ios : android);
 
 export const scrollToInput = ({ scrollView }, { target }) => {

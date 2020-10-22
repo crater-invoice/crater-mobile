@@ -3,8 +3,7 @@ import {
     SET_ITEMS,
     CLEAR_ITEM,
     SET_ITEM,
-    DELETE_ITEM,
-    SET_FILTER_ITEMS
+    DELETE_ITEM
 } from '../constants';
 
 const initialState = {
@@ -16,7 +15,6 @@ const initialState = {
         getItemLoading: false
     },
     items: [],
-    filterItems: [],
     item: null
 };
 
@@ -39,16 +37,6 @@ export default function moreReducer(state = initialState, action) {
             }
 
             return { ...state, items };
-
-        case SET_FILTER_ITEMS:
-            if (!payload.fresh) {
-                return {
-                    ...state,
-                    filterItems: [...state.filterItems, ...payload.items]
-                };
-            }
-
-            return { ...state, filterItems: payload.items };
 
         case DELETE_ITEM:
             const { id } = payload;

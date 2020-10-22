@@ -1,74 +1,51 @@
 // @flow
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { View } from 'react-native';
 import { styles } from './styles';
-import { ListView, Content } from '@/components';
-import { IMAGES } from '@/assets';
-import Lng from '@/lang/i18n';
+import { ListView, InfiniteScroll } from '@/components';
+import { ESTIMATES_TABS } from '../../constants';
 
 type IProps = {
-    canLoadMore: Boolean,
+    reference: any,
     parentProps: any
 };
 
-const Sent = ({ canLoadMore, parentProps }: IProps) => {
+export const Sent = ({ reference, parentProps }: IProps) => {
+    let scrollViewReference = useRef(null);
+    const { props, state, onSelect, getEmptyContentProps } = parentProps;
+    const { sentEstimates = [], getEstimates } = props;
+    const { search } = state;
 
-    const {
-        props,
-        state,
-        getItems,
-        onEstimateSelect,
-        loadMoreItems,
-        onAddEstimate
-    } = parentProps
-    const { sentEstimates = [], loading, locale } = props
-    const { refreshing, fresh, search, filter } = state
+    useEffect(() => {
+        const values = parentProps?.props?.formValues;
 
-    let empty = (!filter && !search) ? {
-        description: Lng.t("estimates.empty.sent.description", { locale }),
-        buttonTitle: Lng.t("estimates.empty.buttonTitle", { locale }),
-        buttonPress: () => onAddEstimate(),
-    } : {}
+        const queryString = { status: 'SENT', search, ...values };
+        scrollViewReference?.getItems?.({ queryString });
+        return () => {};
+    }, []);
 
-    let emptyTitle = search ? Lng.t("search.noResult", { locale, search })
-        : (!filter) ? Lng.t("estimates.empty.sent.title", { locale }) :
-            Lng.t("filter.empty.filterTitle", { locale })
+    const isEmpty = sentEstimates && sentEstimates.length <= 0;
 
     return (
         <View style={styles.content}>
-            <Content loadingProps={{ is: refreshing && fresh }}>
+            <InfiniteScroll
+                getItems={getEstimates}
+                getItemsInMount={false}
+                reference={ref => {
+                    scrollViewReference = ref;
+                    reference?.(ref);
+                }}
+            >
                 <ListView
                     items={sentEstimates}
-                    onPress={onEstimateSelect}
-                    refreshing={refreshing}
-                    loading={loading}
-                    isEmpty={sentEstimates.length <= 0}
-                    canLoadMore={canLoadMore}
-                    getFreshItems={(onHide) => {
-                        getItems({
-                            fresh: true,
-                            onResult: onHide,
-                            type: 'SENT',
-                            q: search,
-                            resetFilter: true
-                        });
-                    }}
-                    getItems={() => {
-                        loadMoreItems({
-                            type: 'SENT',
-                            q: search,
-                        });
-                    }}
+                    onPress={onSelect}
+                    isEmpty={isEmpty}
                     bottomDivider
-                    emptyContentProps={{
-                        title: emptyTitle,
-                        image: IMAGES.EMPTY_ESTIMATES,
-                        ...empty
-                    }}
+                    emptyContentProps={getEmptyContentProps(
+                        ESTIMATES_TABS.SENT
+                    )}
                 />
-            </Content>
+            </InfiniteScroll>
         </View>
     );
 };
-
-export default Sent;

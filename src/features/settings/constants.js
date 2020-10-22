@@ -549,7 +549,6 @@ export const EDIT_EXPENSE_CATEGORIES_URL = id => `categories/${id}`;
 export const REMOVE_EXPENSE_CATEGORIES_URL = id => `categories/${id}`;
 
 // Tax Types
-export const GET_SALES_TAXES_URL = () => `tax-types`;
 
 export const CREATE_SALES_TAX_URL = () => `tax-types`;
 export const EDIT_SALES_TAX_URL = tax => `tax-types/${tax.id}`;

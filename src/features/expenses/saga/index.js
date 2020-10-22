@@ -28,12 +28,7 @@ import {
 import { ROUTES } from '@/navigation';
 
 function* getExpenses({ payload }) {
-    const {
-        fresh = true,
-        onSuccess = null,
-        queryString = ({ page = 1, limit = 10 } = {})
-    } = payload;
-
+    const { fresh = true, onSuccess, queryString } = payload;
     try {
         const options = {
             path: GET_EXPENSES_URL(queryString)

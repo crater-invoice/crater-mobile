@@ -35,6 +35,7 @@ export class Expenses extends React.Component<IProps> {
 
     componentWillUnmount() {
         goBack(UNMOUNT);
+        this.focusListener?.remove?.();
     }
 
     onFocus = () => {

@@ -71,7 +71,7 @@ export class Customers extends React.Component<IProps> {
         });
     };
 
-    onCustomerSelect = customer => {
+    onSelect = customer => {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CUSTOMER, {
             customerId: customer.id,
@@ -103,9 +103,7 @@ export class Customers extends React.Component<IProps> {
             title: Lng.t(emptyTitle, { locale, search }),
             image: IMAGES.EMPTY_CUSTOMERS,
             ...(!search && {
-                description: Lng.t('customers.empty.description', {
-                    locale
-                })
+                description: Lng.t('customers.empty.description', { locale })
             }),
             ...(!search &&
                 !isFilter && {
@@ -153,7 +151,7 @@ export class Customers extends React.Component<IProps> {
                         >
                             <ListView
                                 items={customers}
-                                onPress={this.onCustomerSelect}
+                                onPress={this.onSelect}
                                 isEmpty={isEmpty}
                                 bottomDivider
                                 hasAvatar

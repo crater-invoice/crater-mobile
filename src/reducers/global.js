@@ -17,7 +17,6 @@ import {
     SET_GLOBAL_CURRENCIES
 } from '../features/settings/constants';
 
-
 const initialState = {
     customers: [],
     currencies: [],
@@ -66,34 +65,34 @@ export default function globalReducer(state = initialState, action) {
 
         case SET_GLOBAL_BOOTSTRAP:
             const {
-                currencies,
-                customers,
                 default_currency,
                 company,
-                taxTypes,
                 moment_date_format,
                 fiscal_year,
                 default_language = 'en'
             } = payload;
 
-            const taxList = formatTaxTypes(taxTypes);
-
             return {
                 ...state,
-                currencies,
-                customers,
                 currency: default_currency,
                 company,
                 dateFormat: moment_date_format,
-                taxTypes: taxList,
                 fiscalYear: fiscal_year,
                 locale: default_language
             };
 
         case SET_TAXES:
-            const taxes = formatTaxTypes(payload.taxTypes);
+            if (!payload.fresh) {
+                return {
+                    ...state,
+                    taxTypes: [
+                        ...state.taxTypes,
+                        ...formatTaxTypes(payload.taxTypes)
+                    ]
+                };
+            }
 
-            return { ...state, taxTypes: taxes };
+            return { ...state, taxTypes: formatTaxTypes(payload.taxTypes) };
 
         case SET_TAX:
             const tax = formatTaxTypes(payload.taxType);
