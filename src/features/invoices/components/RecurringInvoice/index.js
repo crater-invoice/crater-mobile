@@ -179,7 +179,7 @@ export class RecurringInvoice extends React.Component<IProps> {
     }
 
     onSubmitInvoice = (values, status = 'draft') => {
-        console.log({ values })
+        
         // const {
         //     createInvoice,
         //     navigation,
@@ -497,8 +497,6 @@ export class RecurringInvoice extends React.Component<IProps> {
         } : null
 
         this.invoiceRefs(this)
-
-        console.log({ formValues })
 
         return (
             <DefaultLayout

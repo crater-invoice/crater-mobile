@@ -50,13 +50,13 @@ function* getCustomFields({ payload }) {
         };
 
         const response = yield call([Request, 'get'], options);
-        console.log(response)
 
         if (response.customFields) {
             yield put(setCustomFields({ customFields: response.customFields.data, fresh }));
             onMeta?.(response.customFields);
             onResult?.(response.customFields);
         }
+        
     } catch (error) {
         console.log(error);
     } finally {

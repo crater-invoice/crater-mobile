@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
 import {
     DefaultLayout,
@@ -12,9 +12,10 @@ import {
 } from '@/components';
 import { Field, change } from 'redux-form';
 import Lng from '@/lang/i18n';
-import { EDIT_PREFERENCES } from '../../constants';
+import { EDIT_PREFERENCES, GET_TIMEZONE_URL, GET_DATE_FORMAT_URL, GET_FINANCIAL_YEAR_URL } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { headerTitle } from '@/styles';
+import { hasObjectLength, isArray } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -45,29 +46,48 @@ export class Preferences extends React.Component<IProps> {
     componentWillMount() {
         const {
             getPreferences,
-            getSettingItem
+            getSettingItem,
+            getTimezone,
+            getDateFormat,
+            getFinancialYear,
+            getGeneralSetting,
         } = this.props
 
         getPreferences({
             onResult: (val) => {
-                const { time_zones, date_formats, fiscal_years } = val
-                const dateFormatList = this.getDateFormatList(date_formats)
-                const timezoneList = this.getTimeZoneList(time_zones)
-                const fiscalYearLst = this.getFiscalYearList(fiscal_years)
-                this.setState({ timezoneList, dateFormatList, fiscalYearLst })
+                this.setFormField('time_zone', val.settings.time_zone)
+                this.setFormField('date_format', val.settings.moment_date_format)
+                this.setFormField('fiscal_year', val.settings.fiscal_year)
+                this.setFormField('discount_per_item', val.settings.discount_per_item === 'YES' || val.settings.discount_per_item === '1' ? true : false)
+                this.setFormField('tax_per_item', val.settings.tax_per_item === 'YES' || val.settings.tax_per_item === '1' ? true : false)
             }
         })
-        getSettingItem({
-            key: 'discount_per_item',
-            onResult: (val) => {
-                this.setState({ discountPerItem: val !== null ? val : 'NO' })
+        getGeneralSetting({
+            url: 'timezones',
+            responseUrl: 'time_zones',
+            onSuccess:(timezones)=>{
+            this.setState({
+                timezoneList: this.getTimeZoneList(timezones),
+            })
+        }})
+
+        getGeneralSetting({
+            url: 'date/formats',
+            responseUrl: 'date_formats',
+            onSuccess:(dateFormat)=>{
+                this.setState({
+                    dateFormatList: this.getDateFormatList(dateFormat),
+                })
             }
         })
 
-        getSettingItem({
-            key: 'tax_per_item',
-            onResult: (val) => {
-                this.setState({ taxPerItem: val !== null ? val : 'NO' })
+        getGeneralSetting({
+            url: 'fiscal/years',
+            responseUrl: 'fiscal_years',
+            onSuccess:(financialYear)=>{
+                this.setState({
+                    fiscalYearLst: this.getFiscalYearList(financialYear),
+                })
             }
         })
     }
@@ -166,11 +186,13 @@ export class Preferences extends React.Component<IProps> {
 
     setDiscountPerItem = (val) => {
         const { editSettingItem } = this.props
+        const settings = {
+            discount_per_item: val === true ? 'YES' : 'NO'
+        }
 
         editSettingItem({
             params: {
-                key: 'discount_per_item',
-                value: val === true ? 'YES' : 'NO'
+                settings
             },
             onResult: () => { this.toggleToast() }
         })
@@ -179,10 +201,13 @@ export class Preferences extends React.Component<IProps> {
     setTaxPerItem = (val) => {
         const { editSettingItem } = this.props
 
+        const settings = {
+            tax_per_item: val === true ? 'YES' : 'NO'
+        }
+
         editSettingItem({
             params: {
-                key: 'tax_per_item',
-                value: val === true ? 'YES' : 'NO'
+                settings
             },
             onResult: () => { this.toggleToast() }
         })
@@ -202,7 +227,9 @@ export class Preferences extends React.Component<IProps> {
                 time_zone,
             },
             dateFormats,
+            formValues,
             isLoading,
+            timezones,
         } = this.props;
 
         const {
@@ -228,7 +255,7 @@ export class Preferences extends React.Component<IProps> {
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
-                    is: isLoading || timezoneList.length === 0 || dateFormatList.length === 0 || discountPerItem === null || taxPerItem === null
+                    is: !isArray(timezoneList) || !isArray(dateFormatList) || !isArray(fiscalYearLst) || !hasObjectLength(formValues)
                 }}
                 toastProps={{
                     message: Lng.t("settings.preferences.settingUpdate", { locale }),
@@ -339,7 +366,7 @@ export class Preferences extends React.Component<IProps> {
                     <Field
                         name="discount_per_item"
                         component={ToggleSwitch}
-                        status={discountPerItem === 'YES' ? true : false}
+                        // status={discountPerItem === 'YES' ? true : false}
                         hint={Lng.t("settings.preferences.discountPerItem", { locale })}
                         description={Lng.t("settings.preferences.discountPerItemPlaceholder", { locale })}
                         onChangeCallback={(val) => this.setDiscountPerItem(val)
@@ -349,7 +376,7 @@ export class Preferences extends React.Component<IProps> {
                     <Field
                         name="tax_per_item"
                         component={ToggleSwitch}
-                        status={taxPerItem === 'YES' ? true : false}
+                        // status={taxPerItem === 'YES' ? true : false}
                         hint={Lng.t("settings.preferences.taxPerItem", { locale })}
                         description={Lng.t("settings.preferences.taxPerItemPlaceholder", { locale })}
                         onChangeCallback={(val) => this.setTaxPerItem(val)
