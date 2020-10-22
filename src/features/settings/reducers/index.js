@@ -247,6 +247,15 @@ export default function settingReducer(state = initialState, action) {
             return { ...state, currencies };
 
         case SET_CUSTOM_FIELDS:
+            if (!payload.fresh) {
+                return {
+                    ...state,
+                    customFields: [
+                        ...state.customFields,
+                        ...payload.customFields
+                    ]
+                };
+            }
             return { ...state, customFields: payload.customFields };
 
         case RESET_CUSTOM_FIELDS:

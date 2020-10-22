@@ -525,11 +525,11 @@ export const COMPANY_SETTINGS_TYPE = [
 
 // Endpoint Api URL
 // -----------------------------------------
-export const GET_COMPANY_URL = () => `settings/company`;
-export const EDIT_COMPANY_URL = () => `settings/company`;
+export const GET_COMPANY_URL = () => `me`;
+export const EDIT_COMPANY_URL = () => `me`;
 
-export const GET_ACCOUNT_URL = () => `settings/profile`;
-export const EDIT_ACCOUNT_URL = () => `settings/profile`;
+export const GET_ACCOUNT_URL = () => `me`;
+export const EDIT_ACCOUNT_URL = () => `me`;
 export const EDIT_ACCOUNT_AVATAR_URL = () => `settings/profile/upload-avatar`;
 
 export const GET_PREFERENCES_URL = () => `settings/general`;
@@ -575,9 +575,9 @@ export const EDIT_CURRENCY_URL = id => `currencies/${id}`;
 export const REMOVE_CURRENCY_URL = id => `currencies/${id}`;
 
 // Custom Fields
-export const GET_CUSTOM_FIELDS_URL = type =>
+export const GET_CUSTOM_FIELDS_URL = param =>
     `custom-fields?${queryString.stringify({
-        type,
+        ...param,
         orderByField: 'created_at',
         orderBy: 'desc'
     })}`;

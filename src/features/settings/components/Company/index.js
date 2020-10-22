@@ -65,19 +65,20 @@ export class Company extends React.Component<IProps> {
         hasCountryApiCalled && getCountries();
 
         getCompanyInformation({
-            onResult: company => {
+            onResult: (user) => {
+
                 this.setFormField(
                     'name',
-                    company.company_id ? company.company.name : ''
+                    user.company_id ? user.company.name : ''
                 );
 
-                if (company.addresses[0]) {
+                if (user.company.address) {
                     companyField.map(field => {
-                        this.setFormField(field, company.addresses[0][field]);
+                        this.setFormField(field, user.company.address[field]);
                     });
                 }
-                if (company.company.logo) {
-                    this.setState({ image: company.company.logo });
+                if (user.company.logo) {
+                    this.setState({ image: user.company.logo });
                 }
             }
         });

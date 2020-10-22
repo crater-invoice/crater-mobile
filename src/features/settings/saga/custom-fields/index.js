@@ -27,18 +27,34 @@ const alreadyInUse = error => {
     }
 };
 
-function* getCustomFields({ payload: { type = null, onResult = null } }) {
+function* getCustomFields({ payload }) {
+
+    const {
+        type = null, 
+        onResult = null,
+        onMeta = null,
+        fresh = true,
+        pagination: { page = 1, limit = 10 } = {},
+        search = null
+    } = {} = payload;
+
+
     yield put(settingsTriggerSpinner({ customFieldsLoading: true }));
 
     try {
+
+        const param = { page, limit, search, type }
+
         const options = {
-            path: GET_CUSTOM_FIELDS_URL(type)
+            path: GET_CUSTOM_FIELDS_URL(param)
         };
 
         const response = yield call([Request, 'get'], options);
+        console.log(response)
 
         if (response.customFields) {
-            yield put(setCustomFields({ customFields: response.customFields }));
+            yield put(setCustomFields({ customFields: response.customFields.data, fresh }));
+            onMeta?.(response.customFields);
             onResult?.(response.customFields);
         }
     } catch (error) {

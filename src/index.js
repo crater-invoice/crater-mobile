@@ -9,7 +9,7 @@ import { getBootstrap, getAppVersion } from './features/authentication/actions';
 import { AppLoader } from './components';
 import { env } from '@/config';
 import { ROUTES } from '@/navigation';
-import { loadFonts } from './constants';
+import { hasValue, loadFonts } from './constants';
 
 console.disableYellowBox = true;
 console.warn = () => {};
@@ -29,39 +29,39 @@ export default class Root extends Component<{}, IState> {
             afterLoad: () => {
                 const reduxStore = store.getState();
 
-                let { idToken = null } = reduxStore.auth;
-                let { endpointApi = null } = reduxStore.global;
+                const { idToken = null } = reduxStore?.auth;
+                const { endpointApi = null } = reduxStore?.global;
 
-                // if (idToken) {
-                //     store.dispatch(getBootstrap());
-                // }
+                if (idToken) {
+                    store.dispatch(getBootstrap());
+                }
 
-                // if (endpointApi) {
-                //     endpointApi !== null &&
-                //         typeof endpointApi !== 'undefined' &&
-                //         store.dispatch(
-                //             getAppVersion({
-                //                 onResult: ({ version }) => {
-                //                     if (
-                //                         version &&
-                //                         parseInt(env.APP_VERSION) <
-                //                             parseInt(version)
-                //                     ) {
-                //                         store.dispatch(
-                //                             NavigationActions.navigate({
-                //                                 routeName:
-                //                                     ROUTES.UPDATE_APP_VERSION
-                //                             })
-                //                         );
-                //                     }
-                //                 }
-                //             })
-                //         );
-                // }
+                this.checkAppVersion(endpointApi);
                 this.setState({ fontLoaded: true });
             }
         });
     }
+
+    checkAppVersion = endpointApi => {
+        if (hasValue(endpointApi)) {
+            store.dispatch(
+                getAppVersion({
+                    onResult: ({ version }) => {
+                        if (
+                            version &&
+                            parseInt(env.APP_VERSION) < parseInt(version)
+                        ) {
+                            store.dispatch(
+                                NavigationActions.navigate({
+                                    routeName: ROUTES.UPDATE_APP_VERSION
+                                })
+                            );
+                        }
+                    }
+                })
+            );
+        }
+    };
 
     render() {
         const { fontLoaded } = this.state;
