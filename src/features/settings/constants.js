@@ -325,12 +325,12 @@ export const CUSTOMIZES_MENU = (locale, Lng) => {
                 type: CUSTOMIZE_TYPE.ITEMS
             }
         },
-        {
-            title: Lng.t('header.currencies', { locale }),
-            fullItem: {
-                route: ROUTES.CURRENCIES
-            }
-        },
+        // {
+        //     title: Lng.t('header.currencies', { locale }),
+        //     fullItem: {
+        //         route: ROUTES.CURRENCIES
+        //     }
+        // },
         {
             title: Lng.t('header.customFields', { locale }),
             fullItem: {
@@ -573,15 +573,3 @@ export const GET_CURRENCIES_URL = param =>
 export const CREATE_CURRENCY_URL = () => `currencies`;
 export const EDIT_CURRENCY_URL = id => `currencies/${id}`;
 export const REMOVE_CURRENCY_URL = id => `currencies/${id}`;
-
-// Custom Fields
-export const GET_CUSTOM_FIELDS_URL = param =>
-    `custom-fields?${queryString.stringify({
-        ...param,
-        orderByField: 'created_at',
-        orderBy: 'desc'
-    })}`;
-export const CREATE_CUSTOM_FIELD_URL = `custom-fields`;
-export const GET_CUSTOM_FIELD_URL = id => `custom-fields/${id}/edit`;
-export const EDIT_CUSTOM_FIELD_URL = id => `custom-fields/${id}`;
-export const REMOVE_CUSTOM_FIELD_URL = id => `custom-fields/${id}`;

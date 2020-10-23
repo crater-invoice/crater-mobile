@@ -1,22 +1,17 @@
-import { call, put, takeEvery, delay } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { settingsTriggerSpinner, setCustomFields } from '../../actions';
+import * as queryStrings from 'query-string';
+import Request from '@/api/request';
+import { hasValue, alertMe } from '@/constants';
+import { ROUTES } from '@/navigation';
+import { getTitleByLanguage } from '@/utils';
 import {
     GET_CUSTOM_FIELDS,
     CREATE_CUSTOM_FIELD,
     EDIT_CUSTOM_FIELD,
     REMOVE_CUSTOM_FIELD,
-    GET_CUSTOM_FIELD,
-    // Endpoint Api URL
-    GET_CUSTOM_FIELDS_URL,
-    CREATE_CUSTOM_FIELD_URL,
-    GET_CUSTOM_FIELD_URL,
-    EDIT_CUSTOM_FIELD_URL,
-    REMOVE_CUSTOM_FIELD_URL
+    GET_CUSTOM_FIELD
 } from '../../constants';
-import Request from '@/api/request';
-import { hasValue, alertMe } from '@/constants';
-import { ROUTES } from '@/navigation';
-import { getTitleByLanguage } from '@/utils';
 
 const alreadyInUse = error => {
     if (error.includes('errors') && error.includes('name')) {
@@ -28,39 +23,23 @@ const alreadyInUse = error => {
 };
 
 function* getCustomFields({ payload }) {
-
-    const {
-        type = null, 
-        onResult = null,
-        onMeta = null,
-        fresh = true,
-        pagination: { page = 1, limit = 10 } = {},
-        search = null
-    } = {} = payload;
-
-
-    yield put(settingsTriggerSpinner({ customFieldsLoading: true }));
+    const { fresh = true, onSuccess, queryString } = payload;
 
     try {
-
-        const param = { page, limit, search, type }
-
         const options = {
-            path: GET_CUSTOM_FIELDS_URL(param)
+            path: `custom-fields?${queryStrings.stringify(queryString)}`
         };
 
         const response = yield call([Request, 'get'], options);
-        console.log(response)
 
-        if (response.customFields) {
-            yield put(setCustomFields({ customFields: response.customFields.data, fresh }));
-            onMeta?.(response.customFields);
-            onResult?.(response.customFields);
+        if (response?.customFields) {
+            const { data } = response.customFields;
+            yield put(setCustomFields({ customFields: data, fresh }));
         }
-    } catch (error) {
-        console.log(error);
+
+        onSuccess?.(response?.customFields);
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ customFieldsLoading: false }));
     }
 }
 
@@ -69,7 +48,7 @@ function* createCustomField({ payload: { params, navigation } }) {
 
     try {
         const options = {
-            path: CREATE_CUSTOM_FIELD_URL,
+            path: `custom-fields`,
             body: params
         };
 
@@ -90,9 +69,7 @@ function* getCustomField({ payload: { id, onResult = null } }) {
     yield put(settingsTriggerSpinner({ getCustomFieldLoading: true }));
 
     try {
-        const options = {
-            path: GET_CUSTOM_FIELD_URL(id)
-        };
+        const options = { path: `custom-fields/${id}/edit` };
 
         const response = yield call([Request, 'get'], options);
 
@@ -111,7 +88,7 @@ function* editCustomField({ payload: { id, params, navigation } }) {
 
     try {
         const options = {
-            path: EDIT_CUSTOM_FIELD_URL(id),
+            path: `custom-fields/${id}`,
             body: params
         };
 
@@ -132,9 +109,7 @@ function* removeCustomField({ payload: { id, navigation } }) {
     yield put(settingsTriggerSpinner({ removeCustomFieldLoading: true }));
 
     try {
-        const options = {
-            path: REMOVE_CUSTOM_FIELD_URL(id)
-        };
+        const options = { path: `custom-fields/${id}` };
 
         const response = yield call([Request, 'delete'], options);
 

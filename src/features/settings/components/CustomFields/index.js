@@ -4,7 +4,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
-import { MainLayout, ListView } from '@/components';
+import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { ROUTES } from '@/navigation';
 import Lng from '@/lang/i18n';
 import {
@@ -13,7 +13,6 @@ import {
     EDIT_CUSTOM_FIELD_TYPE
 } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import { hasLength, hasFieldValue, hasValue } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -27,30 +26,29 @@ type IProps = {
 export class CustomFields extends React.Component<IProps> {
     constructor(props) {
         super(props);
-        this.state = {
-            search: '',
-            refreshing: false,
-            pagination: {
-                page: 1,
-                limit: 10,
-                isLastPage: false
-            },
-            fresh: true,
-        };
+        this.scrollViewReference = React.createRef();
+        this.state = { search: '' };
     }
 
     componentDidMount() {
         const { navigation } = this.props;
-        this.getItems({ fresh: true });
         goBack(MOUNT, navigation);
+        this.onFocus();
     }
 
     componentWillUnmount() {
         const { customFields, resetCustomFields } = this.props;
-
         goBack(UNMOUNT);
+        this.focusListener?.remove?.();
         customFields && resetCustomFields?.();
     }
+
+    onFocus = () => {
+        const { navigation } = this.props;
+        this.focusListener = navigation.addListener('didFocus', () => {
+            this.scrollViewReference?.getItems?.();
+        });
+    };
 
     onSelect = field => {
         const { navigation } = this.props;
@@ -60,141 +58,91 @@ export class CustomFields extends React.Component<IProps> {
         });
     };
 
-    getItems = ({ fresh = false, onResult = null , search = null }: any = {}) => {
-        const { getCustomFields } = this.props;
-        const { refreshing, pagination } = this.state;
-
-        if (refreshing) { return; }
-
-        this.setState({
-            refreshing: true,
-            fresh,
-        });
-
-        const paginationParams = fresh ? { ...pagination, page: 1 } : pagination;
-
-        if (!fresh && paginationParams.lastPage < paginationParams.page) {
-            return;
-        }
-
-        getCustomFields({
-            fresh,
-            pagination: paginationParams,
-            search,
-            onMeta: ({ last_page, current_page}) => {
-                this.setState({
-                    pagination: {
-                        ...paginationParams,
-                        lastPage: last_page,
-                        page: current_page + 1,
-                    },
-                });
-            },
-            onResult: () => {
-                this.setState({ refreshing: false });
-                onResult?.()
-            }
-        });
-    };
-
     setFormField = (field, value) => {
         this.props.dispatch(change(CUSTOM_FIELDS_FORM, field, value));
     };
 
     onSearch = search => {
-        
         this.setState({ search });
-        this.getItems({ fresh: true, search })
+        this.scrollViewReference?.getItems?.({
+            queryString: { search },
+            showLoader: true
+        });
     };
 
-    loadMoreItems = () => {
-        const { search } = this.state
-        this.getItems({ search });
-    }
-
     render() {
-        const { navigation, customFields, loading, locale } = this.props;
-        const { search, 
-            refreshing,
-            pagination: { lastPage, page },
-            fresh 
-        } = this.state;
+        const {
+            navigation,
+            customFields,
+            locale,
+            getCustomFields
+        } = this.props;
+        const { search } = this.state;
 
-        let empty = !search
-            ? {
-                  description: Lng.t('customFields.empty.description', {
-                      locale
-                  }),
-                  buttonTitle: Lng.t('customFields.empty.buttonTitle', {
-                      locale
-                  }),
-                  buttonPress: () => {
-                      navigation.navigate(ROUTES.CUSTOMER_FIELD, {
-                          type: CREATE_CUSTOM_FIELD_TYPE
-                      });
-                  }
-              }
-            : {};
+        const isEmpty = customFields && customFields.length <= 0;
 
-        let emptyTitle = search
-            ? Lng.t('search.noResult', { locale, search })
-            : Lng.t('customFields.empty.title', { locale });
-        
-        const canLoadMore = lastPage >= page;
+        const emptyTitle = search
+            ? 'search.noResult'
+            : 'customFields.empty.title';
+
+        const emptyContentProps = {
+            title: Lng.t(emptyTitle, { locale, search }),
+            ...(!search && {
+                description: Lng.t('customFields.empty.description', {
+                    locale
+                }),
+                buttonTitle: Lng.t('customFields.empty.buttonTitle', {
+                    locale
+                }),
+                buttonPress: () => {
+                    navigation.navigate(ROUTES.CUSTOMER_FIELD, {
+                        type: CREATE_CUSTOM_FIELD_TYPE
+                    });
+                }
+            })
+        };
+
+        const headerProps = {
+            title: Lng.t('header.customFields', { locale }),
+            leftIcon: 'long-arrow-alt-left',
+            leftIconPress: () => navigation.goBack(null),
+            titleStyle: styles.headerTitle,
+            rightIcon: 'plus',
+            placement: 'center',
+            rightIconPress: () => {
+                navigation.navigate(ROUTES.CUSTOMER_FIELD, {
+                    type: CREATE_CUSTOM_FIELD_TYPE
+                });
+            }
+        };
 
         return (
             <View style={styles.container}>
                 <MainLayout
-                    headerProps={{
-                        title: Lng.t('header.customFields', {
-                            locale
-                        }),
-                        leftIcon: 'long-arrow-alt-left',
-                        leftIconPress: () => navigation.goBack(null),
-                        titleStyle: styles.headerTitle,
-                        rightIcon: 'plus',
-                        placement: 'center',
-                        rightIconPress: () => {
-                            navigation.navigate(ROUTES.CUSTOMER_FIELD, {
-                                type: CREATE_CUSTOM_FIELD_TYPE
-                            });
-                        }
-                    }}
+                    headerProps={headerProps}
                     onSearch={this.onSearch}
                     bottomDivider
-                    loadingProps={{ is: loading && !hasLength(customFields) }}
                 >
                     <View style={styles.listViewContainer}>
-                        <ListView
-                            items={customFields}
-                            onPress={this.onSelect}
-                            refreshing={refreshing}
-                            loading={loading}
-                            isEmpty={customFields.length <= 0}
-                            canLoadMore={false}
-                            getFreshItems={onHide => {
-                                this.getItems({ fresh: true,
-                                    onResult: onHide,
-                                    search
-                                });
-                            }}
-                            getItems={() => {
-                                console.log('getItems')
-                                this.loadMoreItems()
-                            }}
-                            bottomDivider
-                            emptyContentProps={{
-                                title: emptyTitle,
-                                ...empty
-                            }}
-                            leftTitleStyle={styles.leftTitleText}
-                            leftSubTitleLabelStyle={styles.leftSubTitleText}
-                            leftSubTitleContainerStyle={
-                                styles.leftTitleContainer
-                            }
-                            rightTitleStyle={styles.rightTitleText}
-                            canLoadMore={canLoadMore}
-                        />
+                        <InfiniteScroll
+                            getItems={getCustomFields}
+                            reference={ref => (this.scrollViewReference = ref)}
+                            getItemsInMount={false}
+                        >
+                            <ListView
+                                items={customFields}
+                                onPress={this.onSelect}
+                                isEmpty={isEmpty}
+                                bottomDivider
+                                emptyContentProps={emptyContentProps}
+                                leftTitleStyle={styles.leftTitleText}
+                                leftSubTitleLabelStyle={styles.leftSubTitleText}
+                                leftSubTitleContainerStyle={
+                                    styles.leftTitleContainer
+                                }
+                                rightTitleStyle={styles.rightTitleText}
+                            />
+                        </InfiniteScroll>
                     </View>
                 </MainLayout>
             </View>

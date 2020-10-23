@@ -54,7 +54,6 @@ const initialState = {
         currenciesLoading: false,
         currencyLoading: false,
         // Custom Fields
-        customFieldsLoading: false,
         customFieldLoading: false,
         getCustomFieldLoading: false,
         removeCustomFieldLoading: false
