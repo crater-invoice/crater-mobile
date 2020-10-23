@@ -7,7 +7,7 @@ import { MORE_SEARCH } from '../../constants';
 import * as MoreAction from '../../actions';
 import { getTitleByLanguage } from '@/utils';
 import { MORE_ICON } from '@/assets';
-import AssetSvg from '@/components/AssetSvg';
+import { AssetSvg } from '@/components';
 
 const mapStateToProps = ({ more, global }) => ({
     loading: more.loading.logoutLoading,

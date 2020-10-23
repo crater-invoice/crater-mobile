@@ -15,7 +15,7 @@ import {
 } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
 import { getPaymentModes } from '@/features/settings/actions';
-import AssetSvg from '@/components/AssetSvg';
+import { AssetSvg } from '@/components';
 
 const mapStateToProps = state => {
     const {

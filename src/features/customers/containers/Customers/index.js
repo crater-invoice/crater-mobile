@@ -8,7 +8,7 @@ import { colors } from '@/styles';
 import { getTitleByLanguage } from '@/utils';
 import { withNavigationFocus } from 'react-navigation';
 import { CUSTOMERS_ICON } from '@/assets';
-import AssetSvg from '@/components/AssetSvg';
+import { AssetSvg } from '@/components';
 
 const mapStateToProps = state => {
     const {
