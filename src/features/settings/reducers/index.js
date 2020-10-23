@@ -60,8 +60,6 @@ const initialState = {
         customFieldLoading: false,
         getCustomFieldLoading: false,
         removeCustomFieldLoading: false,
-        // General Setting
-        generalSettingsLoading: false
     },
     preferences: null,
     categories: [],

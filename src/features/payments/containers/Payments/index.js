@@ -5,7 +5,6 @@ import * as PaymentsAction from '../../actions';
 import { colors } from '@/styles';
 import { Payments } from '../../components/Payments';
 import { PAYMENT_SEARCH } from '../../constants';
-import { SvgXml } from 'react-native-svg';
 import { PAYMENTS_ICON } from '@/assets';
 import { getTitleByLanguage } from '@/utils';
 import { withNavigationFocus } from 'react-navigation';
@@ -16,6 +15,7 @@ import {
 } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
 import { getPaymentModes } from '@/features/settings/actions';
+import AssetSvg from '@/components/AssetSvg';
 
 const mapStateToProps = state => {
     const {
@@ -66,11 +66,9 @@ PaymentsContainer.navigationOptions = ({ navigation }) => ({
     gesturesEnabled: false,
     tabBarLabel: getTitleByLanguage('tabNavigation.payments'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <SvgXml
-            xml={PAYMENTS_ICON}
+        <AssetSvg 
+            name={PAYMENTS_ICON}
             fill={focused ? colors.primary : colors.darkGray}
-            width="22"
-            height="22"
         />
     )
 });

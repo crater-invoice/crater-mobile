@@ -281,14 +281,6 @@ export const removeCurrency = (payload = {}) => ({
     payload
 });
 
-// Languages
-// -------------------------------------------------
-
-export const setLanguages = (payload = {}) => ({
-    type: TYPES.SET_LANGUAGES,
-    payload
-})
-
 // Custom Fields
 // -------------------------------------------------
 export const getCustomFields = (payload = {}) => ({
@@ -326,9 +318,9 @@ export const resetCustomFields = (payload = {}) => ({
     payload
 });
 
-/////////////-------------->>>>>>>>>>>>>>>
+// General Settings
 
 export const getGeneralSetting = (payload = {}) => ({
     type: TYPES.GET_GENERAL_SETTING,
     payload
-})
+});

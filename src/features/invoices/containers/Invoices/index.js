@@ -5,7 +5,6 @@ import { reduxForm, getFormValues } from 'redux-form';
 import * as InvoicesAction from '../../actions';
 import { colors } from '@/styles';
 import { INVOICE_SEARCH } from '../../constants';
-import { SvgXml } from 'react-native-svg';
 import { INVOICES_ICON } from '@/assets';
 import { getCustomers } from '../../../customers/actions';
 import { getTitleByLanguage } from '@/utils';
@@ -15,6 +14,7 @@ import {
     getDraftInvoicesState,
     getAllInvoicesState
 } from '../../selectors';
+import AssetSvg from '@/components/AssetSvg';
 
 const mapStateToProps = state => {
     const {
@@ -58,11 +58,9 @@ InvoicesContainer.navigationOptions = ({ navigation }) => ({
     gesturesEnabled: false,
     tabBarLabel: getTitleByLanguage('tabNavigation.invoices'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <SvgXml
-            xml={INVOICES_ICON}
+        <AssetSvg 
+            name={INVOICES_ICON}
             fill={focused ? colors.primary : colors.darkGray}
-            width="22"
-            height="22"
         />
     )
 });

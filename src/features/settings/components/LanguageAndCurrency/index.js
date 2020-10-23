@@ -27,8 +27,7 @@ type IProps = {
     dateFormats: Object,
     currencies: Object,
     getPreferencesLoading: Boolean,
-    getSettingItemLoading: Boolean,
-    getCurrencies: Function
+    getSettingItemLoading: Boolean
 }
 
 

@@ -16,7 +16,7 @@ import {
   GET_GENERAL_SETTING
 } from '../../constants';
 
-import Request from '../../../../api/request';
+import Request from '@/api/request';
 
 function* getPreferences(payloadData) {
   const {
@@ -93,8 +93,6 @@ function* getGeneralSetting({ payload }) {
     responseUrl = null
   } = {} = payload
 
-  yield put(settingsTriggerSpinner({ generalSettingsLoading: true }))
-
   try {
     const options = {
       path : url
@@ -110,7 +108,6 @@ function* getGeneralSetting({ payload }) {
   } catch (error) {
     console.log(error)
   } finally {
-    yield put(settingsTriggerSpinner({ generalSettingsLoading: false }))
   }
 }
 

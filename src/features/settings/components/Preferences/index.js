@@ -12,7 +12,7 @@ import {
 } from '@/components';
 import { Field, change } from 'redux-form';
 import Lng from '@/lang/i18n';
-import { EDIT_PREFERENCES, GET_TIMEZONE_URL, GET_DATE_FORMAT_URL, GET_FINANCIAL_YEAR_URL } from '../../constants';
+import { EDIT_PREFERENCES } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { headerTitle } from '@/styles';
 import { hasObjectLength, isArray } from '@/constants';
@@ -46,20 +46,16 @@ export class Preferences extends React.Component<IProps> {
     componentWillMount() {
         const {
             getPreferences,
-            getSettingItem,
-            getTimezone,
-            getDateFormat,
-            getFinancialYear,
             getGeneralSetting,
         } = this.props
 
         getPreferences({
-            onResult: (val) => {
-                this.setFormField('time_zone', val.settings.time_zone)
-                this.setFormField('date_format', val.settings.moment_date_format)
-                this.setFormField('fiscal_year', val.settings.fiscal_year)
-                this.setFormField('discount_per_item', val.settings.discount_per_item === 'YES' || val.settings.discount_per_item === '1' ? true : false)
-                this.setFormField('tax_per_item', val.settings.tax_per_item === 'YES' || val.settings.tax_per_item === '1' ? true : false)
+            onResult: ({ settings }) => {
+                this.setFormField('time_zone', settings.time_zone)
+                this.setFormField('date_format', settings.moment_date_format)
+                this.setFormField('fiscal_year', settings.fiscal_year)
+                this.setFormField('discount_per_item', settings.discount_per_item === 'YES' || val.settings.discount_per_item === '1' ? true : false)
+                this.setFormField('tax_per_item', settings.tax_per_item === 'YES' || val.settings.tax_per_item === '1' ? true : false)
             }
         })
         getGeneralSetting({
@@ -226,18 +222,13 @@ export class Preferences extends React.Component<IProps> {
             formValues: {
                 time_zone,
             },
-            dateFormats,
             formValues,
-            isLoading,
-            timezones,
         } = this.props;
 
         const {
             timezoneList,
             dateFormatList,
             fiscalYearLst,
-            discountPerItem,
-            taxPerItem,
             visibleToast
         } = this.state
 
@@ -366,7 +357,6 @@ export class Preferences extends React.Component<IProps> {
                     <Field
                         name="discount_per_item"
                         component={ToggleSwitch}
-                        // status={discountPerItem === 'YES' ? true : false}
                         hint={Lng.t("settings.preferences.discountPerItem", { locale })}
                         description={Lng.t("settings.preferences.discountPerItemPlaceholder", { locale })}
                         onChangeCallback={(val) => this.setDiscountPerItem(val)
@@ -376,7 +366,6 @@ export class Preferences extends React.Component<IProps> {
                     <Field
                         name="tax_per_item"
                         component={ToggleSwitch}
-                        // status={taxPerItem === 'YES' ? true : false}
                         hint={Lng.t("settings.preferences.taxPerItem", { locale })}
                         description={Lng.t("settings.preferences.taxPerItemPlaceholder", { locale })}
                         onChangeCallback={(val) => this.setTaxPerItem(val)

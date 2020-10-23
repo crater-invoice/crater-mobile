@@ -14,11 +14,10 @@ const mapStateToProps = state => {
                 editPreferencesLoading,
                 getSettingItemLoading,
                 editSettingItemLoading,
-                generalSettingsLoading
             },
             preferences
         },
-        global: { locale, currencies, languages }
+        global: { locale, currencies }
     } = state;
 
     let isLoading =
@@ -31,10 +30,8 @@ const mapStateToProps = state => {
         locale,
         isLoading,
         currencies,
-        languages,
         editPreferencesLoading,
         editSettingItemLoading,
-        generalSettingsLoading,
         formValues: getFormValues(EDIT_PREFERENCES)(state) || {}
     };
 };

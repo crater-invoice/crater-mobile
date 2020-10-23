@@ -7,7 +7,6 @@ import { colors } from '@/styles';
 import { Expenses } from '../../components/Expenses';
 import { EXPENSE_SEARCH } from '../../constants';
 import { EXPENSES_ICON } from '@/assets';
-import { SvgXml } from 'react-native-svg';
 import { getTitleByLanguage } from '@/utils';
 import { withNavigationFocus } from 'react-navigation';
 import {
@@ -15,6 +14,7 @@ import {
     getFilterExpensesState,
     getCategoriesState
 } from '../../selectors';
+import AssetSvg from '@/components/AssetSvg';
 
 const mapStateToProps = state => {
     const {
@@ -57,11 +57,9 @@ ExpensesContainer.navigationOptions = ({ navigation }) => ({
     gesturesEnabled: false,
     tabBarLabel: getTitleByLanguage('tabNavigation.expenses'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <SvgXml
-            xml={EXPENSES_ICON}
+        <AssetSvg 
+            name={EXPENSES_ICON}
             fill={focused ? colors.primary : colors.darkGray}
-            width="22"
-            height="22"
         />
     )
 });

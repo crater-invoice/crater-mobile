@@ -595,20 +595,9 @@ export const PREFERENCES_SETTING_TYPE = [
 ]
 
 // Currencies
-export const GET_CURRENCIES_URL = () => `currencies`;
-
 export const CREATE_CURRENCY_URL = () => `currencies`;
 export const EDIT_CURRENCY_URL = id => `currencies/${id}`;
 export const REMOVE_CURRENCY_URL = id => `currencies/${id}`;
-
-// Languages
-export const GET_LANGUAGES_URL = () => 'languages'
-
-// Preferences
-export const GET_TIMEZONE_URL = () => 'timezones'
-export const GET_DATE_FORMAT_URL = () => 'date/formats'
-export const GET_FINANCIAL_YEAR_URL = () => 'fiscal/years'
-
 
 // Custom Fields
 export const GET_CUSTOM_FIELDS_URL = param =>
