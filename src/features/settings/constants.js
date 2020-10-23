@@ -41,6 +41,9 @@ export const SETTINGS_SEARCH = 'settings/SETTINGS_SEARCH';
 export const SETTINGS_TRIGGER_SPINNER = 'settings/SETTINGS_TRIGGER_SPINNER';
 export const LOGOUT = 'settings/LOGOUT';
 
+// General Settings
+export const GET_GENERAL_SETTING = 'GET_GENERAL_SETTING'
+
 // Preferences
 export const GET_PREFERENCES = 'preferences/GET_PREFERENCES';
 export const EDIT_PREFERENCES = 'preferences/EDIT_PREFERENCES';
@@ -88,12 +91,14 @@ export const EDIT_ITEM_UNIT = 'units/EDIT_ITEM_UNIT';
 export const REMOVE_ITEM_UNIT = 'units/REMOVE_ITEM_UNIT';
 
 // Currencies
-export const GET_CURRENCIES = 'currencies/GET_CURRENCIES';
 export const SET_CURRENCIES = 'currencies/SET_CURRENCIES';
 export const SET_GLOBAL_CURRENCIES = 'currencies/SET_GLOBAL_CURRENCIES';
 export const CREATE_CURRENCY = 'currencies/CREATE_CURRENCY';
 export const EDIT_CURRENCY = 'currencies/EDIT_CURRENCY';
 export const REMOVE_CURRENCY = 'currencies/REMOVE_CURRENCY';
+
+// Languages
+export const SET_LANGUAGES = 'languages/SET_LANGUAGES'
 
 // Custom Fields
 export const GET_CUSTOM_FIELDS = 'custom-field/GET_CUSTOM_FIELDS';
@@ -532,11 +537,12 @@ export const GET_ACCOUNT_URL = () => `me`;
 export const EDIT_ACCOUNT_URL = () => `me`;
 export const EDIT_ACCOUNT_AVATAR_URL = () => `settings/profile/upload-avatar`;
 
-export const GET_PREFERENCES_URL = () => `settings/general`;
-export const EDIT_PREFERENCES_URL = () => `settings/general`;
+export const GET_PREFERENCES_URL = () => `company/settings`;
+export const EDIT_PREFERENCES_URL = () => `company/settings`;
 
-export const GET_GENERAL_SETTING_URL = key => `settings/get-setting?key=${key}`;
-export const EDIT_GENERAL_SETTING_URL = () => `settings/update-setting`;
+// export const GET_GENERAL_SETTING_URL = key => `settings/get-setting?key=${key}`;
+export const GET_GENERAL_SETTING_URL = () => `company/settings`;
+export const EDIT_GENERAL_SETTING_URL = () => `company/settings`;
 
 export const UPLOAD_LOGO_URL = () => `settings/company/upload-logo`;
 
@@ -562,14 +568,18 @@ export const CREATE_ITEM_UNIT_URL = () => `units`;
 export const EDIT_ITEM_UNIT_URL = id => `units/${id}`;
 export const REMOVE_ITEM_UNIT_URL = id => `units/${id}`;
 
-// Currencies
-export const GET_CURRENCIES_URL = param =>
-    `currencies?${queryString.stringify({
-        ...param,
-        orderByField: 'created_at',
-        orderBy: 'desc'
-    })}`;
+export const PREFERENCES_SETTING_TYPE = [
+    'currency',
+    'time_zone',
+    'language',
+    'fiscal_year',
+    'carbon_date_format',
+    'moment_date_format',
+    'discount_per_item',
+    'tax_per_item'
+]
 
+// Currencies
 export const CREATE_CURRENCY_URL = () => `currencies`;
 export const EDIT_CURRENCY_URL = id => `currencies/${id}`;
 export const REMOVE_CURRENCY_URL = id => `currencies/${id}`;

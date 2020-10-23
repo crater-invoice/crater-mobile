@@ -34,6 +34,7 @@ import {
     UPLOAD_LOGO_URL,
     GET_CUSTOMIZE_SETTINGS_URL,
     EDIT_CUSTOMIZE_SETTINGS_URL,
+    PREFERENCES_SETTING_TYPE
 } from '../constants';
 
 import { ROUTES } from '@/navigation';
@@ -45,6 +46,7 @@ import units from './units';
 import currencies from './currencies';
 import customFields from './custom-fields';
 import Request from '@/api/request';
+import preferences from './preferences'
 
 /**
  * Company Information.
@@ -178,30 +180,6 @@ function* editAccountInformation(payloadData) {
  * App Settings
  * -----------------------------------------
  */
-function* getPreferences(payloadData) {
-    const {
-        payload: { onResult },
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ getPreferencesLoading: true }));
-
-    try {
-
-        const options = {
-            path: GET_PREFERENCES_URL(),
-        };
-
-        const response = yield call([Request, 'get'], options);
-        yield put(setPreferences({ preferences: response }));
-        onResult && onResult(response)
-
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(settingsTriggerSpinner({ getPreferencesLoading: false }));
-    }
-}
-
 function* getSettingItem(payloadData) {
     const {
         payload: { key, onResult = null },
@@ -210,56 +188,17 @@ function* getSettingItem(payloadData) {
     yield put(settingsTriggerSpinner({ getSettingItemLoading: true }));
 
     try {
-
         const options = {
-            path: GET_GENERAL_SETTING_URL(key),
+            path: GET_GENERAL_SETTING_URL(),
         };
 
         const response = yield call([Request, 'get'], options);
-        onResult && onResult(response[key])
+        onResult && onResult(response)
 
     } catch (error) {
         // console.log(error);
     } finally {
         yield put(settingsTriggerSpinner({ getSettingItemLoading: false }));
-    }
-}
-
-function* editPreferences(payloadData) {
-    const {
-        payload: { params, navigation, currencies },
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ editPreferencesLoading: true }));
-
-    try {
-
-        const options = {
-            path: EDIT_PREFERENCES_URL(),
-            body: params
-        };
-
-        const response = yield call([Request, 'put'], options);
-        if (response.success) {
-            let newData = currencies.filter((item) => {
-                let filterData = false
-                if (item['id'].toString() === params.currency.toString())
-                    filterData = true
-
-                return filterData
-            });
-
-            yield put(setSettings({
-                settings: params,
-                currency: newData.length !== 0 ? newData[0] : []
-            }));
-            navigation.goBack(null)
-        }
-
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(settingsTriggerSpinner({ editPreferencesLoading: false }));
     }
 }
 
@@ -282,8 +221,8 @@ function* editSettingItem(payloadData) {
             body: params
         };
 
-        const response = yield call([Request, 'put'], options);
-
+        const response = yield call([Request, 'post'], options);
+    
         if (response.success) {
             if (!hasCustomize) {
                 yield put(setSettings({ settings: params }));
@@ -357,9 +296,7 @@ export default function* settingsSaga() {
     yield takeEvery(EDIT_COMPANY_INFO, editCompanyInformation);
     yield takeEvery(GET_ACCOUNT_INFO, getAccountInformation);
     yield takeEvery(EDIT_ACCOUNT_INFO, editAccountInformation);
-    yield takeEvery(GET_PREFERENCES, getPreferences);
     yield takeEvery(GET_SETTING_ITEM, getSettingItem);
-    yield takeEvery(EDIT_PREFERENCES, editPreferences);
     yield takeEvery(EDIT_SETTING_ITEM, editSettingItem);
 
     // Customize
@@ -374,5 +311,6 @@ export default function* settingsSaga() {
         units(),
         currencies(),
         customFields(),
+        preferences()
     ]);
 }

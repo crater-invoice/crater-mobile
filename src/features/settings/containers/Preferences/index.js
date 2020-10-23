@@ -13,7 +13,7 @@ const mapStateToProps = state => {
                 getPreferencesLoading,
                 editPreferencesLoading,
                 getSettingItemLoading,
-                editSettingItemLoading
+                editSettingItemLoading,
             },
             preferences
         },
@@ -32,18 +32,7 @@ const mapStateToProps = state => {
         currencies,
         editPreferencesLoading,
         editSettingItemLoading,
-        formValues: getFormValues(EDIT_PREFERENCES)(state) || {},
-        initialValues: !isLoading
-            ? {
-                  currency: preferences.selectedCurrency,
-                  language: preferences.selectedLanguage,
-                  time_zone: preferences.time_zone,
-                  date_format: preferences.carbon_date_format,
-                  carbon_date_format: preferences.carbon_date_format,
-                  moment_date_format: preferences.moment_date_format,
-                  fiscal_year: preferences.fiscal_year
-              }
-            : null
+        formValues: getFormValues(EDIT_PREFERENCES)(state) || {}
     };
 };
 
@@ -52,7 +41,8 @@ const mapDispatchToProps = {
     editPreferences: PreferencesAction.editPreferences,
     clearPreferences: PreferencesAction.clearPreferences,
     getSettingItem: PreferencesAction.getSettingItem,
-    editSettingItem: PreferencesAction.editSettingItem
+    editSettingItem: PreferencesAction.editSettingItem,
+    getGeneralSetting: PreferencesAction.getGeneralSetting,
 };
 
 //  Redux Forms

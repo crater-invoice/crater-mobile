@@ -14,6 +14,7 @@ import { EDIT_LANGUAGE_AND_CURRENCY } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { headerTitle } from '@/styles';
 import { SymbolStyle } from '@/components/CurrencyFormat/styles';
+import { hasObjectLength, isArray } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -43,14 +44,30 @@ export class LanguageAndCurrency extends React.Component<IProps> {
     componentWillMount() {
         const {
             getPreferences,
+            getGeneralSetting
         } = this.props
 
         getPreferences({
             onResult: (val) => {
-                const { currencies, languages } = val
+                this.setFormField('language', val.settings.language)
+                this.setFormField('currency', val.settings.currency)
+            }
+        })
+
+        getGeneralSetting({
+            url: 'currencies',
+            onSuccess:(currency)=>{
                 this.setState({
-                    currencyList: this.getCurrenciesList(currencies),
-                    languagesList: this.getLanguagesList(languages),
+                    currencyList: this.getCurrenciesList(currency),
+                })
+            }
+        })
+
+        getGeneralSetting({
+            url: 'languages',
+            onSuccess:(language)=>{
+                this.setState({
+                    languagesList: this.getLanguagesList(language),
                 })
             }
         })
@@ -99,33 +116,36 @@ export class LanguageAndCurrency extends React.Component<IProps> {
 
         let currencyList = []
         if (typeof currencies !== 'undefined' && currencies.length != 0) {
-            currencyList = currencies.map((currency) => {
+            currencies.map((currency) => {
 
                 const { name, code, symbol } = currency
-                return {
+
+                currencyList.push({
                     title: name,
                     subtitle: {
                         title: code,
                     },
                     rightTitle: symbol || '-',
                     fullItem: currency
-                }
+                })
+
             })
         }
         return currencyList
     }
 
     getLanguagesList = (languages) => {
-        let languageList = []
+        const languageList = []
         if (typeof languages !== 'undefined' && languages) {
-            languageList = languages.map((language) => {
+            
+            languages.map((language) => {
 
-                let { name } = language
-                return {
+                const { name } = language
+                languageList.push({
                     title: name,
                     leftAvatar: name.toUpperCase().charAt(0),
                     fullItem: language
-                }
+                })
             })
         }
         return languageList
@@ -133,8 +153,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
 
     getSelectedField = (items, find, field) => {
         let newData = []
-        if (typeof items !== 'undefined') {
-
+        if (isArray(items)) {
             newData = items.filter((item) => {
                 let filterData = false
                 let itemField = item.fullItem ?
@@ -147,7 +166,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
             });
 
         }
-
+       
         if (newData.length !== 0) {
             let { name } = newData[0].fullItem
             return name
@@ -169,7 +188,6 @@ export class LanguageAndCurrency extends React.Component<IProps> {
         } = this.props;
 
         const { currencyList, languagesList } = this.state
-
         return (
             <DefaultLayout
                 headerProps={{
@@ -185,7 +203,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
-                    is: isLoading || currencyList.length === 0 || languagesList.length === 0
+                    is: !isArray(languagesList) || !isArray(currencyList) || !hasObjectLength(formValues)
                 }}
             >
 

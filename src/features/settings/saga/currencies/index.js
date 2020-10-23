@@ -8,16 +8,10 @@ import {
 } from '../../actions';
 
 import {
-
     // Endpoint Api URL
-    CREATE_ITEM_UNIT_URL,
-    EDIT_ITEM_UNIT_URL,
-    REMOVE_ITEM_UNIT_URL,
-    GET_CURRENCIES,
     CREATE_CURRENCY,
     EDIT_CURRENCY,
     REMOVE_CURRENCY,
-    GET_CURRENCIES_URL,
     CREATE_CURRENCY_URL,
     EDIT_CURRENCY_URL,
     REMOVE_CURRENCY_URL,
@@ -42,47 +36,6 @@ const alreadyInUse = (error) => {
         return true;
     }
 }
-
-
-function* getCurrencies(payloadData) {
-    const {
-        payload: {
-            onResult = null,
-            onMeta = null,
-            fresh = true,
-            search,
-            pagination: { page = 1, limit = 10 } = {},
-        } = {},
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ currenciesLoading: true }));
-
-    try {
-
-        let param = {
-            search,
-            page,
-            limit
-        }
-
-        const options = {
-            path: GET_CURRENCIES_URL(param),
-        };
-
-        const response = yield call([Request, 'get'], options);
-
-        yield put(setCurrencies({ currencies: response.currencies.data, fresh }));
-
-        onMeta && onMeta(response.currencies);
-
-        onResult && onResult(response.currencies);
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(settingsTriggerSpinner({ currenciesLoading: false }));
-    }
-}
-
 
 function* createCurrency({ payload: { params, navigation } }) {
 
@@ -168,7 +121,6 @@ function* removeCurrency({ payload: { id, navigation } }) {
 export default function* currenciesSaga() {
     // Currencies
     // -----------------------------------------
-    yield takeEvery(GET_CURRENCIES, getCurrencies);
     yield takeEvery(CREATE_CURRENCY, createCurrency);
     yield takeEvery(EDIT_CURRENCY, editCurrency);
     yield takeEvery(REMOVE_CURRENCY, removeCurrency);

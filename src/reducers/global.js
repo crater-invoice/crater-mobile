@@ -152,10 +152,6 @@ export default function globalReducer(state = initialState, action) {
                 return {
                     ...state,
                     locale: payload.settings.language,
-                    timeZone: payload.settings.time_zone,
-                    dateFormat: payload.settings.moment_date_format,
-                    fiscalYear: payload.settings.fiscal_year,
-                    currency: payload.currency
                 };
 
         case SET_MAIL_CONFIGURATION:

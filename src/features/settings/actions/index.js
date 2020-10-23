@@ -255,11 +255,6 @@ export const removeItemUnit = (payload = {}) => ({
 });
 
 // Currencies
-// -------------------------------------------------
-export const getCurrencies = (payload = {}) => ({
-    type: TYPES.GET_CURRENCIES,
-    payload
-});
 
 export const setCurrencies = (payload = {}) => ({
     type: TYPES.SET_CURRENCIES,
@@ -320,5 +315,12 @@ export const removeCustomField = (payload = {}) => ({
 
 export const resetCustomFields = (payload = {}) => ({
     type: TYPES.RESET_CUSTOM_FIELDS,
+    payload
+});
+
+// General Settings
+
+export const getGeneralSetting = (payload = {}) => ({
+    type: TYPES.GET_GENERAL_SETTING,
     payload
 });

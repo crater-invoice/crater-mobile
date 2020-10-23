@@ -11,6 +11,7 @@ import { getTitleByLanguage } from '@/utils';
 import { getPaymentsState, getPaymentMethodsState } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
 import { getPaymentModes } from '@/features/settings/actions';
+import AssetSvg from '@/components/AssetSvg';
 
 const mapStateToProps = state => {
     const {
@@ -50,11 +51,9 @@ PaymentsContainer.navigationOptions = ({ navigation }) => ({
     gesturesEnabled: false,
     tabBarLabel: getTitleByLanguage('tabNavigation.payments'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <SvgXml
-            xml={PAYMENTS_ICON}
+        <AssetSvg 
+            name={PAYMENTS_ICON}
             fill={focused ? colors.primary : colors.darkGray}
-            width="22"
-            height="22"
         />
     )
 });
