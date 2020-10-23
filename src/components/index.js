@@ -29,6 +29,7 @@ export * from './UpdateAppVersion';
 export * from './CurrencyFormat';
 export * from './Toast';
 export * from './AnimateModal';
+export * from './AssetSvg'
 export * from './InputModal';
 export * from './TermsAndCondition';
 export * from './SendMail';

@@ -8,7 +8,7 @@ interface IProps {
     height?: Number | String;
 }
 
-export default AssetSvg = ({
+export const AssetSvg = ({
     name,
     fill,
     width = '22',
@@ -16,3 +16,5 @@ export default AssetSvg = ({
 }: IProps) => {
     return <SvgXml xml={name} width={width} height={height} fill={fill} />;
 };
+
+export default AssetSvg

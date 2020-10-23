@@ -8,6 +8,7 @@ import { Expenses } from '../../components/Expenses';
 import { EXPENSE_SEARCH } from '../../constants';
 import { EXPENSES_ICON } from '@/assets';
 import { getTitleByLanguage } from '@/utils';
+import { AssetSvg } from '@/components';
 import { getExpensesState, getCategoriesState } from '../../selectors';
 
 const mapStateToProps = state => {

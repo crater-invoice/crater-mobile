@@ -13,7 +13,7 @@ import {
     getDraftInvoicesState,
     getAllInvoicesState
 } from '../../selectors';
-import AssetSvg from '@/components/AssetSvg';
+import { AssetSvg } from '@/components';
 
 const mapStateToProps = state => {
     const {

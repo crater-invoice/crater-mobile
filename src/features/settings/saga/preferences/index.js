@@ -112,7 +112,7 @@ function* getGeneralSetting({ payload }) {
 }
 
 export default function* preferencesSaga() {
-  // Languages
+  // Preferences
   // -----------------------------------------
   yield takeEvery(GET_PREFERENCES, getPreferences);
   yield takeEvery(EDIT_PREFERENCES, editPreferences);

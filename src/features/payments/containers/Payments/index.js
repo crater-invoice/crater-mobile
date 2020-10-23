@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
-import { SvgXml } from 'react-native-svg';
 import * as PaymentsAction from '../../actions';
 import { colors } from '@/styles';
 import { Payments } from '../../components/Payments';
@@ -11,7 +10,7 @@ import { getTitleByLanguage } from '@/utils';
 import { getPaymentsState, getPaymentMethodsState } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
 import { getPaymentModes } from '@/features/settings/actions';
-import AssetSvg from '@/components/AssetSvg';
+import { AssetSvg } from '@/components';
 
 const mapStateToProps = state => {
     const {
@@ -51,7 +50,7 @@ PaymentsContainer.navigationOptions = ({ navigation }) => ({
     gesturesEnabled: false,
     tabBarLabel: getTitleByLanguage('tabNavigation.payments'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <AssetSvg 
+        <AssetSvg
             name={PAYMENTS_ICON}
             fill={focused ? colors.primary : colors.darkGray}
         />
