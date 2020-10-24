@@ -48,7 +48,7 @@ function* getPreferences(payloadData) {
 
 function* editPreferences(payloadData) {
   const {
-      payload: { params, navigation, currencies },
+      payload: { params, navigation },
   } = payloadData;
 
   yield put(settingsTriggerSpinner({ editPreferencesLoading: true }));

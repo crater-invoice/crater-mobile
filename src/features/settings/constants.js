@@ -42,7 +42,7 @@ export const SETTINGS_TRIGGER_SPINNER = 'settings/SETTINGS_TRIGGER_SPINNER';
 export const LOGOUT = 'settings/LOGOUT';
 
 // General Settings
-export const GET_GENERAL_SETTING = 'GET_GENERAL_SETTING'
+export const GET_GENERAL_SETTING = 'GET_GENERAL_SETTING';
 
 // Preferences
 export const GET_PREFERENCES = 'preferences/GET_PREFERENCES';
@@ -98,7 +98,7 @@ export const EDIT_CURRENCY = 'currencies/EDIT_CURRENCY';
 export const REMOVE_CURRENCY = 'currencies/REMOVE_CURRENCY';
 
 // Languages
-export const SET_LANGUAGES = 'languages/SET_LANGUAGES'
+export const SET_LANGUAGES = 'languages/SET_LANGUAGES';
 
 // Custom Fields
 export const GET_CUSTOM_FIELDS = 'custom-field/GET_CUSTOM_FIELDS';
@@ -535,7 +535,7 @@ export const EDIT_COMPANY_URL = () => `me`;
 
 export const GET_ACCOUNT_URL = () => `me`;
 export const EDIT_ACCOUNT_URL = () => `me`;
-export const EDIT_ACCOUNT_AVATAR_URL = () => `settings/profile/upload-avatar`;
+export const EDIT_ACCOUNT_AVATAR_URL = () => `me/upload-avatar`;
 
 export const GET_PREFERENCES_URL = () => `company/settings`;
 export const EDIT_PREFERENCES_URL = () => `company/settings`;
@@ -577,9 +577,16 @@ export const PREFERENCES_SETTING_TYPE = [
     'moment_date_format',
     'discount_per_item',
     'tax_per_item'
-]
+];
 
 // Currencies
 export const CREATE_CURRENCY_URL = () => `currencies`;
 export const EDIT_CURRENCY_URL = id => `currencies/${id}`;
 export const REMOVE_CURRENCY_URL = id => `currencies/${id}`;
+
+// Notification
+export const NOTIFICATION_MAIL_TYPE = [
+    'notify_invoice_viewed',
+    'notify_estimate_viewed',
+    'notification_email'
+]

@@ -37,23 +37,13 @@ export class Notification extends React.Component<IProps> {
         const { getSettingItem } = this.props
 
         getSettingItem({
-            key: 'notify_invoice_viewed',
             onResult: (val) => {
+                this.setFormField('notification_email', val.settings.notification_email)
+                this.setFormField('notify_invoice_viewed', val.settings.notify_invoice_viewed === 'YES' || val.settings.notify_invoice_viewe === 1 ? true : false)
+                this.setFormField('notify_estimate_viewed', val.settings.notify_estimate_viewed === 'YES' || val.settings.notify_estimate_viewed === 1 ? true : false)
                 this.setState({ invoiceStatus: val !== null ? val : 'NO' })
-            }
-        })
-
-        getSettingItem({
-            key: 'notify_estimate_viewed',
-            onResult: (val) => {
                 this.setState({ estimateStatus: val !== null ? val : 'NO' })
-            }
-        })
-
-        getSettingItem({
-            key: 'notification_email',
-            onResult: (val) => {
-                this.setFormField('notification_email', val)
+                this.setState({ email: val !== null ? val : '' })
             }
         })
     }
@@ -63,7 +53,7 @@ export class Notification extends React.Component<IProps> {
         goBack(MOUNT, navigation)
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    componentWillUpdate(nextProps) {
 
         const { navigation } = nextProps
         const toastMsg = navigation.getParam('toastMsg', null)
@@ -85,10 +75,13 @@ export class Notification extends React.Component<IProps> {
     onNotificationSubmit = ({ notification_email }) => {
         const { editSettingItem, navigation } = this.props
 
+        const settings = {
+            notification_email: notification_email
+        }
+
         editSettingItem({
             params: {
-                key: 'notification_email',
-                value: notification_email
+                settings
             },
             navigation
         })
@@ -98,10 +91,13 @@ export class Notification extends React.Component<IProps> {
     invoiceStatus = (status) => {
         const { editSettingItem } = this.props
 
+        const settings = {
+            notify_invoice_viewed: status === true ? 'YES' : 'NO'
+        }
+
         editSettingItem({
             params: {
-                key: 'notify_invoice_viewed',
-                value: status === true ? 'YES' : 'NO'
+                settings
             },
             onResult: () => { this.toggleToast('settings.notifications.invoiceViewedUpdated') }
         })
@@ -110,10 +106,13 @@ export class Notification extends React.Component<IProps> {
     estimateStatus = (status) => {
         const { editSettingItem } = this.props
 
+        const settings = {
+            notify_estimate_viewed: status === true ? 'YES' : 'NO'
+        }
+
         editSettingItem({
             params: {
-                key: 'notify_estimate_viewed',
-                value: status === true ? 'YES' : 'NO'
+                settings
             },
             onResult: () => { this.toggleToast('settings.notifications.estimateViewedUpdated') }
         })
@@ -133,7 +132,7 @@ export class Notification extends React.Component<IProps> {
             getSettingItemLoading,
         } = this.props;
 
-        const { invoiceStatus, estimateStatus } = this.state
+        const { invoiceStatus, estimateStatus, email } = this.state
         let toastMessage = navigation.getParam('toastMsg', '')
 
         return (
@@ -151,7 +150,7 @@ export class Notification extends React.Component<IProps> {
                 }}
                 loadingProps={{
                     is: getSettingItemLoading || invoiceStatus === null ||
-                        estimateStatus === null
+                        estimateStatus === null || email === null
                 }}
                 toastProps={{
                     message: Lng.t(toastMessage, { locale }),

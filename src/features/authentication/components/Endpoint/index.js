@@ -100,7 +100,6 @@ export class Endpoint extends Component<IProps> {
         const {
             handleSubmit,
             locale,
-            navigation,
             skipEndpoint = false,
             loading
         } = this.props;
@@ -135,7 +134,7 @@ export class Endpoint extends Component<IProps> {
                         paddingTop: isKeyboardVisible
                             && !isIPhoneX() ? '5%'
                             : skipEndpoint
-                            ? '18%'
+                            ? '23%'
                             : '32%',
                     }}
                     bounces={isKeyboardVisible}

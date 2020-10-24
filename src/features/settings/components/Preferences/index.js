@@ -54,8 +54,8 @@ export class Preferences extends React.Component<IProps> {
                 this.setFormField('time_zone', settings.time_zone)
                 this.setFormField('date_format', settings.moment_date_format)
                 this.setFormField('fiscal_year', settings.fiscal_year)
-                this.setFormField('discount_per_item', settings.discount_per_item === 'YES' || val.settings.discount_per_item === '1' ? true : false)
-                this.setFormField('tax_per_item', settings.tax_per_item === 'YES' || val.settings.tax_per_item === '1' ? true : false)
+                this.setFormField('discount_per_item', settings.discount_per_item === 'YES' || settings.discount_per_item === 1 ? true : false)
+                this.setFormField('tax_per_item', settings.tax_per_item === 'YES' || settings.tax_per_item === 1 ? true : false)
             }
         })
         getGeneralSetting({

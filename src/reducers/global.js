@@ -53,7 +53,7 @@ export default function globalReducer(state = initialState, action) {
             return {
                 ...state,
                 endpointURL,
-                endpointApi: endpointURL ? `${endpointURL}/api/` : null
+                endpointApi: endpointURL ? `${endpointURL}/api/v1/` : null
             };
 
         case SET_COMPANY_INFO:

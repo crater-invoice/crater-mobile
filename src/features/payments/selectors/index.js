@@ -30,7 +30,10 @@ const getPaymentsState = createSelector(
 
 const getPaymentMethodsState = createSelector(
     methods => methods,
-    methods => (!hasLength(methods) ? [] : formatSelectPickerName(methods))
+    methods => {
+        return []
+        // (!hasLength(methods) ? [] : formatSelectPickerName(methods))
+    }
 );
 
 export { getPaymentsState, getPaymentMethodsState };

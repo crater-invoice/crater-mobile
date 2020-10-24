@@ -4,7 +4,7 @@ import { NavigationActions } from 'react-navigation';
 import { store } from '../store';
 import { env } from '@/config';
 import { ROUTES } from '@/navigation';
-import { checkConnection } from '@/constants';
+import { checkConnection, hasValue } from '@/constants';
 
 type IProps = {
     path: string,
@@ -35,7 +35,7 @@ export default class Request {
         return this.request({ method: 'PATCH', ...params });
     }
 
-    static createFormData = (image, imageName, type) => {
+    static createFormData = (body, image, imageName, type) => {
         const formData = new FormData();
 
         const uri = image.uri;
@@ -51,6 +51,10 @@ export default class Request {
         );
 
         type && formData.append('type', type);
+
+        if (!hasValue(body)) {
+            return formData;
+        }
 
         for (const key in body) {
             if (body.hasOwnProperty(key)) {
@@ -105,7 +109,7 @@ export default class Request {
 
         const params = !image
             ? JSON.stringify(body)
-            : Request.createFormData(image, imageName, type);
+            : Request.createFormData(body, image, imageName, type);
 
         return axios({
             method,

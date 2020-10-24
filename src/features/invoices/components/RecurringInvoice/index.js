@@ -508,8 +508,6 @@ export class RecurringInvoice extends React.Component<IProps> {
 
         this.invoiceRefs(this);
 
-        console.log({ formValues });
-
         return (
             <DefaultLayout
                 headerProps={{

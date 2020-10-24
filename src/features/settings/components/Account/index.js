@@ -40,8 +40,8 @@ export class Account extends React.Component<IProps> {
     componentDidMount() {
         const { getAccount, navigation } = this.props
         getAccount({
-            onResult: ({ avatar }) => {
-                this.setState({ avatarUrl: avatar })
+            onResult: ({ user }) => {
+                this.setState({ avatarUrl: user?.avatar ?? null })
             }
         })
         goBack(MOUNT, navigation)
