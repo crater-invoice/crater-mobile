@@ -248,10 +248,12 @@ function* getEditCustomer(payloadData) {
 
     try {
         const options = {
-            path: GET_EDIT_CUSTOMER_URL(id)
+            path: GET_EDIT_CUSTOMER_URL(id),
+            body: [id]
         };
 
         const response = yield call([Request, 'get'], options);
+
         onResult && onResult(response.customer);
     } catch (e) {
     } finally {
@@ -266,12 +268,15 @@ function* removeCustomer(payloadData) {
 
     yield put(customerTriggerSpinner({ customerLoading: true }));
 
+    
+
     try {
         const options = {
-            path: REMOVE_CUSTOMER_URL(id)
+            path: REMOVE_CUSTOMER_URL(id),
+            body: {ids: [id]}
         };
 
-        const response = yield call([Request, 'delete'], options);
+        const response = yield call([Request, 'post'], options);
 
         navigation.navigate(ROUTES.MAIN_CUSTOMERS);
         if (response.success) yield put(setRemoveCustomer({ id }));

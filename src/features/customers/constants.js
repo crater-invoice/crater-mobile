@@ -50,9 +50,9 @@ export const CUSTOMER_ACTIONS = (Lng, locale) => {
 export const GET_CUSTOMERS_URL = param =>
     `customers?${queryString.stringify(param)}`;
 
-export const GET_EDIT_CUSTOMER_URL = id => `customers/${id}/edit`;
+export const GET_EDIT_CUSTOMER_URL = id => `customers/${id}`;
 export const GET_COUNTRIES_URL = () => `countries`;
 
 export const CREATE_CUSTOMER_URL = () => `customers`;
 export const EDIT_CUSTOMER_URL = id => `customers/${id}`;
-export const REMOVE_CUSTOMER_URL = id => `customers/${id}`;
+export const REMOVE_CUSTOMER_URL = id => `customers/delete`;

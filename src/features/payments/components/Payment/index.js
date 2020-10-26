@@ -82,8 +82,6 @@ export class Payment extends React.Component<IProps> {
             onSuccess: () => {}
         })
 
-        return;
-
         if (type === PAYMENT_EDIT) {
 
             let id = navigation.getParam('paymentId', null)
