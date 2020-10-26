@@ -74,7 +74,15 @@ export class Payment extends React.Component<IProps> {
             getEditPayment,
             type,
             hasRecordPayment,
+            getNextNumber
         } = this.props;
+
+        getNextNumber({
+            key: 'payment',
+            onSuccess: () => {}
+        })
+
+        return;
 
         if (type === PAYMENT_EDIT) {
 

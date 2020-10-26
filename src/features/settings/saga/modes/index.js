@@ -45,8 +45,7 @@ function* getPaymentModes(payloadData) {
         yield put(
             setPaymentModes({ paymentMethods: response?.paymentMethods })
         );
-    } catch (error) {
-        console.log(error);
+    } catch (e) {
     } finally {
     }
 }
@@ -117,8 +116,7 @@ function* removePaymentMode({ payload: { id } }) {
                     title: getTitleByLanguage('payments.alreadyInUseMode')
                 });
             }, 1000);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ paymentModeLoading: false }));
     }

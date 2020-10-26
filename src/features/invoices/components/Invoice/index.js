@@ -95,8 +95,15 @@ export class Invoice extends React.Component<IProps> {
             navigation,
             invoiceItems,
             getEditInvoice,
-            type
+            type,
+            getNextNumber
         } = this.props;
+       
+        getNextNumber({
+            key: 'invoice',
+            onSuccess: () => {}
+        })
+        return;
 
         type === INVOICE_EDIT
             ? getEditInvoice({

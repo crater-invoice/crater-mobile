@@ -54,8 +54,7 @@ function* createExpenseCategory({ payload: { params, onResult } }) {
         );
 
         onResult?.(response?.category);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ expenseCategoryLoading: false }));
     }
@@ -71,8 +70,7 @@ function* getEditExpenseCategory({ payload: { id, onResult } }) {
 
         const response = yield call([Request, 'get'], options);
         onResult?.(response.category);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(
             settingsTriggerSpinner({ initExpenseCategoryLoading: false })
@@ -94,8 +92,7 @@ function* editExpenseCategory({ payload: { id, params, navigation } }) {
         yield put(
             setEditExpenseCategories({ categories: [response.category], id })
         );
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ expenseCategoryLoading: false }));
     }

@@ -76,8 +76,7 @@ function* getCustomField({ payload: { id, onResult = null } }) {
         if (response.customField) {
             onResult?.(response.customField);
         }
-    } catch (error) {
-        console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ getCustomFieldLoading: false }));
     }
@@ -117,8 +116,7 @@ function* removeCustomField({ payload: { id, navigation } }) {
             navigation.navigate(ROUTES.CUSTOM_FIELDS);
             yield call(getCustomFields, { payload: {} });
         }
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ removeCustomFieldLoading: false }));
     }

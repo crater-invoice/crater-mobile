@@ -111,8 +111,7 @@ function* removeCurrency({ payload: { id, navigation } }) {
             yield call(getCurrencies, payload = {});
         }
 
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ currencyLoading: false }));
     }

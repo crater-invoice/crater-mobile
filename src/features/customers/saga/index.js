@@ -83,8 +83,7 @@ function* getCountries(payloadData) {
         const response = yield call([Request, 'get'], options);
         onResult && onResult(response);
         yield put(setCountries({ countries: response.countries }));
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(customerTriggerSpinner({ countriesLoading: false }));
     }
@@ -157,8 +156,7 @@ function* createCustomer(payloadData) {
 
         yield put(setCreateCustomer({ customers: [response.customer] }));
         onResult && onResult(response.customer);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(customerTriggerSpinner({ customerLoading: false }));
     }
@@ -235,8 +233,7 @@ function* editCustomer(payloadData) {
                 setEditCustomer({ customers: [response.customer], id: id })
             );
         }
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(customerTriggerSpinner({ customerLoading: false }));
     }
@@ -256,8 +253,7 @@ function* getEditCustomer(payloadData) {
 
         const response = yield call([Request, 'get'], options);
         onResult && onResult(response.customer);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(customerTriggerSpinner({ getEditCustomerLoading: false }));
     }
@@ -279,8 +275,7 @@ function* removeCustomer(payloadData) {
 
         navigation.navigate(ROUTES.MAIN_CUSTOMERS);
         if (response.success) yield put(setRemoveCustomer({ id }));
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(customerTriggerSpinner({ customerLoading: false }));
     }

@@ -49,8 +49,7 @@ function* getItemUnits(payloadData = {}) {
 
         yield put(setItemUnits({ units: response.units }));
 
-    } catch (error) {
-        console.log(error)
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ itemUnitsLoading: false }));
     }
@@ -122,8 +121,7 @@ function* removeItemUnit({ payload: { id } }) {
                 })
             }, 1000);
 
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ itemUnitLoading: false }));
     }

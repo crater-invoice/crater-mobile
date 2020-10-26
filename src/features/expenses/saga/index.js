@@ -62,8 +62,7 @@ function* getCreateExpense(payloadData) {
         yield put(setCategories(response));
 
         onResult && onResult(response);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(expenseTriggerSpinner({ initExpenseLoading: false }));
     }
@@ -96,8 +95,7 @@ function* createExpense(payloadData) {
 
         onResult && onResult(response);
         yield call(getExpenses, (payload = {}));
-    } catch (error) {
-        // console.log(error)
+    } catch (e) {
     } finally {
         yield put(expenseTriggerSpinner({ expenseLoading: false }));
     }
@@ -130,8 +128,7 @@ function* editExpense(payloadData) {
 
         onResult && onResult(response);
         yield call(getExpenses, (payload = {}));
-    } catch (error) {
-        // console.log(error)
+    } catch (e) {
     } finally {
         yield put(expenseTriggerSpinner({ expenseLoading: false }));
     }
@@ -153,8 +150,7 @@ function* getEditExpense(payloadData) {
         yield put(setExpense(response));
 
         onResult && onResult(response.expense);
-    } catch (error) {
-        // console.log(error)
+    } catch (e) {
     } finally {
         yield put(expenseTriggerSpinner({ initExpenseLoading: false }));
     }
@@ -178,8 +174,7 @@ function* removeExpense(payloadData) {
             navigation.navigate(ROUTES.MAIN_EXPENSES);
             yield call(getExpenses, (payload = {}));
         }
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(expenseTriggerSpinner({ expenseLoading: false }));
     }
@@ -200,8 +195,7 @@ function* getReceipt(payloadData) {
         const response = yield call([Request, 'get'], options);
 
         onResult && onResult(response);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(expenseTriggerSpinner({ initExpenseLoading: false }));
     }

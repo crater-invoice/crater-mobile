@@ -182,7 +182,7 @@ export class RecurringInvoice extends React.Component<IProps> {
     };
 
     onSubmitInvoice = (values, status = 'draft') => {
-        console.log({ values });
+        
         // const {
         //     createInvoice,
         //     navigation,

@@ -68,9 +68,9 @@ function* getCreatePayment(payloadData) {
         };
 
         const response = yield call([Request, 'get'], options);
+        
         onResult && onResult(response);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(paymentTriggerSpinner({ initPaymentLoading: false }));
     }
@@ -116,8 +116,7 @@ function* getUnpaidInvoices(payloadData) {
 
         const response = yield call([Request, 'get'], options);
         onResult && onResult(response.invoices);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(paymentTriggerSpinner({ getUnpaidInvoicesLoading: false }));
     }
@@ -137,8 +136,7 @@ function* getEditPayment(payloadData) {
 
         const response = yield call([Request, 'get'], options);
         onResult && onResult(response);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(paymentTriggerSpinner({ initPaymentLoading: false }));
     }
@@ -183,8 +181,7 @@ function* removePayment(payloadData) {
         if (response.success) {
             navigation.navigate(ROUTES.MAIN_PAYMENTS);
         }
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(paymentTriggerSpinner({ paymentLoading: false }));
     }
@@ -208,8 +205,7 @@ function* sendPaymentReceipt({ payload: { params, navigation } }) {
         } else {
             navigation.navigate(ROUTES.MAIN_PAYMENTS);
         }
-    } catch (error) {
-        // console.log(error)
+    } catch (e) {
     } finally {
         yield put(paymentTriggerSpinner({ paymentLoading: false }));
     }

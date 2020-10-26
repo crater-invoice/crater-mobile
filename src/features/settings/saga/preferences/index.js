@@ -39,8 +39,7 @@ function* getPreferences(payloadData) {
       yield put(setPreferences({ preferences: response }));
       onResult && onResult(response)
 
-  } catch (error) {
-      console.log(error);
+  } catch (e) {
   } finally {
       yield put(settingsTriggerSpinner({ getPreferencesLoading: false }));
   }
@@ -78,8 +77,7 @@ function* editPreferences(payloadData) {
           navigation.goBack(null)
       }
 
-  } catch (error) {
-      console.log(error);
+  } catch (e) {
   } finally {
       yield put(settingsTriggerSpinner({ editPreferencesLoading: false }));
   }
@@ -105,8 +103,7 @@ function* getGeneralSetting({ payload }) {
     }
     
 
-  } catch (error) {
-    console.log(error)
+  } catch (e) {
   } finally {
   }
 }

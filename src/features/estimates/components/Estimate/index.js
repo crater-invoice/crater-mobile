@@ -96,8 +96,15 @@ export class Estimate extends React.Component<IProps> {
             estimateItems,
             taxTypes,
             getEditEstimate,
-            type
+            type,
+            getNextNumber
         } = this.props;
+
+        getNextNumber({
+            key: 'invoice',
+            onSuccess: () => {}
+        })
+        return;
 
         type === ESTIMATE_EDIT
             ? getEditEstimate({

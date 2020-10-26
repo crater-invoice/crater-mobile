@@ -43,6 +43,7 @@ import currencies from './currencies';
 import customFields from './custom-fields';
 import Request from '@/api/request';
 import preferences from './preferences';
+import General from './general';
 
 /**
  * Company Information.
@@ -64,8 +65,7 @@ function* getCompanyInformation(payloadData) {
         yield put(setCompanyInformation({ company: response.user.company }));
 
         onResult && onResult(response.user);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ getCompanyInfoLoading: false }));
     }
@@ -99,8 +99,7 @@ function* editCompanyInformation(payloadData) {
         yield put(setCompanyInformation({ company: response.user.company }));
 
         navigation.goBack(null);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ editCompanyInfoLoading: false }));
     }
@@ -123,8 +122,7 @@ function* getAccountInformation(payloadData) {
         yield put(setAccountInformation({ account: response.user }));
 
         onResult && onResult(response);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ getAccountInfoLoading: false }));
     }
@@ -185,8 +183,7 @@ function* getSettingItem(payloadData) {
 
         const response = yield call([Request, 'get'], options);
         onResult && onResult(response);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ getSettingItemLoading: false }));
     }
@@ -220,8 +217,7 @@ function* editSettingItem(payloadData) {
         }
 
         if (navigation) navigation.goBack(null);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ editSettingItemLoading: false }));
     }
@@ -242,8 +238,7 @@ function* getCustomizeSettings(payloadData) {
         };
         const response = yield call([Request, 'get'], options);
         yield put(setCustomizeSettings({ customizes: response }));
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ getCustomizeLoading: false }));
     }
@@ -264,8 +259,7 @@ function* editCustomizeSettings({ payload: { params, navigation } }) {
             navigation.navigate(ROUTES.CUSTOMIZES);
             yield put(setCustomizeSettings({ customizes: null }));
         }
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ customizeLoading: false }));
     }
@@ -291,6 +285,7 @@ export default function* settingsSaga() {
         units(),
         currencies(),
         customFields(),
-        preferences()
+        preferences(),
+        General()
     ]);
 }

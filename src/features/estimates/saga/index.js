@@ -77,8 +77,7 @@ function* getCreateEstimate({ payload: { onResult } }) {
         yield put(setEstimate(response));
 
         onResult?.(response);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(estimateTriggerSpinner({ initEstimateLoading: false }));
     }
@@ -101,8 +100,7 @@ function* getEditEstimate({ payload: { id, onResult } }) {
         yield put(setEstimateItems({ estimateItem: response.estimate.items }));
 
         onResult?.(response.estimate);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(estimateTriggerSpinner({ initEstimateLoading: false }));
     }
@@ -138,8 +136,7 @@ function* addItem({ payload: { item, onResult } }) {
         yield put(setEstimateItems({ estimateItem }));
 
         onResult?.();
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(estimateTriggerSpinner({ createEstimateItemLoading: false }));
     }
@@ -174,8 +171,7 @@ function* editItem({ payload: { item, onResult } }) {
         yield put(setEstimateItems({ estimateItem }));
 
         onResult?.();
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(estimateTriggerSpinner({ estimateLoading: false }));
     }
@@ -259,8 +255,7 @@ function* getItems(payloadData) {
         onMeta && onMeta(response.items);
 
         onResult && onResult(response.items);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
         onResult && onResult(response.items);
     } finally {
         yield put(estimateTriggerSpinner({ itemsLoading: false }));
@@ -274,8 +269,7 @@ function* removeItem({ payload: { onResult, id } }) {
         yield put(removeEstimateItem({ id }));
 
         onResult?.();
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(estimateTriggerSpinner({ removeItemLoading: false }));
     }
@@ -296,8 +290,7 @@ function* convertToInvoice({ payload: { onResult, id } }) {
         yield put(setInvoices({ invoices: [response.invoice], prepend: true }));
 
         onResult?.();
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(estimateTriggerSpinner({ estimateLoading: false }));
     }
@@ -316,8 +309,7 @@ function* removeEstimate({ payload: { onResult, id } }) {
         yield put(removeFromEstimates({ id }));
 
         onResult?.();
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(estimateTriggerSpinner({ estimateLoading: false }));
     }
@@ -346,8 +338,7 @@ function* changeEstimateStatus({ payload }) {
         }
 
         onResult?.();
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(estimateTriggerSpinner({ estimateLoading: false }));
     }

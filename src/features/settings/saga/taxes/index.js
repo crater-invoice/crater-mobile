@@ -35,8 +35,7 @@ function* getTaxTypes({ payload }) {
         }
 
         onSuccess?.(response?.taxTypes);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
     }
 }
@@ -55,8 +54,7 @@ function* addTax({ payload: { tax, onResult } }) {
         yield put(setTax({ taxType: [response.taxType] }));
 
         onResult && onResult(response.taxType);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ addTaxLoading: false }));
     }
@@ -76,8 +74,7 @@ function* editTaxType({ payload: { tax, onResult } }) {
         yield put(setEditTax({ taxType: [response.taxType], taxId: tax.id }));
 
         onResult && onResult(response);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ editTaxLoading: false }));
     }
@@ -96,8 +93,7 @@ function* removeTax({ payload: { id, onResult } }) {
         if (response.success) yield put(setRemoveTax({ taxId: id }));
 
         onResult && onResult(response.success);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ removeTaxLoading: false }));
     }

@@ -7,6 +7,7 @@ import * as EstimatesAction from '../../actions';
 import { ESTIMATE_FORM, ESTIMATE_EDIT } from '../../constants';
 import moment from 'moment';
 import * as CustomersAction from '@/features/customers/actions';
+import { getNextNumber } from '@/features/settings/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -72,6 +73,7 @@ const mapDispatchToProps = {
     convertToInvoice: EstimatesAction.convertToInvoice,
     changeEstimateStatus: EstimatesAction.changeEstimateStatus,
     getCustomers: CustomersAction.getCustomers,
+    getNextNumber
 };
 
 //  Redux Forms

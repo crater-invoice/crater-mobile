@@ -62,8 +62,7 @@ function* getItems({ payload }) {
         }
 
         onSuccess?.(response?.items);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
     }
 }
@@ -81,8 +80,7 @@ function* getEditItem({ payload: { id, onResult } }) {
         yield put(setItem(response));
 
         onResult && onResult(response);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(moreTriggerSpinner({ getItemLoading: false }));
     }
@@ -102,8 +100,7 @@ function* addItem({ payload: { item, onResult } }) {
         yield put(setItems({ items: [res.item], prepend: true }));
 
         onResult?.();
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(moreTriggerSpinner({ itemLoading: false }));
     }
@@ -125,8 +122,7 @@ function* editItem({ payload: { item, id, onResult } }) {
         yield put(setItems({ items: [response.item], prepend: true }));
 
         onResult?.();
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(moreTriggerSpinner({ itemLoading: false }));
     }
@@ -147,8 +143,7 @@ function* removeItem({ payload: { id, onResult } }) {
         }
 
         onResult?.(response);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(moreTriggerSpinner({ itemLoading: false }));
     }
@@ -164,8 +159,7 @@ function* getMailConfiguration({ payload: { onResult } }) {
 
         onResult?.(response);
         yield put(setMailConfiguration({ mailDriver: response }));
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(moreTriggerSpinner({ getMailConfigLoading: false }));
     }

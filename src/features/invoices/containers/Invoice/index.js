@@ -7,6 +7,7 @@ import * as InvoicesAction from '../../actions';
 import { INVOICE_FORM, INVOICE_EDIT } from '../../constants';
 import moment from 'moment';
 import { getCustomers } from '@/features/customers/actions';
+import { getNextNumber } from '@/features/settings/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -70,7 +71,8 @@ const mapDispatchToProps = {
     removeInvoice: InvoicesAction.removeInvoice,
     clearInvoice: InvoicesAction.clearInvoice,
     changeInvoiceStatus: InvoicesAction.changeInvoiceStatus,
-    getCustomers
+    getCustomers,
+    getNextNumber
 };
 
 //  Redux Forms

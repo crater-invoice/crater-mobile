@@ -324,3 +324,10 @@ export const getGeneralSetting = (payload = {}) => ({
     type: TYPES.GET_GENERAL_SETTING,
     payload
 });
+
+// Next Number
+
+export const getNextNumber = (payload = {}) => ({
+    type: TYPES.GET_NEXT_NUMBER,
+    payload
+})

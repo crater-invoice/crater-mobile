@@ -82,8 +82,7 @@ function* socialLogin(payloadData) {
             yield put(saveIdToken({ idToken }))
             navigation.navigate(ROUTES.MAIN_INVOICES)
         }
-    } catch (error) {
-        // console.log(error)
+    } catch (e) {
     } finally {
         yield put(authTriggerSpinner({ socialLoginLoading: false }))
     }

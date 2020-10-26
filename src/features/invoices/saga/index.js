@@ -89,8 +89,7 @@ function* getCreateInvoice(payloadData) {
         yield put(setInvoice(response));
 
         onResult && onResult(response);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(invoiceTriggerSpinner({ initInvoiceLoading: false }));
     }
@@ -121,8 +120,7 @@ function* getEditInvoice(payloadData) {
         yield put(setInvoiceItems({ invoiceItem: response.invoice.items }));
 
         onResult && onResult(response.invoice);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(invoiceTriggerSpinner({ initInvoiceLoading: false }));
     }
@@ -162,8 +160,7 @@ function* addItem(payloadData) {
         yield put(setInvoiceItems({ invoiceItem }));
 
         onResult && onResult();
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(invoiceTriggerSpinner({ createInvoiceItemLoading: false }));
     }
@@ -202,8 +199,7 @@ function* editItem(payloadData) {
         yield put(setInvoiceItems({ invoiceItem }));
 
         onResult && onResult();
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(invoiceTriggerSpinner({ createInvoiceItemLoading: false }));
     }
@@ -311,8 +307,7 @@ function* removeItem(payloadData) {
         yield put(removeInvoiceItem({ id }));
 
         onResult && onResult();
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(invoiceTriggerSpinner({ removeItemLoading: false }));
     }
@@ -335,8 +330,7 @@ function* removeInvoice(payloadData) {
         if (response.success) yield put(removeFromInvoices({ id }));
 
         onResult && onResult(response);
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(invoiceTriggerSpinner({ invoiceLoading: false }));
     }
@@ -373,8 +367,7 @@ function* changeInvoiceStatus(payloadData) {
         }
 
         onResult && onResult();
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(invoiceTriggerSpinner({ invoiceLoading: false }));
     }
