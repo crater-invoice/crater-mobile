@@ -1,18 +1,16 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-
+import * as queryStrings from 'query-string';
 import {
     settingsTriggerSpinner,
     setPaymentModes,
     setPaymentMode
 } from '../../actions';
-
 import {
     GET_PAYMENT_MODES,
     CREATE_PAYMENT_MODE,
     EDIT_PAYMENT_MODE,
     REMOVE_PAYMENT_MODE,
     // Endpoint Api URL
-    GET_PAYMENT_MODES_URL,
     CREATE_PAYMENT_MODE_URL,
     EDIT_PAYMENT_MODE_URL,
     REMOVE_PAYMENT_MODE_URL
@@ -34,17 +32,22 @@ const alreadyInUse = error => {
     }
 };
 
-function* getPaymentModes(payloadData) {
+function* getPaymentModes({ payload }) {
+    const { fresh = true, onSuccess, queryString } = payload;
+
     try {
         const options = {
-            path: GET_PAYMENT_MODES_URL()
+            path: `payment-methods?${queryStrings.stringify(queryString)}`
         };
 
         const response = yield call([Request, 'get'], options);
 
-        yield put(
-            setPaymentModes({ paymentMethods: response?.paymentMethods })
-        );
+        if (response?.paymentMethods) {
+            const { data } = response.paymentMethods;
+            yield put(setPaymentModes({ paymentMethods: data, fresh }));
+        }
+
+        onSuccess?.(response?.paymentMethods);
     } catch (e) {
     } finally {
     }

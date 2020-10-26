@@ -16,14 +16,7 @@ import {
     REMOVE_CUSTOMER_URL
 } from '../constants';
 
-import {
-    customerTriggerSpinner,
-    setCustomers,
-    setCountries,
-    setCreateCustomer,
-    setEditCustomer,
-    setRemoveCustomer
-} from '../actions';
+import { customerTriggerSpinner, setCustomers, setCountries } from '../actions';
 import { ROUTES } from '@/navigation';
 import { alertMe } from '@/constants';
 import { getTitleByLanguage } from '@/utils';
@@ -105,8 +98,7 @@ function* createCustomer(payloadData) {
                 password,
                 customFields
             },
-            onResult,
-            navigation
+            onResult
         }
     } = payloadData;
 
@@ -154,8 +146,7 @@ function* createCustomer(payloadData) {
             });
         }
 
-        yield put(setCreateCustomer({ customers: [response.customer] }));
-        onResult && onResult(response.customer);
+        onResult?.(response.customer);
     } catch (e) {
     } finally {
         yield put(customerTriggerSpinner({ customerLoading: false }));
@@ -229,9 +220,6 @@ function* editCustomer(payloadData) {
 
         if (response.success) {
             navigation.navigate(ROUTES.MAIN_CUSTOMERS);
-            yield put(
-                setEditCustomer({ customers: [response.customer], id: id })
-            );
         }
     } catch (e) {
     } finally {
@@ -268,18 +256,15 @@ function* removeCustomer(payloadData) {
 
     yield put(customerTriggerSpinner({ customerLoading: true }));
 
-    
-
     try {
         const options = {
             path: REMOVE_CUSTOMER_URL(id),
-            body: {ids: [id]}
+            body: { ids: [id] }
         };
 
         const response = yield call([Request, 'post'], options);
 
         navigation.navigate(ROUTES.MAIN_CUSTOMERS);
-        if (response.success) yield put(setRemoveCustomer({ id }));
     } catch (e) {
     } finally {
         yield put(customerTriggerSpinner({ customerLoading: false }));

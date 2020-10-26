@@ -1,10 +1,8 @@
 import Lng from '@/lang/i18n';
-import { formatSelectPickerName } from '@/utils';
 import styles from './styles';
 
-export const itemsFilterFields = ({ props, state, setFormField }) => {
-    const { locale, units } = props;
-    const { selectedUnit } = state;
+export const itemsFilterFields = ({ props, setFormField }) => {
+    const { locale, units, getItemUnits, navigation } = props;
     const filterRefs: any = {};
 
     const inputFields = [
@@ -31,27 +29,35 @@ export const itemsFilterFields = ({ props, state, setFormField }) => {
         }
     ];
 
-    const dropdownFields = [
+    const selectFields = [
         {
             name: 'unit_id',
+            apiSearch: true,
+            hasPagination: true,
+            getItems: getItemUnits,
+            items: units,
+            displayName: 'name',
             label: Lng.t('items.unit', { locale }),
-            fieldIcon: 'align-center',
-            items: formatSelectPickerName(units),
-            onChangeCallback: val => setFormField('unit_id', val),
-            defaultPickerOptions: {
-                label: Lng.t('items.unitPlaceholder', { locale }),
-                value: ''
+            icon: 'balance-scale',
+            placeholder: Lng.t('items.unitPlaceholder', { locale }),
+            navigation: navigation,
+            compareField: 'id',
+            onSelect: item => setFormField('unit_id', item.id),
+            headerProps: {
+                title: Lng.t('items.unitPlaceholder', { locale }),
+                rightIconPress: null
             },
-            selectedItem: selectedUnit,
-            onDonePress: () => filterRefs.name.focus(),
-            containerStyle: styles.selectPicker
+            emptyContentProps: {
+                contentType: 'units'
+            },
+            fakeInputProps: {
+                valueStyle: styles.units,
+                placeholderStyle: styles.units
+            }
         }
     ];
 
-    return {
-        inputFields,
-        dropdownFields
-    };
+    return { inputFields, selectFields };
 };
 
 export default itemsFilterFields;

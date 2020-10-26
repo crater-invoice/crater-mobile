@@ -182,7 +182,7 @@ export class RecurringInvoice extends React.Component<IProps> {
     };
 
     onSubmitInvoice = (values, status = 'draft') => {
-        
+
         // const {
         //     createInvoice,
         //     navigation,
@@ -191,12 +191,10 @@ export class RecurringInvoice extends React.Component<IProps> {
         //     locale,
         //     invoiceData: { invoice_prefix = '' } = {}
         // } = this.props
-
         // if (finalAmount() < 0) {
         //     alert(Lng.t("invoices.alert.lessAmount", { locale }))
         //     return
         // }
-
         // let invoice = {
         //     ...values,
         //     invoice_number: `${invoice_prefix}-${values.invoice_number}`,
@@ -213,11 +211,9 @@ export class RecurringInvoice extends React.Component<IProps> {
         //         }
         //     }) : [],
         // }
-
         // if (status === 'send') {
         //     invoice.invoiceSend = true
         // }
-
         // type === RECURRING_ADD ?
         //     createInvoice({
         //         invoice,

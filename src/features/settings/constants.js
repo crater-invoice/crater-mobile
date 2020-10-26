@@ -42,7 +42,7 @@ export const SETTINGS_TRIGGER_SPINNER = 'settings/SETTINGS_TRIGGER_SPINNER';
 export const LOGOUT = 'settings/LOGOUT';
 
 // Next Number
-export const GET_NEXT_NUMBER = 'general/GET_NEXT_NUMBER'
+export const GET_NEXT_NUMBER = 'general/GET_NEXT_NUMBER';
 
 // General Settings
 export const GET_GENERAL_SETTING = 'GET_GENERAL_SETTING';
@@ -560,13 +560,11 @@ export const EDIT_CUSTOMIZE_SETTINGS_URL = () =>
     `settings/update-customize-setting`;
 
 // Payment Methods
-export const GET_PAYMENT_MODES_URL = () => `payment-methods`;
 export const CREATE_PAYMENT_MODE_URL = () => `payment-methods`;
 export const EDIT_PAYMENT_MODE_URL = id => `payment-methods/${id}`;
 export const REMOVE_PAYMENT_MODE_URL = id => `payment-methods/${id}`;
 
 // Item Unit
-export const GET_ITEM_UNITS_URL = () => `units`;
 export const CREATE_ITEM_UNIT_URL = () => `units`;
 export const EDIT_ITEM_UNIT_URL = id => `units/${id}`;
 export const REMOVE_ITEM_UNIT_URL = id => `units/${id}`;
@@ -592,4 +590,4 @@ export const NOTIFICATION_MAIL_TYPE = [
     'notify_invoice_viewed',
     'notify_estimate_viewed',
     'notification_email'
-]
+];

@@ -57,7 +57,7 @@ const initialState = {
         // Custom Fields
         customFieldLoading: false,
         getCustomFieldLoading: false,
-        removeCustomFieldLoading: false,
+        removeCustomFieldLoading: false
     },
     preferences: null,
     categories: [],
@@ -171,6 +171,16 @@ export default function settingReducer(state = initialState, action) {
             }
 
         case SET_PAYMENT_MODES:
+            if (!payload.fresh) {
+                return {
+                    ...state,
+                    paymentMethods: [
+                        ...state.paymentMethods,
+                        ...payload.paymentMethods
+                    ]
+                };
+            }
+
             return { ...state, paymentMethods: payload.paymentMethods };
 
         case SET_PAYMENT_MODE:
@@ -203,6 +213,12 @@ export default function settingReducer(state = initialState, action) {
             return { ...state };
 
         case SET_ITEM_UNITS:
+            if (!payload.fresh) {
+                return {
+                    ...state,
+                    units: [...state.units, ...payload.units]
+                };
+            }
             return { ...state, units: payload.units };
 
         case SET_ITEM_UNIT:
@@ -240,9 +256,9 @@ export default function settingReducer(state = initialState, action) {
             return { ...state, currencies };
 
         case SET_LANGUAGES:
-            const { languages } = payload
+            const { languages } = payload;
 
-            return { ...state, languages }
+            return { ...state, languages };
 
         case SET_CUSTOM_FIELDS:
             if (!payload.fresh) {

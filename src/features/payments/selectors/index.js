@@ -1,5 +1,5 @@
 import { hasLength } from '@/constants';
-import { formatSelectPickerName } from '@/utils';
+import { formatPaymentMethods } from '@/utils';
 import { createSelector } from 'reselect';
 
 const formatPaymentItems = payments =>
@@ -30,10 +30,7 @@ const getPaymentsState = createSelector(
 
 const getPaymentMethodsState = createSelector(
     methods => methods,
-    methods => {
-        return []
-        // (!hasLength(methods) ? [] : formatSelectPickerName(methods))
-    }
+    methods => formatPaymentMethods(methods)
 );
 
 export { getPaymentsState, getPaymentMethodsState };

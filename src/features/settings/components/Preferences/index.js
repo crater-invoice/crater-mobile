@@ -43,27 +43,28 @@ export class Preferences extends React.Component<IProps> {
         }
     }
 
-    componentWillMount() {
-        const {
-            getPreferences,
-            getGeneralSetting,
-        } = this.props
+    componentDidMount() {
+        this.fetchPreferencesValues()
+        goBack(MOUNT, this.props.navigation)
+    }
+
+    componentWillUnmount() {
+        goBack(UNMOUNT)
+    }
+
+    fetchPreferencesValues = () => {
+        const { getPreferences, getGeneralSetting } = this.props
 
         getPreferences({
-            onResult: ({ settings }) => {
-                this.setFormField('time_zone', settings.time_zone)
-                this.setFormField('date_format', settings.moment_date_format)
-                this.setFormField('fiscal_year', settings.fiscal_year)
-                this.setFormField('discount_per_item', settings.discount_per_item === 'YES' || settings.discount_per_item === 1 ? true : false)
-                this.setFormField('tax_per_item', settings.tax_per_item === 'YES' || settings.tax_per_item === 1 ? true : false)
-            }
+            onResult: ({ settings }) => this.setFormValues(settings)
         })
+
         getGeneralSetting({
             url: 'timezones',
             responseUrl: 'time_zones',
             onSuccess:(timezones)=>{
             this.setState({
-                timezoneList: this.getTimeZoneList(timezones),
+                timezoneList: this.getTimeZoneList(timezones)
             })
         }})
 
@@ -72,7 +73,7 @@ export class Preferences extends React.Component<IProps> {
             responseUrl: 'date_formats',
             onSuccess:(dateFormat)=>{
                 this.setState({
-                    dateFormatList: this.getDateFormatList(dateFormat),
+                    dateFormatList: this.getDateFormatList(dateFormat)
                 })
             }
         })
@@ -82,19 +83,29 @@ export class Preferences extends React.Component<IProps> {
             responseUrl: 'fiscal_years',
             onSuccess:(financialYear)=>{
                 this.setState({
-                    fiscalYearLst: this.getFiscalYearList(financialYear),
+                    fiscalYearLst: this.getFiscalYearList(financialYear)
                 })
             }
         })
     }
 
-    componentDidMount() {
-        const { navigation } = this.props
-        goBack(MOUNT, navigation)
-    }
+    setFormValues = (settings = {}) => {
+        const {
+            carbon_date_format,
+            moment_date_format,
+            time_zone,
+            fiscal_year,
+            discount_per_item,
+            tax_per_item
+        } = settings
 
-    componentWillUnmount() {
-        goBack(UNMOUNT)
+        this.setFormField('carbon_date_format', carbon_date_format);
+        this.setFormField('moment_date_format', moment_date_format);
+        this.setFormField('date_format', moment_date_format.trim());
+        this.setFormField('time_zone', time_zone);
+        this.setFormField('fiscal_year', fiscal_year);
+        this.setFormField('discount_per_item', discount_per_item === 'YES' || discount_per_item === 1);
+        this.setFormField('tax_per_item', tax_per_item === 'YES' || tax_per_item === 1);
     }
 
     setFormField = (field, value) => {
@@ -132,52 +143,46 @@ export class Preferences extends React.Component<IProps> {
 
     getTimeZoneList = (timezones) => {
 
-        let timeZoneList = []
-        if (typeof timezones !== 'undefined') {
-
-            timeZoneList = timezones.map((timezone) => {
-
-                return {
-                    title: timezone.key,
-                    fullItem: timezone
-                }
-            })
+        if(!isArray(timezones)){
+            return []
         }
 
-        return timeZoneList
-
+        return timezones.map((timezone) => {
+            return { title: timezone.key, fullItem: timezone }
+        })
     }
 
     getFiscalYearList = (fiscalYears) => {
 
-        let years = []
-        if (typeof fiscalYears !== 'undefined') {
-            years = fiscalYears.map((year) => {
-
-                const { key } = year
-                return {
-                    title: key,
-                    fullItem: year
-                }
-            })
+        if(!isArray(fiscalYears)){
+            return []
         }
-        return years
+
+        return  fiscalYears.map((year) => {
+            return { title: year.key, fullItem: year }
+        })
     }
 
     getDateFormatList = (dateFormats) => {
 
-        let dateFormatList = []
-        if (typeof dateFormats !== 'undefined') {
-            dateFormatList = dateFormats.map((dateformat) => {
-
-                const { display_date } = dateformat
-                return {
-                    title: display_date,
-                    fullItem: dateformat
-                }
-            })
+        if(!isArray(dateFormats)){
+            return []
         }
-        return dateFormatList
+
+        return dateFormats.map((dateformat) => {
+            let trimDates = {}
+            for (const key in dateformat) {
+                trimDates = {
+                    ...trimDates,
+                    [key]: dateformat[key].trim()
+                }
+            }
+
+            return {
+                title: dateformat.display_date,
+                fullItem: dateformat
+            }
+        })
     }
 
     setDiscountPerItem = (val) => {
@@ -256,7 +261,7 @@ export class Preferences extends React.Component<IProps> {
 
                 <View style={styles.mainContainer}>
 
-                    <Field
+                  <Field
                         name="time_zone"
                         items={timezoneList}
                         displayName="key"
@@ -304,11 +309,11 @@ export class Preferences extends React.Component<IProps> {
                         }}
                         navigation={navigation}
                         searchFields={['display_date']}
-                        compareField="carbon_format_value"
+                        compareField="moment_format_value"
                         onSelect={(val) => {
                             this.setFormField('carbon_date_format', val.carbon_format_value)
                             this.setFormField('moment_date_format', val.moment_format_value)
-                            this.setFormField('date_format', val.carbon_format_value)
+                            this.setFormField('date_format', val.moment_format_value)
                         }}
                         headerProps={{
                             title: Lng.t("dateFormats.title", { locale }),

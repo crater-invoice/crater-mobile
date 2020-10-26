@@ -1,36 +1,39 @@
 // @flow
 
-import React, { Fragment } from 'react';
-import { View } from 'react-native';
+import React from 'react';
 import { Loading, Empty } from '..';
+import { FadeIn } from '../FadeIn';
 
 type IProps = {
-    loading: boolean,
-    error: string,
-    children: any,
-    empty: string,
-    onRetry: Function,
+    withLoading?: Boolean,
+    loadingProps?: any,
+    emptyProps?: any
 };
 
 export const Content = ({
     children,
     withLoading = false,
-    loading,
     loadingProps,
-    emptyProps,
+    emptyProps
 }: IProps) => {
-    if (emptyProps && emptyProps.is) {
+    if (emptyProps?.is) {
         return <Empty {...emptyProps} />;
     }
 
     if (withLoading) {
         return (
-            <Fragment>
+            <>
                 {children}
-                {loadingProps && loadingProps.is && <Loading {...loadingProps} />}
-            </Fragment>
+                {loadingProps && loadingProps.is && (
+                    <Loading {...loadingProps} />
+                )}
+            </>
         );
     }
 
-    return loadingProps && loadingProps.is ? <Loading {...loadingProps} /> : children;
+    if (loadingProps?.is) {
+        return <Loading {...loadingProps} />;
+    }
+
+    return <FadeIn>{children}</FadeIn>;
 };

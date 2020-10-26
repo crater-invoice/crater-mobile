@@ -5,12 +5,9 @@ import {
     GET_COUNTRIES,
     SET_COUNTRIES,
     CREATE_CUSTOMER,
-    SET_CREATE_CUSTOMER,
     EDIT_CUSTOMER,
-    SET_EDIT_CUSTOMER,
     GET_EDIT_CUSTOMER,
-    REMOVE_CUSTOMER,
-    SET_REMOVE_CUSTOMER
+    REMOVE_CUSTOMER
 } from '../constants';
 
 export const getCustomers = (payload = {}) => ({
@@ -33,23 +30,8 @@ export const createCustomer = (payload = {}) => ({
     payload
 });
 
-export const setCreateCustomer = (payload = {}) => ({
-    type: SET_CREATE_CUSTOMER,
-    payload
-});
-
 export const editCustomer = (payload = {}) => ({
     type: EDIT_CUSTOMER,
-    payload
-});
-
-export const setEditCustomer = (payload = {}) => ({
-    type: SET_EDIT_CUSTOMER,
-    payload
-});
-
-export const setRemoveCustomer = payload => ({
-    type: SET_REMOVE_CUSTOMER,
     payload
 });
 

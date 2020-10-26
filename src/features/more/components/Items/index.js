@@ -26,17 +26,13 @@ export class Items extends React.Component<IProps> {
     constructor(props) {
         super(props);
         this.scrollViewReference = React.createRef();
-        this.state = {
-            search: '',
-            selectedUnit: ''
-        };
+        this.state = { search: '' };
     }
 
     componentDidMount() {
-        const { navigation, getItemUnits } = this.props;
+        const { navigation } = this.props;
         goBack(MOUNT, navigation, { route: ROUTES.MAIN_MORE });
         this.onFocus();
-        getItemUnits();
     }
 
     componentWillUnmount() {
@@ -81,7 +77,6 @@ export class Items extends React.Component<IProps> {
 
     setFormField = (field, value) => {
         this.props.dispatch(change(ITEM_SEARCH, field, value));
-        if (field === 'unit_id') this.setState({ selectedUnit: value });
     };
 
     onSearch = search => {

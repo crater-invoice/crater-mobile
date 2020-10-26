@@ -5,17 +5,20 @@ import { colors } from '@/styles';
 export default styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     headerContainer: {
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     listViewContainer: {
         flex: 1,
-        paddingBottom: isIPhoneX() ? 30 : 0,
+        paddingBottom: isIPhoneX() ? 30 : 0
     },
     selectPicker: {
         marginTop: 12,
-        marginBottom: 2,
+        marginBottom: 2
     },
+    units: {
+        paddingLeft: 48
+    }
 });

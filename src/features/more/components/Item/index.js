@@ -33,9 +33,7 @@ export class Item extends React.Component {
     }
 
     componentDidMount() {
-        const { navigation, getItemUnits, getSettingItem, type } = this.props;
-
-        getItemUnits();
+        const { navigation, getSettingItem, type } = this.props;
 
         type === ADD_ITEM &&
             getSettingItem({
@@ -383,8 +381,9 @@ export class Item extends React.Component {
             locale,
             type,
             units,
-            formValues: { taxes },
-            getItemLoading
+            formValues,
+            getItemLoading,
+            getItemUnits
         } = this.props;
         const { isTaxPerItem } = this.state;
         const isCreateItem = type === ADD_ITEM;
@@ -444,17 +443,27 @@ export class Item extends React.Component {
 
                     <Field
                         name="unit_id"
-                        component={SelectPickerField}
+                        component={SelectField}
+                        apiSearch={true}
+                        hasPagination={true}
+                        getItems={getItemUnits}
+                        items={units}
+                        displayName={'name'}
                         label={Lng.t('items.unit', { locale })}
-                        items={formatSelectPickerName(units)}
-                        fieldIcon={'balance-scale'}
-                        containerStyle={styles.selectPicker}
-                        defaultPickerOptions={{
-                            label: Lng.t('items.unitPlaceholder', {
-                                locale
-                            }),
-                            value: ''
+                        icon={'balance-scale'}
+                        placeholder={Lng.t('items.unitPlaceholder', { locale })}
+                        navigation={navigation}
+                        compareField={'id'}
+                        emptyContentProps={{ contentType: 'units' }}
+                        headerProps={{
+                            title: Lng.t('items.unitPlaceholder', { locale }),
+                            rightIconPress: null
                         }}
+                        fakeInputProps={{
+                            valueStyle: styles.units,
+                            placeholderStyle: styles.units
+                        }}
+                        onSelect={item => this.setFormField('unit_id', item.id)}
                     />
 
                     {isTaxPerItem && this.TAX_FIELD_VIEW()}

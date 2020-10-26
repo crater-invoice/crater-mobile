@@ -5,6 +5,7 @@ import * as ItemsAction from '../../actions';
 import { Items } from '../../components/Items';
 import { ITEM_SEARCH } from '../../constants';
 import { getItemUnits } from '@/features/settings/actions';
+import { getUnitState } from '../../selectors';
 
 const mapStateToProps = state => {
     const {
@@ -17,7 +18,7 @@ const mapStateToProps = state => {
         items,
         locale,
         currency,
-        units,
+        units: getUnitState(units),
         formValues: getFormValues(ITEM_SEARCH)(state) || {}
     };
 };

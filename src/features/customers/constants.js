@@ -17,10 +17,7 @@ export const CUSTOMER_EDIT = 'customers/CUSTOMER_EDIT';
 export const GET_CUSTOMERS = 'customers/GET_CUSTOMERS';
 export const SET_CUSTOMERS = 'customers/SET_CUSTOMERS';
 export const CREATE_CUSTOMER = 'customers/CREATE_CUSTOMER';
-export const SET_CREATE_CUSTOMER = 'customers/SET_CREATE_CUSTOMER';
 export const EDIT_CUSTOMER = 'customers/EDIT_CUSTOMER';
-export const SET_EDIT_CUSTOMER = 'customers/SET_EDIT_CUSTOMER';
-export const SET_REMOVE_CUSTOMER = 'customers/SET_REMOVE_CUSTOMER';
 export const GET_EDIT_CUSTOMER = 'customers/GET_EDIT_CUSTOMER';
 
 export const CUSTOMERS_TRIGGER_SPINNER = 'customers/CUSTOMERS_TRIGGER_SPINNER';

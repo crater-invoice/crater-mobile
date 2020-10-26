@@ -123,3 +123,33 @@ export const formatItems = (items, currency) => {
         };
     });
 };
+
+// Format Payment Methods
+// -----------------------------------------
+export const formatPaymentMethods = methods => {
+    if (!isArray(methods)) {
+        return [];
+    }
+
+    return methods.map(method => {
+        return {
+            title: method?.name || '',
+            fullItem: method
+        };
+    });
+};
+
+// Format Item Units
+// -----------------------------------------
+export const formatItemUnits = units => {
+    if (!isArray(units)) {
+        return [];
+    }
+
+    return units.map(unit => {
+        return {
+            title: unit?.name || '',
+            fullItem: unit
+        };
+    });
+};

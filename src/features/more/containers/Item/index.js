@@ -6,7 +6,7 @@ import { validate } from './validation';
 import * as MoreAction from '../../actions';
 import { ITEM_FORM, EDIT_ITEM } from '../../constants';
 import { getItemUnits, getSettingItem } from '@/features/settings/actions';
-
+import { getUnitState } from '../../selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -37,7 +37,7 @@ const mapStateToProps = (state, { navigation }) => {
         locale,
         type,
         currency,
-        units,
+        units: getUnitState(units),
         getItemLoading: getItemLoading || (type === EDIT_ITEM && !item),
         initialValues: !isLoading
             ? {

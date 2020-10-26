@@ -241,7 +241,6 @@ export const ITEM_DEFAULT_OPTION = {
 // -----------------------------------------
 
 export const GET_ITEMS_URL = param => `items?${queryString.stringify(param)}`;
-export const GET_EDIT_ITEMS_URL = id => `items/${id}/edit`;
 export const GET_MAIL_CONFIGURATION_URL = () => `settings/environment/mail-env`;
 export const CREATE_ITEM_URL = () => `items`;
 export const EDIT_ITEM_URL = id => `items/${id}`;

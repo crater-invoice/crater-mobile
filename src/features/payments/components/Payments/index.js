@@ -23,17 +23,13 @@ export class Payments extends React.Component<IProps> {
     constructor(props) {
         super(props);
         this.scrollViewReference = React.createRef();
-        this.state = {
-            search: '',
-            selectedPaymentMode: ''
-        };
+        this.state = { search: '' };
     }
 
     componentDidMount() {
-        const { navigation, getPaymentModes } = this.props;
+        const { navigation } = this.props;
 
         goBack(MOUNT, navigation, { route: ROUTES.MAIN_INVOICES });
-        getPaymentModes();
         this.onFocus();
     }
 
@@ -43,11 +39,10 @@ export class Payments extends React.Component<IProps> {
     }
 
     onFocus = () => {
-        const { navigation, getPaymentModes } = this.props;
+        const { navigation } = this.props;
 
         this.focusListener = navigation.addListener('didFocus', () => {
             this.scrollViewReference?.getItems?.();
-            getPaymentModes();
         });
     };
 
@@ -70,9 +65,6 @@ export class Payments extends React.Component<IProps> {
 
     setFormField = (field, value) => {
         this.props.dispatch(change(PAYMENT_SEARCH, field, value));
-
-        if (field === 'payment_method_id')
-            this.setState({ selectedPaymentMode: value });
     };
 
     onResetFilter = () => {

@@ -239,6 +239,13 @@
             "buttonTitle": "Ajouter un nouveau paiement"
         }
     },
+    "paymentMode":{
+        "empty": {
+            "title": "Pas encore de modes de paiement!",
+            "description": "Cette section contiendra la liste des modes de paiement.",
+            "buttonTitle": "Ajouter un nouveau mode de paiement"
+        }
+    },
     "expenses": {
         "receipt": "Le reçu",
         "date": "Date de dépense",
@@ -306,6 +313,13 @@
             "title": "Aucune catégorie pour le moment!",
             "description": "Cette section contiendra la liste des catégories.",
             "buttonTitle": "Ajouter une nouvelle catégorie"
+        }
+    },
+    "units":{
+        "empty": {
+            "title": "Pas encore d'unités!",
+            "description": "Cette section contiendra la liste des unités d'articles.",
+            "buttonTitle": "Ajouter une nouvelle unité d'article"
         }
     },
     "settings": {

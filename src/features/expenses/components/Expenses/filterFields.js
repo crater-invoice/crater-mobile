@@ -1,4 +1,3 @@
-import { IMAGES } from '@/assets';
 import Lng from '@/lang/i18n';
 
 let selectedFromDate = '';
@@ -28,8 +27,7 @@ export default expenseFilterFields = ({ props, setFormField }) => {
                 rightIconPress: null
             },
             emptyContentProps: {
-                contentType: 'categories',
-                image: IMAGES.EMPTY_EXPENSES
+                contentType: 'categories'
             }
         }
     ];

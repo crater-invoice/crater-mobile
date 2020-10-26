@@ -1,10 +1,7 @@
 import {
     CUSTOMERS_TRIGGER_SPINNER,
     SET_CUSTOMERS,
-    SET_COUNTRIES,
-    SET_CREATE_CUSTOMER,
-    SET_EDIT_CUSTOMER,
-    SET_REMOVE_CUSTOMER
+    SET_COUNTRIES
 } from '../constants';
 
 const formatCustomers = customers => {
@@ -51,33 +48,6 @@ export default function customersReducer(state = initialState, action) {
             }
 
             return { ...state, customers: customerList };
-
-        case SET_EDIT_CUSTOMER:
-            let editCustomer = formatCustomers(payload.customers);
-
-            const customersList = state.customers.filter(
-                ({ fullItem }) => fullItem.id !== payload.id
-            );
-
-            return {
-                ...state,
-                customers: [...editCustomer, ...customersList]
-            };
-
-        case SET_CREATE_CUSTOMER:
-            let newCustomer = formatCustomers(payload.customers);
-
-            return {
-                ...state,
-                customers: [...newCustomer, ...state.customers]
-            };
-
-        case SET_REMOVE_CUSTOMER:
-            const remainCustomers = state.customers.filter(
-                ({ fullItem }) => fullItem.id !== payload.id
-            );
-
-            return { ...state, customers: remainCustomers };
 
         case SET_COUNTRIES:
             return { ...state, ...payload };

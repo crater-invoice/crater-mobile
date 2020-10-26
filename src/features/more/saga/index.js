@@ -19,7 +19,6 @@ import {
     GET_MAIL_CONFIGURATION,
     // Endpoint Api URL
     GET_ITEMS_URL,
-    GET_EDIT_ITEMS_URL,
     CREATE_ITEM_URL,
     EDIT_ITEM_URL,
     REMOVE_ITEM_URL,
@@ -72,7 +71,7 @@ function* getEditItem({ payload: { id, onResult } }) {
 
     try {
         const options = {
-            path: GET_EDIT_ITEMS_URL(id)
+            path: `items/${id}`
         };
 
         const response = yield call([Request, 'get'], options);
