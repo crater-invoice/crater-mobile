@@ -43,9 +43,7 @@ export default function globalReducer(state = initialState, action) {
 
     switch (type) {
         case GLOBAL_TRIGGER_SPINNER:
-            const { appLoginLoading } = payload;
-
-            return { ...state, loading: appLoginLoading };
+            return { ...state, loading: false };
 
         case SAVE_ENDPOINT_API:
             const { endpointURL = '' } = payload;

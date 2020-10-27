@@ -1,210 +1,160 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects';
 import {
     saveIdToken,
     authTriggerSpinner,
-    setBootstrap,
     getBootstrap,
     setGlobalBootstrap,
-    globalTriggerSpinner,
     setAppVersion,
     saveEndpointApi
-} from '../actions'
-import {
-    LOGIN,
-    SOCIAL_LOGIN,
-    SEND_FORGOT_PASSWORD_MAIL,
-    GET_BOOTSTRAP,
-    // Endpoint Api URL
-    LOGIN_URL,
-    GET_BOOTSTRAP_URL,
-    SEND_RECOVERY_MAIL_URL,
-    GET_APP_VERSION_URL,
-    CHECK_ENDPOINT_API,
-    PING_ENDPOINT_URL
-} from '../constants'
+} from '../actions';
+import * as TYPES from '../constants';
 import { ROUTES } from '@/navigation';
-import { setAccountInformation } from '../../settings/actions'
+import { setAccountInformation } from '../../settings/actions';
 import { alertMe } from '@/constants';
-import { GET_APP_VERSION } from '@/constants'
-import Request from '@/api/request'
+import { GET_APP_VERSION } from '@/constants';
+import Request from '@/api/request';
 import { getTitleByLanguage } from '@/utils';
 
 // Login
 // -----------------------------------------
-function* login(payloadData) {
-    const {
-        payload: { params, navigation }
-    } = payloadData
-
-    yield put(authTriggerSpinner({ loginLoading: true }))
+function* login({ payload: { params, navigation } }: any) {
+    yield put(authTriggerSpinner({ loginLoading: true }));
 
     try {
         const options = {
-            path: LOGIN_URL(),
+            path: 'auth/login',
             body: params,
             isAuthRequired: false
-        }
+        };
 
-        const response = yield call([Request, 'post'], options)
+        const response = yield call([Request, 'post'], options);
 
-        if (response.status == 401) {
-            alertMe({ desc: getTitleByLanguage('login.invalid') })
-            return
-        }
-
-        if (!response?.token) {
-            alertMe({ desc: getTitleByLanguage('login.invalid') })
+        if (response?.status == 401) {
+            alertMe({ desc: getTitleByLanguage('login.invalid') });
             return;
         }
 
-        yield put(saveIdToken({ idToken: response.token, expiresIn: null }))
-        yield put(getBootstrap())
-        navigation.navigate(ROUTES.MAIN_INVOICES)
+        if (!response?.token) {
+            alertMe({ desc: getTitleByLanguage('login.invalid') });
+            return;
+        }
 
-    } catch (error) {
-        yield put(authTriggerSpinner({ loginLoading: false }))
-        alertMe({ desc: getTitleByLanguage('login.invalid') })
+        yield put(saveIdToken({ idToken: response.token, expiresIn: null }));
+        yield put(getBootstrap());
+        navigation.navigate(ROUTES.MAIN_INVOICES);
+    } catch (e) {
+        yield put(authTriggerSpinner({ loginLoading: false }));
+        alertMe({ desc: getTitleByLanguage('login.invalid') });
     } finally {
-        yield put(authTriggerSpinner({ loginLoading: false }))
+        yield put(authTriggerSpinner({ loginLoading: false }));
     }
 }
 
-function* socialLogin(payloadData) {
-    const {
-        payload: { idToken }
-    } = payloadData
-
+function* socialLogin({ payload: { idToken, navigation } }: any) {
     try {
-        yield put(authTriggerSpinner({ socialLoginLoading: true }))
+        yield put(authTriggerSpinner({ socialLoginLoading: true }));
 
         if (idToken) {
-            getBootstrap()
-            yield put(saveIdToken({ idToken }))
-            navigation.navigate(ROUTES.MAIN_INVOICES)
+            getBootstrap();
+            yield put(saveIdToken({ idToken }));
+            navigation.navigate(ROUTES.MAIN_INVOICES);
         }
     } catch (e) {
     } finally {
-        yield put(authTriggerSpinner({ socialLoginLoading: false }))
+        yield put(authTriggerSpinner({ socialLoginLoading: false }));
     }
 }
 
-function* getBootstrapData(payloadData) {
-    const { payload } = payloadData
-
+function* getBootstrapData(payloadData: any) {
     try {
-        yield put(authTriggerSpinner({ getBootstrapLoginLoading: true }))
-        yield put(globalTriggerSpinner({ appLoginLoading: true }))
+        const options = { path: 'bootstrap' };
 
-        const options = {
-            path: GET_BOOTSTRAP_URL()
-        }
+        const response = yield call([Request, 'get'], options);
 
-        const response = yield call([Request, 'get'], options)
+        const { user } = response;
 
-        const { user } = response
+        yield put(setAccountInformation({ account: user }));
 
-        yield put(setAccountInformation({ account: user }))
-
-        yield put(setGlobalBootstrap(response))
-
-    } catch (error) {
-        yield put(globalTriggerSpinner({ appLoginLoading: false }))
+        yield put(setGlobalBootstrap(response));
+    } catch (e) {
     } finally {
-        yield put(authTriggerSpinner({ getBootstrapLoginLoading: false }))
-        yield put(globalTriggerSpinner({ appLoginLoading: false }))
     }
 }
 
-function* getAppVersion(payloadData) {
-    const {
-        payload: { onResult }
-    } = payloadData
-
+function* getAppVersion({ payload: { onResult } }: any) {
     try {
-        yield put(globalTriggerSpinner({ appLoginLoading: true }))
-
         const options = {
-            path: GET_APP_VERSION_URL(),
+            path: 'settings/app/version',
             isAuthRequired: false
-        }
+        };
 
-        const response = yield call([Request, 'get'], options)
+        const response = yield call([Request, 'get'], options);
 
-        yield put(setAppVersion(response))
+        yield put(setAppVersion(response));
 
-        onResult && onResult(response)
-    } catch (error) {
-        yield put(globalTriggerSpinner({ appLoginLoading: false }))
+        onResult?.(response);
+    } catch (e) {
     } finally {
-        yield put(globalTriggerSpinner({ appLoginLoading: false }))
     }
 }
 
 // Forget Password
-function* sendRecoveryMail(payloadData) {
-    const {
-        payload: { email, onResult }
-    } = payloadData
-
-    yield put(authTriggerSpinner({ forgetPasswordLoading: true }))
+function* sendRecoveryMail({ payload: { email, onResult } }: any) {
+    yield put(authTriggerSpinner({ forgetPasswordLoading: true }));
 
     try {
         const options = {
-            path: SEND_RECOVERY_MAIL_URL(),
+            path: 'auth/password/email',
             body: { email },
             isAuthRequired: false
-        }
+        };
 
-        const res = yield call([Request, 'post'], options)
+        const res = yield call([Request, 'post'], options);
 
         res.data
             ? onResult && onResult(res)
-            : alertMe({ desc: getTitleByLanguage('forgot.emailSendError') })
-    } catch (error) {
-        yield put(authTriggerSpinner({ forgetPasswordLoading: false }))
-        alertMe({ desc: getTitleByLanguage('forgot.emailSendError') })
+            : alertMe({ desc: getTitleByLanguage('forgot.emailSendError') });
+    } catch (e) {
+        yield put(authTriggerSpinner({ forgetPasswordLoading: false }));
+        alertMe({ desc: getTitleByLanguage('forgot.emailSendError') });
     } finally {
-        yield put(authTriggerSpinner({ forgetPasswordLoading: false }))
+        yield put(authTriggerSpinner({ forgetPasswordLoading: false }));
     }
 }
 
-function* checkEndpointApi(payloadData) {
-    const {
-        payload: { endpointURL, onResult }
-    } = payloadData
-
+function* checkEndpointApi({ payload: { endpointURL, onResult } }: any) {
     try {
-        yield put(authTriggerSpinner({ pingEndpointLoading: true }))
+        yield put(authTriggerSpinner({ pingEndpointLoading: true }));
 
         const options = {
-            path: PING_ENDPOINT_URL(),
+            path: `ping`,
             isAuthRequired: false,
             isPing: `${endpointURL}/api/`
-        }
+        };
 
-        const response = yield call([Request, 'get'], options)
+        const response = yield call([Request, 'get'], options);
 
-        let success = true
+        let success = true;
         if (response.success === 'crater-self-hosted') {
-            yield put(saveEndpointApi({ endpointURL }))
+            yield put(saveEndpointApi({ endpointURL }));
         } else {
-            success = false
+            success = false;
         }
 
-        onResult && onResult(success)
-    } catch (error) {
-        yield put(authTriggerSpinner({ pingEndpointLoading: false }))
-        onResult && onResult(false)
+        onResult?.(success);
+    } catch (e) {
+        yield put(authTriggerSpinner({ pingEndpointLoading: false }));
+        onResult?.(false);
     } finally {
-        yield put(authTriggerSpinner({ pingEndpointLoading: false }))
+        yield put(authTriggerSpinner({ pingEndpointLoading: false }));
     }
 }
 
 export default function* loginSaga() {
-    yield takeEvery(LOGIN, login)
-    yield takeEvery(SOCIAL_LOGIN, socialLogin)
-    yield takeEvery(GET_BOOTSTRAP, getBootstrapData)
-    yield takeEvery(SEND_FORGOT_PASSWORD_MAIL, sendRecoveryMail)
-    yield takeEvery(GET_APP_VERSION, getAppVersion)
-    yield takeEvery(CHECK_ENDPOINT_API, checkEndpointApi)
+    yield takeLatest(TYPES.LOGIN, login);
+    yield takeLatest(TYPES.SOCIAL_LOGIN, socialLogin);
+    yield takeLatest(TYPES.GET_BOOTSTRAP, getBootstrapData);
+    yield takeLatest(TYPES.SEND_FORGOT_PASSWORD_MAIL, sendRecoveryMail);
+    yield takeLatest(TYPES.CHECK_ENDPOINT_API, checkEndpointApi);
+    yield takeLatest(GET_APP_VERSION, getAppVersion);
 }

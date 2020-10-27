@@ -105,7 +105,7 @@ export class Endpoint extends Component<IProps> {
         } = this.props;
 
         const { isKeyboardVisible } = this.state;
-
+        const isIPhone = isIPhoneX()
 
         return (
             <View style={styles.container}>
@@ -131,11 +131,10 @@ export class Endpoint extends Component<IProps> {
 
                 <ScrollView
                     style={{
-                        paddingTop: isKeyboardVisible
-                            && !isIPhoneX() ? '5%'
+                        paddingTop: isKeyboardVisible && !isIPhone ? skipEndpoint ? '-10%' : '17%'
                             : skipEndpoint
-                            ? '23%'
-                            : '32%',
+                            ? '15%'
+                            : isIPhone ? '40%' : '32%'
                     }}
                     bounces={isKeyboardVisible}
                     showsVerticalScrollIndicator={false}
