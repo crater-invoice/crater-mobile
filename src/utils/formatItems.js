@@ -105,6 +105,23 @@ export const formatCategories = categories => {
     });
 };
 
+// Format Notes
+// -----------------------------------------
+export const formatNotes = notes => {
+    if (!isArray(notes)) {
+        return [];
+    }
+
+    return notes.map(note => {
+        const { name, type } = note;
+        return {
+            title: name,
+            rightTitle: type,
+            fullItem: note
+        };
+    });
+};
+
 // Format Items
 // -----------------------------------------
 export const formatItems = (items, currency) => {

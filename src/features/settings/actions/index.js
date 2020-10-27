@@ -173,6 +173,37 @@ export const setRemoveTax = payload => ({
     payload
 });
 
+// Notes
+// -------------------------------------------------
+export const getNotes = payload => ({
+    type: TYPES.GET_NOTES,
+    payload
+});
+export const setNotes = payload => ({
+    type: TYPES.SET_NOTES,
+    payload
+});
+export const createNotes = payload => ({
+    type: TYPES.CREATE_NOTES,
+    payload
+});
+export const removeNotes = payload => ({
+    type: TYPES.REMOVE_NOTES,
+    payload
+});
+export const updateNotes = payload => ({
+    type: TYPES.UPDATE_NOTES,
+    payload
+});
+export const getUpdateNotes = payload => ({
+    type: TYPES.GET_UPDATE_NOTES,
+    payload
+});
+export const saveNotes = payload => ({
+    type: TYPES.SAVE_NOTES,
+    payload
+});
+
 // Customize Settings
 // -------------------------------------------------
 export const getCustomizeSettings = (payload = {}) => ({
@@ -330,4 +361,4 @@ export const getGeneralSetting = (payload = {}) => ({
 export const getNextNumber = (payload = {}) => ({
     type: TYPES.GET_NEXT_NUMBER,
     payload
-})
+});

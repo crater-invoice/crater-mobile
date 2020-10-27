@@ -1,4 +1,4 @@
-import queryString from 'query-string';
+import * as queryStrings from 'query-string';
 import { ROUTES } from '@/navigation';
 
 // Forms
@@ -24,6 +24,9 @@ export const CURRENCY_FORM = 'currencies/CURRENCY_FORM';
 export const CUSTOM_FIELDS_FORM = 'custom-field/CUSTOM_FIELDS_FORM';
 export const CUSTOM_FIELD_FORM = 'custom-field/CUSTOM_FIELD_FORM';
 
+export const NOTES_SEARCH = 'notes/NOTES_SEARCH';
+export const NOTES_FORM = 'notes/NOTES_FORM';
+
 // Type
 // -----------------------------------------
 export const CATEGORY_ADD = 'category/CATEGORY_ADD';
@@ -34,6 +37,8 @@ export const CREATE_CURRENCY_TYPE = 'currencies/CREATE_CURRENCY_TYPE';
 export const EDIT_CURRENCY_TYPE = 'currencies/EDIT_CURRENCY_TYPE';
 export const CREATE_CUSTOM_FIELD_TYPE = 'custom-field/CREATE_CUSTOM_FIELD_TYPE';
 export const EDIT_CUSTOM_FIELD_TYPE = 'custom-field/EDIT_CUSTOM_FIELD_TYPE';
+export const NOTES_ADD = 'notes/NOTES_ADD';
+export const NOTES_EDIT = 'notes/NOTES_EDIT';
 
 // Actions
 // -----------------------------------------
@@ -84,6 +89,15 @@ export const SET_PAYMENT_MODE = 'payments/SET_PAYMENT_MODE';
 export const CREATE_PAYMENT_MODE = 'payments/CREATE_PAYMENT_MODE';
 export const EDIT_PAYMENT_MODE = 'payments/EDIT_PAYMENT_MODE';
 export const REMOVE_PAYMENT_MODE = 'payments/REMOVE_PAYMENT_MODE';
+
+// Notes
+export const GET_NOTES = 'notes/GET_NOTES';
+export const SET_NOTES = 'notes/SET_NOTES';
+export const CREATE_NOTES = 'notes/CREATE_NOTES';
+export const REMOVE_NOTES = 'notes/REMOVE_NOTES';
+export const UPDATE_NOTES = 'notes/UPDATE_NOTES';
+export const GET_UPDATE_NOTES = 'notes/GET_UPDATE_NOTES';
+export const SAVE_NOTES = 'notes/SAVE_NOTES';
 
 // Item Unit
 export const GET_ITEM_UNITS = 'units/GET_ITEM_UNITS';
@@ -271,6 +285,14 @@ export const SETTINGS_MENU = (locale, Lng) => {
             iconSize: 24,
             fullItem: {
                 route: ROUTES.CATEGORIES
+            }
+        },
+        {
+            title: Lng.t('settings.notes', { locale }),
+            leftIcon: 'clipboard-list',
+            iconSize: 24,
+            fullItem: {
+                route: ROUTES.NOTES
             }
         },
         {
@@ -543,7 +565,6 @@ export const EDIT_ACCOUNT_AVATAR_URL = () => `me/upload-avatar`;
 export const GET_PREFERENCES_URL = () => `company/settings`;
 export const EDIT_PREFERENCES_URL = () => `company/settings`;
 
-// export const GET_GENERAL_SETTING_URL = key => `settings/get-setting?key=${key}`;
 export const GET_GENERAL_SETTING_URL = () => `company/settings`;
 export const EDIT_GENERAL_SETTING_URL = () => `company/settings`;
 
@@ -568,6 +589,9 @@ export const REMOVE_PAYMENT_MODE_URL = id => `payment-methods/${id}`;
 export const CREATE_ITEM_UNIT_URL = () => `units`;
 export const EDIT_ITEM_UNIT_URL = id => `units/${id}`;
 export const REMOVE_ITEM_UNIT_URL = id => `units/${id}`;
+
+// Notes
+// export const GET_NOTES_URL = param => `notes?${queryStrings.stringify(param)}`;
 
 export const PREFERENCES_SETTING_TYPE = [
     'currency',

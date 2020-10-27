@@ -33,7 +33,7 @@ function* getExpenseCategories({ payload }) {
         }
 
         onSuccess?.(response?.categories);
-    } catch (error) {
+    } catch (e) {
     } finally {
     }
 }

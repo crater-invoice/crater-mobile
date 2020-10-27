@@ -44,6 +44,7 @@ import customFields from './custom-fields';
 import Request from '@/api/request';
 import preferences from './preferences';
 import General from './general';
+import Notes from './notes';
 
 /**
  * Company Information.
@@ -286,6 +287,7 @@ export default function* settingsSaga() {
         currencies(),
         customFields(),
         preferences(),
-        General()
+        General(),
+        Notes()
     ]);
 }
