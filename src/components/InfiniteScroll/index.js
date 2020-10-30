@@ -27,6 +27,7 @@ interface IProps {
     getItemsInMount: boolean;
     onMount: Function;
     hideLoader: Boolean;
+    paginationLimit: Number;
 }
 
 interface IState {
@@ -60,13 +61,14 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
             refreshing: false,
             isMore: false,
             page: 1,
-            limit: 10
+            limit: props?.paginationLimit ?? 10
         };
     }
 
     static defaultProps = {
         getItemsInMount: true,
-        hideLoader: false
+        hideLoader: false,
+        paginationLimit: 10
     };
 
     componentDidMount() {

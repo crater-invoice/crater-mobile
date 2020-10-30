@@ -15,46 +15,44 @@ export class Settings extends React.Component {
 
         this.state = {
             endpointVisible: false
-        }
+        };
     }
 
     componentDidMount() {
-        const { navigation } = this.props
-        goBack(MOUNT, navigation, { route: ROUTES.MAIN_MORE })
+        const { navigation } = this.props;
+        goBack(MOUNT, navigation, { route: ROUTES.MAIN_MORE });
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
 
-    onSelectMenu = (item) => {
-        const { navigation } = this.props
+    onSelectMenu = item => {
+        const { navigation } = this.props;
 
         if (item.route) {
-            (item.route === ROUTES.ENDPOINTS_SETTINGS)
-                ? navigation.navigate(item.route, { skipEndpoint: true }) :
-                navigation.navigate(item.route)
+            item.route === ROUTES.ENDPOINTS_SETTINGS
+                ? navigation.navigate(item.route, { skipEndpoint: true })
+                : navigation.navigate(item.route);
         } else {
-            this[item.action]()
+            this[item.action]();
         }
-    }
+    };
 
     onLogout = () => {
-        const { navigation, logout } = this.props
-        logout({ navigation })
-    }
+        const { navigation, logout } = this.props;
+        logout({ navigation });
+    };
 
     render() {
         const { navigation, locale } = this.props;
-
-        const { endpointVisible } = this.state;
-
         return (
             <View style={styles.container}>
                 <DefaultLayout
                     headerProps={{
-                        leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t("header.settings", { locale }),
+                        leftIconPress: () =>
+                            navigation.navigate(ROUTES.MAIN_MORE),
+                        title: Lng.t('header.settings', { locale }),
                         leftIconStyle: { color: colors.dark2 }
                     }}
                     hasSearchField={false}

@@ -26,6 +26,8 @@
         "expenseCategory": "Expense Categories",
         "addCategory": "Add Category",
         "editCategory": "Edit Category",
+        "addNote": "Add Note",
+        "editNote": "Edit Note",
         "settings": "Settings",
         "notifications": "Notification",
         "setting": {
@@ -60,7 +62,8 @@
         "editRecurring": "Edit Recurring Invoice",
         "customFields": "Custom Fields",
         "addCustomField": "Add Custom Field",
-        "editCustomField": "Edit Custom Field"
+        "editCustomField": "Edit Custom Field",
+        "notes": "Notes"
     },
     "tabNavigation": {
         "invoices": "Invoices",
@@ -239,7 +242,7 @@
             "buttonTitle": "Add New Payment"
         }
     },
-    "paymentMode":{
+    "paymentMode": {
         "empty": {
             "title": "No payment modes yet!",
             "description": "This section will contain the list of payment modes.",
@@ -315,7 +318,21 @@
             "buttonTitle": "Add New Category"
         }
     },
-    "units":{
+    "notes": {
+        "title": "Note Name",
+        "description": "Description",
+        "model": "Model",
+        "modelPlaceholder": "Select a Type",
+        "alertDescription": "You will not be able to recover this Note",
+        "alreadyUsed": "Note already in use",
+        "empty": {
+            "title": "No notes yet!",
+            "description": "This section will contain the list of notes.",
+            "buttonTitle": "Add New Note"
+        },
+        "type": "Note Type"
+    },
+    "units": {
         "empty": {
             "title": "No units yet!",
             "description": "This section will contain the list of item units.",
@@ -377,7 +394,8 @@
             "taxPerItem": "Tax Per Item",
             "taxPerItemPlaceholder": "Enable this if you want to add Tax to individual invoice items. By default, Tax are added directly to the invoice.",
             "settingUpdate": "Setting updated successfully"
-        }
+        },
+        "notes": "Notes"
     },
     "login": {
         "email": "Enter Your Email",
