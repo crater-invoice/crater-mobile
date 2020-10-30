@@ -1,25 +1,48 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
-import { colors } from '@/styles';
+import { reduxForm, getFormValues } from 'redux-form';
 import Note from '../../components/Note';
-import { NOTES_FORM } from '../../constants';
-import { EXPENSES_ICON } from '@/assets';
-import { getTitleByLanguage } from '@/utils';
-import { AssetSvg } from '@/components';
+import { NOTES_FORM, NOTES_ADD } from '../../constants';
 import * as noteAction from '../../actions';
+import { validate } from './validations';
 
-const mapStateToProps = ({ global, settings }) => ({
-    locale: global?.locale,
-    notes: settings?.notes
-});
+const mapStateToProps = (state, { navigation }) => {
+    const {
+        global: { locale },
+        settings: {
+            loading: {
+                getNotesLoading,
+            }
+        }
+    } = state
+
+    const noteType = navigation.getParam('note', {});
+    const type = navigation.getParam('type', NOTES_ADD)
+    let onFirstTimeCreateNote = navigation.getParam('onSelect', null)
+
+    return {
+        noteLoading: getNotesLoading,
+        type,
+        locale,
+        onFirstTimeCreateNote,
+        formValues: getFormValues(NOTES_FORM)(state) || {},
+        noteId: noteType && noteType.id,
+        initialValues: {
+            ...noteType
+        }
+    };
+}
 
 const mapDispatchToProps = {
-    getNotes: noteAction.getNotes
+    getNotes: noteAction.getNotes,
+    createNote: noteAction.createNote,
+    removeNote: noteAction.removeNote,
+    updateNote: noteAction.updateNote
 };
 //  Redux Forms
 const NoteSearchReduxForm = reduxForm({
-    form: NOTES_FORM
+    form: NOTES_FORM,
+    validate
 })(Note);
 
 //  connect

@@ -2,39 +2,46 @@ import React from 'react';
 import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
-import { InputField, CtButton, DefaultLayout } from '@/components';
+import {
+    InputField,
+    CtButton,
+    DefaultLayout,
+    SelectPickerField
+} from '@/components';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import Lng from '@/lang/i18n';
-import { CATEGORY_EDIT, CATEGORY_ADD, CATEGORY_FORM } from '../../constants';
+import {
+    NOTES_FORM,
+    NOTES_EDIT,
+    NOTES_FIELD_MODAL_TYPES as MODAL_TYPES,
+    NOTES_ADD
+} from '../../constants';
 import { alertMe, BUTTON_COLOR, MAX_LENGTH } from '@/constants';
 
-export class Note extends React.Component {
+interface IProps {
+    navigation: any;
+    type: any;
+    onFirstTimeCreateNote: any;
+    createNote: Function;
+    updateNote: Function;
+    getNotesLoading: Boolean;
+    removeNote: Function;
+    locale: any;
+    noteId: Number;
+    noteLoading: any;
+    handleSubmit: Function;
+}
+
+export class Note extends React.Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {};
     }
 
     componentDidMount() {
-        const {
-            navigation,
-            getEditCategory,
-            type,
-            onFirstTimeCreateExpense
-        } = this.props;
+        const { navigation, onFirstTimeCreateNote } = this.props;
 
-        if (type === CATEGORY_EDIT) {
-            let id = navigation.getParam('categoryId', null);
-            getEditCategory({
-                id,
-                onResult: val => {
-                    const { name, description } = val;
-                    this.setFormField('name', name);
-                    this.setFormField('description', description);
-                }
-            });
-        }
-
-        !onFirstTimeCreateExpense
+        !onFirstTimeCreateNote
             ? goBack(MOUNT, navigation)
             : goBack(MOUNT, navigation, { route: ROUTES.MAIN_EXPENSES });
     }
@@ -44,90 +51,88 @@ export class Note extends React.Component {
     }
 
     setFormField = (field, value) => {
-        this.props.dispatch(change(CATEGORY_FORM, field, value));
+        this.props.dispatch(change(NOTES_FORM, field, value));
     };
 
-    onSubmitCategory = values => {
+    onSubmitNote = note => {
         const {
             type,
-            createCategory,
-            editCategory,
+            createNote,
+            updateNote,
             navigation,
-            categoryLoading,
-            onFirstTimeCreateExpense
+            getNotesLoading
         } = this.props;
 
-        if (!categoryLoading) {
-            if (type === CATEGORY_ADD)
-                createCategory({
-                    params: values,
-                    onResult: res => {
-                        onFirstTimeCreateExpense &&
-                            onFirstTimeCreateExpense(res);
-
+        if (!getNotesLoading) {
+            if (type === NOTES_ADD)
+                createNote({
+                    params: note,
+                    onSuccess: () => {
                         navigation.goBack(null);
-                    }
+                    },
+                    navigation
                 });
             else {
-                let id = navigation.getParam('categoryId', null);
-                editCategory({ id, params: values, navigation });
+                updateNote({
+                    note,
+                    onResult: () => navigation.goBack(null),
+                    navigation
+                });
             }
         }
     };
 
-    removeCategory = () => {
-        const {
-            removeCategory,
-            navigation,
-            locale,
-            formValues: { name }
-        } = this.props;
+    removeNote = () => {
+        const { removeNote, navigation, locale, noteId } = this.props;
 
         alertMe({
             title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('categories.alertDescription', { locale }),
+            desc: Lng.t('notes.alertDescription', { locale }),
             showCancel: true,
             okPress: () =>
-                removeCategory({
-                    id: navigation.getParam('categoryId', null),
+                removeNote({
+                    id: noteId,
                     navigation,
-                    onResult: () => {
+                    onFail: () => {
                         alertMe({
-                            title: `${name} ${Lng.t('categories.alreadyUsed', {
+                            title: `${name} ${Lng.t('notes.alreadyUsed', {
                                 locale
                             })}`
                         });
+                    },
+                    onResult: () => {
+                        navigation.goBack(null);
                     }
                 })
         });
     };
 
     BOTTOM_ACTION = handleSubmit => {
-        const { locale, categoryLoading, type } = this.props;
+        const { locale, type, noteLoading } = this.props;
 
         return (
             <View
                 style={[
                     styles.submitButton,
-                    type === CATEGORY_EDIT && styles.multipleButton
+                    type === NOTES_EDIT && styles.multipleButton
                 ]}
             >
                 <CtButton
-                    onPress={handleSubmit(this.onSubmitCategory)}
+                    onPress={handleSubmit(this.onSubmitNote)}
                     btnTitle={Lng.t('button.save', { locale })}
-                    buttonContainerStyle={type === CATEGORY_EDIT && styles.flex}
+                    buttonContainerStyle={type === NOTES_EDIT && styles.flex}
                     containerStyle={styles.btnContainerStyle}
-                    loading={categoryLoading}
+                    loading={noteLoading}
                 />
 
-                {type === CATEGORY_EDIT && (
+                {type === NOTES_EDIT && (
                     <CtButton
-                        onPress={this.removeCategory}
+                        onPress={this.removeNote}
                         btnTitle={Lng.t('button.remove', { locale })}
                         buttonColor={BUTTON_COLOR.DANGER}
                         containerStyle={styles.btnContainerStyle}
                         buttonContainerStyle={styles.flex}
-                        loading={categoryLoading}
+                        loading={noteLoading}
                     />
                 )}
             </View>
@@ -139,9 +144,9 @@ export class Note extends React.Component {
             navigation,
             handleSubmit,
             locale,
-            getEditCategoryLoading,
+            getNotesLoading,
             type,
-            onFirstTimeCreateExpense
+            onFirstTimeCreateNote
         } = this.props;
 
         let categoryRefs = {};
@@ -150,24 +155,24 @@ export class Note extends React.Component {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => {
-                        !onFirstTimeCreateExpense
+                        !onFirstTimeCreateNote
                             ? navigation.goBack(null)
                             : navigation.navigate(ROUTES.MAIN_EXPENSES);
                     },
                     title:
-                        type === CATEGORY_EDIT
-                            ? Lng.t('header.editCategory', { locale })
-                            : Lng.t('header.addCategory', { locale }),
+                        type === NOTES_EDIT
+                            ? Lng.t('header.editNote', { locale })
+                            : Lng.t('header.addNote', { locale }),
                     placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {
                         solid: true
                     },
-                    rightIconPress: handleSubmit(this.onSubmitCategory)
+                    rightIconPress: handleSubmit(this.onSubmitNote)
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
-                    is: getEditCategoryLoading
+                    is: getNotesLoading
                 }}
             >
                 <View style={styles.bodyContainer}>
@@ -175,7 +180,7 @@ export class Note extends React.Component {
                         name="name"
                         component={InputField}
                         isRequired
-                        hint={Lng.t('categories.title', { locale })}
+                        hint={Lng.t('notes.title', { locale })}
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
                             returnKeyType: 'next',
@@ -189,9 +194,26 @@ export class Note extends React.Component {
                     />
 
                     <Field
-                        name="description"
+                        name="type"
+                        component={SelectPickerField}
+                        label={Lng.t('notes.type', {
+                            locale
+                        })}
+                        fieldIcon="align-center"
+                        items={MODAL_TYPES}
+                        defaultPickerOptions={{
+                            label: Lng.t('notes.modelPlaceholder', {
+                                locale
+                            }),
+                            value: ''
+                        }}
+                        isRequired
+                    />
+
+                    <Field
+                        name="notes"
                         component={InputField}
-                        hint={Lng.t('categories.description', { locale })}
+                        hint={Lng.t('notes.description', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',

@@ -26,6 +26,8 @@
         "expenseCategory": "Expense Categories",
         "addCategory": "Add Category",
         "editCategory": "Edit Category",
+        "addNote": "Add Note",
+        "editNote": "Edit Note",
         "settings": "Settings",
         "notifications": "Notification",
         "setting": {
@@ -317,15 +319,18 @@
         }
     },
     "notes": {
-        "title": "Notes Name",
+        "title": "Note Name",
         "description": "Description",
+        "model": "Model",
+        "modelPlaceholder": "Select a Type",
         "alertDescription": "You will not be able to recover this Note",
         "alreadyUsed": "Note already in use",
         "empty": {
             "title": "No notes yet!",
             "description": "This section will contain the list of notes.",
             "buttonTitle": "Add New Note"
-        }
+        },
+        "type": "Note Type"
     },
     "units": {
         "empty": {

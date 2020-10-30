@@ -10,7 +10,9 @@ import { formatNotes } from '@/utils';
 type IProps = {
     navigation: Object,
     expenses: Object,
-    locale: String
+    locale: String,
+    getNotes: Function,
+    notes: any
 };
 
 export class Notes extends Component<IProps> {
@@ -40,12 +42,13 @@ export class Notes extends Component<IProps> {
         });
     };
 
-    onSelect = notes => {
+    onSelect = note => {
         const { navigation } = this.props;
 
-        navigation.navigate(ROUTES.NOTES, {
+        navigation.navigate(ROUTES.NOTE, {
             type: NOTES_EDIT,
-            notesId: notes.id
+            notesId: note.id,
+            note
         });
         // this.onResetFilter();
     };

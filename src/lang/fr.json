@@ -26,6 +26,8 @@
         "expenseCategory": "Catégories de dépenses",
         "addCategory": "ajouter une catégorie",
         "editCategory": "Modifier la catégorie",
+        "addNote": "Ajouter une note",
+        "editNote": "Note éditée",
         "settings": "Paramètres",
         "notifications": "Notification",
         "setting": {
@@ -314,6 +316,20 @@
             "description": "Cette section contiendra la liste des catégories.",
             "buttonTitle": "Ajouter une nouvelle catégorie"
         }
+    },
+    "notes": {
+        "title": "Nom de la note",
+        "description": "La description",
+        "model": "Modèle",
+        "modelPlaceholder": "Sélectionnez un type",
+        "alertDescription": "Vous ne pourrez pas récupérer cette note",
+        "alreadyUsed": "Remarque déjà utilisée",
+        "empty": {
+            "title": "Pas encore de notes!",
+            "description": "Cette section contiendra la liste des notes.",
+            "buttonTitle": "Ajouter une nouvelle note"
+        },
+        "type": "Type de note"
     },
     "units":{
         "empty": {

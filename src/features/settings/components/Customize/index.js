@@ -35,6 +35,9 @@ type IProps = {
     loading: Boolean,
     isLoading: Boolean,
     handleSubmit: Function,
+    getCustomizeSettings: Function,
+    customizes: Object,
+    setCustomizeSettings: Function
 }
 
 export class Customize extends React.Component<IProps> {
@@ -218,12 +221,14 @@ export class Customize extends React.Component<IProps> {
         this.setFormField(field, status)
 
         const { editSettingItem } = this.props
-        const { data: { autoGenerateName } } = this.state
+
+        const settings = {
+            [field] : status === true ? 'YES' : 'NO',
+        }
 
         editSettingItem({
             params: {
-                key: autoGenerateName,
-                value: status === true ? 'YES' : 'NO'
+                settings
             },
             hasCustomize: true,
             onResult: () => {

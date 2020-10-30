@@ -1,4 +1,3 @@
-import * as queryStrings from 'query-string';
 import { ROUTES } from '@/navigation';
 
 // Forms
@@ -220,6 +219,21 @@ export const CUSTOM_FIELD_MODAL_TYPES = [
     { label: 'Payment', value: MODAL_TYPE_VALUE.PAYMENT }
 ];
 
+// Notes Field Modal
+// -----------------------------------------
+
+export const NOTES_TYPE_VALUE = {
+    INVOICE: 'Invoice',
+    ESTIMATE: 'Estimate',
+    PAYMENT: 'Payment'
+};
+
+export const NOTES_FIELD_MODAL_TYPES = [
+    { label: 'Invoice', value: NOTES_TYPE_VALUE.INVOICE },
+    { label: 'Estimate', value: NOTES_TYPE_VALUE.ESTIMATE },
+    { label: 'Payment', value: NOTES_TYPE_VALUE.PAYMENT }
+];
+
 // Menus
 // -----------------------------------------
 export const SETTINGS_MENU = (locale, Lng) => {
@@ -289,10 +303,17 @@ export const SETTINGS_MENU = (locale, Lng) => {
         },
         {
             title: Lng.t('settings.notes', { locale }),
-            leftIcon: 'clipboard-list',
+            leftIcon: 'pen-square',
             iconSize: 24,
             fullItem: {
                 route: ROUTES.NOTES
+            }
+        },
+        {
+            title: Lng.t('header.customFields', { locale }),
+            leftIcon: 'cube',
+            fullItem: {
+                route: ROUTES.CUSTOM_FIELDS
             }
         },
         {
@@ -354,19 +375,13 @@ export const CUSTOMIZES_MENU = (locale, Lng) => {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.ITEMS
             }
-        },
+        }
         // {
         //     title: Lng.t('header.currencies', { locale }),
         //     fullItem: {
         //         route: ROUTES.CURRENCIES
         //     }
         // },
-        {
-            title: Lng.t('header.customFields', { locale }),
-            fullItem: {
-                route: ROUTES.CUSTOM_FIELDS
-            }
-        }
     ];
 };
 
@@ -556,7 +571,7 @@ export const COMPANY_SETTINGS_TYPE = [
 // Endpoint Api URL
 // -----------------------------------------
 export const GET_COMPANY_URL = () => `me`;
-export const EDIT_COMPANY_URL = () => `me`;
+export const EDIT_COMPANY_URL = () => `company`;
 
 export const GET_ACCOUNT_URL = () => `me`;
 export const EDIT_ACCOUNT_URL = () => `me`;
@@ -578,7 +593,7 @@ export const REMOVE_SALES_TAX_URL = id => `tax-types/${id}`;
 // Customize Settings
 export const GET_CUSTOMIZE_SETTINGS_URL = () => `company/settings`;
 export const EDIT_CUSTOMIZE_SETTINGS_URL = () =>
-    `settings/update-customize-setting`;
+    `company/settings`;
 
 // Payment Methods
 export const CREATE_PAYMENT_MODE_URL = () => `payment-methods`;
@@ -592,6 +607,8 @@ export const REMOVE_ITEM_UNIT_URL = id => `units/${id}`;
 
 // Notes
 // export const GET_NOTES_URL = param => `notes?${queryStrings.stringify(param)}`;
+export const EDIT_NOTE_URL = note => `notes/${note.id}`;
+export const REMOVE_NOTE_URL = id => `notes/${id}`;
 
 export const PREFERENCES_SETTING_TYPE = [
     'currency',

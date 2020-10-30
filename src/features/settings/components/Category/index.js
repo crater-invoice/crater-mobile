@@ -10,7 +10,6 @@ import Lng from '@/lang/i18n';
 import { CATEGORY_EDIT, CATEGORY_ADD, CATEGORY_FORM } from '../../constants';
 import { alertMe, BUTTON_COLOR, MAX_LENGTH } from '@/constants';
 
-
 type IProps = {
     navigation: Object,
     handleSubmit: Function,
