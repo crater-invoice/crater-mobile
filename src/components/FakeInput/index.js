@@ -194,7 +194,8 @@ export class FakeInputComponent extends Component<IProps> {
                                             color && { color: color },
                                             icon && { paddingLeft: 39 },
                                             rightIcon && styles.hasRightIcon,
-                                            valueStyle && valueStyle
+                                            valueStyle && valueStyle,
+                                            disabled && { opacity: 0.5 }
                                         ]}
                                     >
                                         {values}
@@ -208,7 +209,8 @@ export class FakeInputComponent extends Component<IProps> {
                                                 placeholderStyle,
                                             icon && { paddingLeft: 39 },
                                             rightIcon && styles.hasRightIcon,
-                                            color && { color: color }
+                                            color && { color: color },
+                                            disabled && { opacity: 0.5 }
                                         ]}
                                     >
                                         {placeholder && placeholder}

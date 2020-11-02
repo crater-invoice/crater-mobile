@@ -45,7 +45,8 @@ export type IProps = {
     searchFields: Array,
     isEditable: Boolean,
     isCompareField: Boolean,
-    reference: any
+    reference: any,
+    queryString: Object
 };
 
 export type IStates = {

@@ -26,7 +26,7 @@ export const CUSTOM_FIELD_FORM = 'custom-field/CUSTOM_FIELD_FORM';
 export const NOTES_SEARCH = 'notes/NOTES_SEARCH';
 export const NOTES_FORM = 'notes/NOTES_FORM';
 
-// Type
+// Types
 // -----------------------------------------
 export const CATEGORY_ADD = 'category/CATEGORY_ADD';
 export const CATEGORY_EDIT = 'category/CATEGORY_EDIT';
@@ -39,7 +39,6 @@ export const EDIT_CUSTOM_FIELD_TYPE = 'custom-field/EDIT_CUSTOM_FIELD_TYPE';
 export const NOTES_ADD = 'notes/NOTES_ADD';
 export const NOTES_EDIT = 'notes/NOTES_EDIT';
 
-// Actions
 // -----------------------------------------
 export const SETTINGS_SEARCH = 'settings/SETTINGS_SEARCH';
 export const SETTINGS_TRIGGER_SPINNER = 'settings/SETTINGS_TRIGGER_SPINNER';
@@ -50,6 +49,7 @@ export const GET_NEXT_NUMBER = 'general/GET_NEXT_NUMBER';
 
 // General Settings
 export const GET_GENERAL_SETTING = 'GET_GENERAL_SETTING';
+export const GET_SETTING_INFO = 'GET_SETTING_INFO';
 
 // Preferences
 export const GET_PREFERENCES = 'preferences/GET_PREFERENCES';
@@ -592,8 +592,7 @@ export const REMOVE_SALES_TAX_URL = id => `tax-types/${id}`;
 
 // Customize Settings
 export const GET_CUSTOMIZE_SETTINGS_URL = () => `company/settings`;
-export const EDIT_CUSTOMIZE_SETTINGS_URL = () =>
-    `company/settings`;
+export const EDIT_CUSTOMIZE_SETTINGS_URL = () => `company/settings`;
 
 // Payment Methods
 export const CREATE_PAYMENT_MODE_URL = () => `payment-methods`;

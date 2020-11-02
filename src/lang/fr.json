@@ -62,7 +62,8 @@
         "editRecurring": "Modifier la facture récurrente",
         "customFields": "Les champs personnalisés",
         "addCustomField": "Ajouter un champ personnalisé",
-        "editCustomField": "Modifier le champ personnalisé"
+        "editCustomField": "Modifier le champ personnalisé",
+        "notes": "Remarques"
     },
     "tabNavigation": {
         "invoices": "Factures",
@@ -227,7 +228,7 @@
         "invoice": "Facture d'achat",
         "invoicePlaceholder": "Sélectionnez facture",
         "sendReceipt": "Envoyer un reçu de paiement",
-        "alertAmount": "Le paiement entré est supérieur au montant total dû pour cette facture.",
+        "alertAmount": "Le paiement saisi est supérieur au montant dû de cette facture.",
         "alertDescription": "Vous ne pourrez pas récupérer ce paiement",
         "alertMode": "Vous ne pourrez pas récupérer ce mode de paiement",
         "alreadyInUseMode": "Le mode de paiement est déjà utilisé",
@@ -706,6 +707,7 @@
         "character": "Caractères seulement",
         "numeric": "doit être numérique",
         "moreThanDue": "{{hint}} Ne devrait pas être plus que le montant dû.",
-        "url": "URL invalide (p ex: https://craterapp.com)"
+        "url": "URL invalide (p ex: https://craterapp.com)",
+        "wrong":"Un problème est survenu. Veuillez réessayer."
     }
 }

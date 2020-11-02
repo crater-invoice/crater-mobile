@@ -160,7 +160,7 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
             : { orderByField: 'created_at', orderBy: 'desc', ...queryString };
     };
 
-    updateInitialState = ({ next_page_url, current_page }) => {
+    updateInitialState = ({ next_page_url = null, current_page = 1 } = {}) => {
         this.setState({
             loading: false,
             refreshing: false,

@@ -24,11 +24,12 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     }
 
     componentDidMount() {
+        this.props.reference?.(this);
+
         if (!isArray(this.props.items)) {
             return;
         }
         this.setInitialState();
-        this.props.reference?.(this);
     }
 
     componentWillUnmount() {
@@ -103,7 +104,12 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         }
     };
 
-    changeDisplayValue = item => {
+    changeDisplayValue = async item => {
+        if (!hasValue(item)) {
+            this.setState({ values: null });
+            return;
+        }
+
         const { displayName } = this.props;
         this.setState({ values: item[displayName] });
     };
@@ -155,17 +161,6 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             compareField,
             valueCompareField
         } = this.props;
-
-        if (!isMultiSelect && value) {
-            const hasCompare = compareField
-                ? value === item[compareField]
-                : JSON.parse(value.id) === JSON.parse(item.id);
-
-            if (hasCompare) {
-                this.onToggle();
-                return;
-            }
-        }
 
         if (isMultiSelect && value) {
             let hasSameItem = value.filter(
@@ -293,7 +288,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         const { search } = this.state;
 
         this.scrollViewReference?.getItems?.({
-            queryString: { search },
+            queryString: { search, ...this.props.queryString },
             onSuccess: res => this.setInitialPaginationItem(res)
         });
     };
@@ -412,7 +407,6 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             }
         };
 
-        console.log({ values });
         return (
             <View style={styles.container}>
                 <FakeInput

@@ -1,45 +1,26 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import Request from '@/api/request';
+import * as queryStrings from 'query-string';
+import * as TYPES from '../constants';
 import {
-    GET_PAYMENTS,
-    GET_CREATE_PAYMENT,
-    CREATE_PAYMENT,
-    GET_UNPAID_INVOICES,
-    GET_EDIT_PAYMENT,
-    EDIT_PAYMENT,
-    REMOVE_PAYMENT,
-    SEND_PAYMENT_RECEIPT,
-    // Endpoint Api URL
-    GET_PAYMENTS_URL,
-    GET_CREATE_PAYMENTS_URL,
-    CREATE_PAYMENT_URL,
-    GET_UNPAID_INVOICES_URL,
-    GET_EDIT_PAYMENT_URL,
-    EDIT_PAYMENT_URL,
-    REMOVE_PAYMENT_URL,
-    SEND_PAYMENT_RECEIPT_URL
-} from '../constants';
-
-import { paymentTriggerSpinner, setPayments } from '../actions';
+    paymentTriggerSpinner,
+    saveUnpaidInvoices,
+    setPayments
+} from '../actions';
 import { ROUTES } from '@/navigation';
 import { alertMe, hasValue } from '@/constants';
 import { getTitleByLanguage } from '@/utils';
-
-const alreadyInUse = error => {
-    if (error.includes('errors') && error.includes('payment_number')) {
-        alertMe({
-            title: getTitleByLanguage('payments.alreadyInUseNumber')
-        });
-        return true;
-    }
-};
+import {
+    getNextNumber,
+    getSettingInfo
+} from '@/features/settings/saga/general';
 
 function* getPayments({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
 
     try {
         const options = {
-            path: GET_PAYMENTS_URL(queryString)
+            path: `payments?${queryStrings.stringify(queryString)}`
         };
 
         const response = yield call([Request, 'get'], options);
@@ -50,136 +31,144 @@ function* getPayments({ payload }) {
         }
 
         onSuccess?.(response?.payments);
-    } catch (error) {
-    } finally {
-    }
+    } catch (e) {}
 }
 
-function* getCreatePayment(payloadData) {
-    const {
-        payload: { onResult }
-    } = payloadData;
-
-    yield put(paymentTriggerSpinner({ initPaymentLoading: true }));
-
+function* getCreatePayment({ payload: { onSuccess } }) {
     try {
-        const options = {
-            path: GET_CREATE_PAYMENTS_URL()
-        };
+        const isAutoGenerate = yield call(getSettingInfo, {
+            payload: { key: 'payment_auto_generate' }
+        });
 
-        const response = yield call([Request, 'get'], options);
-        
-        onResult && onResult(response);
-    } catch (e) {
-    } finally {
-        yield put(paymentTriggerSpinner({ initPaymentLoading: false }));
-    }
+        const isAuto = isAutoGenerate === 'YES' || isAutoGenerate === 1;
+
+        if (isAuto) {
+            const response = yield call(getNextNumber, {
+                payload: { key: 'payment' }
+            });
+            onSuccess?.(response);
+            return;
+        }
+
+        onSuccess?.({
+            nextNumber: null,
+            prefix: null
+        });
+    } catch (e) {}
 }
 
-function* createPayment(payloadData) {
-    const {
-        payload: { params, navigation, onResult, hasRecordPayment }
-    } = payloadData;
+function* createPayment({ payload }) {
+    const { params, navigation, submissionError } = payload;
+
     yield put(paymentTriggerSpinner({ paymentLoading: true }));
 
     try {
         const options = {
-            path: CREATE_PAYMENT_URL(),
+            path: `payments`,
             body: params
         };
 
         const response = yield call([Request, 'post'], options);
 
-        if (response.success) {
-            navigation.navigate(ROUTES.MAIN_PAYMENTS);
-        } else {
-            onResult && onResult(response.error);
+        if (response?.data?.errors) {
+            submissionError?.(response?.data?.errors);
+            return;
         }
-    } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText);
+
+        if (!response.success) {
+            alertMe({
+                desc: getTitleByLanguage('validation.wrong'),
+                okPress: () => navigation.goBack(null)
+            });
+            return;
+        }
+
+        navigation.goBack(null);
+    } catch (e) {
     } finally {
         yield put(paymentTriggerSpinner({ paymentLoading: false }));
     }
 }
 
-function* getUnpaidInvoices(payloadData) {
-    const {
-        payload: { onResult, id }
-    } = payloadData;
-
-    yield put(paymentTriggerSpinner({ getUnpaidInvoicesLoading: true }));
+function* getUnpaidInvoices({ payload }) {
+    const { fresh = true, onSuccess, queryString } = payload;
 
     try {
-        const options = {
-            path: GET_UNPAID_INVOICES_URL(id)
-        };
+        if (!hasValue(queryString?.customer_id)) {
+            yield put(saveUnpaidInvoices({ invoices: [], fresh: true }));
+            onSuccess?.();
+            return;
+        }
 
-        const response = yield call([Request, 'get'], options);
-        onResult && onResult(response.invoices);
-    } catch (e) {
-    } finally {
-        yield put(paymentTriggerSpinner({ getUnpaidInvoicesLoading: false }));
-    }
+        const path = `invoices?${queryStrings.stringify(queryString)}`;
+
+        const response = yield call([Request, 'get'], { path });
+
+        if (response?.invoices) {
+            const { data } = response.invoices;
+            yield put(saveUnpaidInvoices({ invoices: data, fresh }));
+        }
+
+        onSuccess?.(response?.invoices);
+    } catch (e) {}
 }
 
-function* getEditPayment(payloadData) {
-    const {
-        payload: { id, onResult }
-    } = payloadData;
-
-    yield put(paymentTriggerSpinner({ initPaymentLoading: true }));
-
+function* getPaymentDetail({ payload: { id, onSuccess } }) {
     try {
-        const options = {
-            path: GET_EDIT_PAYMENT_URL(id)
-        };
+        const options = { path: `payments/${id}` };
 
         const response = yield call([Request, 'get'], options);
-        onResult && onResult(response);
-    } catch (e) {
-    } finally {
-        yield put(paymentTriggerSpinner({ initPaymentLoading: false }));
-    }
+
+        onSuccess?.(response);
+    } catch (e) {}
 }
 
-function* editPayment(payloadData) {
-    const {
-        payload: { id, params, navigation }
-    } = payloadData;
+function* updatePayment({ payload }) {
+    const { id, params, navigation, submissionError } = payload;
 
     yield put(paymentTriggerSpinner({ paymentLoading: true }));
 
     try {
         const options = {
-            path: EDIT_PAYMENT_URL(id),
+            path: `payments/${id}`,
             body: params
         };
 
         const response = yield call([Request, 'put'], options);
-        navigation.navigate(ROUTES.MAIN_PAYMENTS);
-    } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText);
+
+        if (response?.data?.errors) {
+            submissionError?.(response?.data?.errors);
+            return;
+        }
+
+        if (!response.success) {
+            alertMe({
+                desc: getTitleByLanguage('validation.wrong'),
+                okPress: () => navigation.goBack(null)
+            });
+            return;
+        }
+
+        navigation.goBack(null);
+    } catch (e) {
     } finally {
         yield put(paymentTriggerSpinner({ paymentLoading: false }));
     }
 }
 
-function* removePayment(payloadData) {
-    const {
-        payload: { id, navigation }
-    } = payloadData;
-
+function* removePayment({ payload: { id, navigation } }) {
     yield put(paymentTriggerSpinner({ paymentLoading: true }));
 
     try {
         const options = {
-            path: REMOVE_PAYMENT_URL(id)
+            path: `payments/delete`,
+            body: { ids: [id] }
         };
 
-        const response = yield call([Request, 'delete'], options);
+        const response = yield call([Request, 'post'], options);
 
         if (response.success) {
-            navigation.navigate(ROUTES.MAIN_PAYMENTS);
+            navigation.goBack(null);
         }
     } catch (e) {
     } finally {
@@ -192,7 +181,7 @@ function* sendPaymentReceipt({ payload: { params, navigation } }) {
 
     try {
         const options = {
-            path: SEND_PAYMENT_RECEIPT_URL(),
+            path: `payments/send`,
             body: params
         };
 
@@ -212,12 +201,12 @@ function* sendPaymentReceipt({ payload: { params, navigation } }) {
 }
 
 export default function* paymentsSaga() {
-    yield takeEvery(GET_PAYMENTS, getPayments);
-    yield takeEvery(GET_CREATE_PAYMENT, getCreatePayment);
-    yield takeEvery(CREATE_PAYMENT, createPayment);
-    yield takeEvery(GET_UNPAID_INVOICES, getUnpaidInvoices);
-    yield takeEvery(GET_EDIT_PAYMENT, getEditPayment);
-    yield takeEvery(EDIT_PAYMENT, editPayment);
-    yield takeEvery(REMOVE_PAYMENT, removePayment);
-    yield takeEvery(SEND_PAYMENT_RECEIPT, sendPaymentReceipt);
+    yield takeLatest(TYPES.GET_PAYMENTS, getPayments);
+    yield takeLatest(TYPES.GET_CREATE_PAYMENT, getCreatePayment);
+    yield takeLatest(TYPES.CREATE_PAYMENT, createPayment);
+    yield takeLatest(TYPES.GET_UNPAID_INVOICES, getUnpaidInvoices);
+    yield takeLatest(TYPES.GET_PAYMENT_DETAIL, getPaymentDetail);
+    yield takeLatest(TYPES.UPDATE_PAYMENT, updatePayment);
+    yield takeLatest(TYPES.REMOVE_PAYMENT, removePayment);
+    yield takeLatest(TYPES.SEND_PAYMENT_RECEIPT, sendPaymentReceipt);
 }

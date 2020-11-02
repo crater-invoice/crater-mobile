@@ -2,29 +2,25 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
-import * as PaymentAction from '../../actions';
+import * as actions from '../../actions';
 import { PAYMENT_FORM, PAYMENT_ADD } from '../../constants';
 import { Payment } from '../../components/Payment';
 import { getCustomers } from '@/features/customers/actions';
-import { getNextNumber } from '@/features/settings/actions';
+import { getNextNumber, getPaymentModes } from '@/features/settings/actions';
+import { getPaymentMethodsState } from '../../selectors';
 
 const mapStateToProps = (state, { navigation }) => {
-
     const {
         customers: { customers },
         global: { locale },
-        payments: {
-            loading: {
-                initPaymentLoading,
-                paymentLoading,
-                getUnpaidInvoicesLoading,
-            }
-        }
-    } = state
+        settings: { paymentMethods },
+        payments: { loading, unPaidInvoices }
+    } = state;
 
-    let type = navigation.getParam('type', PAYMENT_ADD)
-    let invoice = navigation.getParam('invoice', null)
-    let hasRecordPayment = navigation.getParam('hasRecordPayment', false)
+    const type = navigation.getParam('type', PAYMENT_ADD);
+    const id = navigation.getParam('paymentId', null);
+    const invoice = navigation.getParam('invoice', null);
+    const hasRecordPayment = navigation.getParam('hasRecordPayment', false);
 
     return {
         type,
@@ -32,45 +28,35 @@ const mapStateToProps = (state, { navigation }) => {
         locale,
         invoice,
         hasRecordPayment,
-        initPaymentLoading,
-        paymentLoading,
-        getUnpaidInvoicesLoading,
-        formValues: getFormValues(PAYMENT_FORM)(state) || {},
-
-        initialValues: {
-            payment_method_id: null
-        }
+        loading: loading?.paymentLoading,
+        unPaidInvoices,
+        id,
+        paymentMethods: getPaymentMethodsState(paymentMethods),
+        formValues: getFormValues(PAYMENT_FORM)(state) || {}
     };
-
 };
 
 const mapDispatchToProps = {
-    getCreatePayment: PaymentAction.getCreatePayment,
-    createPayment: PaymentAction.createPayment,
-    getEditPayment: PaymentAction.getEditPayment,
-    getUnpaidInvoices: PaymentAction.getUnpaidInvoices,
-    editPayment: PaymentAction.editPayment,
-    removePayment: PaymentAction.removePayment,
-    sendPaymentReceipt: PaymentAction.sendPaymentReceipt,
+    ...actions,
     getCustomers,
-    getNextNumber
+    getNextNumber,
+    getPaymentModes
 };
 
-
-//  Redux Forms
-const addEditPaymentReduxForm = reduxForm({
+//  Redux Form
+const paymentReduxForm = reduxForm({
     form: PAYMENT_FORM,
-    validate: (val) => validate(val),
+    validate
 })(Payment);
 
 //  connect
-const AddEditPaymentContainer = connect(
+const PaymentContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
-)(addEditPaymentReduxForm);
+    mapDispatchToProps
+)(paymentReduxForm);
 
-AddEditPaymentContainer.navigationOptions = () => ({
-    header: null,
+PaymentContainer.navigationOptions = () => ({
+    header: null
 });
 
-export default AddEditPaymentContainer;
+export default PaymentContainer;

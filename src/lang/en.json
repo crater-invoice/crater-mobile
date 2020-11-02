@@ -228,7 +228,7 @@
         "invoice": "Invoice",
         "invoicePlaceholder": "Select Invoice",
         "sendReceipt": "Send Payment Receipt",
-        "alertAmount": "The payment entered is more than the total amount due for this invoice.",
+        "alertAmount": "Entered Payment is more than due amount of this invoice.",
         "alertDescription": "You will not be able to recover this Payment",
         "alertMode": "You will not be able to recover this Payment Mode",
         "alreadyInUseMode": "Payment Mode is already in use",
@@ -708,6 +708,7 @@
         "character": "Characters Only",
         "numeric": "must be numeric",
         "moreThanDue": "{{hint}} Should not be more than Due Amount.",
-        "url": "Invalid url (eg: https://craterapp.com)"
+        "url": "Invalid url (eg: https://craterapp.com)",
+        "wrong":"Something went wrong. Please, try again."
     }
 }

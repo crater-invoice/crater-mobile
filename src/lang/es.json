@@ -62,7 +62,8 @@
         "editRecurring": "Editar factura periódica",
         "customFields": "Campos Personalizados",
         "addCustomField": "Agregar campo personalizado",
-        "editCustomField": "Editar campo personalizado"
+        "editCustomField": "Editar campo personalizado",
+        "notes": "Notas"
     },
     "tabNavigation": {
         "invoices": "Facturas",
@@ -227,7 +228,7 @@
         "invoice": "Factura",
         "invoicePlaceholder": "Seleccionar factura",
         "sendReceipt": "Enviar recibo de pago",
-        "alertAmount": "El pago ingresado es mayor que el monto total adeudado por esta factura.",
+        "alertAmount": "El pago ingresado es mayor que el monto adeudado de esta factura.",
         "alertDescription": "No podrá recuperar este pago",
         "alertMode": "No podrá recuperar este modo de pago",
         "alreadyInUseMode": "El modo de pago ya está en uso",
@@ -706,6 +707,7 @@
         "character": "Solo personajes",
         "numeric": "debe ser numérico",
         "moreThanDue": "{{hint}} No debe ser más que el monto adeudado.",
-        "url": "URL invalida (p.ej: https://craterapp.com)"
+        "url": "URL invalida (p.ej: https://craterapp.com)",
+        "wrong":"Something went wrong. Please, try again."
     }
 }
