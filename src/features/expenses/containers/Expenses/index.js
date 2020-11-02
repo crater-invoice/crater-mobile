@@ -10,18 +10,21 @@ import { EXPENSES_ICON } from '@/assets';
 import { getTitleByLanguage } from '@/utils';
 import { AssetSvg } from '@/components';
 import { getExpensesState, getCategoriesState } from '../../selectors';
+import { getCustomers } from '@/features/customers/actions';
 
 const mapStateToProps = state => {
     const {
         global: { locale, currency },
         expenses: { expenses },
-        settings: { categories }
+        settings: { categories },
+        customers: { customers }
     } = state;
 
     return {
         expenses: getExpensesState(expenses, currency),
         locale,
         currency,
+        customers,
         categories: getCategoriesState(categories),
         formValues: getFormValues(EXPENSE_SEARCH)(state) || {}
     };
@@ -29,7 +32,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     getExpenses: ExpensesAction.getExpenses,
-    getCategories: CategoriesAction.getExpenseCategories
+    getCategories: CategoriesAction.getExpenseCategories,
+    getCustomers
 };
 //  Redux Forms
 const ExpensesSearchReduxForm = reduxForm({

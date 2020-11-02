@@ -1,3 +1,4 @@
+import { IMAGES } from '@/assets';
 import Lng from '@/lang/i18n';
 
 let selectedFromDate = '';
@@ -6,9 +7,38 @@ let selectedToDate = '';
 let selectedToDateValue = '';
 
 export default expenseFilterFields = ({ props, setFormField }) => {
-    const { locale, categories, getCategories, navigation } = props;
+    const {
+        locale,
+        categories,
+        getCategories,
+        navigation,
+        getCustomers,
+        customers
+    } = props;
 
     const selectFields = [
+        {
+            name: 'user_id',
+            apiSearch: true,
+            hasPagination: true,
+            getItems: getCustomers,
+            items: customers,
+            displayName: 'name',
+            label: Lng.t('payments.customer', { locale }),
+            icon: 'user',
+            placeholder: Lng.t('customers.placeholder', { locale }),
+            navigation: navigation,
+            compareField: 'id',
+            onSelect: item => setFormField('user_id', item.id),
+            headerProps: {
+                title: Lng.t('customers.title', { locale }),
+                rightIconPress: null
+            },
+            emptyContentProps: {
+                contentType: 'customers',
+                image: IMAGES.EMPTY_CUSTOMERS
+            }
+        },
         {
             name: 'expense_category_id',
             apiSearch: true,
@@ -17,7 +47,7 @@ export default expenseFilterFields = ({ props, setFormField }) => {
             items: categories,
             displayName: 'name',
             label: Lng.t('expenses.category', { locale }),
-            icon: 'user',
+            icon: 'align-center',
             placeholder: Lng.t('expenses.categoryPlaceholder', { locale }),
             navigation: navigation,
             compareField: 'id',

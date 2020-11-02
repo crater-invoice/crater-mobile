@@ -141,7 +141,6 @@ export class Payments extends React.Component<IProps> {
                 navigation.navigate(ROUTES.PAYMENT, {
                     type: PAYMENT_ADD
                 });
-                this.onResetFilter();
             },
             title: Lng.t('header.payments', { locale })
         };

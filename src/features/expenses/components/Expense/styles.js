@@ -4,21 +4,17 @@ import { colors } from '@/styles';
 export default styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     bodyContainer: {
         paddingHorizontal: 22,
-        paddingVertical: 17,
+        paddingVertical: 17
     },
     submitButton: {
-        // display: 'flex',
-        paddingHorizontal: 10,
-    },
-    selectPicker: {
-        marginTop: 20,
+        paddingHorizontal: 10
     },
     filePicker: {
         marginBottom: 20,
-        marginTop: 4,
+        marginTop: 4
     }
 });

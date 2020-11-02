@@ -1,32 +1,21 @@
-import queryString from 'query-string';
-
 // Forms
 // -----------------------------------------
 export const EXPENSE_SEARCH = 'expenses/EXPENSE_SEARCH';
 export const EXPENSE_FORM = 'expenses/EXPENSE_FORM';
 
-// Type
+// Form Type
 // -----------------------------------------
 export const EXPENSE_ADD = 'expense/EXPENSE_ADD';
 export const EXPENSE_EDIT = 'expense/EXPENSE_EDIT';
 
-// Actions
+// Types
 // -----------------------------------------
-export const GET_CATEGORIES = 'category/GET_CATEGORIES';
-export const SET_CATEGORIES = 'category/SET_CATEGORIES';
-
 export const GET_EXPENSES = 'expenses/GET_EXPENSES';
-export const GET_CREATE_EXPENSE = 'expenses/GET_CREATE_EXPENSE';
-export const GET_EDIT_EXPENSE = 'expenses/GET_EDIT_EXPENSE';
-export const EDIT_EXPENSE = 'expenses/EDIT_EXPENSE';
 export const SET_EXPENSES = 'expenses/SET_EXPENSES';
-export const SET_EXPENSE = 'expenses/SET_EXPENSE';
-export const CLEAR_EXPENSE = 'expenses/CLEAR_EXPENSE';
-export const REMOVE_EXPENSE = 'expenses/REMOVE_EXPENSE';
+export const GET_EXPENSE_DETAIL = 'expenses/GET_EXPENSE_DETAIL';
 export const CREATE_EXPENSE = 'expenses/CREATE_EXPENSE';
-export const GET_RECEIPT = 'expenses/GET_RECEIPT';
-export const DOWNLOAD_RECEIPT = 'expenses/DOWNLOAD_RECEIPT';
-
+export const UPDATE_EXPENSE = 'expenses/UPDATE_EXPENSE';
+export const REMOVE_EXPENSE = 'expenses/REMOVE_EXPENSE';
 export const EXPENSES_TRIGGER_SPINNER = 'expenses/EXPENSES_TRIGGER_SPINNER';
 
 export const ACTIONS_VALUE = {
@@ -48,18 +37,14 @@ export const EXPENSE_ACTIONS = (Lng, locale, imageUrl = '') => {
     return imageUrl ? [viewReceipt, actions] : [actions];
 };
 
-// Endpoint Api URL
+// Expense Fields
 // -----------------------------------------
-
-export const GET_EXPENSES_URL = param =>
-    `expenses?${queryString.stringify(param)}`;
-
-export const CREATE_EXPENSE_URL = () => `expenses`;
-export const EDIT_EXPENSE_URL = id => `expenses/${id}`;
-export const REMOVE_EXPENSE_URL = id => `expenses/${id}`;
-
-export const GET_EDIT_EXPENSE_URL = id => `expenses/${id}/edit`;
-export const GET_CREATE_EXPENSE_URL = () => `expenses/create`;
-
-export const UPLOAD_RECEIPT_URL = id => `expenses/${id}/upload/receipts`;
-export const SHOW_RECEIPT_URL = id => `expenses/${id}/show/receipt`;
+export const EXPENSE_FIELDS = {
+    RECEIPT: 'attachment_receipt',
+    DATE: 'expense_date',
+    AMOUNT: 'amount',
+    CATEGORY: 'expense_category_id',
+    NOTES: 'notes',
+    CUSTOMER: 'user_id',
+    CUSTOM_FIELDS: 'customFields'
+};

@@ -12,7 +12,7 @@ export const CUSTOMER_ADDRESS = 'customers/CUSTOMER_ADDRESS';
 export const CUSTOMER_ADD = 'customers/CUSTOMER_ADD';
 export const CUSTOMER_EDIT = 'customers/CUSTOMER_EDIT';
 
-// Actions
+// Types
 // -----------------------------------------
 export const GET_CUSTOMERS = 'customers/GET_CUSTOMERS';
 export const SET_CUSTOMERS = 'customers/SET_CUSTOMERS';
@@ -40,16 +40,3 @@ export const CUSTOMER_ACTIONS = (Lng, locale) => {
         }
     ];
 };
-
-// Endpoint Api URL
-// -----------------------------------------
-
-export const GET_CUSTOMERS_URL = param =>
-    `customers?${queryString.stringify(param)}`;
-
-export const GET_EDIT_CUSTOMER_URL = id => `customers/${id}`;
-export const GET_COUNTRIES_URL = () => `countries`;
-
-export const CREATE_CUSTOMER_URL = () => `customers`;
-export const EDIT_CUSTOMER_URL = id => `customers/${id}`;
-export const REMOVE_CUSTOMER_URL = id => `customers/delete`;

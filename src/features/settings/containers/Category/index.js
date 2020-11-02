@@ -2,56 +2,50 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
-import * as CategoryAction from '../../actions';
+import * as actions from '../../actions';
 import { Category } from '../../components/Category';
 import { CATEGORY_FORM, CATEGORY_ADD } from '../../constants';
 
 const mapStateToProps = (state, { navigation }) => {
-
     const {
         global: { locale },
         settings: {
-            loading: {
-                expenseCategoryLoading,
-                initExpenseCategoryLoading,
-            }
+            loading: { expenseCategoryLoading, initExpenseCategoryLoading }
         }
-    } = state
+    } = state;
 
-    let type = navigation.getParam('type', CATEGORY_ADD)
-    let onFirstTimeCreateExpense = navigation.getParam('onSelect', null)
+    let type = navigation.getParam('type', CATEGORY_ADD);
 
     return {
         categoryLoading: expenseCategoryLoading,
         getEditCategoryLoading: initExpenseCategoryLoading,
         type,
         locale,
-        onFirstTimeCreateExpense,
-        formValues: getFormValues(CATEGORY_FORM)(state) || {},
+        formValues: getFormValues(CATEGORY_FORM)(state) || {}
     };
 };
 
 const mapDispatchToProps = {
-    createCategory: CategoryAction.createExpenseCategory,
-    getEditCategory: CategoryAction.getEditExpenseCategory,
-    editCategory: CategoryAction.editExpenseCategory,
-    removeCategory: CategoryAction.removeExpenseCategory
+    createCategory: actions.createExpenseCategory,
+    getEditCategory: actions.getEditExpenseCategory,
+    editCategory: actions.editExpenseCategory,
+    removeCategory: actions.removeExpenseCategory
 };
 
 //  Redux Forms
 const addEditPaymentReduxForm = reduxForm({
     form: CATEGORY_FORM,
-    validate,
+    validate
 })(Category);
 
 //  connect
 const AddEditCategoryContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(addEditPaymentReduxForm);
 
 AddEditCategoryContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default AddEditCategoryContainer;

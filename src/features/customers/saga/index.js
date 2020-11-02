@@ -1,43 +1,24 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import Request from '@/api/request';
-import {
-    GET_CUSTOMERS,
-    GET_COUNTRIES,
-    CREATE_CUSTOMER,
-    EDIT_CUSTOMER,
-    GET_EDIT_CUSTOMER,
-    REMOVE_CUSTOMER,
-    // Endpoint Api URL
-    GET_CUSTOMERS_URL,
-    GET_COUNTRIES_URL,
-    CREATE_CUSTOMER_URL,
-    EDIT_CUSTOMER_URL,
-    GET_EDIT_CUSTOMER_URL,
-    REMOVE_CUSTOMER_URL
-} from '../constants';
-
+import * as queryStrings from 'query-string';
 import { customerTriggerSpinner, setCustomers, setCountries } from '../actions';
 import { ROUTES } from '@/navigation';
 import { alertMe } from '@/constants';
 import { getTitleByLanguage } from '@/utils';
+import * as TYPES from '../constants';
 
 const addressParams = (address, type) => {
-    let params = {
-        name: address.name ? address.name : null,
-        address_street_1: address.address_street_1
-            ? address.address_street_1
-            : null,
-        address_street_2: address.address_street_2
-            ? address.address_street_2
-            : null,
-        city: address.city ? address.city : null,
-        state: address.state ? address.state : null,
-        country_id: address.country_id ? address.country_id : null,
-        zip: address.zip ? address.zip : null,
-        phone: address.phone ? address.phone : null,
-        type: type
+    return {
+        name: address?.name,
+        address_street_1: address?.address_street_1,
+        address_street_2: address?.address_street_2,
+        city: address?.city,
+        state: address?.state,
+        country_id: address?.country_id,
+        zip: address.zip,
+        phone: address?.phone,
+        type
     };
-    return params;
 };
 
 function* getCustomers({ payload }) {
@@ -45,7 +26,7 @@ function* getCustomers({ payload }) {
 
     try {
         const options = {
-            path: GET_CUSTOMERS_URL(queryString)
+            path: `customers?${queryStrings.stringify(queryString)}`
         };
 
         const response = yield call([Request, 'get'], options);
@@ -61,46 +42,38 @@ function* getCustomers({ payload }) {
     }
 }
 
-function* getCountries(payloadData) {
-    const {
-        payload: { onResult }
-    } = payloadData;
-
+function* getCountries({ payload: { onResult } }) {
     yield put(customerTriggerSpinner({ countriesLoading: true }));
 
     try {
-        const options = {
-            path: GET_COUNTRIES_URL()
-        };
+        const options = { path: 'countries' };
 
         const response = yield call([Request, 'get'], options);
-        onResult && onResult(response);
-        yield put(setCountries({ countries: response.countries }));
+        onResult?.(response);
+        yield put(setCountries({ countries: response?.countries ?? [] }));
     } catch (e) {
     } finally {
         yield put(customerTriggerSpinner({ countriesLoading: false }));
     }
 }
 
-function* createCustomer(payloadData) {
+function* createCustomer({ payload }) {
     const {
-        payload: {
-            params: {
-                website,
-                phone,
-                name,
-                email,
-                enable_portal,
-                billingAddress,
-                shippingAddress,
-                contact_name,
-                currency_id,
-                password,
-                customFields
-            },
-            onResult
-        }
-    } = payloadData;
+        params: {
+            website,
+            phone,
+            name,
+            email,
+            enable_portal,
+            billingAddress,
+            shippingAddress,
+            contact_name,
+            currency_id,
+            password,
+            customFields
+        },
+        onResult
+    } = payload;
 
     let addresses = [];
 
@@ -123,7 +96,7 @@ function* createCustomer(payloadData) {
 
     try {
         const options = {
-            path: CREATE_CUSTOMER_URL(),
+            path: `customers`,
             body: {
                 name,
                 currency_id,
@@ -153,26 +126,24 @@ function* createCustomer(payloadData) {
     }
 }
 
-function* editCustomer(payloadData) {
+function* editCustomer({ payload }) {
     const {
-        payload: {
-            params: {
-                website,
-                phone,
-                name,
-                email,
-                enable_portal,
-                password,
-                billingAddress,
-                shippingAddress,
-                contact_name,
-                currency_id,
-                id,
-                customFields
-            },
-            navigation
-        }
-    } = payloadData;
+        params: {
+            website,
+            phone,
+            name,
+            email,
+            enable_portal,
+            password,
+            billingAddress,
+            shippingAddress,
+            contact_name,
+            currency_id,
+            id,
+            customFields
+        },
+        navigation
+    } = payload;
 
     let addresses = [];
 
@@ -195,7 +166,7 @@ function* editCustomer(payloadData) {
 
     try {
         const options = {
-            path: EDIT_CUSTOMER_URL(id),
+            path: `customers/${id}`,
             body: {
                 name,
                 currency_id,
@@ -227,44 +198,38 @@ function* editCustomer(payloadData) {
     }
 }
 
-function* getEditCustomer(payloadData) {
-    const {
-        payload: { id, onResult }
-    } = payloadData;
-
+function* getEditCustomer({ payload: { id, onResult } }) {
     yield put(customerTriggerSpinner({ getEditCustomerLoading: true }));
 
     try {
         const options = {
-            path: GET_EDIT_CUSTOMER_URL(id),
+            path: `customers/${id}`,
             body: [id]
         };
 
         const response = yield call([Request, 'get'], options);
 
-        onResult && onResult(response.customer);
+        onResult?.(response.customer);
     } catch (e) {
     } finally {
         yield put(customerTriggerSpinner({ getEditCustomerLoading: false }));
     }
 }
 
-function* removeCustomer(payloadData) {
-    const {
-        payload: { id, navigation }
-    } = payloadData;
-
+function* removeCustomer({ payload: { id, navigation } }) {
     yield put(customerTriggerSpinner({ customerLoading: true }));
 
     try {
         const options = {
-            path: REMOVE_CUSTOMER_URL(id),
+            path: `customers/delete`,
             body: { ids: [id] }
         };
 
         const response = yield call([Request, 'post'], options);
 
-        navigation.navigate(ROUTES.MAIN_CUSTOMERS);
+        if (response?.success) {
+            navigation.navigate(ROUTES.MAIN_CUSTOMERS);
+        }
     } catch (e) {
     } finally {
         yield put(customerTriggerSpinner({ customerLoading: false }));
@@ -272,10 +237,10 @@ function* removeCustomer(payloadData) {
 }
 
 export default function* customersSaga() {
-    yield takeLatest(GET_CUSTOMERS, getCustomers);
-    yield takeLatest(GET_COUNTRIES, getCountries);
-    yield takeLatest(CREATE_CUSTOMER, createCustomer);
-    yield takeLatest(EDIT_CUSTOMER, editCustomer);
-    yield takeLatest(GET_EDIT_CUSTOMER, getEditCustomer);
-    yield takeLatest(REMOVE_CUSTOMER, removeCustomer);
+    yield takeLatest(TYPES.GET_CUSTOMERS, getCustomers);
+    yield takeLatest(TYPES.GET_COUNTRIES, getCountries);
+    yield takeLatest(TYPES.CREATE_CUSTOMER, createCustomer);
+    yield takeLatest(TYPES.EDIT_CUSTOMER, editCustomer);
+    yield takeLatest(TYPES.GET_EDIT_CUSTOMER, getEditCustomer);
+    yield takeLatest(TYPES.REMOVE_CUSTOMER, removeCustomer);
 }
