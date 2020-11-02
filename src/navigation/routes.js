@@ -80,7 +80,6 @@ export const ROUTES = {
     // -----------------------------------------
     NOTE: 'NOTE',
     NOTES: 'NOTES',
-    ADD_NOTES: 'ADD_NOTES',
 
     // Payments
     // -----------------------------------------

@@ -28,10 +28,11 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             return;
         }
         this.setInitialState();
+        this.props.reference?.(this);
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        this.updateInitialState(nextProps, nextState);
+    componentWillUnmount() {
+        this.props.reference?.(undefined);
     }
 
     initialState = () => {
@@ -42,8 +43,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             selectedItems: [],
             oldItems: [],
             defaultItem: [],
-            searchItems: [],
-            oldValue: ''
+            searchItems: []
         };
     };
 
@@ -76,54 +76,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         this.setState({
             values: compareField ? newValue : value[displayName],
             defaultItem: items || [],
-            searchItems: items || [],
-            oldValue: compareField ? value : value[displayName]
+            searchItems: items || []
         });
-    };
-
-    updateInitialState = (nextProps, nextState) => {
-        const {
-            concurrentMultiSelect,
-            input: { value },
-            items,
-            compareField,
-            displayName
-        } = nextProps;
-        const { search, oldItems, oldValue } = nextState;
-
-        if (
-            concurrentMultiSelect &&
-            !search &&
-            oldItems.length < value.length
-        ) {
-            this.setState({
-                selectedItems: value,
-                oldItems: value
-            });
-        }
-
-        if (!isArray(items) && !search) {
-            return;
-        }
-
-        let newValue = '';
-
-        for (const key in items) {
-            if (
-                key !== 'undefined' &&
-                items[key]['fullItem'][compareField] === value
-            ) {
-                newValue = items[key]['fullItem'][displayName];
-                break;
-            }
-        }
-
-        if (value && oldValue !== value) {
-            this.setState({
-                oldValue: compareField ? value : value[displayName],
-                values: compareField ? newValue : value[displayName]
-            });
-        }
     };
 
     onToggle = () => {
@@ -147,6 +101,11 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
                 meta.dispatch(change(meta.form, `search-${input?.name}`, ''));
             }
         }
+    };
+
+    changeDisplayValue = item => {
+        const { displayName } = this.props;
+        this.setState({ values: item[displayName] });
     };
 
     onItemSelect = item => {
@@ -194,8 +153,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             onlyPlaceholder,
             onSelect,
             compareField,
-            valueCompareField,
-            isCompareField = true
+            valueCompareField
         } = this.props;
 
         if (!isMultiSelect && value) {
@@ -222,10 +180,9 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             }
         }
 
-        !onlyPlaceholder &&
-            this.setState({
-                values: item[displayName]
-            });
+        if (!onlyPlaceholder) {
+            this.setState({ values: item[displayName] });
+        }
 
         if (!onSelect) {
             isMultiSelect
@@ -237,11 +194,6 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         } else {
             onSelect(item);
         }
-
-        !onlyPlaceholder &&
-            this.setState({
-                oldValue: item[compareField]
-            });
 
         this.onToggle();
     };
@@ -294,9 +246,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     };
 
     onRightIconPress = () => {
-        const { rightIconPress } = this.props;
         this.onToggle();
-        rightIconPress && rightIconPress();
+        setTimeout(() => this.props.rightIconPress?.(), 300);
     };
 
     getEmptyTitle = () => {
@@ -333,10 +284,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             firstItem = items[0]['fullItem'];
 
             this.setState({
-                values: compareField && firstItem[displayName],
-                oldValue: compareField
-                    ? firstItem[compareField]
-                    : firstItem[displayName]
+                values: compareField && firstItem[displayName]
             });
         }
     };
@@ -464,6 +412,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             }
         };
 
+        console.log({ values });
         return (
             <View style={styles.container}>
                 <FakeInput

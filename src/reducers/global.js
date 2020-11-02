@@ -149,7 +149,9 @@ export default function globalReducer(state = initialState, action) {
             } else
                 return {
                     ...state,
-                    ...payload?.settings?.language && { locale: payload.settings.language }
+                    ...(payload?.settings?.language && {
+                        locale: payload.settings.language
+                    })
                 };
 
         case SET_MAIL_CONFIGURATION:

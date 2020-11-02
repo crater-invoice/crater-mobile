@@ -10,14 +10,14 @@ import Dropdown from '../../Dropdown';
 import Toast from '../../Toast';
 
 type IProps = {
-    children: Object,
-    headerProps: Object,
-    hasRightButton: Boolean,
-    rightIcon: String,
-    bottomAction: any,
-    loadingProps: Object,
-    dropdownProps: Object,
-    toastProps: Object
+    children?: Object,
+    headerProps?: Object,
+    hasRightButton?: Boolean,
+    rightIcon?: String,
+    bottomAction?: any,
+    loadingProps?: Object,
+    dropdownProps?: Object,
+    toastProps?: Object
 };
 
 export const DefaultLayout = ({
@@ -32,8 +32,7 @@ export const DefaultLayout = ({
 }: IProps) => {
     return (
         <View style={styles.page}>
-
-            {toastProps && (<Toast {...toastProps} />)}
+            {toastProps && <Toast {...toastProps} />}
 
             <View style={styles.headerContainer}>
                 <CtHeader
@@ -42,9 +41,9 @@ export const DefaultLayout = ({
                     leftIcon={'long-arrow-alt-left'}
                     rightIcon={rightIcon}
                     {...headerProps}
-                    rightComponent={dropdownProps && (
-                        <Dropdown {...dropdownProps} />
-                    )}
+                    rightComponent={
+                        dropdownProps && <Dropdown {...dropdownProps} />
+                    }
                 />
             </View>
 
@@ -55,22 +54,18 @@ export const DefaultLayout = ({
                     keyboardVerticalOffset={0}
                     behavior="height"
                 >
-                    {hideScrollView ? children : (
-                        <ScrollView
-                            keyboardShouldPersistTaps='handled'
-                        >
+                    {hideScrollView ? (
+                        children
+                    ) : (
+                        <ScrollView keyboardShouldPersistTaps="handled">
                             {children}
                         </ScrollView>
                     )}
-
                 </KeyboardAvoidingView>
-
             </Content>
 
             {bottomAction && (
-                <View style={styles.bottomView}>
-                    {bottomAction}
-                </View>
+                <View style={styles.bottomView}>{bottomAction}</View>
             )}
         </View>
     );
