@@ -1,10 +1,11 @@
-import { call, takeEvery } from 'redux-saga/effects';
+import { call, takeEvery, put } from 'redux-saga/effects';
 import {
     GET_GENERAL_SETTING,
     GET_NEXT_NUMBER,
     GET_SETTING_INFO
 } from '../../constants';
 import Request from '@/api/request';
+import { setGlobalCurrencies } from '../../actions';
 
 export function* getNextNumber({ payload: { key } }) {
     try {
@@ -30,15 +31,24 @@ export function* getSettingInfo({ payload: { key } }) {
     } catch (e) {}
 }
 
-function* getGeneralSetting({ payload }) {
+export function* getGeneralSetting({ payload }) {
     const { url, onSuccess, responseUrl } = payload;
 
     try {
         const options = { path: url };
 
         const response = yield call([Request, 'get'], options);
+
+        if (url === 'currencies') {
+            yield put(
+                setGlobalCurrencies({
+                    currencies: response[responseUrl ?? url]
+                })
+            );
+        }
+
         if (response[responseUrl ?? url]) {
-            onSuccess(response[responseUrl ?? url]);
+            onSuccess?.(response[responseUrl ?? url]);
         }
     } catch (e) {
         console.log({ e });

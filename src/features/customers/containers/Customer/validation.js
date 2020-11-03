@@ -1,32 +1,29 @@
-import { getError } from "@/constants";
+import { getError } from '@/constants';
+import { CUSTOMER_FIELDS as FIELDS } from '../../constants';
 
-export const validate = (values) => {
-    const errors = {};
-    const {
-        name,
-        enable_portal,
-        password,
-        id,
-        email,
-        website,
-        phone
-    } = values;
+export const validate = values => {
+    const errors: any = { customer: {} };
 
-    errors.name = getError(name, ['required']);
-
-    if (email)
-        errors.email = getError(email, ['emailFormat']);
-
-    if (website)
-        errors.website = getError(website, ['urlFormat']);
-
-    /* if (enable_portal && !id) {
-        errors.password = getError(
-            password,
-            ['requiredField'],
-            { fieldName: 'Password' },
+    if (values) {
+        errors['customer'][FIELDS.NAME] = getError(
+            values?.['customer']?.[FIELDS.NAME],
+            ['required']
         );
-    } */
+
+        if (values?.['customer']?.[FIELDS.EMAIL]) {
+            errors['customer'][FIELDS.EMAIL] = getError(
+                values?.['customer']?.[FIELDS.EMAIL],
+                ['emailFormat']
+            );
+        }
+
+        if (values?.['customer']?.[FIELDS.WEBSITE]) {
+            errors['customer'][FIELDS.WEBSITE] = getError(
+                values?.['customer']?.[FIELDS.WEBSITE],
+                ['urlFormat']
+            );
+        }
+    }
 
     return errors;
 };

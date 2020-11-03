@@ -114,6 +114,24 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         this.setState({ values: item[displayName] });
     };
 
+    changeDisplayValueByUsingCompareField = async val => {
+        const { defaultItem } = this.state;
+        const { compareField, displayName } = this.props;
+
+        if (!isArray(defaultItem)) {
+            return;
+        }
+
+        for (const key in defaultItem) {
+            if (defaultItem[key]['fullItem'][compareField] === val) {
+                this.setState({
+                    values: defaultItem[key]['fullItem'][displayName]
+                });
+                break;
+            }
+        }
+    };
+
     onItemSelect = item => {
         const { concurrentMultiSelect } = this.props;
         concurrentMultiSelect ? this.toggleItem(item) : this.getAlert(item);

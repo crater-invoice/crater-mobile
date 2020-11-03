@@ -158,33 +158,7 @@ export default function globalReducer(state = initialState, action) {
             return { ...state, mailDriver: payload.mailDriver };
 
         case SET_GLOBAL_CURRENCIES:
-            const { currency } = payload;
-
-            if (payload.isCreated) {
-                return {
-                    ...state,
-                    currencies: [...currency, ...state.currencies]
-                };
-            }
-            if (payload.isUpdated) {
-                const currencyList = state.currencies.filter(
-                    ({ id }) => id !== currency[0]['id']
-                );
-
-                return {
-                    ...state,
-                    currencies: [...currency, ...currencyList]
-                };
-            }
-            if (payload.isRemove) {
-                const remainCurrencies = state.currencies.filter(
-                    ({ id }) => id !== payload.id
-                );
-
-                return { ...state, currencies: remainCurrencies };
-            }
-
-            return { ...state };
+            return { ...state, currencies: payload?.currencies };
 
         default:
             return state;

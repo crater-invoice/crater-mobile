@@ -42,17 +42,13 @@ function* getCreatePayment({ payload: { onSuccess } }) {
 
         const isAuto = isAutoGenerate === 'YES' || isAutoGenerate === 1;
 
-        if (isAuto) {
-            const response = yield call(getNextNumber, {
-                payload: { key: 'payment' }
-            });
-            onSuccess?.(response);
-            return;
-        }
+        const response = yield call(getNextNumber, {
+            payload: { key: 'payment' }
+        });
 
         onSuccess?.({
-            nextNumber: null,
-            prefix: null
+            ...response,
+            ...(!isAuto && { nextNumber: null })
         });
     } catch (e) {}
 }

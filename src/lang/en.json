@@ -559,7 +559,8 @@
     },
     "countries": {
         "empty": {
-            "title": "No countries yet!"
+            "title": "No countries yet!",
+            "description": "This section will contain the list of countries."
         }
     },
     "reports": {
@@ -709,6 +710,7 @@
         "numeric": "must be numeric",
         "moreThanDue": "{{hint}} Should not be more than Due Amount.",
         "url": "Invalid url (eg: https://craterapp.com)",
-        "wrong":"Something went wrong. Please, try again."
+        "wrong":"Something went wrong. Please, try again.",
+        "alreadyTaken": "ALREADY TAKEN"
     }
 }

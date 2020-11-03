@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { View } from 'react-native';
-import { Field, change } from 'redux-form';
+import { Field, change, SubmissionError } from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
@@ -147,6 +147,7 @@ export class Payment extends React.Component<IProps> {
         const { selectedInvoice, isLoading } = this.state;
         const {
             type,
+            handleSubmit,
             createPayment,
             updatePayment,
             navigation,
@@ -158,17 +159,12 @@ export class Payment extends React.Component<IProps> {
             return;
         }
 
-        const prefix = payment?.[FIELDS.PREFIX];
-        let params = payment;
-
-        if (prefix) {
-            params = {
-                ...payment,
-                [FIELDS.NUMBER]: `${payment?.[FIELDS.PREFIX]}-${
-                    payment?.[FIELDS.NUMBER]
-                }`
-            };
-        }
+        const params = {
+            ...payment,
+            [FIELDS.NUMBER]: `${payment?.[FIELDS.PREFIX]}-${
+                payment?.[FIELDS.NUMBER]
+            }`
+        };
 
         if (hasObjectLength(selectedInvoice)) {
             const amount = payment?.[FIELDS.AMOUNT] ?? 0;
@@ -194,7 +190,8 @@ export class Payment extends React.Component<IProps> {
             createPayment({
                 params,
                 navigation,
-                submissionError: errors => this.throwError(errors, locale)
+                submissionError: errors =>
+                    handleSubmit(() => this.throwError(errors, locale))()
             });
         }
 
@@ -203,20 +200,17 @@ export class Payment extends React.Component<IProps> {
                 id,
                 params,
                 navigation,
-                submissionError: errors => this.throwError(errors, locale)
+                submissionError: errors =>
+                    handleSubmit(() => this.throwError(errors, locale))()
             });
         }
     };
 
     throwError = (errors, locale) => {
         if (errors?.[FIELDS.NUMBER]) {
-            alertMe({
-                desc: Lng.t('alert.alreadyInUse', {
-                    locale,
-                    field: Lng.t('payments.number', { locale })
-                })
+            throw new SubmissionError({
+                payment: { [FIELDS.NUMBER]: 'validation.alreadyTaken' }
             });
-            return;
         }
 
         alertMe({
@@ -300,31 +294,16 @@ export class Payment extends React.Component<IProps> {
 
     nextNumberView = () => {
         const { formValues, locale } = this.props;
-        const prefix = formValues?.payment?.[FIELDS.PREFIX];
-
-        if (hasValue(prefix)) {
-            return (
-                <Field
-                    name={`payment.${FIELDS.NUMBER}`}
-                    component={FakeInput}
-                    label={Lng.t('payments.number', { locale })}
-                    isRequired
-                    prefixProps={{
-                        fieldName: `payment.${FIELDS.NUMBER}`,
-                        prefix
-                    }}
-                />
-            );
-        }
 
         return (
             <Field
                 name={`payment.${FIELDS.NUMBER}`}
-                component={InputField}
-                hint={Lng.t('payments.number', { locale })}
-                inputFieldStyle={styles.inputFieldStyle}
-                inputProps={{
-                    keyboardType: KEYBOARD_TYPE.NUMERIC
+                component={FakeInput}
+                label={Lng.t('payments.number', { locale })}
+                isRequired
+                prefixProps={{
+                    fieldName: `payment.${FIELDS.NUMBER}`,
+                    prefix: formValues?.payment?.[FIELDS.PREFIX]
                 }}
             />
         );

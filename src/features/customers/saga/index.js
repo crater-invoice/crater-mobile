@@ -3,9 +3,11 @@ import Request from '@/api/request';
 import * as queryStrings from 'query-string';
 import { customerTriggerSpinner, setCustomers, setCountries } from '../actions';
 import { ROUTES } from '@/navigation';
-import { alertMe } from '@/constants';
-import { getTitleByLanguage } from '@/utils';
 import * as TYPES from '../constants';
+import { hasObjectLength, isArray } from '@/constants';
+import { getGeneralSetting } from '@/features/settings/saga/general';
+import { getCustomFields } from '@/features/settings/saga/custom-fields';
+import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
 
 const addressParams = (address, type) => {
     return {
@@ -37,12 +39,10 @@ function* getCustomers({ payload }) {
         }
 
         onSuccess?.(response?.customers);
-    } catch (error) {
-    } finally {
-    }
+    } catch (e) {}
 }
 
-function* getCountries({ payload: { onResult } }) {
+export function* getCountries({ payload: { onResult = null } }) {
     yield put(customerTriggerSpinner({ countriesLoading: true }));
 
     try {
@@ -57,136 +57,91 @@ function* getCountries({ payload: { onResult } }) {
     }
 }
 
+function* getCreateCustomer({ payload }) {
+    const { currencies, countries, onSuccess } = payload;
+
+    try {
+        if (!isArray(countries)) {
+            yield call(getCountries, { payload: {} });
+        }
+
+        if (!isArray(currencies)) {
+            yield call(getGeneralSetting, { payload: { url: 'currencies' } });
+        }
+
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 500 }
+            }
+        });
+
+        onSuccess?.();
+    } catch (e) {}
+}
+
 function* createCustomer({ payload }) {
-    const {
-        params: {
-            website,
-            phone,
-            name,
-            email,
-            enable_portal,
-            billingAddress,
-            shippingAddress,
-            contact_name,
-            currency_id,
-            password,
-            customFields
-        },
-        onResult
-    } = payload;
+    const { params, onResult, submissionError } = payload;
+
+    yield put(customerTriggerSpinner({ customerLoading: true }));
 
     let addresses = [];
 
-    if (
-        typeof billingAddress !== 'undefined' &&
-        (billingAddress && Object.keys(billingAddress).length !== 0)
-    ) {
-        let billing = addressParams(billingAddress, 'BILLING');
-        addresses.push(billing);
-    }
-    if (
-        typeof shippingAddress !== 'undefined' &&
-        (shippingAddress && Object.keys(shippingAddress).length !== 0)
-    ) {
-        let shipping = addressParams(shippingAddress, 'SHIPPING');
-        addresses.push(shipping);
+    if (hasObjectLength(params?.billingAddress)) {
+        addresses.push(addressParams(params?.billingAddress, 'BILLING'));
     }
 
-    yield put(customerTriggerSpinner({ customerLoading: true }));
+    if (hasObjectLength(params?.shippingAddress)) {
+        addresses.push(addressParams(params?.shippingAddress, 'SHIPPING'));
+    }
 
     try {
         const options = {
             path: `customers`,
-            body: {
-                name,
-                currency_id,
-                email,
-                phone,
-                contact_name,
-                website,
-                enable_portal,
-                password,
-                addresses,
-                customFields
-            }
+            body: { ...params, addresses }
         };
 
         const response = yield call([Request, 'post'], options);
 
-        if (response.error) {
-            alertMe({
-                desc: getTitleByLanguage('customers.alertEmailAlreadyInUse')
-            });
+        if (response?.data?.errors) {
+            submissionError?.(response?.data?.errors);
+            return;
         }
 
-        onResult?.(response.customer);
+        if (response?.success) {
+            onResult?.(response.customer);
+        }
     } catch (e) {
     } finally {
         yield put(customerTriggerSpinner({ customerLoading: false }));
     }
 }
 
-function* editCustomer({ payload }) {
-    const {
-        params: {
-            website,
-            phone,
-            name,
-            email,
-            enable_portal,
-            password,
-            billingAddress,
-            shippingAddress,
-            contact_name,
-            currency_id,
-            id,
-            customFields
-        },
-        navigation
-    } = payload;
-
-    let addresses = [];
-
-    if (
-        typeof billingAddress !== 'undefined' &&
-        (billingAddress && Object.keys(billingAddress).length !== 0)
-    ) {
-        let billing = addressParams(billingAddress, 'BILLING');
-        addresses.push(billing);
-    }
-    if (
-        typeof shippingAddress !== 'undefined' &&
-        (shippingAddress && Object.keys(shippingAddress).length !== 0)
-    ) {
-        let shipping = addressParams(shippingAddress, 'SHIPPING');
-        addresses.push(shipping);
-    }
+function* updateCustomer({ payload }) {
+    const { params, navigation, submissionError } = payload;
 
     yield put(customerTriggerSpinner({ customerLoading: true }));
 
+    let addresses = [];
+
+    if (hasObjectLength(params?.billingAddress)) {
+        addresses.push(addressParams(params?.billingAddress, 'BILLING'));
+    }
+
+    if (hasObjectLength(params?.shippingAddress)) {
+        addresses.push(addressParams(params?.shippingAddress, 'SHIPPING'));
+    }
+
     try {
         const options = {
-            path: `customers/${id}`,
-            body: {
-                name,
-                currency_id,
-                email,
-                phone,
-                contact_name,
-                website,
-                enable_portal,
-                password,
-                addresses,
-                customFields
-            }
+            path: `customers/${params.id}`,
+            body: { ...params, addresses }
         };
 
         const response = yield call([Request, 'put'], options);
 
-        if (response.error) {
-            alertMe({
-                desc: getTitleByLanguage('customers.alertEmailAlreadyInUse')
-            });
+        if (response?.data?.errors) {
+            submissionError?.(response?.data?.errors);
+            return;
         }
 
         if (response.success) {
@@ -198,21 +153,29 @@ function* editCustomer({ payload }) {
     }
 }
 
-function* getEditCustomer({ payload: { id, onResult } }) {
-    yield put(customerTriggerSpinner({ getEditCustomerLoading: true }));
-
+function* getCustomerDetail({ payload }) {
+    const { id, onSuccess, currencies, countries } = payload;
     try {
-        const options = {
-            path: `customers/${id}`,
-            body: [id]
-        };
+        if (!isArray(countries)) {
+            yield call(getCountries, { payload: {} });
+        }
 
+        if (!isArray(currencies)) {
+            yield call(getGeneralSetting, { payload: { url: 'currencies' } });
+        }
+
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 500 }
+            }
+        });
+
+        const options = { path: `customers/${id}` };
         const response = yield call([Request, 'get'], options);
 
-        onResult?.(response.customer);
+        onSuccess?.(response.customer);
     } catch (e) {
     } finally {
-        yield put(customerTriggerSpinner({ getEditCustomerLoading: false }));
     }
 }
 
@@ -239,8 +202,9 @@ function* removeCustomer({ payload: { id, navigation } }) {
 export default function* customersSaga() {
     yield takeLatest(TYPES.GET_CUSTOMERS, getCustomers);
     yield takeLatest(TYPES.GET_COUNTRIES, getCountries);
+    yield takeLatest(TYPES.GET_CREATE_CUSTOMER, getCreateCustomer);
     yield takeLatest(TYPES.CREATE_CUSTOMER, createCustomer);
-    yield takeLatest(TYPES.EDIT_CUSTOMER, editCustomer);
-    yield takeLatest(TYPES.GET_EDIT_CUSTOMER, getEditCustomer);
+    yield takeLatest(TYPES.UPDATE_CUSTOMER, updateCustomer);
+    yield takeLatest(TYPES.GET_CUSTOMER_DETAIL, getCustomerDetail);
     yield takeLatest(TYPES.REMOVE_CUSTOMER, removeCustomer);
 }

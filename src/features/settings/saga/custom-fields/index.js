@@ -22,7 +22,7 @@ const alreadyInUse = error => {
     }
 };
 
-function* getCustomFields({ payload }) {
+export function* getCustomFields({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
 
     try {
@@ -38,9 +38,7 @@ function* getCustomFields({ payload }) {
         }
 
         onSuccess?.(response?.customFields);
-    } catch (e) {
-    } finally {
-    }
+    } catch (e) {}
 }
 
 function* createCustomField({ payload: { params, navigation } }) {
@@ -56,7 +54,6 @@ function* createCustomField({ payload: { params, navigation } }) {
 
         if (response.success) {
             navigation.navigate(ROUTES.CUSTOM_FIELDS);
-            yield call(getCustomFields, { payload: {} });
         }
     } catch ({ _bodyText }) {
         hasValue(_bodyText) && alreadyInUse(_bodyText);
@@ -95,7 +92,6 @@ function* editCustomField({ payload: { id, params, navigation } }) {
 
         if (response.success) {
             navigation.navigate(ROUTES.CUSTOM_FIELDS);
-            yield call(getCustomFields, { payload: {} });
         }
     } catch ({ _bodyText }) {
         hasValue(_bodyText) && alreadyInUse(_bodyText);
@@ -114,7 +110,6 @@ function* removeCustomField({ payload: { id, navigation } }) {
 
         if (response.success) {
             navigation.navigate(ROUTES.CUSTOM_FIELDS);
-            yield call(getCustomFields, { payload: {} });
         }
     } catch (e) {
     } finally {
