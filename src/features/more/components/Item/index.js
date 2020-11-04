@@ -122,17 +122,28 @@ export class Item extends React.Component {
                 removeItem({
                     id: itemId,
                     onResult: res => {
-                        res.error && res.error === 'item_attached'
-                            ? alertMe({
-                                  title: Lng.t('items.alreadyAttachTitle', {
-                                      locale
-                                  }),
-                                  desc: Lng.t(
-                                      'items.alreadyAttachDescription',
-                                      { locale }
-                                  )
-                              })
-                            : navigation.navigate(ROUTES.GLOBAL_ITEMS);
+                        if (res.success) {
+                            navigation.navigate(ROUTES.GLOBAL_ITEMS);
+                            return;
+                        }
+
+                        if (res?.data?.errors && res?.data?.errors?.['ids.0']) {
+                            alertMe({
+                                desc: res?.data?.errors?.['ids.0'][0]
+                            });
+                            return;
+                        }
+
+                        if (res?.error === 'item_attached') {
+                            alertMe({
+                                title: Lng.t('items.alreadyAttachTitle', {
+                                    locale
+                                }),
+                                desc: Lng.t('items.alreadyAttachDescription', {
+                                    locale
+                                })
+                            });
+                        }
                     }
                 })
         });

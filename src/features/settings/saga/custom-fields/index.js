@@ -66,7 +66,7 @@ function* getCustomField({ payload: { id, onResult = null } }) {
     yield put(settingsTriggerSpinner({ getCustomFieldLoading: true }));
 
     try {
-        const options = { path: `custom-fields/${id}/edit` };
+        const options = { path: `custom-fields/${id}` };
 
         const response = yield call([Request, 'get'], options);
 

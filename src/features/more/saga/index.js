@@ -18,9 +18,6 @@ import {
     REMOVE_ITEM_URL
 } from '../constants';
 
-/**
- * app logout action.
- */
 function* logout({ payload: { navigation } }) {
     yield put(moreTriggerSpinner({ logoutLoading: true }));
 
@@ -125,10 +122,11 @@ function* removeItem({ payload: { id, onResult } }) {
 
     try {
         const options = {
-            path: REMOVE_ITEM_URL(id)
+            path: `items/delete`,
+            body: { ids: [id] }
         };
 
-        const response = yield call([Request, 'delete'], options);
+        const response = yield call([Request, 'post'], options);
 
         if (response.success) {
             yield put(deleteItem({ id }));

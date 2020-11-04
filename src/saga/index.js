@@ -23,7 +23,7 @@ export default function* rootSaga() {
 
         if (currentRouteBlockName !== ROUTES.AUTH) {
             yield put(
-                NavigationActions.navigate({ routeName: ROUTES.SETTING_LIST })
+                NavigationActions.navigate({ routeName: ROUTES.MAIN_INVOICES })
             );
         } else {
             const { endpointApi, endpointURL } = reduxStore.global;
