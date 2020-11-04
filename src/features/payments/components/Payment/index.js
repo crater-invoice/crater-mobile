@@ -85,7 +85,13 @@ export class Payment extends React.Component<IProps> {
     }
 
     setInitialValues = () => {
-        const { getCreatePayment, getPaymentDetail, type, id } = this.props;
+        const {
+            getCreatePayment,
+            getPaymentDetail,
+            type,
+            id,
+            hasRecordPayment
+        } = this.props;
 
         if (type === PAYMENT_ADD) {
             getCreatePayment({
@@ -95,6 +101,12 @@ export class Payment extends React.Component<IProps> {
                         [FIELDS.NUMBER]: nextNumber,
                         [FIELDS.DATE]: moment()
                     };
+
+                    if (hasRecordPayment) {
+                        this.SetRecordPaymentField(values);
+                        return;
+                    }
+
                     this.setFormField(`payment`, values);
                     this.setState({ isLoading: false });
                 }
@@ -124,6 +136,24 @@ export class Payment extends React.Component<IProps> {
             });
             return;
         }
+    };
+
+    SetRecordPaymentField = values => {
+        const { invoice } = this.props;
+        const val = {
+            ...values,
+            [FIELDS.CUSTOMER]: invoice?.user?.id,
+            [FIELDS.INVOICE]: invoice?.id,
+            [FIELDS.AMOUNT]: invoice?.due?.due_amount
+        };
+
+        this.setFormField(`payment`, val);
+
+        this.setState({
+            selectedCustomer: invoice?.user,
+            selectedInvoice: invoice?.due,
+            isLoading: false
+        });
     };
 
     setFormField = (field, value) => {

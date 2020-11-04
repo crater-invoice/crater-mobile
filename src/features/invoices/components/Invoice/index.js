@@ -1,9 +1,18 @@
 // @flow
 
-import React, { Fragment } from 'react';
-import { View, Text, Linking, TouchableOpacity } from 'react-native';
-import { Field, change } from 'redux-form';
+import React from 'react';
+import { View, Text, Linking } from 'react-native';
+import { Field, change, SubmissionError, formValues } from 'redux-form';
 import styles from './styles';
+import { colors, itemsDescriptionStyle } from '@/styles';
+import { TemplateField } from '../TemplateField';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import Lng from '@/lang/i18n';
+import { IMAGES } from '@/assets';
+import FinalAmount from '../FinalAmount';
+import { alertMe, BUTTON_TYPE, isArray, MAX_LENGTH } from '@/constants';
+import { CUSTOMER_ADD } from '@/features/customers/constants';
+import { PAYMENT_ADD } from '@/features/payments/constants';
 import {
     InputField,
     DatePickerField,
@@ -13,8 +22,6 @@ import {
     SelectField,
     CurrencyFormat,
     FakeInput,
-    ToggleSwitch,
-    TermsAndCondition,
     SendMail
 } from '@/components';
 import {
@@ -27,15 +34,6 @@ import {
     EDIT_INVOICE_ACTIONS,
     setInvoiceRefs
 } from '../../constants';
-import { colors, itemsDescriptionStyle } from '@/styles';
-import { TemplateField } from '../TemplateField';
-import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import Lng from '@/lang/i18n';
-import { IMAGES } from '@/assets';
-import FinalAmount from '../FinalAmount';
-import { alertMe, BUTTON_TYPE, MAX_LENGTH } from '@/constants';
-import { CUSTOMER_ADD } from '@/features/customers/constants';
-import { PAYMENT_ADD } from '@/features/payments/constants';
 import {
     invoiceSubTotal,
     invoiceTax,
@@ -70,62 +68,26 @@ type IProps = {
     type: String
 };
 
-const termsCondition = {
-    description: 'terms_and_conditions',
-    toggle: 'display_terms_and_conditions'
-};
 export class Invoice extends React.Component<IProps> {
+    customerReference: any;
+
     constructor(props) {
         super(props);
-
         this.invoiceRefs = setInvoiceRefs.bind(this);
+        this.customerReference = React.createRef();
 
         this.state = {
             taxTypeList: [],
-            currency: {},
+            currency: props?.currency,
             itemList: [],
             customerName: '',
-            markAsStatus: null
+            markAsStatus: null,
+            isLoading: true
         };
     }
 
     componentDidMount() {
-        const {
-            getCreateInvoice,
-            navigation,
-            invoiceItems,
-            getEditInvoice,
-            type,
-            getNextNumber
-        } = this.props;
-
-        getNextNumber({
-            key: 'invoice',
-            onSuccess: () => {}
-        });
-        return;
-
-        type === INVOICE_EDIT
-            ? getEditInvoice({
-                  id: navigation.getParam('id'),
-                  onResult: ({ user: { currency, name }, status }) => {
-                      this.setState({
-                          currency,
-                          customerName: name,
-                          markAsStatus: status
-                      });
-                  }
-              })
-            : getCreateInvoice({
-                  onResult: val => {
-                      const { currency } = val;
-
-                      this.setState({ currency });
-                  }
-              });
-
-        this.getInvoiceItemList(invoiceItems);
-
+        this.setInitialValues();
         this.androidBackHandler();
     }
 
@@ -135,6 +97,34 @@ export class Invoice extends React.Component<IProps> {
         this.invoiceRefs(undefined);
         goBack(UNMOUNT);
     }
+
+    setInitialValues = () => {
+        const { getCreateInvoice, getEditInvoice, type, id } = this.props;
+
+        if (type === INVOICE_ADD) {
+            getCreateInvoice({
+                onSuccess: () => {
+                    this.setState({ isLoading: false });
+                }
+            });
+            return;
+        }
+
+        if (type === INVOICE_EDIT) {
+            getEditInvoice({
+                id,
+                onSuccess: ({ user, status }) => {
+                    this.setState({
+                        currency: user.currency,
+                        customerName: user.name,
+                        markAsStatus: status,
+                        isLoading: false
+                    });
+                }
+            });
+            return;
+        }
+    };
 
     androidBackHandler = () => {
         const { navigation, handleSubmit } = this.props;
@@ -177,19 +167,25 @@ export class Invoice extends React.Component<IProps> {
             cancelText: Lng.t('alert.action.discard', { locale }),
             cancelPress: () => navigation.navigate(ROUTES.MAIN_INVOICES),
             okText: Lng.t('alert.action.saveAsDraft', { locale }),
-            okPress: handleSubmit(this.onSubmitInvoice)
+            okPress: handleSubmit(this.draftInvoice)
         });
     };
 
-    onSubmitInvoice = (values, status = 'draft') => {
+    onSubmitInvoice = (values, status) => {
         const {
             createInvoice,
             navigation,
             type,
             editInvoice,
             locale,
-            invoiceData: { invoice_prefix = '' } = {}
+            id,
+            handleSubmit,
+            initLoading
         } = this.props;
+
+        if (this.state.isLoading || initLoading) {
+            return;
+        }
 
         if (finalAmount() < 0) {
             alert(Lng.t('invoices.alert.lessAmount', { locale }));
@@ -198,7 +194,7 @@ export class Invoice extends React.Component<IProps> {
 
         let invoice = {
             ...values,
-            invoice_number: `${invoice_prefix}-${values.invoice_number}`,
+            invoice_number: `${values.prefix}-${values.invoice_number}`,
             total: finalAmount(),
             sub_total: invoiceSubTotal(),
             tax: invoiceTax() + invoiceCompoundTax(),
@@ -219,25 +215,45 @@ export class Invoice extends React.Component<IProps> {
             invoice.invoiceSend = true;
         }
 
-        type === INVOICE_ADD
-            ? createInvoice({
-                  invoice,
-                  onResult: url => {
-                      if (status === 'download') {
-                          Linking.openURL(url);
-                      }
-                      navigation.navigate(ROUTES.MAIN_INVOICES);
-                  }
-              })
-            : editInvoice({
-                  invoice: { ...invoice, id: navigation.getParam('id') },
-                  onResult: url => {
-                      if (status === 'download') {
-                          Linking.openURL(url);
-                      }
-                      navigation.navigate(ROUTES.MAIN_INVOICES);
-                  }
-              });
+        const params = {
+            invoice: { ...invoice, id },
+            navigation,
+            onSuccess: url => {
+                if (status === 'download') {
+                    Linking.openURL(url);
+                    return;
+                }
+                navigation.navigate(ROUTES.MAIN_INVOICES);
+            },
+            submissionError: errors =>
+                handleSubmit(() => this.throwError(errors, locale))()
+        };
+
+        type === INVOICE_ADD ? createInvoice(params) : editInvoice(params);
+    };
+
+    downloadInvoice = values => {
+        this.onSubmitInvoice(values, INVOICE_ACTIONS.VIEW);
+    };
+
+    saveInvoice = values => {
+        this.onSubmitInvoice(values, 'save');
+    };
+
+    draftInvoice = () => {
+        this.onSubmitInvoice(values, 'draft');
+    };
+
+    throwError = (errors, locale) => {
+        if (errors?.invoice_number) {
+            throw new SubmissionError({
+                invoice_number: 'validation.alreadyTaken'
+            });
+        }
+
+        alertMe({
+            desc: Lng.t('validation.wrong', { locale })
+        });
     };
 
     BOTTOM_ACTION = () => {
@@ -246,12 +262,7 @@ export class Invoice extends React.Component<IProps> {
         return (
             <View style={styles.submitButton}>
                 <CtButton
-                    onPress={handleSubmit(val =>
-                        this.onSubmitInvoice(
-                            val,
-                            (status = INVOICE_ACTIONS.VIEW)
-                        )
-                    )}
+                    onPress={handleSubmit(this.downloadInvoice)}
                     btnTitle={Lng.t('button.viewPdf', { locale })}
                     type={BUTTON_TYPE.OUTLINE}
                     containerStyle={styles.handleBtn}
@@ -260,9 +271,7 @@ export class Invoice extends React.Component<IProps> {
                 />
 
                 <CtButton
-                    onPress={handleSubmit(val =>
-                        this.onSubmitInvoice(val, (status = 'save'))
-                    )}
+                    onPress={handleSubmit(this.saveInvoice)}
                     btnTitle={Lng.t('button.save', { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
@@ -272,50 +281,100 @@ export class Invoice extends React.Component<IProps> {
         );
     };
 
+    navigateToCustomer = () => {
+        const { navigation } = this.props;
+        const { currency } = this.state;
+
+        navigation.navigate(ROUTES.CUSTOMER, {
+            type: CUSTOMER_ADD,
+            currency,
+            onSelect: item => {
+                this.customerReference?.changeDisplayValue?.(item);
+                this.setFormField('user_id', item.id);
+                this.setState({ currency: item.currency });
+            }
+        });
+    };
+
     getInvoiceItemList = invoiceItems => {
         this.setFormField('items', invoiceItems);
 
         const { currency } = this.state;
 
-        let invoiceItemList = [];
-
-        if (typeof invoiceItems !== 'undefined' && invoiceItems.length != 0) {
-            invoiceItemList = invoiceItems.map(item => {
-                let { name, description, price, quantity, total } = item;
-
-                return {
-                    title: name,
-                    subtitle: {
-                        title: description,
-                        labelComponent: (
-                            <CurrencyFormat
-                                amount={price}
-                                currency={currency}
-                                preText={`${quantity} * `}
-                                style={styles.itemLeftSubTitle}
-                                containerStyle={styles.itemLeftSubTitleLabel}
-                            />
-                        )
-                    },
-                    amount: total,
-                    currency,
-                    fullItem: item
-                };
-            });
+        if (!isArray(invoiceItems)) {
+            return [];
         }
 
-        return invoiceItemList;
+        return invoiceItems.map(item => {
+            let { name, description, price, quantity, total } = item;
+
+            return {
+                title: name,
+                subtitle: {
+                    title: description,
+                    labelComponent: (
+                        <CurrencyFormat
+                            amount={price}
+                            currency={currency}
+                            preText={`${quantity} * `}
+                            style={styles.itemLeftSubTitle}
+                            containerStyle={styles.itemLeftSubTitleLabel}
+                        />
+                    )
+                },
+                amount: total,
+                currency,
+                fullItem: item
+            };
+        });
+    };
+
+    removeInvoice = () => {
+        const { removeInvoice, navigation, locale } = this.props;
+
+        alertMe({
+            title: Lng.t('alert.title', { locale }),
+            desc: Lng.t('invoices.alert.removeDescription', { locale }),
+            showCancel: true,
+            okPress: () =>
+                removeInvoice({
+                    id: navigation.getParam('id'),
+                    onResult: res => {
+                        if (res?.success) {
+                            navigation.navigate(ROUTES.MAIN_INVOICES);
+                            return;
+                        }
+
+                        if (res?.data?.errors && res?.data?.errors?.['ids.0']) {
+                            alertMe({
+                                title: Lng.t(
+                                    'invoices.alert.paymentAttachedTitle',
+                                    { locale }
+                                ),
+                                desc: Lng.t(
+                                    'invoices.alert.paymentAttachedDescription',
+                                    { locale }
+                                )
+                            });
+                            return;
+                        }
+
+                        alertMe({
+                            desc: Lng.t('validation.wrong', { locale })
+                        });
+                    }
+                })
+        });
     };
 
     onOptionSelect = action => {
         const {
-            removeInvoice,
             navigation,
             locale,
-            formValues: { user, user_id, due_amount, invoice_number, id },
-            handleSubmit,
+            formValues,
             changeInvoiceStatus,
-            type
+            type,
+            id
         } = this.props;
 
         switch (action) {
@@ -325,19 +384,21 @@ export class Invoice extends React.Component<IProps> {
 
             case INVOICE_ACTIONS.MARK_AS_SENT:
                 changeInvoiceStatus({
-                    id: navigation.getParam('id'),
-                    action: 'mark-as-sent',
-                    navigation
+                    id,
+                    action: `${id}/status`,
+                    navigation,
+                    params: {
+                        status: 'SENT'
+                    }
                 });
                 break;
 
             case INVOICE_ACTIONS.RECORD_PAYMENT:
-                let invoice = {
+                const { user, due_amount, sub_total } = formValues;
+                const invoice = {
                     user,
-                    user_id,
-                    due_amount,
-                    invoice_number,
-                    id
+                    id,
+                    due: { due_amount, sub_total }
                 };
 
                 navigation.navigate(ROUTES.PAYMENT, {
@@ -354,8 +415,8 @@ export class Invoice extends React.Component<IProps> {
                     showCancel: true,
                     okPress: () =>
                         changeInvoiceStatus({
-                            id: navigation.getParam('id'),
-                            action: 'clone',
+                            id,
+                            action: `${id}/clone`,
                             navigation
                         })
                 });
@@ -363,65 +424,12 @@ export class Invoice extends React.Component<IProps> {
                 break;
 
             case INVOICE_ACTIONS.DELETE:
-                alertMe({
-                    title: Lng.t('alert.title', { locale }),
-                    desc: Lng.t('invoices.alert.removeDescription', { locale }),
-                    showCancel: true,
-                    okPress: () =>
-                        removeInvoice({
-                            id: navigation.getParam('id'),
-                            onResult: res => {
-                                res.success &&
-                                    navigation.navigate(ROUTES.MAIN_INVOICES);
-
-                                res.error &&
-                                    res.error === 'payment_attached' &&
-                                    alertMe({
-                                        title: Lng.t(
-                                            'invoices.alert.paymentAttachedTitle',
-                                            { locale }
-                                        ),
-                                        desc: Lng.t(
-                                            'invoices.alert.paymentAttachedDescription',
-                                            { locale }
-                                        )
-                                    });
-                            }
-                        })
-                });
-
+                this.removeInvoice();
                 break;
 
             default:
                 break;
         }
-    };
-
-    openTermConditionModal = () => this.termsAndConditionRef?.onToggle();
-
-    TOGGLE_TERMS_CONDITION_VIEW = () => {
-        const { formValues, locale } = this.props;
-        let isShow = formValues?.display_terms_and_conditions;
-
-        return (
-            <Fragment>
-                <Field
-                    name={termsCondition.toggle}
-                    component={ToggleSwitch}
-                    status={isShow}
-                    hint={Lng.t('termsCondition.show', { locale })}
-                    mainContainerStyle={{ marginTop: 12 }}
-                />
-
-                {(isShow === true || isShow === 1) && (
-                    <TouchableOpacity onPress={this.openTermConditionModal}>
-                        <Text style={styles.termsEditText}>
-                            {Lng.t('termsCondition.edit', { locale })}
-                        </Text>
-                    </TouchableOpacity>
-                )}
-            </Fragment>
-        );
     };
 
     render() {
@@ -431,8 +439,7 @@ export class Invoice extends React.Component<IProps> {
             invoiceData: {
                 invoiceTemplates,
                 discount_per_item,
-                tax_per_item,
-                invoice_prefix
+                tax_per_item
             } = {},
             invoiceItems,
             getItems,
@@ -443,11 +450,12 @@ export class Invoice extends React.Component<IProps> {
             type,
             getCustomers,
             customers,
-            formValues: { display_terms_and_conditions },
-            changeInvoiceStatus
+            changeInvoiceStatus,
+            formValues,
+            id
         } = this.props;
 
-        const { currency, customerName, markAsStatus } = this.state;
+        const { currency, customerName, markAsStatus, isLoading } = this.state;
 
         const isEditInvoice = type === INVOICE_EDIT;
 
@@ -465,12 +473,12 @@ export class Invoice extends React.Component<IProps> {
                       ),
                       onSelect: this.onOptionSelect,
                       cancelButtonIndex: hasSentStatus
-                          ? 3
+                          ? 4
                           : hasCompleteStatus
                           ? 2
                           : 5,
                       destructiveButtonIndex: hasSentStatus
-                          ? 2
+                          ? 3
                           : hasCompleteStatus
                           ? 1
                           : 4
@@ -487,36 +495,27 @@ export class Invoice extends React.Component<IProps> {
                         ? Lng.t('header.editInvoice', { locale })
                         : Lng.t('header.addInvoice', { locale }),
                     rightIcon: !isEditInvoice ? 'save' : null,
-                    rightIconPress: handleSubmit(val =>
-                        this.onSubmitInvoice(val, (status = 'save'))
-                    ),
+                    rightIconPress: handleSubmit(this.downloadInvoice),
                     rightIconProps: {
                         solid: true
                     },
                     placement: 'center'
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{ is: initLoading }}
+                loadingProps={{ is: isLoading || initLoading }}
                 dropdownProps={drownDownProps}
             >
                 <View style={styles.bodyContainer}>
-                    <TermsAndCondition
-                        termsConditionRef={ref =>
-                            (this.termsAndConditionRef = ref)
-                        }
-                        props={this.props}
-                        fieldName={termsCondition.description}
-                    />
-                    {isEditInvoice && !hasSentStatus && !hasCompleteStatus && (
+                    {isEditInvoice && !hasCompleteStatus && (
                         <SendMail
                             mailReference={ref => (this.sendMailRef = ref)}
-                            props={this.props}
                             headerTitle={'header.sendMailInvoice'}
                             alertDesc={'invoices.alert.sendInvoice'}
+                            user={formValues?.customer}
                             onSendMail={params =>
                                 changeInvoiceStatus({
-                                    id: navigation.getParam('id'),
-                                    action: 'send',
+                                    id,
+                                    action: `${id}/send`,
                                     navigation,
                                     params
                                 })
@@ -560,7 +559,7 @@ export class Invoice extends React.Component<IProps> {
                         isRequired
                         prefixProps={{
                             fieldName: 'invoice_number',
-                            prefix: invoice_prefix,
+                            prefix: formValues?.prefix,
                             icon: 'hashtag',
                             iconSolid: false
                         }}
@@ -590,27 +589,17 @@ export class Invoice extends React.Component<IProps> {
                             this.setFormField('user_id', item.id);
                             this.setState({ currency: item.currency });
                         }}
-                        rightIconPress={() =>
-                            navigation.navigate(ROUTES.CUSTOMER, {
-                                type: CUSTOMER_ADD,
-                                currency,
-                                onSelect: val => {
-                                    this.setFormField('user_id', val.id);
-                                    this.setState({ currency: val.currency });
-                                }
-                            })
-                        }
+                        rightIconPress={this.navigateToCustomer}
                         headerProps={{
                             title: Lng.t('customers.title', { locale })
                         }}
-                        listViewProps={{
-                            hasAvatar: true
-                        }}
+                        listViewProps={{ hasAvatar: true }}
                         emptyContentProps={{
                             contentType: 'customers',
                             image: IMAGES.EMPTY_CUSTOMERS
                         }}
                         fakeInputProps={{ loading: false }}
+                        reference={ref => (this.customerReference = ref)}
                     />
 
                     <Text style={[styles.inputTextStyle, styles.label]}>
@@ -716,7 +705,7 @@ export class Invoice extends React.Component<IProps> {
 
                     <Field
                         name="invoice_template_id"
-                        templates={invoiceTemplates}
+                        templates={invoiceTemplates ?? []}
                         component={TemplateField}
                         label={Lng.t('invoices.template', { locale })}
                         icon={'file-alt'}
@@ -726,8 +715,6 @@ export class Invoice extends React.Component<IProps> {
                         navigation={navigation}
                         locale={locale}
                     />
-
-                    {this.TOGGLE_TERMS_CONDITION_VIEW()}
                 </View>
             </DefaultLayout>
         );

@@ -3,34 +3,34 @@ import { connect } from 'react-redux';
 import { Invoice } from '../../components/Invoice';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
-import * as InvoicesAction from '../../actions';
+import * as actions from '../../actions';
 import { INVOICE_FORM, INVOICE_EDIT } from '../../constants';
 import moment from 'moment';
 import { getCustomers } from '@/features/customers/actions';
-import { getNextNumber } from '@/features/settings/actions';
+import { getTaxes } from '@/features/settings/actions';
+import { isArray } from '@/constants';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, taxTypes },
+        global: { locale, taxTypes, currency },
         invoices: { loading, invoiceItems, invoiceData, items },
         customers: { customers }
     } = state;
 
     const {
         invoice = null,
-        nextInvoiceNumber,
         invoiceTemplates,
-        nextInvoiceNumberAttribute,
-        terms_and_conditions = null,
         invoice_notes = ''
     } = invoiceData;
 
-    let type = navigation.getParam('type');
+    const type = navigation.getParam('type');
+    const id = navigation.getParam('id');
+    const isEditScreen = type === INVOICE_EDIT;
 
-    let isLoading =
+    const isLoading =
         loading.initInvoiceLoading ||
-        (type === INVOICE_EDIT && !invoice) ||
-        !nextInvoiceNumber;
+        (isEditScreen && !invoice) ||
+        !isArray(invoiceTemplates);
 
     return {
         initLoading: isLoading,
@@ -44,6 +44,8 @@ const mapStateToProps = (state, { navigation }) => {
         locale,
         formValues: getFormValues(INVOICE_FORM)(state) || {},
         taxTypes,
+        currency,
+        id,
         initialValues: !isLoading
             ? {
                   due_date: moment().add(7, 'days'),
@@ -51,35 +53,26 @@ const mapStateToProps = (state, { navigation }) => {
                   discount_type: 'fixed',
                   discount: 0,
                   taxes: [],
-                  invoice_template_id:
-                      invoiceTemplates[0] && invoiceTemplates[0].id,
-                  display_terms_and_conditions: false,
-                  terms_and_conditions,
+                  invoice_template_id: invoiceTemplates?.[0]?.id,
                   notes: invoice_notes,
                   ...invoice,
-                  invoice_number:
-                      type === INVOICE_EDIT
-                          ? nextInvoiceNumber
-                          : nextInvoiceNumberAttribute,
-                  customer: invoice && invoice.user,
-                  template: invoice && invoice.invoice_template
+                  invoice_number: isEditScreen
+                      ? invoiceData?.nextInvoiceNumber
+                      : invoiceData?.nextNumber,
+                  prefix: isEditScreen
+                      ? invoiceData?.invoicePrefix
+                      : invoiceData?.prefix,
+                  customer: invoice?.user,
+                  template: invoice?.invoice_template
               }
             : null
     };
 };
 
 const mapDispatchToProps = {
-    getCreateInvoice: InvoicesAction.getCreateInvoice,
-    createInvoice: InvoicesAction.createInvoice,
-    getItems: InvoicesAction.getItems,
-    getEditInvoice: InvoicesAction.getEditInvoice,
-    editInvoice: InvoicesAction.editInvoice,
-    removeInvoiceItems: InvoicesAction.removeInvoiceItems,
-    removeInvoice: InvoicesAction.removeInvoice,
-    clearInvoice: InvoicesAction.clearInvoice,
-    changeInvoiceStatus: InvoicesAction.changeInvoiceStatus,
+    ...actions,
     getCustomers,
-    getNextNumber
+    getTaxes
 };
 
 //  Redux Forms

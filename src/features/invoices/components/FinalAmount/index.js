@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Field, change } from 'redux-form';
@@ -8,7 +7,7 @@ import {
     CtDivider,
     SelectField,
     SelectPickerField,
-    CurrencyFormat,
+    CurrencyFormat
 } from '@/components';
 import { ROUTES } from '@/navigation';
 import { colors } from '@/styles';
@@ -21,54 +20,59 @@ import {
     invoiceItemTotalTaxes,
     getTaxValue,
     getTaxName,
-    finalAmount,
+    finalAmount
 } from '../InvoiceCalculation';
 
 const DISPLAY_ITEM_TAX = ({ state }) => {
-    const { currency } = state
-    let taxes = invoiceItemTotalTaxes()
+    const { currency } = state;
+    let taxes = invoiceItemTotalTaxes();
 
-    return taxes ? (
-        taxes.map((val, index) => (
-            <View
-                style={styles.subContainer}
-                key={index}
-            >
-                <View>
-                    <Text style={styles.amountHeading}>
-                        {getTaxName(val)} ({val.percent} %)
-                    </Text>
-                </View>
-                <View>
-                    <CurrencyFormat
-                        amount={val.amount}
-                        currency={currency}
-                        style={styles.subAmount}
-                    />
-                </View>
-            </View>
-        )
-        )
-    ) : null
-}
+    return taxes
+        ? taxes.map((val, index) => (
+              <View style={styles.subContainer} key={index}>
+                  <View>
+                      <Text style={styles.amountHeading}>
+                          {getTaxName(val)} ({val.percent} %)
+                      </Text>
+                  </View>
+                  <View>
+                      <CurrencyFormat
+                          amount={val.amount}
+                          currency={currency}
+                          style={styles.subAmount}
+                      />
+                  </View>
+              </View>
+          ))
+        : null;
+};
 
 const FinalAmount = ({ state, props }) => {
-    const { currency } = state
+    const { currency } = state;
 
     const {
         locale,
         taxTypes,
         navigation,
         invoiceData: { discount_per_item, tax_per_item },
-        formValues: { taxes }
-    } = props
+        formValues: { taxes },
+        getTaxes
+    } = props;
 
-    let taxPerItem = !(tax_per_item === 'NO' || typeof tax_per_item === 'undefined' || tax_per_item === null)
+    let taxPerItem = !(
+        tax_per_item === 'NO' ||
+        typeof tax_per_item === 'undefined' ||
+        tax_per_item === null
+    );
 
-    let discountPerItem = !(discount_per_item === 'NO' || typeof discount_per_item === 'undefined' || discount_per_item === null)
+    let discountPerItem = !(
+        discount_per_item === 'NO' ||
+        typeof discount_per_item === 'undefined' ||
+        discount_per_item === null
+    );
 
     const setFormField = (field, value) => {
-        const { dispatch, form } = props
+        const { dispatch, form } = props;
 
         dispatch(change(form, field, value));
     };
@@ -78,7 +82,7 @@ const FinalAmount = ({ state, props }) => {
             <View style={styles.subContainer}>
                 <View>
                     <Text style={styles.amountHeading}>
-                        {Lng.t("invoices.subtotal", { locale })}
+                        {Lng.t('invoices.subtotal', { locale })}
                     </Text>
                 </View>
                 <View>
@@ -90,11 +94,11 @@ const FinalAmount = ({ state, props }) => {
                 </View>
             </View>
 
-            {(!discountPerItem) && (
+            {!discountPerItem && (
                 <View style={[styles.subContainer, styles.discount]}>
                     <View>
                         <Text style={styles.amountHeading}>
-                            {Lng.t("invoices.discount", { locale })}
+                            {Lng.t('invoices.discount', { locale })}
                         </Text>
                     </View>
                     <View style={[styles.subAmount, styles.discountField]}>
@@ -105,7 +109,7 @@ const FinalAmount = ({ state, props }) => {
                                 returnKeyType: 'next',
                                 autoCapitalize: 'none',
                                 autoCorrect: true,
-                                keyboardType: 'numeric',
+                                keyboardType: 'numeric'
                             }}
                             fieldStyle={styles.fieldStyle}
                         />
@@ -113,15 +117,15 @@ const FinalAmount = ({ state, props }) => {
                             name="discount_type"
                             component={SelectPickerField}
                             items={INVOICE_DISCOUNT_OPTION}
-                            onChangeCallback={(val) => {
-                                setFormField('discount_type', val)
+                            onChangeCallback={val => {
+                                setFormField('discount_type', val);
                             }}
                             isFakeInput
                             defaultPickerOptions={{
                                 label: 'Fixed',
                                 value: 'fixed',
                                 color: colors.secondary,
-                                displayLabel: currency ? currency.symbol : '$',
+                                displayLabel: currency ? currency.symbol : '$'
                             }}
                             fakeInputValueStyle={styles.fakeInputValueStyle}
                             fakeInputContainerStyle={styles.selectPickerField}
@@ -132,94 +136,81 @@ const FinalAmount = ({ state, props }) => {
             )}
 
             {taxes &&
-                taxes.map((val, index) => !val.compound_tax ? (
-                    <View
-                        style={styles.subContainer}
-                        key={index}
-                    >
-                        <View>
-                            <Text style={styles.amountHeading}>
-                                {getTaxName(val)} ({val.percent} %)
-                            </Text>
+                taxes.map((val, index) =>
+                    !val.compound_tax ? (
+                        <View style={styles.subContainer} key={index}>
+                            <View>
+                                <Text style={styles.amountHeading}>
+                                    {getTaxName(val)} ({val.percent} %)
+                                </Text>
+                            </View>
+                            <View>
+                                <CurrencyFormat
+                                    amount={getTaxValue(val.percent)}
+                                    currency={currency}
+                                    style={styles.subAmount}
+                                />
+                            </View>
                         </View>
-                        <View>
-                            <CurrencyFormat
-                                amount={getTaxValue(val.percent)}
-                                currency={currency}
-                                style={styles.subAmount}
-                            />
-                        </View>
-                    </View>
-                ) : null
-                )
-            }
+                    ) : null
+                )}
 
             {taxes &&
-                taxes.map((val, index) => val.compound_tax ? (
-                    <View
-                        style={styles.subContainer}
-                        key={index}
-                    >
-                        <View>
-                            <Text style={styles.amountHeading}>
-                                {getTaxName(val)} ({val.percent} %)
-                            </Text>
+                taxes.map((val, index) =>
+                    val.compound_tax ? (
+                        <View style={styles.subContainer} key={index}>
+                            <View>
+                                <Text style={styles.amountHeading}>
+                                    {getTaxName(val)} ({val.percent} %)
+                                </Text>
+                            </View>
+                            <View>
+                                <CurrencyFormat
+                                    amount={getCompoundTaxValue(val.percent)}
+                                    currency={currency}
+                                    style={styles.subAmount}
+                                />
+                            </View>
                         </View>
-                        <View>
-                            <CurrencyFormat
-                                amount={getCompoundTaxValue(val.percent)}
-                                currency={currency}
-                                style={styles.subAmount}
-                            />
-                        </View>
-                    </View>
-                ) : null
-                )
-            }
+                    ) : null
+                )}
 
             {DISPLAY_ITEM_TAX({ state })}
 
-            {(!taxPerItem) && (
+            {!taxPerItem && (
                 <Field
                     name="taxes"
+                    apiSearch
+                    hasPagination
                     items={taxTypes}
+                    getItems={getTaxes}
                     displayName="name"
                     component={SelectField}
-                    searchFields={['name', 'percent']}
                     onlyPlaceholder
                     fakeInputProps={{
                         fakeInput: (
                             <Text style={styles.taxFakeInput}>
-                                {Lng.t("invoices.taxPlaceholder", { locale })}
+                                {Lng.t('invoices.taxPlaceholder', { locale })}
                             </Text>
                         )
                     }}
                     navigation={navigation}
                     isMultiSelect
-                    isInternalSearch
                     locale={locale}
                     concurrentMultiSelect
                     compareField="id"
                     valueCompareField="tax_type_id"
-                    headerProps={{
-                        title: Lng.t("taxes.title", { locale })
-                    }}
-                    rightIconPress={
-                        () => navigation.navigate(ROUTES.TAX, {
+                    headerProps={{ title: Lng.t('taxes.title', { locale }) }}
+                    rightIconPress={() =>
+                        navigation.navigate(ROUTES.TAX, {
                             type: ADD_TAX,
-                            onSelect: (val) => {
-                                setFormField('taxes',
-                                    [...val, ...taxes]
-                                )
+                            onSelect: val => {
+                                setFormField('taxes', [...val, ...taxes]);
                             }
                         })
                     }
-                    listViewProps={{
-                        contentContainerStyle: { flex: 2 }
-                    }}
-                    emptyContentProps={{
-                        contentType: "taxes",
-                    }}
+                    listViewProps={{ contentContainerStyle: { flex: 2 } }}
+                    emptyContentProps={{ contentType: 'taxes' }}
                 />
             )}
 
@@ -228,7 +219,7 @@ const FinalAmount = ({ state, props }) => {
             <View style={styles.subContainer}>
                 <View>
                     <Text style={styles.amountHeading}>
-                        {Lng.t("invoices.totalAmount", { locale })}:
+                        {Lng.t('invoices.totalAmount', { locale })}:
                     </Text>
                 </View>
                 <View>
@@ -240,7 +231,7 @@ const FinalAmount = ({ state, props }) => {
                 </View>
             </View>
         </View>
-    )
-}
+    );
+};
 
-export default FinalAmount
+export default FinalAmount;

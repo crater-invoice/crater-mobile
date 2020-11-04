@@ -38,6 +38,7 @@ export const EDIT_INVOICE = 'invoice/EDIT_INVOICE';
 export const REMOVE_INVOICE = 'invoice/REMOVE_INVOICE';
 export const REMOVE_FROM_INVOICES = 'invoice/REMOVE_FROM_INVOICES';
 export const CHANGE_INVOICE_STATUS = 'invoice/CHANGE_INVOICE_STATUS';
+export const GET_INVOICE_TEMPLATE = 'invoice/GET_INVOICE_TEMPLATE';
 
 export const GET_RECURRING_INVOICES = 'recurring/GET_RECURRING_INVOICES';
 export const SET_RECURRING_INVOICES = 'recurring/SET_RECURRING_INVOICES';
@@ -158,7 +159,7 @@ export const INVOICE_ACTIONS = {
 
 export const EDIT_INVOICE_ACTIONS = (
     locale,
-    SentStatus = false,
+    sentStatus = false,
     completeStatus = false
 ) => {
     const markActions = [
@@ -169,6 +170,13 @@ export const EDIT_INVOICE_ACTIONS = (
         {
             label: Lng.t('invoices.actions.markAsSent', { locale }),
             value: INVOICE_ACTIONS.MARK_AS_SENT
+        }
+    ];
+
+    const resendActions = [
+        {
+            label: Lng.t('invoices.actions.reSendInvoice', { locale }),
+            value: INVOICE_ACTIONS.SEND
         }
     ];
 
@@ -195,8 +203,13 @@ export const EDIT_INVOICE_ACTIONS = (
         }
     ];
 
-    if (SentStatus) {
-        return [...cloneAction, ...paymentAction, ...deleteAction];
+    if (sentStatus) {
+        return [
+            ...resendActions,
+            ...cloneAction,
+            ...paymentAction,
+            ...deleteAction
+        ];
     } else if (completeStatus) {
         return [...cloneAction, ...deleteAction];
     } else {
@@ -334,26 +347,6 @@ export const REPEAT_RECURRING_INVOICE_OPTION = (locale, Lng) => {
 };
 // Endpoint Api URL
 // -----------------------------------------
-
-export const GET_INVOICES_URL = param =>
-    `invoices?${queryString.stringify(param)}`;
-
-export const GET_ITEMS_URL = (q, search, page, limit) =>
-    `items?search=${q ? q : search}&page=${page}&limit=${limit}`;
-
-export const CREATE_INVOICE_URL = () => `invoices`;
-export const EDIT_INVOICE_URL = invoice => `invoices/${invoice.id}`;
-export const REMOVE_INVOICE_URL = id => `invoices/${id}`;
-
-export const CREATE_ITEM_URL = () => `items`;
-export const EDIT_ITEM_URL = item_id => `items/${item_id}`;
-
-export const GET_EDIT_INVOICE_URL = id => `invoices/${id}/edit`;
-export const GET_CREATE_INVOICE_URL = () => `invoices/create`;
-
-export const CHANGE_INVOICE_STATUS_URL = action => `invoices/${action}`;
-
-// Recurring Invoice
 export const GET_RECURRING_INVOICES_URL = (type, param) =>
     `invoices?status=${type}&${queryString.stringify({
         ...param,

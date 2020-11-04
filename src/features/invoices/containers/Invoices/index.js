@@ -14,7 +14,6 @@ import {
     getAllInvoicesState
 } from '../../selectors';
 import { AssetSvg } from '@/components';
-import { getNextNumber } from '@/features/settings/actions';
 
 const mapStateToProps = state => {
     const {
@@ -58,7 +57,7 @@ InvoicesContainer.navigationOptions = ({ navigation }) => ({
     gesturesEnabled: false,
     tabBarLabel: getTitleByLanguage('tabNavigation.invoices'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <AssetSvg 
+        <AssetSvg
             name={INVOICES_ICON}
             fill={focused ? colors.primary : colors.darkGray}
         />

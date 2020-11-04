@@ -113,7 +113,6 @@ export class Items extends React.Component<IProps> {
                 navigation.navigate(ROUTES.GLOBAL_ITEM, {
                     type: ADD_ITEM
                 });
-                this.onResetFilter();
             }
         };
 

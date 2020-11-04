@@ -33,12 +33,14 @@ export class Item extends React.Component {
     }
 
     componentDidMount() {
-        const { navigation, getSettingItem, type } = this.props;
+        const { navigation, getSettingInfo, type } = this.props;
 
         type === ADD_ITEM &&
-            getSettingItem({
+            getSettingInfo({
                 key: 'tax_per_item',
-                onResult: res => this.setState({ isTaxPerItem: res === 'YES' })
+                onSuccess: res => {
+                    this.setState({ isTaxPerItem: res === 'YES' });
+                }
             });
 
         goBack(MOUNT, navigation);
@@ -327,13 +329,17 @@ export class Item extends React.Component {
             navigation,
             locale,
             taxTypes,
-            formValues: { taxes }
+            formValues: { taxes },
+            getTaxes
         } = this.props;
 
         return (
             <Field
                 name="taxes"
                 items={taxTypes}
+                getItems={getTaxes}
+                apiSearch
+                hasPagination
                 displayName="name"
                 label={Lng.t('items.taxes', { locale })}
                 component={SelectField}
@@ -349,7 +355,6 @@ export class Item extends React.Component {
                 isMultiSelect
                 locale={locale}
                 concurrentMultiSelect
-                isInternalSearch
                 compareField="id"
                 valueCompareField="tax_type_id"
                 listViewProps={{

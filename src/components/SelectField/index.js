@@ -283,31 +283,11 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         };
     };
 
-    setInitialPaginationItem = res => {
-        const { compareField, hasFirstItem = true, displayName } = this.props;
-
-        let firstItem = '';
-        const items = res?.data ?? [];
-
-        if (
-            typeof items !== 'undefined' &&
-            items.length !== 0 &&
-            hasFirstItem
-        ) {
-            firstItem = items[0]['fullItem'];
-
-            this.setState({
-                values: compareField && firstItem[displayName]
-            });
-        }
-    };
-
     getPaginationItems = () => {
         const { search } = this.state;
 
         this.scrollViewReference?.getItems?.({
-            queryString: { search, ...this.props.queryString },
-            onSuccess: res => this.setInitialPaginationItem(res)
+            queryString: { search, ...this.props.queryString }
         });
     };
 

@@ -153,6 +153,7 @@
         "actions": {
             "downloadPdf": "Download PDF",
             "sendInvoice": "Send Invoice",
+            "reSendInvoice": "Resend Invoice",
             "editInvoice": "Edit Invoice",
             "delete": "Delete",
             "recordPayment": "Record Payment",

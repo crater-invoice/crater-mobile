@@ -3,24 +3,21 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { reduxForm, Field, change } from 'redux-form';
+import { reduxForm, Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
 import { validate } from './validation';
 import { SlideModal } from '../SlideModal';
 import { InputField } from '../InputField';
 import { CtButton } from '../Button';
 import Lng from '@/lang/i18n';
-import { alertMe } from '@/constants';
+import { alertMe, hasValue } from '@/constants';
 import { getMailConfiguration } from '../../features/more/actions';
-import { getSettingItem } from '../../features/settings/actions';
 import { Content } from '../Content';
-import { store } from '../../store';
 
 type IProps = {
     handleSubmit: Function,
     onSendMail: Function,
     headerTitle: String,
-    props: Object,
     alertDesc: String
 };
 
@@ -29,7 +26,7 @@ const emailField = {
     to: 'to',
     subject: 'subject',
     msg: 'body'
-}
+};
 
 const MAIL_FORM = 'sendMail/MAIL_FORM';
 
@@ -51,41 +48,57 @@ class SendMailComponent extends Component<IProps> {
         this.props.mailReference(undefined);
     }
 
-    setDefaultValues = (mailDrivers = null) => {
-        const {
-            mailDriver,
-            company: { name },
-            props: { formValues: { customer, invoice_number } }
-        } = this.props
-        const subject = `Invoice - ${invoice_number} from ${name}`
-        const message = `Dear ${customer?.name},\nYour Invoice can be viewed, printed and downloaded as PDF from the link below.`
+    onSendMail = values => {
+        const { locale, alertDesc = '', onSendMail } = this.props;
+        const { getMailConfigApiCalled } = this.state;
 
-        this.setFormField(emailField.from, mailDrivers?.from_mail ?? mailDriver?.from_mail)
-        this.setFormField(emailField.to, customer?.email)
-        this.setFormField(emailField.subject, subject)
-    }
-
-    onToggle = () => {
-
-        this.setState(({ visible }) => {
-            return { visible: !visible }
-        });
-
-        if (!this.state.getMailConfigApiCalled) {
-
-            store.dispatch(getMailConfiguration({
-                onResult: (mailDrivers) => {
-                    this.setDefaultValues(mailDrivers)
-                    this.setState({ getMailConfigApiCalled: true })
-                }
-            }))
-
-            // getSettingItem({
-            //     key: 'default_body',
-            //     onResult: (val) => this.setFormField(emailField.msg, val)
-            // })
+        if (!getMailConfigApiCalled) {
+            return;
         }
-    }
+
+        if (!hasValue(values?.[emailField.subject])) {
+            throw new SubmissionError({
+                [emailField.subject]: 'validation.required'
+            });
+        }
+
+        if (!hasValue(values?.[emailField.msg])) {
+            throw new SubmissionError({
+                [emailField.msg]: 'validation.required'
+            });
+        }
+
+        alertMe({
+            title: Lng.t('alert.title', { locale }),
+            desc: Lng.t(alertDesc, { locale }),
+            showCancel: true,
+            okPress: () => {
+                this.onToggle();
+                setTimeout(() => onSendMail?.(values), 200);
+            }
+        });
+    };
+
+    onToggle = async () => {
+        const { visible } = this.state;
+        await this.setState({ visible: !visible });
+        this.getConfig();
+    };
+
+    getConfig = () => {
+        const { getMailConfiguration, user } = this.props;
+        const { getMailConfigApiCalled } = this.state;
+
+        if (!getMailConfigApiCalled) {
+            getMailConfiguration({
+                onSuccess: ({ from_mail }) => {
+                    this.setState({ getMailConfigApiCalled: true });
+                    this.setFormField(emailField.from, from_mail);
+                    this.setFormField(emailField.to, user?.email);
+                }
+            });
+        }
+    };
 
     setFormField = (field, value) => {
         this.props.dispatch(change(MAIL_FORM, field, value || undefined));
@@ -97,124 +110,82 @@ class SendMailComponent extends Component<IProps> {
                 <View style={{ flex: 1 }}>
                     <CtButton
                         onPress={handleSubmit(this.onSendMail)}
-                        btnTitle={Lng.t("button.send", { locale })}
+                        btnTitle={Lng.t('button.send', { locale })}
                         containerStyle={styles.handleBtn}
                     />
                 </View>
             </View>
-        )
-    }
+        );
+    };
 
-    onSendMail = ({ from = '', to = '', subject = '', body = '' }) => {
-        const {
-            props: { locale },
-            alertDesc = '',
-            onSendMail
-        } = this.props
-
-        const params = {
-            from,
-            to,
-            subject,
-            body
-        }
-
-        if (from && to && subject) {
-            alertMe({
-                title: Lng.t("alert.title", { locale }),
-                desc: Lng.t(alertDesc, { locale }),
-                showCancel: true,
-                okPress: () => {
-                    this.onToggle()
-                    onSendMail && onSendMail(params)
-                }
-            })
-        }
-    }
-
-    Screen = (locale) => {
-
-        let mailRefs = {}
+    Screen = locale => {
+        let mailRefs = {};
 
         return (
-            <View>
+            <>
                 <Field
                     name={emailField.from}
                     component={InputField}
-                    hint={Lng.t("sendMail.from", { locale })}
+                    hint={Lng.t('sendMail.from', { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
                         autoCorrect: true,
                         keyboardType: 'email-address',
-                        onSubmitEditing: () => {
-                            mailRefs.to.focus();
-                        }
+                        onSubmitEditing: () => mailRefs.to.focus()
                     }}
+                    isRequired
                 />
 
                 <Field
                     name={emailField.to}
                     component={InputField}
-                    hint={Lng.t("sendMail.to", { locale })}
+                    hint={Lng.t('sendMail.to', { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
                         autoCorrect: true,
                         keyboardType: 'email-address',
-                        onSubmitEditing: () => {
-                            mailRefs.subject.focus();
-                        }
+                        onSubmitEditing: () => mailRefs.subject.focus()
                     }}
-                    refLinkFn={(ref) => {
-                        mailRefs.to = ref;
-                    }}
+                    refLinkFn={ref => (mailRefs.to = ref)}
+                    isRequired
                 />
 
                 <Field
                     name={emailField.subject}
                     component={InputField}
-                    hint={Lng.t("sendMail.subject", { locale })}
+                    hint={Lng.t('sendMail.subject', { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCorrect: true,
-                        onSubmitEditing: () => {
-                            mailRefs.text.focus();
-                        }
+                        onSubmitEditing: () => mailRefs.text.focus()
                     }}
-                    refLinkFn={(ref) => {
-                        mailRefs.subject = ref;
-                    }}
+                    refLinkFn={ref => (mailRefs.subject = ref)}
+                    isRequired
                 />
 
                 <Field
                     name={emailField.msg}
                     component={InputField}
-                    hint={Lng.t("sendMail.body", { locale })}
+                    hint={Lng.t('sendMail.body', { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
                         autoCorrect: true,
                         multiline: true
                     }}
-                    height={300}
-                    autoCorrect={true}
-                    refLinkFn={(ref) => {
-                        mailRefs.text = ref;
-                    }}
+                    height={170}
+                    refLinkFn={ref => (mailRefs.text = ref)}
+                    isRequired
                 />
-            </View>
-        )
-    }
+            </>
+        );
+    };
 
     render() {
-        const {
-            handleSubmit,
-            headerTitle = '',
-            loading = true,
-            props: { locale }
-        } = this.props
-        const { visible } = this.state
+        const { handleSubmit, headerTitle = '', locale } = this.props;
+        const { visible, getMailConfigApiCalled } = this.state;
 
         return (
             <SlideModal
@@ -222,19 +193,24 @@ class SendMailComponent extends Component<IProps> {
                 visible={visible}
                 onToggle={this.onToggle}
                 headerProps={{
-                    leftIcon: "long-arrow-alt-left",
+                    leftIcon: 'long-arrow-alt-left',
                     leftIconPress: () => this.onToggle(),
                     title: Lng.t(headerTitle, { locale }),
-                    rightIcon: "paper-plane",
+                    rightIcon: 'paper-plane',
                     rightIconPress: handleSubmit(this.onSendMail),
-                    placement: "center",
+                    placement: 'center',
                     hasCircle: false,
                     noBorder: false,
-                    transparent: false,
+                    transparent: false
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit, locale)}
             >
-                <Content loadingProps={{ is: loading, style: styles.loadingContainer }}>
+                <Content
+                    loadingProps={{
+                        is: !getMailConfigApiCalled,
+                        style: styles.loadingContainer
+                    }}
+                >
                     {this.Screen(locale)}
                 </Content>
             </SlideModal>
@@ -242,29 +218,21 @@ class SendMailComponent extends Component<IProps> {
     }
 }
 
-const mapStateToProps = ({
-    global: { mailDriver, company },
-    more: { loading: { getMailConfigLoading } },
-    settings: { loading: { getSettingItemLoading } }
-}) => ({
-    mailDriver,
-    company,
-    loading: getMailConfigLoading || getSettingItemLoading
+const mapStateToProps = ({ global }) => ({
+    locale: global?.locale
 });
 
 const mapDispatchToProps = {
-    getMailConfiguration,
-    getSettingItem,
+    getMailConfiguration
 };
 //  Redux Forms
 const SendMailReduxForm = reduxForm({
     form: MAIL_FORM,
     validate
-})(SendMailComponent)
+})(SendMailComponent);
 
 //  connect
 export const SendMail = connect(
     mapStateToProps,
     mapDispatchToProps
 )(SendMailReduxForm);
-

@@ -17,7 +17,6 @@ const mapStateToProps = (state, { navigation }) => {
 
     const {
         invoice = null,
-        nextInvoiceNumber,
         invoiceTemplates,
         terms_and_conditions = null,
         invoice_notes = ''
@@ -26,9 +25,7 @@ const mapStateToProps = (state, { navigation }) => {
     let type = navigation.getParam('type');
 
     let isLoading =
-        loading.initInvoiceLoading ||
-        (type === RECURRING_EDIT && !invoice) ||
-        !nextInvoiceNumber;
+        loading.initInvoiceLoading || (type === RECURRING_EDIT && !invoice);
 
     return {
         initLoading: isLoading,

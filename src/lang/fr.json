@@ -153,6 +153,7 @@
         "actions": {
             "downloadPdf": "Télécharger le PDF",
             "sendInvoice": "Envoyer une facture",
+            "reSendInvoice": "Renvoyer la facture",
             "editInvoice": "Modifier la facture",
             "delete": "Effacer",
             "recordPayment": "Record de paiement",

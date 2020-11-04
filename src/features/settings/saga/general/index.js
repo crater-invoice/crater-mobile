@@ -17,17 +17,25 @@ export function* getNextNumber({ payload: { key } }) {
     } catch (e) {}
 }
 
-export function* getSettingInfo({ payload: { key } }) {
+export function* getSettingInfo({ payload }) {
+    const { key = null, keys = null, onSuccess = null } = payload;
+
     try {
         const options = {
             path: `company/settings`,
             axiosProps: {
-                params: { settings: [key] }
+                params: { settings: keys ? keys : [key] }
             }
         };
 
         const response = yield call([Request, 'get'], options);
-        return response?.[key];
+
+        if (onSuccess) {
+            onSuccess(keys ? response : response?.[key]);
+            return;
+        }
+
+        return keys ? response : response?.[key];
     } catch (e) {}
 }
 
@@ -50,9 +58,7 @@ export function* getGeneralSetting({ payload }) {
         if (response[responseUrl ?? url]) {
             onSuccess?.(response[responseUrl ?? url]);
         }
-    } catch (e) {
-        console.log({ e });
-    }
+    } catch (e) {}
 }
 
 export default function* preferencesSaga() {

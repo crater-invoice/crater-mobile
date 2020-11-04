@@ -5,7 +5,11 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as MoreAction from '../../actions';
 import { ITEM_FORM, EDIT_ITEM } from '../../constants';
-import { getItemUnits, getSettingItem } from '@/features/settings/actions';
+import {
+    getItemUnits,
+    getSettingInfo,
+    getTaxes
+} from '@/features/settings/actions';
 import { getUnitState } from '../../selectors';
 
 const mapStateToProps = (state, { navigation }) => {
@@ -55,7 +59,8 @@ const mapDispatchToProps = {
     removeItem: MoreAction.removeItem,
     clearItem: MoreAction.clearItem,
     getItemUnits: getItemUnits,
-    getSettingItem: getSettingItem
+    getTaxes,
+    getSettingInfo
 };
 
 //  Redux Forms

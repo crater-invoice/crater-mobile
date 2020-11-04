@@ -10,9 +10,8 @@ import {
     CtButton,
     DefaultLayout,
     SelectField,
-    SelectPickerField,
     CurrencyFormat,
-    RadioButtonGroup,
+    RadioButtonGroup
 } from '@/components';
 import {
     ITEM_DISCOUNT_OPTION,
@@ -33,32 +32,31 @@ export class InvoiceItem extends React.Component {
 
         this.state = {
             taxTypeList: []
-        }
+        };
     }
 
     componentWillMount() {
         const { taxTypes, getItemUnits, itemId } = this.props;
 
-        this.setState({ taxTypeList: taxTypes })
-        !itemId && getItemUnits && getItemUnits()
+        this.setState({ taxTypeList: taxTypes });
+        !itemId && getItemUnits && getItemUnits();
     }
 
     componentDidMount() {
-        const { navigation } = this.props
+        const { navigation } = this.props;
 
-        goBack(MOUNT, navigation)
+        goBack(MOUNT, navigation);
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
 
     setFormField = (field, value) => {
         this.props.dispatch(change(ITEM_FORM, field, value));
     };
 
-    saveItem = (values) => {
-
+    saveItem = values => {
         const {
             addItem,
             removeInvoiceItem,
@@ -66,12 +64,12 @@ export class InvoiceItem extends React.Component {
             itemId,
             navigation,
             type,
-            locale,
-        } = this.props
+            locale
+        } = this.props;
 
         if (this.finalAmount() < 0) {
-            alert(Lng.t("items.lessAmount", { locale }))
-            return
+            alert(Lng.t('items.lessAmount', { locale }));
+            return;
         }
 
         const item = {
@@ -80,149 +78,160 @@ export class InvoiceItem extends React.Component {
             total: this.subTotal(),
             discount_val: this.totalDiscount(),
             tax: this.itemTax() + this.itemCompoundTax(),
-            taxes: values.taxes && values.taxes.map(val => {
-                return {
-                    ...val,
-                    amount: val.compound_tax ?
-                        this.getCompoundTaxValue(val.percent) :
-                        this.getTaxValue(val.percent),
-                }
-            }),
-        }
+            taxes:
+                values.taxes &&
+                values.taxes.map(val => {
+                    return {
+                        ...val,
+                        amount: val.compound_tax
+                            ? this.getCompoundTaxValue(val.percent)
+                            : this.getTaxValue(val.percent)
+                    };
+                })
+        };
 
         const callback = () => {
             addItem({
                 item,
                 onResult: () => {
-                    navigation.goBack(null)
+                    navigation.goBack(null);
                 }
-            })
-        }
+            });
+        };
 
         if (!itemId) {
-            callback()
+            callback();
         } else {
-            const invoiceItem = [{ ...item, item_id: itemId }]
+            const invoiceItem = [{ ...item, item_id: itemId }];
 
             if (type === ITEM_EDIT) {
-                removeInvoiceItem({ id: itemId })
+                removeInvoiceItem({ id: itemId });
             }
 
-            setInvoiceItems({ invoiceItem })
+            setInvoiceItems({ invoiceItem });
 
-            navigation.goBack(null)
+            navigation.goBack(null);
         }
-
     };
 
     removeItem = () => {
-        const { removeInvoiceItem, itemId, navigation, locale } = this.props
+        const { removeInvoiceItem, itemId, navigation, locale } = this.props;
 
         alertMe({
-            title: Lng.t("alert.title", { locale }),
+            title: Lng.t('alert.title', { locale }),
             showCancel: true,
             okPress: () => {
-                navigation.goBack(null)
-                removeInvoiceItem({ id: itemId })
+                navigation.goBack(null);
+                removeInvoiceItem({ id: itemId });
             }
-        })
-    }
+        });
+    };
 
     totalDiscount = () => {
-        const { formValues: { discount, discount_type } } = this.props
+        const {
+            formValues: { discount, discount_type }
+        } = this.props;
 
-        let discountPrice = 0
+        let discountPrice = 0;
 
         if (discount_type === 'percentage') {
-            discountPrice = ((discount * this.itemSubTotal()) / 100)
+            discountPrice = (discount * this.itemSubTotal()) / 100;
         } else if (discount_type === 'fixed') {
-            discountPrice = (discount * 100)
+            discountPrice = discount * 100;
+        } else if (discount_type === 'none') {
+            discountPrice = 0;
+            this.setFormField('discount', 0);
         }
-        else if (discount_type === 'none') {
-            discountPrice = 0
-            this.setFormField('discount', 0)
-        }
-        return discountPrice
-    }
-
+        return discountPrice;
+    };
 
     totalAmount = () => {
-        return this.subTotal() + this.itemTax()
-    }
+        return this.subTotal() + this.itemTax();
+    };
 
     itemSubTotal = () => {
-        const { formValues: { quantity, price } } = this.props
+        const {
+            formValues: { quantity, price }
+        } = this.props;
 
-        subTotal = (price * quantity)
+        subTotal = price * quantity;
 
-        return subTotal
-    }
+        return subTotal;
+    };
 
     subTotal = () => {
-        return this.itemSubTotal() - this.totalDiscount()
-    }
+        return this.itemSubTotal() - this.totalDiscount();
+    };
 
     itemTax = () => {
-        const { formValues: { taxes } } = this.props
+        const {
+            formValues: { taxes }
+        } = this.props;
 
-        let totalTax = 0
+        let totalTax = 0;
 
-        taxes && taxes.map(val => {
-            if (!val.compound_tax) {
-                totalTax += this.getTaxValue(val.percent)
-            }
-        })
+        taxes &&
+            taxes.map(val => {
+                if (!val.compound_tax) {
+                    totalTax += this.getTaxValue(val.percent);
+                }
+            });
 
-        return totalTax
-    }
+        return totalTax;
+    };
 
     itemCompoundTax = () => {
-        const { formValues: { taxes } } = this.props
+        const {
+            formValues: { taxes }
+        } = this.props;
 
-        let totalTax = 0
+        let totalTax = 0;
 
-        taxes && taxes.map(val => {
-            if (val.compound_tax) {
-                totalTax += this.getCompoundTaxValue(val.percent)
-            }
-        })
+        taxes &&
+            taxes.map(val => {
+                if (val.compound_tax) {
+                    totalTax += this.getCompoundTaxValue(val.percent);
+                }
+            });
 
-        return totalTax
-    }
+        return totalTax;
+    };
 
-    getTaxValue = (tax) => {
-        return (tax * JSON.parse(this.subTotal())) / 100
-    }
+    getTaxValue = tax => {
+        return (tax * JSON.parse(this.subTotal())) / 100;
+    };
 
-    getCompoundTaxValue = (tax) => {
-        return (tax * JSON.parse(this.totalAmount())) / 100
-    }
+    getCompoundTaxValue = tax => {
+        return (tax * JSON.parse(this.totalAmount())) / 100;
+    };
 
-    getTaxName = (tax) => {
-        const { taxTypes } = this.props
-        let taxName = ''
+    getTaxName = tax => {
+        const { taxTypes } = this.props;
+        let taxName = '';
 
-        const type = taxTypes.filter(val => val.fullItem.id === tax.tax_type_id)
+        const type = taxTypes.filter(
+            val => val.fullItem.id === tax.tax_type_id
+        );
 
         if (type.length > 0) {
-            taxName = type[0]['fullItem'].name
+            taxName = type[0]['fullItem'].name;
         }
-        return taxName
-    }
+        return taxName;
+    };
 
     finalAmount = () => {
-        return this.totalAmount() + this.itemCompoundTax()
-    }
+        return this.totalAmount() + this.itemCompoundTax();
+    };
 
     FINAL_AMOUNT = () => {
         const {
             locale,
             formValues: { quantity, price, taxes },
             navigation,
-            discountPerItem,
-        } = this.props
+            discountPerItem
+        } = this.props;
 
-        const currency = navigation.getParam('currency')
+        const currency = navigation.getParam('currency');
 
         return (
             <View style={styles.amountContainer}>
@@ -248,7 +257,7 @@ export class InvoiceItem extends React.Component {
                     <View style={styles.subContainer}>
                         <View>
                             <Text style={styles.label}>
-                                {Lng.t("items.finalDiscount", { locale })}
+                                {Lng.t('items.finalDiscount', { locale })}
                             </Text>
                         </View>
                         <View>
@@ -262,52 +271,53 @@ export class InvoiceItem extends React.Component {
                 )}
 
                 {taxes &&
-                    taxes.map((val, index) => !val.compound_tax ? (
-                        <View
-                            style={styles.subContainer}
-                            key={index}
-                        >
-                            <View>
-                                <Text style={styles.label}>
-                                    {val.name} ({val.percent} %)
-                            </Text>
+                    taxes.map((val, index) =>
+                        !val.compound_tax ? (
+                            <View style={styles.subContainer} key={index}>
+                                <View>
+                                    <Text style={styles.label}>
+                                        {val.name} ({val.percent} %)
+                                    </Text>
+                                </View>
+                                <View>
+                                    <CurrencyFormat
+                                        amount={this.getTaxValue(val.percent)}
+                                        currency={currency}
+                                        style={styles.price}
+                                    />
+                                </View>
                             </View>
-                            <View>
-                                <CurrencyFormat
-                                    amount={this.getTaxValue(val.percent)}
-                                    currency={currency}
-                                    style={styles.price}
-                                />
-                            </View>
-                        </View>
-                    ) : null)
-                }
+                        ) : null
+                    )}
 
                 {taxes &&
-                    taxes.map(val => val.compound_tax ? (
-                        <View style={styles.subContainer}>
-                            <View>
-                                <Text style={styles.label}>
-                                    {this.getTaxName(val)} ({val.percent} %)
-                            </Text>
+                    taxes.map(val =>
+                        val.compound_tax ? (
+                            <View style={styles.subContainer}>
+                                <View>
+                                    <Text style={styles.label}>
+                                        {this.getTaxName(val)} ({val.percent} %)
+                                    </Text>
+                                </View>
+                                <View>
+                                    <CurrencyFormat
+                                        amount={this.getCompoundTaxValue(
+                                            val.percent
+                                        )}
+                                        currency={currency}
+                                        style={styles.price}
+                                    />
+                                </View>
                             </View>
-                            <View>
-                                <CurrencyFormat
-                                    amount={this.getCompoundTaxValue(val.percent)}
-                                    currency={currency}
-                                    style={styles.price}
-                                />
-                            </View>
-                        </View>
-                    ) : null)
-                }
+                        ) : null
+                    )}
 
                 <CtDivider dividerStyle={styles.divider} />
 
                 <View style={styles.subContainer}>
                     <View>
                         <Text style={styles.label}>
-                            {Lng.t("items.finalAmount", { locale })}
+                            {Lng.t('items.finalAmount', { locale })}
                         </Text>
                     </View>
                     <View>
@@ -319,17 +329,17 @@ export class InvoiceItem extends React.Component {
                     </View>
                 </View>
             </View>
-        )
+        );
     };
 
-    BOTTOM_ACTION = (handleSubmit) => {
-        const { locale, loading, type } = this.props
-        const isCreateItem = (type === ITEM_ADD)
+    BOTTOM_ACTION = handleSubmit => {
+        const { locale, loading, type } = this.props;
+        const isCreateItem = type === ITEM_ADD;
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.saveItem)}
-                    btnTitle={Lng.t("button.save", { locale })}
+                    btnTitle={Lng.t('button.save', { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                     loading={loading}
@@ -337,17 +347,16 @@ export class InvoiceItem extends React.Component {
                 {!isCreateItem && (
                     <CtButton
                         onPress={this.removeItem}
-                        btnTitle={Lng.t("button.remove", { locale })}
+                        btnTitle={Lng.t('button.remove', { locale })}
                         containerStyle={styles.handleBtn}
                         buttonColor={BUTTON_COLOR.DANGER}
                         buttonContainerStyle={styles.buttonContainer}
                         loading={loading}
                     />
                 )}
-
             </View>
-        )
-    }
+        );
+    };
 
     render() {
         const {
@@ -362,25 +371,27 @@ export class InvoiceItem extends React.Component {
             itemId,
             taxTypes,
             taxPerItem,
-            units
+            units,
+            getItemUnits,
+            getTaxes
         } = this.props;
 
-        const isCreateItem = (type === ITEM_ADD)
-        let itemRefs = {}
+        const isCreateItem = type === ITEM_ADD;
+        let itemRefs = {};
 
         return (
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: isCreateItem ?
-                        Lng.t("header.addItem", { locale }) :
-                        Lng.t("header.editItem", { locale }),
-                    placement: "center",
+                    title: isCreateItem
+                        ? Lng.t('header.addItem', { locale })
+                        : Lng.t('header.editItem', { locale }),
+                    placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {
                         solid: true
                     },
-                    rightIconPress: handleSubmit(this.saveItem),
+                    rightIconPress: handleSubmit(this.saveItem)
                 }}
                 loadingProps={{
                     is: loading
@@ -392,7 +403,7 @@ export class InvoiceItem extends React.Component {
                         name="name"
                         isRequired
                         component={InputField}
-                        hint={Lng.t("items.name", { locale })}
+                        hint={Lng.t('items.name', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -409,7 +420,7 @@ export class InvoiceItem extends React.Component {
                                 name={'quantity'}
                                 component={InputField}
                                 isRequired
-                                hint={Lng.t("items.quantity", { locale })}
+                                hint={Lng.t('items.quantity', { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',
                                     keyboardType: 'numeric',
@@ -417,7 +428,7 @@ export class InvoiceItem extends React.Component {
                                         itemRefs.price.focus();
                                     }
                                 }}
-                                refLinkFn={(ref) => {
+                                refLinkFn={ref => {
                                     itemRefs.quantity = ref;
                                 }}
                             />
@@ -427,12 +438,12 @@ export class InvoiceItem extends React.Component {
                                 name="price"
                                 isRequired
                                 component={InputField}
-                                hint={Lng.t("items.price", { locale })}
+                                hint={Lng.t('items.price', { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',
                                     keyboardType: 'numeric'
                                 }}
-                                refLinkFn={(ref) => {
+                                refLinkFn={ref => {
                                     itemRefs.price = ref;
                                 }}
                                 isCurrencyInput
@@ -443,15 +454,33 @@ export class InvoiceItem extends React.Component {
                     {(initialValues.unit || !itemId) && (
                         <Field
                             name="unit_id"
-                            label={Lng.t("items.unit", { locale })}
-                            component={SelectPickerField}
-                            items={formatSelectPickerName(units)}
-                            defaultPickerOptions={{
-                                label: Lng.t("items.unitPlaceholder", { locale }),
-                                value: '',
+                            component={SelectField}
+                            apiSearch
+                            hasPagination
+                            getItems={getItemUnits}
+                            items={units}
+                            displayName={'name'}
+                            label={Lng.t('items.unit', { locale })}
+                            icon={'balance-scale'}
+                            placeholder={Lng.t('items.unitPlaceholder', {
+                                locale
+                            })}
+                            navigation={navigation}
+                            compareField={'id'}
+                            emptyContentProps={{ contentType: 'units' }}
+                            headerProps={{
+                                title: Lng.t('items.unitPlaceholder', {
+                                    locale
+                                }),
+                                rightIconPress: null
                             }}
-                            disabled={itemId ? true : false}
-                            fieldIcon={'balance-scale'}
+                            fakeInputProps={{
+                                valueStyle: styles.units,
+                                placeholderStyle: styles.units
+                            }}
+                            onSelect={item =>
+                                this.setFormField('unit_id', item.id)
+                            }
                         />
                     )}
 
@@ -460,7 +489,7 @@ export class InvoiceItem extends React.Component {
                             <Field
                                 name="discount_type"
                                 component={RadioButtonGroup}
-                                hint={Lng.t("items.discountType", { locale })}
+                                hint={Lng.t('items.discountType', { locale })}
                                 options={ITEM_DISCOUNT_OPTION}
                                 initialValue={initialValues.discount_type}
                             />
@@ -468,7 +497,7 @@ export class InvoiceItem extends React.Component {
                             <Field
                                 name="discount"
                                 component={InputField}
-                                hint={Lng.t("items.discount", { locale })}
+                                hint={Lng.t('items.discount', { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',
                                     autoCapitalize: 'none',
@@ -484,19 +513,20 @@ export class InvoiceItem extends React.Component {
                         <Field
                             name="taxes"
                             items={taxTypes}
+                            getItems={getTaxes}
+                            apiSearch
+                            hasPagination
                             displayName="name"
-                            label={Lng.t("items.taxes", { locale })}
+                            label={Lng.t('items.taxes', { locale })}
                             component={SelectField}
-                            searchFields={['name', 'percent']}
-                            placeholder={Lng.t("items.selectTax", { locale })}
+                            placeholder={Lng.t('items.selectTax', { locale })}
                             onlyPlaceholder
                             fakeInputProps={{
                                 icon: 'percent',
                                 rightIcon: 'angle-right',
-                                color: colors.gray,
+                                color: colors.gray
                             }}
                             navigation={navigation}
-                            isInternalSearch
                             isMultiSelect
                             locale={locale}
                             concurrentMultiSelect
@@ -506,20 +536,21 @@ export class InvoiceItem extends React.Component {
                                 contentContainerStyle: { flex: 3 }
                             }}
                             headerProps={{
-                                title: Lng.t("taxes.title", { locale })
+                                title: Lng.t('taxes.title', { locale })
                             }}
-                            rightIconPress={
-                                () => navigation.navigate(ROUTES.TAX, {
+                            rightIconPress={() =>
+                                navigation.navigate(ROUTES.TAX, {
                                     type: ADD_TAX,
-                                    onSelect: (val) => {
-                                        this.setFormField('taxes',
-                                            [...val, ...taxes]
-                                        )
+                                    onSelect: val => {
+                                        this.setFormField('taxes', [
+                                            ...val,
+                                            ...taxes
+                                        ]);
                                     }
                                 })
                             }
                             emptyContentProps={{
-                                contentType: "taxes",
+                                contentType: 'taxes'
                             }}
                         />
                     )}
@@ -529,7 +560,7 @@ export class InvoiceItem extends React.Component {
                     <Field
                         name="description"
                         component={InputField}
-                        hint={Lng.t("items.description", { locale })}
+                        hint={Lng.t('items.description', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -539,11 +570,8 @@ export class InvoiceItem extends React.Component {
                         }}
                         height={80}
                     />
-
                 </View>
-
             </DefaultLayout>
-
         );
     }
 }

@@ -353,3 +353,8 @@ export const getNextNumber = (payload = {}) => ({
     type: TYPES.GET_NEXT_NUMBER,
     payload
 });
+
+export const getSettingInfo = (payload = {}) => ({
+    type: TYPES.GET_SETTING_INFO,
+    payload
+});

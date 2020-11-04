@@ -2,13 +2,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { resetIdToken } from '../../authentication/actions';
 import { ROUTES } from '@/navigation';
 import Request from '@/api/request';
-import {
-    moreTriggerSpinner,
-    setItems,
-    setItem,
-    deleteItem,
-    setMailConfiguration
-} from '../actions';
+import { moreTriggerSpinner, setItems, setItem, deleteItem } from '../actions';
 import {
     LOGOUT,
     GET_ITEMS,
@@ -21,8 +15,7 @@ import {
     GET_ITEMS_URL,
     CREATE_ITEM_URL,
     EDIT_ITEM_URL,
-    REMOVE_ITEM_URL,
-    GET_MAIL_CONFIGURATION_URL
+    REMOVE_ITEM_URL
 } from '../constants';
 
 /**
@@ -148,20 +141,14 @@ function* removeItem({ payload: { id, onResult } }) {
     }
 }
 
-function* getMailConfiguration({ payload: { onResult } }) {
-    yield put(moreTriggerSpinner({ getMailConfigLoading: true }));
-
+function* getMailConfiguration({ payload: { onSuccess } }) {
     try {
-        const options = { path: GET_MAIL_CONFIGURATION_URL() };
+        const options = { path: 'mail/config' };
 
         const response = yield call([Request, 'get'], options);
 
-        onResult?.(response);
-        yield put(setMailConfiguration({ mailDriver: response }));
-    } catch (e) {
-    } finally {
-        yield put(moreTriggerSpinner({ getMailConfigLoading: false }));
-    }
+        onSuccess?.(response);
+    } catch (e) {}
 }
 
 export default function* moreSaga() {
