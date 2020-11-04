@@ -16,7 +16,8 @@ import {
     SET_CURRENCIES,
     SET_CUSTOM_FIELDS,
     RESET_CUSTOM_FIELDS,
-    SET_LANGUAGES
+    SET_LANGUAGES,
+    SET_NOTES
 } from '../constants';
 
 const initialState = {
@@ -57,7 +58,9 @@ const initialState = {
         // Custom Fields
         customFieldLoading: false,
         getCustomFieldLoading: false,
-        removeCustomFieldLoading: false
+        removeCustomFieldLoading: false,
+        // Notes
+        getNotesLoading: false
     },
     preferences: null,
     categories: [],
@@ -106,6 +109,16 @@ export default function settingReducer(state = initialState, action) {
             }
 
             return { ...state, categories: payload.categories };
+
+        case SET_NOTES:
+            if (!payload.fresh) {
+                return {
+                    ...state,
+                    notes: [...state.notes, ...payload.notes]
+                };
+            }
+
+            return { ...state, notes: payload.notes };
 
         case SET_CREATE_EXPENSE_CATEGORIES:
             return {

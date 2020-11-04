@@ -26,6 +26,8 @@
         "expenseCategory": "Catégories de dépenses",
         "addCategory": "ajouter une catégorie",
         "editCategory": "Modifier la catégorie",
+        "addNote": "Ajouter une note",
+        "editNote": "Note éditée",
         "settings": "Paramètres",
         "notifications": "Notification",
         "setting": {
@@ -60,7 +62,8 @@
         "editRecurring": "Modifier la facture récurrente",
         "customFields": "Les champs personnalisés",
         "addCustomField": "Ajouter un champ personnalisé",
-        "editCustomField": "Modifier le champ personnalisé"
+        "editCustomField": "Modifier le champ personnalisé",
+        "notes": "Remarques"
     },
     "tabNavigation": {
         "invoices": "Factures",
@@ -225,7 +228,7 @@
         "invoice": "Facture d'achat",
         "invoicePlaceholder": "Sélectionnez facture",
         "sendReceipt": "Envoyer un reçu de paiement",
-        "alertAmount": "Le paiement entré est supérieur au montant total dû pour cette facture.",
+        "alertAmount": "Le paiement saisi est supérieur au montant dû de cette facture.",
         "alertDescription": "Vous ne pourrez pas récupérer ce paiement",
         "alertMode": "Vous ne pourrez pas récupérer ce mode de paiement",
         "alreadyInUseMode": "Le mode de paiement est déjà utilisé",
@@ -314,6 +317,20 @@
             "description": "Cette section contiendra la liste des catégories.",
             "buttonTitle": "Ajouter une nouvelle catégorie"
         }
+    },
+    "notes": {
+        "title": "Nom de la note",
+        "description": "La description",
+        "model": "Modèle",
+        "modelPlaceholder": "Sélectionnez un type",
+        "alertDescription": "Vous ne pourrez pas récupérer cette note",
+        "alreadyUsed": "Remarque déjà utilisée",
+        "empty": {
+            "title": "Pas encore de notes!",
+            "description": "Cette section contiendra la liste des notes.",
+            "buttonTitle": "Ajouter une nouvelle note"
+        },
+        "type": "Type de note"
     },
     "units":{
         "empty": {
@@ -541,7 +558,8 @@
     },
     "countries": {
         "empty": {
-            "title": "Pas encore de pays!"
+            "title": "Pas encore de pays!",
+            "description": "Cette section contiendra la liste des pays."
         }
     },
     "reports": {
@@ -690,6 +708,8 @@
         "character": "Caractères seulement",
         "numeric": "doit être numérique",
         "moreThanDue": "{{hint}} Ne devrait pas être plus que le montant dû.",
-        "url": "URL invalide (p ex: https://craterapp.com)"
+        "url": "URL invalide (p ex: https://craterapp.com)",
+        "wrong":"Un problème est survenu. Veuillez réessayer.",
+        "alreadyTaken": "DÉJÀ PRIS"
     }
 }

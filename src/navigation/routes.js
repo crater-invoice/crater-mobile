@@ -64,17 +64,22 @@ export const ROUTES = {
     PREFERENCES: 'PREFERENCES',
     LANGUAGE_AND_CURRENCY: 'LANGUAGE_AND_CURRENCY',
     ENDPOINTS_SETTINGS: 'ENDPOINTS_SETTINGS',
-    CUSTOMIZES: "CUSTOMIZES",
-    CUSTOMIZE: "CUSTOMIZE",
-    CURRENCIES: "CURRENCIES",
-    CURRENCY: "CURRENCY",
-    CUSTOM_FIELDS: "CUSTOM_FIELDS",
-    CUSTOM_FIELD: "CUSTOM_FIELD",
+    CUSTOMIZES: 'CUSTOMIZES',
+    CUSTOMIZE: 'CUSTOMIZE',
+    CURRENCIES: 'CURRENCIES',
+    CURRENCY: 'CURRENCY',
+    CUSTOM_FIELDS: 'CUSTOM_FIELDS',
+    CUSTOM_FIELD: 'CUSTOM_FIELD',
 
     // Expenses
     // -----------------------------------------
     ADD_EXPENSE: 'ADD_EXPENSE',
     EXPENSE: 'EXPENSE',
+
+    // Notes
+    // -----------------------------------------
+    NOTE: 'NOTE',
+    NOTES: 'NOTES',
 
     // Payments
     // -----------------------------------------
@@ -89,6 +94,5 @@ export const ROUTES = {
     LOST_CONNECTION: 'LOST_CONNECTION',
 
     // Update App Version
-    UPDATE_APP_VERSION: 'UPDATE_APP_VERSION',
-
+    UPDATE_APP_VERSION: 'UPDATE_APP_VERSION'
 };

@@ -1,27 +1,25 @@
-import { getError } from "@/constants";
+import { getError } from '@/constants';
+import { EXPENSE_FIELDS as FIELDS } from '../../constants';
 
-export const validate = (values) => {
-    const errors = {};
-    const {
-        expense_date,
-        expense_category_id,
-        amount
-    } = values;
+export const validate = values => {
+    const errors: any = { expense: {} };
 
-    errors.expense_date = getError(
-        expense_date,
-        ['requiredField'],
-    );
+    if (values) {
+        errors['expense'][FIELDS.DATE] = getError(
+            values?.['expense']?.[FIELDS.DATE],
+            ['requiredField']
+        );
 
-    errors.expense_category_id = getError(
-        expense_category_id,
-        ['requiredField'],
-    );
+        errors['expense'][FIELDS.CATEGORY] = getError(
+            values?.['expense']?.[FIELDS.CATEGORY],
+            ['requiredField']
+        );
 
-    errors.amount = getError(
-        amount,
-        ['requiredField', 'isNumberFormat'],
-    );
+        errors['expense'][FIELDS.AMOUNT] = getError(
+            values?.['expense']?.[FIELDS.AMOUNT],
+            ['requiredField', 'isNumberFormat']
+        );
+    }
 
     return errors;
 };

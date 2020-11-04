@@ -1,29 +1,12 @@
 import {
-    GET_CATEGORIES,
-    SET_CATEGORIES,
     EXPENSES_TRIGGER_SPINNER,
     GET_EXPENSES,
     SET_EXPENSES,
     CREATE_EXPENSE,
-    CLEAR_EXPENSE,
-    GET_EDIT_EXPENSE,
-    SET_EXPENSE,
-    GET_CREATE_EXPENSE,
-    EDIT_EXPENSE,
-    REMOVE_EXPENSE,
-    GET_RECEIPT,
-    DOWNLOAD_RECEIPT
+    GET_EXPENSE_DETAIL,
+    UPDATE_EXPENSE,
+    REMOVE_EXPENSE
 } from '../constants';
-
-export const getCategories = (payload = {}) => ({
-    type: GET_CATEGORIES,
-    payload
-});
-
-export const setCategories = (payload = {}) => ({
-    type: SET_CATEGORIES,
-    payload
-});
 
 export const getExpenses = (payload = {}) => ({
     type: GET_EXPENSES,
@@ -45,42 +28,17 @@ export const expenseTriggerSpinner = payload => ({
     payload
 });
 
-export const clearExpense = payload => ({
-    type: CLEAR_EXPENSE,
+export const getExpenseDetail = payload => ({
+    type: GET_EXPENSE_DETAIL,
     payload
 });
 
-export const getCreateExpense = payload => ({
-    type: GET_CREATE_EXPENSE,
-    payload
-});
-
-export const getEditExpense = payload => ({
-    type: GET_EDIT_EXPENSE,
-    payload
-});
-
-export const editExpense = payload => ({
-    type: EDIT_EXPENSE,
-    payload
-});
-
-export const setExpense = payload => ({
-    type: SET_EXPENSE,
+export const updateExpense = payload => ({
+    type: UPDATE_EXPENSE,
     payload
 });
 
 export const removeExpense = (payload = {}) => ({
     type: REMOVE_EXPENSE,
-    payload
-});
-
-export const getReceipt = (payload = {}) => ({
-    type: GET_RECEIPT,
-    payload
-});
-
-export const downloadReceipt = (payload = {}) => ({
-    type: DOWNLOAD_RECEIPT,
     payload
 });

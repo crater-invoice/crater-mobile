@@ -27,6 +27,7 @@ interface IProps {
     getItemsInMount: boolean;
     onMount: Function;
     hideLoader: Boolean;
+    paginationLimit: Number;
 }
 
 interface IState {
@@ -60,13 +61,14 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
             refreshing: false,
             isMore: false,
             page: 1,
-            limit: 10
+            limit: props?.paginationLimit ?? 10
         };
     }
 
     static defaultProps = {
         getItemsInMount: true,
-        hideLoader: false
+        hideLoader: false,
+        paginationLimit: 10
     };
 
     componentDidMount() {
@@ -158,7 +160,7 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
             : { orderByField: 'created_at', orderBy: 'desc', ...queryString };
     };
 
-    updateInitialState = ({ next_page_url, current_page }) => {
+    updateInitialState = ({ next_page_url = null, current_page = 1 } = {}) => {
         this.setState({
             loading: false,
             refreshing: false,

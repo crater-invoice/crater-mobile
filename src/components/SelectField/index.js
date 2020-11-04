@@ -24,14 +24,16 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     }
 
     componentDidMount() {
+        this.props.reference?.(this);
+
         if (!isArray(this.props.items)) {
             return;
         }
         this.setInitialState();
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        this.updateInitialState(nextProps, nextState);
+    componentWillUnmount() {
+        this.props.reference?.(undefined);
     }
 
     initialState = () => {
@@ -42,8 +44,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             selectedItems: [],
             oldItems: [],
             defaultItem: [],
-            searchItems: [],
-            oldValue: ''
+            searchItems: []
         };
     };
 
@@ -76,54 +77,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         this.setState({
             values: compareField ? newValue : value[displayName],
             defaultItem: items || [],
-            searchItems: items || [],
-            oldValue: compareField ? value : value[displayName]
+            searchItems: items || []
         });
-    };
-
-    updateInitialState = (nextProps, nextState) => {
-        const {
-            concurrentMultiSelect,
-            input: { value },
-            items,
-            compareField,
-            displayName
-        } = nextProps;
-        const { search, oldItems, oldValue } = nextState;
-
-        if (
-            concurrentMultiSelect &&
-            !search &&
-            oldItems.length < value.length
-        ) {
-            this.setState({
-                selectedItems: value,
-                oldItems: value
-            });
-        }
-
-        if (!isArray(items) && !search) {
-            return;
-        }
-
-        let newValue = '';
-
-        for (const key in items) {
-            if (
-                key !== 'undefined' &&
-                items[key]['fullItem'][compareField] === value
-            ) {
-                newValue = items[key]['fullItem'][displayName];
-                break;
-            }
-        }
-
-        if (value && oldValue !== value) {
-            this.setState({
-                oldValue: compareField ? value : value[displayName],
-                values: compareField ? newValue : value[displayName]
-            });
-        }
     };
 
     onToggle = () => {
@@ -145,6 +100,34 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
 
             if (!hasPagination || !apiSearch) {
                 meta.dispatch(change(meta.form, `search-${input?.name}`, ''));
+            }
+        }
+    };
+
+    changeDisplayValue = async item => {
+        if (!hasValue(item)) {
+            this.setState({ values: null });
+            return;
+        }
+
+        const { displayName } = this.props;
+        this.setState({ values: item[displayName] });
+    };
+
+    changeDisplayValueByUsingCompareField = async val => {
+        const { defaultItem } = this.state;
+        const { compareField, displayName } = this.props;
+
+        if (!isArray(defaultItem)) {
+            return;
+        }
+
+        for (const key in defaultItem) {
+            if (defaultItem[key]['fullItem'][compareField] === val) {
+                this.setState({
+                    values: defaultItem[key]['fullItem'][displayName]
+                });
+                break;
             }
         }
     };
@@ -194,20 +177,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             onlyPlaceholder,
             onSelect,
             compareField,
-            valueCompareField,
-            isCompareField = true
+            valueCompareField
         } = this.props;
-
-        if (!isMultiSelect && value) {
-            const hasCompare = compareField
-                ? value === item[compareField]
-                : JSON.parse(value.id) === JSON.parse(item.id);
-
-            if (hasCompare) {
-                this.onToggle();
-                return;
-            }
-        }
 
         if (isMultiSelect && value) {
             let hasSameItem = value.filter(
@@ -222,10 +193,9 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             }
         }
 
-        !onlyPlaceholder &&
-            this.setState({
-                values: item[displayName]
-            });
+        if (!onlyPlaceholder) {
+            this.setState({ values: item[displayName] });
+        }
 
         if (!onSelect) {
             isMultiSelect
@@ -237,11 +207,6 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         } else {
             onSelect(item);
         }
-
-        !onlyPlaceholder &&
-            this.setState({
-                oldValue: item[compareField]
-            });
 
         this.onToggle();
     };
@@ -294,9 +259,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     };
 
     onRightIconPress = () => {
-        const { rightIconPress } = this.props;
         this.onToggle();
-        rightIconPress && rightIconPress();
+        setTimeout(() => this.props.rightIconPress?.(), 300);
     };
 
     getEmptyTitle = () => {
@@ -333,10 +297,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             firstItem = items[0]['fullItem'];
 
             this.setState({
-                values: compareField && firstItem[displayName],
-                oldValue: compareField
-                    ? firstItem[compareField]
-                    : firstItem[displayName]
+                values: compareField && firstItem[displayName]
             });
         }
     };
@@ -345,7 +306,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         const { search } = this.state;
 
         this.scrollViewReference?.getItems?.({
-            queryString: { search },
+            queryString: { search, ...this.props.queryString },
             onSuccess: res => this.setInitialPaginationItem(res)
         });
     };

@@ -43,7 +43,10 @@ const mapStateToProps = (state, { navigation }) => {
         itemUnitLoading,
         initialValues: !isLoading
             ? {
-                  ...customizes
+                  ...customizes.settings,
+                  invoice_auto_generate: customizes.settings.invoice_auto_generate === 'YES' || customizes.settings.invoice_auto_generate === 1,
+                  estimate_auto_generate: customizes.settings.estimate_auto_generate === 'YES' || customizes.settings.estimate_auto_generate === 1,
+                  payment_auto_generate: customizes.settings.payment_auto_generate === 'YES' || customizes.settings.payment_auto_generate === 1
               }
             : null
     };

@@ -48,9 +48,7 @@ export class Expenses extends React.Component<IProps> {
 
     onSelect = ({ id }) => {
         const { navigation } = this.props;
-
         navigation.navigate(ROUTES.EXPENSE, { type: EXPENSE_EDIT, id });
-        this.onResetFilter();
     };
 
     setFormField = (field, value) => {
@@ -68,7 +66,6 @@ export class Expenses extends React.Component<IProps> {
 
     onResetFilter = () => {
         const { search } = this.state;
-
         this.scrollViewReference?.getItems?.({
             queryString: { search },
             resetQueryString: true,
@@ -76,7 +73,7 @@ export class Expenses extends React.Component<IProps> {
         });
     };
 
-    onSubmitFilter = ({ from_date, to_date, expense_category_id }) => {
+    onSubmitFilter = ({ from_date, to_date, expense_category_id, user_id }) => {
         const { search } = this.state;
 
         this.scrollViewReference?.getItems?.({
@@ -84,6 +81,7 @@ export class Expenses extends React.Component<IProps> {
                 expense_category_id,
                 from_date,
                 to_date,
+                user_id,
                 search
             },
             showLoader: true
@@ -135,7 +133,6 @@ export class Expenses extends React.Component<IProps> {
                 navigation.navigate(ROUTES.EXPENSE, {
                     type: EXPENSE_ADD
                 });
-                this.onResetFilter();
             },
             title: Lng.t('header.expenses', { locale })
         };

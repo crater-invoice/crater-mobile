@@ -98,11 +98,11 @@ export class Invoice extends React.Component<IProps> {
             type,
             getNextNumber
         } = this.props;
-       
+
         getNextNumber({
             key: 'invoice',
             onSuccess: () => {}
-        })
+        });
         return;
 
         type === INVOICE_EDIT
@@ -443,7 +443,6 @@ export class Invoice extends React.Component<IProps> {
             type,
             getCustomers,
             customers,
-            customersLoading,
             formValues: { display_terms_and_conditions },
             changeInvoiceStatus
         } = this.props;
@@ -611,7 +610,7 @@ export class Invoice extends React.Component<IProps> {
                             contentType: 'customers',
                             image: IMAGES.EMPTY_CUSTOMERS
                         }}
-                        fakeInputProps={{ loading: customersLoading }}
+                        fakeInputProps={{ loading: false }}
                     />
 
                     <Text style={[styles.inputTextStyle, styles.label]}>

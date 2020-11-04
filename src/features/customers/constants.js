@@ -12,13 +12,14 @@ export const CUSTOMER_ADDRESS = 'customers/CUSTOMER_ADDRESS';
 export const CUSTOMER_ADD = 'customers/CUSTOMER_ADD';
 export const CUSTOMER_EDIT = 'customers/CUSTOMER_EDIT';
 
-// Actions
+// Types
 // -----------------------------------------
 export const GET_CUSTOMERS = 'customers/GET_CUSTOMERS';
 export const SET_CUSTOMERS = 'customers/SET_CUSTOMERS';
 export const CREATE_CUSTOMER = 'customers/CREATE_CUSTOMER';
-export const EDIT_CUSTOMER = 'customers/EDIT_CUSTOMER';
-export const GET_EDIT_CUSTOMER = 'customers/GET_EDIT_CUSTOMER';
+export const UPDATE_CUSTOMER = 'customers/UPDATE_CUSTOMER';
+export const GET_CREATE_CUSTOMER = 'customers/GET_CREATE_CUSTOMER';
+export const GET_CUSTOMER_DETAIL = 'customers/GET_CUSTOMER_DETAIL';
 
 export const CUSTOMERS_TRIGGER_SPINNER = 'customers/CUSTOMERS_TRIGGER_SPINNER';
 export const REMOVE_CUSTOMER = 'customers/REMOVE_CUSTOMER';
@@ -41,15 +42,17 @@ export const CUSTOMER_ACTIONS = (Lng, locale) => {
     ];
 };
 
-// Endpoint Api URL
+// Customer Fields
 // -----------------------------------------
-
-export const GET_CUSTOMERS_URL = param =>
-    `customers?${queryString.stringify(param)}`;
-
-export const GET_EDIT_CUSTOMER_URL = id => `customers/${id}`;
-export const GET_COUNTRIES_URL = () => `countries`;
-
-export const CREATE_CUSTOMER_URL = () => `customers`;
-export const EDIT_CUSTOMER_URL = id => `customers/${id}`;
-export const REMOVE_CUSTOMER_URL = id => `customers/delete`;
+export const CUSTOMER_FIELDS = {
+    NAME: 'name',
+    CONTACT_NAME: 'contact_name',
+    EMAIL: 'email',
+    PHONE: 'phone',
+    WEBSITE: 'website',
+    CURRENCY: 'currency_id',
+    BILLING: 'billingAddress',
+    SHIPPING: 'shippingAddress',
+    ENABLE_PORTAL: 'enable_portal',
+    CUSTOM_FIELDS: 'customFields'
+};

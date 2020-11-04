@@ -5,9 +5,10 @@ import {
     GET_COUNTRIES,
     SET_COUNTRIES,
     CREATE_CUSTOMER,
-    EDIT_CUSTOMER,
-    GET_EDIT_CUSTOMER,
-    REMOVE_CUSTOMER
+    UPDATE_CUSTOMER,
+    GET_CUSTOMER_DETAIL,
+    REMOVE_CUSTOMER,
+    GET_CREATE_CUSTOMER
 } from '../constants';
 
 export const getCustomers = (payload = {}) => ({
@@ -25,18 +26,23 @@ export const customerTriggerSpinner = payload => ({
     payload
 });
 
+export const getCreateCustomer = (payload = {}) => ({
+    type: GET_CREATE_CUSTOMER,
+    payload
+});
+
 export const createCustomer = (payload = {}) => ({
     type: CREATE_CUSTOMER,
     payload
 });
 
-export const editCustomer = (payload = {}) => ({
-    type: EDIT_CUSTOMER,
+export const updateCustomer = (payload = {}) => ({
+    type: UPDATE_CUSTOMER,
     payload
 });
 
-export const getEditCustomer = (payload = {}) => ({
-    type: GET_EDIT_CUSTOMER,
+export const getCustomerDetail = (payload = {}) => ({
+    type: GET_CUSTOMER_DETAIL,
     payload
 });
 

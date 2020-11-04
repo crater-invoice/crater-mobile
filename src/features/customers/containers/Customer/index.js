@@ -2,28 +2,25 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
-import { CUSTOMER_FORM, CUSTOMER_ADD } from '../../constants';
-import * as customerAction from '../../actions';
+import * as actions from '../../actions';
 import { Customer } from '../../components/Customer';
 import { getStateCurrencies } from '../../selectors';
 import * as settingsAction from '@/features/settings/actions';
+import {
+    CUSTOMER_FORM,
+    CUSTOMER_ADD,
+    CUSTOMER_FIELDS as FIELDS
+} from '../../constants';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         global: { locale, currencies, currency },
-        customers: {
-            countries,
-            loading: {
-                customerLoading,
-                getEditCustomerLoading,
-                countriesLoading
-            }
-        },
+        customers: { countries, loading },
         settings: { customFields }
     } = state;
 
-    let customerId = navigation.getParam('customerId', null);
-    let type = navigation.getParam('type', CUSTOMER_ADD);
+    const id = navigation.getParam('customerId', null);
+    const type = navigation.getParam('type', CUSTOMER_ADD);
 
     return {
         formValues: getFormValues(CUSTOMER_FORM)(state) || {},
@@ -33,43 +30,38 @@ const mapStateToProps = (state, { navigation }) => {
         countries,
         currency,
         customFields,
-        customerLoading,
-        getEditCustomerLoading,
-        countriesLoading,
-
+        loading: loading?.customerLoading,
+        id,
         initialValues: {
-            enable_portal: false,
-            currency_id: null,
-            id: customerId,
-            customFields: null
+            customer: {
+                [FIELDS.ENABLE_PORTAL]: false,
+                [FIELDS.CURRENCY]: null,
+                [FIELDS.CUSTOM_FIELDS]: null,
+                id
+            }
         }
     };
 };
 
 const mapDispatchToProps = {
-    createCustomer: customerAction.createCustomer,
-    editCustomer: customerAction.editCustomer,
-    getEditCustomer: customerAction.getEditCustomer,
-    removeCustomer: customerAction.removeCustomer,
-    getCountries: customerAction.getCountries,
-    getCustomFields: settingsAction.getCustomFields,
+    ...actions,
     resetCustomFields: settingsAction.resetCustomFields
 };
 
-//  Redux Forms
-const addEditCustomerReduxForm = reduxForm({
+//  Redux Form
+const customerReduxForm = reduxForm({
     form: CUSTOMER_FORM,
     validate
 })(Customer);
 
 //  connect
-const AddEditCustomerContainer = connect(
+const CustomerContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(addEditCustomerReduxForm);
+)(customerReduxForm);
 
-AddEditCustomerContainer.navigationOptions = () => ({
+CustomerContainer.navigationOptions = () => ({
     header: null
 });
 
-export default AddEditCustomerContainer;
+export default CustomerContainer;

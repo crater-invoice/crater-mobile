@@ -1,33 +1,30 @@
-import { getError } from "@/constants";
+import { getError } from '@/constants';
+import { PAYMENT_FIELDS as FIELDS } from '../../constants';
 
-export const validate = (values) => {
-    const errors = {};
-    const {
-        payment_date,
-        payment_number,
-        user_id,
-        amount,
-        due,
-    } = values;
+export const validate = values => {
+    const errors: any = { payment: {} };
 
-    errors.payment_date = getError(payment_date, ['required']);
-    errors.payment_number = getError(payment_number, ['required', 'isNumberFormat']);
-
-    errors.user_id = getError(
-        user_id,
-        ['requiredField'],
-    );
-
-    errors.amount = getError(
-        amount,
-        ['requiredField', 'isNumberFormat'],
-    );
-
-    if (amount > due)
-        errors.amount = getError(
-            amount,
-            ['moreThanDue'],
+    if (values) {
+        errors['payment'][FIELDS.DATE] = getError(
+            values?.['payment']?.[FIELDS.DATE],
+            ['required']
         );
+
+        errors['payment'][FIELDS.NUMBER] = getError(
+            values?.['payment']?.[FIELDS.NUMBER],
+            ['required', 'isNumberFormat']
+        );
+
+        errors['payment'][FIELDS.CUSTOMER] = getError(
+            values?.['payment']?.[FIELDS.CUSTOMER],
+            ['requiredField']
+        );
+
+        errors['payment'][FIELDS.AMOUNT] = getError(
+            values?.['payment']?.[FIELDS.AMOUNT],
+            ['requiredField', 'isNumberFormat']
+        );
+    }
 
     return errors;
 };

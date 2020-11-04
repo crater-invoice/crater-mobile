@@ -25,6 +25,8 @@
         "more": "Más",
         "expenseCategory": "Categorías de gastos",
         "addCategory": "añadir categoría",
+        "addNote": "Añadir la nota",
+        "editNote": "las ediciones",
         "editCategory": "Editar categoria",
         "settings": "Configuraciones",
         "notifications": "Notificación",
@@ -60,7 +62,8 @@
         "editRecurring": "Editar factura periódica",
         "customFields": "Campos Personalizados",
         "addCustomField": "Agregar campo personalizado",
-        "editCustomField": "Editar campo personalizado"
+        "editCustomField": "Editar campo personalizado",
+        "notes": "Notas"
     },
     "tabNavigation": {
         "invoices": "Facturas",
@@ -225,7 +228,7 @@
         "invoice": "Factura",
         "invoicePlaceholder": "Seleccionar factura",
         "sendReceipt": "Enviar recibo de pago",
-        "alertAmount": "El pago ingresado es mayor que el monto total adeudado por esta factura.",
+        "alertAmount": "El pago ingresado es mayor que el monto adeudado de esta factura.",
         "alertDescription": "No podrá recuperar este pago",
         "alertMode": "No podrá recuperar este modo de pago",
         "alreadyInUseMode": "El modo de pago ya está en uso",
@@ -314,6 +317,20 @@
             "description": "Esta sección contendrá la lista de categorías.",
             "buttonTitle": "Añadir nueva categoria"
         }
+    },
+    "notes": {
+        "title": "Nombre de nota",
+        "description": "Descripción",
+        "model": "Modelo",
+        "modelPlaceholder": "Seleccione un tipo",
+        "alertDescription": "No podrás recuperar esta nota",
+        "alreadyUsed": "Nota ya en uso",
+        "empty": {
+            "title": "¡Aún no hay notas!",
+            "description": "Esta sección contendrá la lista de notas.",
+            "buttonTitle": "Agregar nueva nota"
+        },
+        "type": "Tipo de nota"
     },
     "units":{
         "empty": {
@@ -541,7 +558,8 @@
     },
     "countries": {
         "empty": {
-            "title": "¡Aún no hay países!"
+            "title": "¡Aún no hay países!",
+            "description": "Esta sección contendrá la lista de países."
         }
     },
     "reports": {
@@ -690,6 +708,8 @@
         "character": "Solo personajes",
         "numeric": "debe ser numérico",
         "moreThanDue": "{{hint}} No debe ser más que el monto adeudado.",
-        "url": "URL invalida (p.ej: https://craterapp.com)"
+        "url": "URL invalida (p.ej: https://craterapp.com)",
+        "wrong":"Something went wrong. Please, try again.",
+        "alreadyTaken": "YA APARTADAS"
     }
 }

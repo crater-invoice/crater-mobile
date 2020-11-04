@@ -2,351 +2,328 @@
 
 import React from 'react';
 import { View } from 'react-native';
-import { Field, change } from 'redux-form';
+import { Field, change, SubmissionError } from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import Lng from '@/lang/i18n';
+import { IMAGES } from '@/assets';
+import { CUSTOMER_ADD } from '@/features/customers/constants';
+import {
+    INVOICES_STATUS_BG_COLOR,
+    INVOICES_STATUS_TEXT_COLOR
+} from '@/features/invoices/constants';
 import {
     InputField,
     CtButton,
     DefaultLayout,
     DatePickerField,
-    SelectPickerField,
     SelectField,
-    FakeInput,
+    FakeInput
 } from '@/components';
-import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import { PAYMENT_ADD, PAYMENT_EDIT, PAYMENT_FORM, PAYMENT_ACTIONS, ACTIONS_VALUE } from '../../constants';
-import Lng from '@/lang/i18n';
-import { IMAGES } from '@/assets';
-import { alertMe, DATE_FORMAT, MAX_LENGTH } from '@/constants';
-import { formatSelectPickerName } from '@/utils';
-import { CUSTOMER_ADD } from '@/features/customers/constants';
-import { INVOICES_STATUS_BG_COLOR, INVOICES_STATUS_TEXT_COLOR } from '@/features/invoices/constants';
-
-
-let paymentRefs = {}
+import {
+    PAYMENT_ADD,
+    PAYMENT_EDIT,
+    PAYMENT_FORM,
+    PAYMENT_ACTIONS,
+    ACTIONS_VALUE,
+    PAYMENT_FIELDS as FIELDS
+} from '../../constants';
+import {
+    alertMe,
+    DATE_FORMAT,
+    hasObjectLength,
+    hasValue,
+    isArray,
+    KEYBOARD_TYPE,
+    MAX_LENGTH
+} from '@/constants';
 
 type IProps = {
     navigation: Object,
     customers: Object,
     getCreatePayment: Function,
-    getEditPayment: Function,
+    getPaymentDetail: Function,
     getUnpaidInvoices: Function,
     createPayment: Function,
-    editPayment: Function,
+    updatePayment: Function,
     handleSubmit: Function,
     type: String,
     locale: String,
-    paymentLoading: Boolean,
-    initPaymentLoading: Boolean,
-    getUnpaidInvoicesLoading: Boolean,
-    getCustomers: Function,
-}
-
-let editPaymentData = [
-    "payment_date",
-    "user_id",
-    "invoice_id",
-    "payment_method_id",
-    "amount",
-    "notes",
-    "payment_number",
-    "payment_prefix"
-]
+    loading: Boolean,
+    getCustomers: Function
+};
 
 export class Payment extends React.Component<IProps> {
+    customerReference: any;
+    invoiceReference: any;
+
     constructor(props) {
         super(props);
+        this.customerReference = React.createRef();
+        this.invoiceReference = React.createRef();
+
         this.state = {
-            invoices: [],
-            methods: [],
-            selectedInvoice: '',
-            selectedCustomer: '',
-            selectedPaymentMode: '',
-            isLoading: true,
+            selectedInvoice: null,
+            selectedCustomer: null,
+            isLoading: true
         };
     }
 
     componentDidMount() {
-        const {
-            getCreatePayment,
-            navigation,
-            getEditPayment,
-            type,
-            hasRecordPayment,
-            getNextNumber
-        } = this.props;
+        const { navigation, hasRecordPayment } = this.props;
 
-        getNextNumber({
-            key: 'payment',
-            onSuccess: () => {}
-        })
+        this.setInitialValues();
 
-        if (type === PAYMENT_EDIT) {
-
-            let id = navigation.getParam('paymentId', null)
-            this.setFormField('id', id)
-
-            getEditPayment({
-                id,
-                onResult: ({
-                    payment,
-                    invoices,
-                    nextPaymentNumber,
-                    payment_prefix,
-                    paymentMethods
-                }) => {
-
-                    let { user_id, payment_method_id, invoice_id, invoice, amount } = payment
-
-                    editPaymentData.map((field) => {
-                        let value = payment[field]
-
-                        field === "payment_number" && (value = nextPaymentNumber)
-                        field === "payment_prefix" && (value = payment_prefix)
-
-                        this.setFormField(field, value)
-                    })
-
-                    invoice_id && invoice && this.setFormField('due',
-                        (Number(amount) + Number(invoice.due_amount))
-                    )
-
-                    this.setState({
-                        selectedCustomer: user_id ? payment.user : '',
-                        selectedInvoice: invoice_id ? payment.invoice.invoice_number : '',
-                        selectedPaymentMode: payment_method_id,
-                        methods: paymentMethods
-                    })
-
-                    if (user_id)
-                        this.setState({ invoices })
-
-                    this.setState({ isLoading: false })
-                }
-            });
-        }
-        else {
-            getCreatePayment({
-                onResult: ({
-                    nextPaymentNumberAttribute = '',
-                    payment_prefix = '',
-                    paymentMethods
-                }) => {
-                    this.setFormField('payment_number', nextPaymentNumberAttribute)
-                    this.setFormField('payment_date', moment())
-                    this.setFormField('payment_prefix', payment_prefix)
-
-                    this.setState({ methods: paymentMethods })
-
-                    hasRecordPayment ?
-                        this.SetRecordPaymentField() :
-                        this.setState({ isLoading: false })
-                }
-            });
-        }
-
-        goBack(MOUNT, navigation, { route: hasRecordPayment ? null : ROUTES.MAIN_PAYMENTS })
+        goBack(MOUNT, navigation, {
+            route: hasRecordPayment ? null : ROUTES.MAIN_PAYMENTS
+        });
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
 
+    setInitialValues = () => {
+        const { getCreatePayment, getPaymentDetail, type, id } = this.props;
 
-    SetRecordPaymentField = () => {
-        const {
-            invoice: {
-                user,
-                user_id,
-                due_amount,
-                invoice_number,
-                id
-            },
-            getUnpaidInvoices,
-        } = this.props
+        if (type === PAYMENT_ADD) {
+            getCreatePayment({
+                onSuccess: ({ nextNumber, prefix }) => {
+                    const values = {
+                        [FIELDS.PREFIX]: prefix,
+                        [FIELDS.NUMBER]: nextNumber,
+                        [FIELDS.DATE]: moment()
+                    };
+                    this.setFormField(`payment`, values);
+                    this.setState({ isLoading: false });
+                }
+            });
+            return;
+        }
 
-        this.setFormField('user_id', user_id)
-        this.setFormField('amount', due_amount)
-        this.setFormField('due', due_amount)
-        this.setFormField('invoice_id', id)
+        if (type === PAYMENT_EDIT) {
+            getPaymentDetail({
+                id,
+                onSuccess: res => {
+                    const { payment_prefix, nextPaymentNumber, payment } = res;
+                    const values = {
+                        ...payment,
+                        [FIELDS.PREFIX]: payment_prefix,
+                        [FIELDS.NUMBER]: nextPaymentNumber
+                    };
 
-        this.setState({
-            selectedCustomer: user,
-            selectedInvoice: invoice_number
-        })
+                    this.setFormField(`payment`, values);
 
-        getUnpaidInvoices({
-            id: user_id,
-            onResult: (invoices) => {
-                invoices.length !== 0 ?
                     this.setState({
-                        invoices,
-                        isLoading: false
-                    })
-                    : this.setState({ isLoading: false })
-            }
-        })
-    }
+                        isLoading: false,
+                        selectedCustomer: payment?.user,
+                        selectedInvoice: payment?.invoice
+                    });
+                }
+            });
+            return;
+        }
+    };
 
     setFormField = (field, value) => {
         this.props.dispatch(change(PAYMENT_FORM, field, value));
-
-        if (field === 'payment_method_id') {
-            this.setState({
-                selectedPaymentMode: value
-            })
-        }
     };
 
-    onCustomerSelect = (customer) => {
-        const { getUnpaidInvoices } = this.props
-        let { id } = customer
-        this.setFormField('user_id', id)
-        this.setState({ selectedCustomer: customer })
+    onSelectCustomer = customer => {
+        this.setFormField(`payment.${FIELDS.CUSTOMER}`, customer.id);
+        this.setState({ selectedCustomer: customer });
+        this.invoiceReference?.changeDisplayValue?.(null);
+        this.setFormField(`payment.${FIELDS.AMOUNT}`, null);
+    };
 
-        getUnpaidInvoices({
-            id,
-            onResult: (invoices) => {
-                if (invoices.length !== 0) {
+    onSelectInvoice = invoice => {
+        this.setFormField(`payment.${FIELDS.INVOICE}`, invoice?.id);
+        this.setFormField(`payment.${FIELDS.AMOUNT}`, invoice?.due_amount);
+        this.setState({ selectedInvoice: invoice });
+    };
 
-                    this.setState({
-                        invoices,
-                        selectedInvoice: ''
-                    })
-                    this.setFormField('invoice_id', '')
-                }
-                else {
-                    this.setState({
-                        invoices: [],
-                        selectedInvoice: ''
-                    })
-                    this.setFormField('invoice_id', '')
-                }
-            }
-        })
-    }
-
-    onPaymentSubmit = (values) => {
-
+    onSubmit = ({ payment }) => {
+        const { selectedInvoice, isLoading } = this.state;
         const {
             type,
+            handleSubmit,
             createPayment,
-            editPayment,
+            updatePayment,
             navigation,
-            hasRecordPayment,
-            locale
-        } = this.props
+            locale,
+            id
+        } = this.props;
 
-        let params = {
-            ...values,
-            payment_number: `${values.payment_prefix}-${values.payment_number}`,
+        if (isLoading) {
+            return;
         }
 
-        type === PAYMENT_ADD ?
+        const params = {
+            ...payment,
+            [FIELDS.NUMBER]: `${payment?.[FIELDS.PREFIX]}-${
+                payment?.[FIELDS.NUMBER]
+            }`
+        };
+
+        if (hasObjectLength(selectedInvoice)) {
+            const amount = payment?.[FIELDS.AMOUNT] ?? 0;
+            const due = selectedInvoice?.due_amount ?? 0;
+            const subTotal = selectedInvoice?.sub_total ?? 0;
+
+            if (due !== 0 && amount > due) {
+                alertMe({
+                    desc: Lng.t('payments.alertAmount', { locale })
+                });
+                return;
+            }
+
+            if (due === 0 && amount > subTotal) {
+                alertMe({
+                    desc: Lng.t('payments.alertAmount', { locale })
+                });
+                return;
+            }
+        }
+
+        if (type === PAYMENT_ADD) {
             createPayment({
                 params,
                 navigation,
-                hasRecordPayment,
-                onResult: (val) => {
-                    val === 'invalid_amount' &&
-                        alertMe({ title: Lng.t("payments.alertAmount", { locale }) })
-                }
-            })
-            :
-            editPayment({
-                id: navigation.getParam('paymentId'),
-                params,
-                navigation
-            })
-    };
-
-
-    getInvoicesList = (items) => {
-        let invoicesList = []
-        if (typeof items !== 'undefined' && items.length != 0) {
-
-            const { selectedCustomer } = this.state
-            const { name = '', currency = null } = selectedCustomer
-
-            invoicesList = items.map((item) => {
-                const {
-                    invoice_number,
-                    status,
-                    formattedDueDate,
-                    due_amount,
-                } = item;
-
-                return {
-                    title: name,
-                    subtitle: {
-                        title: invoice_number,
-                        label: status,
-                        labelBgColor: INVOICES_STATUS_BG_COLOR[status],
-                        labelTextColor: INVOICES_STATUS_TEXT_COLOR[status],
-                    },
-                    amount: due_amount,
-                    currency,
-                    rightSubtitle: formattedDueDate,
-                    fullItem: item,
-                };
+                submissionError: errors =>
+                    handleSubmit(() => this.throwError(errors, locale))()
             });
-
         }
 
-        return invoicesList
-    }
+        if (type === PAYMENT_EDIT) {
+            updatePayment({
+                id,
+                params,
+                navigation,
+                submissionError: errors =>
+                    handleSubmit(() => this.throwError(errors, locale))()
+            });
+        }
+    };
 
-    removePayment = () => {
-        const { removePayment, navigation, locale } = this.props
+    throwError = (errors, locale) => {
+        if (errors?.[FIELDS.NUMBER]) {
+            throw new SubmissionError({
+                payment: { [FIELDS.NUMBER]: 'validation.alreadyTaken' }
+            });
+        }
 
         alertMe({
-            title: Lng.t("alert.title", { locale }),
-            desc: Lng.t("payments.alertDescription", { locale }),
+            desc: Lng.t('validation.wrong', { locale })
+        });
+    };
+
+    formatUnpaidInvoices = items => {
+        if (!isArray(items)) {
+            return [];
+        }
+
+        const { selectedCustomer } = this.state;
+
+        return items.map(item => {
+            const {
+                invoice_number,
+                status,
+                formattedDueDate,
+                due_amount,
+                user
+            } = item;
+
+            return {
+                title: user?.name,
+                subtitle: {
+                    title: invoice_number,
+                    label: status,
+                    labelBgColor: INVOICES_STATUS_BG_COLOR[status],
+                    labelTextColor: INVOICES_STATUS_TEXT_COLOR[status]
+                },
+                amount: due_amount,
+                currency: selectedCustomer?.currency,
+                rightSubtitle: formattedDueDate,
+                fullItem: item
+            };
+        });
+    };
+
+    removePayment = () => {
+        const { removePayment, navigation, locale, id } = this.props;
+
+        alertMe({
+            title: Lng.t('alert.title', { locale }),
+            desc: Lng.t('payments.alertDescription', { locale }),
             showCancel: true,
-            okPress: () => removePayment({
-                id: navigation.getParam('paymentId', null),
-                navigation
-            })
-        })
-    }
+            okPress: () => removePayment({ id, navigation })
+        });
+    };
 
-    onOptionSelect = (action) => {
-        const { sendPaymentReceipt, navigation, locale } = this.props
+    onOptionSelect = action => {
+        const { sendPaymentReceipt, id, locale } = this.props;
 
-        if (action == ACTIONS_VALUE.REMOVE)
-            this.removePayment()
-        else if (action == ACTIONS_VALUE.SEND)
-            alertMe({
-                title: Lng.t("alert.title", { locale }),
-                desc: Lng.t("payments.alertSendDescription", { locale }),
-                showCancel: true,
-                okPress: () => sendPaymentReceipt({
-                    params: { id: navigation.getParam('paymentId', null) }
-                })
-            })
+        switch (action) {
+            case ACTIONS_VALUE.REMOVE:
+                return this.removePayment();
 
-    }
+            case ACTIONS_VALUE.SEND:
+                return alertMe({
+                    title: Lng.t('alert.title', { locale }),
+                    desc: Lng.t('payments.alertSendDescription', { locale }),
+                    showCancel: true,
+                    okPress: () => sendPaymentReceipt({ params: { id } })
+                });
 
-    BOTTOM_ACTION = (handleSubmit) => {
+            default:
+                break;
+        }
+    };
 
-        const {
-            locale,
-            paymentLoading
-        } = this.props
+    navigateToCustomer = () => {
+        const { navigation } = this.props;
+        navigation.navigate(ROUTES.CUSTOMER, {
+            type: CUSTOMER_ADD,
+            onSelect: item => {
+                this.customerReference?.changeDisplayValue?.(item);
+                this.onSelectCustomer(item);
+            }
+        });
+    };
 
-        let buttonTitle = Lng.t("button.save", { locale })
+    nextNumberView = () => {
+        const { formValues, locale } = this.props;
+
+        return (
+            <Field
+                name={`payment.${FIELDS.NUMBER}`}
+                component={FakeInput}
+                label={Lng.t('payments.number', { locale })}
+                isRequired
+                prefixProps={{
+                    fieldName: `payment.${FIELDS.NUMBER}`,
+                    prefix: formValues?.payment?.[FIELDS.PREFIX]
+                }}
+            />
+        );
+    };
+
+    BOTTOM_ACTION = handleSubmit => {
+        const { locale, loading } = this.props;
+
+        let buttonTitle = Lng.t('button.save', { locale });
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
-                    onPress={handleSubmit(this.onPaymentSubmit)}
+                    onPress={handleSubmit(this.onSubmit)}
                     btnTitle={buttonTitle}
-                    loading={paymentLoading}
+                    loading={loading}
                 />
             </View>
-        )
-    }
+        );
+    };
 
     render() {
         const {
@@ -354,118 +331,129 @@ export class Payment extends React.Component<IProps> {
             handleSubmit,
             customers,
             locale,
-            initPaymentLoading,
-            getUnpaidInvoicesLoading,
             type,
             getCustomers,
-            formValues: { due = '', amount = 0, payment_prefix = '' },
-            submitFailed = false,
+            getPaymentModes,
+            paymentMethods,
+            formValues,
+            getUnpaidInvoices,
+            unPaidInvoices
         } = this.props;
 
-        const {
-            selectedInvoice,
-            selectedCustomer,
-            selectedPaymentMode,
-            invoices,
-            methods,
-            isLoading
-        } = this.state
+        const { isLoading } = this.state;
 
-        let drownDownProps = (type === PAYMENT_EDIT && !isLoading) ? {
-            options: PAYMENT_ACTIONS(Lng, locale),
-            onSelect: this.onOptionSelect,
-            cancelButtonIndex: 2,
-            destructiveButtonIndex: 1
-        } : null
+        const drownDownProps =
+            type === PAYMENT_EDIT && !isLoading
+                ? {
+                      options: PAYMENT_ACTIONS(Lng, locale),
+                      onSelect: this.onOptionSelect,
+                      cancelButtonIndex: 2,
+                      destructiveButtonIndex: 1
+                  }
+                : null;
 
+        const headerProps = {
+            leftIconPress: () => navigation.goBack(null),
+            title:
+                type === PAYMENT_EDIT
+                    ? Lng.t('header.editPayment', { locale })
+                    : Lng.t('header.addPayment', { locale }),
+            placement: 'center',
+            rightIcon: type !== PAYMENT_EDIT ? 'save' : null,
+            rightIconProps: {
+                solid: true
+            },
+            rightIconPress: handleSubmit(this.onSubmit)
+        };
 
         return (
             <DefaultLayout
-                headerProps={{
-                    leftIconPress: () => navigation.goBack(null),
-                    title: type === PAYMENT_EDIT ?
-                        Lng.t("header.editPayment", { locale }) :
-                        Lng.t("header.addPayment", { locale }),
-                    placement: "center",
-                    rightIcon: type !== PAYMENT_EDIT ? "save" : null,
-                    rightIconProps: {
-                        solid: true,
-                    },
-                    rightIconPress: handleSubmit(this.onPaymentSubmit),
-                }}
+                headerProps={headerProps}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{
-                    is: isLoading || initPaymentLoading
-                }}
+                loadingProps={{ is: isLoading }}
                 dropdownProps={drownDownProps}
             >
-
                 <View style={styles.bodyContainer}>
-
                     <View style={styles.numberDateFieldContainer}>
                         <View style={styles.numberDateField}>
                             <Field
-                                name="payment_date"
+                                name={`payment.${FIELDS.DATE}`}
                                 component={DatePickerField}
                                 dateTimeFormat={DATE_FORMAT}
-                                label={Lng.t("payments.date", { locale })}
+                                label={Lng.t('payments.date', { locale })}
                                 icon={'calendar-alt'}
-                                onChangeCallback={(val) => {
-                                    this.setFormField('payment_date', val)
+                                onChangeCallback={val => {
+                                    this.setFormField('payment_date', val);
                                 }}
                                 isRequired
                             />
                         </View>
 
                         <View style={styles.numberDateField}>
-                            <Field
-                                name="payment_number"
-                                component={FakeInput}
-                                label={Lng.t("payments.number", { locale })}
-                                isRequired
-                                prefixProps={{
-                                    fieldName: "payment_number",
-                                    prefix: payment_prefix,
-                                }}
-                            />
+                            {this.nextNumberView()}
                         </View>
                     </View>
 
                     <Field
-                        name="user_id"
+                        name={`payment.${FIELDS.CUSTOMER}`}
                         apiSearch
                         hasPagination
                         getItems={getCustomers}
                         items={customers}
                         displayName="name"
                         component={SelectField}
-                        label={Lng.t("payments.customer", { locale })}
+                        label={Lng.t('payments.customer', { locale })}
                         icon={'user'}
-                        placeholder={selectedCustomer ? selectedCustomer.name : Lng.t("payments.customerPlaceholder", { locale })}
+                        placeholder={Lng.t('payments.customerPlaceholder', {
+                            locale
+                        })}
                         navigation={navigation}
                         compareField="id"
-                        onSelect={(item) => {
-                            this.onCustomerSelect(item)
-                            this.setFormField('due', '')
-                        }}
-                        rightIconPress={
-                            () => navigation.navigate(ROUTES.CUSTOMER, {
-                                type: CUSTOMER_ADD,
-                                onSelect: (val) => {
-                                    this.onCustomerSelect(val)
-                                    this.setFormField('due', '')
-                                }
-                            })
-                        }
+                        onSelect={item => this.onSelectCustomer(item)}
+                        rightIconPress={this.navigateToCustomer}
                         headerProps={{
-                            title: Lng.t("customers.title", { locale }),
+                            title: Lng.t('customers.title', { locale })
                         }}
                         listViewProps={{ hasAvatar: true }}
                         emptyContentProps={{
-                            contentType: "customers",
-                            image: IMAGES.EMPTY_CUSTOMERS,
+                            contentType: 'customers',
+                            image: IMAGES.EMPTY_CUSTOMERS
                         }}
                         isRequired
+                        isEditable={type === PAYMENT_ADD}
+                        fakeInputProps={{
+                            disabled: type !== PAYMENT_ADD
+                        }}
+                        reference={ref => (this.customerReference = ref)}
+                    />
+
+                    <Field
+                        name={`payment.${FIELDS.INVOICE}`}
+                        component={SelectField}
+                        isRequired
+                        apiSearch
+                        hasPagination
+                        getItems={getUnpaidInvoices}
+                        items={this.formatUnpaidInvoices(unPaidInvoices)}
+                        displayName="invoice_number"
+                        label={Lng.t('payments.invoice', { locale })}
+                        icon="align-center"
+                        placeholder={Lng.t('payments.invoicePlaceholder', {
+                            locale
+                        })}
+                        navigation={navigation}
+                        compareField="id"
+                        onSelect={item => this.onSelectInvoice(item)}
+                        headerProps={{
+                            title: Lng.t('invoices.title', { locale }),
+                            rightIconPress: null
+                        }}
+                        emptyContentProps={{ contentType: 'invoices' }}
+                        queryString={{
+                            customer_id: formValues?.payment?.[FIELDS.CUSTOMER],
+                            status: 'UNPAID'
+                        }}
+                        reference={ref => (this.invoiceReference = ref)}
                         isEditable={type === PAYMENT_ADD}
                         fakeInputProps={{
                             disabled: type !== PAYMENT_ADD
@@ -473,103 +461,68 @@ export class Payment extends React.Component<IProps> {
                     />
 
                     <Field
-                        name="amount"
+                        name={`payment.${FIELDS.AMOUNT}`}
                         component={InputField}
                         leftIcon={'dollar-sign'}
-                        hint={Lng.t("payments.amount", { locale })}
+                        hint={Lng.t('payments.amount', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
-                            keyboardType: 'numeric',
+                            keyboardType: 'numeric'
                         }}
                         isCurrencyInput
-                        refLinkFn={(ref) => paymentRefs.amount = ref}
                         isRequired
                     />
 
                     <Field
-                        name="invoice_id"
-                        items={this.getInvoicesList(invoices)}
-                        displayName="invoice_number"
+                        name={`payment.${FIELDS.METHOD}`}
                         component={SelectField}
-                        label={Lng.t("payments.invoice", { locale })}
-                        icon={'file-invoice'}
-                        placeholder={selectedInvoice ? selectedInvoice : Lng.t("payments.invoicePlaceholder", { locale })}
+                        apiSearch
+                        hasPagination
+                        getItems={getPaymentModes}
+                        items={paymentMethods}
+                        displayName="name"
+                        label={Lng.t('payments.mode', { locale })}
+                        icon="align-center"
+                        placeholder={Lng.t('payments.modePlaceholder', {
+                            locale
+                        })}
                         navigation={navigation}
-                        fakeInputProps={{
-                            loading: getUnpaidInvoicesLoading
-                        }}
-                        isInternalSearch
-                        searchFields={['invoice_number', 'due_amount']}
                         compareField="id"
-                        onSearch={
-                            ({ searchItems, hasAll }) => {
-                                this.setState({ customerList: hasAll ? customers : searchItems })
-                            }
+                        onSelect={item =>
+                            this.setFormField(
+                                `payment.${FIELDS.METHOD}`,
+                                item.id
+                            )
                         }
-                        onSelect={({ id, due_amount }) => {
-                            this.setFormField('invoice_id', id)
-                            this.setFormField('amount', due_amount)
-                            this.setFormField('due', due_amount)
-                            paymentRefs.amount.focus();
-                        }}
                         headerProps={{
-                            title: Lng.t("invoices.title", { locale }),
+                            title: Lng.t('payments.modePlaceholder', {
+                                locale
+                            }),
                             rightIconPress: null
                         }}
-                        emptyContentProps={{
-                            contentType: "invoices",
-                            image: IMAGES.EMPTY_INVOICES,
-                        }}
-                        containerStyle={
-                            due && submitFailed && amount > due &&
-                            { marginTop: 22 }
-                        }
-                        isEditable={type === PAYMENT_ADD}
-                        fakeInputProps={{
-                            disabled: type !== PAYMENT_ADD
-                        }}
+                        emptyContentProps={{ contentType: 'paymentMode' }}
                     />
 
                     <Field
-                        name="payment_method_id"
-                        component={SelectPickerField}
-                        label={Lng.t("payments.mode", { locale })}
-                        fieldIcon='align-center'
-                        items={formatSelectPickerName(methods)}
-                        selectedItem={selectedPaymentMode}
-                        onChangeCallback={(val) => {
-                            this.setFormField('payment_method_id', val)
-                        }}
-                        onDonePress={() => paymentRefs.notes.focus()}
-                        defaultPickerOptions={{
-                            label: Lng.t("payments.modePlaceholder", { locale }),
-                            value: '',
-                        }}
-                        refLinkFn={(ref) => paymentRefs.mode = ref}
-                        containerStyle={styles.selectPicker}
-                    />
-
-                    <Field
-                        name="notes"
+                        name={`payment.${FIELDS.NOTES}`}
                         component={InputField}
-                        hint={Lng.t("payments.notes", { locale })}
+                        hint={Lng.t('payments.notes', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
-                            placeholder: Lng.t("payments.notesPlaceholder", { locale }),
+                            placeholder: Lng.t('payments.notesPlaceholder', {
+                                locale
+                            }),
                             autoCorrect: true,
                             multiline: true,
                             maxLength: MAX_LENGTH
                         }}
                         height={80}
                         autoCorrect={true}
-                        refLinkFn={(ref) => paymentRefs.notes = ref}
                     />
-
                 </View>
-            </DefaultLayout >
+            </DefaultLayout>
         );
     }
 }
-

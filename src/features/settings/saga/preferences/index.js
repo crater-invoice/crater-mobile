@@ -1,117 +1,61 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-
+import Request from '@/api/request';
 import {
-  settingsTriggerSpinner,
-  setPreferences,
-  setSettings,
+    settingsTriggerSpinner,
+    setPreferences,
+    setSettings
 } from '../../actions';
-
 import {
-  // Endpoint Api URL
-  GET_PREFERENCES,
-  EDIT_PREFERENCES,
-  GET_PREFERENCES_URL,
-  PREFERENCES_SETTING_TYPE,
-  EDIT_PREFERENCES_URL,
-  GET_GENERAL_SETTING
+    GET_PREFERENCES,
+    EDIT_PREFERENCES,
+    GET_PREFERENCES_URL,
+    PREFERENCES_SETTING_TYPE,
+    EDIT_PREFERENCES_URL
 } from '../../constants';
 
-import Request from '@/api/request';
+function* getPreferences({ payload: { onResult } }) {
+    yield put(settingsTriggerSpinner({ getPreferencesLoading: true }));
 
-function* getPreferences(payloadData) {
-  const {
-      payload: { onResult },
-  } = payloadData;
+    try {
+        const options = {
+            path: GET_PREFERENCES_URL(),
+            axiosProps: {
+                params: { settings: PREFERENCES_SETTING_TYPE }
+            }
+        };
 
-  yield put(settingsTriggerSpinner({ getPreferencesLoading: true }));
+        const response = yield call([Request, 'get'], options);
 
-  try {
+        yield put(setPreferences({ preferences: response }));
+        onResult?.(response);
+    } catch (e) {
+    } finally {
+        yield put(settingsTriggerSpinner({ getPreferencesLoading: false }));
+    }
+}
 
-      const options = {
-        path: GET_PREFERENCES_URL(),
-        axiosProps: {
-          params: { settings: PREFERENCES_SETTING_TYPE }
+function* editPreferences({ payload: { params, navigation } }) {
+    yield put(settingsTriggerSpinner({ editPreferencesLoading: true }));
+
+    try {
+        const options = {
+            path: EDIT_PREFERENCES_URL(),
+            body: { settings: params }
+        };
+
+        const response = yield call([Request, 'post'], options);
+
+        if (response.success) {
+            yield put(setSettings({ settings: params }));
+            navigation.goBack(null);
         }
-      };
-
-      const response = yield call([Request, 'get'], options);
-      
-      yield put(setPreferences({ preferences: response }));
-      onResult && onResult(response)
-
-  } catch (e) {
-  } finally {
-      yield put(settingsTriggerSpinner({ getPreferencesLoading: false }));
-  }
-}
-
-function* editPreferences(payloadData) {
-  const {
-      payload: { params, navigation },
-  } = payloadData;
-
-  yield put(settingsTriggerSpinner({ editPreferencesLoading: true }));
-
-  try {
-
-      const options = {
-        path: EDIT_PREFERENCES_URL(),
-        body: { settings: params }
-      };
-
-      const response = yield call([Request, 'post'], options);
-      
-      if (response.success) {
-          // let newData = currencies.filter((item) => {
-          //     let filterData = false
-          //     if (item['id'].toString() === params.currency.toString())
-          //         filterData = true
-
-          //     return filterData
-          // });
-
-          yield put(setSettings({
-              settings: params,
-              // currency: newData.length !== 0 ? newData[0] : []
-          }));
-          navigation.goBack(null)
-      }
-
-  } catch (e) {
-  } finally {
-      yield put(settingsTriggerSpinner({ editPreferencesLoading: false }));
-  }
-}
-
-function* getGeneralSetting({ payload }) {
-
-  const {
-    url = null,
-    onSuccess = null,
-    responseUrl = null
-  } = {} = payload
-
-  try {
-    const options = {
-      path : url
+    } catch (e) {
+    } finally {
+        yield put(settingsTriggerSpinner({ editPreferencesLoading: false }));
     }
-
-    const response = yield call([Request, 'get'], options)
-
-    if(response[responseUrl ?? url]){
-      onSuccess(response[responseUrl ?? url])
-    }
-    
-
-  } catch (e) {
-  } finally {
-  }
 }
 
 export default function* preferencesSaga() {
-  // Preferences
-  // -----------------------------------------
-  yield takeEvery(GET_PREFERENCES, getPreferences);
-  yield takeEvery(EDIT_PREFERENCES, editPreferences);
-  yield takeEvery(GET_GENERAL_SETTING, getGeneralSetting)
+    yield takeEvery(GET_PREFERENCES, getPreferences);
+    yield takeEvery(EDIT_PREFERENCES, editPreferences);
 }

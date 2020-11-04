@@ -26,9 +26,7 @@ const initialState = {
     countries: [],
     errors: null,
     loading: {
-        customersLoading: false,
         customerLoading: false,
-        getEditCustomerLoading: false,
         countriesLoading: false
     }
 };

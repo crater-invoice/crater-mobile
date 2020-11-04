@@ -10,24 +10,23 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { AssetImage } from '../AssetImage';
 import { BUTTON_COLOR, BUTTON_TYPE, dismissKeyboard } from '@/constants';
 
-
 type IProps = {
-    children: any,
-    onPress: Function,
-    loading: boolean,
-    disabled: boolean,
-    whiteButton: boolean,
-    style: Object,
-    iconPlacement: any,
-    btnTitle: String,
-    type: String,
-    iconName: String,
-    imageIcon: Boolean,
-    isGradient: Boolean,
-    raised: Boolean,
-    imageSource: String | any,
-    buttonType: String,
-    containerStyle: Object
+    children?: any,
+    onPress?: Function,
+    loading?: boolean,
+    disabled?: boolean,
+    whiteButton?: boolean,
+    style?: Object,
+    iconPlacement?: any,
+    btnTitle?: String,
+    type?: String,
+    iconName?: String,
+    imageIcon?: Boolean,
+    isGradient?: Boolean,
+    raised?: Boolean,
+    imageSource?: String | any,
+    buttonType?: String,
+    containerStyle?: Object
 };
 export class CtGradientButton extends Component<IProps> {
     constructor(props) {

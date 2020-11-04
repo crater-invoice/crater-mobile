@@ -13,7 +13,7 @@ const mapStateToProps = (state, { navigation }) => {
     const {
         global: { locale, taxTypes },
         invoices: { loading, invoiceItems, invoiceData, items },
-        customers: { customers, loading: { customersLoading } },
+        customers: { customers }
     } = state;
 
     const {
@@ -22,17 +22,18 @@ const mapStateToProps = (state, { navigation }) => {
         invoiceTemplates,
         nextInvoiceNumberAttribute,
         terms_and_conditions = null,
-        invoice_notes = '',
+        invoice_notes = ''
     } = invoiceData;
 
-    let type = navigation.getParam('type')
+    let type = navigation.getParam('type');
 
-    let isLoading = loading.initInvoiceLoading || (type === INVOICE_EDIT && !invoice)
-        || !nextInvoiceNumber
+    let isLoading =
+        loading.initInvoiceLoading ||
+        (type === INVOICE_EDIT && !invoice) ||
+        !nextInvoiceNumber;
 
     return {
         initLoading: isLoading,
-        customersLoading,
         loading: loading.invoiceLoading,
         invoiceItems,
         invoiceData,
@@ -43,21 +44,27 @@ const mapStateToProps = (state, { navigation }) => {
         locale,
         formValues: getFormValues(INVOICE_FORM)(state) || {},
         taxTypes,
-        initialValues: !isLoading ? {
-            due_date: moment().add(7, 'days'),
-            invoice_date: moment(),
-            discount_type: 'fixed',
-            discount: 0,
-            taxes: [],
-            invoice_template_id: invoiceTemplates[0] && invoiceTemplates[0].id,
-            display_terms_and_conditions: false,
-            terms_and_conditions,
-            notes: invoice_notes,
-            ...invoice,
-            invoice_number: type === INVOICE_EDIT ? nextInvoiceNumber : nextInvoiceNumberAttribute,
-            customer: invoice && invoice.user,
-            template: invoice && invoice.invoice_template,
-        } : null
+        initialValues: !isLoading
+            ? {
+                  due_date: moment().add(7, 'days'),
+                  invoice_date: moment(),
+                  discount_type: 'fixed',
+                  discount: 0,
+                  taxes: [],
+                  invoice_template_id:
+                      invoiceTemplates[0] && invoiceTemplates[0].id,
+                  display_terms_and_conditions: false,
+                  terms_and_conditions,
+                  notes: invoice_notes,
+                  ...invoice,
+                  invoice_number:
+                      type === INVOICE_EDIT
+                          ? nextInvoiceNumber
+                          : nextInvoiceNumberAttribute,
+                  customer: invoice && invoice.user,
+                  template: invoice && invoice.invoice_template
+              }
+            : null
     };
 };
 
@@ -78,17 +85,17 @@ const mapDispatchToProps = {
 //  Redux Forms
 const addInvoiceReduxForm = reduxForm({
     form: INVOICE_FORM,
-    validate,
+    validate
 })(Invoice);
 
 //  connect
 const InvoiceContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(addInvoiceReduxForm);
 
 InvoiceContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default InvoiceContainer;

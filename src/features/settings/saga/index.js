@@ -4,7 +4,6 @@ import {
     settingsTriggerSpinner,
     setCompanyInformation,
     setAccountInformation,
-    setPreferences,
     setSettings,
     setCustomizeSettings
 } from '../actions';
@@ -44,6 +43,7 @@ import customFields from './custom-fields';
 import Request from '@/api/request';
 import preferences from './preferences';
 import General from './general';
+import Notes from './notes';
 
 /**
  * Company Information.
@@ -96,10 +96,11 @@ function* editCompanyInformation(payloadData) {
             yield call([Request, 'post'], options2);
         }
 
-        yield put(setCompanyInformation({ company: response.user.company }));
+        yield put(setCompanyInformation({ company: response.company }));
 
         navigation.goBack(null);
     } catch (e) {
+        console.log(e);
     } finally {
         yield put(settingsTriggerSpinner({ editCompanyInfoLoading: false }));
     }
@@ -248,12 +249,15 @@ function* editCustomizeSettings({ payload: { params, navigation } }) {
     yield put(settingsTriggerSpinner({ customizeLoading: true }));
 
     try {
+        const settings = {
+            settings: params
+        }
         const options = {
             path: EDIT_CUSTOMIZE_SETTINGS_URL(),
-            body: params
+            body: settings
         };
 
-        const response = yield call([Request, 'put'], options);
+        const response = yield call([Request, 'post'], options);
 
         if (response.success) {
             navigation.navigate(ROUTES.CUSTOMIZES);
@@ -286,6 +290,7 @@ export default function* settingsSaga() {
         currencies(),
         customFields(),
         preferences(),
-        General()
+        General(),
+        Notes()
     ]);
 }

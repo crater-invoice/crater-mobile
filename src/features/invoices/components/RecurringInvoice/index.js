@@ -182,7 +182,6 @@ export class RecurringInvoice extends React.Component<IProps> {
     };
 
     onSubmitInvoice = (values, status = 'draft') => {
-
         // const {
         //     createInvoice,
         //     navigation,
@@ -467,7 +466,6 @@ export class RecurringInvoice extends React.Component<IProps> {
             type,
             getCustomers,
             customers,
-            customersLoading,
             changeInvoiceStatus,
             formValues
         } = this.props;
@@ -604,7 +602,7 @@ export class RecurringInvoice extends React.Component<IProps> {
                             contentType: 'customers',
                             image: IMAGES.EMPTY_CUSTOMERS
                         }}
-                        fakeInputProps={{ loading: customersLoading }}
+                        fakeInputProps={{ loading: false }}
                     />
 
                     <Field

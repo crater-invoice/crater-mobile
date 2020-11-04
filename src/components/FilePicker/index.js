@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-    View,
-    Text,
-    TouchableWithoutFeedback,
-    Linking,
-} from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Linking } from 'react-native';
 import * as IntentLauncher from 'expo-intent-launcher';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
@@ -37,7 +32,7 @@ type IProps = {
 
 const UPLOAD_BUTTON_ACTIONS = {
     GALLERY: 'GALLERY',
-    CAMERA: 'CAMERA',
+    CAMERA: 'CAMERA'
 };
 
 export class FilePickerComponent extends Component<IProps> {
@@ -52,82 +47,80 @@ export class FilePickerComponent extends Component<IProps> {
 
     getPermissionAsync = async () => {
         alertMe({
-            desc: Lng.t("filePicker.permission", { locale: this.props.locale }),
+            desc: Lng.t('filePicker.permission', { locale: this.props.locale }),
             showCancel: true,
             okText: 'Allow',
             okPress: () => {
                 if (isIosPlatform()) {
                     Linking.openURL('app-settings:');
                 } else {
-                    IntentLauncher.startActivityAsync(IntentLauncher.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+                    IntentLauncher.startActivityAsync(
+                        IntentLauncher.ACTION_MANAGE_APPLICATIONS_SETTINGS
+                    );
                 }
             }
-        })
-    }
+        });
+    };
 
-    onToggleLoading = (loading) => {
-        this.setState({ loading })
-        this.props?.fileLoading?.(loading)
-    }
+    onToggleLoading = async loading => {
+        await this.setState({ loading });
+        this.props?.fileLoading?.(loading);
+    };
 
-    GALLERY_UPLOAD_BUTTON_OPTIONS = (locale) => {
+    GALLERY_UPLOAD_BUTTON_OPTIONS = locale => {
         return [
             {
-                label: Lng.t("filePicker.gallery", { locale }),
+                label: Lng.t('filePicker.gallery', { locale }),
                 value: UPLOAD_BUTTON_ACTIONS.GALLERY
             },
             {
-                label: Lng.t("filePicker.camera", { locale }),
+                label: Lng.t('filePicker.camera', { locale }),
                 value: UPLOAD_BUTTON_ACTIONS.CAMERA
             }
-        ]
+        ];
     };
 
-    onOptionSelect = async (action) => {
-
-        const { mediaType = 'Images' } = this.props
-        let asyncFun = "", permission = "", type = mediaType
+    onOptionSelect = async action => {
+        const { mediaType = 'Images' } = this.props;
+        let asyncFun = '',
+            permission = '',
+            type = mediaType;
 
         if (action == UPLOAD_BUTTON_ACTIONS.CAMERA) {
-            asyncFun = "launchCameraAsync"
-            permission = "CAMERA"
-            type = "Images"
-
+            asyncFun = 'launchCameraAsync';
+            permission = 'CAMERA';
+            type = 'Images';
         } else if (action == UPLOAD_BUTTON_ACTIONS.GALLERY) {
-            asyncFun = "launchImageLibraryAsync"
-            permission = "CAMERA_ROLL"
+            asyncFun = 'launchImageLibraryAsync';
+            permission = 'CAMERA_ROLL';
         }
 
         const { status } = await Permissions.askAsync(Permissions[permission]);
         if (status !== 'granted') {
             this.getPermissionAsync();
-        }
-        else {
+        } else {
             if (action == UPLOAD_BUTTON_ACTIONS.CAMERA) {
-                const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+                const { status } = await Permissions.askAsync(
+                    Permissions.CAMERA_ROLL
+                );
                 if (status !== 'granted') {
                     this.getPermissionAsync();
                     return true;
                 }
             }
 
-            this.chooseFile({ asyncFun, type })
-
+            this.chooseFile({ asyncFun, type });
         }
-
     };
 
     chooseFile = async ({ asyncFun, type }) => {
-
-        setTimeout(() => {
-            this.onToggleLoading(true)
-        }, 500);
+        await this.onToggleLoading(true);
 
         let result = await ImagePicker[asyncFun]({
             mediaTypes: ImagePicker.MediaTypeOptions[type],
             allowsEditing: true,
             base64: true,
-            quality: 1,
+            quality: 1
         });
 
         if (!result.cancelled) {
@@ -135,87 +128,71 @@ export class FilePickerComponent extends Component<IProps> {
 
             FileSystem.readAsStringAsync(result.uri, {
                 encoding: FileSystem.EncodingType.Base64
-            }).then((base64) => {
-                const res = { ...result, base64 }
-                this.props?.onChangeCallback?.(res)
-                this.onToggleLoading(false)
             })
+                .then(async base64 => {
+                    const res = { ...result, base64 };
+                    this.props?.onChangeCallback?.(res);
+                    await this.onToggleLoading(false);
+                })
                 .catch(error => console.error(error));
+        } else {
+            this.onToggleLoading(false);
         }
-        else {
-            this.onToggleLoading(false)
-        }
-    }
+    };
 
-    toggleActionSheet = () => this.actionSheet.current.showActionSheet()
+    toggleActionSheet = () => this.actionSheet.current.showActionSheet();
 
     AVATAR_VIEW = () => {
         return (
             <View style={styles.iconContainer}>
                 <Icon
-                    name={"camera"}
+                    name={'camera'}
                     size={20}
                     color={colors.white}
                     style={styles.iconStyle}
                 />
             </View>
-        )
-    }
+        );
+    };
 
-    DEFAULT_VIEW = (locale) => {
+    DEFAULT_VIEW = locale => {
         return (
             <View style={styles.container}>
-                <Icon
-                    name={"cloud-upload-alt"}
-                    size={23}
-                    color={colors.gray}
-                />
+                <Icon name={'cloud-upload-alt'} size={23} color={colors.gray} />
                 <Text style={styles.title}>
-                    {Lng.t("filePicker.file", { locale })}
+                    {Lng.t('filePicker.file', { locale })}
                 </Text>
             </View>
-        )
-    }
+        );
+    };
 
     SELECTED_IMAGE = () => {
         const { image } = this.state;
         const { imageUrl, imageStyle, imageContainerStyle } = this.props;
         return (
-            <View
-                style={[
-                    styles.imageContainer,
-                    imageContainerStyle
-                ]}
-            >
+            <View style={[styles.imageContainer, imageContainerStyle]}>
                 <AssetImage
                     imageSource={image !== null ? image : imageUrl}
-                    imageStyle={[
-                        styles.images,
-                        imageStyle && imageStyle,
-                    ]}
+                    imageStyle={[styles.images, imageStyle && imageStyle]}
                     uri
                     loadingImageStyle={styles.loadImage}
                 />
             </View>
-        )
-    }
+        );
+    };
 
     DEFAULT_IMAGE = () => {
         const { imageStyle, defaultImage } = this.props;
         return (
             <AssetImage
                 imageSource={defaultImage}
-                imageStyle={[
-                    styles.images,
-                    imageStyle && imageStyle,
-                ]}
+                imageStyle={[styles.images, imageStyle && imageStyle]}
                 loadingImageStyle={styles.loadImage}
             />
-        )
-    }
+        );
+    };
 
     render() {
-
         let { image, loading } = this.state;
         const {
             label,
@@ -229,8 +206,9 @@ export class FilePickerComponent extends Component<IProps> {
         } = this.props;
 
         return (
-            <View style={[styles.mainContainer, containerStyle && containerStyle]}>
-
+            <View
+                style={[styles.mainContainer, containerStyle && containerStyle]}
+            >
                 {label && <Text style={styles.label}>{label}</Text>}
 
                 <Dropdown
@@ -242,7 +220,9 @@ export class FilePickerComponent extends Component<IProps> {
                     hasIcon={false}
                 />
 
-                <TouchableWithoutFeedback onPress={() => this.toggleActionSheet()}>
+                <TouchableWithoutFeedback
+                    onPress={() => this.toggleActionSheet()}
+                >
                     <View>
                         <View
                             style={[
@@ -253,21 +233,21 @@ export class FilePickerComponent extends Component<IProps> {
                             <Content
                                 loadingProps={{
                                     is: loading,
-                                    style: { ...styles.loadingContainer, ...loadingContainerStyle }
+                                    style: {
+                                        ...styles.loadingContainer,
+                                        ...loadingContainerStyle
+                                    }
                                 }}
                             >
-                                {image !== null || imageUrl ?
-                                    this.SELECTED_IMAGE() :
-                                    !defaultImage ?
-                                        this.DEFAULT_VIEW(locale) :
-                                        this.DEFAULT_IMAGE()
-                                }
-
+                                {image !== null || imageUrl
+                                    ? this.SELECTED_IMAGE()
+                                    : !defaultImage
+                                    ? this.DEFAULT_VIEW(locale)
+                                    : this.DEFAULT_IMAGE()}
                             </Content>
                         </View>
 
                         {hasAvatar && this.AVATAR_VIEW()}
-
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -275,14 +255,13 @@ export class FilePickerComponent extends Component<IProps> {
     }
 }
 
-
 const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
+    locale: global?.locale
 });
 
 const mapDispatchToProps = {};
 
 export const FilePicker = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(FilePickerComponent);
