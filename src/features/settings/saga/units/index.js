@@ -34,14 +34,12 @@ const alreadyInUse = error => {
 
 function* getItemUnits({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
-
     try {
         const options = {
             path: `units?${queryStrings.stringify(queryString)}`
         };
 
         const response = yield call([Request, 'get'], options);
-
         if (response?.units) {
             const { data } = response.units;
             yield put(setItemUnits({ units: data, fresh }));
@@ -49,7 +47,6 @@ function* getItemUnits({ payload }) {
 
         onSuccess?.(response?.units);
     } catch (e) {
-    } finally {
     }
 }
 

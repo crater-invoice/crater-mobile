@@ -100,7 +100,7 @@ function* editCompanyInformation(payloadData) {
 
         navigation.goBack(null);
     } catch (e) {
-        console.log(e);
+        // console.log(e);
     } finally {
         yield put(settingsTriggerSpinner({ editCompanyInfoLoading: false }));
     }

@@ -51,7 +51,6 @@ export function* getGeneralSetting({ payload }) {
             onSuccess?.(response[responseUrl ?? url]);
         }
     } catch (e) {
-        console.log({ e });
     }
 }
 

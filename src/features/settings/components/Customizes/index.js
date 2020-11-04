@@ -27,9 +27,6 @@ export class Customizes extends React.Component {
         } = this.props
 
         getCustomizeSettings()
-        getPaymentModes()
-        getItemUnits()
-
         goBack(MOUNT, navigation)
     }
 

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { ListView, InputModal } from '@/components';
+import { ListView, InputModal, InfiniteScroll } from '@/components';
 import Lng from '@/lang/i18n';
-import { formatListByName } from '@/utils';
 import { alertMe } from '@/constants';
 
 export class Units extends Component {
     constructor(props) {
         super(props);
+        this.scrollViewReference = React.createRef();
         this.state = {
             visible: false,
             isCreateMethod: true,
@@ -101,30 +101,30 @@ export class Units extends Component {
     }
 
     render() {
-        const { props: { units, locale } } = this.props
+        const { props: { units, locale, getItemUnits } } = this.props
 
         return (
             <View style={styles.bodyContainer}>
                 {this.IMPORT_INPUT_MODAL()}
-
-                <View>
-                    <ListView
-                        items={formatListByName(units)}
-                        getFreshItems={(onHide) => {
-                            onHide && onHide()
-                        }}
-                        onPress={this.onSelectUnit}
-                        isEmpty={units ? units.length <= 0 : true}
-                        bottomDivider
-                        contentContainerStyle={{ flex: 3 }}
-                        emptyContentProps={{
-                            title: Lng.t("payments.empty.modeTitle", { locale }),
-                        }}
-                        itemContainer={{
-                            paddingVertical: 8
-                        }}
-                    />
-                </View>
+                    <InfiniteScroll
+                        getItems={getItemUnits}
+                        reference={ref => (this.scrollViewReference = ref)}
+                        paginationLimit={20}
+                    >
+                        <ListView
+                            items={units}
+                            onPress={this.onSelectUnit}
+                            isEmpty={units ? units.length <= 0 : true}
+                            bottomDivider
+                            contentContainerStyle={{ flex: 3 }}
+                            emptyContentProps={{
+                                title: Lng.t("payments.empty.modeTitle", { locale }),
+                            }}
+                            itemContainer={{
+                                paddingVertical: 8
+                            }}
+                        />
+                    </InfiniteScroll>
             </View>
         );
     }

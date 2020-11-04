@@ -48,7 +48,6 @@ function* createNote({ payload }: any) {
             navigation.goBack(null);
         }
     } catch (e) {
-        console.log(e);
     } finally {
         yield put(settingsTriggerSpinner({ getNotesLoading: false }));
     }

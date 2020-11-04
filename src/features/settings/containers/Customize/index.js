@@ -5,6 +5,7 @@ import { validate } from './validation';
 import { CUSTOMIZE_FORM } from '../../constants';
 import * as customizeAction from '../../actions';
 import { Customize } from '../../components/Customize';
+import { getUnitState } from '@/features/more/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -36,7 +37,7 @@ const mapStateToProps = (state, { navigation }) => {
         type,
         customizes,
         paymentMethods,
-        units,
+        units: getUnitState(units),
         isLoading,
         loading: customizeLoading,
         paymentModeLoading,
@@ -44,9 +45,9 @@ const mapStateToProps = (state, { navigation }) => {
         initialValues: !isLoading
             ? {
                   ...customizes.settings,
-                  invoice_auto_generate: customizes.settings.invoice_auto_generate === 'YES' || customizes.settings.invoice_auto_generate === 1,
-                  estimate_auto_generate: customizes.settings.estimate_auto_generate === 'YES' || customizes.settings.estimate_auto_generate === 1,
-                  payment_auto_generate: customizes.settings.payment_auto_generate === 'YES' || customizes.settings.payment_auto_generate === 1
+                  invoice_auto_generate: customizes.invoice_auto_generate === 'YES' || customizes.invoice_auto_generate === 1,
+                  estimate_auto_generate: customizes.estimate_auto_generate === 'YES' || customizes.estimate_auto_generate === 1,
+                  payment_auto_generate: customizes.payment_auto_generate === 'YES' || customizes.payment_auto_generate === 1
               }
             : null
     };
@@ -65,7 +66,8 @@ const mapDispatchToProps = {
     // Item Unit
     createItemUnit: customizeAction.createItemUnit,
     editItemUnit: customizeAction.editItemUnit,
-    removeItemUnit: customizeAction.removeItemUnit
+    removeItemUnit: customizeAction.removeItemUnit,
+    getItemUnits: customizeAction.getItemUnits
 };
 
 //  Redux Forms
