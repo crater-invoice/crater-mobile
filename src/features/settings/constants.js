@@ -534,7 +534,7 @@ export const COMPANY_SETTINGS_TYPE = [
 // Endpoint Api URL
 // -----------------------------------------
 export const GET_COMPANY_URL = () => `me`;
-export const EDIT_COMPANY_URL = () => `me`;
+export const EDIT_COMPANY_URL = () => `company`;
 
 export const GET_ACCOUNT_URL = () => `me`;
 export const EDIT_ACCOUNT_URL = () => `me`;
@@ -547,7 +547,7 @@ export const EDIT_PREFERENCES_URL = () => `company/settings`;
 export const GET_GENERAL_SETTING_URL = () => `company/settings`;
 export const EDIT_GENERAL_SETTING_URL = () => `company/settings`;
 
-export const UPLOAD_LOGO_URL = () => `settings/company/upload-logo`;
+export const UPLOAD_LOGO_URL = () => `company/upload-logo`;
 
 // Tax Types
 export const CREATE_SALES_TAX_URL = () => `tax-types`;

@@ -32,15 +32,15 @@ export class Notification extends React.Component<IProps> {
             email: '',
         }
     }
-
+    
     componentWillMount() {
         const { getSettingItem } = this.props
 
         getSettingItem({
             onResult: (val) => {
-                this.setFormField('notification_email', val.settings.notification_email)
-                this.setFormField('notify_invoice_viewed', val.settings.notify_invoice_viewed === 'YES' || val.settings.notify_invoice_viewe === 1 ? true : false)
-                this.setFormField('notify_estimate_viewed', val.settings.notify_estimate_viewed === 'YES' || val.settings.notify_estimate_viewed === 1 ? true : false)
+                this.setFormField('notification_email', val.notification_email)
+                this.setFormField('notify_invoice_viewed', val.notify_invoice_viewed === 'YES' || val.notify_invoice_viewe === 1 ? true : false)
+                this.setFormField('notify_estimate_viewed', val.notify_estimate_viewed === 'YES' || val.notify_estimate_viewed === 1 ? true : false)
                 this.setState({ invoiceStatus: val !== null ? val : 'NO' })
                 this.setState({ estimateStatus: val !== null ? val : 'NO' })
                 this.setState({ email: val !== null ? val : '' })

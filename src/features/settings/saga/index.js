@@ -84,7 +84,7 @@ function* editCompanyInformation(payloadData) {
             body: params
         };
 
-        const response = yield call([Request, 'post'], options);
+        const response = yield call([Request, 'put'], options);
 
         if (logo) {
             const options2 = {

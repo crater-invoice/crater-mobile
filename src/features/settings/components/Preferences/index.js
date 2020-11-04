@@ -56,7 +56,7 @@ export class Preferences extends React.Component<IProps> {
         const { getPreferences, getGeneralSetting } = this.props
 
         getPreferences({
-            onResult: ({ settings }) => this.setFormValues(settings)
+            onResult: (settings) => this.setFormValues(settings)
         })
 
         getGeneralSetting({
@@ -90,6 +90,7 @@ export class Preferences extends React.Component<IProps> {
     }
 
     setFormValues = (settings = {}) => {
+        
         const {
             carbon_date_format,
             moment_date_format,
