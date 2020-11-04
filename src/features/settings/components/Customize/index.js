@@ -409,6 +409,7 @@ export class Customize extends React.Component<IProps> {
             type,
             isLoading,
             formValues,
+            getItemUnits
         } = this.props;
 
         const { data } = this.state
@@ -448,7 +449,6 @@ export class Customize extends React.Component<IProps> {
                 {isPaymentsScreen && this.PAYMENT_CUSTOMIZE_TAB()}
 
                 {isItemsScreen && (
-                    <ScrollView keyboardShouldPersistTaps="handled">
                         <Units
                             ref={this.itemChild}
                             props={this.props}
@@ -456,7 +456,6 @@ export class Customize extends React.Component<IProps> {
                                 this.setFormField(field, value)
                             }
                         />
-                    </ScrollView>
                 )}
 
                 {isAddressScreen && (

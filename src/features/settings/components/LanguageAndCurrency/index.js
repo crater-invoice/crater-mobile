@@ -49,8 +49,8 @@ export class LanguageAndCurrency extends React.Component<IProps> {
 
         getPreferences({
             onResult: (val) => {
-                this.setFormField('language', val.settings.language)
-                this.setFormField('currency', val.settings.currency)
+                this.setFormField('language', val.language)
+                this.setFormField('currency', val.currency)
             }
         })
 

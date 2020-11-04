@@ -8,6 +8,7 @@ export default styles = StyleSheet.create({
     bodyContainer: {
         paddingHorizontal: 22,
         paddingVertical: 17,
+        flex:1
     },
     submitButton: {
         flexDirection: "row",
