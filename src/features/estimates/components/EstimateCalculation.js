@@ -1,4 +1,4 @@
-import { isArray } from '@/constants';
+import { hasValue, isArray } from '@/constants';
 import { estimateRefs } from '../constants';
 
 function estimateSubTotal() {
@@ -111,6 +111,10 @@ function subTotal() {
 }
 
 function getTaxName(tax) {
+    if (hasValue(tax?.name)) {
+        return tax.name;
+    }
+
     const { taxTypes } = estimateRefs?.props;
     let taxName = '';
     const type =

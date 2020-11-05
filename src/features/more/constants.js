@@ -215,24 +215,3 @@ export const DATE_RANGE_OPTION = (locale, Lng) => {
         }
     ];
 };
-
-// Item Unit
-// -----------------------------------------
-export const ITEM_UNITS = [
-    { label: 'pc', value: 'pc' },
-    { label: 'box', value: 'box' },
-    { label: 'cm', value: 'cm' },
-    { label: 'dz', value: 'dz' },
-    { label: 'ft', value: 'ft' },
-    { label: 'g', value: 'g' },
-    { label: 'in', value: 'in' },
-    { label: 'kg', value: 'kg' },
-    { label: 'km', value: 'km' },
-    { label: 'lb', value: 'lb' },
-    { label: 'mg', value: 'mg' }
-];
-
-export const ITEM_DEFAULT_OPTION = {
-    label: 'box',
-    value: 'box'
-};

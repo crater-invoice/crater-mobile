@@ -23,7 +23,13 @@ import {
 import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import { alertMe, BUTTON_COLOR, isIPhoneX, MAX_LENGTH } from '@/constants';
+import {
+    alertMe,
+    BUTTON_COLOR,
+    hasValue,
+    isIPhoneX,
+    MAX_LENGTH
+} from '@/constants';
 import { ADD_TAX } from '@/features/settings/constants';
 
 export class EstimateItem extends React.Component {
@@ -202,6 +208,10 @@ export class EstimateItem extends React.Component {
     };
 
     getTaxName = tax => {
+        if (hasValue(tax?.name)) {
+            return tax.name;
+        }
+
         const { taxTypes } = this.props;
         let taxName = '';
 
