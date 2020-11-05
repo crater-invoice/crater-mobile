@@ -19,7 +19,8 @@ import {
     DefaultLayout,
     DatePickerField,
     SelectField,
-    FakeInput
+    FakeInput,
+    SendMail
 } from '@/components';
 import {
     PAYMENT_ADD,
@@ -57,11 +58,13 @@ type IProps = {
 export class Payment extends React.Component<IProps> {
     customerReference: any;
     invoiceReference: any;
+    sendMailRef: any;
 
     constructor(props) {
         super(props);
         this.customerReference = React.createRef();
         this.invoiceReference = React.createRef();
+        this.sendMailRef = React.createRef();
 
         this.state = {
             selectedInvoice: null,
@@ -299,12 +302,7 @@ export class Payment extends React.Component<IProps> {
                 return this.removePayment();
 
             case ACTIONS_VALUE.SEND:
-                return alertMe({
-                    title: Lng.t('alert.title', { locale }),
-                    desc: Lng.t('payments.alertSendDescription', { locale }),
-                    showCancel: true,
-                    okPress: () => sendPaymentReceipt({ params: { id } })
-                });
+                return this.sendMailRef?.onToggle();
 
             default:
                 break;
@@ -367,13 +365,15 @@ export class Payment extends React.Component<IProps> {
             paymentMethods,
             formValues,
             getUnpaidInvoices,
-            unPaidInvoices
+            unPaidInvoices,
+            sendPaymentReceipt,
+            id
         } = this.props;
 
         const { isLoading } = this.state;
-
+        const isEditPayment = type === PAYMENT_EDIT;
         const drownDownProps =
-            type === PAYMENT_EDIT && !isLoading
+            isEditPayment && !isLoading
                 ? {
                       options: PAYMENT_ACTIONS(Lng, locale),
                       onSelect: this.onOptionSelect,
@@ -384,10 +384,9 @@ export class Payment extends React.Component<IProps> {
 
         const headerProps = {
             leftIconPress: () => navigation.goBack(null),
-            title:
-                type === PAYMENT_EDIT
-                    ? Lng.t('header.editPayment', { locale })
-                    : Lng.t('header.addPayment', { locale }),
+            title: isEditPayment
+                ? Lng.t('header.editPayment', { locale })
+                : Lng.t('header.addPayment', { locale }),
             placement: 'center',
             rightIcon: type !== PAYMENT_EDIT ? 'save' : null,
             rightIconProps: {
@@ -400,10 +399,25 @@ export class Payment extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={headerProps}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{ is: isLoading }}
+                loadingProps={{ is: isLoading || !hasObjectLength(formValues) }}
                 dropdownProps={drownDownProps}
             >
                 <View style={styles.bodyContainer}>
+                    {isEditPayment && (
+                        <SendMail
+                            mailReference={ref => (this.sendMailRef = ref)}
+                            headerTitle={'header.sendMailPayment'}
+                            alertDesc={'payments.alert.sendPayment'}
+                            user={formValues?.payment?.user}
+                            onSendMail={params => {
+                                sendPaymentReceipt({
+                                    params: { ...params, id },
+                                    navigation
+                                });
+                            }}
+                        />
+                    )}
+
                     <View style={styles.numberDateFieldContainer}>
                         <View style={styles.numberDateField}>
                             <Field
@@ -430,6 +444,7 @@ export class Payment extends React.Component<IProps> {
                         hasPagination
                         getItems={getCustomers}
                         items={customers}
+                        selectedItem={formValues?.payment?.user}
                         displayName="name"
                         component={SelectField}
                         label={Lng.t('payments.customer', { locale })}
@@ -465,6 +480,7 @@ export class Payment extends React.Component<IProps> {
                         hasPagination
                         getItems={getUnpaidInvoices}
                         items={this.formatUnpaidInvoices(unPaidInvoices)}
+                        selectedItem={formValues?.payment?.invoice}
                         displayName="invoice_number"
                         label={Lng.t('payments.invoice', { locale })}
                         icon="align-center"
@@ -511,6 +527,7 @@ export class Payment extends React.Component<IProps> {
                         hasPagination
                         getItems={getPaymentModes}
                         items={paymentMethods}
+                        selectedItem={formValues?.payment?.payment_method}
                         displayName="name"
                         label={Lng.t('payments.mode', { locale })}
                         icon="align-center"

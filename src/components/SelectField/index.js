@@ -25,10 +25,6 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
 
     componentDidMount() {
         this.props.reference?.(this);
-
-        if (!isArray(this.props.items)) {
-            return;
-        }
         this.setInitialState();
     }
 
@@ -53,9 +49,23 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             input: { value },
             compareField,
             items,
+            selectedItem,
             displayName,
             concurrentMultiSelect
         } = this.props;
+
+        if (selectedItem) {
+            this.setState({
+                values: selectedItem[displayName],
+                defaultItem: items || [],
+                searchItems: items || []
+            });
+            return;
+        }
+
+        if (!value) {
+            return;
+        }
 
         let newValue = '';
         for (const key in items) {

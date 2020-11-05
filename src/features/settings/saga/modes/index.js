@@ -32,7 +32,7 @@ const alreadyInUse = error => {
     }
 };
 
-function* getPaymentModes({ payload }) {
+export function* getPaymentModes({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
 
     try {
@@ -43,7 +43,11 @@ function* getPaymentModes({ payload }) {
         const response = yield call([Request, 'get'], options);
 
         if (response?.paymentMethods) {
-            const { data } = response.paymentMethods;
+            const { paymentMethods } = response;
+            const data =
+                queryString.limit === 'all'
+                    ? paymentMethods
+                    : paymentMethods.data;
             yield put(setPaymentModes({ paymentMethods: data, fresh }));
         }
 

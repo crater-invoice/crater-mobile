@@ -6,7 +6,7 @@ import * as actions from '../../actions';
 import { PAYMENT_FORM, PAYMENT_ADD } from '../../constants';
 import { Payment } from '../../components/Payment';
 import { getCustomers } from '@/features/customers/actions';
-import { getNextNumber, getPaymentModes } from '@/features/settings/actions';
+import { getPaymentModes } from '@/features/settings/actions';
 import { getPaymentMethodsState } from '../../selectors';
 
 const mapStateToProps = (state, { navigation }) => {
@@ -39,7 +39,6 @@ const mapStateToProps = (state, { navigation }) => {
 const mapDispatchToProps = {
     ...actions,
     getCustomers,
-    getNextNumber,
     getPaymentModes
 };
 

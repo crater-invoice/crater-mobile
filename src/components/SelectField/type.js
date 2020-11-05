@@ -42,6 +42,7 @@ export type IProps = {
     emptyContentProps: any,
 
     items: Array,
+    selectedItem: Object<any>,
     searchFields: Array,
     isEditable: Boolean,
     isCompareField: Boolean,

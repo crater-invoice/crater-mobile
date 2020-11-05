@@ -17,7 +17,7 @@ import {
 import { ROUTES } from '@/navigation';
 import Request from '@/api/request';
 
-function* getExpenseCategories({ payload }) {
+export function* getExpenseCategories({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
 
     try {
@@ -28,7 +28,9 @@ function* getExpenseCategories({ payload }) {
         const response = yield call([Request, 'get'], options);
 
         if (response?.categories) {
-            const { data } = response.categories;
+            const { categories } = response;
+            const data =
+                queryString.limit === 'all' ? categories : categories.data;
             yield put(setExpenseCategories({ categories: data, fresh }));
         }
 

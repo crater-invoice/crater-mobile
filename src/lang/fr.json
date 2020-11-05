@@ -58,6 +58,7 @@
         "editCurrency": "Modifier la devise",
         "sendMailInvoice": "Envoyer une facture",
         "sendMailEstimate": "Envoyer une estimation",
+        "sendMailPayment": "Envoyer le paiement",
         "recurringInvoice": "Factures récurrentes",
         "addRecurring": "Ajouter une facture récurrente",
         "editRecurring": "Modifier la facture récurrente",
@@ -243,6 +244,9 @@
             "modeTitle": "Pas encore de modes de paiement!",
             "description": "Cette section contiendra la liste des paiements.",
             "buttonTitle": "Ajouter un nouveau paiement"
+        },
+        "alert": {
+            "sendPayment": "Ce reçu de paiement sera envoyé par e-mail à l'adresse indiquée"
         }
     },
     "paymentMode":{

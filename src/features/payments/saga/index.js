@@ -2,14 +2,14 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import Request from '@/api/request';
 import * as queryStrings from 'query-string';
 import * as TYPES from '../constants';
-import {
-    paymentTriggerSpinner,
-    saveUnpaidInvoices,
-    setPayments
-} from '../actions';
 import { ROUTES } from '@/navigation';
 import { alertMe, hasValue } from '@/constants';
 import { getTitleByLanguage } from '@/utils';
+import {
+    paymentTriggerSpinner as spinner,
+    saveUnpaidInvoices,
+    setPayments
+} from '../actions';
 import {
     getNextNumber,
     getSettingInfo
@@ -56,7 +56,7 @@ function* getCreatePayment({ payload: { onSuccess } }) {
 function* createPayment({ payload }) {
     const { params, navigation, submissionError } = payload;
 
-    yield put(paymentTriggerSpinner({ paymentLoading: true }));
+    yield put(spinner({ paymentLoading: true }));
 
     try {
         const options = {
@@ -82,7 +82,7 @@ function* createPayment({ payload }) {
         navigation.goBack(null);
     } catch (e) {
     } finally {
-        yield put(paymentTriggerSpinner({ paymentLoading: false }));
+        yield put(spinner({ paymentLoading: false }));
     }
 }
 
@@ -101,7 +101,9 @@ function* getUnpaidInvoices({ payload }) {
         const response = yield call([Request, 'get'], { path });
 
         if (response?.invoices) {
-            const { data } = response.invoices;
+            const { invoices } = response;
+            const data = queryString.limit === 'all' ? invoices : invoices.data;
+
             yield put(saveUnpaidInvoices({ invoices: data, fresh }));
         }
 
@@ -115,6 +117,10 @@ function* getPaymentDetail({ payload: { id, onSuccess } }) {
 
         const response = yield call([Request, 'get'], options);
 
+        if (!response?.payment) {
+            return;
+        }
+
         onSuccess?.(response);
     } catch (e) {}
 }
@@ -122,7 +128,7 @@ function* getPaymentDetail({ payload: { id, onSuccess } }) {
 function* updatePayment({ payload }) {
     const { id, params, navigation, submissionError } = payload;
 
-    yield put(paymentTriggerSpinner({ paymentLoading: true }));
+    yield put(spinner({ paymentLoading: true }));
 
     try {
         const options = {
@@ -148,12 +154,12 @@ function* updatePayment({ payload }) {
         navigation.goBack(null);
     } catch (e) {
     } finally {
-        yield put(paymentTriggerSpinner({ paymentLoading: false }));
+        yield put(spinner({ paymentLoading: false }));
     }
 }
 
 function* removePayment({ payload: { id, navigation } }) {
-    yield put(paymentTriggerSpinner({ paymentLoading: true }));
+    yield put(spinner({ paymentLoading: true }));
 
     try {
         const options = {
@@ -168,31 +174,32 @@ function* removePayment({ payload: { id, navigation } }) {
         }
     } catch (e) {
     } finally {
-        yield put(paymentTriggerSpinner({ paymentLoading: false }));
+        yield put(spinner({ paymentLoading: false }));
     }
 }
 
 function* sendPaymentReceipt({ payload: { params, navigation } }) {
-    yield put(paymentTriggerSpinner({ paymentLoading: true }));
+    yield put(spinner({ paymentLoading: true }));
 
     try {
         const options = {
-            path: `payments/send`,
+            path: `payments/${params.id}/send`,
             body: params
         };
 
         const response = yield call([Request, 'post'], options);
 
-        if (response.error && response.error === 'user_email_does_not_exist') {
-            alertMe({
-                title: getTitleByLanguage('alert.action.emailNotExist')
-            });
-        } else {
+        if (response.success) {
             navigation.navigate(ROUTES.MAIN_PAYMENTS);
+            return;
         }
+
+        alertMe({
+            desc: getTitleByLanguage('validation.wrong')
+        });
     } catch (e) {
     } finally {
-        yield put(paymentTriggerSpinner({ paymentLoading: false }));
+        yield put(spinner({ paymentLoading: false }));
     }
 }
 

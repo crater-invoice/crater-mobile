@@ -3,6 +3,8 @@ import Request from '@/api/request';
 import * as queryStrings from 'query-string';
 import * as TYPES from '../constants';
 import { expenseTriggerSpinner, setExpenses } from '../actions';
+import { getCustomers } from '@/features/customers/saga';
+import { getExpenseCategories } from '@/features/settings/saga/categories';
 
 function* getExpenses({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
@@ -90,6 +92,14 @@ function* getExpenseDetail({ payload: { id, onSuccess } }) {
         const options = { path: `expenses/${id}` };
 
         const response = yield call([Request, 'get'], options);
+
+        yield call(getCustomers, {
+            payload: { queryString: { limit: 'all' } }
+        });
+
+        yield call(getExpenseCategories, {
+            payload: { queryString: { limit: 'all' } }
+        });
 
         onSuccess?.(response.expense);
     } catch (e) {}

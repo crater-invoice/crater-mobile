@@ -58,6 +58,7 @@
         "editCurrency": "Edit Currency",
         "sendMailInvoice": "Send Invoice",
         "sendMailEstimate": "Send Estimate",
+        "sendMailPayment": "Send Payment",
         "recurringInvoice": "Recurring Invoices",
         "addRecurring": "Add Recurring Invoice",
         "editRecurring": "Edit Recurring Invoice",
@@ -243,6 +244,9 @@
             "modeTitle": "No payment modes yet!",
             "description": "This section will contain the list of payments.",
             "buttonTitle": "Add New Payment"
+        },
+        "alert": {
+            "sendPayment": "This payment receipt will be sent via email to the given address"
         }
     },
     "paymentMode": {

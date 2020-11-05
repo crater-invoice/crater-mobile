@@ -23,7 +23,7 @@ const addressParams = (address, type) => {
     };
 };
 
-function* getCustomers({ payload }) {
+export function* getCustomers({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
 
     try {
@@ -34,7 +34,10 @@ function* getCustomers({ payload }) {
         const response = yield call([Request, 'get'], options);
 
         if (response?.customers) {
-            const { data } = response.customers;
+            const { customers } = response;
+            const data =
+                queryString.limit === 'all' ? customers : customers.data;
+
             yield put(setCustomers({ customers: data, fresh }));
         }
 
