@@ -1,4 +1,4 @@
-import { isArray } from '@/constants';
+import { hasValue, isArray } from '@/constants';
 import { invoiceRefs } from '../constants';
 
 function invoiceSubTotal() {
@@ -111,6 +111,10 @@ function subTotal() {
 }
 
 function getTaxName(tax) {
+    if (hasValue(tax?.name)) {
+        return tax.name;
+    }
+
     const { taxTypes } = invoiceRefs?.props;
     let taxName = '';
     const type = taxTypes.filter(val => val.fullItem.id === tax.tax_type_id);
