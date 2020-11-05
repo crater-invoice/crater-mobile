@@ -1,18 +1,17 @@
-import { getError } from "@/constants";
+import { getError } from '@/constants';
 
 // @flow
 
-export const validate = (values) => {
+export const validate = values => {
     const errors = {};
-    const { from, to, subject, message } = values;
+    const { from, to, subject, body } = values;
 
-    errors.from = getError(from, ['requiredField', 'emailFormat']);
-    errors.to = getError(to, ['requiredField', 'emailFormat']);
+    errors.from = getError(from, ['required', 'emailFormat']);
+    errors.to = getError(to, ['required', 'emailFormat']);
 
-    errors.subject = getError(
-        subject,
-        ['requiredField'],
-    );
+    errors.subject = getError(subject, ['requiredField']);
+
+    errors.body = getError(body, ['requiredField']);
 
     return errors;
 };

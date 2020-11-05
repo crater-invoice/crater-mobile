@@ -57,6 +57,7 @@
         "addCurrency": "Add Currency",
         "editCurrency": "Edit Currency",
         "sendMailInvoice": "Send Invoice",
+        "sendMailEstimate": "Send Estimate",
         "recurringInvoice": "Recurring Invoices",
         "addRecurring": "Add Recurring Invoice",
         "editRecurring": "Edit Recurring Invoice",
@@ -132,7 +133,8 @@
             "alreadyInUseNumber": "The invoice number has already been taken.",
             "sendEmail": "This invoice will be sent via email to the customer",
             "clone": "This invoice will be cloned into a new Invoice",
-            "sendInvoice": "This invoice will be sent via email to the customer"
+            "sendInvoice": "This invoice will be sent via email to the customer",
+            "markAsSent": "This invoice will be marked as sent"
         },
         "empty": {
             "due": {
@@ -460,7 +462,11 @@
             "removeDescription": "You will not be able to recover this Estimate",
             "lessAmount": "Total Amount should't less than 0",
             "draftTitle": "Save changes?",
-            "alreadyInUseNumber": "The estimate number has already been taken."
+            "alreadyInUseNumber": "The estimate number has already been taken.",
+            "sendEstimate": "This estimate will be sent via email to the customer",
+            "markAsSent": "This estimate will be marked as sent",
+            "markAsAccept": "This estimate will be marked as Accepted",
+            "markAsReject": "This estimate will be marked as Rejected"
         },
         "empty": {
             "sent": {
@@ -480,6 +486,7 @@
         "actions": {
             "downloadPdf": "Download PDF",
             "sendEstimate": "Send Estimate",
+            "reSendEstimate": "Resend Estimate",
             "editEstimate": "Edit Estimate",
             "delete": "Delete",
             "convertToInvoice": "Convert To Invoice",

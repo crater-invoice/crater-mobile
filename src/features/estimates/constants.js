@@ -36,7 +36,7 @@ export const CONVERT_TO_INVOICE = 'estimate/CONVERT_TO_INVOICE';
 export const REMOVE_ESTIMATE = 'estimate/REMOVE_ESTIMATE';
 export const REMOVE_FROM_ESTIMATES = 'estimate/REMOVE_FROM_ESTIMATES';
 export const CHANGE_ESTIMATE_STATUS = 'estimate/CHANGE_ESTIMATE_STATUS';
-
+export const GET_ESTIMATE_TEMPLATE = 'estimate/GET_ESTIMATE_TEMPLATE';
 // Items
 // -----------------------------------------
 export const SET_EDIT_ESTIMATE_ITEMS = 'estimate/SET_EDIT_ESTIMATE_ITEMS';
@@ -169,7 +169,12 @@ export const EDIT_ESTIMATE_ACTIONS = (locale, markAs = '') => {
             value: ESTIMATE_ACTIONS.CONVERT_TO_INVOICE
         },
         {
-            label: Lng.t('estimates.actions.sendEstimate', { locale }),
+            label: Lng.t(
+                markAs === MARK_AS_SENT
+                    ? 'estimates.actions.reSendEstimate'
+                    : 'estimates.actions.sendEstimate',
+                { locale }
+            ),
             value: ESTIMATE_ACTIONS.SEND
         }
     ];
@@ -188,22 +193,3 @@ export const EDIT_ESTIMATE_ACTIONS = (locale, markAs = '') => {
 
     return [...actions, ...items, ...deleteAction];
 };
-
-// Endpoint Api URL
-// -----------------------------------------
-export const URL = {
-    GET_ESTIMATES: param => `estimates?${queryString.stringify(param)}`,
-    CREATE_ESTIMATE: `estimates`,
-    EDIT_ESTIMATE: estimate => `estimates/${estimate.id}`,
-    GET_SELECTED_ESTIMATE: id => `estimates/${id}/edit`,
-    REMOVE_ESTIMATE: id => `estimates/${id}`,
-    CHANGE_ESTIMATE_STATUS: action => `estimates/${action}`,
-    GET_CREATE_ESTIMATE: () => `estimates/create`,
-    CONVERT_TO_INVOICE: id => `estimates/${id}/convert-to-invoice`
-};
-
-export const GET_ITEMS_URL = (q, search, page, limit) =>
-    `items?search=${q ? q : search}&page=${page}&limit=${limit}`;
-
-export const CREATE_ITEM_URL = () => `items`;
-export const EDIT_ITEM_URL = item_id => `items/${item_id}`;

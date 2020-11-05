@@ -53,10 +53,10 @@ const mapStateToProps = (state, { navigation }) => {
 };
 
 const mapDispatchToProps = {
-    getItemUnits: getItemUnits,
     addItem: InvoicesAction.addItem,
     setInvoiceItems: InvoicesAction.setInvoiceItems,
     removeInvoiceItem: InvoicesAction.removeInvoiceItem,
+    getItemUnits,
     getTaxes
 };
 

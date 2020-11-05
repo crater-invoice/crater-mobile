@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { View, Text, Linking } from 'react-native';
-import { Field, change, SubmissionError, formValues } from 'redux-form';
+import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
 import { colors, itemsDescriptionStyle } from '@/styles';
 import { TemplateField } from '../TemplateField';
@@ -47,7 +47,7 @@ import {
 
 type IProps = {
     navigation: Object,
-    invoiceItems: Object,
+    invoiceItems: any,
     taxTypes: Object,
     customers: Object,
     getCreateInvoice: Function,
@@ -62,22 +62,23 @@ type IProps = {
     initLoading: Boolean,
     loading: Boolean,
     invoiceData: Object,
-    invoiceItems: Object,
     items: Object,
     locale: String,
     type: String
 };
 
 export class Invoice extends React.Component<IProps> {
+    invoiceRefs: any;
+    sendMailRef: any;
     customerReference: any;
 
     constructor(props) {
         super(props);
         this.invoiceRefs = setInvoiceRefs.bind(this);
+        this.sendMailRef = React.createRef();
         this.customerReference = React.createRef();
 
         this.state = {
-            taxTypeList: [],
             currency: props?.currency,
             itemList: [],
             customerName: '',
@@ -240,7 +241,7 @@ export class Invoice extends React.Component<IProps> {
         this.onSubmitInvoice(values, 'save');
     };
 
-    draftInvoice = () => {
+    draftInvoice = values => {
         this.onSubmitInvoice(values, 'draft');
     };
 
@@ -330,7 +331,7 @@ export class Invoice extends React.Component<IProps> {
     };
 
     removeInvoice = () => {
-        const { removeInvoice, navigation, locale } = this.props;
+        const { removeInvoice, navigation, locale, id } = this.props;
 
         alertMe({
             title: Lng.t('alert.title', { locale }),
@@ -338,7 +339,7 @@ export class Invoice extends React.Component<IProps> {
             showCancel: true,
             okPress: () =>
                 removeInvoice({
-                    id: navigation.getParam('id'),
+                    id,
                     onResult: res => {
                         if (res?.success) {
                             navigation.navigate(ROUTES.MAIN_INVOICES);
@@ -373,7 +374,6 @@ export class Invoice extends React.Component<IProps> {
             locale,
             formValues,
             changeInvoiceStatus,
-            type,
             id
         } = this.props;
 
@@ -383,13 +383,19 @@ export class Invoice extends React.Component<IProps> {
                 break;
 
             case INVOICE_ACTIONS.MARK_AS_SENT:
-                changeInvoiceStatus({
-                    id,
-                    action: `${id}/status`,
-                    navigation,
-                    params: {
-                        status: 'SENT'
-                    }
+                alertMe({
+                    title: Lng.t('alert.title', { locale }),
+                    desc: Lng.t('invoices.alert.markAsSent', { locale }),
+                    showCancel: true,
+                    okPress: () =>
+                        changeInvoiceStatus({
+                            id,
+                            action: `${id}/status`,
+                            navigation,
+                            params: {
+                                status: 'SENT'
+                            }
+                        })
                 });
                 break;
 
@@ -598,7 +604,6 @@ export class Invoice extends React.Component<IProps> {
                             contentType: 'customers',
                             image: IMAGES.EMPTY_CUSTOMERS
                         }}
-                        fakeInputProps={{ loading: false }}
                         reference={ref => (this.customerReference = ref)}
                     />
 

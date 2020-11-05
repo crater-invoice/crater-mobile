@@ -106,33 +106,35 @@ function* getEditInvoice({ payload: { id, onSuccess } }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.invoice) {
-            const { invoice, invoicePrefix, nextInvoiceNumber } = response;
-
-            const settingInfo = yield call(getSettingInfo, {
-                payload: {
-                    keys: ['tax_per_item', 'discount_per_item']
-                }
-            });
-
-            const { invoiceTemplates } = yield call(geInvoiceTemplates, {});
-
-            const values = {
-                invoice,
-                ...settingInfo,
-                invoicePrefix,
-                nextInvoiceNumber,
-                invoiceTemplates
-            };
-
-            yield put(setInvoice(values));
-
-            yield put(removeInvoiceItems());
-
-            yield put(setInvoiceItems({ invoiceItem: invoice?.items ?? [] }));
-
-            onSuccess?.(invoice);
+        if (!response?.invoice) {
+            return;
         }
+
+        const { invoice, invoicePrefix, nextInvoiceNumber } = response;
+
+        const settingInfo = yield call(getSettingInfo, {
+            payload: {
+                keys: ['tax_per_item', 'discount_per_item']
+            }
+        });
+
+        const { invoiceTemplates } = yield call(geInvoiceTemplates, {});
+
+        const values = {
+            invoice,
+            ...settingInfo,
+            invoicePrefix,
+            nextInvoiceNumber,
+            invoiceTemplates
+        };
+
+        yield put(setInvoice(values));
+
+        yield put(removeInvoiceItems());
+
+        yield put(setInvoiceItems({ invoiceItem: invoice?.items ?? [] }));
+
+        onSuccess?.(invoice);
     } catch (e) {
     } finally {
         yield put(spinner({ initInvoiceLoading: false }));
@@ -323,7 +325,9 @@ function* removeInvoice({ payload: { onResult, id } }) {
 
         const response = yield call([Request, 'post'], options);
 
-        if (response.success) yield put(removeFromInvoices({ id }));
+        if (response.success) {
+            yield put(removeFromInvoices({ id }));
+        }
 
         onResult?.(response);
     } catch (e) {
@@ -352,6 +356,7 @@ function* changeInvoiceStatus({ payload }) {
                 desc: getTitleByLanguage('validation.wrong'),
                 okPress: () => navigation?.goBack?.(null)
             });
+            return;
         }
 
         navigation.navigate(ROUTES.MAIN_INVOICES);

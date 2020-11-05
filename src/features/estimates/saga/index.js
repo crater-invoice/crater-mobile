@@ -1,5 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import Request from '@/api/request';
+import * as queryStrings from 'query-string';
 import {
     GET_ESTIMATES,
     GET_CREATE_ESTIMATE,
@@ -13,14 +14,10 @@ import {
     CONVERT_TO_INVOICE,
     REMOVE_ESTIMATE,
     CHANGE_ESTIMATE_STATUS,
-    // Endpoint Api URL
-    CREATE_ITEM_URL,
-    EDIT_ITEM_URL,
-    GET_ITEMS_URL,
-    URL
+    GET_ESTIMATE_TEMPLATE
 } from '../constants';
 import {
-    estimateTriggerSpinner,
+    estimateTriggerSpinner as spinner,
     setEstimates,
     setItems,
     setEstimateItems,
@@ -31,8 +28,12 @@ import {
 } from '../actions';
 import { setInvoices } from '../../invoices/actions';
 import { ROUTES } from '@/navigation';
-import { alertMe, hasValue } from '@/constants';
+import { alertMe } from '@/constants';
 import { getTitleByLanguage } from '@/utils';
+import {
+    getNextNumber,
+    getSettingInfo
+} from '@/features/settings/saga/general';
 
 const alreadyInUse = error => {
     if (error.includes('errors') && error.includes('estimate_number')) {
@@ -48,7 +49,7 @@ function* getEstimates({ payload }) {
 
     try {
         const options = {
-            path: URL.GET_ESTIMATES(queryString)
+            path: `estimates?${queryStrings.stringify(queryString)}`
         };
 
         const response = yield call([Request, 'get'], options);
@@ -59,61 +60,107 @@ function* getEstimates({ payload }) {
         }
 
         onSuccess?.(response?.estimates);
+    } catch (e) {}
+}
+
+function* getCreateEstimate({ payload: { onSuccess } }) {
+    yield put(spinner({ initEstimateLoading: true }));
+
+    try {
+        const response = yield call(getSettingInfo, {
+            payload: {
+                keys: [
+                    'estimate_auto_generate',
+                    'tax_per_item',
+                    'discount_per_item'
+                ]
+            }
+        });
+
+        const { estimate_auto_generate } = response;
+
+        const isAuto =
+            estimate_auto_generate === 'YES' || estimate_auto_generate === 1;
+
+        const nextEstimateNumber = yield call(getNextNumber, {
+            payload: { key: 'estimate' }
+        });
+
+        const values = {
+            ...nextEstimateNumber,
+            ...(!isAuto && { nextNumber: null })
+        };
+
+        const { templates } = yield call(geEstimateTemplates, {});
+
+        yield put(
+            setEstimate({
+                ...response,
+                ...values,
+                estimateTemplates: templates
+            })
+        );
+
+        onSuccess?.(values);
     } catch (e) {
     } finally {
+        yield put(spinner({ initEstimateLoading: false }));
     }
 }
 
-function* getCreateEstimate({ payload: { onResult } }) {
-    yield put(estimateTriggerSpinner({ initEstimateLoading: true }));
+function* getEditEstimate({ payload: { id, onSuccess } }) {
+    yield put(spinner({ initEstimateLoading: true }));
 
     try {
         const options = {
-            path: URL.GET_CREATE_ESTIMATE
+            path: `estimates/${id}`
         };
 
         const response = yield call([Request, 'get'], options);
 
-        yield put(setEstimate(response));
+        if (!response?.estimate) {
+            return;
+        }
 
-        onResult?.(response);
-    } catch (e) {
-    } finally {
-        yield put(estimateTriggerSpinner({ initEstimateLoading: false }));
-    }
-}
+        const { estimate, estimatePrefix, nextEstimateNumber } = response;
 
-function* getEditEstimate({ payload: { id, onResult } }) {
-    yield put(estimateTriggerSpinner({ initEstimateLoading: true }));
+        const settingInfo = yield call(getSettingInfo, {
+            payload: {
+                keys: ['tax_per_item', 'discount_per_item']
+            }
+        });
 
-    try {
-        const options = {
-            path: URL.GET_SELECTED_ESTIMATE(id)
+        const { templates } = yield call(geEstimateTemplates, {});
+
+        const values = {
+            estimate,
+            ...settingInfo,
+            estimatePrefix,
+            nextEstimateNumber,
+            estimateTemplates: templates
         };
 
-        const response = yield call([Request, 'get'], options);
-
-        yield put(setEstimate(response));
+        yield put(setEstimate(values));
 
         yield put(removeEstimateItems());
 
-        yield put(setEstimateItems({ estimateItem: response.estimate.items }));
+        yield put(setEstimateItems({ estimateItem: estimate.items }));
 
-        onResult?.(response.estimate);
+        onSuccess?.(estimate);
     } catch (e) {
     } finally {
-        yield put(estimateTriggerSpinner({ initEstimateLoading: false }));
+        yield put(spinner({ initEstimateLoading: false }));
     }
 }
 
 function* addItem({ payload: { item, onResult } }) {
-    yield put(estimateTriggerSpinner({ createEstimateItemLoading: true }));
+    yield put(spinner({ createEstimateItemLoading: true }));
 
     try {
         const { price, name, description, taxes, unit_id } = item;
 
         const options = {
-            path: CREATE_ITEM_URL(),
+            path: `items`,
             body: {
                 name,
                 description,
@@ -138,18 +185,18 @@ function* addItem({ payload: { item, onResult } }) {
         onResult?.();
     } catch (e) {
     } finally {
-        yield put(estimateTriggerSpinner({ createEstimateItemLoading: false }));
+        yield put(spinner({ createEstimateItemLoading: false }));
     }
 }
 
 function* editItem({ payload: { item, onResult } }) {
-    yield put(estimateTriggerSpinner({ estimateLoading: true }));
+    yield put(spinner({ estimateLoading: true }));
 
     try {
         const { price, name, description, item_id } = item;
 
         const options = {
-            path: EDIT_ITEM_URL(item_id),
+            path: `items/${item_id}`,
             body: {
                 name,
                 description,
@@ -173,97 +220,104 @@ function* editItem({ payload: { item, onResult } }) {
         onResult?.();
     } catch (e) {
     } finally {
-        yield put(estimateTriggerSpinner({ estimateLoading: false }));
+        yield put(spinner({ estimateLoading: false }));
     }
 }
 
-function* createEstimate({ payload: { estimate, onResult } }) {
-    yield put(estimateTriggerSpinner({ estimateLoading: true }));
+function* createEstimate({ payload }) {
+    const { estimate, onSuccess, submissionError, navigation } = payload;
+
+    yield put(spinner({ estimateLoading: true }));
 
     try {
         const options = {
-            path: URL.CREATE_ESTIMATE,
+            path: `estimates`,
             body: estimate
         };
 
         const response = yield call([Request, 'post'], options);
 
-        if (!response.error) {
-            yield put(removeEstimateItems());
-
-            yield put(
-                setEstimates({ estimates: [response.estimate], prepend: true })
-            );
-
-            onResult?.(response.url);
+        if (response?.data?.errors) {
+            submissionError?.(response?.data?.errors);
+            return;
         }
-    } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText);
+
+        if (!response.estimate) {
+            alertMe({
+                desc: getTitleByLanguage('validation.wrong'),
+                okPress: () => navigation.goBack(null)
+            });
+            return;
+        }
+
+        yield put(removeEstimateItems());
+
+        onSuccess?.(response?.estimate?.estimatePdfUrl);
+    } catch (e) {
     } finally {
-        yield put(estimateTriggerSpinner({ estimateLoading: false }));
+        yield put(spinner({ estimateLoading: false }));
     }
 }
 
-function* editEstimate({ payload: { estimate, onResult } }) {
-    yield put(estimateTriggerSpinner({ estimateLoading: true }));
+function* editEstimate({ payload }) {
+    const { estimate, onSuccess, submissionError, navigation } = payload;
+
+    yield put(spinner({ estimateLoading: true }));
 
     try {
         const options = {
-            path: URL.EDIT_ESTIMATE(estimate),
+            path: `estimates/${estimate.id}`,
             body: estimate
         };
 
         const response = yield call([Request, 'put'], options);
 
-        yield put(removeFromEstimates({ id: estimate.id }));
+        if (response?.data?.errors) {
+            submissionError?.(response?.data?.errors);
+            return;
+        }
 
-        yield put(
-            setEstimates({ estimates: [response.estimate], prepend: true })
-        );
+        if (!response.estimate) {
+            alertMe({
+                desc: getTitleByLanguage('validation.wrong'),
+                okPress: () => navigation.goBack(null)
+            });
+            return;
+        }
 
-        onResult?.(response.url);
-    } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText);
+        onSuccess?.(response?.estimate?.estimatePdfUrl);
+    } catch (e) {
     } finally {
-        yield put(estimateTriggerSpinner({ estimateLoading: false }));
+        yield put(spinner({ estimateLoading: false }));
     }
 }
 
-function* getItems(payloadData) {
-    const {
-        payload: {
-            onResult,
-            fresh,
-            onMeta,
-            search = '',
-            q = '',
-            pagination: { page, limit }
-        }
-    } = payloadData;
+function* getItems({ payload }) {
+    const { fresh = true, onSuccess, queryString } = payload;
 
-    yield put(estimateTriggerSpinner({ itemsLoading: true }));
+    yield put(spinner({ itemsLoading: true }));
 
     try {
         const options = {
-            path: GET_ITEMS_URL(q, search, page, limit)
+            path: `items?${queryStrings.stringify(queryString)}`
         };
 
         const response = yield call([Request, 'get'], options);
 
-        yield put(setItems({ items: response.items.data, fresh }));
+        if (response?.items) {
+            const { data } = response.items;
+            yield put(setItems({ items: data, fresh }));
+        }
 
-        onMeta && onMeta(response.items);
-
-        onResult && onResult(response.items);
+        onSuccess?.(response?.items);
     } catch (e) {
-        onResult && onResult(response.items);
     } finally {
-        yield put(estimateTriggerSpinner({ itemsLoading: false }));
+        yield put(spinner({ itemsLoading: false }));
     }
 }
 
 function* removeItem({ payload: { onResult, id } }) {
-    yield put(estimateTriggerSpinner({ removeItemLoading: true }));
+    yield put(spinner({ removeItemLoading: true }));
 
     try {
         yield put(removeEstimateItem({ id }));
@@ -271,16 +325,16 @@ function* removeItem({ payload: { onResult, id } }) {
         onResult?.();
     } catch (e) {
     } finally {
-        yield put(estimateTriggerSpinner({ removeItemLoading: false }));
+        yield put(spinner({ removeItemLoading: false }));
     }
 }
 
 function* convertToInvoice({ payload: { onResult, id } }) {
-    yield put(estimateTriggerSpinner({ estimateLoading: true }));
+    yield put(spinner({ estimateLoading: true }));
 
     try {
         const options = {
-            path: URL.CONVERT_TO_INVOICE(id)
+            path: `estimates/${id}/convert-to-invoice`
         };
 
         const response = yield call([Request, 'post'], options);
@@ -292,56 +346,71 @@ function* convertToInvoice({ payload: { onResult, id } }) {
         onResult?.();
     } catch (e) {
     } finally {
-        yield put(estimateTriggerSpinner({ estimateLoading: false }));
+        yield put(spinner({ estimateLoading: false }));
     }
 }
 
 function* removeEstimate({ payload: { onResult, id } }) {
-    yield put(estimateTriggerSpinner({ estimateLoading: true }));
+    yield put(spinner({ estimateLoading: true }));
 
     try {
         const options = {
-            path: URL.REMOVE_ESTIMATE(id)
-        };
-
-        yield call([Request, 'delete'], options);
-
-        yield put(removeFromEstimates({ id }));
-
-        onResult?.();
-    } catch (e) {
-    } finally {
-        yield put(estimateTriggerSpinner({ estimateLoading: false }));
-    }
-}
-
-function* changeEstimateStatus({ payload }) {
-    const { onResult, id, action, navigation } = payload;
-
-    yield put(estimateTriggerSpinner({ estimateLoading: true }));
-
-    try {
-        const options = {
-            path: URL.CHANGE_ESTIMATE_STATUS(action),
-            body: { id }
+            path: `estimates/delete`,
+            body: { ids: [id] }
         };
 
         const response = yield call([Request, 'post'], options);
 
         if (response.success) {
-            navigation.navigate(ROUTES.ESTIMATE_LIST);
-        } else {
-            response.error === 'user_email_does_not_exist' &&
-                alertMe({
-                    desc: getTitleByLanguage('alert.action.emailNotExist')
-                });
+            yield put(removeFromEstimates({ id }));
         }
 
+        onResult?.(response);
+    } catch (e) {
+    } finally {
+        yield put(spinner({ estimateLoading: false }));
+    }
+}
+
+function* changeEstimateStatus({ payload }) {
+    const { onResult = null, params = null, id, action, navigation } = payload;
+
+    yield put(spinner({ estimateLoading: true }));
+
+    const param = { id, ...params };
+
+    try {
+        const options = {
+            path: `estimates/${action}`,
+            body: { ...param }
+        };
+
+        const response = yield call([Request, 'post'], options);
+
+        if (!response?.success) {
+            alertMe({
+                desc: getTitleByLanguage('validation.wrong'),
+                okPress: () => navigation?.goBack?.(null)
+            });
+            return;
+        }
+
+        navigation.navigate(ROUTES.ESTIMATE_LIST);
         onResult?.();
     } catch (e) {
     } finally {
-        yield put(estimateTriggerSpinner({ estimateLoading: false }));
+        yield put(spinner({ estimateLoading: false }));
     }
+}
+
+export function* geEstimateTemplates(payloadData) {
+    try {
+        const options = {
+            path: `estimates/templates`
+        };
+
+        return yield call([Request, 'get'], options);
+    } catch (e) {}
 }
 
 export default function* estimatesSaga() {
@@ -357,4 +426,5 @@ export default function* estimatesSaga() {
     yield takeEvery(CONVERT_TO_INVOICE, convertToInvoice);
     yield takeEvery(CHANGE_ESTIMATE_STATUS, changeEstimateStatus);
     yield takeEvery(REMOVE_ESTIMATE, removeEstimate);
+    yield takeEvery(GET_ESTIMATE_TEMPLATE, geEstimateTemplates);
 }

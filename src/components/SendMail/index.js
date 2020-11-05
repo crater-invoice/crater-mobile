@@ -10,7 +10,7 @@ import { SlideModal } from '../SlideModal';
 import { InputField } from '../InputField';
 import { CtButton } from '../Button';
 import Lng from '@/lang/i18n';
-import { alertMe, hasValue } from '@/constants';
+import { alertMe, hasObjectLength, hasValue } from '@/constants';
 import { getMailConfiguration } from '../../features/more/actions';
 import { Content } from '../Content';
 
@@ -56,15 +56,11 @@ class SendMailComponent extends Component<IProps> {
             return;
         }
 
-        if (!hasValue(values?.[emailField.subject])) {
-            throw new SubmissionError({
-                [emailField.subject]: 'validation.required'
-            });
-        }
+        const errors = this.checkIsFieldsRequired(values);
 
-        if (!hasValue(values?.[emailField.msg])) {
+        if (hasObjectLength(errors)) {
             throw new SubmissionError({
-                [emailField.msg]: 'validation.required'
+                ...errors
             });
         }
 
@@ -77,6 +73,28 @@ class SendMailComponent extends Component<IProps> {
                 setTimeout(() => onSendMail?.(values), 200);
             }
         });
+    };
+
+    checkIsFieldsRequired = values => {
+        let errors = {};
+
+        if (!hasValue(values?.[emailField.from])) {
+            errors[emailField.from] = 'validation.required';
+        }
+
+        if (!hasValue(values?.[emailField.to])) {
+            errors[emailField.to] = 'validation.required';
+        }
+
+        if (!hasValue(values?.[emailField.subject])) {
+            errors[emailField.subject] = 'validation.required';
+        }
+
+        if (!hasValue(values?.[emailField.msg])) {
+            errors[emailField.msg] = 'validation.required';
+        }
+
+        return errors;
     };
 
     onToggle = async () => {

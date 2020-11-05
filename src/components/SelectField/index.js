@@ -326,7 +326,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             isRequired,
             isInternalSearch,
             getItems,
-            locale
+            locale,
+            paginationLimit
         } = this.props;
 
         const {
@@ -362,7 +363,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
                 reference: ref => (this.scrollViewReference = ref),
                 getItemsInMount: false,
                 onMount: this.getPaginationItems,
-                hideLoader: isArray(items)
+                hideLoader: isArray(items),
+                ...(paginationLimit && { paginationLimit })
             };
         }
 

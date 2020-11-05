@@ -1,10 +1,13 @@
 import { isArray } from '@/constants';
-import React, { Component } from 'react';
 import { invoiceRefs } from '../constants';
 
 function invoiceSubTotal() {
-    const { invoiceItems = [] } = invoiceRefs?.props;
+    let invoiceItems = invoiceRefs?.props?.invoiceItems;
     let subTotal = 0;
+
+    if (!isArray(invoiceItems)) {
+        return JSON.parse(subTotal);
+    }
 
     invoiceItems.map(val => (subTotal += JSON.parse(val.total)));
 
@@ -66,8 +69,13 @@ function totalDiscount() {
 }
 
 function invoiceItemTotalTaxes() {
-    const { invoiceItems } = invoiceRefs?.props;
+    let invoiceItems = invoiceRefs?.props?.invoiceItems;
     let taxes = [];
+
+    if (!isArray(invoiceItems)) {
+        return [];
+    }
+
     invoiceItems.map(val => {
         val.taxes &&
             val.taxes.filter(tax => {

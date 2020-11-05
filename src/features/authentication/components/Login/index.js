@@ -13,7 +13,6 @@ import {
 import { Field } from 'redux-form';
 import styles from './styles';
 import { InputField, AssetImage, CtGradientButton } from '@/components';
-// import * as Google from 'expo-google-app-auth';
 import Constants from 'expo-constants';
 import { colors } from '@/styles/colors';
 import { ROUTES } from '@/navigation';
@@ -53,30 +52,6 @@ export class Login extends React.Component<IProps> {
         this.keyboardDidHideListener.remove();
     };
 
-    /*
-     * Sign in with google
-     onSocialLogin = async () => {
-         const { navigation, socialLogin } = this.props;
-         socialLogin({});
-         try {
-             const result = await Google.logInAsync({
-                 androidClientId: env.GOOGLE_ANDROID_CLIENT_ID,
-                 iosClientId: env.GOOGLE_IOS_CLIENT_ID,
-                 scopes: ['profile', 'email'],
-             });
-
-             if (result.type === 'success') {
-                 socialLogin({
-                     idToken: result.idToken,
-                     navigation,
-                 });
-             } else {
-             }
-         } catch (e) {
-             // console.log(e);
-         }
-     }; */
-
     onLogin = values => {
         const { navigation, login } = this.props;
         login({
@@ -101,7 +76,10 @@ export class Login extends React.Component<IProps> {
                 />
 
                 <ScrollView
-                    style={{ paddingTop: isKeyboardVisible && !isIPhoneX() ? '20%' : '34%' }}
+                    style={{
+                        paddingTop:
+                            isKeyboardVisible && !isIPhoneX() ? '20%' : '34%'
+                    }}
                     bounces={isKeyboardVisible}
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="handled"

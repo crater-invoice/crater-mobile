@@ -88,7 +88,6 @@ export class RecurringInvoice extends React.Component<IProps> {
         this.invoiceRefs = setInvoiceRefs.bind(this);
 
         this.state = {
-            taxTypeList: [],
             currency: {},
             itemList: [],
             customerName: '',

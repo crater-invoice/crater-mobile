@@ -28,7 +28,7 @@ const mapStateToProps = (state, { navigation }) => {
     const isEditScreen = type === INVOICE_EDIT;
 
     const isLoading =
-        loading.initInvoiceLoading ||
+        loading?.initInvoiceLoading ||
         (isEditScreen && !invoice) ||
         !isArray(invoiceTemplates);
 

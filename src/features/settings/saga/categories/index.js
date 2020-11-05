@@ -65,7 +65,7 @@ function* getEditExpenseCategory({ payload: { id, onResult } }) {
 
     try {
         const options = {
-            path: `categories/${id}/edit`
+            path: `categories/${id}`
         };
 
         const response = yield call([Request, 'get'], options);

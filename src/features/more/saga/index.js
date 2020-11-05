@@ -3,6 +3,7 @@ import { resetIdToken } from '../../authentication/actions';
 import { ROUTES } from '@/navigation';
 import Request from '@/api/request';
 import { moreTriggerSpinner, setItems, setItem, deleteItem } from '../actions';
+import * as queryStrings from 'query-string';
 import {
     LOGOUT,
     GET_ITEMS,
@@ -10,12 +11,7 @@ import {
     GET_EDIT_ITEM,
     ITEM_EDIT,
     REMOVE_ITEM,
-    GET_MAIL_CONFIGURATION,
-    // Endpoint Api URL
-    GET_ITEMS_URL,
-    CREATE_ITEM_URL,
-    EDIT_ITEM_URL,
-    REMOVE_ITEM_URL
+    GET_MAIL_CONFIGURATION
 } from '../constants';
 
 function* logout({ payload: { navigation } }) {
@@ -40,7 +36,7 @@ function* getItems({ payload }) {
 
     try {
         const options = {
-            path: GET_ITEMS_URL(queryString)
+            path: `items?${queryStrings.stringify(queryString)}`
         };
 
         const response = yield call([Request, 'get'], options);
@@ -80,7 +76,7 @@ function* addItem({ payload: { item, onResult } }) {
 
     try {
         const options = {
-            path: CREATE_ITEM_URL(),
+            path: `items`,
             body: item
         };
 
@@ -100,7 +96,7 @@ function* editItem({ payload: { item, id, onResult } }) {
 
     try {
         const options = {
-            path: EDIT_ITEM_URL(id),
+            path: `items/${id}`,
             body: item
         };
 

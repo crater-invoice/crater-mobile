@@ -1,8 +1,7 @@
 // @flow
-import React, { Fragment } from 'react';
-import { View, Text, Linking, TouchableOpacity } from 'react-native';
-import { change } from 'redux-form';
-import { Field } from 'redux-form';
+import React from 'react';
+import { View, Text, Linking } from 'react-native';
+import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
 import {
     InputField,
@@ -13,8 +12,7 @@ import {
     SelectField,
     CurrencyFormat,
     FakeInput,
-    ToggleSwitch,
-    TermsAndCondition
+    SendMail
 } from '@/components';
 import {
     ESTIMATE_ADD,
@@ -29,7 +27,6 @@ import {
     MARK_AS_SENT,
     setEstimateRefs
 } from '../../constants';
-
 import { colors, headerTitle, itemsDescriptionStyle } from '@/styles';
 import { TemplateField } from '../TemplateField';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
@@ -43,14 +40,15 @@ import {
     totalDiscount,
     getCompoundTaxValue,
     finalAmount,
-    getItemList
+    getItemList,
+    estimateCompoundTax
 } from '../EstimateCalculation';
 import FinalAmount from '../FinalAmount';
-import { alertMe, BUTTON_TYPE, MAX_LENGTH } from '@/constants';
+import { alertMe, BUTTON_TYPE, isArray, MAX_LENGTH } from '@/constants';
 
 type IProps = {
     navigation: Object,
-    estimateItems: Object,
+    estimateItems: any,
     taxTypes: Object,
     customers: Object,
     getCreateEstimate: Function,
@@ -65,69 +63,32 @@ type IProps = {
     initLoading: Boolean,
     loading: Boolean,
     estimateData: Object,
-    estimateItems: Object,
     items: Object,
     locale: String,
     type: String
 };
 
-const termsCondition = {
-    description: 'terms_and_conditions',
-    toggle: 'display_terms_and_conditions'
-};
 export class Estimate extends React.Component<IProps> {
+    estimateRefs: any;
+    sendMailRef: any;
+    customerReference: any;
+
     constructor(props) {
         super(props);
         this.estimateRefs = setEstimateRefs.bind(this);
+        this.sendMailRef = React.createRef();
+        this.customerReference = React.createRef();
 
         this.state = {
-            taxTypeList: [],
-            currency: {},
-            itemList: [],
+            currency: props?.currency,
             customerName: '',
-            markAsStatus: null
+            markAsStatus: null,
+            isLoading: true
         };
     }
 
     componentDidMount() {
-        const {
-            getCreateEstimate,
-            navigation,
-            estimateItems,
-            taxTypes,
-            getEditEstimate,
-            type,
-            getNextNumber
-        } = this.props;
-
-        getNextNumber({
-            key: 'invoice',
-            onSuccess: () => {}
-        })
-        return;
-
-        type === ESTIMATE_EDIT
-            ? getEditEstimate({
-                  id: navigation.getParam('id'),
-                  onResult: ({ user: { currency, name }, status }) => {
-                      this.setState({
-                          currency,
-                          taxTypeList: taxTypes,
-                          customerName: name,
-                          markAsStatus: status
-                      });
-                  }
-              })
-            : getCreateEstimate({
-                  onResult: val => {
-                      const { currency } = val;
-
-                      this.setState({ taxTypeList: taxTypes, currency });
-                  }
-              });
-
-        this.getEstimateItemList(estimateItems);
-
+        this.setInitialValues();
         this.androidBackHandler();
     }
 
@@ -137,6 +98,34 @@ export class Estimate extends React.Component<IProps> {
         this.estimateRefs(undefined);
         goBack(UNMOUNT);
     }
+
+    setInitialValues = () => {
+        const { getCreateEstimate, getEditEstimate, type, id } = this.props;
+
+        if (type === ESTIMATE_ADD) {
+            getCreateEstimate({
+                onSuccess: () => {
+                    this.setState({ isLoading: false });
+                }
+            });
+            return;
+        }
+
+        if (type === ESTIMATE_EDIT) {
+            getEditEstimate({
+                id,
+                onSuccess: ({ user, status }) => {
+                    this.setState({
+                        currency: user.currency,
+                        customerName: user.name,
+                        markAsStatus: status,
+                        isLoading: false
+                    });
+                }
+            });
+            return;
+        }
+    };
 
     androidBackHandler = () => {
         const { navigation, handleSubmit } = this.props;
@@ -178,7 +167,7 @@ export class Estimate extends React.Component<IProps> {
             cancelText: Lng.t('alert.action.discard', { locale }),
             cancelPress: () => navigation.navigate(ROUTES.ESTIMATE_LIST),
             okText: Lng.t('alert.action.saveAsDraft', { locale }),
-            okPress: handleSubmit(this.onSubmitEstimate)
+            okPress: handleSubmit(this.draftEstimate)
         });
     };
 
@@ -189,8 +178,14 @@ export class Estimate extends React.Component<IProps> {
             type,
             editEstimate,
             locale,
-            estimateData: { estimate_prefix = '' } = {}
+            initLoading,
+            id,
+            handleSubmit
         } = this.props;
+
+        if (this.state.isLoading || initLoading) {
+            return;
+        }
 
         if (finalAmount() < 0) {
             alert(Lng.t('estimates.alert.lessAmount', { locale }));
@@ -199,10 +194,10 @@ export class Estimate extends React.Component<IProps> {
 
         let estimate = {
             ...values,
-            estimate_number: `${estimate_prefix}-${values.estimate_number}`,
+            estimate_number: `${values.prefix}-${values.estimate_number}`,
             total: finalAmount(),
             sub_total: estimateSubTotal(),
-            tax: estimateTax() + this.estimateCompoundTax(),
+            tax: estimateTax() + estimateCompoundTax(),
             discount_val: totalDiscount(),
             taxes: values.taxes
                 ? values.taxes.map(val => {
@@ -220,30 +215,55 @@ export class Estimate extends React.Component<IProps> {
             estimate.estimateSend = true;
         }
 
-        type === ESTIMATE_ADD
-            ? createEstimate({
-                  estimate,
-                  onResult: url => {
-                      if (status === 'download') {
-                          Linking.openURL(url);
-                      }
-                      navigation.navigate(ROUTES.ESTIMATE_LIST);
-                  }
-              })
-            : editEstimate({
-                  estimate: { ...estimate, id: navigation.getParam('id') },
-                  onResult: url => {
-                      if (status === 'download') {
-                          Linking.openURL(url);
-                      }
-                      navigation.navigate(ROUTES.ESTIMATE_LIST);
-                  }
-              });
+        const params = {
+            estimate: { ...estimate, id },
+            navigation,
+            onSuccess: url => {
+                if (status === 'download') {
+                    Linking.openURL(url);
+                    return;
+                }
+                navigation.navigate(ROUTES.ESTIMATE_LIST);
+            },
+            submissionError: errors =>
+                handleSubmit(() => this.throwError(errors, locale))()
+        };
+
+        type === ESTIMATE_ADD ? createEstimate(params) : editEstimate(params);
+    };
+
+    downloadEstimate = values => {
+        this.onSubmitEstimate(values, ESTIMATE_ACTIONS.VIEW);
+    };
+
+    saveEstimate = values => {
+        this.onSubmitEstimate(values, 'save');
+    };
+
+    draftEstimate = values => {
+        this.onSubmitEstimate(values, 'draft');
+    };
+
+    throwError = (errors, locale) => {
+        if (errors?.estimate_number) {
+            throw new SubmissionError({
+                estimate_number: 'validation.alreadyTaken'
+            });
+        }
+
+        alertMe({
+            desc: Lng.t('validation.wrong', { locale })
+        });
     };
 
     estimateItemTotalTaxes = () => {
         const { estimateItems } = this.props;
         let taxes = [];
+
+        if (!isArray(estimateItems)) {
+            return [];
+        }
+
         estimateItems.map(val => {
             val.taxes &&
                 val.taxes.filter(tax => {
@@ -276,7 +296,7 @@ export class Estimate extends React.Component<IProps> {
         return (
             <View style={styles.submitButton}>
                 <CtButton
-                    onPress={() => this.onOptionSelect(ESTIMATE_ACTIONS.VIEW)}
+                    onPress={handleSubmit(this.downloadEstimate)}
                     btnTitle={Lng.t('button.viewPdf', { locale })}
                     type={BUTTON_TYPE.OUTLINE}
                     containerStyle={styles.handleBtn}
@@ -285,9 +305,7 @@ export class Estimate extends React.Component<IProps> {
                 />
 
                 <CtButton
-                    onPress={handleSubmit(val =>
-                        this.onSubmitEstimate(val, (status = 'save'))
-                    )}
+                    onPress={handleSubmit(this.saveEstimate)}
                     btnTitle={Lng.t('button.save', { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
@@ -297,50 +315,88 @@ export class Estimate extends React.Component<IProps> {
         );
     };
 
+    navigateToCustomer = () => {
+        const { navigation } = this.props;
+        const { currency } = this.state;
+
+        navigation.navigate(ROUTES.CUSTOMER, {
+            type: CUSTOMER_ADD,
+            currency,
+            onSelect: item => {
+                this.customerReference?.changeDisplayValue?.(item);
+                this.setFormField('user_id', item.id);
+                this.setState({ currency: item.currency });
+            }
+        });
+    };
+
     getEstimateItemList = estimateItems => {
         this.setFormField('items', estimateItems);
 
         const { currency } = this.state;
 
-        let estimateItemList = [];
-
-        if (typeof estimateItems !== 'undefined' && estimateItems.length != 0) {
-            estimateItemList = estimateItems.map(item => {
-                let { name, description, price, quantity, total } = item;
-
-                return {
-                    title: name,
-                    subtitle: {
-                        title: description,
-                        labelComponent: (
-                            <CurrencyFormat
-                                amount={price}
-                                currency={currency}
-                                preText={`${quantity} * `}
-                                style={styles.itemLeftSubTitle}
-                                containerStyle={styles.itemLeftSubTitleLabel}
-                            />
-                        )
-                    },
-                    amount: total,
-                    currency,
-                    fullItem: item
-                };
-            });
+        if (!isArray(estimateItems)) {
+            return [];
         }
 
-        return estimateItemList;
+        return estimateItems.map(item => {
+            let { name, description, price, quantity, total } = item;
+
+            return {
+                title: name,
+                subtitle: {
+                    title: description,
+                    labelComponent: (
+                        <CurrencyFormat
+                            amount={price}
+                            currency={currency}
+                            preText={`${quantity} * `}
+                            style={styles.itemLeftSubTitle}
+                            containerStyle={styles.itemLeftSubTitleLabel}
+                        />
+                    )
+                },
+                amount: total,
+                currency,
+                fullItem: item
+            };
+        });
+    };
+
+    removeEstimate = () => {
+        const { removeEstimate, navigation, locale, id } = this.props;
+
+        alertMe({
+            title: Lng.t('alert.title', { locale }),
+            desc: Lng.t('estimates.alert.removeDescription', {
+                locale
+            }),
+            showCancel: true,
+            okPress: () =>
+                removeEstimate({
+                    id,
+                    onResult: res => {
+                        if (res?.success) {
+                            navigation.navigate(ROUTES.ESTIMATE_LIST);
+                            return;
+                        }
+
+                        alertMe({
+                            desc: Lng.t('validation.wrong', { locale })
+                        });
+                    }
+                })
+        });
     };
 
     onOptionSelect = action => {
         const {
-            removeEstimate,
             navigation,
             locale,
             convertToInvoice,
             handleSubmit,
             changeEstimateStatus,
-            type
+            id
         } = this.props;
 
         switch (action) {
@@ -349,39 +405,58 @@ export class Estimate extends React.Component<IProps> {
                 break;
 
             case ESTIMATE_ACTIONS.SEND:
-                changeEstimateStatus({
-                    id: navigation.getParam('id'),
-                    action: 'send',
-                    navigation
-                });
-
+                this.sendMailRef?.onToggle();
                 break;
 
             case ESTIMATE_ACTIONS.MARK_AS_SENT:
-                changeEstimateStatus &&
-                    changeEstimateStatus({
-                        id: navigation.getParam('id'),
-                        action: 'mark-as-sent',
-                        navigation
-                    });
+                alertMe({
+                    title: Lng.t('alert.title', { locale }),
+                    desc: Lng.t('estimates.alert.markAsSent', { locale }),
+                    showCancel: true,
+                    okPress: () =>
+                        changeEstimateStatus?.({
+                            id,
+                            action: `${id}/status`,
+                            navigation,
+                            params: {
+                                status: MARK_AS_SENT
+                            }
+                        })
+                });
                 break;
 
             case ESTIMATE_ACTIONS.MARK_AS_ACCEPTED:
-                changeEstimateStatus &&
-                    changeEstimateStatus({
-                        id: navigation.getParam('id'),
-                        action: 'accept',
-                        navigation
-                    });
+                alertMe({
+                    title: Lng.t('alert.title', { locale }),
+                    desc: Lng.t('estimates.alert.markAsAccept', { locale }),
+                    showCancel: true,
+                    okPress: () =>
+                        changeEstimateStatus?.({
+                            id,
+                            action: `${id}/status`,
+                            navigation,
+                            params: {
+                                status: MARK_AS_ACCEPT
+                            }
+                        })
+                });
                 break;
 
             case ESTIMATE_ACTIONS.MARK_AS_REJECTED:
-                changeEstimateStatus &&
-                    changeEstimateStatus({
-                        id: navigation.getParam('id'),
-                        action: 'reject',
-                        navigation
-                    });
+                alertMe({
+                    title: Lng.t('alert.title', { locale }),
+                    desc: Lng.t('estimates.alert.markAsReject', { locale }),
+                    showCancel: true,
+                    okPress: () =>
+                        changeEstimateStatus?.({
+                            id,
+                            action: `${id}/status`,
+                            navigation,
+                            params: {
+                                status: MARK_AS_REJECT
+                            }
+                        })
+                });
                 break;
 
             case ESTIMATE_ACTIONS.CONVERT_TO_INVOICE:
@@ -392,7 +467,7 @@ export class Estimate extends React.Component<IProps> {
                     showCancel: true,
                     okPress: () =>
                         convertToInvoice({
-                            id: navigation.getParam('id'),
+                            id,
                             onResult: () => {
                                 navigation.navigate(ROUTES.MAIN_INVOICES);
                             }
@@ -401,53 +476,12 @@ export class Estimate extends React.Component<IProps> {
                 break;
 
             case ESTIMATE_ACTIONS.DELETE:
-                alertMe({
-                    title: Lng.t('alert.title', { locale }),
-                    desc: Lng.t('estimates.alert.removeDescription', {
-                        locale
-                    }),
-                    showCancel: true,
-                    okPress: () =>
-                        removeEstimate({
-                            id: navigation.getParam('id'),
-                            onResult: () => {
-                                navigation.navigate(ROUTES.ESTIMATE_LIST);
-                            }
-                        })
-                });
-
+                this.removeEstimate();
                 break;
 
             default:
                 break;
         }
-    };
-
-    openTermConditionModal = () => this.termsAndConditionRef?.onToggle();
-
-    TOGGLE_TERMS_CONDITION_VIEW = () => {
-        const { formValues, locale } = this.props;
-        let isShow = formValues?.display_terms_and_conditions;
-
-        return (
-            <Fragment>
-                <Field
-                    name={termsCondition.toggle}
-                    component={ToggleSwitch}
-                    status={isShow}
-                    hint={Lng.t('termsCondition.show', { locale })}
-                    mainContainerStyle={{ marginTop: 12 }}
-                />
-
-                {(isShow === true || isShow === 1) && (
-                    <TouchableOpacity onPress={this.openTermConditionModal}>
-                        <Text style={styles.termsEditText}>
-                            {Lng.t('termsCondition.edit', { locale })}
-                        </Text>
-                    </TouchableOpacity>
-                )}
-            </Fragment>
-        );
     };
 
     render() {
@@ -458,8 +492,7 @@ export class Estimate extends React.Component<IProps> {
             estimateData: {
                 estimateTemplates,
                 discount_per_item,
-                tax_per_item,
-                estimate_prefix
+                tax_per_item
             } = {},
             estimateItems,
             getItems,
@@ -469,14 +502,17 @@ export class Estimate extends React.Component<IProps> {
             initLoading,
             type,
             getCustomers,
-            customers
+            customers,
+            formValues,
+            changeEstimateStatus,
+            id
         } = this.props;
 
-        const { currency, customerName, markAsStatus } = this.state;
+        const { currency, customerName, markAsStatus, isLoading } = this.state;
 
         const isEditEstimate = type === ESTIMATE_EDIT;
 
-        const estimateRefs = {};
+        let hasCompleteStatus = markAsStatus === 'COMPLETED';
 
         let hasMark =
             markAsStatus === MARK_AS_ACCEPT ||
@@ -507,26 +543,38 @@ export class Estimate extends React.Component<IProps> {
                         marginRight: -15
                     }),
                     rightIcon: !isEditEstimate ? 'save' : null,
-                    rightIconPress: handleSubmit(val =>
-                        this.onSubmitEstimate(val, (status = 'save'))
-                    ),
+                    rightIconPress: handleSubmit(this.saveEstimate),
                     rightIconProps: {
                         solid: true
                     },
                     placement: 'center'
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{ is: initLoading }}
+                loadingProps={{ is: isLoading || initLoading }}
                 dropdownProps={drownDownProps}
             >
-                <View style={styles.bodyContainer}>
-                    <TermsAndCondition
-                        termsConditionRef={ref =>
-                            (this.termsAndConditionRef = ref)
-                        }
-                        props={this.props}
-                        fieldName={termsCondition.description}
-                    />
+                <View
+                    style={[
+                        styles.bodyContainer,
+                        { opacity: loading ? 0.9 : 1 }
+                    ]}
+                >
+                    {isEditEstimate && !hasCompleteStatus && (
+                        <SendMail
+                            mailReference={ref => (this.sendMailRef = ref)}
+                            headerTitle={'header.sendMailEstimate'}
+                            alertDesc={'estimates.alert.sendEstimate'}
+                            user={formValues?.customer}
+                            onSendMail={params =>
+                                changeEstimateStatus?.({
+                                    id,
+                                    action: `${id}/send`,
+                                    navigation,
+                                    params
+                                })
+                            }
+                        />
+                    )}
 
                     <View style={styles.dateFieldContainer}>
                         <View style={styles.dateField}>
@@ -565,8 +613,8 @@ export class Estimate extends React.Component<IProps> {
                         label={Lng.t('estimates.estimateNumber', { locale })}
                         isRequired
                         prefixProps={{
+                            prefix: formValues?.prefix,
                             fieldName: 'estimate_number',
-                            prefix: estimate_prefix,
                             icon: 'hashtag',
                             iconSolid: false
                         }}
@@ -596,16 +644,7 @@ export class Estimate extends React.Component<IProps> {
                             this.setFormField('user_id', item.id);
                             this.setState({ currency: item.currency });
                         }}
-                        rightIconPress={() =>
-                            navigation.navigate(ROUTES.CUSTOMER, {
-                                type: CUSTOMER_ADD,
-                                currency,
-                                onSelect: val => {
-                                    this.setFormField('user_id', val.id);
-                                    this.setState({ currency: val.currency });
-                                }
-                            })
-                        }
+                        rightIconPress={this.navigateToCustomer}
                         headerProps={{
                             title: Lng.t('customers.title', { locale })
                         }}
@@ -616,6 +655,7 @@ export class Estimate extends React.Component<IProps> {
                             contentType: 'customers',
                             image: IMAGES.EMPTY_CUSTOMERS
                         }}
+                        reference={ref => (this.customerReference = ref)}
                     />
 
                     <Text style={[styles.inputTextStyle, styles.label]}>
@@ -731,8 +771,6 @@ export class Estimate extends React.Component<IProps> {
                         navigation={navigation}
                         locale={locale}
                     />
-
-                    {this.TOGGLE_TERMS_CONDITION_VIEW()}
                 </View>
             </DefaultLayout>
         );

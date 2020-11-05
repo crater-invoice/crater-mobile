@@ -18,7 +18,7 @@ import { ITEM_FORM, EDIT_ITEM, ADD_ITEM, ITEM_UNITS } from '../../constants';
 import { colors } from '@/styles/colors';
 import Lng from '@/lang/i18n';
 import { goBack, UNMOUNT, MOUNT } from '@/navigation';
-import { BUTTON_COLOR } from '@/constants';
+import { BUTTON_COLOR, isIPhoneX } from '@/constants';
 import { formatSelectPickerName } from '@/utils';
 import { alertMe, hasValue, MAX_LENGTH } from '@/constants';
 import { ADD_TAX } from '@/features/settings/constants';
@@ -480,6 +480,7 @@ export class Item extends React.Component {
                             placeholderStyle: styles.units
                         }}
                         onSelect={item => this.setFormField('unit_id', item.id)}
+                        paginationLimit={isIPhoneX() ? 20 : 15}
                     />
 
                     {isTaxPerItem && this.TAX_FIELD_VIEW()}

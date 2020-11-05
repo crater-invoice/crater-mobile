@@ -100,7 +100,6 @@ function* editCompanyInformation(payloadData) {
 
         navigation.goBack(null);
     } catch (e) {
-        // console.log(e);
     } finally {
         yield put(settingsTriggerSpinner({ editCompanyInfoLoading: false }));
     }
@@ -251,7 +250,7 @@ function* editCustomizeSettings({ payload: { params, navigation } }) {
     try {
         const settings = {
             settings: params
-        }
+        };
         const options = {
             path: EDIT_CUSTOMIZE_SETTINGS_URL(),
             body: settings

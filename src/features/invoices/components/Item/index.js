@@ -22,23 +22,19 @@ import {
 import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import { formatSelectPickerName } from '@/utils';
-import { alertMe, BUTTON_COLOR, MAX_LENGTH } from '@/constants';
+import { alertMe, BUTTON_COLOR, isIPhoneX, MAX_LENGTH } from '@/constants';
 import { ADD_TAX } from '@/features/settings/constants';
 
 export class InvoiceItem extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            taxTypeList: []
-        };
+        this.state = {};
     }
 
     componentWillMount() {
         const { taxTypes, getItemUnits, itemId } = this.props;
 
-        this.setState({ taxTypeList: taxTypes });
         !itemId && getItemUnits && getItemUnits();
     }
 
@@ -481,6 +477,7 @@ export class InvoiceItem extends React.Component {
                             onSelect={item =>
                                 this.setFormField('unit_id', item.id)
                             }
+                            paginationLimit={isIPhoneX() ? 20 : 15}
                         />
                     )}
 

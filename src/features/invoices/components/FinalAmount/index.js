@@ -55,9 +55,11 @@ const FinalAmount = ({ state, props }) => {
         taxTypes,
         navigation,
         invoiceData: { discount_per_item, tax_per_item },
-        formValues: { taxes },
+        formValues,
         getTaxes
     } = props;
+
+    let taxes = formValues?.taxes;
 
     let taxPerItem = !(
         tax_per_item === 'NO' ||

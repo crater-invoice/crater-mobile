@@ -236,11 +236,3 @@ export const ITEM_DEFAULT_OPTION = {
     label: 'box',
     value: 'box'
 };
-
-// Endpoint Api URL
-// -----------------------------------------
-
-export const GET_ITEMS_URL = param => `items?${queryString.stringify(param)}`;
-export const CREATE_ITEM_URL = () => `items`;
-export const EDIT_ITEM_URL = id => `items/${id}`;
-export const REMOVE_ITEM_URL = id => `items/${id}`;

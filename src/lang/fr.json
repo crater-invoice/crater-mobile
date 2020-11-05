@@ -57,6 +57,7 @@
         "addCurrency": "Ajouter une devise",
         "editCurrency": "Modifier la devise",
         "sendMailInvoice": "Envoyer une facture",
+        "sendMailEstimate": "Envoyer une estimation",
         "recurringInvoice": "Factures récurrentes",
         "addRecurring": "Ajouter une facture récurrente",
         "editRecurring": "Modifier la facture récurrente",
@@ -132,7 +133,8 @@
             "alreadyInUseNumber": "Le numéro de facture a déjà été pris.",
             "sendEmail": "Cette facture sera envoyée par email au client",
             "clone": "Cette facture sera clonée dans une nouvelle facture",
-            "sendInvoice": "Cette facture sera envoyée par courrier électronique au client."
+            "sendInvoice": "Cette facture sera envoyée par courrier électronique au client.",
+            "markAsSent": "Cette facture sera marquée comme envoyée"
         },
         "empty": {
             "due": {
@@ -460,7 +462,11 @@
             "removeDescription": "Vous ne pourrez pas récupérer cette estimation",
             "lessAmount": "Le montant total ne devrait pas être inférieur à 0",
             "draftTitle": "Sauvegarder les modifications?",
-            "alreadyInUseNumber": "Le nombre estimé a déjà été pris."
+            "alreadyInUseNumber": "Le nombre estimé a déjà été pris.",
+            "sendEstimate": "Cette estimation sera envoyée par email au client",
+            "markAsSent": "Cette estimation sera marquée comme envoyée",
+            "markAsAccept": "Cette estimation sera marquée comme acceptée",
+            "markAsReject": "Cette estimation sera marquée comme rejetée"
         },
         "empty": {
             "sent": {
@@ -480,6 +486,7 @@
         "actions": {
             "downloadPdf": "Télécharger le PDF",
             "sendEstimate": "Envoyer une estimation",
+            "reSendEstimate": "Renvoyer l'estimation",
             "editEstimate": "Modifier l'estimation",
             "delete": "Effacer",
             "convertToInvoice": "Convertir en facture",

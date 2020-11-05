@@ -57,6 +57,7 @@
         "addCurrency": "Agregar moneda",
         "editCurrency": "Editar moneda",
         "sendMailInvoice": "Enviará la factura",
+        "sendMailEstimate": "Enviar presupuesto",
         "recurringInvoice": "Facturas recurrentes",
         "addRecurring": "Agregar factura recurrente",
         "editRecurring": "Editar factura periódica",
@@ -132,7 +133,8 @@
             "alreadyInUseNumber": "El número de factura ya ha sido tomado.",
             "sendEmail": "Esta factura se enviará por correo electrónico al cliente.",
             "clone": "Esta factura se clonará en una nueva factura.",
-            "sendInvoice": "Esta factura se enviará por correo electrónico al cliente."
+            "sendInvoice": "Esta factura se enviará por correo electrónico al cliente.",
+            "markAsSent": "Esta factura se marcará como enviada"
         },
         "empty": {
             "due": {
@@ -460,7 +462,11 @@
             "removeDescription": "No podrá recuperar esta estimación",
             "lessAmount": "La cantidad total no debe ser inferior a 0",
             "draftTitle": "¿Guardar cambios?",
-            "alreadyInUseNumber": "El número estimado ya ha sido tomado."
+            "alreadyInUseNumber": "El número estimado ya ha sido tomado.",
+            "sendEstimate": "Este presupuesto se enviará por correo electrónico al cliente.",
+            "markAsSent": "Este presupuesto se marcará como enviado",
+            "markAsAccept": "Esta estimación se marcará como Aceptada",
+            "markAsReject": "Esta estimación se marcará como rechazada"
         },
         "empty": {
             "sent": {
@@ -480,6 +486,7 @@
         "actions": {
             "downloadPdf": "Descargar PDF",
             "sendEstimate": "Enviar presupuesto",
+            "reSendEstimate": "Reenviar presupuesto",
             "editEstimate": "Editar estimación",
             "delete": "Eliminar",
             "convertToInvoice": "Convertir a factura",
