@@ -47,7 +47,8 @@ export type IProps = {
     isCompareField: Boolean,
     reference: any,
     queryString: Object,
-    paginationLimit: Number
+    paginationLimit: Number,
+    customView: any
 };
 
 export type IStates = {

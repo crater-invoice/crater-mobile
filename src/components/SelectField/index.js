@@ -327,7 +327,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             isInternalSearch,
             getItems,
             locale,
-            paginationLimit
+            paginationLimit,
+            customView
         } = this.props;
 
         const {
@@ -407,20 +408,26 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             }
         };
 
+        let fieldView = !customView ? (
+            <FakeInput
+                label={label}
+                icon={icon}
+                isRequired={isRequired}
+                values={value && (values || placeholder)}
+                placeholder={placeholder}
+                onChangeCallback={this.onToggle}
+                containerStyle={containerStyle}
+                meta={meta}
+                rightIcon={'angle-down'}
+                {...fakeInputProps}
+            />
+        ) : (
+            customView
+        );
+
         return (
             <View style={styles.container}>
-                <FakeInput
-                    label={label}
-                    icon={icon}
-                    isRequired={isRequired}
-                    values={value && (values || placeholder)}
-                    placeholder={placeholder}
-                    onChangeCallback={this.onToggle}
-                    containerStyle={containerStyle}
-                    meta={meta}
-                    rightIcon={'angle-down'}
-                    {...fakeInputProps}
-                />
+                {fieldView}
 
                 <SlideModal
                     visible={visible}
