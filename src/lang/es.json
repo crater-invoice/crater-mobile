@@ -395,7 +395,8 @@
             "taxPerItem": "Impuesto por artículo",
             "taxPerItemPlaceholder": "Habilítelo si desea agregar Impuestos a artículos de factura individuales. Por defecto, los impuestos se agregan directamente a la factura.",
             "settingUpdate": "Configuración actualizada con éxito"
-        }
+        },
+        "notes": "Notas"
     },
     "login": {
         "email": "Introduce tu correo electrónico",

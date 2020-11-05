@@ -344,13 +344,11 @@ export class Customize extends React.Component<IProps> {
                         Title: PAYMENT_TABS.MODE,
                         tabName: Lng.t("payments.modes", { locale }),
                         render: (
-                            <ScrollView keyboardShouldPersistTaps='handled'>
                                 <PaymentModes
                                     ref={this.paymentChild}
                                     props={this.props}
                                     setFormField={(field, value) => this.setFormField(field, value)}
                                 />
-                            </ScrollView>
                         )
                     },
                     {

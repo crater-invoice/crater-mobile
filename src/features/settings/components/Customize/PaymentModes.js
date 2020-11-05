@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
-import { ListView, InputModal } from '@/components';
+import { ListView, InputModal, InfiniteScroll } from '@/components';
 import Lng from '@/lang/i18n';
 import { formatListByName } from '@/utils';
-import { alertMe } from '@/constants';
+import { alertMe, isIPhoneX } from '@/constants';
 
 export class PaymentModes extends Component {
     constructor(props) {
@@ -13,6 +13,7 @@ export class PaymentModes extends Component {
             visible: false,
             isCreateMethod: true,
         };
+        this.scrollViewReference = React.createRef();
     }
 
     onToggle = () => {
@@ -101,13 +102,16 @@ export class PaymentModes extends Component {
     }
 
     render() {
-        const { props: { paymentMethods, locale } } = this.props
+        const { props: { paymentMethods, locale, getPaymentModes } } = this.props
 
         return (
             <View style={styles.bodyContainer}>
                 {this.IMPORT_INPUT_MODAL()}
-
-                <View>
+                <InfiniteScroll
+                    getItems={getPaymentModes}
+                    reference={ref => (this.scrollViewReference = ref)}
+                    paginationLimit={isIPhoneX ? 20 : 15}
+                >
                     <ListView
                         items={formatListByName(paymentMethods)}
                         getFreshItems={(onHide) => {
@@ -121,7 +125,7 @@ export class PaymentModes extends Component {
                             title: Lng.t("payments.empty.modeTitle", { locale }),
                         }}
                     />
-                </View>
+                </InfiniteScroll>
             </View>
         );
     }

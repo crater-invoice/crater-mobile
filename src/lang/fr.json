@@ -395,7 +395,8 @@
             "taxPerItem": "Taxe par article",
             "taxPerItemPlaceholder": "Activez cette option si vous souhaitez ajouter une taxe à des postes de facture individuels. Par défaut, les taxes sont ajoutées directement à la facture.",
             "settingUpdate": "Réglage mis à jour avec succès"
-        }
+        },
+        "notes": "Remarques"
     },
     "login": {
         "email": "Entrer votre Email",

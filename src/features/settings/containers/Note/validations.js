@@ -2,7 +2,7 @@ import { getError } from "@/constants";
 
 export const validate = (values) => {
     const errors = {};
-    const { name } = values;
+    const { name, type, notes } = values;
 
     errors.name = getError(
         name,
@@ -10,12 +10,12 @@ export const validate = (values) => {
         { fieldName: 'Name' },
     );
     errors.type = getError(
-        name,
+        type,
         ['requiredField'],
         { fieldName: 'Type' },
     );
     errors.notes = getError(
-        name,
+        notes,
         ['requiredField'],
         { fieldName: 'Notes' },
     );

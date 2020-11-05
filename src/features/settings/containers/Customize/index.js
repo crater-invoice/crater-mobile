@@ -63,11 +63,12 @@ const mapDispatchToProps = {
     createPaymentMode: customizeAction.createPaymentMode,
     editPaymentMode: customizeAction.editPaymentMode,
     removePaymentMode: customizeAction.removePaymentMode,
+    getPaymentModes: customizeAction.getPaymentModes,
     // Item Unit
     createItemUnit: customizeAction.createItemUnit,
     editItemUnit: customizeAction.editItemUnit,
     removeItemUnit: customizeAction.removeItemUnit,
-    getItemUnits: customizeAction.getItemUnits
+    getItemUnits: customizeAction.getItemUnits,
 };
 
 //  Redux Forms
