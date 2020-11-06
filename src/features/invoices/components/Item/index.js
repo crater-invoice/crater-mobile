@@ -34,14 +34,7 @@ import { ADD_TAX } from '@/features/settings/constants';
 export class InvoiceItem extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {};
-    }
-
-    componentWillMount() {
-        const { getItemUnits, itemId } = this.props;
-
-        !itemId && getItemUnits && getItemUnits();
     }
 
     componentDidMount() {
