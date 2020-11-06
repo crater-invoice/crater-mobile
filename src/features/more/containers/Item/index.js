@@ -18,7 +18,7 @@ const mapStateToProps = (state, { navigation }) => {
         settings: {
             taxByItems,
             units,
-            loading: { itemUnitsLoading, getItemLoading }
+            loading: { itemUnitsLoading }
         },
         global: { locale, currency, taxTypes }
     } = state;
@@ -28,7 +28,7 @@ const mapStateToProps = (state, { navigation }) => {
     const type = navigation.getParam('type');
 
     const isLoading =
-        loading.itemLoading ||
+        loading?.itemLoading ||
         itemUnitsLoading ||
         (type === EDIT_ITEM && !item);
 
@@ -42,7 +42,6 @@ const mapStateToProps = (state, { navigation }) => {
         type,
         currency,
         units: getUnitState(units),
-        getItemLoading: getItemLoading || (type === EDIT_ITEM && !item),
         initialValues: !isLoading
             ? {
                   taxes: [],

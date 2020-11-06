@@ -35,6 +35,8 @@ const mapStateToProps = (state, { navigation }) => {
     return {
         initLoading: isLoading,
         loading: loading?.estimateLoading,
+        withLoading:
+            loading?.changeStatusLoading || loading?.removeEstimateLoading,
         estimateItems,
         estimateData,
         items,

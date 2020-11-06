@@ -25,7 +25,14 @@ export const Content = ({
             <>
                 {children}
                 {loadingProps && loadingProps.is && (
-                    <Loading {...loadingProps} />
+                    <Loading
+                        style={{
+                            position: 'absolute',
+                            width: '100%',
+                            height: '100%'
+                        }}
+                        {...loadingProps}
+                    />
                 )}
             </>
         );

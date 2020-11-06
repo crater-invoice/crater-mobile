@@ -34,13 +34,15 @@ const mapStateToProps = (state, { navigation }) => {
 
     return {
         initLoading: isLoading,
-        loading: loading.invoiceLoading,
+        loading: loading?.invoiceLoading,
+        withLoading:
+            loading?.changeStatusLoading || loading?.removeInvoiceLoading,
         invoiceItems,
         invoiceData,
         items,
         type,
         customers,
-        itemsLoading: loading.itemsLoading,
+        itemsLoading: loading?.itemsLoading,
         locale,
         formValues: getFormValues(INVOICE_FORM)(state) || {},
         taxTypes,

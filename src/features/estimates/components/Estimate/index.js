@@ -180,10 +180,11 @@ export class Estimate extends React.Component<IProps> {
             locale,
             initLoading,
             id,
-            handleSubmit
+            handleSubmit,
+            withLoading
         } = this.props;
 
-        if (this.state.isLoading || initLoading) {
+        if (this.state.isLoading || initLoading || withLoading) {
             return;
         }
 
@@ -500,6 +501,7 @@ export class Estimate extends React.Component<IProps> {
             items,
             locale,
             initLoading,
+            withLoading,
             type,
             getCustomers,
             customers,
@@ -550,13 +552,14 @@ export class Estimate extends React.Component<IProps> {
                     placement: 'center'
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{ is: isLoading || initLoading }}
+                loadingProps={{ is: isLoading || initLoading || withLoading }}
+                contentProps={{ withLoading }}
                 dropdownProps={drownDownProps}
             >
                 <View
                     style={[
                         styles.bodyContainer,
-                        { opacity: loading ? 0.9 : 1 }
+                        { opacity: withLoading ? 0.8 : 1 }
                     ]}
                 >
                     {isEditEstimate && !hasCompleteStatus && (
@@ -627,6 +630,7 @@ export class Estimate extends React.Component<IProps> {
                         hasPagination
                         isRequired
                         getItems={getCustomers}
+                        selectedItem={formValues?.user}
                         displayName="name"
                         component={SelectField}
                         label={Lng.t('estimates.customer', { locale })}

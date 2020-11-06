@@ -17,7 +17,8 @@ type IProps = {
     bottomAction?: any,
     loadingProps?: Object,
     dropdownProps?: Object,
-    toastProps?: Object
+    toastProps?: Object,
+    contentProps?: any
 };
 
 export const DefaultLayout = ({
@@ -28,7 +29,8 @@ export const DefaultLayout = ({
     loadingProps,
     dropdownProps,
     toastProps,
-    hideScrollView = false
+    hideScrollView = false,
+    contentProps
 }: IProps) => {
     return (
         <View style={styles.page}>
@@ -47,7 +49,7 @@ export const DefaultLayout = ({
                 />
             </View>
 
-            <Content loadingProps={loadingProps}>
+            <Content {...contentProps} loadingProps={loadingProps}>
                 <KeyboardAvoidingView
                     style={{ flex: 1 }}
                     contentContainerStyle={{ flex: 1 }}

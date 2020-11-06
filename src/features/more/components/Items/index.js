@@ -11,7 +11,7 @@ import Lng from '@/lang/i18n';
 import { ADD_ITEM, EDIT_ITEM, ITEM_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { formatItems, isFilterApply } from '@/utils';
-import { hasTextLength } from '@/constants';
+import { hasTextLength, isIPhoneX } from '@/constants';
 import filterFields from './filterFields';
 import { itemsDescriptionStyle } from '@/styles';
 
@@ -163,6 +163,7 @@ export class Items extends React.Component<IProps> {
                             getItems={getItems}
                             reference={ref => (this.scrollViewReference = ref)}
                             getItemsInMount={false}
+                            paginationLimit={isIPhoneX() ? 20 : 15}
                         >
                             <ListView
                                 items={formatItems(items, currency)}

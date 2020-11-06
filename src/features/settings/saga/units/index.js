@@ -32,7 +32,7 @@ const alreadyInUse = error => {
     }
 };
 
-function* getItemUnits({ payload }) {
+export function* getItemUnits({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
     try {
         const options = {
@@ -41,13 +41,13 @@ function* getItemUnits({ payload }) {
 
         const response = yield call([Request, 'get'], options);
         if (response?.units) {
-            const { data } = response.units;
+            const { units } = response;
+            const data = queryString.limit === 'all' ? units : units.data;
             yield put(setItemUnits({ units: data, fresh }));
         }
 
         onSuccess?.(response?.units);
-    } catch (e) {
-    }
+    } catch (e) {}
 }
 
 function* createItemUnit({ payload: { params } }) {

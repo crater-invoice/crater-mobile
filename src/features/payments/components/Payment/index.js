@@ -34,9 +34,7 @@ import {
     alertMe,
     DATE_FORMAT,
     hasObjectLength,
-    hasValue,
     isArray,
-    KEYBOARD_TYPE,
     MAX_LENGTH
 } from '@/constants';
 
@@ -147,7 +145,9 @@ export class Payment extends React.Component<IProps> {
             ...values,
             [FIELDS.CUSTOMER]: invoice?.user?.id,
             [FIELDS.INVOICE]: invoice?.id,
-            [FIELDS.AMOUNT]: invoice?.due?.due_amount
+            [FIELDS.AMOUNT]: invoice?.due?.due_amount,
+            user: invoice?.user,
+            invoice: { invoice_number: invoice?.number }
         };
 
         this.setFormField(`payment`, val);
@@ -295,8 +295,6 @@ export class Payment extends React.Component<IProps> {
     };
 
     onOptionSelect = action => {
-        const { sendPaymentReceipt, id, locale } = this.props;
-
         switch (action) {
             case ACTIONS_VALUE.REMOVE:
                 return this.removePayment();

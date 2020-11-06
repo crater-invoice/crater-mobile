@@ -29,7 +29,9 @@ const initialState = {
         invoicesLoading: false,
         itemsLoading: false,
         invoiceLoading: false,
-        initInvoiceLoading: false
+        initInvoiceLoading: false,
+        changeStatusLoading: false,
+        removeInvoiceLoading: false
     },
     invoiceData: {
         invoice: null,

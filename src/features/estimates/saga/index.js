@@ -124,20 +124,15 @@ function* getEditEstimate({ payload: { id, onSuccess } }) {
 
         const { estimate, estimatePrefix, nextEstimateNumber } = response;
 
-        const settingInfo = yield call(getSettingInfo, {
-            payload: {
-                keys: ['tax_per_item', 'discount_per_item']
-            }
-        });
-
         const { templates } = yield call(geEstimateTemplates, {});
 
         const values = {
             estimate,
-            ...settingInfo,
             estimatePrefix,
             nextEstimateNumber,
-            estimateTemplates: templates
+            estimateTemplates: templates,
+            discount_per_item: estimate?.discount_per_item,
+            tax_per_item: estimate?.tax_per_item
         };
 
         yield put(setEstimate(values));
@@ -351,7 +346,7 @@ function* convertToInvoice({ payload: { onResult, id } }) {
 }
 
 function* removeEstimate({ payload: { onResult, id } }) {
-    yield put(spinner({ estimateLoading: true }));
+    yield put(spinner({ removeEstimateLoading: true }));
 
     try {
         const options = {
@@ -368,14 +363,14 @@ function* removeEstimate({ payload: { onResult, id } }) {
         onResult?.(response);
     } catch (e) {
     } finally {
-        yield put(spinner({ estimateLoading: false }));
+        yield put(spinner({ removeEstimateLoading: false }));
     }
 }
 
 function* changeEstimateStatus({ payload }) {
     const { onResult = null, params = null, id, action, navigation } = payload;
 
-    yield put(spinner({ estimateLoading: true }));
+    yield put(spinner({ changeStatusLoading: true }));
 
     const param = { id, ...params };
 
@@ -399,7 +394,7 @@ function* changeEstimateStatus({ payload }) {
         onResult?.();
     } catch (e) {
     } finally {
-        yield put(spinner({ estimateLoading: false }));
+        yield put(spinner({ changeStatusLoading: false }));
     }
 }
 

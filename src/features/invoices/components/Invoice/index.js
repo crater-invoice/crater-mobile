@@ -46,7 +46,7 @@ import {
 } from '../InvoiceCalculation';
 
 type IProps = {
-    navigation: Object,
+    navigation: any,
     invoiceItems: any,
     taxTypes: Object,
     customers: Object,
@@ -181,10 +181,11 @@ export class Invoice extends React.Component<IProps> {
             locale,
             id,
             handleSubmit,
-            initLoading
+            initLoading,
+            withLoading
         } = this.props;
 
-        if (this.state.isLoading || initLoading) {
+        if (this.state.isLoading || initLoading || withLoading) {
             return;
         }
 
@@ -400,11 +401,18 @@ export class Invoice extends React.Component<IProps> {
                 break;
 
             case INVOICE_ACTIONS.RECORD_PAYMENT:
-                const { user, due_amount, sub_total } = formValues;
+                const {
+                    user,
+                    due_amount,
+                    sub_total,
+                    prefix,
+                    invoice_number
+                } = formValues;
                 const invoice = {
                     user,
                     id,
-                    due: { due_amount, sub_total }
+                    due: { due_amount, sub_total },
+                    number: `${prefix}-${invoice_number}`
                 };
 
                 navigation.navigate(ROUTES.PAYMENT, {
@@ -458,7 +466,9 @@ export class Invoice extends React.Component<IProps> {
             customers,
             changeInvoiceStatus,
             formValues,
-            id
+            id,
+            loading,
+            withLoading
         } = this.props;
 
         const { currency, customerName, markAsStatus, isLoading } = this.state;
@@ -507,11 +517,17 @@ export class Invoice extends React.Component<IProps> {
                     },
                     placement: 'center'
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{ is: isLoading || initLoading }}
+                bottomAction={this.BOTTOM_ACTION()}
+                loadingProps={{ is: isLoading || initLoading || withLoading }}
+                contentProps={{ withLoading }}
                 dropdownProps={drownDownProps}
             >
-                <View style={styles.bodyContainer}>
+                <View
+                    style={[
+                        styles.bodyContainer,
+                        { opacity: withLoading ? 0.8 : 1 }
+                    ]}
+                >
                     {isEditInvoice && !hasCompleteStatus && (
                         <SendMail
                             mailReference={ref => (this.sendMailRef = ref)}
@@ -578,6 +594,7 @@ export class Invoice extends React.Component<IProps> {
                         hasPagination
                         isRequired
                         getItems={getCustomers}
+                        selectedItem={formValues?.user}
                         displayName="name"
                         component={SelectField}
                         label={Lng.t('invoices.customer', { locale })}

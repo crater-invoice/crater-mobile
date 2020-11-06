@@ -26,37 +26,47 @@ export class Item extends React.Component {
         super(props);
 
         this.state = {
-            isTaxPerItem: true
+            isTaxPerItem: true,
+            isLoading: true
         };
     }
 
     componentDidMount() {
-        const { navigation, getSettingInfo, type } = this.props;
-
-        type === ADD_ITEM &&
-            getSettingInfo({
-                key: 'tax_per_item',
-                onSuccess: res => {
-                    this.setState({ isTaxPerItem: res === 'YES' });
-                }
-            });
-
-        goBack(MOUNT, navigation);
-    }
-
-    componentWillMount() {
-        const { getEditItem, type, itemId } = this.props;
-
-        const isEdit = type === EDIT_ITEM;
-
-        isEdit && getEditItem({ id: itemId });
+        this.setInitialValues();
+        goBack(MOUNT, this.props.navigation);
     }
 
     componentWillUnmount() {
-        const { clearItem } = this.props;
-        clearItem();
+        this.props.clearItem?.();
         goBack(UNMOUNT);
     }
+
+    setInitialValues = () => {
+        const { getEditItem, type, itemId, getSettingInfo } = this.props;
+
+        if (type === ADD_ITEM) {
+            getSettingInfo({
+                key: 'tax_per_item',
+                onSuccess: res => {
+                    this.setState({
+                        isTaxPerItem: res === 'YES',
+                        isLoading: false
+                    });
+                }
+            });
+            return;
+        }
+
+        if (type === EDIT_ITEM) {
+            getEditItem({
+                id: itemId,
+                onResult: () => {
+                    this.setState({ isLoading: false });
+                }
+            });
+            return;
+        }
+    };
 
     setFormField = (field, value) => {
         this.props.dispatch(change(ITEM_FORM, field, value));
@@ -71,6 +81,10 @@ export class Item extends React.Component {
             type,
             locale
         } = this.props;
+
+        if (this.state.isLoading) {
+            return;
+        }
 
         if (this.finalAmount() < 0) {
             alert(Lng.t('items.lessAmount', { locale }));
@@ -112,6 +126,10 @@ export class Item extends React.Component {
     removeItem = () => {
         const { removeItem, itemId, navigation, locale } = this.props;
 
+        if (this.state.isLoading) {
+            return;
+        }
+
         alertMe({
             title: Lng.t('alert.title', { locale }),
             desc: Lng.t('items.alertDescription', { locale }),
@@ -125,23 +143,14 @@ export class Item extends React.Component {
                             return;
                         }
 
-                        if (res?.data?.errors && res?.data?.errors?.['ids.0']) {
-                            alertMe({
-                                desc: res?.data?.errors?.['ids.0'][0]
-                            });
-                            return;
-                        }
-
-                        if (res?.error === 'item_attached') {
-                            alertMe({
-                                title: Lng.t('items.alreadyAttachTitle', {
-                                    locale
-                                }),
-                                desc: Lng.t('items.alreadyAttachDescription', {
-                                    locale
-                                })
-                            });
-                        }
+                        alertMe({
+                            title: Lng.t('items.alreadyAttachTitle', {
+                                locale
+                            }),
+                            desc: Lng.t('items.alreadyAttachDescription', {
+                                locale
+                            })
+                        });
                     }
                 })
         });
@@ -400,10 +409,9 @@ export class Item extends React.Component {
             type,
             units,
             formValues,
-            getItemLoading,
             getItemUnits
         } = this.props;
-        const { isTaxPerItem } = this.state;
+        const { isTaxPerItem, isLoading } = this.state;
         const isCreateItem = type === ADD_ITEM;
         let itemRefs = {};
 
@@ -423,7 +431,7 @@ export class Item extends React.Component {
                     rightIconPress: handleSubmit(this.saveItem)
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{ is: getItemLoading || !hasValue(isTaxPerItem) }}
+                loadingProps={{ is: isLoading }}
             >
                 <View style={styles.bodyContainer}>
                     <Field

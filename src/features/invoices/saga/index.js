@@ -112,20 +112,15 @@ function* getEditInvoice({ payload: { id, onSuccess } }) {
 
         const { invoice, invoicePrefix, nextInvoiceNumber } = response;
 
-        const settingInfo = yield call(getSettingInfo, {
-            payload: {
-                keys: ['tax_per_item', 'discount_per_item']
-            }
-        });
-
         const { invoiceTemplates } = yield call(geInvoiceTemplates, {});
 
         const values = {
             invoice,
-            ...settingInfo,
             invoicePrefix,
             nextInvoiceNumber,
-            invoiceTemplates
+            invoiceTemplates,
+            discount_per_item: invoice?.discount_per_item,
+            tax_per_item: invoice?.tax_per_item
         };
 
         yield put(setInvoice(values));
@@ -315,7 +310,7 @@ function* removeItem({ payload: { onResult, id } }) {
 }
 
 function* removeInvoice({ payload: { onResult, id } }) {
-    yield put(spinner({ invoiceLoading: true }));
+    yield put(spinner({ removeInvoiceLoading: true }));
 
     try {
         const options = {
@@ -332,14 +327,14 @@ function* removeInvoice({ payload: { onResult, id } }) {
         onResult?.(response);
     } catch (e) {
     } finally {
-        yield put(spinner({ invoiceLoading: false }));
+        yield put(spinner({ removeInvoiceLoading: false }));
     }
 }
 
 function* changeInvoiceStatus({ payload }) {
     const { onResult = null, params = null, id, action, navigation } = payload;
 
-    yield put(spinner({ invoiceLoading: true }));
+    yield put(spinner({ changeStatusLoading: true }));
 
     const param = { id, ...params };
 
@@ -363,7 +358,7 @@ function* changeInvoiceStatus({ payload }) {
         onResult?.();
     } catch (e) {
     } finally {
-        yield put(spinner({ invoiceLoading: false }));
+        yield put(spinner({ changeStatusLoading: false }));
     }
 }
 

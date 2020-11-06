@@ -4,6 +4,7 @@ import { ROUTES } from '@/navigation';
 import Request from '@/api/request';
 import { moreTriggerSpinner, setItems, setItem, deleteItem } from '../actions';
 import * as queryStrings from 'query-string';
+import { getItemUnits } from '@/features/settings/saga/units';
 import {
     LOGOUT,
     GET_ITEMS,
@@ -53,8 +54,6 @@ function* getItems({ payload }) {
 }
 
 function* getEditItem({ payload: { id, onResult } }) {
-    yield put(moreTriggerSpinner({ getItemLoading: true }));
-
     try {
         const options = {
             path: `items/${id}`
@@ -64,10 +63,13 @@ function* getEditItem({ payload: { id, onResult } }) {
 
         yield put(setItem(response));
 
-        onResult && onResult(response);
+        yield call(getItemUnits, {
+            payload: { queryString: { limit: 'all' } }
+        });
+
+        onResult?.(response);
     } catch (e) {
     } finally {
-        yield put(moreTriggerSpinner({ getItemLoading: false }));
     }
 }
 
