@@ -338,7 +338,8 @@
             "buttonTitle": "Add New Note"
         },
         "type": "Note Type",
-        "select": "Select a Note"
+        "select": "Select a Note",
+        "insertNote": "+ Insert Note"
     },
     "units": {
         "empty": {

@@ -338,7 +338,8 @@
             "buttonTitle": "Agregar nueva nota"
         },
         "type": "Tipo de nota",
-        "select": "Seleccione una nota"
+        "select": "Seleccione una nota",
+        "insertNote": "+ Insertar nota"
     },
     "units": {
         "empty": {

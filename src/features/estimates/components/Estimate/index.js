@@ -46,6 +46,7 @@ import {
 import FinalAmount from '../FinalAmount';
 import { alertMe, BUTTON_TYPE, isArray, MAX_LENGTH } from '@/constants';
 import { formatNotesType } from '@/utils';
+import { NOTES_TYPE_VALUE as NOTES_TYPE } from '@/features/settings/constants';
 
 type IProps = {
     navigation: Object,
@@ -754,7 +755,7 @@ export class Estimate extends React.Component<IProps> {
                     <View style={styles.noteContainer}>
                         <View>
                             <Text style={styles.noteHintStyle}>
-                                {Lng.t('invoices.notes', { locale })}
+                                {Lng.t('estimates.notes', { locale })}
                             </Text>
                         </View>
                         <View>
@@ -785,12 +786,14 @@ export class Estimate extends React.Component<IProps> {
                                         }}
                                     >
                                         <Text style={styles.insertNote}>
-                                            + Insert Note
+                                            {Lng.t('notes.insertNote', {
+                                                locale
+                                            })}
                                         </Text>
                                     </TouchableOpacity>
                                 }
                                 queryString={{
-                                    type: 'Estimate'
+                                    type: NOTES_TYPE.ESTIMATE
                                 }}
                             />
                         </View>

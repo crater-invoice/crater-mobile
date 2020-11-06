@@ -45,6 +45,7 @@ import {
     finalAmount
 } from '../InvoiceCalculation';
 import { formatNotesType } from '@/utils';
+import { NOTES_TYPE_VALUE as NOTES_TYPE } from '@/features/settings/constants';
 
 type IProps = {
     navigation: any,
@@ -747,12 +748,14 @@ export class Invoice extends React.Component<IProps> {
                                         }}
                                     >
                                         <Text style={styles.insertNote}>
-                                            + Insert Note
+                                            {Lng.t('notes.insertNote', {
+                                                locale
+                                            })}
                                         </Text>
                                     </TouchableOpacity>
                                 }
                                 queryString={{
-                                    type: 'Invoice'
+                                    type: NOTES_TYPE.INVOICE
                                 }}
                             />
                         </View>
