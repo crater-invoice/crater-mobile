@@ -35,15 +35,11 @@ import { ADD_TAX } from '@/features/settings/constants';
 export class EstimateItem extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {};
     }
 
     componentDidMount() {
-        const { navigation, getItemUnits, itemId } = this.props;
-
-        !itemId && getItemUnits && getItemUnits();
-
+        const { navigation } = this.props;
         goBack(MOUNT, navigation);
     }
 

@@ -681,6 +681,7 @@ export class Invoice extends React.Component<IProps> {
                         listViewProps={{
                             leftSubTitleStyle: itemsDescriptionStyle()
                         }}
+                        paginationLimit={15}
                     />
 
                     <FinalAmount state={this.state} props={this.props} />
