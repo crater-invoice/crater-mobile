@@ -74,7 +74,7 @@ function* getCreateCustomer({ payload }) {
 
         yield call(getCustomFields, {
             payload: {
-                queryString: { type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 500 }
+                queryString: { type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 'all' }
             }
         });
 
@@ -169,7 +169,7 @@ function* getCustomerDetail({ payload }) {
 
         yield call(getCustomFields, {
             payload: {
-                queryString: { type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 500 }
+                queryString: { type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 'all' }
             }
         });
 

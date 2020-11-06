@@ -5,7 +5,6 @@ import { validate } from './validation';
 import * as actions from '../../actions';
 import { Customer } from '../../components/Customer';
 import { getStateCurrencies } from '../../selectors';
-import * as settingsAction from '@/features/settings/actions';
 import {
     CUSTOMER_FORM,
     CUSTOMER_ADD,
@@ -44,8 +43,7 @@ const mapStateToProps = (state, { navigation }) => {
 };
 
 const mapDispatchToProps = {
-    ...actions,
-    resetCustomFields: settingsAction.resetCustomFields
+    ...actions
 };
 
 //  Redux Form
