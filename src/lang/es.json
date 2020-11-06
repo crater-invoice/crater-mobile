@@ -249,7 +249,7 @@
             "sendPayment": "Este recibo de pago se enviará por correo electrónico a la dirección indicada."
         }
     },
-    "paymentMode":{
+    "paymentMode": {
         "empty": {
             "title": "¡Aún no hay modos de pago!",
             "description": "Esta sección contendrá la lista de modos de pago.",
@@ -337,9 +337,10 @@
             "description": "Esta sección contendrá la lista de notas.",
             "buttonTitle": "Agregar nueva nota"
         },
-        "type": "Tipo de nota"
+        "type": "Tipo de nota",
+        "select": "Seleccione una nota"
     },
-    "units":{
+    "units": {
         "empty": {
             "title": "¡Aún no hay unidades!",
             "description": "Esta sección contendrá la lista de unidades de elementos.",
@@ -722,7 +723,7 @@
         "numeric": "debe ser numérico",
         "moreThanDue": "{{hint}} No debe ser más que el monto adeudado.",
         "url": "URL invalida (p.ej: https://craterapp.com)",
-        "wrong":"Something went wrong. Please, try again.",
+        "wrong": "Something went wrong. Please, try again.",
         "alreadyTaken": "YA APARTADAS"
     }
 }

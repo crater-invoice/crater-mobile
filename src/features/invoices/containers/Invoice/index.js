@@ -7,14 +7,15 @@ import * as actions from '../../actions';
 import { INVOICE_FORM, INVOICE_EDIT } from '../../constants';
 import moment from 'moment';
 import { getCustomers } from '@/features/customers/actions';
-import { getTaxes } from '@/features/settings/actions';
+import { getTaxes, getNotes } from '@/features/settings/actions';
 import { isArray } from '@/constants';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         global: { locale, taxTypes, currency },
         invoices: { loading, invoiceItems, invoiceData, items },
-        customers: { customers }
+        customers: { customers },
+        settings: { notes }
     } = state;
 
     const {
@@ -41,6 +42,7 @@ const mapStateToProps = (state, { navigation }) => {
         invoiceData,
         items,
         type,
+        notes,
         customers,
         itemsLoading: loading?.itemsLoading,
         locale,
@@ -74,7 +76,8 @@ const mapStateToProps = (state, { navigation }) => {
 const mapDispatchToProps = {
     ...actions,
     getCustomers,
-    getTaxes
+    getTaxes,
+    getNotes
 };
 
 //  Redux Forms

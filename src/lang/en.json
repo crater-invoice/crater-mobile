@@ -337,7 +337,8 @@
             "description": "This section will contain the list of notes.",
             "buttonTitle": "Add New Note"
         },
-        "type": "Note Type"
+        "type": "Note Type",
+        "select": "Select a Note"
     },
     "units": {
         "empty": {
@@ -722,7 +723,7 @@
         "numeric": "must be numeric",
         "moreThanDue": "{{hint}} Should not be more than Due Amount.",
         "url": "Invalid url (eg: https://craterapp.com)",
-        "wrong":"Something went wrong. Please, try again.",
+        "wrong": "Something went wrong. Please, try again.",
         "alreadyTaken": "ALREADY TAKEN"
     }
 }

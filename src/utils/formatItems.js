@@ -122,6 +122,22 @@ export const formatNotes = notes => {
     });
 };
 
+// Format Notes Type
+// -----------------------------------------
+export const formatNotesType = notes => {
+    if (!isArray(notes)) {
+        return [];
+    }
+
+    return notes.map(note => {
+        const { name } = note;
+        return {
+            title: name,
+            fullItem: note
+        };
+    });
+};
+
 // Format Items
 // -----------------------------------------
 export const formatItems = (items, currency) => {

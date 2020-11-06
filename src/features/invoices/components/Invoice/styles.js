@@ -1,8 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { colors, fonts } from '@/styles';
 
-const { width } = Dimensions.get('window');
-
 export default styles = StyleSheet.create({
     bodyContainer: {
         paddingHorizontal: 22,
@@ -26,6 +24,7 @@ export default styles = StyleSheet.create({
         paddingBottom: 6,
         color: colors.dark2,
         fontSize: 14,
+        paddingLeft: 4,
         fontFamily: fonts.poppins
     },
     submitButton: {
@@ -66,5 +65,16 @@ export default styles = StyleSheet.create({
     },
     termsEditText: {
         color: colors.primary
+    },
+    insertNote: {
+        color: colors.primary,
+        fontFamily: fonts.poppins,
+        fontSize: 18,
+        paddingBottom: 6
+    },
+    noteContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 });

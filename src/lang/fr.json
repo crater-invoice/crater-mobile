@@ -249,7 +249,7 @@
             "sendPayment": "Ce reçu de paiement sera envoyé par e-mail à l'adresse indiquée"
         }
     },
-    "paymentMode":{
+    "paymentMode": {
         "empty": {
             "title": "Pas encore de modes de paiement!",
             "description": "Cette section contiendra la liste des modes de paiement.",
@@ -337,9 +337,10 @@
             "description": "Cette section contiendra la liste des notes.",
             "buttonTitle": "Ajouter une nouvelle note"
         },
-        "type": "Type de note"
+        "type": "Type de note",
+        "select": "Sélectionnez une note"
     },
-    "units":{
+    "units": {
         "empty": {
             "title": "Pas encore d'unités!",
             "description": "Cette section contiendra la liste des unités d'articles.",
@@ -722,7 +723,7 @@
         "numeric": "doit être numérique",
         "moreThanDue": "{{hint}} Ne devrait pas être plus que le montant dû.",
         "url": "URL invalide (p ex: https://craterapp.com)",
-        "wrong":"Un problème est survenu. Veuillez réessayer.",
+        "wrong": "Un problème est survenu. Veuillez réessayer.",
         "alreadyTaken": "DÉJÀ PRIS"
     }
 }

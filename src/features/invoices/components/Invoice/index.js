@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text, Linking } from 'react-native';
+import { View, Text, Linking, TouchableOpacity } from 'react-native';
 import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
 import { colors, itemsDescriptionStyle } from '@/styles';
@@ -11,7 +11,6 @@ import Lng from '@/lang/i18n';
 import { IMAGES } from '@/assets';
 import FinalAmount from '../FinalAmount';
 import { alertMe, BUTTON_TYPE, isArray, MAX_LENGTH } from '@/constants';
-import { CUSTOMER_ADD } from '@/features/customers/constants';
 import { PAYMENT_ADD } from '@/features/payments/constants';
 import {
     InputField,
@@ -44,6 +43,7 @@ import {
     getItemList,
     finalAmount
 } from '../InvoiceCalculation';
+import { formatNotesType } from '@/utils';
 
 type IProps = {
     navigation: any,
@@ -71,19 +71,22 @@ export class Invoice extends React.Component<IProps> {
     invoiceRefs: any;
     sendMailRef: any;
     customerReference: any;
+    notesReference: any;
 
     constructor(props) {
         super(props);
         this.invoiceRefs = setInvoiceRefs.bind(this);
         this.sendMailRef = React.createRef();
         this.customerReference = React.createRef();
+        this.notesReference = React.createRef();
 
         this.state = {
             currency: props?.currency,
             itemList: [],
             customerName: '',
             markAsStatus: null,
-            isLoading: true
+            isLoading: true,
+            notes: props?.notes
         };
     }
 
@@ -283,21 +286,6 @@ export class Invoice extends React.Component<IProps> {
         );
     };
 
-    navigateToCustomer = () => {
-        const { navigation } = this.props;
-        const { currency } = this.state;
-
-        navigation.navigate(ROUTES.CUSTOMER, {
-            type: CUSTOMER_ADD,
-            currency,
-            onSelect: item => {
-                this.customerReference?.changeDisplayValue?.(item);
-                this.setFormField('user_id', item.id);
-                this.setState({ currency: item.currency });
-            }
-        });
-    };
-
     getInvoiceItemList = invoiceItems => {
         this.setFormField('items', invoiceItems);
 
@@ -464,6 +452,8 @@ export class Invoice extends React.Component<IProps> {
             type,
             getCustomers,
             customers,
+            notes,
+            getNotes,
             changeInvoiceStatus,
             formValues,
             id,
@@ -707,10 +697,54 @@ export class Invoice extends React.Component<IProps> {
                         }}
                     />
 
+                    <View style={styles.noteContainer}>
+                        <View>
+                            <Text style={styles.noteHintStyle}>
+                                {Lng.t('invoices.notes', { locale })}
+                            </Text>
+                        </View>
+                        <View>
+                            <Field
+                                name="add_notes"
+                                items={formatNotesType(notes)}
+                                apiSearch
+                                hasPagination
+                                getItems={getNotes}
+                                onlyPlaceholder
+                                component={SelectField}
+                                navigation={navigation}
+                                onSelect={item => {
+                                    this.setFormField('notes', item.notes);
+                                }}
+                                headerProps={{
+                                    title: Lng.t('notes.select', { locale }),
+                                    rightIcon: null
+                                }}
+                                emptyContentProps={{
+                                    contentType: 'notes'
+                                }}
+                                reference={ref => (this.notesReference = ref)}
+                                customView={
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            this.notesReference?.onToggle?.();
+                                        }}
+                                    >
+                                        <Text style={styles.insertNote}>
+                                            + Insert Note
+                                        </Text>
+                                    </TouchableOpacity>
+                                }
+                                queryString={{
+                                    type: 'Invoice'
+                                }}
+                            />
+                        </View>
+                    </View>
                     <Field
                         name="notes"
                         component={InputField}
-                        hint={Lng.t('invoices.notes', { locale })}
+                        // hint={Lng.t('invoices.notes', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             placeholder: Lng.t('invoices.notePlaceholder', {
@@ -724,7 +758,6 @@ export class Invoice extends React.Component<IProps> {
                         hintStyle={styles.noteHintStyle}
                         autoCorrect={true}
                     />
-
                     <Field
                         name="invoice_template_id"
                         templates={invoiceTemplates ?? []}
