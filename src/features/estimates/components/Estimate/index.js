@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, Text, Linking } from 'react-native';
+import { View, Text, Linking, TouchableOpacity } from 'react-native';
 import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
 import {
@@ -45,6 +45,7 @@ import {
 } from '../EstimateCalculation';
 import FinalAmount from '../FinalAmount';
 import { alertMe, BUTTON_TYPE, isArray, MAX_LENGTH } from '@/constants';
+import { formatNotesType } from '@/utils';
 
 type IProps = {
     navigation: Object,
@@ -65,7 +66,8 @@ type IProps = {
     estimateData: Object,
     items: Object,
     locale: String,
-    type: String
+    type: String,
+    notesReference: any
 };
 
 export class Estimate extends React.Component<IProps> {
@@ -78,6 +80,7 @@ export class Estimate extends React.Component<IProps> {
         this.estimateRefs = setEstimateRefs.bind(this);
         this.sendMailRef = React.createRef();
         this.customerReference = React.createRef();
+        this.notesReference = React.createRef();
 
         this.state = {
             currency: props?.currency,
@@ -507,7 +510,9 @@ export class Estimate extends React.Component<IProps> {
             customers,
             formValues,
             changeEstimateStatus,
-            id
+            id,
+            notes,
+            getNotes
         } = this.props;
 
         const { currency, customerName, markAsStatus, isLoading } = this.state;
@@ -746,10 +751,54 @@ export class Estimate extends React.Component<IProps> {
                         }}
                     />
 
+                    <View style={styles.noteContainer}>
+                        <View>
+                            <Text style={styles.noteHintStyle}>
+                                {Lng.t('invoices.notes', { locale })}
+                            </Text>
+                        </View>
+                        <View>
+                            <Field
+                                name="add_notes"
+                                items={formatNotesType(notes)}
+                                apiSearch
+                                hasPagination
+                                getItems={getNotes}
+                                onlyPlaceholder
+                                component={SelectField}
+                                navigation={navigation}
+                                onSelect={item => {
+                                    this.setFormField(`notes`, item.notes);
+                                }}
+                                headerProps={{
+                                    title: Lng.t('notes.select', { locale }),
+                                    rightIcon: null
+                                }}
+                                emptyContentProps={{
+                                    contentType: 'notes'
+                                }}
+                                reference={ref => (this.notesReference = ref)}
+                                customView={
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            this.notesReference?.onToggle?.();
+                                        }}
+                                    >
+                                        <Text style={styles.insertNote}>
+                                            + Insert Note
+                                        </Text>
+                                    </TouchableOpacity>
+                                }
+                                queryString={{
+                                    type: 'Estimate'
+                                }}
+                            />
+                        </View>
+                    </View>
+
                     <Field
                         name="notes"
                         component={InputField}
-                        hint={Lng.t('estimates.notes', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             placeholder: Lng.t('estimates.notePlaceholder', {

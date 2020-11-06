@@ -67,5 +67,25 @@ export default styles = StyleSheet.create({
     },
     termsEditText: {
         color: colors.primary
+    },
+    noteContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10,
+        marginBottom: -12
+    },
+    noteHintStyle: {
+        paddingBottom: 6,
+        color: colors.dark2,
+        fontSize: 14,
+        paddingLeft: 4,
+        fontFamily: fonts.poppins
+    },
+    insertNote: {
+        color: colors.primary,
+        fontFamily: fonts.poppins,
+        fontSize: 16,
+        paddingBottom: 6
     }
 });
