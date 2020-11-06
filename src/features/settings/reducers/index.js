@@ -15,7 +15,6 @@ import {
     SET_ITEM_UNIT,
     SET_CURRENCIES,
     SET_CUSTOM_FIELDS,
-    RESET_CUSTOM_FIELDS,
     SET_LANGUAGES,
     SET_NOTES
 } from '../constants';
@@ -284,9 +283,6 @@ export default function settingReducer(state = initialState, action) {
                 };
             }
             return { ...state, customFields: payload.customFields };
-
-        case RESET_CUSTOM_FIELDS:
-            return { ...state, customFields: [] };
 
         default:
             return state;

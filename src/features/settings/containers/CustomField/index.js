@@ -45,7 +45,8 @@ const mapStateToProps = (state, { navigation }) => {
                           [FIELDS.IS_REQUIRED]: false,
                           [FIELDS.MODAL_TYPE]: MODAL_TYPES[0].value,
                           [FIELDS.TYPE]: DATA_TYPES[0].value,
-                          [FIELDS.OPTIONS]: []
+                          [FIELDS.OPTIONS]: [],
+                          [FIELDS.ORDER]: 1
                       }
                   }
                 : null

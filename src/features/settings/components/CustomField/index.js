@@ -8,7 +8,8 @@ import {
     hasObjectLength,
     hasLength,
     hasFieldValue,
-    hasValue
+    hasValue,
+    KEYBOARD_TYPE
 } from '@/constants';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
@@ -153,12 +154,7 @@ export class CustomField extends React.Component<IProps> {
     };
 
     BOTTOM_ACTION = handleSubmit => {
-        const {
-            locale,
-            loading,
-            type,
-            removeCustomFieldLoading
-        } = this.props;
+        const { locale, loading, type, removeCustomFieldLoading } = this.props;
 
         return (
             <View
@@ -413,6 +409,17 @@ export class CustomField extends React.Component<IProps> {
                     />
 
                     {this.DATA_TYPE_OPTION_BASE_VIEW()}
+
+                    <Field
+                        name={`${FIELDS.FIELD}.${FIELDS.ORDER}`}
+                        component={InputField}
+                        hint={Lng.t('customFields.order', { locale })}
+                        inputProps={{
+                            returnKeyType: 'next',
+                            autoCorrect: true,
+                            keyboardType: KEYBOARD_TYPE.NUMERIC
+                        }}
+                    />
                 </View>
             </DefaultLayout>
         );

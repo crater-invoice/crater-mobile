@@ -19,8 +19,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    getCustomFields: CustomFieldsAction.getCustomFields,
-    resetCustomFields: CustomFieldsAction.resetCustomFields
+    getCustomFields: CustomFieldsAction.getCustomFields
 };
 
 //  Redux Forms

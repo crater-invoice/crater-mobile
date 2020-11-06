@@ -20,17 +20,11 @@ import {
     CUSTOMER_FIELDS as FIELDS
 } from '../../constants';
 import AddressContainer from '../../containers/Address';
-import {
-    alertMe,
-    hasObjectLength,
-    KEYBOARD_TYPE,
-    hasFieldValue
-} from '@/constants';
+import { alertMe, hasObjectLength, KEYBOARD_TYPE, isArray } from '@/constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import Lng from '@/lang/i18n';
 import { colors } from '@/styles/colors';
 import { SymbolStyle } from '@/components/CurrencyFormat/styles';
-import { CUSTOM_FIELD_DATA_TYPES } from '@/features/settings/constants';
 import { headerTitle } from '@/styles';
 
 interface IProps {
@@ -40,7 +34,6 @@ interface IProps {
     createCustomer: Function;
     updateCustomer: Function;
     handleSubmit: Function;
-    resetCustomFields: Function;
     customFields: any;
     loading: Boolean;
     locale: String;
@@ -62,7 +55,6 @@ export class Customer extends React.Component<IProps> {
 
     componentWillUnmount() {
         goBack(UNMOUNT);
-        this.props.resetCustomFields?.();
     }
 
     setInitialValues = () => {
@@ -96,11 +88,11 @@ export class Customer extends React.Component<IProps> {
                 id,
                 currencies,
                 countries,
-                onSuccess: response => {
+                onSuccess: customer => {
                     const values = {
-                        ...response,
-                        [FIELDS.BILLING]: response?.billing_address ?? [],
-                        [FIELDS.SHIPPING]: response?.shipping_address ?? []
+                        ...customer,
+                        [FIELDS.BILLING]: customer?.billing_address ?? [],
+                        [FIELDS.SHIPPING]: customer?.shipping_address ?? []
                     };
                     this.setFormField('customer', values);
                     this.setState({ isLoading: false });
@@ -112,26 +104,6 @@ export class Customer extends React.Component<IProps> {
 
     setFormField = (field, value) => {
         this.props.dispatch(change(CUSTOMER_FORM, field, value));
-    };
-
-    checkHasCustomFieldsRequired = (values, customFields) => {
-        let isRequired = false;
-
-        if (
-            !hasFieldValue(customFields) &&
-            !hasFieldValue(values?.customFields)
-        ) {
-            return isRequired;
-        }
-
-        for (const { required, type, value } of values?.customFields) {
-            if (required && type !== CUSTOM_FIELD_DATA_TYPES.SWITCH && !value) {
-                isRequired = true;
-                break;
-            }
-        }
-
-        return isRequired;
     };
 
     throwError = errors => {
@@ -146,7 +118,11 @@ export class Customer extends React.Component<IProps> {
     };
 
     onSubmit = values => {
-        const params = values?.customer;
+        const params = {
+            ...values?.customer,
+            customFields: values?.customFields
+        };
+
         const {
             type,
             createCustomer,
@@ -157,18 +133,6 @@ export class Customer extends React.Component<IProps> {
         } = this.props;
 
         if (this.state.isLoading) {
-            return;
-        }
-
-        const hasCustomFieldRequired = this.checkHasCustomFieldsRequired(
-            params,
-            customFields
-        );
-
-        if (hasCustomFieldRequired) {
-            throw new SubmissionError({
-                customer: { customFields: 'validation.required' }
-            });
             return;
         }
 
@@ -243,7 +207,6 @@ export class Customer extends React.Component<IProps> {
 
         const billingAddress = formValues?.customer?.[FIELDS.BILLING];
         const shippingAddress = formValues?.customer?.[FIELDS.SHIPPING];
-        const fields = formValues?.customer?.fields;
 
         const { isLoading } = this.state;
         const isEditScreen = type === CUSTOMER_EDIT;
@@ -448,15 +411,9 @@ export class Customer extends React.Component<IProps> {
                         />
                     </View>
 
-                    {/* {hasFieldValue(customFields) && (
-                        <Field
-                            name="customFields"
-                            component={CustomField}
-                            locale={locale}
-                            fields={customFields}
-                            initialFieldValues={fields}
-                        />
-                    )} */}
+                    {isArray(customFields) && (
+                        <CustomField {...this.props} type="customer" />
+                    )}
                 </View>
             </DefaultLayout>
         );

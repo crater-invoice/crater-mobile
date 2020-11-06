@@ -17,7 +17,6 @@ import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 type IProps = {
     navigation: Object,
     getCustomFields: Function,
-    resetCustomFields: Function,
     customFields: Object,
     loading: Boolean,
     locale: String
@@ -37,10 +36,8 @@ export class CustomFields extends React.Component<IProps> {
     }
 
     componentWillUnmount() {
-        const { customFields, resetCustomFields } = this.props;
         goBack(UNMOUNT);
         this.focusListener?.remove?.();
-        customFields && resetCustomFields?.();
     }
 
     onFocus = () => {

@@ -336,11 +336,6 @@ export const removeCustomField = (payload = {}) => ({
     payload
 });
 
-export const resetCustomFields = (payload = {}) => ({
-    type: TYPES.RESET_CUSTOM_FIELDS,
-    payload
-});
-
 // General Settings
 
 export const getGeneralSetting = (payload = {}) => ({

@@ -1,8 +1,9 @@
-import { getError } from '@/constants';
+import { getError, isArray } from '@/constants';
 import { CUSTOMER_FIELDS as FIELDS } from '../../constants';
+import { validateCustomField } from '@/components/CustomField/validation';
 
 export const validate = values => {
-    const errors: any = { customer: {} };
+    const errors: any = { customer: {}, customFields: {} };
 
     if (values) {
         errors['customer'][FIELDS.NAME] = getError(
@@ -23,6 +24,9 @@ export const validate = values => {
                 ['urlFormat']
             );
         }
+
+        const fieldErrors = validateCustomField(values?.customFields);
+        isArray(fieldErrors) && (errors.customFields = fieldErrors);
     }
 
     return errors;
