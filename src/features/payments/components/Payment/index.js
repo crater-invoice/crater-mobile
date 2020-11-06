@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Field, change, SubmissionError } from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
@@ -37,6 +37,7 @@ import {
     isArray,
     MAX_LENGTH
 } from '@/constants';
+import { formatNotesType } from '@/utils';
 
 type IProps = {
     navigation: Object,
@@ -50,7 +51,8 @@ type IProps = {
     type: String,
     locale: String,
     loading: Boolean,
-    getCustomers: Function
+    getCustomers: Function,
+    notesReference: any
 };
 
 export class Payment extends React.Component<IProps> {
@@ -63,6 +65,7 @@ export class Payment extends React.Component<IProps> {
         this.customerReference = React.createRef();
         this.invoiceReference = React.createRef();
         this.sendMailRef = React.createRef();
+        this.notesReference = React.createRef();
 
         this.state = {
             selectedInvoice: null,
@@ -365,7 +368,9 @@ export class Payment extends React.Component<IProps> {
             getUnpaidInvoices,
             unPaidInvoices,
             sendPaymentReceipt,
-            id
+            id,
+            getNotes,
+            notes
         } = this.props;
 
         const { isLoading } = this.state;
@@ -549,10 +554,57 @@ export class Payment extends React.Component<IProps> {
                         emptyContentProps={{ contentType: 'paymentMode' }}
                     />
 
+                    <View style={styles.noteContainer}>
+                        <View>
+                            <Text style={styles.noteHintStyle}>
+                                {Lng.t('invoices.notes', { locale })}
+                            </Text>
+                        </View>
+                        <View>
+                            <Field
+                                name="add_notes"
+                                items={formatNotesType(notes)}
+                                apiSearch
+                                hasPagination
+                                getItems={getNotes}
+                                onlyPlaceholder
+                                component={SelectField}
+                                navigation={navigation}
+                                onSelect={item => {
+                                    this.setFormField(
+                                        `payment.${FIELDS.NOTES}`,
+                                        item.notes
+                                    );
+                                }}
+                                headerProps={{
+                                    title: Lng.t('notes.select', { locale }),
+                                    rightIcon: null
+                                }}
+                                emptyContentProps={{
+                                    contentType: 'notes'
+                                }}
+                                reference={ref => (this.notesReference = ref)}
+                                customView={
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            this.notesReference?.onToggle?.();
+                                        }}
+                                    >
+                                        <Text style={styles.insertNote}>
+                                            + Insert Note
+                                        </Text>
+                                    </TouchableOpacity>
+                                }
+                                queryString={{
+                                    type: 'Payment'
+                                }}
+                            />
+                        </View>
+                    </View>
+
                     <Field
                         name={`payment.${FIELDS.NOTES}`}
                         component={InputField}
-                        hint={Lng.t('payments.notes', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',

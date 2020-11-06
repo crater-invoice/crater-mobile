@@ -6,14 +6,14 @@ import * as actions from '../../actions';
 import { PAYMENT_FORM, PAYMENT_ADD } from '../../constants';
 import { Payment } from '../../components/Payment';
 import { getCustomers } from '@/features/customers/actions';
-import { getPaymentModes } from '@/features/settings/actions';
+import { getPaymentModes, getNotes } from '@/features/settings/actions';
 import { getPaymentMethodsState } from '../../selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         customers: { customers },
         global: { locale },
-        settings: { paymentMethods },
+        settings: { paymentMethods, notes },
         payments: { loading, unPaidInvoices }
     } = state;
 
@@ -27,6 +27,7 @@ const mapStateToProps = (state, { navigation }) => {
         customers,
         locale,
         invoice,
+        notes,
         hasRecordPayment,
         loading: loading?.paymentLoading,
         unPaidInvoices,
@@ -39,7 +40,8 @@ const mapStateToProps = (state, { navigation }) => {
 const mapDispatchToProps = {
     ...actions,
     getCustomers,
-    getPaymentModes
+    getPaymentModes,
+    getNotes
 };
 
 //  Redux Form

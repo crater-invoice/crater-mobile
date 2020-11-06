@@ -69,12 +69,14 @@ export default styles = StyleSheet.create({
     insertNote: {
         color: colors.primary,
         fontFamily: fonts.poppins,
-        fontSize: 18,
+        fontSize: 16,
         paddingBottom: 6
     },
     noteContainer: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginTop: 10,
+        marginBottom: -12
     }
 });

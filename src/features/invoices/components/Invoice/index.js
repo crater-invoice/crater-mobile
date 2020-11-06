@@ -12,6 +12,7 @@ import { IMAGES } from '@/assets';
 import FinalAmount from '../FinalAmount';
 import { alertMe, BUTTON_TYPE, isArray, MAX_LENGTH } from '@/constants';
 import { PAYMENT_ADD } from '@/features/payments/constants';
+import { CUSTOMER_ADD } from '@/features/customers/constants';
 import {
     InputField,
     DatePickerField,
@@ -85,8 +86,7 @@ export class Invoice extends React.Component<IProps> {
             itemList: [],
             customerName: '',
             markAsStatus: null,
-            isLoading: true,
-            notes: props?.notes
+            isLoading: true
         };
     }
 
@@ -101,6 +101,21 @@ export class Invoice extends React.Component<IProps> {
         this.invoiceRefs(undefined);
         goBack(UNMOUNT);
     }
+
+    navigateToCustomer = () => {
+        const { navigation } = this.props;
+        const { currency } = this.state;
+
+        navigation.navigate(ROUTES.CUSTOMER, {
+            type: CUSTOMER_ADD,
+            currency,
+            onSelect: item => {
+                this.customerReference?.changeDisplayValue?.(item);
+                this.setFormField('user_id', item.id);
+                this.setState({ currency: item.currency });
+            }
+        });
+    };
 
     setInitialValues = () => {
         const { getCreateInvoice, getEditInvoice, type, id } = this.props;
