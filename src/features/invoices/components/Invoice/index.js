@@ -473,7 +473,6 @@ export class Invoice extends React.Component<IProps> {
             changeInvoiceStatus,
             formValues,
             id,
-            loading,
             withLoading
         } = this.props;
 
