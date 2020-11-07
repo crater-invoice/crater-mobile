@@ -234,7 +234,11 @@ export class FakeInputComponent extends Component<IProps> {
                     <View style={styles.validation}>
                         <Text
                             numberOfLines={1}
-                            style={{ color: 'white', fontSize: 12 }}
+                            style={{
+                                color: 'white',
+                                fontSize: 12,
+                                textAlign: 'left'
+                            }}
                         >
                             {Lng.t(error, {
                                 locale,

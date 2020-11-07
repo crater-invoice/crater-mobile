@@ -16,7 +16,8 @@ export const styles = StyleSheet.create({
         fontFamily: fonts.poppins,
         fontSize: 16,
         marginTop: 4,
-        width: '83%'
+        width: '83%',
+        textAlign: 'left'
     },
     switchStyle: {
         transform: isIosPlatform()
@@ -34,7 +35,8 @@ export const styles = StyleSheet.create({
     description: {
         color: colors.darkGray,
         fontFamily: fonts.poppins,
-        fontSize: 14
+        fontSize: 14,
+        textAlign: 'left'
     },
     required: {
         color: colors.danger

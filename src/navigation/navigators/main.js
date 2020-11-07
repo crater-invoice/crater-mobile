@@ -1,12 +1,12 @@
-import { createBottomTabNavigator } from "react-navigation";
+import { createBottomTabNavigator } from 'react-navigation';
 import InvoicesContainer from '../../features/invoices/containers/Invoices';
 import CustomersContainer from '../../features/customers/containers/Customers';
-import { ROUTES } from "../routes";
+import { ROUTES } from '../routes';
 import { colors, fonts } from '@/styles';
-import MoreContainer from "../../features/more/containers/More";
-import ExpensesContainer from "../../features/expenses/containers/Expenses";
-import PaymentsContainer from "../../features/payments/containers/Payments";
-import { isIPhoneX } from "@/constants";
+import MoreContainer from '../../features/more/containers/More';
+import ExpensesContainer from '../../features/expenses/containers/Expenses';
+import PaymentsContainer from '../../features/payments/containers/Payments';
+import { isIPhoneX } from '@/constants';
 
 export default createBottomTabNavigator(
     {
@@ -30,7 +30,7 @@ export default createBottomTabNavigator(
         initialRouteName: ROUTES.MAIN_INVOICES,
         navigationOptions: {
             header: null,
-            headerTitleAllowFontScaling: false,
+            headerTitleAllowFontScaling: false
         },
         tabBarOptions: {
             showIcon: true,
@@ -44,7 +44,7 @@ export default createBottomTabNavigator(
                 height: isIPhoneX() ? 65 : 75,
                 borderTopWidth: 0,
                 paddingVertical: 7,
-                position: "relative",
+                position: 'relative',
                 bottom: 0,
                 left: 0,
                 right: 0,
@@ -54,7 +54,8 @@ export default createBottomTabNavigator(
                 fontFamily: fonts.poppinsMedium,
                 fontSize: 11,
                 marginTop: -4,
-            },
+                textAlign: 'left'
+            }
         }
     }
 );

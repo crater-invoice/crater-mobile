@@ -15,6 +15,7 @@ import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { formatListByName } from '@/utils';
 import { hasLength, hasValue } from '@/constants';
 import { itemsDescriptionStyle } from '@/styles';
+import { ARROW_ICON } from '@/assets';
 
 type IProps = {
     navigation: Object,
@@ -183,7 +184,7 @@ export class Currencies extends React.Component<IProps> {
                 <MainLayout
                     headerProps={{
                         title: Lng.t('header.currencies', { locale }),
-                        leftIcon: 'long-arrow-alt-left',
+                        leftIcon: ARROW_ICON,
                         leftIconPress: () => navigation.goBack(null),
                         titleStyle: styles.headerTitle,
                         rightIcon: 'plus',

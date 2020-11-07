@@ -11,21 +11,22 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.veryLightGray
     },
     content: {
-        flex: 1,
+        flex: 1
     },
     headerTitleStyle: {
         fontSize: 30,
         color: colors.dark2,
         fontWeight: '600',
-        fontFamily: fonts.poppinsMedium
+        fontFamily: fonts.poppinsMedium,
+        textAlign: 'left'
     },
     inputField: {
         paddingHorizontal: 20,
         paddingVertical: 0,
-        marginVertical: 8,
+        marginVertical: 8
     },
     searchFieldContainer: {
-        paddingBottom: 5,
+        paddingBottom: 5
     },
     bottomView: {
         backgroundColor: colors.white,
@@ -33,13 +34,13 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingBottom: isIPhoneX() ? 35 : 13,
         borderTopWidth: 1,
-        borderColor: colors.lightGray,
+        borderColor: colors.lightGray
     },
     columnSearch: {
-        flex: 7,
+        flex: 7
     },
     columnIcon: {
         flex: 1,
-        justifyContent: "center",
-    },
+        justifyContent: 'center'
+    }
 });

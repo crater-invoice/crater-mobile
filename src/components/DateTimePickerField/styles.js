@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
     label: {
         color: colors.secondary,
         fontSize: 14,
-        fontFamily: fonts.poppinsMedium
+        fontFamily: fonts.poppinsMedium,
+        textAlign: 'left'
     },
     row: {
         flexDirection: 'row'

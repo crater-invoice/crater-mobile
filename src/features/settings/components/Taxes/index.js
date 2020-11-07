@@ -8,6 +8,7 @@ import Lng from '@/lang/i18n';
 import { EDIT_TAX, ADD_TAX } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { itemsDescriptionStyle } from '@/styles';
+import { ARROW_ICON } from '@/assets';
 
 export class Taxes extends React.Component {
     constructor(props) {
@@ -65,7 +66,7 @@ export class Taxes extends React.Component {
         };
 
         const headerProps = {
-            leftIcon: 'long-arrow-alt-left',
+            leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
             title: Lng.t('header.taxes', { locale }),
             titleStyle: styles.headerTitle,

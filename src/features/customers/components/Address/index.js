@@ -351,7 +351,6 @@ export class Address extends Component<IProps> {
                     visible={visible}
                     onToggle={this.onToggle}
                     headerProps={{
-                        leftIcon: 'long-arrow-alt-left',
                         leftIconPress: () => this.onToggle(),
                         title: hasBillingAddress
                             ? Lng.t('header.billingAddress', { locale })

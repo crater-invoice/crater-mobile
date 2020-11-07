@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import {
     widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
+    heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import { colors, fonts } from '@/styles';
 
@@ -9,34 +9,34 @@ const container = {
     borderWidth: 1,
     borderColor: colors.gray,
     borderStyle: 'dashed',
-    borderRadius: 4,
-}
+    borderRadius: 4
+};
 
 export const styles = StyleSheet.create({
     mainContainer: {
         position: 'relative',
-        marginTop: 10,
+        marginTop: 10
     },
     images: {
         height: 110,
-        resizeMode: "contain",
+        resizeMode: 'contain'
     },
     container: {
         ...container,
-        alignItems: "center",
-        justifyContent: "center",
-        paddingVertical: 22,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 22
     },
     loadingContainer: {
         ...container,
-        height: 100,
+        height: 100
     },
     uploadContainer: {
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     imageWithIconContainer: {
-        position: 'relative',
+        position: 'relative'
     },
     iconContainer: {
         position: 'absolute',
@@ -55,14 +55,16 @@ export const styles = StyleSheet.create({
         paddingTop: 5,
         color: colors.darkGray,
         fontFamily: fonts.poppinsLight,
+        textAlign: 'left'
     },
     label: {
         paddingBottom: 7,
         color: colors.secondary,
         fontSize: 14,
-        fontFamily: fonts.poppinsMedium
+        fontFamily: fonts.poppinsMedium,
+        textAlign: 'left'
     },
     loadImage: {
-        width: wp('88%'),
+        width: wp('88%')
     }
 });

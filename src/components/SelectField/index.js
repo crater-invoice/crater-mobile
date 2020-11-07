@@ -13,6 +13,7 @@ import { FakeInput } from '../FakeInput';
 import { CtButton } from '../Button';
 import { hasValue, isArray } from '@/constants';
 import { internalSearch as searchItem } from '@/utils';
+import { ARROW_ICON } from '@/assets';
 
 export class SelectFieldComponent extends Component<IProps, IStates> {
     scrollViewReference: any;
@@ -380,7 +381,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         }
 
         const layoutHeaderProps = {
-            leftIcon: 'long-arrow-alt-left',
+            leftIcon: ARROW_ICON,
             leftIconPress: () => this.onToggle(),
             titleStyle: headerTitle({}),
             placement: 'center',

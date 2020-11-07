@@ -3,9 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
 
 export const styles = StyleSheet.create({
-
-    animatedToastView:
-    {
+    animatedToastView: {
         marginHorizontal: 22,
         paddingHorizontal: 25,
         paddingVertical: 11,
@@ -18,15 +16,15 @@ export const styles = StyleSheet.create({
         right: 0,
 
         backgroundColor: colors.veryDarkGray,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
 
-    title:
-    {
+    title: {
         fontSize: isIPhoneX() ? 15 : 13,
         fontFamily: fonts.poppins,
         alignSelf: 'stretch',
         textAlign: 'center',
-        color: colors.white
+        color: colors.white,
+        textAlign: 'left'
     }
 });

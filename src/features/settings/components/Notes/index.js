@@ -6,6 +6,7 @@ import Lng from '@/lang/i18n';
 import { NOTES_ADD, NOTES_EDIT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { formatNotes } from '@/utils';
+import { ARROW_ICON } from '@/assets';
 
 type IProps = {
     navigation: Object,
@@ -83,7 +84,7 @@ export class Notes extends Component<IProps> {
         };
 
         const headerProps = {
-            leftIcon: 'long-arrow-alt-left',
+            leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
             title: Lng.t('header.notes', { locale }),
             titleStyle: styles.titleStyle,

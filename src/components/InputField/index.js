@@ -229,7 +229,11 @@ export class InputFieldComponent extends Component<IInputField> {
                         >
                             <Text
                                 numberOfLines={errorNumberOfLines || 3}
-                                style={{ color: 'white', fontSize: 12 }}
+                                style={{
+                                    color: 'white',
+                                    fontSize: 12,
+                                    textAlign: 'left'
+                                }}
                             >
                                 {Lng.t(error, {
                                     locale,

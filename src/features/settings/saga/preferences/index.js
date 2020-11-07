@@ -1,4 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
+import { I18nManager } from 'react-native';
+import { Updates } from 'expo';
 import Request from '@/api/request';
 import {
     settingsTriggerSpinner as spinner,
@@ -10,8 +12,7 @@ import {
     EDIT_PREFERENCES,
     PREFERENCES_SETTING_TYPE
 } from '../../constants';
-import { I18nManager } from 'react-native';
-import { Updates } from 'expo';
+import { setI18nManagerValue } from '@/utils';
 
 function* getPreferences({ payload: { onResult } }) {
     yield put(spinner({ getPreferencesLoading: true }));
@@ -34,7 +35,9 @@ function* getPreferences({ payload: { onResult } }) {
     }
 }
 
-function* editPreferences({ payload: { params, navigation, locale = 'en' } }) {
+function* editPreferences({ payload }) {
+    const { params, navigation, locale = 'en' } = payload;
+
     yield put(spinner({ editPreferencesLoading: true }));
 
     try {
@@ -42,6 +45,12 @@ function* editPreferences({ payload: { params, navigation, locale = 'en' } }) {
             path: `company/settings`,
             body: { settings: params }
         };
+
+        const response = yield call([Request, 'post'], options);
+
+        if (response.success) {
+            yield put(setSettings({ settings: params }));
+        }
 
         if (params?.language) {
             const options = {
@@ -52,20 +61,14 @@ function* editPreferences({ payload: { params, navigation, locale = 'en' } }) {
 
             if (res.success) {
                 const isRTL = params.language === 'ar';
-                I18nManager.forceRTL(isRTL);
-                I18nManager.allowRTL(isRTL);
+                setI18nManagerValue({ isRTL });
                 if (locale === 'ar' || isRTL) {
                     Updates.reload();
                 }
             }
         }
 
-        const response = yield call([Request, 'post'], options);
-
-        if (response.success) {
-            yield put(setSettings({ settings: params }));
-            navigation.goBack(null);
-        }
+        navigation.goBack(null);
     } catch (e) {
     } finally {
         yield put(spinner({ editPreferencesLoading: false }));

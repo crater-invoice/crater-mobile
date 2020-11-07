@@ -223,7 +223,6 @@ export class Customer extends React.Component<IProps> {
         return (
             <DefaultLayout
                 headerProps={{
-                    leftIcon: 'long-arrow-alt-left',
                     leftIconStyle: styles.leftIcon,
                     leftIconPress: () => navigation.goBack(null),
                     title: isEditScreen

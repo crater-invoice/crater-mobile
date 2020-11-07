@@ -13,7 +13,7 @@ import { setAccountInformation } from '../../settings/actions';
 import { alertMe } from '@/constants';
 import { GET_APP_VERSION } from '@/constants';
 import Request from '@/api/request';
-import { getTitleByLanguage } from '@/utils';
+import { getTitleByLanguage, setI18nManagerValue } from '@/utils';
 
 // Login
 // -----------------------------------------
@@ -72,6 +72,8 @@ function* getBootstrapData(payloadData: any) {
         const response = yield call([Request, 'get'], options);
 
         const { user } = response;
+
+        setI18nManagerValue({ isRTL: response?.default_language });
 
         yield put(setAccountInformation({ account: user }));
 

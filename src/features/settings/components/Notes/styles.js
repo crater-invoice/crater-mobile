@@ -17,6 +17,7 @@ export default styles = StyleSheet.create({
     titleStyle: {
         color: colors.dark,
         fontFamily: fonts.poppins,
+        textAlign: 'left',
         ...headerTitle({ marginLeft: -25, marginRight: -25 })
     }
 });

@@ -4,11 +4,11 @@ import { colors, fonts } from '@/styles';
 export default styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     headerTitle: {
         fontSize: 17,
-        color: colors.dark1,
+        color: colors.dark1
     },
     headerContainer: {
         // backgroundColor: colors.veryLightGray,
@@ -17,11 +17,11 @@ export default styles = StyleSheet.create({
         color: colors.primary,
         textAlign: 'right',
         fontFamily: fonts.poppinsMedium,
-        fontSize: 16,
+        fontSize: 16
     },
     bodyContainer: {
         paddingHorizontal: 22,
-        paddingVertical: 17,
+        paddingVertical: 17
     },
     dateFieldContainer: {
         flex: 1,
@@ -34,17 +34,18 @@ export default styles = StyleSheet.create({
         paddingHorizontal: 7
     },
     inputFieldStyle: {
-        borderRadius: 0,
+        borderRadius: 0
     },
     inputFieldContainer: {
-        paddingHorizontal: 0,
+        paddingHorizontal: 0
     },
     inputTextStyle: {
         color: colors.dark3,
         fontFamily: fonts.poppinsMedium,
+        textAlign: 'left'
     },
     inputFieldValidation: {
-        marginHorizontal: 0,
+        marginHorizontal: 0
     },
     hintStyle: {
         marginTop: -6,
@@ -52,15 +53,17 @@ export default styles = StyleSheet.create({
         color: colors.dark2,
         fontSize: 14,
         fontFamily: fonts.poppins,
+        textAlign: 'left'
     },
     noteHintStyle: {
         paddingBottom: 6,
         color: colors.dark2,
         fontSize: 14,
         fontFamily: fonts.poppins,
+        textAlign: 'left'
     },
     fakeInputStyle: {
-        marginTop: 5,
+        marginTop: 5
     },
 
     amountContainer: {
@@ -68,40 +71,42 @@ export default styles = StyleSheet.create({
         borderColor: colors.lightGray,
         marginTop: 24,
         padding: 20,
-        backgroundColor: colors.white,
+        backgroundColor: colors.white
     },
     subContainer: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
     },
     label: {
         color: colors.gray,
         fontFamily: fonts.poppinsMedium,
         marginTop: 6,
+        textAlign: 'left'
     },
     price: {
         color: colors.dark2,
-        fontSize: 16,
+        fontSize: 16
     },
     totalPrice: {
         color: colors.primary,
         fontSize: 18,
         fontFamily: fonts.poppinsMedium,
+        textAlign: 'left'
     },
     divider: {
         backgroundColor: colors.lightGray,
         borderColor: colors.lightGray,
         borderWidth: 0.7,
         marginTop: 10,
-        marginBottom: 8,
+        marginBottom: 8
     },
     submitButton: {
-        flexDirection: "row",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     handleBtn: {
-        marginHorizontal: 9,
+        marginHorizontal: 9
     },
     btnWhite: {
         // paddingVertical: 6,
@@ -114,18 +119,20 @@ export default styles = StyleSheet.create({
     itemLeftTitle: {
         fontSize: 15,
         fontFamily: fonts.poppins,
-        color: colors.dark
+        color: colors.dark,
+        textAlign: 'left'
     },
     itemLeftSubTitleLabel: {
-        marginLeft: -6,
+        marginLeft: -6
     },
     itemLeftSubTitle: {
         color: colors.darkGray,
-        fontSize: 13,
+        fontSize: 13
     },
     itemRightTitle: {
         fontFamily: fonts.poppins,
         fontSize: 18,
-        color: colors.secondary
-    },
+        color: colors.secondary,
+        textAlign: 'left'
+    }
 });

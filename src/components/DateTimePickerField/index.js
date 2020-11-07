@@ -163,7 +163,13 @@ class DateTimePickerFieldComponent extends Component<Props> {
                 </View>
                 {hasError && (
                     <View style={styles.validation}>
-                        <Text style={{ color: 'white', fontSize: 12 }}>
+                        <Text
+                            style={{
+                                color: 'white',
+                                fontSize: 12,
+                                textAlign: 'left'
+                            }}
+                        >
                             {Lng.t(error, { locale, hint: label })}
                         </Text>
                     </View>

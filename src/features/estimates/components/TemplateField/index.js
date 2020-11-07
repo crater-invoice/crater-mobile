@@ -1,10 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import {
-    TouchableWithoutFeedback,
-    View
-} from 'react-native';
+import { TouchableWithoutFeedback, View } from 'react-native';
 import styles from './styles';
 import { SlideModal, FakeInput, AssetImage, CtButton } from '@/components';
 import { Icon } from 'react-native-elements';
@@ -21,7 +18,7 @@ type IProps = {
     leftIcon: String,
     color: String,
     value: String,
-    templates: Array,
+    templates: Array
 };
 
 export class TemplateField extends Component<IProps> {
@@ -31,61 +28,68 @@ export class TemplateField extends Component<IProps> {
         this.state = {
             page: 1,
             visible: false,
-            selectedTemplate: '',
+            selectedTemplate: ''
         };
     }
 
     componentDidMount() {
-        const { input: { value }, templates, navigation } = this.props
+        const {
+            input: { value },
+            templates,
+            navigation
+        } = this.props;
 
-        const template = templates.filter(val => val.id === value)[0]
+        const template = templates.filter(val => val.id === value)[0];
 
         this.setState({
-            selectedTemplate: template,
-        })
-    }
-
-    onToggle = () => {
-        this.setState((prevState) => {
-            return { visible: !prevState.visible }
+            selectedTemplate: template
         });
     }
 
-    onTemplateSelect = (template) => {
+    onToggle = () => {
+        this.setState(prevState => {
+            return { visible: !prevState.visible };
+        });
+    };
+
+    onTemplateSelect = template => {
         this.setState({
             selectedTemplate: template
-        })
-    }
+        });
+    };
 
-    onSearch = (search) => {
-        this.setState({ search })
-        this.getItems({ fresh: true, q: search })
-    }
+    onSearch = search => {
+        this.setState({ search });
+        this.getItems({ fresh: true, q: search });
+    };
 
     onSubmit = () => {
-        const { onChangeCallback, input: { onChange } } = this.props
+        const {
+            onChangeCallback,
+            input: { onChange }
+        } = this.props;
 
-        const { selectedTemplate } = this.state
+        const { selectedTemplate } = this.state;
 
-        onChange(selectedTemplate.id)
+        onChange(selectedTemplate.id);
 
-        onChangeCallback && onChangeCallback(selectedTemplate)
+        onChangeCallback && onChangeCallback(selectedTemplate);
 
-        this.onToggle()
-    }
+        this.onToggle();
+    };
 
     BOTTOM_ACTION = () => {
-        const { locale } = this.props
+        const { locale } = this.props;
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={this.onSubmit}
-                    btnTitle={Lng.t("button.chooseTemplate", { locale })}
+                    btnTitle={Lng.t('button.chooseTemplate', { locale })}
                 />
             </View>
-        )
-    }
+        );
+    };
 
     render() {
         const {
@@ -98,14 +102,10 @@ export class TemplateField extends Component<IProps> {
             locale
         } = this.props;
 
-        const {
-            visible,
-            selectedTemplate: { name, id } = {},
-        } = this.state
+        const { visible, selectedTemplate: { name, id } = {} } = this.state;
 
         return (
             <View style={styles.container}>
-
                 <FakeInput
                     label={label}
                     icon={icon}
@@ -120,14 +120,16 @@ export class TemplateField extends Component<IProps> {
                     visible={visible}
                     onToggle={this.onToggle}
                     headerProps={{
-                        leftIcon: "long-arrow-alt-left",
                         leftIconPress: () => this.onToggle(),
-                        title: Lng.t("header.template", { locale }),
-                        titleStyle: headerTitle({ marginLeft: -19, marginRight: -19 }),
-                        placement: "center",
+                        title: Lng.t('header.template', { locale }),
+                        titleStyle: headerTitle({
+                            marginLeft: -19,
+                            marginRight: -19
+                        }),
+                        placement: 'center',
                         hasCircle: false,
                         noBorder: false,
-                        transparent: false,
+                        transparent: false
                     }}
                     bottomDivider
                     defaultLayout
@@ -148,15 +150,17 @@ export class TemplateField extends Component<IProps> {
                                             id === val.id && styles.active
                                         ]}
                                     />
-                                    {id === val.id &&
+                                    {id === val.id && (
                                         <Icon
                                             name="check"
                                             size={18}
                                             iconStyle={styles.iconStyle}
                                             color={colors.white}
-                                            containerStyle={styles.iconContainer}
+                                            containerStyle={
+                                                styles.iconContainer
+                                            }
                                         />
-                                    }
+                                    )}
                                 </View>
                             </TouchableWithoutFeedback>
                         ))}

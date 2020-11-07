@@ -1,6 +1,7 @@
 import { omit, find, sortBy } from 'lodash';
 import { hasObjectLength, hasValue, isArray } from '@/constants';
 import { CUSTOM_FIELD_DATA_TYPES as DATA_TYPES } from '@/features/settings/constants';
+import { I18nManager } from 'react-native';
 
 export const isFilterApply = formValues => {
     if (!formValues) return false;
@@ -58,4 +59,13 @@ export const getApiFormattedCustomFields = customFields => {
 
 export const sortByItem = (items, iteratee) => {
     return sortBy(items, [iteratee]);
+};
+
+export const isRTL = () => I18nManager.isRTL;
+
+export const setI18nManagerValue = async ({ isRTL }) => {
+    try {
+        await I18nManager.forceRTL(isRTL);
+        await I18nManager.allowRTL(isRTL);
+    } catch (e) {}
 };

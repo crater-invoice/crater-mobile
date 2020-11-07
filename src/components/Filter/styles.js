@@ -5,11 +5,11 @@ import { colors } from '@/styles';
 export default StyleSheet.create({
     listViewContainer: {
         flex: 1,
-        paddingBottom: isIPhoneX() ? 30 : 13,
+        paddingBottom: isIPhoneX() ? 30 : 13
     },
     bodyContainer: {
         paddingHorizontal: 22,
-        paddingVertical: 17,
+        paddingVertical: 17
     },
     modalContainer: {
         flex: 1,
@@ -18,41 +18,42 @@ export default StyleSheet.create({
                 marginTop: -20,
                 margin: 0,
                 padding: 0
-            },
-        }),
+            }
+        })
     },
     backIcon: {
-        color: colors.dark,
+        color: colors.dark
     },
     submitHint: {
         fontSize: 17,
+        textAlign: 'left'
     },
     dateFieldContainer: {
         flex: 1,
         flexDirection: 'row',
         marginTop: 5,
-        marginHorizontal: -10,
+        marginHorizontal: -10
     },
     dateField: {
         flex: 1,
         justifyContent: 'space-between',
-        paddingHorizontal: 6,
+        paddingHorizontal: 6
     },
     submitButton: {
-        flexDirection: "row",
+        flexDirection: 'row'
         // justifyContent: "space-between",
     },
     handleBtn: {
-        marginHorizontal: 9,
+        marginHorizontal: 9
     },
     buttonContainer: {
-        flex: 1,
+        flex: 1
     },
     inputIconStyle: {
-        marginLeft: 5,
+        marginLeft: 5
     },
     counter: {
-        position: "absolute",
+        position: 'absolute',
         top: -9,
         right: -11,
         width: 20,
@@ -61,12 +62,12 @@ export default StyleSheet.create({
         backgroundColor: colors.primary,
         borderWidth: 1.5,
         borderColor: colors.veryLightGray,
-        alignItems: "center",
-        justifyContent: "center"
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     counterText: {
         color: colors.veryLightGray,
         fontSize: 13,
-        textAlign: "center",
+        textAlign: 'center'
     }
 });

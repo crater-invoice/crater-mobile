@@ -13,6 +13,7 @@ import {
     EDIT_CUSTOM_FIELD_TYPE
 } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import { ARROW_ICON } from '@/assets';
 
 type IProps = {
     navigation: Object,
@@ -101,7 +102,7 @@ export class CustomFields extends React.Component<IProps> {
 
         const headerProps = {
             title: Lng.t('header.customFields', { locale }),
-            leftIcon: 'long-arrow-alt-left',
+            leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.goBack(null),
             titleStyle: styles.headerTitle,
             rightIcon: 'plus',

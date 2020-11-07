@@ -4,28 +4,29 @@ import { colors, fonts } from '@/styles';
 export default styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     headerContainer: {
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     listViewContainer: {
-        flex: 1,
+        flex: 1
     },
     listViewScrollContainerStyle: {
         paddingTop: 10
     },
     listViewTitle: {
         fontFamily: fonts.poppins,
-        color: colors.secondary
+        color: colors.secondary,
+        textAlign: 'left'
     },
     listViewIcon: {
         width: 28,
         height: 29,
-        textAlign: "center",
+        textAlign: 'center'
     },
     itemContainer: {
-        marginVertical: -4,
+        marginVertical: -4
     },
     dividerStyle: {
         marginTop: 10

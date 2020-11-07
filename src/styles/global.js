@@ -6,7 +6,8 @@ export const headerTitle = ({ marginLeft = -7, marginRight = -12 }) => {
         marginLeft: isIPhoneX() ? 0 : marginLeft,
         marginRight: isIPhoneX() ? 0 : marginRight,
         textAlign: 'center',
-        fontFamily: fonts.poppins
+        fontFamily: fonts.poppins,
+        textAlign: 'left'
     };
 };
 

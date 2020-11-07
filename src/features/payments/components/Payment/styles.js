@@ -60,12 +60,14 @@ export default styles = StyleSheet.create({
         color: colors.dark2,
         fontSize: 14,
         paddingLeft: 4,
-        fontFamily: fonts.poppins
+        fontFamily: fonts.poppins,
+        textAlign: 'left'
     },
     insertNote: {
         color: colors.primary,
         fontFamily: fonts.poppins,
         fontSize: 16,
-        paddingBottom: 6
+        paddingBottom: 6,
+        textAlign: 'left'
     }
 });

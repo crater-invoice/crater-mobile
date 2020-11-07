@@ -5,13 +5,13 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
     tabs: {
         width: '100%',
         height: 38,
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'row'
     },
     tab: {
         flex: 1,
@@ -21,16 +21,18 @@ export const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        textAlign: 'left'
     },
     selected_tab: {
         borderBottomWidth: 2,
-        borderBottomColor: colors.primary,
+        borderBottomColor: colors.primary
     },
     TabTitle: {
         color: colors.darkGray,
         fontFamily: fonts.poppinsSemiBold,
+        textAlign: 'left'
     },
     selectedTabTitle: {
-        color: colors.primary,
-    },
+        color: colors.primary
+    }
 });

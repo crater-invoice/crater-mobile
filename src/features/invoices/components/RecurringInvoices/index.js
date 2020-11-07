@@ -14,18 +14,18 @@ import {
     RECURRING_ADD,
     RECURRING_EDIT,
     RECURRING_INVOICES_FORM,
-    TAB_NAME,
+    TAB_NAME
 } from '../../constants';
 import Lng from '@/lang/i18n';
-import {invoicesFilterFields as filterFields } from '../Invoices/filterFields';
+import { invoicesFilterFields as filterFields } from '../Invoices/filterFields';
 
 let params = {
     search: '',
     customer_id: '',
     invoice_number: '',
     from_date: '',
-    to_date: '',
-}
+    to_date: ''
+};
 
 type IProps = {
     locale: String,
@@ -34,8 +34,8 @@ type IProps = {
     customers: Object,
     loading: Boolean,
     handleSubmit: Function,
-    getCustomers: Function,
-}
+    getCustomers: Function
+};
 
 export class RecurringInvoices extends React.Component<IProps> {
     constructor(props) {
@@ -48,37 +48,36 @@ export class RecurringInvoices extends React.Component<IProps> {
             pagination: {
                 page: 1,
                 limit: 10,
-                lastPage: 1,
+                lastPage: 1
             },
             search: '',
-            filter: false,
+            filter: false
         };
     }
 
     componentDidMount() {
-        const { navigation } = this.props
+        const { navigation } = this.props;
         this.getItems({ fresh: true, q: '', type: 'UNPAID' });
-        goBack(MOUNT, navigation, { exit: true })
+        goBack(MOUNT, navigation, { exit: true });
     }
 
     componentWillUpdate(nextProps, nextState) {
-
-        const { navigation } = nextProps
-        const isMailSend = navigation.getParam('mailSendMsg', null)
+        const { navigation } = nextProps;
+        const isMailSend = navigation.getParam('mailSendMsg', null);
 
         isMailSend &&
             setTimeout(() => {
-                navigation.setParams({ 'mailSendMsg': null })
+                navigation.setParams({ mailSendMsg: null });
             }, 2500);
     }
 
-    setActiveTab = (activeTab) => {
+    setActiveTab = activeTab => {
         const { refreshing, search } = this.state;
 
-        this.setState({ filter: false })
+        this.setState({ filter: false });
 
         if (!refreshing) {
-            let type = this.getActiveTab(activeTab)
+            let type = this.getActiveTab(activeTab);
 
             this.getItems({ fresh: true, type, q: search });
 
@@ -101,15 +100,16 @@ export class RecurringInvoices extends React.Component<IProps> {
             return;
         }
 
-        if (resetFilter)
-            this.setState({ filter: false })
+        if (resetFilter) this.setState({ filter: false });
 
         this.setState({
             refreshing: true,
-            fresh,
+            fresh
         });
 
-        const paginationParams = fresh ? { ...pagination, page: 1 } : pagination;
+        const paginationParams = fresh
+            ? { ...pagination, page: 1 }
+            : pagination;
 
         if (!fresh && paginationParams.lastPage < paginationParams.page) {
             return;
@@ -125,17 +125,17 @@ export class RecurringInvoices extends React.Component<IProps> {
                     pagination: {
                         ...paginationParams,
                         lastPage: last_page,
-                        page: current_page + 1,
-                    },
+                        page: current_page + 1
+                    }
                 });
             },
-            onResult: (val) => {
+            onResult: val => {
                 this.setState({
                     refreshing: false,
-                    fresh: !val,
+                    fresh: !val
                 });
                 onResult && onResult();
-            },
+            }
         });
     };
 
@@ -143,19 +143,20 @@ export class RecurringInvoices extends React.Component<IProps> {
         this.props.dispatch(change(RECURRING_INVOICES_FORM, field, value));
     };
 
-    onInvoiceSelect = (invoice) => {
-        const { navigation } = this.props
-        this.setActiveTab(INVOICES_TABS.ALL)
-        this.onResetFilter(INVOICES_TABS.ALL)
-        navigation.navigate(ROUTES.RECURRING_INVOICE,
-            { id: invoice.id, type: RECURRING_EDIT }
-        )
+    onInvoiceSelect = invoice => {
+        const { navigation } = this.props;
+        this.setActiveTab(INVOICES_TABS.ALL);
+        this.onResetFilter(INVOICES_TABS.ALL);
+        navigation.navigate(ROUTES.RECURRING_INVOICE, {
+            id: invoice.id,
+            type: RECURRING_EDIT
+        });
     };
 
-    onSearch = (search) => {
-        const type = this.getActiveTab()
-        this.setState({ search })
-        this.getItems({ fresh: true, type, q: search })
+    onSearch = search => {
+        const type = this.getActiveTab();
+        this.setState({ search });
+        this.getItems({ fresh: true, type, q: search });
     };
 
     getActiveTab = (activeTab = this.state.activeTab) => {
@@ -166,41 +167,48 @@ export class RecurringInvoices extends React.Component<IProps> {
         } else if (activeTab == INVOICES_TABS.DRAFT) {
             type = 'DRAFT';
         }
-        return type
-    }
+        return type;
+    };
 
-
-    getFilterStatusType = (filterType) => {
-        let type = filterType
-        if (type === INVOICES_TABS.DUE)
-            type = 'UNPAID'
-        return type
-    }
-
+    getFilterStatusType = filterType => {
+        let type = filterType;
+        if (type === INVOICES_TABS.DUE) type = 'UNPAID';
+        return type;
+    };
 
     onResetFilter = (tab = '') => {
-        const { filter } = this.state
+        const { filter } = this.state;
 
-        this.setState({ filter: false })
+        this.setState({ filter: false });
 
         if (filter && !tab) {
             this.getItems({ fresh: true, q: '', type: this.getActiveTab() });
         }
-    }
+    };
 
-    onSubmitFilter = ({ filterStatus = '', paid_status = '', from_date = '', to_date = '', invoice_number = '', customer_id = '' }) => {
-
-        if (filterStatus || paid_status || from_date || to_date || invoice_number || customer_id) {
-
+    onSubmitFilter = ({
+        filterStatus = '',
+        paid_status = '',
+        from_date = '',
+        to_date = '',
+        invoice_number = '',
+        customer_id = ''
+    }) => {
+        if (
+            filterStatus ||
+            paid_status ||
+            from_date ||
+            to_date ||
+            invoice_number ||
+            customer_id
+        ) {
             if (filterStatus === INVOICES_TABS.DUE)
                 this.setState({ activeTab: INVOICES_TABS.DUE });
             else if (filterStatus === INVOICES_TABS.DRAFT)
                 this.setState({ activeTab: INVOICES_TABS.DRAFT });
-            else
-                this.setState({ activeTab: INVOICES_TABS.ALL });
+            else this.setState({ activeTab: INVOICES_TABS.ALL });
 
-            this.setState({ filter: true })
-
+            this.setState({ filter: true });
 
             this.getItems({
                 fresh: true,
@@ -211,16 +219,15 @@ export class RecurringInvoices extends React.Component<IProps> {
                     from_date,
                     to_date
                 },
-                type: filterStatus ? this.getFilterStatusType(filterStatus) : paid_status,
+                type: filterStatus
+                    ? this.getFilterStatusType(filterStatus)
+                    : paid_status
             });
-
-        }
-        else
-            this.onResetFilter()
-    }
+        } else this.onResetFilter();
+    };
 
     loadMoreItems = ({ type, q }) => {
-        const { filter } = this.state
+        const { filter } = this.state;
         const {
             formValues: {
                 filterStatus = '',
@@ -230,10 +237,9 @@ export class RecurringInvoices extends React.Component<IProps> {
                 invoice_number = '',
                 customer_id = ''
             }
-        } = this.props
+        } = this.props;
 
         if (filter) {
-
             this.getItems({
                 params: {
                     ...params,
@@ -242,22 +248,22 @@ export class RecurringInvoices extends React.Component<IProps> {
                     from_date,
                     to_date
                 },
-                type: filterStatus ? this.getFilterStatusType(filterStatus) : paid_status,
+                type: filterStatus
+                    ? this.getFilterStatusType(filterStatus)
+                    : paid_status,
                 filter: true
-            })
-        }
-        else
-            this.getItems({ type, q });
-    }
+            });
+        } else this.getItems({ type, q });
+    };
 
     onAddInvoice = () => {
-        const { navigation } = this.props
-        this.setActiveTab(INVOICES_TABS.ALL)
-        this.onResetFilter(INVOICES_TABS.ALL)
-        navigation.navigate(ROUTES.RECURRING_INVOICE, { type: RECURRING_ADD })
-    }
+        const { navigation } = this.props;
+        this.setActiveTab(INVOICES_TABS.ALL);
+        this.onResetFilter(INVOICES_TABS.ALL);
+        navigation.navigate(ROUTES.RECURRING_INVOICE, { type: RECURRING_ADD });
+    };
 
-    onChangeState = (field, value) => this.setState({ [field]: value })
+    onChangeState = (field, value) => this.setState({ [field]: value });
 
     render() {
         const {
@@ -268,7 +274,7 @@ export class RecurringInvoices extends React.Component<IProps> {
             handleSubmit,
             dueInvoices,
             draftInvoices,
-            allInvoices,
+            allInvoices
         } = this.props;
 
         const {
@@ -277,24 +283,24 @@ export class RecurringInvoices extends React.Component<IProps> {
             pagination: { lastPage, page },
             fresh,
             search,
-            filter,
+            filter
         } = this.state;
 
         const canLoadMore = lastPage >= page;
 
-        let mailSendMsg = navigation.getParam('mailSendMsg', '')
+        let mailSendMsg = navigation.getParam('mailSendMsg', '');
 
         return (
             <View style={styles.container}>
                 <MainLayout
                     headerProps={{
-                        leftIcon: "long-arrow-alt-left",
-                        leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t("header.recurringInvoice", { locale }),
-                        placement: "center",
+                        leftIconPress: () =>
+                            navigation.navigate(ROUTES.MAIN_MORE),
+                        title: Lng.t('header.recurringInvoice', { locale }),
+                        placement: 'center',
                         rightIcon: 'plus',
                         rightIconPress: () => this.onAddInvoice(),
-                        titleStyle: styles.headerTitle,
+                        titleStyle: styles.headerTitle
                     }}
                     onSearch={this.onSearch}
                     filterProps={{
@@ -317,38 +323,50 @@ export class RecurringInvoices extends React.Component<IProps> {
                         tabs={[
                             {
                                 Title: INVOICES_TABS.DUE,
-                                tabName: TAB_NAME(INVOICES_TABS.DUE, locale, Lng),
+                                tabName: TAB_NAME(
+                                    INVOICES_TABS.DUE,
+                                    locale,
+                                    Lng
+                                ),
                                 render: (
                                     <Due
                                         canLoadMore={canLoadMore}
                                         parentProps={this}
                                     />
-                                ),
+                                )
                             },
                             {
                                 Title: INVOICES_TABS.DRAFT,
-                                tabName: TAB_NAME(INVOICES_TABS.DRAFT, locale, Lng),
+                                tabName: TAB_NAME(
+                                    INVOICES_TABS.DRAFT,
+                                    locale,
+                                    Lng
+                                ),
                                 render: (
                                     <Draft
                                         canLoadMore={canLoadMore}
                                         parentProps={this}
                                     />
-                                ),
+                                )
                             },
                             {
                                 Title: INVOICES_TABS.ALL,
-                                tabName: TAB_NAME(INVOICES_TABS.ALL, locale, Lng),
+                                tabName: TAB_NAME(
+                                    INVOICES_TABS.ALL,
+                                    locale,
+                                    Lng
+                                ),
                                 render: (
                                     <All
                                         canLoadMore={canLoadMore}
                                         parentProps={this}
                                     />
-                                ),
-                            },
+                                )
+                            }
                         ]}
                     />
                 </MainLayout>
-            </View >
+            </View>
         );
     }
 }

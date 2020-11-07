@@ -41,7 +41,8 @@ export default styles = StyleSheet.create({
     },
     inputTextStyle: {
         color: colors.dark3,
-        fontFamily: fonts.poppinsMedium
+        fontFamily: fonts.poppinsMedium,
+        textAlign: 'left'
     },
     inputFieldValidation: {
         marginHorizontal: 0
@@ -51,13 +52,15 @@ export default styles = StyleSheet.create({
         paddingBottom: 6,
         color: colors.dark2,
         fontSize: 14,
-        fontFamily: fonts.poppins
+        fontFamily: fonts.poppins,
+        textAlign: 'left'
     },
     noteHintStyle: {
         paddingBottom: 6,
         color: colors.dark2,
         fontSize: 14,
-        fontFamily: fonts.poppins
+        fontFamily: fonts.poppins,
+        textAlign: 'left'
     },
     fakeInputStyle: {
         marginTop: 5
@@ -78,7 +81,8 @@ export default styles = StyleSheet.create({
     label: {
         color: colors.gray,
         fontFamily: fonts.poppinsMedium,
-        marginTop: 6
+        marginTop: 6,
+        textAlign: 'left'
     },
     price: {
         color: colors.dark2,
@@ -87,7 +91,8 @@ export default styles = StyleSheet.create({
     totalPrice: {
         color: colors.primary,
         fontSize: 18,
-        fontFamily: fonts.poppinsMedium
+        fontFamily: fonts.poppinsMedium,
+        textAlign: 'left'
     },
     divider: {
         backgroundColor: colors.lightGray,
@@ -126,7 +131,8 @@ export default styles = StyleSheet.create({
     itemRightTitle: {
         fontFamily: fonts.poppins,
         fontSize: 18,
-        color: colors.secondary
+        color: colors.secondary,
+        textAlign: 'left'
     },
     selectPicker: {
         marginTop: 17

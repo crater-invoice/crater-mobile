@@ -10,7 +10,7 @@ import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import estimateFilterFields from './filterFields';
 import { isFilterApply } from '@/utils';
-import { IMAGES } from '@/assets';
+import { ARROW_ICON, IMAGES } from '@/assets';
 import {
     ESTIMATES_TABS,
     ESTIMATE_ADD,
@@ -239,7 +239,7 @@ export class Estimates extends React.Component<IProps, IStates> {
 
         const headerProps = {
             title: Lng.t('header.estimates', { locale }),
-            leftIcon: 'long-arrow-alt-left',
+            leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
             placement: 'center',
             rightIcon: 'plus',

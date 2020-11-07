@@ -4,37 +4,37 @@ import { colors, fonts } from '@/styles';
 const { width, height } = Dimensions.get('window');
 
 export default styles = StyleSheet.create({
-
     bodyContainer: {
         paddingHorizontal: 22,
         paddingVertical: 17,
-        flex:1
+        flex: 1
     },
     submitButton: {
-        flexDirection: "row",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     handleBtn: {
-        marginHorizontal: 9,
+        marginHorizontal: 9
     },
     dividerLine: {
         marginTop: 18,
         marginBottom: 18,
         backgroundColor: colors.gray,
         borderColor: colors.gray,
-        borderWidth: 0.2,
+        borderWidth: 0.2
     },
     autoGenerateHeader: {
         marginTop: 7,
         color: colors.dark2,
         fontFamily: fonts.poppins,
         fontSize: 20,
+        textAlign: 'left'
     },
 
     // row
     rowViewContainer: {
         flex: 1,
-        flexDirection: "row"
+        flexDirection: 'row'
     },
     rowView: {
         flex: 1
@@ -44,15 +44,14 @@ export default styles = StyleSheet.create({
     tabs: {
         backgroundColor: colors.veryLightGray,
         borderBottomRightRadius: 10,
-        borderBottomLeftRadius: 10,
+        borderBottomLeftRadius: 10
     },
     tabView: {
         height: 55
     },
 
-
     insertFieldContainer: {
-        flex: 0,
+        flex: 0
     },
     label: {
         color: colors.secondary,
@@ -60,9 +59,10 @@ export default styles = StyleSheet.create({
         fontFamily: fonts.poppinsMedium,
         paddingTop: 11,
         paddingBottom: 11,
+        textAlign: 'left'
     },
     bodyContainerStyle: {
         paddingHorizontal: 0,
-        paddingVertical: 0,
-    },
+        paddingVertical: 0
+    }
 });

@@ -3,36 +3,35 @@ import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
 
 export default styles = StyleSheet.create({
-
     // Modal
     modalViewContainer: {
         backgroundColor: colors.veryLightGray,
         marginHorizontal: isIPhoneX() ? 20 : 22,
         paddingHorizontal: isIPhoneX() ? 20 : 20,
         paddingTop: isIPhoneX() ? 10 : 10,
-        paddingBottom: isIPhoneX() ? 10 : 15,
+        paddingBottom: isIPhoneX() ? 10 : 15
     },
     bodyContainerStyle: {
         paddingHorizontal: 0,
-        paddingVertical: 0,
+        paddingVertical: 0
     },
     // Button
     submitButton: {
-        flexDirection: "row",
-        justifyContent: "flex-end",
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
     },
     handleBtn: {
-        paddingHorizontal: 4,
+        paddingHorizontal: 4
     },
     buttonOutline: {
-        borderWidth: 0,
+        borderWidth: 0
     },
 
     label: {
         color: colors.dark3,
         fontSize: 20,
         paddingTop: 11,
-        paddingBottom: 11,
+        paddingBottom: 11
     },
 
     heading: {
@@ -40,12 +39,13 @@ export default styles = StyleSheet.create({
         fontSize: 17,
         fontFamily: fonts.poppins,
         paddingVertical: 5,
+        textAlign: 'left'
     },
 
     insertFieldContainer: {
-        flex: 0,
+        flex: 0
     },
     buttonContainer: {
-        width: 115,
+        width: 115
     }
 });

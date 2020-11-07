@@ -8,6 +8,7 @@ import { InputField, CtHeader, CtDivider } from '../..';
 import { Content } from '../../Content';
 import Dropdown from '../../Dropdown';
 import Toast from '../../Toast';
+import { ARROW_ICON } from '@/assets';
 
 type IProps = {
     children?: Object,
@@ -40,7 +41,7 @@ export const DefaultLayout = ({
                 <CtHeader
                     titleStyle={styles.headerTitleStyle}
                     placement="center"
-                    leftIcon={'long-arrow-alt-left'}
+                    leftIcon={ARROW_ICON}
                     rightIcon={rightIcon}
                     {...headerProps}
                     rightComponent={

@@ -27,7 +27,8 @@ export default styles = StyleSheet.create({
         color: colors.secondary,
         fontFamily: fonts.poppins,
         fontSize: 16,
-        marginLeft: 3
+        marginLeft: 3,
+        textAlign: 'left'
     },
     // Row Column
     row: {
@@ -63,6 +64,7 @@ export default styles = StyleSheet.create({
     helpText: {
         color: colors.darkGray,
         fontFamily: fonts.poppins,
-        fontSize: 14
+        fontSize: 14,
+        textAlign: 'left'
     }
 });

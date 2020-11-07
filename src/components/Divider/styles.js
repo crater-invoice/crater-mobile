@@ -5,12 +5,12 @@ export const styles = StyleSheet.create({
     dividerContainer: {
         marginVertical: 20,
         marginHorizontal: 12,
-        position: 'relative',
+        position: 'relative'
     },
     divider: {
         backgroundColor: colors.darkGray,
         marginVertical: 15,
-        height: 1,
+        height: 1
     },
     titleContainer: {
         position: 'absolute',
@@ -22,16 +22,17 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: colors.white,
-        left: '45%',
+        left: '45%'
     },
     title: {
         color: colors.darkGray,
         fontFamily: fonts.poppins,
+        textAlign: 'left'
     },
     withoutTitle: {
         backgroundColor: colors.gray,
         borderColor: colors.gray,
         borderWidth: 0.7,
-        marginBottom: 2,
-    },
+        marginBottom: 2
+    }
 });

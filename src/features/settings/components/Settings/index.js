@@ -8,6 +8,7 @@ import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { SETTINGS_MENU } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { isRTL } from '@/utils';
 
 export class Settings extends React.Component {
     constructor(props) {
@@ -69,7 +70,13 @@ export class Settings extends React.Component {
                                 chevron: {
                                     size: 18,
                                     color: colors.darkGray,
-                                    containerStyle: { marginTop: 5 }
+                                    containerStyle: {
+                                        marginTop: 5,
+                                        ...(isRTL() && {
+                                            transform: [{ rotate: '180deg' }],
+                                            marginLeft: 8
+                                        })
+                                    }
                                 }
                             }}
                         />

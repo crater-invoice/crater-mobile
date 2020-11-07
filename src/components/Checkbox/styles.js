@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
         fontSize: 15,
         marginLeft: 5,
         color: colors.secondary,
+        textAlign: 'left'
     },
     hint: {
         color: colors.secondary,
@@ -21,5 +22,6 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 15,
         marginBottom: 5,
-    },
+        textAlign: 'left'
+    }
 });

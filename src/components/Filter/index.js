@@ -225,7 +225,6 @@ export class Filter extends Component<IProps> {
                     <View style={styles.modalContainer}>
                         <DefaultLayout
                             headerProps={{
-                                leftIcon: 'long-arrow-alt-left',
                                 leftIconStyle: styles.backIcon,
                                 title: Lng.t('header.filter', {
                                     locale

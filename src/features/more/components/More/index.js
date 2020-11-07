@@ -9,6 +9,7 @@ import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { alertMe } from '@/constants';
+import { isRTL } from '@/utils';
 
 export class More extends React.Component {
     constructor(props) {
@@ -16,44 +17,44 @@ export class More extends React.Component {
 
         this.state = {
             endpointVisible: false
-        }
+        };
     }
 
     componentDidMount() {
-        const { navigation } = this.props
-        goBack(MOUNT, navigation, { route: ROUTES.MAIN_INVOICES })
+        const { navigation } = this.props;
+        goBack(MOUNT, navigation, { route: ROUTES.MAIN_INVOICES });
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
 
-    onSelectMenu = (item) => {
-        const { navigation } = this.props
+    onSelectMenu = item => {
+        const { navigation } = this.props;
 
         if (item.route) {
-            navigation.navigate(item.route)
+            navigation.navigate(item.route);
         } else {
-            this[item.action]()
+            this[item.action]();
         }
-    }
+    };
 
     onLogout = () => {
-        const { navigation, logout, locale } = this.props
+        const { navigation, logout, locale } = this.props;
 
         alertMe({
-            title: Lng.t("logout.confirmation", { locale }),
+            title: Lng.t('logout.confirmation', { locale }),
             showCancel: true,
-            okText: Lng.t("logout.title", { locale }),
+            okText: Lng.t('logout.title', { locale }),
             okPress: () => logout({ navigation })
-        })
-    }
+        });
+    };
 
     toggleEndpointModal = () => {
-        this.setState((state) => ({
+        this.setState(state => ({
             endpointVisible: !state.endpointVisible
-        }))
-    }
+        }));
+    };
 
     render() {
         const { locale } = this.props;
@@ -63,7 +64,7 @@ export class More extends React.Component {
                 <MainLayout
                     headerProps={{
                         hasCircle: false,
-                        title: Lng.t("header.more", { locale })
+                        title: Lng.t('header.more', { locale })
                     }}
                     bottomDivider
                     dividerStyle={styles.dividerStyle}
@@ -78,17 +79,23 @@ export class More extends React.Component {
                             leftTitleStyle={styles.listViewTitle}
                             leftIconStyle={styles.listViewIcon}
                             itemContainer={styles.itemContainer}
-                            listViewContainerStyle={styles.listViewScrollContainerStyle}
+                            listViewContainerStyle={
+                                styles.listViewScrollContainerStyle
+                            }
                             listItemProps={{
                                 chevron: {
                                     size: 19,
                                     color: colors.darkGray,
-                                    containerStyle: { marginTop: 5 },
-                                },
+                                    containerStyle: {
+                                        marginTop: 5,
+                                        ...(isRTL() && {
+                                            transform: [{ rotate: '180deg' }]
+                                        })
+                                    }
+                                }
                             }}
                         />
                     </View>
-
                 </MainLayout>
             </View>
         );

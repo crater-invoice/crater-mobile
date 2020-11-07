@@ -6,7 +6,7 @@ import { change } from 'redux-form';
 import styles from './styles';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { ROUTES } from '@/navigation';
-import { IMAGES } from '@/assets';
+import { ARROW_ICON, IMAGES } from '@/assets';
 import Lng from '@/lang/i18n';
 import { ADD_ITEM, EDIT_ITEM, ITEM_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
@@ -102,7 +102,7 @@ export class Items extends React.Component<IProps> {
 
         const headerProps = {
             title: Lng.t('header.items', { locale }),
-            leftIcon: 'long-arrow-alt-left',
+            leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
             title: Lng.t('header.items', { locale }),
             titleStyle: styles.headerTitle,

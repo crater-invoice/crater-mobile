@@ -4,36 +4,38 @@ import { colors, fonts } from '@/styles';
 export default styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     mainContainer: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 20
     },
     headerContainer: {
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     submitButton: {
         paddingHorizontal: 10
     },
     eyeIcon: {
-        top: 6,
+        top: 6
     },
     dividerLine: {
         marginVertical: 18,
         backgroundColor: colors.gray,
         borderColor: colors.lightGray,
-        borderWidth: 0.2,
+        borderWidth: 0.2
     },
     versionContainer: {
-        marginVertical: 17,
+        marginVertical: 17
     },
     versionTitle: {
         color: colors.secondary,
         fontFamily: fonts.poppins,
         fontSize: 16,
+        textAlign: 'left'
     },
     version: {
-        fontFamily: fonts.poppinsSemiBold
+        fontFamily: fonts.poppinsSemiBold,
+        textAlign: 'left'
     },
     avatarContainer: {
         marginTop: 25,
@@ -41,7 +43,7 @@ export default styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
-        flex: 1,
+        flex: 1
     },
     imageContainerStyle: {
         padding: 0,
@@ -49,13 +51,13 @@ export default styles = StyleSheet.create({
         width: 150,
         height: 150,
         borderRadius: 100,
-        overflow: 'hidden',
+        overflow: 'hidden'
     },
     imageStyle: {
         width: 150,
         height: 150,
         resizeMode: 'stretch',
-        alignSelf: 'center',
+        alignSelf: 'center'
     },
     loadingContainerStyle: {
         borderWidth: 0

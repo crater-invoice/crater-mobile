@@ -8,6 +8,7 @@ import Lng from '@/lang/i18n';
 import { CATEGORY_ADD, CATEGORY_EDIT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { formatCategories } from '@/utils';
+import { ARROW_ICON } from '@/assets';
 
 type IProps = {
     navigation: Object,
@@ -86,7 +87,7 @@ export class Categories extends React.Component<IProps> {
         };
 
         const headerProps = {
-            leftIcon: 'long-arrow-alt-left',
+            leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
             title: Lng.t('header.expenseCategory', { locale }),
             titleStyle: styles.titleStyle,

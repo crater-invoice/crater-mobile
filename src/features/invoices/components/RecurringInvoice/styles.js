@@ -20,13 +20,15 @@ export default styles = StyleSheet.create({
     },
     inputTextStyle: {
         color: colors.dark3,
-        fontFamily: fonts.poppinsMedium
+        fontFamily: fonts.poppinsMedium,
+        textAlign: 'left'
     },
     noteHintStyle: {
         paddingBottom: 6,
         color: colors.dark2,
         fontSize: 14,
-        fontFamily: fonts.poppins
+        fontFamily: fonts.poppins,
+        textAlign: 'left'
     },
     submitButton: {
         flexDirection: 'row',
@@ -46,7 +48,8 @@ export default styles = StyleSheet.create({
     itemLeftTitle: {
         fontSize: 15,
         fontFamily: fonts.poppins,
-        color: colors.dark
+        color: colors.dark,
+        textAlign: 'left'
     },
     itemLeftSubTitleLabel: {
         marginLeft: -6
@@ -58,7 +61,8 @@ export default styles = StyleSheet.create({
     itemRightTitle: {
         fontFamily: fonts.poppins,
         fontSize: 18,
-        color: colors.secondary
+        color: colors.secondary,
+        textAlign: 'left'
     },
     label: {
         paddingBottom: 4,
