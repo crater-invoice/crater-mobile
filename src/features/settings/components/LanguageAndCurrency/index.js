@@ -91,11 +91,12 @@ export class LanguageAndCurrency extends React.Component<IProps> {
             navigation,
             editPreferences,
             clearPreferences,
-            currencies
+            currencies,
+            locale
         } = this.props
 
         clearPreferences()
-        editPreferences({ params: values, navigation, currencies })
+        editPreferences({ params: values, navigation, currencies, locale })
 
     }
 
