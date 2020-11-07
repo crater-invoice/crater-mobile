@@ -1,5 +1,6 @@
 import { omit, find, sortBy } from 'lodash';
 import { hasObjectLength, hasValue, isArray } from '@/constants';
+import { CUSTOM_FIELD_DATA_TYPES as DATA_TYPES } from '@/features/settings/constants';
 
 export const isFilterApply = formValues => {
     if (!formValues) return false;
@@ -40,7 +41,7 @@ export const getCustomFieldValueParams = (
         }
         return {
             id,
-            value: value?.toString(),
+            value: type !== DATA_TYPES.SWITCH ? value?.toString() : value,
             type,
             required: is_required
         };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { reduxForm, getFormValues } from 'redux-form';
 import { Expense } from '../../components/Expense';
 import { validate } from './validation';
 import * as actions from '../../actions';
@@ -13,7 +13,7 @@ const mapStateToProps = (state, { navigation }) => {
     const {
         global: { endpointURL, locale },
         expenses: { loading },
-        settings: { categories },
+        settings: { categories, customFields },
         customers: { customers }
     } = state;
 
@@ -25,9 +25,11 @@ const mapStateToProps = (state, { navigation }) => {
         categories: getCategoriesState(categories),
         customers,
         endpointURL,
+        customFields,
         loading: loading?.expenseLoading,
         type,
-        id
+        id,
+        formValues: getFormValues(EXPENSE_FORM)(state) || {}
     };
 };
 

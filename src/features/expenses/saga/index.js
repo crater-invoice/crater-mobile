@@ -5,6 +5,21 @@ import * as TYPES from '../constants';
 import { expenseTriggerSpinner, setExpenses } from '../actions';
 import { getCustomers } from '@/features/customers/saga';
 import { getExpenseCategories } from '@/features/settings/saga/categories';
+import { getCustomFields } from '@/features/settings/saga/custom-fields';
+import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
+import { isArray } from '@/constants';
+
+function* getCreateExpense({ payload: { onSuccess } }) {
+    try {
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.EXPENSE, limit: 'all' }
+            }
+        });
+
+        onSuccess?.();
+    } catch (e) {}
+}
 
 function* getExpenses({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
@@ -33,7 +48,8 @@ function* createExpense({ payload }) {
     try {
         const options = {
             path: `expenses`,
-            body: params
+            body: params,
+            withMultipartFormData: true
         };
 
         const response = yield call([Request, 'post'], options);
@@ -64,10 +80,11 @@ function* updateExpense({ payload }) {
     try {
         const options = {
             path: `expenses/${id}`,
-            body: params
+            body: { ...params, _method: 'PUT' },
+            withMultipartFormData: true
         };
 
-        const response = yield call([Request, 'put'], options);
+        const response = yield call([Request, 'post'], options);
 
         if (attachmentReceipt && response?.expense) {
             const options2 = {
@@ -101,6 +118,12 @@ function* getExpenseDetail({ payload: { id, onSuccess } }) {
             payload: { queryString: { limit: 'all' } }
         });
 
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.EXPENSE, limit: 'all' }
+            }
+        });
+
         onSuccess?.(response.expense);
     } catch (e) {}
 }
@@ -126,6 +149,7 @@ function* removeExpense({ payload: { id, navigation } }) {
 }
 
 export default function* expensesSaga() {
+    yield takeEvery(TYPES.GET_CREATE_EXPENSE, getCreateExpense);
     yield takeEvery(TYPES.GET_EXPENSES, getExpenses);
     yield takeEvery(TYPES.CREATE_EXPENSE, createExpense);
     yield takeEvery(TYPES.GET_EXPENSE_DETAIL, getExpenseDetail);

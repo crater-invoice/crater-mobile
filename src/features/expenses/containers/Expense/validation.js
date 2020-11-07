@@ -1,8 +1,9 @@
-import { getError } from '@/constants';
+import { validateCustomField } from '@/components/CustomField/validation';
+import { getError, isArray } from '@/constants';
 import { EXPENSE_FIELDS as FIELDS } from '../../constants';
 
 export const validate = values => {
-    const errors: any = { expense: {} };
+    const errors: any = { expense: {}, customFields: {} };
 
     if (values) {
         errors['expense'][FIELDS.DATE] = getError(
@@ -19,6 +20,9 @@ export const validate = values => {
             values?.['expense']?.[FIELDS.AMOUNT],
             ['requiredField', 'isNumberFormat']
         );
+
+        const fieldErrors = validateCustomField(values?.customFields);
+        isArray(fieldErrors) && (errors.customFields = fieldErrors);
     }
 
     return errors;

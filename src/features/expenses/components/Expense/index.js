@@ -8,7 +8,7 @@ import styles from './styles';
 import { goBack, MOUNT, ROUTES, UNMOUNT } from '@/navigation';
 import Lng from '@/lang/i18n';
 import { Linking } from 'expo';
-import { alertMe, MAX_LENGTH } from '@/constants';
+import { alertMe, isArray, MAX_LENGTH } from '@/constants';
 import { IMAGES } from '@/assets';
 import {
     InputField,
@@ -16,7 +16,8 @@ import {
     DefaultLayout,
     FilePicker,
     DatePickerField,
-    SelectField
+    SelectField,
+    CustomField
 } from '@/components';
 import {
     EXPENSE_FORM,
@@ -28,6 +29,7 @@ import {
 } from '../../constants';
 import { CUSTOMER_ADD } from '@/features/customers/constants';
 import { CATEGORY_ADD } from '@/features/settings/constants';
+import { getApiFormattedCustomFields } from '@/utils';
 
 interface IProps {
     navigation: any;
@@ -84,11 +86,15 @@ export class Expense extends React.Component<IProps, IState> {
     }
 
     setInitialValues = () => {
-        const { type, getExpenseDetail, id } = this.props;
+        const { type, getCreateExpense, getExpenseDetail, id } = this.props;
 
         if (type === EXPENSE_ADD) {
-            this.setFormField(`expense.${FIELDS.DATE}`, moment());
-            this.setState({ isLoading: false });
+            getCreateExpense({
+                onSuccess: () => {
+                    this.setFormField(`expense.${FIELDS.DATE}`, moment());
+                    this.setState({ isLoading: false });
+                }
+            });
             return;
         }
 
@@ -113,7 +119,12 @@ export class Expense extends React.Component<IProps, IState> {
     };
 
     onSubmit = values => {
-        const params = values?.expense;
+        const params = {
+            ...values?.expense,
+            customFields: JSON.stringify(
+                getApiFormattedCustomFields(values?.customFields)
+            )
+        };
 
         const {
             createExpense,
@@ -225,7 +236,8 @@ export class Expense extends React.Component<IProps, IState> {
             locale,
             type,
             getCustomers,
-            customers
+            customers,
+            customFields
         } = this.props;
 
         const { imageUrl, isLoading, fileType } = this.state;
@@ -305,7 +317,6 @@ export class Expense extends React.Component<IProps, IState> {
                     <Field
                         name={`expense.${FIELDS.CUSTOMER}`}
                         component={SelectField}
-                        isRequired
                         apiSearch
                         hasPagination
                         getItems={getCustomers}
@@ -382,6 +393,10 @@ export class Expense extends React.Component<IProps, IState> {
                         }}
                         height={80}
                     />
+
+                    {isArray(customFields) && (
+                        <CustomField {...this.props} type="expense" />
+                    )}
                 </View>
             </DefaultLayout>
         );

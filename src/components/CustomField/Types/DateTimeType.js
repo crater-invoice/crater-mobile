@@ -14,6 +14,8 @@ export function DateTimeType({ field, name }) {
             dateFieldName={`${name}-date`}
             timeFieldName={`${name}-time`}
             locale={locale}
+            callOnChangeInMount
+            removeSecond
         />
     );
 }

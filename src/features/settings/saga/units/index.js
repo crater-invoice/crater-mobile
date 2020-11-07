@@ -19,8 +19,7 @@ export function* getItemUnits({ payload }) {
 
         const response = yield call([Request, 'get'], options);
         if (response?.units) {
-            const { units } = response;
-            const data = queryString.limit === 'all' ? units : units.data;
+            const { data } = response.units;
             yield put(setItemUnits({ units: data, fresh }));
         }
 

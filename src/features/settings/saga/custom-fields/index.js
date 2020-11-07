@@ -27,9 +27,7 @@ export function* getCustomFields({ payload }) {
         const response = yield call([Request, 'get'], options);
 
         if (response?.customFields) {
-            const { customFields } = response;
-            const data =
-                queryString.limit === 'all' ? customFields : customFields.data;
+            const { data } = response.customFields;
             yield put(setCustomFields({ customFields: data, fresh }));
         }
 

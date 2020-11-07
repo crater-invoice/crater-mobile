@@ -11,7 +11,8 @@ type IProps = {
     method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE',
     headers?: Object,
     body?: Object,
-    axiosProps?: any
+    axiosProps?: any,
+    withMultipartFormData?: Boolean
 };
 
 export default class Request {
@@ -35,7 +36,27 @@ export default class Request {
         return this.request({ method: 'PATCH', ...params });
     }
 
-    static createFormData = (body, image, imageName, type) => {
+    static createFormData = (body, withMultipartFormData) => {
+        if (!withMultipartFormData) {
+            return JSON.stringify(body);
+        }
+
+        const formData = new FormData();
+
+        if (!hasValue(body)) {
+            return formData;
+        }
+
+        for (const key in body) {
+            if (body.hasOwnProperty(key)) {
+                formData.append(key, body[key]);
+            }
+        }
+
+        return formData;
+    };
+
+    static createImageFormData = (body, image, imageName, type) => {
         const formData = new FormData();
 
         const uri = image.uri;
@@ -74,7 +95,8 @@ export default class Request {
         imageName = '',
         isPing = null,
         type = 'create',
-        axiosProps
+        axiosProps,
+        withMultipartFormData = false
     }: IProps) {
         const reduxStore = store.getState();
 
@@ -108,8 +130,8 @@ export default class Request {
         };
 
         const params = !image
-            ? JSON.stringify(body)
-            : Request.createFormData(body, image, imageName, type);
+            ? Request.createFormData(body, withMultipartFormData)
+            : Request.createImageFormData(body, image, imageName, type);
 
         return axios({
             method,

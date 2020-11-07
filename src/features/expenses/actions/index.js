@@ -5,8 +5,14 @@ import {
     CREATE_EXPENSE,
     GET_EXPENSE_DETAIL,
     UPDATE_EXPENSE,
-    REMOVE_EXPENSE
+    REMOVE_EXPENSE,
+    GET_CREATE_EXPENSE
 } from '../constants';
+
+export const getCreateExpense = (payload = {}) => ({
+    type: GET_CREATE_EXPENSE,
+    payload
+});
 
 export const getExpenses = (payload = {}) => ({
     type: GET_EXPENSES,

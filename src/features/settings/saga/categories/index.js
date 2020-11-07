@@ -28,9 +28,7 @@ export function* getExpenseCategories({ payload }) {
         const response = yield call([Request, 'get'], options);
 
         if (response?.categories) {
-            const { categories } = response;
-            const data =
-                queryString.limit === 'all' ? categories : categories.data;
+            const { data } = response.categories;
             yield put(setExpenseCategories({ categories: data, fresh }));
         }
 

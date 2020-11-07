@@ -34,10 +34,7 @@ export function* getCustomers({ payload }) {
         const response = yield call([Request, 'get'], options);
 
         if (response?.customers) {
-            const { customers } = response;
-            const data =
-                queryString.limit === 'all' ? customers : customers.data;
-
+            const { data } = response.customers;
             yield put(setCustomers({ customers: data, fresh }));
         }
 

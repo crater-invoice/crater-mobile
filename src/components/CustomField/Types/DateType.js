@@ -12,7 +12,7 @@ export function DateType({ field, name }) {
             label={label}
             formDateFormat="YYYY-MM-DD"
             isRequired={is_required}
-            placeholder={placeholder}
+            placeholder={placeholder ?? ' '}
         />
     );
 }

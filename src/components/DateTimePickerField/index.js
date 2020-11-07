@@ -8,7 +8,6 @@ import { DATE_FORMAT } from '@/constants';
 import Lng from '@/lang/i18n';
 import styles from './styles';
 
-
 const DATE_TIME_PICKER_FORM = 'DATE_TIME_PICKER_FORM';
 
 type Props = {
@@ -33,15 +32,26 @@ class DateTimePickerFieldComponent extends Component<Props> {
 
     componentDidMount() {
         const {
-            input: { value },
+            input: { value, onChange },
             dateFieldName,
-            timeFieldName
+            timeFieldName,
+            callOnChangeInMount = false,
+            removeSecond = false
         } = this.props;
 
         if (value) {
             const split = value.split(' ');
             this.setFormField(dateFieldName, value);
-            this.setFormField(timeFieldName, split?.[1] ?? '00:00:00');
+            this.setFormField(timeFieldName, split?.[1] ?? '00:00');
+
+            if (callOnChangeInMount) {
+                if (removeSecond) {
+                    if (value.split(':').length === 3) {
+                        const afterRemoveSecond = value.slice(0, -3);
+                        onChange?.(afterRemoveSecond);
+                    }
+                }
+            }
 
             this.setState({ loading: false });
         } else {
@@ -58,7 +68,7 @@ class DateTimePickerFieldComponent extends Component<Props> {
 
         if (!value) {
             if (date) {
-                dateTimeValue = `${date} 00:00:00`;
+                dateTimeValue = `${date} 00:00`;
             } else if (time) {
                 const todayDate = moment().format(DATE_FORMAT);
                 dateTimeValue = `${todayDate} ${time}`;

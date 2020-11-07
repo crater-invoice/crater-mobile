@@ -108,9 +108,7 @@ function* getUnpaidInvoices({ payload }) {
         const response = yield call([Request, 'get'], { path });
 
         if (response?.invoices) {
-            const { invoices } = response;
-            const data = queryString.limit === 'all' ? invoices : invoices.data;
-
+            const { data } = response.invoices;
             yield put(saveUnpaidInvoices({ invoices: data, fresh }));
         }
 

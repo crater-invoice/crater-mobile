@@ -27,11 +27,7 @@ export function* getPaymentModes({ payload }) {
         const response = yield call([Request, 'get'], options);
 
         if (response?.paymentMethods) {
-            const { paymentMethods } = response;
-            const data =
-                queryString.limit === 'all'
-                    ? paymentMethods
-                    : paymentMethods.data;
+            const { data } = response.paymentMethods;
             yield put(setPaymentModes({ paymentMethods: data, fresh }));
         }
 

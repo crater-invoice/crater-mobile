@@ -10,6 +10,7 @@ export const EXPENSE_EDIT = 'expense/EXPENSE_EDIT';
 
 // Types
 // -----------------------------------------
+export const GET_CREATE_EXPENSE = 'expenses/GET_CREATE_EXPENSE';
 export const GET_EXPENSES = 'expenses/GET_EXPENSES';
 export const SET_EXPENSES = 'expenses/SET_EXPENSES';
 export const GET_EXPENSE_DETAIL = 'expenses/GET_EXPENSE_DETAIL';
