@@ -6,6 +6,7 @@ import fr from './fr.json';
 import es from './es.json';
 import de from './de.json';
 import it from './it.json';
+import ar from './ar.json';
 
 Lng.fallbacks = true;
 
@@ -14,7 +15,8 @@ Lng.translations = {
     fr, // French
     es, // Spanish
     de, // German
-    it // Italian
+    it, // Italian
+    ar // Arabic
 };
 
 Lng.locale = Localization.locale;

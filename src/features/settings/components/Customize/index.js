@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';

@@ -10,6 +10,8 @@ import {
     EDIT_PREFERENCES,
     PREFERENCES_SETTING_TYPE
 } from '../../constants';
+import { I18nManager } from 'react-native';
+import { Updates } from 'expo';
 
 function* getPreferences({ payload: { onResult } }) {
     yield put(spinner({ getPreferencesLoading: true }));
@@ -32,7 +34,7 @@ function* getPreferences({ payload: { onResult } }) {
     }
 }
 
-function* editPreferences({ payload: { params, navigation } }) {
+function* editPreferences({ payload: { params, navigation, locale = 'en' } }) {
     yield put(spinner({ editPreferencesLoading: true }));
 
     try {
@@ -40,6 +42,23 @@ function* editPreferences({ payload: { params, navigation } }) {
             path: `company/settings`,
             body: { settings: params }
         };
+
+        if (params?.language) {
+            const options = {
+                path: `me/settings`,
+                body: { settings: { language: params?.language } }
+            };
+            const res = yield call([Request, 'put'], options);
+
+            if (res.success) {
+                const isRTL = params.language === 'ar';
+                I18nManager.forceRTL(isRTL);
+                I18nManager.allowRTL(isRTL);
+                if (locale === 'ar' || isRTL) {
+                    Updates.reload();
+                }
+            }
+        }
 
         const response = yield call([Request, 'post'], options);
 
