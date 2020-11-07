@@ -5,6 +5,7 @@ import * as TYPES from '../constants';
 import { ROUTES } from '@/navigation';
 import { alertMe, hasValue } from '@/constants';
 import { getTitleByLanguage } from '@/utils';
+import { getCustomFields } from '@/features/settings/saga/custom-fields';
 import {
     paymentTriggerSpinner as spinner,
     saveUnpaidInvoices,
@@ -14,6 +15,7 @@ import {
     getNextNumber,
     getSettingInfo
 } from '@/features/settings/saga/general';
+import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
 
 function* getPayments({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
@@ -46,6 +48,12 @@ function* getCreatePayment({ payload: { onSuccess } }) {
             payload: { key: 'payment' }
         });
 
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.PAYMENT, limit: 'all' }
+            }
+        });
+
         onSuccess?.({
             ...response,
             ...(!isAuto && { nextNumber: null })
@@ -63,7 +71,6 @@ function* createPayment({ payload }) {
             path: `payments`,
             body: params
         };
-
         const response = yield call([Request, 'post'], options);
 
         if (response?.data?.errors) {
@@ -120,6 +127,12 @@ function* getPaymentDetail({ payload: { id, onSuccess } }) {
         if (!response?.payment) {
             return;
         }
+
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.PAYMENT, limit: 'all' }
+            }
+        });
 
         onSuccess?.(response);
     } catch (e) {}

@@ -568,47 +568,6 @@ export const COMPANY_SETTINGS_TYPE = [
     'estimate_mail_body'
 ];
 
-// Endpoint Api URL
-// -----------------------------------------
-export const GET_COMPANY_URL = () => `me`;
-export const EDIT_COMPANY_URL = () => `company`;
-
-export const GET_ACCOUNT_URL = () => `me`;
-export const EDIT_ACCOUNT_URL = () => `me`;
-export const EDIT_ACCOUNT_AVATAR_URL = () => `me/upload-avatar`;
-
-export const GET_PREFERENCES_URL = () => `company/settings`;
-export const EDIT_PREFERENCES_URL = () => `company/settings`;
-
-export const GET_GENERAL_SETTING_URL = () => `company/settings`;
-export const EDIT_GENERAL_SETTING_URL = () => `company/settings`;
-
-export const UPLOAD_LOGO_URL = () => `company/upload-logo`;
-
-// Tax Types
-export const CREATE_SALES_TAX_URL = () => `tax-types`;
-export const EDIT_SALES_TAX_URL = tax => `tax-types/${tax.id}`;
-export const REMOVE_SALES_TAX_URL = id => `tax-types/${id}`;
-
-// Customize Settings
-export const GET_CUSTOMIZE_SETTINGS_URL = () => `company/settings`;
-export const EDIT_CUSTOMIZE_SETTINGS_URL = () => `company/settings`;
-
-// Payment Methods
-export const CREATE_PAYMENT_MODE_URL = () => `payment-methods`;
-export const EDIT_PAYMENT_MODE_URL = id => `payment-methods/${id}`;
-export const REMOVE_PAYMENT_MODE_URL = id => `payment-methods/${id}`;
-
-// Item Unit
-export const CREATE_ITEM_UNIT_URL = () => `units`;
-export const EDIT_ITEM_UNIT_URL = id => `units/${id}`;
-export const REMOVE_ITEM_UNIT_URL = id => `units/${id}`;
-
-// Notes
-// export const GET_NOTES_URL = param => `notes?${queryStrings.stringify(param)}`;
-export const EDIT_NOTE_URL = note => `notes/${note.id}`;
-export const REMOVE_NOTE_URL = id => `notes/${id}`;
-
 export const PREFERENCES_SETTING_TYPE = [
     'currency',
     'time_zone',
@@ -619,11 +578,6 @@ export const PREFERENCES_SETTING_TYPE = [
     'discount_per_item',
     'tax_per_item'
 ];
-
-// Currencies
-export const CREATE_CURRENCY_URL = () => `currencies`;
-export const EDIT_CURRENCY_URL = id => `currencies/${id}`;
-export const REMOVE_CURRENCY_URL = id => `currencies/${id}`;
 
 // Notification
 export const NOTIFICATION_MAIL_TYPE = [

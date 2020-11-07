@@ -35,15 +35,6 @@ import {
     getSettingInfo
 } from '@/features/settings/saga/general';
 
-const alreadyInUse = error => {
-    if (error.includes('errors') && error.includes('estimate_number')) {
-        alertMe({
-            title: getTitleByLanguage('estimates.alert.alreadyInUseNumber')
-        });
-        return true;
-    }
-};
-
 function* getEstimates({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
 

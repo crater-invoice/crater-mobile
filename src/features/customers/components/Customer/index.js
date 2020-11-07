@@ -26,6 +26,7 @@ import Lng from '@/lang/i18n';
 import { colors } from '@/styles/colors';
 import { SymbolStyle } from '@/components/CurrencyFormat/styles';
 import { headerTitle } from '@/styles';
+import { getApiFormattedCustomFields } from '@/utils';
 
 interface IProps {
     navigation: Object;
@@ -120,7 +121,7 @@ export class Customer extends React.Component<IProps> {
     onSubmit = values => {
         const params = {
             ...values?.customer,
-            customFields: values?.customFields
+            customFields: getApiFormattedCustomFields(values?.customFields)
         };
 
         const {
@@ -128,7 +129,6 @@ export class Customer extends React.Component<IProps> {
             createCustomer,
             updateCustomer,
             navigation,
-            customFields,
             handleSubmit
         } = this.props;
 

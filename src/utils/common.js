@@ -1,4 +1,4 @@
-import { omit, find } from 'lodash';
+import { omit, find, sortBy } from 'lodash';
 import { hasObjectLength, hasValue, isArray } from '@/constants';
 
 export const isFilterApply = formValues => {
@@ -45,4 +45,16 @@ export const getCustomFieldValueParams = (
             required: is_required
         };
     });
+};
+
+export const getApiFormattedCustomFields = customFields => {
+    if (!isArray(customFields)) {
+        return [];
+    }
+
+    return customFields.filter(field => hasValue(field?.value));
+};
+
+export const sortByItem = (items, iteratee) => {
+    return sortBy(items, [iteratee]);
 };

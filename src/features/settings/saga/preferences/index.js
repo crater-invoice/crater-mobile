@@ -1,24 +1,22 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import Request from '@/api/request';
 import {
-    settingsTriggerSpinner,
+    settingsTriggerSpinner as spinner,
     setPreferences,
     setSettings
 } from '../../actions';
 import {
     GET_PREFERENCES,
     EDIT_PREFERENCES,
-    GET_PREFERENCES_URL,
-    PREFERENCES_SETTING_TYPE,
-    EDIT_PREFERENCES_URL
+    PREFERENCES_SETTING_TYPE
 } from '../../constants';
 
 function* getPreferences({ payload: { onResult } }) {
-    yield put(settingsTriggerSpinner({ getPreferencesLoading: true }));
+    yield put(spinner({ getPreferencesLoading: true }));
 
     try {
         const options = {
-            path: GET_PREFERENCES_URL(),
+            path: `company/settings`,
             axiosProps: {
                 params: { settings: PREFERENCES_SETTING_TYPE }
             }
@@ -30,16 +28,16 @@ function* getPreferences({ payload: { onResult } }) {
         onResult?.(response);
     } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ getPreferencesLoading: false }));
+        yield put(spinner({ getPreferencesLoading: false }));
     }
 }
 
 function* editPreferences({ payload: { params, navigation } }) {
-    yield put(settingsTriggerSpinner({ editPreferencesLoading: true }));
+    yield put(spinner({ editPreferencesLoading: true }));
 
     try {
         const options = {
-            path: EDIT_PREFERENCES_URL(),
+            path: `company/settings`,
             body: { settings: params }
         };
 
@@ -51,7 +49,7 @@ function* editPreferences({ payload: { params, navigation } }) {
         }
     } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ editPreferencesLoading: false }));
+        yield put(spinner({ editPreferencesLoading: false }));
     }
 }
 

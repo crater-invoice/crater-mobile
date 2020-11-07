@@ -9,28 +9,12 @@ import {
     GET_PAYMENT_MODES,
     CREATE_PAYMENT_MODE,
     EDIT_PAYMENT_MODE,
-    REMOVE_PAYMENT_MODE,
-    // Endpoint Api URL
-    CREATE_PAYMENT_MODE_URL,
-    EDIT_PAYMENT_MODE_URL,
-    REMOVE_PAYMENT_MODE_URL
+    REMOVE_PAYMENT_MODE
 } from '../../constants';
 
 import { getTitleByLanguage } from '@/utils';
 import Request from '@/api/request';
-import { alertMe, hasValue } from '@/constants';
-
-const alreadyInUse = error => {
-    if (error.includes('errors') && error.includes('name')) {
-        setTimeout(() => {
-            alertMe({
-                desc: getTitleByLanguage('alert.alreadyInUse', '"Name"')
-            });
-        }, 1000);
-
-        return true;
-    }
-};
+import { alertMe } from '@/constants';
 
 export function* getPaymentModes({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
@@ -62,7 +46,7 @@ function* createPaymentMode({ payload: { params } }) {
 
     try {
         const options = {
-            path: CREATE_PAYMENT_MODE_URL(),
+            path: `payment-methods`,
             body: params
         };
 
@@ -74,8 +58,7 @@ function* createPaymentMode({ payload: { params } }) {
                 isCreated: true
             })
         );
-    } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ paymentModeLoading: false }));
     }
@@ -86,7 +69,7 @@ function* editPaymentMode({ payload: { id, params } }) {
 
     try {
         const options = {
-            path: EDIT_PAYMENT_MODE_URL(id),
+            path: `payment-methods/${id}`,
             body: params
         };
 
@@ -98,8 +81,7 @@ function* editPaymentMode({ payload: { id, params } }) {
                 isUpdated: true
             })
         );
-    } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText);
+    } catch (e) {
     } finally {
         yield put(settingsTriggerSpinner({ paymentModeLoading: false }));
     }
@@ -110,7 +92,7 @@ function* removePaymentMode({ payload: { id } }) {
 
     try {
         const options = {
-            path: REMOVE_PAYMENT_MODE_URL(id)
+            path: `payment-methods/${id}`
         };
 
         const response = yield call([Request, 'delete'], options);

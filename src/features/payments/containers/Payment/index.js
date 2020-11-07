@@ -13,7 +13,7 @@ const mapStateToProps = (state, { navigation }) => {
     const {
         customers: { customers },
         global: { locale },
-        settings: { paymentMethods, notes },
+        settings: { paymentMethods, notes, customFields },
         payments: { loading, unPaidInvoices }
     } = state;
 
@@ -31,6 +31,7 @@ const mapStateToProps = (state, { navigation }) => {
         hasRecordPayment,
         loading: loading?.paymentLoading,
         unPaidInvoices,
+        customFields,
         id,
         paymentMethods: getPaymentMethodsState(paymentMethods),
         formValues: getFormValues(PAYMENT_FORM)(state) || {}

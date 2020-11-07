@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as queryStrings from 'query-string';
 import {
-    settingsTriggerSpinner,
+    settingsTriggerSpinner as spinner,
     setExpenseCategories,
     setCreateExpenseCategories,
     setEditExpenseCategories,
@@ -41,7 +41,7 @@ export function* getExpenseCategories({ payload }) {
 }
 
 function* createExpenseCategory({ payload: { params, onResult } }) {
-    yield put(settingsTriggerSpinner({ expenseCategoryLoading: true }));
+    yield put(spinner({ expenseCategoryLoading: true }));
 
     try {
         const options = {
@@ -58,12 +58,12 @@ function* createExpenseCategory({ payload: { params, onResult } }) {
         onResult?.(response?.category);
     } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ expenseCategoryLoading: false }));
+        yield put(spinner({ expenseCategoryLoading: false }));
     }
 }
 
 function* getEditExpenseCategory({ payload: { id, onResult } }) {
-    yield put(settingsTriggerSpinner({ initExpenseCategoryLoading: true }));
+    yield put(spinner({ initExpenseCategoryLoading: true }));
 
     try {
         const options = {
@@ -74,14 +74,12 @@ function* getEditExpenseCategory({ payload: { id, onResult } }) {
         onResult?.(response.category);
     } catch (e) {
     } finally {
-        yield put(
-            settingsTriggerSpinner({ initExpenseCategoryLoading: false })
-        );
+        yield put(spinner({ initExpenseCategoryLoading: false }));
     }
 }
 
 function* editExpenseCategory({ payload: { id, params, navigation } }) {
-    yield put(settingsTriggerSpinner({ expenseCategoryLoading: true }));
+    yield put(spinner({ expenseCategoryLoading: true }));
 
     try {
         const options = {
@@ -96,12 +94,12 @@ function* editExpenseCategory({ payload: { id, params, navigation } }) {
         );
     } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ expenseCategoryLoading: false }));
+        yield put(spinner({ expenseCategoryLoading: false }));
     }
 }
 
 function* removeExpenseCategory({ payload: { id, navigation, onResult } }) {
-    yield put(settingsTriggerSpinner({ expenseCategoryLoading: true }));
+    yield put(spinner({ expenseCategoryLoading: true }));
 
     try {
         const options = {
@@ -118,13 +116,11 @@ function* removeExpenseCategory({ payload: { id, navigation, onResult } }) {
         }
     } catch (error) {
     } finally {
-        yield put(settingsTriggerSpinner({ expenseCategoryLoading: false }));
+        yield put(spinner({ expenseCategoryLoading: false }));
     }
 }
 
 export default function* categoriesSaga() {
-    // Expense Categories
-    // -----------------------------------------
     yield takeEvery(GET_EXPENSE_CATEGORIES, getExpenseCategories);
     yield takeEvery(CREATE_EXPENSE_CATEGORY, createExpenseCategory);
     yield takeEvery(GET_CREATE_EXPENSE_CATEGORY, getEditExpenseCategory);

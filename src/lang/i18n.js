@@ -10,11 +10,11 @@ import it from './it.json';
 Lng.fallbacks = true;
 
 Lng.translations = {
-    en,
-    fr,
-    es,
-    de,
-    it
+    en, // English
+    fr, // French
+    es, // Spanish
+    de, // German
+    it // Italian
 };
 
 Lng.locale = Localization.locale;

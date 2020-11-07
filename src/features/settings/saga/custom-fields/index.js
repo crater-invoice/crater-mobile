@@ -1,8 +1,11 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { settingsTriggerSpinner, setCustomFields } from '../../actions';
+import {
+    settingsTriggerSpinner as spinner,
+    setCustomFields
+} from '../../actions';
 import * as queryStrings from 'query-string';
 import Request from '@/api/request';
-import { hasValue, alertMe } from '@/constants';
+import { alertMe } from '@/constants';
 import { ROUTES } from '@/navigation';
 import { getTitleByLanguage } from '@/utils';
 import {
@@ -12,15 +15,6 @@ import {
     REMOVE_CUSTOM_FIELD,
     GET_CUSTOM_FIELD
 } from '../../constants';
-
-const alreadyInUse = error => {
-    if (error.includes('errors') && error.includes('name')) {
-        alertMe({
-            desc: getTitleByLanguage('alert.alreadyInUse', '"Name"')
-        });
-        return true;
-    }
-};
 
 export function* getCustomFields({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
@@ -44,7 +38,7 @@ export function* getCustomFields({ payload }) {
 }
 
 function* createCustomField({ payload: { params, navigation } }) {
-    yield put(settingsTriggerSpinner({ customFieldLoading: true }));
+    yield put(spinner({ customFieldLoading: true }));
 
     try {
         const options = {
@@ -57,15 +51,14 @@ function* createCustomField({ payload: { params, navigation } }) {
         if (response.success) {
             navigation.navigate(ROUTES.CUSTOM_FIELDS);
         }
-    } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText);
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ customFieldLoading: false }));
+        yield put(spinner({ customFieldLoading: false }));
     }
 }
 
 function* getCustomField({ payload: { id, onResult = null } }) {
-    yield put(settingsTriggerSpinner({ getCustomFieldLoading: true }));
+    yield put(spinner({ getCustomFieldLoading: true }));
 
     try {
         const options = { path: `custom-fields/${id}` };
@@ -77,12 +70,12 @@ function* getCustomField({ payload: { id, onResult = null } }) {
         }
     } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ getCustomFieldLoading: false }));
+        yield put(spinner({ getCustomFieldLoading: false }));
     }
 }
 
 function* editCustomField({ payload: { id, params, navigation } }) {
-    yield put(settingsTriggerSpinner({ customFieldLoading: true }));
+    yield put(spinner({ customFieldLoading: true }));
 
     try {
         const options = {
@@ -94,16 +87,22 @@ function* editCustomField({ payload: { id, params, navigation } }) {
 
         if (response.success) {
             navigation.navigate(ROUTES.CUSTOM_FIELDS);
+            return;
         }
-    } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText);
+
+        if (response?.error === 'values_attached') {
+            alertMe({
+                desc: getTitleByLanguage('customFields.alreadyUsed')
+            });
+        }
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ customFieldLoading: false }));
+        yield put(spinner({ customFieldLoading: false }));
     }
 }
 
 function* removeCustomField({ payload: { id, navigation } }) {
-    yield put(settingsTriggerSpinner({ removeCustomFieldLoading: true }));
+    yield put(spinner({ removeCustomFieldLoading: true }));
 
     try {
         const options = { path: `custom-fields/${id}` };
@@ -112,16 +111,21 @@ function* removeCustomField({ payload: { id, navigation } }) {
 
         if (response.success) {
             navigation.navigate(ROUTES.CUSTOM_FIELDS);
+            return;
+        }
+
+        if (response?.error === 'values_attached') {
+            alertMe({
+                desc: getTitleByLanguage('customFields.alreadyUsed')
+            });
         }
     } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ removeCustomFieldLoading: false }));
+        yield put(spinner({ removeCustomFieldLoading: false }));
     }
 }
 
 export default function* customFieldsSaga() {
-    // Custom Fields
-    // -----------------------------------------
     yield takeEvery(GET_CUSTOM_FIELDS, getCustomFields);
     yield takeEvery(CREATE_CUSTOM_FIELD, createCustomField);
     yield takeEvery(GET_CUSTOM_FIELD, getCustomField);

@@ -4,10 +4,9 @@ import {
     GET_NOTES,
     CREATE_NOTES,
     REMOVE_NOTES,
-    UPDATE_NOTES,
-    EDIT_NOTE_URL
+    UPDATE_NOTES
 } from '../../constants';
-import { setNotes, settingsTriggerSpinner } from '../../actions';
+import { setNotes, settingsTriggerSpinner as spinner } from '../../actions';
 import * as queryStrings from 'query-string';
 
 function* getNotes({ payload }: any) {
@@ -34,7 +33,7 @@ function* getNotes({ payload }: any) {
 function* createNote({ payload }: any) {
     const { params, navigation } = payload;
 
-    yield put(settingsTriggerSpinner({ getNotesLoading: true }));
+    yield put(spinner({ getNotesLoading: true }));
 
     try {
         const options = {
@@ -49,12 +48,12 @@ function* createNote({ payload }: any) {
         }
     } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ getNotesLoading: false }));
+        yield put(spinner({ getNotesLoading: false }));
     }
 }
 
 function* removeNote({ payload: { id, navigation, onResult } }: any) {
-    yield put(settingsTriggerSpinner({ getNotesLoading: true }));
+    yield put(spinner({ getNotesLoading: true }));
 
     try {
         const options = {
@@ -70,16 +69,16 @@ function* removeNote({ payload: { id, navigation, onResult } }: any) {
         }
     } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ getNotesLoading: false }));
+        yield put(spinner({ getNotesLoading: false }));
     }
 }
 
 function* editNote({ payload: { note, navigation, onResult } }: any) {
-    yield put(settingsTriggerSpinner({ getNotesLoading: true }));
+    yield put(spinner({ getNotesLoading: true }));
 
     try {
         const options = {
-            path: EDIT_NOTE_URL(note),
+            path: `notes/${note.id}`,
             body: note
         };
 
@@ -88,7 +87,7 @@ function* editNote({ payload: { note, navigation, onResult } }: any) {
         onResult(response);
     } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ getNotesLoading: false }));
+        yield put(spinner({ getNotesLoading: false }));
     }
 }
 

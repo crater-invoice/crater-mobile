@@ -20,7 +20,8 @@ import {
     DatePickerField,
     SelectField,
     FakeInput,
-    SendMail
+    SendMail,
+    CustomField
 } from '@/components';
 import {
     PAYMENT_ADD,
@@ -37,7 +38,7 @@ import {
     isArray,
     MAX_LENGTH
 } from '@/constants';
-import { formatNotesType } from '@/utils';
+import { formatNotesType, getApiFormattedCustomFields } from '@/utils';
 import { NOTES_TYPE_VALUE as NOTES_TYPE } from '@/features/settings/constants';
 
 type IProps = {
@@ -180,7 +181,9 @@ export class Payment extends React.Component<IProps> {
         this.setState({ selectedInvoice: invoice });
     };
 
-    onSubmit = ({ payment }) => {
+    onSubmit = values => {
+        const payment = values?.payment;
+
         const { selectedInvoice, isLoading } = this.state;
         const {
             type,
@@ -196,11 +199,14 @@ export class Payment extends React.Component<IProps> {
             return;
         }
 
+        const customFields = getApiFormattedCustomFields(values?.customFields);
+
         const params = {
             ...payment,
             [FIELDS.NUMBER]: `${payment?.[FIELDS.PREFIX]}-${
                 payment?.[FIELDS.NUMBER]
-            }`
+            }`,
+            customFields
         };
 
         if (hasObjectLength(selectedInvoice)) {
@@ -371,7 +377,8 @@ export class Payment extends React.Component<IProps> {
             sendPaymentReceipt,
             id,
             getNotes,
-            notes
+            notes,
+            customFields
         } = this.props;
 
         const { isLoading } = this.state;
@@ -621,6 +628,10 @@ export class Payment extends React.Component<IProps> {
                         height={80}
                         autoCorrect={true}
                     />
+
+                    {isArray(customFields) && (
+                        <CustomField {...this.props} type="payment" />
+                    )}
                 </View>
             </DefaultLayout>
         );

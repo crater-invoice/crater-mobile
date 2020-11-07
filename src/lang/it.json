@@ -538,6 +538,7 @@
         "helpText": "Immettere del testo per aiutare gli utenti a comprendere lo scopo di questo campo personalizzato.",
         "check": "Selezionato per impostazione predefinita",
         "removeAlertDescription": "Non potrai recuperare questo campo personalizzato",
+        "alreadyUsed": "Il campo personalizzato è già in uso",
         "empty": {
             "title": "Nessun campo personalizzato ancora!",
             "description": "Questa sezione conterrà l'elenco dei campi personalizzati.",

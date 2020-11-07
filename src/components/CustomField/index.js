@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { FieldArray, change } from 'redux-form';
 import { CUSTOM_FIELD_DATA_TYPES as DATA_TYPES } from '@/features/settings/constants';
 import { isArray } from '@/constants';
-import { getCustomFieldValueParams } from '@/utils';
+import { getCustomFieldValueParams, sortByItem } from '@/utils';
 import {
     InputType,
     SwitchType,
@@ -18,16 +18,18 @@ import {
 } from './Types';
 
 interface IProps {
-    locale: String;
-    customFields: Array<any>;
+    locale?: String;
+    customFields?: Array<any>;
+    dispatch?: Function;
+    form?: String;
+    formValues?: Any;
+    type?: String;
 }
 
 const FIELDS = ({ fields, customFields, locale }) => {
     const items = [];
 
     if (fields.length === 0) return null;
-
-    if (!isArray(customFields)) return null;
 
     customFields.map((field, index) => {
         const { type } = field;
@@ -90,14 +92,19 @@ const FIELDS = ({ fields, customFields, locale }) => {
 
 export const CustomField = (props: IProps) => {
     const { locale, customFields, dispatch, form, formValues, type } = props;
+
+    const [sortableFields, setSortableFields] = useState(null);
+
     useEffect(() => {
+        const sortableCustomFields = sortByItem(customFields, 'order');
         setFormField(
             'customFields',
             getCustomFieldValueParams(
-                customFields,
+                sortableCustomFields,
                 type ? formValues?.[type]?.fields : formValues?.fields
             )
         );
+        setSortableFields(sortableCustomFields);
         return () => {};
     }, []);
 
@@ -105,14 +112,16 @@ export const CustomField = (props: IProps) => {
         dispatch(change(form, field, value));
     };
 
+    if (!isArray(sortableFields)) {
+        return null;
+    }
+
     return (
-        <View>
-            <FieldArray
-                name={'customFields'}
-                component={FIELDS}
-                locale={locale}
-                customFields={customFields}
-            />
-        </View>
+        <FieldArray
+            name={'customFields'}
+            component={FIELDS}
+            locale={locale}
+            customFields={sortableFields}
+        />
     );
 };

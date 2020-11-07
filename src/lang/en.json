@@ -538,6 +538,7 @@
         "helpText": "Enter some text to help users understand the purpose of this custom field.",
         "check": "Ticked by default",
         "removeAlertDescription": "You will not be able to recover this Custom Field",
+        "alreadyUsed": "Custom Field is already in use",
         "empty": {
             "title": "No custom fields yet!",
             "description": "This section will contain the list of custom fields.",

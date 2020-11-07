@@ -1,4 +1,4 @@
-import { getError } from "@/constants";
+import { getError } from '@/constants';
 import { hasObjectLength } from '@/constants';
 import {
     CUSTOM_FIELDS as FIELDS,
@@ -7,35 +7,34 @@ import {
 
 export const validate = values => {
     const errors = { [FIELDS.FIELD]: {} };
+    const field = FIELDS.FIELD;
+    const name = FIELDS.NAME;
+    const modalType = FIELDS.MODAL_TYPE;
+    const type = FIELDS.TYPE;
+    const label = FIELDS.LABEL;
+    const defaultValue = FIELDS.DEFAULT_VALUE;
 
-    if (values && hasObjectLength(values[FIELDS.FIELD])) {
-        errors[FIELDS.FIELD][FIELDS.NAME] = getError(
-            values[FIELDS.FIELD][FIELDS.NAME],
-            ['requiredField']
-        );
-        errors[FIELDS.FIELD][FIELDS.MODAL_TYPE] = getError(
-            values[FIELDS.FIELD][FIELDS.MODAL_TYPE],
-            ['requiredField']
-        );
-        errors[FIELDS.FIELD][FIELDS.TYPE] = getError(
-            values[FIELDS.FIELD][FIELDS.TYPE],
-            ['requiredField']
-        );
-        errors[FIELDS.FIELD][FIELDS.LABEL] = getError(
-            values[FIELDS.FIELD][FIELDS.LABEL],
-            ['requiredField']
-        );
-        if (values[FIELDS.FIELD][FIELDS.TYPE] === OPTION_VALUE.URL) {
-            if (values[FIELDS.FIELD][FIELDS.DEFAULT_VALUE]) {
-                errors[FIELDS.FIELD][FIELDS.DEFAULT_VALUE] = getError(
-                    values[FIELDS.FIELD][FIELDS.DEFAULT_VALUE],
+    if (values && hasObjectLength(values[field])) {
+        errors[field][name] = getError(values[field][name], ['requiredField']);
+        errors[field][modalType] = getError(values[field][modalType], [
+            'requiredField'
+        ]);
+        errors[field][type] = getError(values[field][type], ['requiredField']);
+        errors[field][label] = getError(values[field][label], [
+            'requiredField'
+        ]);
+
+        if (values[field][type] === OPTION_VALUE.URL) {
+            if (values[field][defaultValue]) {
+                errors[field][defaultValue] = getError(
+                    values[field][defaultValue],
                     ['urlFormat']
                 );
             }
-        } else if (values[FIELDS.FIELD][FIELDS.TYPE] === OPTION_VALUE.NUMBER) {
-            if (values[FIELDS.FIELD][FIELDS.DEFAULT_VALUE]) {
-                errors[FIELDS.FIELD][FIELDS.DEFAULT_VALUE] = getError(
-                    values[FIELDS.FIELD][FIELDS.DEFAULT_VALUE],
+        } else if (values[field][type] === OPTION_VALUE.NUMBER) {
+            if (values[field][defaultValue]) {
+                errors[field][defaultValue] = getError(
+                    values[field][defaultValue],
                     ['isNumberFormat']
                 );
             }
