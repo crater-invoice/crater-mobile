@@ -26,13 +26,14 @@ import {
     removeFromInvoices
 } from '../actions';
 import { ROUTES } from '@/navigation';
-import { alertMe, hasValue } from '@/constants';
-import { store } from '@/store';
+import { alertMe } from '@/constants';
 import { getTitleByLanguage } from '@/utils';
 import {
     getNextNumber,
     getSettingInfo
 } from '@/features/settings/saga/general';
+import { getCustomFields } from '@/features/settings/saga/custom-fields';
+import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
 
 function* getInvoices({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
@@ -61,6 +62,12 @@ function* getCreateInvoice({ payload: { onSuccess } }) {
     yield put(spinner({ initInvoiceLoading: true }));
 
     try {
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.INVOICE, limit: 'all' }
+            }
+        });
+
         const response = yield call(getSettingInfo, {
             payload: {
                 keys: [
@@ -103,6 +110,12 @@ function* getEditInvoice({ payload: { id, onSuccess } }) {
         const options = {
             path: `invoices/${id}`
         };
+
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.INVOICE, limit: 'all' }
+            }
+        });
 
         const response = yield call([Request, 'get'], options);
 
@@ -233,6 +246,9 @@ function* createInvoice({ payload }) {
         }
 
         yield put(removeInvoiceItems());
+
+        yield put(setInvoices({ invoices: [response.invoice], prepend: true }));
+
         onSuccess?.(response?.invoice?.invoicePdfUrl);
     } catch (e) {
     } finally {

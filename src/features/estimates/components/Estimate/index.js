@@ -12,7 +12,8 @@ import {
     SelectField,
     CurrencyFormat,
     FakeInput,
-    SendMail
+    SendMail,
+    CustomField
 } from '@/components';
 import {
     ESTIMATE_ADD,
@@ -45,7 +46,7 @@ import {
 } from '../EstimateCalculation';
 import FinalAmount from '../FinalAmount';
 import { alertMe, BUTTON_TYPE, isArray, MAX_LENGTH } from '@/constants';
-import { formatNotesType } from '@/utils';
+import { formatNotesType, getApiFormattedCustomFields } from '@/utils';
 import { NOTES_TYPE_VALUE as NOTES_TYPE } from '@/features/settings/constants';
 
 type IProps = {
@@ -221,7 +222,11 @@ export class Estimate extends React.Component<IProps> {
         }
 
         const params = {
-            estimate: { ...estimate, id },
+            estimate: {
+                ...estimate,
+                id,
+                customFields: getApiFormattedCustomFields(values?.customFields)
+            },
             navigation,
             onSuccess: url => {
                 if (status === 'download') {
@@ -513,12 +518,19 @@ export class Estimate extends React.Component<IProps> {
             changeEstimateStatus,
             id,
             notes,
-            getNotes
+            getNotes,
+            customFields
         } = this.props;
 
         const { currency, customerName, markAsStatus, isLoading } = this.state;
 
         const isEditEstimate = type === ESTIMATE_EDIT;
+
+        const hasCustomField = isEditEstimate
+            ? isArray(customFields) &&
+              formValues &&
+              formValues.hasOwnProperty('fields')
+            : isArray(customFields);
 
         let hasCompleteStatus = markAsStatus === 'COMPLETED';
 
@@ -828,6 +840,10 @@ export class Estimate extends React.Component<IProps> {
                         navigation={navigation}
                         locale={locale}
                     />
+
+                    {hasCustomField && (
+                        <CustomField {...this.props} type={null} />
+                    )}
                 </View>
             </DefaultLayout>
         );

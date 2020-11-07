@@ -22,7 +22,8 @@ import {
     SelectField,
     CurrencyFormat,
     FakeInput,
-    SendMail
+    SendMail,
+    CustomField
 } from '@/components';
 import {
     INVOICE_ADD,
@@ -44,7 +45,7 @@ import {
     getItemList,
     finalAmount
 } from '../InvoiceCalculation';
-import { formatNotesType } from '@/utils';
+import { formatNotesType, getApiFormattedCustomFields } from '@/utils';
 import { NOTES_TYPE_VALUE as NOTES_TYPE } from '@/features/settings/constants';
 
 type IProps = {
@@ -237,7 +238,11 @@ export class Invoice extends React.Component<IProps> {
         }
 
         const params = {
-            invoice: { ...invoice, id },
+            invoice: {
+                ...invoice,
+                id,
+                customFields: getApiFormattedCustomFields(values?.customFields)
+            },
             navigation,
             onSuccess: url => {
                 if (status === 'download') {
@@ -474,12 +479,19 @@ export class Invoice extends React.Component<IProps> {
             formValues,
             id,
             loading,
-            withLoading
+            withLoading,
+            customFields
         } = this.props;
 
         const { currency, customerName, markAsStatus, isLoading } = this.state;
 
         const isEditInvoice = type === INVOICE_EDIT;
+
+        const hasCustomField = isEditInvoice
+            ? isArray(customFields) &&
+              formValues &&
+              formValues.hasOwnProperty('fields')
+            : isArray(customFields);
 
         let hasSentStatus =
             markAsStatus === 'SENT' || markAsStatus === 'VIEWED';
@@ -508,7 +520,6 @@ export class Invoice extends React.Component<IProps> {
                 : null;
 
         this.invoiceRefs(this);
-
         return (
             <DefaultLayout
                 headerProps={{
@@ -777,6 +788,7 @@ export class Invoice extends React.Component<IProps> {
                         hintStyle={styles.noteHintStyle}
                         autoCorrect={true}
                     />
+
                     <Field
                         name="invoice_template_id"
                         templates={invoiceTemplates ?? []}
@@ -789,6 +801,10 @@ export class Invoice extends React.Component<IProps> {
                         navigation={navigation}
                         locale={locale}
                     />
+
+                    {hasCustomField && (
+                        <CustomField {...this.props} type={null} />
+                    )}
                 </View>
             </DefaultLayout>
         );

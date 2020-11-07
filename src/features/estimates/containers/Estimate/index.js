@@ -15,7 +15,7 @@ const mapStateToProps = (state, { navigation }) => {
         global: { locale, taxTypes, currency },
         estimates: { loading, estimateItems, estimateData, items },
         customers: { customers },
-        settings: { notes }
+        settings: { notes, customFields }
     } = state;
 
     const {
@@ -48,6 +48,7 @@ const mapStateToProps = (state, { navigation }) => {
         locale,
         formValues: getFormValues(ESTIMATE_FORM)(state) || {},
         taxTypes,
+        customFields,
         id,
         currency,
         initialValues: !isLoading

@@ -1,3 +1,4 @@
+import { isArray } from '@/constants';
 import {
     CUSTOMERS_TRIGGER_SPINNER,
     SET_CUSTOMERS,
@@ -5,20 +6,20 @@ import {
 } from '../constants';
 
 const formatCustomers = customers => {
-    let customerList = [];
-    if (typeof customers !== 'undefined' && customers.length != 0) {
-        customerList = customers.map(customer => {
-            return {
-                title: customer.name,
-                subtitle: {
-                    title: customer.contact_name || ''
-                },
-                leftAvatar: customer.name.toUpperCase().charAt(0),
-                fullItem: customer
-            };
-        });
+    if (!isArray(customers)) {
+        return [];
     }
-    return customerList;
+
+    return customers.map(customer => {
+        return {
+            title: customer?.name,
+            subtitle: {
+                title: customer?.contact_name || ''
+            },
+            leftAvatar: customer?.name.toUpperCase().charAt(0),
+            fullItem: customer
+        };
+    });
 };
 
 const initialState = {
@@ -36,9 +37,24 @@ export default function customersReducer(state = initialState, action) {
 
     switch (type) {
         case SET_CUSTOMERS:
-            let { customers, fresh } = payload;
-            let customerList = formatCustomers(customers);
-            if (!fresh) {
+            const customerList = formatCustomers(payload?.customers);
+
+            if (payload?.prepend) {
+                return {
+                    ...state,
+                    customers: [...customerList, ...state.customers]
+                };
+            }
+
+            if (payload?.remove) {
+                const remainCustomers = state.customers.filter(
+                    ({ fullItem }) => fullItem.id !== payload.id
+                );
+
+                return { ...state, customers: remainCustomers };
+            }
+
+            if (!payload?.fresh) {
                 return {
                     ...state,
                     customers: [...state.customers, ...customerList]

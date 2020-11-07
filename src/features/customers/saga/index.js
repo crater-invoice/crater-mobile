@@ -108,6 +108,9 @@ function* createCustomer({ payload }) {
         }
 
         if (response?.success) {
+            yield put(
+                setCustomers({ customers: [response.customer], prepend: true })
+            );
             onResult?.(response.customer);
         }
     } catch (e) {
@@ -191,6 +194,7 @@ function* removeCustomer({ payload: { id, navigation } }) {
         const response = yield call([Request, 'post'], options);
 
         if (response?.success) {
+            yield put(setCustomers({ remove: true, id }));
             navigation.navigate(ROUTES.MAIN_CUSTOMERS);
         }
     } catch (e) {

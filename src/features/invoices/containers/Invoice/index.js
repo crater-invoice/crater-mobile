@@ -15,7 +15,7 @@ const mapStateToProps = (state, { navigation }) => {
         global: { locale, taxTypes, currency },
         invoices: { loading, invoiceItems, invoiceData, items },
         customers: { customers },
-        settings: { notes }
+        settings: { notes, customFields }
     } = state;
 
     const {
@@ -49,6 +49,7 @@ const mapStateToProps = (state, { navigation }) => {
         formValues: getFormValues(INVOICE_FORM)(state) || {},
         taxTypes,
         currency,
+        customFields,
         id,
         initialValues: !isLoading
             ? {

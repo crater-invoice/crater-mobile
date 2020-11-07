@@ -34,6 +34,8 @@ import {
     getNextNumber,
     getSettingInfo
 } from '@/features/settings/saga/general';
+import { getCustomFields } from '@/features/settings/saga/custom-fields';
+import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
 
 function* getEstimates({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
@@ -58,6 +60,12 @@ function* getCreateEstimate({ payload: { onSuccess } }) {
     yield put(spinner({ initEstimateLoading: true }));
 
     try {
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.ESTIMATE, limit: 'all' }
+            }
+        });
+
         const response = yield call(getSettingInfo, {
             payload: {
                 keys: [
@@ -106,6 +114,12 @@ function* getEditEstimate({ payload: { id, onSuccess } }) {
         const options = {
             path: `estimates/${id}`
         };
+
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.ESTIMATE, limit: 'all' }
+            }
+        });
 
         const response = yield call([Request, 'get'], options);
 
@@ -237,6 +251,10 @@ function* createEstimate({ payload }) {
         }
 
         yield put(removeEstimateItems());
+
+        yield put(
+            setEstimates({ estimates: [response.estimate], prepend: true })
+        );
 
         onSuccess?.(response?.estimate?.estimatePdfUrl);
     } catch (e) {
