@@ -176,6 +176,8 @@ const DEFAULT_DATE_TIME_FIELD = () => {
             component={DateTimePickerField}
             label={Lng.t('customFields.defaultValue', { locale })}
             locale={locale}
+            callOnChangeInMount
+            removeSecond
         />
     );
 };
