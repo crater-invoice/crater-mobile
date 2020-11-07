@@ -147,40 +147,9 @@ export default function settingReducer(state = initialState, action) {
             return { ...state, categories: category };
 
         case SET_CUSTOMIZE_SETTINGS:
-            const checkAutoGenerateStatus = status => {
-                return status !== null
-                    ? status === 'YES'
-                        ? true
-                        : false
-                    : false;
-            };
-
             const { customizes } = payload;
 
-            if (customizes === null) {
-                return { ...state, customizes: null };
-            } else {
-                const {
-                    invoice_auto_generate,
-                    estimate_auto_generate,
-                    payment_auto_generate
-                } = customizes;
-
-                let customizeUpdate = {
-                    ...customizes,
-                    invoice_auto_generate: checkAutoGenerateStatus(
-                        invoice_auto_generate
-                    ),
-                    estimate_auto_generate: checkAutoGenerateStatus(
-                        estimate_auto_generate
-                    ),
-                    payment_auto_generate: checkAutoGenerateStatus(
-                        payment_auto_generate
-                    )
-                };
-
-                return { ...state, customizes: customizeUpdate };
-            }
+            return { ...state, customizes };
 
         case SET_PAYMENT_MODES:
             if (!payload.fresh) {

@@ -44,10 +44,16 @@ const mapStateToProps = (state, { navigation }) => {
         itemUnitLoading,
         initialValues: !isLoading
             ? {
-                  ...customizes.settings,
-                  invoice_auto_generate: customizes.invoice_auto_generate === 'YES' || customizes.invoice_auto_generate === 1,
-                  estimate_auto_generate: customizes.estimate_auto_generate === 'YES' || customizes.estimate_auto_generate === 1,
-                  payment_auto_generate: customizes.payment_auto_generate === 'YES' || customizes.payment_auto_generate === 1
+                  ...customizes,
+                  invoice_auto_generate:
+                      customizes.invoice_auto_generate === 'YES' ||
+                      customizes.invoice_auto_generate === 1,
+                  estimate_auto_generate:
+                      customizes.estimate_auto_generate === 'YES' ||
+                      customizes.estimate_auto_generate === 1,
+                  payment_auto_generate:
+                      customizes.payment_auto_generate === 'YES' ||
+                      customizes.payment_auto_generate === 1
               }
             : null
     };
@@ -68,7 +74,7 @@ const mapDispatchToProps = {
     createItemUnit: customizeAction.createItemUnit,
     editItemUnit: customizeAction.editItemUnit,
     removeItemUnit: customizeAction.removeItemUnit,
-    getItemUnits: customizeAction.getItemUnits,
+    getItemUnits: customizeAction.getItemUnits
 };
 
 //  Redux Forms
