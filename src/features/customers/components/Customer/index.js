@@ -328,6 +328,7 @@ export class Customer extends React.Component<IProps> {
                             items={currencies ?? []}
                             displayName="name"
                             component={SelectField}
+                            isInternalSearch
                             icon="dollar-sign"
                             rightIcon="angle-right"
                             placeholder={Lng.t('customers.currency', {

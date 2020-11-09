@@ -727,6 +727,7 @@
         "moreThanDue": "{{hint}} يجب ألا يزيد عن المبلغ المستحق.",
         "url": "URL غير صالح (مثال: https://craterapp.com)",
         "wrong": "هناك خطأ ما. حاول مرة اخرى.",
-        "alreadyTaken": "مأخوذة"
+        "alreadyTaken": "مأخوذة",
+        "minCharacter": "الرجاء إدخال {{minCharacter}} أحرف على الأقل"
     }
 }

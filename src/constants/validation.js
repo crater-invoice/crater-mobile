@@ -1,9 +1,9 @@
 // @flow
-import React from 'react'
+import React from 'react';
 import { EMAIL_REGEX, URL_REGEX, CHARACTER_ONLY_REGEX } from './regex';
 
 type IValidationOptions = {
-    fieldName?: string,
+    fieldName?: string
 };
 
 type ErrorType =
@@ -15,62 +15,85 @@ type ErrorType =
     | 'minNumberRequired'
     | 'maxNumberRequired'
     | 'maxCharacterRequired'
+    | 'minCharacterRequired'
     | 'characterOnlyRequired'
     | 'isNumberFormat'
     | 'passwordCompared'
     | 'moreThanDue'
-    | 'urlFormat'
+    | 'urlFormat';
 
 export function getError(
     value: string,
     errorTypes: Array<ErrorType>,
-    options: IValidationOptions = {},
+    options: IValidationOptions = {}
 ) {
-    const { fieldName, minNumber, maxNumber, maxCharacter } = options;
+    const {
+        fieldName,
+        minNumber,
+        maxNumber,
+        maxCharacter,
+        minCharacter,
+        message = null
+    } = options;
 
     const errorTypeMap = {
+        emailFormat: () =>
+            EMAIL_REGEX.test(value) ? null : 'validation.email',
 
-        emailFormat: () => (EMAIL_REGEX.test(value) ? null : "validation.email"),
+        required: () => (!value ? 'validation.required' : null),
 
-        required: () => (!value ? "validation.required" : null),
+        requiredField: () => (!value ? 'validation.field' : null),
 
-        requiredField: () => (!value ? "validation.field" : null),
+        itemField: () => (!value ? 'validation.choose' : null),
 
-        itemField: () => (!value ? "validation.choose" : null),
+        requiredCheckArray: () =>
+            value && value.length ? null : 'validation.choose',
 
-        requiredCheckArray: () => (value && value.length ? null : "validation.choose"),
-
-        minNumberRequired: () => (value <= minNumber ? getMinNumberError(fieldName, minNumber) : null),
+        minNumberRequired: () =>
+            value <= minNumber ? getMinNumberError(fieldName, minNumber) : null,
 
         maxNumberRequired: () => {
-            return (value > maxNumber ? ("validation.maximumNumber") : null)
+            return value > maxNumber ? 'validation.maximumNumber' : null;
         },
 
         maxCharacterRequired: () => {
-            return (value.length > maxCharacter ? ("validation.maximumCharacter") : null)
+            return value.length > maxCharacter
+                ? 'validation.maximumCharacter'
+                : null;
         },
 
-        characterOnlyRequired: () => (CHARACTER_ONLY_REGEX.test(value) ? null : "validation.character"),
+        minCharacterRequired: () =>
+            value.length < minCharacter
+                ? message || 'validation.minCharacter'
+                : null,
 
-        isNumberFormat: () => (
-            isNaN(Number(value)) ? "validation.numeric" : null
-        ),
-        passwordCompared: () => (
-            value ? (value === fieldName ? null : "validation.passwordCompare") :
-                fieldName ? (value === fieldName ? null : "validation.passwordCompare") : null
-        ),
+        characterOnlyRequired: () =>
+            CHARACTER_ONLY_REGEX.test(value) ? null : 'validation.character',
 
-        moreThanDue: () => ("validation.moreThanDue"),
+        isNumberFormat: () =>
+            isNaN(Number(value)) ? 'validation.numeric' : null,
+        passwordCompared: () =>
+            value
+                ? value === fieldName
+                    ? null
+                    : 'validation.passwordCompare'
+                : fieldName
+                ? value === fieldName
+                    ? null
+                    : 'validation.passwordCompare'
+                : null,
 
-        urlFormat: () => (URL_REGEX.test(value) ? null : "validation.url"),
+        moreThanDue: () => 'validation.moreThanDue',
 
+        urlFormat: () => (URL_REGEX.test(value) ? null : 'validation.url')
     };
 
-    const errorType = errorTypes.find((error) => errorTypeMap[error] && errorTypeMap[error]());
+    const errorType = errorTypes.find(
+        error => errorTypeMap[error] && errorTypeMap[error]()
+    );
 
     return errorType ? errorTypeMap[errorType]() : null;
 }
-
 
 export const getMinNumberError = (fieldName, minNumber) =>
     `validation.minimumNumber`;

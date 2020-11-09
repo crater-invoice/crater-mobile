@@ -81,6 +81,7 @@ export class InputFieldComponent extends Component<IInputField> {
             locale,
             maxNumber = 0,
             maxCharacter = 0,
+            minCharacter = 0,
             isRequired = false,
             secureTextIconContainerStyle,
             leftSymbol
@@ -239,7 +240,8 @@ export class InputFieldComponent extends Component<IInputField> {
                                     locale,
                                     hint,
                                     maxNumber,
-                                    maxCharacter
+                                    maxCharacter,
+                                    minCharacter
                                 })}
                             </Text>
                         </View>

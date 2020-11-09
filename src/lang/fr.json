@@ -727,6 +727,7 @@
         "moreThanDue": "{{hint}} Ne devrait pas être plus que le montant dû.",
         "url": "URL invalide (p ex: https://craterapp.com)",
         "wrong": "Un problème est survenu. Veuillez réessayer.",
-        "alreadyTaken": "DÉJÀ PRIS"
+        "alreadyTaken": "DÉJÀ PRIS",
+        "minCharacter": "Veuillez saisir au moins {{minCharacter}} caractères"
     }
 }

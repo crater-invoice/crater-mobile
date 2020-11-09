@@ -45,7 +45,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         };
     };
 
-    setInitialState = () => {
+    setInitialState = async () => {
         const {
             input: { value },
             compareField,
@@ -56,7 +56,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         } = this.props;
 
         if (selectedItem) {
-            this.setState({
+            await this.setState({
                 values: selectedItem[displayName],
                 defaultItem: items || [],
                 searchItems: items || []
@@ -80,12 +80,12 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         }
 
         concurrentMultiSelect &&
-            this.setState({
+            (await this.setState({
                 selectedItems: value,
                 oldItems: value
-            });
+            }));
 
-        this.setState({
+        await this.setState({
             values: compareField ? newValue : value[displayName],
             defaultItem: items || [],
             searchItems: items || []
@@ -148,7 +148,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         concurrentMultiSelect ? this.toggleItem(item) : this.getAlert(item);
     };
 
-    toggleItem = item => {
+    toggleItem = async item => {
         const { compareField, valueCompareField } = this.props;
 
         const { selectedItems } = this.state;
@@ -169,14 +169,14 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
                         JSON.parse(item[compareField])
                 );
 
-                this.setState({ selectedItems: removedItems });
+                await this.setState({ selectedItems: removedItems });
             } else {
-                this.setState({
+                await this.setState({
                     selectedItems: [...selectedItems, ...newItem]
                 });
             }
         } else {
-            this.setState({ selectedItems: newItem });
+            await this.setState({ selectedItems: newItem });
         }
     };
 
@@ -238,7 +238,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         });
     };
 
-    internalSearch = search => {
+    internalSearch = async search => {
         const { items, searchFields, isInternalSearch } = this.props;
         const { defaultItem } = this.state;
 
@@ -250,7 +250,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             searchFields
         });
 
-        this.setState({ searchItems: newData });
+        await this.setState({ searchItems: newData });
     };
 
     onSubmit = () => {
@@ -396,11 +396,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         const listProps = {
             items: apiSearch ? items : internalSearchItem,
             onPress: this.onItemSelect,
-            isEmpty:
-                typeof items == 'undefined' ||
-                (apiSearch
-                    ? items.length <= 0
-                    : internalSearchItem.length <= 0),
+            isEmpty: apiSearch ? !isArray(items) : !isArray(internalSearchItem),
             bottomDivider: true,
             emptyContentProps: {
                 ...this.getEmptyTitle(),

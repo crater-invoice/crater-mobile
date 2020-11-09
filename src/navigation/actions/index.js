@@ -1,79 +1,91 @@
-
 import { BackHandler } from 'react-native';
-import { NavigationActions, createStackNavigator, StackActions } from "react-navigation";
-import { ROUTES } from "../routes";
+import {
+    NavigationActions,
+    createStackNavigator,
+    StackActions
+} from 'react-navigation';
+import { ROUTES } from '../routes';
 import { store } from '../../store';
-import Lng from '@/lang/i18n';
 import { alertMe } from '@/constants';
-
+import { getTitleByLanguage } from '@/utils';
 
 export const navigateBack = () => NavigationActions.back();
 
-export const navigateTo = (routeName) => {
+export const navigateTo = routeName => {
     NavigationActions.navigate({ routeName });
-}
+};
 
 // Exit Crater App
 // -----------------------------------------
 export const exitApp = () => {
     alertMe({
-        title: getTitleByLanguage("alert.exit"),
-        okText: "Exit",
+        title: getTitleByLanguage('alert.exit'),
+        okText: 'Exit',
         okPress: () => BackHandler.exitApp(),
         showCancel: true
-    })
-}
+    });
+};
 
 // Go Back Navigation
 // -----------------------------------------
-export const MOUNT = 'mount'
-export const UNMOUNT = 'unMount'
+export const MOUNT = 'mount';
+export const UNMOUNT = 'unMount';
 
 export const goBack = (type, navigation = {}, params) => {
-
-    const { route = null, callback = null, exit = false } = params || {}
+    const { route = null, callback = null, exit = false } = params || {};
 
     if (type === MOUNT) {
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress',
-            () => {
+        try {
+            this.backHandler = BackHandler?.addEventListener?.(
+                'hardwareBackPress',
+                () => {
+                    if (params && exit) {
+                        exitApp();
+                        return true;
+                    }
 
-                if (params && exit) {
-                    exitApp()
-                    return true
+                    if (
+                        params &&
+                        callback &&
+                        typeof callback === 'function' &&
+                        getCurrentRouteName() !== ROUTES.ESTIMATE_LIST
+                    ) {
+                        getCurrentRouteName() !== ROUTES.MAIN_TABS
+                            ? callback()
+                            : exitApp();
+                        return true;
+                    }
+
+                    if (params && route && typeof route === 'string') {
+                        navigateToMainTabs(navigation, route);
+                    } else {
+                        navigation.goBack(null);
+                    }
+
+                    return true;
                 }
-
-                if (params && callback && typeof callback === 'function' && getCurrentRouteName() !== ROUTES.ESTIMATE_LIST) {
-                    getCurrentRouteName() !== ROUTES.MAIN_TABS ?
-                        callback() : exitApp()
-                    return true
-                }
-
-                if (params && route && typeof route === 'string') {
-                    navigateToMainTabs(navigation, route)
-                } else {
-                    navigation.goBack(null);
-                }
-
-                return true;
-            })
+            );
+        } catch (e) {}
     } else {
-        this.backHandler.remove()
+        try {
+            this.backHandler.remove();
+        } catch (e) {}
     }
-}
+};
 
 export const getCurrentRouteName = () => {
     const reduxStore = store.getState();
-    const { routes } = reduxStore.nav
+    const { routes } = reduxStore.nav;
     const currentRoteBlock = routes[routes.length - 1];
     return currentRoteBlock.routeName;
-}
+};
 
 export const navigateToMainTabs = (navigation, route = null) => {
-    let action = {}
+    let action = {};
     if (route) {
         action = {
             action: navigation.navigate({ routeName: route })
-        }
+        };
     }
     const resetAction = StackActions.reset({
         index: 1,
@@ -82,25 +94,25 @@ export const navigateToMainTabs = (navigation, route = null) => {
             NavigationActions.navigate({
                 routeName: ROUTES.MAIN_TABS,
                 ...action
-            }),
-        ],
+            })
+        ]
     });
     navigation.dispatch(resetAction);
-}
+};
 
-
-export const generateStackNavigation = (route, screen) => createStackNavigator(
-    {
-        [route]: screen,
-    },
-    {
-        initialRouteName: route,
-        navigationOptions: {
-            header: null,
-            headerTransparent: true,
+export const generateStackNavigation = (route, screen) =>
+    createStackNavigator(
+        {
+            [route]: screen
         },
-    }
-);
+        {
+            initialRouteName: route,
+            navigationOptions: {
+                header: null,
+                headerTransparent: true
+            }
+        }
+    );
 
 // Navigate Specific Route
 // -----------------------------------------
@@ -109,6 +121,6 @@ export const navigateRoute = (routeName, params = {}) => {
         NavigationActions.navigate({
             routeName,
             params
-        }),
+        })
     );
-}
+};

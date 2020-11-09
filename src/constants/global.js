@@ -7,17 +7,18 @@ import PoppinsSemiBold from '../assets/fonts/Poppins-SemiBold.ttf';
 import PoppinsBold from '../assets/fonts/Poppins-Bold.ttf';
 
 export const loadFonts = async ({ afterLoad }) => {
-    await Font.loadAsync({
-        Poppins: Poppins,
-        'Poppins-light': PoppinsLight,
-        'Poppins-medium': PoppinsMedium,
-        'Poppins-semi-bold': PoppinsSemiBold,
-        'Poppins-bold': PoppinsBold
-    });
+    try {
+        await Font.loadAsync({
+            Poppins: Poppins,
+            'Poppins-light': PoppinsLight,
+            'Poppins-medium': PoppinsMedium,
+            'Poppins-semi-bold': PoppinsSemiBold,
+            'Poppins-bold': PoppinsBold
+        });
+    } catch (e) {}
 
-    afterLoad && afterLoad();
+    afterLoad?.();
 };
-
 
 export const MAX_LENGTH = 255;
 
@@ -30,29 +31,25 @@ export const alertMe = ({
     okPress = null,
     showCancel = false,
     cancelText = 'Cancel',
-    cancelPress = null
+    cancelPress = null,
+    autoClose = true
 }) => {
-    const cancel = showCancel
-        ? {
-              text: cancelText,
-              onPress: cancelPress ? cancelPress : () => {},
-              style: 'cancel'
-          }
-        : {};
+    const cancelEvent = {
+        text: cancelText,
+        onPress: cancelPress ? cancelPress : () => {},
+        style: 'cancel'
+    };
 
-    Alert.alert(
-        title,
-        desc,
-        [
-            {
-                text: okText,
-                onPress: okPress ? okPress : () => {},
-                style: 'cancel'
-            },
-            cancel
-        ],
-        { cancelable: true }
-    );
+    let events: any = [
+        {
+            text: okText,
+            onPress: okPress ? okPress : () => {}
+        }
+    ];
+
+    if (showCancel || cancelPress) events = [...events, cancelEvent];
+
+    Alert.alert(title, desc, events, { cancelable: autoClose });
 };
 
 // Keyboard Type
@@ -88,7 +85,7 @@ export const isBooleanTrue = field => {
 };
 
 export const hasTextLength = string => {
-    return hasValue(string) && string.length !== 0
+    return hasValue(string) && string.length !== 0;
 };
 
 export function dismissKeyboard() {

@@ -18,7 +18,7 @@ import { colors } from '@/styles/colors';
 import { ROUTES } from '@/navigation';
 import Lng from '@/lang/i18n';
 import { IMAGES } from '@/assets';
-import { isIPhoneX } from '@/constants';
+import { isIosPlatform, isIPhoneX } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -66,6 +66,14 @@ export class Login extends React.Component<IProps> {
         const { isKeyboardVisible } = this.state;
 
         let loginRefs = {};
+        let scrollViewStyle = {
+            paddingTop:
+                isKeyboardVisible && !isIPhoneX()
+                    ? isIosPlatform()
+                        ? '18%'
+                        : '10%'
+                    : '34%'
+        };
 
         return (
             <View style={styles.container}>
@@ -76,10 +84,7 @@ export class Login extends React.Component<IProps> {
                 />
 
                 <ScrollView
-                    style={{
-                        paddingTop:
-                            isKeyboardVisible && !isIPhoneX() ? '20%' : '34%'
-                    }}
+                    style={scrollViewStyle}
                     bounces={isKeyboardVisible}
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="handled"
@@ -117,6 +122,7 @@ export class Login extends React.Component<IProps> {
                                     placeholderColor={colors.white5}
                                     inputContainerStyle={styles.inputField}
                                 />
+
                                 <Field
                                     refLinkFn={ref => {
                                         passwordInput = ref;
@@ -139,6 +145,7 @@ export class Login extends React.Component<IProps> {
                                     refLinkFn={ref => {
                                         loginRefs.password = ref;
                                     }}
+                                    minCharacter={8}
                                 />
 
                                 <View style={styles.forgetPasswordContainer}>
@@ -169,26 +176,6 @@ export class Login extends React.Component<IProps> {
                                     loading={loading}
                                 />
                             </View>
-
-                            {/*
-                            * Sign in with google
-
-
-                            <CtDivider title="or" />
-
-                            <View style={styles.socialLoginContainer}>
-                                <CtButton
-                                    raised
-                                    imageSource={IMAGES.GOOGLE_ICON}
-                                    imageIcon
-                                    onPress={() => this.onSocialLogin()}
-                                    btnTitle={Lng.t("button.singInGoogle", { locale })}
-                                    loading={socialLoading}
-                                    buttonType={BUTTON_COLOR.WHITE}
-                                    color={colors.dark3}
-                                />
-                            </View>
-                        */}
                         </View>
                     </KeyboardAvoidingView>
                 </ScrollView>

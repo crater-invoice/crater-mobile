@@ -209,6 +209,7 @@ export class Address extends Component<IProps> {
                     navigation={navigation}
                     searchFields={['name']}
                     compareField="id"
+                    isInternalSearch
                     onSelect={({ id }) => this.setFormField(country, id)}
                     headerProps={{
                         title: Lng.t('header.country', { locale }),

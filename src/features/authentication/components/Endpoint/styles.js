@@ -8,33 +8,33 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         display: 'flex',
-        paddingHorizontal: 5,
+        paddingHorizontal: 5
     },
     main: {
         flex: 1,
         flexDirection: 'column',
         paddingHorizontal: 25,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     inputField: {
-        // paddingVertical: 3
+        height: 44
     },
     logoContainer: {
         paddingBottom: 40,
         alignItems: 'center',
-        marginTop: -30,
+        marginTop: -30
     },
     imgLogo: {
         width: width - 150,
         height: 120,
-        resizeMode: 'contain',
+        resizeMode: 'contain'
     },
     endpointTextTitle: {
         marginTop: 15,
-        color: colors.veryDarkGray,
+        color: colors.veryDarkGray
     },
     SendingMailContainer: {
-        alignItems: 'center',
+        alignItems: 'center'
     },
     buttonContainer: {
         marginHorizontal: -5,
@@ -45,6 +45,6 @@ export default StyleSheet.create({
     },
     skipButtonStyle: {
         marginTop: 5,
-        marginHorizontal: -5,
+        marginHorizontal: -5
     }
 });

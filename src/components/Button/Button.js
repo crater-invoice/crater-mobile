@@ -1,14 +1,14 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
 import { colors } from '@/styles';
 import { Button } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AssetImage } from '../AssetImage';
-import { BUTTON_COLOR, BUTTON_TYPE, dismissKeyboard } from '@/constants';
+import { BUTTON_COLOR, BUTTON_TYPE } from '@/constants';
 
 type IProps = {
     children?: any,
@@ -32,7 +32,8 @@ export class CtGradientButton extends Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {
-            buttonFocus: false
+            buttonFocus: false,
+            animatedScale: new Animated.Value(1)
         };
     }
 
@@ -46,9 +47,16 @@ export class CtGradientButton extends Component<IProps> {
     }
 
     onBtnPress = () => {
-        dismissKeyboard();
         this.setState({ buttonFocus: true });
         this.props?.onPress?.();
+    };
+
+    toggleAnimatedScale = (toValue = 0.98) => {
+        Animated.timing(this.state.animatedScale, {
+            toValue,
+            duration: 100,
+            useNativeDriver: true
+        }).start();
     };
 
     render() {
@@ -68,10 +76,20 @@ export class CtGradientButton extends Component<IProps> {
             hasFocus = true
         } = this.props;
 
-        const { buttonFocus } = this.state;
+        const { buttonFocus, animatedScale } = this.state;
+
+        const animatedStyle = {
+            transform: [{ scale: animatedScale }]
+        };
 
         return (
-            <View style={[styles.buttonContainer, buttonContainerStyle]}>
+            <Animated.View
+                style={[
+                    animatedStyle,
+                    styles.buttonContainer,
+                    buttonContainerStyle
+                ]}
+            >
                 <Button
                     icon={
                         imageIcon ? (
@@ -111,6 +129,8 @@ export class CtGradientButton extends Component<IProps> {
                               }
                     ]}
                     onPress={() => this.onBtnPress()}
+                    onPressIn={() => this.toggleAnimatedScale()}
+                    onPressOut={() => this.toggleAnimatedScale(1)}
                     type={type}
                     title={btnTitle}
                     titleStyle={[
@@ -153,7 +173,7 @@ export class CtGradientButton extends Component<IProps> {
                     }
                     ViewComponent={LinearGradient}
                 />
-            </View>
+            </Animated.View>
         );
     }
 }
@@ -162,7 +182,8 @@ export class CtButton extends Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {
-            buttonFocus: false
+            buttonFocus: false,
+            animatedScale: new Animated.Value(1)
         };
     }
 
@@ -176,9 +197,16 @@ export class CtButton extends Component<IProps> {
     }
 
     onBtnPress = () => {
-        dismissKeyboard();
         this.setState({ buttonFocus: true });
         this.props?.onPress?.();
+    };
+
+    toggleAnimatedScale = (toValue = 0.98) => {
+        Animated.timing(this.state.animatedScale, {
+            toValue,
+            duration: 100,
+            useNativeDriver: true
+        }).start();
     };
 
     render() {
@@ -199,10 +227,20 @@ export class CtButton extends Component<IProps> {
             hasFocus = true
         } = this.props;
 
-        const { buttonFocus } = this.state;
+        const { buttonFocus, animatedScale } = this.state;
+
+        const animatedStyle = {
+            transform: [{ scale: animatedScale }]
+        };
 
         return (
-            <View style={[styles.buttonContainer, buttonContainerStyle]}>
+            <Animated.View
+                style={[
+                    animatedStyle,
+                    styles.buttonContainer,
+                    buttonContainerStyle
+                ]}
+            >
                 <Button
                     icon={
                         imageIcon ? (
@@ -242,6 +280,8 @@ export class CtButton extends Component<IProps> {
                               }
                     ]}
                     onPress={() => this.onBtnPress()}
+                    onPressIn={() => this.toggleAnimatedScale()}
+                    onPressOut={() => this.toggleAnimatedScale(1)}
                     type={type}
                     title={btnTitle}
                     loading={(loading && buttonFocus) || isLoading}
@@ -278,7 +318,7 @@ export class CtButton extends Component<IProps> {
                         })
                     }
                 />
-            </View>
+            </Animated.View>
         );
     }
 }

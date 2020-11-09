@@ -4,7 +4,7 @@ import * as reduxStorage from 'redux-storage';
 import createSagaMiddleware from 'redux-saga';
 import sagas from './saga';
 import { persistStore, persistReducer } from 'redux-persist';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
 const persistConfig = {
@@ -24,7 +24,7 @@ const navigationMiddleware = createReactNavigationReduxMiddleware(
 );
 const middleware = [sagaMiddleware, navigationMiddleware];
 
-export const store:any = createStore(
+export const store: any = createStore(
     persistedReducer,
     applyMiddleware(...middleware)
 );

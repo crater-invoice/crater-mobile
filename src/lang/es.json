@@ -727,6 +727,7 @@
         "moreThanDue": "{{hint}} No debe ser más que el monto adeudado.",
         "url": "URL invalida (p.ej: https://craterapp.com)",
         "wrong": "Something went wrong. Please, try again.",
-        "alreadyTaken": "YA APARTADAS"
+        "alreadyTaken": "YA APARTADAS",
+        "minCharacter": "Por Favor introduzca al menos {{minCharacter}} caracteres"
     }
 }

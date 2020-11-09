@@ -6,7 +6,6 @@ import { NavigationActions } from 'react-navigation';
 import { store, persistor } from './store';
 import ApplicationNavigator from './navigation/containers';
 import { getBootstrap, getAppVersion } from './features/authentication/actions';
-import { AppLoader } from './components';
 import { env } from '@/config';
 import { ROUTES } from '@/navigation';
 import { hasValue, loadFonts } from './constants';
@@ -27,8 +26,9 @@ export default class Root extends Component<{}, IState> {
     componentWillMount() {
         loadFonts({
             afterLoad: () => {
-                const reduxStore = store.getState();
+                this.setState({ fontLoaded: true });
 
+                const reduxStore = store.getState();
                 const { idToken = null } = reduxStore?.auth;
                 const { endpointApi = null } = reduxStore?.global;
 
@@ -37,7 +37,6 @@ export default class Root extends Component<{}, IState> {
                 }
 
                 this.checkAppVersion(endpointApi);
-                this.setState({ fontLoaded: true });
             }
         });
     }
@@ -72,7 +71,6 @@ export default class Root extends Component<{}, IState> {
                     {fontLoaded && (
                         <View style={{ flex: 1, position: 'relative' }}>
                             <ApplicationNavigator />
-                            <AppLoader />
                         </View>
                     )}
                 </PersistGate>

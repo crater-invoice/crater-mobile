@@ -49,6 +49,7 @@ export class SlideModal extends Component<IProps> {
             infiniteScrollProps,
             scrollViewProps
         } = this.props;
+
         const listViewChildren = isPagination ? (
             <View style={styles.listViewContainer}>
                 <InfiniteScroll {...infiniteScrollProps}>
@@ -70,12 +71,6 @@ export class SlideModal extends Component<IProps> {
                 onRequestClose={onToggle && onToggle}
                 hardwareAccelerated={true}
             >
-                <StatusBar
-                    backgroundColor={colors.secondary}
-                    barStyle={'dark-content'}
-                    translucent={true}
-                />
-
                 <View style={styles.modalContainer}>
                     {!defaultLayout && (
                         <MainLayout

@@ -65,8 +65,7 @@ export class Company extends React.Component<IProps> {
         hasCountryApiCalled && getCountries();
 
         getCompanyInformation({
-            onResult: (user) => {
-
+            onResult: user => {
                 this.setFormField(
                     'name',
                     user.company_id ? user.company.name : ''
@@ -210,6 +209,7 @@ export class Company extends React.Component<IProps> {
                         rightIcon="angle-right"
                         navigation={navigation}
                         searchFields={['name']}
+                        isInternalSearch
                         compareField="id"
                         onSelect={({ id }) => {
                             this.setFormField('country_id', id);

@@ -71,9 +71,9 @@ function* getBootstrapData(payloadData: any) {
 
         const response = yield call([Request, 'get'], options);
 
-        const { user } = response;
-
-        setI18nManagerValue({ isRTL: response?.default_language });
+        const { user, default_language = 'en' } = response;
+        const isRTL = default_language === 'ar';
+        setI18nManagerValue({ isRTL });
 
         yield put(setAccountInformation({ account: user }));
 

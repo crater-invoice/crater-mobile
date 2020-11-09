@@ -1,6 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import Request from '@/api/request';
 import { hasValue } from '@/constants';
+import { getTitleByLanguage } from '@/utils';
 import {
     GET_RECURRING_INVOICES,
     CREATE_RECURRING_INVOICE,
@@ -8,7 +9,7 @@ import {
     // Endpoint Api URL
     CREATE_RECURRING_INVOICE_URL,
     EDIT_RECURRING_INVOICE_URL,
-    GET_RECURRING_INVOICES_URL,
+    GET_RECURRING_INVOICES_URL
 } from '../../constants';
 import {
     invoiceTriggerSpinner,
@@ -16,16 +17,14 @@ import {
     removeInvoiceItems
 } from '../../actions';
 
-
-const alreadyInUse = (error) => {
-
-    if (error.includes("errors") && error.includes("invoice_number")) {
+const alreadyInUse = error => {
+    if (error.includes('errors') && error.includes('invoice_number')) {
         alertMe({
-            title: getTitleByLanguage("invoices.alert.alreadyInUseNumber")
-        })
+            title: getTitleByLanguage('invoices.alert.alreadyInUseNumber')
+        });
         return true;
     }
-}
+};
 
 // Recurring Invoice
 function* getRecurringInvoices(payloadData) {
@@ -36,8 +35,8 @@ function* getRecurringInvoices(payloadData) {
             type = '',
             onMeta = null,
             params = null,
-            pagination: { page = 1, limit = 10 } = {},
-        } = {},
+            pagination: { page = 1, limit = 10 } = {}
+        } = {}
     } = payloadData;
 
     yield put(invoiceTriggerSpinner({ invoicesLoading: true }));
@@ -47,18 +46,19 @@ function* getRecurringInvoices(payloadData) {
             ...params,
             page,
             limit
-        }
+        };
 
         const options = {
-            path: GET_RECURRING_INVOICES_URL(type, param),
+            path: GET_RECURRING_INVOICES_URL(type, param)
         };
 
         const response = yield call([Request, 'get'], options);
 
-        yield put(setRecurringInvoices({ invoices: response.invoices.data, fresh }));
+        yield put(
+            setRecurringInvoices({ invoices: response.invoices.data, fresh })
+        );
         onMeta?.(response.invoices);
         onResult?.(true);
-
     } catch (error) {
         onResult?.(false);
     } finally {
@@ -66,42 +66,40 @@ function* getRecurringInvoices(payloadData) {
     }
 }
 
-
-
 function* createRecurringInvoice({ payload: { invoice, onResult } }) {
-
     yield put(invoiceTriggerSpinner({ invoiceLoading: true }));
 
     try {
-
         const options = {
             path: CREATE_RECURRING_INVOICE_URL(),
-            body: invoice,
+            body: invoice
         };
 
         const response = yield call([Request, 'post'], options);
 
-        if (!(response.error)) {
-            yield put(removeInvoiceItems())
+        if (!response.error) {
+            yield put(removeInvoiceItems());
 
-            yield put(setRecurringInvoices({ invoices: [response.invoice], prepend: true }));
+            yield put(
+                setRecurringInvoices({
+                    invoices: [response.invoice],
+                    prepend: true
+                })
+            );
 
-            onResult?.(response?.url)
+            onResult?.(response?.url);
         }
-
     } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText)
+        hasValue(_bodyText) && alreadyInUse(_bodyText);
     } finally {
         yield put(invoiceTriggerSpinner({ invoiceLoading: false }));
     }
 }
 
 function* editRecurringInvoice({ payload: { invoice, onResult } }) {
-
     yield put(invoiceTriggerSpinner({ invoiceLoading: true }));
 
     try {
-
         const options = {
             path: EDIT_RECURRING_INVOICE_URL(invoice),
             body: invoice
@@ -109,12 +107,11 @@ function* editRecurringInvoice({ payload: { invoice, onResult } }) {
 
         const response = yield call([Request, 'put'], options);
 
-        onResult?.(response?.url)
+        onResult?.(response?.url);
 
-        yield call(getRecurringInvoices, payload = {});
-
+        yield call(getRecurringInvoices, (payload = {}));
     } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText)
+        hasValue(_bodyText) && alreadyInUse(_bodyText);
     } finally {
         yield put(invoiceTriggerSpinner({ invoiceLoading: false }));
     }
@@ -126,5 +123,4 @@ export default function* recurringInvoiceSaga() {
     yield takeEvery(GET_RECURRING_INVOICES, getRecurringInvoices);
     yield takeEvery(CREATE_RECURRING_INVOICE, createRecurringInvoice);
     yield takeEvery(EDIT_RECURRING_INVOICE, editRecurringInvoice);
-
 }
