@@ -21,9 +21,7 @@ export class Customizes extends React.Component {
 
         const {
             navigation,
-            getCustomizeSettings,
-            getPaymentModes,
-            getItemUnits
+            getCustomizeSettings
         } = this.props
 
         getCustomizeSettings()

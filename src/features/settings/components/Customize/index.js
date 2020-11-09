@@ -10,7 +10,8 @@ import {
     InputField,
     ToggleSwitch,
     CtDivider,
-    Tabs
+    Tabs,
+    Toast
 } from '@/components';
 import {
     CUSTOMIZE_FORM,
@@ -46,6 +47,7 @@ export class Customize extends React.Component<IProps> {
 
         this.paymentChild = React.createRef();
         this.itemChild = React.createRef();
+        this.toastReference = React.createRef();
 
         this.state = {
             data: {},
@@ -224,7 +226,9 @@ export class Customize extends React.Component<IProps> {
             },
             hasCustomize: true,
             onResult: () => {
-                this.toggleToast();
+                this.toastReference?.show?.(
+                    'settings.preferences.settingUpdate'
+                );
                 this.setState({ isUpdateAutoGenerate: true });
             }
         });
@@ -402,8 +406,7 @@ export class Customize extends React.Component<IProps> {
             locale,
             type,
             isLoading,
-            formValues,
-            getItemUnits
+            formValues
         } = this.props;
 
         const { data } = this.state;
@@ -423,62 +426,70 @@ export class Customize extends React.Component<IProps> {
               !hasObjectLength(formValues);
 
         return (
-            <DefaultLayout
-                headerProps={{
-                    leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZES),
-                    title: Lng.t(data.headerTitle, { locale }),
-                    titleStyle: headerTitle({
-                        marginLeft: -26,
-                        marginRight: -50
-                    }),
-                    rightIconPress: null,
-                    placement: 'center'
-                }}
-                bottomAction={this.BOTTOM_ACTION()}
-                toastProps={{
-                    message: Lng.t(toastMessage, { locale }),
-                    visible: toastMessage
-                }}
-                loadingProps={{ is: loading }}
-                hideScrollView
-            >
-                {isPaymentsScreen && this.PAYMENT_CUSTOMIZE_TAB()}
+            <>
+                <DefaultLayout
+                    headerProps={{
+                        leftIconPress: () =>
+                            navigation.navigate(ROUTES.CUSTOMIZES),
+                        title: Lng.t(data.headerTitle, { locale }),
+                        titleStyle: headerTitle({
+                            marginLeft: -26,
+                            marginRight: -50
+                        }),
+                        rightIconPress: null,
+                        placement: 'center'
+                    }}
+                    bottomAction={this.BOTTOM_ACTION()}
+                    toastProps={{
+                        message: Lng.t(toastMessage, { locale }),
+                        visible: toastMessage
+                    }}
+                    loadingProps={{ is: loading }}
+                    hideScrollView
+                >
+                    {isPaymentsScreen && this.PAYMENT_CUSTOMIZE_TAB()}
 
-                {isItemsScreen && (
-                    <Units
-                        ref={this.itemChild}
-                        props={this.props}
-                        setFormField={(field, value) =>
-                            this.setFormField(field, value)
-                        }
-                    />
-                )}
-
-                {isAddressScreen && (
-                    <ScrollView keyboardShouldPersistTaps="handled">
-                        <CustomizeAddresses
-                            customizeProps={this.props}
-                            addresses={CUSTOMIZE_ADDRESSES()}
+                    {isItemsScreen && (
+                        <Units
+                            ref={this.itemChild}
+                            props={this.props}
+                            setFormField={(field, value) =>
+                                this.setFormField(field, value)
+                            }
                         />
-                    </ScrollView>
-                )}
+                    )}
 
-                {!isPaymentsScreen && !isItemsScreen && !isAddressScreen && (
-                    <View style={styles.bodyContainer}>
-                        <ScrollView
-                            showsVerticalScrollIndicator={false}
-                            keyboardShouldPersistTaps="handled"
-                        >
-                            {this.PREFIX_FIELD(locale, data)}
-
-                            {showTextAreaField &&
-                                this.TextAreaFieldView(data, locale)}
-
-                            {this.TOGGLE_FIELD_VIEW(locale, data)}
+                    {isAddressScreen && (
+                        <ScrollView keyboardShouldPersistTaps="handled">
+                            <CustomizeAddresses
+                                customizeProps={this.props}
+                                addresses={CUSTOMIZE_ADDRESSES()}
+                            />
                         </ScrollView>
-                    </View>
-                )}
-            </DefaultLayout>
+                    )}
+
+                    {!isPaymentsScreen && !isItemsScreen && !isAddressScreen && (
+                        <View style={styles.bodyContainer}>
+                            <ScrollView
+                                showsVerticalScrollIndicator={false}
+                                keyboardShouldPersistTaps="handled"
+                            >
+                                {this.PREFIX_FIELD(locale, data)}
+
+                                {showTextAreaField &&
+                                    this.TextAreaFieldView(data, locale)}
+
+                                {this.TOGGLE_FIELD_VIEW(locale, data)}
+                            </ScrollView>
+                        </View>
+                    )}
+                </DefaultLayout>
+                <Toast
+                    reference={ref => (this.toastReference = ref)}
+                    locale={locale}
+                    containerStyle={{ bottom: 120 }}
+                />
+            </>
         );
     }
 }

@@ -8,7 +8,8 @@ import {
     CtButton,
     SelectField,
     ToggleSwitch,
-    CtDivider
+    CtDivider,
+    Toast
 } from '@/components';
 import { Field, change } from 'redux-form';
 import Lng from '@/lang/i18n';
@@ -32,14 +33,14 @@ type IProps = {
 export class Preferences extends React.Component<IProps> {
     constructor(props) {
         super(props);
+        this.toastReference = React.createRef();
 
         this.state = {
             timezoneList: [],
             dateFormatList: [],
             fiscalYearLst: [],
             discountPerItem: null,
-            taxPerItem: null,
-            visibleToast: false
+            taxPerItem: null
         };
     }
 
@@ -200,7 +201,9 @@ export class Preferences extends React.Component<IProps> {
                 settings
             },
             onResult: () => {
-                this.toggleToast();
+                this.toastReference?.show?.(
+                    'settings.preferences.settingUpdate'
+                );
             }
         });
     };
@@ -217,13 +220,11 @@ export class Preferences extends React.Component<IProps> {
                 settings
             },
             onResult: () => {
-                this.toggleToast();
+                this.toastReference?.show?.(
+                    'settings.preferences.settingUpdate'
+                );
             }
         });
-    };
-
-    toggleToast = () => {
-        this.setState({ visibleToast: true });
     };
 
     render() {
@@ -243,194 +244,200 @@ export class Preferences extends React.Component<IProps> {
         } = this.state;
 
         return (
-            <DefaultLayout
-                headerProps={{
-                    leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t('header.setting.preferences', { locale }),
-                    placement: 'center',
-                    rightIcon: 'save',
-                    rightIconProps: {
-                        solid: true
-                    },
-                    rightIconPress: handleSubmit(this.onSubmitPreferences)
-                }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{
-                    is:
-                        !isArray(timezoneList) ||
-                        !isArray(dateFormatList) ||
-                        !isArray(fiscalYearLst) ||
-                        !hasObjectLength(formValues)
-                }}
-                toastProps={{
-                    message: Lng.t('settings.preferences.settingUpdate', {
-                        locale
-                    }),
-                    visible: visibleToast
-                }}
-            >
-                <View style={styles.mainContainer}>
-                    <Field
-                        name="time_zone"
-                        items={timezoneList}
-                        displayName="key"
-                        component={SelectField}
-                        label={Lng.t('settings.preferences.timeZone', {
-                            locale
-                        })}
-                        icon="clock"
-                        rightIcon="angle-right"
-                        placeholder={
-                            time_zone
-                                ? time_zone
-                                : Lng.t(
-                                      'settings.preferences.timeZonePlaceholder',
-                                      { locale }
-                                  )
-                        }
-                        fakeInputProps={{
-                            valueStyle: styles.selectedField,
-                            placeholderStyle: styles.selectedField
-                        }}
-                        navigation={navigation}
-                        searchFields={['key']}
-                        compareField="value"
-                        onSelect={val => {
-                            this.setFormField('time_zone', val.value);
-                        }}
-                        headerProps={{
-                            title: Lng.t('timeZones.title', { locale }),
-                            titleStyle: headerTitle({
-                                marginLeft: -23,
-                                marginRight: -40
-                            }),
-                            rightIconPress: null
-                        }}
-                        emptyContentProps={{
-                            contentType: 'timeZones'
-                        }}
-                        isRequired
-                        isInternalSearch
-                    />
+            <>
+                <DefaultLayout
+                    headerProps={{
+                        leftIconPress: () => navigation.goBack(null),
+                        title: Lng.t('header.setting.preferences', { locale }),
+                        placement: 'center',
+                        rightIcon: 'save',
+                        rightIconProps: {
+                            solid: true
+                        },
+                        rightIconPress: handleSubmit(this.onSubmitPreferences)
+                    }}
+                    bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                    loadingProps={{
+                        is:
+                            !isArray(timezoneList) ||
+                            !isArray(dateFormatList) ||
+                            !isArray(fiscalYearLst) ||
+                            !hasObjectLength(formValues)
+                    }}
+                >
+                    <View style={styles.mainContainer}>
+                        <Field
+                            name="time_zone"
+                            items={timezoneList}
+                            displayName="key"
+                            component={SelectField}
+                            label={Lng.t('settings.preferences.timeZone', {
+                                locale
+                            })}
+                            icon="clock"
+                            rightIcon="angle-right"
+                            placeholder={
+                                time_zone
+                                    ? time_zone
+                                    : Lng.t(
+                                          'settings.preferences.timeZonePlaceholder',
+                                          { locale }
+                                      )
+                            }
+                            fakeInputProps={{
+                                valueStyle: styles.selectedField,
+                                placeholderStyle: styles.selectedField
+                            }}
+                            navigation={navigation}
+                            searchFields={['key']}
+                            compareField="value"
+                            onSelect={val => {
+                                this.setFormField('time_zone', val.value);
+                            }}
+                            headerProps={{
+                                title: Lng.t('timeZones.title', { locale }),
+                                titleStyle: headerTitle({
+                                    marginLeft: -23,
+                                    marginRight: -40
+                                }),
+                                rightIconPress: null
+                            }}
+                            emptyContentProps={{
+                                contentType: 'timeZones'
+                            }}
+                            isRequired
+                            isInternalSearch
+                        />
 
-                    <Field
-                        name="date_format"
-                        items={dateFormatList}
-                        displayName="display_date"
-                        component={SelectField}
-                        label={Lng.t('settings.preferences.dateFormat', {
-                            locale
-                        })}
-                        icon="calendar-alt"
-                        rightIcon="angle-right"
-                        placeholder={Lng.t(
-                            'settings.preferences.dateFormatPlaceholder',
-                            { locale }
-                        )}
-                        fakeInputProps={{
-                            valueStyle: styles.selectedField,
-                            placeholderStyle: styles.selectedField
-                        }}
-                        navigation={navigation}
-                        searchFields={['display_date']}
-                        compareField="moment_format_value"
-                        onSelect={val => {
-                            this.setFormField(
-                                'carbon_date_format',
-                                val.carbon_format_value
-                            );
-                            this.setFormField(
-                                'moment_date_format',
-                                val.moment_format_value
-                            );
-                            this.setFormField(
-                                'date_format',
-                                val.moment_format_value
-                            );
-                        }}
-                        headerProps={{
-                            title: Lng.t('dateFormats.title', { locale }),
-                            titleStyle: headerTitle({
-                                marginLeft: -20,
-                                marginRight: -55
-                            }),
-                            rightIconPress: null
-                        }}
-                        emptyContentProps={{
-                            contentType: 'dateFormats'
-                        }}
-                        isRequired
-                        isInternalSearch
-                    />
+                        <Field
+                            name="date_format"
+                            items={dateFormatList}
+                            displayName="display_date"
+                            component={SelectField}
+                            label={Lng.t('settings.preferences.dateFormat', {
+                                locale
+                            })}
+                            icon="calendar-alt"
+                            rightIcon="angle-right"
+                            placeholder={Lng.t(
+                                'settings.preferences.dateFormatPlaceholder',
+                                { locale }
+                            )}
+                            fakeInputProps={{
+                                valueStyle: styles.selectedField,
+                                placeholderStyle: styles.selectedField
+                            }}
+                            navigation={navigation}
+                            searchFields={['display_date']}
+                            compareField="moment_format_value"
+                            onSelect={val => {
+                                this.setFormField(
+                                    'carbon_date_format',
+                                    val.carbon_format_value
+                                );
+                                this.setFormField(
+                                    'moment_date_format',
+                                    val.moment_format_value
+                                );
+                                this.setFormField(
+                                    'date_format',
+                                    val.moment_format_value
+                                );
+                            }}
+                            headerProps={{
+                                title: Lng.t('dateFormats.title', { locale }),
+                                titleStyle: headerTitle({
+                                    marginLeft: -20,
+                                    marginRight: -55
+                                }),
+                                rightIconPress: null
+                            }}
+                            emptyContentProps={{
+                                contentType: 'dateFormats'
+                            }}
+                            isRequired
+                            isInternalSearch
+                        />
 
-                    <Field
-                        name="fiscal_year"
-                        items={fiscalYearLst}
-                        displayName="key"
-                        component={SelectField}
-                        label={Lng.t('settings.preferences.fiscalYear', {
-                            locale
-                        })}
-                        icon="calendar-alt"
-                        rightIcon="angle-right"
-                        placeholder={Lng.t(
-                            'settings.preferences.fiscalYearPlaceholder',
-                            { locale }
-                        )}
-                        fakeInputProps={{
-                            valueStyle: styles.selectedField,
-                            placeholderStyle: styles.selectedField
-                        }}
-                        navigation={navigation}
-                        searchFields={['key']}
-                        compareField="value"
-                        onSelect={val => {
-                            this.setFormField('fiscal_year', val.value);
-                        }}
-                        headerProps={{
-                            title: Lng.t('fiscalYears.title', { locale }),
-                            titleStyle: headerTitle({
-                                marginLeft: -15,
-                                marginRight: -35
-                            }),
-                            rightIconPress: null
-                        }}
-                        emptyContentProps={{
-                            contentType: 'fiscalYears'
-                        }}
-                        isInternalSearch
-                        isRequired
-                    />
-                    <CtDivider dividerStyle={styles.dividerLine} />
+                        <Field
+                            name="fiscal_year"
+                            items={fiscalYearLst}
+                            displayName="key"
+                            component={SelectField}
+                            label={Lng.t('settings.preferences.fiscalYear', {
+                                locale
+                            })}
+                            icon="calendar-alt"
+                            rightIcon="angle-right"
+                            placeholder={Lng.t(
+                                'settings.preferences.fiscalYearPlaceholder',
+                                { locale }
+                            )}
+                            fakeInputProps={{
+                                valueStyle: styles.selectedField,
+                                placeholderStyle: styles.selectedField
+                            }}
+                            navigation={navigation}
+                            searchFields={['key']}
+                            compareField="value"
+                            onSelect={val => {
+                                this.setFormField('fiscal_year', val.value);
+                            }}
+                            headerProps={{
+                                title: Lng.t('fiscalYears.title', { locale }),
+                                titleStyle: headerTitle({
+                                    marginLeft: -15,
+                                    marginRight: -35
+                                }),
+                                rightIconPress: null
+                            }}
+                            emptyContentProps={{
+                                contentType: 'fiscalYears'
+                            }}
+                            isInternalSearch
+                            isRequired
+                        />
+                        <CtDivider dividerStyle={styles.dividerLine} />
 
-                    <Field
-                        name="discount_per_item"
-                        component={ToggleSwitch}
-                        hint={Lng.t('settings.preferences.discountPerItem', {
-                            locale
-                        })}
-                        description={Lng.t(
-                            'settings.preferences.discountPerItemPlaceholder',
-                            { locale }
-                        )}
-                        onChangeCallback={val => this.setDiscountPerItem(val)}
-                    />
+                        <Field
+                            name="discount_per_item"
+                            component={ToggleSwitch}
+                            hint={Lng.t(
+                                'settings.preferences.discountPerItem',
+                                {
+                                    locale
+                                }
+                            )}
+                            description={Lng.t(
+                                'settings.preferences.discountPerItemPlaceholder',
+                                { locale }
+                            )}
+                            onChangeCallback={val =>
+                                this.setDiscountPerItem(val)
+                            }
+                        />
 
-                    <Field
-                        name="tax_per_item"
-                        component={ToggleSwitch}
-                        hint={Lng.t('settings.preferences.taxPerItem', {
-                            locale
-                        })}
-                        description={Lng.t(
-                            'settings.preferences.taxPerItemPlaceholder',
-                            { locale }
-                        )}
-                        onChangeCallback={val => this.setTaxPerItem(val)}
-                        mainContainerStyle={{ marginVertical: 12 }}
-                    />
-                </View>
-            </DefaultLayout>
+                        <Field
+                            name="tax_per_item"
+                            component={ToggleSwitch}
+                            hint={Lng.t('settings.preferences.taxPerItem', {
+                                locale
+                            })}
+                            description={Lng.t(
+                                'settings.preferences.taxPerItemPlaceholder',
+                                { locale }
+                            )}
+                            onChangeCallback={val => this.setTaxPerItem(val)}
+                            mainContainerStyle={{ marginVertical: 12 }}
+                        />
+                    </View>
+                </DefaultLayout>
+                <Toast
+                    reference={ref => (this.toastReference = ref)}
+                    locale={locale}
+                    containerStyle={{ bottom: 120 }}
+                />
+            </>
         );
     }
 }
