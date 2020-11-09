@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import Note from '../../components/Note';
-import { NOTES_FORM, NOTES_ADD } from '../../constants';
+import { NOTES_FORM, NOTES_ADD, NOTES_TYPE_VALUE } from '../../constants';
 import * as noteAction from '../../actions';
 import { validate } from './validations';
 
@@ -28,6 +28,7 @@ const mapStateToProps = (state, { navigation }) => {
         formValues: getFormValues(NOTES_FORM)(state) || {},
         noteId: noteType && noteType.id,
         initialValues: {
+            type: NOTES_TYPE_VALUE.INVOICE,
             ...noteType
         }
     };
