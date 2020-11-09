@@ -61,16 +61,6 @@ export class RecurringInvoices extends React.Component<IProps> {
         goBack(MOUNT, navigation, { exit: true });
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        const { navigation } = nextProps;
-        const isMailSend = navigation.getParam('mailSendMsg', null);
-
-        isMailSend &&
-            setTimeout(() => {
-                navigation.setParams({ mailSendMsg: null });
-            }, 2500);
-    }
-
     setActiveTab = activeTab => {
         const { refreshing, search } = this.state;
 
@@ -288,8 +278,6 @@ export class RecurringInvoices extends React.Component<IProps> {
 
         const canLoadMore = lastPage >= page;
 
-        let mailSendMsg = navigation.getParam('mailSendMsg', '');
-
         return (
             <View style={styles.container}>
                 <MainLayout
@@ -309,11 +297,6 @@ export class RecurringInvoices extends React.Component<IProps> {
                         clearFilter: this.props,
                         locale,
                         onResetFilter: () => this.onResetFilter()
-                    }}
-                    toastProps={{
-                        message: Lng.t(mailSendMsg, { locale }),
-                        visible: mailSendMsg,
-                        containerStyle: styles.toastContainer
                     }}
                 >
                     <Tabs

@@ -8,7 +8,6 @@ import { styles } from './styles';
 import { InputField, CtHeader, CtDivider } from '../..';
 import { Content } from '../../Content';
 import Lng from '@/lang/i18n';
-import Toast from '@/components/Toast';
 
 type IProps = {
     children: any,
@@ -21,7 +20,6 @@ type IProps = {
     inputProps?: Object,
     dividerStyle?: Object,
     loadingProps?: Object,
-    toastProps?: Object,
     searchFieldProps?: any
 };
 
@@ -37,15 +35,12 @@ const MainLayoutComponent = ({
     dividerStyle,
     loadingProps,
     locale,
-    toastProps,
     searchFieldProps
 }: IProps) => {
     let hasFilter = filterProps ? { ...filterProps } : null;
 
     return (
         <View style={styles.page}>
-            {toastProps && <Toast {...toastProps} />}
-
             <View style={styles.content}>
                 <CtHeader
                     titleStyle={styles.headerTitleStyle}

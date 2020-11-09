@@ -60,16 +60,6 @@ export class Invoices extends React.Component<IProps> {
         this.focusListener?.remove?.();
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        const { navigation } = nextProps;
-        const isMailSend = navigation.getParam('mailSendMsg', null);
-
-        isMailSend &&
-            setTimeout(() => {
-                navigation.setParams({ mailSendMsg: null });
-            }, 2500);
-    }
-
     setActiveTab = activeTab => {
         this.setState({ activeTab });
     };
@@ -241,8 +231,6 @@ export class Invoices extends React.Component<IProps> {
 
         const { activeTab } = this.state;
 
-        const mailSendMsg = navigation.getParam('mailSendMsg', '');
-
         const headerProps = {
             rightIcon: 'plus',
             rightIconPress: () => this.onAddInvoice(),
@@ -255,12 +243,6 @@ export class Invoices extends React.Component<IProps> {
             clearFilter: this.props,
             locale,
             onResetFilter: () => this.onResetFilter()
-        };
-
-        const toastProps = {
-            message: Lng.t(mailSendMsg, { locale }),
-            visible: mailSendMsg,
-            containerStyle: styles.toastContainer
         };
 
         const tabs = [
@@ -302,7 +284,6 @@ export class Invoices extends React.Component<IProps> {
                     headerProps={headerProps}
                     onSearch={this.onSearch}
                     filterProps={filterProps}
-                    toastProps={toastProps}
                 >
                     <Tabs
                         style={styles.Tabs}

@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
         zIndex: 9999,
 
         position: 'absolute',
-        bottom: isIPhoneX() ? 110 : 81,
+        bottom: isIPhoneX() ? 70 : 50,
         left: 0,
         right: 0,
 

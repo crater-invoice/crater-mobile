@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import { colors } from "@/styles/colors";
+import { StyleSheet } from 'react-native';
+import { colors } from '@/styles/colors';
 
 const styles = StyleSheet.create({
     container: {
@@ -14,10 +14,6 @@ const styles = StyleSheet.create({
     selectPicker: {
         marginTop: 12,
         marginBottom: 2
-    },
-    toastContainer: {
-        bottom: 7,
-        paddingHorizontal: 10
     }
 });
 

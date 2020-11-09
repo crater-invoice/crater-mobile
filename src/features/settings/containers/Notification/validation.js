@@ -1,15 +1,13 @@
-import { getError } from "@/constants";
+import { getError } from '@/constants';
 
-export const validate = (values) => {
+export const validate = values => {
     const errors = {};
     const { notification_email } = values;
 
-    if (notification_email) {
-        errors.notification_email = getError(
-            notification_email,
-            ['emailFormat']
-        );
-    }
+    errors.notification_email = getError(notification_email, [
+        'required',
+        'emailFormat'
+    ]);
 
     return errors;
 };

@@ -254,7 +254,7 @@ export class EstimateItem extends React.Component {
                         />
                     </View>
                 </View>
-                {discountPerItem === 'YES' && (
+                {(discountPerItem === 'YES' || discountPerItem === '1') && (
                     <View style={styles.subContainer}>
                         <View>
                             <Text style={styles.label}>
@@ -487,7 +487,7 @@ export class EstimateItem extends React.Component {
                         />
                     )}
 
-                    {discountPerItem == 'YES' && (
+                    {(discountPerItem == 'YES' || discountPerItem == '1') && (
                         <View>
                             <Field
                                 name="discount_type"
@@ -512,7 +512,7 @@ export class EstimateItem extends React.Component {
                         </View>
                     )}
 
-                    {taxPerItem === 'YES' && (
+                    {(taxPerItem === 'YES' || taxPerItem === '1') && (
                         <Field
                             name="taxes"
                             items={taxTypes}
@@ -522,7 +522,9 @@ export class EstimateItem extends React.Component {
                             displayName="name"
                             label={Lng.t('items.taxes', { locale })}
                             component={SelectField}
-                            placeholder={Lng.t('items.selectTax', { locale })}
+                            placeholder={Lng.t('items.selectTax', {
+                                locale
+                            })}
                             onlyPlaceholder
                             fakeInputProps={{
                                 icon: 'percent',

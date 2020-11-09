@@ -7,7 +7,6 @@ import { Field } from 'redux-form';
 import { InputField, CtHeader, CtDivider } from '../..';
 import { Content } from '../../Content';
 import Dropdown from '../../Dropdown';
-import Toast from '../../Toast';
 import { ARROW_ICON } from '@/assets';
 
 type IProps = {
@@ -18,7 +17,6 @@ type IProps = {
     bottomAction?: any,
     loadingProps?: Object,
     dropdownProps?: Object,
-    toastProps?: Object,
     contentProps?: any
 };
 
@@ -29,14 +27,11 @@ export const DefaultLayout = ({
     bottomAction,
     loadingProps,
     dropdownProps,
-    toastProps,
     hideScrollView = false,
     contentProps
 }: IProps) => {
     return (
         <View style={styles.page}>
-            {toastProps && <Toast {...toastProps} />}
-
             <View style={styles.headerContainer}>
                 <CtHeader
                     titleStyle={styles.headerTitleStyle}

@@ -124,3 +124,11 @@ export const navigateRoute = (routeName, params = {}) => {
         })
     );
 };
+
+export const resetNavigation = ({ navigation, route, index = 0 }) => {
+    const resetAction = StackActions.reset({
+        index,
+        actions: [NavigationActions.navigate({ routeName: route })]
+    });
+    navigation.dispatch(resetAction);
+};

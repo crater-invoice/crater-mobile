@@ -8,7 +8,7 @@ import {
     saveEndpointApi
 } from '../actions';
 import * as TYPES from '../constants';
-import { ROUTES } from '@/navigation';
+import { resetNavigation, ROUTES } from '@/navigation';
 import { setAccountInformation } from '../../settings/actions';
 import { alertMe } from '@/constants';
 import { GET_APP_VERSION } from '@/constants';
@@ -41,7 +41,12 @@ function* login({ payload: { params, navigation } }: any) {
 
         yield put(saveIdToken({ idToken: response.token, expiresIn: null }));
         yield put(getBootstrap());
-        navigation.navigate(ROUTES.MAIN_INVOICES);
+
+        resetNavigation({
+            navigation,
+            route: ROUTES.MAIN_TABS,
+            index: 0
+        });
     } catch (e) {
         yield put(authTriggerSpinner({ loginLoading: false }));
         alertMe({ desc: getTitleByLanguage('login.invalid') });

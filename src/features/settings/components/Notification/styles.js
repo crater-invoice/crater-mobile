@@ -5,14 +5,14 @@ import { colors } from '@/styles';
 export default styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     mainContainer: {
         paddingHorizontal: 20,
-        marginTop: 15,
+        marginTop: 15
     },
     headerContainer: {
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     submitButton: {
         paddingHorizontal: 10
@@ -22,10 +22,6 @@ export default styles = StyleSheet.create({
         marginBottom: 18,
         backgroundColor: colors.gray,
         borderColor: colors.gray,
-        borderWidth: 0.2,
-    },
-    toastContainer: {
-        bottom: isIPhoneX() ? 40 : 20,
-        paddingHorizontal: 13,
+        borderWidth: 0.2
     }
 });

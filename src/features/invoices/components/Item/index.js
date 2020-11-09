@@ -252,7 +252,7 @@ export class InvoiceItem extends React.Component {
                     </View>
                 </View>
 
-                {discountPerItem === 'YES' && (
+                {(discountPerItem === 'YES' || discountPerItem === '1') && (
                     <View style={styles.subContainer}>
                         <View>
                             <Text style={styles.label}>
@@ -484,7 +484,7 @@ export class InvoiceItem extends React.Component {
                         />
                     )}
 
-                    {discountPerItem == 'YES' && (
+                    {(discountPerItem == 'YES' || discountPerItem == '1') && (
                         <View>
                             <Field
                                 name="discount_type"
@@ -509,7 +509,7 @@ export class InvoiceItem extends React.Component {
                         </View>
                     )}
 
-                    {taxPerItem === 'YES' && (
+                    {(taxPerItem === 'YES' || taxPerItem === '1') && (
                         <Field
                             name="taxes"
                             items={taxTypes}

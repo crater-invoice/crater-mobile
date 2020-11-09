@@ -83,5 +83,8 @@ export default styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: 10,
         marginBottom: -12
+    },
+    required: {
+        color: colors.danger
     }
 });

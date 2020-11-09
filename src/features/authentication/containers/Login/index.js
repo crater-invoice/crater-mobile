@@ -1,44 +1,39 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import { validate } from './validation';
 import { reduxForm } from 'redux-form';
-import { Login } from "../../components/Login"; //imports the feature's login component.
+import { Login } from '../../components/Login';
 import * as AuthAction from '../../actions';
-import { LOGIN_FORM } from "../../constants";
+import { LOGIN_FORM } from '../../constants';
+import { hasValue } from '@/constants';
 
-const mapStateToProps = ({
-    auth,
-    global,
-    settings: { account }
-
-}) => ({
+const mapStateToProps = ({ auth, global, settings: { account } }) => ({
     loading: auth.loading && auth.loading.loginLoading,
     socialLoading: auth.loading && auth.loading.socialLoginLoading,
     locale: global?.locale,
     initialValues: {
-        username: (typeof account !== 'undefined' && account !== null) ? account.email ? account.email : '' : '',
+        username: hasValue(account) ? account?.email ?? '' : '',
+        password: ''
     }
 });
 
 const mapDispatchToProps = {
-    login: AuthAction.login,
-    socialLogin: AuthAction.socialLogin,
+    login: AuthAction.login
 };
 
 //  Redux Forms
 const loginReduxForm = reduxForm({
     form: LOGIN_FORM,
-    validate,
+    validate
 })(Login);
 
 // Connects the login-component.
 const LoginContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(loginReduxForm);
 
 LoginContainer.navigationOptions = {
-    header: null,
+    header: null
 };
 
 export default LoginContainer;
-

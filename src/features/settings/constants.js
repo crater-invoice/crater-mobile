@@ -263,14 +263,6 @@ export const SETTINGS_MENU = (locale, Lng) => {
             }
         },
         {
-            title: Lng.t('settings.notification', { locale }),
-            leftIcon: 'bell',
-            iconSize: 25,
-            fullItem: {
-                route: ROUTES.NOTIFICATIONS
-            }
-        },
-        {
             title: Lng.t('settings.LanguageAndCurrency', { locale: locale }),
             leftIcon: 'language',
             iconSize: 21,
@@ -287,6 +279,14 @@ export const SETTINGS_MENU = (locale, Lng) => {
             }
         },
         {
+            title: Lng.t('settings.notification', { locale }),
+            leftIcon: 'bell',
+            iconSize: 25,
+            fullItem: {
+                route: ROUTES.NOTIFICATIONS
+            }
+        },
+        {
             title: Lng.t('settings.taxes', { locale }),
             leftIcon: 'percent',
             fullItem: {
@@ -294,11 +294,10 @@ export const SETTINGS_MENU = (locale, Lng) => {
             }
         },
         {
-            title: Lng.t('settings.expenseCategory', { locale }),
-            leftIcon: 'clipboard-list',
-            iconSize: 24,
+            title: Lng.t('header.customFields', { locale }),
+            leftIcon: 'cube',
             fullItem: {
-                route: ROUTES.CATEGORIES
+                route: ROUTES.CUSTOM_FIELDS
             }
         },
         {
@@ -310,10 +309,11 @@ export const SETTINGS_MENU = (locale, Lng) => {
             }
         },
         {
-            title: Lng.t('header.customFields', { locale }),
-            leftIcon: 'cube',
+            title: Lng.t('settings.expenseCategory', { locale }),
+            leftIcon: 'clipboard-list',
+            iconSize: 24,
             fullItem: {
-                route: ROUTES.CUSTOM_FIELDS
+                route: ROUTES.CATEGORIES
             }
         },
         {

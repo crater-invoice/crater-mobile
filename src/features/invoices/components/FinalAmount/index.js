@@ -64,13 +64,15 @@ const FinalAmount = ({ state, props }) => {
     let taxPerItem = !(
         tax_per_item === 'NO' ||
         typeof tax_per_item === 'undefined' ||
-        tax_per_item === null
+        tax_per_item === null ||
+        tax_per_item === '0'
     );
 
     let discountPerItem = !(
         discount_per_item === 'NO' ||
         typeof discount_per_item === 'undefined' ||
-        discount_per_item === null
+        discount_per_item === null ||
+        discount_per_item === '0'
     );
 
     const setFormField = (field, value) => {
