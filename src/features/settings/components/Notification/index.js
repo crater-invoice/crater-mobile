@@ -102,7 +102,7 @@ export class Notification extends React.Component<IProps> {
                 settings
             },
             onResult: () => {
-                this.toastReference?.showToast?.(
+                this.toastReference?.show?.(
                     'settings.notifications.invoiceViewedUpdated'
                 );
             }
@@ -121,7 +121,7 @@ export class Notification extends React.Component<IProps> {
                 settings
             },
             onResult: () => {
-                this.toastReference?.showToast?.(
+                this.toastReference?.show?.(
                     'settings.notifications.estimateViewedUpdated'
                 );
             }

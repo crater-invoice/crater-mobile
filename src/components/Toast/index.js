@@ -24,16 +24,16 @@ export class Toast extends Component<IProps> {
         this.props.reference?.(undefined);
     }
 
-    showToast = async (message = '') => {
+    show = async (message = '') => {
         await this.setState({ message });
         const duration = 1000;
         Animated.timing(this.animateOpacityValue, {
             toValue: 0.8,
             duration: 200
-        }).start(this.hideToast(duration));
+        }).start(this.hide(duration));
     };
 
-    hideToast = duration => {
+    hide = duration => {
         this.timerID = setTimeout(() => {
             Animated.timing(this.animateOpacityValue, {
                 toValue: 0,
