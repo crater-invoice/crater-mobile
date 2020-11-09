@@ -1,4 +1,4 @@
-import { isIPhoneX } from '@/constants';
+import { isIosPlatform, isIPhoneX } from '@/constants';
 import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
 
@@ -9,12 +9,10 @@ export const styles = StyleSheet.create({
         paddingVertical: 11,
         borderRadius: 25,
         zIndex: 9999,
-
         position: 'absolute',
         bottom: isIPhoneX() ? 70 : 50,
         left: 0,
         right: 0,
-
         backgroundColor: colors.veryDarkGray,
         justifyContent: 'center'
     },
@@ -25,6 +23,6 @@ export const styles = StyleSheet.create({
         alignSelf: 'stretch',
         textAlign: 'center',
         color: colors.white,
-        textAlign: 'left'
+        paddingTop: isIosPlatform() ? 1 : 3
     }
 });

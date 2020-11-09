@@ -26,10 +26,13 @@ export class Toast extends Component<IProps> {
 
     show = async (message = '') => {
         await this.setState({ message });
+
         const duration = 1000;
+
         Animated.timing(this.animateOpacityValue, {
             toValue: 0.8,
-            duration: 200
+            duration: 200,
+            useNativeDriver: true
         }).start(this.hide(duration));
     };
 
@@ -37,10 +40,9 @@ export class Toast extends Component<IProps> {
         this.timerID = setTimeout(() => {
             Animated.timing(this.animateOpacityValue, {
                 toValue: 0,
-                duration: 200
-            }).start(() => {
-                clearTimeout(this.timerID);
-            });
+                duration: 200,
+                useNativeDriver: true
+            }).start(() => clearTimeout(this.timerID));
         }, duration);
     };
 
