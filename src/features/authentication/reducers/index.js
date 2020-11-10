@@ -3,7 +3,8 @@ import {
     SAVE_ID_TOKEN,
     AUTH_TRIGGER_SPINNER,
     SET_BOOTSTRAP,
-    RESET_ID_TOKEN
+    RESET_ID_TOKEN,
+    RESET_AUTH_LOADERS
 } from '../constants'
 
 const initialState = {
@@ -40,6 +41,17 @@ export default function authReducer(state = initialState, action) {
             return { ...state, loading: { ...payload } }
         case SET_BOOTSTRAP:
             return { ...state, bootstrap: { ...payload } }
+        case RESET_AUTH_LOADERS:
+            console.log('inside reducer')
+            return {
+                ...state,
+                loading: {
+                    loginLoading: false,
+                    socialLoginLoading: false,
+                    forgetPasswordLoading: false,
+                    pingEndpointLoading: false
+                }
+            }
         default:
             return state
     }
