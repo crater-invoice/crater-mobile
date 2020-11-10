@@ -42,7 +42,6 @@ export default function authReducer(state = initialState, action) {
         case SET_BOOTSTRAP:
             return { ...state, bootstrap: { ...payload } }
         case RESET_AUTH_LOADERS:
-            console.log('inside reducer')
             return {
                 ...state,
                 loading: {

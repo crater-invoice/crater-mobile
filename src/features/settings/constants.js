@@ -93,13 +93,16 @@ export const REMOVE_PAYMENT_MODE = 'payments/REMOVE_PAYMENT_MODE';
 export const GET_NOTES = 'notes/GET_NOTES';
 export const SET_NOTES = 'notes/SET_NOTES';
 export const GET_CREATE_NOTE = 'notes/GET_CREATE_NOTE';
-export const CREATE_NOTES = 'notes/CREATE_NOTES';
-export const REMOVE_NOTES = 'notes/REMOVE_NOTES';
-export const UPDATE_NOTES = 'notes/UPDATE_NOTES';
+export const CREATE_NOTE = 'notes/CREATE_NOTE';
+export const REMOVE_NOTE = 'notes/REMOVE_NOTE';
+export const UPDATE_NOTE = 'notes/UPDATE_NOTE';
 export const GET_NOTE_DETAIL = 'notes/GET_NOTE_DETAIL';
 export const GET_UPDATE_NOTES = 'notes/GET_UPDATE_NOTES';
 export const SAVE_NOTES = 'notes/SAVE_NOTES';
 export const SAVE_NOTE_FIELDS = 'notes/SAVE_NOTE_FIELDS';
+export const CREATE_FROM_NOTES = 'notes/CREATE_FROM_NOTES'
+export const REMOVE_FROM_NOTES = 'notes/REMOVE_FROM_NOTES'
+export const UPDATE_FROM_NOTES = 'notes/UPDATE_FROM_NOTES'
 
 // Item Unit
 export const GET_ITEM_UNITS = 'units/GET_ITEM_UNITS';

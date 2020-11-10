@@ -8,7 +8,10 @@ import { isArray } from '@/constants';
 import {
     saveNoteFields,
     setNotes,
-    settingsTriggerSpinner as spinner
+    settingsTriggerSpinner as spinner,
+    createFromNotes,
+    removeFromNotes,
+    updateFromNotes
 } from '../../actions';
 
 const getNoteFields = (fields, type = null) => {
@@ -114,6 +117,7 @@ function* createNote({ payload }: any) {
         const response = yield call([Request, 'post'], options);
 
         if (response.note) {
+            yield put(createFromNotes({ note: response.note }))
             navigation.goBack(null);
         }
     } catch (e) {
@@ -133,6 +137,7 @@ function* removeNote({ payload: { id, navigation, onResult } }: any) {
         const response = yield call([Request, 'delete'], options);
 
         if (response.success) {
+            yield put(removeFromNotes({ id }))
             navigation.goBack(null);
         } else {
             onResult?.(response);
@@ -175,7 +180,11 @@ function* editNote({ payload: { note, navigation, onResult } }: any) {
         };
 
         const response = yield call([Request, 'put'], options);
-        navigation.goBack();
+        if (response.note) {
+            yield put(updateFromNotes({ note: response.note }))
+            navigation.goBack();
+        }
+        
         onResult(response);
     } catch (e) {
     } finally {
@@ -186,8 +195,8 @@ function* editNote({ payload: { note, navigation, onResult } }: any) {
 export default function* notesSaga() {
     yield takeEvery(TYPES.GET_NOTES, getNotes);
     yield takeEvery(TYPES.GET_CREATE_NOTE, getCreateNote);
-    yield takeEvery(TYPES.CREATE_NOTES, createNote);
-    yield takeEvery(TYPES.REMOVE_NOTES, removeNote);
+    yield takeEvery(TYPES.CREATE_NOTE, createNote);
+    yield takeEvery(TYPES.REMOVE_NOTE, removeNote);
     yield takeEvery(TYPES.GET_NOTE_DETAIL, getNoteDetail);
-    yield takeEvery(TYPES.UPDATE_NOTES, editNote);
+    yield takeEvery(TYPES.UPDATE_NOTE, editNote);
 }
