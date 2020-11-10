@@ -339,7 +339,8 @@
         },
         "type": "Tipo de nota",
         "select": "Seleccione una nota",
-        "insertNote": "+ Insertar nota"
+        "insertNote": "+ Insertar nota",
+        "insertFields":"+ Insertar campos"
     },
     "units": {
         "empty": {

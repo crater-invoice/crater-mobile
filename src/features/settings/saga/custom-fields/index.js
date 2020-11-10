@@ -17,7 +17,12 @@ import {
 } from '../../constants';
 
 export function* getCustomFields({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const {
+        fresh = true,
+        onSuccess,
+        queryString,
+        returnResponse = false
+    } = payload;
 
     try {
         const options = {
@@ -32,6 +37,10 @@ export function* getCustomFields({ payload }) {
         }
 
         onSuccess?.(response?.customFields);
+
+        if (returnResponse) {
+            return response?.customFields?.data ?? [];
+        }
     } catch (e) {}
 }
 

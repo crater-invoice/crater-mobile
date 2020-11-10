@@ -339,7 +339,8 @@
         },
         "type": "Hinweis Typ",
         "select": "Wählen Sie eine Notiz aus",
-        "insertNote": "+ Hinweis einfügen"
+        "insertNote": "+ Hinweis einfügen",
+        "insertFields":"+ Felder einfügen"
     },
     "units": {
         "empty": {

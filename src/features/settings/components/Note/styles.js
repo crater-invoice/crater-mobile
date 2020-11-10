@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '@/styles';
+import { colors, fonts } from '@/styles';
 
 export default styles = StyleSheet.create({
     container: {
@@ -32,5 +32,26 @@ export default styles = StyleSheet.create({
     },
     handleBtn: {
         marginHorizontal: 5
+    },
+    noteContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10,
+        marginBottom: -12
+    },
+    noteHintStyle: {
+        paddingBottom: 6,
+        color: colors.dark2,
+        fontSize: 14,
+        paddingLeft: 4,
+        fontFamily: fonts.poppins
+    },
+    insertFields: {
+        color: colors.primary,
+        fontFamily: fonts.poppins,
+        fontSize: 16,
+        paddingBottom: 6,
+        textAlign: 'left'
     }
 });

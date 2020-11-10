@@ -24,7 +24,7 @@ export const CUSTOM_FIELDS_FORM = 'custom-field/CUSTOM_FIELDS_FORM';
 export const CUSTOM_FIELD_FORM = 'custom-field/CUSTOM_FIELD_FORM';
 
 export const NOTES_SEARCH = 'notes/NOTES_SEARCH';
-export const NOTES_FORM = 'notes/NOTES_FORM';
+export const NOTE_FORM = 'notes/NOTE_FORM';
 
 // Types
 // -----------------------------------------
@@ -92,11 +92,14 @@ export const REMOVE_PAYMENT_MODE = 'payments/REMOVE_PAYMENT_MODE';
 // Notes
 export const GET_NOTES = 'notes/GET_NOTES';
 export const SET_NOTES = 'notes/SET_NOTES';
+export const GET_CREATE_NOTE = 'notes/GET_CREATE_NOTE';
 export const CREATE_NOTES = 'notes/CREATE_NOTES';
 export const REMOVE_NOTES = 'notes/REMOVE_NOTES';
 export const UPDATE_NOTES = 'notes/UPDATE_NOTES';
+export const GET_NOTE_DETAIL = 'notes/GET_NOTE_DETAIL';
 export const GET_UPDATE_NOTES = 'notes/GET_UPDATE_NOTES';
 export const SAVE_NOTES = 'notes/SAVE_NOTES';
+export const SAVE_NOTE_FIELDS = 'notes/SAVE_NOTE_FIELDS';
 
 // Item Unit
 export const GET_ITEM_UNITS = 'units/GET_ITEM_UNITS';
@@ -414,31 +417,17 @@ export const CUSTOMIZE_ADDRESSES = () => {
     ];
 };
 
-// Customize Contact Fields
+// Customize Customer Fields
 // -----------------------------------------
-export const FORMAT_CONTACT_FIELDS = () => {
-    return [
-        {
-            label: 'customers.displayName',
-            value: 'CONATCT_DISPLAY_NAME'
-        },
-        {
-            label: 'customers.contactName',
-            value: 'PRIMARY_CONTACT_NAME'
-        },
-        {
-            label: 'customers.email',
-            value: 'CONATCT_EMAIL'
-        },
-        {
-            label: 'customers.phone',
-            value: 'CONATCT_PHONE'
-        },
-        {
-            label: 'customers.website',
-            value: 'CONATCT_WEBSITE'
-        }
-    ];
+export const FORMAT_CUSTOMER_FIELDS = {
+    label: 'CUSTOMER',
+    fields: [
+        { label: 'Display Name', value: 'CONTACT_DISPLAY_NAME' },
+        { label: 'Contact Name', value: 'PRIMARY_CONTACT_NAME' },
+        { label: 'Email', value: 'CONTACT_EMAIL' },
+        { label: 'Phone', value: 'CONTACT_PHONE' },
+        { label: 'Website', value: 'CONTACT_WEBSITE' }
+    ]
 };
 
 // Customize Address Fields
@@ -520,7 +509,7 @@ export const FORMAT_ADDRESS_FIELDS = (type = '') => {
 export const addressFields = [
     {
         label: 'customers.customer',
-        fields: FORMAT_CONTACT_FIELDS(),
+        fields: FORMAT_CUSTOMER_FIELDS,
         type: CUSTOMIZE_ADDRESSES_ACTION.CUSTOMER
     },
     {

@@ -401,13 +401,7 @@ export class Customize extends React.Component<IProps> {
     };
 
     render() {
-        const {
-            navigation,
-            locale,
-            type,
-            isLoading,
-            formValues
-        } = this.props;
+        const { navigation, locale, type, isLoading, formValues } = this.props;
 
         const { data } = this.state;
         const showTextAreaField =

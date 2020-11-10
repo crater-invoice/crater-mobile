@@ -179,20 +179,39 @@ export const getNotes = payload => ({
     type: TYPES.GET_NOTES,
     payload
 });
+
 export const setNotes = payload => ({
     type: TYPES.SET_NOTES,
     payload
 });
+
+export const getCreateNote = payload => ({
+    type: TYPES.GET_CREATE_NOTE,
+    payload
+});
+
 export const createNote = payload => ({
     type: TYPES.CREATE_NOTES,
     payload
 });
+
 export const removeNote = payload => ({
     type: TYPES.REMOVE_NOTES,
     payload
 });
+
+export const getNoteDetail = payload => ({
+    type: TYPES.GET_NOTE_DETAIL,
+    payload
+});
+
 export const updateNote = payload => ({
     type: TYPES.UPDATE_NOTES,
+    payload
+});
+
+export const saveNoteFields = payload => ({
+    type: TYPES.SAVE_NOTE_FIELDS,
     payload
 });
 

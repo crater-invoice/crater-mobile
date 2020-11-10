@@ -1,13 +1,61 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import Request from '@/api/request';
-import {
-    GET_NOTES,
-    CREATE_NOTES,
-    REMOVE_NOTES,
-    UPDATE_NOTES
-} from '../../constants';
-import { setNotes, settingsTriggerSpinner as spinner } from '../../actions';
+import * as TYPES from '../../constants';
+import { CUSTOM_FIELD_TYPES, FORMAT_CUSTOMER_FIELDS } from '../../constants';
 import * as queryStrings from 'query-string';
+import { getCustomFields } from '../custom-fields';
+import { isArray } from '@/constants';
+import {
+    saveNoteFields,
+    setNotes,
+    settingsTriggerSpinner as spinner
+} from '../../actions';
+
+const getNoteFields = (fields, type = null) => {
+    const selectedFields = [];
+    const customerFields = [];
+
+    fields.map(field => {
+        if (type && field.model_type === type) {
+            selectedFields.push({
+                label: field?.label,
+                value: field.slug
+            });
+        }
+
+        if (field.model_type === CUSTOM_FIELD_TYPES.CUSTOMER) {
+            customerFields.push({
+                label: field?.label,
+                value: field.slug
+            });
+        }
+    });
+
+    const SELECTED_TYPE_FIELDS = type
+        ? {
+              label: `${type.toUpperCase()} CUSTOM`,
+              fields: [
+                  ...selectedFields,
+                  {
+                      label: `${type} Link`,
+                      value: `${type.toUpperCase()}_LINK`
+                  }
+              ]
+          }
+        : {};
+
+    const CUSTOMER_TYPE_FIELDS = {
+        label: `CUSTOMER CUSTOM`,
+        fields: customerFields
+    };
+
+    const list = [FORMAT_CUSTOMER_FIELDS];
+
+    isArray(customerFields) && list.push(CUSTOMER_TYPE_FIELDS);
+    isArray(selectedFields) && list.push(SELECTED_TYPE_FIELDS);
+
+    return list;
+};
 
 function* getNotes({ payload }: any) {
     const { fresh = true, onSuccess, queryString } = payload;
@@ -28,6 +76,28 @@ function* getNotes({ payload }: any) {
     } catch (e) {
     } finally {
     }
+}
+
+function* getCreateNote({ payload: { onSuccess } }: any) {
+    try {
+        const fields = yield call(getCustomFields, {
+            payload: {
+                queryString: { limit: 'all' },
+                returnResponse: true
+            }
+        });
+
+        if (!isArray(fields)) {
+            yield put(saveNoteFields({ noteFields: [FORMAT_CUSTOMER_FIELDS] }));
+            onSuccess?.();
+            return;
+        }
+
+        const list = getNoteFields(fields);
+
+        yield put(saveNoteFields({ noteFields: list }));
+        onSuccess?.();
+    } catch (e) {}
 }
 
 function* createNote({ payload }: any) {
@@ -73,6 +143,28 @@ function* removeNote({ payload: { id, navigation, onResult } }: any) {
     }
 }
 
+function* getNoteDetail({ payload: { type, onSuccess } }: any) {
+    try {
+        const fields = yield call(getCustomFields, {
+            payload: {
+                queryString: { limit: 'all' },
+                returnResponse: true
+            }
+        });
+
+        if (!isArray(fields)) {
+            yield put(saveNoteFields({ noteFields: [FORMAT_CUSTOMER_FIELDS] }));
+            onSuccess?.();
+            return;
+        }
+
+        const list = getNoteFields(fields, type);
+
+        yield put(saveNoteFields({ noteFields: list }));
+        onSuccess?.();
+    } catch (e) {}
+}
+
 function* editNote({ payload: { note, navigation, onResult } }: any) {
     yield put(spinner({ getNotesLoading: true }));
 
@@ -92,8 +184,10 @@ function* editNote({ payload: { note, navigation, onResult } }: any) {
 }
 
 export default function* notesSaga() {
-    yield takeEvery(GET_NOTES, getNotes);
-    yield takeEvery(CREATE_NOTES, createNote);
-    yield takeEvery(REMOVE_NOTES, removeNote);
-    yield takeEvery(UPDATE_NOTES, editNote);
+    yield takeEvery(TYPES.GET_NOTES, getNotes);
+    yield takeEvery(TYPES.GET_CREATE_NOTE, getCreateNote);
+    yield takeEvery(TYPES.CREATE_NOTES, createNote);
+    yield takeEvery(TYPES.REMOVE_NOTES, removeNote);
+    yield takeEvery(TYPES.GET_NOTE_DETAIL, getNoteDetail);
+    yield takeEvery(TYPES.UPDATE_NOTES, editNote);
 }

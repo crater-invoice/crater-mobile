@@ -1,24 +1,12 @@
-import { getError } from "@/constants";
+import { getError } from '@/constants';
 
-export const validate = (values) => {
+export const validate = values => {
     const errors = {};
     const { name, type, notes } = values;
 
-    errors.name = getError(
-        name,
-        ['requiredField'],
-        { fieldName: 'Name' },
-    );
-    errors.type = getError(
-        type,
-        ['requiredField'],
-        { fieldName: 'Type' },
-    );
-    errors.notes = getError(
-        notes,
-        ['requiredField'],
-        { fieldName: 'Notes' },
-    );
+    errors.name = getError(name, ['required']);
+    errors.type = getError(type, ['required']);
+    errors.notes = getError(notes, ['required']);
 
     return errors;
 };

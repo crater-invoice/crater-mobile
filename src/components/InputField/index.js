@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Input } from 'react-native-elements';
+import debounce from 'lodash/debounce';
 import styles from './styles';
 import { IInputField } from './type';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -18,8 +19,13 @@ export class InputFieldComponent extends Component<IInputField> {
             isSecureTextEntry: this.props.secureTextEntry,
             active: false,
             inputHeight: 0,
-            isOptionsVisible: false
+            isOptionsVisible: false,
+            autoHeight: props?.defaultHeight ? props?.defaultHeight : null
         };
+    }
+
+    componentDidMount() {
+        this.setHeight = debounce(this.setHeight, 100);
     }
 
     toggleSecureTextEntry = () => {
@@ -44,8 +50,18 @@ export class InputFieldComponent extends Component<IInputField> {
 
     saveInputHeight = event => {
         const { height } = event.nativeEvent.layout;
-
         this.setState({ inputHeight: height });
+    };
+
+    setHeight = height => {
+        const { defaultHeight } = this.props;
+
+        if (height && defaultHeight && height <= defaultHeight) {
+            this.setState({ autoHeight: defaultHeight });
+            return;
+        }
+
+        this.setState({ autoHeight: height });
     };
 
     render() {
@@ -84,7 +100,8 @@ export class InputFieldComponent extends Component<IInputField> {
             minCharacter = 0,
             isRequired = false,
             secureTextIconContainerStyle,
-            leftSymbol
+            leftSymbol,
+            autoHeight = false
         } = this.props;
         const {
             isSecureTextEntry,
@@ -131,6 +148,16 @@ export class InputFieldComponent extends Component<IInputField> {
             };
         }
 
+        let autoHeightInputProps = {};
+
+        if (autoHeight) {
+            autoHeightInputProps = {
+                onContentSizeChange: event => {
+                    this.setHeight(event?.nativeEvent?.contentSize?.height);
+                }
+            };
+        }
+
         return (
             <View
                 style={[
@@ -161,6 +188,7 @@ export class InputFieldComponent extends Component<IInputField> {
                                 textColor && { color: textColor },
                                 textStyle && textStyle,
                                 height && { height },
+                                autoHeight && { height: this.state.autoHeight },
                                 inputProps.multiline && styles.multilineField
                             ]}
                             inputContainerStyle={[
@@ -172,6 +200,7 @@ export class InputFieldComponent extends Component<IInputField> {
                                 submitFailed && error && styles.inputError
                             ]}
                             {...inputProps}
+                            {...autoHeightInputProps}
                             onChangeText={enteredValue => {
                                 onChangeText?.(enteredValue);
                                 isCurrencyInput

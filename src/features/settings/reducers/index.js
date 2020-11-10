@@ -16,7 +16,8 @@ import {
     SET_CURRENCIES,
     SET_CUSTOM_FIELDS,
     SET_LANGUAGES,
-    SET_NOTES
+    SET_NOTES,
+    SAVE_NOTE_FIELDS
 } from '../constants';
 
 const initialState = {
@@ -71,7 +72,8 @@ const initialState = {
     account: null,
     taxByItems: false,
     taxByInvoice: true,
-    taxByEstimate: false
+    taxByEstimate: false,
+    noteFields: []
 };
 
 export default function settingReducer(state = initialState, action) {
@@ -252,6 +254,9 @@ export default function settingReducer(state = initialState, action) {
                 };
             }
             return { ...state, customFields: payload.customFields };
+
+        case SAVE_NOTE_FIELDS:
+            return { ...state, noteFields: payload?.noteFields };
 
         default:
             return state;

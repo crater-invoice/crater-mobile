@@ -1,27 +1,27 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
     InputField,
     CtButton,
     DefaultLayout,
-    SelectPickerField
+    SelectPickerField,
+    PlaceholderModal
 } from '@/components';
-import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import Lng from '@/lang/i18n';
 import {
-    NOTES_FORM,
+    NOTE_FORM,
     NOTES_EDIT,
     NOTES_FIELD_MODAL_TYPES as MODAL_TYPES,
     NOTES_ADD
 } from '../../constants';
-import { alertMe, BUTTON_COLOR, MAX_LENGTH } from '@/constants';
+import { alertMe, BUTTON_COLOR, hasValue, isArray } from '@/constants';
 
 interface IProps {
     navigation: any;
     type: any;
-    onFirstTimeCreateNote: any;
     createNote: Function;
     updateNote: Function;
     getNotesLoading: Boolean;
@@ -30,28 +30,52 @@ interface IProps {
     noteId: Number;
     noteLoading: any;
     handleSubmit: Function;
+    dispatch: Function;
+    formValues: any;
+    getNoteDetail: Function;
+    getCreateNote: Function;
+    noteFields: Array<any>;
 }
 
-export class Note extends React.Component<IProps> {
+export default class Note extends React.Component<IProps> {
+    modalReference: any;
     constructor(props) {
         super(props);
-        this.state = {};
+        this.modalReference = React.createRef();
+        this.state = { isLoading: true };
     }
 
     componentDidMount() {
-        const { navigation, onFirstTimeCreateNote } = this.props;
-
-        !onFirstTimeCreateNote
-            ? goBack(MOUNT, navigation)
-            : goBack(MOUNT, navigation, { route: ROUTES.MAIN_EXPENSES });
+        const { navigation } = this.props;
+        goBack(MOUNT, navigation);
+        this.getCustomFields();
     }
 
     componentWillUnmount() {
         goBack(UNMOUNT);
     }
 
+    getCustomFields = () => {
+        const { type, getCreateNote, getNoteDetail, noteDetail } = this.props;
+
+        if (type === NOTES_ADD) {
+            getCreateNote({
+                onSuccess: () => this.setState({ isLoading: false })
+            });
+            return;
+        }
+
+        if (type === NOTES_EDIT) {
+            getNoteDetail({
+                type: noteDetail?.type,
+                onSuccess: () => this.setState({ isLoading: false })
+            });
+            return;
+        }
+    };
+
     setFormField = (field, value) => {
-        this.props.dispatch(change(NOTES_FORM, field, value));
+        this.props.dispatch(change(NOTE_FORM, field, value));
     };
 
     onSubmitNote = note => {
@@ -139,25 +163,37 @@ export class Note extends React.Component<IProps> {
         );
     };
 
+    insertField = value => {
+        const { formValues } = this.props;
+        let notes = '';
+
+        if (hasValue(formValues?.notes)) {
+            notes = `${formValues?.notes}{${value}}`;
+        } else {
+            notes = `{${value}}`;
+        }
+
+        this.setFormField('notes', notes);
+    };
+
     render() {
         const {
             navigation,
             handleSubmit,
             locale,
-            getNotesLoading,
             type,
-            onFirstTimeCreateNote
+            noteFields
         } = this.props;
+        const { isLoading } = this.state;
 
         let categoryRefs = {};
+        const hasFields = isArray(noteFields);
 
         return (
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => {
-                        !onFirstTimeCreateNote
-                            ? navigation.goBack(null)
-                            : navigation.navigate(ROUTES.MAIN_EXPENSES);
+                        navigation.goBack(null);
                     },
                     title:
                         type === NOTES_EDIT
@@ -172,7 +208,7 @@ export class Note extends React.Component<IProps> {
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
-                    is: getNotesLoading
+                    is: isLoading
                 }}
             >
                 <View style={styles.bodyContainer}>
@@ -210,27 +246,55 @@ export class Note extends React.Component<IProps> {
                         isRequired
                     />
 
+                    <View style={styles.noteContainer}>
+                        <View>
+                            <Text style={styles.noteHintStyle}>
+                                {Lng.t('notes.description', { locale })}
+                            </Text>
+                        </View>
+                        <View>
+                            {hasFields && (
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        this.modalReference?.onToggle?.();
+                                    }}
+                                >
+                                    <Text style={styles.insertFields}>
+                                        {Lng.t('notes.insertFields', {
+                                            locale
+                                        })}
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
+                        </View>
+                    </View>
+
                     <Field
                         name="notes"
                         component={InputField}
-                        hint={Lng.t('notes.description', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
                             autoCorrect: true,
-                            multiline: true,
-                            maxLength: MAX_LENGTH
+                            multiline: true
                         }}
-                        height={100}
+                        defaultHeight={120}
+                        autoHeight
                         autoCorrect={true}
                         refLinkFn={ref => {
                             categoryRefs.description = ref;
                         }}
                     />
                 </View>
+
+                {hasFields && (
+                    <PlaceholderModal
+                        reference={ref => (this.modalReference = ref)}
+                        items={noteFields}
+                        onSelect={this.insertField}
+                    />
+                )}
             </DefaultLayout>
         );
     }
 }
-
-export default Note;

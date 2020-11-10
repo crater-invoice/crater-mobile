@@ -41,3 +41,4 @@ export * from './CustomField';
 export * from './InfiniteScroll';
 export * from './FadeIn';
 export * from './ScrollView';
+export * from './PlaceholderModal';

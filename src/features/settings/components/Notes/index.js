@@ -46,12 +46,7 @@ export class Notes extends Component<IProps> {
     onSelect = note => {
         const { navigation } = this.props;
 
-        navigation.navigate(ROUTES.NOTE, {
-            type: NOTES_EDIT,
-            notesId: note.id,
-            note
-        });
-        // this.onResetFilter();
+        navigation.navigate(ROUTES.NOTE, { type: NOTES_EDIT, note });
     };
 
     onSearch = search => {

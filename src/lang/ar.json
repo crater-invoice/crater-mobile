@@ -339,7 +339,8 @@
         },
         "type": "نوع الملاحظة",
         "select": "حدد ملاحظة",
-        "insertNote": "+ أدخل ملاحظة"
+        "insertNote": "+ أدخل ملاحظة",
+        "insertFields":"+ أدخل الحقول"
     },
     "units": {
         "empty": {
