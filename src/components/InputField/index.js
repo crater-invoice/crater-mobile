@@ -61,6 +61,11 @@ export class InputFieldComponent extends Component<IInputField> {
             return;
         }
 
+        if (height >= 300) {
+            this.setState({ autoHeight: 300 });
+            return;
+        }
+
         this.setState({ autoHeight: height });
     };
 
@@ -158,6 +163,12 @@ export class InputFieldComponent extends Component<IInputField> {
             };
         }
 
+        let methods: any = {
+            ...(!inputProps?.multiline && {
+                blurOnSubmit: inputProps?.onSubmitEditing ? false : true
+            })
+        };
+
         return (
             <View
                 style={[
@@ -201,6 +212,7 @@ export class InputFieldComponent extends Component<IInputField> {
                             ]}
                             {...inputProps}
                             {...autoHeightInputProps}
+                            {...methods}
                             onChangeText={enteredValue => {
                                 onChangeText?.(enteredValue);
                                 isCurrencyInput

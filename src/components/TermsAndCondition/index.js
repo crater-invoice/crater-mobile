@@ -6,8 +6,6 @@ import { change } from 'redux-form';
 import styles from './styles';
 import { CtButton } from '../Button';
 import { AnimateModal } from '../AnimateModal';
-import { CustomizeAddresses } from '../../features/settings/components/CustomizeAddresses';
-import { CUSTOMIZE_ADDRESSES_ACTION } from '../../features/settings/constants';
 import Lng from '@/lang/i18n';
 import { BUTTON_TYPE, isIPhoneX } from '@/constants';
 
@@ -143,13 +141,6 @@ export class TermsAndCondition extends React.Component<IProps> {
         const { visible, height } = this.state;
         const { props, fieldName } = this.props;
 
-        const TERMS_CONDITION_INSERT_FIELDS = [
-            {
-                label: 'termsCondition.title',
-                value: CUSTOMIZE_ADDRESSES_ACTION.TERMS_AND_CONDITION
-            }
-        ];
-
         return (
             <AnimateModal visible={visible} onToggle={this.onToggle}>
                 <KeyboardAvoidingView
@@ -158,21 +149,6 @@ export class TermsAndCondition extends React.Component<IProps> {
                 >
                     <ScrollView keyboardShouldPersistTaps="handled">
                         <View style={styles.modalViewContainer}>
-                            <CustomizeAddresses
-                                customizeProps={props}
-                                addresses={TERMS_CONDITION_INSERT_FIELDS}
-                                addressesProps={{
-                                    insertFieldContainerStyle:
-                                        styles.insertFieldContainer,
-                                    height: height,
-                                    hintStyle: styles.label
-                                }}
-                                bodyContainerStyle={styles.bodyContainerStyle}
-                                modalProps={{
-                                    coverScreen: true
-                                }}
-                            />
-
                             {this.BOTTOM_ACTION()}
                         </View>
                     </ScrollView>

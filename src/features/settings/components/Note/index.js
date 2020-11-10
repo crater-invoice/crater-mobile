@@ -278,8 +278,7 @@ export default class Note extends React.Component<IProps> {
                             autoCorrect: true,
                             multiline: true
                         }}
-                        defaultHeight={120}
-                        autoHeight
+                        height={150}
                         autoCorrect={true}
                         refLinkFn={ref => {
                             categoryRefs.description = ref;

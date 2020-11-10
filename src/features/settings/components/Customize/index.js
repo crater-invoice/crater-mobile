@@ -13,20 +13,13 @@ import {
     Tabs,
     Toast
 } from '@/components';
-import {
-    CUSTOMIZE_FORM,
-    CUSTOMIZE_TYPE,
-    PAYMENT_TABS,
-    CUSTOMIZE_ADDRESSES,
-    TERMS_CONDITION_INSERT_FIELDS
-} from '../../constants';
+import { CUSTOMIZE_FORM, CUSTOMIZE_TYPE, PAYMENT_TABS } from '../../constants';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { PaymentModes } from './PaymentModes';
 import { Units } from './Units';
-import { CustomizeAddresses } from '../CustomizeAddresses';
 import { headerTitle } from '@/styles';
-import { hasObjectLength, MAX_LENGTH } from '@/constants';
+import { hasObjectLength } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -70,16 +63,6 @@ export class Customize extends React.Component<IProps> {
         goBack(MOUNT, navigation);
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        const { navigation } = nextProps;
-        const toastMsg = navigation.getParam('toastMsg', null);
-
-        toastMsg &&
-            setTimeout(() => {
-                navigation.setParams({ toastMsg: null });
-            }, 2500);
-    }
-
     componentWillUnmount() {
         this.state.isUpdateAutoGenerate &&
             this.props.setCustomizeSettings({ customizes: null });
@@ -91,28 +74,6 @@ export class Customize extends React.Component<IProps> {
         let params = {};
 
         switch (type) {
-            case CUSTOMIZE_TYPE.ADDRESSES:
-                if (values) {
-                    const {
-                        billing_address_format,
-                        company_address_format,
-                        shipping_address_format
-                    } = values;
-
-                    params = {
-                        billing_address_format,
-                        company_address_format,
-                        shipping_address_format,
-                        large: true,
-                        type: 'ADDRESSES'
-                    };
-                } else {
-                    params = {
-                        headerTitle: 'header.addresses'
-                    };
-                }
-                break;
-
             case CUSTOMIZE_TYPE.INVOICES:
                 if (values) {
                     const {
@@ -241,12 +202,6 @@ export class Customize extends React.Component<IProps> {
         editCustomizeSettings({ params, navigation });
     };
 
-    toggleToast = () => {
-        this.props.navigation.setParams({
-            toastMsg: 'settings.preferences.settingUpdate'
-        });
-    };
-
     BOTTOM_ACTION = () => {
         const { locale, loading, handleSubmit, type } = this.props;
         const { activeTab } = this.state;
@@ -367,51 +322,13 @@ export class Customize extends React.Component<IProps> {
         );
     };
 
-    TextAreaFieldView = (data, locale) => {
-        return (
-            <View>
-                <Field
-                    name={data.notesName}
-                    component={InputField}
-                    hint={Lng.t('invoices.notes', { locale })}
-                    inputProps={{
-                        returnKeyType: 'next',
-                        autoCapitalize: 'none',
-                        autoCorrect: true,
-                        multiline: true,
-                        maxLength: MAX_LENGTH
-                    }}
-                    height={160}
-                    autoCorrect={true}
-                />
-
-                <CustomizeAddresses
-                    customizeProps={this.props}
-                    addresses={TERMS_CONDITION_INSERT_FIELDS(
-                        data.termsConditionName
-                    )}
-                    addressesProps={{
-                        insertFieldContainerStyle: styles.insertFieldContainer,
-                        hintStyle: styles.label
-                    }}
-                    bodyContainerStyle={styles.bodyContainerStyle}
-                />
-            </View>
-        );
-    };
-
     render() {
         const { navigation, locale, type, isLoading, formValues } = this.props;
 
         const { data } = this.state;
-        const showTextAreaField =
-            type === CUSTOMIZE_TYPE.INVOICES ||
-            type === CUSTOMIZE_TYPE.ESTIMATES;
 
-        let toastMessage = navigation.getParam('toastMsg', '');
         let isItemsScreen = type === CUSTOMIZE_TYPE.ITEMS;
         let isPaymentsScreen = type === CUSTOMIZE_TYPE.PAYMENTS;
-        let isAddressScreen = type === CUSTOMIZE_TYPE.ADDRESSES;
 
         let loading = isItemsScreen
             ? !hasObjectLength(data)
@@ -434,10 +351,6 @@ export class Customize extends React.Component<IProps> {
                         placement: 'center'
                     }}
                     bottomAction={this.BOTTOM_ACTION()}
-                    toastProps={{
-                        message: Lng.t(toastMessage, { locale }),
-                        visible: toastMessage
-                    }}
                     loadingProps={{ is: loading }}
                     hideScrollView
                 >
@@ -453,25 +366,13 @@ export class Customize extends React.Component<IProps> {
                         />
                     )}
 
-                    {isAddressScreen && (
-                        <ScrollView keyboardShouldPersistTaps="handled">
-                            <CustomizeAddresses
-                                customizeProps={this.props}
-                                addresses={CUSTOMIZE_ADDRESSES()}
-                            />
-                        </ScrollView>
-                    )}
-
-                    {!isPaymentsScreen && !isItemsScreen && !isAddressScreen && (
+                    {!isPaymentsScreen && !isItemsScreen && (
                         <View style={styles.bodyContainer}>
                             <ScrollView
                                 showsVerticalScrollIndicator={false}
                                 keyboardShouldPersistTaps="handled"
                             >
                                 {this.PREFIX_FIELD(locale, data)}
-
-                                {showTextAreaField &&
-                                    this.TextAreaFieldView(data, locale)}
 
                                 {this.TOGGLE_FIELD_VIEW(locale, data)}
                             </ScrollView>

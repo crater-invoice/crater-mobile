@@ -345,13 +345,6 @@ export const CUSTOMIZE_TYPE = {
 export const CUSTOMIZES_MENU = (locale, Lng) => {
     return [
         {
-            title: Lng.t('header.addresses', { locale }),
-            fullItem: {
-                route: ROUTES.CUSTOMIZE,
-                type: CUSTOMIZE_TYPE.ADDRESSES
-            }
-        },
-        {
             title: Lng.t('header.invoices', { locale }),
             fullItem: {
                 route: ROUTES.CUSTOMIZE,
@@ -388,35 +381,6 @@ export const CUSTOMIZES_MENU = (locale, Lng) => {
     ];
 };
 
-// Customize Action
-// -----------------------------------------
-export const CUSTOMIZE_ADDRESSES_ACTION = {
-    BILLING: 'billing_address_format',
-    SHIPPING: 'shipping_address_format',
-    COMPANY: 'company_address_format',
-    CUSTOMER: 'customer_format',
-    TERMS_AND_CONDITION: 'terms_and_conditions'
-};
-
-// Customize Addresses
-// -----------------------------------------
-export const CUSTOMIZE_ADDRESSES = () => {
-    return [
-        {
-            label: 'customizes.addresses.billing',
-            value: CUSTOMIZE_ADDRESSES_ACTION.BILLING
-        },
-        {
-            label: 'customizes.addresses.shipping',
-            value: CUSTOMIZE_ADDRESSES_ACTION.SHIPPING
-        },
-        {
-            label: 'customizes.addresses.company',
-            value: CUSTOMIZE_ADDRESSES_ACTION.COMPANY
-        }
-    ];
-};
-
 // Customize Customer Fields
 // -----------------------------------------
 export const FORMAT_CUSTOMER_FIELDS = {
@@ -432,111 +396,6 @@ export const FORMAT_CUSTOMER_FIELDS = {
 
 // Customize Address Fields
 // -----------------------------------------
-export const FORMAT_ADDRESS_FIELDS = (type = '') => {
-    let isCompany = type === CUSTOMIZE_ADDRESSES_ACTION.COMPANY;
-    let isShipping = type === CUSTOMIZE_ADDRESSES_ACTION.SHIPPING;
-
-    return [
-        {
-            label: isCompany ? 'settings.company.name' : 'customers.name',
-            value: isCompany
-                ? 'COMPANY_NAME'
-                : isShipping
-                ? 'SHIPPING_ADDRESS_NAME'
-                : 'BILLING_ADDRESS_NAME'
-        },
-        {
-            label: 'customers.address.country',
-            value: isCompany
-                ? 'COMPANY_COUNTRY'
-                : isShipping
-                ? 'SHIPPING_COUNTRY'
-                : 'BILLING_COUNTRY'
-        },
-        {
-            label: 'customers.address.state',
-            value: isCompany
-                ? 'COMPANY_STATE'
-                : isShipping
-                ? 'SHIPPING_STATE'
-                : 'BILLING_STATE'
-        },
-        {
-            label: 'customers.address.city',
-            value: isCompany
-                ? 'COMPANY_CITY'
-                : isShipping
-                ? 'SHIPPING_CITY'
-                : 'BILLING_CITY'
-        },
-        {
-            label: 'customers.address.addressStreet1',
-            value: isCompany
-                ? 'COMPANY_ADDRESS_STREET_1'
-                : isShipping
-                ? 'SHIPPING_ADDRESS_STREET_1'
-                : 'BILLING_ADDRESS_STREET_1'
-        },
-        {
-            label: 'customers.address.addressStreet2',
-            value: isCompany
-                ? 'COMPANY_ADDRESS_STREET_2'
-                : isShipping
-                ? 'SHIPPING_ADDRESS_STREET_2'
-                : 'BILLING_ADDRESS_STREET_2'
-        },
-        {
-            label: 'customers.address.phone',
-            value: isCompany
-                ? 'COMPANY_PHONE'
-                : isShipping
-                ? 'SHIPPING_PHONE'
-                : 'BILLING_PHONE'
-        },
-        {
-            label: 'customers.address.zipcode',
-            value: isCompany
-                ? 'COMPANY_ZIP_CODE'
-                : isShipping
-                ? 'SHIPPING_ZIP_CODE'
-                : 'BILLING_ZIP_CODE'
-        }
-    ];
-};
-
-// Customize Address Fields View Container
-// -----------------------------------------
-export const addressFields = [
-    {
-        label: 'customers.customer',
-        fields: FORMAT_CUSTOMER_FIELDS,
-        type: CUSTOMIZE_ADDRESSES_ACTION.CUSTOMER
-    },
-    {
-        label: 'customers.billingAddress',
-        fields: FORMAT_ADDRESS_FIELDS(CUSTOMIZE_ADDRESSES_ACTION.BILLING),
-        type: CUSTOMIZE_ADDRESSES_ACTION.BILLING
-    },
-    {
-        label: 'customers.shippingAddress',
-        fields: FORMAT_ADDRESS_FIELDS(CUSTOMIZE_ADDRESSES_ACTION.SHIPPING),
-        type: CUSTOMIZE_ADDRESSES_ACTION.SHIPPING
-    },
-    {
-        label: 'customers.company',
-        fields: FORMAT_ADDRESS_FIELDS(CUSTOMIZE_ADDRESSES_ACTION.COMPANY),
-        type: CUSTOMIZE_ADDRESSES_ACTION.COMPANY
-    }
-];
-
-// Term & Condition Field
-// -----------------------------------------
-export const TERMS_CONDITION_INSERT_FIELDS = fieldName => [
-    {
-        label: 'termsCondition.title',
-        value: fieldName
-    }
-];
 
 export const PAYMENT_TABS = {
     MODE: 'MODE',

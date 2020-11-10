@@ -1,13 +1,18 @@
 // @flow
 
 import React from 'react';
-import { View, KeyboardAvoidingView, ScrollView } from 'react-native';
+import {
+    View,
+    KeyboardAvoidingView,
+    ScrollView,
+    StatusBar
+} from 'react-native';
 import { styles } from './styles';
-import { Field } from 'redux-form';
-import { InputField, CtHeader, CtDivider } from '../..';
+import { CtHeader } from '../..';
 import { Content } from '../../Content';
 import Dropdown from '../../Dropdown';
 import { ARROW_ICON } from '@/assets';
+import { isIosPlatform } from '@/constants';
 
 type IProps = {
     children?: Object,
@@ -17,7 +22,9 @@ type IProps = {
     bottomAction?: any,
     loadingProps?: Object,
     dropdownProps?: Object,
-    contentProps?: any
+    contentProps?: any,
+    hideScrollView?: boolean,
+    keyboardProps?: any
 };
 
 export const DefaultLayout = ({
@@ -28,10 +35,19 @@ export const DefaultLayout = ({
     loadingProps,
     dropdownProps,
     hideScrollView = false,
-    contentProps
+    contentProps,
+    keyboardProps
 }: IProps) => {
+    const keyboardVerticalOffset = isIosPlatform() ? 60 : 0;
+
     return (
         <View style={styles.page}>
+            <StatusBar
+                barStyle="dark-content"
+                hidden={false}
+                translucent={true}
+            />
+
             <View style={styles.headerContainer}>
                 <CtHeader
                     titleStyle={styles.headerTitleStyle}
@@ -49,8 +65,9 @@ export const DefaultLayout = ({
                 <KeyboardAvoidingView
                     style={{ flex: 1 }}
                     contentContainerStyle={{ flex: 1 }}
-                    keyboardVerticalOffset={0}
+                    keyboardVerticalOffset={keyboardVerticalOffset}
                     behavior="height"
+                    {...keyboardProps}
                 >
                     {hideScrollView ? (
                         children

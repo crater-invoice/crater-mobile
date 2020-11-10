@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Modal, TouchableOpacity, Text, StatusBar } from 'react-native';
+import { View, Modal, TouchableOpacity, Text, Keyboard } from 'react-native';
 import { Field, reset, change } from 'redux-form';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
@@ -11,7 +11,7 @@ import { colors } from '@/styles';
 import { DatePickerField } from '../DatePickerField';
 import { CtButton } from '../Button';
 import Lng from '@/lang/i18n';
-import { BUTTON_TYPE } from '@/constants';
+import { BUTTON_TYPE, isIosPlatform } from '@/constants';
 
 type IProps = {
     visible: Boolean,
@@ -31,9 +31,30 @@ export class Filter extends Component<IProps> {
         super(props);
         this.state = {
             visible: false,
-            counter: 0
+            counter: 0,
+            isKeyboardVisible: false
         };
     }
+
+    componentDidMount = () => {
+        this.keyboardDidShowListener = Keyboard?.addListener?.(
+            'keyboardDidShow',
+            () => {
+                !isIosPlatform() && this.setState({ isKeyboardVisible: true });
+            }
+        );
+        this.keyboardDidHideListener = Keyboard?.addListener?.(
+            'keyboardDidHide',
+            () => {
+                !isIosPlatform() && this.setState({ isKeyboardVisible: false });
+            }
+        );
+    };
+
+    componentWillUnmount = () => {
+        this.keyboardDidShowListener?.remove?.();
+        this.keyboardDidHideListener?.remove?.();
+    };
 
     inputField = fields => {
         return fields.map((field, index) => {
@@ -188,7 +209,7 @@ export class Filter extends Component<IProps> {
             clearFilter: { handleSubmit }
         } = this.props;
 
-        const { visible, counter } = this.state;
+        const { visible, counter, isKeyboardVisible } = this.state;
 
         return (
             <View>
@@ -216,12 +237,6 @@ export class Filter extends Component<IProps> {
                     onRequestClose={() => this.onToggleFilter()}
                     hardwareAccelerated={true}
                 >
-                    <StatusBar
-                        backgroundColor={colors.secondary}
-                        barStyle={'dark-content'}
-                        translucent={true}
-                    />
-
                     <View style={styles.modalContainer}>
                         <DefaultLayout
                             headerProps={{
@@ -238,7 +253,14 @@ export class Filter extends Component<IProps> {
                                 rightIconPress: handleSubmit(this.onSubmit),
                                 ...headerProps
                             }}
-                            bottomAction={this.BOTTOM_ACTION()}
+                            bottomAction={
+                                !isKeyboardVisible && this.BOTTOM_ACTION()
+                            }
+                            keyboardProps={{
+                                keyboardVerticalOffset: isIosPlatform()
+                                    ? 60
+                                    : 100
+                            }}
                         >
                             <View style={styles.bodyContainer}>
                                 {selectFields && this.selectField(selectFields)}

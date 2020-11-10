@@ -4,6 +4,7 @@ import ActionSheet from 'react-native-actionsheet';
 import { styles } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { colors } from '@/styles';
+import { isIosPlatform } from '@/constants';
 
 type IProps = {
     options: Array,
@@ -87,7 +88,9 @@ export default class Dropdown extends Component<IProps> {
                 {visible && (
                     <StatusBar
                         backgroundColor={colors.secondary}
-                        barStyle={'dark-content'}
+                        barStyle={
+                            isIosPlatform() ? 'dark-content' : 'light-content'
+                        }
                         translucent={true}
                     />
                 )}

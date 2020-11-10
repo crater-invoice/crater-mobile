@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { Field } from 'redux-form';
 import { styles } from './styles';
@@ -41,6 +41,12 @@ const MainLayoutComponent = ({
 
     return (
         <View style={styles.page}>
+            <StatusBar
+                barStyle="dark-content"
+                hidden={false}
+                translucent={true}
+            />
+
             <View style={styles.content}>
                 <CtHeader
                     titleStyle={styles.headerTitleStyle}
