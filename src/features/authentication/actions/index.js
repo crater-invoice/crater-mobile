@@ -11,6 +11,7 @@ import {
     SET_BOOTSTRAP,
     RESET_ID_TOKEN,
     CHECK_ENDPOINT_API,
+    RESET_AUTH_LOADERS,
 } from '../constants';
 import {
     SET_GLOBAL_BOOTSTRAP,
@@ -48,6 +49,11 @@ export const authTriggerSpinner = (payload) => ({
     type: AUTH_TRIGGER_SPINNER,
     payload,
 });
+
+export const resetAuthLoaders = (payload) => ({
+    type: RESET_AUTH_LOADERS,
+    payload
+})
 
 export const sendForgotPasswordMail = (payload) => ({
     type: SEND_FORGOT_PASSWORD_MAIL,

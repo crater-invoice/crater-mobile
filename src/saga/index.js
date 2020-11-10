@@ -12,6 +12,7 @@ import more from '../features/more/saga';
 import { store } from '../store';
 import moment from 'moment';
 import { ROUTES } from '@/navigation';
+import { resetAuthLoaders } from '@/features/authentication/actions';
 
 export default function* rootSaga() {
     yield takeEvery(REHYDRATE, function* boot() {
@@ -29,10 +30,12 @@ export default function* rootSaga() {
             const { endpointApi, endpointURL } = reduxStore.global;
 
             if (!endpointApi || !endpointURL) {
+                
                 yield put(
                     NavigationActions.navigate({ routeName: ROUTES.ENDPOINTS })
                 );
             }
+            yield put(resetAuthLoaders({}))
         }
 
         yield all([

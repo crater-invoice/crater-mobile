@@ -16,3 +16,4 @@ export const GET_BOOTSTRAP = 'auth/GET_BOOTSTRAP';
 export const SET_BOOTSTRAP = 'auth/SET_BOOTSTRAP';
 export const RESET_ID_TOKEN = 'auth/RESET_ID_TOKEN';
 export const CHECK_ENDPOINT_API = 'url/CHECK_ENDPOINT_API';
+export const RESET_AUTH_LOADERS = 'auth/RESET_AUTH_LOADERS'
