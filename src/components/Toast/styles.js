@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         borderRadius: 25,
         zIndex: 9999,
         position: 'absolute',
-        bottom: isIPhoneX() ? 70 : 50,
+        bottom: isIPhoneX() ? 130 : 100,
         left: 0,
         right: 0,
         backgroundColor: colors.veryDarkGray,

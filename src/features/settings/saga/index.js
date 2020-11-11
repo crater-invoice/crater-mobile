@@ -18,7 +18,6 @@ import {
     COMPANY_SETTINGS_TYPE,
     NOTIFICATION_MAIL_TYPE
 } from '../constants';
-
 import { ROUTES } from '@/navigation';
 
 import categories from './categories';
@@ -26,7 +25,7 @@ import taxes from './taxes';
 import modes from './modes';
 import units from './units';
 import currencies from './currencies';
-import customFields from './custom-fields';
+import customFields, { getCustomFields } from './custom-fields';
 import Request from '@/api/request';
 import preferences from './preferences';
 import General from './general';
@@ -195,6 +194,12 @@ function* getCustomizeSettings(payloadData) {
     yield put(spinner({ getCustomizeLoading: true }));
 
     try {
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { limit: 'all' }
+            }
+        });
+
         const options = {
             path: `company/settings`,
             axiosProps: {

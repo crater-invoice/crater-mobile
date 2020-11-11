@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Animated } from 'react-native';
+import { connect } from 'react-redux';
 import { styles } from './styles';
 import Lng from '@/lang/i18n';
 
@@ -8,7 +9,7 @@ interface IProps {
     containerStyle: Object;
 }
 
-export class Toast extends Component<IProps> {
+export class ToastComponent extends Component<IProps> {
     constructor() {
         super();
         this.animateOpacityValue = new Animated.Value(0);
@@ -64,3 +65,12 @@ export class Toast extends Component<IProps> {
         );
     }
 }
+
+const mapStateToProps = ({ global }) => ({
+    locale: global?.locale
+});
+
+export const Toast = connect(
+    mapStateToProps,
+    {}
+)(ToastComponent);

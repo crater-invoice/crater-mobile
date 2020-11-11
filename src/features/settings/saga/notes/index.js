@@ -1,64 +1,15 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import Request from '@/api/request';
 import * as TYPES from '../../constants';
-import { CUSTOM_FIELD_TYPES, FORMAT_CUSTOMER_FIELDS } from '../../constants';
 import * as queryStrings from 'query-string';
 import { getCustomFields } from '../custom-fields';
-import { isArray } from '@/constants';
 import {
-    saveNoteFields,
     setNotes,
     settingsTriggerSpinner as spinner,
     createFromNotes,
     removeFromNotes,
     updateFromNotes
 } from '../../actions';
-
-const getNoteFields = (fields, type = null) => {
-    const selectedFields = [];
-    const customerFields = [];
-
-    fields.map(field => {
-        if (type && field.model_type === type) {
-            selectedFields.push({
-                label: field?.label,
-                value: field.slug
-            });
-        }
-
-        if (field.model_type === CUSTOM_FIELD_TYPES.CUSTOMER) {
-            customerFields.push({
-                label: field?.label,
-                value: field.slug
-            });
-        }
-    });
-
-    const SELECTED_TYPE_FIELDS = type
-        ? {
-              label: `${type.toUpperCase()} CUSTOM`,
-              fields: [
-                  ...selectedFields,
-                  {
-                      label: `${type} Link`,
-                      value: `${type.toUpperCase()}_LINK`
-                  }
-              ]
-          }
-        : {};
-
-    const CUSTOMER_TYPE_FIELDS = {
-        label: `CUSTOMER CUSTOM`,
-        fields: customerFields
-    };
-
-    const list = [FORMAT_CUSTOMER_FIELDS];
-
-    isArray(customerFields) && list.push(CUSTOMER_TYPE_FIELDS);
-    isArray(selectedFields) && list.push(SELECTED_TYPE_FIELDS);
-
-    return list;
-};
 
 function* getNotes({ payload }: any) {
     const { fresh = true, onSuccess, queryString } = payload;
@@ -83,22 +34,12 @@ function* getNotes({ payload }: any) {
 
 function* getCreateNote({ payload: { onSuccess } }: any) {
     try {
-        const fields = yield call(getCustomFields, {
+        yield call(getCustomFields, {
             payload: {
-                queryString: { limit: 'all' },
-                returnResponse: true
+                queryString: { limit: 'all' }
             }
         });
 
-        if (!isArray(fields)) {
-            yield put(saveNoteFields({ noteFields: [FORMAT_CUSTOMER_FIELDS] }));
-            onSuccess?.();
-            return;
-        }
-
-        const list = getNoteFields(fields);
-
-        yield put(saveNoteFields({ noteFields: list }));
         onSuccess?.();
     } catch (e) {}
 }
@@ -117,7 +58,7 @@ function* createNote({ payload }: any) {
         const response = yield call([Request, 'post'], options);
 
         if (response.note) {
-            yield put(createFromNotes({ note: response.note }))
+            yield put(createFromNotes({ note: response.note }));
             navigation.goBack(null);
         }
     } catch (e) {
@@ -137,7 +78,7 @@ function* removeNote({ payload: { id, navigation, onResult } }: any) {
         const response = yield call([Request, 'delete'], options);
 
         if (response.success) {
-            yield put(removeFromNotes({ id }))
+            yield put(removeFromNotes({ id }));
             navigation.goBack(null);
         } else {
             onResult?.(response);
@@ -148,45 +89,35 @@ function* removeNote({ payload: { id, navigation, onResult } }: any) {
     }
 }
 
-function* getNoteDetail({ payload: { type, onSuccess } }: any) {
+function* getNoteDetail({ payload: { onSuccess } }: any) {
     try {
-        const fields = yield call(getCustomFields, {
+        yield call(getCustomFields, {
             payload: {
-                queryString: { limit: 'all' },
-                returnResponse: true
+                queryString: { limit: 'all' }
             }
         });
-
-        if (!isArray(fields)) {
-            yield put(saveNoteFields({ noteFields: [FORMAT_CUSTOMER_FIELDS] }));
-            onSuccess?.();
-            return;
-        }
-
-        const list = getNoteFields(fields, type);
-
-        yield put(saveNoteFields({ noteFields: list }));
         onSuccess?.();
     } catch (e) {}
 }
 
-function* editNote({ payload: { note, navigation, onResult } }: any) {
+function* editNote({ payload: { params, navigation, onSuccess } }: any) {
     yield put(spinner({ getNotesLoading: true }));
 
     try {
         const options = {
-            path: `notes/${note.id}`,
-            body: note
+            path: `notes/${params.id}`,
+            body: params
         };
 
         const response = yield call([Request, 'put'], options);
         if (response.note) {
-            yield put(updateFromNotes({ note: response.note }))
+            yield put(updateFromNotes({ note: response.note }));
             navigation.goBack();
         }
-        
-        onResult(response);
+
+        onSuccess(response);
     } catch (e) {
+        console.log({ e });
     } finally {
         yield put(spinner({ getNotesLoading: false }));
     }
