@@ -23,7 +23,8 @@ import {
     removeInvoiceItem,
     removeInvoiceItems,
     setInvoice,
-    removeFromInvoices
+    removeFromInvoices,
+    updateFromInvoices
 } from '../actions';
 import { ROUTES } from '@/navigation';
 import { alertMe } from '@/constants';
@@ -280,6 +281,11 @@ function* editInvoice({ payload }) {
                 okPress: () => navigation.goBack(null)
             });
             return;
+        }
+
+        if (response.success) {
+            yield put(updateFromInvoices({ invoice: response.invoice }))
+            navigation.goBack(null)
         }
 
         onSuccess?.(response?.invoice?.invoicePdfUrl);

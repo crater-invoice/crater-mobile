@@ -117,7 +117,6 @@ function* editNote({ payload: { params, navigation, onSuccess } }: any) {
 
         onSuccess(response);
     } catch (e) {
-        console.log({ e });
     } finally {
         yield put(spinner({ getNotesLoading: false }));
     }

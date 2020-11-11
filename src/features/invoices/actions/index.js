@@ -28,7 +28,8 @@ import {
     CREATE_RECURRING_INVOICE,
     EDIT_RECURRING_INVOICE,
     REMOVE_RECURRING_INVOICE,
-    GET_INVOICE_TEMPLATE
+    GET_INVOICE_TEMPLATE,
+    UPDATE_FROM_INVOICES
 } from '../constants';
 
 export const getInvoices = (payload = {}) => ({
@@ -144,6 +145,12 @@ export const geInvoiceTemplates = (payload = {}) => ({
     type: GET_INVOICE_TEMPLATE,
     payload
 });
+
+export const updateFromInvoices = (payload = {}) => ({
+    type: UPDATE_FROM_INVOICES,
+    payload
+});
+
 
 // Recurring Invoice Actions
 // -----------------------------------------

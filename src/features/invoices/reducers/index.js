@@ -14,7 +14,8 @@ import {
     SET_INVOICE,
     REMOVE_FROM_INVOICES,
     INVOICES_TABS,
-    SET_RECURRING_INVOICES
+    SET_RECURRING_INVOICES,
+    UPDATE_FROM_INVOICES
 } from '../constants';
 
 const initialState = {
@@ -129,6 +130,31 @@ export default function invoicesReducer(state = initialState, action) {
             }
 
             return { ...state, invoices: payload.invoices };
+        
+        case UPDATE_FROM_INVOICES: {
+            const invoiceMainData = payload.invoice
+
+            const incoicesList = []
+
+            if (state.invoices) {
+                state.invoices.map((invoice) => {
+                    const { id } = invoice
+                    let value = invoice
+
+                    if (id === invoiceMainData.id) {
+                        value = {
+                            ...invoiceMainData
+                        }
+                    }
+                    incoicesList.push(value)
+                })
+            }
+
+            return {
+                ...state,
+                invoices: incoicesList
+            }
+        }
 
         default:
             return state;

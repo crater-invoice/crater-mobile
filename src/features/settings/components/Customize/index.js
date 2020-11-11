@@ -456,7 +456,6 @@ export class Customize extends React.Component<IProps> {
 
     render() {
         const { navigation, locale, type, isLoading, formValues } = this.props;
-        console.log(formValues);
         const { data } = this.state;
 
         let isItemsScreen = type === CUSTOMIZE_TYPE.ITEMS;
