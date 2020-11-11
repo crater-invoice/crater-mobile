@@ -641,12 +641,16 @@
             "payment": "إعدادات الدفع"
         },
         "addresses": {
-            "billing": "عنوان فواتير العميل",
-            "shipping": "عنوان شحن العميل",
-            "company": "عنوان الشركة",
+            "billing": "تنسيق عنوان الفواتير",
+            "shipping": "تنسيق عنوان الشحن",
+            "company": "تنسيق عنوان الشركة",
             "insertFields": "أدخل الحقول",
             "contact": "اتصل",
-            "address": "عنوان"
+            "address": "عنوان",
+            "sendInvoiceEmailBody": "إرسال نص الفاتورة بالبريد الإلكتروني",
+            "sendEstimateEmailBody": "إرسال تقدير نص البريد الإلكتروني",
+            "sendPaymentEmailBody": "إرسال نص البريد الإلكتروني للدفع",
+            "customerAddress": "من تنسيق عنوان العميل"
         }
     },
     "filePicker": {

@@ -210,25 +210,20 @@ export const updateNote = payload => ({
     payload
 });
 
-export const saveNoteFields = payload => ({
-    type: TYPES.SAVE_NOTE_FIELDS,
-    payload
-});
-
 export const createFromNotes = payload => ({
     type: TYPES.CREATE_FROM_NOTES,
     payload
-})
+});
 
 export const removeFromNotes = payload => ({
     type: TYPES.REMOVE_FROM_NOTES,
     payload
-})
+});
 
 export const updateFromNotes = payload => ({
     type: TYPES.UPDATE_FROM_NOTES,
     payload
-})
+});
 
 // Customize Settings
 // -------------------------------------------------

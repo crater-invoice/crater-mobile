@@ -641,12 +641,16 @@
             "payment": "Payment Settings"
         },
         "addresses": {
-            "billing": "Customer Billing Address",
-            "shipping": "Customer Shipping Address",
-            "company": "Company Address",
+            "billing": "Billing Address Format",
+            "shipping": "Shipping Address Format",
+            "company": "Company Address Format",
             "insertFields": "Insert Fields",
             "contact": "CONTACT",
-            "address": "ADDRESS"
+            "address": "ADDRESS",
+            "sendInvoiceEmailBody": "Send Invoice Email Body",
+            "sendEstimateEmailBody": "Send Estimate Email Body",
+            "sendPaymentEmailBody": "Send Payment Email Body",
+            "customerAddress": "From Customer Address Format"
         }
     },
     "filePicker": {

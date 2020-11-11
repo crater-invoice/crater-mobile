@@ -1,3 +1,4 @@
+import { isArray } from '@/constants';
 import {
     SETTINGS_TRIGGER_SPINNER,
     SET_ACCOUNT_INFO,
@@ -17,7 +18,6 @@ import {
     SET_CUSTOM_FIELDS,
     SET_LANGUAGES,
     SET_NOTES,
-    SAVE_NOTE_FIELDS,
     CREATE_FROM_NOTES,
     REMOVE_FROM_NOTES,
     UPDATE_FROM_NOTES
@@ -76,7 +76,6 @@ const initialState = {
     taxByItems: false,
     taxByInvoice: true,
     taxByEstimate: false,
-    noteFields: [],
     notes: []
 };
 
@@ -259,51 +258,45 @@ export default function settingReducer(state = initialState, action) {
             }
             return { ...state, customFields: payload.customFields };
 
-        case SAVE_NOTE_FIELDS:
-            return { ...state, noteFields: payload?.noteFields };
-
         case CREATE_FROM_NOTES:
-            
             return {
                 ...state,
                 notes: [...[payload.note], ...state.notes]
-            }
+            };
 
         case REMOVE_FROM_NOTES: {
-            const noteID = payload.id
-            const filterNote = state.notes.filter(
-                (note) => note.id !== noteID
-            )
+            const noteID = payload.id;
+            const filterNote = state.notes.filter(note => note.id !== noteID);
 
             return {
                 ...state,
-                notes: filterNote,
-            }
+                notes: filterNote
+            };
         }
 
         case UPDATE_FROM_NOTES: {
-            const noteData = payload.note
+            const noteData = payload.note;
+            const notesList = [];
 
-            const notesList = []
-
-            if (state.notes) {
-                state.notes.map((note) => {
-                    const { id } = note
-                    let value = note
-
-                    if ( id === noteData.id) {
-                        value = {
-                            ...noteData
-                        }
-                    }
-                    notesList.push(value)
-                })
+            if (!isArray(state.notes)) {
+                return { ...state };
             }
+
+            state.notes.map(note => {
+                let value = note;
+
+                if (note.id === noteData.id) {
+                    value = {
+                        ...noteData
+                    };
+                }
+                notesList.push(value);
+            });
 
             return {
                 ...state,
                 notes: notesList
-            }
+            };
         }
 
         default:

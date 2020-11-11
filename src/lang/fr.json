@@ -641,12 +641,16 @@
             "payment": "Paramètres de paiement"
         },
         "addresses": {
-            "billing": "Adresse de facturation du client",
-            "shipping": "Adresse de livraison du client",
-            "company": "Adresse de la société",
+            "billing": "Format d'adresse de facturation",
+            "shipping": "Format d'adresse d'expédition",
+            "company": "Format d'adresse de l'entreprise",
             "insertFields": "Insérer des champs",
             "contact": "CONTACT",
-            "address": "ADRESSEUR"
+            "address": "ADRESSE",
+            "sendInvoiceEmailBody": "Envoyer le corps de l'e-mail de la facture",
+            "sendEstimateEmailBody": "Envoyer le corps de l'e-mail d'estimation",
+            "sendPaymentEmailBody": "Envoyer le corps de l'e-mail de paiement",
+            "customerAddress": "Du format d'adresse client"
         }
     },
     "filePicker": {

@@ -10,7 +10,7 @@ const mapStateToProps = (state, { navigation }) => {
     const {
         global: { locale },
         settings: {
-            noteFields,
+            customFields,
             loading: { getNotesLoading }
         }
     } = state;
@@ -24,7 +24,7 @@ const mapStateToProps = (state, { navigation }) => {
         locale,
         formValues: getFormValues(NOTE_FORM)(state) || {},
         noteId: noteDetail?.id,
-        noteFields,
+        customFields,
         noteDetail,
         initialValues: {
             type: NOTES_TYPE_VALUE.INVOICE,

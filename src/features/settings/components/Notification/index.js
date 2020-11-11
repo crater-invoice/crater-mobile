@@ -7,8 +7,7 @@ import {
     DefaultLayout,
     InputField,
     ToggleSwitch,
-    CtDivider,
-    Toast
+    CtDivider
 } from '@/components';
 import { Field, change } from 'redux-form';
 import Lng from '@/lang/i18n';
@@ -139,89 +138,79 @@ export class Notification extends React.Component<IProps> {
         const { invoiceStatus, estimateStatus, email } = this.state;
 
         return (
-            <>
-                <DefaultLayout
-                    headerProps={{
-                        leftIconPress: () => navigation.goBack(null),
-                        title: Lng.t('header.notifications', { locale }),
-                        placement: 'center',
-                        rightIcon: 'save',
-                        rightIconProps: {
-                            solid: true
-                        },
-                        leftIconStyle: { color: colors.dark2 },
-                        rightIconPress: handleSubmit(this.onNotificationSubmit)
-                    }}
-                    loadingProps={{
-                        is:
-                            getSettingItemLoading ||
-                            invoiceStatus === null ||
-                            estimateStatus === null ||
-                            email === null
-                    }}
-                >
-                    <View style={styles.mainContainer}>
-                        <Field
-                            name={'notification_email'}
-                            component={InputField}
-                            hint={Lng.t('settings.notifications.send', {
-                                locale
-                            })}
-                            inputProps={{
-                                returnKeyType: 'next',
-                                autoCapitalize: 'none',
-                                autoCorrect: true,
-                                keyboardType: 'email-address'
-                            }}
-                            leftIcon={'envelope'}
-                            leftIconSolid={true}
-                            isRequired
-                        />
+            <DefaultLayout
+                headerProps={{
+                    leftIconPress: () => navigation.goBack(null),
+                    title: Lng.t('header.notifications', { locale }),
+                    placement: 'center',
+                    rightIcon: 'save',
+                    rightIconProps: {
+                        solid: true
+                    },
+                    leftIconStyle: { color: colors.dark2 },
+                    rightIconPress: handleSubmit(this.onNotificationSubmit)
+                }}
+                loadingProps={{
+                    is:
+                        getSettingItemLoading ||
+                        invoiceStatus === null ||
+                        estimateStatus === null ||
+                        email === null
+                }}
+                toastProps={{
+                    reference: ref => (this.toastReference = ref)
+                }}
+            >
+                <View style={styles.mainContainer}>
+                    <Field
+                        name={'notification_email'}
+                        component={InputField}
+                        hint={Lng.t('settings.notifications.send', {
+                            locale
+                        })}
+                        inputProps={{
+                            returnKeyType: 'next',
+                            autoCapitalize: 'none',
+                            autoCorrect: true,
+                            keyboardType: 'email-address'
+                        }}
+                        leftIcon={'envelope'}
+                        leftIconSolid={true}
+                        isRequired
+                    />
 
-                        <CtDivider dividerStyle={styles.dividerLine} />
+                    <CtDivider dividerStyle={styles.dividerLine} />
 
-                        <Field
-                            name="notify_invoice_viewed"
-                            component={ToggleSwitch}
-                            status={invoiceStatus === 'YES' ? true : false}
-                            hint={Lng.t(
-                                'settings.notifications.invoiceViewed',
-                                {
-                                    locale
-                                }
-                            )}
-                            description={Lng.t(
-                                'settings.notifications.invoiceViewedDescription',
-                                { locale }
-                            )}
-                            onChangeCallback={val => this.invoiceStatus(val)}
-                        />
+                    <Field
+                        name="notify_invoice_viewed"
+                        component={ToggleSwitch}
+                        status={invoiceStatus === 'YES' ? true : false}
+                        hint={Lng.t('settings.notifications.invoiceViewed', {
+                            locale
+                        })}
+                        description={Lng.t(
+                            'settings.notifications.invoiceViewedDescription',
+                            { locale }
+                        )}
+                        onChangeCallback={val => this.invoiceStatus(val)}
+                    />
 
-                        <Field
-                            name="notify_estimate_viewed"
-                            component={ToggleSwitch}
-                            status={estimateStatus === 'YES' ? true : false}
-                            hint={Lng.t(
-                                'settings.notifications.estimateViewed',
-                                {
-                                    locale
-                                }
-                            )}
-                            description={Lng.t(
-                                'settings.notifications.estimateViewedDescription',
-                                { locale }
-                            )}
-                            onChangeCallback={val => this.estimateStatus(val)}
-                            mainContainerStyle={{ marginTop: 12 }}
-                        />
-                    </View>
-                </DefaultLayout>
-
-                <Toast
-                    reference={ref => (this.toastReference = ref)}
-                    locale={locale}
-                />
-            </>
+                    <Field
+                        name="notify_estimate_viewed"
+                        component={ToggleSwitch}
+                        status={estimateStatus === 'YES' ? true : false}
+                        hint={Lng.t('settings.notifications.estimateViewed', {
+                            locale
+                        })}
+                        description={Lng.t(
+                            'settings.notifications.estimateViewedDescription',
+                            { locale }
+                        )}
+                        onChangeCallback={val => this.estimateStatus(val)}
+                        mainContainerStyle={{ marginTop: 12 }}
+                    />
+                </View>
+            </DefaultLayout>
         );
     }
 }

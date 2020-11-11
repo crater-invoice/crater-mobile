@@ -13,6 +13,7 @@ import { Content } from '../../Content';
 import Dropdown from '../../Dropdown';
 import { ARROW_ICON } from '@/assets';
 import { isIosPlatform } from '@/constants';
+import { Toast } from '@/components';
 
 type IProps = {
     children?: Object,
@@ -24,7 +25,8 @@ type IProps = {
     dropdownProps?: Object,
     contentProps?: any,
     hideScrollView?: boolean,
-    keyboardProps?: any
+    keyboardProps?: any,
+    toastProps?: any
 };
 
 export const DefaultLayout = ({
@@ -36,7 +38,8 @@ export const DefaultLayout = ({
     dropdownProps,
     hideScrollView = false,
     contentProps,
-    keyboardProps
+    keyboardProps,
+    toastProps
 }: IProps) => {
     const keyboardVerticalOffset = isIosPlatform() ? 60 : 0;
 
@@ -82,6 +85,8 @@ export const DefaultLayout = ({
             {bottomAction && (
                 <View style={styles.bottomView}>{bottomAction}</View>
             )}
+
+            {toastProps && <Toast {...toastProps} />}
         </View>
     );
 };

@@ -99,10 +99,9 @@ export const UPDATE_NOTE = 'notes/UPDATE_NOTE';
 export const GET_NOTE_DETAIL = 'notes/GET_NOTE_DETAIL';
 export const GET_UPDATE_NOTES = 'notes/GET_UPDATE_NOTES';
 export const SAVE_NOTES = 'notes/SAVE_NOTES';
-export const SAVE_NOTE_FIELDS = 'notes/SAVE_NOTE_FIELDS';
-export const CREATE_FROM_NOTES = 'notes/CREATE_FROM_NOTES'
-export const REMOVE_FROM_NOTES = 'notes/REMOVE_FROM_NOTES'
-export const UPDATE_FROM_NOTES = 'notes/UPDATE_FROM_NOTES'
+export const CREATE_FROM_NOTES = 'notes/CREATE_FROM_NOTES';
+export const REMOVE_FROM_NOTES = 'notes/REMOVE_FROM_NOTES';
+export const UPDATE_FROM_NOTES = 'notes/UPDATE_FROM_NOTES';
 
 // Item Unit
 export const GET_ITEM_UNITS = 'units/GET_ITEM_UNITS';
@@ -375,26 +374,7 @@ export const CUSTOMIZES_MENU = (locale, Lng) => {
                 type: CUSTOMIZE_TYPE.ITEMS
             }
         }
-        // {
-        //     title: Lng.t('header.currencies', { locale }),
-        //     fullItem: {
-        //         route: ROUTES.CURRENCIES
-        //     }
-        // },
     ];
-};
-
-// Customize Customer Fields
-// -----------------------------------------
-export const FORMAT_CUSTOMER_FIELDS = {
-    label: 'CUSTOMER',
-    fields: [
-        { label: 'Display Name', value: 'CONTACT_DISPLAY_NAME' },
-        { label: 'Contact Name', value: 'PRIMARY_CONTACT_NAME' },
-        { label: 'Email', value: 'CONTACT_EMAIL' },
-        { label: 'Phone', value: 'CONTACT_PHONE' },
-        { label: 'Website', value: 'CONTACT_WEBSITE' }
-    ]
 };
 
 // Customize Address Fields
@@ -416,7 +396,17 @@ export const COMPANY_SETTINGS_TYPE = [
     'invoice_mail_body',
     'estimate_auto_generate',
     'estimate_prefix',
-    'estimate_mail_body'
+    'estimate_mail_body',
+    'invoice_billing_address_format',
+    'invoice_shipping_address_format',
+    'invoice_company_address_format',
+    'invoice_mail_body',
+    'payment_mail_body',
+    'payment_company_address_format',
+    'payment_from_customer_address_format',
+    'estimate_company_address_format',
+    'estimate_billing_address_format',
+    'estimate_shipping_address_format'
 ];
 
 export const PREFERENCES_SETTING_TYPE = [

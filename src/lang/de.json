@@ -641,12 +641,16 @@
             "payment": "Zahlungseinstellungen"
         },
         "addresses": {
-            "billing": "Rechnungsadresse des Kunden",
-            "shipping": "Lieferadresse des Kunden",
-            "company": "Firmenanschrift",
+            "billing": "Rechnungsadressformat",
+            "shipping": "Versandadressformat",
+            "company": "Firmenadressformat",
             "insertFields": "Felder einfügen",
             "contact": "KONTAKT",
-            "address": "ADRESSE"
+            "address": "ADRESSE",
+            "sendInvoiceEmailBody": "Rechnungs-E-Mail-Text senden",
+            "sendEstimateEmailBody": "Senden Sie einen geschätzten E-Mail-Text",
+            "sendPaymentEmailBody": "Zahlungs-E-Mail senden",
+            "customerAddress": "Aus dem Kundenadressformat"
         }
     },
     "filePicker": {

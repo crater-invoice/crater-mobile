@@ -13,6 +13,7 @@ const mapStateToProps = (state, { navigation }) => {
         settings: {
             customizes,
             paymentMethods,
+            customFields,
             units,
             loading: {
                 getCustomizeLoading,
@@ -37,6 +38,7 @@ const mapStateToProps = (state, { navigation }) => {
         type,
         customizes,
         paymentMethods,
+        customFields,
         units: getUnitState(units),
         isLoading,
         loading: customizeLoading,

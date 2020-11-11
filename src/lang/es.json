@@ -641,12 +641,16 @@
             "payment": "Configuraciones de pago"
         },
         "addresses": {
-            "billing": "Dirección de facturación del cliente",
-            "shipping": "Dirección de envío del cliente",
-            "company": "Dirección de la empresa",
+            "billing": "Formato de dirección de facturación",
+            "shipping": "Formato de dirección de envío",
+            "company": "Formato de dirección de la empresa",
             "insertFields": "Insertar campos",
             "contact": "CONTACTO",
-            "address": "DIRECCIÓN"
+            "address": "HABLA A",
+            "sendInvoiceEmailBody": "Enviar cuerpo de correo electrónico de factura",
+            "sendEstimateEmailBody": "Enviar cuerpo de correo electrónico estimado",
+            "sendPaymentEmailBody": "Enviar el cuerpo del correo electrónico de pago",
+            "customerAddress": "Formato de dirección de cliente"
         }
     },
     "filePicker": {
