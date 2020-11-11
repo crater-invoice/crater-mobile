@@ -2,7 +2,8 @@ import { isArray } from '@/constants';
 import {
     CUSTOMERS_TRIGGER_SPINNER,
     SET_CUSTOMERS,
-    SET_COUNTRIES
+    SET_COUNTRIES,
+    UPDATE_FROM_CUSTOMERS
 } from '../constants';
 
 const formatCustomers = customers => {
@@ -68,6 +69,30 @@ export default function customersReducer(state = initialState, action) {
 
         case CUSTOMERS_TRIGGER_SPINNER:
             return { ...state, loading: { ...payload } };
+
+        case UPDATE_FROM_CUSTOMERS: {
+            const customerData = formatCustomers([payload.customer])[0]
+            const customersDataList = []
+
+            if (state.customers) {
+                state.customers.map((customer) => {
+                    const { id } = customer.fullItem
+                    let value = customer
+
+                    if (id === payload.customer.id) {
+                        value = {
+                            ...customerData
+                        }
+                    }
+                    customersDataList.push(value)
+                })
+            }
+
+            return {
+                ...state,
+                customers: customersDataList
+            }
+        }
 
         default:
             return state;

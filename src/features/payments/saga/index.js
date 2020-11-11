@@ -9,7 +9,10 @@ import { getCustomFields } from '@/features/settings/saga/custom-fields';
 import {
     paymentTriggerSpinner as spinner,
     saveUnpaidInvoices,
-    setPayments
+    setPayments,
+    createFromPayment,
+    updateFromPayment,
+    removeFromPayment
 } from '../actions';
 import {
     getNextNumber,
@@ -76,6 +79,10 @@ function* createPayment({ payload }) {
         if (response?.data?.errors) {
             submissionError?.(response?.data?.errors);
             return;
+        }
+
+        if (response.success) {
+            yield put(createFromPayment({ payment: response.payment }))
         }
 
         if (!response.success) {
@@ -154,6 +161,10 @@ function* updatePayment({ payload }) {
             return;
         }
 
+        if (response.success) {
+            yield put(updateFromPayment({ payment: response.payment }))
+        }
+
         if (!response.success) {
             alertMe({
                 desc: getTitleByLanguage('validation.wrong'),
@@ -181,6 +192,7 @@ function* removePayment({ payload: { id, navigation } }) {
         const response = yield call([Request, 'post'], options);
 
         if (response.success) {
+            yield put(removeFromPayment({ id }))
             navigation.goBack(null);
         }
     } catch (e) {

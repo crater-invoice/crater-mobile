@@ -24,6 +24,8 @@ export const GET_CUSTOMER_DETAIL = 'customers/GET_CUSTOMER_DETAIL';
 export const CUSTOMERS_TRIGGER_SPINNER = 'customers/CUSTOMERS_TRIGGER_SPINNER';
 export const REMOVE_CUSTOMER = 'customers/REMOVE_CUSTOMER';
 
+export const UPDATE_FROM_CUSTOMERS = 'customers/UPDATE_FROM_CUSTOMERS'
+
 // Address Country
 // -----------------------------------------
 export const GET_COUNTRIES = 'address/GET_COUNTRIES';

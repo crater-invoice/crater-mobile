@@ -25,6 +25,10 @@ export const SEND_PAYMENT_RECEIPT = 'payments/SEND_PAYMENT_RECEIPT';
 export const GET_UNPAID_INVOICES = 'payments/GET_UNPAID_INVOICES';
 export const SAVE_UNPAID_INVOICES = 'payments/SAVE_UNPAID_INVOICES';
 
+export const CREATE_FROM_PAYMENTS = 'payments/CREATE_FROM_PAYMENTS'
+export const REMOVE_FROM_PAYMENTS = 'payments/REMOVE_FROM_PAYMENTS'
+export const UPDATE_FROM_PAYMENTS = 'payments/UPDATE_FROM_PAYMENTS'
+
 export const ACTIONS_VALUE = {
     SEND: 'send',
     REMOVE: 'remove'

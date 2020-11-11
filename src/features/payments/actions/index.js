@@ -9,7 +9,10 @@ import {
     UPDATE_PAYMENT,
     REMOVE_PAYMENT,
     SEND_PAYMENT_RECEIPT,
-    SAVE_UNPAID_INVOICES
+    SAVE_UNPAID_INVOICES,
+    CREATE_FROM_PAYMENTS,
+    UPDATE_FROM_PAYMENTS,
+    REMOVE_FROM_PAYMENTS
 } from '../constants';
 
 export const getPayments = (payload = {}) => ({
@@ -64,5 +67,20 @@ export const getUnpaidInvoices = (payload = {}) => ({
 
 export const saveUnpaidInvoices = (payload = {}) => ({
     type: SAVE_UNPAID_INVOICES,
+    payload
+});
+
+export const createFromPayment = (payload = {}) => ({
+    type: CREATE_FROM_PAYMENTS,
+    payload
+});
+
+export const updateFromPayment = (payload = {}) => ({
+    type: UPDATE_FROM_PAYMENTS,
+    payload
+});
+
+export const removeFromPayment = (payload = {}) => ({
+    type: REMOVE_FROM_PAYMENTS,
     payload
 });

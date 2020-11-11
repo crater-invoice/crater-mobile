@@ -8,7 +8,8 @@ import {
     UPDATE_CUSTOMER,
     GET_CUSTOMER_DETAIL,
     REMOVE_CUSTOMER,
-    GET_CREATE_CUSTOMER
+    GET_CREATE_CUSTOMER,
+    UPDATE_FROM_CUSTOMERS
 } from '../constants';
 
 export const getCustomers = (payload = {}) => ({
@@ -48,6 +49,11 @@ export const getCustomerDetail = (payload = {}) => ({
 
 export const removeCustomer = (payload = {}) => ({
     type: REMOVE_CUSTOMER,
+    payload
+});
+
+export const updateFromCustomers = (payload = {}) => ({
+    type: UPDATE_FROM_CUSTOMERS,
     payload
 });
 
