@@ -25,7 +25,7 @@ import { Linking } from 'expo';
 import QueryString from 'qs';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { headerTitle } from '@/styles';
-import { DATE_FORMAT } from '@/constants';
+import { REPORT_DATE_FORMAT } from '@/constants';
 import { store } from '@/store';
 
 type IProps = {
@@ -84,7 +84,7 @@ export class Report extends React.Component<IProps> {
         type === 'startOf' && this.setState({ displayFromDate: date })
         type === 'endOf' && this.setState({ displayToDate: date })
 
-        return date.format(DATE_FORMAT)
+        return date.format(REPORT_DATE_FORMAT)
     }
 
     getPreDate = (type, time) => {
@@ -93,7 +93,7 @@ export class Report extends React.Component<IProps> {
         type === 'startOf' && this.setState({ displayFromDate: date })
         type === 'endOf' && this.setState({ displayToDate: date })
 
-        return date.format(DATE_FORMAT)
+        return date.format(REPORT_DATE_FORMAT)
     }
 
     getCurrentFiscalDate = (type, time) => {
@@ -110,7 +110,7 @@ export class Report extends React.Component<IProps> {
             date = date.month(secondMonth).add(time, 1)[type]('month')
             this.setState({ displayToDate: date })
         }
-        return date.format(DATE_FORMAT)
+        return date.format(REPORT_DATE_FORMAT)
     }
 
     getPreFiscalDate = (type, time) => {
@@ -130,7 +130,7 @@ export class Report extends React.Component<IProps> {
             this.setState({ displayToDate: date })
         }
 
-        return date.format(DATE_FORMAT)
+        return date.format(REPORT_DATE_FORMAT)
     }
 
     onDateRangeChange = (val) => {
@@ -139,9 +139,9 @@ export class Report extends React.Component<IProps> {
         switch (val) {
             case DATE_RANGE.TODAY:
                 const displayDate = moment()
-                this.setFormField('from_date', displayDate.format(DATE_FORMAT))
+                this.setFormField('from_date', displayDate.format(REPORT_DATE_FORMAT))
                 this.setState({ displayFromDate: displayDate })
-                this.setFormField('to_date', displayDate.format(DATE_FORMAT))
+                this.setFormField('to_date', displayDate.format(REPORT_DATE_FORMAT))
                 this.setState({ displayToDate: displayDate })
                 break;
 
@@ -308,6 +308,7 @@ export class Report extends React.Component<IProps> {
                                 isRequired
                                 displayValue={displayFromDate}
                                 label={Lng.t("reports.fromDate", { locale })}
+                                formDateFormat={REPORT_DATE_FORMAT}
                                 onChangeCallback={(val) => {
                                     this.setFormField('date_range', 'custom')
                                     this.setState({ displayFromDate: '' })
@@ -321,6 +322,7 @@ export class Report extends React.Component<IProps> {
                                 isRequired
                                 displayValue={displayToDate}
                                 label={Lng.t("reports.toDate", { locale })}
+                                formDateFormat={REPORT_DATE_FORMAT}
                                 onChangeCallback={(val) => {
                                     this.setFormField('date_range', 'custom')
                                     this.setState({ displayToDate: '' })
