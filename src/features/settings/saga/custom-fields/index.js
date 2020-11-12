@@ -1,7 +1,10 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import {
     settingsTriggerSpinner as spinner,
-    setCustomFields
+    setCustomFields,
+    createFromCustomFields,
+    updateFromCustomFields,
+    removeFromCustomFields
 } from '../../actions';
 import * as queryStrings from 'query-string';
 import Request from '@/api/request';
@@ -56,7 +59,10 @@ function* createCustomField({ payload: { params, navigation } }) {
         const response = yield call([Request, 'post'], options);
 
         if (response.success) {
-            navigation.navigate(ROUTES.CUSTOM_FIELDS);
+            yield put(
+                createFromCustomFields({ customField: response.customField })
+            );
+            navigation.goBack(null);
         }
     } catch (e) {
     } finally {
@@ -93,8 +99,10 @@ function* editCustomField({ payload: { id, params, navigation } }) {
         const response = yield call([Request, 'put'], options);
 
         if (response.success) {
-            navigation.navigate(ROUTES.CUSTOM_FIELDS);
-            return;
+            yield put(
+                updateFromCustomFields({ customField: response.customField })
+            );
+            navigation.goBack(null);
         }
 
         if (response?.error === 'values_attached') {
@@ -117,8 +125,8 @@ function* removeCustomField({ payload: { id, navigation } }) {
         const response = yield call([Request, 'delete'], options);
 
         if (response.success) {
-            navigation.navigate(ROUTES.CUSTOM_FIELDS);
-            return;
+            yield put(removeFromCustomFields({ id }));
+            navigation.goBack(null);
         }
 
         if (response?.error === 'values_attached') {

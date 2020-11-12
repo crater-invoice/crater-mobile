@@ -129,6 +129,10 @@ export const GET_CUSTOM_FIELD = 'custom-field/GET_CUSTOM_FIELD';
 export const EDIT_CUSTOM_FIELD = 'custom-field/EDIT_CUSTOM_FIELD';
 export const REMOVE_CUSTOM_FIELD = 'custom-field/REMOVE_CUSTOM_FIELD';
 
+export const CREATE_FROM_CUSTOM_FIELDS = 'custom-field/CREATE_FROM_CUSTOM_FIELDS'
+export const REMOVE_FROM_CUSTOM_FIELDS = 'custom-field/REMOVE_FROM_CUSTOM_FIELDS'
+export const UPDATE_FROM_CUSTOM_FIELDS = 'custom-field/UPDATE_FROM_CUSTOM_FIELDS'
+
 // Taxes
 export const GET_TAXES = 'taxes/GET_TAXES';
 export const SET_TAXES = 'taxes/SET_TAXES';

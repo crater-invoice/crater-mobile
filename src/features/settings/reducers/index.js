@@ -20,7 +20,10 @@ import {
     SET_NOTES,
     CREATE_FROM_NOTES,
     REMOVE_FROM_NOTES,
-    UPDATE_FROM_NOTES
+    UPDATE_FROM_NOTES,
+    CREATE_FROM_CUSTOM_FIELDS,
+    REMOVE_FROM_CUSTOM_FIELDS,
+    UPDATE_FROM_CUSTOM_FIELDS
 } from '../constants';
 
 const initialState = {
@@ -296,6 +299,49 @@ export default function settingReducer(state = initialState, action) {
             return {
                 ...state,
                 notes: notesList
+            };
+        }
+
+        case CREATE_FROM_CUSTOM_FIELDS:
+            return {
+                ...state,
+                customFields: [...[payload.customField], ...state.customFields]
+            };
+
+        case REMOVE_FROM_CUSTOM_FIELDS: {
+            const customFieldID = payload.id;
+
+            const filterCustomField = state.customFields.filter(
+                customField => customField.id !== customFieldID
+            );
+
+            return {
+                ...state,
+                customFields: filterCustomField
+            };
+        }
+
+        case UPDATE_FROM_CUSTOM_FIELDS: {
+            const customFieldData = payload.customField;
+            const customFieldsList = [];
+
+            if (state.customFields) {
+                state.customFields.map(customfield => {
+                    const { id } = customfield;
+                    let value = customfield;
+
+                    if (id === customFieldData.id) {
+                        value = {
+                            ...customFieldData
+                        };
+                    }
+                    customFieldsList.push(value);
+                });
+            }
+
+            return {
+                ...state,
+                customFields: customFieldsList
             };
         }
 

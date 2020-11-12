@@ -24,7 +24,8 @@ import {
     REMOVE_ESTIMATE,
     REMOVE_FROM_ESTIMATES,
     CHANGE_ESTIMATE_STATUS,
-    GET_ESTIMATE_TEMPLATE
+    GET_ESTIMATE_TEMPLATE,
+    UPDATE_FROM_ESTIMATES
 } from '../constants';
 
 export const getEstimates = (payload = {}) => ({
@@ -148,5 +149,10 @@ export const changeEstimateStatus = (payload = {}) => ({
 
 export const geEstimateTemplates = (payload = {}) => ({
     type: GET_ESTIMATE_TEMPLATE,
+    payload
+});
+
+export const updateFromEstimates = (payload = {}) => ({
+    type: UPDATE_FROM_ESTIMATES,
     payload
 });

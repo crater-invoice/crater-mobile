@@ -365,6 +365,21 @@ export const removeCustomField = (payload = {}) => ({
     payload
 });
 
+export const createFromCustomFields = (payload = {}) => ({
+    type: TYPES.CREATE_FROM_CUSTOM_FIELDS,
+    payload
+});
+
+export const updateFromCustomFields = (payload = {}) => ({
+    type: TYPES.UPDATE_FROM_CUSTOM_FIELDS,
+    payload
+});
+
+export const removeFromCustomFields = (payload = {}) => ({
+    type: TYPES.REMOVE_FROM_CUSTOM_FIELDS,
+    payload
+});
+
 // General Settings
 
 export const getGeneralSetting = (payload = {}) => ({

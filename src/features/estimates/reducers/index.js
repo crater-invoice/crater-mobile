@@ -11,7 +11,8 @@ import {
     REMOVE_ESTIMATE_ITEMS,
     CLEAR_ESTIMATE,
     SET_ESTIMATE,
-    REMOVE_FROM_ESTIMATES
+    REMOVE_FROM_ESTIMATES,
+    UPDATE_FROM_ESTIMATES
 } from '../constants';
 
 const initialState = {
@@ -120,6 +121,30 @@ export default function estimatesReducer(state = initialState, action) {
 
         case GET_ITEMS:
             return { ...state };
+
+        case UPDATE_FROM_ESTIMATES: {
+            const estimateMainData = payload.estimate;
+            const estimatesList = [];
+
+            if (state.estimates) {
+                state.estimates.map(estimate => {
+                    const { id } = estimate;
+                    let value = estimate;
+
+                    if (id === estimateMainData.id) {
+                        value = {
+                            ...estimateMainData
+                        };
+                    }
+                    estimatesList.push(value);
+                });
+            }
+
+            return {
+                ...state,
+                estimates: estimatesList
+            };
+        }
 
         default:
             return state;

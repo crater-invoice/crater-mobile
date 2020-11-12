@@ -37,6 +37,8 @@ export const REMOVE_ESTIMATE = 'estimate/REMOVE_ESTIMATE';
 export const REMOVE_FROM_ESTIMATES = 'estimate/REMOVE_FROM_ESTIMATES';
 export const CHANGE_ESTIMATE_STATUS = 'estimate/CHANGE_ESTIMATE_STATUS';
 export const GET_ESTIMATE_TEMPLATE = 'estimate/GET_ESTIMATE_TEMPLATE';
+
+export const UPDATE_FROM_ESTIMATES = 'estimate/UPDATE_FROM_ESTIMATES';
 // Items
 // -----------------------------------------
 export const SET_EDIT_ESTIMATE_ITEMS = 'estimate/SET_EDIT_ESTIMATE_ITEMS';

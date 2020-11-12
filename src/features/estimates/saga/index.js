@@ -24,7 +24,8 @@ import {
     removeEstimateItem,
     removeEstimateItems,
     setEstimate,
-    removeFromEstimates
+    removeFromEstimates,
+    updateFromEstimates
 } from '../actions';
 import { setInvoices } from '../../invoices/actions';
 import { ROUTES } from '@/navigation';
@@ -287,6 +288,10 @@ function* editEstimate({ payload }) {
                 okPress: () => navigation.goBack(null)
             });
             return;
+        }
+
+        if (response.estimate) {
+            yield put(updateFromEstimates({ estimate: response.estimate }));
         }
 
         onSuccess?.(response?.estimate?.estimatePdfUrl);

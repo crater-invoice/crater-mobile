@@ -82,7 +82,7 @@ function* createPayment({ payload }) {
         }
 
         if (response.success) {
-            yield put(createFromPayment({ payment: response.payment }))
+            yield put(createFromPayment({ payment: response.payment }));
         }
 
         if (!response.success) {
@@ -162,7 +162,7 @@ function* updatePayment({ payload }) {
         }
 
         if (response.success) {
-            yield put(updateFromPayment({ payment: response.payment }))
+            yield put(updateFromPayment({ payment: response.payment }));
         }
 
         if (!response.success) {
@@ -192,7 +192,7 @@ function* removePayment({ payload: { id, navigation } }) {
         const response = yield call([Request, 'post'], options);
 
         if (response.success) {
-            yield put(removeFromPayment({ id }))
+            yield put(removeFromPayment({ id }));
             navigation.goBack(null);
         }
     } catch (e) {
