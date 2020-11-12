@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Field } from 'redux-form';
+import { Field, SubmissionError } from 'redux-form';
 import styles from './styles';
 import {
     InputField,
@@ -12,7 +12,7 @@ import {
 } from '@/components';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import Lng from '@/lang/i18n';
-import { alertMe, BUTTON_COLOR } from '@/constants';
+import { alertMe, BUTTON_COLOR, hasTextLength, hasValue } from '@/constants';
 import {
     NOTES_EDIT,
     NOTES_FIELD_MODAL_TYPES as MODAL_TYPES,
@@ -76,6 +76,12 @@ export default class Note extends React.Component<IProps> {
 
         if (this.state.isLoading) {
             return;
+        }
+
+        if (!hasValue(note?.notes) || !hasTextLength(note?.notes)) {
+            throw new SubmissionError({
+                notes: 'validation.required'
+            });
         }
 
         const params = {
@@ -212,12 +218,14 @@ export default class Note extends React.Component<IProps> {
                         }}
                         isRequired
                     />
+
                     <Editor
                         {...this.props}
                         types={types}
                         name="notes"
                         label="notes.description"
                         isRequired
+                        showPreview={isEditScreen}
                     />
                 </View>
             </DefaultLayout>

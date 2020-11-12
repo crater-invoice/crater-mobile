@@ -64,25 +64,8 @@ export default styles = StyleSheet.create({
         textAlign: 'left'
     },
     label: {
-        paddingBottom: 4,
+        paddingBottom: -1,
         paddingTop: 12
-    },
-    termsEditText: {
-        color: colors.primary
-    },
-    insertNote: {
-        color: colors.primary,
-        fontFamily: fonts.poppins,
-        fontSize: 16,
-        paddingBottom: 6,
-        textAlign: 'left'
-    },
-    noteContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: 10,
-        marginBottom: -12
     },
     required: {
         color: colors.danger

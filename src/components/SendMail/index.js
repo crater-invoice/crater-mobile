@@ -3,16 +3,23 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { reduxForm, Field, change, SubmissionError } from 'redux-form';
+import {
+    reduxForm,
+    Field,
+    change,
+    SubmissionError,
+    getFormValues
+} from 'redux-form';
 import styles from './styles';
 import { validate } from './validation';
 import { SlideModal } from '../SlideModal';
 import { InputField } from '../InputField';
 import { CtButton } from '../Button';
 import Lng from '@/lang/i18n';
-import { alertMe, hasObjectLength, hasValue } from '@/constants';
+import { alertMe, hasObjectLength, hasTextLength, hasValue } from '@/constants';
 import { getMailConfiguration } from '../../features/more/actions';
 import { Content } from '../Content';
+import { Editor } from '../Editor';
 
 type IProps = {
     handleSubmit: Function,
@@ -90,7 +97,10 @@ class SendMailComponent extends Component<IProps> {
             errors[emailField.subject] = 'validation.required';
         }
 
-        if (!hasValue(values?.[emailField.msg])) {
+        if (
+            !hasValue(values?.[emailField.msg]) ||
+            !hasTextLength(values?.[emailField.msg])
+        ) {
             errors[emailField.msg] = 'validation.required';
         }
 
@@ -104,15 +114,17 @@ class SendMailComponent extends Component<IProps> {
     };
 
     getConfig = () => {
-        const { getMailConfiguration, user } = this.props;
+        const { getMailConfiguration, user, body } = this.props;
         const { getMailConfigApiCalled } = this.state;
 
         if (!getMailConfigApiCalled) {
             getMailConfiguration({
-                onSuccess: ({ from_mail }) => {
+                body,
+                onSuccess: ({ from_mail, emailBody }) => {
                     this.setState({ getMailConfigApiCalled: true });
                     this.setFormField(emailField.from, from_mail);
                     this.setFormField(emailField.to, user?.email);
+                    this.setFormField(emailField.msg, emailBody);
                 }
             });
         }
@@ -136,7 +148,8 @@ class SendMailComponent extends Component<IProps> {
         );
     };
 
-    Screen = locale => {
+    Screen = () => {
+        const { locale } = this.props;
         let mailRefs = {};
 
         return (
@@ -176,33 +189,30 @@ class SendMailComponent extends Component<IProps> {
                     hint={Lng.t('sendMail.subject', { locale })}
                     inputProps={{
                         returnKeyType: 'next',
-                        autoCorrect: true,
-                        onSubmitEditing: () => mailRefs.text.focus()
+                        autoCorrect: true
                     }}
                     refLinkFn={ref => (mailRefs.subject = ref)}
                     isRequired
                 />
 
-                <Field
+                <Editor
+                    {...this.props}
                     name={emailField.msg}
-                    component={InputField}
-                    hint={Lng.t('sendMail.body', { locale })}
-                    inputProps={{
-                        returnKeyType: 'next',
-                        autoCapitalize: 'none',
-                        autoCorrect: true,
-                        multiline: true
-                    }}
-                    height={170}
-                    refLinkFn={ref => (mailRefs.text = ref)}
+                    label={'sendMail.body'}
                     isRequired
+                    showPreview
                 />
             </>
         );
     };
 
     render() {
-        const { handleSubmit, headerTitle = '', locale } = this.props;
+        const {
+            handleSubmit,
+            headerTitle = '',
+            locale,
+            formValues
+        } = this.props;
         const { visible, getMailConfigApiCalled } = this.state;
 
         return (
@@ -224,20 +234,25 @@ class SendMailComponent extends Component<IProps> {
             >
                 <Content
                     loadingProps={{
-                        is: !getMailConfigApiCalled,
+                        is:
+                            !hasObjectLength(formValues) ||
+                            !getMailConfigApiCalled,
                         style: styles.loadingContainer
                     }}
                 >
-                    {this.Screen(locale)}
+                    {this.Screen()}
                 </Content>
             </SlideModal>
         );
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale
-});
+const mapStateToProps = state => {
+    return {
+        locale: state?.global?.locale,
+        formValues: getFormValues(MAIL_FORM)(state) || {}
+    };
+};
 
 const mapDispatchToProps = {
     getMailConfiguration

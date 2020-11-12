@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { Field, change, SubmissionError } from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
@@ -31,15 +31,9 @@ import {
     ACTIONS_VALUE,
     PAYMENT_FIELDS as FIELDS
 } from '../../constants';
-import {
-    alertMe,
-    DATE_FORMAT,
-    hasObjectLength,
-    isArray,
-    MAX_LENGTH
-} from '@/constants';
-import { formatNotesType, getApiFormattedCustomFields } from '@/utils';
-import { NOTES_TYPE_VALUE as NOTES_TYPE } from '@/features/settings/constants';
+import { alertMe, DATE_FORMAT, hasObjectLength, isArray } from '@/constants';
+import { getApiFormattedCustomFields } from '@/utils';
+import Notes from './notes';
 
 type IProps = {
     navigation: Object,
@@ -376,8 +370,6 @@ export class Payment extends React.Component<IProps> {
             unPaidInvoices,
             sendPaymentReceipt,
             id,
-            getNotes,
-            notes,
             customFields
         } = this.props;
 
@@ -420,6 +412,7 @@ export class Payment extends React.Component<IProps> {
                             headerTitle={'header.sendMailPayment'}
                             alertDesc={'payments.alert.sendPayment'}
                             user={formValues?.payment?.user}
+                            body="payment_mail_body"
                             onSendMail={params => {
                                 sendPaymentReceipt({
                                     params: { ...params, id },
@@ -562,71 +555,10 @@ export class Payment extends React.Component<IProps> {
                         emptyContentProps={{ contentType: 'paymentMode' }}
                     />
 
-                    <View style={styles.noteContainer}>
-                        <View>
-                            <Text style={styles.noteHintStyle}>
-                                {Lng.t('payments.notes', { locale })}
-                            </Text>
-                        </View>
-                        <View>
-                            <Field
-                                name="add_notes"
-                                items={formatNotesType(notes)}
-                                apiSearch
-                                hasPagination
-                                getItems={getNotes}
-                                onlyPlaceholder
-                                component={SelectField}
-                                navigation={navigation}
-                                onSelect={item => {
-                                    this.setFormField(
-                                        `payment.${FIELDS.NOTES}`,
-                                        item.notes
-                                    );
-                                }}
-                                headerProps={{
-                                    title: Lng.t('notes.select', { locale }),
-                                    rightIcon: null
-                                }}
-                                emptyContentProps={{
-                                    contentType: 'notes'
-                                }}
-                                reference={ref => (this.notesReference = ref)}
-                                customView={
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            this.notesReference?.onToggle?.();
-                                        }}
-                                    >
-                                        <Text style={styles.insertNote}>
-                                            {Lng.t('notes.insertNote', {
-                                                locale
-                                            })}
-                                        </Text>
-                                    </TouchableOpacity>
-                                }
-                                queryString={{
-                                    type: NOTES_TYPE.PAYMENT
-                                }}
-                            />
-                        </View>
-                    </View>
-
-                    <Field
-                        name={`payment.${FIELDS.NOTES}`}
-                        component={InputField}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            placeholder: Lng.t('payments.notesPlaceholder', {
-                                locale
-                            }),
-                            autoCorrect: true,
-                            multiline: true,
-                            maxLength: MAX_LENGTH
-                        }}
-                        height={80}
-                        autoCorrect={true}
+                    <Notes
+                        {...this.props}
+                        isEditPayment={isEditPayment}
+                        setFormField={this.setFormField}
                     />
 
                     {isArray(customFields) && (

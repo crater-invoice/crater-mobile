@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, Text, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, Linking } from 'react-native';
 import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
 import {
@@ -45,9 +45,9 @@ import {
     estimateCompoundTax
 } from '../EstimateCalculation';
 import FinalAmount from '../FinalAmount';
-import { alertMe, BUTTON_TYPE, isArray, MAX_LENGTH } from '@/constants';
-import { formatNotesType, getApiFormattedCustomFields } from '@/utils';
-import { NOTES_TYPE_VALUE as NOTES_TYPE } from '@/features/settings/constants';
+import { alertMe, BUTTON_TYPE, isArray } from '@/constants';
+import { getApiFormattedCustomFields } from '@/utils';
+import Notes from './notes';
 
 type IProps = {
     navigation: Object,
@@ -517,8 +517,6 @@ export class Estimate extends React.Component<IProps> {
             formValues,
             changeEstimateStatus,
             id,
-            notes,
-            getNotes,
             customFields
         } = this.props;
 
@@ -586,6 +584,7 @@ export class Estimate extends React.Component<IProps> {
                             headerTitle={'header.sendMailEstimate'}
                             alertDesc={'estimates.alert.sendEstimate'}
                             user={formValues?.customer}
+                            body="estimate_mail_body"
                             onSendMail={params =>
                                 changeEstimateStatus?.({
                                     id,
@@ -764,68 +763,10 @@ export class Estimate extends React.Component<IProps> {
                         }}
                     />
 
-                    <View style={styles.noteContainer}>
-                        <View>
-                            <Text style={styles.noteHintStyle}>
-                                {Lng.t('estimates.notes', { locale })}
-                            </Text>
-                        </View>
-                        <View>
-                            <Field
-                                name="add_notes"
-                                items={formatNotesType(notes)}
-                                apiSearch
-                                hasPagination
-                                getItems={getNotes}
-                                onlyPlaceholder
-                                component={SelectField}
-                                navigation={navigation}
-                                onSelect={item => {
-                                    this.setFormField(`notes`, item.notes);
-                                }}
-                                headerProps={{
-                                    title: Lng.t('notes.select', { locale }),
-                                    rightIcon: null
-                                }}
-                                emptyContentProps={{
-                                    contentType: 'notes'
-                                }}
-                                reference={ref => (this.notesReference = ref)}
-                                customView={
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            this.notesReference?.onToggle?.();
-                                        }}
-                                    >
-                                        <Text style={styles.insertNote}>
-                                            {Lng.t('notes.insertNote', {
-                                                locale
-                                            })}
-                                        </Text>
-                                    </TouchableOpacity>
-                                }
-                                queryString={{
-                                    type: NOTES_TYPE.ESTIMATE
-                                }}
-                            />
-                        </View>
-                    </View>
-
-                    <Field
-                        name="notes"
-                        component={InputField}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            placeholder: Lng.t('estimates.notePlaceholder', {
-                                locale
-                            }),
-                            autoCorrect: true,
-                            multiline: true,
-                            maxLength: MAX_LENGTH
-                        }}
-                        height={80}
-                        hintStyle={styles.noteHintStyle}
-                        autoCorrect={true}
+                    <Notes
+                        {...this.props}
+                        isEditEstimate={isEditEstimate}
+                        setFormField={this.setFormField}
                     />
 
                     <Field

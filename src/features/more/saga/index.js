@@ -14,6 +14,7 @@ import {
     REMOVE_ITEM,
     GET_MAIL_CONFIGURATION
 } from '../constants';
+import { getSettingInfo } from '@/features/settings/saga/general';
 
 function* logout({ payload: { navigation } }) {
     yield put(moreTriggerSpinner({ logoutLoading: true }));
@@ -137,13 +138,19 @@ function* removeItem({ payload: { id, onResult } }) {
     }
 }
 
-function* getMailConfiguration({ payload: { onSuccess } }) {
+function* getMailConfiguration({ payload: { body, onSuccess } }) {
     try {
         const options = { path: 'mail/config' };
 
-        const response = yield call([Request, 'get'], options);
+        const emailConfig = yield call([Request, 'get'], options);
 
-        onSuccess?.(response);
+        const emailBody = yield call(getSettingInfo, {
+            payload: {
+                key: body
+            }
+        });
+
+        onSuccess?.({ ...emailConfig, emailBody });
     } catch (e) {}
 }
 

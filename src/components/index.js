@@ -42,3 +42,4 @@ export * from './InfiniteScroll';
 export * from './FadeIn';
 export * from './ScrollView';
 export * from './Editor';
+export * from './HtmlView';

@@ -5,11 +5,11 @@ export type IInputField = {
         onChange: Function,
         onBlur: Function,
         onFocus: Function,
-        value: string,
+        value: string
     },
     meta: {
         error: string,
-        submitFailed: Boolean,
+        submitFailed: Boolean
     },
     options: Array<Object>,
 
@@ -60,4 +60,5 @@ export type IInputField = {
     returnKeyType: string,
     autoCapitalize: string,
     leftSymbol: String,
+    onError: Function
 };

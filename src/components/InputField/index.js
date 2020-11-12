@@ -10,6 +10,7 @@ import { IInputField } from './type';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
+import { hasValue } from '@/constants';
 
 export class InputFieldComponent extends Component<IInputField> {
     constructor(props) {
@@ -26,6 +27,7 @@ export class InputFieldComponent extends Component<IInputField> {
 
     componentDidMount() {
         this.setHeight = debounce(this.setHeight, 100);
+        this.onErrorCallback = debounce(this.onErrorCallback, 200);
     }
 
     toggleSecureTextEntry = () => {
@@ -69,6 +71,10 @@ export class InputFieldComponent extends Component<IInputField> {
         this.setState({ autoHeight: height });
     };
 
+    onErrorCallback = error => {
+        this.props.onError?.(hasValue(error));
+    };
+
     render() {
         const {
             input: { onChange, onBlur, onFocus, value },
@@ -106,14 +112,17 @@ export class InputFieldComponent extends Component<IInputField> {
             isRequired = false,
             secureTextIconContainerStyle,
             leftSymbol,
-            autoHeight = false
+            autoHeight = false,
+            onError
         } = this.props;
+
         const {
             isSecureTextEntry,
             active,
             inputHeight,
             isOptionsVisible
         } = this.state;
+
         const sign = this.getSign();
         const isOptions = autocomplete && isOptionsVisible && !!options.length;
 
@@ -125,6 +134,8 @@ export class InputFieldComponent extends Component<IInputField> {
         } else {
             initialValueProps = { defaultValue: `${value}` };
         }
+
+        !hideError && onError && this.onErrorCallback(error);
 
         let leftIconSymbol = {};
         if (leftIcon) {

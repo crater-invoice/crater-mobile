@@ -1,4 +1,4 @@
-import { isIPhoneX } from '@/constants';
+import { isIPhoneX, SCREEN_HEIGHT } from '@/constants';
 import { colors, fonts } from '@/styles';
 import { StyleSheet } from 'react-native';
 
@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         backgroundColor: colors.veryLightGray,
-        paddingBottom: isIPhoneX() ? 25 : 5
+        paddingBottom: isIPhoneX() ? 25 : 5,
+        maxHeight: SCREEN_HEIGHT - 50
     },
 
     body: {
@@ -52,11 +53,15 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 10,
-        marginBottom: -12
+        marginTop: 12,
+        marginBottom: -10,
+        alignItems: 'center'
+    },
+    rowCenter: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     hint: {
-        paddingBottom: 6,
         color: colors.dark2,
         fontSize: 14,
         paddingLeft: 4,
@@ -65,12 +70,46 @@ const styles = StyleSheet.create({
     insertFields: {
         color: colors.primary,
         fontFamily: fonts.poppins,
-        fontSize: 16,
-        paddingBottom: 6,
-        textAlign: 'left'
+        fontSize: 14,
+        textAlign: 'left',
+        paddingHorizontal: 5
     },
     required: {
         color: colors.danger
+    },
+    pencilIconView: {
+        justifyContent: 'center',
+        paddingRight: 5
+    },
+    eyeIconView: {
+        paddingLeft: 10,
+        paddingRight: 5
+    },
+    htmlView: {
+        marginTop: 17,
+        marginHorizontal: 0,
+        minHeight: 152,
+        borderWidth: 0.5,
+        borderColor: colors.gray2,
+        backgroundColor: colors.white,
+        paddingHorizontal: 12,
+        paddingVertical: 7
+    },
+    error: {
+        borderColor: colors.danger
+    },
+    validation: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0,
+        paddingVertical: 2,
+        paddingHorizontal: 5,
+        borderRadius: 2,
+        overflow: 'hidden',
+        flex: 1,
+        zIndex: 100,
+        backgroundColor: colors.danger
     }
 });
 

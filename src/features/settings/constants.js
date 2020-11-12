@@ -394,7 +394,6 @@ export const PAYMENT_TABS = {
 export const COMPANY_SETTINGS_TYPE = [
     'payment_auto_generate',
     'payment_prefix',
-    'payment_mail_body',
     'invoice_auto_generate',
     'invoice_prefix',
     'invoice_mail_body',
@@ -404,7 +403,6 @@ export const COMPANY_SETTINGS_TYPE = [
     'invoice_billing_address_format',
     'invoice_shipping_address_format',
     'invoice_company_address_format',
-    'invoice_mail_body',
     'payment_mail_body',
     'payment_company_address_format',
     'payment_from_customer_address_format',
