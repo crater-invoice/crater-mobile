@@ -13,7 +13,7 @@ import { styles } from './styles';
 import { colors } from '@/styles/colors';
 import Empty from '../Empty';
 import { Content } from '../Content';
-import { hasValue } from '@/constants';
+import { hasValue, isIPhoneX } from '@/constants';
 
 interface IProps {
     style?: StyleProp<ViewStyle>;
@@ -63,14 +63,14 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
             searchLoading: false,
             isMore: false,
             page: 1,
-            limit: props?.paginationLimit ?? 12
+            limit: props?.paginationLimit ?? isIPhoneX() ? 10 : 12
         };
     }
 
     static defaultProps = {
         getItemsInMount: true,
         hideLoader: false,
-        paginationLimit: 12
+        paginationLimit: isIPhoneX() ? 10 : 12
     };
 
     componentDidMount() {
