@@ -21,7 +21,8 @@ import {
     SelectField,
     FakeInput,
     SendMail,
-    CustomField
+    CustomField,
+    PaymentModeModal
 } from '@/components';
 import {
     PAYMENT_ADD,
@@ -549,10 +550,10 @@ export class Payment extends React.Component<IProps> {
                         headerProps={{
                             title: Lng.t('payments.modePlaceholder', {
                                 locale
-                            }),
-                            rightIconPress: null
+                            })
                         }}
                         emptyContentProps={{ contentType: 'paymentMode' }}
+                        inputModalName="PaymentModeModal"
                     />
 
                     <Notes

@@ -43,3 +43,4 @@ export * from './ScrollView';
 export * from './Editor';
 export * from './HtmlView';
 export * from './Animations';
+export * from './Modal';

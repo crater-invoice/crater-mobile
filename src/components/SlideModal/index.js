@@ -47,7 +47,8 @@ export class SlideModal extends Component<IProps> {
             searchFieldProps,
             isPagination = false,
             infiniteScrollProps,
-            scrollViewProps
+            scrollViewProps,
+            customView
         } = this.props;
 
         const listViewChildren = isPagination ? (
@@ -100,6 +101,7 @@ export class SlideModal extends Component<IProps> {
                         </DefaultLayout>
                     )}
                 </View>
+                {customView}
             </Modal>
         );
     }

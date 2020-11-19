@@ -49,7 +49,8 @@ export type IProps = {
     reference: any,
     queryString: Object,
     paginationLimit: Number,
-    customView: any
+    customView: any,
+    inputModalName: String
 };
 
 export type IStates = {

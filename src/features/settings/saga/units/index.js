@@ -27,7 +27,7 @@ export function* getItemUnits({ payload }) {
     } catch (e) {}
 }
 
-function* createItemUnit({ payload: { params } }) {
+function* createItemUnit({ payload: { params, onSuccess } }) {
     yield put(spinner({ itemUnitLoading: true }));
 
     try {
@@ -38,32 +38,52 @@ function* createItemUnit({ payload: { params } }) {
 
         const response = yield call([Request, 'post'], options);
 
-        yield put(setItemUnit({ unit: [response.unit], isCreated: true }));
+        if (response?.unit) {
+            yield put(setItemUnit({ unit: [response.unit], isCreated: true }));
+            onSuccess?.();
+            return;
+        }
+
+        if (response?.data?.errors?.name) {
+            alertMe({
+                desc: response?.data?.errors.name[0]
+            });
+        }
     } catch (e) {
     } finally {
         yield put(spinner({ itemUnitLoading: false }));
     }
 }
 
-function* editItemUnit({ payload: { id, params } }) {
+function* editItemUnit({ payload: { params, onSuccess } }) {
     yield put(spinner({ itemUnitLoading: true }));
 
     try {
         const options = {
-            path: `units/${id}`,
+            path: `units/${params.id}`,
             body: params
         };
 
         const response = yield call([Request, 'put'], options);
 
-        yield put(setItemUnit({ unit: [response.unit], isUpdated: true }));
+        if (response?.unit) {
+            yield put(setItemUnit({ unit: response.unit, isUpdated: true }));
+            onSuccess?.();
+            return;
+        }
+
+        if (response?.data?.errors?.name) {
+            alertMe({
+                desc: response?.data?.errors.name[0]
+            });
+        }
     } catch (e) {
     } finally {
         yield put(spinner({ itemUnitLoading: false }));
     }
 }
 
-function* removeItemUnit({ payload: { id } }) {
+function* removeItemUnit({ payload: { id, onSuccess } }) {
     yield put(spinner({ itemUnitLoading: true }));
 
     try {
@@ -73,14 +93,17 @@ function* removeItemUnit({ payload: { id } }) {
 
         const response = yield call([Request, 'delete'], options);
 
-        if (response.success) yield put(setItemUnit({ id, isRemove: true }));
+        if (response.success) {
+            yield put(setItemUnit({ id, isRemove: true }));
+            onSuccess?.();
+            return;
+        }
 
-        if (response.error && response.error === 'items_attached')
-            setTimeout(() => {
-                alertMe({
-                    title: getTitleByLanguage('items.alreadyInUseUnit')
-                });
-            }, 1000);
+        if (response.error && response.error === 'items_attached') {
+            alertMe({
+                title: getTitleByLanguage('items.alreadyInUseUnit')
+            });
+        }
     } catch (e) {
     } finally {
         yield put(spinner({ itemUnitLoading: false }));

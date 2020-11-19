@@ -482,8 +482,7 @@ export class Item extends React.Component {
                         compareField={'id'}
                         emptyContentProps={{ contentType: 'units' }}
                         headerProps={{
-                            title: Lng.t('items.unitPlaceholder', { locale }),
-                            rightIconPress: null
+                            title: Lng.t('items.unitPlaceholder', { locale })
                         }}
                         fakeInputProps={{
                             valueStyle: styles.units,
@@ -491,6 +490,7 @@ export class Item extends React.Component {
                         }}
                         onSelect={item => this.setFormField('unit_id', item.id)}
                         paginationLimit={isIPhoneX() ? 20 : 15}
+                        inputModalName="UnitModal"
                     />
 
                     {isTaxPerItem && this.TAX_FIELD_VIEW()}

@@ -14,13 +14,16 @@ import { CtButton } from '../Button';
 import { hasValue, isArray } from '@/constants';
 import { internalSearch as searchItem } from '@/utils';
 import { ARROW_ICON } from '@/assets';
+import { PaymentModeModal, UnitModal } from '../Modal';
 
 export class SelectFieldComponent extends Component<IProps, IStates> {
     scrollViewReference: any;
+    inputModelReference: any;
 
     constructor(props) {
         super(props);
         this.scrollViewReference = React.createRef();
+        this.inputModelReference = React.createRef();
         this.state = this.initialState();
     }
 
@@ -270,8 +273,20 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     };
 
     onRightIconPress = () => {
+        const { inputModalName, rightIconPress } = this.props;
+
+        if (inputModalName) {
+            this.toggleInputModal();
+            return;
+        }
+
         this.onToggle();
-        setTimeout(() => this.props.rightIconPress?.(), 300);
+        setTimeout(() => rightIconPress?.(), 300);
+        return;
+    };
+
+    toggleInputModal = () => {
+        this.inputModelReference?.onToggle?.();
     };
 
     getEmptyTitle = () => {
@@ -300,6 +315,27 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         this.scrollViewReference?.getItems?.({
             queryString: { search, ...this.props.queryString }
         });
+    };
+
+    inputModalComponent = name => {
+        switch (name) {
+            case 'PaymentModeModal':
+                return (
+                    <PaymentModeModal
+                        reference={ref => (this.inputModelReference = ref)}
+                    />
+                );
+
+            case 'UnitModal':
+                return (
+                    <UnitModal
+                        reference={ref => (this.inputModelReference = ref)}
+                    />
+                );
+
+            default:
+                return null;
+        }
     };
 
     BOTTOM_ACTION = locale => (
@@ -339,7 +375,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             getItems,
             locale,
             paginationLimit,
-            customView
+            customView,
+            inputModalName
         } = this.props;
 
         const {
@@ -435,7 +472,6 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         return (
             <View style={styles.container}>
                 {fieldView}
-
                 <SlideModal
                     visible={visible}
                     onToggle={this.onToggle}
@@ -449,6 +485,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
                     infiniteScrollProps={infiniteScrollProps}
                     isPagination={apiSearch || hasPagination}
                     {...internalListScrollProps}
+                    customView={this.inputModalComponent(inputModalName)}
                 />
             </View>
         );

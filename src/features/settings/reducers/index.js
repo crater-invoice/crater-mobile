@@ -182,13 +182,17 @@ export default function settingReducer(state = initialState, action) {
                 };
             }
             if (isUpdated) {
-                const methodList = state.paymentMethods.filter(
-                    ({ id }) => id !== paymentMethod[0]['id']
-                );
+                const methods = [];
+
+                state.paymentMethods.map(method => {
+                    let value = method;
+                    method.id === paymentMethod.id && (value = paymentMethod);
+                    methods.push(value);
+                });
 
                 return {
                     ...state,
-                    paymentMethods: [...paymentMethod, ...methodList]
+                    paymentMethods: methods
                 };
             }
             if (isRemove) {
@@ -220,13 +224,17 @@ export default function settingReducer(state = initialState, action) {
                 };
             }
             if (payload.isUpdated) {
-                const unitList = state.units.filter(
-                    ({ id }) => id !== unit[0]['id']
-                );
+                const units = [];
+
+                state.units.map(_ => {
+                    let value = _;
+                    _.id === unit.id && (value = unit);
+                    units.push(value);
+                });
 
                 return {
                     ...state,
-                    units: [...unit, ...unitList]
+                    units
                 };
             }
             if (payload.isRemove) {

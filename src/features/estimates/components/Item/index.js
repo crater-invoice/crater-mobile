@@ -473,8 +473,7 @@ export class EstimateItem extends React.Component {
                             headerProps={{
                                 title: Lng.t('items.unitPlaceholder', {
                                     locale
-                                }),
-                                rightIconPress: null
+                                })
                             }}
                             fakeInputProps={{
                                 valueStyle: styles.units,
@@ -484,6 +483,7 @@ export class EstimateItem extends React.Component {
                                 this.setFormField('unit_id', item.id)
                             }
                             paginationLimit={isIPhoneX() ? 20 : 15}
+                            inputModalName="UnitModal"
                         />
                     )}
 

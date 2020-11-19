@@ -1,7 +1,10 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as queryStrings from 'query-string';
+import { getTitleByLanguage } from '@/utils';
+import Request from '@/api/request';
+import { alertMe } from '@/constants';
 import {
-    settingsTriggerSpinner,
+    settingsTriggerSpinner as spinner,
     setPaymentModes,
     setPaymentMode
 } from '../../actions';
@@ -11,10 +14,6 @@ import {
     EDIT_PAYMENT_MODE,
     REMOVE_PAYMENT_MODE
 } from '../../constants';
-
-import { getTitleByLanguage } from '@/utils';
-import Request from '@/api/request';
-import { alertMe } from '@/constants';
 
 export function* getPaymentModes({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
@@ -35,8 +34,8 @@ export function* getPaymentModes({ payload }) {
     } catch (e) {}
 }
 
-function* createPaymentMode({ payload: { params } }) {
-    yield put(settingsTriggerSpinner({ paymentModeLoading: true }));
+function* createPaymentMode({ payload: { params, onSuccess } }) {
+    yield put(spinner({ paymentModeLoading: true }));
 
     try {
         const options = {
@@ -46,43 +45,63 @@ function* createPaymentMode({ payload: { params } }) {
 
         const response = yield call([Request, 'post'], options);
 
-        yield put(
-            setPaymentMode({
-                paymentMethod: [response.paymentMethod],
-                isCreated: true
-            })
-        );
+        if (response?.paymentMethod) {
+            yield put(
+                setPaymentMode({
+                    paymentMethod: [response.paymentMethod],
+                    isCreated: true
+                })
+            );
+            onSuccess?.();
+            return;
+        }
+
+        if (response?.data?.errors?.name) {
+            alertMe({
+                desc: response?.data?.errors.name[0]
+            });
+        }
     } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ paymentModeLoading: false }));
+        yield put(spinner({ paymentModeLoading: false }));
     }
 }
 
-function* editPaymentMode({ payload: { id, params } }) {
-    yield put(settingsTriggerSpinner({ paymentModeLoading: true }));
+function* editPaymentMode({ payload: { params, onSuccess } }) {
+    yield put(spinner({ paymentModeLoading: true }));
 
     try {
         const options = {
-            path: `payment-methods/${id}`,
+            path: `payment-methods/${params.id}`,
             body: params
         };
 
         const response = yield call([Request, 'put'], options);
 
-        yield put(
-            setPaymentMode({
-                paymentMethod: [response.paymentMethod],
-                isUpdated: true
-            })
-        );
+        if (response?.paymentMethod) {
+            yield put(
+                setPaymentMode({
+                    paymentMethod: response.paymentMethod,
+                    isUpdated: true
+                })
+            );
+            onSuccess?.();
+            return;
+        }
+
+        if (response?.data?.errors?.name) {
+            alertMe({
+                desc: response?.data?.errors.name[0]
+            });
+        }
     } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ paymentModeLoading: false }));
+        yield put(spinner({ paymentModeLoading: false }));
     }
 }
 
-function* removePaymentMode({ payload: { id } }) {
-    yield put(settingsTriggerSpinner({ paymentModeLoading: true }));
+function* removePaymentMode({ payload: { id, onSuccess } }) {
+    yield put(spinner({ paymentModeLoading: true }));
 
     try {
         const options = {
@@ -91,23 +110,23 @@ function* removePaymentMode({ payload: { id } }) {
 
         const response = yield call([Request, 'delete'], options);
 
-        if (response.success) yield put(setPaymentMode({ id, isRemove: true }));
+        if (response.success) {
+            yield put(setPaymentMode({ id, isRemove: true }));
+            onSuccess?.();
+        }
 
-        if (response.error && response.error === 'payments_attached')
-            setTimeout(() => {
-                alertMe({
-                    title: getTitleByLanguage('payments.alreadyInUseMode')
-                });
-            }, 1000);
+        if (response.error && response.error === 'payments_attached') {
+            alertMe({
+                title: getTitleByLanguage('payments.alreadyInUseMode')
+            });
+        }
     } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ paymentModeLoading: false }));
+        yield put(spinner({ paymentModeLoading: false }));
     }
 }
 
 export default function* paymentMethodsSaga() {
-    // Payment Method
-    // -----------------------------------------
     yield takeEvery(GET_PAYMENT_MODES, getPaymentModes);
     yield takeEvery(CREATE_PAYMENT_MODE, createPaymentMode);
     yield takeEvery(EDIT_PAYMENT_MODE, editPaymentMode);
