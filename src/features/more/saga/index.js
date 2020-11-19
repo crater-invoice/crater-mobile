@@ -49,9 +49,7 @@ function* getItems({ payload }) {
         }
 
         onSuccess?.(response?.items);
-    } catch (e) {
-    } finally {
-    }
+    } catch (e) {}
 }
 
 function* getEditItem({ payload: { id, onResult } }) {
@@ -69,9 +67,7 @@ function* getEditItem({ payload: { id, onResult } }) {
         });
 
         onResult?.(response);
-    } catch (e) {
-    } finally {
-    }
+    } catch (e) {}
 }
 
 function* addItem({ payload: { item, onResult } }) {

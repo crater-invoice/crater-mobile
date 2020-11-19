@@ -1,7 +1,12 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import Request from '@/api/request';
 import * as queryStrings from 'query-string';
-import { customerTriggerSpinner, setCustomers, setCountries, updateFromCustomers } from '../actions';
+import {
+    customerTriggerSpinner,
+    setCustomers,
+    setCountries,
+    updateFromCustomers
+} from '../actions';
 import { ROUTES } from '@/navigation';
 import * as TYPES from '../constants';
 import { hasObjectLength, isArray } from '@/constants';
@@ -148,7 +153,7 @@ function* updateCustomer({ payload }) {
         }
 
         if (response.success) {
-            yield put(updateFromCustomers({ customer: response.customer }))
+            yield put(updateFromCustomers({ customer: response.customer }));
             navigation.navigate(ROUTES.MAIN_CUSTOMERS);
         }
     } catch (e) {
@@ -178,9 +183,7 @@ function* getCustomerDetail({ payload }) {
         const response = yield call([Request, 'get'], options);
 
         onSuccess?.(response.customer);
-    } catch (e) {
-    } finally {
-    }
+    } catch (e) {}
 }
 
 function* removeCustomer({ payload: { id, navigation } }) {

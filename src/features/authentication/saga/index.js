@@ -83,15 +83,13 @@ function* getBootstrapData(payloadData: any) {
         yield put(setAccountInformation({ account: user }));
 
         yield put(setGlobalBootstrap(response));
-    } catch (e) {
-    } finally {
-    }
+    } catch (e) {}
 }
 
 function* getAppVersion({ payload: { onResult } }: any) {
     try {
         const options = {
-            path: 'settings/app/version',
+            path: 'app/version',
             isAuthRequired: false
         };
 
@@ -100,9 +98,7 @@ function* getAppVersion({ payload: { onResult } }: any) {
         yield put(setAppVersion(response));
 
         onResult?.(response);
-    } catch (e) {
-    } finally {
-    }
+    } catch (e) {}
 }
 
 // Forget Password

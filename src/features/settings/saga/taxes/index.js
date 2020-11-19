@@ -26,9 +26,7 @@ function* getTaxTypes({ payload }) {
         }
 
         onSuccess?.(response?.taxTypes);
-    } catch (e) {
-    } finally {
-    }
+    } catch (e) {}
 }
 
 function* addTax({ payload: { tax, onResult } }) {

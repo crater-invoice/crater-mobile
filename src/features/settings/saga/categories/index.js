@@ -33,9 +33,7 @@ export function* getExpenseCategories({ payload }) {
         }
 
         onSuccess?.(response?.categories);
-    } catch (e) {
-    } finally {
-    }
+    } catch (e) {}
 }
 
 function* createExpenseCategory({ payload: { params, onResult } }) {

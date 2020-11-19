@@ -27,9 +27,7 @@ function* getNotes({ payload }: any) {
         }
 
         onSuccess(response?.notes);
-    } catch (e) {
-    } finally {
-    }
+    } catch (e) {}
 }
 
 function* getCreateNote({ payload: { onSuccess } }: any) {

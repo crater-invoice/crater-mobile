@@ -32,9 +32,7 @@ export function* getPaymentModes({ payload }) {
         }
 
         onSuccess?.(response?.paymentMethods);
-    } catch (e) {
-    } finally {
-    }
+    } catch (e) {}
 }
 
 function* createPaymentMode({ payload: { params } }) {

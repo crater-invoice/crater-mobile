@@ -42,24 +42,26 @@ export default class Root extends Component<{}, IState> {
     }
 
     checkAppVersion = endpointApi => {
-        if (hasValue(endpointApi)) {
-            store.dispatch(
-                getAppVersion({
-                    onResult: ({ version }) => {
-                        if (
-                            version &&
-                            parseInt(env.APP_VERSION) < parseInt(version)
-                        ) {
-                            store.dispatch(
-                                NavigationActions.navigate({
-                                    routeName: ROUTES.UPDATE_APP_VERSION
-                                })
-                            );
-                        }
-                    }
-                })
-            );
+        if (!hasValue(endpointApi)) {
+            return;
         }
+
+        store.dispatch(
+            getAppVersion({
+                onResult: ({ version }) => {
+                    if (
+                        version &&
+                        parseInt(env.APP_VERSION) < parseInt(version)
+                    ) {
+                        store.dispatch(
+                            NavigationActions.navigate({
+                                routeName: ROUTES.UPDATE_APP_VERSION
+                            })
+                        );
+                    }
+                }
+            })
+        );
     };
 
     render() {
