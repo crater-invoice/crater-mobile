@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { isIPhoneX } from '@/constants';
 
 export const styles = StyleSheet.create({
     container: {
@@ -8,5 +9,9 @@ export const styles = StyleSheet.create({
     },
     loader: {
         paddingVertical: 20
+    },
+    searchLoader: {
+        flex: 0,
+        marginTop: isIPhoneX() ? '25%' : '20%'
     }
 });

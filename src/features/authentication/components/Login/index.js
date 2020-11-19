@@ -72,6 +72,8 @@ export class Login extends React.Component<IProps> {
                     ? isIosPlatform()
                         ? '18%'
                         : '10%'
+                    : isIPhoneX()
+                    ? '50%'
                     : '34%'
         };
 

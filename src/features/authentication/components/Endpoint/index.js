@@ -125,9 +125,11 @@ export class Endpoint extends Component<IProps> {
                         ? '17%'
                         : '12%'
                     : skipEndpoint
-                    ? '15%'
+                    ? isIPhone
+                        ? '20%'
+                        : '15%'
                     : isIPhone
-                    ? '40%'
+                    ? '43%'
                     : '32%'
         };
 

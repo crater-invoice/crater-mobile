@@ -33,6 +33,7 @@ interface IProps {
 interface IState {
     loading: boolean;
     refreshing: boolean;
+    searchLoading: boolean;
     isMore: boolean;
     page: Number;
     limit: Number;
@@ -59,6 +60,7 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
         this.state = {
             loading: props?.hideLoader ? false : true,
             refreshing: false,
+            searchLoading: false,
             isMore: false,
             page: 1,
             limit: props?.paginationLimit ?? 10
@@ -109,7 +111,7 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
         }
 
         if (showLoader) {
-            this.setState({ loading: true });
+            this.setState({ searchLoading: true });
         }
 
         this.isLoading = true;
@@ -164,6 +166,7 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
         this.setState({
             loading: false,
             refreshing: false,
+            searchLoading: false,
             isMore: hasValue(next_page_url),
             page: current_page + 1
         });
@@ -176,7 +179,7 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
     };
 
     render() {
-        const { loading, refreshing, isMore } = this.state;
+        const { loading, refreshing, searchLoading, isMore } = this.state;
         const {
             style,
             contentContainerStyle,
@@ -204,6 +207,13 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
             />
         );
 
+        const loadingProps = {
+            is: loading || searchLoading,
+            ...(searchLoading && {
+                style: styles.searchLoader
+            })
+        };
+
         return (
             <ScrollView
                 style={[styles.container, style]}
@@ -219,7 +229,7 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
                     }
                 }}
             >
-                <Content loadingProps={{ is: loading }}>
+                <Content loadingProps={loadingProps}>
                     {!isEmpty ? children : <Empty {...emptyContentProps} />}
 
                     {!loading && !refreshing && isMore && loader}

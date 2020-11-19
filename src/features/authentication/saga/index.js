@@ -114,11 +114,16 @@ function* sendRecoveryMail({ payload: { email, onResult } }: any) {
 
         const res = yield call([Request, 'post'], options);
 
-        res.data
-            ? onResult && onResult(res)
-            : alertMe({ desc: getTitleByLanguage('forgot.emailSendError') });
+        if (
+            res?.message &&
+            res?.message.includes('Password reset email sent')
+        ) {
+            onResult?.(res);
+            return;
+        }
+
+        alertMe({ desc: getTitleByLanguage('forgot.emailSendError') });
     } catch (e) {
-        yield put(authTriggerSpinner({ forgetPasswordLoading: false }));
         alertMe({ desc: getTitleByLanguage('forgot.emailSendError') });
     } finally {
         yield put(authTriggerSpinner({ forgetPasswordLoading: false }));
