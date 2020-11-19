@@ -51,6 +51,7 @@ export const Draft = ({ reference, parentProps }: IProps) => {
                     emptyContentProps={getEmptyContentProps(
                         INVOICES_TABS.DRAFT
                     )}
+                    isAnimated
                 />
             </InfiniteScroll>
         </View>

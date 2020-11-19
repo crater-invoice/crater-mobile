@@ -113,6 +113,7 @@ export class Notes extends Component<IProps> {
                                 bottomDivider
                                 emptyContentProps={emptyContentProps}
                                 leftSubTitleStyle={{ textAlign: 'justify' }}
+                                isAnimated
                             />
                         </InfiniteScroll>
                     </View>

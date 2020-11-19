@@ -53,6 +53,7 @@ export const All = ({ reference, parentProps }: IProps) => {
                     isEmpty={isEmpty}
                     bottomDivider
                     emptyContentProps={getEmptyContentProps()}
+                    isAnimated
                 />
             </InfiniteScroll>
         </View>

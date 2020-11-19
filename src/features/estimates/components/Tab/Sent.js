@@ -44,6 +44,7 @@ export const Sent = ({ reference, parentProps }: IProps) => {
                     emptyContentProps={getEmptyContentProps(
                         ESTIMATES_TABS.SENT
                     )}
+                    isAnimated
                 />
             </InfiniteScroll>
         </View>

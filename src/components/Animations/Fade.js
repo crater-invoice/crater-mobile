@@ -5,7 +5,7 @@ interface IState {
     opacityAnimate: any;
 }
 
-export class FadeIn extends Component<{}, IState> {
+export class FadeAnimation extends Component<{}, IState> {
     constructor(props) {
         super(props);
         this.state = {

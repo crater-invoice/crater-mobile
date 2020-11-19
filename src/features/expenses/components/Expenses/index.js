@@ -166,6 +166,7 @@ export class Expenses extends React.Component<IProps> {
                                 bottomDivider
                                 emptyContentProps={emptyContentProps}
                                 leftSubTitleStyle={{ textAlign: 'justify' }}
+                                isAnimated
                             />
                         </InfiniteScroll>
                     </View>

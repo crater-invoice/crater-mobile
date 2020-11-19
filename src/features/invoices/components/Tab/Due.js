@@ -49,6 +49,7 @@ export const Due = ({ reference, parentProps }: IProps) => {
                     isEmpty={isEmpty}
                     bottomDivider
                     emptyContentProps={getEmptyContentProps(INVOICES_TABS.DUE)}
+                    isAnimated
                 />
             </InfiniteScroll>
         </View>

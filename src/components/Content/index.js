@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Loading, Empty } from '..';
-import { FadeIn } from '../FadeIn';
+import { FadeAnimation } from '@/components';
 
 type IProps = {
     withLoading?: Boolean,
@@ -42,5 +42,5 @@ export const Content = ({
         return <Loading {...loadingProps} />;
     }
 
-    return <FadeIn>{children}</FadeIn>;
+    return <FadeAnimation>{children}</FadeAnimation>;
 };

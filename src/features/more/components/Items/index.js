@@ -172,6 +172,7 @@ export class Items extends React.Component<IProps> {
                                 bottomDivider
                                 leftSubTitleStyle={itemsDescriptionStyle()}
                                 emptyContentProps={emptyContentProps}
+                                isAnimated
                             />
                         </InfiniteScroll>
                     </View>

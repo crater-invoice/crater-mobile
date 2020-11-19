@@ -6,6 +6,7 @@ import { ListItem, Avatar, CheckBox } from 'react-native-elements';
 import { Empty } from '../Empty';
 import { colors, fonts } from '@/styles';
 import { CurrencyFormat } from '../CurrencyFormat';
+import { FadeListAnimation } from '@/components';
 
 type IProps = {
     hasAvatar: Boolean,
@@ -19,7 +20,8 @@ type IProps = {
     backgroundColor: String,
     compareField: String,
     checkedItems: Array,
-    listViewContainerStyle: Object
+    listViewContainerStyle: Object,
+    isAnimated?: Boolean
 };
 
 export class ListView extends Component<IProps> {
@@ -116,6 +118,10 @@ export class ListView extends Component<IProps> {
         );
     };
 
+    getAnimatedItemDelay = index => {
+        return index.toString().slice(-1) * 100;
+    };
+
     itemsList = (item, index) => {
         const {
             onPress,
@@ -126,9 +132,11 @@ export class ListView extends Component<IProps> {
             itemContainer,
             listItemProps,
             hasCheckbox,
-            contentContainerStyle
+            contentContainerStyle,
+            isAnimated
         } = this.props;
-        return (
+
+        const children = (
             <ListItem
                 key={index}
                 title={this.leftTitle(item.title)}
@@ -186,6 +194,16 @@ export class ListView extends Component<IProps> {
                 {...listItemProps}
             />
         );
+
+        if (isAnimated) {
+            return (
+                <FadeListAnimation delay={this.getAnimatedItemDelay(index)}>
+                    {children}
+                </FadeListAnimation>
+            );
+        }
+
+        return children;
     };
 
     itemsWithAvatar = (item, index) => {
@@ -194,7 +212,8 @@ export class ListView extends Component<IProps> {
             bottomDivider = false,
             itemContainer,
             listItemProps,
-            leftIconStyle
+            leftIconStyle,
+            isAnimated
         } = this.props;
         const {
             title,
@@ -206,7 +225,7 @@ export class ListView extends Component<IProps> {
             iconSize = 22
         } = item;
 
-        return (
+        const children = (
             <ListItem
                 key={index}
                 title={this.leftTitle(title)}
@@ -244,6 +263,16 @@ export class ListView extends Component<IProps> {
                 {...listItemProps}
             />
         );
+
+        if (isAnimated) {
+            return (
+                <FadeListAnimation delay={this.getAnimatedItemDelay(index)}>
+                    {children}
+                </FadeListAnimation>
+            );
+        }
+
+        return children;
     };
 
     render() {

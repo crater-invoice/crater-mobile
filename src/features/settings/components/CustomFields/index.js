@@ -139,6 +139,7 @@ export class CustomFields extends React.Component<IProps> {
                                     styles.leftTitleContainer
                                 }
                                 rightTitleStyle={styles.rightTitleText}
+                                isAnimated
                             />
                         </InfiniteScroll>
                     </View>

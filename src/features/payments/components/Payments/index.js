@@ -173,6 +173,7 @@ export class Payments extends React.Component<IProps> {
                                 contentContainerStyle={{ flex: 0 }}
                                 bottomDivider
                                 emptyContentProps={emptyContentProps}
+                                isAnimated
                             />
                         </InfiniteScroll>
                     </View>

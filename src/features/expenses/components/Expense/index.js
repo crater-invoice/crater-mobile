@@ -315,38 +315,6 @@ export class Expense extends React.Component<IProps, IState> {
                     />
 
                     <Field
-                        name={`expense.${FIELDS.CUSTOMER}`}
-                        component={SelectField}
-                        apiSearch
-                        hasPagination
-                        getItems={getCustomers}
-                        items={customers}
-                        displayName="name"
-                        label={Lng.t('payments.customer', { locale })}
-                        icon="user"
-                        placeholder={Lng.t('customers.placeholder', {
-                            locale
-                        })}
-                        navigation={navigation}
-                        compareField="id"
-                        onSelect={item =>
-                            this.setFormField(
-                                `expense.${FIELDS.CUSTOMER}`,
-                                item.id
-                            )
-                        }
-                        rightIconPress={this.navigateToCustomer}
-                        headerProps={{
-                            title: Lng.t('customers.title', { locale })
-                        }}
-                        emptyContentProps={{
-                            contentType: 'customers',
-                            image: IMAGES.EMPTY_CUSTOMERS
-                        }}
-                        reference={ref => (this.customerReference = ref)}
-                    />
-
-                    <Field
                         name={`expense.${FIELDS.CATEGORY}`}
                         component={SelectField}
                         isRequired
@@ -376,6 +344,38 @@ export class Expense extends React.Component<IProps, IState> {
                         }}
                         emptyContentProps={{ contentType: 'categories' }}
                         reference={ref => (this.categoryReference = ref)}
+                    />
+
+                    <Field
+                        name={`expense.${FIELDS.CUSTOMER}`}
+                        component={SelectField}
+                        apiSearch
+                        hasPagination
+                        getItems={getCustomers}
+                        items={customers}
+                        displayName="name"
+                        label={Lng.t('payments.customer', { locale })}
+                        icon="user"
+                        placeholder={Lng.t('customers.placeholder', {
+                            locale
+                        })}
+                        navigation={navigation}
+                        compareField="id"
+                        onSelect={item =>
+                            this.setFormField(
+                                `expense.${FIELDS.CUSTOMER}`,
+                                item.id
+                            )
+                        }
+                        rightIconPress={this.navigateToCustomer}
+                        headerProps={{
+                            title: Lng.t('customers.title', { locale })
+                        }}
+                        emptyContentProps={{
+                            contentType: 'customers',
+                            image: IMAGES.EMPTY_CUSTOMERS
+                        }}
+                        reference={ref => (this.customerReference = ref)}
                     />
 
                     <Field

@@ -63,14 +63,14 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
             searchLoading: false,
             isMore: false,
             page: 1,
-            limit: props?.paginationLimit ?? 10
+            limit: props?.paginationLimit ?? 12
         };
     }
 
     static defaultProps = {
         getItemsInMount: true,
         hideLoader: false,
-        paginationLimit: 10
+        paginationLimit: 12
     };
 
     componentDidMount() {

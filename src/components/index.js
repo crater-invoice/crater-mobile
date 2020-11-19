@@ -39,7 +39,7 @@ export * from './SelectFieldOptions';
 export * from './DateTimePickerField';
 export * from './CustomField';
 export * from './InfiniteScroll';
-export * from './FadeIn';
 export * from './ScrollView';
 export * from './Editor';
 export * from './HtmlView';
+export * from './Animations';
