@@ -13,6 +13,7 @@ export const validate = values => {
     const type = FIELDS.TYPE;
     const label = FIELDS.LABEL;
     const defaultValue = FIELDS.DEFAULT_VALUE;
+    const order = FIELDS.ORDER;
 
     if (values && hasObjectLength(values[field])) {
         errors[field][name] = getError(values[field][name], ['requiredField']);
@@ -23,7 +24,9 @@ export const validate = values => {
         errors[field][label] = getError(values[field][label], [
             'requiredField'
         ]);
-
+        errors[field][order] = getError(values[field][order], [
+            'requiredField'
+        ]);
         if (values[field][type] === OPTION_VALUE.URL) {
             if (values[field][defaultValue]) {
                 errors[field][defaultValue] = getError(

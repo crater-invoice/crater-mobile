@@ -7,6 +7,7 @@ import { NOTES_ADD, NOTES_EDIT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { formatNotes } from '@/utils';
 import { ARROW_ICON } from '@/assets';
+import { isIPhoneX } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -103,7 +104,7 @@ export class Notes extends Component<IProps> {
                             getItems={getNotes}
                             reference={ref => (this.scrollViewReference = ref)}
                             getItemsInMount={false}
-                            paginationLimit={13}
+                            paginationLimit={isIPhoneX() ? 20 : 15}
                         >
                             <ListView
                                 items={formatNotes(notes)}

@@ -1,9 +1,12 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as actions from '../../actions';
-import { PAYMENT_FORM, PAYMENT_ADD } from '../../constants';
+import {
+    PAYMENT_FORM,
+    PAYMENT_ADD,
+    PAYMENT_FIELDS as FIELDS
+} from '../../constants';
 import { Payment } from '../../components/Payment';
 import { getCustomers } from '@/features/customers/actions';
 import { getPaymentModes, getNotes } from '@/features/settings/actions';
@@ -34,7 +37,15 @@ const mapStateToProps = (state, { navigation }) => {
         customFields,
         id,
         paymentMethods: getPaymentMethodsState(paymentMethods),
-        formValues: getFormValues(PAYMENT_FORM)(state) || {}
+        formValues: getFormValues(PAYMENT_FORM)(state) || {},
+        initialValues: {
+            payment: {
+                [FIELDS.CUSTOMER]: null,
+                [FIELDS.INVOICE]: null,
+                [FIELDS.METHOD]: null,
+                [FIELDS.NOTES]: null
+            }
+        }
     };
 };
 

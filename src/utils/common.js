@@ -54,7 +54,12 @@ export const getApiFormattedCustomFields = customFields => {
         return [];
     }
 
-    return customFields.filter(field => hasValue(field?.value));
+    return customFields.map(field => {
+        return {
+            ...field,
+            value: field?.value ?? null
+        };
+    });
 };
 
 export const sortByItem = (items, iteratee) => {

@@ -4,7 +4,11 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { Expense } from '../../components/Expense';
 import { validate } from './validation';
 import * as actions from '../../actions';
-import { EXPENSE_FORM, EXPENSE_ADD } from '../../constants';
+import {
+    EXPENSE_FORM,
+    EXPENSE_ADD,
+    EXPENSE_FIELDS as FIELDS
+} from '../../constants';
 import { getExpenseCategories } from '@/features/settings/actions';
 import { getCategoriesState } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
@@ -29,7 +33,17 @@ const mapStateToProps = (state, { navigation }) => {
         loading: loading?.expenseLoading,
         type,
         id,
-        formValues: getFormValues(EXPENSE_FORM)(state) || {}
+        formValues: getFormValues(EXPENSE_FORM)(state) || {},
+        initialValues: {
+            expense: {
+                [FIELDS.RECEIPT]: null,
+                [FIELDS.AMOUNT]: null,
+                [FIELDS.CATEGORY]: null,
+                [FIELDS.NOTES]: null,
+                [FIELDS.CUSTOMER]: null,
+                [FIELDS.CUSTOM_FIELDS]: null
+            }
+        }
     };
 };
 

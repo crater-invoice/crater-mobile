@@ -21,7 +21,11 @@ const mapStateToProps = (state, { navigation }) => {
         getEditCategoryLoading: initExpenseCategoryLoading,
         type,
         locale,
-        formValues: getFormValues(CATEGORY_FORM)(state) || {}
+        formValues: getFormValues(CATEGORY_FORM)(state) || {},
+        initialValues: {
+            name: null,
+            description: null
+        }
     };
 };
 

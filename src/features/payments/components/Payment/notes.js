@@ -11,6 +11,7 @@ import {
     NOTES_ADD,
     NOTES_TYPE_VALUE as NOTES_TYPE
 } from '@/features/settings/constants';
+import { isIPhoneX } from '@/constants';
 
 interface IProps {
     locale?: string;
@@ -94,6 +95,7 @@ export default class Notes extends Component<IProps> {
                                 contentType: 'notes'
                             }}
                             reference={ref => (this.notesReference = ref)}
+                            paginationLimit={isIPhoneX() ? 20 : 15}
                             customView={
                                 <TouchableOpacity
                                     onPress={() => {

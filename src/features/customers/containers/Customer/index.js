@@ -33,8 +33,15 @@ const mapStateToProps = (state, { navigation }) => {
         id,
         initialValues: {
             customer: {
-                [FIELDS.ENABLE_PORTAL]: false,
+                [FIELDS.NAME]: null,
+                [FIELDS.CONTACT_NAME]: null,
+                [FIELDS.EMAIL]: null,
+                [FIELDS.PHONE]: null,
+                [FIELDS.WEBSITE]: null,
                 [FIELDS.CURRENCY]: null,
+                [FIELDS.BILLING]: null,
+                [FIELDS.SHIPPING]: null,
+                [FIELDS.ENABLE_PORTAL]: null,
                 [FIELDS.CUSTOM_FIELDS]: null,
                 id
             }

@@ -46,10 +46,21 @@ const mapStateToProps = (state, { navigation }) => {
                           [FIELDS.MODAL_TYPE]: MODAL_TYPES[0].value,
                           [FIELDS.TYPE]: DATA_TYPES[0].value,
                           [FIELDS.OPTIONS]: [],
+                          [FIELDS.ORDER]: 1,
+                          [FIELDS.IS_REQUIRED]: false,
+                          [FIELDS.DEFAULT_VALUE]: null,
+                          [FIELDS.PLACEHOLDER]: null
+                      }
+                  }
+                : {
+                      [FIELDS.FIELD]: {
+                          [FIELDS.IS_REQUIRED]: false,
+                          [FIELDS.DEFAULT_VALUE]: null,
+                          [FIELDS.PLACEHOLDER]: null,
+                          [FIELDS.OPTIONS]: [],
                           [FIELDS.ORDER]: 1
                       }
                   }
-                : null
     };
 };
 

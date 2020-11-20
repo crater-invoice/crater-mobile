@@ -419,6 +419,7 @@ export class CustomField extends React.Component<IProps> {
                             autoCorrect: true,
                             keyboardType: KEYBOARD_TYPE.NUMERIC
                         }}
+                        isRequired
                     />
                 </View>
             </DefaultLayout>
