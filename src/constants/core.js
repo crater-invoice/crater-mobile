@@ -39,7 +39,6 @@ export const ENDPOINT_INITIAL = 'global/ENDPOINT_INITIAL';
  *  Date Time format for sending backend request
  */
 export const DATE_FORMAT = 'YYYY-MM-DD';
-export const REPORT_DATE_FORMAT = 'DD/MM/YYYY';
 export const TIME_FORMAT = 'HH:mm';
 export const TIME_FORMAT_MERIDIEM = 'hh:mm A';
 /**
