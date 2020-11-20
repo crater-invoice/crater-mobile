@@ -5,6 +5,7 @@ import Note from '../../components/Note';
 import { NOTE_FORM, NOTES_ADD, NOTES_TYPE_VALUE } from '../../constants';
 import * as noteAction from '../../actions';
 import { validate } from './validations';
+import { hasValue } from '@/constants';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -17,6 +18,8 @@ const mapStateToProps = (state, { navigation }) => {
 
     const noteDetail = navigation.getParam('note', {});
     const type = navigation.getParam('type', NOTES_ADD);
+    const onSelect = navigation.getParam('onSelect', null);
+    const selectedModalType = navigation.getParam('modalType', null);
 
     return {
         noteLoading: getNotesLoading,
@@ -26,8 +29,12 @@ const mapStateToProps = (state, { navigation }) => {
         noteId: noteDetail?.id,
         customFields,
         noteDetail,
+        onSelect,
+        selectedModalType,
         initialValues: {
-            type: NOTES_TYPE_VALUE.INVOICE,
+            type: !hasValue(selectedModalType)
+                ? NOTES_TYPE_VALUE.INVOICE
+                : selectedModalType,
             ...noteDetail
         }
     };

@@ -71,8 +71,14 @@ export default class Note extends React.Component<IProps> {
         }
     };
 
-    onSubmitNote = note => {
-        const { type, createNote, updateNote, navigation } = this.props;
+    onSubmit = note => {
+        const {
+            type,
+            createNote,
+            updateNote,
+            navigation,
+            onSelect
+        } = this.props;
 
         if (this.state.isLoading) {
             return;
@@ -86,10 +92,10 @@ export default class Note extends React.Component<IProps> {
 
         const params = {
             params: note,
-            onSuccess: () => {
+            onSuccess: res => {
+                onSelect?.(res);
                 navigation.goBack(null);
-            },
-            navigation
+            }
         };
 
         type === NOTES_ADD ? createNote(params) : updateNote(params);
@@ -131,7 +137,7 @@ export default class Note extends React.Component<IProps> {
                 ]}
             >
                 <CtButton
-                    onPress={handleSubmit(this.onSubmitNote)}
+                    onPress={handleSubmit(this.onSubmit)}
                     btnTitle={Lng.t('button.save', { locale })}
                     buttonContainerStyle={type === NOTES_EDIT && styles.flex}
                     containerStyle={styles.btnContainerStyle}
@@ -158,7 +164,8 @@ export default class Note extends React.Component<IProps> {
             handleSubmit,
             locale,
             type,
-            noteDetail
+            noteDetail,
+            selectedModalType
         } = this.props;
         const { isLoading } = this.state;
         const isEditScreen = type === NOTES_EDIT;
@@ -180,7 +187,7 @@ export default class Note extends React.Component<IProps> {
                     rightIconProps: {
                         solid: true
                     },
-                    rightIconPress: handleSubmit(this.onSubmitNote)
+                    rightIconPress: handleSubmit(this.onSubmit)
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
@@ -217,6 +224,7 @@ export default class Note extends React.Component<IProps> {
                             value: ''
                         }}
                         isRequired
+                        disabled={hasValue(selectedModalType)}
                     />
 
                     <Editor

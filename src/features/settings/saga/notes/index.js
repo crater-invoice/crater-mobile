@@ -43,7 +43,7 @@ function* getCreateNote({ payload: { onSuccess } }: any) {
 }
 
 function* createNote({ payload }: any) {
-    const { params, navigation } = payload;
+    const { params, onSuccess } = payload;
 
     yield put(spinner({ getNotesLoading: true }));
 
@@ -57,7 +57,7 @@ function* createNote({ payload }: any) {
 
         if (response.note) {
             yield put(createFromNotes({ note: response.note }));
-            navigation.goBack(null);
+            onSuccess?.(response.note);
         }
     } catch (e) {
     } finally {
@@ -98,7 +98,7 @@ function* getNoteDetail({ payload: { onSuccess } }: any) {
     } catch (e) {}
 }
 
-function* editNote({ payload: { params, navigation, onSuccess } }: any) {
+function* editNote({ payload: { params, onSuccess } }: any) {
     yield put(spinner({ getNotesLoading: true }));
 
     try {
@@ -110,10 +110,8 @@ function* editNote({ payload: { params, navigation, onSuccess } }: any) {
         const response = yield call([Request, 'put'], options);
         if (response.note) {
             yield put(updateFromNotes({ note: response.note }));
-            navigation.goBack();
+            onSuccess?.(response.note);
         }
-
-        onSuccess(response);
     } catch (e) {
     } finally {
         yield put(spinner({ getNotesLoading: false }));

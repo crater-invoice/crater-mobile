@@ -5,7 +5,11 @@ import Lng from '@/lang/i18n';
 import { Field } from 'redux-form';
 import { formatNotesType } from '@/utils';
 import { colors, fonts } from '@/styles';
-import { NOTES_TYPE_VALUE as NOTES_TYPE } from '@/features/settings/constants';
+import { ROUTES } from '@/navigation';
+import {
+    NOTES_ADD,
+    NOTES_TYPE_VALUE as NOTES_TYPE
+} from '@/features/settings/constants';
 
 interface IProps {
     locale?: string;
@@ -25,6 +29,21 @@ export default class Notes extends Component<IProps> {
         this.notesReference = React.createRef();
         this.editorReference = React.createRef();
     }
+
+    navigateToNote = () => {
+        const { navigation } = this.props;
+
+        navigation.navigate(ROUTES.NOTE, {
+            type: NOTES_ADD,
+            modalType: NOTES_TYPE.ESTIMATE,
+            onSelect: item => this.onSelect(item)
+        });
+    };
+
+    onSelect = item => {
+        this.editorReference?.togglePreview?.();
+        this.props?.setFormField?.(`notes`, item.notes);
+    };
 
     render() {
         const {
@@ -66,14 +85,11 @@ export default class Notes extends Component<IProps> {
                             onlyPlaceholder
                             component={SelectField}
                             navigation={navigation}
-                            onSelect={item => {
-                                this.editorReference?.togglePreview?.();
-                                setFormField?.(`notes`, item.notes);
-                            }}
+                            onSelect={item => this.onSelect(item)}
                             headerProps={{
-                                title: Lng.t('notes.select', { locale }),
-                                rightIcon: null
+                                title: Lng.t('notes.select', { locale })
                             }}
+                            rightIconPress={this.navigateToNote}
                             emptyContentProps={{
                                 contentType: 'notes'
                             }}

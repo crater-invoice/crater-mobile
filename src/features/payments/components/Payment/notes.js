@@ -5,8 +5,12 @@ import Lng from '@/lang/i18n';
 import { Field } from 'redux-form';
 import { formatNotesType } from '@/utils';
 import { colors, fonts } from '@/styles';
-import { NOTES_TYPE_VALUE as NOTES_TYPE } from '@/features/settings/constants';
 import { PAYMENT_FIELDS as FIELDS } from '../../constants';
+import { ROUTES } from '@/navigation';
+import {
+    NOTES_ADD,
+    NOTES_TYPE_VALUE as NOTES_TYPE
+} from '@/features/settings/constants';
 
 interface IProps {
     locale?: string;
@@ -27,14 +31,28 @@ export default class Notes extends Component<IProps> {
         this.editorReference = React.createRef();
     }
 
+    navigateToNote = () => {
+        const { navigation } = this.props;
+
+        navigation.navigate(ROUTES.NOTE, {
+            type: NOTES_ADD,
+            modalType: NOTES_TYPE.PAYMENT,
+            onSelect: item => this.onSelect(item)
+        });
+    };
+
+    onSelect = item => {
+        this.editorReference?.togglePreview?.();
+        this.props?.setFormField?.(`payment.${FIELDS.NOTES}`, item.notes);
+    };
+
     render() {
         const {
             locale,
             isEditPayment,
             notes,
             getNotes,
-            navigation,
-            setFormField
+            navigation
         } = this.props;
 
         return (
@@ -67,17 +85,11 @@ export default class Notes extends Component<IProps> {
                             onlyPlaceholder
                             component={SelectField}
                             navigation={navigation}
-                            onSelect={item => {
-                                this.editorReference?.togglePreview?.();
-                                setFormField?.(
-                                    `payment.${FIELDS.NOTES}`,
-                                    item.notes
-                                );
-                            }}
+                            onSelect={item => this.onSelect(item)}
                             headerProps={{
-                                title: Lng.t('notes.select', { locale }),
-                                rightIcon: null
+                                title: Lng.t('notes.select', { locale })
                             }}
+                            rightIconPress={this.navigateToNote}
                             emptyContentProps={{
                                 contentType: 'notes'
                             }}
