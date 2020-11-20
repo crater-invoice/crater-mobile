@@ -199,14 +199,21 @@ export class ListView extends Component<IProps> {
 
         if (isAnimated) {
             return (
-                <FadeListAnimation delay={this.getAnimatedItemDelay(index)}>
+                <FadeListAnimation
+                    key={index}
+                    delay={this.getAnimatedItemDelay(index)}
+                >
                     {children}
                 </FadeListAnimation>
             );
         }
 
         if (parentViewStyle) {
-            return <View style={parentViewStyle}>{children}</View>;
+            return (
+                <View key={index} style={parentViewStyle}>
+                    {children}
+                </View>
+            );
         }
 
         return children;
@@ -272,7 +279,10 @@ export class ListView extends Component<IProps> {
 
         if (isAnimated) {
             return (
-                <FadeListAnimation delay={this.getAnimatedItemDelay(index)}>
+                <FadeListAnimation
+                    key={index}
+                    delay={this.getAnimatedItemDelay(index)}
+                >
                     {children}
                 </FadeListAnimation>
             );
