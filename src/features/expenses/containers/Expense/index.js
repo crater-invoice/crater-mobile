@@ -36,12 +36,10 @@ const mapStateToProps = (state, { navigation }) => {
         formValues: getFormValues(EXPENSE_FORM)(state) || {},
         initialValues: {
             expense: {
-                [FIELDS.RECEIPT]: null,
-                [FIELDS.AMOUNT]: null,
-                [FIELDS.CATEGORY]: null,
-                [FIELDS.NOTES]: null,
-                [FIELDS.CUSTOMER]: null,
-                [FIELDS.CUSTOM_FIELDS]: null
+                [FIELDS.RECEIPT]: '',
+                [FIELDS.NOTES]: '',
+                [FIELDS.CUSTOMER]: '',
+                [FIELDS.CUSTOM_FIELDS]: ''
             }
         }
     };

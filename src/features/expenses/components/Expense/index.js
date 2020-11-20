@@ -119,13 +119,18 @@ export class Expense extends React.Component<IProps, IState> {
     };
 
     onSubmit = values => {
-        const params = {
-            ...values?.expense,
+        let params = values?.expense;
+
+        for (const key in values?.expense) {
+            params[key] = values?.expense[key] ?? '';
+        }
+
+        params = {
+            ...params,
             customFields: JSON.stringify(
                 getApiFormattedCustomFields(values?.customFields)
             )
         };
-
         const {
             createExpense,
             navigation,
