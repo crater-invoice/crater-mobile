@@ -695,6 +695,7 @@ export class Estimate extends React.Component<IProps> {
                         leftSubTitleStyle={styles.itemLeftSubTitle}
                         rightTitleStyle={styles.itemRightTitle}
                         backgroundColor={colors.white}
+                        parentViewStyle={{ marginVertical: 4 }}
                         onPress={this.onEditItem}
                     />
 

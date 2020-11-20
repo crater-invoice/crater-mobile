@@ -40,7 +40,6 @@ export default styles = StyleSheet.create({
         flex: 1
     },
     itemContainer: {
-        marginVertical: 4,
         borderWidth: 1,
         borderColor: colors.lightGray
     },

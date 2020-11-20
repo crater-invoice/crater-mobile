@@ -21,7 +21,8 @@ type IProps = {
     compareField: String,
     checkedItems: Array,
     listViewContainerStyle: Object,
-    isAnimated?: Boolean
+    isAnimated?: Boolean,
+    parentViewStyle?: any
 };
 
 export class ListView extends Component<IProps> {
@@ -133,7 +134,8 @@ export class ListView extends Component<IProps> {
             listItemProps,
             hasCheckbox,
             contentContainerStyle,
-            isAnimated
+            isAnimated,
+            parentViewStyle
         } = this.props;
 
         const children = (
@@ -201,6 +203,10 @@ export class ListView extends Component<IProps> {
                     {children}
                 </FadeListAnimation>
             );
+        }
+
+        if (parentViewStyle) {
+            return <View style={parentViewStyle}>{children}</View>;
         }
 
         return children;

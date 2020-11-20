@@ -654,6 +654,7 @@ export class Invoice extends React.Component<IProps> {
                         rightTitleStyle={styles.itemRightTitle}
                         backgroundColor={colors.white}
                         onPress={this.onEditItem}
+                        parentViewStyle={{ marginVertical: 4 }}
                     />
 
                     <Field
