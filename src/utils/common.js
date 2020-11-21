@@ -54,12 +54,29 @@ export const getApiFormattedCustomFields = customFields => {
         return [];
     }
 
-    return customFields.map(field => {
-        return {
-            ...field,
-            value: field?.value ?? null
-        };
+    const apiFormattedFields = [];
+
+    customFields.map(field => {
+        let isAllow = true;
+
+        if (
+            !hasValue(field?.value) &&
+            (field.type === DATA_TYPES.DATE ||
+                field.type === DATA_TYPES.TIME ||
+                field.type === DATA_TYPES.DATE_TIME)
+        ) {
+            isAllow = false;
+        }
+
+        if (isAllow) {
+            apiFormattedFields.push({
+                ...field,
+                value: field?.value ?? null
+            });
+        }
     });
+
+    return apiFormattedFields;
 };
 
 export const sortByItem = (items, iteratee) => {
