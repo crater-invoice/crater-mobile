@@ -33,6 +33,7 @@ const mapStateToProps = (state, { navigation }) => {
         notes,
         hasRecordPayment,
         loading: loading?.paymentLoading,
+        withLoading: loading?.sendReceiptLoading,
         unPaidInvoices,
         customFields,
         id,

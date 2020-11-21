@@ -13,6 +13,7 @@ const initialState = {
     unPaidInvoices: [],
     loading: {
         paymentLoading: false,
+        sendReceiptLoading: false,
         getUnpaidInvoicesLoading: false
     }
 };
@@ -47,46 +48,46 @@ export default function paymentsReducer(state = initialState, action) {
             return { ...state, unPaidInvoices: payload.invoices };
 
         case CREATE_FROM_PAYMENTS:
-
             return {
                 ...state,
                 payments: [...[payload.payment], ...state.payments]
-            }
-        
+            };
+
         case UPDATE_FROM_PAYMENTS: {
-            const paymentData = payload.payment
-            const paymentsList = []
+            const paymentData = payload.payment;
+            const paymentsList = [];
 
             if (state.payments) {
-                state.payments.map((payment) => {
-                    const { id } = payment
-                    let value = payment
+                state.payments.map(payment => {
+                    const { id } = payment;
+                    let value = payment;
 
                     if (id === paymentData.id) {
                         value = {
                             ...paymentData
-                        }
+                        };
                     }
-                    paymentsList.push(value)
-                })
+                    paymentsList.push(value);
+                });
             }
 
             return {
                 ...state,
                 payments: paymentsList
-            }
+            };
         }
 
         case REMOVE_FROM_PAYMENTS: {
-            
-            const paymentID = payload.id
+            const paymentID = payload.id;
 
-            const filterPayment = state.payments.filter((payment) => payment.id !== paymentID)
+            const filterPayment = state.payments.filter(
+                payment => payment.id !== paymentID
+            );
 
             return {
                 ...state,
                 payments: filterPayment
-            }
+            };
         }
 
         default:

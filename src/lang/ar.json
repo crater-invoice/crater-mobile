@@ -716,6 +716,11 @@
         "noResult": "لا توجد نتائج لـ \"{{search}}\"",
         "noSearchResult": "لا توجد نتائج لـ"
     },
+    "toast":{
+        "send_invoice_successfully": "تم إرسال الفاتورة بنجاح",
+        "send_payment_successfully": "تم إرسال الدفعة بنجاح",
+        "send_estimate_successfully": "تم إرسال التقدير بنجاح"
+    },
     "validation": {
         "Customer": "الزبون",
         "Invoice": "فاتورة",

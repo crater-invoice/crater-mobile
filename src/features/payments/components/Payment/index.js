@@ -35,6 +35,7 @@ import {
 import { alertMe, DATE_FORMAT, hasObjectLength, isArray } from '@/constants';
 import { getApiFormattedCustomFields } from '@/utils';
 import Notes from './notes';
+import PaymentServices from '../../services';
 
 type IProps = {
     navigation: Object,
@@ -356,6 +357,29 @@ export class Payment extends React.Component<IProps> {
         );
     };
 
+    sendEmail = params => {
+        const { navigation, sendPaymentReceipt, id } = this.props;
+
+        sendPaymentReceipt({
+            params: { ...params, id },
+            navigation,
+            onSuccess: () => PaymentServices.toggleIsEmailSent(true)
+        });
+    };
+
+    sendMailComponent = () => {
+        return (
+            <SendMail
+                mailReference={ref => (this.sendMailRef = ref)}
+                headerTitle={'header.sendMailPayment'}
+                alertDesc={'payments.alert.sendPayment'}
+                user={this.props.formValues?.payment?.user}
+                body="payment_mail_body"
+                onSendMail={params => this.sendEmail(params)}
+            />
+        );
+    };
+
     render() {
         const {
             navigation,
@@ -369,8 +393,7 @@ export class Payment extends React.Component<IProps> {
             formValues,
             getUnpaidInvoices,
             unPaidInvoices,
-            sendPaymentReceipt,
-            id,
+            withLoading,
             customFields
         } = this.props;
 
@@ -408,25 +431,19 @@ export class Payment extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={headerProps}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{ is: isLoading || !hasObjectLength(formValues) }}
+                loadingProps={{
+                    is: isLoading || !hasObjectLength(formValues) || withLoading
+                }}
+                contentProps={{ withLoading }}
                 dropdownProps={drownDownProps}
             >
-                <View style={styles.bodyContainer}>
-                    {isEditPayment && (
-                        <SendMail
-                            mailReference={ref => (this.sendMailRef = ref)}
-                            headerTitle={'header.sendMailPayment'}
-                            alertDesc={'payments.alert.sendPayment'}
-                            user={formValues?.payment?.user}
-                            body="payment_mail_body"
-                            onSendMail={params => {
-                                sendPaymentReceipt({
-                                    params: { ...params, id },
-                                    navigation
-                                });
-                            }}
-                        />
-                    )}
+                <View
+                    style={[
+                        styles.bodyContainer,
+                        { opacity: withLoading ? 0.8 : 1 }
+                    ]}
+                >
+                    {isEditPayment && this.sendMailComponent()}
 
                     <View style={styles.numberDateFieldContainer}>
                         <View style={styles.numberDateField}>

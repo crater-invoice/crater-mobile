@@ -716,6 +716,11 @@
         "noResult": "No results for \"{{search}}\"",
         "noSearchResult": "No results for"
     },
+    "toast":{
+        "send_invoice_successfully": "Invoice sent successfully",
+        "send_payment_successfully": "Payment sent successfully",
+        "send_estimate_successfully": "Estimate sent successfully"
+    },
     "validation": {
         "Customer": "Customer",
         "Invoice": "Invoice",

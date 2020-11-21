@@ -284,8 +284,8 @@ function* editInvoice({ payload }) {
         }
 
         if (response.success) {
-            yield put(updateFromInvoices({ invoice: response.invoice }))
-            navigation.goBack(null)
+            yield put(updateFromInvoices({ invoice: response.invoice }));
+            navigation.goBack(null);
         }
 
         onSuccess?.(response?.invoice?.invoicePdfUrl);
@@ -376,8 +376,8 @@ function* changeInvoiceStatus({ payload }) {
             return;
         }
 
-        navigation.navigate(ROUTES.MAIN_INVOICES);
         onResult?.();
+        navigation.navigate(ROUTES.MAIN_INVOICES);
     } catch (e) {
     } finally {
         yield put(spinner({ changeStatusLoading: false }));

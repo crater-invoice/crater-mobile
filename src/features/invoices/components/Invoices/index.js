@@ -20,6 +20,7 @@ import {
     TAB_NAME
 } from '../../constants';
 import { isFilterApply } from '@/utils';
+import InvoiceServices from '../../services';
 
 type IProps = {
     locale: String,
@@ -39,6 +40,7 @@ export class Invoices extends React.Component<IProps> {
         this.dueReference = React.createRef();
         this.draftReference = React.createRef();
         this.allReference = React.createRef();
+        this.toastReference = React.createRef();
 
         this.state = {
             activeTab: INVOICES_TABS.DUE,
@@ -49,16 +51,28 @@ export class Invoices extends React.Component<IProps> {
     componentDidMount() {
         const { navigation } = this.props;
         goBack(MOUNT, navigation, { exit: true });
-
-        this.focusListener = navigation.addListener('didFocus', () => {
-            const { ref } = this.getActiveTab();
-            ref?.getItems?.();
-        });
+        this.onFocus();
     }
 
     componentWillUnmount() {
         this.focusListener?.remove?.();
     }
+
+    onFocus = () => {
+        const { navigation } = this.props;
+        this.focusListener = navigation.addListener('didFocus', () => {
+            const { ref } = this.getActiveTab();
+            ref?.getItems?.();
+
+            if (InvoiceServices.isEmailSent) {
+                InvoiceServices.toggleIsEmailSent(false);
+                this.toastReference?.show?.(
+                    'toast.send_invoice_successfully',
+                    1500
+                );
+            }
+        });
+    };
 
     setActiveTab = activeTab => {
         this.setState({ activeTab });
@@ -284,6 +298,9 @@ export class Invoices extends React.Component<IProps> {
                     headerProps={headerProps}
                     onSearch={this.onSearch}
                     filterProps={filterProps}
+                    toastProps={{
+                        reference: ref => (this.toastReference = ref)
+                    }}
                 >
                     <Tabs
                         style={styles.Tabs}

@@ -25,10 +25,8 @@ export class ToastComponent extends Component<IProps> {
         this.props.reference?.(undefined);
     }
 
-    show = async (message = '') => {
+    show = async (message = '', duration = 1000) => {
         await this.setState({ message });
-
-        const duration = 1000;
 
         Animated.timing(this.animateOpacityValue, {
             toValue: 0.8,

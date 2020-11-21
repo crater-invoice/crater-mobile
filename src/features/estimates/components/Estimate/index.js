@@ -48,6 +48,7 @@ import FinalAmount from '../FinalAmount';
 import { alertMe, BUTTON_TYPE, isArray } from '@/constants';
 import { getApiFormattedCustomFields } from '@/utils';
 import Notes from './notes';
+import EstimateServices from '../../services';
 
 type IProps = {
     navigation: Object,
@@ -494,11 +495,35 @@ export class Estimate extends React.Component<IProps> {
         }
     };
 
+    sendEmail = params => {
+        const { navigation, changeEstimateStatus, id } = this.props;
+
+        changeEstimateStatus?.({
+            id,
+            action: `${id}/send`,
+            navigation,
+            params,
+            onResult: () => EstimateServices.toggleIsEmailSent(true)
+        });
+    };
+
+    sendMailComponent = () => {
+        return (
+            <SendMail
+                mailReference={ref => (this.sendMailRef = ref)}
+                headerTitle={'header.sendMailEstimate'}
+                alertDesc={'estimates.alert.sendEstimate'}
+                user={this.props?.formValues?.customer}
+                body="estimate_mail_body"
+                onSendMail={params => this.sendEmail(params)}
+            />
+        );
+    };
+
     render() {
         const {
             navigation,
             handleSubmit,
-            loading,
             estimateData: {
                 estimateTemplates,
                 discount_per_item,
@@ -515,8 +540,6 @@ export class Estimate extends React.Component<IProps> {
             getCustomers,
             customers,
             formValues,
-            changeEstimateStatus,
-            id,
             customFields
         } = this.props;
 
@@ -576,23 +599,9 @@ export class Estimate extends React.Component<IProps> {
                         { opacity: withLoading ? 0.8 : 1 }
                     ]}
                 >
-                    {isEditEstimate && !hasCompleteStatus && (
-                        <SendMail
-                            mailReference={ref => (this.sendMailRef = ref)}
-                            headerTitle={'header.sendMailEstimate'}
-                            alertDesc={'estimates.alert.sendEstimate'}
-                            user={formValues?.customer}
-                            body="estimate_mail_body"
-                            onSendMail={params =>
-                                changeEstimateStatus?.({
-                                    id,
-                                    action: `${id}/send`,
-                                    navigation,
-                                    params
-                                })
-                            }
-                        />
-                    )}
+                    {isEditEstimate &&
+                        !hasCompleteStatus &&
+                        this.sendMailComponent()}
 
                     <View style={styles.dateFieldContainer}>
                         <View style={styles.dateField}>

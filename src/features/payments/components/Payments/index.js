@@ -10,6 +10,7 @@ import { PAYMENT_ADD, PAYMENT_EDIT, PAYMENT_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import paymentsFilterFields from './filterFields';
 import { isFilterApply } from '@/utils';
+import PaymentServices from '../../services';
 
 type IProps = {
     navigation: Object,
@@ -23,12 +24,13 @@ export class Payments extends React.Component<IProps> {
     constructor(props) {
         super(props);
         this.scrollViewReference = React.createRef();
+        this.toastReference = React.createRef();
+
         this.state = { search: '' };
     }
 
     componentDidMount() {
         const { navigation } = this.props;
-
         goBack(MOUNT, navigation, { route: ROUTES.MAIN_INVOICES });
         this.onFocus();
     }
@@ -43,6 +45,14 @@ export class Payments extends React.Component<IProps> {
 
         this.focusListener = navigation.addListener('didFocus', () => {
             this.scrollViewReference?.getItems?.();
+
+            if (PaymentServices.isEmailSent) {
+                PaymentServices.toggleIsEmailSent(false);
+                this.toastReference?.show?.(
+                    'toast.send_payment_successfully',
+                    1500
+                );
+            }
         });
     };
 
@@ -160,6 +170,9 @@ export class Payments extends React.Component<IProps> {
                     onSearch={this.onSearch}
                     bottomDivider
                     filterProps={filterProps}
+                    toastProps={{
+                        reference: ref => (this.toastReference = ref)
+                    }}
                 >
                     <View style={styles.listViewContainer}>
                         <InfiniteScroll

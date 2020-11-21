@@ -8,6 +8,7 @@ import { styles } from './styles';
 import { InputField, CtHeader, CtDivider } from '../..';
 import { Content } from '../../Content';
 import Lng from '@/lang/i18n';
+import { Toast } from '@/components';
 
 type IProps = {
     children: any,
@@ -20,7 +21,8 @@ type IProps = {
     inputProps?: Object,
     dividerStyle?: Object,
     loadingProps?: Object,
-    searchFieldProps?: any
+    searchFieldProps?: any,
+    toastProps?: any
 };
 
 const MainLayoutComponent = ({
@@ -35,7 +37,8 @@ const MainLayoutComponent = ({
     dividerStyle,
     loadingProps,
     locale,
-    searchFieldProps
+    searchFieldProps,
+    toastProps
 }: IProps) => {
     let hasFilter = filterProps ? { ...filterProps } : null;
 
@@ -88,6 +91,10 @@ const MainLayoutComponent = ({
 
             {bottomAction && (
                 <View style={styles.bottomView}>{bottomAction}</View>
+            )}
+
+            {toastProps && (
+                <Toast containerStyle={{ bottom: 20 }} {...toastProps} />
             )}
         </View>
     );

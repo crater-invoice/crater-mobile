@@ -47,6 +47,7 @@ import {
 } from '../InvoiceCalculation';
 import { getApiFormattedCustomFields } from '@/utils';
 import Notes from './notes';
+import InvoiceServices from '../../services';
 
 type IProps = {
     navigation: any,
@@ -64,13 +65,26 @@ type IProps = {
     itemsLoading: Boolean,
     initLoading: Boolean,
     loading: Boolean,
-    invoiceData: Object,
     items: Object,
     locale: String,
-    type: String
+    type: String,
+    changeInvoiceStatus: Function,
+    formValues: any,
+    invoiceData: any,
+    id: number,
+    withLoading: boolean,
+    customFields: Array<any>
 };
 
-export class Invoice extends React.Component<IProps> {
+type IStates = {
+    currency: any,
+    itemList: Array<any>,
+    customerName: string,
+    markAsStatus: string,
+    isLoading: boolean
+};
+
+export class Invoice extends React.Component<IProps, IStates> {
     invoiceRefs: any;
     sendMailRef: any;
     customerReference: any;
@@ -453,6 +467,31 @@ export class Invoice extends React.Component<IProps> {
         }
     };
 
+    sendEmail = params => {
+        const { navigation, changeInvoiceStatus, id } = this.props;
+
+        changeInvoiceStatus({
+            id,
+            action: `${id}/send`,
+            navigation,
+            params,
+            onResult: () => InvoiceServices.toggleIsEmailSent(true)
+        });
+    };
+
+    sendMailComponent = () => {
+        return (
+            <SendMail
+                mailReference={ref => (this.sendMailRef = ref)}
+                headerTitle={'header.sendMailInvoice'}
+                alertDesc={'invoices.alert.sendInvoice'}
+                user={this.props.formValues?.customer}
+                body="invoice_mail_body"
+                onSendMail={params => this.sendEmail(params)}
+            />
+        );
+    };
+
     render() {
         const {
             navigation,
@@ -471,9 +510,7 @@ export class Invoice extends React.Component<IProps> {
             type,
             getCustomers,
             customers,
-            changeInvoiceStatus,
             formValues,
-            id,
             withLoading,
             customFields
         } = this.props;
@@ -538,23 +575,9 @@ export class Invoice extends React.Component<IProps> {
                         { opacity: withLoading ? 0.8 : 1 }
                     ]}
                 >
-                    {isEditInvoice && !hasCompleteStatus && (
-                        <SendMail
-                            mailReference={ref => (this.sendMailRef = ref)}
-                            headerTitle={'header.sendMailInvoice'}
-                            alertDesc={'invoices.alert.sendInvoice'}
-                            user={formValues?.customer}
-                            body="invoice_mail_body"
-                            onSendMail={params =>
-                                changeInvoiceStatus({
-                                    id,
-                                    action: `${id}/send`,
-                                    navigation,
-                                    params
-                                })
-                            }
-                        />
-                    )}
+                    {isEditInvoice &&
+                        !hasCompleteStatus &&
+                        this.sendMailComponent()}
 
                     <View style={styles.dateFieldContainer}>
                         <View style={styles.dateField}>

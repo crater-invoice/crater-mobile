@@ -404,8 +404,8 @@ function* changeEstimateStatus({ payload }) {
             return;
         }
 
-        navigation.navigate(ROUTES.ESTIMATE_LIST);
         onResult?.();
+        navigation.navigate(ROUTES.ESTIMATE_LIST);
     } catch (e) {
     } finally {
         yield put(spinner({ changeStatusLoading: false }));

@@ -201,8 +201,8 @@ function* removePayment({ payload: { id, navigation } }) {
     }
 }
 
-function* sendPaymentReceipt({ payload: { params, navigation } }) {
-    yield put(spinner({ paymentLoading: true }));
+function* sendPaymentReceipt({ payload: { params, navigation, onSuccess } }) {
+    yield put(spinner({ sendReceiptLoading: true }));
 
     try {
         const options = {
@@ -213,6 +213,7 @@ function* sendPaymentReceipt({ payload: { params, navigation } }) {
         const response = yield call([Request, 'post'], options);
 
         if (response.success) {
+            onSuccess?.();
             navigation.navigate(ROUTES.MAIN_PAYMENTS);
             return;
         }
@@ -222,7 +223,7 @@ function* sendPaymentReceipt({ payload: { params, navigation } }) {
         });
     } catch (e) {
     } finally {
-        yield put(spinner({ paymentLoading: false }));
+        yield put(spinner({ sendReceiptLoading: false }));
     }
 }
 
