@@ -14,7 +14,7 @@ export default styles = StyleSheet.create({
         paddingHorizontal: 10
     },
     filePicker: {
-        marginBottom: 20,
+        marginBottom: 10,
         marginTop: 4
     }
 });
