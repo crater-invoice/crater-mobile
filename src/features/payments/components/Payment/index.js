@@ -376,6 +376,11 @@ export class Payment extends React.Component<IProps> {
 
         const { isLoading } = this.state;
         const isEditPayment = type === PAYMENT_EDIT;
+
+        const hasCustomField = isEditPayment
+            ? formValues?.payment && formValues.payment.hasOwnProperty('fields')
+            : isArray(customFields);
+
         const drownDownProps =
             isEditPayment && !isLoading
                 ? {
@@ -562,7 +567,7 @@ export class Payment extends React.Component<IProps> {
                         setFormField={this.setFormField}
                     />
 
-                    {isArray(customFields) && (
+                    {hasCustomField && (
                         <CustomField {...this.props} type="payment" />
                     )}
                 </View>

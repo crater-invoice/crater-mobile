@@ -525,9 +525,7 @@ export class Estimate extends React.Component<IProps> {
         const isEditEstimate = type === ESTIMATE_EDIT;
 
         const hasCustomField = isEditEstimate
-            ? isArray(customFields) &&
-              formValues &&
-              formValues.hasOwnProperty('fields')
+            ? formValues && formValues.hasOwnProperty('fields')
             : isArray(customFields);
 
         let hasCompleteStatus = markAsStatus === 'COMPLETED';

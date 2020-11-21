@@ -10,15 +10,39 @@ export const isFilterApply = formValues => {
     return hasObjectLength(values);
 };
 
-export const getCustomFieldValueParams = (
-    customFields = null,
-    initialFieldValues = null
-) => {
+export const getInitialCustomFields = (customFields, initialValues) => {
+    if (!isArray(initialValues)) {
+        return sortByItem(customFields, 'order');
+    }
+
+    let fields = [];
+
+    initialValues.map(value => {
+        fields.push({
+            ...value.custom_field,
+            defaultAnswer: value.defaultAnswer
+        });
+    });
+
+    if (isArray(customFields)) {
+        customFields.map(customField => {
+            const isOld = find(fields, {
+                id: customField.id
+            });
+
+            if (!isOld) {
+                fields.push(customField);
+            }
+        });
+    }
+
+    return sortByItem(fields, 'order');
+};
+
+export const getCustomFieldValueParams = customFields => {
     if (!isArray(customFields)) {
         return [];
     }
-
-    const hasInitialValues = isArray(initialFieldValues);
 
     return customFields.map(field => {
         const {
@@ -31,15 +55,6 @@ export const getCustomFieldValueParams = (
 
         let value = defaultAnswer ?? default_answer;
 
-        if (hasInitialValues) {
-            const defaultValue = find(initialFieldValues, {
-                custom_field_id: id
-            });
-
-            if (hasValue(defaultValue))
-                value =
-                    defaultValue?.defaultAnswer ?? defaultValue?.default_answer;
-        }
         return {
             id,
             value: type !== DATA_TYPES.SWITCH ? value?.toString() : value,

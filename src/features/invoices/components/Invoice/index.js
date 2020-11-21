@@ -483,9 +483,7 @@ export class Invoice extends React.Component<IProps> {
         const isEditInvoice = type === INVOICE_EDIT;
 
         const hasCustomField = isEditInvoice
-            ? isArray(customFields) &&
-              formValues &&
-              formValues.hasOwnProperty('fields')
+            ? formValues && formValues.hasOwnProperty('fields')
             : isArray(customFields);
 
         let hasSentStatus =

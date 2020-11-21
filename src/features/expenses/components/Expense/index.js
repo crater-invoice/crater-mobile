@@ -48,6 +48,8 @@ interface IProps {
     customers: Array<any>;
     getCategories: Function;
     getCustomers: Function;
+    customFields: Array<any>;
+    formValues: any;
 }
 
 interface IState {
@@ -242,12 +244,18 @@ export class Expense extends React.Component<IProps, IState> {
             type,
             getCustomers,
             customers,
-            customFields
+            customFields,
+            formValues
         } = this.props;
 
         const { imageUrl, isLoading, fileType } = this.state;
 
         const isCreateExpense = type === EXPENSE_ADD;
+        const isEditExpense = type === EXPENSE_EDIT;
+
+        const hasCustomField = isEditExpense
+            ? formValues?.expense && formValues.expense.hasOwnProperty('fields')
+            : isArray(customFields);
 
         const drownDownProps =
             !isCreateExpense && !isLoading
@@ -399,7 +407,7 @@ export class Expense extends React.Component<IProps, IState> {
                         height={80}
                     />
 
-                    {isArray(customFields) && (
+                    {hasCustomField && (
                         <CustomField {...this.props} type="expense" />
                     )}
                 </View>

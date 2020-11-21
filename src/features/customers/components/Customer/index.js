@@ -210,6 +210,12 @@ export class Customer extends React.Component<IProps> {
 
         const { isLoading } = this.state;
         const isEditScreen = type === CUSTOMER_EDIT;
+
+        const hasCustomField = isEditScreen
+            ? formValues?.customer &&
+              formValues.customer.hasOwnProperty('fields')
+            : isArray(customFields);
+
         const drownDownProps =
             isEditScreen && !isLoading
                 ? {
@@ -411,7 +417,7 @@ export class Customer extends React.Component<IProps> {
                         />
                     </View>
 
-                    {isArray(customFields) && (
+                    {hasCustomField && (
                         <CustomField {...this.props} type="customer" />
                     )}
                 </View>

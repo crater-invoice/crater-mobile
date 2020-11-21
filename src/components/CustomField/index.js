@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
 import { FieldArray, change } from 'redux-form';
 import { CUSTOM_FIELD_DATA_TYPES as DATA_TYPES } from '@/features/settings/constants';
 import { isArray } from '@/constants';
-import { getCustomFieldValueParams, sortByItem } from '@/utils';
+import { getInitialCustomFields, getCustomFieldValueParams } from '@/utils';
 import {
     InputType,
     SwitchType,
@@ -96,15 +95,11 @@ export const CustomField = (props: IProps) => {
     const [sortableFields, setSortableFields] = useState(null);
 
     useEffect(() => {
-        const sortableCustomFields = sortByItem(customFields, 'order');
-        setFormField(
-            'customFields',
-            getCustomFieldValueParams(
-                sortableCustomFields,
-                type ? formValues?.[type]?.fields : formValues?.fields
-            )
-        );
-        setSortableFields(sortableCustomFields);
+        const values = type ? formValues?.[type]?.fields : formValues?.fields;
+        const fields = getInitialCustomFields(customFields, values);
+
+        setFormField('customFields', getCustomFieldValueParams(fields));
+        setSortableFields(fields);
         return () => {};
     }, []);
 
