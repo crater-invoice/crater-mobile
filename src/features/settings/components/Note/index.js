@@ -158,20 +158,28 @@ export default class Note extends React.Component<IProps> {
         );
     };
 
+    getCustomFieldTypes = () => {
+        const { formValues } = this.props;
+        const types = [TYPES.PREDEFINE_CUSTOMER, TYPES.CUSTOMER];
+
+        if (hasTextLength(formValues?.type)) {
+            types.push(formValues?.type);
+        }
+
+        return types;
+    };
+
     render() {
         const {
             navigation,
             handleSubmit,
             locale,
             type,
-            noteDetail,
             selectedModalType
         } = this.props;
         const { isLoading } = this.state;
         const isEditScreen = type === NOTES_EDIT;
-        const types = isEditScreen
-            ? [TYPES.PREDEFINE_CUSTOMER, TYPES.CUSTOMER, noteDetail?.type]
-            : [TYPES.PREDEFINE_CUSTOMER, TYPES.CUSTOMER];
+        const types = this.getCustomFieldTypes();
 
         return (
             <DefaultLayout

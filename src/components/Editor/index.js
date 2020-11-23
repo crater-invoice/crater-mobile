@@ -385,7 +385,15 @@ export class Editor extends Component<IProps, IStates> {
                             {customRightLabelComponent &&
                                 customRightLabelComponent}
                             {hasFields && (
-                                <TouchableOpacity onPress={this.onToggleModal}>
+                                <TouchableOpacity
+                                    onPress={this.onToggleModal}
+                                    hitSlop={{
+                                        top: 10,
+                                        left: 5,
+                                        bottom: 10,
+                                        right: 5
+                                    }}
+                                >
                                     <Text style={styles.insertFields}>
                                         {Lng.t('notes.insertFields', {
                                             locale
