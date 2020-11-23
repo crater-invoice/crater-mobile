@@ -7,7 +7,7 @@ import moment from 'moment';
 import styles from './styles';
 import { goBack, MOUNT, ROUTES, UNMOUNT } from '@/navigation';
 import Lng from '@/lang/i18n';
-import { Linking } from 'expo';
+import * as Linking from 'expo-linking';
 import { alertMe, isArray, MAX_LENGTH } from '@/constants';
 import { IMAGES } from '@/assets';
 import {

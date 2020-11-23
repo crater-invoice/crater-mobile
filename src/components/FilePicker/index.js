@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, Linking } from 'react-native';
+import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import * as Linking from 'expo-linking';
 import * as IntentLauncher from 'expo-intent-launcher';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import Constants from 'expo-constants';
 import { styles } from './styles';
 import { AssetImage } from '../AssetImage';
 import { colors } from '@/styles';
@@ -54,8 +56,13 @@ export class FilePickerComponent extends Component<IProps> {
                 if (isIosPlatform()) {
                     Linking.openURL('app-settings:');
                 } else {
+                    const appName =
+                        Constants?.manifest?.android?.package ??
+                        'com.craterapp.app';
+
                     IntentLauncher.startActivityAsync(
-                        IntentLauncher.ACTION_MANAGE_APPLICATIONS_SETTINGS
+                        IntentLauncher.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        { data: 'package:' + appName }
                     );
                 }
             }

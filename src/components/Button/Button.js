@@ -77,7 +77,7 @@ export class CtGradientButton extends Component<IProps> {
         } = this.props;
 
         const { buttonFocus, animatedScale } = this.state;
-
+        const isOutline = type === BUTTON_TYPE.OUTLINE;
         const animatedStyle = {
             transform: [{ scale: animatedScale }]
         };
@@ -118,7 +118,7 @@ export class CtGradientButton extends Component<IProps> {
                     buttonStyle={[
                         styles.buttonStyle,
                         style,
-                        type === BUTTON_TYPE.OUTLINE
+                        isOutline
                             ? [
                                   { borderColor: colors[buttonColor] },
                                   styles.buttonOutline
@@ -135,7 +135,7 @@ export class CtGradientButton extends Component<IProps> {
                     title={btnTitle}
                     titleStyle={[
                         styles.titleStyle,
-                        type === BUTTON_TYPE.OUTLINE && {
+                        isOutline && {
                             color: colors[buttonColor]
                         }
                     ]}
@@ -151,7 +151,7 @@ export class CtGradientButton extends Component<IProps> {
                     disabledStyle={[
                         styles.buttonStyle,
                         style,
-                        type === BUTTON_TYPE.OUTLINE
+                        isOutline
                             ? [
                                   { borderColor: colors[buttonColor] },
                                   styles.buttonOutline
@@ -165,10 +165,9 @@ export class CtGradientButton extends Component<IProps> {
                     disabledTitleStyle={
                         (styles.titleStyle,
                         {
-                            color:
-                                type === BUTTON_TYPE.OUTLINE
-                                    ? colors[buttonColor]
-                                    : colors.white
+                            color: isOutline
+                                ? colors[buttonColor]
+                                : colors.white
                         })
                     }
                     ViewComponent={LinearGradient}
@@ -228,7 +227,7 @@ export class CtButton extends Component<IProps> {
         } = this.props;
 
         const { buttonFocus, animatedScale } = this.state;
-
+        const isOutline = type === BUTTON_TYPE.OUTLINE;
         const animatedStyle = {
             transform: [{ scale: animatedScale }]
         };
@@ -269,7 +268,7 @@ export class CtButton extends Component<IProps> {
                     buttonStyle={[
                         styles.buttonStyle,
                         style,
-                        type === BUTTON_TYPE.OUTLINE
+                        isOutline
                             ? [
                                   { borderColor: colors[buttonColor] },
                                   styles.buttonOutline
@@ -286,10 +285,12 @@ export class CtButton extends Component<IProps> {
                     title={btnTitle}
                     loading={(loading && buttonFocus) || isLoading}
                     loadingStyle={{ opacity: 0.7 }}
-                    loadingProps={{ color: colors.white }}
+                    loadingProps={{
+                        color: !isOutline ? colors.white : colors[buttonColor]
+                    }}
                     titleStyle={[
                         styles.titleStyle,
-                        type === BUTTON_TYPE.OUTLINE && {
+                        isOutline && {
                             color: colors[buttonColor]
                         }
                     ]}
@@ -297,7 +298,7 @@ export class CtButton extends Component<IProps> {
                     disabledStyle={[
                         styles.buttonStyle,
                         style,
-                        type === BUTTON_TYPE.OUTLINE
+                        isOutline
                             ? [
                                   { borderColor: colors[buttonColor] },
                                   styles.buttonOutline
@@ -311,10 +312,9 @@ export class CtButton extends Component<IProps> {
                     disabledTitleStyle={
                         (styles.titleStyle,
                         {
-                            color:
-                                type === BUTTON_TYPE.OUTLINE
-                                    ? colors[buttonColor]
-                                    : colors.white
+                            color: isOutline
+                                ? colors[buttonColor]
+                                : colors.white
                         })
                     }
                 />

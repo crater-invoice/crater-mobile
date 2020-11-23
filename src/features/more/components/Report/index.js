@@ -21,7 +21,7 @@ import {
 } from '../../constants';
 import Lng from '@/lang/i18n';
 import moment from 'moment';
-import { Linking } from 'expo';
+import * as Linking from 'expo-linking';
 import QueryString from 'qs';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { headerTitle } from '@/styles';

@@ -1,7 +1,8 @@
 // @flow
 
 import React from 'react';
-import { View, Text, Linking } from 'react-native';
+import { View, Text } from 'react-native';
+import * as Linking from 'expo-linking';
 import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
 import { colors, itemsDescriptionStyle } from '@/styles';
@@ -256,6 +257,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                 customFields: getApiFormattedCustomFields(values?.customFields)
             },
             navigation,
+            status,
             onSuccess: url => {
                 if (status === 'download') {
                     Linking.openURL(url);

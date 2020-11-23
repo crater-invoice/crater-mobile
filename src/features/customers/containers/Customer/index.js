@@ -39,8 +39,8 @@ const mapStateToProps = (state, { navigation }) => {
                 [FIELDS.PHONE]: null,
                 [FIELDS.WEBSITE]: null,
                 [FIELDS.CURRENCY]: null,
-                [FIELDS.BILLING]: null,
-                [FIELDS.SHIPPING]: null,
+                [FIELDS.BILLING]: undefined,
+                [FIELDS.SHIPPING]: undefined,
                 [FIELDS.ENABLE_PORTAL]: null,
                 [FIELDS.CUSTOM_FIELDS]: null,
                 id

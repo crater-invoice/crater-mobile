@@ -258,7 +258,7 @@ function* createInvoice({ payload }) {
 }
 
 function* editInvoice({ payload }) {
-    const { invoice, onSuccess, submissionError, navigation } = payload;
+    const { invoice, onSuccess, submissionError, navigation, status } = payload;
 
     yield put(spinner({ invoiceLoading: true }));
 
@@ -285,7 +285,7 @@ function* editInvoice({ payload }) {
 
         if (response.success) {
             yield put(updateFromInvoices({ invoice: response.invoice }));
-            navigation.goBack(null);
+            status !== 'download' && navigation.goBack(null);
         }
 
         onSuccess?.(response?.invoice?.invoicePdfUrl);
