@@ -4,7 +4,8 @@ module.exports = {
     singleQuote: true,
     trailingComma: 'all',
     printWidth: 100,
-    parser: "flow",
-    arrowParens: "always",
+    parser: 'flow',
+    arrowParens: 'always',
     tabWidth: 4,
-  };
+    semi: false
+};

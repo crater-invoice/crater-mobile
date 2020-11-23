@@ -1,22 +1,24 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
     StatusBar,
     ScrollView,
     View,
     KeyboardAvoidingView,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Keyboard
 } from 'react-native';
 import { Field } from 'redux-form';
 import styles from './styles';
-import { InputField, CtButton, AssetImage, CtDivider, CtGradientButton } from '../../../../components';
-// import * as Google from 'expo-google-app-auth';
-import { env, IMAGES } from '../../../../config';
-import { colors } from '../../../../styles/colors';
-import { ROUTES } from '../../../../navigation/routes';
-import Lng from '../../../../api/lang/i18n';
+import { InputField, AssetImage, CtGradientButton } from '@/components';
+import Constants from 'expo-constants';
+import { colors } from '@/styles/colors';
+import { ROUTES } from '@/navigation';
+import Lng from '@/lang/i18n';
+import { IMAGES } from '@/assets';
+import { isIosPlatform, isIPhoneX } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -24,61 +26,59 @@ type IProps = {
     handleSubmit: Function,
     loading: Boolean,
     socialLoading: Boolean,
-    language: String,
-}
+    locale: String
+};
 export class Login extends React.Component<IProps> {
     constructor(props) {
         super(props);
+        this.state = {
+            isKeyboardVisible: false
+        };
     }
 
-    /*
-     * Sign in with google
-     onSocialLogin = async () => {
-         const { navigation, socialLogin } = this.props;
-         socialLogin({});
-         try {
-             const result = await Google.logInAsync({
-                 androidClientId: env.GOOGLE_ANDROID_CLIENT_ID,
-                 iosClientId: env.GOOGLE_IOS_CLIENT_ID,
-                 scopes: ['profile', 'email'],
-             });
+    componentDidMount = () => {
+        this.keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            () => this.setState({ isKeyboardVisible: true })
+        );
+        this.keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => this.setState({ isKeyboardVisible: false })
+        );
+    };
 
-             if (result.type === 'success') {
-                 socialLogin({
-                     idToken: result.idToken,
-                     navigation,
-                 });
-             } else {
-             }
-         } catch (e) {
-             // console.log(e);
-         }
-     }; */
+    componentWillUnmount = () => {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    };
 
-    onLogin = (values) => {
-
+    onLogin = values => {
         const { navigation, login } = this.props;
         login({
-            params: values,
-            navigation,
+            params: { ...values, device_name: Constants.deviceName },
+            navigation
         });
     };
 
     render() {
         let passwordInput = {};
-        const {
-            loading,
-            socialLoading,
-            navigation,
-            language,
-        } = this.props;
+        const { loading, socialLoading, navigation, locale } = this.props;
+        const { isKeyboardVisible } = this.state;
 
-        let loginRefs = {}
+        let loginRefs = {};
+        let scrollViewStyle = {
+            paddingTop:
+                isKeyboardVisible && !isIPhoneX()
+                    ? isIosPlatform()
+                        ? '18%'
+                        : '10%'
+                    : isIPhoneX()
+                    ? '50%'
+                    : '34%'
+        };
 
         return (
-
             <View style={styles.container}>
-
                 <StatusBar
                     barStyle="dark-content"
                     hidden={false}
@@ -86,10 +86,10 @@ export class Login extends React.Component<IProps> {
                 />
 
                 <ScrollView
-                    style={{ paddingTop: '34%' }}
-                    bounces={false}
+                    style={scrollViewStyle}
+                    bounces={isKeyboardVisible}
                     showsVerticalScrollIndicator={false}
-                    keyboardShouldPersistTaps='handled'
+                    keyboardShouldPersistTaps="handled"
                 >
                     <KeyboardAvoidingView
                         style={{ flex: 1 }}
@@ -112,7 +112,9 @@ export class Login extends React.Component<IProps> {
                                     inputProps={{
                                         returnKeyType: 'next',
                                         autoCapitalize: 'none',
-                                        placeholder: Lng.t("login.email", { locale: language }),
+                                        placeholder: Lng.t('login.email', {
+                                            locale
+                                        }),
                                         autoCorrect: true,
                                         keyboardType: 'email-address',
                                         onSubmitEditing: () => {
@@ -122,8 +124,9 @@ export class Login extends React.Component<IProps> {
                                     placeholderColor={colors.white5}
                                     inputContainerStyle={styles.inputField}
                                 />
+
                                 <Field
-                                    refLinkFn={(ref) => {
+                                    refLinkFn={ref => {
                                         passwordInput = ref;
                                     }}
                                     name="password"
@@ -131,23 +134,34 @@ export class Login extends React.Component<IProps> {
                                     inputProps={{
                                         returnKeyType: 'go',
                                         autoCapitalize: 'none',
-                                        placeholder: Lng.t("login.password", { locale: language }),
+                                        placeholder: Lng.t('login.password', {
+                                            locale
+                                        }),
                                         autoCorrect: true,
-                                        onSubmitEditing: this.props.handleSubmit(this.onLogin),
+                                        onSubmitEditing: this.props.handleSubmit(
+                                            this.onLogin
+                                        )
                                     }}
                                     inputContainerStyle={styles.inputField}
                                     secureTextEntry
-                                    refLinkFn={(ref) => {
+                                    refLinkFn={ref => {
                                         loginRefs.password = ref;
                                     }}
+                                    minCharacter={8}
                                 />
 
                                 <View style={styles.forgetPasswordContainer}>
                                     <TouchableOpacity
-                                        onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)}
+                                        onPress={() =>
+                                            navigation.navigate(
+                                                ROUTES.FORGOT_PASSWORD
+                                            )
+                                        }
                                     >
                                         <Text style={styles.forgetPassword}>
-                                            {Lng.t("button.forget", { locale: language })}
+                                            {Lng.t('button.forget', {
+                                                locale
+                                            })}
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
@@ -155,33 +169,15 @@ export class Login extends React.Component<IProps> {
 
                             <View style={{ marginTop: 25 }}>
                                 <CtGradientButton
-                                    onPress={this.props.handleSubmit(this.onLogin)}
-                                    btnTitle={Lng.t("button.singIn", { locale: language })}
+                                    onPress={this.props.handleSubmit(
+                                        this.onLogin
+                                    )}
+                                    btnTitle={Lng.t('button.singIn', {
+                                        locale
+                                    })}
                                     loading={loading}
                                 />
                             </View>
-
-
-                            {/*
-                            * Sign in with google
-
-
-                            <CtDivider title="or" />
-
-                            <View style={styles.socialLoginContainer}>
-                                <CtButton
-                                    raised
-                                    imageSource={IMAGES.GOOGLE_ICON}
-                                    imageIcon
-                                    onPress={() => this.onSocialLogin()}
-                                    btnTitle={Lng.t("button.singInGoogle", { locale: language })}
-                                    loading={socialLoading}
-                                    buttonType={BUTTON_COLOR.WHITE}
-                                    color={colors.dark3}
-                                />
-                            </View>
-                        */}
-
                         </View>
                     </KeyboardAvoidingView>
                 </ScrollView>

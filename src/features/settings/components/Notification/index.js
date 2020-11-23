@@ -1,82 +1,73 @@
 // @flow
 
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
 import {
     DefaultLayout,
-    CtButton,
     InputField,
     ToggleSwitch,
     CtDivider
-} from '../../../../components';
+} from '@/components';
 import { Field, change } from 'redux-form';
-import Lng from '../../../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { NOTIFICATION } from '../../constants';
-import { colors } from '../../../../styles/colors';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-
+import { colors } from '@/styles';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 
 type IProps = {
     navigation: Object,
     handleSubmit: Function,
-    language: String,
-    getAccountLoading: Boolean,
-}
+    locale: String,
+    getAccountLoading: Boolean
+};
 export class Notification extends React.Component<IProps> {
+    toastReference: any;
     constructor(props) {
         super(props);
+        this.toastReference = React.createRef();
 
         this.state = {
             invoiceStatus: null,
             estimateStatus: null,
-            email: '',
-        }
+            email: ''
+        };
     }
 
     componentWillMount() {
-        const { getSettingItem } = this.props
+        const { getSettingItem } = this.props;
 
         getSettingItem({
-            key: 'notify_invoice_viewed',
-            onResult: (val) => {
-                this.setState({ invoiceStatus: val !== null ? val : 'NO' })
+            onResult: val => {
+                this.setFormField('notification_email', val.notification_email);
+                this.setFormField(
+                    'notify_invoice_viewed',
+                    val.notify_invoice_viewed === 'YES' ||
+                        val.notify_invoice_viewe === 1
+                        ? true
+                        : false
+                );
+                this.setFormField(
+                    'notify_estimate_viewed',
+                    val.notify_estimate_viewed === 'YES' ||
+                        val.notify_estimate_viewed === 1
+                        ? true
+                        : false
+                );
+                this.setState({ invoiceStatus: val !== null ? val : 'NO' });
+                this.setState({ estimateStatus: val !== null ? val : 'NO' });
+                this.setState({ email: val !== null ? val : '' });
             }
-        })
-
-        getSettingItem({
-            key: 'notify_estimate_viewed',
-            onResult: (val) => {
-                this.setState({ estimateStatus: val !== null ? val : 'NO' })
-            }
-        })
-
-        getSettingItem({
-            key: 'notification_email',
-            onResult: (val) => {
-                this.setFormField('notification_email', val)
-            }
-        })
+        });
     }
 
     componentDidMount() {
-        const { navigation } = this.props
-        goBack(MOUNT, navigation)
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-
-        const { navigation } = nextProps
-        const toastMsg = navigation.getParam('toastMsg', null)
-
-        toastMsg &&
-            setTimeout(() => {
-                navigation.setParams({ 'toastMsg': null })
-            }, 2500);
+        const { navigation } = this.props;
+        goBack(MOUNT, navigation);
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
 
     setFormField = (field, value) => {
@@ -84,125 +75,140 @@ export class Notification extends React.Component<IProps> {
     };
 
     onNotificationSubmit = ({ notification_email }) => {
-        const { editSettingItem, navigation } = this.props
+        const { editSettingItem, navigation } = this.props;
+
+        const settings = {
+            notification_email: notification_email
+        };
 
         editSettingItem({
             params: {
-                key: 'notification_email',
-                value: notification_email
+                settings
             },
             navigation
-        })
+        });
+    };
 
-    }
+    invoiceStatus = status => {
+        const { editSettingItem } = this.props;
 
-    invoiceStatus = (status) => {
-        const { editSettingItem } = this.props
-
-        editSettingItem({
-            params: {
-                key: 'notify_invoice_viewed',
-                value: status === true ? 'YES' : 'NO'
-            },
-            onResult: () => { this.toggleToast('settings.notifications.invoiceViewedUpdated') }
-        })
-    }
-
-    estimateStatus = (status) => {
-        const { editSettingItem } = this.props
+        const settings = {
+            notify_invoice_viewed: status === true ? 'YES' : 'NO'
+        };
 
         editSettingItem({
             params: {
-                key: 'notify_estimate_viewed',
-                value: status === true ? 'YES' : 'NO'
+                settings
             },
-            onResult: () => { this.toggleToast('settings.notifications.estimateViewedUpdated') }
-        })
-    }
+            onResult: () => {
+                this.toastReference?.show?.(
+                    'settings.notifications.invoiceViewedUpdated'
+                );
+            }
+        });
+    };
 
-    toggleToast = (msg) => {
-        this.props.navigation.setParams({
-            "toastMsg": msg
-        })
-    }
+    estimateStatus = status => {
+        const { editSettingItem } = this.props;
+
+        const settings = {
+            notify_estimate_viewed: status === true ? 'YES' : 'NO'
+        };
+
+        editSettingItem({
+            params: {
+                settings
+            },
+            onResult: () => {
+                this.toastReference?.show?.(
+                    'settings.notifications.estimateViewedUpdated'
+                );
+            }
+        });
+    };
 
     render() {
         const {
             navigation,
             handleSubmit,
-            language,
-            getSettingItemLoading,
+            locale,
+            getSettingItemLoading
         } = this.props;
 
-        const { invoiceStatus, estimateStatus } = this.state
-        let toastMessage = navigation.getParam('toastMsg', '')
+        const { invoiceStatus, estimateStatus, email } = this.state;
 
         return (
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t("header.notifications", { locale: language }),
-                    placement: "center",
-                    rightIcon: "save",
+                    title: Lng.t('header.notifications', { locale }),
+                    placement: 'center',
+                    rightIcon: 'save',
                     rightIconProps: {
-                        solid: true,
+                        solid: true
                     },
                     leftIconStyle: { color: colors.dark2 },
-                    rightIconPress: handleSubmit(this.onNotificationSubmit),
+                    rightIconPress: handleSubmit(this.onNotificationSubmit)
                 }}
                 loadingProps={{
-                    is: getSettingItemLoading || invoiceStatus === null ||
-                        estimateStatus === null
+                    is:
+                        getSettingItemLoading ||
+                        invoiceStatus === null ||
+                        estimateStatus === null ||
+                        email === null
                 }}
                 toastProps={{
-                    message: Lng.t(toastMessage, { locale: language }),
-                    visible: toastMessage,
-                    containerStyle: styles.toastContainer
+                    reference: ref => (this.toastReference = ref)
                 }}
             >
                 <View style={styles.mainContainer}>
-
                     <Field
-                        name={"notification_email"}
+                        name={'notification_email'}
                         component={InputField}
-                        hint={Lng.t("settings.notifications.send", { locale: language })}
+                        hint={Lng.t('settings.notifications.send', {
+                            locale
+                        })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
                             autoCorrect: true,
-                            keyboardType: 'email-address',
+                            keyboardType: 'email-address'
                         }}
                         leftIcon={'envelope'}
                         leftIconSolid={true}
+                        isRequired
                     />
 
-                    <CtDivider
-                        dividerStyle={styles.dividerLine}
-                    />
+                    <CtDivider dividerStyle={styles.dividerLine} />
 
                     <Field
                         name="notify_invoice_viewed"
                         component={ToggleSwitch}
                         status={invoiceStatus === 'YES' ? true : false}
-                        hint={Lng.t("settings.notifications.invoiceViewed", { locale: language })}
-                        description={Lng.t("settings.notifications.invoiceViewedDescription", { locale: language })}
-                        onChangeCallback={(val) =>
-                            this.invoiceStatus(val)
-                        }
+                        hint={Lng.t('settings.notifications.invoiceViewed', {
+                            locale
+                        })}
+                        description={Lng.t(
+                            'settings.notifications.invoiceViewedDescription',
+                            { locale }
+                        )}
+                        onChangeCallback={val => this.invoiceStatus(val)}
                     />
 
                     <Field
                         name="notify_estimate_viewed"
                         component={ToggleSwitch}
                         status={estimateStatus === 'YES' ? true : false}
-                        hint={Lng.t("settings.notifications.estimateViewed", { locale: language })}
-                        description={Lng.t("settings.notifications.estimateViewedDescription", { locale: language })}
-                        onChangeCallback={(val) =>
-                            this.estimateStatus(val)
-                        }
+                        hint={Lng.t('settings.notifications.estimateViewed', {
+                            locale
+                        })}
+                        description={Lng.t(
+                            'settings.notifications.estimateViewedDescription',
+                            { locale }
+                        )}
+                        onChangeCallback={val => this.estimateStatus(val)}
                         mainContainerStyle={{ marginTop: 12 }}
                     />
-
                 </View>
             </DefaultLayout>
         );

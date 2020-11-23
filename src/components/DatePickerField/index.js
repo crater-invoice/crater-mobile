@@ -4,10 +4,11 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import styles from './styles';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import debounce from 'lodash/debounce';
 import moment from 'moment';
 import { FakeInput } from '../FakeInput';
 import { connect } from 'react-redux';
-import { DATE_FORMAT } from '../../api/consts';
+import { DATE_FORMAT } from '@/constants';
 
 type IProps = {
     label: String,
@@ -17,17 +18,22 @@ type IProps = {
     rightIcon: String,
     displayValue: Boolean,
     isRequired: Boolean,
+    formDateFormat: String
 };
 
 export class DatePickerComponent extends Component<IProps> {
     constructor(props) {
         super(props);
-
+        this.pickerDateValue = new Date();
         this.state = {
             isDateTimePickerVisible: false,
-            value: '',
+            value: ''
         };
     }
+
+    static defaultProps = {
+        formDateFormat: DATE_FORMAT
+    };
 
     componentDidMount() {
         const {
@@ -35,48 +41,53 @@ export class DatePickerComponent extends Component<IProps> {
             dateFormat,
             selectedDate,
             selectedDateValue,
-            filter,
-        } = this.props
+            formDateFormat
+        } = this.props;
 
-        if (selectedDate && ((!value) === false)) {
+        if (selectedDate && !value === false) {
             this.setState({ value: selectedDate });
+            this.pickerDateValue = selectedDate;
             onChange(selectedDateValue);
         } else {
             if (value) {
-
                 let displayDate = moment(value).format(dateFormat);
-                let formDate = moment(value).format(DATE_FORMAT);
+                let formDate = moment(value).format(formDateFormat);
 
-                this.setState({
-                    value: displayDate,
-                });
+                this.setState({ value: displayDate });
 
                 onChange(formDate);
+
+                this.pickerDateValue = formDate;
             }
         }
+
+        this.getPickerOption = debounce(this.getPickerOption, 300);
     }
 
     showHideDateTimePicker = () => {
-        this.setState((prevState) => {
-            return { isDateTimePickerVisible: !prevState.isDateTimePickerVisible };
+        this.setState(prevState => {
+            return {
+                isDateTimePickerVisible: !prevState.isDateTimePickerVisible
+            };
         });
     };
 
-    handleDatePicked = (date) => {
+    handleDatePicked = date => {
         const {
             onChangeCallback,
             dateFormat,
             input: { onChange },
-            filter
+            filter,
+            formDateFormat
         } = this.props;
 
         let displayDate = moment(date).format(dateFormat);
 
-        let formDate = moment(date).format(DATE_FORMAT);
+        let formDate = moment(date).format(formDateFormat);
 
-        this.setState({
-            value: displayDate,
-        });
+        this.setState({ value: displayDate });
+
+        this.pickerDateValue = formDate;
 
         this.showHideDateTimePicker();
 
@@ -84,18 +95,31 @@ export class DatePickerComponent extends Component<IProps> {
 
         if (filter) {
             onChangeCallback && onChangeCallback(formDate, displayDate);
-        }
-        else
-            onChangeCallback && onChangeCallback(formDate);
+        } else onChangeCallback && onChangeCallback(formDate);
     };
 
-    getDate = (displayValue) => {
-        const { dateFormat } = this.props
+    getDate = displayValue => {
+        const { dateFormat } = this.props;
         if (displayValue) {
-            return displayValue.format(dateFormat)
+            return displayValue.format(dateFormat);
         }
-        return null
-    }
+        return null;
+    };
+
+    getPickerOption = () => {
+        const { displayValue } = this.props;
+        const dateValue = displayValue || this.pickerDateValue;
+
+        if (dateValue) {
+            try {
+                return { date: new Date(dateValue) };
+            } catch (e) {
+                return {};
+            }
+        }
+
+        return {};
+    };
 
     render() {
         const {
@@ -104,32 +128,30 @@ export class DatePickerComponent extends Component<IProps> {
             meta,
             displayValue,
             isRequired = false,
+            input,
+            placeholder = ' ',
+            fakeInputProps
         } = this.props;
 
         const { isDateTimePickerVisible, value } = this.state;
-        const { input } = this.props
-        const dateValue = displayValue || value
 
-        let pickerOption = {}
-
-        if (dateValue) {
-            pickerOption = { date: new Date(dateValue) }
-        }
+        let pickerOption = this.getPickerOption();
 
         return (
             <View style={styles.container}>
-
                 <FakeInput
                     label={label}
                     icon={'calendar-alt'}
                     values={
-                        (displayValue && this.getDate(displayValue)) || (input.value ? value : ' ')
+                        (displayValue && this.getDate(displayValue)) ||
+                        (input.value ? value : '')
                     }
-                    placeholder='  '
+                    placeholder={placeholder}
                     onChangeCallback={() => this.showHideDateTimePicker()}
                     meta={meta}
                     isRequired={isRequired}
                     containerStyle={containerStyle}
+                    {...fakeInputProps}
                 />
 
                 <DateTimePicker
@@ -144,12 +166,12 @@ export class DatePickerComponent extends Component<IProps> {
 }
 
 const mapStateToProps = ({ global }) => ({
-    dateFormat: global.dateFormat,
+    dateFormat: global.dateFormat
 });
 
 const mapDispatchToProps = {};
 
 export const DatePickerField = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(DatePickerComponent);

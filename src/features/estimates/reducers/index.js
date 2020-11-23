@@ -5,16 +5,15 @@ import {
     GET_ESTIMATES,
     GET_ITEMS,
     SET_ITEMS,
-    SET_CREATE_ESTIMATE,
     SET_ESTIMATE_ITEMS,
-    SET_EDIT_ESTIMATE_ITEMS,
     REMOVE_ESTIMATE_ITEM,
     SET_EDIT_ESTIMATE,
     REMOVE_ESTIMATE_ITEMS,
     CLEAR_ESTIMATE,
     SET_ESTIMATE,
-    REMOVE_FROM_ESTIMATES
-} from "../constants";
+    REMOVE_FROM_ESTIMATES,
+    UPDATE_FROM_ESTIMATES
+} from '../constants';
 
 const initialState = {
     estimates: [],
@@ -24,14 +23,16 @@ const initialState = {
         estimatesLoading: false,
         itemsLoading: false,
         estimateLoading: false,
-        initEstimateLoading: false
+        initEstimateLoading: false,
+        changeStatusLoading: false,
+        removeEstimateLoading: false
     },
     estimateData: {
         estimate: null,
         estimateTemplates: [],
-        nextEstimateNumber: '',
+        nextEstimateNumber: ''
     },
-    estimateItems: [],
+    estimateItems: []
 };
 
 export default function estimatesReducer(state = initialState, action) {
@@ -42,11 +43,17 @@ export default function estimatesReducer(state = initialState, action) {
             let { estimates, fresh, prepend } = payload;
 
             if (prepend) {
-                return { ...state, estimates: [ ...estimates, ...state.estimates] };
+                return {
+                    ...state,
+                    estimates: [...estimates, ...state.estimates]
+                };
             }
 
             if (!fresh) {
-                return { ...state, estimates: [...state.estimates, ...estimates] };
+                return {
+                    ...state,
+                    estimates: [...state.estimates, ...estimates]
+                };
             }
 
             return { ...state, estimates };
@@ -69,7 +76,6 @@ export default function estimatesReducer(state = initialState, action) {
             return { ...state };
 
         case SET_ESTIMATE:
-
             return { ...state, estimateData: payload };
 
         case SET_EDIT_ESTIMATE:
@@ -79,7 +85,6 @@ export default function estimatesReducer(state = initialState, action) {
             return { ...state, loading: { ...state.loading, ...payload } };
 
         case SET_ITEMS:
-
             const { items } = payload;
 
             if (!payload.fresh) {
@@ -88,31 +93,58 @@ export default function estimatesReducer(state = initialState, action) {
             return { ...state, items };
 
         case SET_ESTIMATE_ITEMS:
-
             const { estimateItem } = payload;
 
-            return { ...state, estimateItems: [...state.estimateItems, ...estimateItem] };
+            return {
+                ...state,
+                estimateItems: [...state.estimateItems, ...estimateItem]
+            };
 
         case REMOVE_ESTIMATE_ITEM:
-
             const { id } = payload;
 
-            const estimateItems = state.estimateItems.filter(val => (val.item_id || val.id) !== id)
+            const estimateItems = state.estimateItems.filter(
+                val => (val.item_id || val.id) !== id
+            );
 
             return { ...state, estimateItems };
 
         case REMOVE_ESTIMATE_ITEMS:
-
             return { ...state, estimateItems: [] };
 
         case REMOVE_FROM_ESTIMATES:
-
-            const newEstimates = state.estimates.filter(val => val.id !== payload.id)
+            const newEstimates = state.estimates.filter(
+                val => val.id !== payload.id
+            );
 
             return { ...state, estimates: newEstimates };
 
         case GET_ITEMS:
             return { ...state };
+
+        case UPDATE_FROM_ESTIMATES: {
+            const estimateMainData = payload.estimate;
+            const estimatesList = [];
+
+            if (state.estimates) {
+                state.estimates.map(estimate => {
+                    const { id } = estimate;
+                    let value = estimate;
+
+                    if (id === estimateMainData.id) {
+                        value = {
+                            ...estimateMainData
+                        };
+                    }
+                    estimatesList.push(value);
+                });
+            }
+
+            return {
+                ...state,
+                estimates: estimatesList
+            };
+        }
 
         default:
             return state;

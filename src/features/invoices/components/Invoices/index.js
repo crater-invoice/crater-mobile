@@ -1,486 +1,315 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
-import { Tabs, MainLayout } from '../../../../components';
-import Due from '../Tab/Due';
-import Draft from '../Tab/Draft';
-import All from '../Tab/All';
-
-import { ROUTES } from '../../../../navigation/routes';
+import { All, Draft, Due } from '../Tab';
+import { invoicesFilterFields as FilterFields } from './filterFields';
+import { goBack, MOUNT } from '@/navigation';
+import Lng from '@/lang/i18n';
+import { ROUTES } from '@/navigation';
+import { MainLayout, Tabs } from '@/components';
+import { IMAGES } from '@/assets';
 import {
+    getFilterStatusType,
     INVOICES_TABS,
     INVOICE_ADD,
     INVOICE_EDIT,
     INVOICE_SEARCH,
-    FILTER_INVOICE_STATUS,
-    TAB_NAME,
-    FILTER_INVOICE_PAID_STATUS,
+    TAB_NAME
 } from '../../constants';
-import Lng from '../../../../api/lang/i18n';
-import { IMAGES } from '../../../../config';
-import { goBack, MOUNT } from '../../../../navigation/actions';
-
-let params = {
-    search: '',
-    customer_id: '',
-    invoice_number: '',
-    from_date: '',
-    to_date: '',
-}
+import { isFilterApply } from '@/utils';
+import InvoiceServices from '../../services';
 
 type IProps = {
-    language: String,
+    locale: String,
     navigation: Object,
     invoices: Object,
     customers: Object,
     loading: Boolean,
     handleSubmit: Function,
     getCustomers: Function,
-}
+    formValues: any
+};
 
 export class Invoices extends React.Component<IProps> {
     constructor(props) {
         super(props);
 
+        this.dueReference = React.createRef();
+        this.draftReference = React.createRef();
+        this.allReference = React.createRef();
+        this.toastReference = React.createRef();
+
         this.state = {
             activeTab: INVOICES_TABS.DUE,
-            refreshing: false,
-            fresh: true,
-            pagination: {
-                page: 1,
-                limit: 10,
-                lastPage: 1,
-            },
-            search: '',
-            filter: false,
-            selectedFromDate: '',
-            selectedToDate: '',
-            selectedFromDateValue: '',
-            selectedToDateValue: ''
+            search: ''
         };
     }
 
     componentDidMount() {
-        const { navigation } = this.props
-        this.getItems({ fresh: true, q: '', type: 'UNPAID' });
-        goBack(MOUNT, navigation, { exit: true })
+        const { navigation } = this.props;
+        goBack(MOUNT, navigation, { exit: true });
+        this.onFocus();
     }
 
-    setActiveTab = (activeTab) => {
-        const { refreshing, search } = this.state;
+    componentWillUnmount() {
+        this.focusListener?.remove?.();
+    }
 
-        this.setState({ filter: false })
+    onFocus = () => {
+        const { navigation } = this.props;
+        this.focusListener = navigation.addListener('didFocus', () => {
+            const { ref } = this.getActiveTab();
+            ref?.getItems?.();
 
-        if (!refreshing) {
-            let type = this.getActiveTab(activeTab)
-
-            this.getItems({ fresh: true, type, q: search });
-
-            this.setState({ activeTab });
-
-            this.props.setInvoiceActiveTab({ activeTab: type })
-        }
+            if (InvoiceServices.isEmailSent) {
+                InvoiceServices.toggleIsEmailSent(false);
+                this.toastReference?.show?.(
+                    'toast.send_invoice_successfully',
+                    1500
+                );
+            }
+        });
     };
 
-    getItems = ({
-        fresh = false,
-        onResult,
-        type,
-        params,
-        q = '',
-        resetFilter = false
-    } = {}) => {
-        const { getInvoices } = this.props;
-        const { refreshing, pagination } = this.state;
-
-        if (refreshing) {
-            return;
-        }
-
-        if (resetFilter)
-            this.setState({ filter: false })
-
-        this.setState({
-            refreshing: true,
-            fresh,
-        });
-
-        const paginationParams = fresh ? { ...pagination, page: 1 } : pagination;
-
-        if (!fresh && paginationParams.lastPage < paginationParams.page) {
-            return;
-        }
-
-        getInvoices({
-            fresh,
-            type,
-            pagination: paginationParams,
-            params: { ...params, search: q },
-            onMeta: ({ last_page, current_page }) => {
-                this.setState({
-                    pagination: {
-                        ...paginationParams,
-                        lastPage: last_page,
-                        page: current_page + 1,
-                    },
-                });
-            },
-            onResult: (val) => {
-                this.setState({
-                    refreshing: false,
-                    fresh: !val,
-                });
-                onResult && onResult();
-            },
-        });
+    setActiveTab = activeTab => {
+        this.setState({ activeTab });
     };
 
     setFormField = (field, value) => {
         this.props.dispatch(change(INVOICE_SEARCH, field, value));
     };
 
-    onInvoiceSelect = (invoice) => {
-        const { navigation } = this.props
-        this.setActiveTab(INVOICES_TABS.ALL)
-        this.onResetFilter(INVOICES_TABS.ALL)
-        navigation.navigate(ROUTES.INVOICE,
-            { id: invoice.id, type: INVOICE_EDIT }
-        )
+    onSelect = invoice => {
+        const { navigation } = this.props;
+
+        navigation.navigate(ROUTES.INVOICE, {
+            id: invoice?.id,
+            type: INVOICE_EDIT
+        });
     };
 
-    onSearch = (search) => {
-        const type = this.getActiveTab()
-        this.setState({ search })
-        this.getItems({ fresh: true, type, q: search })
+    onSearch = search => {
+        const { status, ref } = this.getActiveTab();
+
+        this.setState({ search });
+
+        ref?.getItems?.({
+            queryString: { status, search },
+            showLoader: true
+        });
     };
 
     getActiveTab = (activeTab = this.state.activeTab) => {
-        let type = '';
-
         if (activeTab == INVOICES_TABS.DUE) {
-            type = 'UNPAID';
-        } else if (activeTab == INVOICES_TABS.DRAFT) {
-            type = 'DRAFT';
+            return {
+                status: 'UNPAID',
+                ref: this.dueReference
+            };
         }
-        return type
-    }
 
-
-    getFilterStatusType = (filterType) => {
-        let type = filterType
-        if (type === INVOICES_TABS.DUE)
-            type = 'UNPAID'
-        return type
-    }
-
-
-    onResetFilter = (tab = '') => {
-        const { filter } = this.state
-
-        this.setState({ filter: false })
-
-        if (filter && !tab) {
-            this.getItems({ fresh: true, q: '', type: this.getActiveTab() });
+        if (activeTab == INVOICES_TABS.DRAFT) {
+            return {
+                status: 'DRAFT',
+                ref: this.draftReference
+            };
         }
-    }
 
-    onSubmitFilter = ({ filterStatus = '', paid_status = '', from_date = '', to_date = '', invoice_number = '', customer_id = '' }) => {
+        return {
+            status: '',
+            ref: this.allReference
+        };
+    };
 
-        if (filterStatus || paid_status || from_date || to_date || invoice_number || customer_id) {
+    onResetFilter = () => {
+        const { search } = this.state;
+        const { status, ref } = this.getActiveTab();
 
-            if (filterStatus === INVOICES_TABS.DUE)
-                this.setState({ activeTab: INVOICES_TABS.DUE });
-            else if (filterStatus === INVOICES_TABS.DRAFT)
-                this.setState({ activeTab: INVOICES_TABS.DRAFT });
-            else
-                this.setState({ activeTab: INVOICES_TABS.ALL });
+        ref?.getItems?.({
+            queryString: { status, search },
+            resetQueryString: true,
+            resetParams: true,
+            showLoader: true
+        });
+    };
 
-            this.setState({ filter: true })
-
-
-            this.getItems({
-                fresh: true,
-                params: {
-                    ...params,
-                    customer_id,
-                    invoice_number,
-                    from_date,
-                    to_date
-                },
-                type: filterStatus ? this.getFilterStatusType(filterStatus) : paid_status,
-            });
-
+    changeTabBasedOnFilterStatusSelection = (status, paid_status) => {
+        if (status === INVOICES_TABS.DUE) {
+            return {
+                activeTab: INVOICES_TABS.DUE,
+                ref: this.dueReference
+            };
         }
-        else
-            this.onResetFilter()
-    }
 
-    loadMoreItems = ({ type, q }) => {
-        const { filter } = this.state
-        const {
-            formValues: {
-                filterStatus = '',
-                paid_status = '',
-                from_date = '',
-                to_date = '',
-                invoice_number = '',
-                customer_id = ''
-            }
-        } = this.props
-
-        if (filter) {
-
-            this.getItems({
-                params: {
-                    ...params,
-                    customer_id,
-                    invoice_number,
-                    from_date,
-                    to_date
-                },
-                type: filterStatus ? this.getFilterStatusType(filterStatus) : paid_status,
-                filter: true
-            })
+        if (status === INVOICES_TABS.DRAFT) {
+            return {
+                activeTab: INVOICES_TABS.DRAFT,
+                ref: this.draftReference
+            };
         }
-        else
-            this.getItems({ type, q });
-    }
+
+        return {
+            activeTab: INVOICES_TABS.ALL,
+            ref: this.allReference
+        };
+    };
+
+    onSubmitFilter = ({
+        filterStatus = '',
+        paid_status = '',
+        from_date = '',
+        to_date = '',
+        invoice_number = '',
+        customer_id = ''
+    }) => {
+        const { search } = this.state;
+
+        const status = filterStatus
+            ? getFilterStatusType(filterStatus)
+            : paid_status;
+
+        const { activeTab, ref } = this.changeTabBasedOnFilterStatusSelection(
+            filterStatus,
+            paid_status
+        );
+
+        this.setState({ activeTab });
+
+        ref?.getItems?.({
+            queryString: {
+                status,
+                search,
+                customer_id,
+                invoice_number,
+                from_date,
+                to_date
+            },
+            showLoader: true
+        });
+    };
 
     onAddInvoice = () => {
-        const { navigation } = this.props
-        this.setActiveTab(INVOICES_TABS.ALL)
-        this.onResetFilter(INVOICES_TABS.ALL)
-        navigation.navigate(ROUTES.INVOICE, { type: INVOICE_ADD })
-    }
+        const { navigation } = this.props;
+        navigation.navigate(ROUTES.INVOICE, { type: INVOICE_ADD });
+    };
+
+    onChangeState = (field, value) => this.setState({ [field]: value });
+
+    getEmptyContentProps = activeTab => {
+        const { locale, navigation, formValues } = this.props;
+        const { search } = this.state;
+        const isFilter = isFilterApply(formValues);
+        let title = '';
+        let description = '';
+
+        if (activeTab === INVOICES_TABS.DUE) {
+            title = 'invoices.empty.due.title';
+            description = 'invoices.empty.due.description';
+        } else if (activeTab === INVOICES_TABS.DRAFT) {
+            title = 'invoices.empty.draft.title';
+            description = 'invoices.empty.draft.description';
+        } else {
+            title = 'invoices.empty.all.title';
+            description = 'invoices.empty.description';
+        }
+
+        const emptyTitle = search
+            ? 'search.noResult'
+            : isFilter
+            ? 'filter.empty.filterTitle'
+            : title;
+
+        return {
+            title: Lng.t(emptyTitle, { locale, search }),
+            image: IMAGES.EMPTY_INVOICES,
+            ...(!search && {
+                description: Lng.t(description, { locale })
+            }),
+            ...(!search &&
+                !isFilter && {
+                    buttonTitle: Lng.t('invoices.empty.buttonTitle', {
+                        locale
+                    }),
+                    buttonPress: () =>
+                        navigation.navigate(ROUTES.INVOICE, {
+                            type: INVOICE_ADD
+                        })
+                })
+        };
+    };
 
     render() {
-        const {
-            language,
-            navigation,
-            invoices,
-            loading,
-            handleSubmit,
-            customers,
-            getCustomers,
-        } = this.props;
+        const { locale, navigation, handleSubmit } = this.props;
 
-        const {
-            activeTab,
-            refreshing,
-            pagination: { lastPage, page },
-            fresh,
-            search,
-            selectedFromDate,
-            selectedToDate,
-            selectedFromDateValue,
-            selectedToDateValue,
-            filter
-        } = this.state;
+        const { activeTab } = this.state;
 
-        const canLoadMore = lastPage >= page;
+        const headerProps = {
+            rightIcon: 'plus',
+            rightIconPress: () => this.onAddInvoice(),
+            title: Lng.t('header.invoices', { locale })
+        };
 
-        let filterRefs = {}
+        const filterProps = {
+            onSubmitFilter: handleSubmit(this.onSubmitFilter),
+            ...FilterFields(this),
+            clearFilter: this.props,
+            locale,
+            onResetFilter: () => this.onResetFilter()
+        };
 
-        let selectFields = [
+        const tabs = [
             {
-                name: "customer_id",
-                apiSearch: true,
-                hasPagination: true,
-                getItems: getCustomers,
-                items: customers,
-                displayName: "name",
-                label: Lng.t("invoices.customer", { locale: language }),
-                icon: 'user',
-                placeholder: Lng.t("customers.placeholder", { locale: language }),
-                navigation: navigation,
-                compareField: "id",
-                onSelect: (item) => this.setFormField('customer_id', item.id),
-                headerProps: {
-                    title: Lng.t("customers.title", { locale: language }),
-                    rightIconPress: null
-                },
-                listViewProps: {
-                    hasAvatar: true,
-                },
-                emptyContentProps: {
-                    contentType: "customers",
-                    image: IMAGES.EMPTY_CUSTOMERS,
-                }
-            }
-        ]
-
-        let datePickerFields = [
-            {
-                name: "from_date",
-                label: Lng.t("invoices.fromDate", { locale: language }),
-                onChangeCallback: (formDate, displayDate) => {
-
-                    this.setState({
-                        selectedFromDate: displayDate,
-                        selectedFromDateValue: formDate
-                    })
-                },
-                selectedDate: selectedFromDate,
-                selectedDateValue: selectedFromDateValue
-
+                Title: INVOICES_TABS.DUE,
+                tabName: TAB_NAME(INVOICES_TABS.DUE, locale),
+                render: (
+                    <Due
+                        parentProps={this}
+                        reference={ref => (this.dueReference = ref)}
+                    />
+                )
             },
             {
-                name: "to_date",
-                label: Lng.t("invoices.toDate", { locale: language }),
-                onChangeCallback: (formDate, displayDate) => {
-
-                    this.setState({
-                        selectedToDate: displayDate,
-                        selectedToDateValue: formDate
-                    })
-                },
-                selectedDate: selectedToDate,
-                selectedDateValue: selectedToDateValue
-            }
-        ]
-
-        let inputFields = [{
-            name: 'invoice_number',
-            hint: Lng.t("invoices.invoiceNumber", { locale: language }),
-            leftIcon: 'hashtag',
-            inputProps: {
-                autoCapitalize: 'none',
-                autoCorrect: true,
-            },
-            refLinkFn: (ref) => {
-                filterRefs.invNumber = ref;
-            }
-        }]
-
-        let dropdownFields = [
-            {
-                name: "filterStatus",
-                label: Lng.t("invoices.status", { locale: language }),
-                fieldIcon: 'align-center',
-                items: FILTER_INVOICE_STATUS,
-                onChangeCallback: (val) => {
-                    this.setFormField('filterStatus', val)
-                },
-                defaultPickerOptions: {
-                    label: Lng.t("invoices.statusPlaceholder", { locale: language }),
-                    value: '',
-                },
-                containerStyle: styles.selectPicker
+                Title: INVOICES_TABS.DRAFT,
+                tabName: TAB_NAME(INVOICES_TABS.DRAFT, locale),
+                render: (
+                    <Draft
+                        parentProps={this}
+                        reference={ref => (this.draftReference = ref)}
+                    />
+                )
             },
             {
-                name: "paid_status",
-                label: Lng.t("invoices.paidStatus", { locale: language }),
-                fieldIcon: 'align-center',
-                items: FILTER_INVOICE_PAID_STATUS,
-                onChangeCallback: (val) => {
-                    this.setFormField('paid_status', val)
-                },
-                defaultPickerOptions: {
-                    label: Lng.t("invoices.paidStatusPlaceholder", { locale: language }),
-                    value: '',
-                },
-                onDonePress: () => filterRefs.invNumber.focus(),
-                containerStyle: styles.selectPicker
+                Title: INVOICES_TABS.ALL,
+                tabName: TAB_NAME(INVOICES_TABS.ALL, locale),
+                render: (
+                    <All
+                        parentProps={this}
+                        reference={ref => (this.allReference = ref)}
+                    />
+                )
             }
-        ]
+        ];
 
         return (
             <View style={styles.container}>
                 <MainLayout
-                    headerProps={{
-                        rightIcon: 'plus',
-                        rightIconPress: () => {
-                            this.onAddInvoice()
-                        },
-                        title: Lng.t("header.invoices", { locale: language }),
-                    }}
+                    headerProps={headerProps}
                     onSearch={this.onSearch}
-                    filterProps={{
-                        onSubmitFilter: handleSubmit(this.onSubmitFilter),
-                        selectFields: selectFields,
-                        datePickerFields: datePickerFields,
-                        inputFields: inputFields,
-                        dropdownFields: dropdownFields,
-                        clearFilter: this.props,
-                        language: language,
-                        onResetFilter: () => this.onResetFilter()
+                    filterProps={filterProps}
+                    toastProps={{
+                        reference: ref => (this.toastReference = ref)
                     }}
                 >
                     <Tabs
                         style={styles.Tabs}
                         activeTab={activeTab}
                         setActiveTab={this.setActiveTab}
-                        tabs={[
-                            {
-                                Title: INVOICES_TABS.DUE,
-                                tabName: TAB_NAME(INVOICES_TABS.DUE, language, Lng),
-                                render: (
-                                    <Due
-                                        invoices={invoices}
-                                        getInvoices={this.getItems}
-                                        canLoadMore={canLoadMore}
-                                        onInvoiceSelect={this.onInvoiceSelect}
-                                        loading={loading}
-                                        refreshing={refreshing}
-                                        fresh={fresh}
-                                        search={search}
-                                        navigation={navigation}
-                                        language={language}
-                                        loadMoreItems={this.loadMoreItems}
-                                        onAddInvoice={this.onAddInvoice}
-                                        filter={filter}
-                                    />
-                                ),
-                            },
-                            {
-                                Title: INVOICES_TABS.DRAFT,
-                                tabName: TAB_NAME(INVOICES_TABS.DRAFT, language, Lng),
-                                render: (
-                                    <Draft
-                                        invoices={invoices}
-                                        getInvoices={this.getItems}
-                                        canLoadMore={canLoadMore}
-                                        onInvoiceSelect={this.onInvoiceSelect}
-                                        loading={loading}
-                                        refreshing={refreshing}
-                                        search={search}
-                                        navigation={navigation}
-                                        language={language}
-                                        loadMoreItems={this.loadMoreItems}
-                                        onAddInvoice={this.onAddInvoice}
-                                        fresh={fresh}
-                                        filter={filter}
-                                    />
-                                ),
-                            },
-                            {
-                                Title: INVOICES_TABS.ALL,
-                                tabName: TAB_NAME(INVOICES_TABS.ALL, language, Lng),
-                                render: (
-                                    <All
-                                        invoices={invoices}
-                                        getInvoices={this.getItems}
-                                        canLoadMore={canLoadMore}
-                                        onInvoiceSelect={this.onInvoiceSelect}
-                                        loading={loading}
-                                        refreshing={refreshing}
-                                        fresh={fresh}
-                                        search={search}
-                                        navigation={navigation}
-                                        language={language}
-                                        loadMoreItems={this.loadMoreItems}
-                                        onAddInvoice={this.onAddInvoice}
-                                        filter={filter}
-                                    />
-                                ),
-                            },
-                        ]}
+                        tabs={tabs}
                     />
                 </MainLayout>
-            </View >
+            </View>
         );
     }
 }

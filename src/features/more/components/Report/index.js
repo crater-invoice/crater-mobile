@@ -9,8 +9,7 @@ import {
     DefaultLayout,
     DatePickerField,
     SelectPickerField,
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
+} from '@/components';
 import {
     REPORT_FORM,
     SALES,
@@ -20,20 +19,19 @@ import {
     REPORT_TYPE_OPTION,
     DATE_RANGE
 } from '../../constants';
-import { DATE_FORMAT, REPORT_DATE_FORMAT } from '../../../../api/consts/core';
-import Lng from '../../../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import moment from 'moment';
-import { Linking } from 'expo';
-import { env } from '../../../../config';
+import * as Linking from 'expo-linking';
 import QueryString from 'qs';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { headerTitle } from '../../../../api/helper';
-import { store } from '../../../../store';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { headerTitle } from '@/styles';
+import { DATE_FORMAT } from '@/constants';
+import { store } from '@/store';
 
 type IProps = {
     navigation: Object,
     taxTypes: Object,
-    language: String,
+    locale: String,
     type: String,
     loading: Boolean,
     handleSubmit: Function,
@@ -213,14 +211,14 @@ export class Report extends React.Component<IProps> {
     }
 
     BOTTOM_ACTION = (handleSubmit) => {
-        const { language, loading } = this.props
+        const { locale, loading } = this.props
 
         return (
             <View style={styles.submitButton}>
                 <View style={{ flex: 1 }}>
                     <CtButton
                         onPress={handleSubmit(this.saveReport)}
-                        btnTitle={Lng.t("button.generateReport", { locale: language })}
+                        btnTitle={Lng.t("button.generateReport", { locale })}
                         containerStyle={styles.handleBtn}
                         loading={loading}
                     />
@@ -230,7 +228,7 @@ export class Report extends React.Component<IProps> {
     }
 
     getReport = ({ isTitle, reportType = '' }) => {
-        const { type, language } = this.props
+        const { type, locale } = this.props
 
         let data = ''
 
@@ -239,23 +237,23 @@ export class Report extends React.Component<IProps> {
                 const tp = (reportType === 'byCustomer')
 
                 data = isTitle ?
-                    Lng.t("header.salesReport", { locale: language }) :
+                    Lng.t("header.salesReport", { locale }) :
                     (tp ? 'sales/customers/' : 'sales/items/')
                 break;
 
             case PROFIT_AND_LOSS:
                 data = isTitle ?
-                    Lng.t("header.profitAndLossReport", { locale: language }) : 'profit-loss/'
+                    Lng.t("header.profitAndLossReport", { locale }) : 'profit-loss/'
                 break;
 
             case EXPENSES:
                 data = isTitle ?
-                    Lng.t("header.expensesReport", { locale: language }) : 'expenses/'
+                    Lng.t("header.expensesReport", { locale }) : 'expenses/'
                 break;
 
             case TAXES:
                 data = isTitle ?
-                    Lng.t("header.taxesReport", { locale: language }) : 'tax-summary/'
+                    Lng.t("header.taxesReport", { locale }) : 'tax-summary/'
                 break;
 
             default:
@@ -270,7 +268,7 @@ export class Report extends React.Component<IProps> {
             navigation,
             handleSubmit,
             loading,
-            language,
+            locale,
             initialValues,
             type
         } = this.props;
@@ -293,11 +291,11 @@ export class Report extends React.Component<IProps> {
                 <View style={styles.bodyContainer}>
                     <Field
                         name="date_range"
-                        label={Lng.t("reports.dateRange", { locale: language })}
+                        label={Lng.t("reports.dateRange", { locale })}
                         component={SelectPickerField}
                         isRequired
                         fieldIcon='calendar-week'
-                        items={DATE_RANGE_OPTION(language, Lng)}
+                        items={DATE_RANGE_OPTION(locale, Lng)}
                         onChangeCallback={this.onDateRangeChange}
                         fakeInputContainerStyle={styles.selectPickerField}
                     />
@@ -309,7 +307,8 @@ export class Report extends React.Component<IProps> {
                                 component={DatePickerField}
                                 isRequired
                                 displayValue={displayFromDate}
-                                label={Lng.t("reports.fromDate", { locale: language })}
+                                label={Lng.t("reports.fromDate", { locale })}
+                                formDateFormat={DATE_FORMAT}
                                 onChangeCallback={(val) => {
                                     this.setFormField('date_range', 'custom')
                                     this.setState({ displayFromDate: '' })
@@ -322,7 +321,8 @@ export class Report extends React.Component<IProps> {
                                 component={DatePickerField}
                                 isRequired
                                 displayValue={displayToDate}
-                                label={Lng.t("reports.toDate", { locale: language })}
+                                label={Lng.t("reports.toDate", { locale })}
+                                formDateFormat={DATE_FORMAT}
                                 onChangeCallback={(val) => {
                                     this.setFormField('date_range', 'custom')
                                     this.setState({ displayToDate: '' })
@@ -334,10 +334,10 @@ export class Report extends React.Component<IProps> {
                     {type === SALES && (
                         <Field
                             name="report_type"
-                            label={Lng.t("reports.reportType", { locale: language })}
+                            label={Lng.t("reports.reportType", { locale })}
                             component={SelectPickerField}
                             fieldIcon='vial'
-                            items={REPORT_TYPE_OPTION(language, Lng)}
+                            items={REPORT_TYPE_OPTION(locale, Lng)}
                             onChangeCallback={(val) => {
                                 this.setFormField('report_type', val)
                             }}

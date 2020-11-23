@@ -1,147 +1,113 @@
-import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
-
+import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
-    settingsTriggerSpinner,
+    settingsTriggerSpinner as spinner,
     setCompanyInformation,
     setAccountInformation,
-    setPreferences,
     setSettings,
-    setCustomizeSettings,
+    setCustomizeSettings
 } from '../actions';
-
 import {
     GET_COMPANY_INFO,
     EDIT_COMPANY_INFO,
     GET_ACCOUNT_INFO,
     EDIT_ACCOUNT_INFO,
-    GET_PREFERENCES,
-    EDIT_PREFERENCES,
     GET_SETTING_ITEM,
     EDIT_SETTING_ITEM,
     GET_CUSTOMIZE_SETTINGS,
     EDIT_CUSTOMIZE_SETTINGS,
-    // Endpoint Api URL
-    GET_COMPANY_URL,
-    EDIT_COMPANY_URL,
-    GET_ACCOUNT_URL,
-    EDIT_ACCOUNT_URL,
-    GET_PREFERENCES_URL,
-    GET_GENERAL_SETTING_URL,
-    EDIT_PREFERENCES_URL,
-    EDIT_GENERAL_SETTING_URL,
-    EDIT_ACCOUNT_AVATAR_URL,
-    UPLOAD_LOGO_URL,
-    GET_CUSTOMIZE_SETTINGS_URL,
-    EDIT_CUSTOMIZE_SETTINGS_URL,
+    COMPANY_SETTINGS_TYPE,
+    NOTIFICATION_MAIL_TYPE
 } from '../constants';
-
-import Request from '../../../api/request';
-import { ROUTES } from '../../../navigation/routes';
+import { ROUTES } from '@/navigation';
 
 import categories from './categories';
 import taxes from './taxes';
 import modes from './modes';
 import units from './units';
+import currencies from './currencies';
+import customFields, { getCustomFields } from './custom-fields';
+import Request from '@/api/request';
+import preferences from './preferences';
+import General from './general';
+import Notes from './notes';
 
 /**
  * Company Information.
  */
-function* getCompanyInformation(payloadData) {
-    const {
-        payload: { onResult },
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ getCompanyInfoLoading: true }));
+function* getCompanyInformation({ payload: { onResult } }) {
+    yield put(spinner({ getCompanyInfoLoading: true }));
 
     try {
-
-        const options = {
-            path: GET_COMPANY_URL(),
-        };
+        const options = { path: `me` };
 
         const response = yield call([Request, 'get'], options);
-        onResult && onResult(response.user)
 
-    } catch (error) {
-        // console.log(error);
+        yield put(setCompanyInformation({ company: response.user.company }));
+
+        onResult?.(response.user);
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ getCompanyInfoLoading: false }));
+        yield put(spinner({ getCompanyInfoLoading: false }));
     }
 }
 
-function* editCompanyInformation(payloadData) {
-    const {
-        payload: { params, navigation, logo },
-    } = payloadData;
+function* editCompanyInformation({ payload }) {
+    const { params, navigation, logo } = payload;
 
-    yield put(settingsTriggerSpinner({ editCompanyInfoLoading: true }));
+    yield put(spinner({ editCompanyInfoLoading: true }));
 
     try {
-
         const options = {
-            path: EDIT_COMPANY_URL(),
-            body: params,
+            path: `company`,
+            body: params
         };
 
-        const response = yield call([Request, 'post'], options);
+        const response = yield call([Request, 'put'], options);
 
         if (logo) {
             const options2 = {
-                path: UPLOAD_LOGO_URL(),
+                path: `company/upload-logo`,
                 image: logo,
                 imageName: 'company_logo'
-            }
+            };
 
             yield call([Request, 'post'], options2);
         }
 
-        yield put(setCompanyInformation({ company: response.user.company }));
+        yield put(setCompanyInformation({ company: response.company }));
 
-        navigation.goBack(null)
-
-    } catch (error) {
-        // console.log(error);
+        navigation?.goBack?.(null);
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ editCompanyInfoLoading: false }));
+        yield put(spinner({ editCompanyInfoLoading: false }));
     }
 }
 
-function* getAccountInformation(payloadData) {
-    const {
-        payload: { onResult },
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ getAccountInfoLoading: true }));
+function* getAccountInformation({ payload: { onResult } }) {
+    yield put(spinner({ getAccountInfoLoading: true }));
 
     try {
-
-        const options = {
-            path: GET_ACCOUNT_URL(),
-        };
+        const options = { path: `me` };
 
         const response = yield call([Request, 'get'], options);
 
-        yield put(setAccountInformation({ account: response }));
+        yield put(setAccountInformation({ account: response.user }));
 
-        onResult && onResult(response)
-    } catch (error) {
-        // console.log(error);
+        onResult?.(response);
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ getAccountInfoLoading: false }));
+        yield put(spinner({ getAccountInfoLoading: false }));
     }
 }
 
-function* editAccountInformation(payloadData) {
-    const {
-        payload: { params, navigation, avatar },
-    } = payloadData;
+function* editAccountInformation({ payload }) {
+    const { params, navigation, avatar } = payload;
 
-    yield put(settingsTriggerSpinner({ editAccountInfoLoading: true }));
+    yield put(spinner({ editAccountInfoLoading: true }));
 
     try {
-
         const options = {
-            path: EDIT_ACCOUNT_URL(),
+            path: `me`,
             body: params
         };
 
@@ -151,20 +117,18 @@ function* editAccountInformation(payloadData) {
 
         if (avatar) {
             const options2 = {
-                path: EDIT_ACCOUNT_AVATAR_URL(),
+                path: `me/upload-avatar`,
                 image: avatar,
                 imageName: 'admin_avatar'
-            }
+            };
 
             yield call([Request, 'post'], options2);
         }
 
-        navigation.goBack(null)
-
+        navigation?.goBack?.(null);
     } catch (error) {
-        // console.log(error);
     } finally {
-        yield put(settingsTriggerSpinner({ editAccountInfoLoading: false }));
+        yield put(spinner({ editAccountInfoLoading: false }));
     }
 }
 
@@ -172,186 +136,114 @@ function* editAccountInformation(payloadData) {
  * App Settings
  * -----------------------------------------
  */
-function* getPreferences(payloadData) {
-    const {
-        payload: { onResult },
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ getPreferencesLoading: true }));
+function* getSettingItem({ payload: { onResult = null } }) {
+    yield put(spinner({ getSettingItemLoading: true }));
 
     try {
-
         const options = {
-            path: GET_PREFERENCES_URL(),
+            path: `company/settings`,
+            axiosProps: {
+                params: { settings: NOTIFICATION_MAIL_TYPE }
+            }
         };
 
         const response = yield call([Request, 'get'], options);
-        yield put(setPreferences({ preferences: response }));
-        onResult && onResult(response)
-
-    } catch (error) {
-        // console.log(error);
+        onResult?.(response);
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ getPreferencesLoading: false }));
+        yield put(spinner({ getSettingItemLoading: false }));
     }
 }
 
-function* getSettingItem(payloadData) {
+function* editSettingItem({ payload }) {
     const {
-        payload: { key, onResult = null },
-    } = payloadData;
+        params,
+        navigation = null,
+        onResult = null,
+        hasCustomize = false
+    } = payload;
 
-    yield put(settingsTriggerSpinner({ getSettingItemLoading: true }));
+    yield put(spinner({ editSettingItemLoading: true }));
 
     try {
-
         const options = {
-            path: GET_GENERAL_SETTING_URL(key),
-        };
-
-        const response = yield call([Request, 'get'], options);
-        onResult && onResult(response[key])
-
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(settingsTriggerSpinner({ getSettingItemLoading: false }));
-    }
-}
-
-function* editPreferences(payloadData) {
-    const {
-        payload: { params, navigation, currencies },
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ editPreferencesLoading: true }));
-
-    try {
-
-        const options = {
-            path: EDIT_PREFERENCES_URL(),
+            path: `company/settings`,
             body: params
         };
 
-        const response = yield call([Request, 'put'], options);
-        if (response.success) {
-            let newData = currencies.filter((item) => {
-                let filterData = false
-                if (item['id'].toString() === params.currency.toString())
-                    filterData = true
-
-                return filterData
-            });
-
-            yield put(setSettings({
-                settings: params,
-                currency: newData.length !== 0 ? newData[0] : []
-            }));
-            navigation.goBack(null)
-        }
-
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(settingsTriggerSpinner({ editPreferencesLoading: false }));
-    }
-}
-
-function* editSettingItem(payloadData) {
-    const {
-        payload: {
-            params,
-            navigation = null,
-            onResult = null,
-            hasCustomize = false
-        },
-    } = payloadData;
-
-    yield put(settingsTriggerSpinner({ editSettingItemLoading: true }));
-
-    try {
-
-        const options = {
-            path: EDIT_GENERAL_SETTING_URL(),
-            body: params
-        };
-
-        const response = yield call([Request, 'put'], options);
+        const response = yield call([Request, 'post'], options);
 
         if (response.success) {
             if (!hasCustomize) {
                 yield put(setSettings({ settings: params }));
             }
-            onResult && onResult()
+            onResult?.();
         }
 
-        if (navigation)
-            navigation.goBack(null)
-
-    } catch (error) {
-        // console.log(error);
+        if (navigation) navigation.goBack(null);
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ editSettingItemLoading: false }));
+        yield put(spinner({ editSettingItemLoading: false }));
     }
 }
-
 
 /**
  * Customize Settings
  */
 function* getCustomizeSettings(payloadData) {
-
-    yield put(settingsTriggerSpinner({ getCustomizeLoading: true }));
+    yield put(spinner({ getCustomizeLoading: true }));
 
     try {
-        const options = {
-            path: GET_CUSTOMIZE_SETTINGS_URL(),
-        };
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { limit: 'all' }
+            }
+        });
 
+        const options = {
+            path: `company/settings`,
+            axiosProps: {
+                params: { settings: COMPANY_SETTINGS_TYPE }
+            }
+        };
         const response = yield call([Request, 'get'], options);
         yield put(setCustomizeSettings({ customizes: response }));
-
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ getCustomizeLoading: false }));
+        yield put(spinner({ getCustomizeLoading: false }));
     }
 }
-
 
 function* editCustomizeSettings({ payload: { params, navigation } }) {
-
-    yield put(settingsTriggerSpinner({ customizeLoading: true }));
+    yield put(spinner({ customizeLoading: true }));
 
     try {
+        const settings = {
+            settings: params
+        };
         const options = {
-            path: EDIT_CUSTOMIZE_SETTINGS_URL(),
-            body: params
+            path: `company/settings`,
+            body: settings
         };
 
-        const response = yield call([Request, 'put'], options);
+        const response = yield call([Request, 'post'], options);
 
         if (response.success) {
-            navigation.navigate(ROUTES.CUSTOMIZES)
+            navigation.navigate(ROUTES.CUSTOMIZES);
             yield put(setCustomizeSettings({ customizes: null }));
         }
-
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ customizeLoading: false }));
+        yield put(spinner({ customizeLoading: false }));
     }
 }
-
 
 export default function* settingsSaga() {
     yield takeEvery(GET_COMPANY_INFO, getCompanyInformation);
     yield takeEvery(EDIT_COMPANY_INFO, editCompanyInformation);
     yield takeEvery(GET_ACCOUNT_INFO, getAccountInformation);
     yield takeEvery(EDIT_ACCOUNT_INFO, editAccountInformation);
-    yield takeEvery(GET_PREFERENCES, getPreferences);
     yield takeEvery(GET_SETTING_ITEM, getSettingItem);
-    yield takeEvery(EDIT_PREFERENCES, editPreferences);
     yield takeEvery(EDIT_SETTING_ITEM, editSettingItem);
 
     // Customize
@@ -363,6 +255,11 @@ export default function* settingsSaga() {
         categories(),
         taxes(),
         modes(),
-        units()
+        units(),
+        currencies(),
+        customFields(),
+        preferences(),
+        General(),
+        Notes()
     ]);
 }

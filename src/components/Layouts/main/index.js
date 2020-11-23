@@ -1,26 +1,28 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { Field } from 'redux-form';
-import { NavigationEvents } from 'react-navigation';
 import { styles } from './styles';
 import { InputField, CtHeader, CtDivider } from '../..';
 import { Content } from '../../Content';
-import Lng from '../../../api/lang/i18n';
+import Lng from '@/lang/i18n';
+import { Toast } from '@/components';
 
 type IProps = {
-    children: Object,
-    headerProps: Object,
-    onSearch: Function,
-    bottomDivider: Boolean,
-    hasSearchField: Boolean,
-    onToggleFilter: Function,
-    filterProps: Object,
-    inputProps: Object,
-    dividerStyle: Object,
-    loadingProps: Object
+    children: any,
+    headerProps?: any,
+    onSearch?: Function,
+    bottomDivider?: Boolean,
+    hasSearchField?: Boolean,
+    onToggleFilter?: Function,
+    filterProps?: Object,
+    inputProps?: Object,
+    dividerStyle?: Object,
+    loadingProps?: Object,
+    searchFieldProps?: any,
+    toastProps?: any
 };
 
 const MainLayoutComponent = ({
@@ -29,22 +31,25 @@ const MainLayoutComponent = ({
     onSearch,
     bottomDivider,
     hasSearchField = true,
-    onFocus,
     bottomAction,
     filterProps,
     inputProps,
     dividerStyle,
     loadingProps,
-    language
+    locale,
+    searchFieldProps,
+    toastProps
 }: IProps) => {
-
-    let hasFilter = filterProps ? { ...filterProps } : null
+    let hasFilter = filterProps ? { ...filterProps } : null;
 
     return (
         <View style={styles.page}>
-            <NavigationEvents
-                onWillFocus={onFocus && onFocus}
+            <StatusBar
+                barStyle="dark-content"
+                hidden={false}
+                translucent={true}
             />
+
             <View style={styles.content}>
                 <CtHeader
                     titleStyle={styles.headerTitleStyle}
@@ -64,7 +69,7 @@ const MainLayoutComponent = ({
                             inputProps={{
                                 returnKeyType: 'next',
                                 autoCapitalize: 'none',
-                                placeholder: Lng.t("search.title", { locale: language }),
+                                placeholder: Lng.t('search.title', { locale }),
                                 autoCorrect: true,
                                 ...inputProps
                             }}
@@ -72,37 +77,35 @@ const MainLayoutComponent = ({
                             height={40}
                             rounded
                             fieldStyle={styles.inputField}
+                            {...searchFieldProps}
                         />
                     </View>
                 )}
 
-                {bottomDivider &&
+                {bottomDivider && (
                     <CtDivider dividerStyle={dividerStyle && dividerStyle} />
-                }
+                )}
 
-                <Content loadingProps={loadingProps}>
-                    {children}
-                </Content>
-
+                <Content loadingProps={loadingProps}>{children}</Content>
             </View>
 
             {bottomAction && (
-                <View style={styles.bottomView}>
-                    {bottomAction}
-                </View>
+                <View style={styles.bottomView}>{bottomAction}</View>
+            )}
+
+            {toastProps && (
+                <Toast containerStyle={{ bottom: 20 }} {...toastProps} />
             )}
         </View>
     );
 };
 
 const mapStateToProps = ({ global }) => ({
-    language: global.language,
+    locale: global?.locale
 });
-
-const mapDispatchToProps = {};
 
 //  connect
 export const MainLayout = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    {}
 )(MainLayoutComponent);

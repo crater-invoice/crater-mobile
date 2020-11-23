@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../../../styles/colors';
+import { colors } from '@/styles';
 
 export default styles = StyleSheet.create({
     container: {
@@ -11,9 +11,5 @@ export default styles = StyleSheet.create({
     },
     listViewContainer: {
         flex: 1,
-    },
-    selectPicker: {
-        marginTop: 12,
-        marginBottom: 5,
-    },
+    }
 });

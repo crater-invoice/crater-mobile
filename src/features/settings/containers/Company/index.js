@@ -5,57 +5,60 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { EDIT_COMPANY } from '../../constants';
 import * as CompanyAction from '../../actions';
 import { validate } from './validation';
-import * as AddressAction from '../../../customers/actions';
+import { getCountries } from '@/features/customers/actions';
 
-
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     const {
         settings: {
-            loading: {
-                editCompanyInfoLoading,
-                getCompanyInfoLoading
-            }
+            loading: { editCompanyInfoLoading, getCompanyInfoLoading }
         },
-        global: { language },
+        global: { locale },
         customers: {
             countries,
-            loading: {
-                countriesLoading,
-            }
-        },
-    } = state
+            loading: { countriesLoading }
+        }
+    } = state;
 
     return {
         formValues: getFormValues(EDIT_COMPANY)(state) || {},
-        language,
+        locale,
         editCompanyLoading: editCompanyInfoLoading,
         getCompanyInfoLoading,
         countries,
         countriesLoading,
+        initialValues: {
+            name: null,
+            country_id: null,
+            state: null,
+            city: null,
+            zip: null,
+            address_street_1: null,
+            address_street_2: null,
+            phone: null
+        }
     };
 };
-
 
 const mapDispatchToProps = {
     editCompanyInformation: CompanyAction.editCompanyInformation,
     getCompanyInformation: CompanyAction.getCompanyInformation,
-    getCountries: AddressAction.getCountries,
+    getCountries
 };
 
 //  Redux Forms
 const CompanyReduxForm = reduxForm({
     form: EDIT_COMPANY,
-    validate,
+    validate
 })(Company);
 
 //  connect
 const CompanyContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(CompanyReduxForm);
 
 CompanyContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default CompanyContainer;

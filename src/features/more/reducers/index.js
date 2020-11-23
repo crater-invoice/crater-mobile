@@ -3,19 +3,18 @@ import {
     SET_ITEMS,
     CLEAR_ITEM,
     SET_ITEM,
-    DELETE_ITEM,
-    SET_FILTER_ITEMS,
+    DELETE_ITEM
 } from '../constants';
-import { env } from '../../../config';
 
 const initialState = {
     loading: {
         logoutLoading: false,
         itemsLoading: false,
         itemLoading: false,
+        getMailConfigLoading: false,
+        getItemLoading: false
     },
     items: [],
-    filterItems: [],
     item: null
 };
 
@@ -27,7 +26,6 @@ export default function moreReducer(state = initialState, action) {
             return { ...state, loading: { ...state.loading, ...payload } };
 
         case SET_ITEMS:
-
             const { items, fresh, prepend } = payload;
 
             if (prepend) {
@@ -40,22 +38,10 @@ export default function moreReducer(state = initialState, action) {
 
             return { ...state, items };
 
-        case SET_FILTER_ITEMS:
-
-            if (!payload.fresh) {
-                return {
-                    ...state,
-                    filterItems: [...state.filterItems, ...payload.items]
-                };
-            }
-
-            return { ...state, filterItems: payload.items };
-
-
         case DELETE_ITEM:
-            const { id } = payload
+            const { id } = payload;
 
-            const remainItems = state.items.filter(val => val.id !== id)
+            const remainItems = state.items.filter(val => val.id !== id);
 
             return { ...state, items: remainItems };
 

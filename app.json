@@ -29,7 +29,8 @@
     },
     "android": {
       "package": "com.craterapp.app",
-      "versionCode": 9
+      "versionCode": 9,
+      "softwareKeyboardLayoutMode": "pan"
     },
     "description": "",
     "androidStatusBar": {

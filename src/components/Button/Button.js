@@ -1,70 +1,69 @@
-
 // @flow
 
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
 import { Button } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AssetImage } from '../AssetImage';
-import { BUTTON_TYPE, BUTTON_COLOR } from '../../api/consts/core';
+import { BUTTON_COLOR, BUTTON_TYPE } from '@/constants';
 
 type IProps = {
-    children: any,
-    onPress: Function,
-    loading: boolean,
-    disabled: boolean,
-    whiteButton: boolean,
-    style: Object,
-    iconPlacement: any,
-    btnTitle: String,
-    type: String,
-    iconName: String,
-    imageIcon: Boolean,
-    isGradient: Boolean,
-    raised: Boolean,
-    imageSource: String | any,
-    buttonType: String,
-    containerStyle: Object,
+    children?: any,
+    onPress?: Function,
+    loading?: boolean,
+    disabled?: boolean,
+    whiteButton?: boolean,
+    style?: Object,
+    iconPlacement?: any,
+    btnTitle?: String,
+    type?: String,
+    iconName?: String,
+    imageIcon?: Boolean,
+    isGradient?: Boolean,
+    raised?: Boolean,
+    imageSource?: String | any,
+    buttonType?: String,
+    containerStyle?: Object
 };
 export class CtGradientButton extends Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {
-            buttonFocus: false
+            buttonFocus: false,
+            animatedScale: new Animated.Value(1)
         };
     }
 
     componentWillUpdate(nextProps, nextState) {
-
-        const { loading } = nextProps
-        const { buttonFocus } = nextState
+        const { loading } = nextProps;
+        const { buttonFocus } = nextState;
 
         if (!loading && buttonFocus) {
-            this.setState({
-                buttonFocus: false
-            })
+            this.setState({ buttonFocus: false });
         }
     }
 
     onBtnPress = () => {
+        this.setState({ buttonFocus: true });
+        this.props?.onPress?.();
+    };
 
-        this.setState({
-            buttonFocus: true
-        })
-
-        const { onPress } = this.props
-        onPress && onPress()
-    }
+    toggleAnimatedScale = (toValue = 0.98) => {
+        Animated.timing(this.state.animatedScale, {
+            toValue,
+            duration: 100,
+            useNativeDriver: true
+        }).start();
+    };
 
     render() {
-
         const {
             style,
             iconPlacement,
-            type = "solid",
+            type = 'solid',
             loading = false,
             btnTitle,
             iconName,
@@ -74,44 +73,71 @@ export class CtGradientButton extends Component<IProps> {
             buttonColor = BUTTON_COLOR.PRIMARY,
             containerStyle,
             buttonContainerStyle,
-            hasFocus = true,
-        } = this.props
+            hasFocus = true
+        } = this.props;
 
-        const { buttonFocus } = this.state
+        const { buttonFocus, animatedScale } = this.state;
+        const isOutline = type === BUTTON_TYPE.OUTLINE;
+        const animatedStyle = {
+            transform: [{ scale: animatedScale }]
+        };
 
         return (
-            <View style={[styles.buttonContainer, buttonContainerStyle]}>
+            <Animated.View
+                style={[
+                    animatedStyle,
+                    styles.buttonContainer,
+                    buttonContainerStyle
+                ]}
+            >
                 <Button
                     icon={
                         imageIcon ? (
-                            <AssetImage imageSource={imageSource} imageStyle={styles.imageIcon} />
+                            <AssetImage
+                                imageSource={imageSource}
+                                imageStyle={styles.imageIcon}
+                            />
                         ) : (
-                                <Icon name={iconName} size={15} color={colors.white} />
-                            )
+                            <Icon
+                                name={iconName}
+                                size={15}
+                                color={colors.white}
+                            />
+                        )
                     }
                     {...iconPlacement}
                     containerStyle={[
                         styles.containerStyle,
                         raised && styles.containerShadow,
                         containerStyle && containerStyle,
-                        hasFocus && buttonFocus && { borderColor: colors[`${buttonColor}Light`] }
+                        hasFocus &&
+                            buttonFocus && {
+                                borderColor: colors[`${buttonColor}Light`]
+                            }
                     ]}
                     buttonStyle={[
                         styles.buttonStyle,
                         style,
-                        type === BUTTON_TYPE.OUTLINE ?
-                            [{ borderColor: colors[buttonColor] }, styles.buttonOutline] :
-                            {
-                                backgroundColor: colors[buttonColor],
-                                borderColor: colors[buttonColor]
-                            },
+                        isOutline
+                            ? [
+                                  { borderColor: colors[buttonColor] },
+                                  styles.buttonOutline
+                              ]
+                            : {
+                                  backgroundColor: colors[buttonColor],
+                                  borderColor: colors[buttonColor]
+                              }
                     ]}
                     onPress={() => this.onBtnPress()}
+                    onPressIn={() => this.toggleAnimatedScale()}
+                    onPressOut={() => this.toggleAnimatedScale(1)}
                     type={type}
                     title={btnTitle}
                     titleStyle={[
                         styles.titleStyle,
-                        type === BUTTON_TYPE.OUTLINE && { color: colors[buttonColor] }
+                        isOutline && {
+                            color: colors[buttonColor]
+                        }
                     ]}
                     loading={loading && buttonFocus}
                     loadingStyle={{ opacity: 0.7 }}
@@ -119,74 +145,76 @@ export class CtGradientButton extends Component<IProps> {
                     linearGradientProps={{
                         colors: [colors.primary, colors.primaryLight],
                         start: { x: 0, y: 0.5 },
-                        end: { x: 1, y: 0.5 },
+                        end: { x: 1, y: 0.5 }
                     }}
                     disabled={loading}
                     disabledStyle={[
                         styles.buttonStyle,
                         style,
-                        type === BUTTON_TYPE.OUTLINE ?
-                            [{ borderColor: colors[buttonColor] }, styles.buttonOutline] :
-                            {
-                                backgroundColor: colors[buttonColor],
-                                borderColor: colors[buttonColor],
-                                opacity: 0.7,
-                            },
+                        isOutline
+                            ? [
+                                  { borderColor: colors[buttonColor] },
+                                  styles.buttonOutline
+                              ]
+                            : {
+                                  backgroundColor: colors[buttonColor],
+                                  borderColor: colors[buttonColor],
+                                  opacity: 0.7
+                              }
                     ]}
                     disabledTitleStyle={
-                        styles.titleStyle,
+                        (styles.titleStyle,
                         {
-                            color: (type === BUTTON_TYPE.OUTLINE) ?
-                                colors[buttonColor] : colors.white,
-                        }
+                            color: isOutline
+                                ? colors[buttonColor]
+                                : colors.white
+                        })
                     }
                     ViewComponent={LinearGradient}
                 />
-            </View>
+            </Animated.View>
         );
     }
 }
-
-
-
 
 export class CtButton extends Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {
-            buttonFocus: false
+            buttonFocus: false,
+            animatedScale: new Animated.Value(1)
         };
     }
 
     componentWillUpdate(nextProps, nextState) {
-
-        const { loading } = nextProps
-        const { buttonFocus } = nextState
+        const { loading } = nextProps;
+        const { buttonFocus } = nextState;
 
         if (!loading && buttonFocus) {
-            this.setState({
-                buttonFocus: false
-            })
+            this.setState({ buttonFocus: false });
         }
     }
 
     onBtnPress = () => {
-        const { onPress } = this.props
+        this.setState({ buttonFocus: true });
+        this.props?.onPress?.();
+    };
 
-        this.setState({
-            buttonFocus: true
-        })
-
-        onPress && onPress()
-    }
+    toggleAnimatedScale = (toValue = 0.98) => {
+        Animated.timing(this.state.animatedScale, {
+            toValue,
+            duration: 100,
+            useNativeDriver: true
+        }).start();
+    };
 
     render() {
-
         const {
             style,
             iconPlacement,
-            type = "solid",
+            type = 'solid',
             loading = false,
+            isLoading = false,
             btnTitle,
             iconName,
             imageIcon = false,
@@ -195,70 +223,102 @@ export class CtButton extends Component<IProps> {
             buttonColor = BUTTON_COLOR.PRIMARY,
             containerStyle,
             buttonContainerStyle,
-            hasFocus = true,
-        } = this.props
+            hasFocus = true
+        } = this.props;
 
-        const { buttonFocus } = this.state
+        const { buttonFocus, animatedScale } = this.state;
+        const isOutline = type === BUTTON_TYPE.OUTLINE;
+        const animatedStyle = {
+            transform: [{ scale: animatedScale }]
+        };
 
         return (
-            <View style={[styles.buttonContainer, buttonContainerStyle]}>
+            <Animated.View
+                style={[
+                    animatedStyle,
+                    styles.buttonContainer,
+                    buttonContainerStyle
+                ]}
+            >
                 <Button
                     icon={
                         imageIcon ? (
-                            <AssetImage imageSource={imageSource} imageStyle={styles.imageIcon} />
+                            <AssetImage
+                                imageSource={imageSource}
+                                imageStyle={styles.imageIcon}
+                            />
                         ) : (
-                                <Icon name={iconName} size={15} color={colors.white} />
-                            )
+                            <Icon
+                                name={iconName}
+                                size={15}
+                                color={colors.white}
+                            />
+                        )
                     }
                     {...iconPlacement}
                     containerStyle={[
                         styles.containerStyle,
                         raised && styles.containerShadow,
                         containerStyle && containerStyle,
-                        hasFocus && buttonFocus && { borderColor: colors[`${buttonColor}Light`] }
+                        hasFocus &&
+                            buttonFocus && {
+                                borderColor: colors[`${buttonColor}Light`]
+                            }
                     ]}
                     buttonStyle={[
                         styles.buttonStyle,
                         style,
-                        type === BUTTON_TYPE.OUTLINE ?
-                            [{ borderColor: colors[buttonColor] }, styles.buttonOutline] :
-                            {
-                                backgroundColor: colors[buttonColor],
-                                borderColor: colors[buttonColor]
-                            },
+                        isOutline
+                            ? [
+                                  { borderColor: colors[buttonColor] },
+                                  styles.buttonOutline
+                              ]
+                            : {
+                                  backgroundColor: colors[buttonColor],
+                                  borderColor: colors[buttonColor]
+                              }
                     ]}
                     onPress={() => this.onBtnPress()}
+                    onPressIn={() => this.toggleAnimatedScale()}
+                    onPressOut={() => this.toggleAnimatedScale(1)}
                     type={type}
                     title={btnTitle}
-                    loading={loading && buttonFocus}
+                    loading={(loading && buttonFocus) || isLoading}
                     loadingStyle={{ opacity: 0.7 }}
-                    loadingProps={{ color: colors.darkGray }}
+                    loadingProps={{
+                        color: !isOutline ? colors.white : colors[buttonColor]
+                    }}
                     titleStyle={[
                         styles.titleStyle,
-                        type === BUTTON_TYPE.OUTLINE && { color: colors[buttonColor] }
+                        isOutline && {
+                            color: colors[buttonColor]
+                        }
                     ]}
                     disabled={loading}
                     disabledStyle={[
                         styles.buttonStyle,
                         style,
-                        type === BUTTON_TYPE.OUTLINE ?
-                            [{ borderColor: colors[buttonColor] }, styles.buttonOutline] :
-                            {
-                                backgroundColor: colors[buttonColor],
-                                borderColor: colors[buttonColor],
-                                opacity: 0.7,
-                            },
+                        isOutline
+                            ? [
+                                  { borderColor: colors[buttonColor] },
+                                  styles.buttonOutline
+                              ]
+                            : {
+                                  backgroundColor: colors[buttonColor],
+                                  borderColor: colors[buttonColor],
+                                  opacity: 0.7
+                              }
                     ]}
                     disabledTitleStyle={
-                        styles.titleStyle,
+                        (styles.titleStyle,
                         {
-                            color: (type === BUTTON_TYPE.OUTLINE) ?
-                                colors[buttonColor] : colors.white,
-                        }
+                            color: isOutline
+                                ? colors[buttonColor]
+                                : colors.white
+                        })
                     }
                 />
-            </View>
+            </Animated.View>
         );
     }
 }
-

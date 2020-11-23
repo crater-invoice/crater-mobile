@@ -1,45 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
-import * as ExpensesAction from '../../actions'
+import * as ExpensesAction from '../../actions';
 import * as CategoriesAction from '../../../settings/actions';
-import { colors } from '../../../../styles/colors';
+import { colors } from '@/styles';
 import { Expenses } from '../../components/Expenses';
 import { EXPENSE_SEARCH } from '../../constants';
-import { EXPENSES } from '../../../../assets/svg';
-import { SvgXml } from 'react-native-svg';
-import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
-import { ROUTES } from '../../../../navigation/routes';
-import { withNavigationFocus } from 'react-navigation';
+import { EXPENSES_ICON } from '@/assets';
+import { getTitleByLanguage } from '@/utils';
+import { AssetSvg } from '@/components';
+import { getExpensesState, getCategoriesState } from '../../selectors';
+import { getCustomers } from '@/features/customers/actions';
 
-
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
     const {
-        global: { language, currency },
-        expenses: {
-            expenses,
-            filterExpenses,
-            loading: { expensesLoading }
-        },
-        settings: { categories }
+        global: { locale, currency },
+        expenses: { expenses },
+        settings: { categories },
+        customers: { customers }
     } = state;
 
-
     return {
-        loading: expensesLoading,
-        expenses,
-        filterExpenses,
-        language,
+        expenses: getExpensesState(expenses, currency),
+        locale,
         currency,
-        categories,
-        formValues: getFormValues(EXPENSE_SEARCH)(state) || {},
+        customers,
+        categories: getCategoriesState(categories),
+        formValues: getFormValues(EXPENSE_SEARCH)(state) || {}
     };
 };
 
 const mapDispatchToProps = {
     getExpenses: ExpensesAction.getExpenses,
     getCategories: CategoriesAction.getExpenseCategories,
+    getCustomers
 };
 //  Redux Forms
 const ExpensesSearchReduxForm = reduxForm({
@@ -49,29 +43,18 @@ const ExpensesSearchReduxForm = reduxForm({
 //  connect
 const ExpensesContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(ExpensesSearchReduxForm);
 
 ExpensesContainer.navigationOptions = ({ navigation }) => ({
-
     gesturesEnabled: false,
     tabBarLabel: getTitleByLanguage('tabNavigation.expenses'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <SvgXml
-            xml={EXPENSES}
+        <AssetSvg
+            name={EXPENSES_ICON}
             fill={focused ? colors.primary : colors.darkGray}
-            width="22"
-            height="22"
         />
-    ),
-    tabBarOnPress: () => {
-
-        if (navigation.isFocused()) {
-            return;
-        }
-
-        navigateToMainTabs(navigation, ROUTES.MAIN_EXPENSES)
-    }
+    )
 });
 
-export default withNavigationFocus(ExpensesContainer);
+export default ExpensesContainer;

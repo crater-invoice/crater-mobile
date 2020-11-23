@@ -11,56 +11,47 @@ import {
     CtButton,
     DefaultLayout,
     SelectField,
-    SelectPickerField,
     CurrencyFormat,
-    RadioButtonGroup,
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
+    RadioButtonGroup
+} from '@/components';
 import {
     ITEM_DISCOUNT_OPTION,
     ITEM_EDIT,
     ITEM_ADD,
     ITEM_FORM
 } from '../../constants';
-import { BUTTON_COLOR } from '../../../../api/consts/core';
-import { colors } from '../../../../styles/colors';
-import Lng from '../../../../api/lang/i18n';
-import { ADD_TAX } from '../../../settings/constants';
-import { MAX_LENGTH, formatSelectPickerName, alertMe } from '../../../../api/global';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
+import { colors } from '@/styles';
+import Lng from '@/lang/i18n';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import {
+    alertMe,
+    BUTTON_COLOR,
+    hasValue,
+    isIPhoneX,
+    MAX_LENGTH
+} from '@/constants';
+import { ADD_TAX } from '@/features/settings/constants';
 
 export class EstimateItem extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-        }
+        this.state = {};
     }
 
     componentDidMount() {
-        const { navigation, getItemUnits, itemId } = this.props
-
-        !itemId && getItemUnits && getItemUnits()
-
-        navigation.addListener(
-            'didFocus',
-            payload => {
-                this.forceUpdate();
-            }
-        );
-
-        goBack(MOUNT, navigation)
+        const { navigation } = this.props;
+        goBack(MOUNT, navigation);
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
 
     setFormField = (field, value) => {
         this.props.dispatch(change(ITEM_FORM, field, value));
     };
 
-    saveItem = (values) => {
+    saveItem = values => {
         const {
             addItem,
             removeEstimateItem,
@@ -68,13 +59,13 @@ export class EstimateItem extends React.Component {
             itemId,
             navigation,
             type,
-            language,
-        } = this.props
+            locale
+        } = this.props;
 
         if (this.finalAmount() < 0) {
-            alert(Lng.t("items.lessAmount", { locale: language }))
+            alert(Lng.t('items.lessAmount', { locale }));
 
-            return
+            return;
         }
 
         const item = {
@@ -84,149 +75,165 @@ export class EstimateItem extends React.Component {
             total: this.subTotal(),
             discount_val: this.totalDiscount(),
             tax: this.itemTax() + this.itemCompoundTax(),
-            taxes: values.taxes && values.taxes.map(val => {
-                return {
-                    ...val,
-                    amount: val.compound_tax ?
-                        this.getCompoundTaxValue(val.percent) :
-                        this.getTaxValue(val.percent),
-                }
-            }),
-        }
+            taxes:
+                values.taxes &&
+                values.taxes.map(val => {
+                    return {
+                        ...val,
+                        amount: val.compound_tax
+                            ? this.getCompoundTaxValue(val.percent)
+                            : this.getTaxValue(val.percent)
+                    };
+                })
+        };
 
         const callback = () => {
             addItem({
                 item,
                 onResult: () => {
-                    navigation.navigate(ROUTES.ESTIMATE)
+                    navigation.navigate(ROUTES.ESTIMATE);
                 }
-            })
-        }
+            });
+        };
 
         if (!itemId) {
-            callback()
+            callback();
         } else {
-            const estimateItem = [{ ...item, item_id: itemId }]
+            const estimateItem = [{ ...item, item_id: itemId }];
 
             if (type === ITEM_EDIT) {
-                removeEstimateItem({ id: itemId })
+                removeEstimateItem({ id: itemId });
             }
 
-            setEstimateItems({ estimateItem })
+            setEstimateItems({ estimateItem });
 
-            navigation.navigate(ROUTES.ESTIMATE)
+            navigation.navigate(ROUTES.ESTIMATE);
         }
-
     };
 
     removeItem = () => {
-        const { removeEstimateItem, itemId, navigation, language } = this.props
+        const { removeEstimateItem, itemId, navigation, locale } = this.props;
 
         alertMe({
-            title: Lng.t("alert.title", { locale: language }),
+            title: Lng.t('alert.title', { locale }),
             showCancel: true,
             okPress: () => {
-                navigation.navigate(ROUTES.ESTIMATE)
-                removeEstimateItem({ id: itemId })
+                navigation.navigate(ROUTES.ESTIMATE);
+                removeEstimateItem({ id: itemId });
             }
-        })
-    }
+        });
+    };
 
     totalDiscount = () => {
-        const { formValues: { discount, discount_type } } = this.props
+        const {
+            formValues: { discount, discount_type }
+        } = this.props;
 
-        let discountPrice = 0
+        let discountPrice = 0;
 
         if (discount_type === 'percentage') {
-            discountPrice = ((discount * this.itemSubTotal()) / 100)
+            discountPrice = (discount * this.itemSubTotal()) / 100;
         } else if (discount_type === 'fixed') {
-            discountPrice = (discount * 100)
-        }
-        else if (discount_type === 'none') {
-            discountPrice = 0
-            this.setFormField('discount', 0)
+            discountPrice = discount * 100;
+        } else if (discount_type === 'none') {
+            discountPrice = 0;
+            this.setFormField('discount', 0);
         }
 
-        return discountPrice
-    }
+        return discountPrice;
+    };
 
     totalAmount = () => {
-        return this.subTotal() + this.itemTax()
-    }
+        return this.subTotal() + this.itemTax();
+    };
 
     itemSubTotal = () => {
-        const { formValues: { quantity, price } } = this.props
+        const {
+            formValues: { quantity, price }
+        } = this.props;
 
-        subTotal = (price * quantity)
+        subTotal = price * quantity;
 
-        return subTotal
-    }
+        return subTotal;
+    };
 
     subTotal = () => {
-        return this.itemSubTotal() - this.totalDiscount()
-    }
+        return this.itemSubTotal() - this.totalDiscount();
+    };
 
     itemTax = () => {
-        const { formValues: { taxes } } = this.props
+        const {
+            formValues: { taxes }
+        } = this.props;
 
-        let totalTax = 0
+        let totalTax = 0;
 
-        taxes && taxes.map(val => {
-            if (!val.compound_tax) {
-                totalTax += this.getTaxValue(val.percent)
-            }
-        })
+        taxes &&
+            taxes.map(val => {
+                if (!val.compound_tax) {
+                    totalTax += this.getTaxValue(val.percent);
+                }
+            });
 
-        return totalTax
-    }
+        return totalTax;
+    };
 
     itemCompoundTax = () => {
-        const { formValues: { taxes } } = this.props
+        const {
+            formValues: { taxes }
+        } = this.props;
 
-        let totalTax = 0
+        let totalTax = 0;
 
-        taxes && taxes.map(val => {
-            if (val.compound_tax) {
-                totalTax += this.getCompoundTaxValue(val.percent)
-            }
-        })
+        taxes &&
+            taxes.map(val => {
+                if (val.compound_tax) {
+                    totalTax += this.getCompoundTaxValue(val.percent);
+                }
+            });
 
-        return totalTax
-    }
+        return totalTax;
+    };
 
-    getTaxValue = (tax) => {
-        return (tax * JSON.parse(this.subTotal())) / 100
-    }
+    getTaxValue = tax => {
+        return (tax * JSON.parse(this.subTotal())) / 100;
+    };
 
-    getCompoundTaxValue = (tax) => {
-        return (tax * JSON.parse(this.totalAmount())) / 100
-    }
+    getCompoundTaxValue = tax => {
+        return (tax * JSON.parse(this.totalAmount())) / 100;
+    };
 
-    getTaxName = (tax) => {
-        const { taxTypes } = this.props
-        let taxName = ''
+    getTaxName = tax => {
+        if (hasValue(tax?.name)) {
+            return tax.name;
+        }
 
-        const type = taxTypes.filter(val => val.fullItem.id === tax.tax_type_id)
+        const { taxTypes } = this.props;
+        let taxName = '';
+
+        const type = taxTypes.filter(
+            val => val.fullItem.id === tax.tax_type_id
+        );
 
         if (taxTypes && type.length > 0) {
-            taxName = type[0]['fullItem'].name
+            taxName = type[0]['fullItem'].name;
         }
-        return taxName
-    }
+        return taxName;
+    };
 
     finalAmount = () => {
-        return this.totalAmount() + this.itemCompoundTax()
-    }
+        return this.totalAmount() + this.itemCompoundTax();
+    };
 
     FINAL_AMOUNT = () => {
         const {
-            language,
+            locale,
             formValues: { quantity, price, taxes },
             navigation,
-            discountPerItem,
-        } = this.props
+            discountPerItem
+        } = this.props;
 
-        const currency = navigation.getParam('currency')
+        const currency = navigation.getParam('currency');
 
         return (
             <View style={styles.amountContainer}>
@@ -247,11 +254,11 @@ export class EstimateItem extends React.Component {
                         />
                     </View>
                 </View>
-                {discountPerItem === 'YES' && (
+                {(discountPerItem === 'YES' || discountPerItem === '1') && (
                     <View style={styles.subContainer}>
                         <View>
                             <Text style={styles.label}>
-                                {Lng.t("items.finalDiscount", { locale: language })}
+                                {Lng.t('items.finalDiscount', { locale })}
                             </Text>
                         </View>
                         <View>
@@ -265,52 +272,53 @@ export class EstimateItem extends React.Component {
                 )}
 
                 {taxes &&
-                    taxes.map((val, index) => !val.compound_tax ? (
-                        <View
-                            style={styles.subContainer}
-                            key={index}
-                        >
-                            <View>
-                                <Text style={styles.label}>
-                                    {this.getTaxName(val)} ({val.percent} %)
-                            </Text>
+                    taxes.map((val, index) =>
+                        !val.compound_tax ? (
+                            <View style={styles.subContainer} key={index}>
+                                <View>
+                                    <Text style={styles.label}>
+                                        {this.getTaxName(val)} ({val.percent} %)
+                                    </Text>
+                                </View>
+                                <View>
+                                    <CurrencyFormat
+                                        amount={this.getTaxValue(val.percent)}
+                                        currency={currency}
+                                        style={styles.price}
+                                    />
+                                </View>
                             </View>
-                            <View>
-                                <CurrencyFormat
-                                    amount={this.getTaxValue(val.percent)}
-                                    currency={currency}
-                                    style={styles.price}
-                                />
-                            </View>
-                        </View>
-                    ) : null)
-                }
+                        ) : null
+                    )}
 
                 {taxes &&
-                    taxes.map(val => val.compound_tax ? (
-                        <View style={styles.subContainer}>
-                            <View>
-                                <Text style={styles.label}>
-                                    {this.getTaxName(val)} ({val.percent} %)
-                            </Text>
+                    taxes.map(val =>
+                        val.compound_tax ? (
+                            <View style={styles.subContainer}>
+                                <View>
+                                    <Text style={styles.label}>
+                                        {this.getTaxName(val)} ({val.percent} %)
+                                    </Text>
+                                </View>
+                                <View>
+                                    <CurrencyFormat
+                                        amount={this.getCompoundTaxValue(
+                                            val.percent
+                                        )}
+                                        currency={currency}
+                                        style={styles.price}
+                                    />
+                                </View>
                             </View>
-                            <View>
-                                <CurrencyFormat
-                                    amount={this.getCompoundTaxValue(val.percent)}
-                                    currency={currency}
-                                    style={styles.price}
-                                />
-                            </View>
-                        </View>
-                    ) : null)
-                }
+                        ) : null
+                    )}
 
                 <CtDivider dividerStyle={styles.divider} />
 
                 <View style={styles.subContainer}>
                     <View>
                         <Text style={styles.label}>
-                            {Lng.t("items.finalAmount", { locale: language })}
+                            {Lng.t('items.finalAmount', { locale })}
                         </Text>
                     </View>
                     <View>
@@ -323,17 +331,17 @@ export class EstimateItem extends React.Component {
                     </View>
                 </View>
             </View>
-        )
+        );
     };
 
-    BOTTOM_ACTION = (handleSubmit) => {
-        const { language, loading, type } = this.props
-        const isCreateItem = (type === ITEM_ADD)
+    BOTTOM_ACTION = handleSubmit => {
+        const { locale, loading, type } = this.props;
+        const isCreateItem = type === ITEM_ADD;
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.saveItem)}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    btnTitle={Lng.t('button.save', { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                     loading={loading}
@@ -341,17 +349,16 @@ export class EstimateItem extends React.Component {
                 {!isCreateItem && (
                     <CtButton
                         onPress={this.removeItem}
-                        btnTitle={Lng.t("button.remove", { locale: language })}
+                        btnTitle={Lng.t('button.remove', { locale })}
                         containerStyle={styles.handleBtn}
                         buttonColor={BUTTON_COLOR.DANGER}
                         buttonContainerStyle={styles.buttonContainer}
                         loading={loading}
                     />
                 )}
-
             </View>
-        )
-    }
+        );
+    };
 
     render() {
         const {
@@ -360,31 +367,33 @@ export class EstimateItem extends React.Component {
             loading,
             formValues: { discount_type, taxes, discount },
             initialValues,
-            language,
+            locale,
             type,
             discountPerItem,
             taxTypes,
             itemId,
             taxPerItem,
-            units
+            units,
+            getTaxes,
+            getItemUnits
         } = this.props;
 
-        const isCreateItem = (type === ITEM_ADD)
-        let itemRefs = {}
+        const isCreateItem = type === ITEM_ADD;
+        let itemRefs = {};
 
         return (
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.navigate(ROUTES.ESTIMATE),
-                    title: isCreateItem ?
-                        Lng.t("header.addItem", { locale: language }) :
-                        Lng.t("header.editItem", { locale: language }),
-                    placement: "center",
+                    title: isCreateItem
+                        ? Lng.t('header.addItem', { locale })
+                        : Lng.t('header.editItem', { locale }),
+                    placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {
                         solid: true
                     },
-                    rightIconPress: handleSubmit(this.saveItem),
+                    rightIconPress: handleSubmit(this.saveItem)
                 }}
                 loadingProps={{
                     is: loading
@@ -396,7 +405,7 @@ export class EstimateItem extends React.Component {
                         name="name"
                         component={InputField}
                         isRequired
-                        hint={Lng.t("items.name", { locale: language })}
+                        hint={Lng.t('items.name', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -413,7 +422,7 @@ export class EstimateItem extends React.Component {
                                 name={'quantity'}
                                 isRequired
                                 component={InputField}
-                                hint={Lng.t("items.quantity", { locale: language })}
+                                hint={Lng.t('items.quantity', { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',
                                     keyboardType: 'numeric',
@@ -421,7 +430,7 @@ export class EstimateItem extends React.Component {
                                         itemRefs.price.focus();
                                     }
                                 }}
-                                refLinkFn={(ref) => {
+                                refLinkFn={ref => {
                                     itemRefs.quantity = ref;
                                 }}
                             />
@@ -431,12 +440,12 @@ export class EstimateItem extends React.Component {
                                 name="price"
                                 isRequired
                                 component={InputField}
-                                hint={Lng.t("items.price", { locale: language })}
+                                hint={Lng.t('items.price', { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',
                                     keyboardType: 'numeric'
                                 }}
-                                refLinkFn={(ref) => {
+                                refLinkFn={ref => {
                                     itemRefs.price = ref;
                                 }}
                                 isCurrencyInput
@@ -447,24 +456,43 @@ export class EstimateItem extends React.Component {
                     {(initialValues.unit || !itemId) && (
                         <Field
                             name="unit_id"
-                            label={Lng.t("items.unit", { locale: language })}
-                            component={SelectPickerField}
-                            items={formatSelectPickerName(units)}
-                            defaultPickerOptions={{
-                                label: Lng.t("items.unitPlaceholder", { locale: language }),
-                                value: '',
+                            component={SelectField}
+                            apiSearch
+                            hasPagination
+                            getItems={getItemUnits}
+                            items={units}
+                            displayName={'name'}
+                            label={Lng.t('items.unit', { locale })}
+                            icon={'balance-scale'}
+                            placeholder={Lng.t('items.unitPlaceholder', {
+                                locale
+                            })}
+                            navigation={navigation}
+                            compareField={'id'}
+                            emptyContentProps={{ contentType: 'units' }}
+                            headerProps={{
+                                title: Lng.t('items.unitPlaceholder', {
+                                    locale
+                                })
                             }}
-                            disabled={itemId ? true : false}
-                            fieldIcon={'balance-scale'}
+                            fakeInputProps={{
+                                valueStyle: styles.units,
+                                placeholderStyle: styles.units
+                            }}
+                            onSelect={item =>
+                                this.setFormField('unit_id', item.id)
+                            }
+                            paginationLimit={isIPhoneX() ? 20 : 15}
+                            inputModalName="UnitModal"
                         />
                     )}
 
-                    {discountPerItem == 'YES' && (
+                    {(discountPerItem == 'YES' || discountPerItem == '1') && (
                         <View>
                             <Field
                                 name="discount_type"
                                 component={RadioButtonGroup}
-                                hint={Lng.t("items.discountType", { locale: language })}
+                                hint={Lng.t('items.discountType', { locale })}
                                 options={ITEM_DISCOUNT_OPTION}
                                 initialValue={initialValues.discount_type}
                             />
@@ -472,7 +500,7 @@ export class EstimateItem extends React.Component {
                             <Field
                                 name="discount"
                                 component={InputField}
-                                hint={Lng.t("items.discount", { locale: language })}
+                                hint={Lng.t('items.discount', { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',
                                     autoCapitalize: 'none',
@@ -484,25 +512,28 @@ export class EstimateItem extends React.Component {
                         </View>
                     )}
 
-                    {taxPerItem === 'YES' && (
+                    {(taxPerItem === 'YES' || taxPerItem === '1') && (
                         <Field
                             name="taxes"
                             items={taxTypes}
+                            getItems={getTaxes}
+                            apiSearch
+                            hasPagination
                             displayName="name"
-                            label={Lng.t("items.taxes", { locale: language })}
+                            label={Lng.t('items.taxes', { locale })}
                             component={SelectField}
-                            searchFields={['name', 'percent']}
-                            placeholder={Lng.t("items.selectTax", { locale: language })}
+                            placeholder={Lng.t('items.selectTax', {
+                                locale
+                            })}
                             onlyPlaceholder
                             fakeInputProps={{
                                 icon: 'percent',
                                 rightIcon: 'angle-right',
-                                color: colors.gray,
+                                color: colors.gray
                             }}
                             navigation={navigation}
                             isMultiSelect
-                            isInternalSearch
-                            language={language}
+                            locale={locale}
                             concurrentMultiSelect
                             compareField="id"
                             valueCompareField="tax_type_id"
@@ -510,20 +541,21 @@ export class EstimateItem extends React.Component {
                                 contentContainerStyle: { flex: 2 }
                             }}
                             headerProps={{
-                                title: Lng.t("taxes.title", { locale: language })
+                                title: Lng.t('taxes.title', { locale })
                             }}
-                            rightIconPress={
-                                () => navigation.navigate(ROUTES.TAX, {
+                            rightIconPress={() =>
+                                navigation.navigate(ROUTES.TAX, {
                                     type: ADD_TAX,
-                                    onSelect: (val) => {
-                                        this.setFormField('taxes',
-                                            [...val, ...taxes]
-                                        )
+                                    onSelect: val => {
+                                        this.setFormField('taxes', [
+                                            ...val,
+                                            ...taxes
+                                        ]);
                                     }
                                 })
                             }
                             emptyContentProps={{
-                                contentType: "taxes",
+                                contentType: 'taxes'
                             }}
                         />
                     )}
@@ -533,7 +565,7 @@ export class EstimateItem extends React.Component {
                     <Field
                         name="description"
                         component={InputField}
-                        hint={Lng.t("items.description", { locale: language })}
+                        hint={Lng.t('items.description', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -543,12 +575,8 @@ export class EstimateItem extends React.Component {
                         }}
                         height={80}
                     />
-
-
                 </View>
-
             </DefaultLayout>
-
         );
     }
 }

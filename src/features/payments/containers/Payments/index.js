@@ -2,83 +2,59 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as PaymentsAction from '../../actions';
-import { colors } from '../../../../styles/colors';
+import { colors } from '@/styles';
 import { Payments } from '../../components/Payments';
 import { PAYMENT_SEARCH } from '../../constants';
-import { SvgXml } from 'react-native-svg';
-import { PAYMETNS } from '../../../../assets/svg';
-import { getCustomers } from '../../../customers/actions';
-import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
-import { ROUTES } from '../../../../navigation/routes';
-import { withNavigationFocus } from 'react-navigation';
-import { getPaymentModes } from '../../../settings/actions';
+import { PAYMENTS_ICON } from '@/assets';
+import { getTitleByLanguage } from '@/utils';
+import { getPaymentsState, getPaymentMethodsState } from '../../selectors';
+import { getCustomers } from '@/features/customers/actions';
+import { getPaymentModes } from '@/features/settings/actions';
+import { AssetSvg } from '@/components';
 
-
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
     const {
-        global: { language },
+        global: { locale },
         customers: { customers },
-        payments: {
-            payments,
-            filterPayments,
-            loading: { paymentsLoading }
-        },
-        settings: {
-            paymentMethods,
-            loading: { paymentModesLoading }
-        }
+        payments: { payments },
+        settings: { paymentMethods }
     } = state;
 
     return {
-        payments,
-        filterPayments,
-        loading: paymentsLoading,
-        paymentModesLoading,
-        language,
+        payments: getPaymentsState(payments),
+        locale,
         customers,
-        paymentMethods,
-
-        formValues: getFormValues(PAYMENT_SEARCH)(state) || {},
+        paymentMethods: getPaymentMethodsState(paymentMethods),
+        formValues: getFormValues(PAYMENT_SEARCH)(state) || {}
     };
 };
 
-
 const mapDispatchToProps = {
     getPayments: PaymentsAction.getPayments,
-    getCustomers: getCustomers,
-    getPaymentModes: getPaymentModes
+    getCustomers,
+    getPaymentModes
 };
 
 //  Redux Forms
 const paymentSearchReduxForm = reduxForm({
-    form: PAYMENT_SEARCH,
+    form: PAYMENT_SEARCH
 })(Payments);
 
 //  connect
 const PaymentsContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(paymentSearchReduxForm);
 
 PaymentsContainer.navigationOptions = ({ navigation }) => ({
     gesturesEnabled: false,
     tabBarLabel: getTitleByLanguage('tabNavigation.payments'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <SvgXml
-            xml={PAYMETNS}
+        <AssetSvg
+            name={PAYMENTS_ICON}
             fill={focused ? colors.primary : colors.darkGray}
-            width="22"
-            height="22"
         />
-    ),
-    tabBarOnPress: () => {
-        if (navigation.isFocused()) {
-            return;
-        }
-
-        navigateToMainTabs(navigation, ROUTES.MAIN_PAYMENTS)
-    }
+    )
 });
 
-export default withNavigationFocus(PaymentsContainer);
+export default PaymentsContainer;

@@ -1,0 +1,743 @@
+{
+    "header": {
+        "invoices": "Factures",
+        "addInvoice": "Ajouter une facture",
+        "editInvoice": "Modifier la facture",
+        "estimates": "Estimations",
+        "addEstimate": "Ajouter une estimation",
+        "editEstimate": "Modifier l'estimation",
+        "template": "Sélectionnez un modèle",
+        "customers": "Les clients",
+        "addCustomer": "Ajouter un client",
+        "editCustomer": "Modifier le client",
+        "selectCurrency": "Sélectionnez la devise",
+        "billingAddress": "Adresse de facturation",
+        "shippingAddress": "Adresse de livraison",
+        "country": "Choisissez le pays",
+        "state": "Sélectionnez l'état",
+        "city": "Sélectionnez une ville",
+        "payments": "Paiements",
+        "addPayment": "Ajouter un paiement",
+        "editPayment": "Modifier le paiement",
+        "expenses": "les frais",
+        "addExpense": "Ajouter une dépense",
+        "editExpense": "Modifier les dépenses",
+        "more": "Plus",
+        "expenseCategory": "Catégories de dépenses",
+        "addCategory": "ajouter une catégorie",
+        "editCategory": "Modifier la catégorie",
+        "addNote": "Ajouter une note",
+        "editNote": "Note éditée",
+        "settings": "Paramètres",
+        "notifications": "Notification",
+        "setting": {
+            "company": "compagnie",
+            "account": "réglage du compte",
+            "preferences": "Préférences",
+            "LanguageAndCurrency": "Langue et devise",
+            "endpoint": "Point de terminaison de l'API"
+        },
+        "taxes": "Types de taxe",
+        "addTaxes": "Ajouter une taxe",
+        "editTaxes": "Modifier la taxe",
+        "addItem": "Ajouter un item",
+        "editItem": "Modifier l'article",
+        "items": "Articles",
+        "units": "Unités",
+        "reports": "Rapports",
+        "salesReport": "Rapport des ventes",
+        "profitAndLossReport": "Compte de résultat",
+        "expensesReport": "Rapport de dépenses",
+        "taxesReport": "Rapport de taxes",
+        "customize": "Personnalisation",
+        "filter": "Les filtres",
+        "back": "Retour",
+        "addresses": "Adresses",
+        "currencies": "Devises",
+        "addCurrency": "Ajouter une devise",
+        "editCurrency": "Modifier la devise",
+        "sendMailInvoice": "Envoyer une facture",
+        "sendMailEstimate": "Envoyer une estimation",
+        "sendMailPayment": "Envoyer le paiement",
+        "recurringInvoice": "Factures récurrentes",
+        "addRecurring": "Ajouter une facture récurrente",
+        "editRecurring": "Modifier la facture récurrente",
+        "customFields": "Les champs personnalisés",
+        "addCustomField": "Ajouter un champ personnalisé",
+        "editCustomField": "Modifier le champ personnalisé",
+        "notes": "Remarques"
+    },
+    "tabNavigation": {
+        "invoices": "Factures",
+        "customers": "Les clients",
+        "payments": "Paiements",
+        "expenses": "les frais",
+        "more": "Plus"
+    },
+    "invoices": {
+        "title": "Sélectionnez facture",
+        "tabs": {
+            "DUE": "Dû",
+            "DRAFT": "Brouillon",
+            "ALL": "Toute"
+        },
+        "invoiceDate": "Date",
+        "dueDate": "Date d'échéance",
+        "discount": "REMISE",
+        "invoiceNumber": "Numéro de facture",
+        "referenceNumber": "Numéro de réference",
+        "template": "Modèle",
+        "templatePlaceholder": "Sélectionner ou ajouter un nouveau modèle",
+        "customer": "Client",
+        "customerPlaceholder": "Sélectionner un client",
+        "items": "Des articles",
+        "unit": "Unité",
+        "addItem": "Ajouter un item",
+        "notes": "Remarques",
+        "notePlaceholder": "Notes supplémentaires visibles sur la facture",
+        "termsCondition": "Termes et conditions",
+        "taxPlaceholder": "+ Ajouter une taxe",
+        "subtotal": "TOTAL",
+        "totalAmount": "MONTANT TOTAL",
+        "status": "Statut",
+        "statusPlaceholder": "Sélectionnez un statut",
+        "paidStatus": "Statut payé",
+        "paidStatusPlaceholder": "Sélectionnez le statut payé",
+        "fromDate": "Partir de la date",
+        "toDate": "À ce jour",
+        "profileName": "Nom de profil",
+        "repeatEvery": "Répéter tous les",
+        "repeatRecurring": {
+            "week": "Week",
+            "weeks": "{{week}} Week",
+            "month": "Month",
+            "months": "{{month}} Month",
+            "year": "Year",
+            "years": "{{year}} Year",
+            "custom": "Custom"
+        },
+        "customRepeatRecurring": {
+            "days": "Day(s)",
+            "weeks": "Week(s)",
+            "months": "Month(s)",
+            "years": "Year(s)"
+        },
+        "startOn": "Démarrer",
+        "endsOn": "Se termine le",
+        "neverExpire": "N'expire jamais",
+        "alert": {
+            "lessAmount": "Le montant total ne doit pas être inférieur à 0",
+            "removeDescription": "Vous ne pourrez pas récupérer cette facture",
+            "paymentAttachedTitle": "Action: échoué",
+            "paymentAttachedDescription": "Impossible de supprimer une facture avec un paiement existant.",
+            "draftTitle": "Sauvegarder les modifications?",
+            "alreadyInUseNumber": "Le numéro de facture a déjà été pris.",
+            "sendEmail": "Cette facture sera envoyée par email au client",
+            "clone": "Cette facture sera clonée dans une nouvelle facture",
+            "sendInvoice": "Cette facture sera envoyée par courrier électronique au client.",
+            "markAsSent": "Cette facture sera marquée comme envoyée"
+        },
+        "empty": {
+            "due": {
+                "title": "Vous n'avez aucune facture due",
+                "description": "Cette section contient la liste des factures dues."
+            },
+            "draft": {
+                "title": "Vous n'avez pas de facture préliminaire",
+                "description": "Cette section contiendra la liste des projets de factures."
+            },
+            "all": {
+                "title": "Vous n'avez créé aucune facture"
+            },
+            "title": "Aucune facture pour le moment!",
+            "description": "Cette section contiendra la liste des factures.",
+            "buttonTitle": "Ajouter une nouvelle facture"
+        },
+        "actions": {
+            "downloadPdf": "Télécharger le PDF",
+            "sendInvoice": "Envoyer une facture",
+            "reSendInvoice": "Renvoyer la facture",
+            "editInvoice": "Modifier la facture",
+            "delete": "Effacer",
+            "recordPayment": "Record de paiement",
+            "markAsSent": "Marquer comme envoyé",
+            "clone": "Cloner la facture"
+        }
+    },
+    "customers": {
+        "displayName": "Afficher un nom",
+        "contactName": "Nom du contact principal",
+        "email": "Email",
+        "name": "Nom",
+        "phone": "Téléphone",
+        "website": "Site Internet",
+        "currency": "Devise",
+        "billingAddress": "Adresse de facturation",
+        "shippingAddress": "Adresse de livraison",
+        "customer": "Client",
+        "company": "Entreprise",
+        "enablePortal": "Activer le portail",
+        "password": "Mot de passe",
+        "filterDisplayName": "Afficher un nom",
+        "filterContactName": "Nom du contact",
+        "alertEmailAlreadyInUse": "Email déjà utilisé",
+        "alertDescription": "Vous ne pourrez pas récupérer ce client",
+        "address": {
+            "name": "Nom",
+            "country": "Pays",
+            "state": "Etat",
+            "city": "Ville",
+            "address": "Adresse",
+            "street1": "Rue 1",
+            "street2": "Rue 2",
+            "addressStreet1": "Dirección Calle 1",
+            "addressStreet2": "Dirección Calle 2",
+            "phone": "Téléphone",
+            "zipcode": "Code postal",
+            "sameAs": "Copier de la facturation"
+        },
+        "removeCustomer": "Effacer",
+        "empty": {
+            "title": "Pas encore de clients!",
+            "description": "Cette section contiendra la liste des clients.",
+            "buttonTitle": "Ajouter un nouveau client",
+            "country": {
+                "title": "Pas de pays disponible"
+            },
+            "state": {
+                "title": "Aucun état disponible"
+            },
+            "city": {
+                "title": "Aucune ville disponible"
+            }
+        },
+        "title": "Sélectionnez un client",
+        "placeholder": "Sélectionner un client"
+    },
+    "payments": {
+        "date": "Date",
+        "number": "No de paiement",
+        "customer": "Cliente",
+        "customerPlaceholder": "Sélectionner un client",
+        "mode": "Mode de paiement",
+        "modes": "Modes de paiement",
+        "prefix": "Préfixe de paiement",
+        "addMode": "Ajouter un mode de paiement",
+        "editMode": "Modifier le mode de paiement",
+        "modeHint": "Nom du mode",
+        "modePlaceholder": "Sélectionnez le mode",
+        "amount": "Montant",
+        "notes": "Remarques",
+        "notesPlaceholder": "Notes complémentaires",
+        "invoice": "Facture d'achat",
+        "invoicePlaceholder": "Sélectionnez facture",
+        "sendReceipt": "Envoyer un reçu de paiement",
+        "alertAmount": "Le paiement saisi est supérieur au montant dû de cette facture.",
+        "alertDescription": "Vous ne pourrez pas récupérer ce paiement",
+        "alertMode": "Vous ne pourrez pas récupérer ce mode de paiement",
+        "alreadyInUseMode": "Le mode de paiement est déjà utilisé",
+        "alreadyInUseNumber": "Le numéro de paiement a déjà été pris.",
+        "alertSendDescription": "Ce paiement sera envoyé par e-mail au client",
+        "removePayment": "Effacer",
+        "empty": {
+            "title": "Aucun paiement pour le moment!",
+            "modeTitle": "Pas encore de modes de paiement!",
+            "description": "Cette section contiendra la liste des paiements.",
+            "buttonTitle": "Ajouter un nouveau paiement"
+        },
+        "alert": {
+            "sendPayment": "Ce reçu de paiement sera envoyé par e-mail à l'adresse indiquée"
+        }
+    },
+    "paymentMode": {
+        "empty": {
+            "title": "Pas encore de modes de paiement!",
+            "description": "Cette section contiendra la liste des modes de paiement.",
+            "buttonTitle": "Ajouter un nouveau mode de paiement"
+        }
+    },
+    "expenses": {
+        "receipt": "Le reçu",
+        "date": "Date de dépense",
+        "fromDate": "Partir de la date",
+        "toDate": "À ce jour",
+        "amount": "Montant",
+        "category": "Catégorie",
+        "categoryPlaceholder": "Choisir une catégorie",
+        "notes": "Remarques",
+        "notesPlaceholder": "Notes complémentaires",
+        "viewReceipt": "Voir le reçu",
+        "alertDescription": "Vous ne pourrez pas récupérer cette dépense",
+        "removeExpense": "Effacer",
+        "noCategories": "Aucune catégorie pour le moment!",
+        "empty": {
+            "title": "Pas de dépenses pour le moment!",
+            "description": "Cette section contiendra la liste des dépenses.",
+            "buttonTitle": "Ajouter une nouvelle dépense"
+        }
+    },
+    "items": {
+        "title": "Sélectionner un article",
+        "name": "Nom de l'article",
+        "description": "description (facultatif)",
+        "quantity": "Quantité",
+        "price": "Prix",
+        "subTotal": "TOTAL",
+        "discountType": "Type de remise",
+        "discount": "Remise",
+        "finalDiscount": "REMISE",
+        "finalAmount": "MONTANT",
+        "taxes": "Les taxes",
+        "selectTax": "Sélectionnez les taxes",
+        "unit": "Unité",
+        "unitHint": "Nom de l'unité",
+        "addUnit": "Ajouter une unité d'article",
+        "editUnit": "Modifier l'unité d'élément",
+        "unitPlaceholder": "Sélectionnez l'unité",
+        "alertDescription": "Vous ne pourrez pas récupérer cet article",
+        "alertUnit": "Vous ne pourrez pas récupérer cette unité d'objet",
+        "alreadyInUseUnit": "L'article est déjà utilisé",
+        "lessAmount": "Le montant total ne devrait pas être inférieur à 0",
+        "alreadyAttachTitle": "Action: échoué",
+        "alreadyAttachDescription": "Impossible de supprimer un élément déjà utilisé",
+        "empty": {
+            "title": "Aucun article pour le moment!",
+            "description": "Cette section contiendra la liste des éléments.",
+            "buttonTitle": "Ajouter de nouveaux articles"
+        }
+    },
+    "more": {
+        "estimate": "Estimations",
+        "recurringInvoice": "Factures récurrentes",
+        "items": "Articles",
+        "reports": "Rapports",
+        "settings": "Paramètres",
+        "logout": "Se déconnecter"
+    },
+    "categories": {
+        "title": "Nom de catégorie",
+        "description": "La description",
+        "alertDescription": "Vous ne pourrez pas récupérer cette catégorie",
+        "alreadyUsed": "Catégorie déjà utilisée",
+        "empty": {
+            "title": "Aucune catégorie pour le moment!",
+            "description": "Cette section contiendra la liste des catégories.",
+            "buttonTitle": "Ajouter une nouvelle catégorie"
+        }
+    },
+    "notes": {
+        "title": "Nom de la note",
+        "description": "La description",
+        "model": "Modèle",
+        "modelPlaceholder": "Sélectionnez un type",
+        "alertDescription": "Vous ne pourrez pas récupérer cette note",
+        "alreadyUsed": "Remarque déjà utilisée",
+        "empty": {
+            "title": "Pas encore de notes!",
+            "description": "Cette section contiendra la liste des notes.",
+            "buttonTitle": "Ajouter une nouvelle note"
+        },
+        "type": "Type de note",
+        "select": "Sélectionnez une note",
+        "insertNote": "+ Insérer une note",
+        "insertFields":"+ Insérer des champs"
+    },
+    "units": {
+        "empty": {
+            "title": "Pas encore d'unités!",
+            "description": "Cette section contiendra la liste des unités d'articles.",
+            "buttonTitle": "Ajouter une nouvelle unité d'article"
+        }
+    },
+    "settings": {
+        "accountSettings": "réglage du compte",
+        "companyInformation": "Compagnie",
+        "preference": "Préférences",
+        "LanguageAndCurrency": "Langue et devise",
+        "notification": "Les notifications",
+        "taxes": "Types de taxe",
+        "expenseCategory": "Catégories de dépenses",
+        "customize": "Personnalisation",
+        "endpoint": "point final api",
+        "company": {
+            "name": "Nom de la compagnie",
+            "email": "Email",
+            "phone": "Téléphone",
+            "address": "Adresse",
+            "street1": "Rue 1",
+            "street2": "Rue # 2",
+            "zipcode": "Code postal",
+            "website": "Site Internet",
+            "logo": "Logo d'entreprise"
+        },
+        "account": {
+            "name": "Nom",
+            "email": "Email",
+            "password": "Mot de passe",
+            "confirmPassword": "Confirmez le mot de passe",
+            "version": "Version",
+            "avatar": "Image de profil"
+        },
+        "notifications": {
+            "send": "Envoyer des notifications à",
+            "invoiceViewed": "Facture consultée",
+            "invoiceViewedUpdated": "Paramètre de notification mis à jour avec succès",
+            "invoiceViewedDescription": "Lorsque votre client visualise le lien de facturation envoyé par courrier électronique.",
+            "estimateViewed": "Estimation vue",
+            "estimateViewedDescription": "Lorsque votre client visualise le lien de devis envoyé par courrier électronique.",
+            "estimateViewedUpdated": "Paramètre de notification mis à jour avec succès"
+        },
+        "preferences": {
+            "currency": "Devise",
+            "currencyPlaceholder": "Sélectionnez la devise",
+            "language": "La langue",
+            "languagePlaceholder": "Choisir la langue",
+            "timeZone": "Fuseau horaire",
+            "timeZonePlaceholder": "Sélectionner le fuseau horaire",
+            "dateFormat": "Format de date",
+            "dateFormatPlaceholder": "Sélectionnez le format de date",
+            "fiscalYear": "Année financière",
+            "fiscalYearPlaceholder": "Sélectionnez l'exercice financier",
+            "discountSetting": "Réglage de remise",
+            "discountPerItem": "Remise par article",
+            "discountPerItemPlaceholder": "Activez cette option si vous souhaitez ajouter une remise à des postes de facture individuels. Par défaut, les remises sont ajoutées directement à la facture.",
+            "taxPerItem": "Taxe par article",
+            "taxPerItemPlaceholder": "Activez cette option si vous souhaitez ajouter une taxe à des postes de facture individuels. Par défaut, les taxes sont ajoutées directement à la facture.",
+            "settingUpdate": "Réglage mis à jour avec succès"
+        },
+        "notes": "Remarques"
+    },
+    "login": {
+        "email": "Entrer votre Email",
+        "password": "Tapez votre mot de passe",
+        "invalid": "Les informations d'identification invalides"
+    },
+    "logout": {
+        "confirmation": "Êtes-vous sûr de vouloir vous déconnecter?",
+        "title": "Se déconnecter"
+    },
+    "forgot": {
+        "emailLabel": "Entrez votre email et nous vous enverrons le lien de réinitialisation du mot de passe",
+        "emailPlaceholder": "Entrer votre Email",
+        "emailSendTitle": "Vérifiez votre email",
+        "emailSendDescription": "Un lien de réinitialisation du mot de passe a été envoyé à votre adresse e-mail. Veuillez suivre les instructions sur l'e-mail pour créer un nouveau mot de passe.",
+        "emailSendError": "Le courrier électronique n'a pas pu être envoyé à cette adresse électronique."
+    },
+    "lostInternet": {
+        "title": "Connexion perdue",
+        "description": "Veuillez vérifier vos paramètres de téléphonie mobile ou Wifi pour vérifier votre connectivité Internet, puis réessayez."
+    },
+    "updateApp": {
+        "title": "La version de l'application a expiré!",
+        "description": "Cette version de l'application est obsolète. Veuillez installer la dernière mise à jour pour continuer à utiliser Crater."
+    },
+    "endpoint": {
+        "endpointURL": "URL du noeud final",
+        "endpointDesc": "L'URL ci-dessus sera utilisé pour vous connecter à votre installation auto-hébergée de crater.",
+        "urlPlaceHolder": "p ex: https: //craterapp.com",
+        "alertInvalidUrl": "URL invalide"
+    },
+    "estimates": {
+        "tabs": {
+            "SENT": "Envoyé",
+            "DRAFT": "Brouillon",
+            "ALL": "Tout"
+        },
+        "estimateDate": "Date",
+        "expiryDate": "Date d'expiration",
+        "discount": "REMISE",
+        "estimateNumber": "Numéro d'estimation",
+        "template": "Modèle",
+        "templatePlaceholder": "Sélectionner ou ajouter un nouveau modèle",
+        "customer": "Client",
+        "customerPlaceholder": "Sélectionner un client",
+        "items": "Articles",
+        "unit": "Unité",
+        "taxPlaceholder": "+ Ajouter une taxe",
+        "addItem": "Ajouter un item",
+        "notes": "Remarques",
+        "notePlaceholder": "Notes supplémentaires visibles sur devis",
+        "fromDate": "Partir de la date",
+        "toDate": "À ce jour",
+        "status": "Statut",
+        "statusPlaceholder": "Sélectionnez un statut",
+        "subtotal": "TOTAL",
+        "tax": "IMPÔT",
+        "totalAmount": "MONTANT TOTAL",
+        "alert": {
+            "convertToInvoiceDescription": "Êtes-vous sûr de vouloir convertir cette estimation en facture?",
+            "removeDescription": "Vous ne pourrez pas récupérer cette estimation",
+            "lessAmount": "Le montant total ne devrait pas être inférieur à 0",
+            "draftTitle": "Sauvegarder les modifications?",
+            "alreadyInUseNumber": "Le nombre estimé a déjà été pris.",
+            "sendEstimate": "Cette estimation sera envoyée par email au client",
+            "markAsSent": "Cette estimation sera marquée comme envoyée",
+            "markAsAccept": "Cette estimation sera marquée comme acceptée",
+            "markAsReject": "Cette estimation sera marquée comme rejetée"
+        },
+        "empty": {
+            "sent": {
+                "title": "Vous n'avez pas envoyé d'estimations",
+                "description": "Cette section contiendra la liste des estimations envoyées."
+            },
+            "draft": {
+                "title": "Vous n'avez pas d'estimation provisoire",
+                "description": "Cette section contiendra la liste des projets d’estimations."
+            },
+            "all": {
+                "title": "Vous n'avez créé aucune estimation",
+                "description": "Cette section contiendra la liste des estimations."
+            },
+            "buttonTitle": "Ajouter une nouvelle estimation"
+        },
+        "actions": {
+            "downloadPdf": "Télécharger le PDF",
+            "sendEstimate": "Envoyer une estimation",
+            "reSendEstimate": "Renvoyer l'estimation",
+            "editEstimate": "Modifier l'estimation",
+            "delete": "Effacer",
+            "convertToInvoice": "Convertir en facture",
+            "markAsSent": "Marquer comme envoyé",
+            "markAsAccepted": "Marquer comme accepté",
+            "markAsRejected": "Marquer comme rejeté"
+        }
+    },
+    "currencies": {
+        "name": "Nom",
+        "code": "Code",
+        "symbol": "symbole",
+        "precision": "Précision",
+        "thousSeparator": "Séparateur de milliers",
+        "decSeparator": "Séparateur décimal",
+        "position": "Position",
+        "left": "La gauche",
+        "right": "Droit",
+        "title": "Sélectionnez la devise",
+        "alertDescription": "Vous ne pourrez pas récupérer cette devise",
+        "empty": {
+            "title": "Pas encore de devises!",
+            "description": "Cette section contiendra la liste des devises.",
+            "buttonTitle": "Ajouter une nouvelle devise"
+        }
+    },
+    "customFields": {
+        "name": "Nom",
+        "model": "Modèle",
+        "modelPlaceholder": "Sélectionnez un modèle",
+        "type": "Type",
+        "typePlaceholder": "Sélectionnez un type",
+        "select": "Sélectionnez une option",
+        "required": "Obligatoire",
+        "label": "Étiquette",
+        "defaultValue": "Valeur par défaut 0",
+        "displayInPortal": "Afficher dans le portail",
+        "placeholder": "Espace réservé",
+        "order":"Ordre",
+        "yes": "Oui",
+        "no": "Non",
+        "help": "Texte d'aide",
+        "helpText": "Saisissez du texte pour aider les utilisateurs à comprendre l'objectif de ce champ personnalisé.",
+        "check": "Coché par défaut",
+        "removeAlertDescription": "Vous ne pourrez pas récupérer ce champ personnalisé",
+        "alreadyUsed": "Le champ personnalisé est déjà utilisé",
+        "empty": {
+            "title": "Pas encore de champs personnalisés!",
+            "description": "Cette section contiendra la liste des champs personnalisés.",
+            "buttonTitle": "Ajouter un nouveau champ personnalisé"
+        }
+    },
+    "languages": {
+        "title": "Choisir la langue",
+        "empty": {
+            "title": "Pas encore de langues!",
+            "description": "Cette section contiendra la liste des langues."
+        }
+    },
+    "timeZones": {
+        "title": "Sélectionnez le fuseau horaire",
+        "empty": {
+            "title": "Pas encore de TimeZones!",
+            "description": "Cette section contiendra la liste des fuseaux horaires."
+        }
+    },
+    "dateFormats": {
+        "title": "Sélectionnez le format de date",
+        "empty": {
+            "title": "Aucun format de date pour le moment!",
+            "description": "Cette section contiendra la liste des formats de date."
+        }
+    },
+    "fiscalYears": {
+        "title": "Sélectionnez l'exercice",
+        "empty": {
+            "title": "Aucun exercice financier encore!",
+            "description": "Cette section contient la liste des exercices financiers"
+        }
+    },
+    "countries": {
+        "empty": {
+            "title": "Pas encore de pays!",
+            "description": "Cette section contiendra la liste des pays."
+        }
+    },
+    "reports": {
+        "sales": "Ventes",
+        "profitAndLoss": "Perte de profit",
+        "expenses": "Les dépenses",
+        "taxes": "Les taxes",
+        "dateRange": "Sélectionner une plage de dates",
+        "fromDate": "Partir de la date",
+        "toDate": "À ce jour",
+        "reportType": "Type de rapport",
+        "byCustomer": "Par le client",
+        "byItem": "Par article",
+        "today": "Aujourdhui",
+        "thisWeek": "Cette semaine",
+        "thisMonth": "Ce mois-ci",
+        "thisQuarter": "Ce trimestre",
+        "thisYear": "Cette année",
+        "currentFiscalQuarter": "Trimestre financier en cours",
+        "currentFiscalYear": "Année fiscale en cours",
+        "previousWeek": "Semaine précédente",
+        "previousMonth": "Le mois précédent",
+        "previousQuarter": "Trimestre précédent",
+        "previousYear": "Année précédente",
+        "previousFiscalQuarter": "Trimestre précédent",
+        "previousFiscalYear": "Année fiscale précédente",
+        "custom": "Douane"
+    },
+    "taxes": {
+        "title": "Les taxes",
+        "type": "Nom de la taxe",
+        "description": "La description",
+        "percentage": "Pourcentage dimpôt",
+        "compoundTax": "Taxe composée",
+        "alertDescription": "Vous ne pourrez pas récupérer cette taxe",
+        "alreadyUsed": "Taxe déjà utilisée",
+        "empty": {
+            "title": "Aucun type de taxe pour le moment!",
+            "description": "Cette section contiendra la liste des types de taxe.",
+            "buttonTitle": "Ajouter un type de taxe"
+        }
+    },
+    "customizes": {
+        "prefix": {
+            "title": "Préfixe",
+            "invoice": "Préfixe de facture",
+            "estimate": "Préfixe d'estimation",
+            "payment": "Préfixe de paiement"
+        },
+        "autoGenerate": {
+            "invoice": "Numéro de facture généré automatiquement",
+            "invoiceDescription": "Désactiver ceci, si vous ne souhaitez pas générer automatiquement les numéros de facture lors de la création d'une nouvelle facture.",
+            "estimate": "Nombre d'estimation généré automatiquement",
+            "estimateDescription": "Désactivez cette option, si vous ne souhaitez pas générer automatiquement des nombres d'estimation lors de la création d'une nouvelle estimation.",
+            "payment": "Numéro de paiement généré automatiquement",
+            "paymentDescription": "Désactivez cette option, si vous ne souhaitez pas générer automatiquement de numéros de paiement lors de la création d'un nouveau paiement."
+        },
+        "setting": {
+            "invoice": "Paramètres de facture",
+            "estimate": "Estimation des paramètres",
+            "payment": "Paramètres de paiement"
+        },
+        "addresses": {
+            "billing": "Format d'adresse de facturation",
+            "shipping": "Format d'adresse d'expédition",
+            "company": "Format d'adresse de l'entreprise",
+            "insertFields": "Insérer des champs",
+            "contact": "CONTACT",
+            "address": "ADRESSE",
+            "sendInvoiceEmailBody": "Envoyer le corps de l'e-mail de la facture",
+            "sendEstimateEmailBody": "Envoyer le corps de l'e-mail d'estimation",
+            "sendPaymentEmailBody": "Envoyer le corps de l'e-mail de paiement",
+            "customerAddress": "Du format d'adresse client"
+        }
+    },
+    "filePicker": {
+        "file": "Cliquez ici pour choisir un fichier",
+        "permission": "Désolé, nous avons besoin d'autorisations de rouleau de caméra pour que cela fonctionne!",
+        "camera": "Caméra",
+        "gallery": "Galerie"
+    },
+    "sendMail": {
+        "from": "De",
+        "to": "À",
+        "subject": "Assujettir",
+        "body": "Corps",
+        "sendEmailToast": "Email envoyé avec succès"
+    },
+    "alert": {
+        "title": "Êtes-vous sûr?",
+        "exit": "Es tu sûr de vouloir partir?",
+        "alreadyInUse": "{{field}} déjà utilisé",
+        "action": {
+            "discard": "Jeter",
+            "saveAsDraft": "Enregistrer comme brouillon",
+            "emailNotExist": "Le courrier électronique de l'utilisateur n'existe pas"
+        },
+        "requiredFields": "Les champs obligatoires sont vides"
+    },
+    "termsCondition": {
+        "title": "termes et conditions",
+        "show": "Afficher les termes et conditions sur PDF?",
+        "edit": "Modifier les termes et conditions",
+        "description": "Cochez si vous souhaitez afficher les conditions générales sur le PDF."
+    },
+    "button": {
+        "remove": "Retirer",
+        "save": "sauver",
+        "add": "Ajouter",
+        "edit": "Modifier",
+        "retry": "Recommencez",
+        "done": "Terminé",
+        "skip": "Sauter",
+        "clear": "Clair",
+        "viewPdf": "Voir PDF",
+        "singIn": "se connecter",
+        "singInGoogle": "Connectez-vous avec google",
+        "forget": "Mot de passe oublié?",
+        "update": "Mise à jour",
+        "updateCapital": "MISE À JOUR",
+        "chooseTemplate": "Choisir le modèle",
+        "generateReport": "Générer un rapport",
+        "recoveryEmail": "Envoyer le lien de réinitialisation",
+        "recoveryEmailAgain": "Envoyer à nouveau",
+        "cancel": "Annuler",
+        "send": "Envoyer",
+        "change": "Changement"
+    },
+    "filter": {
+        "empty": {
+            "filterTitle": "Aucun résultat trouvé"
+        }
+    },
+    "search": {
+        "title": "Chercher",
+        "noResult": "Aucun résultat pour \"{{search}}\"",
+        "noSearchResult": "Aucun résultat pour"
+    },
+    "toast":{
+        "send_invoice_successfully": "Facture envoyée avec succès",
+        "send_payment_successfully": "Paiement envoyé avec succès",
+        "send_estimate_successfully": "Estimation envoyée avec succès"
+    },
+    "validation": {
+        "Customer": "Client",
+        "Invoice": "Facture d'achat",
+        "required": "Le champ requis est vide",
+        "field": "{{hint}} Champ requis",
+        "choose": "Choisissez au moins un article",
+        "email": "S'il vous plaît, mettez une adresse email valide",
+        "passwordCompare": "Les mots de passe ne correspondent pas",
+        "minimumNumber": "doit être supérieur à 0",
+        "maximumNumber": "doit être inférieur à {{maxNumber}}",
+        "maximumCharacter": "{{fieldName}} doit être inférieur à {{maxCharacter}} personnages.",
+        "character": "Caractères seulement",
+        "numeric": "doit être numérique",
+        "moreThanDue": "{{hint}} Ne devrait pas être plus que le montant dû.",
+        "url": "URL invalide (p ex: https://craterapp.com)",
+        "wrong": "Un problème est survenu. Veuillez réessayer.",
+        "alreadyTaken": "DÉJÀ PRIS",
+        "minCharacter": "Veuillez saisir au moins {{minCharacter}} caractères"
+    }
+}

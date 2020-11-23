@@ -1,7 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { colors } from '../../styles/colors';
-import { fonts } from '../../styles/fonts';
-
+import { colors, fonts } from '@/styles';
 
 const { width, height } = Dimensions.get('window');
 
@@ -16,24 +14,24 @@ export default styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         paddingHorizontal: 25,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
-    logoContainer: {
-    },
+    logoContainer: {},
     imgLogo: {
         width: width,
         height: 140,
-        resizeMode: 'cover',
+        resizeMode: 'cover'
     },
     bodyContainer: {
-        textAlign: "center",
-        alignItems: "center",
+        textAlign: 'center',
+        alignItems: 'center'
     },
     title: {
         marginBottom: 25,
         color: colors.secondary,
         fontFamily: fonts.poppinsSemiBold,
         fontSize: 22,
+        textAlign: 'left'
     },
     internetIcon: {
         marginTop: 15,
@@ -43,7 +41,7 @@ export default styles = StyleSheet.create({
         marginTop: 50,
         color: colors.veryDarkGray,
         fontFamily: fonts.poppinsLight,
-        textAlign: "center",
-        fontSize: 13,
-    },
+        textAlign: 'center',
+        fontSize: 13
+    }
 });

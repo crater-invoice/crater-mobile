@@ -1,6 +1,4 @@
-
-// @flow
-import { getError } from "../../../../api/validation";
+import { getError } from "@/constants";
 
 export const validate = (values) => {
     const errors = {};

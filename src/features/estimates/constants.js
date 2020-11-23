@@ -1,6 +1,11 @@
 import queryString from 'query-string';
-import Lng from "../../api/lang/i18n";
-import { colors } from "../../styles/colors";
+import Lng from '@/lang/i18n';
+import { colors } from '@/styles';
+
+// Estimate Refs
+// -----------------------------------------
+export let estimateRefs = {};
+export const setEstimateRefs = refs => (estimateRefs = refs);
 
 //  Forms
 // -----------------------------------------
@@ -31,7 +36,9 @@ export const CONVERT_TO_INVOICE = 'estimate/CONVERT_TO_INVOICE';
 export const REMOVE_ESTIMATE = 'estimate/REMOVE_ESTIMATE';
 export const REMOVE_FROM_ESTIMATES = 'estimate/REMOVE_FROM_ESTIMATES';
 export const CHANGE_ESTIMATE_STATUS = 'estimate/CHANGE_ESTIMATE_STATUS';
+export const GET_ESTIMATE_TEMPLATE = 'estimate/GET_ESTIMATE_TEMPLATE';
 
+export const UPDATE_FROM_ESTIMATES = 'estimate/UPDATE_FROM_ESTIMATES';
 // Items
 // -----------------------------------------
 export const SET_EDIT_ESTIMATE_ITEMS = 'estimate/SET_EDIT_ESTIMATE_ITEMS';
@@ -49,27 +56,25 @@ export const ITEM_EDIT = 'estimate/ITEM_EDIT';
 export const ITEM_DISCOUNT_OPTION = [
     {
         key: 'none',
-        label: 'None',
+        label: 'None'
     },
     {
         key: 'fixed',
-        label: 'Fixed',
+        label: 'Fixed'
     },
     {
         key: 'percentage',
-        label: 'Percentage',
-    },
+        label: 'Percentage'
+    }
 ];
-
 
 export const ESTIMATE_DISCOUNT_OPTION = [
     {
         value: 'percentage',
         displayLabel: '%',
-        label: 'Percentage',
-    },
+        label: 'Percentage'
+    }
 ];
-
 
 export const ESTIMATES_STATUS_BG_COLOR = {
     DRAFT: colors.warningLight,
@@ -77,7 +82,7 @@ export const ESTIMATES_STATUS_BG_COLOR = {
     VIEWED: colors.infoLight,
     EXPIRED: colors.dangerLight,
     REJECTED: colors.gray2,
-    ACCEPTED: colors.successLight2,
+    ACCEPTED: colors.successLight2
 };
 
 export const ESTIMATES_STATUS_TEXT_COLOR = {
@@ -86,18 +91,17 @@ export const ESTIMATES_STATUS_TEXT_COLOR = {
     VIEWED: colors.infoDark,
     EXPIRED: colors.dangerDark,
     REJECTED: colors.darkGray2,
-    ACCEPTED: colors.successDark,
+    ACCEPTED: colors.successDark
 };
 
-
-export const TAB_NAME = (name, language, Lng) => {
-    return Lng.t(`estimates.tabs.${name}`, { locale: language })
+export const TAB_NAME = (name, locale) => {
+    return Lng.t(`estimates.tabs.${name}`, { locale });
 };
 
 export const ESTIMATES_TABS = {
     SENT: 'SENT',
     DRAFT: 'DRAFT',
-    ALL: 'ALL',
+    ALL: 'ALL'
 };
 
 // Filter Estimate Mode
@@ -108,15 +112,14 @@ export const FILTER_ESTIMATE_STATUS = [
     { label: 'VIEWED', value: 'VIEWED' },
     { label: 'EXPIRED', value: 'EXPIRED' },
     { label: 'ACCEPTED', value: 'ACCEPTED' },
-    { label: 'REJECTED', value: 'REJECTED' },
-]
+    { label: 'REJECTED', value: 'REJECTED' }
+];
 
 export const ESTIMATES_STATUS = {
     SENT: 'danger',
     DRAFT: 'warning',
-    PAID: 'success',
+    PAID: 'success'
 };
-
 
 export const ESTIMATE_ACTIONS = {
     VIEW: 'download',
@@ -126,103 +129,69 @@ export const ESTIMATE_ACTIONS = {
     CONVERT_TO_INVOICE: 'convertToInvoice',
     MARK_AS_SENT: 'markAsSent',
     MARK_AS_ACCEPTED: 'markAsAccepted',
-    MARK_AS_REJECTED: 'markAsRejected',
-}
+    MARK_AS_REJECTED: 'markAsRejected'
+};
 
-export const MARK_AS_SENT = 'SENT'
-export const MARK_AS_ACCEPT = 'ACCEPTED'
-export const MARK_AS_REJECT = 'REJECTED'
+export const MARK_AS_SENT = 'SENT';
+export const MARK_AS_ACCEPT = 'ACCEPTED';
+export const MARK_AS_REJECT = 'REJECTED';
 
+export const EDIT_ESTIMATE_ACTIONS = (locale, markAs = '') => {
+    const markAsSent = [
+        {
+            label: Lng.t('estimates.actions.markAsSent', { locale }),
+            value: ESTIMATE_ACTIONS.MARK_AS_SENT
+        }
+    ];
 
-export const EDIT_ESTIMATE_ACTIONS = (language, markAs = '') => {
+    const markAsAccept = [
+        {
+            label: Lng.t('estimates.actions.markAsAccepted', { locale }),
+            value: ESTIMATE_ACTIONS.MARK_AS_ACCEPTED
+        }
+    ];
 
-    const markAsSent = [{
-        label: Lng.t("estimates.actions.markAsSent", { locale: language }),
-        value: ESTIMATE_ACTIONS.MARK_AS_SENT
-    }]
+    const markAsReject = [
+        {
+            label: Lng.t('estimates.actions.markAsRejected', { locale }),
+            value: ESTIMATE_ACTIONS.MARK_AS_REJECTED
+        }
+    ];
 
-    const markAsAccept = [{
-        label: Lng.t("estimates.actions.markAsAccepted", { locale: language }),
-        value: ESTIMATE_ACTIONS.MARK_AS_ACCEPTED
-    }]
-
-    const markAsReject = [{
-        label: Lng.t("estimates.actions.markAsRejected", { locale: language }),
-        value: ESTIMATE_ACTIONS.MARK_AS_REJECTED
-    }]
-
-    const deleteAction = [{
-        label: Lng.t("estimates.actions.delete", { locale: language }),
-        value: ESTIMATE_ACTIONS.DELETE
-    }]
+    const deleteAction = [
+        {
+            label: Lng.t('estimates.actions.delete', { locale }),
+            value: ESTIMATE_ACTIONS.DELETE
+        }
+    ];
 
     const actions = [
         {
-            label: Lng.t("estimates.actions.convertToInvoice", { locale: language }),
+            label: Lng.t('estimates.actions.convertToInvoice', { locale }),
             value: ESTIMATE_ACTIONS.CONVERT_TO_INVOICE
         },
         {
-            label: Lng.t("estimates.actions.sendEstimate", { locale: language }),
+            label: Lng.t(
+                markAs === MARK_AS_SENT
+                    ? 'estimates.actions.reSendEstimate'
+                    : 'estimates.actions.sendEstimate',
+                { locale }
+            ),
             value: ESTIMATE_ACTIONS.SEND
         }
-    ]
+    ];
 
-    let items = []
+    let items = [];
 
     if (markAs === MARK_AS_SENT) {
-        items = [
-            ...markAsAccept,
-            ...markAsReject
-        ]
-    }
-    else if (markAs === MARK_AS_ACCEPT) {
-        items = [
-            ...markAsSent,
-            ...markAsReject
-        ]
-    }
-    else if (markAs === MARK_AS_REJECT) {
-        items = [
-            ...markAsSent,
-            ...markAsAccept
-        ]
-    }
-    else {
-        items = [
-            ...markAsSent,
-            ...markAsAccept,
-            ...markAsReject
-        ]
+        items = [...markAsAccept, ...markAsReject];
+    } else if (markAs === MARK_AS_ACCEPT) {
+        items = [...markAsSent, ...markAsReject];
+    } else if (markAs === MARK_AS_REJECT) {
+        items = [...markAsSent, ...markAsAccept];
+    } else {
+        items = [...markAsSent, ...markAsAccept, ...markAsReject];
     }
 
-    return [
-        ...actions,
-        ...items,
-        ...deleteAction
-    ]
-
+    return [...actions, ...items, ...deleteAction];
 };
-
-// Endpoint Api URL
-// -----------------------------------------
-
-export const GET_ESTIMATES_URL = (param) => `estimates?${queryString.stringify({
-    ...param,
-    orderByField: 'created_at',
-    orderBy: 'desc'
-})}`
-
-export const GET_ITEMS_URL = (q, search, page, limit) => `items?search=${q ? q : search}&page=${page}&limit=${limit}`
-
-export const CREATE_ESTIMATE_URL = () => `estimates`
-export const EDIT_ESTIMATE_URL = (estimate) => `estimates/${estimate.id}`
-export const REMOVE_ESTIMATE_URL = (id) => `estimates/${id}`
-export const CHANGE_ESTIMATE_STATUS_URL = (action) => `estimates/${action}`
-
-export const CREATE_ITEM_URL = () => `items`
-export const EDIT_ITEM_URL = (item_id) => `items/${item_id}`
-
-export const GET_EDIT_ESTIMATE_URL = (id) => `estimates/${id}/edit`
-export const GET_CREATE_ESTIMATE_URL = () => `estimates/create`
-
-export const CONVERT_TO_INVOICE_URL = (id) => `estimates/${id}/convert-to-invoice`

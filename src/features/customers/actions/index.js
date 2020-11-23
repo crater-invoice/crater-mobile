@@ -5,81 +5,67 @@ import {
     GET_COUNTRIES,
     SET_COUNTRIES,
     CREATE_CUSTOMER,
-    SET_CREATE_CUSTOMER,
-    EDIT_CUSTOMER,
-    SET_EDIT_CUSTOMER,
-    GET_EDIT_CUSTOMER,
+    UPDATE_CUSTOMER,
+    GET_CUSTOMER_DETAIL,
     REMOVE_CUSTOMER,
-    SET_REMOVE_CUSTOMER,
-    SET_FILTER_CUSTOMERS
-} from "../constants";
+    GET_CREATE_CUSTOMER,
+    UPDATE_FROM_CUSTOMERS
+} from '../constants';
 
 export const getCustomers = (payload = {}) => ({
     type: GET_CUSTOMERS,
-    payload,
+    payload
 });
 
 export const setCustomers = (payload = {}) => ({
     type: SET_CUSTOMERS,
-    payload,
+    payload
 });
 
-export const setFilterCustomers = (payload = {}) => ({
-    type: SET_FILTER_CUSTOMERS,
-    payload,
-});
-
-
-export const customerTriggerSpinner = (payload) => ({
+export const customerTriggerSpinner = payload => ({
     type: CUSTOMERS_TRIGGER_SPINNER,
-    payload,
+    payload
+});
+
+export const getCreateCustomer = (payload = {}) => ({
+    type: GET_CREATE_CUSTOMER,
+    payload
 });
 
 export const createCustomer = (payload = {}) => ({
     type: CREATE_CUSTOMER,
-    payload,
+    payload
 });
 
-export const setCreateCustomer = (payload = {}) => ({
-    type: SET_CREATE_CUSTOMER,
-    payload,
+export const updateCustomer = (payload = {}) => ({
+    type: UPDATE_CUSTOMER,
+    payload
 });
 
-export const editCustomer = (payload = {}) => ({
-    type: EDIT_CUSTOMER,
-    payload,
-});
-
-export const setEditCustomer = (payload = {}) => ({
-    type: SET_EDIT_CUSTOMER,
-    payload,
-});
-
-export const setRemoveCustomer = (payload) => ({
-    type: SET_REMOVE_CUSTOMER,
-    payload,
-});
-
-export const getEditCustomer = (payload = {}) => ({
-    type: GET_EDIT_CUSTOMER,
-    payload,
+export const getCustomerDetail = (payload = {}) => ({
+    type: GET_CUSTOMER_DETAIL,
+    payload
 });
 
 export const removeCustomer = (payload = {}) => ({
     type: REMOVE_CUSTOMER,
-    payload,
+    payload
 });
 
+export const updateFromCustomers = (payload = {}) => ({
+    type: UPDATE_FROM_CUSTOMERS,
+    payload
+});
 
 // Address Country
 // -----------------------------------------
 
 export const getCountries = (payload = {}) => ({
     type: GET_COUNTRIES,
-    payload,
+    payload
 });
 
 export const setCountries = (payload = {}) => ({
     type: SET_COUNTRIES,
-    payload,
+    payload
 });

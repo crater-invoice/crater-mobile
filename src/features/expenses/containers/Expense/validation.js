@@ -1,30 +1,29 @@
-import { getError } from "../../../../api/validation";
+import { validateCustomField } from '@/components/CustomField/validation';
+import { getError, isArray } from '@/constants';
+import { EXPENSE_FIELDS as FIELDS } from '../../constants';
 
-// @flow
+export const validate = values => {
+    const errors: any = { expense: {}, customFields: {} };
 
+    if (values) {
+        errors['expense'][FIELDS.DATE] = getError(
+            values?.['expense']?.[FIELDS.DATE],
+            ['requiredField']
+        );
 
-export const validate = (values) => {
-    const errors = {};
-    const {
-        expense_date,
-        expense_category_id,
-        amount
-    } = values;
+        errors['expense'][FIELDS.CATEGORY] = getError(
+            values?.['expense']?.[FIELDS.CATEGORY],
+            ['requiredField']
+        );
 
-    errors.expense_date = getError(
-        expense_date,
-        ['requiredField'],
-    );
+        errors['expense'][FIELDS.AMOUNT] = getError(
+            values?.['expense']?.[FIELDS.AMOUNT],
+            ['requiredField', 'isNumberFormat']
+        );
 
-    errors.expense_category_id = getError(
-        expense_category_id,
-        ['requiredField'],
-    );
-
-    errors.amount = getError(
-        amount,
-        ['requiredField', 'isNumberFormat'],
-    );
+        const fieldErrors = validateCustomField(values?.customFields);
+        isArray(fieldErrors) && (errors.customFields = fieldErrors);
+    }
 
     return errors;
 };

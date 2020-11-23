@@ -3,19 +3,21 @@ import { connect } from 'react-redux';
 import { Invoices } from '../../components/Invoices';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as InvoicesAction from '../../actions';
-import { colors } from '../../../../styles/colors';
+import { colors } from '@/styles';
 import { INVOICE_SEARCH } from '../../constants';
-import { SvgXml } from 'react-native-svg';
-import { INVOICES } from '../../../../assets/svg';
+import { INVOICES_ICON } from '@/assets';
 import { getCustomers } from '../../../customers/actions';
-import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
-import { ROUTES } from '../../../../navigation/routes';
-import { withNavigationFocus } from 'react-navigation';
+import { getTitleByLanguage } from '@/utils';
+import {
+    getDueInvoicesState,
+    getDraftInvoicesState,
+    getAllInvoicesState
+} from '../../selectors';
+import { AssetSvg } from '@/components';
 
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
     const {
-        global: { language },
+        global: { locale },
         customers: { customers },
         invoices: {
             invoices,
@@ -25,51 +27,41 @@ const mapStateToProps = (state) => {
 
     return {
         invoices,
+        dueInvoices: getDueInvoicesState(invoices ?? []),
+        draftInvoices: getDraftInvoicesState(invoices ?? []),
+        allInvoices: getAllInvoicesState(invoices ?? []),
         loading: invoicesLoading,
-        language,
+        locale,
         customers,
-        formValues: getFormValues(INVOICE_SEARCH)(state) || {},
-
+        formValues: getFormValues(INVOICE_SEARCH)(state) || {}
     };
 };
 
 const mapDispatchToProps = {
     getInvoices: InvoicesAction.getInvoices,
-    clearInvoices: InvoicesAction.clearInvoices,
-    setInvoiceActiveTab: InvoicesAction.setInvoiceActiveTab,
     getCustomers: getCustomers
 };
 
 //  Redux Forms
 const invoiceSearchReduxForm = reduxForm({
-    form: INVOICE_SEARCH,
+    form: INVOICE_SEARCH
 })(Invoices);
 
 //  connect
 const InvoicesContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(invoiceSearchReduxForm);
 
 InvoicesContainer.navigationOptions = ({ navigation }) => ({
     gesturesEnabled: false,
     tabBarLabel: getTitleByLanguage('tabNavigation.invoices'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <SvgXml
-            xml={INVOICES}
+        <AssetSvg
+            name={INVOICES_ICON}
             fill={focused ? colors.primary : colors.darkGray}
-            width="22"
-            height="22"
         />
-    ),
-    tabBarOnPress: ({ defaultHandler }) => {
-        if (navigation.isFocused()) {
-            return;
-        }
-
-        navigateToMainTabs(navigation, ROUTES.MAIN_INVOICES)
-    }
+    )
 });
 
-export default withNavigationFocus(InvoicesContainer);
-
+export default InvoicesContainer;

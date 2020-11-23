@@ -6,24 +6,20 @@ import * as NotificationAction from '../../actions';
 import { validate } from './validation';
 import { Notification } from '../../components/Notification';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     const {
-        global: { language },
+        global: { locale },
         settings: {
-            loading: {
-                getSettingItemLoading,
-                editSettingItemLoading
-            }
-        },
-    } = state
+            loading: { getSettingItemLoading, editSettingItemLoading }
+        }
+    } = state;
 
     return {
-        language,
+        locale,
         getSettingItemLoading,
         editSettingItemLoading
     };
 };
-
 
 const mapDispatchToProps = {
     getSettingItem: NotificationAction.getSettingItem,
@@ -33,17 +29,17 @@ const mapDispatchToProps = {
 //  Redux Forms
 const NotificationReduxForm = reduxForm({
     form: NOTIFICATION,
-    validate,
+    validate
 })(Notification);
 
 //  connect
 const NotificationContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(NotificationReduxForm);
 
 NotificationContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default NotificationContainer;

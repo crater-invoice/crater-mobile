@@ -1,29 +1,29 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../styles/colors';
-import { fonts } from '../../styles/fonts';
+import { colors, fonts } from '@/styles';
 
 export default StyleSheet.create({
     transparent: {
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent'
     },
     containerStyle: {
         borderBottomWidth: 1,
         borderColor: colors.darkGray,
         backgroundColor: colors.white,
-        marginTop: 8,
+        marginTop: 8
     },
     borderBottom: {
-        borderBottomWidth: 0,
+        borderBottomWidth: 0
     },
     title: {
         fontSize: 17,
         color: colors.dark,
         fontFamily: fonts.poppinsMedium,
         marginLeft: 10,
+        textAlign: 'left'
     },
     rightBtn: {
         flexDirection: 'row',
-        marginRight: 10,
+        marginRight: 10
     },
     hasCircle: {
         display: 'flex',
@@ -37,13 +37,13 @@ export default StyleSheet.create({
     rightBtnTitle: {
         paddingRight: 10,
         paddingTop: 3,
-        color: colors.primary,
+        color: colors.primary
     },
     rightContainer: {
-        flexDirection: 'row',
+        flexDirection: 'row'
     },
     filterColumn: {
         marginRight: 13,
-        marginTop: 3,
+        marginTop: 3
     }
 });

@@ -1,65 +1,70 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
-import moment from 'moment';
 import { Expense } from '../../components/Expense';
 import { validate } from './validation';
-import * as ExpensesAction from '../../actions';
-import { EXPENSE_FORM, EXPENSE_EDIT, EXPENSE_ADD } from '../../constants';
+import * as actions from '../../actions';
+import {
+    EXPENSE_FORM,
+    EXPENSE_ADD,
+    EXPENSE_FIELDS as FIELDS
+} from '../../constants';
+import { getExpenseCategories } from '@/features/settings/actions';
+import { getCategoriesState } from '../../selectors';
+import { getCustomers } from '@/features/customers/actions';
 
 const mapStateToProps = (state, { navigation }) => {
-
     const {
-        global: { company, endpointURL, language },
-        expenses: { loading, categories, expense } = {}
+        global: { endpointURL, locale },
+        expenses: { loading },
+        settings: { categories, customFields },
+        customers: { customers }
     } = state;
 
-    const type = navigation.getParam('type', EXPENSE_ADD)
-    const isLoading = loading.initExpenseLoading || (type === EXPENSE_EDIT && !expense)
-        || !categories || categories.length <= 0
+    const type = navigation.getParam('type', EXPENSE_ADD);
+    const id = navigation.getParam('id', null);
 
     return {
-        language,
-        categories,
-        company,
+        locale,
+        categories: getCategoriesState(categories),
+        customers,
         endpointURL,
-        initLoading: isLoading,
-        loading: loading.expenseLoading,
+        customFields,
+        loading: loading?.expenseLoading,
         type,
+        id,
         formValues: getFormValues(EXPENSE_FORM)(state) || {},
-
-        initialValues: !isLoading && {
-            expense_date: moment(),
-            ...expense
+        initialValues: {
+            expense: {
+                [FIELDS.RECEIPT]: '',
+                [FIELDS.NOTES]: '',
+                [FIELDS.CUSTOMER]: '',
+                [FIELDS.CUSTOM_FIELDS]: ''
+            }
         }
     };
 };
 
 const mapDispatchToProps = {
-    getCategories: ExpensesAction.getCategories,
-    createExpense: ExpensesAction.createExpense,
-    editExpense: ExpensesAction.editExpense,
-    getEditExpense: ExpensesAction.getEditExpense,
-    getCreateExpense: ExpensesAction.getCreateExpense,
-    clearExpense: ExpensesAction.clearExpense,
-    removeExpense: ExpensesAction.removeExpense,
-    getReceipt: ExpensesAction.getReceipt,
+    ...actions,
+    getCategories: getExpenseCategories,
+    getCustomers
 };
 
 //  Redux Forms
 const addExpenseReduxForm = reduxForm({
     form: EXPENSE_FORM,
-    validate,
+    validate
 })(Expense);
 
 //  connect
 const ExpenseContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(addExpenseReduxForm);
 
 ExpenseContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default ExpenseContainer;

@@ -1,303 +1,399 @@
-import {
-    SETTINGS_TRIGGER_SPINNER,
-    LOGOUT,
-    GET_COMPANY_INFO,
-    EDIT_COMPANY_INFO,
-    GET_ACCOUNT_INFO,
-    EDIT_ACCOUNT_INFO,
-    SET_COMPANY_INFO,
-    SET_ACCOUNT_INFO,
-    GET_PREFERENCES,
-    EDIT_PREFERENCES,
-    SET_PREFERENCES,
-    CLEAR_PREFERENCES,
-    GET_SETTING_ITEM,
-    EDIT_SETTING_ITEM,
-    GET_EXPENSE_CATEGORIES,
-    GET_CREATE_EXPENSE_CATEGORY,
-    CREATE_EXPENSE_CATEGORY,
-    EDIT_EXPENSE_CATEGORY,
-    REMOVE_EXPENSE_CATEGORY,
-    SET_EXPENSE_CATEGORIES,
-    SET_CREATE_EXPENSE_CATEGORIES,
-    SET_EDI_EXPENSE_CATEGORIES,
-    SET_REMOVE_EXPENSE_CATEGORIES,
-    GET_TAXES,
-    SET_TAXES,
-    REMOVE_TAX,
-    SET_TAX,
-    TAX_ADD,
-    TAX_EDIT,
-    SET_EDIT_TAX,
-    SET_REMOVE_TAX,
-    GET_CUSTOMIZE_SETTINGS,
-    SET_CUSTOMIZE_SETTINGS,
-    EDIT_CUSTOMIZE_SETTINGS,
-    GET_PAYMENT_MODES,
-    SET_PAYMENT_MODES,
-    CREATE_PAYMENT_MODE,
-    EDIT_PAYMENT_MODE,
-    REMOVE_PAYMENT_MODE,
-    SET_PAYMENT_MODE,
-    GET_ITEM_UNITS,
-    SET_ITEM_UNITS,
-    SET_ITEM_UNIT,
-    CREATE_ITEM_UNIT,
-    EDIT_ITEM_UNIT,
-    REMOVE_ITEM_UNIT,
-} from "../constants";
+import { SET_SETTINGS } from '@/constants';
+import * as TYPES from '../constants';
 
-import { SET_SETTINGS } from "../../../api/consts";
-
-export const settingsTriggerSpinner = (payload) => ({
-    type: SETTINGS_TRIGGER_SPINNER,
-    payload,
+export const settingsTriggerSpinner = payload => ({
+    type: TYPES.SETTINGS_TRIGGER_SPINNER,
+    payload
 });
 
-export const logout = (payload) => ({
-    type: LOGOUT,
-    payload,
+export const logout = payload => ({
+    type: TYPES.LOGOUT,
+    payload
 });
 
 // company
 // -------------------------------------------------
-export const getCompanyInformation = (payload) => ({
-    type: GET_COMPANY_INFO,
-    payload,
+export const getCompanyInformation = payload => ({
+    type: TYPES.GET_COMPANY_INFO,
+    payload
 });
 
-export const setCompanyInformation = (payload) => ({
-    type: SET_COMPANY_INFO,
-    payload,
+export const setCompanyInformation = payload => ({
+    type: TYPES.SET_COMPANY_INFO,
+    payload
 });
 
-export const editCompanyInformation = (payload) => ({
-    type: EDIT_COMPANY_INFO,
-    payload,
+export const editCompanyInformation = payload => ({
+    type: TYPES.EDIT_COMPANY_INFO,
+    payload
 });
 
 // account
 // -------------------------------------------------
-export const getAccountInformation = (payload) => ({
-    type: GET_ACCOUNT_INFO,
-    payload,
+export const getAccountInformation = payload => ({
+    type: TYPES.GET_ACCOUNT_INFO,
+    payload
 });
 
-export const setAccountInformation = (payload) => ({
-    type: SET_ACCOUNT_INFO,
-    payload,
+export const setAccountInformation = payload => ({
+    type: TYPES.SET_ACCOUNT_INFO,
+    payload
 });
 
-export const editAccountInformation = (payload) => ({
-    type: EDIT_ACCOUNT_INFO,
-    payload,
+export const editAccountInformation = payload => ({
+    type: TYPES.EDIT_ACCOUNT_INFO,
+    payload
 });
 
 // preferences
 // -------------------------------------------------
-export const getPreferences = (payload) => ({
-    type: GET_PREFERENCES,
-    payload,
+export const getPreferences = payload => ({
+    type: TYPES.GET_PREFERENCES,
+    payload
 });
 
-export const setPreferences = (payload) => ({
-    type: SET_PREFERENCES,
-    payload,
+export const setPreferences = payload => ({
+    type: TYPES.SET_PREFERENCES,
+    payload
 });
 
-export const clearPreferences = (payload) => ({
-    type: CLEAR_PREFERENCES,
-    payload,
+export const clearPreferences = payload => ({
+    type: TYPES.CLEAR_PREFERENCES,
+    payload
 });
 
-export const editPreferences = (payload) => ({
-    type: EDIT_PREFERENCES,
-    payload,
+export const editPreferences = payload => ({
+    type: TYPES.EDIT_PREFERENCES,
+    payload
 });
 
 // Settings
 // -------------------------------------------------
-export const getSettingItem = (payload) => ({
-    type: GET_SETTING_ITEM,
-    payload,
+export const getSettingItem = payload => ({
+    type: TYPES.GET_SETTING_ITEM,
+    payload
 });
 
-export const editSettingItem = (payload) => ({
-    type: EDIT_SETTING_ITEM,
-    payload,
+export const editSettingItem = payload => ({
+    type: TYPES.EDIT_SETTING_ITEM,
+    payload
 });
 
-export const setSettings = (payload) => ({
+export const setSettings = payload => ({
     type: SET_SETTINGS,
-    payload,
+    payload
 });
 
 // Expense Categories
 // -------------------------------------------------
-export const getExpenseCategories = (payload) => ({
-    type: GET_EXPENSE_CATEGORIES,
-    payload,
+export const getExpenseCategories = payload => ({
+    type: TYPES.GET_EXPENSE_CATEGORIES,
+    payload
 });
 
-export const setExpenseCategories = (payload) => ({
-    type: SET_EXPENSE_CATEGORIES,
-    payload,
+export const setExpenseCategories = payload => ({
+    type: TYPES.SET_EXPENSE_CATEGORIES,
+    payload
 });
 
-export const setCreateExpenseCategories = (payload) => ({
-    type: SET_CREATE_EXPENSE_CATEGORIES,
-    payload,
+export const setCreateExpenseCategories = payload => ({
+    type: TYPES.SET_CREATE_EXPENSE_CATEGORIES,
+    payload
 });
 
-export const setEditExpenseCategories = (payload) => ({
-    type: SET_EDI_EXPENSE_CATEGORIES,
-    payload,
+export const setEditExpenseCategories = payload => ({
+    type: TYPES.SET_EDI_EXPENSE_CATEGORIES,
+    payload
 });
 
-export const setRemoveExpenseCategories = (payload) => ({
-    type: SET_REMOVE_EXPENSE_CATEGORIES,
-    payload,
+export const setRemoveExpenseCategories = payload => ({
+    type: TYPES.SET_REMOVE_EXPENSE_CATEGORIES,
+    payload
 });
 
 export const createExpenseCategory = (payload = {}) => ({
-    type: CREATE_EXPENSE_CATEGORY,
-    payload,
+    type: TYPES.CREATE_EXPENSE_CATEGORY,
+    payload
 });
 
 export const getEditExpenseCategory = (payload = {}) => ({
-    type: GET_CREATE_EXPENSE_CATEGORY,
-    payload,
+    type: TYPES.GET_CREATE_EXPENSE_CATEGORY,
+    payload
 });
 
 export const removeExpenseCategory = (payload = {}) => ({
-    type: REMOVE_EXPENSE_CATEGORY,
-    payload,
+    type: TYPES.REMOVE_EXPENSE_CATEGORY,
+    payload
 });
 
 export const editExpenseCategory = (payload = {}) => ({
-    type: EDIT_EXPENSE_CATEGORY,
-    payload,
+    type: TYPES.EDIT_EXPENSE_CATEGORY,
+    payload
 });
 
 //  Taxes
 // -------------------------------------------------
-export const getTaxes = (payload) => ({
-    type: GET_TAXES,
-    payload,
+export const getTaxes = payload => ({
+    type: TYPES.GET_TAXES,
+    payload
 });
 
-export const setTaxes = (payload) => ({
-    type: SET_TAXES,
-    payload,
+export const setTaxes = payload => ({
+    type: TYPES.SET_TAXES,
+    payload
 });
 
-export const addTax = (payload) => ({
-    type: TAX_ADD,
-    payload,
+export const addTax = payload => ({
+    type: TYPES.TAX_ADD,
+    payload
 });
 
-export const editTax = (payload) => ({
-    type: TAX_EDIT,
-    payload,
+export const editTax = payload => ({
+    type: TYPES.TAX_EDIT,
+    payload
 });
 
-export const removeTax = (payload) => ({
-    type: REMOVE_TAX,
-    payload,
+export const removeTax = payload => ({
+    type: TYPES.REMOVE_TAX,
+    payload
 });
 
-export const setTax = (payload) => ({
-    type: SET_TAX,
-    payload,
+export const setTax = payload => ({
+    type: TYPES.SET_TAX,
+    payload
 });
 
-export const setEditTax = (payload) => ({
-    type: SET_EDIT_TAX,
-    payload,
+export const setEditTax = payload => ({
+    type: TYPES.SET_EDIT_TAX,
+    payload
 });
 
-export const setRemoveTax = (payload) => ({
-    type: SET_REMOVE_TAX,
-    payload,
+export const setRemoveTax = payload => ({
+    type: TYPES.SET_REMOVE_TAX,
+    payload
+});
+
+// Notes
+// -------------------------------------------------
+export const getNotes = payload => ({
+    type: TYPES.GET_NOTES,
+    payload
+});
+
+export const setNotes = payload => ({
+    type: TYPES.SET_NOTES,
+    payload
+});
+
+export const getCreateNote = payload => ({
+    type: TYPES.GET_CREATE_NOTE,
+    payload
+});
+
+export const createNote = payload => ({
+    type: TYPES.CREATE_NOTE,
+    payload
+});
+
+export const removeNote = payload => ({
+    type: TYPES.REMOVE_NOTE,
+    payload
+});
+
+export const getNoteDetail = payload => ({
+    type: TYPES.GET_NOTE_DETAIL,
+    payload
+});
+
+export const updateNote = payload => ({
+    type: TYPES.UPDATE_NOTE,
+    payload
+});
+
+export const createFromNotes = payload => ({
+    type: TYPES.CREATE_FROM_NOTES,
+    payload
+});
+
+export const removeFromNotes = payload => ({
+    type: TYPES.REMOVE_FROM_NOTES,
+    payload
+});
+
+export const updateFromNotes = payload => ({
+    type: TYPES.UPDATE_FROM_NOTES,
+    payload
 });
 
 // Customize Settings
 // -------------------------------------------------
 export const getCustomizeSettings = (payload = {}) => ({
-    type: GET_CUSTOMIZE_SETTINGS,
-    payload,
+    type: TYPES.GET_CUSTOMIZE_SETTINGS,
+    payload
 });
 
 export const setCustomizeSettings = (payload = {}) => ({
-    type: SET_CUSTOMIZE_SETTINGS,
-    payload,
+    type: TYPES.SET_CUSTOMIZE_SETTINGS,
+    payload
 });
 
 export const editCustomizeSettings = (payload = {}) => ({
-    type: EDIT_CUSTOMIZE_SETTINGS,
-    payload,
+    type: TYPES.EDIT_CUSTOMIZE_SETTINGS,
+    payload
 });
 
 // Payment methods
 // -------------------------------------------------
 export const getPaymentModes = (payload = {}) => ({
-    type: GET_PAYMENT_MODES,
-    payload,
+    type: TYPES.GET_PAYMENT_MODES,
+    payload
 });
 
 export const setPaymentModes = (payload = {}) => ({
-    type: SET_PAYMENT_MODES,
-    payload,
+    type: TYPES.SET_PAYMENT_MODES,
+    payload
 });
 
 export const setPaymentMode = (payload = {}) => ({
-    type: SET_PAYMENT_MODE,
-    payload,
+    type: TYPES.SET_PAYMENT_MODE,
+    payload
 });
 
 export const createPaymentMode = (payload = {}) => ({
-    type: CREATE_PAYMENT_MODE,
-    payload,
+    type: TYPES.CREATE_PAYMENT_MODE,
+    payload
 });
 
 export const editPaymentMode = (payload = {}) => ({
-    type: EDIT_PAYMENT_MODE,
-    payload,
+    type: TYPES.EDIT_PAYMENT_MODE,
+    payload
 });
 
 export const removePaymentMode = (payload = {}) => ({
-    type: REMOVE_PAYMENT_MODE,
-    payload,
+    type: TYPES.REMOVE_PAYMENT_MODE,
+    payload
 });
 
 // Item Units
 // -------------------------------------------------
 export const getItemUnits = (payload = {}) => ({
-    type: GET_ITEM_UNITS,
-    payload,
+    type: TYPES.GET_ITEM_UNITS,
+    payload
 });
 
 export const setItemUnits = (payload = {}) => ({
-    type: SET_ITEM_UNITS,
-    payload,
+    type: TYPES.SET_ITEM_UNITS,
+    payload
 });
 
 export const setItemUnit = (payload = {}) => ({
-    type: SET_ITEM_UNIT,
-    payload,
+    type: TYPES.SET_ITEM_UNIT,
+    payload
 });
 
 export const createItemUnit = (payload = {}) => ({
-    type: CREATE_ITEM_UNIT,
-    payload,
+    type: TYPES.CREATE_ITEM_UNIT,
+    payload
 });
 
 export const editItemUnit = (payload = {}) => ({
-    type: EDIT_ITEM_UNIT,
-    payload,
+    type: TYPES.EDIT_ITEM_UNIT,
+    payload
 });
 
 export const removeItemUnit = (payload = {}) => ({
-    type: REMOVE_ITEM_UNIT,
-    payload,
+    type: TYPES.REMOVE_ITEM_UNIT,
+    payload
+});
+
+// Currencies
+
+export const setCurrencies = (payload = {}) => ({
+    type: TYPES.SET_CURRENCIES,
+    payload
+});
+
+export const setGlobalCurrencies = (payload = {}) => ({
+    type: TYPES.SET_GLOBAL_CURRENCIES,
+    payload
+});
+
+export const createCurrency = (payload = {}) => ({
+    type: TYPES.CREATE_CURRENCY,
+    payload
+});
+
+export const editCurrency = (payload = {}) => ({
+    type: TYPES.EDIT_CURRENCY,
+    payload
+});
+
+export const removeCurrency = (payload = {}) => ({
+    type: TYPES.REMOVE_CURRENCY,
+    payload
+});
+
+// Custom Fields
+// -------------------------------------------------
+export const getCustomFields = (payload = {}) => ({
+    type: TYPES.GET_CUSTOM_FIELDS,
+    payload
+});
+
+export const setCustomFields = (payload = {}) => ({
+    type: TYPES.SET_CUSTOM_FIELDS,
+    payload
+});
+
+export const createCustomField = (payload = {}) => ({
+    type: TYPES.CREATE_CUSTOM_FIELD,
+    payload
+});
+
+export const getCustomField = (payload = {}) => ({
+    type: TYPES.GET_CUSTOM_FIELD,
+    payload
+});
+
+export const editCustomField = (payload = {}) => ({
+    type: TYPES.EDIT_CUSTOM_FIELD,
+    payload
+});
+
+export const removeCustomField = (payload = {}) => ({
+    type: TYPES.REMOVE_CUSTOM_FIELD,
+    payload
+});
+
+export const createFromCustomFields = (payload = {}) => ({
+    type: TYPES.CREATE_FROM_CUSTOM_FIELDS,
+    payload
+});
+
+export const updateFromCustomFields = (payload = {}) => ({
+    type: TYPES.UPDATE_FROM_CUSTOM_FIELDS,
+    payload
+});
+
+export const removeFromCustomFields = (payload = {}) => ({
+    type: TYPES.REMOVE_FROM_CUSTOM_FIELDS,
+    payload
+});
+
+// General Settings
+
+export const getGeneralSetting = (payload = {}) => ({
+    type: TYPES.GET_GENERAL_SETTING,
+    payload
+});
+
+// Next Number
+export const getNextNumber = (payload = {}) => ({
+    type: TYPES.GET_NEXT_NUMBER,
+    payload
+});
+
+export const getSettingInfo = (payload = {}) => ({
+    type: TYPES.GET_SETTING_INFO,
+    payload
 });

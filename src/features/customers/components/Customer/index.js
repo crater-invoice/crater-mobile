@@ -3,463 +3,423 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { Field, change } from 'redux-form';
+import { Field, change, SubmissionError } from 'redux-form';
 import {
     InputField,
     CtButton,
-    CtDivider,
-    ToggleSwitch,
     DefaultLayout,
     SelectField,
-} from '../../../../components';
-import { CUSTOMER_FORM, CUSTOMER_EDIT, CUSTOMER_ADD, CUSTOMER_ACTIONS, ACTIONS_VALUE } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
+    CustomField
+} from '@/components';
+import {
+    CUSTOMER_FORM,
+    CUSTOMER_EDIT,
+    CUSTOMER_ADD,
+    CUSTOMER_ACTIONS,
+    ACTIONS_VALUE,
+    CUSTOMER_FIELDS as FIELDS
+} from '../../constants';
 import AddressContainer from '../../containers/Address';
-import Lng from '../../../../api/lang/i18n';
-import { colors } from '../../../../styles/colors';
-import { SymbolStyle } from '../../../../components/CurrencyFormat/styles';
-import { headerTitle } from '../../../../api/helper';
-import { alertMe, hasValue } from '../../../../api/global';
+import { alertMe, hasObjectLength, KEYBOARD_TYPE, isArray } from '@/constants';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import Lng from '@/lang/i18n';
+import { colors } from '@/styles/colors';
+import { SymbolStyle } from '@/components/CurrencyFormat/styles';
+import { headerTitle } from '@/styles';
+import { getApiFormattedCustomFields } from '@/utils';
 
-let customerField = [
-    "name",
-    "contact_name",
-    "email",
-    "phone",
-    "website",
-    "enable_portal",
-]
-
-
-type IProps = {
-    navigation: Object,
-    type: String,
-    getEditCustomer: Function,
-    createCustomer: Function,
-    editCustomer: Function,
-    handleSubmit: Function,
-    customerLoading: Boolean,
-    getEditCustomerLoading: Boolean,
-    language: String,
-    formValues: Object,
+interface IProps {
+    navigation: Object;
+    type: String;
+    getCustomerDetail: Function;
+    createCustomer: Function;
+    updateCustomer: Function;
+    handleSubmit: Function;
+    customFields: any;
+    loading: Boolean;
+    locale: String;
+    formValues: Object;
 }
 
-export class Customer extends React.Component<IProps>  {
+let customerRefs = {};
+
+export class Customer extends React.Component<IProps> {
     constructor(props) {
         super(props);
-        this.state = {
-            selectedCurrency: '',
-            portal: false,
-            currencyList: [],
-        };
+        this.state = { isLoading: true };
     }
 
     componentDidMount() {
-
-        const {
-            navigation,
-            getEditCustomer,
-            type,
-            currencies,
-            currency,
-            getCountries,
-            countries
-        } = this.props
-
-        this.setState({ currencyList: currencies })
-
-        // Country
-        let hasCountryApiCalled = countries ? (typeof countries === 'undefined' || countries.length === 0) : true
-
-        hasCountryApiCalled && getCountries()
-
-        if (type === CUSTOMER_EDIT) {
-
-            let id = navigation.getParam('customerId')
-
-            getEditCustomer({
-                id,
-                onResult: (customer) => {
-                    // let { currency_id, enable_portal } = customer
-                    let { currency_id } = customer
-
-                    customerField.map((field) => {
-                        this.setFormField(field, customer[field])
-                    })
-
-                    this.setFormField('billingAddress',
-                        customer.billing_address ?
-                            customer.billing_address : []
-                    )
-                    this.setFormField('shippingAddress',
-                        customer.shipping_address ?
-                            customer.shipping_address : []
-                    )
-
-                    if (currency_id) {
-                        let { name, code } = customer.currency
-                        this.setFormField('currency_id',
-                            customer.currency ?
-                                customer.currency.id : null)
-                        this.setState({ selectedCurrency: `${name}` })
-                    }
-                    // this.setState({ portal: enable_portal === 1 ? true : false })
-                }
-            });
-        }
-        else {
-            if (hasValue(currency)) {
-                const { name, id } = currency
-                this.setFormField('currency_id', id)
-                this.setState({ selectedCurrency: name })
-            }
-        }
-
-        goBack(MOUNT, navigation)
+        this.setInitialValues();
+        goBack(MOUNT, this.props.navigation);
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
+
+    setInitialValues = () => {
+        const {
+            getCustomerDetail,
+            type,
+            countries,
+            currency,
+            currencies,
+            getCreateCustomer,
+            id
+        } = this.props;
+
+        if (type === CUSTOMER_ADD) {
+            getCreateCustomer({
+                currencies,
+                countries,
+                onSuccess: () => {
+                    this.setFormField(
+                        `customer.${FIELDS.CURRENCY}`,
+                        currency?.id
+                    );
+                    this.setState({ isLoading: false });
+                }
+            });
+            return;
+        }
+
+        if (type === CUSTOMER_EDIT) {
+            getCustomerDetail({
+                id,
+                currencies,
+                countries,
+                onSuccess: customer => {
+                    const values = {
+                        ...customer,
+                        [FIELDS.BILLING]: customer?.billing_address ?? [],
+                        [FIELDS.SHIPPING]: customer?.shipping_address ?? []
+                    };
+                    this.setFormField('customer', values);
+                    this.setState({ isLoading: false });
+                }
+            });
+            return;
+        }
+    };
 
     setFormField = (field, value) => {
         this.props.dispatch(change(CUSTOMER_FORM, field, value));
     };
 
-    onTogglePortal = (status) => {
+    throwError = errors => {
+        let error = {};
 
-        this.setFormField('enable_portal', status)
-        this.setState({ portal: status })
+        errors.email && (error.email = 'validation.alreadyTaken');
+        errors.phone && (error.phone = 'validation.alreadyTaken');
 
-        if (!status)
-            this.setFormField('password', '')
-    }
+        throw new SubmissionError({
+            customer: { ...error }
+        });
+    };
 
-    onCustomerSubmit = (values) => {
+    onSubmit = values => {
+        const params = {
+            ...values?.customer,
+            customFields: getApiFormattedCustomFields(values?.customFields)
+        };
+
         const {
             type,
             createCustomer,
-            editCustomer,
-            navigation
-        } = this.props
+            updateCustomer,
+            navigation,
+            handleSubmit
+        } = this.props;
 
-        if (type === CUSTOMER_ADD)
+        if (this.state.isLoading) {
+            return;
+        }
+
+        if (type === CUSTOMER_ADD) {
             createCustomer({
-                params: values,
-                onResult: (res) => {
-                    const onSelect = navigation.getParam('onSelect', null)
-                    onSelect && onSelect(res)
-                    navigation.goBack(null)
-                }
-            })
-        else
-            editCustomer({ params: values, navigation })
+                params,
+                onResult: res => {
+                    const onSelect = navigation.getParam('onSelect', null);
+                    onSelect?.(res);
+                    navigation.goBack(null);
+                },
+                submissionError: errors =>
+                    handleSubmit(() => this.throwError(errors))()
+            });
+            return;
+        }
+
+        if (type === CUSTOMER_EDIT) {
+            updateCustomer({
+                params,
+                navigation,
+                submissionError: errors =>
+                    handleSubmit(() => this.throwError(errors))()
+            });
+            return;
+        }
     };
 
     removeCustomer = () => {
-        const { removeCustomer, navigation, language } = this.props
+        const { removeCustomer, navigation, locale } = this.props;
 
         alertMe({
-            title: Lng.t("alert.title", { locale: language }),
-            desc: Lng.t("customers.alertDescription", { locale: language }),
+            title: Lng.t('alert.title', { locale }),
+            desc: Lng.t('customers.alertDescription', { locale }),
             showCancel: true,
-            okPress: () => removeCustomer({
-                id: navigation.getParam('customerId', null),
-                navigation
-            })
-        })
-    }
+            okPress: () =>
+                removeCustomer({
+                    id: navigation.getParam('customerId', null),
+                    navigation
+                })
+        });
+    };
 
-
-    BOTTOM_ACTION = (handleSubmit) => {
-        const {
-            customerLoading,
-            language,
-            type
-        } = this.props
-
-        let buttonTitle = Lng.t("button.save", { locale: language })
+    BOTTOM_ACTION = handleSubmit => {
+        const { loading, locale } = this.props;
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
-                    onPress={handleSubmit(this.onCustomerSubmit)}
-                    btnTitle={buttonTitle}
-                    loading={customerLoading}
+                    onPress={handleSubmit(this.onSubmit)}
+                    btnTitle={Lng.t('button.save', { locale })}
+                    loading={loading}
                 />
             </View>
-        )
-    }
+        );
+    };
 
-    getCurrenciesList = (currencies) => {
-        let currencyList = []
-        if (typeof currencies !== 'undefined' && currencies.length != 0) {
-            currencyList = currencies.map((currency) => {
-
-                const { name, code, symbol } = currency
-                return {
-                    title: name,
-                    subtitle: {
-                        title: code,
-                    },
-                    rightTitle: symbol || '-',
-                    fullItem: currency
-                }
-            })
-        }
-        return currencyList
-    }
-
-    onOptionSelect = (action) => {
-
-        if (action == ACTIONS_VALUE.REMOVE)
-            this.removeCustomer()
-
-    }
+    onOptionSelect = action => {
+        if (action == ACTIONS_VALUE.REMOVE) this.removeCustomer();
+    };
 
     render() {
         const {
             navigation,
             handleSubmit,
-            formValues: {
-                billingAddress,
-                shippingAddress,
-                enable_portal,
-                currency_id
-            },
-            language,
-            getEditCustomerLoading,
-            countriesLoading,
-            type
+            locale,
+            type,
+            currencies,
+            customFields,
+            formValues
         } = this.props;
 
-        const { selectedCurrency, portal, currencyList } = this.state
-        let drownDownProps = type === CUSTOMER_EDIT ? {
-            options: CUSTOMER_ACTIONS(Lng, language),
-            onSelect: this.onOptionSelect,
-            cancelButtonIndex: 1,
-            destructiveButtonIndex: 2,
-        } : null
+        const billingAddress = formValues?.customer?.[FIELDS.BILLING];
+        const shippingAddress = formValues?.customer?.[FIELDS.SHIPPING];
 
-        let customerRefs = {}
+        const { isLoading } = this.state;
+        const isEditScreen = type === CUSTOMER_EDIT;
+
+        const hasCustomField = isEditScreen
+            ? formValues?.customer &&
+              formValues.customer.hasOwnProperty('fields')
+            : isArray(customFields);
+
+        const drownDownProps =
+            isEditScreen && !isLoading
+                ? {
+                      options: CUSTOMER_ACTIONS(Lng, locale),
+                      onSelect: this.onOptionSelect,
+                      cancelButtonIndex: 1,
+                      destructiveButtonIndex: 2
+                  }
+                : null;
 
         return (
             <DefaultLayout
                 headerProps={{
-                    leftIcon: 'long-arrow-alt-left',
                     leftIconStyle: styles.leftIcon,
                     leftIconPress: () => navigation.goBack(null),
-                    title: type === CUSTOMER_EDIT ?
-                        Lng.t("header.editCustomer", { locale: language }) :
-                        Lng.t("header.addCustomer", { locale: language }),
+                    title: isEditScreen
+                        ? Lng.t('header.editCustomer', { locale })
+                        : Lng.t('header.addCustomer', { locale }),
                     titleStyle: styles.headerTitle,
-                    placement: "center",
-                    rightIcon: type !== CUSTOMER_EDIT ? "save" : null,
+                    placement: 'center',
+                    rightIcon: !isEditScreen ? 'save' : null,
                     rightIconProps: {
-                        solid: true,
+                        solid: true
                     },
-                    rightIconPress: handleSubmit(this.onCustomerSubmit),
+                    rightIconPress: handleSubmit(this.onSubmit)
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{
-                    is: getEditCustomerLoading || typeof enable_portal === 'undefined' || countriesLoading
-                }}
+                loadingProps={{ is: isLoading }}
                 dropdownProps={drownDownProps}
             >
                 <View style={styles.bodyContainer}>
-
                     <Field
-                        name="name"
+                        name={`customer.${FIELDS.NAME}`}
                         component={InputField}
                         isRequired
-                        hint={Lng.t("customers.displayName", { locale: language })}
+                        hint={Lng.t('customers.displayName', { locale })}
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
                             autoFocus: true,
-                            keyboardType: "ascii-capable",
-                            onSubmitEditing: () => {
-                                customerRefs.contactName.focus();
-                            }
+                            keyboardType: KEYBOARD_TYPE.DEFAULT,
+                            onSubmitEditing: () =>
+                                customerRefs.contactName.focus()
                         }}
                         validationStyle={styles.inputFieldValidation}
+                        withRef
                     />
 
                     <Field
-                        name="contact_name"
+                        name={`customer.${FIELDS.CONTACT_NAME}`}
                         component={InputField}
-                        hint={Lng.t("customers.contactName", { locale: language })}
+                        hint={Lng.t('customers.contactName', { locale })}
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
-                            keyboardType: "ascii-capable",
-                            onSubmitEditing: () => {
-                                customerRefs.email.focus();
-                            }
+                            keyboardType: KEYBOARD_TYPE.DEFAULT,
+                            onSubmitEditing: () => customerRefs.email.focus()
                         }}
-                        refLinkFn={(ref) => {
-                            customerRefs.contactName = ref;
-                        }}
+                        refLinkFn={ref => (customerRefs.contactName = ref)}
                         validationStyle={styles.inputFieldValidation}
+                        withRef
                     />
 
                     <Field
-                        name="email"
+                        name={`customer.${FIELDS.EMAIL}`}
                         component={InputField}
-                        hint={Lng.t("customers.email", { locale: language })}
-                        inputFieldStyle={styles.inputFieldStyle}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            keyboardType: "email-address",
-                            onSubmitEditing: () => {
-                                customerRefs.phone.focus();
-                            }
-                        }}
-                        refLinkFn={(ref) => {
-                            customerRefs.email = ref;
-                        }}
-                        validationStyle={styles.inputFieldValidation}
-                    />
-
-                    <Field
-                        name="phone"
-                        component={InputField}
-                        hint={Lng.t("customers.phone", { locale: language })}
+                        hint={Lng.t('customers.email', { locale })}
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
                             autoCorrect: true,
-                            keyboardType: 'phone-pad',
-                            onSubmitEditing: () => {
-                                customerRefs.website.focus();
-                            }
+                            keyboardType: KEYBOARD_TYPE.EMAIL,
+                            onSubmitEditing: () => customerRefs.phone.focus()
                         }}
-                        refLinkFn={(ref) => {
-                            customerRefs.phone = ref;
-                        }}
+                        refLinkFn={ref => (customerRefs.email = ref)}
                         validationStyle={styles.inputFieldValidation}
                     />
 
                     <Field
-                        name="website"
+                        name={`customer.${FIELDS.PHONE}`}
                         component={InputField}
-                        hint={Lng.t("customers.website", { locale: language })}
+                        hint={Lng.t('customers.phone', { locale })}
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
                             autoCorrect: true,
-                            keyboardType: "url"
+                            keyboardType: KEYBOARD_TYPE.PHONE,
+                            onSubmitEditing: () => customerRefs.website.focus()
                         }}
-                        refLinkFn={(ref) => {
-                            customerRefs.website = ref;
+                        refLinkFn={ref => (customerRefs.phone = ref)}
+                        validationStyle={styles.inputFieldValidation}
+                    />
+
+                    <Field
+                        name={`customer.${FIELDS.WEBSITE}`}
+                        component={InputField}
+                        hint={Lng.t('customers.website', { locale })}
+                        inputFieldStyle={styles.inputFieldStyle}
+                        inputProps={{
+                            returnKeyType: 'next',
+                            autoCapitalize: 'none',
+                            autoCorrect: true,
+                            keyboardType: KEYBOARD_TYPE.URL
                         }}
+                        refLinkFn={ref => (customerRefs.website = ref)}
                         validationStyle={styles.inputFieldValidation}
                     />
 
                     <View style={styles.inputGroup}>
-
-
                         <Field
-                            name="currency_id"
-                            items={this.getCurrenciesList(currencyList)}
+                            name={`customer.${FIELDS.CURRENCY}`}
+                            items={currencies ?? []}
                             displayName="name"
                             component={SelectField}
-                            icon='dollar-sign'
-                            rightIcon='angle-right'
-                            placeholder={selectedCurrency ? selectedCurrency : Lng.t("customers.currency", { locale: language })}
+                            isInternalSearch
+                            icon="dollar-sign"
+                            rightIcon="angle-right"
+                            placeholder={Lng.t('customers.currency', {
+                                locale
+                            })}
                             navigation={navigation}
                             searchFields={['name']}
                             compareField="id"
-                            onSelect={(val) => {
-                                this.setFormField('currency_id', val.id)
-                            }}
+                            onSelect={val =>
+                                this.setFormField(
+                                    `customer.${FIELDS.CURRENCY}`,
+                                    val.id
+                                )
+                            }
                             headerProps={{
-                                title: Lng.t("currencies.title", { locale: language }),
-                                titleStyle: headerTitle({ marginLeft: -30, marginRight: -65 }),
+                                title: Lng.t('currencies.title', { locale }),
+                                titleStyle: headerTitle({
+                                    marginLeft: -30,
+                                    marginRight: -65
+                                }),
                                 rightIconPress: null
                             }}
                             listViewProps={{
                                 contentContainerStyle: { flex: 5 },
                                 rightTitleStyle: SymbolStyle
                             }}
-                            emptyContentProps={{
-                                contentType: "currencies",
-                            }}
+                            emptyContentProps={{ contentType: 'currencies' }}
                         />
 
                         <Field
-                            name="billingAddress"
+                            name={`customer.${FIELDS.BILLING}`}
                             component={AddressContainer}
                             hasBillingAddress
                             addressValue={billingAddress}
-                            icon='map-marker-alt'
-                            rightIcon='angle-right'
-                            placeholder={Lng.t("customers.billingAddress", { locale: language })}
+                            icon="map-marker-alt"
+                            rightIcon="angle-right"
+                            placeholder={Lng.t('customers.billingAddress', {
+                                locale
+                            })}
                             navigation={navigation}
-                            onChangeCallback={(val) =>
-                                this.setFormField('billingAddress', val)
+                            onChangeCallback={val =>
+                                this.setFormField(
+                                    `customer.${FIELDS.BILLING}`,
+                                    val
+                                )
                             }
                             containerStyle={styles.addressField}
                             type={type}
                             fakeInputProps={{
-                                color: billingAddress && (Object.keys(billingAddress).length !== 0) ? colors.primaryLight : null,
+                                color: hasObjectLength(billingAddress)
+                                    ? colors.primaryLight
+                                    : null
                             }}
                         />
 
                         <Field
-                            name="shippingAddress"
+                            name={`customer.${FIELDS.SHIPPING}`}
                             component={AddressContainer}
                             addressValue={shippingAddress}
                             autoFillValue={billingAddress}
-                            icon='map-marker-alt'
-                            rightIcon='angle-right'
-                            placeholder={Lng.t("customers.shippingAddress", { locale: language })}
+                            icon="map-marker-alt"
+                            rightIcon="angle-right"
+                            placeholder={Lng.t('customers.shippingAddress', {
+                                locale
+                            })}
                             navigation={navigation}
-                            onChangeCallback={(val) =>
-                                this.setFormField('shippingAddress', val)
+                            onChangeCallback={val =>
+                                this.setFormField(
+                                    `customer.${FIELDS.SHIPPING}`,
+                                    val
+                                )
                             }
                             containerStyle={styles.addressField}
                             type={type}
                             fakeInputProps={{
-                                color: shippingAddress && (Object.keys(shippingAddress).length !== 0) ? colors.primaryLight : null,
+                                color: hasObjectLength(shippingAddress)
+                                    ? colors.primaryLight
+                                    : null
                             }}
                         />
-
                     </View>
 
-                    {/* 
-                    <CtDivider dividerStyle={styles.dividerStyle} />
-
-                    <Field
-                        name="enable_portal"
-                        component={ToggleSwitch}
-                        status={enable_portal === 1 ? true : false}
-                        hint={Lng.t("customers.enablePortal", { locale: language })}
-                        onChangeCallback={(val) =>
-                            this.onTogglePortal(val)
-                        }
-                    />
-
-                    {portal && (
-                        <Field
-                            name={'password'}
-                            component={InputField}
-                            hint={Lng.t("customers.password", { locale: language })}
-                            inputProps={{
-                                returnKeyType: 'go',
-                                autoCapitalize: 'none',
-                                autoCorrect: true,
-                            }}
-                            secureTextEntry
-                        />
-                    )} */}
-
+                    {hasCustomField && (
+                        <CustomField {...this.props} type="customer" />
+                    )}
                 </View>
             </DefaultLayout>
         );

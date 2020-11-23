@@ -1,378 +1,197 @@
 // @flow
 import React from 'react';
 import { View } from 'react-native';
-
 import { change } from 'redux-form';
 import styles from './styles';
-import {
-    MainLayout,
-    ListView
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
-import { IMAGES } from '../../../../config';
-import Lng from '../../../../api/lang/i18n';
+import { MainLayout, ListView, InfiniteScroll } from '@/components';
+import { IMAGES } from '@/assets';
+import Lng from '@/lang/i18n';
 import { PAYMENT_ADD, PAYMENT_EDIT, PAYMENT_SEARCH } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { formatSelectPickerName } from '../../../../api/global';
-
-let params = {
-    search: '',
-    payment_method_id: '',
-    payment_number: '',
-    customer_id: '',
-}
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import paymentsFilterFields from './filterFields';
+import { isFilterApply } from '@/utils';
+import PaymentServices from '../../services';
 
 type IProps = {
     navigation: Object,
     getPayments: Function,
     payments: Object,
-    loading: Boolean,
-    language: String,
-    getCustomers: Function,
-}
+    locale: String,
+    formValues: any
+};
 
 export class Payments extends React.Component<IProps> {
     constructor(props) {
         super(props);
-        this.state = {
-            refreshing: false,
-            fresh: true,
-            pagination: {
-                page: 1,
-                limit: 10,
-                lastPage: 1,
-            },
-            search: '',
-            selectedPaymentMode: '',
-            filter: false
-        };
+        this.scrollViewReference = React.createRef();
+        this.toastReference = React.createRef();
+
+        this.state = { search: '' };
     }
 
     componentDidMount() {
-        const { navigation, getPaymentModes } = this.props
-
-        this.getItems({ fresh: true });
-        getPaymentModes()
-
-        goBack(MOUNT, navigation, { route: ROUTES.MAIN_INVOICES })
+        const { navigation } = this.props;
+        goBack(MOUNT, navigation, { route: ROUTES.MAIN_INVOICES });
+        this.onFocus();
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
+        this.focusListener?.remove?.();
     }
 
-    onPaymentSelect = (payment) => {
-        const { navigation } = this.props
-        navigation.navigate(ROUTES.PAYMENT,
-            { paymentId: payment.id, type: PAYMENT_EDIT }
-        )
-        this.onResetFilter()
-    }
+    onFocus = () => {
+        const { navigation } = this.props;
 
-    onSearch = (search) => {
-        this.onResetFilter()
-        this.setState({ search })
-        this.getItems({ fresh: true, params: { ...params, search } })
+        this.focusListener = navigation.addListener('didFocus', () => {
+            this.scrollViewReference?.getItems?.();
+
+            if (PaymentServices.isEmailSent) {
+                PaymentServices.toggleIsEmailSent(false);
+                this.toastReference?.show?.(
+                    'toast.send_payment_successfully',
+                    1500
+                );
+            }
+        });
+    };
+
+    onSelect = payment => {
+        const { navigation } = this.props;
+        navigation.navigate(ROUTES.PAYMENT, {
+            paymentId: payment.id,
+            type: PAYMENT_EDIT
+        });
+    };
+
+    onSearch = search => {
+        this.setState({ search });
+
+        this.scrollViewReference?.getItems?.({
+            queryString: { search },
+            showLoader: true
+        });
     };
 
     setFormField = (field, value) => {
         this.props.dispatch(change(PAYMENT_SEARCH, field, value));
-
-        if (field === 'payment_method_id')
-            this.setState({ selectedPaymentMode: value })
-    };
-
-    getItems = ({
-        fresh = false,
-        onResult,
-        params,
-        filter = false
-    } = {}) => {
-
-        const { getPayments } = this.props;
-        const { refreshing, pagination } = this.state;
-
-        if (refreshing) {
-            return;
-        }
-
-        this.setState({
-            refreshing: true,
-            fresh,
-        });
-
-        const paginationParams = fresh ? { ...pagination, page: 1 } : pagination;
-
-        if (!fresh && paginationParams.lastPage < paginationParams.page) {
-            return;
-        }
-
-        getPayments({
-            fresh,
-            pagination: paginationParams,
-            params,
-            filter,
-            onMeta: ({ last_page, current_page }) => {
-                this.setState({
-                    pagination: {
-                        ...paginationParams,
-                        lastPage: last_page,
-                        page: current_page + 1,
-                    },
-                });
-            },
-            onResult: (val) => {
-                this.setState({
-                    refreshing: false,
-                    fresh: !val,
-                });
-                onResult && onResult();
-            },
-        });
     };
 
     onResetFilter = () => {
-        this.setState({ filter: false })
-    }
+        const { search } = this.state;
 
-    onSubmitFilter = ({ customer_id = '', payment_method_id = '', payment_number = '' }) => {
+        this.scrollViewReference?.getItems?.({
+            queryString: { search },
+            resetQueryString: true,
+            showLoader: true
+        });
+    };
 
-        if (customer_id || payment_method_id || payment_number) {
-            this.setState({ filter: true })
+    onSubmitFilter = ({
+        customer_id = '',
+        payment_method_id = '',
+        payment_number = ''
+    }) => {
+        const { search } = this.state;
 
-            this.getItems({
-                fresh: true,
-                params: {
-                    ...params,
-                    customer_id,
-                    payment_method_id,
-                    payment_number,
-                },
-                filter: true
-            })
-        }
-        else
-            this.onResetFilter()
-    }
-
-    getPaymentsList = (payments) => {
-        let paymentList = []
-        if (typeof payments !== 'undefined' && payments.length != 0) {
-            paymentList = payments.map((payment) => {
-                const {
-                    notes,
-                    formattedPaymentDate,
-                    amount,
-                    payment_mode,
-                    user: { name, currency }
-                } = payment;
-
-                return {
-                    title: `${name}`,
-                    subtitle: {
-                        title: `${payment_mode ? '(' + payment_mode + ')' : ''}`,
-                    },
-                    amount,
-                    currency,
-                    rightSubtitle: formattedPaymentDate,
-                    fullItem: payment,
-                };
-            });
-        }
-        return paymentList
-    }
-
-    loadMoreItems = () => {
-        const { search, filter } = this.state
-
-        const {
-            formValues: {
-                customer_id = '',
-                payment_method_id = '',
-                payment_number = ''
-            }
-        } = this.props
-
-
-
-        if (filter) {
-            this.getItems({
-                params: {
-                    ...params,
-                    customer_id,
-                    payment_method_id,
-                    payment_number,
-                },
-                filter: true
-            })
-        }
-        else
-            this.getItems({ params: { ...params, search } });
-
-    }
+        this.scrollViewReference?.getItems?.({
+            queryString: {
+                customer_id,
+                payment_method_id,
+                payment_number,
+                search
+            },
+            showLoader: true
+        });
+    };
 
     render() {
-
         const {
             navigation,
             payments,
-            filterPayments,
-            loading,
-            language,
+            locale,
             handleSubmit,
-            customers,
-            getCustomers,
-            paymentModesLoading,
-            paymentMethods
+            getPayments,
+            formValues
         } = this.props;
 
-        const {
-            refreshing,
-            pagination: { lastPage, page },
-            fresh,
-            search,
-            selectedPaymentMode,
-            filter,
-        } = this.state;
+        const { search } = this.state;
 
-        const canLoadMore = lastPage >= page;
+        const isEmpty = payments && payments.length <= 0;
+        const isFilter = isFilterApply(formValues);
 
+        const emptyTitle = search
+            ? 'search.noResult'
+            : isFilter
+            ? 'filter.empty.filterTitle'
+            : 'payments.empty.title';
 
-        let paymentsItem = this.getPaymentsList(payments)
-        let filterPaymentItem = this.getPaymentsList(filterPayments)
+        const emptyContentProps = {
+            title: Lng.t(emptyTitle, { locale, search }),
+            image: IMAGES.EMPTY_PAYMENTS,
+            ...(!search && {
+                description: Lng.t('payments.empty.description', { locale })
+            }),
+            ...(!search &&
+                !isFilter && {
+                    buttonTitle: Lng.t('payments.empty.buttonTitle', {
+                        locale
+                    }),
+                    buttonPress: () => {
+                        navigation.navigate(ROUTES.PAYMENT, {
+                            type: PAYMENT_ADD
+                        });
+                    }
+                })
+        };
 
-        let filterRefs = {}
-
-        let selectFields = [
-            {
-                name: "customer_id",
-                apiSearch: true,
-                hasPagination: true,
-                getItems: getCustomers,
-                items: customers,
-                displayName: "name",
-                label: Lng.t("payments.customer", { locale: language }),
-                icon: 'user',
-                placeholder: Lng.t("customers.placeholder", { locale: language }),
-                navigation: navigation,
-                compareField: "id",
-                onSelect: (item) => this.setFormField('customer_id', item.id),
-                headerProps: {
-                    title: Lng.t("customers.title", { locale: language }),
-                    rightIconPress: null
-                },
-                listViewProps: {
-                    hasAvatar: true,
-                },
-                emptyContentProps: {
-                    contentType: "customers",
-                    image: IMAGES.EMPTY_CUSTOMERS,
-                }
-            }
-        ]
-
-        let inputFields = [{
-            name: 'payment_number',
-            hint: Lng.t("payments.number", { locale: language }),
-            leftIcon: 'hashtag',
-            inputProps: {
-                autoCapitalize: 'none',
-                autoCorrect: true,
+        const headerProps = {
+            rightIcon: 'plus',
+            rightIconPress: () => {
+                navigation.navigate(ROUTES.PAYMENT, {
+                    type: PAYMENT_ADD
+                });
             },
-            refLinkFn: (ref) => {
-                filterRefs.paymentNumber = ref;
-            }
-        }]
+            title: Lng.t('header.payments', { locale })
+        };
 
-        let dropdownFields = [{
-            name: "payment_method_id",
-            label: Lng.t("payments.mode", { locale: language }),
-            fieldIcon: 'align-center',
-            items: formatSelectPickerName(paymentMethods),
-            onChangeCallback: (val) => {
-                this.setFormField('payment_method_id', val)
-            },
-            defaultPickerOptions: {
-                label: Lng.t("payments.modePlaceholder", { locale: language }),
-                value: '',
-            },
-            selectedItem: selectedPaymentMode,
-            onDonePress: () => filterRefs.paymentNumber.focus(),
-            containerStyle: styles.selectPicker
-        }]
-
-        let empty = (!filter && !search) ? {
-            description: Lng.t("payments.empty.description", { locale: language }),
-            buttonTitle: Lng.t("payments.empty.buttonTitle", { locale: language }),
-            buttonPress: () => {
-                navigation.navigate(ROUTES.PAYMENT, { type: PAYMENT_ADD })
-                this.onResetFilter()
-            }
-        } : {}
-
-        let emptyTitle = search ? Lng.t("search.noResult", { locale: language, search })
-            : (!filter) ? Lng.t("payments.empty.title", { locale: language }) :
-                Lng.t("filter.empty.filterTitle", { locale: language })
+        const filterProps = {
+            onSubmitFilter: handleSubmit(this.onSubmitFilter),
+            ...paymentsFilterFields(this),
+            clearFilter: this.props,
+            locale,
+            onResetFilter: () => this.onResetFilter()
+        };
 
         return (
             <View style={styles.container}>
                 <MainLayout
-                    headerProps={{
-                        rightIcon: "plus",
-                        rightIconPress: () => {
-                            navigation.navigate(ROUTES.PAYMENT, { type: PAYMENT_ADD })
-                            this.onResetFilter()
-                        },
-                        title: Lng.t("header.payments", { locale: language })
-                    }}
+                    headerProps={headerProps}
                     onSearch={this.onSearch}
                     bottomDivider
-                    filterProps={{
-                        onSubmitFilter: handleSubmit(this.onSubmitFilter),
-                        selectFields: selectFields,
-                        inputFields: inputFields,
-                        dropdownFields: dropdownFields,
-                        clearFilter: this.props,
-                        language: language,
-                        onResetFilter: () => this.onResetFilter()
+                    filterProps={filterProps}
+                    toastProps={{
+                        reference: ref => (this.toastReference = ref)
                     }}
-                    loadingProps={{ is: paymentModesLoading || (loading && fresh) }}
                 >
-
                     <View style={styles.listViewContainer}>
-
-                        <ListView
-                            items={!filter ? paymentsItem : filterPaymentItem}
-                            onPress={this.onPaymentSelect}
-                            refreshing={refreshing}
-                            loading={loading}
-                            isEmpty={!filter ? paymentsItem.length <= 0 :
-                                filterPaymentItem.length <= 0
-                            }
-                            canLoadMore={canLoadMore}
-                            getFreshItems={(onHide) => {
-                                this.onResetFilter()
-                                this.getItems({
-                                    fresh: true,
-                                    onResult: onHide,
-                                    params: { ...params, search }
-                                });
-                            }}
-                            getItems={() => {
-                                this.loadMoreItems()
-                            }}
-                            contentContainerStyle={{ flex: 0 }}
-                            bottomDivider
-                            emptyContentProps={{
-                                title: emptyTitle,
-                                image: IMAGES.EMPTY_PAYMENTS,
-                                ...empty
-                            }}
-                        />
-
+                        <InfiniteScroll
+                            getItems={getPayments}
+                            reference={ref => (this.scrollViewReference = ref)}
+                        >
+                            <ListView
+                                items={payments}
+                                onPress={this.onSelect}
+                                isEmpty={isEmpty}
+                                contentContainerStyle={{ flex: 0 }}
+                                bottomDivider
+                                emptyContentProps={emptyContentProps}
+                                isAnimated
+                            />
+                        </InfiniteScroll>
                     </View>
                 </MainLayout>
-            </View >
+            </View>
         );
     }
 }

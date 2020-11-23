@@ -1,448 +1,320 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
-import { Tabs, MainLayout } from '../../../../components';
-import Sent from '../Tab/Sent';
-import Draft from '../Tab/Draft';
-import All from '../Tab/All';
+import { Tabs, MainLayout } from '@/components';
+import { Sent, Draft, All } from '../Tab';
+import Lng from '@/lang/i18n';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import estimateFilterFields from './filterFields';
+import { isFilterApply } from '@/utils';
+import { ARROW_ICON, IMAGES } from '@/assets';
+import {
+    ESTIMATES_TABS,
+    ESTIMATE_ADD,
+    ESTIMATE_EDIT,
+    ESTIMATE_SEARCH,
+    TAB_NAME
+} from '../../constants';
+import EstimateServices from '../../services';
 
-import { ROUTES } from '../../../../navigation/routes';
-import { ESTIMATES_TABS, ESTIMATE_ADD, ESTIMATE_EDIT, ESTIMATE_SEARCH, FILTER_ESTIMATE_STATUS, TAB_NAME } from '../../constants';
-import Lng from '../../../../api/lang/i18n';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { IMAGES } from '../../../../config';
-
-let params = {
-    search: '',
-    customer_id: '',
-    estimate_number: '',
-    from_date: '',
-    to_date: '',
+interface IProps {
+    locale: String;
+    navigation: any;
+    estimates: Object;
+    customers: Object;
+    handleSubmit: Function;
+    getCustomers: Function;
+    dispatch: Function;
+    formValues: any;
 }
 
-
-type IProps = {
-    language: String,
-    navigation: Object,
-    estimates: Object,
-    customers: Object,
-    loading: Boolean,
-    handleSubmit: Function,
-    getCustomers: Function,
+interface IStates {
+    activeTab: string;
+    search: string;
+    isLoaded: boolean;
 }
-export class Estimates extends React.Component<IProps> {
+
+export class Estimates extends React.Component<IProps, IStates> {
+    draftReference: any;
+    sentReference: any;
+    allReference: any;
+    focusListener: any;
+    toastReference: any;
+
     constructor(props) {
         super(props);
+        this.draftReference = React.createRef();
+        this.sentReference = React.createRef();
+        this.allReference = React.createRef();
+        this.toastReference = React.createRef();
 
         this.state = {
+            isLoaded: false,
             activeTab: ESTIMATES_TABS.DRAFT,
-            refreshing: false,
-            fresh: true,
-            pagination: {
-                page: 1,
-                limit: 10,
-                lastPage: 1,
-            },
-            search: '',
-            filter: false,
-            selectedFromDate: '',
-            selectedToDate: '',
-            selectedFromDateValue: '',
-            selectedToDateValue: ''
+            search: ''
         };
     }
 
     componentDidMount() {
-        this.getItems({ fresh: true, q: '', type: 'DRAFT' });
-
-        const { navigation } = this.props
-        goBack(MOUNT, navigation, { route: ROUTES.MAIN_MORE })
+        const { navigation } = this.props;
+        goBack(MOUNT, navigation, { exit: true });
+        this.onFocus();
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
+        this.focusListener?.remove?.();
     }
 
-    setActiveTab = (activeTab) => {
-        const { refreshing, search } = this.state;
+    onFocus = () => {
+        const { navigation } = this.props;
+        this.focusListener = navigation.addListener('didFocus', () => {
+            if (EstimateServices.isEmailSent) {
+                EstimateServices.toggleIsEmailSent(false);
+                this.toastReference?.show?.(
+                    'toast.send_estimate_successfully',
+                    1500
+                );
+            }
 
-        this.setState({ filter: false })
+            if (!this.state.isLoaded) {
+                this.setState({ isLoaded: true });
+                return;
+            }
 
-        if (!refreshing) {
-            let type = this.getActiveTab(activeTab)
-
-            this.getItems({ fresh: true, type, q: search });
-
-            this.setState({ activeTab });
-        }
-    };
-
-
-    getItems = ({
-        fresh = false,
-        onResult,
-        type,
-        params,
-        q = '',
-        resetFilter = false,
-    } = {}) => {
-        const { getEstimates } = this.props;
-        const { refreshing, pagination } = this.state;
-
-        if (refreshing) {
-            return;
-        }
-
-        if (resetFilter)
-            this.setState({ filter: false })
-
-        this.setState({
-            refreshing: true,
-            fresh,
-        });
-
-        const paginationParams = fresh ? { ...pagination, page: 1 } : pagination;
-
-        if (!fresh && paginationParams.lastPage < paginationParams.page) {
-            return;
-        }
-
-        getEstimates({
-            fresh,
-            type,
-            pagination: paginationParams,
-            params: { ...params, search: q },
-            onMeta: ({ last_page, current_page }) => {
-                this.setState({
-                    pagination: {
-                        ...paginationParams,
-                        lastPage: last_page,
-                        page: current_page + 1,
-                    },
-                });
-            },
-            onResult: (val) => {
-                this.setState({
-                    refreshing: false,
-                    fresh: !val,
-                });
-                onResult && onResult();
-            },
+            const { ref } = this.getActiveTab();
+            ref?.getItems?.();
         });
     };
 
-    onEstimateSelect = (estimate) => {
-        const { navigation } = this.props
-
-        navigation.navigate(ROUTES.ESTIMATE, { id: estimate.id, type: ESTIMATE_EDIT })
-        this.onResetFilter(ESTIMATES_TABS.ALL)
-        this.setActiveTab(ESTIMATES_TABS.ALL)
+    setActiveTab = activeTab => {
+        this.setState({ activeTab });
     };
 
-    onSearch = (search) => {
-        const type = this.getActiveTab()
-        this.setState({ search })
-        this.getItems({ fresh: true, q: search, type })
+    onSelect = estimate => {
+        const { navigation } = this.props;
+
+        navigation.navigate(ROUTES.ESTIMATE, {
+            id: estimate.id,
+            type: ESTIMATE_EDIT
+        });
+    };
+
+    onSearch = search => {
+        const { status, ref } = this.getActiveTab();
+
+        this.setState({ search });
+
+        ref?.getItems?.({
+            queryString: { status, search },
+            showLoader: true
+        });
     };
 
     getActiveTab = (activeTab = this.state.activeTab) => {
-        let type = '';
-
         if (activeTab == ESTIMATES_TABS.SENT) {
-            type = 'SENT';
-        } else if (activeTab == ESTIMATES_TABS.DRAFT) {
-            type = 'DRAFT';
+            return {
+                status: 'SENT',
+                ref: this.sentReference
+            };
         }
-        return type
-    }
+
+        if (activeTab == ESTIMATES_TABS.DRAFT) {
+            return {
+                status: 'DRAFT',
+                ref: this.draftReference
+            };
+        }
+
+        return {
+            status: '',
+            ref: this.allReference
+        };
+    };
 
     setFormField = (field, value) => {
         this.props.dispatch(change(ESTIMATE_SEARCH, field, value));
     };
 
-    onResetFilter = (tab = '') => {
-        const { filter } = this.state
+    onResetFilter = () => {
+        const { search } = this.state;
+        const { status, ref } = this.getActiveTab();
 
-        this.setState({ filter: false })
+        ref?.getItems?.({
+            queryString: { status, search },
+            resetQueryString: true,
+            resetParams: true,
+            showLoader: true
+        });
+    };
 
-        if (filter && !tab) {
-            this.getItems({ fresh: true, q: '', type: this.getActiveTab() });
+    changeTabBasedOnFilterStatusSelection = status => {
+        if (status === ESTIMATES_TABS.SENT) {
+            return {
+                activeTab: ESTIMATES_TABS.SENT,
+                ref: this.sentReference
+            };
         }
-    }
 
-    onSubmitFilter = ({ filterStatus = '', from_date = '', to_date = '', estimate_number = '', customer_id = '' }) => {
-
-        if (filterStatus || from_date || to_date || estimate_number || customer_id) {
-
-            if (filterStatus === ESTIMATES_TABS.SENT)
-                this.setState({ activeTab: ESTIMATES_TABS.SENT });
-            else if (filterStatus === ESTIMATES_TABS.DRAFT)
-                this.setState({ activeTab: ESTIMATES_TABS.DRAFT });
-            else
-                this.setState({ activeTab: ESTIMATES_TABS.ALL });
-
-            this.setState({ filter: true })
-
-            this.getItems({
-                fresh: true,
-                params: {
-                    ...params,
-                    customer_id,
-                    estimate_number,
-                    from_date,
-                    to_date,
-                },
-                type: filterStatus,
-            });
-
+        if (status === ESTIMATES_TABS.DRAFT) {
+            return {
+                activeTab: ESTIMATES_TABS.DRAFT,
+                ref: this.draftReference
+            };
         }
-        else
-            this.onResetFilter()
-    }
 
-    loadMoreItems = ({ type, q }) => {
-        const { filter } = this.state
-        const {
-            formValues: {
-                filterStatus = '',
-                from_date = '',
-                to_date = '',
-                estimate_number = '',
-                customer_id = ''
-            }
-        } = this.props
+        return {
+            activeTab: ESTIMATES_TABS.ALL,
+            ref: this.allReference
+        };
+    };
 
-        if (filter) {
+    onSubmitFilter = ({
+        filterStatus = '',
+        from_date = '',
+        to_date = '',
+        estimate_number = '',
+        customer_id = ''
+    }) => {
+        const { search } = this.state;
 
-            this.getItems({
-                params: {
-                    ...params,
-                    customer_id,
-                    estimate_number,
-                    from_date,
-                    to_date,
-                },
-                type: filterStatus,
-                filter: true
-            })
-        }
-        else
-            this.getItems({ type, q });
-    }
+        const { activeTab, ref } = this.changeTabBasedOnFilterStatusSelection(
+            filterStatus
+        );
+
+        this.setState({ activeTab });
+
+        ref?.getItems?.({
+            queryString: {
+                status: filterStatus,
+                search,
+                customer_id,
+                estimate_number,
+                from_date,
+                to_date
+            },
+            showLoader: true
+        });
+    };
 
     onAddEstimate = () => {
-        const { navigation } = this.props
-        this.setActiveTab(ESTIMATES_TABS.ALL)
-        this.onResetFilter(ESTIMATES_TABS.ALL)
-        navigation.navigate(ROUTES.ESTIMATE, { type: ESTIMATE_ADD })
-    }
+        const { navigation } = this.props;
+        navigation.navigate(ROUTES.ESTIMATE, { type: ESTIMATE_ADD });
+    };
+
+    getEmptyContentProps = activeTab => {
+        const { locale, formValues } = this.props;
+        const { search } = this.state;
+        const isFilter = isFilterApply(formValues);
+        let type = '';
+
+        if (activeTab === ESTIMATES_TABS.DRAFT) {
+            type = 'draft';
+        } else if (activeTab === ESTIMATES_TABS.SENT) {
+            type = 'sent';
+        } else {
+            type = 'all';
+        }
+
+        const emptyTitle = search
+            ? 'search.noResult'
+            : isFilter
+            ? 'filter.empty.filterTitle'
+            : `estimates.empty.${type}.title`;
+
+        return {
+            title: Lng.t(emptyTitle, { locale, search }),
+            image: IMAGES.EMPTY_ESTIMATES,
+            ...(!search && {
+                description: Lng.t(`estimates.empty.${type}.description`, {
+                    locale
+                })
+            }),
+            ...(!search &&
+                !isFilter && {
+                    buttonTitle: Lng.t('estimates.empty.buttonTitle', {
+                        locale
+                    }),
+                    buttonPress: () => this.onAddEstimate()
+                })
+        };
+    };
 
     render() {
-        const {
-            language,
-            navigation,
-            estimates,
-            loading,
-            handleSubmit,
-            customers,
-            getCustomers,
-        } = this.props;
+        const { locale, navigation, handleSubmit } = this.props;
 
-        const {
-            activeTab,
-            refreshing,
-            pagination: { lastPage, page },
-            fresh,
-            search,
-            selectedFromDate,
-            selectedToDate,
-            selectedFromDateValue,
-            selectedToDateValue,
-            filter
-        } = this.state;
+        const { activeTab } = this.state;
 
-        const canLoadMore = lastPage >= page;
-
-        let estimateItem = [];
-        typeof estimates !== 'undefined' && (estimateItem = estimates);
-
-        let selectFields = [
-            {
-                name: "customer_id",
-                apiSearch: true,
-                hasPagination: true,
-                getItems: getCustomers,
-                items: customers,
-                displayName: "name",
-                label: Lng.t("estimates.customer", { locale: language }),
-                icon: 'user',
-                placeholder: Lng.t("customers.placeholder", { locale: language }),
-                navigation: navigation,
-                compareField: "id",
-                onSelect: (item) => this.setFormField('customer_id', item.id),
-                headerProps: {
-                    title: Lng.t("customers.title", { locale: language }),
-                    rightIconPress: null
-                },
-                listViewProps: {
-                    hasAvatar: true,
-                },
-                emptyContentProps: {
-                    contentType: "customers",
-                    image: IMAGES.EMPTY_CUSTOMERS,
-                }
+        const headerProps = {
+            title: Lng.t('header.estimates', { locale }),
+            leftIcon: ARROW_ICON,
+            leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
+            placement: 'center',
+            rightIcon: 'plus',
+            rightIconPress: () => {
+                this.onAddEstimate();
             }
-        ]
+        };
 
-        let datePickerFields = [
+        const filterProps = {
+            onSubmitFilter: handleSubmit(this.onSubmitFilter),
+            ...estimateFilterFields(this),
+            clearFilter: this.props,
+            onResetFilter: () => this.onResetFilter()
+        };
+
+        const tabs = [
             {
-                name: "from_date",
-                label: Lng.t("estimates.fromDate", { locale: language }),
-                onChangeCallback: (formDate, displayDate) => {
-                    this.setState({
-                        selectedFromDate: displayDate,
-                        selectedFromDateValue: formDate
-                    })
-                },
-                selectedDate: selectedFromDate,
-                selectedDateValue: selectedFromDateValue
+                Title: ESTIMATES_TABS.DRAFT,
+                tabName: TAB_NAME(ESTIMATES_TABS.DRAFT, locale),
+                render: (
+                    <Draft
+                        parentProps={this}
+                        reference={ref => (this.draftReference = ref)}
+                    />
+                )
             },
             {
-                name: "to_date",
-                label: Lng.t("estimates.toDate", { locale: language }),
-                onChangeCallback: (formDate, displayDate) => {
-                    this.setState({
-                        selectedToDate: displayDate,
-                        selectedToDateValue: formDate
-                    })
-                },
-                selectedDate: selectedToDate,
-                selectedDateValue: selectedToDateValue
-            }
-        ]
-
-        let inputFields = [{
-            name: 'estimate_number',
-            hint: Lng.t("estimates.estimateNumber", { locale: language }),
-            inputProps: {
-                autoCapitalize: 'none',
-                autoCorrect: true,
-            }
-        }]
-
-        let dropdownFields = [{
-            name: "filterStatus",
-            label: Lng.t("estimates.status", { locale: language }),
-            fieldIcon: 'align-center',
-            items: FILTER_ESTIMATE_STATUS,
-            onChangeCallback: (val) => {
-                this.setFormField('filterStatus', val)
+                Title: ESTIMATES_TABS.SENT,
+                tabName: TAB_NAME(ESTIMATES_TABS.SENT, locale),
+                render: (
+                    <Sent
+                        parentProps={this}
+                        reference={ref => (this.sentReference = ref)}
+                    />
+                )
             },
-            defaultPickerOptions: {
-                label: Lng.t("estimates.statusPlaceholder", { locale: language }),
-                value: '',
-            },
-            containerStyle: styles.selectPicker
-        }]
+            {
+                Title: ESTIMATES_TABS.ALL,
+                tabName: TAB_NAME(ESTIMATES_TABS.ALL, locale),
+                render: (
+                    <All
+                        parentProps={this}
+                        reference={ref => (this.allReference = ref)}
+                    />
+                )
+            }
+        ];
 
         return (
             <View style={styles.container}>
                 <MainLayout
-                    headerProps={{
-                        title: Lng.t("header.estimates", { locale: language }),
-                        leftIcon: "long-arrow-alt-left",
-                        leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t("header.estimates", { locale: language }),
-                        titleStyle: styles.headerTitle,
-                        placement: "center",
-                        rightIcon: "plus",
-                        rightIconPress: () => {
-                            this.onAddEstimate()
-                        },
-                    }}
+                    headerProps={headerProps}
                     onSearch={this.onSearch}
-                    filterProps={{
-                        onSubmitFilter: handleSubmit(this.onSubmitFilter),
-                        selectFields: selectFields,
-                        datePickerFields: datePickerFields,
-                        inputFields: inputFields,
-                        dropdownFields: dropdownFields,
-                        clearFilter: this.props,
-                        onResetFilter: () => this.onResetFilter()
+                    filterProps={filterProps}
+                    toastProps={{
+                        reference: ref => (this.toastReference = ref),
+                        containerStyle: { bottom: 50 }
                     }}
                 >
                     <Tabs
                         style={styles.Tabs}
                         activeTab={activeTab}
                         setActiveTab={this.setActiveTab}
-                        tabs={[
-                            {
-                                Title: ESTIMATES_TABS.DRAFT,
-                                tabName: TAB_NAME(ESTIMATES_TABS.DRAFT, language, Lng),
-                                render: (
-                                    <Draft
-                                        estimates={estimateItem}
-                                        getEstimates={this.getItems}
-                                        canLoadMore={canLoadMore}
-                                        onEstimateSelect={this.onEstimateSelect}
-                                        loading={loading}
-                                        refreshing={refreshing}
-                                        search={search}
-                                        navigation={navigation}
-                                        language={language}
-                                        loadMoreItems={this.loadMoreItems}
-                                        onAddEstimate={this.onAddEstimate}
-                                        fresh={fresh}
-                                        filter={filter}
-                                    />
-                                ),
-                            },
-                            {
-                                Title: ESTIMATES_TABS.SENT,
-                                tabName: TAB_NAME(ESTIMATES_TABS.SENT, language, Lng),
-                                render: (
-                                    <Sent
-                                        estimates={estimateItem}
-                                        getEstimates={this.getItems}
-                                        canLoadMore={canLoadMore}
-                                        onEstimateSelect={this.onEstimateSelect}
-                                        loading={loading}
-                                        refreshing={refreshing}
-                                        fresh={fresh}
-                                        search={search}
-                                        navigation={navigation}
-                                        language={language}
-                                        loadMoreItems={this.loadMoreItems}
-                                        onAddEstimate={this.onAddEstimate}
-                                        filter={filter}
-                                    />
-                                ),
-                            },
-                            {
-                                Title: ESTIMATES_TABS.ALL,
-                                tabName: TAB_NAME(ESTIMATES_TABS.ALL, language, Lng),
-                                render: (
-                                    <All
-                                        estimates={estimateItem}
-                                        getEstimates={this.getItems}
-                                        canLoadMore={canLoadMore}
-                                        onEstimateSelect={this.onEstimateSelect}
-                                        loading={loading}
-                                        refreshing={refreshing}
-                                        fresh={fresh}
-                                        search={search}
-                                        navigation={navigation}
-                                        language={language}
-                                        loadMoreItems={this.loadMoreItems}
-                                        onAddEstimate={this.onAddEstimate}
-                                        filter={filter}
-                                    />
-                                ),
-                            },
-                        ]}
+                        tabs={tabs}
                     />
                 </MainLayout>
             </View>

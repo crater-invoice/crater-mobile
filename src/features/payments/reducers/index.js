@@ -1,28 +1,31 @@
 import {
     SET_PAYMENTS,
     PAYMENTS_TRIGGER_SPINNER,
-    SET_FILTER_PAYMENTS,
-} from "../constants";
+    SAVE_UNPAID_INVOICES,
+    CREATE_FROM_PAYMENTS,
+    UPDATE_FROM_PAYMENTS,
+    REMOVE_FROM_PAYMENTS
+} from '../constants';
 
 const initialState = {
     payments: [],
-    filterPayments: [],
     errors: null,
+    unPaidInvoices: [],
     loading: {
-        paymentsLoading: false,
-        initPaymentLoading: false,
         paymentLoading: false,
-        getUnpaidInvoicesLoading: false,
-    },
+        sendReceiptLoading: false,
+        getUnpaidInvoicesLoading: false
+    }
 };
 
 export default function paymentsReducer(state = initialState, action) {
     const { payload, type } = action;
 
     switch (type) {
+        case PAYMENTS_TRIGGER_SPINNER:
+            return { ...state, loading: { ...payload } };
 
         case SET_PAYMENTS:
-
             let { payments, fresh } = payload;
 
             if (!fresh) {
@@ -31,19 +34,61 @@ export default function paymentsReducer(state = initialState, action) {
 
             return { ...state, payments };
 
-        case SET_FILTER_PAYMENTS:
-
+        case SAVE_UNPAID_INVOICES:
             if (!payload.fresh) {
                 return {
                     ...state,
-                    filterPayments: [...state.filterPayments, ...payload.payments]
+                    unPaidInvoices: [
+                        ...state.unPaidInvoices,
+                        ...payload.invoices
+                    ]
                 };
             }
 
-            return { ...state, filterPayments: payload.payments };
+            return { ...state, unPaidInvoices: payload.invoices };
 
-        case PAYMENTS_TRIGGER_SPINNER:
-            return { ...state, loading: { ...payload } };
+        case CREATE_FROM_PAYMENTS:
+            return {
+                ...state,
+                payments: [...[payload.payment], ...state.payments]
+            };
+
+        case UPDATE_FROM_PAYMENTS: {
+            const paymentData = payload.payment;
+            const paymentsList = [];
+
+            if (state.payments) {
+                state.payments.map(payment => {
+                    const { id } = payment;
+                    let value = payment;
+
+                    if (id === paymentData.id) {
+                        value = {
+                            ...paymentData
+                        };
+                    }
+                    paymentsList.push(value);
+                });
+            }
+
+            return {
+                ...state,
+                payments: paymentsList
+            };
+        }
+
+        case REMOVE_FROM_PAYMENTS: {
+            const paymentID = payload.id;
+
+            const filterPayment = state.payments.filter(
+                payment => payment.id !== paymentID
+            );
+
+            return {
+                ...state,
+                payments: filterPayment
+            };
+        }
 
         default:
             return state;

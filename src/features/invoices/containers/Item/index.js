@@ -5,12 +5,13 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as InvoicesAction from '../../actions';
 import { ITEM_FORM } from '../../constants';
-import { getItemUnits } from '../../../settings/actions';
+import { getItemUnits, getTaxes } from '@/features/settings/actions';
+import { getUnitState } from '@/features/more/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         invoices: { loading },
-        global: { language, taxTypes },
+        global: { locale, taxTypes },
         settings: {
             units,
             loading: { itemUnitsLoading }
@@ -23,7 +24,10 @@ const mapStateToProps = (state, { navigation }) => {
     const discountPerItem = navigation.getParam('discount_per_item');
     const taxPerItem = navigation.getParam('tax_per_item');
 
-    const isLoading = loading.editItemLoading || loading.removeItemLoading || itemUnitsLoading
+    const isLoading =
+        loading.editItemLoading ||
+        loading.removeItemLoading ||
+        itemUnitsLoading;
 
     return {
         loading: isLoading,
@@ -31,11 +35,11 @@ const mapStateToProps = (state, { navigation }) => {
         itemId: item && (item.item_id || item.id),
         taxTypes,
         currency: navigation.getParam('currency'),
-        language: language,
+        locale,
         discountPerItem,
         taxPerItem,
         type,
-        units,
+        units: getUnitState(units),
 
         initialValues: {
             price: null,
@@ -44,31 +48,32 @@ const mapStateToProps = (state, { navigation }) => {
             discount: 0,
             taxes: [],
             ...item
-        },
+        }
     };
 };
 
 const mapDispatchToProps = {
-    getItemUnits: getItemUnits,
     addItem: InvoicesAction.addItem,
     setInvoiceItems: InvoicesAction.setInvoiceItems,
     removeInvoiceItem: InvoicesAction.removeInvoiceItem,
+    getItemUnits,
+    getTaxes
 };
 
 //  Redux Forms
 const addItemReduxForm = reduxForm({
     form: ITEM_FORM,
-    validate,
+    validate
 })(InvoiceItem);
 
 //  connect
 const InvoiceItemContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(addItemReduxForm);
 
 InvoiceItemContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default InvoiceItemContainer;

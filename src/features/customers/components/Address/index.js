@@ -1,20 +1,20 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import styles from './styles';
+import { View } from 'react-native';
 import { Field, change } from 'redux-form';
+import { CUSTOMER_ADDRESS } from '../../constants';
+import Lng from '@/lang/i18n';
+import { colors } from '@/styles';
+import { MAX_LENGTH } from '@/constants';
 import {
     SlideModal,
     FakeInput,
     InputField,
     CtButton,
-    SelectField,
-} from '../../../../components';
-import { CUSTOMER_ADDRESS, CUSTOMER_EDIT } from '../../constants';
-import Lng from '../../../../api/lang/i18n';
-import { colors } from '../../../../styles/colors';
-import { MAX_LENGTH, formatCountries } from '../../../../api/global';
+    SelectField
+} from '@/components';
+import styles from './styles';
 
 type IProps = {
     label: String,
@@ -31,251 +31,252 @@ type IProps = {
     hasBillingAddress: Boolean,
     meta: Object,
     handleSubmit: Function,
-    language: String,
+    locale: String,
     type: String
 };
 
-let country = 'country_id'
-let state = 'state'
-let city = 'city'
+let country = 'country_id';
+let state = 'state';
+let city = 'city';
 
 let addressField = [
-    "name",
-    "address_street_1",
-    "address_street_2",
-    "phone",
-    "zip",
-    "country_id",
-    "state",
-    "city",
-    "type"
-]
-
+    'name',
+    'address_street_1',
+    'address_street_2',
+    'phone',
+    'zip',
+    'country_id',
+    'state',
+    'city',
+    'type'
+];
 
 export class Address extends Component<IProps> {
+    countryReference: any;
+
     constructor(props) {
         super(props);
+        this.countryReference = React.createRef();
+
         this.state = {
             visible: false,
             values: '',
-            status: false,
+            status: false
         };
     }
 
-    componentDidMount() {
+    shouldComponentUpdate(nextProps, nextState) {
+        const { visible, status } = nextState;
+
+        if (this.state.visible !== visible || this.state.status !== status) {
+            return true;
+        }
+        return false;
     }
 
-
-    fillShippingAddress = (status) => {
-
+    fillShippingAddress = status => {
         if (status) {
-            this.setState({ status })
-            const { autoFillValue } = this.props
+            this.setState({ status });
+            const { autoFillValue } = this.props;
 
             if (typeof autoFillValue !== 'undefined') {
-                addressField.map((field) => {
-                    this.setFormField(field, autoFillValue[field])
-                })
+                addressField.map(field => {
+                    this.setFormField(field, autoFillValue[field]);
+                });
+
+                if (autoFillValue?.country_id) {
+                    this.countryReference?.changeDisplayValueByUsingCompareField?.(
+                        autoFillValue?.country_id
+                    );
+                }
             }
+        } else {
+            this.setState({ status });
+            this.clearFormField();
         }
-        else {
-            this.setState({ status })
-            this.clearFormField()
-        }
-    }
+    };
 
     onToggle = () => {
-        const { visible, status } = this.state
-        const { addressValue,
-            hasBillingAddress,
-            autoFillValue
-        } = this.props
+        const { visible, status } = this.state;
+        const { addressValue, hasBillingAddress, autoFillValue } = this.props;
 
         if (!visible) {
             if (typeof addressValue !== 'undefined') {
-                addressField.map((field) => {
-                    this.setFormField(field, addressValue[field])
-                })
+                addressField.map(field => {
+                    this.setFormField(field, addressValue[field]);
+                });
             }
 
-            if (!hasBillingAddress && status === true && typeof addressValue === 'undefined') {
+            if (
+                !hasBillingAddress &&
+                status === true &&
+                typeof addressValue === 'undefined'
+            ) {
                 if (typeof autoFillValue !== 'undefined') {
-                    addressField.map((field) => {
-                        this.setFormField(field, autoFillValue[field])
-                    })
+                    addressField.map(field => {
+                        this.setFormField(field, autoFillValue[field]);
+                    });
                 }
             }
+        } else {
+            if (typeof addressValue === 'undefined') this.clearFormField();
         }
-        else {
-            if (typeof addressValue === 'undefined')
-                this.clearFormField()
-        }
-        this.setState((prevState) => {
-            return { visible: !prevState.visible }
-        });
-    }
+        this.setState(({ visible }) => ({ visible: !visible }));
+    };
 
     setFormField = (field, value) => {
         this.props.dispatch(change(CUSTOMER_ADDRESS, field, value));
     };
 
     clearFormField = () => {
-        addressField.map((field) => {
-            this.setFormField(field, "")
-        })
+        addressField.map(field => {
+            this.setFormField(field, '');
+        });
     };
 
-    saveAddress = (address) => {
-        const { onChangeCallback } = this.props
-        this.onToggle()
+    saveAddress = address => {
+        const { onChangeCallback } = this.props;
+        this.onToggle();
 
-        onChangeCallback(address)
-        this.clearFormField()
-    }
+        onChangeCallback(address);
+        this.clearFormField();
+    };
 
-    BOTTOM_ACTION = (handleSubmit) => {
-        const { language } = this.props
+    BOTTOM_ACTION = handleSubmit => {
+        const { locale } = this.props;
         return (
             <View style={styles.submitButton}>
-                <View style={{ flex: 1 }}>
+                <View style={styles.flexRow}>
                     <CtButton
                         onPress={handleSubmit(this.saveAddress)}
-                        btnTitle={Lng.t("button.done", { locale: language })}
+                        btnTitle={Lng.t('button.done', { locale })}
                         containerStyle={styles.handleBtn}
                     />
                 </View>
             </View>
-        )
-    }
+        );
+    };
 
     Screen = () => {
-
-
         const {
             handleSubmit,
             hasBillingAddress,
             navigation,
             addressValue,
             formValues,
-            language,
+            locale,
             countries
-        } = this.props
+        } = this.props;
 
-        const { status } = this.state
+        const { status } = this.state;
 
-        let addressRefs = {}
+        let addressRefs = {};
 
         return (
             <View>
-
                 {!hasBillingAddress && (
                     <FakeInput
                         icon={'copy'}
                         color={colors.primaryLight}
                         leftIconSolid={false}
-                        values={Lng.t("customers.address.sameAs", { locale: language })}
+                        values={Lng.t('customers.address.sameAs', { locale })}
                         valueStyle={styles.sameAsToggle}
-                        onChangeCallback={
-                            () => this.fillShippingAddress(!status)
+                        onChangeCallback={() =>
+                            this.fillShippingAddress(!status)
                         }
                     />
                 )}
 
                 <Field
-                    name={"name"}
+                    name={'name'}
                     component={InputField}
-                    hint={Lng.t("customers.address.name", { locale: language })}
+                    hint={Lng.t('customers.address.name', { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
-                        autoCorrect: true,
-                        autoFocus: true,
+                        autoCorrect: true
                     }}
                 />
 
                 <Field
                     name={country}
-                    items={formatCountries(countries)}
+                    items={countries ?? []}
                     displayName="name"
                     component={SelectField}
-                    label={Lng.t("customers.address.country", { locale: language })}
-                    placeholder={" "}
-                    rightIcon='angle-right'
+                    label={Lng.t('customers.address.country', { locale })}
+                    placeholder={' '}
+                    rightIcon="angle-right"
                     navigation={navigation}
                     searchFields={['name']}
                     compareField="id"
-                    onSelect={({ id }) => {
-                        this.setFormField(country, id)
-                    }}
+                    isInternalSearch
+                    onSelect={({ id }) => this.setFormField(country, id)}
                     headerProps={{
-                        title: Lng.t("header.country", { locale: language }),
+                        title: Lng.t('header.country', { locale }),
                         rightIconPress: null
                     }}
                     listViewProps={{
                         contentContainerStyle: { flex: 7 }
                     }}
                     emptyContentProps={{
-                        contentType: "countries",
+                        contentType: 'countries'
                     }}
+                    reference={ref => (this.countryReference = ref)}
                 />
 
                 <Field
                     name={state}
                     component={InputField}
-                    hint={Lng.t("customers.address.state", { locale: language })}
+                    hint={Lng.t('customers.address.state', { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
                         autoCorrect: true,
-                        onSubmitEditing: () => {
-                            addressRefs.city.focus();
-                        }
+                        onSubmitEditing: () => addressRefs.city.focus()
                     }}
                 />
 
                 <Field
                     name={city}
                     component={InputField}
-                    hint={Lng.t("customers.address.city", { locale: language })}
+                    hint={Lng.t('customers.address.city', { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
                         autoCorrect: true,
-                        onSubmitEditing: () => {
-                            addressRefs.street1.focus();
-                        }
+                        onSubmitEditing: () => addressRefs.street1.focus()
                     }}
-                    refLinkFn={(ref) => {
-                        addressRefs.city = ref;
-                    }}
+                    refLinkFn={ref => (addressRefs.city = ref)}
                 />
 
                 <Field
-                    name={"address_street_1"}
+                    name={'address_street_1'}
                     component={InputField}
-                    hint={Lng.t("customers.address.address", { locale: language })}
+                    hint={Lng.t('customers.address.address', { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
-                        placeholder: Lng.t("customers.address.street1", { locale: language }),
+                        placeholder: Lng.t('customers.address.street1', {
+                            locale
+                        }),
                         autoCorrect: true,
                         multiline: true,
                         maxLength: MAX_LENGTH
                     }}
                     height={60}
                     autoCorrect={true}
-                    refLinkFn={(ref) => {
-                        addressRefs.street1 = ref;
-                    }}
+                    refLinkFn={ref => (addressRefs.street1 = ref)}
                 />
 
                 <Field
-                    name={"address_street_2"}
+                    name={'address_street_2'}
                     component={InputField}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
-                        placeholder: Lng.t("customers.address.street2", { locale: language }),
+                        placeholder: Lng.t('customers.address.street2', {
+                            locale
+                        }),
                         autoCorrect: true,
                         multiline: true,
                         maxLength: MAX_LENGTH
@@ -286,34 +287,34 @@ export class Address extends Component<IProps> {
                 />
 
                 <Field
-                    name={"phone"}
+                    name={'phone'}
                     component={InputField}
-                    hint={Lng.t("customers.address.phone", { locale: language })}
+                    hint={Lng.t('customers.address.phone', { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
                         autoCorrect: true,
-                        keyboardType: 'phone-pad'
+                        keyboardType: 'phone-pad',
+                        onSubmitEditing: () => addressRefs.zip.focus()
                     }}
-                    refLinkFn={(ref) => {
-                        addressRefs.phone = ref;
-                    }}
+                    refLinkFn={ref => (addressRefs.phone = ref)}
                 />
 
                 <Field
-                    name={"zip"}
+                    name={'zip'}
                     component={InputField}
-                    hint={Lng.t("customers.address.zipcode", { locale: language })}
+                    hint={Lng.t('customers.address.zipcode', { locale })}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
                         autoCorrect: true,
                         onSubmitEditing: handleSubmit(this.saveAddress)
                     }}
+                    refLinkFn={ref => (addressRefs.zip = ref)}
                 />
             </View>
-        )
-    }
+        );
+    };
 
     render() {
         const {
@@ -325,13 +326,12 @@ export class Address extends Component<IProps> {
             rightIcon,
             hasBillingAddress,
             handleSubmit,
-            language,
+            locale,
             type,
-            fakeInputProps,
+            fakeInputProps
         } = this.props;
 
-
-        const { visible, values } = this.state
+        const { visible, values } = this.state;
 
         return (
             <View style={styles.container}>
@@ -352,19 +352,19 @@ export class Address extends Component<IProps> {
                     visible={visible}
                     onToggle={this.onToggle}
                     headerProps={{
-                        leftIcon: "long-arrow-alt-left",
                         leftIconPress: () => this.onToggle(),
-                        title: hasBillingAddress ? Lng.t("header.billingAddress", { locale: language }) : Lng.t("header.shippingAddress", { locale: language }),
-                        placement: "center",
+                        title: hasBillingAddress
+                            ? Lng.t('header.billingAddress', { locale })
+                            : Lng.t('header.shippingAddress', { locale }),
+                        placement: 'center',
                         hasCircle: false,
                         noBorder: false,
-                        transparent: false,
+                        transparent: false
                     }}
                     bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 >
                     {this.Screen()}
                 </SlideModal>
-
             </View>
         );
     }

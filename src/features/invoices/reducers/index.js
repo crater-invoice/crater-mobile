@@ -1,6 +1,5 @@
 import {
     SET_INVOICES,
-    CLEAR_INVOICES,
     INVOICES_TRIGGER_SPINNER,
     GET_INVOICES,
     GET_ITEMS,
@@ -14,9 +13,10 @@ import {
     CLEAR_INVOICE,
     SET_INVOICE,
     REMOVE_FROM_INVOICES,
-    SET_ACTIVE_TAB,
-    INVOICES_TABS
-} from "../constants";
+    INVOICES_TABS,
+    SET_RECURRING_INVOICES,
+    UPDATE_FROM_INVOICES
+} from '../constants';
 
 const initialState = {
     invoices: [],
@@ -30,16 +30,16 @@ const initialState = {
         invoicesLoading: false,
         itemsLoading: false,
         invoiceLoading: false,
-        initInvoiceLoading: false
+        initInvoiceLoading: false,
+        changeStatusLoading: false,
+        removeInvoiceLoading: false
     },
     invoiceData: {
         invoice: null,
-        invoiceTemplates: [],
-        nextInvoiceNumber: ''
+        invoiceTemplates: []
     },
     invoiceItems: [],
-    activeTab: 'UNPAID',
-
+    activeTab: 'UNPAID'
 };
 
 export default function invoicesReducer(state = initialState, action) {
@@ -59,9 +59,6 @@ export default function invoicesReducer(state = initialState, action) {
 
             return { ...state, invoices };
 
-        case CLEAR_INVOICES:
-            return { ...state, invoices: [] };
-
         case CLEAR_INVOICE:
             return {
                 ...state,
@@ -74,7 +71,6 @@ export default function invoicesReducer(state = initialState, action) {
             };
 
         case SET_INVOICE:
-
             return { ...state, invoiceData: payload };
 
         case SET_EDIT_INVOICE:
@@ -84,7 +80,6 @@ export default function invoicesReducer(state = initialState, action) {
             return { ...state, loading: { ...state.loading, ...payload } };
 
         case SET_ITEMS:
-
             const { items } = payload;
 
             if (!payload.fresh) {
@@ -93,32 +88,73 @@ export default function invoicesReducer(state = initialState, action) {
             return { ...state, items };
 
         case SET_INVOICE_ITEMS:
-
             const { invoiceItem } = payload;
 
-            return { ...state, invoiceItems: [...state.invoiceItems, ...invoiceItem] };
+            return {
+                ...state,
+                invoiceItems: [...state.invoiceItems, ...invoiceItem]
+            };
 
         case REMOVE_INVOICE_ITEM:
-
             const { id } = payload;
 
-            const invoiceItems = state.invoiceItems.filter(val => (val.item_id || val.id) !== id)
+            const invoiceItems = state.invoiceItems.filter(
+                val => (val.item_id || val.id) !== id
+            );
 
             return { ...state, invoiceItems };
 
         case REMOVE_INVOICE_ITEMS:
-
             return { ...state, invoiceItems: [] };
 
         case REMOVE_FROM_INVOICES:
-
-            const newInvoices = state.invoices.filter(val => val.id !== payload.id)
+            const newInvoices = state.invoices.filter(
+                val => val.id !== payload.id
+            );
 
             return { ...state, invoices: newInvoices };
 
-        case SET_ACTIVE_TAB:
+        case SET_RECURRING_INVOICES:
+            if (payload.prepend) {
+                return {
+                    ...state,
+                    invoices: [...payload.invoices, ...state.invoices]
+                };
+            }
 
-            return { ...state, activeTab: payload.activeTab };
+            if (!payload.fresh) {
+                return {
+                    ...state,
+                    invoices: [...state.invoices, ...payload.invoices]
+                };
+            }
+
+            return { ...state, invoices: payload.invoices };
+        
+        case UPDATE_FROM_INVOICES: {
+            const invoiceMainData = payload.invoice
+
+            const incoicesList = []
+
+            if (state.invoices) {
+                state.invoices.map((invoice) => {
+                    const { id } = invoice
+                    let value = invoice
+
+                    if (id === invoiceMainData.id) {
+                        value = {
+                            ...invoiceMainData
+                        }
+                    }
+                    incoicesList.push(value)
+                })
+            }
+
+            return {
+                ...state,
+                invoices: incoicesList
+            }
+        }
 
         default:
             return state;

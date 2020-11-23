@@ -4,26 +4,21 @@ import { Customers } from '../../components/Customers';
 import * as CustomersAction from '../../actions';
 import { reduxForm, getFormValues } from 'redux-form';
 import { CUSTOMER_SEARCH } from '../../constants';
-import { colors } from '../../../../styles/colors';
-import { SvgXml } from 'react-native-svg';
-import { CUSTOMERS } from '../../../../assets/svg';
-import { getTitleByLanguage, navigateToMainTabs } from '../../../../navigation/actions';
-import { ROUTES } from '../../../../navigation/routes';
-import { withNavigationFocus } from 'react-navigation';
+import { colors } from '@/styles';
+import { getTitleByLanguage } from '@/utils';
+import { CUSTOMERS_ICON } from '@/assets';
+import { AssetSvg } from '@/components';
 
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
     const {
-        customers: { customers, filterCustomers, loading },
-        global: { language }
+        customers: { customers, loading },
+        global: { locale }
     } = state;
 
     return {
         customers,
-        filterCustomers,
-        loading: loading.customersLoading,
-        language,
-        formValues: getFormValues(CUSTOMER_SEARCH)(state) || {},
+        locale,
+        formValues: getFormValues(CUSTOMER_SEARCH)(state) || {}
     };
 };
 
@@ -33,36 +28,24 @@ const mapDispatchToProps = {
 
 //  Redux Forms
 const customerSearchReduxForm = reduxForm({
-    form: CUSTOMER_SEARCH,
+    form: CUSTOMER_SEARCH
 })(Customers);
 
 //  connect
 const CustomersContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(customerSearchReduxForm);
-
 
 CustomersContainer.navigationOptions = ({ navigation }) => ({
     gesturesEnabled: false,
     tabBarLabel: getTitleByLanguage('tabNavigation.customers'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <SvgXml
-            xml={CUSTOMERS}
+        <AssetSvg 
+            name={CUSTOMERS_ICON}
             fill={focused ? colors.primary : colors.darkGray}
-            width="22"
-            height="22"
         />
-    ),
-    tabBarOnPress: () => {
-
-        if (navigation.isFocused()) {
-            return;
-        }
-
-        navigateToMainTabs(navigation, ROUTES.MAIN_CUSTOMERS)
-
-    }
+    )
 });
 
-export default withNavigationFocus(CustomersContainer);
+export default CustomersContainer;

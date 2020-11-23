@@ -1,33 +1,28 @@
+import { isIosPlatform, isIPhoneX } from '@/constants';
 import { StyleSheet } from 'react-native';
-import { colors } from '../../styles/colors';
-import { fonts } from '../../styles/fonts';
-import { isIPhoneX } from '../../api/helper';
+import { colors, fonts } from '@/styles';
 
 export const styles = StyleSheet.create({
-
-    animatedToastView:
-    {
+    animatedToastView: {
         marginHorizontal: 22,
         paddingHorizontal: 25,
         paddingVertical: 11,
         borderRadius: 25,
         zIndex: 9999,
-
         position: 'absolute',
-        bottom: isIPhoneX() ? 110 : 81,
+        bottom: isIPhoneX() ? 130 : 100,
         left: 0,
         right: 0,
-
         backgroundColor: colors.veryDarkGray,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
 
-    title:
-    {
+    title: {
         fontSize: isIPhoneX() ? 15 : 13,
         fontFamily: fonts.poppins,
         alignSelf: 'stretch',
         textAlign: 'center',
-        color: colors.white
+        color: colors.white,
+        paddingTop: isIosPlatform() ? 1 : 3
     }
 });

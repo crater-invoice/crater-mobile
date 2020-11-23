@@ -1,38 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
-import * as ItemsAction from '../../actions'
+import * as ItemsAction from '../../actions';
 import { Items } from '../../components/Items';
 import { ITEM_SEARCH } from '../../constants';
-import { getItemUnits } from '../../../settings/actions';
+import { getItemUnits } from '@/features/settings/actions';
+import { getUnitState } from '../../selectors';
 
-
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
     const {
-        more: { items, filterItems, loading },
-        global: { currency, language },
-        settings: {
-            units,
-            loading: { itemUnitsLoading }
-        }
+        more: { items },
+        global: { currency, locale },
+        settings: { units }
     } = state;
 
     return {
         items,
-        filterItems,
-        loading: loading.itemsLoading,
-        language,
+        locale,
         currency,
-        units,
-        itemUnitsLoading,
-        formValues: getFormValues(ITEM_SEARCH)(state) || {},
+        units: getUnitState(units),
+        formValues: getFormValues(ITEM_SEARCH)(state) || {}
     };
 };
 
 const mapDispatchToProps = {
     getItems: ItemsAction.getItems,
-    getItemUnits: getItemUnits,
+    getItemUnits: getItemUnits
 };
 //  Redux Forms
 const ItemsSearchReduxForm = reduxForm({
@@ -42,11 +35,11 @@ const ItemsSearchReduxForm = reduxForm({
 //  connect
 const ItemsContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(ItemsSearchReduxForm);
 
 ItemsContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default ItemsContainer;

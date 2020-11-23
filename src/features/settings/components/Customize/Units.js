@@ -1,83 +1,83 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
-import { ListView, InputModal, CtDivider } from '../../../../components';
-import { formatListByName, alertMe } from '../../../../api/global';
-import Lng from '../../../../api/lang/i18n';
+import { ListView, InputModal, InfiniteScroll } from '@/components';
+import Lng from '@/lang/i18n';
+import { alertMe } from '@/constants';
 
 export class Units extends Component {
     constructor(props) {
         super(props);
+        this.scrollViewReference = React.createRef();
+        this.modalReference = React.createRef();
         this.state = {
-            visible: false,
-            isCreateMethod: true,
+            isCreateMethod: true
         };
     }
 
-    onToggle = () => {
-        this.setState(({ visible }) => {
-            return { visible: !visible }
-        });
-    }
+    onToggle = () => this?.modalReference?.onToggle?.();
 
     onSave = () => {
-        const { isCreateMethod } = this.state
+        const { isCreateMethod } = this.state;
         const {
             props: {
-                formValues: { unitName = "", unitId = null },
+                formValues: { unitName = '', unitId = null },
                 createItemUnit,
                 editItemUnit
             }
-        } = this.props
+        } = this.props;
 
         const params = {
-            id: unitId,
-            name: unitName
-        }
+            params: {
+                id: unitId,
+                name: unitName
+            },
+            onSuccess: () => this.onToggle()
+        };
 
         if (unitName) {
-            this.onToggle()
-
-            isCreateMethod ? createItemUnit({ params }) :
-                editItemUnit({ params, id: unitId })
+            isCreateMethod ? createItemUnit(params) : editItemUnit(params);
         }
-    }
+    };
 
     onRemove = () => {
         const {
             props: {
-                language,
+                locale,
                 removeItemUnit,
-                formValues: { unitId = null },
+                formValues: { unitId = null }
             }
-        } = this.props
+        } = this.props;
 
         alertMe({
-            title: Lng.t("alert.title", { locale: language }),
-            desc: Lng.t("items.alertUnit", { locale: language }),
+            title: Lng.t('alert.title', { locale }),
+            desc: Lng.t('items.alertUnit', { locale }),
             showCancel: true,
             okPress: () => {
-                this.onToggle()
-                removeItemUnit({ id: unitId })
+                removeItemUnit({
+                    id: unitId,
+                    onSuccess: () => this.onToggle()
+                });
             }
-        })
-    }
+        });
+    };
 
-    IMPORT_INPUT_MODAL = () => {
-        const { visible, isCreateMethod } = this.state
-        const { props: { navigation, language, itemUnitLoading = false } } = this.props
+    INPUT_MODAL = () => {
+        const { isCreateMethod } = this.state;
+        const {
+            props: { locale, itemUnitLoading }
+        } = this.props;
 
         return (
             <InputModal
-                visible={visible}
-                onToggle={() => this.onToggle()}
-                navigation={navigation}
-                language={language}
-                headerTitle={isCreateMethod ?
-                    Lng.t("items.addUnit", { locale: language }) :
-                    Lng.t("items.editUnit", { locale: language })
+                reference={ref => (this.modalReference = ref)}
+                locale={locale}
+                headerTitle={
+                    isCreateMethod
+                        ? Lng.t('items.addUnit', { locale })
+                        : Lng.t('items.editUnit', { locale })
                 }
-                hint={Lng.t("items.unitHint", { locale: language })}
+                hint={Lng.t('items.unitHint', { locale })}
                 fieldName="unitName"
                 onSubmit={() => this.onSave()}
                 onRemove={() => this.onRemove()}
@@ -85,45 +85,47 @@ export class Units extends Component {
                 onSubmitLoading={itemUnitLoading}
                 onRemoveLoading={itemUnitLoading}
             />
-        )
-    }
+        );
+    };
 
     onSelectUnit = ({ name, id }) => {
-        this.props.setFormField("unitId", id)
-        this.openModal(name)
-    }
+        this.props.setFormField('unitId', id);
+        this.openModal(name);
+    };
 
-    openModal = (name = "") => {
-        this.setState({ isCreateMethod: name ? false : true })
-        this.props.setFormField("unitName", name)
-        this.onToggle()
-    }
+    openModal = (name = '') => {
+        this.setState({ isCreateMethod: name ? false : true });
+        this.props.setFormField('unitName', name);
+        this.onToggle();
+    };
 
     render() {
-        const { props: { units, language } } = this.props
+        const {
+            props: { units, locale, getItemUnits }
+        } = this.props;
 
         return (
             <View style={styles.bodyContainer}>
-                {this.IMPORT_INPUT_MODAL()}
-
-                <View>
+                {this.INPUT_MODAL()}
+                <InfiniteScroll
+                    getItems={getItemUnits}
+                    reference={ref => (this.scrollViewReference = ref)}
+                    paginationLimit={20}
+                >
                     <ListView
-                        items={formatListByName(units)}
-                        getFreshItems={(onHide) => {
-                            onHide && onHide()
-                        }}
+                        items={units}
                         onPress={this.onSelectUnit}
                         isEmpty={units ? units.length <= 0 : true}
                         bottomDivider
                         contentContainerStyle={{ flex: 3 }}
                         emptyContentProps={{
-                            title: Lng.t("payments.empty.modeTitle", { locale: language }),
+                            title: Lng.t('payments.empty.modeTitle', { locale })
                         }}
                         itemContainer={{
                             paddingVertical: 8
                         }}
                     />
-                </View>
+                </InfiniteScroll>
             </View>
         );
     }

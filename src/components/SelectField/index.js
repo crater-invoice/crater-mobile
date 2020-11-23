@@ -1,262 +1,189 @@
 // @flow
 
 import React, { Component } from 'react';
-import {
-    View,
-} from 'react-native';
-import styles from './styles';
-import { SlideModal, FakeInput } from '..';
-import { change } from 'redux-form';
-import { CtButton } from '../Button';
-import Lng from '../../api/lang/i18n';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { IProps } from './type';
-import { headerTitle } from '../../api/helper';
+import { change } from 'redux-form';
+import Lng from '@/lang/i18n';
+import { IProps, IStates } from './type';
+import { headerTitle } from '@/styles';
+import styles from './styles';
+import { SlideModal } from '../SlideModal';
+import { FakeInput } from '../FakeInput';
+import { CtButton } from '../Button';
+import { hasValue, isArray } from '@/constants';
+import { internalSearch as searchItem } from '@/utils';
+import { ARROW_ICON } from '@/assets';
+import { PaymentModeModal, UnitModal } from '../Modal';
 
-export class SelectFieldComponent extends Component<IProps> {
+export class SelectFieldComponent extends Component<IProps, IStates> {
+    scrollViewReference: any;
+    inputModelReference: any;
+
     constructor(props) {
         super(props);
+        this.scrollViewReference = React.createRef();
+        this.inputModelReference = React.createRef();
+        this.state = this.initialState();
+    }
 
-        this.state = {
-            page: 1,
-            refreshing: false,
-            pagination: {
-                page: 1,
-                limit: 10,
-                lastPage: 1
-            },
+    componentDidMount() {
+        this.props.reference?.(this);
+        this.setInitialState();
+    }
+
+    componentWillUnmount() {
+        this.props.reference?.(undefined);
+    }
+
+    initialState = () => {
+        return {
             search: '',
             visible: false,
             values: '',
             selectedItems: [],
             oldItems: [],
             defaultItem: [],
-            searchItems: [],
-            oldValue: '',
+            searchItems: []
         };
-    }
+    };
 
-    componentDidMount() {
+    setInitialState = async () => {
         const {
             input: { value },
-            pagination,
             compareField,
             items,
-            apiSearch,
+            selectedItem,
             displayName,
             concurrentMultiSelect
-        } = this.props
+        } = this.props;
 
-        if (typeof items !== 'undefined') {
-            let newValue = ''
-
-            for (const key in items) {
-                if (key !== 'undefined' && items[key]['fullItem'][compareField] === value) {
-                    newValue = items[key]['fullItem'][displayName]
-                }
-            }
-            concurrentMultiSelect && this.setState({
-                selectedItems: value,
-                oldItems: value,
-            })
-
-            this.setState({
-                values: compareField ? newValue : value[displayName],
+        if (selectedItem) {
+            await this.setState({
+                values: selectedItem[displayName],
                 defaultItem: items || [],
-                searchItems: items || [],
-                oldValue: compareField ? value : value[displayName],
-            })
-
-        }
-
-        apiSearch && this.onGetItems({
-            fresh: true,
-            onResult: () => {
-                const {
-                    items,
-                    onSelect,
-                    isMultiSelect,
-                    valueCompareField,
-                    compareField,
-                    input: { onChange, value },
-                    hasFirstItem = true
-                } = this.props
-
-                if (typeof items !== 'undefined' && items.length !== 0 && hasFirstItem) {
-
-                    firstItem = items[0]['fullItem']
-
-                    this.setState({
-                        values: compareField && firstItem[displayName],
-                        oldValue: compareField ? firstItem[compareField] : firstItem[displayName]
-                    })
-
-                    /*  if (!value) {
-                         if (!onSelect) {
-                             isMultiSelect ?
-                                 onChange([
-                                     ...[{ ...firstItem, [valueCompareField]: firstItem[compareField] }]
-                                 ]) : onChange(firstItem)
-                         } else {
-                             onSelect(firstItem)
-                         }
-                     } */
-                }
-            }
-        })
-
-        pagination && this.setState({
-            pagination
-        })
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-        const {
-            concurrentMultiSelect,
-            input: { value },
-            items,
-            compareField,
-            displayName,
-        } = nextProps
-        const { search, oldItems, oldValue } = nextState
-
-        if (concurrentMultiSelect && !search && oldItems.length < value.length) {
-            this.setState({
-                selectedItems: value,
-                oldItems: value
-            })
-        }
-
-        if (typeof items !== 'undefined' && !search) {
-
-            let newValue = ''
-
-            for (const key in items) {
-                if (key !== 'undefined' && items[key]['fullItem'][compareField] === value) {
-                    newValue = items[key]['fullItem'][displayName]
-                }
-            }
-
-            if (value && (oldValue !== value)) {
-                this.setState({
-                    oldValue: compareField ? value : value[displayName],
-                    values: compareField ? newValue : value[displayName],
-                })
-            }
-
-        }
-
-    }
-
-    onGetItems = ({
-        fresh = false,
-        onResult,
-        q = '',
-    } = {}) => {
-
-        const { getItems } = this.props
-
-        const {
-            refreshing,
-            pagination
-        } = this.state;
-
-        if (refreshing) {
+                searchItems: items || []
+            });
             return;
         }
 
-        const paginationParams = fresh ? { ...pagination, page: 1 } : pagination
-
-        if (!fresh && paginationParams.lastPage < paginationParams.page) {
-            return
+        if (!value) {
+            return;
         }
 
-        this.setState({
-            refreshing: true,
-        })
+        let newValue = '';
+        for (const key in items) {
+            if (
+                hasValue(key) &&
+                items[key]['fullItem'][compareField] === value
+            ) {
+                newValue = items[key]['fullItem'][displayName];
+                break;
+            }
+        }
 
-        getItems && getItems({
-            fresh,
-            pagination: paginationParams,
-            params: { search: q },
-            q,
-            onMeta: ({ last_page, current_page }) => {
-                this.setState({
-                    pagination: {
-                        ...paginationParams,
+        concurrentMultiSelect &&
+            (await this.setState({
+                selectedItems: value,
+                oldItems: value
+            }));
 
-                        lastPage: last_page,
-                        page: current_page + 1
-                    }
-                })
-            },
-            onResult: () => {
-                this.setState({
-                    refreshing: false,
-                })
-                onResult && onResult();
-            },
+        await this.setState({
+            values: compareField ? newValue : value[displayName],
+            defaultItem: items || [],
+            searchItems: items || []
         });
-
-    }
+    };
 
     onToggle = () => {
-        const { meta, isEditable = true } = this.props
-        const { visible, defaultItem } = this.state
-
+        const {
+            meta,
+            isEditable = true,
+            input,
+            hasPagination,
+            apiSearch
+        } = this.props;
+        const { visible, defaultItem } = this.state;
 
         if (isEditable) {
-            if (visible)
-                this.setState({ searchItems: defaultItem })
+            if (visible) this.setState({ searchItems: defaultItem });
 
-            this.setState((prevState) => {
-                return { visible: !prevState.visible }
+            this.setState(prevState => {
+                return { visible: !prevState.visible };
             });
 
-            meta.dispatch(change(meta.form, 'search', ''));
+            if (!hasPagination || !apiSearch) {
+                meta.dispatch(change(meta.form, `search-${input?.name}`, ''));
+            }
         }
-    }
+    };
 
-    onItemSelect = (item) => {
-        const {
-            concurrentMultiSelect
-        } = this.props
-        concurrentMultiSelect ? this.toggleItem(item) : this.getAlert(item)
+    changeDisplayValue = async item => {
+        if (!hasValue(item)) {
+            this.setState({ values: null });
+            return;
+        }
 
-    }
+        const { displayName } = this.props;
+        this.setState({ values: item[displayName] });
+    };
 
-    toggleItem = (item) => {
-        const {
-            compareField,
-            valueCompareField,
-        } = this.props
+    changeDisplayValueByUsingCompareField = async val => {
+        const { defaultItem } = this.state;
+        const { compareField, displayName } = this.props;
 
-        const { selectedItems } = this.state
+        if (!isArray(defaultItem)) {
+            return;
+        }
 
-        const newItem = [{ ...item, [valueCompareField]: item[compareField] }]
+        for (const key in defaultItem) {
+            if (defaultItem[key]['fullItem'][compareField] === val) {
+                this.setState({
+                    values: defaultItem[key]['fullItem'][displayName]
+                });
+                break;
+            }
+        }
+    };
+
+    onItemSelect = item => {
+        const { concurrentMultiSelect } = this.props;
+        concurrentMultiSelect ? this.toggleItem(item) : this.getAlert(item);
+    };
+
+    toggleItem = async item => {
+        const { compareField, valueCompareField } = this.props;
+
+        const { selectedItems } = this.state;
+
+        const newItem = [{ ...item, [valueCompareField]: item[compareField] }];
 
         if (selectedItems) {
-            let hasSameItem = selectedItems.filter(val =>
-                JSON.parse(val[valueCompareField]) === JSON.parse(item[compareField])
-            )
+            let hasSameItem = selectedItems.filter(
+                val =>
+                    JSON.parse(val[valueCompareField]) ===
+                    JSON.parse(item[compareField])
+            );
 
             if (hasSameItem.length > 0) {
-                const removedItems = selectedItems.filter(val =>
-                    JSON.parse(val[valueCompareField]) !== JSON.parse(item[compareField])
-                )
+                const removedItems = selectedItems.filter(
+                    val =>
+                        JSON.parse(val[valueCompareField]) !==
+                        JSON.parse(item[compareField])
+                );
 
-                this.setState({ selectedItems: removedItems })
+                await this.setState({ selectedItems: removedItems });
             } else {
-                this.setState({
-                    selectedItems: [...selectedItems, ...newItem],
-                })
+                await this.setState({
+                    selectedItems: [...selectedItems, ...newItem]
+                });
             }
         } else {
-            this.setState({ selectedItems: newItem })
+            await this.setState({ selectedItems: newItem });
         }
-    }
+    };
 
-    getAlert = (item) => {
+    getAlert = item => {
         const {
             displayName,
             input: { onChange, value },
@@ -264,151 +191,169 @@ export class SelectFieldComponent extends Component<IProps> {
             onlyPlaceholder,
             onSelect,
             compareField,
-            valueCompareField,
-            isCompareField = true
-        } = this.props
-
-        if (!isMultiSelect && value) {
-            const hasCompare = compareField ? value === item[compareField] :
-                JSON.parse(value.id) === JSON.parse(item.id)
-
-            if (hasCompare) {
-                // alert(`The ${item[displayName]} already added`)
-                this.onToggle()
-                return
-            }
-        }
+            valueCompareField
+        } = this.props;
 
         if (isMultiSelect && value) {
-            let hasSameItem = value.filter(val => JSON.parse(val[valueCompareField]) === JSON.parse(item[compareField]))
+            let hasSameItem = value.filter(
+                val =>
+                    JSON.parse(val[valueCompareField]) ===
+                    JSON.parse(item[compareField])
+            );
 
             if (hasSameItem.length > 0) {
-                // alert(`The ${item[displayName]} already added`)
-                this.onToggle()
-                return
+                this.onToggle();
+                return;
             }
         }
 
-        !onlyPlaceholder && this.setState({
-            values: item[displayName]
-        })
+        if (!onlyPlaceholder) {
+            this.setState({ values: item[displayName] });
+        }
 
         if (!onSelect) {
-            isMultiSelect ?
-                onChange([
-                    ...value,
-                    ...[{ ...item, [valueCompareField]: item[compareField] }]
-                ]) : onChange(item)
+            isMultiSelect
+                ? onChange([
+                      ...value,
+                      ...[{ ...item, [valueCompareField]: item[compareField] }]
+                  ])
+                : onChange(item);
         } else {
-            onSelect(item)
+            onSelect(item);
         }
 
-        !onlyPlaceholder && this.setState({
-            oldValue: item[compareField]
-        })
+        this.onToggle();
+    };
 
-        this.onToggle()
-    }
-
-    onSearch = (search) => {
-        this.setState({ search })
+    onSearch = search => {
+        this.setState({ search });
         const { apiSearch, isInternalSearch } = this.props;
 
-        apiSearch && !isInternalSearch ? this.onGetItems({ fresh: true, q: search }) : this.internalSearch(search)
-    }
+        apiSearch && !isInternalSearch
+            ? this.searchPaginateItems(search)
+            : this.internalSearch(search);
+    };
 
-    internalSearch = (search) => {
+    searchPaginateItems = search => {
+        this.scrollViewReference?.getItems?.({
+            queryString: { search },
+            showLoader: true
+        });
+    };
 
-        const { items, searchFields, onSearch, isInternalSearch } = this.props;
-        let newData = [];
-        const { defaultItem } = this.state
+    internalSearch = async search => {
+        const { items, searchFields, isInternalSearch } = this.props;
+        const { defaultItem } = this.state;
 
-        let searchItems = isInternalSearch ? items : defaultItem
+        const searchItems = isInternalSearch ? items : defaultItem;
 
-        if (typeof searchItems !== 'undefined' && searchItems.length != 0) {
-            newData = searchItems.filter((item) => {
-                let filterData = false
+        const newData = searchItem({
+            items: searchItems,
+            search,
+            searchFields
+        });
 
-                searchFields.filter((field) => {
-                    let itemField = item.fullItem[field]
-
-                    if (typeof itemField === 'number') {
-                        itemField = itemField.toString()
-                    }
-
-                    if (itemField !== null && typeof itemField !== 'undefined') {
-                        itemField = itemField.toLowerCase()
-
-                        let searchData = search.toString().toLowerCase()
-
-                        if (itemField.indexOf(searchData) > -1) {
-                            filterData = true
-                        }
-                    }
-                })
-                return filterData
-            });
-        }
-
-        this.setState({ searchItems: newData })
-    }
+        await this.setState({ searchItems: newData });
+    };
 
     onSubmit = () => {
-        const { input: { onChange, value } } = this.props
+        const {
+            input: { onChange, value }
+        } = this.props;
 
-        const { selectedItems } = this.state
+        const { selectedItems } = this.state;
 
-        onChange(selectedItems)
+        onChange(selectedItems);
 
         this.setState({
             oldItems: selectedItems
-        })
+        });
 
-        this.onToggle()
-    }
+        this.onToggle();
+    };
 
     onRightIconPress = () => {
-        const { rightIconPress } = this.props
-        this.onToggle()
-        rightIconPress && rightIconPress()
-    }
+        const { inputModalName, rightIconPress } = this.props;
 
-    BOTTOM_ACTION = () => {
-        const { language } = this.props
-
-        return (
-            <View style={styles.submitButton}>
-                <View style={{ flex: 1 }}>
-                    <CtButton
-                        onPress={this.onSubmit}
-                        btnTitle={Lng.t("button.done", { locale: language })}
-                        containerStyle={styles.handleBtn}
-                    />
-                </View>
-            </View>
-        )
-    }
-
-    getEmptyTitle = () => {
-        const { language, emptyContentProps: { contentType } } = this.props
-        const { search } = this.state
-
-        let emptyTitle = ''
-
-        if (contentType) {
-            emptyTitle = Lng.t(`${contentType}.empty.title`, { locale: language })
+        if (inputModalName) {
+            this.toggleInputModal();
+            return;
         }
 
-        let noSearchResult = Lng.t("search.noSearchResult", { locale: language })
+        this.onToggle();
+        setTimeout(() => rightIconPress?.(), 300);
+        return;
+    };
 
-        return search ? `${noSearchResult} "${search}"` : emptyTitle
-    }
+    toggleInputModal = () => {
+        this.inputModelReference?.onToggle?.();
+    };
+
+    getEmptyTitle = () => {
+        const { locale, emptyContentProps } = this.props;
+        const { search } = this.state;
+        const emptyContentType = emptyContentProps?.contentType;
+        let emptyTitle = '';
+
+        if (emptyContentType) {
+            emptyTitle = Lng.t(`${emptyContentType}.empty.title`, { locale });
+        }
+
+        let noSearchResult = Lng.t('search.noSearchResult', { locale });
+
+        return {
+            title: search ? `${noSearchResult} "${search}"` : emptyTitle,
+            description: Lng.t(`${emptyContentType}.empty.description`, {
+                locale
+            })
+        };
+    };
+
+    getPaginationItems = () => {
+        const { search } = this.state;
+
+        this.scrollViewReference?.getItems?.({
+            queryString: { search, ...this.props.queryString }
+        });
+    };
+
+    inputModalComponent = name => {
+        switch (name) {
+            case 'PaymentModeModal':
+                return (
+                    <PaymentModeModal
+                        reference={ref => (this.inputModelReference = ref)}
+                    />
+                );
+
+            case 'UnitModal':
+                return (
+                    <UnitModal
+                        reference={ref => (this.inputModelReference = ref)}
+                    />
+                );
+
+            default:
+                return null;
+        }
+    };
+
+    BOTTOM_ACTION = locale => (
+        <View style={styles.submitButton}>
+            <View style={{ flex: 1 }}>
+                <CtButton
+                    onPress={this.onSubmit}
+                    btnTitle={Lng.t('button.done', { locale })}
+                    containerStyle={styles.handleBtn}
+                />
+            </View>
+        </View>
+    );
 
     render() {
         const {
             containerStyle,
             items,
-            loading,
             label,
             icon,
             placeholder,
@@ -423,115 +368,124 @@ export class SelectFieldComponent extends Component<IProps> {
             emptyContentProps,
             apiSearch,
             searchInputProps,
+            input,
             input: { value },
             isRequired,
-            isInternalSearch
+            isInternalSearch,
+            getItems,
+            locale,
+            paginationLimit,
+            customView,
+            inputModalName
         } = this.props;
 
         const {
-            refreshing,
             visible,
             search,
-            pagination: { lastPage, page },
             values,
             selectedItems,
-            searchItems,
-        } = this.state
+            searchItems
+        } = this.state;
 
-        const canLoadMore = (lastPage >= page)
-
-        let paginationContent = {}
-        let multiSelectProps = {}
-        let bottomActionProps = {}
+        let multiSelectProps = {};
+        let bottomActionProps = {};
 
         if (concurrentMultiSelect) {
             multiSelectProps = {
                 hasCheckbox: true,
                 compareField,
                 valueCompareField,
-                checkedItems: selectedItems,
-            }
+                checkedItems: selectedItems
+            };
             bottomActionProps = {
-                bottomAction: this.BOTTOM_ACTION()
-            }
+                bottomAction: this.BOTTOM_ACTION(locale)
+            };
         }
 
-        if (hasPagination) {
-            paginationContent = {
-                canLoadMore,
-                getFreshItems: (onHide) => {
-                    this.onGetItems({
-                        fresh: true,
-                        onResult: onHide,
-                        q: search,
-                    })
-                },
-                getItems: () => {
-                    this.onGetItems({
-                        q: search,
-                    });
-                },
-            }
+        let internalSearchItem =
+            isInternalSearch && !search ? items : searchItems;
+
+        let infiniteScrollProps = {};
+        if (apiSearch || hasPagination) {
+            infiniteScrollProps = {
+                getItems,
+                reference: ref => (this.scrollViewReference = ref),
+                getItemsInMount: false,
+                onMount: this.getPaginationItems,
+                hideLoader: isArray(items),
+                ...(paginationLimit && { paginationLimit })
+            };
         }
 
-        let internalSearchItem = (isInternalSearch && !search) ? items : searchItems
+        const layoutHeaderProps = {
+            leftIcon: ARROW_ICON,
+            leftIconPress: () => this.onToggle(),
+            titleStyle: headerTitle({}),
+            placement: 'center',
+            rightIcon: 'plus',
+            hasCircle: false,
+            noBorder: false,
+            transparent: false,
+            rightIconPress: () => this.onRightIconPress(),
+            ...headerProps
+        };
+
+        const listProps = {
+            items: apiSearch ? items : internalSearchItem,
+            onPress: this.onItemSelect,
+            isEmpty: apiSearch ? !isArray(items) : !isArray(internalSearchItem),
+            bottomDivider: true,
+            emptyContentProps: {
+                ...this.getEmptyTitle(),
+                ...emptyContentProps
+            },
+            itemContainer: { paddingVertical: 16 },
+            ...listViewProps,
+            ...multiSelectProps
+        };
+
+        const internalListScrollProps = {
+            scrollViewProps: {
+                contentContainerStyle: {
+                    flex: !isArray(internalSearchItem) ? 1 : 0
+                }
+            }
+        };
+
+        let fieldView = !customView ? (
+            <FakeInput
+                label={label}
+                icon={icon}
+                isRequired={isRequired}
+                values={value && (values || placeholder)}
+                placeholder={placeholder}
+                onChangeCallback={this.onToggle}
+                containerStyle={containerStyle}
+                meta={meta}
+                rightIcon={'angle-down'}
+                {...fakeInputProps}
+            />
+        ) : (
+            customView
+        );
 
         return (
             <View style={styles.container}>
-
-                <FakeInput
-                    label={label}
-                    icon={icon}
-                    isRequired={isRequired}
-                    values={value && (values || placeholder)}
-                    // values={value && values}
-                    placeholder={placeholder}
-                    onChangeCallback={this.onToggle}
-                    containerStyle={containerStyle}
-                    meta={meta}
-                    rightIcon={'angle-right'}
-                    {...fakeInputProps}
-                />
-
+                {fieldView}
                 <SlideModal
                     visible={visible}
                     onToggle={this.onToggle}
-                    headerProps={{
-                        leftIcon: "long-arrow-alt-left",
-                        leftIconPress: () => this.onToggle(),
-                        titleStyle: headerTitle({}),
-                        placement: "center",
-                        rightIcon: "plus",
-                        hasCircle: false,
-                        noBorder: false,
-                        transparent: false,
-                        rightIconPress: () => this.onRightIconPress(),
-                        ...headerProps
-                    }}
+                    headerProps={layoutHeaderProps}
                     searchInputProps={searchInputProps && searchInputProps}
+                    searchFieldProps={{ name: `search-${input?.name}` }}
                     onSearch={this.onSearch}
                     bottomDivider
-                    {...paginationContent}
                     {...bottomActionProps}
-                    listViewProps={{
-                        items: apiSearch ? items : internalSearchItem,
-                        onPress: this.onItemSelect,
-                        refreshing: refreshing,
-                        loading: loading,
-                        isEmpty: typeof items == 'undefined' || (apiSearch ?
-                            items.length <= 0 : internalSearchItem.length <= 0),
-                        bottomDivider: true,
-                        emptyContentProps: {
-                            title: this.getEmptyTitle(),
-                            ...emptyContentProps
-                        },
-                        itemContainer: {
-                            paddingVertical: 16
-                        },
-                        ...listViewProps,
-                        ...multiSelectProps,
-                        ...paginationContent
-                    }}
+                    listViewProps={listProps}
+                    infiniteScrollProps={infiniteScrollProps}
+                    isPagination={apiSearch || hasPagination}
+                    {...internalListScrollProps}
+                    customView={this.inputModalComponent(inputModalName)}
                 />
             </View>
         );
@@ -539,12 +493,10 @@ export class SelectFieldComponent extends Component<IProps> {
 }
 
 const mapStateToProps = ({ global }) => ({
-    language: global.language,
+    locale: global?.locale
 });
-
-const mapDispatchToProps = {};
 
 export const SelectField = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    {}
 )(SelectFieldComponent);

@@ -3,343 +3,413 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Field, change } from 'redux-form';
+import moment from 'moment';
 import styles from './styles';
+import { goBack, MOUNT, ROUTES, UNMOUNT } from '@/navigation';
+import Lng from '@/lang/i18n';
+import * as Linking from 'expo-linking';
+import { alertMe, isArray, MAX_LENGTH } from '@/constants';
+import { IMAGES } from '@/assets';
 import {
     InputField,
     CtButton,
     DefaultLayout,
     FilePicker,
-    SelectPickerField,
     DatePickerField,
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
-import { EXPENSE_FORM, EXPENSE_ADD, EXPENSE_EDIT, EXPENSE_ACTIONS, ACTIONS_VALUE } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import Lng from '../../../../api/lang/i18n';
-import { CATEGORY_ADD } from '../../../settings/constants';
-import { Linking } from 'expo';
-import moment from 'moment';
-import { MAX_LENGTH, alertMe } from '../../../../api/global';
+    SelectField,
+    CustomField
+} from '@/components';
+import {
+    EXPENSE_FORM,
+    EXPENSE_ADD,
+    EXPENSE_EDIT,
+    EXPENSE_ACTIONS,
+    ACTIONS_VALUE,
+    EXPENSE_FIELDS as FIELDS
+} from '../../constants';
+import { CUSTOMER_ADD } from '@/features/customers/constants';
+import { CATEGORY_ADD } from '@/features/settings/constants';
+import { getApiFormattedCustomFields } from '@/utils';
 
-const IMAGE_TYPE = 'image'
+interface IProps {
+    navigation: any;
+    type: string;
+    id: number;
+    getExpenseDetail: Function;
+    createExpense: Function;
+    updateExpense: Function;
+    removeExpense: Function;
+    locale: string;
+    dispatch: Function;
+    loading: boolean;
+    endpointURL: string;
+    handleSubmit: Function;
+    categories: Array<any>;
+    customers: Array<any>;
+    getCategories: Function;
+    getCustomers: Function;
+    customFields: Array<any>;
+    formValues: any;
+}
 
-export class Expense extends React.Component {
+interface IState {
+    attachmentReceipt: any;
+    isLoading: boolean;
+    imageUrl: string;
+    fileLoading: boolean;
+    fileType: string;
+}
+
+export class Expense extends React.Component<IProps, IState> {
+    customerReference: any;
+    categoryReference: any;
+
     constructor(props) {
         super(props);
+        this.customerReference = React.createRef();
+        this.categoryReference = React.createRef();
+
         this.state = {
             attachmentReceipt: null,
             isLoading: true,
             imageUrl: null,
-            newCategory: [],
             fileLoading: false,
-            fileType: IMAGE_TYPE
+            fileType: null
         };
     }
 
     componentDidMount() {
-
-        const {
-            navigation,
-            getCreateExpense,
-            type,
-            getEditExpense,
-            getReceipt,
-            language,
-        } = this.props
-
-        if (type === EXPENSE_EDIT) {
-            let id = navigation.getParam('id', null)
-
-            getEditExpense({
-                id,
-                onResult: ({ media }) => {
-                    media.length !== 0 ?
-                        getReceipt({
-                            id,
-                            onResult: ({ image, type }) => {
-                                this.setState({
-                                    isLoading: false,
-                                    imageUrl: image,
-                                    fileType: type.toLowerCase()
-                                })
-                            }
-                        }) :
-                        this.setState({ isLoading: false })
-                }
-            })
-        } else {
-            getCreateExpense({
-                onResult: ({ categories }) => {
-
-                    if (typeof categories === 'undefined' || categories.length === 0) {
-                        alertMe({
-                            title: Lng.t("expenses.noCategories", { locale: language }),
-                            okText: 'Add',
-                            okPress: () => navigation.navigate(ROUTES.CATEGORY, {
-                                type: CATEGORY_ADD,
-                                onSelect: (val) => {
-                                    this.setNewCategory(val)
-                                }
-                            }),
-                            showCancel: true,
-                            cancelPress: () => navigation.goBack(null)
-                        })
-                    }
-                    else {
-                        this.setState({ isLoading: false })
-                    }
-                }
-            })
-        }
-
-        goBack(MOUNT, navigation)
+        this.setInitialValues();
+        goBack(MOUNT, this.props.navigation);
     }
 
     componentWillUnmount() {
-        this.props.clearExpense()
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
+
+    setInitialValues = () => {
+        const { type, getCreateExpense, getExpenseDetail, id } = this.props;
+
+        if (type === EXPENSE_ADD) {
+            getCreateExpense({
+                onSuccess: () => {
+                    this.setFormField(`expense.${FIELDS.DATE}`, moment());
+                    this.setState({ isLoading: false });
+                }
+            });
+            return;
+        }
+
+        if (type === EXPENSE_EDIT) {
+            getExpenseDetail({
+                id,
+                onSuccess: res => {
+                    this.setFormField(`expense`, res);
+                    this.setState({
+                        imageUrl: res.receipt,
+                        fileType: res?.media?.[0]?.mime_type,
+                        isLoading: false
+                    });
+                    return;
+                }
+            });
+        }
+    };
 
     setFormField = (field, value) => {
         this.props.dispatch(change(EXPENSE_FORM, field, value));
     };
 
-    onSubmitExpense = (value) => {
+    onSubmit = values => {
+        let params = values?.expense;
+
+        for (const key in values?.expense) {
+            params[key] = values?.expense[key] ?? '';
+        }
+
+        params = {
+            ...params,
+            customFields: JSON.stringify(
+                getApiFormattedCustomFields(values?.customFields)
+            )
+        };
         const {
             createExpense,
             navigation,
-            clearExpense,
-            editExpense,
+            updateExpense,
             type,
-            loading
-        } = this.props
-        const { attachmentReceipt, fileLoading } = this.state
+            id
+        } = this.props;
 
-        if (!fileLoading && !loading) {
-            type === EXPENSE_ADD ?
-                createExpense({
-                    params: value,
-                    attachmentReceipt,
-                    onResult: () => {
-                        navigation.navigate(ROUTES.MAIN_EXPENSES)
-                        clearExpense()
-                    }
-                }) :
-                editExpense({
-                    params: value,
-                    id: navigation.getParam('id'),
-                    attachmentReceipt,
-                    onResult: () => {
-                        navigation.navigate(ROUTES.MAIN_EXPENSES)
-                        clearExpense()
-                    }
-                })
+        const { attachmentReceipt, fileLoading, isLoading } = this.state;
+
+        if (fileLoading || isLoading) {
+            return;
         }
 
+        if (type === EXPENSE_ADD) {
+            createExpense({
+                params,
+                attachmentReceipt,
+                navigation
+            });
+            return;
+        }
+
+        if (type === EXPENSE_EDIT) {
+            updateExpense({
+                id,
+                params,
+                attachmentReceipt,
+                navigation
+            });
+            return;
+        }
     };
 
     removeExpense = () => {
-        const { removeExpense, navigation, language } = this.props
+        const { removeExpense, navigation, locale } = this.props;
 
         alertMe({
-            title: Lng.t("alert.title", { locale: language }),
-            desc: Lng.t("expenses.alertDescription", { locale: language }),
+            title: Lng.t('alert.title', { locale }),
+            desc: Lng.t('expenses.alertDescription', { locale }),
             showCancel: true,
-            okPress: () => removeExpense({
-                id: navigation.getParam('id', null),
-                navigation
-            })
-        })
-    }
+            okPress: () =>
+                removeExpense({
+                    id: navigation.getParam('id', null),
+                    navigation
+                })
+        });
+    };
 
-    onOptionSelect = (action) => {
-        const { company: { unique_hash }, endpointURL, navigation } = this.props
+    onOptionSelect = action => {
+        const { endpointURL, id } = this.props;
 
-        if (action == ACTIONS_VALUE.REMOVE) {
-            this.removeExpense()
-        } else if (action == ACTIONS_VALUE.DOWNLOAD) {
-            const id = navigation.getParam('id')
-            Linking.openURL(`${endpointURL}/expenses/${id}/receipt/${unique_hash}`)
+        switch (action) {
+            case ACTIONS_VALUE.REMOVE:
+                return this.removeExpense();
+
+            case ACTIONS_VALUE.DOWNLOAD:
+                return Linking.openURL(`${endpointURL}/expenses/${id}/receipt`);
+
+            default:
+                break;
         }
-    }
+    };
 
-    setNewCategory = (val) => {
-        this.setState({
-            newCategory: val,
-            isLoading: false
-        })
-        this.setFormField('expense_category_id', val.id)
-        this.setFormField('expense_date', moment())
-    }
+    navigateToCustomer = () => {
+        const { navigation } = this.props;
+        navigation.navigate(ROUTES.CUSTOMER, {
+            type: CUSTOMER_ADD,
+            onSelect: item => {
+                this.setFormField(`expense.${FIELDS.CUSTOMER}`, item.id);
+                this.customerReference?.changeDisplayValue?.(item);
+            }
+        });
+    };
 
-    getCategoryList = ({ name, id }) => {
-        let Category = { label: name, value: id }
-        return Category
-    }
+    navigateToCategory = () => {
+        const { navigation } = this.props;
+        navigation.navigate(ROUTES.CATEGORY, {
+            type: CATEGORY_ADD,
+            onSelect: item => {
+                this.setFormField(`expense.${FIELDS.CATEGORY}`, item.id);
+                this.categoryReference?.changeDisplayValue?.(item);
+            }
+        });
+    };
 
-    BOTTOM_ACTION = (handleSubmit) => {
-        const { loading, language } = this.props
-        const { fileLoading } = this.state
+    BOTTOM_ACTION = handleSubmit => {
+        const { loading, locale } = this.props;
+        const { fileLoading } = this.state;
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
-                    onPress={handleSubmit(this.onSubmitExpense)}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    onPress={handleSubmit(this.onSubmit)}
+                    btnTitle={Lng.t('button.save', { locale })}
                     loading={loading || fileLoading}
                 />
             </View>
-        )
-    }
-
+        );
+    };
 
     render() {
-
         const {
             navigation,
             handleSubmit,
-            initLoading,
             categories,
-            language,
+            getCategories,
+            locale,
             type,
-            clearExpense,
+            getCustomers,
+            customers,
+            customFields,
             formValues
         } = this.props;
 
-        const { imageUrl, isLoading, newCategory, fileType } = this.state;
+        const { imageUrl, isLoading, fileType } = this.state;
 
-        let CategoriesName = []
+        const isCreateExpense = type === EXPENSE_ADD;
+        const isEditExpense = type === EXPENSE_EDIT;
 
-        if (typeof categories !== 'undefined' && categories.length != 0) {
-            CategoriesName = categories.map((category) => {
-                return this.getCategoryList(category)
-            })
-        }
+        const hasCustomField = isEditExpense
+            ? formValues?.expense && formValues.expense.hasOwnProperty('fields')
+            : isArray(customFields);
 
-        if (newCategory && newCategory.length !== 0)
-            CategoriesName.push(this.getCategoryList(newCategory))
+        const drownDownProps =
+            !isCreateExpense && !isLoading
+                ? {
+                      options: EXPENSE_ACTIONS(Lng, locale, imageUrl),
+                      onSelect: this.onOptionSelect,
+                      cancelButtonIndex: imageUrl ? 2 : 1,
+                      destructiveButtonIndex: imageUrl ? 1 : 2
+                  }
+                : null;
 
-
-        const isCreateExpense = (type === EXPENSE_ADD)
-
-        let expenseRefs = {}
-        let newCategoryLoading = !(newCategory && newCategory.length === 0)
-        let loading = !newCategoryLoading ? (initLoading || isLoading) : false
-
-        let drownDownProps = (type === EXPENSE_EDIT && !loading) ? {
-            options: EXPENSE_ACTIONS(Lng, language, imageUrl),
-            onSelect: this.onOptionSelect,
-            cancelButtonIndex: imageUrl ? 2 : 1,
-            destructiveButtonIndex: imageUrl ? 1 : 2
-        } : null
+        const headerProps = {
+            leftIconPress: () => navigation.goBack(null),
+            title: isCreateExpense
+                ? Lng.t('header.addExpense', { locale })
+                : Lng.t('header.editExpense', { locale }),
+            placement: 'center',
+            rightIcon: isCreateExpense ? 'save' : null,
+            rightIconPress: handleSubmit(this.onSubmit),
+            rightIconProps: {
+                solid: true
+            }
+        };
 
         return (
             <DefaultLayout
-                headerProps={{
-                    leftIconPress: () => {
-                        navigation.goBack(null)
-                        clearExpense()
-                    },
-                    title: isCreateExpense ?
-                        Lng.t("header.addExpense", { locale: language }) :
-                        Lng.t("header.editExpense", { locale: language }),
-                    placement: "center",
-                    rightIcon: isCreateExpense ? 'save' : null,
-                    rightIconPress: handleSubmit(this.onSubmitExpense),
-                    rightIconProps: {
-                        solid: true
-                    }
-                }}
+                headerProps={headerProps}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{
-                    is: loading
-                }}
+                loadingProps={{ is: isLoading }}
                 dropdownProps={drownDownProps}
             >
-
                 <View style={styles.bodyContainer}>
-
                     <Field
-                        name="attachment_receipt"
+                        name={`expense.${FIELDS.RECEIPT}`}
                         component={FilePicker}
                         mediaType={'All'}
-                        label={Lng.t("expenses.receipt", { locale: language })}
+                        label={Lng.t('expenses.receipt', { locale })}
                         navigation={navigation}
-                        onChangeCallback={(val) =>
+                        onChangeCallback={val =>
                             this.setState({ attachmentReceipt: val })
                         }
-                        imageUrl={fileType.indexOf(IMAGE_TYPE) === 0 ? imageUrl : null}
+                        imageUrl={
+                            fileType && fileType.includes('image')
+                                ? imageUrl
+                                : null
+                        }
                         containerStyle={styles.filePicker}
-                        fileLoading={(val) => {
-                            this.setState({ fileLoading: val })
-                        }}
+                        fileLoading={val => this.setState({ fileLoading: val })}
                     />
 
-                    {!loading && formValues.expense_date && (<Field
-                        name="expense_date"
+                    <Field
+                        name={`expense.${FIELDS.DATE}`}
                         component={DatePickerField}
                         isRequired
-                        label={Lng.t("expenses.date", { locale: language })}
+                        label={Lng.t('expenses.date', { locale })}
                         icon={'calendar-alt'}
-                    />)}
-
+                    />
 
                     <Field
-                        name="amount"
+                        name={`expense.${FIELDS.AMOUNT}`}
                         component={InputField}
                         isRequired
-                        hint={Lng.t("expenses.amount", { locale: language })}
+                        hint={Lng.t('expenses.amount', { locale })}
                         leftIcon={'dollar-sign'}
                         inputProps={{
                             returnKeyType: 'go',
-                            keyboardType: 'numeric',
-                            onSubmitEditing: () => {
-                                expenseRefs.category.focus();
-                            }
+                            keyboardType: 'numeric'
                         }}
                         isCurrencyInput
-                        inputFieldStyle={styles.inputFieldStyle}
                     />
 
                     <Field
-                        name="expense_category_id"
-                        component={SelectPickerField}
+                        name={`expense.${FIELDS.CATEGORY}`}
+                        component={SelectField}
                         isRequired
-                        label={Lng.t("expenses.category", { locale: language })}
-                        fieldIcon='align-center'
-                        items={CategoriesName}
-                        onChangeCallback={(val) => {
-                            this.setFormField('expense_category_id', val)
+                        apiSearch
+                        hasPagination
+                        getItems={getCategories}
+                        items={categories}
+                        displayName="name"
+                        label={Lng.t('expenses.category', { locale })}
+                        icon="align-center"
+                        placeholder={Lng.t('expenses.categoryPlaceholder', {
+                            locale
+                        })}
+                        navigation={navigation}
+                        compareField="id"
+                        onSelect={item =>
+                            this.setFormField(
+                                `expense.${FIELDS.CATEGORY}`,
+                                item.id
+                            )
+                        }
+                        rightIconPress={this.navigateToCategory}
+                        headerProps={{
+                            title: Lng.t('expenses.categoryPlaceholder', {
+                                locale
+                            })
                         }}
-                        defaultPickerOptions={{
-                            label: Lng.t("expenses.categoryPlaceholder", { locale: language }),
-                            value: '',
-                        }}
-                        containerStyle={styles.selectPicker}
-                        refLinkFn={(ref) => {
-                            expenseRefs.category = ref;
-                        }}
-                        onDonePress={() => expenseRefs.notes.focus()}
+                        emptyContentProps={{ contentType: 'categories' }}
+                        reference={ref => (this.categoryReference = ref)}
                     />
 
                     <Field
-                        name={'notes'}
+                        name={`expense.${FIELDS.CUSTOMER}`}
+                        component={SelectField}
+                        apiSearch
+                        hasPagination
+                        getItems={getCustomers}
+                        items={customers}
+                        displayName="name"
+                        label={Lng.t('payments.customer', { locale })}
+                        icon="user"
+                        placeholder={Lng.t('customers.placeholder', {
+                            locale
+                        })}
+                        navigation={navigation}
+                        compareField="id"
+                        onSelect={item =>
+                            this.setFormField(
+                                `expense.${FIELDS.CUSTOMER}`,
+                                item.id
+                            )
+                        }
+                        rightIconPress={this.navigateToCustomer}
+                        headerProps={{
+                            title: Lng.t('customers.title', { locale })
+                        }}
+                        emptyContentProps={{
+                            contentType: 'customers',
+                            image: IMAGES.EMPTY_CUSTOMERS
+                        }}
+                        reference={ref => (this.customerReference = ref)}
+                    />
+
+                    <Field
+                        name={`expense.${FIELDS.NOTES}`}
                         component={InputField}
-                        hint={Lng.t("expenses.notes", { locale: language })}
+                        hint={Lng.t('expenses.notes', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
-                            placeholder: Lng.t("expenses.notesPlaceholder", { locale: language }),
+                            placeholder: Lng.t('expenses.notesPlaceholder', {
+                                locale
+                            }),
                             autoCorrect: true,
                             multiline: true,
                             maxLength: MAX_LENGTH
                         }}
                         height={80}
-                        autoCorrect={true}
-                        refLinkFn={(ref) => {
-                            expenseRefs.notes = ref;
-                        }}
                     />
 
+                    {hasCustomField && (
+                        <CustomField {...this.props} type="expense" />
+                    )}
                 </View>
             </DefaultLayout>
         );

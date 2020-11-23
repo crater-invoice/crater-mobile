@@ -3,12 +3,11 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { ListView, DefaultLayout } from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
-import { colors } from '../../../../styles/colors';
-import Lng from '../../../../api/lang/i18n';
+import { ListView, DefaultLayout } from '@/components';
+import { colors } from '@/styles';
+import Lng from '@/lang/i18n';
 import { CUSTOMIZES_MENU } from '../../constants';
-import { MOUNT, goBack, UNMOUNT } from '../../../../navigation/actions';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 
 export class Customizes extends React.Component {
     constructor(props) {
@@ -22,15 +21,10 @@ export class Customizes extends React.Component {
 
         const {
             navigation,
-            getCustomizeSettings,
-            getPaymentModes,
-            getItemUnits
+            getCustomizeSettings
         } = this.props
 
         getCustomizeSettings()
-        getPaymentModes()
-        getItemUnits()
-
         goBack(MOUNT, navigation)
     }
 
@@ -38,7 +32,7 @@ export class Customizes extends React.Component {
         goBack(UNMOUNT)
     }
 
-    onSelectMenu = ({ route, type }) => {
+    onSelectMenu = ({ route, type = null }) => {
         const { navigation } = this.props
 
         if (route) {
@@ -49,7 +43,7 @@ export class Customizes extends React.Component {
     render() {
         const {
             navigation,
-            language,
+            locale,
             paymentModesLoading,
             itemUnitsLoading
         } = this.props;
@@ -61,7 +55,7 @@ export class Customizes extends React.Component {
                 <DefaultLayout
                     headerProps={{
                         leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
-                        title: Lng.t("header.customize", { locale: language }),
+                        title: Lng.t("header.customize", { locale }),
                         leftIconStyle: { color: colors.dark2 }
                     }}
                     hasSearchField={false}
@@ -69,7 +63,7 @@ export class Customizes extends React.Component {
                 >
                     <View style={styles.listViewContainer}>
                         <ListView
-                            items={CUSTOMIZES_MENU(language, Lng)}
+                            items={CUSTOMIZES_MENU(locale, Lng)}
                             onPress={this.onSelectMenu}
                             leftTitleStyle={styles.listViewTitle}
                             listItemProps={{

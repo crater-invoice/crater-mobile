@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../styles/colors';
-import { fonts } from '../../styles/fonts';
-import { isIosPlatform } from '../../api/helper';
+import { colors, fonts } from '@/styles';
 
 export default StyleSheet.create({
     buttonStyle: {
@@ -9,17 +7,15 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         margin: 0,
-        paddingVertical: 7,
+        paddingVertical: 7
     },
-    buttonContainer: {
-
-    },
+    buttonContainer: {},
     containerStyle: {
         borderWidth: 5,
         borderRadius: 10,
         borderColor: 'transparent',
         padding: 0,
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent'
     },
     containerShadow: {
         borderWidth: 1,
@@ -34,20 +30,21 @@ export default StyleSheet.create({
         elevation: 7,
         marginLeft: 5,
         marginRight: 5,
-        marginTop: 10,
+        marginTop: 10
     },
     titleStyle: {
         fontSize: 14,
         fontFamily: fonts.poppinsMedium,
         color: colors.white,
+        textAlign: 'left'
     },
     imageIcon: {
         width: 20,
         height: 20,
-        marginRight: 15,
+        marginRight: 15
     },
 
     buttonOutline: {
         backgroundColor: 'transparent'
-    },
+    }
 });

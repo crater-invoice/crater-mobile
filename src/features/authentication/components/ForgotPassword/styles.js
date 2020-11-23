@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { colors } from '../../../../styles/colors';
+import { colors } from '@/styles';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,7 +22,7 @@ export default styles = StyleSheet.create({
     logoContainer: {
         paddingBottom: 40,
         alignItems: 'center',
-        marginTop: -40,
+        marginTop: -35,
     },
     imgLogo: {
         width: width - 150,

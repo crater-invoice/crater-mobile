@@ -1,140 +1,118 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-
+import * as queryStrings from 'query-string';
+import { getTitleByLanguage } from '@/utils';
+import Request from '@/api/request';
+import { alertMe } from '@/constants';
+import * as TYPES from '../../constants';
 import {
-    settingsTriggerSpinner,
+    settingsTriggerSpinner as spinner,
     setItemUnits,
-    setItemUnit,
+    setItemUnit
 } from '../../actions';
 
-import {
-    GET_ITEM_UNITS,
-    CREATE_ITEM_UNIT,
-    EDIT_ITEM_UNIT,
-    REMOVE_ITEM_UNIT,
-    // Endpoint Api URL
-    GET_ITEM_UNITS_URL,
-    CREATE_ITEM_UNIT_URL,
-    EDIT_ITEM_UNIT_URL,
-    REMOVE_ITEM_UNIT_URL,
-} from '../../constants';
-
-import Request from '../../../../api/request';
-import { hasValue, alertMe } from '../../../../api/global';
-import { getTitleByLanguage } from '../../../../navigation/actions';
-
-
-const alreadyInUse = (error) => {
-
-    if (error.includes("errors") && error.includes("name")) {
-
-        setTimeout(() => {
-            alertMe({
-                desc: getTitleByLanguage('alert.alreadyInUse', "\"Name\"")
-            })
-        }, 1000);
-
-        return true;
-    }
-}
-
-function* getItemUnits(payloadData = {}) {
-
-    yield put(settingsTriggerSpinner({ itemUnitsLoading: true }));
-
+export function* getItemUnits({ payload }) {
+    const { fresh = true, onSuccess, queryString } = payload;
     try {
         const options = {
-            path: GET_ITEM_UNITS_URL(),
+            path: `units?${queryStrings.stringify(queryString)}`
         };
 
         const response = yield call([Request, 'get'], options);
+        if (response?.units) {
+            const { data } = response.units;
+            yield put(setItemUnits({ units: data, fresh }));
+        }
 
-        yield put(setItemUnits({ units: response.units }));
-
-    } catch (error) {
-        console.log(error)
-    } finally {
-        yield put(settingsTriggerSpinner({ itemUnitsLoading: false }));
-    }
+        onSuccess?.(response?.units);
+    } catch (e) {}
 }
 
-function* createItemUnit({ payload: { params } }) {
-
-    yield put(settingsTriggerSpinner({ itemUnitLoading: true }));
+function* createItemUnit({ payload: { params, onSuccess } }) {
+    yield put(spinner({ itemUnitLoading: true }));
 
     try {
-
         const options = {
-            path: CREATE_ITEM_UNIT_URL(),
+            path: `units`,
             body: params
         };
 
         const response = yield call([Request, 'post'], options);
 
-        yield put(setItemUnit({ unit: [response.unit], isCreated: true }));
+        if (response?.unit) {
+            yield put(setItemUnit({ unit: [response.unit], isCreated: true }));
+            onSuccess?.();
+            return;
+        }
 
-    } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText)
+        if (response?.data?.errors?.name) {
+            alertMe({
+                desc: response?.data?.errors.name[0]
+            });
+        }
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ itemUnitLoading: false }));
+        yield put(spinner({ itemUnitLoading: false }));
     }
 }
 
-function* editItemUnit({ payload: { id, params } }) {
-
-    yield put(settingsTriggerSpinner({ itemUnitLoading: true }));
+function* editItemUnit({ payload: { params, onSuccess } }) {
+    yield put(spinner({ itemUnitLoading: true }));
 
     try {
-
         const options = {
-            path: EDIT_ITEM_UNIT_URL(id),
+            path: `units/${params.id}`,
             body: params
         };
 
         const response = yield call([Request, 'put'], options);
 
-        yield put(setItemUnit({ unit: [response.unit], isUpdated: true }));
+        if (response?.unit) {
+            yield put(setItemUnit({ unit: response.unit, isUpdated: true }));
+            onSuccess?.();
+            return;
+        }
 
-    } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText)
+        if (response?.data?.errors?.name) {
+            alertMe({
+                desc: response?.data?.errors.name[0]
+            });
+        }
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ itemUnitLoading: false }));
+        yield put(spinner({ itemUnitLoading: false }));
     }
 }
 
-function* removeItemUnit({ payload: { id } }) {
-
-    yield put(settingsTriggerSpinner({ itemUnitLoading: true }));
+function* removeItemUnit({ payload: { id, onSuccess } }) {
+    yield put(spinner({ itemUnitLoading: true }));
 
     try {
-
         const options = {
-            path: REMOVE_ITEM_UNIT_URL(id),
+            path: `units/${id}`
         };
 
         const response = yield call([Request, 'delete'], options);
 
-        if (response.success)
+        if (response.success) {
             yield put(setItemUnit({ id, isRemove: true }));
+            onSuccess?.();
+            return;
+        }
 
-        if (response.error && response.error === "items_attached")
-            setTimeout(() => {
-                alertMe({
-                    title: getTitleByLanguage("items.alreadyInUseUnit")
-                })
-            }, 1000);
-
-    } catch (error) {
-        // console.log(error);
+        if (response.error && response.error === 'items_attached') {
+            alertMe({
+                title: getTitleByLanguage('items.alreadyInUseUnit')
+            });
+        }
+    } catch (e) {
     } finally {
-        yield put(settingsTriggerSpinner({ itemUnitLoading: false }));
+        yield put(spinner({ itemUnitLoading: false }));
     }
 }
 
 export default function* itemUnitsSaga() {
-    // Item Units
-    // -----------------------------------------
-    yield takeEvery(GET_ITEM_UNITS, getItemUnits);
-    yield takeEvery(CREATE_ITEM_UNIT, createItemUnit);
-    yield takeEvery(EDIT_ITEM_UNIT, editItemUnit);
-    yield takeEvery(REMOVE_ITEM_UNIT, removeItemUnit);
+    yield takeEvery(TYPES.GET_ITEM_UNITS, getItemUnits);
+    yield takeEvery(TYPES.CREATE_ITEM_UNIT, createItemUnit);
+    yield takeEvery(TYPES.EDIT_ITEM_UNIT, editItemUnit);
+    yield takeEvery(TYPES.REMOVE_ITEM_UNIT, removeItemUnit);
 }

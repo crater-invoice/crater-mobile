@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { fonts } from '../../styles/fonts';
-import { colors } from '../../styles/colors';
+import { colors, fonts } from '@/styles';
 
 export const styles = StyleSheet.create({
     modalViewContainer: {
@@ -9,17 +8,18 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.white,
         paddingHorizontal: 15,
         paddingVertical: 15,
-        marginHorizontal: 17,
+        marginHorizontal: 17
     },
     heading: {
         color: colors.dark2,
         fontFamily: fonts.poppins,
         fontSize: 17,
+        textAlign: 'left'
     },
     // row
     rowViewContainer: {
         // flex: 1,
-        flexDirection: "row",
+        flexDirection: 'row'
     },
     rowView: {
         flex: 1
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     },
     // button
     submitButton: {
-        paddingHorizontal: 10,
+        paddingHorizontal: 10
     },
     multipleButton: {
         display: 'flex',
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     handleBtn: {
-        marginHorizontal: 5,
+        marginHorizontal: 5
     },
     buttonContainer: {
         flex: 1

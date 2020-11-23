@@ -7,119 +7,161 @@ import {
     Text,
     StatusBar,
     ScrollView,
-    Platform
+    Platform,
+    Keyboard
 } from 'react-native';
 import styles from './styles';
 import { Field } from 'redux-form';
-import { InputField, CtButton, AssetImage, CtGradientButton, CtHeader } from '../../../../components';
-import Lng from '../../../../api/lang/i18n';
-import { ROUTES } from '../../../../navigation/routes';
-import { IMAGES } from '../../../../config';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { alertMe } from '../../../../api/global';
+import {
+    InputField,
+    AssetImage,
+    CtGradientButton,
+    CtHeader
+} from '@/components';
+import Lng from '@/lang/i18n';
+import { IMAGES } from '@/assets';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { alertMe, isIosPlatform, isIPhoneX } from '@/constants';
+import { isRTL } from '@/utils';
 
 type IProps = {
     label: String,
     icon: String,
     placeholder: String,
     containerStyle: Object,
-    rightIcon: String,
     leftIcon: String,
     color: String,
     value: String,
     items: Object,
     rightIcon: String,
     loading: Boolean,
-    checkEndpointApi: Function
+    checkEndpointApi: Function,
+    navigation: any,
+    skipEndpoint: boolean,
+    locale: string
 };
 
 export class Endpoint extends Component<IProps> {
+    keyboardDidShowListener: any;
+    keyboardDidHideListener: any;
     constructor(props) {
         super(props);
         this.state = {
-            isFocus: false
+            isFocus: false,
+            isKeyboardVisible: false
         };
     }
 
-
     componentDidMount() {
+        const { navigation, skipEndpoint } = this.props;
 
-        const { navigation, skipEndpoint } = this.props
+        skipEndpoint &&
+            goBack(MOUNT, navigation, { route: ROUTES.SETTING_LIST });
 
-        skipEndpoint && goBack(MOUNT, navigation, { route: ROUTES.SETTING_LIST })
+        this.keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            () => this.setState({ isKeyboardVisible: true })
+        );
+        this.keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => this.setState({ isKeyboardVisible: false })
+        );
     }
 
     componentWillUnmount() {
-        const { skipEndpoint } = this.props
-        skipEndpoint && goBack(UNMOUNT)
-    }
+        const { skipEndpoint } = this.props;
+        skipEndpoint && goBack(UNMOUNT);
 
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    }
 
     onSetEndpointApi = ({ endpointURL }) => {
+        this.setState({ isFocus: false });
 
-        this.setState({ isFocus: false })
-
-        const { checkEndpointApi, navigation, language } = this.props
-        let URL = endpointURL
+        const { checkEndpointApi, navigation, locale } = this.props;
+        let URL = endpointURL;
 
         checkEndpointApi({
-            endpointURL: !(URL.charAt(URL.length - 1) === '/') ? URL
+            endpointURL: !(URL.charAt(URL.length - 1) === '/')
+                ? URL
                 : URL.slice(0, -1),
-            onResult: (val) => {
-                !val ? alertMe({ title: Lng.t("endpoint.alertInvalidUrl", { locale: language }) }) :
-                    navigation.navigate(ROUTES.LOGIN)
-
+            onResult: val => {
+                !val
+                    ? alertMe({
+                          title: Lng.t('endpoint.alertInvalidUrl', { locale })
+                      })
+                    : navigation.navigate(ROUTES.LOGIN);
             }
-        })
-    }
+        });
+    };
 
     onBack = () => {
-        this.props.navigation.navigate(ROUTES.SETTING_LIST)
-    }
+        this.props.navigation.navigate(ROUTES.SETTING_LIST);
+    };
 
     toggleFocus = () => {
-        this.setState((prevState) => {
-            return { isFocus: !prevState.isFocus }
+        this.setState(prevState => {
+            return { isFocus: !prevState.isFocus };
         });
-    }
+    };
 
     render() {
         const {
             handleSubmit,
-            language,
-            navigation,
+            locale,
             skipEndpoint = false,
             loading
         } = this.props;
 
+        const { isKeyboardVisible } = this.state;
+        const isIPhone = isIPhoneX();
+        let scrollViewStyle = {
+            paddingTop:
+                isKeyboardVisible && !isIPhone
+                    ? skipEndpoint
+                        ? '-10%'
+                        : isIosPlatform()
+                        ? '17%'
+                        : '12%'
+                    : skipEndpoint
+                    ? isIPhone
+                        ? '20%'
+                        : '15%'
+                    : isIPhone
+                    ? '43%'
+                    : '32%'
+        };
 
         return (
             <View style={styles.container}>
-
                 {skipEndpoint ? (
                     <CtHeader
-                        leftIcon="angle-left"
+                        leftIcon={!isRTL() ? 'angle-left' : 'angle-right'}
                         leftIconPress={() => this.onBack()}
-                        title={Lng.t("header.back", { locale: language })}
+                        title={Lng.t('header.back', { locale })}
                         titleOnPress={() => this.onBack()}
-                        titleStyle={{ marginLeft: -10, marginTop: Platform.OS === 'ios' ? -1 : 2 }}
+                        titleStyle={{
+                            marginLeft: -10,
+                            marginTop: Platform.OS === 'ios' ? -1 : 2
+                        }}
                         placement="left"
                         noBorder
                         transparent
                     />
                 ) : (
-                        <StatusBar
-                            barStyle="dark-content"
-                            hidden={false}
-                            translucent={true}
-                        />
-                    )}
+                    <StatusBar
+                        barStyle="dark-content"
+                        hidden={false}
+                        translucent={true}
+                    />
+                )}
 
                 <ScrollView
-                    style={{ paddingTop: skipEndpoint ? '18%' : '32%' }}
-                    bounces={false}
+                    style={scrollViewStyle}
+                    bounces={isKeyboardVisible}
                     showsVerticalScrollIndicator={false}
-                    keyboardShouldPersistTaps='handled'
+                    keyboardShouldPersistTaps="handled"
                 >
                     <KeyboardAvoidingView
                         style={{ flex: 1 }}
@@ -128,7 +170,6 @@ export class Endpoint extends Component<IProps> {
                         behavior="height"
                     >
                         <View style={styles.main}>
-
                             <View style={styles.logoContainer}>
                                 <AssetImage
                                     imageSource={IMAGES.LOGO_DARK}
@@ -139,30 +180,35 @@ export class Endpoint extends Component<IProps> {
                                 <Field
                                     name="endpointURL"
                                     component={InputField}
-                                    hint={Lng.t("endpoint.endpointURL", { locale: language })}
+                                    hint={Lng.t('endpoint.endpointURL', {
+                                        locale
+                                    })}
                                     inputProps={{
                                         autoCapitalize: 'none',
-                                        placeholder: Lng.t("endpoint.urlPlaceHolder", { locale: language }),
+                                        placeholder: Lng.t(
+                                            'endpoint.urlPlaceHolder',
+                                            { locale }
+                                        ),
                                         autoCorrect: true,
-                                        keyboardType: "url",
-                                        onSubmitEditing: () => this.toggleFocus()
+                                        keyboardType: 'url',
+                                        onSubmitEditing: () =>
+                                            this.toggleFocus()
                                     }}
                                     onFocus={() => this.toggleFocus()}
                                     inputContainerStyle={styles.inputField}
                                 />
                                 <Text style={styles.endpointTextTitle}>
-                                    {Lng.t("endpoint.endpointDesc", { locale: language })}
+                                    {Lng.t('endpoint.endpointDesc', { locale })}
                                 </Text>
                             </View>
 
                             <CtGradientButton
                                 onPress={handleSubmit(this.onSetEndpointApi)}
-                                btnTitle={Lng.t("button.save", { locale: language })}
+                                btnTitle={Lng.t('button.save', { locale })}
                                 loading={this.state.isFocus ? false : loading}
                                 style={styles.buttonStyle}
                                 buttonContainerStyle={styles.buttonContainer}
                             />
-
                         </View>
                     </KeyboardAvoidingView>
                 </ScrollView>
@@ -170,4 +216,3 @@ export class Endpoint extends Component<IProps> {
         );
     }
 }
-

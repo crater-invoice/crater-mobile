@@ -4,17 +4,11 @@ import React from 'react';
 import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
-import {
-    InputField,
-    CtButton,
-    DefaultLayout
-} from '../../../../components';
-import { BUTTON_COLOR } from '../../../../api/consts/core';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import Lng from '../../../../api/lang/i18n';
+import { InputField, CtButton, DefaultLayout } from '@/components';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import Lng from '@/lang/i18n';
 import { CATEGORY_EDIT, CATEGORY_ADD, CATEGORY_FORM } from '../../constants';
-import { ROUTES } from '../../../../navigation/routes';
-import { MAX_LENGTH, alertMe } from '../../../../api/global';
+import { alertMe, BUTTON_COLOR, MAX_LENGTH } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -22,161 +16,154 @@ type IProps = {
     getEditCategory: Function,
     createCategory: Function,
     editCategory: Function,
-    language: String,
+    locale: String,
     type: String,
     getEditCategoryLoading: Boolean,
-    categoryLoading: Boolean,
-}
+    categoryLoading: Boolean
+};
 
 export class Category extends React.Component<IProps> {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        this.state = {};
     }
 
     componentDidMount() {
-        const {
-            navigation,
-            getEditCategory,
-            type,
-            onFirstTimeCreateExpense,
-        } = this.props;
+        const { navigation, getEditCategory, type } = this.props;
 
         if (type === CATEGORY_EDIT) {
-
-            let id = navigation.getParam('categoryId', null)
+            let id = navigation.getParam('categoryId', null);
             getEditCategory({
                 id,
-                onResult: (val) => {
-
-                    const { name, description } = val
-                    this.setFormField('name', name)
-                    this.setFormField('description', description)
+                onResult: val => {
+                    const { name, description } = val;
+                    this.setFormField('name', name);
+                    this.setFormField('description', description);
                 }
             });
         }
 
-        !onFirstTimeCreateExpense ?
-            goBack(MOUNT, navigation) :
-            goBack(MOUNT, navigation, { route: ROUTES.MAIN_EXPENSES })
+        goBack(MOUNT, navigation);
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
 
     setFormField = (field, value) => {
         this.props.dispatch(change(CATEGORY_FORM, field, value));
     };
 
-    onSubmitCategory = (values) => {
-
+    onSubmit = values => {
         const {
             type,
             createCategory,
             editCategory,
             navigation,
-            categoryLoading,
-            onFirstTimeCreateExpense
-        } = this.props
+            categoryLoading
+        } = this.props;
 
         if (!categoryLoading) {
             if (type === CATEGORY_ADD)
                 createCategory({
                     params: values,
-                    onResult: (res) => {
-                        onFirstTimeCreateExpense && onFirstTimeCreateExpense(res)
-
-                        navigation.goBack(null)
+                    onResult: res => {
+                        const onSelect = navigation.getParam('onSelect', null);
+                        onSelect?.(res);
+                        navigation.goBack(null);
                     }
-                })
+                });
             else {
                 let id = navigation.getParam('categoryId', null);
-                editCategory({ id, params: values, navigation })
+                editCategory({ id, params: values, navigation });
             }
         }
     };
 
     removeCategory = () => {
-
-        const { removeCategory, navigation, language, formValues: { name } } = this.props
+        const {
+            removeCategory,
+            navigation,
+            locale,
+            formValues: { name }
+        } = this.props;
 
         alertMe({
-            title: Lng.t("alert.title", { locale: language }),
-            desc: Lng.t("categories.alertDescription", { locale: language }),
+            title: Lng.t('alert.title', { locale }),
+            desc: Lng.t('categories.alertDescription', { locale }),
             showCancel: true,
-            okPress: () => removeCategory({
-                id: navigation.getParam('categoryId', null),
-                navigation,
-                onResult: () => {
-                    alertMe({ title: `${name} ${Lng.t("categories.alreadyUsed", { locale: language })}` })
-                }
-            })
-        })
-    }
+            okPress: () =>
+                removeCategory({
+                    id: navigation.getParam('categoryId', null),
+                    navigation,
+                    onResult: () => {
+                        alertMe({
+                            title: `${name} ${Lng.t('categories.alreadyUsed', {
+                                locale
+                            })}`
+                        });
+                    }
+                })
+        });
+    };
 
-    BOTTOM_ACTION = (handleSubmit) => {
-
-        const {
-            language,
-            categoryLoading,
-            type
-        } = this.props
+    BOTTOM_ACTION = handleSubmit => {
+        const { locale, categoryLoading, type } = this.props;
 
         return (
-            <View style={[styles.submitButton, type === CATEGORY_EDIT && styles.multipleButton]}>
+            <View
+                style={[
+                    styles.submitButton,
+                    type === CATEGORY_EDIT && styles.multipleButton
+                ]}
+            >
                 <CtButton
-                    onPress={handleSubmit(this.onSubmitCategory)}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    onPress={handleSubmit(this.onSubmit)}
+                    btnTitle={Lng.t('button.save', { locale })}
                     buttonContainerStyle={type === CATEGORY_EDIT && styles.flex}
                     containerStyle={styles.btnContainerStyle}
                     loading={categoryLoading}
                 />
 
-                {type === CATEGORY_EDIT &&
+                {type === CATEGORY_EDIT && (
                     <CtButton
                         onPress={this.removeCategory}
-                        btnTitle={Lng.t("button.remove", { locale: language })}
+                        btnTitle={Lng.t('button.remove', { locale })}
                         buttonColor={BUTTON_COLOR.DANGER}
                         containerStyle={styles.btnContainerStyle}
                         buttonContainerStyle={styles.flex}
                         loading={categoryLoading}
                     />
-                }
+                )}
             </View>
-        )
-    }
+        );
+    };
 
     render() {
         const {
             navigation,
             handleSubmit,
-            language,
+            locale,
             getEditCategoryLoading,
-            type,
-            onFirstTimeCreateExpense,
+            type
         } = this.props;
 
-
-        let categoryRefs = {}
+        let categoryRefs = {};
 
         return (
             <DefaultLayout
                 headerProps={{
-                    leftIconPress: () => {
-                        !onFirstTimeCreateExpense ? navigation.goBack(null) :
-                            navigation.navigate(ROUTES.MAIN_EXPENSES)
-                    },
-                    title: type === CATEGORY_EDIT ?
-                        Lng.t("header.editCategory", { locale: language }) :
-                        Lng.t("header.addCategory", { locale: language }),
-                    placement: "center",
-                    rightIcon: "save",
+                    leftIconPress: () => navigation.goBack(null),
+                    title:
+                        type === CATEGORY_EDIT
+                            ? Lng.t('header.editCategory', { locale })
+                            : Lng.t('header.addCategory', { locale }),
+                    placement: 'center',
+                    rightIcon: 'save',
                     rightIconProps: {
-                        solid: true,
+                        solid: true
                     },
-                    rightIconPress: handleSubmit(this.onSubmitCategory),
+                    rightIconPress: handleSubmit(this.onSubmit)
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
@@ -184,12 +171,11 @@ export class Category extends React.Component<IProps> {
                 }}
             >
                 <View style={styles.bodyContainer}>
-
                     <Field
                         name="name"
                         component={InputField}
                         isRequired
-                        hint={Lng.t("categories.title", { locale: language })}
+                        hint={Lng.t('categories.title', { locale })}
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
                             returnKeyType: 'next',
@@ -205,7 +191,7 @@ export class Category extends React.Component<IProps> {
                     <Field
                         name="description"
                         component={InputField}
-                        hint={Lng.t("categories.description", { locale: language })}
+                        hint={Lng.t('categories.description', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -215,14 +201,12 @@ export class Category extends React.Component<IProps> {
                         }}
                         height={100}
                         autoCorrect={true}
-                        refLinkFn={(ref) => {
+                        refLinkFn={ref => {
                             categoryRefs.description = ref;
                         }}
                     />
-
                 </View>
             </DefaultLayout>
         );
     }
 }
-

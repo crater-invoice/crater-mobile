@@ -1,277 +1,239 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import Request from '../../../api/request';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import Request from '@/api/request';
+import * as queryStrings from 'query-string';
+import * as TYPES from '../constants';
+import { ROUTES } from '@/navigation';
+import { alertMe, hasValue } from '@/constants';
+import { getTitleByLanguage } from '@/utils';
+import { getCustomFields } from '@/features/settings/saga/custom-fields';
 import {
-    GET_PAYMENTS,
-    GET_CREATE_PAYMENT,
-    CREATE_PAYMENT,
-    GET_UNPAID_INVOICES,
-    GET_EDIT_PAYMENT,
-    EDIT_PAYMENT,
-    REMOVE_PAYMENT,
-    SEND_PAYMENT_RECEIPT,
-    // Endpoint Api URL
-    GET_PAYMENTS_URL,
-    GET_CREATE_PAYMENTS_URL,
-    CREATE_PAYMENT_URL,
-    GET_UNPAID_INVOICES_URL,
-    GET_EDIT_PAYMENT_URL,
-    EDIT_PAYMENT_URL,
-    REMOVE_PAYMENT_URL,
-    SEND_PAYMENT_RECEIPT_URL,
-} from '../constants';
-
-import {
-    paymentTriggerSpinner,
+    paymentTriggerSpinner as spinner,
+    saveUnpaidInvoices,
     setPayments,
-    setFilterPayments,
+    createFromPayment,
+    updateFromPayment,
+    removeFromPayment
 } from '../actions';
-import { ROUTES } from '../../../navigation/routes';
-import { alertMe, hasValue } from '../../../api/global';
-import { getTitleByLanguage } from '../../../navigation/actions';
+import {
+    getNextNumber,
+    getSettingInfo
+} from '@/features/settings/saga/general';
+import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
 
-const alreadyInUse = (error) => {
-
-    if (error.includes("errors") && error.includes("payment_number")) {
-        alertMe({
-            title: getTitleByLanguage("payments.alreadyInUseNumber")
-        })
-        return true;
-    }
-}
-
-function* getPayments(payloadData) {
-
-    const {
-        payload: {
-            onResult = null,
-            onMeta = null,
-            fresh = true,
-            params = null,
-            filter = false,
-            pagination: { page = 1, limit = 10 } = {},
-        } = {},
-    } = payloadData;
-
-    yield put(paymentTriggerSpinner({ paymentsLoading: true }));
+function* getPayments({ payload }) {
+    const { fresh = true, onSuccess, queryString } = payload;
 
     try {
+        const options = {
+            path: `payments?${queryStrings.stringify(queryString)}`
+        };
 
-        let param = {
-            ...params,
-            page,
-            limit
+        const response = yield call([Request, 'get'], options);
+
+        if (response?.payments) {
+            const { data } = response.payments;
+            yield put(setPayments({ payments: data, fresh }));
         }
-        const options = {
-            path: GET_PAYMENTS_URL(param),
-        };
 
-        const response = yield call([Request, 'get'], options);
-
-        if (!filter)
-            yield put(setPayments({ payments: response.payments.data, fresh }));
-        else
-            yield put(setFilterPayments({ payments: response.payments.data, fresh }));
-
-        onMeta && onMeta(response.payments);
-
-        onResult && onResult(true);
-    } catch (error) {
-        onResult && onResult(false);
-    } finally {
-        yield put(paymentTriggerSpinner({ paymentsLoading: false }));
-    }
+        onSuccess?.(response?.payments);
+    } catch (e) {}
 }
 
-function* getCreatePayment(payloadData) {
-    const {
-        payload: { onResult },
-    } = payloadData;
-
-    yield put(paymentTriggerSpinner({ initPaymentLoading: true }));
-
+function* getCreatePayment({ payload: { onSuccess } }) {
     try {
+        const isAutoGenerate = yield call(getSettingInfo, {
+            payload: { key: 'payment_auto_generate' }
+        });
 
-        const options = {
-            path: GET_CREATE_PAYMENTS_URL(),
-        };
+        const isAuto = isAutoGenerate === 'YES' || isAutoGenerate === 1;
 
-        const response = yield call([Request, 'get'], options);
-        onResult && onResult(response);
+        const response = yield call(getNextNumber, {
+            payload: { key: 'payment' }
+        });
 
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(paymentTriggerSpinner({ initPaymentLoading: false }));
-    }
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.PAYMENT, limit: 'all' }
+            }
+        });
+
+        onSuccess?.({
+            ...response,
+            ...(!isAuto && { nextNumber: null })
+        });
+    } catch (e) {}
 }
 
+function* createPayment({ payload }) {
+    const { params, navigation, submissionError } = payload;
 
-function* createPayment(payloadData) {
-    const {
-        payload: { params, navigation, onResult, hasRecordPayment },
-    } = payloadData;
-    yield put(paymentTriggerSpinner({ paymentLoading: true }));
+    yield put(spinner({ paymentLoading: true }));
 
     try {
-
         const options = {
-            path: CREATE_PAYMENT_URL(),
+            path: `payments`,
             body: params
         };
-
         const response = yield call([Request, 'post'], options);
 
-        if (response.success) {
-
-            navigation.navigate(ROUTES.MAIN_PAYMENTS)
-
-            yield call(getPayments, payload = {});
-        } else {
-            onResult && onResult(response.error)
+        if (response?.data?.errors) {
+            submissionError?.(response?.data?.errors);
+            return;
         }
 
-    } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText)
+        if (response.success) {
+            yield put(createFromPayment({ payment: response.payment }));
+        }
+
+        if (!response.success) {
+            alertMe({
+                desc: getTitleByLanguage('validation.wrong'),
+                okPress: () => navigation.goBack(null)
+            });
+            return;
+        }
+
+        navigation.goBack(null);
+    } catch (e) {
     } finally {
-        yield put(paymentTriggerSpinner({ paymentLoading: false }));
+        yield put(spinner({ paymentLoading: false }));
     }
 }
 
-function* getUnpaidInvoices(payloadData) {
-    const {
-        payload: { onResult, id },
-    } = payloadData;
-
-    yield put(paymentTriggerSpinner({ getUnpaidInvoicesLoading: true }));
+function* getUnpaidInvoices({ payload }) {
+    const { fresh = true, onSuccess, queryString } = payload;
 
     try {
+        if (!hasValue(queryString?.customer_id)) {
+            yield put(saveUnpaidInvoices({ invoices: [], fresh: true }));
+            onSuccess?.();
+            return;
+        }
 
-        const options = {
-            path: GET_UNPAID_INVOICES_URL(id),
-        };
+        const path = `invoices?${queryStrings.stringify(queryString)}`;
+
+        const response = yield call([Request, 'get'], { path });
+
+        if (response?.invoices) {
+            const { data } = response.invoices;
+            yield put(saveUnpaidInvoices({ invoices: data, fresh }));
+        }
+
+        onSuccess?.(response?.invoices);
+    } catch (e) {}
+}
+
+function* getPaymentDetail({ payload: { id, onSuccess } }) {
+    try {
+        const options = { path: `payments/${id}` };
 
         const response = yield call([Request, 'get'], options);
-        onResult && onResult(response.invoices);
 
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(paymentTriggerSpinner({ getUnpaidInvoicesLoading: false }));
-    }
+        if (!response?.payment) {
+            return;
+        }
+
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.PAYMENT, limit: 'all' }
+            }
+        });
+
+        onSuccess?.(response);
+    } catch (e) {}
 }
 
-function* getEditPayment(payloadData) {
-    const {
-        payload: { id, onResult },
-    } = payloadData;
+function* updatePayment({ payload }) {
+    const { id, params, navigation, submissionError } = payload;
 
-    yield put(paymentTriggerSpinner({ initPaymentLoading: true }));
+    yield put(spinner({ paymentLoading: true }));
 
     try {
-
         const options = {
-            path: GET_EDIT_PAYMENT_URL(id),
-        };
-
-        const response = yield call([Request, 'get'], options);
-        onResult && onResult(response)
-
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(paymentTriggerSpinner({ initPaymentLoading: false }));
-    }
-}
-
-
-function* editPayment(payloadData) {
-    const {
-        payload: { id, params, navigation },
-    } = payloadData;
-
-
-    yield put(paymentTriggerSpinner({ paymentLoading: true }));
-
-    try {
-
-        const options = {
-            path: EDIT_PAYMENT_URL(id),
+            path: `payments/${id}`,
             body: params
         };
 
         const response = yield call([Request, 'put'], options);
-        navigation.navigate(ROUTES.MAIN_PAYMENTS)
-        yield call(getPayments, payload = {});
 
-    } catch ({ _bodyText }) {
-        hasValue(_bodyText) && alreadyInUse(_bodyText)
-    } finally {
-        yield put(paymentTriggerSpinner({ paymentLoading: false }));
-    }
-}
-
-function* removePayment(payloadData) {
-    const {
-        payload: { id, navigation },
-    } = payloadData;
-
-    yield put(paymentTriggerSpinner({ paymentLoading: true }));
-
-    try {
-
-        const options = {
-            path: REMOVE_PAYMENT_URL(id),
-        };
-
-        const response = yield call([Request, 'delete'], options);
-
-        if (response.success) {
-            navigation.navigate(ROUTES.MAIN_PAYMENTS)
-            yield call(getPayments, payload = {});
+        if (response?.data?.errors) {
+            submissionError?.(response?.data?.errors);
+            return;
         }
 
-    } catch (error) {
-        // console.log(error);
+        if (response.success) {
+            yield put(updateFromPayment({ payment: response.payment }));
+        }
+
+        if (!response.success) {
+            alertMe({
+                desc: getTitleByLanguage('validation.wrong'),
+                okPress: () => navigation.goBack(null)
+            });
+            return;
+        }
+
+        navigation.goBack(null);
+    } catch (e) {
     } finally {
-        yield put(paymentTriggerSpinner({ paymentLoading: false }));
+        yield put(spinner({ paymentLoading: false }));
     }
 }
 
-
-function* sendPaymentReceipt({ payload: { params, navigation } }) {
-
-    yield put(paymentTriggerSpinner({ paymentLoading: true }));
+function* removePayment({ payload: { id, navigation } }) {
+    yield put(spinner({ paymentLoading: true }));
 
     try {
-
         const options = {
-            path: SEND_PAYMENT_RECEIPT_URL(),
+            path: `payments/delete`,
+            body: { ids: [id] }
+        };
+
+        const response = yield call([Request, 'post'], options);
+
+        if (response.success) {
+            yield put(removeFromPayment({ id }));
+            navigation.goBack(null);
+        }
+    } catch (e) {
+    } finally {
+        yield put(spinner({ paymentLoading: false }));
+    }
+}
+
+function* sendPaymentReceipt({ payload: { params, navigation, onSuccess } }) {
+    yield put(spinner({ sendReceiptLoading: true }));
+
+    try {
+        const options = {
+            path: `payments/${params.id}/send`,
             body: params
         };
 
         const response = yield call([Request, 'post'], options);
 
-        if (response.error && response.error === "user_email_does_not_exist") {
-            alertMe({ title: getTitleByLanguage("alert.action.emailNotExist") })
-        } else {
-            navigation.navigate(ROUTES.MAIN_PAYMENTS)
-            yield call(getPayments, payload = {});
+        if (response.success) {
+            onSuccess?.();
+            navigation.navigate(ROUTES.MAIN_PAYMENTS);
+            return;
         }
 
-    } catch (error) {
-        // console.log(error)
+        alertMe({
+            desc: getTitleByLanguage('validation.wrong')
+        });
+    } catch (e) {
     } finally {
-        yield put(paymentTriggerSpinner({ paymentLoading: false }));
+        yield put(spinner({ sendReceiptLoading: false }));
     }
 }
 
 export default function* paymentsSaga() {
-    yield takeEvery(GET_PAYMENTS, getPayments);
-    yield takeEvery(GET_CREATE_PAYMENT, getCreatePayment);
-    yield takeEvery(CREATE_PAYMENT, createPayment);
-    yield takeEvery(GET_UNPAID_INVOICES, getUnpaidInvoices);
-    yield takeEvery(GET_EDIT_PAYMENT, getEditPayment);
-    yield takeEvery(EDIT_PAYMENT, editPayment);
-    yield takeEvery(REMOVE_PAYMENT, removePayment);
-    yield takeEvery(SEND_PAYMENT_RECEIPT, sendPaymentReceipt);
+    yield takeLatest(TYPES.GET_PAYMENTS, getPayments);
+    yield takeLatest(TYPES.GET_CREATE_PAYMENT, getCreatePayment);
+    yield takeLatest(TYPES.CREATE_PAYMENT, createPayment);
+    yield takeLatest(TYPES.GET_UNPAID_INVOICES, getUnpaidInvoices);
+    yield takeLatest(TYPES.GET_PAYMENT_DETAIL, getPaymentDetail);
+    yield takeLatest(TYPES.UPDATE_PAYMENT, updatePayment);
+    yield takeLatest(TYPES.REMOVE_PAYMENT, removePayment);
+    yield takeLatest(TYPES.SEND_PAYMENT_RECEIPT, sendPaymentReceipt);
 }

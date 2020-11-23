@@ -1,266 +1,158 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import Request from '../../../api/request';
+import Request from '@/api/request';
+import * as queryStrings from 'query-string';
+import * as TYPES from '../constants';
+import { expenseTriggerSpinner, setExpenses } from '../actions';
+import { getCustomers } from '@/features/customers/saga';
+import { getExpenseCategories } from '@/features/settings/saga/categories';
+import { getCustomFields } from '@/features/settings/saga/custom-fields';
+import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
+import { isArray } from '@/constants';
 
-import {
-    GET_EXPENSES,
-    CREATE_EXPENSE,
-    GET_EDIT_EXPENSE,
-    GET_CREATE_EXPENSE,
-    EDIT_EXPENSE,
-    REMOVE_EXPENSE,
-    GET_RECEIPT,
-    DOWNLOAD_RECEIPT,
-    // Endpoint Api URL
-    GET_EXPENSES_URL,
-    GET_CREATE_EXPENSE_URL,
-    CREATE_EXPENSE_URL,
-    EDIT_EXPENSE_URL,
-    GET_EDIT_EXPENSE_URL,
-    REMOVE_EXPENSE_URL,
-    UPLOAD_RECEIPT_URL,
-    SHOW_RECEIPT_URL,
-} from '../constants';
-import {
-    expenseTriggerSpinner,
-    setCategories,
-    setExpenses,
-    setExpense,
-    setFilterExpenses,
-} from '../actions';
-import { ROUTES } from '../../../navigation/routes';
-import { store } from '../../../store';
+function* getCreateExpense({ payload: { onSuccess } }) {
+    try {
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.EXPENSE, limit: 'all' }
+            }
+        });
 
-function* getExpenses(payloadData) {
-    const {
-        payload: {
-            onResult = null,
-            onMeta = null,
-            fresh = true,
-            filter = false,
-            params = null,
-            pagination: { page = 1, limit = 10 } = {},
-        } = {},
-    } = payloadData;
+        onSuccess?.();
+    } catch (e) {}
+}
 
-    yield put(expenseTriggerSpinner({ expensesLoading: true }));
+function* getExpenses({ payload }) {
+    const { fresh = true, onSuccess, queryString } = payload;
 
     try {
+        const options = {
+            path: `expenses?${queryStrings.stringify(queryString)}`
+        };
 
-        let param = {
-            ...params,
-            page,
-            limit
+        const response = yield call([Request, 'get'], options);
+
+        if (response?.expenses) {
+            const { data } = response.expenses;
+            yield put(setExpenses({ expenses: data, fresh }));
         }
 
-        const options = {
-            path: GET_EXPENSES_URL(param),
-        };
-
-        const response = yield call([Request, 'get'], options);
-
-        if (!filter)
-            yield put(setExpenses({ expenses: response.expenses.data, fresh }));
-        else
-            yield put(setFilterExpenses({ expenses: response.expenses.data, fresh }));
-
-        onMeta && onMeta(response.expenses);
-
-        onResult && onResult(true);
-    } catch (error) {
-        // console.log(error);
-        onResult && onResult(false);
-    } finally {
-        yield put(expenseTriggerSpinner({ expensesLoading: false }));
-    }
+        onSuccess?.(response?.expenses);
+    } catch (e) {}
 }
 
+function* createExpense({ payload }) {
+    const { params, attachmentReceipt, navigation } = payload;
 
-function* getCreateExpense(payloadData) {
-
-    const {
-        payload: { onResult } = {}
-    } = payloadData;
-
-    yield put(expenseTriggerSpinner({ initExpenseLoading: true }));
-
-    try {
-
-        const options = {
-            path: GET_CREATE_EXPENSE_URL(),
-        };
-
-        const response = yield call([Request, 'get'], options);
-
-        yield put(setCategories(response));
-
-        onResult && onResult(response)
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(expenseTriggerSpinner({ initExpenseLoading: false }));
-    }
-}
-
-function* createExpense(payloadData) {
-    const {
-        payload: { params, navigation, attachmentReceipt, onResult },
-    } = payloadData;
     yield put(expenseTriggerSpinner({ expenseLoading: true }));
 
     try {
-
-
         const options = {
-            path: CREATE_EXPENSE_URL(),
+            path: `expenses`,
             body: params,
+            withMultipartFormData: true
         };
 
         const response = yield call([Request, 'post'], options);
 
-        if (attachmentReceipt) {
+        if (attachmentReceipt && response?.expense?.id) {
             const options2 = {
-                path: UPLOAD_RECEIPT_URL(response.expense.id),
+                path: `expenses/${response.expense.id}/upload/receipts`,
                 image: attachmentReceipt,
                 type: 'create',
                 imageName: 'attachment_receipt'
-            }
+            };
 
             yield call([Request, 'post'], options2);
         }
 
-        onResult && onResult(response)
-        yield call(getExpenses, payload = {});
-
-    } catch (error) {
-        // console.log(error)
+        navigation.goBack(null);
+    } catch (e) {
     } finally {
         yield put(expenseTriggerSpinner({ expenseLoading: false }));
     }
 }
 
-function* editExpense(payloadData) {
-    const {
-        payload: { params, id, attachmentReceipt, onResult },
-    } = payloadData;
+function* updateExpense({ payload }) {
+    const { params, id, attachmentReceipt, navigation } = payload;
+
     yield put(expenseTriggerSpinner({ expenseLoading: true }));
 
     try {
-
-
         const options = {
-            path: EDIT_EXPENSE_URL(id),
-            body: params,
+            path: `expenses/${id}`,
+            body: { ...params, _method: 'PUT' },
+            withMultipartFormData: true
         };
 
-        const response = yield call([Request, 'put'], options);
+        const response = yield call([Request, 'post'], options);
 
-        if (attachmentReceipt) {
+        if (attachmentReceipt && response?.expense) {
             const options2 = {
-                path: UPLOAD_RECEIPT_URL(id),
+                path: `expenses/${id}/upload/receipts`,
                 image: attachmentReceipt,
                 type: 'edit',
                 imageName: 'attachment_receipt'
-            }
+            };
 
             yield call([Request, 'post'], options2);
         }
 
-
-        onResult && onResult(response)
-        yield call(getExpenses, payload = {});
-
-    } catch (error) {
-        // console.log(error)
+        navigation.goBack(null);
+    } catch (e) {
     } finally {
         yield put(expenseTriggerSpinner({ expenseLoading: false }));
     }
 }
 
-function* getEditExpense(payloadData) {
-    const {
-        payload: { id, onResult },
-    } = payloadData;
-    yield put(expenseTriggerSpinner({ initExpenseLoading: true }));
-
+function* getExpenseDetail({ payload: { id, onSuccess } }) {
     try {
-
-
-        const options = {
-            path: GET_EDIT_EXPENSE_URL(id),
-        };
+        const options = { path: `expenses/${id}` };
 
         const response = yield call([Request, 'get'], options);
 
-        yield put(setExpense(response))
+        yield call(getCustomers, {
+            payload: { queryString: { limit: 'all' } }
+        });
 
-        onResult && onResult(response.expense)
+        yield call(getExpenseCategories, {
+            payload: { queryString: { limit: 'all' } }
+        });
 
-    } catch (error) {
-        // console.log(error)
-    } finally {
-        yield put(expenseTriggerSpinner({ initExpenseLoading: false }));
-    }
+        yield call(getCustomFields, {
+            payload: {
+                queryString: { type: CUSTOM_FIELD_TYPES.EXPENSE, limit: 'all' }
+            }
+        });
+
+        onSuccess?.(response.expense);
+    } catch (e) {}
 }
 
-function* removeExpense(payloadData) {
-    const {
-        payload: { id, navigation },
-    } = payloadData;
-
+function* removeExpense({ payload: { id, navigation } }) {
     yield put(expenseTriggerSpinner({ expenseLoading: true }));
 
     try {
-
-
         const options = {
-            path: REMOVE_EXPENSE_URL(id),
+            path: `expenses/delete`,
+            body: { ids: [id] }
         };
 
-        const response = yield call([Request, 'delete'], options);
+        const response = yield call([Request, 'post'], options);
 
         if (response.success) {
-            navigation.navigate(ROUTES.MAIN_EXPENSES)
-            yield call(getExpenses, payload = {});
+            navigation.goBack(null);
         }
-
-    } catch (error) {
-        // console.log(error);
+    } catch (e) {
     } finally {
         yield put(expenseTriggerSpinner({ expenseLoading: false }));
-    }
-}
-
-function* getReceipt(payloadData) {
-    const {
-        payload: { id, onResult },
-    } = payloadData;
-
-    yield put(expenseTriggerSpinner({ initExpenseLoading: true }));
-
-    try {
-
-
-        const options = {
-            path: SHOW_RECEIPT_URL(id),
-        };
-
-        const response = yield call([Request, 'get'], options);
-
-        onResult && onResult(response)
-
-    } catch (error) {
-        // console.log(error);
-    } finally {
-        yield put(expenseTriggerSpinner({ initExpenseLoading: false }));
     }
 }
 
 export default function* expensesSaga() {
-    yield takeEvery(GET_EXPENSES, getExpenses);
-    yield takeEvery(GET_CREATE_EXPENSE, getCreateExpense);
-    yield takeEvery(CREATE_EXPENSE, createExpense);
-    yield takeEvery(GET_EDIT_EXPENSE, getEditExpense);
-    yield takeEvery(EDIT_EXPENSE, editExpense);
-    yield takeEvery(REMOVE_EXPENSE, removeExpense);
-    yield takeEvery(GET_RECEIPT, getReceipt);
+    yield takeEvery(TYPES.GET_CREATE_EXPENSE, getCreateExpense);
+    yield takeEvery(TYPES.GET_EXPENSES, getExpenses);
+    yield takeEvery(TYPES.CREATE_EXPENSE, createExpense);
+    yield takeEvery(TYPES.GET_EXPENSE_DETAIL, getExpenseDetail);
+    yield takeEvery(TYPES.UPDATE_EXPENSE, updateExpense);
+    yield takeEvery(TYPES.REMOVE_EXPENSE, removeExpense);
 }

@@ -3,13 +3,20 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { DefaultLayout, CtButton, InputField, FilePicker, AssetImage, SelectField } from '../../../../components';
+import {
+    DefaultLayout,
+    CtButton,
+    InputField,
+    FilePicker,
+    AssetImage,
+    SelectField
+} from '@/components';
 import { Field, change } from 'redux-form';
-import Lng from '../../../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { EDIT_COMPANY } from '../../constants';
-import { goBack, UNMOUNT, MOUNT } from '../../../../navigation/actions';
-import { MAX_LENGTH, formatCountries } from '../../../../api/global';
-
+import { formatCountries } from '@/utils';
+import { MAX_LENGTH } from '@/constants';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 
 type IProps = {
     navigation: Object,
@@ -17,21 +24,21 @@ type IProps = {
     getCountries: Function,
     editCompanyInformation: Function,
     handleSubmit: Function,
-    language: String,
+    locale: String,
     editCompanyLoading: Boolean,
     getCompanyInfoLoading: Boolean,
-    countriesLoading: Boolean,
-}
+    countriesLoading: Boolean
+};
 
 let companyField = [
-    "country_id",
-    "state",
-    "city",
-    "zip",
-    "address_street_1",
-    "address_street_2",
-    "phone",
-]
+    'country_id',
+    'state',
+    'city',
+    'zip',
+    'address_street_1',
+    'address_street_2',
+    'phone'
+];
 export class Company extends React.Component<IProps> {
     constructor(props) {
         super(props);
@@ -39,8 +46,8 @@ export class Company extends React.Component<IProps> {
         this.state = {
             image: null,
             logo: null,
-            fileLoading: false,
-        }
+            fileLoading: false
+        };
     }
 
     componentDidMount() {
@@ -49,94 +56,98 @@ export class Company extends React.Component<IProps> {
             getCountries,
             navigation,
             countries
-        } = this.props
+        } = this.props;
 
-        let hasCountryApiCalled = countries ? (typeof countries === 'undefined' || countries.length === 0) : true
+        let hasCountryApiCalled = countries
+            ? typeof countries === 'undefined' || countries.length === 0
+            : true;
 
-        hasCountryApiCalled && getCountries()
+        hasCountryApiCalled && getCountries();
 
         getCompanyInformation({
-            onResult: (company) => {
+            onResult: user => {
+                this.setFormField(
+                    'name',
+                    user.company_id ? user.company.name : ''
+                );
 
-                this.setFormField("name", company.company_id ?
-                    company.company.name : ''
-                )
-
-                if (company.addresses[0]) {
-                    companyField.map((field) => {
-                        this.setFormField(field, company.addresses[0][field])
-                    })
+                if (user.company.address) {
+                    companyField.map(field => {
+                        this.setFormField(field, user.company.address[field]);
+                    });
                 }
-                if (company.company.logo) {
-                    this.setState({ image: company.company.logo })
+                if (user.company.logo) {
+                    this.setState({ image: user.company.logo });
                 }
             }
         });
-        goBack(MOUNT, navigation)
+        goBack(MOUNT, navigation);
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
-
 
     setFormField = (field, value) => {
         this.props.dispatch(change(EDIT_COMPANY, field, value));
     };
 
-    onCompanyUpdate = (value) => {
-        const { navigation, editCompanyInformation, editCompanyLoading } = this.props
-        const { logo, fileLoading } = this.state
+    onCompanyUpdate = value => {
+        const {
+            navigation,
+            editCompanyInformation,
+            editCompanyLoading
+        } = this.props;
+        const { logo, fileLoading } = this.state;
 
         if (!fileLoading && !editCompanyLoading) {
             editCompanyInformation({
                 params: value,
                 logo,
                 navigation
-            })
+            });
         }
+    };
 
-    }
-
-    BOTTOM_ACTION = (handleSubmit) => {
-        const { language, editCompanyLoading } = this.props
-        const { fileLoading } = this.state
+    BOTTOM_ACTION = handleSubmit => {
+        const { locale, editCompanyLoading } = this.props;
+        const { fileLoading } = this.state;
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.onCompanyUpdate)}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    btnTitle={Lng.t('button.save', { locale })}
                     loading={editCompanyLoading || fileLoading}
                 />
             </View>
-        )
-    }
+        );
+    };
 
     render() {
         const {
             navigation,
             handleSubmit,
-            language,
+            locale,
             getCompanyInfoLoading,
             countriesLoading,
-            countries,
+            countries
         } = this.props;
 
-        let companyRefs = {}
+        let companyRefs = {};
 
         return (
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t("header.setting.company", { locale: language }),
+                    title: Lng.t('header.setting.company', { locale }),
                     titleStyle: styles.titleStyle,
-                    placement: "center",
-                    rightIcon: "save",
+                    placement: 'center',
+                    rightIcon: 'save',
                     rightIconProps: {
-                        solid: true,
+                        solid: true
                     },
-                    rightIconPress: handleSubmit(this.onCompanyUpdate),
+                    rightIconPress: handleSubmit(this.onCompanyUpdate)
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
@@ -144,29 +155,26 @@ export class Company extends React.Component<IProps> {
                 }}
             >
                 <View style={styles.mainContainer}>
-
                     <Field
-                        name={"logo"}
+                        name={'logo'}
                         component={FilePicker}
-                        label={Lng.t("settings.company.logo", { locale: language })}
+                        label={Lng.t('settings.company.logo', { locale })}
                         navigation={navigation}
-                        onChangeCallback={(val) =>
-                            this.setState({ logo: val })
-                        }
+                        onChangeCallback={val => this.setState({ logo: val })}
                         imageUrl={this.state.image}
                         containerStyle={{
-                            marginTop: 15,
+                            marginTop: 15
                         }}
-                        fileLoading={(val) => {
-                            this.setState({ fileLoading: val })
+                        fileLoading={val => {
+                            this.setState({ fileLoading: val });
                         }}
                     />
 
                     <Field
-                        name={"name"}
+                        name={'name'}
                         component={InputField}
                         isRequired
-                        hint={Lng.t("settings.company.name", { locale: language })}
+                        hint={Lng.t('settings.company.name', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
@@ -179,49 +187,50 @@ export class Company extends React.Component<IProps> {
                     />
 
                     <Field
-                        name={"phone"}
+                        name={'phone'}
                         component={InputField}
-                        hint={Lng.t("settings.company.phone", { locale: language })}
+                        hint={Lng.t('settings.company.phone', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             keyboardType: 'phone-pad'
                         }}
-                        refLinkFn={(ref) => {
+                        refLinkFn={ref => {
                             companyRefs.phone = ref;
                         }}
                     />
 
                     <Field
-                        name={"country_id"}
+                        name={'country_id'}
                         items={formatCountries(countries)}
                         displayName="name"
                         component={SelectField}
-                        label={Lng.t("customers.address.country", { locale: language })}
-                        placeholder={" "}
-                        rightIcon='angle-right'
+                        label={Lng.t('customers.address.country', { locale })}
+                        placeholder={' '}
+                        rightIcon="angle-right"
                         navigation={navigation}
                         searchFields={['name']}
+                        isInternalSearch
                         compareField="id"
                         onSelect={({ id }) => {
-                            this.setFormField("country_id", id)
+                            this.setFormField('country_id', id);
                         }}
                         headerProps={{
-                            title: Lng.t("header.country", { locale: language }),
+                            title: Lng.t('header.country', { locale }),
                             rightIconPress: null
                         }}
                         listViewProps={{
                             contentContainerStyle: { flex: 7 }
                         }}
                         emptyContentProps={{
-                            contentType: "countries",
+                            contentType: 'countries'
                         }}
                         isRequired
                     />
 
                     <Field
-                        name={"state"}
+                        name={'state'}
                         component={InputField}
-                        hint={Lng.t("customers.address.state", { locale: language })}
+                        hint={Lng.t('customers.address.state', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -233,9 +242,9 @@ export class Company extends React.Component<IProps> {
                     />
 
                     <Field
-                        name={"city"}
+                        name={'city'}
                         component={InputField}
-                        hint={Lng.t("customers.address.city", { locale: language })}
+                        hint={Lng.t('customers.address.city', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -244,36 +253,40 @@ export class Company extends React.Component<IProps> {
                                 companyRefs.street1.focus();
                             }
                         }}
-                        refLinkFn={(ref) => {
+                        refLinkFn={ref => {
                             companyRefs.city = ref;
                         }}
                     />
 
                     <Field
-                        name={"address_street_1"}
+                        name={'address_street_1'}
                         component={InputField}
-                        hint={Lng.t("settings.company.address", { locale: language })}
+                        hint={Lng.t('settings.company.address', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
-                            placeholder: Lng.t("settings.company.street1", { locale: language }),
+                            placeholder: Lng.t('settings.company.street1', {
+                                locale
+                            }),
                             autoCorrect: true,
                             multiline: true,
                             maxLength: MAX_LENGTH
                         }}
                         height={60}
                         autoCorrect={true}
-                        refLinkFn={(ref) => {
+                        refLinkFn={ref => {
                             companyRefs.street1 = ref;
                         }}
                     />
 
                     <Field
-                        name={"address_street_2"}
+                        name={'address_street_2'}
                         component={InputField}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
-                            placeholder: Lng.t("settings.company.street2", { locale: language }),
+                            placeholder: Lng.t('settings.company.street2', {
+                                locale
+                            }),
                             autoCorrect: true,
                             multiline: true,
                             maxLength: MAX_LENGTH
@@ -284,16 +297,15 @@ export class Company extends React.Component<IProps> {
                     />
 
                     <Field
-                        name={"zip"}
+                        name={'zip'}
                         component={InputField}
-                        hint={Lng.t("settings.company.zipcode", { locale: language })}
+                        hint={Lng.t('settings.company.zipcode', { locale })}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
                             onSubmitEditing: handleSubmit(this.onCompanyUpdate)
                         }}
                     />
-
                 </View>
             </DefaultLayout>
         );

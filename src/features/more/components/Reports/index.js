@@ -3,12 +3,11 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { ListView, DefaultLayout } from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
-import { colors } from '../../../../styles/colors';
-import Lng from '../../../../api/lang/i18n';
+import { ListView, DefaultLayout } from '@/components';
+import { colors } from '@/styles';
+import Lng from '@/lang/i18n';
 import { REPORTS_MENU } from '../../constants';
-import { MOUNT, goBack, UNMOUNT } from '../../../../navigation/actions';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 
 export class Reports extends React.Component {
     constructor(props) {
@@ -37,21 +36,21 @@ export class Reports extends React.Component {
     }
 
     render() {
-        const { navigation, language } = this.props;
+        const { navigation, locale } = this.props;
 
         return (
             <View style={styles.container}>
                 <DefaultLayout
                     headerProps={{
                         leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t("header.reports", { locale: language }),
+                        title: Lng.t("header.reports", { locale }),
                         leftIconStyle: { color: colors.dark2 }
                     }}
                     hasSearchField={false}
                 >
                     <View style={styles.listViewContainer}>
                         <ListView
-                            items={REPORTS_MENU(language, Lng)}
+                            items={REPORTS_MENU(locale, Lng)}
                             onPress={this.onSelectMenu}
                             leftTitleStyle={styles.listViewTitle}
                             listItemProps={{

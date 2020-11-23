@@ -1,35 +1,55 @@
-import queryString from 'query-string';
-import { ROUTES } from "../../navigation/routes";
+import { ROUTES } from '@/navigation';
 
 // Forms
 // -----------------------------------------
 export const SET_ENDPOINT_API = 'settingsForm/SET_ENDPOINT_API';
 export const EDIT_ACCOUNT = 'accountForm/EDIT_ACCOUNT';
 export const EDIT_COMPANY = 'accountForm/EDIT_COMPANY';
-export const EDIT_LANGUAGE_AND_CURRENCY = 'accountForm/EDIT_LANGUAGE_AND_CURRENCY';
+export const EDIT_LANGUAGE_AND_CURRENCY =
+    'accountForm/EDIT_LANGUAGE_AND_CURRENCY';
 export const NOTIFICATION = 'notification/NOTIFICATION';
 
 export const SEARCH_TAX = 'taxForm/SEARCH_TAX';
 export const TAX_FORM = 'taxForm/TAX_FORM';
-
 
 export const CATEGORY_SEARCH = 'categories/CATEGORY_SEARCH';
 export const CATEGORY_FORM = 'categories/CATEGORY_FORM';
 
 export const CUSTOMIZE_FORM = 'customize/CUSTOMIZE_FORM';
 
-// Type
+export const CURRENCIES_FORM = 'currencies/CURRENCIES_FORM';
+export const CURRENCY_FORM = 'currencies/CURRENCY_FORM';
+
+export const CUSTOM_FIELDS_FORM = 'custom-field/CUSTOM_FIELDS_FORM';
+export const CUSTOM_FIELD_FORM = 'custom-field/CUSTOM_FIELD_FORM';
+
+export const NOTES_SEARCH = 'notes/NOTES_SEARCH';
+export const NOTE_FORM = 'notes/NOTE_FORM';
+
+// Types
 // -----------------------------------------
 export const CATEGORY_ADD = 'category/CATEGORY_ADD';
 export const CATEGORY_EDIT = 'category/CATEGORY_EDIT';
 export const EDIT_TAX = 'taxType/EDIT_TAX';
 export const ADD_TAX = 'taxType/ADD_TAX';
+export const CREATE_CURRENCY_TYPE = 'currencies/CREATE_CURRENCY_TYPE';
+export const EDIT_CURRENCY_TYPE = 'currencies/EDIT_CURRENCY_TYPE';
+export const CREATE_CUSTOM_FIELD_TYPE = 'custom-field/CREATE_CUSTOM_FIELD_TYPE';
+export const EDIT_CUSTOM_FIELD_TYPE = 'custom-field/EDIT_CUSTOM_FIELD_TYPE';
+export const NOTES_ADD = 'notes/NOTES_ADD';
+export const NOTES_EDIT = 'notes/NOTES_EDIT';
 
-// Actions
 // -----------------------------------------
 export const SETTINGS_SEARCH = 'settings/SETTINGS_SEARCH';
 export const SETTINGS_TRIGGER_SPINNER = 'settings/SETTINGS_TRIGGER_SPINNER';
 export const LOGOUT = 'settings/LOGOUT';
+
+// Next Number
+export const GET_NEXT_NUMBER = 'general/GET_NEXT_NUMBER';
+
+// General Settings
+export const GET_GENERAL_SETTING = 'GET_GENERAL_SETTING';
+export const GET_SETTING_INFO = 'GET_SETTING_INFO';
 
 // Preferences
 export const GET_PREFERENCES = 'preferences/GET_PREFERENCES';
@@ -53,7 +73,8 @@ export const EDIT_ACCOUNT_INFO = 'accountForm/EDIT_ACCOUNT_INFO';
 
 // Categories
 export const GET_EXPENSE_CATEGORIES = 'categories/GET_EXPENSE_CATEGORIES';
-export const GET_CREATE_EXPENSE_CATEGORY = 'categories/GET_CREATE_EXPENSE_CATEGORY';
+export const GET_CREATE_EXPENSE_CATEGORY =
+    'categories/GET_CREATE_EXPENSE_CATEGORY';
 
 // Customize Settings
 export const GET_CUSTOMIZE_SETTINGS = 'customize/GET_CUSTOMIZE_SETTINGS';
@@ -68,6 +89,20 @@ export const CREATE_PAYMENT_MODE = 'payments/CREATE_PAYMENT_MODE';
 export const EDIT_PAYMENT_MODE = 'payments/EDIT_PAYMENT_MODE';
 export const REMOVE_PAYMENT_MODE = 'payments/REMOVE_PAYMENT_MODE';
 
+// Notes
+export const GET_NOTES = 'notes/GET_NOTES';
+export const SET_NOTES = 'notes/SET_NOTES';
+export const GET_CREATE_NOTE = 'notes/GET_CREATE_NOTE';
+export const CREATE_NOTE = 'notes/CREATE_NOTE';
+export const REMOVE_NOTE = 'notes/REMOVE_NOTE';
+export const UPDATE_NOTE = 'notes/UPDATE_NOTE';
+export const GET_NOTE_DETAIL = 'notes/GET_NOTE_DETAIL';
+export const GET_UPDATE_NOTES = 'notes/GET_UPDATE_NOTES';
+export const SAVE_NOTES = 'notes/SAVE_NOTES';
+export const CREATE_FROM_NOTES = 'notes/CREATE_FROM_NOTES';
+export const REMOVE_FROM_NOTES = 'notes/REMOVE_FROM_NOTES';
+export const UPDATE_FROM_NOTES = 'notes/UPDATE_FROM_NOTES';
+
 // Item Unit
 export const GET_ITEM_UNITS = 'units/GET_ITEM_UNITS';
 export const SET_ITEM_UNITS = 'units/SET_ITEM_UNITS';
@@ -75,6 +110,28 @@ export const SET_ITEM_UNIT = 'units/SET_ITEM_UNIT';
 export const CREATE_ITEM_UNIT = 'units/CREATE_ITEM_UNIT';
 export const EDIT_ITEM_UNIT = 'units/EDIT_ITEM_UNIT';
 export const REMOVE_ITEM_UNIT = 'units/REMOVE_ITEM_UNIT';
+
+// Currencies
+export const SET_CURRENCIES = 'currencies/SET_CURRENCIES';
+export const SET_GLOBAL_CURRENCIES = 'currencies/SET_GLOBAL_CURRENCIES';
+export const CREATE_CURRENCY = 'currencies/CREATE_CURRENCY';
+export const EDIT_CURRENCY = 'currencies/EDIT_CURRENCY';
+export const REMOVE_CURRENCY = 'currencies/REMOVE_CURRENCY';
+
+// Languages
+export const SET_LANGUAGES = 'languages/SET_LANGUAGES';
+
+// Custom Fields
+export const GET_CUSTOM_FIELDS = 'custom-field/GET_CUSTOM_FIELDS';
+export const SET_CUSTOM_FIELDS = 'custom-field/SET_CUSTOM_FIELDS';
+export const CREATE_CUSTOM_FIELD = 'custom-field/CREATE_CUSTOM_FIELD';
+export const GET_CUSTOM_FIELD = 'custom-field/GET_CUSTOM_FIELD';
+export const EDIT_CUSTOM_FIELD = 'custom-field/EDIT_CUSTOM_FIELD';
+export const REMOVE_CUSTOM_FIELD = 'custom-field/REMOVE_CUSTOM_FIELD';
+
+export const CREATE_FROM_CUSTOM_FIELDS = 'custom-field/CREATE_FROM_CUSTOM_FIELDS'
+export const REMOVE_FROM_CUSTOM_FIELDS = 'custom-field/REMOVE_FROM_CUSTOM_FIELDS'
+export const UPDATE_FROM_CUSTOM_FIELDS = 'custom-field/UPDATE_FROM_CUSTOM_FIELDS'
 
 // Taxes
 export const GET_TAXES = 'taxes/GET_TAXES';
@@ -91,16 +148,107 @@ export const EDIT_EXPENSE_CATEGORY = 'categories/EDIT_EXPENSE_CATEGORY';
 export const REMOVE_EXPENSE_CATEGORY = 'categories/REMOVE_EXPENSE_CATEGORY';
 
 export const SET_EXPENSE_CATEGORIES = 'categories/SET_EXPENSE_CATEGORIES';
-export const SET_CREATE_EXPENSE_CATEGORIES = 'categories/SET_CREATE_EXPENSE_CATEGORIES';
-export const SET_EDI_EXPENSE_CATEGORIES = 'categories/SET_EDI_EXPENSE_CATEGORIES';
-export const SET_REMOVE_EXPENSE_CATEGORIES = 'categories/SET_REMOVE_EXPENSE_CATEGORIES';
+export const SET_CREATE_EXPENSE_CATEGORIES =
+    'categories/SET_CREATE_EXPENSE_CATEGORIES';
+export const SET_EDI_EXPENSE_CATEGORIES =
+    'categories/SET_EDI_EXPENSE_CATEGORIES';
+export const SET_REMOVE_EXPENSE_CATEGORIES =
+    'categories/SET_REMOVE_EXPENSE_CATEGORIES';
+
+// CustomField Form Fields
+// -----------------------------------------
+export const CUSTOM_FIELDS = {
+    FIELD: 'field', // root object
+
+    NAME: 'name',
+    MODAL_TYPE: 'model_type',
+    IS_REQUIRED: 'is_required',
+    TYPE: 'type',
+    LABEL: 'label',
+    DEFAULT_VALUE: 'default_answer',
+    PLACEHOLDER: 'placeholder',
+    OPTIONS: 'options',
+    ORDER: 'order'
+};
+
+// Custom Field Data Type Option Values
+// -----------------------------------------
+export const DATA_TYPE_OPTION_VALUE = {
+    INPUT: 'Input',
+    TEXTAREA: 'TextArea',
+    PHONE: 'Phone',
+    URL: 'Url',
+    NUMBER: 'Number',
+    DROPDOWN: 'Dropdown',
+    SWITCH: 'Switch',
+    DATE: 'Date',
+    TIME: 'Time',
+    DATE_TIME: 'DateTime'
+};
+
+// Custom Field Data Type Options
+// -----------------------------------------
+const VALUE = DATA_TYPE_OPTION_VALUE;
+
+export const CUSTOM_FIELD_DATA_TYPE_LIST = [
+    { label: 'Text', value: VALUE.INPUT },
+    { label: 'Textarea', value: VALUE.TEXTAREA },
+    { label: 'Phone', value: VALUE.PHONE },
+    { label: 'URL', value: VALUE.URL },
+    { label: 'Number', value: VALUE.NUMBER },
+    { label: 'Select Field', value: VALUE.DROPDOWN },
+    { label: 'Switch Toggle', value: VALUE.SWITCH },
+    { label: 'Date', value: VALUE.DATE },
+    { label: 'Time', value: VALUE.TIME },
+    { label: 'Date & Time', value: VALUE.DATE_TIME }
+];
+
+// Custom Field Modal Type Values
+// -----------------------------------------
+export const MODAL_TYPE_VALUE = {
+    CUSTOMER: 'Customer',
+    INVOICE: 'Invoice',
+    ESTIMATE: 'Estimate',
+    EXPENSE: 'Expense',
+    PAYMENT: 'Payment'
+};
+
+// Custom Field Type
+// -----------------------------------------
+export const CUSTOM_FIELD_TYPES = MODAL_TYPE_VALUE;
+export const CUSTOM_FIELD_DATA_TYPES = DATA_TYPE_OPTION_VALUE;
+
+// Custom Field Modal
+// -----------------------------------------
+export const CUSTOM_FIELD_MODAL_TYPES = [
+    { label: 'Customer', value: MODAL_TYPE_VALUE.CUSTOMER },
+    { label: 'Invoice', value: MODAL_TYPE_VALUE.INVOICE },
+    { label: 'Estimate', value: MODAL_TYPE_VALUE.ESTIMATE },
+    { label: 'Expense', value: MODAL_TYPE_VALUE.EXPENSE },
+    { label: 'Payment', value: MODAL_TYPE_VALUE.PAYMENT }
+];
+
+// Notes Field Modal
+// -----------------------------------------
+
+export const NOTES_TYPE_VALUE = {
+    INVOICE: 'Invoice',
+    ESTIMATE: 'Estimate',
+    PAYMENT: 'Payment'
+};
+
+export const NOTES_FIELD_MODAL_TYPES = [
+    { label: 'Invoice', value: NOTES_TYPE_VALUE.INVOICE },
+    { label: 'Estimate', value: NOTES_TYPE_VALUE.ESTIMATE },
+    { label: 'Payment', value: NOTES_TYPE_VALUE.PAYMENT }
+];
 
 // Menus
 // -----------------------------------------
-export const SETTINGS_MENU = (language, Lng) => {
+export const SETTINGS_MENU = (locale, Lng) => {
     return [
         {
-            title: Lng.t("settings.accountSettings", { locale: language }),
+            title: Lng.t('settings.accountSettings', { locale }),
             leftIcon: 'user',
             iconSize: 24,
             fullItem: {
@@ -108,7 +256,7 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t("settings.companyInformation", { locale: language }),
+            title: Lng.t('settings.companyInformation', { locale }),
             leftIcon: 'building',
             iconSize: 24,
             fullItem: {
@@ -116,7 +264,7 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t("settings.preference", { locale: language }),
+            title: Lng.t('settings.preference', { locale }),
             leftIcon: 'sun',
             leftIconSolid: true,
             fullItem: {
@@ -124,15 +272,7 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t("settings.notification", { locale: language }),
-            leftIcon: 'bell',
-            iconSize: 25,
-            fullItem: {
-                route: ROUTES.NOTIFICATIONS
-            }
-        },
-        {
-            title: Lng.t("settings.LanguageAndCurrency", { locale: language }),
+            title: Lng.t('settings.LanguageAndCurrency', { locale: locale }),
             leftIcon: 'language',
             iconSize: 21,
             fullItem: {
@@ -140,7 +280,7 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t("settings.customize", { locale: language }),
+            title: Lng.t('settings.customize', { locale }),
             leftIcon: 'edit',
             iconSize: 22,
             fullItem: {
@@ -148,14 +288,37 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t("settings.taxes", { locale: language }),
+            title: Lng.t('settings.notification', { locale }),
+            leftIcon: 'bell',
+            iconSize: 25,
+            fullItem: {
+                route: ROUTES.NOTIFICATIONS
+            }
+        },
+        {
+            title: Lng.t('settings.taxes', { locale }),
             leftIcon: 'percent',
             fullItem: {
                 route: ROUTES.TAXES
             }
         },
         {
-            title: Lng.t("settings.expenseCategory", { locale: language }),
+            title: Lng.t('header.customFields', { locale }),
+            leftIcon: 'cube',
+            fullItem: {
+                route: ROUTES.CUSTOM_FIELDS
+            }
+        },
+        {
+            title: Lng.t('settings.notes', { locale }),
+            leftIcon: 'pen-square',
+            iconSize: 24,
+            fullItem: {
+                route: ROUTES.NOTES
+            }
+        },
+        {
+            title: Lng.t('settings.expenseCategory', { locale }),
             leftIcon: 'clipboard-list',
             iconSize: 24,
             fullItem: {
@@ -163,108 +326,105 @@ export const SETTINGS_MENU = (language, Lng) => {
             }
         },
         {
-            title: Lng.t("settings.endpoint", { locale: language }),
+            title: Lng.t('settings.endpoint', { locale }),
             leftIcon: 'link',
             fullItem: {
                 route: ROUTES.ENDPOINTS_SETTINGS
             }
-        },
-    ]
-}
+        }
+    ];
+};
 
 // Customize Type
 // -----------------------------------------
 export const CUSTOMIZE_TYPE = {
+    ADDRESSES: 'customize/ADDRESSES',
     INVOICES: 'customize/Invoices',
     ESTIMATES: 'customize/ESTIMATES',
     PAYMENTS: 'customize/PAYMENTS',
     ITEMS: 'customize/ITEMS',
-}
+    CURRENCIES: 'customize/CURRENCIES'
+};
 
 // Customize Menu
 // -----------------------------------------
-export const CUSTOMIZES_MENU = (language, Lng) => {
+export const CUSTOMIZES_MENU = (locale, Lng) => {
     return [
         {
-            title: Lng.t("header.invoices", { locale: language }),
+            title: Lng.t('header.invoices', { locale }),
             fullItem: {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.INVOICES
             }
         },
         {
-            title: Lng.t("header.estimates", { locale: language }),
+            title: Lng.t('header.estimates', { locale }),
             fullItem: {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.ESTIMATES
             }
         },
         {
-            title: Lng.t("header.payments", { locale: language }),
+            title: Lng.t('header.payments', { locale }),
             fullItem: {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.PAYMENTS
             }
         },
         {
-            title: Lng.t("header.items", { locale: language }),
+            title: Lng.t('header.items', { locale }),
             fullItem: {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.ITEMS
             }
         }
-    ]
-}
+    ];
+};
+
+// Customize Address Fields
+// -----------------------------------------
 
 export const PAYMENT_TABS = {
     MODE: 'MODE',
-    PREFIX: 'PREFIX',
+    PREFIX: 'PREFIX'
 };
 
-// Endpoint Api URL
+// Term & Condition Field
 // -----------------------------------------
-export const GET_COMPANY_URL = () => `settings/company`
-export const EDIT_COMPANY_URL = () => `settings/company`
+export const COMPANY_SETTINGS_TYPE = [
+    'payment_auto_generate',
+    'payment_prefix',
+    'invoice_auto_generate',
+    'invoice_prefix',
+    'invoice_mail_body',
+    'estimate_auto_generate',
+    'estimate_prefix',
+    'estimate_mail_body',
+    'invoice_billing_address_format',
+    'invoice_shipping_address_format',
+    'invoice_company_address_format',
+    'payment_mail_body',
+    'payment_company_address_format',
+    'payment_from_customer_address_format',
+    'estimate_company_address_format',
+    'estimate_billing_address_format',
+    'estimate_shipping_address_format'
+];
 
-export const GET_ACCOUNT_URL = () => `settings/profile`
-export const EDIT_ACCOUNT_URL = () => `settings/profile`
-export const EDIT_ACCOUNT_AVATAR_URL = () => `settings/profile/upload-avatar`
+export const PREFERENCES_SETTING_TYPE = [
+    'currency',
+    'time_zone',
+    'language',
+    'fiscal_year',
+    'carbon_date_format',
+    'moment_date_format',
+    'discount_per_item',
+    'tax_per_item'
+];
 
-export const GET_PREFERENCES_URL = () => `settings/general`
-export const EDIT_PREFERENCES_URL = () => `settings/general`
-
-export const GET_GENERAL_SETTING_URL = (key) => `settings/get-setting?key=${key}`
-export const EDIT_GENERAL_SETTING_URL = () => `settings/update-setting`
-
-export const UPLOAD_LOGO_URL = () => `settings/company/upload-logo`
-
-// Expense Categories
-export const GET_EXPENSE_CATEGORIES_URL = () => `categories`
-export const GET_EDIT_EXPENSE_CATEGORIES_URL = (id) => `categories/${id}/edit`
-
-export const CREATE_EXPENSE_CATEGORIES_URL = () => `categories`
-export const EDIT_EXPENSE_CATEGORIES_URL = (id) => `categories/${id}`
-export const REMOVE_EXPENSE_CATEGORIES_URL = (id) => `categories/${id}`
-
-// Tax Types
-export const GET_SALES_TAXES_URL = () => `tax-types`
-
-export const CREATE_SALES_TAX_URL = () => `tax-types`
-export const EDIT_SALES_TAX_URL = (tax) => `tax-types/${tax.id}`
-export const REMOVE_SALES_TAX_URL = (id) => `tax-types/${id}`
-
-// Customize Settings
-export const GET_CUSTOMIZE_SETTINGS_URL = () => `settings/get-customize-setting`
-export const EDIT_CUSTOMIZE_SETTINGS_URL = () => `settings/update-customize-setting`
-
-// Payment Methods
-export const GET_PAYMENT_MODES_URL = () => `payment-methods`
-export const CREATE_PAYMENT_MODE_URL = () => `payment-methods`
-export const EDIT_PAYMENT_MODE_URL = (id) => `payment-methods/${id}`
-export const REMOVE_PAYMENT_MODE_URL = (id) => `payment-methods/${id}`
-
-// Item Unit
-export const GET_ITEM_UNITS_URL = () => `units`
-export const CREATE_ITEM_UNIT_URL = () => `units`
-export const EDIT_ITEM_UNIT_URL = (id) => `units/${id}`
-export const REMOVE_ITEM_UNIT_URL = (id) => `units/${id}`
+// Notification
+export const NOTIFICATION_MAIL_TYPE = [
+    'notify_invoice_viewed',
+    'notify_estimate_viewed',
+    'notification_email'
+];

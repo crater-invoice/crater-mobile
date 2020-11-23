@@ -5,7 +5,12 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as MoreAction from '../../actions';
 import { ITEM_FORM, EDIT_ITEM } from '../../constants';
-import { getItemUnits, getSettingItem } from '../../../settings/actions';
+import {
+    getItemUnits,
+    getSettingInfo,
+    getTaxes
+} from '@/features/settings/actions';
+import { getUnitState } from '../../selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -15,14 +20,17 @@ const mapStateToProps = (state, { navigation }) => {
             units,
             loading: { itemUnitsLoading }
         },
-        global: { language, currency, taxTypes },
+        global: { locale, currency, taxTypes }
     } = state;
 
     const itemId = navigation.getParam('id', {});
 
     const type = navigation.getParam('type');
 
-    const isLoading = loading.itemLoading || itemUnitsLoading || (type === EDIT_ITEM && !item)
+    const isLoading =
+        loading?.itemLoading ||
+        itemUnitsLoading ||
+        (type === EDIT_ITEM && !item);
 
     return {
         loading: isLoading,
@@ -30,15 +38,16 @@ const mapStateToProps = (state, { navigation }) => {
         itemId,
         taxTypes,
         taxByItems,
-        language,
+        locale,
         type,
         currency,
-        units,
-
-        initialValues: !isLoading ? {
-            taxes: [],
-            ...item
-        } : null,
+        units: getUnitState(units),
+        initialValues: !isLoading
+            ? {
+                  taxes: [],
+                  ...item
+              }
+            : null
     };
 };
 
@@ -49,23 +58,24 @@ const mapDispatchToProps = {
     removeItem: MoreAction.removeItem,
     clearItem: MoreAction.clearItem,
     getItemUnits: getItemUnits,
-    getSettingItem: getSettingItem,
+    getTaxes,
+    getSettingInfo
 };
 
 //  Redux Forms
 const ItemReduxForm = reduxForm({
     form: ITEM_FORM,
-    validate,
+    validate
 })(Item);
 
 //  connect
 const ItemContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(ItemReduxForm);
 
 ItemContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default ItemContainer;

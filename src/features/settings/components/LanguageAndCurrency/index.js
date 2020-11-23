@@ -3,21 +3,18 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import {
-    DefaultLayout,
-    CtButton,
-    SelectField,
-} from '../../../../components';
+import { DefaultLayout, CtButton, SelectField } from '@/components';
 import { Field, change } from 'redux-form';
-import Lng from '../../../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { EDIT_LANGUAGE_AND_CURRENCY } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '../../../../navigation/actions';
-import { SymbolStyle } from '../../../../components/CurrencyFormat/styles';
-import { headerTitle } from '../../../../api/helper';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import { headerTitle } from '@/styles';
+import { SymbolStyle } from '@/components/CurrencyFormat/styles';
+import { hasObjectLength, isArray } from '@/constants';
 
 type IProps = {
     navigation: Object,
-    language: String,
+    locale: String,
     handleSubmit: Function,
     handleSubmit: Function,
     formValues: Object,
@@ -27,8 +24,7 @@ type IProps = {
     currencies: Object,
     getPreferencesLoading: Boolean,
     getSettingItemLoading: Boolean
-}
-
+};
 
 export class LanguageAndCurrency extends React.Component<IProps> {
     constructor(props) {
@@ -36,194 +32,213 @@ export class LanguageAndCurrency extends React.Component<IProps> {
 
         this.state = {
             currencyList: [],
-            languagesList: [],
-        }
+            languagesList: []
+        };
     }
 
     componentWillMount() {
-        const {
-            getPreferences,
-        } = this.props
+        const { getPreferences, getGeneralSetting } = this.props;
 
         getPreferences({
-            onResult: (val) => {
-                const { currencies, languages } = val
-                this.setState({
-                    currencyList: this.getCurrenciesList(currencies),
-                    languagesList: this.getLanguagesList(languages),
-                })
+            onResult: val => {
+                this.setFormField('language', val.language);
+                this.setFormField('currency', val.currency);
             }
-        })
+        });
+
+        getGeneralSetting({
+            url: 'currencies',
+            onSuccess: currency => {
+                this.setState({
+                    currencyList: this.getCurrenciesList(currency)
+                });
+            }
+        });
+
+        getGeneralSetting({
+            url: 'languages',
+            onSuccess: language => {
+                this.setState({
+                    languagesList: this.getLanguagesList(language)
+                });
+            }
+        });
     }
 
     componentDidMount() {
-        const { navigation } = this.props
-        goBack(MOUNT, navigation)
+        const { navigation } = this.props;
+        goBack(MOUNT, navigation);
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
 
     setFormField = (field, value) => {
         this.props.dispatch(change(EDIT_LANGUAGE_AND_CURRENCY, field, value));
     };
 
-    onSubmit = (values) => {
+    onSubmit = values => {
         const {
             navigation,
             editPreferences,
             clearPreferences,
-            currencies
-        } = this.props
+            currencies,
+            locale
+        } = this.props;
 
-        clearPreferences()
-        editPreferences({ params: values, navigation, currencies })
+        clearPreferences();
+        editPreferences({ params: values, navigation, currencies, locale });
+    };
 
-    }
-
-    BOTTOM_ACTION = (handleSubmit) => {
-        const { editPreferencesLoading, language } = this.props
+    BOTTOM_ACTION = handleSubmit => {
+        const { editPreferencesLoading, locale } = this.props;
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    btnTitle={Lng.t('button.save', { locale })}
                     loading={editPreferencesLoading}
                 />
             </View>
-        )
-    }
+        );
+    };
 
-    getCurrenciesList = (currencies) => {
-
-        let currencyList = []
+    getCurrenciesList = currencies => {
+        let currencyList = [];
         if (typeof currencies !== 'undefined' && currencies.length != 0) {
-            currencyList = currencies.map((currency) => {
+            currencies.map(currency => {
+                const { name, code, symbol } = currency;
 
-                const { name, code, symbol } = currency
-                return {
+                currencyList.push({
                     title: name,
                     subtitle: {
-                        title: code,
+                        title: code
                     },
                     rightTitle: symbol || '-',
                     fullItem: currency
-                }
-            })
+                });
+            });
         }
-        return currencyList
-    }
+        return currencyList;
+    };
 
-    getLanguagesList = (languages) => {
-        let languageList = []
+    getLanguagesList = languages => {
+        const languageList = [];
         if (typeof languages !== 'undefined' && languages) {
-            languageList = languages.map((language) => {
-
-                let { name } = language
-                return {
+            languages.map(language => {
+                const { name } = language;
+                languageList.push({
                     title: name,
                     leftAvatar: name.toUpperCase().charAt(0),
                     fullItem: language
-                }
-            })
+                });
+            });
         }
-        return languageList
-    }
+        return languageList;
+    };
 
     getSelectedField = (items, find, field) => {
-        let newData = []
-        if (typeof items !== 'undefined') {
+        let newData = [];
+        if (isArray(items)) {
+            newData = items.filter(item => {
+                let filterData = false;
+                let itemField = item.fullItem
+                    ? item.fullItem[field].toString()
+                    : item[field].toString();
 
-            newData = items.filter((item) => {
-                let filterData = false
-                let itemField = item.fullItem ?
-                    item.fullItem[field].toString() : item[field].toString()
+                if (itemField === find) filterData = true;
 
-                if (itemField === find)
-                    filterData = true
-
-                return filterData
+                return filterData;
             });
-
         }
 
         if (newData.length !== 0) {
-            let { name } = newData[0].fullItem
-            return name
+            let { name } = newData[0].fullItem;
+            return name;
         }
-        return '  '
-    }
+        return '  ';
+    };
 
     render() {
-
         const {
             navigation,
             handleSubmit,
-            language,
-            formValues: {
-                currency,
-            },
+            locale,
+            formValues: { currency },
             formValues,
             isLoading
         } = this.props;
 
-        const { currencyList, languagesList } = this.state
-
+        const { currencyList, languagesList } = this.state;
         return (
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t("header.setting.LanguageAndCurrency", { locale: language }),
-                    placement: "center",
-                    rightIcon: "save",
+                    title: Lng.t('header.setting.LanguageAndCurrency', {
+                        locale
+                    }),
+                    placement: 'center',
+                    rightIcon: 'save',
                     rightIconProps: {
-                        solid: true,
+                        solid: true
                     },
                     rightIconPress: handleSubmit(this.onSubmit),
                     titleStyle: styles.titleStyle
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
-                    is: isLoading || currencyList.length === 0 || languagesList.length === 0
+                    is:
+                        !isArray(languagesList) ||
+                        !isArray(currencyList) ||
+                        !hasObjectLength(formValues)
                 }}
             >
-
                 <View style={styles.mainContainer}>
-
                     <Field
                         name="language"
                         items={languagesList}
                         component={SelectField}
-                        label={Lng.t("settings.preferences.language", { locale: language })}
-                        icon='language'
-                        rightIcon='angle-right'
+                        label={Lng.t('settings.preferences.language', {
+                            locale
+                        })}
+                        icon="language"
+                        rightIcon="angle-right"
                         displayName="name"
-                        placeholder={formValues.language ?
-                            this.getSelectedField(languagesList, formValues.language, 'code') :
-                            Lng.t("settings.preferences.languagePlaceholder", { locale: language })
+                        placeholder={
+                            formValues?.language
+                                ? this.getSelectedField(
+                                      languagesList,
+                                      formValues.language,
+                                      'code'
+                                  )
+                                : Lng.t(
+                                      'settings.preferences.languagePlaceholder',
+                                      { locale }
+                                  )
                         }
                         navigation={navigation}
                         fakeInputProps={{
                             valueStyle: styles.selectedField,
-                            placeholderStyle: styles.selectedField,
+                            placeholderStyle: styles.selectedField
                         }}
                         searchFields={['name']}
                         compareField="code"
-                        onSelect={(val) => {
-                            this.setFormField('language', val.code)
+                        onSelect={val => {
+                            this.setFormField('language', val.code);
                         }}
                         headerProps={{
-                            title: Lng.t("languages.title", { locale: language }),
+                            title: Lng.t('languages.title', { locale }),
                             rightIconPress: null
                         }}
                         listViewProps={{
-                            hasAvatar: true,
+                            hasAvatar: true
                         }}
                         emptyContentProps={{
-                            contentType: "languages",
+                            contentType: 'languages'
                         }}
                         isRequired
+                        isInternalSearch
                     />
 
                     <Field
@@ -231,41 +246,54 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                         items={currencyList}
                         displayName="name"
                         component={SelectField}
-                        label={Lng.t("settings.preferences.currency", { locale: language })}
-                        icon='dollar-sign'
-                        rightIcon='angle-right'
-                        placeholder={currency ?
-                            this.getSelectedField(currencyList, currency, 'id') :
-                            Lng.t("settings.preferences.currencyPlaceholder", { locale: language })
+                        label={Lng.t('settings.preferences.currency', {
+                            locale
+                        })}
+                        icon="dollar-sign"
+                        rightIcon="angle-right"
+                        placeholder={
+                            currency
+                                ? this.getSelectedField(
+                                      currencyList,
+                                      currency,
+                                      'id'
+                                  )
+                                : Lng.t(
+                                      'settings.preferences.currencyPlaceholder',
+                                      { locale }
+                                  )
                         }
                         navigation={navigation}
                         searchFields={['name']}
                         compareField="id"
                         fakeInputProps={{
                             valueStyle: styles.selectedField,
-                            placeholderStyle: styles.selectedField,
+                            placeholderStyle: styles.selectedField
                         }}
                         searchInputProps={{
                             autoFocus: true
                         }}
-                        onSelect={(val) => {
-                            this.setFormField('currency', val.id)
+                        onSelect={val => {
+                            this.setFormField('currency', val.id);
                         }}
                         headerProps={{
-                            title: Lng.t("currencies.title", { locale: language }),
-                            titleStyle: headerTitle({ marginLeft: -20, marginRight: -52 }),
+                            title: Lng.t('currencies.title', { locale }),
+                            titleStyle: headerTitle({
+                                marginLeft: -20,
+                                marginRight: -52
+                            }),
                             rightIconPress: null
                         }}
                         emptyContentProps={{
-                            contentType: "currencies",
+                            contentType: 'currencies'
                         }}
                         isRequired
                         listViewProps={{
                             contentContainerStyle: { flex: 5 },
                             rightTitleStyle: SymbolStyle
                         }}
+                        isInternalSearch
                     />
-
                 </View>
             </DefaultLayout>
         );

@@ -1,23 +1,23 @@
+import { isIPhoneX } from '@/constants';
 import { StyleSheet } from 'react-native';
-import { colors } from '../../../../styles/colors';
-import { isIPhoneX } from '../../../../api/helper';
+import { colors } from '@/styles';
 
 export default styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     mainContainer: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 20
     },
     headerContainer: {
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: colors.veryLightGray
     },
     submitButton: {
         paddingHorizontal: 10
     },
     listViewContainer: {
         flex: 1,
-        paddingBottom: isIPhoneX() ? 30 : 0,
+        paddingBottom: isIPhoneX() ? 30 : 0
     }
 });

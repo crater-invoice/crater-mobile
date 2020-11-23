@@ -4,7 +4,7 @@ export const ROUTES = {
     FORGOT_PASSWORD: 'FORGOT_PASSWORD',
     ENDPOINTS: 'ENDPOINTS',
 
-    // Main Bottom Tabs
+    // Main Tabs
     // -----------------------------------------
     MAIN_TABS: 'MAIN_TABS',
     MAIN_INVOICES: 'MAIN_INVOICES',
@@ -19,6 +19,8 @@ export const ROUTES = {
     // -----------------------------------------
     INVOICE: 'INVOICE',
     INVOICE_ITEM: 'INVOICE_ITEM',
+    RECURRING_INVOICES: 'RECURRING_INVOICES',
+    RECURRING_INVOICE: 'RECURRING_INVOICE',
 
     // Items
     // -----------------------------------------
@@ -62,13 +64,22 @@ export const ROUTES = {
     PREFERENCES: 'PREFERENCES',
     LANGUAGE_AND_CURRENCY: 'LANGUAGE_AND_CURRENCY',
     ENDPOINTS_SETTINGS: 'ENDPOINTS_SETTINGS',
-    CUSTOMIZES: "CUSTOMIZES",
-    CUSTOMIZE: "CUSTOMIZE",
+    CUSTOMIZES: 'CUSTOMIZES',
+    CUSTOMIZE: 'CUSTOMIZE',
+    CURRENCIES: 'CURRENCIES',
+    CURRENCY: 'CURRENCY',
+    CUSTOM_FIELDS: 'CUSTOM_FIELDS',
+    CUSTOM_FIELD: 'CUSTOM_FIELD',
 
     // Expenses
     // -----------------------------------------
     ADD_EXPENSE: 'ADD_EXPENSE',
     EXPENSE: 'EXPENSE',
+
+    // Notes
+    // -----------------------------------------
+    NOTE: 'NOTE',
+    NOTES: 'NOTES',
 
     // Payments
     // -----------------------------------------
@@ -83,6 +94,5 @@ export const ROUTES = {
     LOST_CONNECTION: 'LOST_CONNECTION',
 
     // Update App Version
-    UPDATE_APP_VERSION: 'UPDATE_APP_VERSION',
-
+    UPDATE_APP_VERSION: 'UPDATE_APP_VERSION'
 };

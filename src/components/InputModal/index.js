@@ -1,34 +1,47 @@
 import React, { Component } from 'react';
 import { View, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
-import { styles } from './styles'
+import { styles } from './styles';
 import { AnimateModal } from '../AnimateModal';
 import { Field } from 'redux-form';
 import { InputField } from '../InputField';
 import { CtButton } from '../Button';
-import { BUTTON_COLOR } from '../../api/consts';
-import Lng from '../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { Icon } from 'react-native-elements';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
+import { BUTTON_COLOR } from '@/constants';
 
 type Iprops = {
-    modalProps: Object,
-    headerTitle: String,
-    hint: String,
-    fieldName: String,
-    language: String,
-    onToggle: Function,
-    onRemove: Function,
-    onSubmit: Function,
-    visible: Boolean,
-    showRemoveButton: Boolean,
-}
+    modalProps?: Object,
+    headerTitle?: String,
+    hint?: String,
+    fieldName?: String,
+    locale?: String,
+    onRemove?: Function,
+    onSubmit?: Function,
+    showRemoveButton?: Boolean,
+    reference?: any,
+    onSubmitLoading?: Boolean
+};
 
-export class InputModal extends Component<Iprops>{
+export class InputModal extends Component<Iprops> {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        this.state = { visible: false };
     }
+
+    componentDidMount() {
+        this.props.reference?.(this);
+    }
+
+    componentWillUnmount() {
+        this.props.reference?.(undefined);
+    }
+
+    onToggle = () => {
+        this.setState(({ visible }) => {
+            return { visible: !visible };
+        });
+    };
 
     BUTTON_VIEW = () => {
         const {
@@ -37,8 +50,8 @@ export class InputModal extends Component<Iprops>{
             onRemoveLoading = false,
             onRemove,
             onSubmit,
-            language,
-        } = this.props
+            locale
+        } = this.props;
 
         return (
             <View style={styles.rowViewContainer}>
@@ -46,7 +59,9 @@ export class InputModal extends Component<Iprops>{
                     <View style={styles.rowView}>
                         <CtButton
                             onPress={() => onRemove?.()}
-                            btnTitle={Lng.t("button.remove", { locale: language })}
+                            btnTitle={Lng.t('button.remove', {
+                                locale
+                            })}
                             containerStyle={styles.handleBtn}
                             buttonColor={BUTTON_COLOR.DANGER}
                             loading={onRemoveLoading}
@@ -57,48 +72,37 @@ export class InputModal extends Component<Iprops>{
                 <View style={styles.rowView}>
                     <CtButton
                         onPress={() => onSubmit?.()}
-                        btnTitle={Lng.t("button.save", { locale: language })}
+                        btnTitle={Lng.t('button.save', { locale })}
                         containerStyle={styles.handleBtn}
                         loading={onSubmitLoading}
                     />
                 </View>
             </View>
-        )
-    }
+        );
+    };
 
     FIELD = () => {
-        const { fieldName, hint, onSubmit } = this.props
+        const { fieldName, hint } = this.props;
 
         return (
             <View style={styles.fieldView}>
-                <KeyboardAvoidingView
-                    keyboardVerticalOffset={0}
-                    behavior="position"
-                >
-                    <ScrollView
-                        bounces={false}
-                        showsVerticalScrollIndicator={false}
-                        keyboardShouldPersistTaps='handled'
-                    >
-                        <Field
-                            name={fieldName}
-                            component={InputField}
-                            hint={hint}
-                            inputProps={{
-                                returnKeyType: 'next',
-                                autoCorrect: true
-                            }}
-                            isRequired
-                        />
-                    </ScrollView>
-                </KeyboardAvoidingView>
+                <Field
+                    name={fieldName}
+                    component={InputField}
+                    hint={hint}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true,
+                        autoFocus: true
+                    }}
+                    isRequired
+                />
             </View>
-
-        )
-    }
+        );
+    };
 
     HEADER_VIEW = () => {
-        const { headerTitle, onToggle } = this.props
+        const { headerTitle } = this.props;
 
         return (
             <View style={styles.rowViewContainer}>
@@ -110,37 +114,39 @@ export class InputModal extends Component<Iprops>{
                         name="close"
                         size={28}
                         color={colors.dark}
-                        onPress={() => onToggle && onToggle()}
+                        onPress={this.onToggle}
                     />
                 </View>
             </View>
-        )
-    }
+        );
+    };
 
     render() {
-        const {
-            modalProps,
-            onToggle,
-            visible = false,
-        } = this.props
-
         return (
             <AnimateModal
-                visible={visible}
-                onToggle={() => onToggle && onToggle()}
-                modalProps={{ ...modalProps }}
+                visible={this.state.visible}
+                onToggle={this.onToggle}
+                modalProps={{ ...this.props?.modalProps }}
             >
-                <View style={styles.modalViewContainer}>
+                <KeyboardAvoidingView
+                    keyboardVerticalOffset={0}
+                    behavior="position"
+                >
+                    <ScrollView
+                        bounces={false}
+                        showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps="handled"
+                    >
+                        <View style={styles.modalViewContainer}>
+                            {this.HEADER_VIEW()}
 
-                    {this.HEADER_VIEW()}
+                            {this.FIELD()}
 
-                    {this.FIELD()}
-
-                    {this.BUTTON_VIEW()}
-
-                </View>
+                            {this.BUTTON_VIEW()}
+                        </View>
+                    </ScrollView>
+                </KeyboardAvoidingView>
             </AnimateModal>
         );
     }
 }
-

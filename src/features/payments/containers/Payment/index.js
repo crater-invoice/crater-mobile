@@ -1,74 +1,76 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
-import * as PaymentAction from '../../actions';
-import { PAYMENT_FORM, PAYMENT_ADD } from '../../constants';
+import * as actions from '../../actions';
+import {
+    PAYMENT_FORM,
+    PAYMENT_ADD,
+    PAYMENT_FIELDS as FIELDS
+} from '../../constants';
 import { Payment } from '../../components/Payment';
-import { getCustomers } from '../../../customers/actions';
+import { getCustomers } from '@/features/customers/actions';
+import { getPaymentModes, getNotes } from '@/features/settings/actions';
+import { getPaymentMethodsState } from '../../selectors';
 
 const mapStateToProps = (state, { navigation }) => {
-
     const {
         customers: { customers },
-        global: { language },
-        payments: {
-            loading: {
-                initPaymentLoading,
-                paymentLoading,
-                getUnpaidInvoicesLoading,
-            }
-        }
-    } = state
+        global: { locale },
+        settings: { paymentMethods, notes, customFields },
+        payments: { loading, unPaidInvoices }
+    } = state;
 
-    let type = navigation.getParam('type', PAYMENT_ADD)
-    let invoice = navigation.getParam('invoice', null)
-    let hasRecordPayment = navigation.getParam('hasRecordPayment', false)
+    const type = navigation.getParam('type', PAYMENT_ADD);
+    const id = navigation.getParam('paymentId', null);
+    const invoice = navigation.getParam('invoice', null);
+    const hasRecordPayment = navigation.getParam('hasRecordPayment', false);
 
     return {
         type,
         customers,
-        language: language,
+        locale,
         invoice,
+        notes,
         hasRecordPayment,
-        initPaymentLoading,
-        paymentLoading,
-        getUnpaidInvoicesLoading,
+        loading: loading?.paymentLoading,
+        withLoading: loading?.sendReceiptLoading,
+        unPaidInvoices,
+        customFields,
+        id,
+        paymentMethods: getPaymentMethodsState(paymentMethods),
         formValues: getFormValues(PAYMENT_FORM)(state) || {},
-
         initialValues: {
-            payment_method_id: null
+            payment: {
+                [FIELDS.CUSTOMER]: null,
+                [FIELDS.INVOICE]: null,
+                [FIELDS.METHOD]: null,
+                [FIELDS.NOTES]: null
+            }
         }
     };
-
 };
 
 const mapDispatchToProps = {
-    getCreatePayment: PaymentAction.getCreatePayment,
-    createPayment: PaymentAction.createPayment,
-    getEditPayment: PaymentAction.getEditPayment,
-    getUnpaidInvoices: PaymentAction.getUnpaidInvoices,
-    editPayment: PaymentAction.editPayment,
-    removePayment: PaymentAction.removePayment,
-    sendPaymentReceipt: PaymentAction.sendPaymentReceipt,
-    getCustomers: getCustomers,
+    ...actions,
+    getCustomers,
+    getPaymentModes,
+    getNotes
 };
 
-
-//  Redux Forms
-const addEditPaymentReduxForm = reduxForm({
+//  Redux Form
+const paymentReduxForm = reduxForm({
     form: PAYMENT_FORM,
-    validate: (val) => validate(val),
+    validate
 })(Payment);
 
 //  connect
-const AddEditPaymentContainer = connect(
+const PaymentContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
-)(addEditPaymentReduxForm);
+    mapDispatchToProps
+)(paymentReduxForm);
 
-AddEditPaymentContainer.navigationOptions = () => ({
-    header: null,
+PaymentContainer.navigationOptions = () => ({
+    header: null
 });
 
-export default AddEditPaymentContainer;
+export default PaymentContainer;

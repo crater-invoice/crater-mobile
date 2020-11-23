@@ -2,68 +2,71 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
-import { CUSTOMER_FORM, CUSTOMER_ADD } from '../../constants';
-import * as customerAction from '../../actions'
+import * as actions from '../../actions';
 import { Customer } from '../../components/Customer';
-
+import { getStateCurrencies } from '../../selectors';
+import {
+    CUSTOMER_FORM,
+    CUSTOMER_ADD,
+    CUSTOMER_FIELDS as FIELDS
+} from '../../constants';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { language, currencies, currency },
-        customers: {
-            countries,
-            loading: {
-                customerLoading,
-                getEditCustomerLoading,
-                countriesLoading
-            }
-        }
-    } = state
-    let customerId = navigation.getParam('customerId', null);
-    let type = navigation.getParam('type', CUSTOMER_ADD)
+        global: { locale, currencies, currency },
+        customers: { countries, loading },
+        settings: { customFields }
+    } = state;
+
+    const id = navigation.getParam('customerId', null);
+    const type = navigation.getParam('type', CUSTOMER_ADD);
 
     return {
         formValues: getFormValues(CUSTOMER_FORM)(state) || {},
         type,
-        language,
-        currencies,
-        currency,
+        locale,
+        currencies: getStateCurrencies(currencies),
         countries,
-        customerLoading,
-        getEditCustomerLoading,
-        countriesLoading,
-
+        currency,
+        customFields,
+        loading: loading?.customerLoading,
+        id,
         initialValues: {
-            enable_portal: false,
-            currency_id: null,
-            id: customerId,
+            customer: {
+                [FIELDS.NAME]: null,
+                [FIELDS.CONTACT_NAME]: null,
+                [FIELDS.EMAIL]: null,
+                [FIELDS.PHONE]: null,
+                [FIELDS.WEBSITE]: null,
+                [FIELDS.CURRENCY]: null,
+                [FIELDS.BILLING]: undefined,
+                [FIELDS.SHIPPING]: undefined,
+                [FIELDS.ENABLE_PORTAL]: null,
+                [FIELDS.CUSTOM_FIELDS]: null,
+                id
+            }
         }
     };
 };
 
 const mapDispatchToProps = {
-    createCustomer: customerAction.createCustomer,
-    editCustomer: customerAction.editCustomer,
-    getEditCustomer: customerAction.getEditCustomer,
-    removeCustomer: customerAction.removeCustomer,
-    getCountries: customerAction.getCountries,
+    ...actions
 };
 
-//  Redux Forms
-const addEditCustomerReduxForm = reduxForm({
+//  Redux Form
+const customerReduxForm = reduxForm({
     form: CUSTOMER_FORM,
-    validate,
+    validate
 })(Customer);
 
 //  connect
-const AddEditCustomerContainer = connect(
+const CustomerContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
-)(addEditCustomerReduxForm);
+    mapDispatchToProps
+)(customerReduxForm);
 
-AddEditCustomerContainer.navigationOptions = () => ({
-    header: null,
+CustomerContainer.navigationOptions = () => ({
+    header: null
 });
 
-
-export default AddEditCustomerContainer;
+export default CustomerContainer;

@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 
-import {
-    View,
-    Modal,
-    StatusBar
-} from 'react-native';
+import { View, Modal, StatusBar } from 'react-native';
 import styles from './styles';
 import { ListView } from '../ListView';
 import { MainLayout, DefaultLayout } from '../Layouts';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
+import { InfiniteScroll } from '../InfiniteScroll';
+import { ScrollView } from '../ScrollView';
 
 type IProps = {
     visible: Boolean,
@@ -22,17 +20,19 @@ type IProps = {
     children: Object,
     bottomAction: Object,
     searchInputProps: Object,
+    searchFieldProps: any,
+    isPagination: Boolean,
+    infiniteScrollProps: any,
+    scrollViewProps: any
 };
 
 export class SlideModal extends Component<IProps> {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        this.state = {};
     }
 
     render() {
-
         const {
             visible,
             onToggle,
@@ -40,14 +40,30 @@ export class SlideModal extends Component<IProps> {
             onSearch,
             bottomDivider = false,
             listViewProps,
-            hasListView,
-            imageListView,
             defaultLayout,
             children,
-            hasSearchField,
             bottomAction,
-            searchInputProps
-        } = this.props
+            searchInputProps,
+            searchFieldProps,
+            isPagination = false,
+            infiniteScrollProps,
+            scrollViewProps,
+            customView
+        } = this.props;
+
+        const listViewChildren = isPagination ? (
+            <View style={styles.listViewContainer}>
+                <InfiniteScroll {...infiniteScrollProps}>
+                    <ListView {...listViewProps} />
+                </InfiniteScroll>
+            </View>
+        ) : (
+            <View style={styles.listViewContainer}>
+                <ScrollView scrollViewProps={scrollViewProps}>
+                    <ListView {...listViewProps} />
+                </ScrollView>
+            </View>
+        );
 
         return (
             <Modal
@@ -56,12 +72,6 @@ export class SlideModal extends Component<IProps> {
                 onRequestClose={onToggle && onToggle}
                 hardwareAccelerated={true}
             >
-                <StatusBar
-                    backgroundColor={colors.secondary}
-                    barStyle={"dark-content"}
-                    translucent={true}
-                />
-
                 <View style={styles.modalContainer}>
                     {!defaultLayout && (
                         <MainLayout
@@ -70,12 +80,9 @@ export class SlideModal extends Component<IProps> {
                             bottomDivider={bottomDivider}
                             bottomAction={bottomAction}
                             inputProps={searchInputProps && searchInputProps}
+                            searchFieldProps={searchFieldProps}
                         >
-                            <View style={styles.listViewContainer}>
-                                <ListView
-                                    {...listViewProps}
-                                />
-                            </View>
+                            {listViewChildren}
                         </MainLayout>
                     )}
 
@@ -89,18 +96,13 @@ export class SlideModal extends Component<IProps> {
                                     {children}
                                 </View>
                             ) : (
-                                    <View style={styles.listViewContainer}>
-                                        <ListView
-                                            {...listViewProps}
-                                        />
-                                    </View>
-                                )}
-
+                                listViewChildren
+                            )}
                         </DefaultLayout>
                     )}
                 </View>
+                {customView}
             </Modal>
         );
     }
 }
-

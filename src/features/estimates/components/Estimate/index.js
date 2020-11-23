@@ -1,23 +1,21 @@
 // @flow
-
 import React from 'react';
-import { View, Text, Linking } from 'react-native';
-import { change } from 'redux-form';
-import { Field } from 'redux-form';
+import { View, Text } from 'react-native';
+import * as Linking from 'expo-linking';
+import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
 import {
     InputField,
     DatePickerField,
-    CtDivider,
     CtButton,
     ListView,
     DefaultLayout,
     SelectField,
-    SelectPickerField,
     CurrencyFormat,
-    FakeInput
-} from '../../../../components';
-import { ROUTES } from '../../../../navigation/routes';
+    FakeInput,
+    SendMail,
+    CustomField
+} from '@/components';
 import {
     ESTIMATE_ADD,
     ESTIMATE_EDIT,
@@ -26,24 +24,36 @@ import {
     ESTIMATE_FORM,
     ESTIMATE_ACTIONS,
     EDIT_ESTIMATE_ACTIONS,
-    MARK_AS_ACCEPT, MARK_AS_REJECT, MARK_AS_SENT
+    MARK_AS_ACCEPT,
+    MARK_AS_REJECT,
+    MARK_AS_SENT,
+    setEstimateRefs
 } from '../../constants';
-import { BUTTON_TYPE } from '../../../../api/consts/core';
-import { colors } from '../../../../styles/colors';
+import { colors, headerTitle, itemsDescriptionStyle } from '@/styles';
 import { TemplateField } from '../TemplateField';
-import { MOUNT, UNMOUNT, goBack } from '../../../../navigation/actions';
-import Lng from '../../../../api/lang/i18n';
-import { ESTIMATE_DISCOUNT_OPTION } from '../../constants';
+import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import Lng from '@/lang/i18n';
 import { CUSTOMER_ADD } from '../../../customers/constants';
-import { IMAGES } from '../../../../config';
-import { ADD_TAX } from '../../../settings/constants';
-import { MAX_LENGTH, alertMe } from '../../../../api/global';
-import { itemsDescriptionStyle } from '../../../invoices/components/Invoice/styles';
-import { headerTitle } from '../../../../api/helper';
+import { IMAGES } from '@/assets';
+import {
+    estimateSubTotal,
+    estimateTax,
+    getTaxValue,
+    totalDiscount,
+    getCompoundTaxValue,
+    finalAmount,
+    getItemList,
+    estimateCompoundTax
+} from '../EstimateCalculation';
+import FinalAmount from '../FinalAmount';
+import { alertMe, BUTTON_TYPE, isArray } from '@/constants';
+import { getApiFormattedCustomFields } from '@/utils';
+import Notes from './notes';
+import EstimateServices from '../../services';
 
 type IProps = {
     navigation: Object,
-    estimateItems: Object,
+    estimateItems: any,
     taxTypes: Object,
     customers: Object,
     getCreateEstimate: Function,
@@ -58,481 +68,248 @@ type IProps = {
     initLoading: Boolean,
     loading: Boolean,
     estimateData: Object,
-    estimateItems: Object,
     items: Object,
-    language: String,
-    type: String
+    locale: String,
+    type: String,
+    notesReference: any
+};
 
-}
 export class Estimate extends React.Component<IProps> {
+    estimateRefs: any;
+    sendMailRef: any;
+    customerReference: any;
+
     constructor(props) {
         super(props);
+        this.estimateRefs = setEstimateRefs.bind(this);
+        this.sendMailRef = React.createRef();
+        this.customerReference = React.createRef();
+        this.notesReference = React.createRef();
+
         this.state = {
-            taxTypeList: [],
-            currency: {},
-            itemList: [],
+            currency: props?.currency,
             customerName: '',
             markAsStatus: null,
+            isLoading: true
         };
     }
 
     componentDidMount() {
-
-        const {
-            getCreateEstimate,
-            navigation,
-            estimateItems,
-            taxTypes,
-            getEditEstimate,
-            type,
-        } = this.props;
-
-        type === ESTIMATE_EDIT ?
-            getEditEstimate({
-                id: navigation.getParam('id'),
-                onResult: ({ user: { currency, name }, status }) => {
-
-                    this.setState({
-                        currency,
-                        taxTypeList: taxTypes,
-                        customerName: name,
-                        markAsStatus: status
-                    })
-                }
-            }) :
-            getCreateEstimate({
-                onResult: (val) => {
-                    const { currency } = val
-
-                    this.setState({ taxTypeList: taxTypes, currency })
-                }
-            });
-
-        navigation.addListener(
-            'didFocus',
-            payload => {
-                this.forceUpdate();
-            }
-        );
-
-        this.getEstimateItemList(estimateItems)
-
-        this.androidBackHandler()
+        this.setInitialValues();
+        this.androidBackHandler();
     }
-
 
     componentWillUnmount() {
-        const { clearEstimate } = this.props
+        const { clearEstimate } = this.props;
         clearEstimate();
-        goBack(UNMOUNT)
+        this.estimateRefs(undefined);
+        goBack(UNMOUNT);
     }
 
+    setInitialValues = () => {
+        const { getCreateEstimate, getEditEstimate, type, id } = this.props;
+
+        if (type === ESTIMATE_ADD) {
+            getCreateEstimate({
+                onSuccess: () => {
+                    this.setState({ isLoading: false });
+                }
+            });
+            return;
+        }
+
+        if (type === ESTIMATE_EDIT) {
+            getEditEstimate({
+                id,
+                onSuccess: ({ user, status }) => {
+                    this.setState({
+                        currency: user.currency,
+                        customerName: user.name,
+                        markAsStatus: status,
+                        isLoading: false
+                    });
+                }
+            });
+            return;
+        }
+    };
+
     androidBackHandler = () => {
-        const { navigation, handleSubmit } = this.props
-        goBack(MOUNT, navigation, { callback: () => this.onDraft(handleSubmit) })
-    }
+        const { navigation, handleSubmit } = this.props;
+        goBack(MOUNT, navigation, {
+            callback: () => this.onDraft(handleSubmit)
+        });
+    };
 
     setFormField = (field, value) => {
         this.props.dispatch(change(ESTIMATE_FORM, field, value));
     };
 
-    onEditItem = (item) => {
+    onEditItem = item => {
         const {
             navigation,
             estimateData: { discount_per_item, tax_per_item }
-        } = this.props
-        const { currency } = this.state
+        } = this.props;
+        const { currency } = this.state;
 
-        navigation.navigate(
-            ROUTES.ESTIMATE_ITEM,
-            { item, type: ITEM_EDIT, currency, discount_per_item, tax_per_item }
-        )
-    }
+        navigation.navigate(ROUTES.ESTIMATE_ITEM, {
+            item,
+            type: ITEM_EDIT,
+            currency,
+            discount_per_item,
+            tax_per_item
+        });
+    };
 
-    onDraft = (handleSubmit) => {
-        const { language, navigation, type } = this.props
+    onDraft = handleSubmit => {
+        const { locale, navigation, type } = this.props;
         if (type === ESTIMATE_EDIT) {
-            navigation.navigate(ROUTES.ESTIMATE_LIST)
-            return
+            navigation.navigate(ROUTES.ESTIMATE_LIST);
+            return;
         }
 
         alertMe({
-            title: Lng.t("estimates.alert.draftTitle", { locale: language }),
+            title: Lng.t('estimates.alert.draftTitle', { locale }),
             showCancel: true,
-            cancelText: Lng.t("alert.action.discard", { locale: language }),
+            cancelText: Lng.t('alert.action.discard', { locale }),
             cancelPress: () => navigation.navigate(ROUTES.ESTIMATE_LIST),
-            okText: Lng.t("alert.action.saveAsDraft", { locale: language }),
-            okPress: handleSubmit(this.onSubmitEstimate)
-        })
-    }
+            okText: Lng.t('alert.action.saveAsDraft', { locale }),
+            okPress: handleSubmit(this.draftEstimate)
+        });
+    };
 
     onSubmitEstimate = (values, status = 'draft') => {
-
         const {
             createEstimate,
             navigation,
             type,
             editEstimate,
-            language,
-            estimateData: { estimate_prefix = '' } = {}
-        } = this.props
+            locale,
+            initLoading,
+            id,
+            handleSubmit,
+            withLoading
+        } = this.props;
 
-        if (this.finalAmount() < 0) {
-            alert(Lng.t("estimates.alert.lessAmount", { locale: language }))
-            return
+        if (this.state.isLoading || initLoading || withLoading) {
+            return;
+        }
+
+        if (finalAmount() < 0) {
+            alert(Lng.t('estimates.alert.lessAmount', { locale }));
+            return;
         }
 
         let estimate = {
             ...values,
-            estimate_number: `${estimate_prefix}-${values.estimate_number}`,
-            total: this.finalAmount(),
-            sub_total: this.estimateSubTotal(),
-            tax: this.estimateTax() + this.estimateCompoundTax(),
-            discount_val: this.totalDiscount(),
-            taxes: values.taxes ? values.taxes.map(val => {
-                return {
-                    ...val,
-                    amount: val.compound_tax ?
-                        this.getCompoundTaxValue(val.percent) :
-                        this.getTaxValue(val.percent),
-                }
-            }) : [],
-        }
+            estimate_number: `${values.prefix}-${values.estimate_number}`,
+            total: finalAmount(),
+            sub_total: estimateSubTotal(),
+            tax: estimateTax() + estimateCompoundTax(),
+            discount_val: totalDiscount(),
+            taxes: values.taxes
+                ? values.taxes.map(val => {
+                      return {
+                          ...val,
+                          amount: val.compound_tax
+                              ? getCompoundTaxValue(val.percent)
+                              : getTaxValue(val.percent)
+                      };
+                  })
+                : []
+        };
 
         if (status === 'send') {
-            estimate.estimateSend = true
+            estimate.estimateSend = true;
         }
 
-        type === ESTIMATE_ADD ?
-            createEstimate({
-                estimate,
-                onResult: (url) => {
-                    if (status === 'download') {
-                        Linking.openURL(url);
-                    }
-                    navigation.navigate(ROUTES.ESTIMATE_LIST)
+        const params = {
+            estimate: {
+                ...estimate,
+                id,
+                customFields: getApiFormattedCustomFields(values?.customFields)
+            },
+            navigation,
+            onSuccess: url => {
+                if (status === 'download') {
+                    Linking.openURL(url);
+                    return;
                 }
-            }) :
-            editEstimate({
-                estimate: { ...estimate, id: navigation.getParam('id') },
-                onResult: (url) => {
-                    if (status === 'download') {
-                        Linking.openURL(url);
-                    }
-                    navigation.navigate(ROUTES.ESTIMATE_LIST)
-                }
-            })
+                navigation.navigate(ROUTES.ESTIMATE_LIST);
+            },
+            submissionError: errors =>
+                handleSubmit(() => this.throwError(errors, locale))()
+        };
+
+        type === ESTIMATE_ADD ? createEstimate(params) : editEstimate(params);
     };
 
-    estimateSubTotal = () => {
-        const { estimateItems } = this.props
-        let subTotal = 0
-        estimateItems.map(val => {
-            subTotal += JSON.parse(val.total)
-        })
+    downloadEstimate = values => {
+        this.onSubmitEstimate(values, ESTIMATE_ACTIONS.VIEW);
+    };
 
-        return JSON.parse(subTotal)
-    }
+    saveEstimate = values => {
+        this.onSubmitEstimate(values, 'save');
+    };
 
-    subTotal = () => {
-        let estimateTax = 0
-        this.estimateItemTotalTaxes().filter(val => {
-            estimateTax += val.amount
-        })
-        return (this.estimateSubTotal() + estimateTax) - this.totalDiscount()
-    }
+    draftEstimate = values => {
+        this.onSubmitEstimate(values, 'draft');
+    };
 
-    estimateTax = () => {
-        const { formValues: { taxes } } = this.props
-
-        let totalTax = 0
-
-        taxes && taxes.map(val => {
-            if (!val.compound_tax) {
-                totalTax += this.getTaxValue(val.percent)
-            }
-        })
-
-        return totalTax
-    }
-
-    estimateCompoundTax = () => {
-        const { formValues: { taxes } } = this.props
-
-        let totalTax = 0
-
-        taxes && taxes.map(val => {
-            if (val.compound_tax) {
-                totalTax += this.getCompoundTaxValue(val.percent)
-            }
-        })
-
-        return totalTax
-    }
-
-    getTaxValue = (tax) => {
-        return (tax * JSON.parse(this.subTotal())) / 100
-    }
-
-    getCompoundTaxValue = (tax) => {
-        return (tax * JSON.parse(this.totalAmount())) / 100
-    }
-
-    getTaxName = (tax) => {
-        const { taxTypes } = this.props
-        let taxName = ''
-        const type = taxTypes && taxTypes.filter(val => val.fullItem.id === tax.tax_type_id)
-
-        if (type.length > 0) {
-            taxName = type[0]['fullItem'].name
-        }
-        return taxName
-    }
-
-    totalDiscount = () => {
-        const { formValues: { discount, discount_type } } = this.props
-
-        let discountPrice = 0
-
-        if (discount_type === 'percentage') {
-            discountPrice = ((discount * this.estimateSubTotal()) / 100)
-        } else {
-            discountPrice = (discount * 100)
+    throwError = (errors, locale) => {
+        if (errors?.estimate_number) {
+            throw new SubmissionError({
+                estimate_number: 'validation.alreadyTaken'
+            });
         }
 
-        return discountPrice
-    }
-
-    totalAmount = () => {
-        return this.subTotal() + this.estimateTax()
-    }
-
-    finalAmount = () => {
-        return this.totalAmount() + this.estimateCompoundTax()
-    }
+        alertMe({
+            desc: Lng.t('validation.wrong', { locale })
+        });
+    };
 
     estimateItemTotalTaxes = () => {
-        const { estimateItems } = this.props
-        let taxes = []
+        const { estimateItems } = this.props;
+        let taxes = [];
+
+        if (!isArray(estimateItems)) {
+            return [];
+        }
+
         estimateItems.map(val => {
-            val.taxes && val.taxes.filter(tax => {
-                let hasSame = false
-                const { tax_type_id, id, amount } = tax
+            val.taxes &&
+                val.taxes.filter(tax => {
+                    let hasSame = false;
+                    const { tax_type_id, id, amount } = tax;
 
-                taxes = taxes.map(tax2 => {
-                    if ((tax_type_id || id) === tax2.tax_type_id) {
-                        hasSame = true
-                        return {
-                            ...tax2,
-                            amount: amount + tax2.amount,
-                            tax_type_id: tax2.tax_type_id
+                    taxes = taxes.map(tax2 => {
+                        if ((tax_type_id || id) === tax2.tax_type_id) {
+                            hasSame = true;
+                            return {
+                                ...tax2,
+                                amount: amount + tax2.amount,
+                                tax_type_id: tax2.tax_type_id
+                            };
                         }
+                        return tax2;
+                    });
+
+                    if (!hasSame) {
+                        taxes.push({ ...tax, tax_type_id: tax_type_id || id });
                     }
-                    return tax2
-                })
-
-                if (!hasSame) {
-                    taxes.push({ ...tax, tax_type_id: (tax_type_id || id) })
-                }
-            })
-        })
-        return taxes
-    }
-
-    FINAL_AMOUNT = () => {
-        const { currency } = this.state
-
-        const {
-            language,
-            taxTypes,
-            navigation,
-            estimateData: { discount_per_item, tax_per_item },
-            formValues: { taxes }
-        } = this.props
-
-        let taxPerItem = !(tax_per_item === 'NO' || typeof tax_per_item === 'undefined' || tax_per_item === null)
-
-        let discountPerItem = !(discount_per_item === 'NO' || typeof discount_per_item === 'undefined' || discount_per_item === null)
-
-        return (
-            <View style={styles.amountContainer}>
-                <View style={styles.subContainer}>
-                    <View>
-                        <Text style={styles.amountHeading}>
-                            {Lng.t("estimates.subtotal", { locale: language })}
-                        </Text>
-                    </View>
-                    <View>
-                        <CurrencyFormat
-                            amount={this.estimateSubTotal()}
-                            currency={currency}
-                            style={styles.subAmount}
-                        />
-                    </View>
-                </View>
-
-                {(!discountPerItem) && (
-                    <View style={[styles.subContainer, styles.discount]}>
-                        <View>
-                            <Text style={styles.amountHeading}>
-                                {Lng.t("estimates.discount", { locale: language })}
-                            </Text>
-                        </View>
-                        <View style={[styles.subAmount, styles.discountField]}>
-                            <Field
-                                name="discount"
-                                component={InputField}
-                                inputProps={{
-                                    returnKeyType: 'next',
-                                    autoCapitalize: 'none',
-                                    autoCorrect: true,
-                                    keyboardType: 'numeric',
-                                }}
-                                fieldStyle={styles.fieldStyle}
-                            />
-
-                            <Field
-                                name="discount_type"
-                                component={SelectPickerField}
-                                items={ESTIMATE_DISCOUNT_OPTION}
-                                onChangeCallback={(val) => {
-                                    this.setFormField('discount_type', val)
-                                }}
-                                isFakeInput
-                                defaultPickerOptions={{
-                                    label: 'Fixed',
-                                    value: 'fixed',
-                                    color: colors.secondary,
-                                    displayLabel: currency ? currency.symbol : '$',
-                                }}
-                                fakeInputValueStyle={styles.fakeInputValueStyle}
-                                fakeInputContainerStyle={styles.selectPickerField}
-                                containerStyle={styles.SelectPickerContainer}
-                            />
-                        </View>
-                    </View>
-                )}
-
-                {taxes &&
-                    taxes.map((val, index) => !val.compound_tax ? (
-                        <View
-                            style={styles.subContainer}
-                            key={index}
-                        >
-                            <View>
-                                <Text style={styles.amountHeading}>
-                                    {this.getTaxName(val)} ({val.percent} %)
-                                </Text>
-                            </View>
-                            <View>
-                                <CurrencyFormat
-                                    amount={this.getTaxValue(val.percent)}
-                                    currency={currency}
-                                    style={styles.subAmount}
-                                />
-                            </View>
-                        </View>
-                    ) : null
-                    )
-                }
-
-                {taxes &&
-                    taxes.map((val, index) => val.compound_tax ? (
-                        <View
-                            style={styles.subContainer}
-                            key={index}
-                        >
-                            <View>
-                                <Text style={styles.amountHeading}>
-                                    {this.getTaxName(val)} ({val.percent} %)
-                                </Text>
-                            </View>
-                            <View>
-                                <CurrencyFormat
-                                    amount={this.getCompoundTaxValue(val.percent)}
-                                    currency={currency}
-                                    style={styles.subAmount}
-                                />
-                            </View>
-                        </View>
-                    ) : null
-                    )
-                }
-
-                {this.DISPLAY_ITEM_TAX()}
-
-                {(!taxPerItem) && (
-                    <Field
-                        name="taxes"
-                        items={taxTypes}
-                        displayName="name"
-                        component={SelectField}
-                        searchFields={['name', 'percent']}
-                        onlyPlaceholder
-                        fakeInputProps={{
-                            fakeInput: (
-                                <Text style={styles.taxFakeInput}>
-                                    {Lng.t("estimates.taxPlaceholder", { locale: language })}
-                                </Text>
-                            )
-                        }}
-                        navigation={navigation}
-                        isMultiSelect
-                        isInternalSearch
-                        language={language}
-                        concurrentMultiSelect
-                        compareField="id"
-                        valueCompareField="tax_type_id"
-                        headerProps={{
-                            title: Lng.t("taxes.title", { locale: language })
-                        }}
-                        rightIconPress={
-                            () => navigation.navigate(ROUTES.TAX, {
-                                type: ADD_TAX,
-                                onSelect: (val) => {
-                                    this.setFormField('taxes',
-                                        [...val, ...taxes]
-                                    )
-                                }
-                            })
-                        }
-                        listViewProps={{
-                            contentContainerStyle: { flex: 2 }
-                        }}
-                        emptyContentProps={{
-                            contentType: "taxes",
-                        }}
-                    />
-                )}
-
-                <CtDivider dividerStyle={styles.divider} />
-
-                <View style={styles.subContainer}>
-                    <View>
-                        <Text style={styles.amountHeading}>
-                            {Lng.t("estimates.totalAmount", { locale: language })}:
-                        </Text>
-                    </View>
-                    <View>
-                        <CurrencyFormat
-                            amount={this.finalAmount()}
-                            currency={currency}
-                            style={styles.finalAmount}
-                        />
-                    </View>
-                </View>
-            </View>
-        )
+                });
+        });
+        return taxes;
     };
 
     BOTTOM_ACTION = () => {
-        const { language, loading, handleSubmit } = this.props
+        const { locale, loading, handleSubmit } = this.props;
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
-                    onPress={() => this.onOptionSelect(ESTIMATE_ACTIONS.VIEW)}
-                    btnTitle={Lng.t("button.viewPdf", { locale: language })}
+                    onPress={handleSubmit(this.downloadEstimate)}
+                    btnTitle={Lng.t('button.viewPdf', { locale })}
                     type={BUTTON_TYPE.OUTLINE}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
@@ -540,251 +317,304 @@ export class Estimate extends React.Component<IProps> {
                 />
 
                 <CtButton
-                    onPress={handleSubmit((val) => this.onSubmitEstimate(val, status = 'save'))}
-                    btnTitle={Lng.t("button.save", { locale: language })}
+                    onPress={handleSubmit(this.saveEstimate)}
+                    btnTitle={Lng.t('button.save', { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                     loading={loading}
                 />
-
             </View>
-        )
-    }
+        );
+    };
 
-    DISPLAY_ITEM_TAX = () => {
-        const { currency } = this.state
+    navigateToCustomer = () => {
+        const { navigation } = this.props;
+        const { currency } = this.state;
 
-        let taxes = this.estimateItemTotalTaxes()
+        navigation.navigate(ROUTES.CUSTOMER, {
+            type: CUSTOMER_ADD,
+            currency,
+            onSelect: item => {
+                this.customerReference?.changeDisplayValue?.(item);
+                this.setFormField('user_id', item.id);
+                this.setState({ currency: item.currency });
+            }
+        });
+    };
 
-        return taxes ? (
-            taxes.map((val, index) => (
-                <View
-                    style={styles.subContainer}
-                    key={index}
-                >
-                    <View>
-                        <Text style={styles.amountHeading}>
-                            {this.getTaxName(val)} ({val.percent} %)
-                        </Text>
-                    </View>
-                    <View>
+    getEstimateItemList = estimateItems => {
+        this.setFormField('items', estimateItems);
+
+        const { currency } = this.state;
+
+        if (!isArray(estimateItems)) {
+            return [];
+        }
+
+        return estimateItems.map(item => {
+            let { name, description, price, quantity, total } = item;
+
+            return {
+                title: name,
+                subtitle: {
+                    title: description,
+                    labelComponent: (
                         <CurrencyFormat
-                            amount={val.amount}
+                            amount={price}
                             currency={currency}
-                            style={styles.subAmount}
+                            preText={`${quantity} * `}
+                            style={styles.itemLeftSubTitle}
+                            containerStyle={styles.itemLeftSubTitleLabel}
                         />
-                    </View>
-                </View>
-            )
-            )
-        ) : null
-    }
+                    )
+                },
+                amount: total,
+                currency,
+                fullItem: item
+            };
+        });
+    };
 
-    getEstimateItemList = (estimateItems) => {
-        this.setFormField('items', estimateItems)
+    removeEstimate = () => {
+        const { removeEstimate, navigation, locale, id } = this.props;
 
-        const { currency } = this.state
+        alertMe({
+            title: Lng.t('alert.title', { locale }),
+            desc: Lng.t('estimates.alert.removeDescription', {
+                locale
+            }),
+            showCancel: true,
+            okPress: () =>
+                removeEstimate({
+                    id,
+                    onResult: res => {
+                        if (res?.success) {
+                            navigation.navigate(ROUTES.ESTIMATE_LIST);
+                            return;
+                        }
 
-        let estimateItemList = []
+                        alertMe({
+                            desc: Lng.t('validation.wrong', { locale })
+                        });
+                    }
+                })
+        });
+    };
 
-        if (typeof estimateItems !== 'undefined' && estimateItems.length != 0) {
-
-            estimateItemList = estimateItems.map((item) => {
-
-                let { name, description, price, quantity, total } = item
-
-                return {
-                    title: name,
-                    subtitle: {
-                        title: description,
-                        labelComponent: (
-                            <CurrencyFormat
-                                amount={price}
-                                currency={currency}
-                                preText={`${quantity} * `}
-                                style={styles.itemLeftSubTitle}
-                                containerStyle={styles.itemLeftSubTitleLabel}
-                            />
-                        ),
-                    },
-                    amount: total,
-                    currency,
-                    fullItem: item,
-                };
-            });
-        }
-
-        return estimateItemList
-    }
-
-    getItemList = (items) => {
-        const { currency } = this.state
-
-        let itemList = []
-
-        if (typeof items !== 'undefined' && items.length != 0) {
-
-            itemList = items.map((item) => {
-
-                let { name, description, price } = item
-
-                return {
-                    title: name,
-                    subtitle: {
-                        title: description,
-                    },
-                    amount: price,
-                    currency,
-                    fullItem: item,
-                };
-            });
-        }
-
-        return itemList
-    }
-
-    onOptionSelect = (action) => {
+    onOptionSelect = action => {
         const {
-            removeEstimate,
             navigation,
-            language,
+            locale,
             convertToInvoice,
             handleSubmit,
             changeEstimateStatus,
-            type
-        } = this.props
+            id
+        } = this.props;
 
         switch (action) {
             case ESTIMATE_ACTIONS.VIEW:
-                handleSubmit((val) => this.onSubmitEstimate(val, action))()
+                handleSubmit(val => this.onSubmitEstimate(val, action))();
                 break;
 
             case ESTIMATE_ACTIONS.SEND:
-                changeEstimateStatus({
-                    id: navigation.getParam('id'),
-                    action: 'send',
-                    navigation
-                })
-
+                this.sendMailRef?.onToggle();
                 break;
 
             case ESTIMATE_ACTIONS.MARK_AS_SENT:
-                changeEstimateStatus && changeEstimateStatus({ id: navigation.getParam('id'), action: 'mark-as-sent', navigation })
+                alertMe({
+                    title: Lng.t('alert.title', { locale }),
+                    desc: Lng.t('estimates.alert.markAsSent', { locale }),
+                    showCancel: true,
+                    okPress: () =>
+                        changeEstimateStatus?.({
+                            id,
+                            action: `${id}/status`,
+                            navigation,
+                            params: {
+                                status: MARK_AS_SENT
+                            }
+                        })
+                });
                 break;
 
             case ESTIMATE_ACTIONS.MARK_AS_ACCEPTED:
-                changeEstimateStatus && changeEstimateStatus({ id: navigation.getParam('id'), action: 'accept', navigation })
+                alertMe({
+                    title: Lng.t('alert.title', { locale }),
+                    desc: Lng.t('estimates.alert.markAsAccept', { locale }),
+                    showCancel: true,
+                    okPress: () =>
+                        changeEstimateStatus?.({
+                            id,
+                            action: `${id}/status`,
+                            navigation,
+                            params: {
+                                status: MARK_AS_ACCEPT
+                            }
+                        })
+                });
                 break;
 
             case ESTIMATE_ACTIONS.MARK_AS_REJECTED:
-                changeEstimateStatus && changeEstimateStatus({ id: navigation.getParam('id'), action: 'reject', navigation })
+                alertMe({
+                    title: Lng.t('alert.title', { locale }),
+                    desc: Lng.t('estimates.alert.markAsReject', { locale }),
+                    showCancel: true,
+                    okPress: () =>
+                        changeEstimateStatus?.({
+                            id,
+                            action: `${id}/status`,
+                            navigation,
+                            params: {
+                                status: MARK_AS_REJECT
+                            }
+                        })
+                });
                 break;
 
             case ESTIMATE_ACTIONS.CONVERT_TO_INVOICE:
                 alertMe({
-                    desc: Lng.t("estimates.alert.convertToInvoiceDescription", { locale: language }),
+                    desc: Lng.t('estimates.alert.convertToInvoiceDescription', {
+                        locale
+                    }),
                     showCancel: true,
-                    okPress: () => convertToInvoice({
-                        id: navigation.getParam('id'),
-                        onResult: () => {
-                            navigation.navigate(ROUTES.MAIN_INVOICES)
-                        }
-                    })
-                })
+                    okPress: () =>
+                        convertToInvoice({
+                            id,
+                            onResult: () => {
+                                navigation.navigate(ROUTES.MAIN_INVOICES);
+                            }
+                        })
+                });
                 break;
 
             case ESTIMATE_ACTIONS.DELETE:
-
-                alertMe({
-                    title: Lng.t("alert.title", { locale: language }),
-                    desc: Lng.t("estimates.alert.removeDescription", { locale: language }),
-                    showCancel: true,
-                    okPress: () => removeEstimate({
-                        id: navigation.getParam('id'),
-                        onResult: () => {
-                            navigation.navigate(ROUTES.ESTIMATE_LIST)
-                        }
-                    })
-                })
-
+                this.removeEstimate();
                 break;
 
             default:
                 break;
         }
+    };
 
-    }
+    sendEmail = params => {
+        const { navigation, changeEstimateStatus, id } = this.props;
+
+        changeEstimateStatus?.({
+            id,
+            action: `${id}/send`,
+            navigation,
+            params,
+            onResult: () => EstimateServices.toggleIsEmailSent(true)
+        });
+    };
+
+    sendMailComponent = () => {
+        return (
+            <SendMail
+                mailReference={ref => (this.sendMailRef = ref)}
+                headerTitle={'header.sendMailEstimate'}
+                alertDesc={'estimates.alert.sendEstimate'}
+                user={this.props?.formValues?.customer}
+                body="estimate_mail_body"
+                onSendMail={params => this.sendEmail(params)}
+            />
+        );
+    };
 
     render() {
         const {
             navigation,
             handleSubmit,
-            loading,
             estimateData: {
                 estimateTemplates,
                 discount_per_item,
-                tax_per_item,
-                estimate_prefix
+                tax_per_item
             } = {},
             estimateItems,
             getItems,
             itemsLoading,
             items,
-            language,
+            locale,
             initLoading,
+            withLoading,
             type,
             getCustomers,
             customers,
+            formValues,
+            customFields
         } = this.props;
 
-        const { currency, customerName, markAsStatus } = this.state
+        const { currency, customerName, markAsStatus, isLoading } = this.state;
 
-        const isEditEstimate = (type === ESTIMATE_EDIT)
+        const isEditEstimate = type === ESTIMATE_EDIT;
 
-        const estimateRefs = {}
+        const hasCustomField = isEditEstimate
+            ? formValues && formValues.hasOwnProperty('fields')
+            : isArray(customFields);
 
-        let hasMark = (markAsStatus === MARK_AS_ACCEPT) || (markAsStatus === MARK_AS_REJECT) || (markAsStatus === MARK_AS_SENT)
+        let hasCompleteStatus = markAsStatus === 'COMPLETED';
 
-        let drownDownProps = (isEditEstimate && !initLoading) ? {
-            options: EDIT_ESTIMATE_ACTIONS(
-                language,
-                markAsStatus
-            ),
-            onSelect: this.onOptionSelect,
-            cancelButtonIndex: hasMark ? 5 : 6,
-            destructiveButtonIndex: hasMark ? 4 : 5
-        } : null
+        let hasMark =
+            markAsStatus === MARK_AS_ACCEPT ||
+            markAsStatus === MARK_AS_REJECT ||
+            markAsStatus === MARK_AS_SENT;
+
+        let drownDownProps =
+            isEditEstimate && !initLoading
+                ? {
+                      options: EDIT_ESTIMATE_ACTIONS(locale, markAsStatus),
+                      onSelect: this.onOptionSelect,
+                      cancelButtonIndex: hasMark ? 5 : 6,
+                      destructiveButtonIndex: hasMark ? 4 : 5
+                  }
+                : null;
+
+        this.estimateRefs(this);
 
         return (
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => this.onDraft(handleSubmit),
-                    title: isEditEstimate ?
-                        Lng.t("header.editEstimate", { locale: language }) :
-                        Lng.t("header.addEstimate", { locale: language }),
-                    titleStyle: headerTitle({ marginLeft: -15, marginRight: -15 }),
+                    title: isEditEstimate
+                        ? Lng.t('header.editEstimate', { locale })
+                        : Lng.t('header.addEstimate', { locale }),
+                    titleStyle: headerTitle({
+                        marginLeft: -15,
+                        marginRight: -15
+                    }),
                     rightIcon: !isEditEstimate ? 'save' : null,
-                    rightIconPress: handleSubmit((val) => this.onSubmitEstimate(val, status = 'save')),
+                    rightIconPress: handleSubmit(this.saveEstimate),
                     rightIconProps: {
                         solid: true
                     },
-                    placement: "center",
+                    placement: 'center'
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{ is: initLoading }}
+                loadingProps={{ is: isLoading || initLoading || withLoading }}
+                contentProps={{ withLoading }}
                 dropdownProps={drownDownProps}
             >
+                <View
+                    style={[
+                        styles.bodyContainer,
+                        { opacity: withLoading ? 0.8 : 1 }
+                    ]}
+                >
+                    {isEditEstimate &&
+                        !hasCompleteStatus &&
+                        this.sendMailComponent()}
 
-                <View style={styles.bodyContainer}>
                     <View style={styles.dateFieldContainer}>
                         <View style={styles.dateField}>
                             <Field
                                 name={'estimate_date'}
                                 isRequired
                                 component={DatePickerField}
-                                label={Lng.t("estimates.estimateDate", { locale: language })}
+                                label={Lng.t('estimates.estimateDate', {
+                                    locale
+                                })}
                                 icon={'calendar-alt'}
-                                onChangeCallback={(val) =>
+                                onChangeCallback={val =>
                                     this.setFormField('estimate_date', val)
                                 }
                             />
@@ -794,9 +624,11 @@ export class Estimate extends React.Component<IProps> {
                                 name="expiry_date"
                                 isRequired
                                 component={DatePickerField}
-                                label={Lng.t("estimates.expiryDate", { locale: language })}
+                                label={Lng.t('estimates.expiryDate', {
+                                    locale
+                                })}
                                 icon={'calendar-alt'}
-                                onChangeCallback={(val) =>
+                                onChangeCallback={val =>
                                     this.setFormField('expiry_date', val)
                                 }
                             />
@@ -806,11 +638,11 @@ export class Estimate extends React.Component<IProps> {
                     <Field
                         name="estimate_number"
                         component={FakeInput}
-                        label={Lng.t("estimates.estimateNumber", { locale: language })}
+                        label={Lng.t('estimates.estimateNumber', { locale })}
                         isRequired
                         prefixProps={{
-                            fieldName: "estimate_number",
-                            prefix: estimate_prefix,
+                            prefix: formValues?.prefix,
+                            fieldName: 'estimate_number',
                             icon: 'hashtag',
                             iconSolid: false
                         }}
@@ -823,43 +655,40 @@ export class Estimate extends React.Component<IProps> {
                         hasPagination
                         isRequired
                         getItems={getCustomers}
+                        selectedItem={formValues?.user}
                         displayName="name"
                         component={SelectField}
-                        label={Lng.t("estimates.customer", { locale: language })}
+                        label={Lng.t('estimates.customer', { locale })}
                         icon={'user'}
-                        placeholder={customerName ? customerName :
-                            Lng.t("estimates.customerPlaceholder", { locale: language })
+                        placeholder={
+                            customerName
+                                ? customerName
+                                : Lng.t('estimates.customerPlaceholder', {
+                                      locale
+                                  })
                         }
                         navigation={navigation}
                         compareField="id"
-                        onSelect={(item) => {
-                            this.setFormField('user_id', item.id)
-                            this.setState({ currency: item.currency })
+                        onSelect={item => {
+                            this.setFormField('user_id', item.id);
+                            this.setState({ currency: item.currency });
                         }}
-                        rightIconPress={
-                            () => navigation.navigate(ROUTES.CUSTOMER, {
-                                type: CUSTOMER_ADD,
-                                currency,
-                                onSelect: (val) => {
-                                    this.setFormField('user_id', val.id)
-                                    this.setState({ currency: val.currency })
-                                }
-                            })
-                        }
+                        rightIconPress={this.navigateToCustomer}
                         headerProps={{
-                            title: Lng.t("customers.title", { locale: language }),
+                            title: Lng.t('customers.title', { locale })
                         }}
                         listViewProps={{
-                            hasAvatar: true,
+                            hasAvatar: true
                         }}
                         emptyContentProps={{
-                            contentType: "customers",
-                            image: IMAGES.EMPTY_CUSTOMERS,
+                            contentType: 'customers',
+                            image: IMAGES.EMPTY_CUSTOMERS
                         }}
+                        reference={ref => (this.customerReference = ref)}
                     />
 
                     <Text style={[styles.inputTextStyle, styles.label]}>
-                        {Lng.t("estimates.items", { locale: language })}
+                        {Lng.t('estimates.items', { locale })}
                         <Text style={styles.required}> *</Text>
                     </Text>
 
@@ -867,16 +696,20 @@ export class Estimate extends React.Component<IProps> {
                         items={this.getEstimateItemList(estimateItems)}
                         itemContainer={styles.itemContainer}
                         leftTitleStyle={styles.itemLeftTitle}
-                        leftSubTitleLabelStyle={[styles.itemLeftSubTitle, styles.itemLeftSubTitleLabel]}
+                        leftSubTitleLabelStyle={[
+                            styles.itemLeftSubTitle,
+                            styles.itemLeftSubTitleLabel
+                        ]}
                         leftSubTitleStyle={styles.itemLeftSubTitle}
                         rightTitleStyle={styles.itemRightTitle}
                         backgroundColor={colors.white}
+                        parentViewStyle={{ marginVertical: 4 }}
                         onPress={this.onEditItem}
                     />
 
                     <Field
                         name="items"
-                        items={this.getItemList(items)}
+                        items={getItemList(items)}
                         displayName="name"
                         component={SelectField}
                         hasPagination
@@ -885,7 +718,7 @@ export class Estimate extends React.Component<IProps> {
                         compareField="id"
                         valueCompareField="item_id"
                         icon={'percent'}
-                        placeholder={Lng.t("estimates.addItem", { locale: language })}
+                        placeholder={Lng.t('estimates.addItem', { locale })}
                         navigation={navigation}
                         onlyPlaceholder
                         isMultiSelect
@@ -893,21 +726,19 @@ export class Estimate extends React.Component<IProps> {
                         fakeInputProps={{
                             icon: 'shopping-basket',
                             rightIcon: 'angle-right',
-                            color: colors.primaryLight,
+                            color: colors.primaryLight
                         }}
-                        onSelect={
-                            (item) => {
-                                navigation.navigate(ROUTES.ESTIMATE_ITEM, {
-                                    item,
-                                    currency,
-                                    type: ITEM_ADD,
-                                    discount_per_item,
-                                    tax_per_item
-                                })
-                            }
-                        }
-                        rightIconPress={
-                            () => navigation.navigate(ROUTES.ESTIMATE_ITEM, {
+                        onSelect={item => {
+                            navigation.navigate(ROUTES.ESTIMATE_ITEM, {
+                                item,
+                                currency,
+                                type: ITEM_ADD,
+                                discount_per_item,
+                                tax_per_item
+                            });
+                        }}
+                        rightIconPress={() =>
+                            navigation.navigate(ROUTES.ESTIMATE_ITEM, {
                                 type: ITEM_ADD,
                                 currency,
                                 discount_per_item,
@@ -915,58 +746,54 @@ export class Estimate extends React.Component<IProps> {
                             })
                         }
                         headerProps={{
-                            title: Lng.t("items.title", { locale: language }),
+                            title: Lng.t('items.title', { locale })
                         }}
                         emptyContentProps={{
-                            contentType: "items",
-                            image: IMAGES.EMPTY_ITEMS,
+                            contentType: 'items',
+                            image: IMAGES.EMPTY_ITEMS
                         }}
                         listViewProps={{
                             leftSubTitleStyle: itemsDescriptionStyle()
                         }}
+                        paginationLimit={15}
                     />
 
-                    {this.FINAL_AMOUNT(estimateItems)}
+                    <FinalAmount state={this.state} props={this.props} />
 
                     <Field
                         name="reference_number"
                         component={InputField}
-                        hint={Lng.t("invoices.referenceNumber", { locale: language })}
+                        hint={Lng.t('invoices.referenceNumber', { locale })}
                         leftIcon={'hashtag'}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
-                            autoCorrect: true,
+                            autoCorrect: true
                         }}
                     />
 
-                    <Field
-                        name="notes"
-                        component={InputField}
-                        hint={Lng.t("estimates.notes", { locale: language })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            placeholder: Lng.t("estimates.notePlaceholder", { locale: language }),
-                            autoCorrect: true,
-                            multiline: true,
-                            maxLength: MAX_LENGTH
-                        }}
-                        height={80}
-                        hintStyle={styles.noteHintStyle}
-                        autoCorrect={true}
+                    <Notes
+                        {...this.props}
+                        isEditEstimate={isEditEstimate}
+                        setFormField={this.setFormField}
                     />
 
                     <Field
                         name="estimate_template_id"
                         templates={estimateTemplates}
                         component={TemplateField}
-                        label={Lng.t("estimates.template", { locale: language })}
+                        label={Lng.t('estimates.template', { locale })}
                         icon={'file-alt'}
-                        placeholder={Lng.t("estimates.templatePlaceholder", { locale: language })}
+                        placeholder={Lng.t('estimates.templatePlaceholder', {
+                            locale
+                        })}
                         navigation={navigation}
-                        language={language}
+                        locale={locale}
                     />
 
+                    {hasCustomField && (
+                        <CustomField {...this.props} type={null} />
+                    )}
                 </View>
             </DefaultLayout>
         );

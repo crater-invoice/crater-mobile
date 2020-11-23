@@ -1,93 +1,50 @@
-
 import {
-    GET_CATEGORIES,
-    SET_CATEGORIES,
     EXPENSES_TRIGGER_SPINNER,
     GET_EXPENSES,
     SET_EXPENSES,
     CREATE_EXPENSE,
-    CLEAR_EXPENSE,
-    GET_EDIT_EXPENSE,
-    SET_EXPENSE,
-    GET_CREATE_EXPENSE,
-    EDIT_EXPENSE,
-    SET_FILTER_EXPENSES,
+    GET_EXPENSE_DETAIL,
+    UPDATE_EXPENSE,
     REMOVE_EXPENSE,
-    GET_RECEIPT,
-    DOWNLOAD_RECEIPT
-} from "../constants";
+    GET_CREATE_EXPENSE
+} from '../constants';
 
-export const getCategories = (payload = {}) => ({
-    type: GET_CATEGORIES,
-    payload,
-});
-
-export const setCategories = (payload = {}) => ({
-    type: SET_CATEGORIES,
-    payload,
+export const getCreateExpense = (payload = {}) => ({
+    type: GET_CREATE_EXPENSE,
+    payload
 });
 
 export const getExpenses = (payload = {}) => ({
     type: GET_EXPENSES,
-    payload,
-});
-
-export const setFilterExpenses = (payload = {}) => ({
-    type: SET_FILTER_EXPENSES,
-    payload,
+    payload
 });
 
 export const setExpenses = (payload = {}) => ({
     type: SET_EXPENSES,
-    payload,
+    payload
 });
 
 export const createExpense = (payload = {}) => ({
     type: CREATE_EXPENSE,
-    payload,
+    payload
 });
 
-export const expenseTriggerSpinner = (payload) => ({
+export const expenseTriggerSpinner = payload => ({
     type: EXPENSES_TRIGGER_SPINNER,
-    payload,
+    payload
 });
 
-export const clearExpense = (payload) => ({
-    type: CLEAR_EXPENSE,
-    payload,
+export const getExpenseDetail = payload => ({
+    type: GET_EXPENSE_DETAIL,
+    payload
 });
 
-export const getCreateExpense = (payload) => ({
-    type: GET_CREATE_EXPENSE,
-    payload,
-});
-
-export const getEditExpense = (payload) => ({
-    type: GET_EDIT_EXPENSE,
-    payload,
-});
-
-export const editExpense = (payload) => ({
-    type: EDIT_EXPENSE,
-    payload,
-});
-
-export const setExpense = (payload) => ({
-    type: SET_EXPENSE,
-    payload,
+export const updateExpense = payload => ({
+    type: UPDATE_EXPENSE,
+    payload
 });
 
 export const removeExpense = (payload = {}) => ({
     type: REMOVE_EXPENSE,
-    payload,
-});
-
-export const getReceipt = (payload = {}) => ({
-    type: GET_RECEIPT,
-    payload,
-});
-
-export const downloadReceipt = (payload = {}) => ({
-    type: DOWNLOAD_RECEIPT,
-    payload,
+    payload
 });

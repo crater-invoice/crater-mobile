@@ -1,32 +1,33 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../styles/colors';
-import { fonts } from '../../styles/fonts';
+import { colors, fonts } from '@/styles';
 
 export const styles = StyleSheet.create({
     fieldContainer: {
-        marginTop: 15,
+        marginTop: 15
     },
     buttonGroupContainer: {
         justifyContent: 'space-between',
-        flexDirection: 'row',
+        flexDirection: 'row'
     },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 30,
+        marginBottom: 30
     },
     label: {
         color: colors.dark2,
-        fontFamily: fonts.poppins
+        fontFamily: fonts.poppins,
+        textAlign: 'left'
     },
     hintStyle: {
         color: colors.dark2,
         fontFamily: fonts.poppins,
         marginBottom: 15,
+        textAlign: 'left'
     },
     checkedLabel: {
-        color: colors.primary,
+        color: colors.primary
     },
     circle: {
         height: 20,
@@ -37,15 +38,15 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.white,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: 10,
+        marginRight: 10
     },
     checkedCircle: {
-        backgroundColor: colors.primary,
+        backgroundColor: colors.primary
     },
     middleCircle: {
         width: 6,
         height: 6,
         borderRadius: 3,
-        backgroundColor: colors.white,
-    },
+        backgroundColor: colors.white
+    }
 });

@@ -1,14 +1,19 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, TouchableWithoutFeedback, Text, TouchableOpacity } from 'react-native';
+import {
+    View,
+    TouchableWithoutFeedback,
+    Text,
+    TouchableOpacity
+} from 'react-native';
 import { connect } from 'react-redux';
 import { Field } from 'redux-form';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
-import { colors } from '../../styles/colors';
+import { colors } from '@/styles';
 import { Content } from '../Content';
-import Lng from '../../api/lang/i18n';
+import Lng from '@/lang/i18n';
 import { InputField } from '../InputField';
 
 type IProps = {
@@ -26,10 +31,10 @@ type IProps = {
     valueStyle: Object,
     prefixProps: Object,
     loading: Boolean,
-    language: String,
+    locale: String,
     isRequired: Boolean,
     leftIconSolid: Boolean,
-    disabled: Boolean,
+    disabled: Boolean
 };
 
 export class FakeInputComponent extends Component<IProps> {
@@ -57,24 +62,29 @@ export class FakeInputComponent extends Component<IProps> {
             loading = false,
             placeholderStyle,
             leftIconStyle,
-            language,
+            locale,
             isRequired = false,
             leftIconSolid = true,
             disabled = false,
-            prefixProps = null,
+            prefixProps = null
         } = this.props;
 
         return (
             <View style={[styles.container, containerStyle && containerStyle]}>
-                {label && <Text style={styles.label}>
-                    {label}
-                    {isRequired && (
-                        <Text style={styles.required}> *</Text>
-                    )}
-                </Text>}
+                {label && (
+                    <Text style={styles.label}>
+                        {label}
+                        {isRequired ? (
+                            <Text style={styles.required}> *</Text>
+                        ) : null}
+                    </Text>
+                )}
                 {fakeInput ? (
-                    <TouchableWithoutFeedback onPress={() => onChangeCallback && onChangeCallback()}>
-                        <View onLayout={this.saveFakeInputHeight}
+                    <TouchableWithoutFeedback
+                        onPress={() => onChangeCallback && onChangeCallback()}
+                    >
+                        <View
+                            onLayout={this.saveFakeInputHeight}
                             style={submitFailed && error && styles.pickerError}
                         >
                             {leftIcon && (
@@ -93,7 +103,11 @@ export class FakeInputComponent extends Component<IProps> {
                     <View
                         style={[
                             styles.prefixInput,
-                            submitFailed && error && { ...styles.inputError, borderBottomWidth: 0 }
+                            submitFailed &&
+                                error && {
+                                    ...styles.inputError,
+                                    borderBottomWidth: 0
+                                }
                         ]}
                     >
                         <View style={styles.prefixLabelContainer}>
@@ -126,90 +140,108 @@ export class FakeInputComponent extends Component<IProps> {
                                     keyboardType: 'numeric'
                                 }}
                                 fieldStyle={styles.prefixInputFieldStyle}
-                                inputContainerStyle={styles.prefixInputContainerStyle}
+                                inputContainerStyle={
+                                    styles.prefixInputContainerStyle
+                                }
                                 textStyle={styles.prefixInputText}
                                 hideError={true}
                             />
                         </View>
                     </View>
                 ) : (
-                            <Content
-                                loadingProps={{
-                                    is: loading,
-                                    style: styles.loadingFakeInput
-                                }}
+                    <Content
+                        loadingProps={{
+                            is: loading,
+                            style: styles.loadingFakeInput,
+                            size: 'small'
+                        }}
+                    >
+                        <TouchableOpacity
+                            onPress={() =>
+                                onChangeCallback && onChangeCallback()
+                            }
+                            activeOpacity={disabled ? 1 : 0.7}
+                        >
+                            <View
+                                style={[
+                                    styles.fakeInput,
+                                    fakeInputContainerStyle &&
+                                        fakeInputContainerStyle,
+                                    submitFailed && error && styles.inputError,
+                                    disabled && styles.disabledSelectedValue
+                                ]}
                             >
-
-                                <TouchableOpacity
-                                    onPress={() => onChangeCallback && onChangeCallback()
-                                    }
-                                    activeOpacity={disabled ? 1 : 0.7}
-                                >
-                                    <View
+                                {icon && (
+                                    <Icon
+                                        name={icon}
+                                        size={16}
+                                        color={
+                                            (color && color) || colors.darkGray
+                                        }
+                                        solid={leftIconSolid}
                                         style={[
-                                            styles.fakeInput,
-                                            fakeInputContainerStyle && fakeInputContainerStyle,
-                                            submitFailed && error && styles.inputError,
-                                            disabled && styles.disabledSelectedValue
+                                            styles.leftIcon,
+                                            leftIconStyle && leftIconStyle
+                                        ]}
+                                    />
+                                )}
+
+                                {values ? (
+                                    <Text
+                                        numberOfLines={1}
+                                        style={[
+                                            styles.textValue,
+                                            color && { color: color },
+                                            icon && { paddingLeft: 39 },
+                                            rightIcon && styles.hasRightIcon,
+                                            valueStyle && valueStyle,
+                                            disabled && { opacity: 0.5 }
                                         ]}
                                     >
+                                        {values}
+                                    </Text>
+                                ) : (
+                                    <Text
+                                        numberOfLines={1}
+                                        style={[
+                                            styles.placeholderText,
+                                            placeholderStyle &&
+                                                placeholderStyle,
+                                            icon && { paddingLeft: 39 },
+                                            rightIcon && styles.hasRightIcon,
+                                            color && { color: color },
+                                            disabled && { opacity: 0.5 }
+                                        ]}
+                                    >
+                                        {placeholder && placeholder}
+                                    </Text>
+                                )}
 
-                                        {icon && (
-                                            <Icon
-                                                name={icon}
-                                                size={16}
-                                                color={(color && color) || colors.darkGray}
-                                                solid={leftIconSolid}
-                                                style={[styles.leftIcon, leftIconStyle && leftIconStyle]}
-                                            />
-                                        )}
-
-                                        {values ? (
-                                            <Text
-                                                numberOfLines={1}
-                                                style={[
-                                                    styles.textValue,
-                                                    color && { color: color },
-                                                    icon && { paddingLeft: 39 },
-                                                    rightIcon && styles.hasRightIcon,
-                                                    valueStyle && valueStyle
-                                                ]}
-                                            >
-                                                {values}
-                                            </Text>
-                                        ) : (
-                                                <Text
-                                                    numberOfLines={1}
-                                                    style={[
-                                                        styles.placeholderText,
-                                                        placeholderStyle && placeholderStyle,
-                                                        icon && { paddingLeft: 39 },
-                                                        rightIcon && styles.hasRightIcon,
-                                                        color && { color: color }
-                                                    ]}
-                                                >
-                                                    {placeholder && placeholder}
-                                                </Text>
-                                            )}
-
-                                        {rightIcon && (
-                                            <Icon
-                                                name={rightIcon}
-                                                size={18}
-                                                color={colors.darkGray}
-                                                style={styles.rightIcon}
-                                            />
-                                        )}
-                                    </View>
-                                </TouchableOpacity>
-                            </Content>
-                        )}
+                                {rightIcon && (
+                                    <Icon
+                                        name={rightIcon}
+                                        size={18}
+                                        color={colors.darkGray}
+                                        style={styles.rightIcon}
+                                    />
+                                )}
+                            </View>
+                        </TouchableOpacity>
+                    </Content>
+                )}
 
                 {submitFailed && error && (
                     <View style={styles.validation}>
-                        <Text numberOfLines={1} style={{ color: 'white', fontSize: 12 }}>
+                        <Text
+                            numberOfLines={1}
+                            style={{
+                                color: 'white',
+                                fontSize: 12,
+                                textAlign: 'left'
+                            }}
+                        >
                             {Lng.t(error, {
-                                locale: language,
+                                locale,
                                 hint: label
                             })}
                         </Text>
@@ -220,14 +252,13 @@ export class FakeInputComponent extends Component<IProps> {
     }
 }
 
-
 const mapStateToProps = ({ global }) => ({
-    language: global.language,
+    locale: global?.locale
 });
 
 const mapDispatchToProps = {};
 
 export const FakeInput = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(FakeInputComponent);
