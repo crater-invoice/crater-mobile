@@ -36,6 +36,8 @@ export class InputFieldComponent extends Component<IInputField> {
         }));
     };
 
+    isNumber = text => !isNaN(parseFloat(text)) && isFinite(text);
+
     getSign = () => {
         const { dollarField, percentageField } = this.props;
 
@@ -128,7 +130,7 @@ export class InputFieldComponent extends Component<IInputField> {
 
         let initialValueProps = {};
 
-        if (value && isCurrencyInput) {
+        if (value && isCurrencyInput && this.isNumber(value)) {
             const newValue = value / 100;
             initialValueProps = { value: `${newValue}` };
         } else {
@@ -226,7 +228,8 @@ export class InputFieldComponent extends Component<IInputField> {
                             {...methods}
                             onChangeText={enteredValue => {
                                 onChangeText?.(enteredValue);
-                                isCurrencyInput
+
+                                isCurrencyInput && this.isNumber(enteredValue)
                                     ? onChange(enteredValue * 100)
                                     : onChange(enteredValue);
                             }}

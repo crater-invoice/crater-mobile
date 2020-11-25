@@ -1,4 +1,5 @@
 // @flow
+import { trim } from 'lodash';
 import React from 'react';
 import { EMAIL_REGEX, URL_REGEX, CHARACTER_ONLY_REGEX } from './regex';
 
@@ -40,9 +41,9 @@ export function getError(
         emailFormat: () =>
             EMAIL_REGEX.test(value) ? null : 'validation.email',
 
-        required: () => (!value ? 'validation.required' : null),
+        required: () => (!trim(value) ? 'validation.required' : null),
 
-        requiredField: () => (!value ? 'validation.field' : null),
+        requiredField: () => (!trim(value) ? 'validation.field' : null),
 
         itemField: () => (!value ? 'validation.choose' : null),
 
