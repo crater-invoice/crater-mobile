@@ -13,6 +13,8 @@ import {
     PREFERENCES_SETTING_TYPE
 } from '../../constants';
 import { setI18nManagerValue } from '@/utils';
+import { isArray } from '@/constants';
+import { getGeneralSetting } from '../general';
 
 function* getPreferences({ payload: { onResult } }) {
     yield put(spinner({ getPreferencesLoading: true }));
@@ -27,8 +29,21 @@ function* getPreferences({ payload: { onResult } }) {
 
         const response = yield call([Request, 'get'], options);
 
+        const currencies = yield call(getGeneralSetting, {
+            payload: { url: 'currencies', returnResponse: true }
+        });
+
+        let selectedCurrency = null;
+
+        if (isArray(currencies)) {
+            selectedCurrency = currencies.find(
+                currency => currency?.id === Number(response?.currency)
+            );
+        }
+
         yield put(setPreferences({ preferences: response }));
-        onResult?.(response);
+        yield put(setSettings({ settings: { ...response, selectedCurrency } }));
+        onResult?.({ ...response, currencies });
     } catch (e) {
     } finally {
         yield put(spinner({ getPreferencesLoading: false }));
@@ -36,7 +51,7 @@ function* getPreferences({ payload: { onResult } }) {
 }
 
 function* editPreferences({ payload }) {
-    const { params, navigation, locale = 'en' } = payload;
+    const { params, navigation, locale = 'en', currencies = null } = payload;
 
     yield put(spinner({ editPreferencesLoading: true }));
 
@@ -48,8 +63,18 @@ function* editPreferences({ payload }) {
 
         const response = yield call([Request, 'post'], options);
 
-        if (response.success) {
-            yield put(setSettings({ settings: params }));
+        if (response?.success) {
+            let selectedCurrency = null;
+            if (params?.currency && isArray(currencies)) {
+                selectedCurrency = currencies.find(
+                    currency =>
+                        currency?.fullItem?.id === Number(params?.currency)
+                );
+                selectedCurrency = selectedCurrency?.fullItem;
+            }
+            yield put(
+                setSettings({ settings: { ...params, selectedCurrency } })
+            );
         }
 
         if (params?.language) {

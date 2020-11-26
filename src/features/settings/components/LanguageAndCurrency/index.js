@@ -41,25 +41,20 @@ export class LanguageAndCurrency extends React.Component<IProps> {
 
         getPreferences({
             onResult: val => {
-                this.setFormField('language', val.language);
-                this.setFormField('currency', val.currency);
-            }
-        });
-
-        getGeneralSetting({
-            url: 'currencies',
-            onSuccess: currency => {
+                const { language, currency, currencies } = val;
+                this.setFormField('language', language);
+                this.setFormField('currency', currency);
                 this.setState({
-                    currencyList: this.getCurrenciesList(currency)
+                    currencyList: this.getCurrenciesList(currencies)
                 });
-            }
-        });
 
-        getGeneralSetting({
-            url: 'languages',
-            onSuccess: language => {
-                this.setState({
-                    languagesList: this.getLanguagesList(language)
+                getGeneralSetting({
+                    url: 'languages',
+                    onSuccess: language => {
+                        this.setState({
+                            languagesList: this.getLanguagesList(language)
+                        });
+                    }
                 });
             }
         });
@@ -79,16 +74,25 @@ export class LanguageAndCurrency extends React.Component<IProps> {
     };
 
     onSubmit = values => {
+        if (this.isLoading()) {
+            return;
+        }
+
         const {
             navigation,
             editPreferences,
             clearPreferences,
-            currencies,
             locale
         } = this.props;
+        const { currencyList } = this.state;
 
         clearPreferences();
-        editPreferences({ params: values, navigation, currencies, locale });
+        editPreferences({
+            params: values,
+            navigation,
+            currencies: currencyList,
+            locale
+        });
     };
 
     BOTTOM_ACTION = handleSubmit => {
@@ -160,17 +164,28 @@ export class LanguageAndCurrency extends React.Component<IProps> {
         return '  ';
     };
 
+    isLoading = () => {
+        const { formValues } = this.props;
+        const { currencyList, languagesList } = this.state;
+
+        return (
+            !isArray(languagesList) ||
+            !isArray(currencyList) ||
+            !hasObjectLength(formValues)
+        );
+    };
+
     render() {
         const {
             navigation,
             handleSubmit,
             locale,
             formValues: { currency },
-            formValues,
-            isLoading
+            formValues
         } = this.props;
 
         const { currencyList, languagesList } = this.state;
+
         return (
             <DefaultLayout
                 headerProps={{
@@ -188,10 +203,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
-                    is:
-                        !isArray(languagesList) ||
-                        !isArray(currencyList) ||
-                        !hasObjectLength(formValues)
+                    is: this.isLoading()
                 }}
             >
                 <View style={styles.mainContainer}>
