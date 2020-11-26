@@ -10,7 +10,12 @@ import {
     CheckBox,
     DateTimePickerField
 } from '@/components';
-import { KEYBOARD_TYPE, MAX_LENGTH, hasFieldValue } from '@/constants';
+import {
+    KEYBOARD_TYPE,
+    MAX_LENGTH,
+    hasFieldValue,
+    isIosPlatform
+} from '@/constants';
 import Lng from '@/lang/i18n';
 
 // Custom Field Refs
@@ -43,6 +48,7 @@ const DEFAULT_NUMBER_FIELD = symbol => {
                 keyboardType: KEYBOARD_TYPE.NUMERIC
             }}
             leftSymbol={symbol ?? currency?.symbol}
+            textStyle={{ paddingTop: isIosPlatform() ? 1 : 4 }}
         />
     );
 };

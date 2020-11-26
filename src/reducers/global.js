@@ -151,6 +151,9 @@ export default function globalReducer(state = initialState, action) {
                     ...state,
                     ...(payload?.settings?.language && {
                         locale: payload.settings.language
+                    }),
+                    ...(payload?.settings?.selectedCurrency && {
+                        currency: payload.settings.selectedCurrency
                     })
                 };
 

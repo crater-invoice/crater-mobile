@@ -7,6 +7,7 @@ import { Empty } from '../Empty';
 import { colors, fonts } from '@/styles';
 import { CurrencyFormat } from '../CurrencyFormat';
 import { FadeListAnimation } from '@/components';
+import { isIosPlatform } from '@/constants';
 
 type IProps = {
     hasAvatar: Boolean,
@@ -152,6 +153,9 @@ export class ListView extends Component<IProps> {
                                 styles.rightTitle,
                                 rightTitleStyle && rightTitleStyle
                             ]}
+                            currencyStyle={{
+                                marginTop: isIosPlatform() ? -1.5 : -6
+                            }}
                         />
                     ) : (
                         item.rightTitle
@@ -185,7 +189,7 @@ export class ListView extends Component<IProps> {
                             containerStyle={[styles.checkboxContainerStyle]}
                             size={20}
                             checkedColor={colors.primary}
-                            uncheckedColor={colors.lightGray}
+                            uncheckedColor={colors.gray3}
                             checked={this.getCheckedItem(item)}
                             onPress={() => onPress(item.fullItem)}
                         />

@@ -140,10 +140,10 @@ export default StyleSheet.create({
     },
     leftSymbolView: {
         height: '100%',
-        width: 35,
         marginLeft: -20,
         justifyContent: 'center',
         alignContent: 'center',
-        paddingHorizontal: 10
+        paddingLeft: 10,
+        paddingRight: 5
     }
 });

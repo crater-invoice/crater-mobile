@@ -180,7 +180,6 @@ export class Category extends React.Component<IProps> {
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
-                            autoFocus: true,
                             onSubmitEditing: () => {
                                 categoryRefs.description.focus();
                             }

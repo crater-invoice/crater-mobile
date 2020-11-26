@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
+import { isIosPlatform } from '@/constants';
 
 export default styles = StyleSheet.create({
     container: {
@@ -77,7 +78,8 @@ export default styles = StyleSheet.create({
     subContainer: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        overflow: 'hidden'
     },
     label: {
         color: colors.gray,
@@ -89,12 +91,16 @@ export default styles = StyleSheet.create({
         color: colors.dark2,
         fontSize: 16
     },
+    center: {
+        justifyContent: 'center'
+    },
     totalPrice: {
         color: colors.primary,
         fontSize: 18,
         fontWeight: '500',
         fontFamily: fonts.poppinsMedium,
-        textAlign: 'left'
+        textAlign: 'left',
+        marginTop: isIosPlatform() ? 2 : 0
     },
     divider: {
         backgroundColor: colors.lightGray,

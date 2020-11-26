@@ -77,7 +77,7 @@ export default StyleSheet.create({
         ...Platform.select({
             android: {
                 left: 15,
-                top: 14
+                top: 12
             }
         })
     },
@@ -158,7 +158,7 @@ export default StyleSheet.create({
         ...Platform.select({
             android: {
                 left: 14,
-                top: 5
+                top: 3.5
             }
         })
     }

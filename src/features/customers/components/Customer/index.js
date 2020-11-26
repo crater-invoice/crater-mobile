@@ -256,7 +256,6 @@ export class Customer extends React.Component<IProps> {
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
-                            autoFocus: true,
                             keyboardType: KEYBOARD_TYPE.DEFAULT,
                             onSubmitEditing: () =>
                                 customerRefs.contactName.focus()

@@ -26,10 +26,11 @@ export const colors = {
     lightGray: '#EAF1FB',
     gray: '#B9C1D1',
     gray2: '#E1E0EA',
+    gray3: '#BDBDBD',
     darkGray: '#A5ACC1',
     darkGray2: '#312F57',
     veryDarkGray: '#595959',
     pink: '#FA6FD1',
     lightGreen: '#daf5ee',
-    white: '#FFFFFF',
+    white: '#FFFFFF'
 };

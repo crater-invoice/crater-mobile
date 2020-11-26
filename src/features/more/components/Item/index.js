@@ -443,7 +443,6 @@ export class Item extends React.Component {
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
                             autoCorrect: true,
-                            autoFocus: true,
                             onSubmitEditing: () => {
                                 itemRefs.price.focus();
                             }
