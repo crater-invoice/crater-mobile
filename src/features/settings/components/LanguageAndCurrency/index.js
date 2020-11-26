@@ -282,9 +282,6 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                             valueStyle: styles.selectedField,
                             placeholderStyle: styles.selectedField
                         }}
-                        searchInputProps={{
-                            autoFocus: true
-                        }}
                         onSelect={val => {
                             this.setFormField('currency', val.id);
                         }}

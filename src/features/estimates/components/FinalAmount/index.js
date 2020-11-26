@@ -22,6 +22,7 @@ import {
     getTaxName,
     finalAmount
 } from '../EstimateCalculation';
+import { isIosPlatform } from '@/constants';
 
 const DISPLAY_ITEM_TAX = ({ state }) => {
     const { currency } = state;
@@ -35,7 +36,7 @@ const DISPLAY_ITEM_TAX = ({ state }) => {
                           {getTaxName(val)} ({val.percent} %)
                       </Text>
                   </View>
-                  <View>
+                  <View style={{ justifyContent: 'center' }}>
                       <CurrencyFormat
                           amount={val.amount}
                           currency={currency}
@@ -89,7 +90,7 @@ const FinalAmount = ({ state, props }) => {
                         {Lng.t('estimates.subtotal', { locale })}
                     </Text>
                 </View>
-                <View>
+                <View style={{ marginTop: isIosPlatform() ? 6 : 4 }}>
                     <CurrencyFormat
                         amount={estimateSubTotal()}
                         currency={currency}
@@ -233,11 +234,14 @@ const FinalAmount = ({ state, props }) => {
                         {Lng.t('estimates.totalAmount', { locale })}:
                     </Text>
                 </View>
-                <View>
+                <View style={{ marginTop: isIosPlatform() ? 4 : 3 }}>
                     <CurrencyFormat
                         amount={finalAmount()}
                         currency={currency}
                         style={styles.finalAmount}
+                        currencyStyle={{
+                            marginTop: isIosPlatform() ? -1.5 : -6
+                        }}
                     />
                 </View>
             </View>

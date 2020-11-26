@@ -22,6 +22,7 @@ import {
     getTaxName,
     finalAmount
 } from '../InvoiceCalculation';
+import { isIosPlatform } from '@/constants';
 
 const DISPLAY_ITEM_TAX = ({ state }) => {
     const { currency } = state;
@@ -35,7 +36,7 @@ const DISPLAY_ITEM_TAX = ({ state }) => {
                           {getTaxName(val)} ({val.percent} %)
                       </Text>
                   </View>
-                  <View>
+                  <View style={{ justifyContent: 'center' }}>
                       <CurrencyFormat
                           amount={val.amount}
                           currency={currency}
@@ -89,7 +90,7 @@ const FinalAmount = ({ state, props }) => {
                         {Lng.t('invoices.subtotal', { locale })}
                     </Text>
                 </View>
-                <View>
+                <View style={{ marginTop: isIosPlatform() ? 6 : 4 }}>
                     <CurrencyFormat
                         amount={invoiceSubTotal()}
                         currency={currency}
@@ -220,17 +221,20 @@ const FinalAmount = ({ state, props }) => {
 
             <CtDivider dividerStyle={styles.divider} />
 
-            <View style={styles.subContainer}>
+            <View style={[styles.subContainer]}>
                 <View>
                     <Text style={styles.amountHeading}>
                         {Lng.t('invoices.totalAmount', { locale })}:
                     </Text>
                 </View>
-                <View>
+                <View style={{ marginTop: isIosPlatform() ? 4 : 3 }}>
                     <CurrencyFormat
                         amount={finalAmount()}
                         currency={currency}
                         style={styles.finalAmount}
+                        currencyStyle={{
+                            marginTop: isIosPlatform() ? -1.5 : -6
+                        }}
                     />
                 </View>
             </View>

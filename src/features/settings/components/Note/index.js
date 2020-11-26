@@ -211,8 +211,7 @@ export default class Note extends React.Component<IProps> {
                         inputFieldStyle={styles.inputFieldStyle}
                         inputProps={{
                             returnKeyType: 'next',
-                            autoCorrect: true,
-                            autoFocus: true
+                            autoCorrect: true
                         }}
                         validationStyle={styles.inputFieldValidation}
                     />

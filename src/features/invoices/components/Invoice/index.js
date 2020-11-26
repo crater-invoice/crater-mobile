@@ -189,6 +189,12 @@ export class Invoice extends React.Component<IProps, IStates> {
 
     onDraft = handleSubmit => {
         const { locale, navigation, type } = this.props;
+        const { isLoading } = this.state;
+
+        if (isLoading) {
+            navigation.navigate(ROUTES.MAIN_INVOICES);
+            return;
+        }
 
         if (type === INVOICE_EDIT) {
             navigation.navigate(ROUTES.MAIN_INVOICES);

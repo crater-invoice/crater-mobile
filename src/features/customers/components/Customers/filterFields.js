@@ -12,7 +12,6 @@ export const customersFilterFields = locale => {
             }),
             inputProps: {
                 autoCorrect: true,
-                autoFocus: true,
                 onSubmitEditing: () => filterRefs.contactName.focus()
             }
         },

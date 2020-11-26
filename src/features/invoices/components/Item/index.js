@@ -26,6 +26,7 @@ import {
     alertMe,
     BUTTON_COLOR,
     hasValue,
+    isIosPlatform,
     isIPhoneX,
     MAX_LENGTH
 } from '@/constants';
@@ -235,15 +236,22 @@ export class InvoiceItem extends React.Component {
         return (
             <View style={styles.amountContainer}>
                 <View style={styles.subContainer}>
-                    <View>
+                    <View style={{ overflow: 'hidden' }}>
                         <CurrencyFormat
                             amount={price}
                             currency={currency}
                             preText={`${quantity} x `}
                             style={styles.label}
+                            currencyStyle={{
+                                marginTop: isIosPlatform() ? 6.5 : 3
+                            }}
                         />
                     </View>
-                    <View>
+                    <View
+                        style={{
+                            marginTop: isIosPlatform() ? 6 : 5
+                        }}
+                    >
                         <CurrencyFormat
                             amount={this.itemSubTotal()}
                             currency={currency}
@@ -278,7 +286,7 @@ export class InvoiceItem extends React.Component {
                                         {val.name} ({val.percent} %)
                                     </Text>
                                 </View>
-                                <View>
+                                <View style={styles.center}>
                                     <CurrencyFormat
                                         amount={this.getTaxValue(val.percent)}
                                         currency={currency}
@@ -298,7 +306,7 @@ export class InvoiceItem extends React.Component {
                                         {this.getTaxName(val)} ({val.percent} %)
                                     </Text>
                                 </View>
-                                <View>
+                                <View style={styles.center}>
                                     <CurrencyFormat
                                         amount={this.getCompoundTaxValue(
                                             val.percent
@@ -324,6 +332,9 @@ export class InvoiceItem extends React.Component {
                             amount={this.finalAmount()}
                             currency={currency}
                             style={styles.totalPrice}
+                            moneyStyle={{
+                                marginTop: isIosPlatform() ? 2 : 4.5
+                            }}
                         />
                     </View>
                 </View>
