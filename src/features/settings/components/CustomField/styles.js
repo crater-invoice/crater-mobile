@@ -1,5 +1,6 @@
 import { StyleSheet, Platform } from 'react-native';
 import { colors, fonts } from '@/styles';
+import { isIosPlatform } from '@/constants';
 
 export default styles = StyleSheet.create({
     bodyContainer: {
@@ -36,7 +37,7 @@ export default styles = StyleSheet.create({
     },
     column: {
         flex: 1,
-        marginLeft: -65
+        marginLeft: isIosPlatform() ? -65 : -55
     },
     columnRight: {
         paddingLeft: 5,

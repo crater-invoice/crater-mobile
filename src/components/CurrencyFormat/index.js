@@ -24,24 +24,27 @@ export class CurrencyFormat extends Component<IProps> {
             preText,
             containerStyle,
             currencyStyle,
+            moneyStyle
         } = this.props;
-        const { symbol, money } = formatMoney(amount, currency)
+        const { symbol, money } = formatMoney(amount, currency);
         return (
             <View style={[styles.container, containerStyle && containerStyle]}>
-                <Text style={style && style}>
+                <Text numberOfLines={1} style={style && style}>
                     {preText && preText}
                 </Text>
                 <Text
+                    numberOfLines={1}
                     style={[
                         style && style,
                         currencyStyle && currencyStyle,
-                        SymbolStyle,
+                        SymbolStyle
                     ]}
                 >
-                    {symbol}
-                    {' '}
+                    {symbol}{' '}
                 </Text>
-                <Text style={style && style}>{money}</Text>
+                <Text numberOfLines={1} style={[style, moneyStyle]}>
+                    {money}
+                </Text>
             </View>
         );
     }

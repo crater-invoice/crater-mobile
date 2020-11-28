@@ -163,6 +163,13 @@ export class Estimate extends React.Component<IProps> {
 
     onDraft = handleSubmit => {
         const { locale, navigation, type } = this.props;
+        const { isLoading } = this.state;
+
+        if (isLoading) {
+            navigation.navigate(ROUTES.ESTIMATE_LIST);
+            return;
+        }
+
         if (type === ESTIMATE_EDIT) {
             navigation.navigate(ROUTES.ESTIMATE_LIST);
             return;

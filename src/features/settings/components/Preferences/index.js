@@ -53,11 +53,18 @@ export class Preferences extends React.Component<IProps> {
     }
 
     fetchPreferencesValues = () => {
-        const { getPreferences, getGeneralSetting } = this.props;
+        const { getPreferences } = this.props;
 
         getPreferences({
-            onResult: settings => this.setFormValues(settings)
+            onResult: settings => {
+                this.setFormValues(settings);
+                this.getPreferenceItemList();
+            }
         });
+    };
+
+    getPreferenceItemList = () => {
+        const { getGeneralSetting } = this.props;
 
         getGeneralSetting({
             url: 'timezones',
@@ -120,6 +127,10 @@ export class Preferences extends React.Component<IProps> {
     };
 
     onSubmitPreferences = values => {
+        if (this.isLoading()) {
+            return;
+        }
+
         const {
             navigation,
             editPreferences,
@@ -226,6 +237,19 @@ export class Preferences extends React.Component<IProps> {
         });
     };
 
+    isLoading = () => {
+        const { formValues } = this.props;
+
+        const { timezoneList, dateFormatList, fiscalYearLst } = this.state;
+
+        return (
+            !isArray(timezoneList) ||
+            !isArray(dateFormatList) ||
+            !isArray(fiscalYearLst) ||
+            !hasObjectLength(formValues)
+        );
+    };
+
     render() {
         const {
             navigation,
@@ -251,11 +275,7 @@ export class Preferences extends React.Component<IProps> {
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
-                    is:
-                        !isArray(timezoneList) ||
-                        !isArray(dateFormatList) ||
-                        !isArray(fiscalYearLst) ||
-                        !hasObjectLength(formValues)
+                    is: this.isLoading()
                 }}
                 toastProps={{
                     reference: ref => (this.toastReference = ref)

@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AnimateModal } from '../AnimateModal';
 import moment from 'moment';
 import { FakeInput } from '../FakeInput';
 import Lng from '@/lang/i18n';
 import { CtButton } from '../Button';
-import { TIME_FORMAT, TIME_FORMAT_MERIDIEM } from '@/constants';
+import { isIosPlatform, TIME_FORMAT, TIME_FORMAT_MERIDIEM } from '@/constants';
 import { colors } from '@/styles';
 import styles from './styles';
 
@@ -52,49 +52,72 @@ export class TimePickerField extends Component {
             this.setState({ timeStamp: selectedTimeStamp });
         }
 
-        this.setState({ visible: !visible });
+        this.setState({
+            visible: !visible
+        });
     };
 
     onChange = (event, selectedDate) => {
-        this.setState({ timeStamp: selectedDate });
+        if (!isIosPlatform() && event.type === 'dismissed') {
+            this.setState({ visible: false });
+            return;
+        }
+        if (selectedDate) {
+            isIosPlatform() && this.setState({ timeStamp: selectedDate });
+            !isIosPlatform() && this.onChangeTime(selectedDate);
+        }
     };
 
-    onChangeTime = () => {
-        const { timeStamp } = this.state;
+    onChangeTime = timeStamp => {
         const {
             input: { onChange },
             onChangeCallback
         } = this.props;
-
         this.onToggleModal();
-
         this.setState({
             selectedTimeStamp: timeStamp,
             time: moment(timeStamp).format(TIME_FORMAT_MERIDIEM)
         });
-
         const timeFormat = moment(timeStamp).format(TIME_FORMAT);
         onChange?.(timeFormat);
         onChangeCallback?.(timeFormat);
     };
 
     renderPicker = () => {
+        const { timeStamp, visible } = this.state;
+
+        if (!isIosPlatform()) {
+            if (visible) {
+                return (
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        style={{ backgroundColor: colors.veryLightGray }}
+                        value={timeStamp}
+                        mode={'time'}
+                        onChange={this.onChange}
+                    />
+                );
+            }
+            return <Fragment />;
+        }
+
         return (
             <AnimateModal
-                visible={this.state.visible}
+                visible={visible}
                 onToggle={this.onToggleModal}
                 style={{ marginHorizontal: 30, overflow: 'hidden' }}
             >
                 <DateTimePicker
                     testID="dateTimePicker"
                     style={{ backgroundColor: colors.veryLightGray }}
-                    value={this.state.timeStamp}
+                    value={timeStamp}
                     mode={'time'}
                     is24Hour={true}
                     onChange={this.onChange}
                 />
+
                 <CtButton
-                    onPress={this.onChangeTime}
+                    onPress={() => this.onChangeTime(timeStamp)}
                     btnTitle={Lng.t('button.change', {
                         locale: this.props.locale
                     })}

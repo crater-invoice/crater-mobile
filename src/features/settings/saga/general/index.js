@@ -40,12 +40,16 @@ export function* getSettingInfo({ payload }) {
 }
 
 export function* getGeneralSetting({ payload }) {
-    const { url, onSuccess, responseUrl } = payload;
+    const { url, onSuccess, responseUrl, returnResponse = false } = payload;
 
     try {
         const options = { path: url };
 
         const response = yield call([Request, 'get'], options);
+
+        if (returnResponse) {
+            return response[responseUrl ?? url];
+        }
 
         if (url === 'currencies') {
             yield put(
