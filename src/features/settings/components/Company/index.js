@@ -96,17 +96,26 @@ export class Company extends React.Component<IProps> {
         const {
             navigation,
             editCompanyInformation,
-            editCompanyLoading
+            editCompanyLoading,
+            getCompanyInfoLoading,
+            countriesLoading
         } = this.props;
         const { logo, fileLoading } = this.state;
 
-        if (!fileLoading && !editCompanyLoading) {
-            editCompanyInformation({
-                params: value,
-                logo,
-                navigation
-            });
+        if (
+            getCompanyInfoLoading ||
+            countriesLoading ||
+            fileLoading ||
+            editCompanyLoading
+        ) {
+            return;
         }
+
+        editCompanyInformation({
+            params: value,
+            logo,
+            navigation
+        });
     };
 
     BOTTOM_ACTION = handleSubmit => {
