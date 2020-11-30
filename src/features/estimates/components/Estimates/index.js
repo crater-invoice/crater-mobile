@@ -60,7 +60,7 @@ export class Estimates extends React.Component<IProps, IStates> {
 
     componentDidMount() {
         const { navigation } = this.props;
-        goBack(MOUNT, navigation, { exit: true });
+        goBack(MOUNT, navigation);
         this.onFocus();
     }
 

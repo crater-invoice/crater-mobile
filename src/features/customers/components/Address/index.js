@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Keyboard, ScrollView } from 'react-native';
 import { Field, change } from 'redux-form';
 import { CUSTOMER_ADDRESS } from '../../constants';
 import Lng from '@/lang/i18n';
@@ -61,18 +61,30 @@ export class Address extends Component<IProps> {
         this.state = {
             visible: false,
             values: '',
-            status: false
+            status: false,
+            isKeyboardVisible: false
         };
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        const { visible, status } = nextState;
+    componentDidMount = () => {
+        this.keyboardDidShowListener = Keyboard?.addListener?.(
+            'keyboardDidShow',
+            () => {
+                this.setState({ isKeyboardVisible: true });
+            }
+        );
+        this.keyboardDidHideListener = Keyboard?.addListener?.(
+            'keyboardDidHide',
+            () => {
+                this.setState({ isKeyboardVisible: false });
+            }
+        );
+    };
 
-        if (this.state.visible !== visible || this.state.status !== status) {
-            return true;
-        }
-        return false;
-    }
+    componentWillUnmount = () => {
+        this.keyboardDidShowListener?.remove?.();
+        this.keyboardDidHideListener?.remove?.();
+    };
 
     fillShippingAddress = status => {
         if (status) {
@@ -144,6 +156,12 @@ export class Address extends Component<IProps> {
 
     BOTTOM_ACTION = handleSubmit => {
         const { locale } = this.props;
+        const { isKeyboardVisible } = this.state;
+
+        if (isKeyboardVisible) {
+            return;
+        }
+
         return (
             <View style={styles.submitButton}>
                 <View style={styles.flexRow}>
@@ -168,12 +186,17 @@ export class Address extends Component<IProps> {
             countries
         } = this.props;
 
-        const { status } = this.state;
+        const { status, isKeyboardVisible } = this.state;
 
         let addressRefs = {};
 
         return (
-            <View>
+            <ScrollView
+                style={[
+                    { paddingBottom: 15 },
+                    isKeyboardVisible && { paddingBottom: 120 }
+                ]}
+            >
                 {!hasBillingAddress && (
                     <FakeInput
                         icon={'copy'}
@@ -312,7 +335,7 @@ export class Address extends Component<IProps> {
                     }}
                     refLinkFn={ref => (addressRefs.zip = ref)}
                 />
-            </View>
+            </ScrollView>
         );
     };
 

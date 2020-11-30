@@ -73,13 +73,11 @@ export class Payment extends React.Component<IProps> {
     }
 
     componentDidMount() {
-        const { navigation, hasRecordPayment } = this.props;
+        const { navigation } = this.props;
 
         this.setInitialValues();
 
-        goBack(MOUNT, navigation, {
-            route: hasRecordPayment ? null : ROUTES.MAIN_PAYMENTS
-        });
+        goBack(MOUNT, navigation);
     }
 
     componentWillUnmount() {
