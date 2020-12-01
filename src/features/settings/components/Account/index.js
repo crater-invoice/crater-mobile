@@ -55,18 +55,25 @@ export class Account extends React.Component<IProps> {
         this.props.dispatch(change(EDIT_ACCOUNT, field, value));
     };
 
-    onProfileUpdate = (value) => {
-        const { navigation, editAccount, editAccountLoading } = this.props
-        const { avatar, fileLoading } = this.state
+    onProfileUpdate = value => {
+        const {
+            navigation,
+            editAccount,
+            editAccountLoading,
+            isLoading
+        } = this.props;
+        const { avatar, fileLoading } = this.state;
 
-        if (!fileLoading && !editAccountLoading) {
-            editAccount({
-                params: value,
-                avatar,
-                navigation
-            })
+        if (isLoading || fileLoading || editAccountLoading) {
+            return;
         }
-    }
+
+        editAccount({
+            params: value,
+            avatar,
+            navigation
+        });
+    };
 
     BOTTOM_ACTION = (handleSubmit) => {
         const { editAccountLoading, locale } = this.props
