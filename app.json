@@ -19,11 +19,11 @@
         "ios": {
             "supportsTablet": true,
             "bundleIdentifier": "com.craterapp.app",
-            "buildNumber": "7"
+            "buildNumber": "8"
         },
         "android": {
             "package": "com.craterapp.app",
-            "versionCode": 11,
+            "versionCode": 12,
             "softwareKeyboardLayoutMode": "pan"
         },
         "description": "",
