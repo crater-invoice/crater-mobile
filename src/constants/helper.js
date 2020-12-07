@@ -7,13 +7,20 @@ import { fonts } from '@/styles';
 
 const model = Constants.deviceName.toLowerCase();
 
-// export const isIPhoneX = () => model.indexOf('iphone x') !== -1;
-
 export function isIPhoneX() {
-    const dimension = Dimensions.get('window');
+    const { height, width } = Dimensions.get('window');
     return (
-        Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS &&
-        ((dimension.height === 812 || dimension.width === 812) || (dimension.height === 896 || dimension.width === 896))
+        Platform.OS === 'ios' &&
+        !Platform.isPad &&
+        !Platform.isTVOS &&
+        (height === 812 ||
+            width === 812 ||
+            height === 844 ||
+            width === 844 ||
+            height === 896 ||
+            width === 896 ||
+            height === 926 ||
+            width === 926)
     );
 }
 

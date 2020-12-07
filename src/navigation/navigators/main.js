@@ -41,14 +41,15 @@ export default createBottomTabNavigator(
             style: {
                 backgroundColor: colors.white,
                 width: '100%',
-                height: isIPhoneX() ? 65 : 75,
+                height: isIPhoneX() ? 80 : 75,
                 borderTopWidth: 0,
-                paddingVertical: 7,
+                paddingTop: 7,
                 position: 'relative',
                 bottom: 0,
                 left: 0,
                 right: 0,
-                marginBottom: 0
+                marginBottom: 0,
+                paddingBottom: isIPhoneX() ? 50 : 7
             },
             labelStyle: {
                 fontFamily: fonts.poppinsMedium,
