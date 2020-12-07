@@ -112,3 +112,5 @@ export const checkExpiredToken = (expiresIn) => {
     }
     return true
 }
+
+export const majorVersionIOS = parseInt(String(Platform.Version), 10);

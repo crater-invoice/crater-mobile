@@ -5,6 +5,7 @@ import { styles } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { colors } from '@/styles';
 import { isIosPlatform } from '@/constants';
+import { isDarkMode } from '@/utils';
 
 type IProps = {
     options: Array,
@@ -100,7 +101,7 @@ export default class Dropdown extends Component<IProps> {
                 {labelOptions && (
                     <ActionSheet
                         ref={o => (this.ActionSheet = o)}
-                        tintColor={colors.primary}
+                        tintColor={isDarkMode() ? colors.gray2 : colors.primary}
                         options={labelOptions}
                         cancelButtonIndex={cancelButtonIndex || 2}
                         destructiveButtonIndex={destructiveButtonIndex || 1}

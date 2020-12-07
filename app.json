@@ -22,6 +22,7 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.craterapp.app",
@@ -36,7 +37,6 @@
     "androidStatusBar": {
       "backgroundColor": "#F9FBFF",
       "barStyle": "dark-content",
-      "animated": true,
       "translucent": true
     }
   }

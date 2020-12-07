@@ -8,6 +8,7 @@ import { CtButton } from '../Button';
 import { isIosPlatform, TIME_FORMAT, TIME_FORMAT_MERIDIEM } from '@/constants';
 import { colors } from '@/styles';
 import styles from './styles';
+import { isDarkMode } from '@/utils';
 
 export class TimePickerField extends Component {
     constructor(props) {
@@ -109,7 +110,11 @@ export class TimePickerField extends Component {
             >
                 <DateTimePicker
                     testID="dateTimePicker"
-                    style={{ backgroundColor: colors.veryLightGray }}
+                    style={{
+                        backgroundColor: isDarkMode()
+                            ? colors.dark
+                            : colors.veryLightGray
+                    }}
                     value={timeStamp}
                     mode={'time'}
                     is24Hour={true}
