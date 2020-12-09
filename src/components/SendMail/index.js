@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Keyboard, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import {
     reduxForm,
@@ -16,7 +16,13 @@ import { SlideModal } from '../SlideModal';
 import { InputField } from '../InputField';
 import { CtButton } from '../Button';
 import Lng from '@/lang/i18n';
-import { alertMe, hasObjectLength, hasTextLength, hasValue } from '@/constants';
+import {
+    alertMe,
+    EMAIL_REGEX,
+    hasObjectLength,
+    hasTextLength,
+    hasValue
+} from '@/constants';
 import { getMailConfiguration } from '../../features/more/actions';
 import { Content } from '../Content';
 import { Editor } from '../Editor';
@@ -38,22 +44,44 @@ const emailField = {
 const MAIL_FORM = 'sendMail/MAIL_FORM';
 
 class SendMailComponent extends Component<IProps> {
+    keyboardDidShowListener: any;
+    keyboardDidHideListener: any;
+
     constructor(props) {
         super(props);
 
         this.state = {
             visible: false,
-            getMailConfigApiCalled: false
+            getMailConfigApiCalled: false,
+            isKeyboardVisible: false
         };
     }
 
     componentDidMount() {
-        this.props.mailReference(this);
+        this.props.mailReference?.(this);
+        this.keyboardListener();
     }
 
     componentWillUnmount() {
-        this.props.mailReference(undefined);
+        this.props.mailReference?.(undefined);
+        this.keyboardDidShowListener?.remove?.();
+        this.keyboardDidHideListener?.remove?.();
     }
+
+    keyboardListener = () => {
+        this.keyboardDidShowListener = Keyboard?.addListener?.(
+            'keyboardDidShow',
+            () => {
+                this.setState({ isKeyboardVisible: true });
+            }
+        );
+        this.keyboardDidHideListener = Keyboard?.addListener?.(
+            'keyboardDidHide',
+            () => {
+                this.setState({ isKeyboardVisible: false });
+            }
+        );
+    };
 
     onSendMail = values => {
         const { locale, alertDesc = '', onSendMail } = this.props;
@@ -85,12 +113,18 @@ class SendMailComponent extends Component<IProps> {
     checkIsFieldsRequired = values => {
         let errors = {};
 
-        if (!hasValue(values?.[emailField.from])) {
-            errors[emailField.from] = 'validation.required';
+        if (
+            !hasValue(values?.[emailField.from]) ||
+            !EMAIL_REGEX.test(values?.[emailField.from])
+        ) {
+            errors[emailField.from] = 'validation.email';
         }
 
-        if (!hasValue(values?.[emailField.to])) {
-            errors[emailField.to] = 'validation.required';
+        if (
+            !hasValue(values?.[emailField.to]) ||
+            !EMAIL_REGEX.test(values?.[emailField.to])
+        ) {
+            errors[emailField.to] = 'validation.email';
         }
 
         if (!hasValue(values?.[emailField.subject])) {
@@ -114,7 +148,7 @@ class SendMailComponent extends Component<IProps> {
     };
 
     getConfig = () => {
-        const { getMailConfiguration, user, body } = this.props;
+        const { getMailConfiguration, user, body, subject } = this.props;
         const { getMailConfigApiCalled } = this.state;
 
         if (!getMailConfigApiCalled) {
@@ -124,6 +158,7 @@ class SendMailComponent extends Component<IProps> {
                     this.setState({ getMailConfigApiCalled: true });
                     this.setFormField(emailField.from, from_mail);
                     this.setFormField(emailField.to, user?.email);
+                    this.setFormField(emailField.subject, subject);
                     this.setFormField(emailField.msg, emailBody);
                 }
             });
@@ -134,7 +169,11 @@ class SendMailComponent extends Component<IProps> {
         this.props.dispatch(change(MAIL_FORM, field, value || undefined));
     };
 
-    BOTTOM_ACTION = (handleSubmit, locale) => {
+    BOTTOM_ACTION = (handleSubmit, locale, isKeyboardVisible) => {
+        if (isKeyboardVisible) {
+            return null;
+        }
+
         return (
             <View style={styles.submitButton}>
                 <View style={{ flex: 1 }}>
@@ -149,11 +188,15 @@ class SendMailComponent extends Component<IProps> {
     };
 
     Screen = () => {
+        const { isKeyboardVisible } = this.state;
         const { locale } = this.props;
         let mailRefs = {};
 
         return (
-            <>
+            <ScrollView
+                style={[isKeyboardVisible && { paddingBottom: 120 }]}
+                keyboardShouldPersistTaps="handled"
+            >
                 <Field
                     name={emailField.from}
                     component={InputField}
@@ -202,7 +245,7 @@ class SendMailComponent extends Component<IProps> {
                     isRequired
                     showPreview
                 />
-            </>
+            </ScrollView>
         );
     };
 
@@ -213,24 +256,34 @@ class SendMailComponent extends Component<IProps> {
             locale,
             formValues
         } = this.props;
-        const { visible, getMailConfigApiCalled } = this.state;
+        const {
+            visible,
+            getMailConfigApiCalled,
+            isKeyboardVisible
+        } = this.state;
+
+        const headerProps = {
+            leftIconPress: () => this.onToggle(),
+            title: Lng.t(headerTitle, { locale }),
+            rightIcon: 'paper-plane',
+            rightIconPress: handleSubmit(this.onSendMail),
+            placement: 'center',
+            hasCircle: false,
+            noBorder: false,
+            transparent: false
+        };
 
         return (
             <SlideModal
                 defaultLayout
                 visible={visible}
                 onToggle={this.onToggle}
-                headerProps={{
-                    leftIconPress: () => this.onToggle(),
-                    title: Lng.t(headerTitle, { locale }),
-                    rightIcon: 'paper-plane',
-                    rightIconPress: handleSubmit(this.onSendMail),
-                    placement: 'center',
-                    hasCircle: false,
-                    noBorder: false,
-                    transparent: false
-                }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit, locale)}
+                headerProps={headerProps}
+                bottomAction={this.BOTTOM_ACTION(
+                    handleSubmit,
+                    locale,
+                    isKeyboardVisible
+                )}
             >
                 <Content
                     loadingProps={{

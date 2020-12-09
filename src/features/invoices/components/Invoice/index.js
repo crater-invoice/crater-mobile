@@ -304,6 +304,7 @@ export class Invoice extends React.Component<IProps, IStates> {
 
     BOTTOM_ACTION = () => {
         const { locale, loading, handleSubmit } = this.props;
+        const { isLoading } = this.state;
 
         return (
             <View style={styles.submitButton}>
@@ -313,7 +314,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                     type={BUTTON_TYPE.OUTLINE}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
-                    loading={loading}
+                    loading={loading || isLoading}
                 />
 
                 <CtButton
@@ -321,7 +322,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                     btnTitle={Lng.t('button.save', { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
-                    loading={loading}
+                    loading={loading || isLoading}
                 />
             </View>
         );
@@ -494,6 +495,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                 headerTitle={'header.sendMailInvoice'}
                 alertDesc={'invoices.alert.sendInvoice'}
                 user={this.props.formValues?.customer}
+                subject="New Invoice"
                 body="invoice_mail_body"
                 onSendMail={params => this.sendEmail(params)}
             />

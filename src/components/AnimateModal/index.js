@@ -3,9 +3,6 @@
 import React from 'react';
 import Modal from 'react-native-modal';
 import styles from './styles';
-import { StatusBar } from 'react-native';
-import { colors } from '@/styles';
-import { isIosPlatform } from '@/constants';
 
 type IProps = {
     onToggle: Function,
@@ -31,16 +28,9 @@ export class AnimateModal extends React.Component<IProps> {
                 backdropTransitionOutTiming={0}
                 onBackButtonPress={() => onToggle()}
                 style={[styles.modalContainer, style]}
+                statusBarTranslucent={true}
                 {...modalProps}
             >
-                <StatusBar
-                    backgroundColor={colors.secondary}
-                    barStyle={
-                        isIosPlatform() ? 'dark-content' : 'light-content'
-                    }
-                    translucent={true}
-                />
-
                 {children}
             </Modal>
         );

@@ -48,10 +48,7 @@ export class Payments extends React.Component<IProps> {
 
             if (PaymentServices.isEmailSent) {
                 PaymentServices.toggleIsEmailSent(false);
-                this.toastReference?.show?.(
-                    'toast.send_payment_successfully',
-                    1500
-                );
+                this.toastReference?.show?.('toast.send_payment_successfully');
             }
         });
     };

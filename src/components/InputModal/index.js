@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-    View,
-    Text,
-    KeyboardAvoidingView,
-    ScrollView,
-    Keyboard
-} from 'react-native';
+import { View, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { styles } from './styles';
 import { AnimateModal } from '../AnimateModal';
 import { Field } from 'redux-form';
@@ -14,7 +8,7 @@ import { CtButton } from '../Button';
 import Lng from '@/lang/i18n';
 import { Icon } from 'react-native-elements';
 import { colors } from '@/styles';
-import { BUTTON_COLOR, isIosPlatform } from '@/constants';
+import { BUTTON_COLOR } from '@/constants';
 
 type Iprops = {
     modalProps?: Object,
@@ -32,31 +26,15 @@ type Iprops = {
 export class InputModal extends Component<Iprops> {
     constructor(props) {
         super(props);
-        this.state = { visible: false, isKeyboardVisible: false };
+        this.state = { visible: false };
     }
 
     componentDidMount() {
         this.props.reference?.(this);
-
-        if (!isIosPlatform()) {
-            this.keyboardDidShowListener = Keyboard.addListener?.(
-                'keyboardDidShow',
-                () => this.setState({ isKeyboardVisible: true })
-            );
-            this.keyboardDidHideListener = Keyboard.addListener?.(
-                'keyboardDidHide',
-                () => this.setState({ isKeyboardVisible: false })
-            );
-        }
     }
 
     componentWillUnmount() {
         this.props.reference?.(undefined);
-
-        if (!isIosPlatform()) {
-            this.keyboardDidShowListener?.remove?.();
-            this.keyboardDidHideListener?.remove?.();
-        }
     }
 
     onToggle = () => {
@@ -114,8 +92,7 @@ export class InputModal extends Component<Iprops> {
                     hint={hint}
                     inputProps={{
                         returnKeyType: 'next',
-                        autoCorrect: true,
-                        autoFocus: true
+                        autoCorrect: true
                     }}
                     isRequired
                 />
@@ -144,8 +121,6 @@ export class InputModal extends Component<Iprops> {
     };
 
     render() {
-        const { isKeyboardVisible } = this.state;
-
         return (
             <AnimateModal
                 visible={this.state.visible}
@@ -155,7 +130,6 @@ export class InputModal extends Component<Iprops> {
                 <KeyboardAvoidingView
                     keyboardVerticalOffset={0}
                     behavior="position"
-                    style={isKeyboardVisible && { marginTop: 80 }}
                 >
                     <ScrollView
                         bounces={false}

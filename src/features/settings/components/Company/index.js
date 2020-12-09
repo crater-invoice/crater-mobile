@@ -119,7 +119,12 @@ export class Company extends React.Component<IProps> {
     };
 
     BOTTOM_ACTION = handleSubmit => {
-        const { locale, editCompanyLoading } = this.props;
+        const {
+            locale,
+            editCompanyLoading,
+            getCompanyInfoLoading,
+            countriesLoading
+        } = this.props;
         const { fileLoading } = this.state;
 
         return (
@@ -127,7 +132,12 @@ export class Company extends React.Component<IProps> {
                 <CtButton
                     onPress={handleSubmit(this.onCompanyUpdate)}
                     btnTitle={Lng.t('button.save', { locale })}
-                    loading={editCompanyLoading || fileLoading}
+                    loading={
+                        editCompanyLoading ||
+                        fileLoading ||
+                        getCompanyInfoLoading ||
+                        countriesLoading
+                    }
                 />
             </View>
         );

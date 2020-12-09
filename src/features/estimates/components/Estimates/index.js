@@ -74,10 +74,7 @@ export class Estimates extends React.Component<IProps, IStates> {
         this.focusListener = navigation.addListener('didFocus', () => {
             if (EstimateServices.isEmailSent) {
                 EstimateServices.toggleIsEmailSent(false);
-                this.toastReference?.show?.(
-                    'toast.send_estimate_successfully',
-                    1500
-                );
+                this.toastReference?.show?.('toast.send_estimate_successfully');
             }
 
             if (!this.state.isLoaded) {

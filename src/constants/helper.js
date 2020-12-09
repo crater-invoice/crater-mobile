@@ -34,6 +34,8 @@ export const trim = (data) => {
 
 export const isIosPlatform = () => Platform.OS === 'ios';
 
+export const isAndroidPlatform = () => Platform.OS === 'android';
+
 export const SCREEN_WIDTH = Dimensions.get('window').width
 
 export const SCREEN_HEIGHT = Dimensions.get('window').height

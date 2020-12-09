@@ -341,7 +341,7 @@ export class Payment extends React.Component<IProps> {
 
     BOTTOM_ACTION = handleSubmit => {
         const { locale, loading } = this.props;
-
+        const { isLoading } = this.state;
         let buttonTitle = Lng.t('button.save', { locale });
 
         return (
@@ -349,7 +349,7 @@ export class Payment extends React.Component<IProps> {
                 <CtButton
                     onPress={handleSubmit(this.onSubmit)}
                     btnTitle={buttonTitle}
-                    loading={loading}
+                    loading={loading | isLoading}
                 />
             </View>
         );

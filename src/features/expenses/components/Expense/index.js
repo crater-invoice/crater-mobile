@@ -221,14 +221,14 @@ export class Expense extends React.Component<IProps, IState> {
 
     BOTTOM_ACTION = handleSubmit => {
         const { loading, locale } = this.props;
-        const { fileLoading } = this.state;
+        const { fileLoading, isLoading } = this.state;
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.onSubmit)}
                     btnTitle={Lng.t('button.save', { locale })}
-                    loading={loading || fileLoading}
+                    loading={loading || fileLoading | isLoading}
                 />
             </View>
         );

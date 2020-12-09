@@ -66,10 +66,7 @@ export class Invoices extends React.Component<IProps> {
 
             if (InvoiceServices.isEmailSent) {
                 InvoiceServices.toggleIsEmailSent(false);
-                this.toastReference?.show?.(
-                    'toast.send_invoice_successfully',
-                    1500
-                );
+                this.toastReference?.show?.('toast.send_invoice_successfully');
             }
         });
     };
