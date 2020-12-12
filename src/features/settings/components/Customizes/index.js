@@ -13,32 +13,27 @@ export class Customizes extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-        }
+        this.state = {};
     }
 
     componentDidMount() {
+        const { navigation, getCustomizeSettings } = this.props;
 
-        const {
-            navigation,
-            getCustomizeSettings
-        } = this.props
-
-        getCustomizeSettings()
-        goBack(MOUNT, navigation)
+        getCustomizeSettings();
+        goBack(MOUNT, navigation);
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
 
     onSelectMenu = ({ route, type = null }) => {
-        const { navigation } = this.props
+        const { navigation } = this.props;
 
         if (route) {
-            navigation.navigate(route, { type })
+            navigation.navigate(route, { type });
         }
-    }
+    };
 
     render() {
         const {
@@ -48,14 +43,15 @@ export class Customizes extends React.Component {
             itemUnitsLoading
         } = this.props;
 
-        let loading = paymentModesLoading || itemUnitsLoading
+        let loading = paymentModesLoading || itemUnitsLoading;
 
         return (
             <View style={styles.container}>
                 <DefaultLayout
                     headerProps={{
-                        leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
-                        title: Lng.t("header.customize", { locale }),
+                        leftIconPress: () =>
+                            navigation.navigate(ROUTES.SETTING_LIST),
+                        title: Lng.t('header.customize', { locale }),
                         leftIconStyle: { color: colors.dark2 }
                     }}
                     hasSearchField={false}
@@ -66,13 +62,8 @@ export class Customizes extends React.Component {
                             items={CUSTOMIZES_MENU(locale, Lng)}
                             onPress={this.onSelectMenu}
                             leftTitleStyle={styles.listViewTitle}
-                            listItemProps={{
-                                chevron: {
-                                    size: 18,
-                                    color: colors.darkGray,
-                                    containerStyle: { marginTop: 5 }
-                                },
-                            }}
+                            rightArrowIcon
+                            rightArrowIconStyle={{ marginTop: 5 }}
                         />
                     </View>
                 </DefaultLayout>

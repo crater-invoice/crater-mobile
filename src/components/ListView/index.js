@@ -8,6 +8,7 @@ import { colors, fonts } from '@/styles';
 import { CurrencyFormat } from '../CurrencyFormat';
 import { FadeListAnimation } from '@/components';
 import { isIosPlatform } from '@/constants';
+import { isRTL } from '@/utils';
 
 type IProps = {
     hasAvatar: Boolean,
@@ -136,8 +137,25 @@ export class ListView extends Component<IProps> {
             hasCheckbox,
             contentContainerStyle,
             isAnimated,
-            parentViewStyle
+            parentViewStyle,
+            rightArrowIcon = false,
+            rightArrowIconStyle
         } = this.props;
+
+        let otherProps = {};
+
+        if (rightArrowIcon) {
+            otherProps = {
+                rightAvatar: (
+                    <Icon
+                        name={!isRTL() ? 'chevron-right' : 'chevron-left'}
+                        size={15}
+                        color={colors.darkGray}
+                        style={rightArrowIconStyle}
+                    />
+                )
+            };
+        }
 
         const children = (
             <ListItem
@@ -198,6 +216,7 @@ export class ListView extends Component<IProps> {
                 fontFamily={fonts.poppins}
                 onPress={() => onPress(item.fullItem)}
                 {...listItemProps}
+                {...otherProps}
             />
         );
 
@@ -230,7 +249,9 @@ export class ListView extends Component<IProps> {
             itemContainer,
             listItemProps,
             leftIconStyle,
-            isAnimated
+            isAnimated,
+            rightArrowIcon = false,
+            rightArrowIconStyle
         } = this.props;
         const {
             title,
@@ -241,6 +262,21 @@ export class ListView extends Component<IProps> {
             leftIconSolid = false,
             iconSize = 22
         } = item;
+
+        let otherProps = {};
+
+        if (rightArrowIcon) {
+            otherProps = {
+                rightAvatar: (
+                    <Icon
+                        name={!isRTL() ? 'chevron-right' : 'chevron-left'}
+                        size={15}
+                        color={colors.darkGray}
+                        style={rightArrowIconStyle}
+                    />
+                )
+            };
+        }
 
         const children = (
             <ListItem
@@ -278,6 +314,7 @@ export class ListView extends Component<IProps> {
                     )
                 }
                 {...listItemProps}
+                {...otherProps}
             />
         );
 
