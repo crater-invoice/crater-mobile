@@ -132,6 +132,7 @@ const Styles = {
         top: -5;
         right: ${defineLargeSizeParam(-5, -10)};
         opacity: 0.9;
+        ${props => props.style};
     `,
 
     EnrolledBody: styled(View)`

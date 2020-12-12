@@ -51,6 +51,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
     animatedBounceScanIcon: any;
     animatedFingerFadeIn: any;
     animatedButtonSetUpNowFadeOut: any;
+    animatedBounceCheckIcon: any;
     fadeIn: any;
     timer: any;
 
@@ -59,6 +60,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
         this.circleFillReference = React.createRef();
         this.animatedHandTranslateXY = new Animated.ValueXY({ x: 10, y: 10 });
         this.animatedBounceScanIcon = new Animated.Value(1);
+        this.animatedBounceCheckIcon = new Animated.Value(1);
         this.animatedButtonSetUpNowFadeOut = new Animated.Value(1);
         this.animatedFingerFadeIn = new Animated.Value(0);
         this.fadeIn = new Animated.Value(0);
@@ -73,13 +75,13 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const { biometryAuthType, navigation } = this.props;
 
         goBack(MOUNT, navigation);
 
         if (hasValue(biometryAuthType)) {
-            this.setState({
+            await this.setState({
                 isEnrolled: true,
                 supportBiometryType: biometryAuthType,
                 loading: false
@@ -146,6 +148,20 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
             toValue: 1,
             duration: 400
         }).start(() => {});
+    };
+
+    bounceCheckIcon = () => {
+        Animated.timing(this.animatedBounceCheckIcon, {
+            useNativeDriver: true,
+            toValue: 1.3,
+            duration: 300
+        }).start(() => {
+            Animated.timing(this.animatedBounceCheckIcon, {
+                useNativeDriver: true,
+                toValue: 1,
+                duration: 200
+            }).start(() => {});
+        });
     };
 
     toggleScanNowAnimatedButton = ({
@@ -223,7 +239,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
             isAllowToScan: false
         });
         this.fadeInView();
-
+        this.bounceCheckIcon();
         this.props.setBiometryAuthType(this.state.supportBiometryType);
     };
 
@@ -452,6 +468,9 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                 ToggleBiometryView
             } = Styles;
             const AnimatedView = Animated.createAnimatedComponent(EnrolledView);
+            const AnimatedCheckIconView = Animated.createAnimatedComponent(
+                CheckIconView
+            );
 
             return (
                 <AnimatedView style={{ opacity: this.fadeIn }}>
@@ -474,13 +493,19 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                             />
                         )}
 
-                        <CheckIconView>
+                        <AnimatedCheckIconView
+                            style={{
+                                transform: [
+                                    { scale: this.animatedBounceCheckIcon }
+                                ]
+                            }}
+                        >
                             <AssetSvg
                                 name={CheckIcon}
                                 width={defineLargeSizeParam(45, 40)}
                                 height={defineLargeSizeParam(45, 40)}
                             />
-                        </CheckIconView>
+                        </AnimatedCheckIconView>
                     </EnrolledIconView>
                     <EnrolledBody>
                         <EnrolledTitle>
