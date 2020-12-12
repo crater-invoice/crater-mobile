@@ -397,3 +397,9 @@ export const getSettingInfo = (payload = {}) => ({
     type: TYPES.GET_SETTING_INFO,
     payload
 });
+
+// Biometry Auth
+export const setBiometryAuthType = (payload = {}) => ({
+    type: TYPES.SET_BIOMETRY_AUTH_TYPE,
+    payload
+});

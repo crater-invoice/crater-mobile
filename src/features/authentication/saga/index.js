@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, delay } from 'redux-saga/effects';
 import {
     saveIdToken,
     authTriggerSpinner,
@@ -67,6 +67,26 @@ function* socialLogin({ payload: { idToken, navigation } }: any) {
     } catch (e) {
     } finally {
         yield put(authTriggerSpinner({ socialLoginLoading: false }));
+    }
+}
+
+function* biometryAuthLogin({ payload }: any) {
+    yield put(authTriggerSpinner({ loginLoading: true }));
+
+    try {
+        yield put(getBootstrap());
+
+        yield delay(100);
+
+        resetNavigation({
+            navigation: payload.navigation,
+            route: ROUTES.MAIN_TABS,
+            index: 0
+        });
+    } catch (e) {
+        yield put(authTriggerSpinner({ loginLoading: false }));
+    } finally {
+        yield put(authTriggerSpinner({ loginLoading: false }));
     }
 }
 
@@ -161,6 +181,7 @@ function* checkEndpointApi({ payload: { endpointURL, onResult } }: any) {
 export default function* loginSaga() {
     yield takeLatest(TYPES.LOGIN, login);
     yield takeLatest(TYPES.SOCIAL_LOGIN, socialLogin);
+    yield takeLatest(TYPES.BIOMETRY_AUTH_LOGIN, biometryAuthLogin);
     yield takeLatest(TYPES.GET_BOOTSTRAP, getBootstrapData);
     yield takeLatest(TYPES.SEND_FORGOT_PASSWORD_MAIL, sendRecoveryMail);
     yield takeLatest(TYPES.CHECK_ENDPOINT_API, checkEndpointApi);

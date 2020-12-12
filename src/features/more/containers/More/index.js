@@ -10,7 +10,6 @@ import { MORE_ICON } from '@/assets';
 import { AssetSvg } from '@/components';
 
 const mapStateToProps = ({ more, global }) => ({
-    loading: more.loading.logoutLoading,
     locale: global?.locale
 });
 
@@ -33,7 +32,7 @@ MoreContainer.navigationOptions = () => ({
     gesturesEnabled: false,
     tabBarLabel: getTitleByLanguage('tabNavigation.more'),
     tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <AssetSvg 
+        <AssetSvg
             name={MORE_ICON}
             fill={focused ? colors.primary : colors.darkGray}
         />

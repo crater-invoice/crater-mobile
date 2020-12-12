@@ -12,6 +12,7 @@ import {
     RESET_ID_TOKEN,
     CHECK_ENDPOINT_API,
     RESET_AUTH_LOADERS,
+    BIOMETRY_AUTH_LOGIN
 } from '../constants';
 import {
     SET_GLOBAL_BOOTSTRAP,
@@ -101,4 +102,8 @@ export const checkEndpointApi = (payload = {}) => ({
     payload,
 });
 
+export const biometryAuthLogin = (payload = {}) => ({
+    type: BIOMETRY_AUTH_LOGIN,
+    payload,
+});
 

@@ -70,6 +70,7 @@ export const ROUTES = {
     CURRENCY: 'CURRENCY',
     CUSTOM_FIELDS: 'CUSTOM_FIELDS',
     CUSTOM_FIELD: 'CUSTOM_FIELD',
+    TOUCH_OR_FACE_ID: 'TOUCH_OR_FACE_ID',
 
     // Expenses
     // -----------------------------------------

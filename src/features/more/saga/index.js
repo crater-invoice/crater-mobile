@@ -1,10 +1,10 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { resetIdToken } from '../../authentication/actions';
 import { ROUTES } from '@/navigation';
 import Request from '@/api/request';
 import { moreTriggerSpinner, setItems, setItem, deleteItem } from '../actions';
 import * as queryStrings from 'query-string';
 import { getItemUnits } from '@/features/settings/saga/units';
+import { getSettingInfo } from '@/features/settings/saga/general';
 import {
     LOGOUT,
     GET_ITEMS,
@@ -14,19 +14,12 @@ import {
     REMOVE_ITEM,
     GET_MAIL_CONFIGURATION
 } from '../constants';
-import { getSettingInfo } from '@/features/settings/saga/general';
 
 function* logout({ payload: { navigation } }) {
-    yield put(moreTriggerSpinner({ logoutLoading: true }));
-
     try {
-        yield put(resetIdToken());
-
         navigation.navigate(ROUTES.AUTH);
-    } catch (error) {
+    } catch (e) {
         alert('something went wrong');
-    } finally {
-        yield put(moreTriggerSpinner({ logoutLoading: false }));
     }
 }
 

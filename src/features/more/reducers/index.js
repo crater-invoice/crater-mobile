@@ -8,7 +8,6 @@ import {
 
 const initialState = {
     loading: {
-        logoutLoading: false,
         itemsLoading: false,
         itemLoading: false,
         getMailConfigLoading: false,

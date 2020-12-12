@@ -8,7 +8,6 @@ import { SETTINGS_SEARCH } from '../../constants';
 import * as SettingAction from '../../actions';
 
 const mapStateToProps = ({ settings, global }) => ({
-    loading: settings.loading.logoutLoading,
     locale: global?.locale
 });
 

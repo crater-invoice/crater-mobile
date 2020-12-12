@@ -14,7 +14,8 @@ import {
     SET_REMOVE_TAX,
     SET_TAXES,
     SET_COMPANY_INFO,
-    SET_GLOBAL_CURRENCIES
+    SET_GLOBAL_CURRENCIES,
+    SET_BIOMETRY_AUTH_TYPE
 } from '../features/settings/constants';
 
 const initialState = {
@@ -35,7 +36,8 @@ const initialState = {
     endpointURL: null,
     mailDriver: null,
     fiscalYear: '2-1',
-    appVersion: '1.0.0'
+    appVersion: '1.0.0',
+    biometryAuthType: null
 };
 
 export default function globalReducer(state = initialState, action) {
@@ -162,6 +164,9 @@ export default function globalReducer(state = initialState, action) {
 
         case SET_GLOBAL_CURRENCIES:
             return { ...state, currencies: payload?.currencies };
+
+        case SET_BIOMETRY_AUTH_TYPE:
+            return { ...state, biometryAuthType: payload };
 
         default:
             return state;

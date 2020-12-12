@@ -358,6 +358,7 @@
         "taxes": "Steuertypen",
         "expenseCategory": "Ausgabenkategorien",
         "customize": "Anpassung",
+        "touchOrFaceId": "Touch / Face ID",
         "endpoint": "API-Endpunkt",
         "company": {
             "name": "Name der Firma",
@@ -653,6 +654,20 @@
             "customerAddress": "Aus dem Kundenadressformat"
         }
     },
+    "touchFaceId": {
+        "touchId": "Berührungsidentifikation",
+        "faceId": "Gesichtserkennung",
+        "finger": "Fingerabdruck",
+        "face": "Gesicht",
+        "notCompatible": "Ihr Gerät ist nicht kompatibel.",
+        "hardwareNotAvailable": "{{type}} HardWare nicht verfügbar.",
+        "activated": "{{type}} aktiviert",
+        "enableLogin": "{{type}} Anmeldung",
+        "enableLoginHint": "Sie können jetzt die {{type}} verwenden, um schneller und einfacher auf Ihr Konto zuzugreifen.",
+        "subTitle1": "Authentifizieren Sie sich mit App",
+        "subTitle2": "{{type}} anstatt Ihr Passwort einzugeben.",
+        "login": "Einloggen mit {{type}}"
+    },
     "filePicker": {
         "file": "Klicken Sie hier, um eine Datei auszuwählen",
         "permission": "Entschuldigung, wir benötigen Kamerarollenberechtigungen, damit dies funktioniert!",
@@ -704,7 +719,9 @@
         "recoveryEmailAgain": "Erneut senden",
         "cancel": "Stornieren",
         "send": "Senden",
-        "change": "Veränderung"
+        "change": "Veränderung",
+        "setUpNow": "Jetzt einrichten",
+        "later": "Werde es später machen"
     },
     "filter": {
         "empty": {
