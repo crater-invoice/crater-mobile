@@ -31,6 +31,7 @@
     "expo-local-authentication": "~9.5.0",
     "expo-localization": "~9.1.0",
     "expo-permissions": "~10.0.0",
+    "expo-store-review": "~2.3.0",
     "expo-updates": "~0.4.1",
     "htmlparser2": "^4.1.0",
     "i18n-js": "^3.3.0",
