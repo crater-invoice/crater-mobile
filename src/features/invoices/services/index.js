@@ -10,6 +10,7 @@ class Services {
     }
 
     toggleIsEmailSent = status => (this.isEmailSent = status);
+
     toggleIsFirstInvoiceCreated = status =>
         (this.isFirstInvoiceCreated = status);
 }
