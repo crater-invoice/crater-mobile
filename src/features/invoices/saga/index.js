@@ -35,7 +35,7 @@ import {
 } from '@/features/settings/saga/general';
 import { getCustomFields } from '@/features/settings/saga/custom-fields';
 import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
-import { RatingReviewService } from '@/utils/ratingReviewService';
+import InvoiceServices from '@/features/invoices/services/index';
 
 function* getInvoices({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
@@ -247,7 +247,7 @@ function* createInvoice({ payload }) {
             return;
         }
 
-        RatingReviewService.toggleIsFirstInvoiceCreated(true);
+        InvoiceServices.toggleIsFirstInvoiceCreated(true);
 
         yield put(removeInvoiceItems());
 
