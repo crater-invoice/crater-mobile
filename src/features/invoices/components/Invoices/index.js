@@ -21,7 +21,7 @@ import {
 } from '../../constants';
 import { isFilterApply } from '@/utils';
 import InvoiceServices from '../../services';
-import { RatingReviewService } from '../../services/ratingReviewService';
+import { RatingReviewService } from '@/utils/ratingReviewService';
 import { openRatingReviewModal } from '../../services/ratingReview';
 
 type IProps = {
