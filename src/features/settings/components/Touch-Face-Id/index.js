@@ -253,6 +253,8 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
             toValue: 1,
             duration: 100
         });
+
+        this.toggleAnimatedCircleView(false);
     };
 
     scanId = async () => {
@@ -271,12 +273,18 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
     setUpNow = () => {
         this.setState({ isAllowToScan: true, stopScanAnimation: false });
 
+        this.toggleAnimatedCircleView(true);
+
         this.toggleScanNowAnimatedButton({
             toValue: 0,
             onStart: () => this.startScanAnimation()
         });
 
         this.scanId();
+    };
+
+    toggleAnimatedCircleView = status => {
+        this.circleFillReference?.showCircleView?.(status);
     };
 
     disableBiometryAuthLogin = async () => {
@@ -593,23 +601,19 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
         if (isEnrolled) {
             return (
                 <DefaultLayout {...layoutProps}>
-                    <AlreadyEnrolledView />
+                    {AlreadyEnrolledView()}
                 </DefaultLayout>
             );
         }
 
         if (isCompatible) {
             return (
-                <DefaultLayout {...layoutProps}>
-                    <ScanNowView />
-                </DefaultLayout>
+                <DefaultLayout {...layoutProps}>{ScanNowView()}</DefaultLayout>
             );
         }
 
         return (
-            <DefaultLayout {...layoutProps}>
-                <NotSupportedView />
-            </DefaultLayout>
+            <DefaultLayout {...layoutProps}>{NotSupportedView()}</DefaultLayout>
         );
     }
 }

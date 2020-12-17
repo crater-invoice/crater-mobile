@@ -38,6 +38,7 @@ export class AnimatedCircularProgress extends React.PureComponent {
         children: null,
         style: null
     };
+
     constructor(props) {
         super(props);
         this.animatedValue = new Animated.Value(0);
@@ -48,15 +49,15 @@ export class AnimatedCircularProgress extends React.PureComponent {
 
     componentDidMount() {
         this.props?.reference?.(this);
-
-        setTimeout(() => {
-            this.setState({ showCircle: true });
-        }, 500);
     }
 
     componentWillUnmount() {
         this.props?.reference?.(undefined);
     }
+
+    showCircleView = status => {
+        this.setState({ showCircle: status });
+    };
 
     start = callBack => {
         const { duration, startDeg, endDeg } = this.props;
@@ -114,7 +115,6 @@ export class AnimatedCircularProgress extends React.PureComponent {
             children,
             innerBackgroundColor
         } = this.props;
-        const { showCircle } = this.state;
 
         return (
             <View
@@ -126,8 +126,7 @@ export class AnimatedCircularProgress extends React.PureComponent {
                         borderRadius: radius,
                         backgroundColor
                     },
-                    style,
-                    { opacity: showCircle ? 1 : 0 }
+                    style
                 ]}
             >
                 {this.renderHalf(color1, [{ rotate: rotate1 }], {
@@ -160,6 +159,7 @@ export class AnimatedCircularProgress extends React.PureComponent {
 
     render() {
         const { backgroundColor, color, startDeg, endDeg } = this.props;
+        const { showCircle } = this.state;
 
         let circleBg;
         let color1;
@@ -243,6 +243,10 @@ export class AnimatedCircularProgress extends React.PureComponent {
                 inputRange: listTimingAnimationInput,
                 outputRange: [0, 0, 0, 1, 1]
             });
+        }
+
+        if (!showCircle) {
+            return null;
         }
 
         return this.renderCircle({
