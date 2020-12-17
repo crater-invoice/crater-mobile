@@ -34,7 +34,6 @@ export const biometricAuthentication = async ({
             return;
         }
 
-        authenticationFail(locale);
         onFail?.();
     } catch (e) {
         authenticationFail(locale);

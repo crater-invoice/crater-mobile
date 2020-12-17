@@ -215,25 +215,20 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
     };
 
     setBiometryAuthType = () => {
-        this.circleFillReference?.start?.(() => {
-            setTimeout(() => {
-                this.navigateToEnrolledViewScreen();
-            }, 200);
-        });
-
         this.animatedFingerFadeIn.setValue(0);
         this.animatedBounceScanIcon.setValue(1);
 
         this.timer && clearTimeout(this.timer);
 
-        setTimeout(() => {
-            this.setState({ isEnrolled: true });
-            this.fadeInView();
-        }, 1000);
+        this.circleFillReference?.start?.(() => {
+            setTimeout(() => {
+                this.navigateToEnrolledViewScreen();
+            }, 100);
+        });
     };
 
-    navigateToEnrolledViewScreen = () => {
-        this.setState({
+    navigateToEnrolledViewScreen = async () => {
+        await this.setState({
             isEnrolled: true,
             stopScanAnimation: true,
             isAllowToScan: false
