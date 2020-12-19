@@ -44,7 +44,7 @@ Crater is a product of [Bytefury](https://bytefury.com)
 ## License
 
 Crater is released under the Attribution Assurance License.
-See [LICENSE](LICENSE) for details.
+See [LICENSE](https://craterapp.com/license) for full details & use-cases.
 
 ## Release Channels:
 
