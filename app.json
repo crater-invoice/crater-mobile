@@ -29,7 +29,8 @@
       "buildNumber": "5",
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID to save login"
-      }
+      },
+      "usesIcloudStorage": true
     },
     "android": {
       "package": "com.craterapp.app",

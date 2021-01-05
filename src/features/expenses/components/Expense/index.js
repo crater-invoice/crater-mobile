@@ -74,7 +74,7 @@ export class Expense extends React.Component<IProps, IState> {
             isLoading: true,
             imageUrl: null,
             fileLoading: false,
-            fileType: null
+            fileType: null,
         };
     }
 
@@ -252,7 +252,6 @@ export class Expense extends React.Component<IProps, IState> {
 
         const isCreateExpense = type === EXPENSE_ADD;
         const isEditExpense = type === EXPENSE_EDIT;
-
         const hasCustomField = isEditExpense
             ? formValues?.expense && formValues.expense.hasOwnProperty('fields')
             : isArray(customFields);
@@ -304,6 +303,7 @@ export class Expense extends React.Component<IProps, IState> {
                         }
                         containerStyle={styles.filePicker}
                         fileLoading={val => this.setState({ fileLoading: val })}
+                        withDocument
                     />
 
                     <Field

@@ -8,6 +8,7 @@ import * as FileSystem from 'expo-file-system';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Constants from 'expo-constants';
+import * as DocumentPicker from 'expo-document-picker';
 import { styles } from './styles';
 import { AssetImage } from '../AssetImage';
 import { colors } from '@/styles';
@@ -29,10 +30,12 @@ type IProps = {
     imageContainerStyle: Object,
     hasAvatar: Boolean,
     loadingContainerStyle: Object,
-    defaultImage: String
+    defaultImage: String,
+    withDocument: boolean,
 };
 
 const UPLOAD_BUTTON_ACTIONS = {
+    DOCUMENT: 'DOCUMENT',
     GALLERY: 'GALLERY',
     CAMERA: 'CAMERA'
 };
@@ -74,8 +77,10 @@ export class FilePickerComponent extends Component<IProps> {
         this.props?.fileLoading?.(loading);
     };
 
-    GALLERY_UPLOAD_BUTTON_OPTIONS = locale => {
-        return [
+    GALLERY_UPLOAD_BUTTON_OPTIONS = () => {
+        const { locale, withDocument = false } = this.props
+
+        const items = [
             {
                 label: Lng.t('filePicker.gallery', { locale }),
                 value: UPLOAD_BUTTON_ACTIONS.GALLERY
@@ -84,7 +89,16 @@ export class FilePickerComponent extends Component<IProps> {
                 label: Lng.t('filePicker.camera', { locale }),
                 value: UPLOAD_BUTTON_ACTIONS.CAMERA
             }
-        ];
+        ]
+
+        if (withDocument) {
+             items.unshift({
+                label: Lng.t('filePicker.document', { locale }),
+                value: UPLOAD_BUTTON_ACTIONS.DOCUMENT
+            })
+        }
+
+        return items;
     };
 
     onOptionSelect = async action => {
@@ -93,13 +107,37 @@ export class FilePickerComponent extends Component<IProps> {
             permission = '',
             type = mediaType;
 
-        if (action == UPLOAD_BUTTON_ACTIONS.CAMERA) {
+        if (action == UPLOAD_BUTTON_ACTIONS.DOCUMENT) {
+            await this.onToggleLoading(true);
+
+            let result = await DocumentPicker.getDocumentAsync({});
+
+            if (result.type === "success") {
+                // this.setState({ image: result.uri });
+
+                FileSystem.readAsStringAsync(result.uri, {
+                    encoding: FileSystem.EncodingType.Base64
+                })
+                .then(async base64 => {
+                    const res = { ...result, base64 };
+                    this.props?.onChangeCallback?.(res);
+                    await this.onToggleLoading(false);
+                })
+                .catch(error => console.error(error));
+            } else {
+                this.onToggleLoading(false);
+            }
+
+            return;
+        } else if (action == UPLOAD_BUTTON_ACTIONS.CAMERA) {
             asyncFun = 'launchCameraAsync';
             permission = 'CAMERA';
             type = 'Images';
+
         } else if (action == UPLOAD_BUTTON_ACTIONS.GALLERY) {
             asyncFun = 'launchImageLibraryAsync';
             permission = 'CAMERA_ROLL';
+
         }
 
         const { status } = await Permissions.askAsync(Permissions[permission]);
@@ -209,7 +247,8 @@ export class FilePickerComponent extends Component<IProps> {
             hasAvatar = false,
             loadingContainerStyle,
             defaultImage,
-            locale
+            locale,
+            withDocument
         } = this.props;
 
         return (
@@ -220,10 +259,10 @@ export class FilePickerComponent extends Component<IProps> {
 
                 <Dropdown
                     ref={this.actionSheet}
-                    options={this.GALLERY_UPLOAD_BUTTON_OPTIONS(locale)}
+                    options={this.GALLERY_UPLOAD_BUTTON_OPTIONS()}
                     onSelect={this.onOptionSelect}
-                    cancelButtonIndex={2}
-                    destructiveButtonIndex={3}
+                    cancelButtonIndex={withDocument ? 3 : 2}
+                    destructiveButtonIndex={withDocument ? 5 : 3}
                     hasIcon={false}
                 />
 
