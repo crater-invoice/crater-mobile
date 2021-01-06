@@ -15,7 +15,7 @@
     "@react-native-community/eslint-config": "0.0.5",
     "@react-native-community/netinfo": "5.9.2",
     "@react-native-community/toolbar-android": "0.1.0-rc.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-eslint": "^10.0.3",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-flowtype": "^4.3.0",
