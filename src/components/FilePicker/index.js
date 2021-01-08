@@ -17,6 +17,7 @@ import { Content } from '../Content';
 import { alertMe } from '@/constants';
 import Dropdown from '../Dropdown';
 import { isIosPlatform } from '@/constants';
+import { Switch } from 'react-native';
 
 type IProps = {
     label: String,
@@ -46,7 +47,8 @@ export class FilePickerComponent extends Component<IProps> {
         this.actionSheet = React.createRef();
         this.state = {
             image: null,
-            loading: false
+            loading: false,
+            isUploaded: false
         };
     }
 
@@ -101,6 +103,50 @@ export class FilePickerComponent extends Component<IProps> {
         return items;
     };
 
+    onFileSelect = (result, action) => {
+
+        action !== UPLOAD_BUTTON_ACTIONS.DOCUMENT
+        ? this.setState({ image: result.uri })
+        : this.setState({ image: null})
+
+        FileSystem.readAsStringAsync(result.uri, {
+            encoding: FileSystem.EncodingType.Base64
+        })
+            .then(async base64 => {
+                const res = { ...result, base64 };
+                this.props?.onChangeCallback?.(res);
+                await this.onToggleLoading(false);
+                this.setState({ isUploaded: true});
+            })
+            .catch(error => console.error(error));
+    }
+
+    onDocumentOptionSelect = async (action) => {
+        await this.onToggleLoading(true);
+
+        let result = await DocumentPicker.getDocumentAsync({copyToCacheDirectory : false});
+
+        if (result.type === "success") {
+            this.onFileSelect(result, action)
+        } else {
+            this.onToggleLoading(false);
+        }
+    }
+
+    onCameraPermissions = async (status) => {
+        if (status !== 'granted') {
+            this.getPermissionAsync();
+        } else {
+            const { status } = await Permissions.askAsync(
+                Permissions.MEDIA_LIBRARY_WRITE_ONLY
+            );
+            if (status !== 'granted') {
+                this.getPermissionAsync();
+                return true;
+            }
+        }
+    }
+
     onOptionSelect = async action => {
         const { mediaType = 'Images' } = this.props;
         let asyncFun = '',
@@ -108,31 +154,15 @@ export class FilePickerComponent extends Component<IProps> {
             type = mediaType;
 
         if (action == UPLOAD_BUTTON_ACTIONS.DOCUMENT) {
-            await this.onToggleLoading(true);
-
-            let result = await DocumentPicker.getDocumentAsync({});
-
-            if (result.type === "success") {
-                // this.setState({ image: result.uri });
-
-                FileSystem.readAsStringAsync(result.uri, {
-                    encoding: FileSystem.EncodingType.Base64
-                })
-                .then(async base64 => {
-                    const res = { ...result, base64 };
-                    this.props?.onChangeCallback?.(res);
-                    await this.onToggleLoading(false);
-                })
-                .catch(error => console.error(error));
-            } else {
-                this.onToggleLoading(false);
-            }
-
+            this.onDocumentOptionSelect(action)
             return;
+
         } else if (action == UPLOAD_BUTTON_ACTIONS.CAMERA) {
             asyncFun = 'launchCameraAsync';
             permission = 'CAMERA';
             type = 'Images';
+            const { status } = await Permissions.askAsync(Permissions[permission]);
+            this.onCameraPermissions(asyncFun, status, type, action)
 
         } else if (action == UPLOAD_BUTTON_ACTIONS.GALLERY) {
             asyncFun = 'launchImageLibraryAsync';
@@ -140,25 +170,10 @@ export class FilePickerComponent extends Component<IProps> {
 
         }
 
-        const { status } = await Permissions.askAsync(Permissions[permission]);
-        if (status !== 'granted') {
-            this.getPermissionAsync();
-        } else {
-            if (action == UPLOAD_BUTTON_ACTIONS.CAMERA) {
-                const { status } = await Permissions.askAsync(
-                    Permissions.CAMERA_ROLL
-                );
-                if (status !== 'granted') {
-                    this.getPermissionAsync();
-                    return true;
-                }
-            }
-
-            this.chooseFile({ asyncFun, type });
-        }
+        this.chooseFile({ asyncFun, type, action });
     };
 
-    chooseFile = async ({ asyncFun, type }) => {
+    chooseFile = async ({ asyncFun, type, action}) => {
         await this.onToggleLoading(true);
 
         let result = await ImagePicker[asyncFun]({
@@ -169,17 +184,7 @@ export class FilePickerComponent extends Component<IProps> {
         });
 
         if (!result.cancelled) {
-            this.setState({ image: result.uri });
-
-            FileSystem.readAsStringAsync(result.uri, {
-                encoding: FileSystem.EncodingType.Base64
-            })
-                .then(async base64 => {
-                    const res = { ...result, base64 };
-                    this.props?.onChangeCallback?.(res);
-                    await this.onToggleLoading(false);
-                })
-                .catch(error => console.error(error));
+            this.onFileSelect(result, action)
         } else {
             this.onToggleLoading(false);
         }
@@ -187,33 +192,10 @@ export class FilePickerComponent extends Component<IProps> {
 
     toggleActionSheet = () => this.actionSheet.current.showActionSheet();
 
-    AVATAR_VIEW = () => {
-        return (
-            <View style={styles.iconContainer}>
-                <Icon
-                    name={'camera'}
-                    size={20}
-                    color={colors.white}
-                    style={styles.iconStyle}
-                />
-            </View>
-        );
-    };
-
-    DEFAULT_VIEW = locale => {
-        return (
-            <View style={styles.container}>
-                <Icon name={'cloud-upload-alt'} size={23} color={colors.gray} />
-                <Text style={styles.title}>
-                    {Lng.t('filePicker.file', { locale })}
-                </Text>
-            </View>
-        );
-    };
-
     SELECTED_IMAGE = () => {
         const { image } = this.state;
         const { imageUrl, imageStyle, imageContainerStyle } = this.props;
+
         return (
             <View style={[styles.imageContainer, imageContainerStyle]}>
                 <AssetImage
@@ -226,19 +208,8 @@ export class FilePickerComponent extends Component<IProps> {
         );
     };
 
-    DEFAULT_IMAGE = () => {
-        const { imageStyle, defaultImage } = this.props;
-        return (
-            <AssetImage
-                imageSource={defaultImage}
-                imageStyle={[styles.images, imageStyle && imageStyle]}
-                loadingImageStyle={styles.loadImage}
-            />
-        );
-    };
-
     render() {
-        let { image, loading } = this.state;
+        let { image, loading, isUploaded } = this.state;
         const {
             label,
             containerStyle,
@@ -250,6 +221,64 @@ export class FilePickerComponent extends Component<IProps> {
             locale,
             withDocument
         } = this.props;
+
+        const AVATAR_VIEW = () => {
+            return (
+                <View style={styles.iconContainer}>
+                    <Icon
+                        name={'camera'}
+                        size={20}
+                        color={colors.white}
+                        style={styles.iconStyle}
+                    />
+                </View>
+            );
+        };
+
+        const DEFAULT_VIEW = locale => {
+            return (
+                <View style={styles.container}>
+                    <Icon name={'cloud-upload-alt'} size={23} color={colors.gray} />
+                    <Text style={styles.title}>
+                        {Lng.t('filePicker.file', { locale })}
+                    </Text>
+                </View>
+            );
+        };
+
+        const DEFAULT_IMAGE = () => {
+            const { imageStyle, defaultImage } = this.props;
+            return (
+                <AssetImage
+                    imageSource={defaultImage}
+                    imageStyle={[styles.images, imageStyle && imageStyle]}
+                    loadingImageStyle={styles.loadImage}
+                />
+            );
+        };
+
+        const SELECTED_PDF = locale => {
+            return (
+                <View style={styles.container}>
+                    <Icon name={'file'} size={64} color={colors.primary}/>
+                    <Text style={styles.title}>
+                        {Lng.t('filePicker.successful', { locale })}
+                    </Text>
+                </View>
+            )
+        }
+
+        const fileAliasView = locale => {
+            if (image !== null || imageUrl) {
+                return this.SELECTED_IMAGE()
+            } else if (withDocument && isUploaded) {
+                return SELECTED_PDF(locale)
+            } else if (!defaultImage) {
+                return DEFAULT_VIEW(locale)
+            } else {
+                return DEFAULT_IMAGE()
+            }
+        }
 
         return (
             <View
@@ -285,15 +314,12 @@ export class FilePickerComponent extends Component<IProps> {
                                     }
                                 }}
                             >
-                                {image !== null || imageUrl
-                                    ? this.SELECTED_IMAGE()
-                                    : !defaultImage
-                                    ? this.DEFAULT_VIEW(locale)
-                                    : this.DEFAULT_IMAGE()}
+                                {fileAliasView(locale)}
+
                             </Content>
                         </View>
 
-                        {hasAvatar && this.AVATAR_VIEW()}
+                        {hasAvatar && AVATAR_VIEW()}
                     </View>
                 </TouchableWithoutFeedback>
             </View>

@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
         paddingTop: 5,
         color: colors.darkGray,
         fontFamily: fonts.poppinsLight,
-        textAlign: 'left'
+        textAlign: 'center'
     },
     label: {
         paddingBottom: 7,

@@ -673,7 +673,8 @@
         "permission": "Sorry, we need camera roll permissions to make this work!",
         "camera": "Camera",
         "gallery": "Gallery",
-        "document": "Document"
+        "document": "Document",
+        "successful": "Document has been uploaded successfully"
     },
     "sendMail": {
         "from": "From",
