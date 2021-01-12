@@ -6,7 +6,8 @@ import {
     GET_EXPENSE_DETAIL,
     UPDATE_EXPENSE,
     REMOVE_EXPENSE,
-    GET_CREATE_EXPENSE
+    GET_CREATE_EXPENSE,
+    SHOW_IMAGE_ON_EDIT
 } from '../constants';
 
 export const getCreateExpense = (payload = {}) => ({
@@ -48,3 +49,10 @@ export const removeExpense = (payload = {}) => ({
     type: REMOVE_EXPENSE,
     payload
 });
+
+export const showImageOnEdit = payload => ({
+    type: SHOW_IMAGE_ON_EDIT,
+    payload
+});
+
+

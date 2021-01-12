@@ -2,7 +2,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import Request from '@/api/request';
 import * as queryStrings from 'query-string';
 import * as TYPES from '../constants';
-import { expenseTriggerSpinner, setExpenses } from '../actions';
+import { expenseTriggerSpinner, setExpenses, showImageOnEdit } from '../actions';
 import { getCustomers } from '@/features/customers/saga';
 import { getExpenseCategories } from '@/features/settings/saga/categories';
 import { getCustomFields } from '@/features/settings/saga/custom-fields';
@@ -110,6 +110,12 @@ function* getExpenseDetail({ payload: { id, onSuccess } }) {
 
         const response = yield call([Request, 'get'], options);
 
+        const options3 = {
+            path: `expenses/${id}/show/receipt`
+        }
+
+        const response2 = yield call([Request, 'get'], options3)
+
         yield call(getCustomers, {
             payload: { queryString: { limit: 'all' } }
         });
@@ -124,7 +130,7 @@ function* getExpenseDetail({ payload: { id, onSuccess } }) {
             }
         });
 
-        onSuccess?.(response.expense);
+        onSuccess?.(response.expense, response2);
     } catch (e) {}
 }
 

@@ -74,7 +74,7 @@ export class Expense extends React.Component<IProps, IState> {
             isLoading: true,
             imageUrl: null,
             fileLoading: false,
-            fileType: null,
+            fileType: null
         };
     }
 
@@ -103,11 +103,11 @@ export class Expense extends React.Component<IProps, IState> {
         if (type === EXPENSE_EDIT) {
             getExpenseDetail({
                 id,
-                onSuccess: res => {
+                onSuccess: (res, receipt) => {
                     this.setFormField(`expense`, res);
                     this.setState({
-                        imageUrl: res.receipt,
-                        fileType: res?.media?.[0]?.mime_type,
+                        imageUrl: receipt.image,
+                        fileType: receipt.type,
                         isLoading: false
                     });
                     return;
@@ -303,7 +303,9 @@ export class Expense extends React.Component<IProps, IState> {
                         }
                         containerStyle={styles.filePicker}
                         fileLoading={val => this.setState({ fileLoading: val })}
+                        isDocumentUploaded = {isEditExpense ? !(fileType && fileType.includes('image')) : null}
                         withDocument
+                        isEditItem={isEditExpense}
                     />
 
                     <Field

@@ -48,7 +48,8 @@ export class FilePickerComponent extends Component<IProps> {
         this.state = {
             image: null,
             loading: false,
-            isUploaded: false
+            isUploaded: false,
+            action: null
         };
     }
 
@@ -128,6 +129,7 @@ export class FilePickerComponent extends Component<IProps> {
 
         if (result.type === "success") {
             this.onFileSelect(result, action)
+            this.setState({action})
         } else {
             this.onToggleLoading(false);
         }
@@ -162,14 +164,13 @@ export class FilePickerComponent extends Component<IProps> {
             permission = 'CAMERA';
             type = 'Images';
             const { status } = await Permissions.askAsync(Permissions[permission]);
-            this.onCameraPermissions(asyncFun, status, type, action)
+            this.onCameraPermissions(status)
 
         } else if (action == UPLOAD_BUTTON_ACTIONS.GALLERY) {
             asyncFun = 'launchImageLibraryAsync';
             permission = 'CAMERA_ROLL';
 
         }
-
         this.chooseFile({ asyncFun, type, action });
     };
 
@@ -185,6 +186,7 @@ export class FilePickerComponent extends Component<IProps> {
 
         if (!result.cancelled) {
             this.onFileSelect(result, action)
+            this.setState({action})
         } else {
             this.onToggleLoading(false);
         }
@@ -209,7 +211,7 @@ export class FilePickerComponent extends Component<IProps> {
     };
 
     render() {
-        let { image, loading, isUploaded } = this.state;
+        let { image, loading, isUploaded, action } = this.state;
         const {
             label,
             containerStyle,
@@ -219,7 +221,9 @@ export class FilePickerComponent extends Component<IProps> {
             loadingContainerStyle,
             defaultImage,
             locale,
-            withDocument
+            withDocument,
+            isDocumentUploaded,
+            isEditItem
         } = this.props;
 
         const AVATAR_VIEW = () => {
@@ -257,23 +261,28 @@ export class FilePickerComponent extends Component<IProps> {
             );
         };
 
-        const SELECTED_PDF = locale => {
+        const SELECTED_PDF = () => {
             return (
                 <View style={styles.container}>
-                    <Icon name={'file'} size={64} color={colors.primary}/>
-                    <Text style={styles.title}>
-                        {Lng.t('filePicker.successful', { locale })}
-                    </Text>
+                    <Icon name={'file'} size={100} color={colors.primary}/>
                 </View>
             )
         }
 
         const fileAliasView = locale => {
+            if (action === UPLOAD_BUTTON_ACTIONS.DOCUMENT) {
+                return SELECTED_PDF()
+            }
+
             if (image !== null || imageUrl) {
                 return this.SELECTED_IMAGE()
-            } else if (withDocument && isUploaded) {
-                return SELECTED_PDF(locale)
-            } else if (!defaultImage) {
+            } else if (withDocument && !isUploaded && isDocumentUploaded) {
+                return SELECTED_PDF()
+            } else if (isEditItem || isUploaded) {
+                return SELECTED_PDF()
+            } else if (!defaultImage && !isEditItem) {
+                return DEFAULT_VIEW(locale)
+            } else if (!isEditItem) {
                 return DEFAULT_VIEW(locale)
             } else {
                 return DEFAULT_IMAGE()
