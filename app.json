@@ -16,6 +16,7 @@
             "fallbackToCacheTimeout": 0
         },
         "assetBundlePatterns": ["**/*"],
+        "userInterfaceStyle": "automatic",
         "ios": {
             "supportsTablet": true,
             "bundleIdentifier": "com.craterapp.app",
