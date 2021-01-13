@@ -177,10 +177,10 @@ export class Company extends React.Component<IProps> {
                     <Field
                         name={'logo'}
                         component={FilePicker}
+                        locale={locale}
                         label={Lng.t('settings.company.logo', { locale })}
-                        navigation={navigation}
                         onChangeCallback={val => this.setState({ logo: val })}
-                        imageUrl={this.state.image}
+                        uploadedFileUrl={this.state.image}
                         containerStyle={{
                             marginTop: 15
                         }}

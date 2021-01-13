@@ -126,18 +126,17 @@ export class Account extends React.Component<IProps> {
                     <Field
                         name={'avatar'}
                         component={FilePicker}
-                        navigation={navigation}
-                        onChangeCallback={val => this.setState({ avatar: val })}
-                        imageUrl={this.state.avatarUrl}
-                        containerStyle={styles.avatarContainer}
-                        fileLoading={val => {
-                            this.setState({ fileLoading: val });
-                        }}
+                        locale={locale}
                         hasAvatar
+                        onChangeCallback={val => this.setState({ avatar: val })}
+                        uploadedFileUrl={this.state.avatarUrl}
+                        containerStyle={styles.avatarContainer}
                         imageContainerStyle={styles.imageContainerStyle}
                         imageStyle={styles.imageStyle}
                         loadingContainerStyle={styles.loadingContainerStyle}
-                        defaultImage={IMAGES.DEFAULT_AVATAR}
+                        fileLoading={val => {
+                            this.setState({ fileLoading: val });
+                        }}
                     />
 
                     <Field

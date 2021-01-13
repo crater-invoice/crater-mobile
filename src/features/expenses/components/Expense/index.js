@@ -106,8 +106,8 @@ export class Expense extends React.Component<IProps, IState> {
                 onSuccess: (res, receipt) => {
                     this.setFormField(`expense`, res);
                     this.setState({
-                        imageUrl: receipt.image,
-                        fileType: receipt.type,
+                        imageUrl: receipt?.image,
+                        fileType: receipt?.type,
                         isLoading: false
                     });
                     return;
@@ -290,22 +290,20 @@ export class Expense extends React.Component<IProps, IState> {
                     <Field
                         name={`expense.${FIELDS.RECEIPT}`}
                         component={FilePicker}
-                        mediaType={'All'}
+                        locale={locale}
+                        withDocument
                         label={Lng.t('expenses.receipt', { locale })}
-                        navigation={navigation}
+                        fileLoading={val => this.setState({ fileLoading: val })}
+                        containerStyle={styles.filePicker}
+                        uploadedFileType={fileType}
                         onChangeCallback={val =>
                             this.setState({ attachmentReceipt: val })
                         }
-                        imageUrl={
+                        uploadedFileUrl={
                             fileType && fileType.includes('image')
                                 ? imageUrl
                                 : null
                         }
-                        containerStyle={styles.filePicker}
-                        fileLoading={val => this.setState({ fileLoading: val })}
-                        isDocumentUploaded = {isEditExpense ? !(fileType && fileType.includes('image')) : null}
-                        withDocument
-                        isEditItem={isEditExpense}
                     />
 
                     <Field
