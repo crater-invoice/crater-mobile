@@ -1,47 +1,40 @@
 {
-  "expo": {
-    "name": "Crater Invoice",
-    "slug": "crater",
-    "privacy": "public",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "3.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#F9FBFF"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "userInterfaceStyle": "automatic",
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.craterapp.app",
-      "buildNumber": "5",
-      "infoPlist": {
-        "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID to save login"
-      },
-      "usesIcloudStorage": true
-    },
-    "android": {
-      "package": "com.craterapp.app",
-      "versionCode": 9,
-      "softwareKeyboardLayoutMode": "pan"
-    },
-    "description": "",
-    "androidStatusBar": {
-      "backgroundColor": "#F9FBFF",
-      "barStyle": "dark-content",
-      "translucent": true
+    "expo": {
+        "name": "Crater Invoice",
+        "slug": "crater",
+        "privacy": "public",
+        "platforms": ["ios", "android", "web"],
+        "version": "4.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "cover",
+            "backgroundColor": "#F9FBFF"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.craterapp.app",
+            "buildNumber": "8",
+            "usesIcloudStorage": true,
+            "infoPlist": {
+              "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID to save login"
+            }
+        },
+        "android": {
+            "package": "com.craterapp.app",
+            "versionCode": 12,
+            "softwareKeyboardLayoutMode": "pan"
+        },
+        "description": "",
+        "androidStatusBar": {
+            "backgroundColor": "#F9FBFF",
+            "barStyle": "dark-content",
+            "translucent": true
+        }
     }
-  }
 }
