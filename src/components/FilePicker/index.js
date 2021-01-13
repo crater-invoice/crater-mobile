@@ -117,20 +117,11 @@ export class FilePicker extends Component<IProps, IStates> {
     };
 
     askGalleryPermission = async () => {
-        const { status: status1 } = await Permissions.askAsync(
+        const { status } = await Permissions.askAsync(
             Permissions.MEDIA_LIBRARY
         );
 
-        if (status1 !== 'granted') {
-            this.requestToGrantPermission();
-            return false;
-        }
-
-        const { status: status2 } = await Permissions.askAsync(
-            Permissions.MEDIA_LIBRARY_WRITE_ONLY
-        );
-
-        if (status2 !== 'granted') {
+        if (status !== 'granted') {
             this.requestToGrantPermission();
             return false;
         }
