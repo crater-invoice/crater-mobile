@@ -19,11 +19,8 @@ import { styles } from './styles';
 
 interface IProps {
     label: String;
-    icon: String;
-    placeholder: String;
     containerStyle: Object;
     onChangeCallback: Function;
-    onGetBase64: Function;
     imageStyle: Object;
     imageContainerStyle: Object;
     hasAvatar: Boolean;
@@ -145,7 +142,7 @@ export class FilePicker extends Component<IProps, IStates> {
         this.props?.fileLoading?.(loading);
     };
 
-    encodeToBase64 = async (file, action, onSuccess) => {
+    onSelect = async (file, action, onSuccess) => {
         const { onChangeCallback } = this.props;
 
         try {
@@ -169,19 +166,19 @@ export class FilePicker extends Component<IProps, IStates> {
         }
     };
 
-    onSelectDocument = async action => {
+    showFileManager = async action => {
         try {
             await this.onToggleLoading(true);
 
             const file = await DocumentPicker.getDocumentAsync({});
 
-            this.encodeToBase64(file, action, () => {});
+            this.onSelect(file, action, () => {});
         } catch (e) {
             this.onToggleLoading(false);
         }
     };
 
-    onSelectGallery = async action => {
+    showGallery = async action => {
         try {
             const isAllow = await this.askGalleryPermission();
 
@@ -198,7 +195,7 @@ export class FilePicker extends Component<IProps, IStates> {
                 allowsMultipleSelection: false
             });
 
-            this.encodeToBase64(file, action, res => {
+            this.onSelect(file, action, res => {
                 this.setState({ image: res.uri });
             });
         } catch (e) {
@@ -206,7 +203,7 @@ export class FilePicker extends Component<IProps, IStates> {
         }
     };
 
-    onSelectCamera = async action => {
+    showCamera = async action => {
         try {
             const isAllow = await this.askCameraPermission();
 
@@ -222,7 +219,7 @@ export class FilePicker extends Component<IProps, IStates> {
                 quality: 0
             });
 
-            this.encodeToBase64(file, action, res => {
+            this.onSelect(file, action, res => {
                 this.setState({ image: res.uri });
             });
         } catch (e) {
@@ -237,17 +234,17 @@ export class FilePicker extends Component<IProps, IStates> {
         }
 
         if (action == ACTIONS.DOCUMENT) {
-            this.onSelectDocument(action);
+            this.showFileManager(action);
             return;
         }
 
         if (action == ACTIONS.GALLERY) {
-            this.onSelectGallery(action);
+            this.showGallery(action);
             return;
         }
 
         if (action == ACTIONS.CAMERA) {
-            this.onSelectCamera(action);
+            this.showCamera(action);
             return;
         }
     };
