@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import AssetIcon from '../AssetIcon';
 import { styles } from './styles';
 import { ListItem, Avatar, CheckBox } from 'react-native-elements';
 import { Empty } from '../Empty';
 import { colors, fonts } from '@/styles';
 import { CurrencyFormat } from '../CurrencyFormat';
-import { FadeListAnimation } from '@/components';
+import { FadeListAnimation, AssetIcon } from '@/components';
 import { isIosPlatform } from '@/constants';
 import { isRTL } from '@/utils';
 
