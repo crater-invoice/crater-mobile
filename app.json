@@ -29,7 +29,17 @@
         "android": {
             "package": "com.craterapp.app",
             "versionCode": 12,
-            "softwareKeyboardLayoutMode": "pan"
+            "softwareKeyboardLayoutMode": "pan",
+            "permissions": [
+              "CAMERA",
+              "READ_CALENDAR",
+              "READ_EXTERNAL_STORAGE",
+              "WRITE_EXTERNAL_STORAGE",
+              "USE_FINGERPRINT",
+              "USE_BIOMETRIC",
+              "VIBRATE",
+              "com.htc.launcher.permission.READ_SETTINGS"
+            ]
         },
         "description": "",
         "androidStatusBar": {
