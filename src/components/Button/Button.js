@@ -7,8 +7,8 @@ import { colors } from '@/styles';
 import { Button } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AssetImage } from '../AssetImage';
-import  AssetIcon  from '../AssetIcon';
 import { BUTTON_COLOR, BUTTON_TYPE } from '@/constants';
+import { AssetIcon } from '../AssetIcon';
 
 type IProps = {
     children?: any,

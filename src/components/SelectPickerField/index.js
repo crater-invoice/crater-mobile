@@ -8,10 +8,9 @@ import styles from './styles';
 import { FakeInput } from '../FakeInput';
 import FakeInputStyle from '../FakeInput/styles';
 
-import AssetIcon from '../AssetIcon';
+import { AssetIcon } from '../AssetIcon';
 import { colors } from '@/styles';
 import { isAndroidPlatform, isIosPlatform } from '@/constants';
-
 
 type IProps = {
     hint: string,
@@ -62,7 +61,7 @@ export class SelectPickerField extends Component<IProps> {
 
     toggleIcon = () => {
         if (isAndroidPlatform()) {
-            return
+            return;
         }
         const { icon } = this.state;
         this.setState({
@@ -171,7 +170,11 @@ export class SelectPickerField extends Component<IProps> {
                 }}
                 Icon={() => (
                     <View>
-                        <AssetIcon name={icon} size={18} color={colors.darkGray} />
+                        <AssetIcon
+                            name={icon}
+                            size={18}
+                            color={colors.darkGray}
+                        />
                     </View>
                 )}
                 modalProps={{

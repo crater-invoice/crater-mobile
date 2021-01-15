@@ -5,7 +5,7 @@ import * as IntentLauncher from 'expo-intent-launcher';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
-import AssetIcon from '../AssetIcon';
+import { AssetIcon } from '../AssetIcon';
 import Constants from 'expo-constants';
 import * as DocumentPicker from 'expo-document-picker';
 import Lng from '@/lang/i18n';
@@ -275,7 +275,11 @@ export class FilePicker extends Component<IProps, IStates> {
 
         const defaultView = (
             <View style={styles.container}>
-                <AssetIcon name={'cloud-upload-alt'} size={23} color={colors.gray} />
+                <AssetIcon
+                    name={'cloud-upload-alt'}
+                    size={23}
+                    color={colors.gray}
+                />
                 <Text style={styles.title}>
                     {Lng.t('filePicker.file', { locale })}
                 </Text>

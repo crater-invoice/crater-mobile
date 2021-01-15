@@ -12,5 +12,3 @@ type IProps = {
 export const AssetIcon: FC<IProps> = ({ name, style, size, solid, color }) => (
     <Icon name={name} size={size} color={color} solid={solid} style={style} />
 );
-
-export default AssetIcon;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Modal, TouchableOpacity, Text, Keyboard } from 'react-native';
 import { Field, reset, change } from 'redux-form';
-import AssetIcon from '../AssetIcon';
+import { AssetIcon } from '../AssetIcon';
 import styles from './styles';
 import { DefaultLayout } from '../Layouts';
 import { InputField } from '../InputField';

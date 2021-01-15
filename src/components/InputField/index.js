@@ -7,7 +7,7 @@ import { Input } from 'react-native-elements';
 import debounce from 'lodash/debounce';
 import styles from './styles';
 import { IInputField } from './type';
-import AssetIcon from '../AssetIcon';
+import { AssetIcon } from '../AssetIcon';
 import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { hasValue } from '@/constants';

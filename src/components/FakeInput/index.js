@@ -14,7 +14,7 @@ import { colors } from '@/styles';
 import { Content } from '../Content';
 import Lng from '@/lang/i18n';
 import { InputField } from '../InputField';
-import AssetIcon from '../AssetIcon';
+import { AssetIcon } from '../AssetIcon';
 
 type IProps = {
     label: String,
