@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { TouchableOpacity, View, StatusBar } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { styles } from './styles';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import AssetIcon from '../AssetIcon';
 import { colors } from '@/styles';
 import { isIosPlatform } from '@/constants';
 import { isDarkMode } from '@/utils';
@@ -70,7 +70,7 @@ export default class Dropdown extends Component<IProps> {
                     right: 13
                 }}
             >
-                <Icon name={'ellipsis-h'} size={18} style={styles.iconStyle} />
+                <AssetIcon name={'ellipsis-h'} size={18} style={styles.iconStyle} />
             </TouchableOpacity>
         );
     };

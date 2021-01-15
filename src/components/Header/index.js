@@ -3,7 +3,7 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Header, Text } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import AssetIcon from '../AssetIcon';
 import styles from './styles';
 import { colors } from '@/styles';
 import { Filter } from '../Filter';
@@ -98,7 +98,7 @@ export const CtHeader = ({
                             right: 13
                         }}
                     >
-                        <Icon
+                        <AssetIcon
                             name={leftIcon}
                             size={25}
                             style={[
@@ -150,7 +150,7 @@ export const CtHeader = ({
 
                             <View>
                                 {rightIconPress && !rightIconHint && (
-                                    <Icon
+                                    <AssetIcon
                                         name={rightIcon}
                                         size={18}
                                         style={{

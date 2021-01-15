@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import AssetIcon from '../AssetIcon';
 import { styles } from './styles';
 import { ListItem, Avatar, CheckBox } from 'react-native-elements';
 import { Empty } from '../Empty';
@@ -147,7 +147,7 @@ export class ListView extends Component<IProps> {
         if (rightArrowIcon) {
             otherProps = {
                 rightAvatar: (
-                    <Icon
+                    <AssetIcon
                         name={!isRTL() ? 'chevron-right' : 'chevron-left'}
                         size={15}
                         color={colors.darkGray}
@@ -268,7 +268,7 @@ export class ListView extends Component<IProps> {
         if (rightArrowIcon) {
             otherProps = {
                 rightAvatar: (
-                    <Icon
+                    <AssetIcon
                         name={!isRTL() ? 'chevron-right' : 'chevron-left'}
                         size={15}
                         color={colors.darkGray}
@@ -304,7 +304,7 @@ export class ListView extends Component<IProps> {
                             }}
                         />
                     ) : (
-                        <Icon
+                        <AssetIcon
                             name={leftIcon}
                             size={iconSize}
                             color={colors.primaryLight}

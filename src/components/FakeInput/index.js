@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Field } from 'redux-form';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
 import { colors } from '@/styles';
 import { Content } from '../Content';
 import Lng from '@/lang/i18n';
 import { InputField } from '../InputField';
+import AssetIcon from '../AssetIcon';
 
 type IProps = {
     label: String,
@@ -25,7 +25,7 @@ type IProps = {
     rightIcon: String,
     leftIcon: String,
     color: String,
-    value: String,
+    value: string,
     fakeInput: any,
     fakeInputContainerStyle: Object,
     valueStyle: Object,
@@ -88,7 +88,7 @@ export class FakeInputComponent extends Component<IProps> {
                             style={submitFailed && error && styles.pickerError}
                         >
                             {leftIcon && (
-                                <Icon
+                                <AssetIcon
                                     name={leftIcon}
                                     size={16}
                                     color={(color && color) || colors.darkGray}
@@ -112,7 +112,7 @@ export class FakeInputComponent extends Component<IProps> {
                     >
                         <View style={styles.prefixLabelContainer}>
                             {prefixProps.icon && (
-                                <Icon
+                                <AssetIcon
                                     name={prefixProps.icon}
                                     size={16}
                                     color={colors.darkGray}
@@ -172,7 +172,7 @@ export class FakeInputComponent extends Component<IProps> {
                                 ]}
                             >
                                 {icon && (
-                                    <Icon
+                                    <AssetIcon
                                         name={icon}
                                         size={16}
                                         color={
@@ -218,7 +218,7 @@ export class FakeInputComponent extends Component<IProps> {
                                 )}
 
                                 {rightIcon && (
-                                    <Icon
+                                    <AssetIcon
                                         name={rightIcon}
                                         size={18}
                                         color={colors.darkGray}

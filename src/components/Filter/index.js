@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Modal, TouchableOpacity, Text, Keyboard } from 'react-native';
 import { Field, reset, change } from 'redux-form';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import AssetIcon from '../AssetIcon';
 import styles from './styles';
 import { DefaultLayout } from '../Layouts';
 import { InputField } from '../InputField';
@@ -235,7 +235,7 @@ export class Filter extends Component<IProps> {
                     onPress={() => this.onToggleFilter()}
                     activeOpacity={0.4}
                 >
-                    <Icon
+                    <AssetIcon
                         name={'filter'}
                         size={22}
                         color={colors.primary}

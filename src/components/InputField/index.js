@@ -7,7 +7,7 @@ import { Input } from 'react-native-elements';
 import debounce from 'lodash/debounce';
 import styles from './styles';
 import { IInputField } from './type';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import AssetIcon from '../AssetIcon';
 import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { hasValue } from '@/constants';
@@ -143,7 +143,7 @@ export class InputFieldComponent extends Component<IInputField> {
         if (leftIcon) {
             leftIconSymbol = {
                 leftIcon: (
-                    <Icon
+                    <AssetIcon
                         name={leftIcon}
                         solid={leftIconSolid}
                         size={18}
@@ -268,7 +268,7 @@ export class InputFieldComponent extends Component<IInputField> {
                                     secureTextIconContainerStyle
                             ]}
                         >
-                            <Icon
+                            <AssetIcon
                                 name={isSecureTextEntry ? 'eye' : 'eye-slash'}
                                 size={18}
                                 color={colors.dark3}

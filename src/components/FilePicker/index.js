@@ -5,7 +5,7 @@ import * as IntentLauncher from 'expo-intent-launcher';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import AssetIcon from '../AssetIcon';
 import Constants from 'expo-constants';
 import * as DocumentPicker from 'expo-document-picker';
 import Lng from '@/lang/i18n';
@@ -264,7 +264,7 @@ export class FilePicker extends Component<IProps, IStates> {
 
         const fileView = (
             <View style={styles.container}>
-                <Icon
+                <AssetIcon
                     name={'file'}
                     size={50}
                     color={colors.primary}
@@ -275,7 +275,7 @@ export class FilePicker extends Component<IProps, IStates> {
 
         const defaultView = (
             <View style={styles.container}>
-                <Icon name={'cloud-upload-alt'} size={23} color={colors.gray} />
+                <AssetIcon name={'cloud-upload-alt'} size={23} color={colors.gray} />
                 <Text style={styles.title}>
                     {Lng.t('filePicker.file', { locale })}
                 </Text>
@@ -375,7 +375,7 @@ export class FilePicker extends Component<IProps, IStates> {
 
                     {hasAvatar && (
                         <View style={styles.iconContainer}>
-                            <Icon
+                            <AssetIcon
                                 name={'camera'}
                                 size={20}
                                 color={colors.white}
