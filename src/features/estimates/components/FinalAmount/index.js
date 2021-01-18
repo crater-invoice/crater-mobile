@@ -33,7 +33,7 @@ const DISPLAY_ITEM_TAX = ({ state }) => {
         ? taxes.map((val, index) => (
               <View style={styles.subContainer} key={index}>
                   <View>
-                      <Text darkGray medium style={styles.amountHeading}>
+                      <Text darkGray h5 medium style={styles.amountHeading}>
                           {getTaxName(val)} ({val.percent} %)
                       </Text>
                   </View>
@@ -87,7 +87,7 @@ const FinalAmount = ({ state, props }) => {
         <View style={styles.amountContainer}>
             <View style={styles.subContainer}>
                 <View>
-                    <Text darkGray medium style={styles.amountHeading}>
+                    <Text darkGray h5 medium style={styles.amountHeading}>
                         {Lng.t('estimates.subtotal', { locale })}
                     </Text>
                 </View>
@@ -103,7 +103,7 @@ const FinalAmount = ({ state, props }) => {
             {!discountPerItem && (
                 <View style={[styles.subContainer, styles.discount]}>
                     <View>
-                        <Text darkGray medium style={styles.amountHeading}>
+                        <Text darkGray h5 medium style={styles.amountHeading}>
                             {Lng.t('estimates.discount', { locale })}
                         </Text>
                     </View>
@@ -147,7 +147,7 @@ const FinalAmount = ({ state, props }) => {
                     !val.compound_tax ? (
                         <View style={styles.subContainer} key={index}>
                             <View>
-                                <Text darkGray medium style={styles.amountHeading}>
+                                <Text darkGray h5 medium style={styles.amountHeading}>
                                     {getTaxName(val)} ({val.percent} %)
                                 </Text>
                             </View>
@@ -167,7 +167,7 @@ const FinalAmount = ({ state, props }) => {
                     val.compound_tax ? (
                         <View style={styles.subContainer} key={index}>
                             <View>
-                                <Text darkGray medium style={styles.amountHeading}>
+                                <Text darkGray h5 medium style={styles.amountHeading}>
                                     {getTaxName(val)} ({val.percent} %)
                                 </Text>
                             </View>
@@ -231,7 +231,7 @@ const FinalAmount = ({ state, props }) => {
 
             <View style={styles.subContainer}>
                 <View>
-                    <Text darkGray medium style={styles.amountHeading}>
+                    <Text darkGray h5 medium style={styles.amountHeading}>
                         {Lng.t('estimates.totalAmount', { locale })}:
                     </Text>
                 </View>
