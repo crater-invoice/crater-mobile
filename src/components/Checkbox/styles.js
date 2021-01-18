@@ -17,6 +17,6 @@ export const styles = StyleSheet.create({
         textAlign: 'left'
     },
     hint: {
-        marginTop: 15,
+        marginTop: 15
     }
 });

@@ -18,12 +18,10 @@ export const styles = StyleSheet.create({
         resizeMode: "contain",
     },
     emptyTitle: {
-        textAlign: "center",
         marginTop: 15,
         paddingHorizontal: 10
     },
     emptyDescription: {
-        textAlign: "center",
         paddingHorizontal: 10,
         marginTop: 5
     },

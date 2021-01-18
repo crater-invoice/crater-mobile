@@ -26,11 +26,11 @@ export const Empty = ({
                 <AssetImage imageSource={image} imageStyle={styles.emptyImage} />
             )}
 
-            <Text mediumSize dark semiBoldFont semiBold numberOfLines={2} style={styles.emptyTitle}>
+            <Text mediumSize dark semiBoldFont center semiBold numberOfLines={2} style={styles.emptyTitle}>
                 {title && title}
             </Text>
 
-            <Text veryDarkGray numberOfLines={2} style={styles.emptyDescription}>
+            <Text veryDarkGray center numberOfLines={2} style={styles.emptyDescription}>
                 {description && description}
             </Text>
 
