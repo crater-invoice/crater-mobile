@@ -253,7 +253,7 @@ export const Text = styled(CTText)`
     )}
 
     ${ifProp(
-        'margin-top-7',
+        'marginTop',
         css`
             margin-top: marginTop;
         `

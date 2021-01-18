@@ -87,7 +87,7 @@ const FinalAmount = ({ state, props }) => {
         <View style={styles.amountContainer}>
             <View style={styles.subContainer}>
                 <View>
-                    <Text darkGray medium style={{marginTop: 6}}>
+                    <Text darkGray h5 medium style={{marginTop: 6}}>
                         {Lng.t('invoices.subtotal', { locale })}
                     </Text>
                 </View>
@@ -103,7 +103,7 @@ const FinalAmount = ({ state, props }) => {
             {!discountPerItem && (
                 <View style={[styles.subContainer, styles.discount]}>
                     <View>
-                        <Text darkGray medium style={{marginTop: 6}}>
+                        <Text darkGray h5 medium style={{marginTop: 6}}>
                             {Lng.t('invoices.discount', { locale })}
                         </Text>
                     </View>
@@ -146,7 +146,7 @@ const FinalAmount = ({ state, props }) => {
                     !val.compound_tax ? (
                         <View style={styles.subContainer} key={index}>
                             <View>
-                                <Text darkGray medium style={{marginTop: 6}}>
+                                <Text darkGray h5 medium style={{marginTop: 6}}>
                                     {getTaxName(val)} ({val.percent} %)
                                 </Text>
                             </View>
@@ -166,7 +166,7 @@ const FinalAmount = ({ state, props }) => {
                     val.compound_tax ? (
                         <View style={styles.subContainer} key={index}>
                             <View>
-                                <Text darkGray medium style={{marginTop: 6}}>
+                                <Text darkGray h5 medium style={{marginTop: 6}}>
                                     {getTaxName(val)} ({val.percent} %)
                                 </Text>
                             </View>
@@ -224,7 +224,7 @@ const FinalAmount = ({ state, props }) => {
 
             <View style={[styles.subContainer]}>
                 <View>
-                    <Text darkGray medium style={{marginTop: 6}}>
+                    <Text darkGray h5 medium style={{marginTop: 6}}>
                         {Lng.t('invoices.totalAmount', { locale })}:
                     </Text>
                 </View>
