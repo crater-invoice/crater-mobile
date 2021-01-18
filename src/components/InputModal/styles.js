@@ -11,10 +11,7 @@ export const styles = StyleSheet.create({
         marginHorizontal: 17
     },
     heading: {
-        color: colors.dark2,
-        fontFamily: fonts.poppins,
         fontSize: 17,
-        textAlign: 'left'
     },
     // row
     rowViewContainer: {

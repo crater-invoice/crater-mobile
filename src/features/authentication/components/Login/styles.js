@@ -33,10 +33,7 @@ export default styles = StyleSheet.create({
         marginTop: 8
     },
     forgetPassword: {
-        fontSize: 15,
-        color: colors.primaryLight,
-        fontFamily: fonts.poppinsLight,
-        textAlign: 'left'
+        fontSize: 15
     },
     socialLoginContainer: {},
     inputField: {
@@ -54,7 +51,6 @@ export default styles = StyleSheet.create({
     },
     biometryText: {
         fontSize: 17,
-        color: colors.primary,
         fontWeight: '500',
         opacity: 0.9
     }

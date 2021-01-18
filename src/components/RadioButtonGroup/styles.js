@@ -15,16 +15,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 30
     },
-    label: {
-        color: colors.dark2,
-        fontFamily: fonts.poppins,
-        textAlign: 'left'
-    },
     hintStyle: {
-        color: colors.dark2,
-        fontFamily: fonts.poppins,
         marginBottom: 15,
-        textAlign: 'left'
     },
     checkedLabel: {
         color: colors.primary

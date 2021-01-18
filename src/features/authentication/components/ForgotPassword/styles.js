@@ -30,8 +30,7 @@ export default styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     forgotTextTitle: {
-        marginTop: 10,
-        color: colors.veryDarkGray,
+        marginTop: 10
     },
     SendingMailContainer: {
         alignItems: 'center',
@@ -49,9 +48,7 @@ export default styles = StyleSheet.create({
     },
     emailSendDescription: {
         paddingHorizontal: 10,
-        fontSize: 14,
         paddingTop: 18,
-        color: colors.veryDarkGray,
         textAlign: 'justify',
     },
 });

@@ -19,17 +19,12 @@ export const styles = StyleSheet.create({
     },
     emptyTitle: {
         textAlign: "center",
-        color: colors.dark,
-        fontSize: 18,
         marginTop: 15,
-        fontFamily: fonts.poppinsSemiBold,
-        paddingHorizontal: 10,
-        fontWeight: "600"
+        paddingHorizontal: 10
     },
     emptyDescription: {
         textAlign: "center",
         paddingHorizontal: 10,
-        color: colors.veryDarkGray,
         marginTop: 5
     },
     emptyButton: {

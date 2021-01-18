@@ -2,11 +2,12 @@
 
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { Header, Text } from 'react-native-elements';
+import { Header } from 'react-native-elements';
 import { AssetIcon } from '../AssetIcon';
 import styles from './styles';
 import { colors } from '@/styles';
 import { Filter } from '../Filter';
+import { Text } from '../Text';
 
 type IProps = {
     leftIcon: String,
@@ -64,6 +65,8 @@ export const CtHeader = ({
             return (
                 <TouchableOpacity onPress={() => titleOnPress()}>
                     <Text
+                        dark
+                        medium
                         style={[
                             {
                                 color: transparent ? colors.dark2 : colors.white
@@ -143,6 +146,7 @@ export const CtHeader = ({
                                 <View>
                                     {rightIconHint && (
                                         <Text
+                                            primary
                                             style={[
                                                 styles.rightBtnTitle,
                                                 rightIconHintStyle &&

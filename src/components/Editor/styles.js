@@ -28,10 +28,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     itemText: {
-        fontSize: 15,
-        fontFamily: fonts.poppinsMedium,
         paddingVertical: 6,
-        color: colors.darkGray2,
         marginLeft: 6
     },
 
@@ -39,11 +36,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         width: '100%'
-    },
-    label: {
-        fontSize: 15,
-        color: colors.darkGray,
-        fontFamily: fonts.poppinsMedium
     },
     arrowIcon: {
         justifyContent: 'center'
@@ -62,20 +54,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     hint: {
-        color: colors.dark2,
-        fontSize: 14,
         paddingLeft: 4,
-        fontFamily: fonts.poppins
     },
     insertFields: {
-        color: colors.primary,
-        fontFamily: fonts.poppins,
-        fontSize: 14,
-        textAlign: 'left',
         paddingHorizontal: 5
-    },
-    required: {
-        color: colors.danger
     },
     pencilIconView: {
         justifyContent: 'center',

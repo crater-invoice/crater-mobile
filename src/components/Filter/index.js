@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Modal, TouchableOpacity, Text, Keyboard } from 'react-native';
+import { View, Modal, TouchableOpacity, Keyboard } from 'react-native';
 import { Field, reset, change } from 'redux-form';
 import { AssetIcon } from '../AssetIcon';
 import styles from './styles';
@@ -12,6 +12,7 @@ import { DatePickerField } from '../DatePickerField';
 import { CtButton } from '../Button';
 import Lng from '@/lang/i18n';
 import { BUTTON_TYPE, isIosPlatform, isAndroidPlatform } from '@/constants';
+import { Text } from '../Text';
 
 type IProps = {
     visible: Boolean,
@@ -244,7 +245,7 @@ export class Filter extends Component<IProps> {
 
                     {counter > 0 && (
                         <View style={styles.counter}>
-                            <Text style={styles.counterText}>{counter}</Text>
+                            <Text veryLightGray center style={styles.counterText}>{counter}</Text>
                         </View>
                     )}
                 </TouchableOpacity>

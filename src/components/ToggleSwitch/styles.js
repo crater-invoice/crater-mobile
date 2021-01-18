@@ -12,12 +12,8 @@ export const styles = StyleSheet.create({
         marginVertical: 15
     },
     hint: {
-        color: colors.secondary,
-        fontFamily: fonts.poppins,
-        fontSize: 16,
         marginTop: 4,
-        width: '83%',
-        textAlign: 'left'
+        width: '83%'
     },
     switchStyle: {
         transform: isIosPlatform()
@@ -31,14 +27,5 @@ export const styles = StyleSheet.create({
         flex: 1,
         paddingRight: 8,
         marginTop: -5
-    },
-    description: {
-        color: colors.darkGray,
-        fontFamily: fonts.poppins,
-        fontSize: 14,
-        textAlign: 'left'
-    },
-    required: {
-        color: colors.danger
     }
 });

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import * as Linking from 'expo-linking';
 import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
@@ -14,7 +14,8 @@ import {
     CurrencyFormat,
     FakeInput,
     SendMail,
-    CustomField
+    CustomField,
+    Text
 } from '@/components';
 import {
     ESTIMATE_ADD,
@@ -695,9 +696,9 @@ export class Estimate extends React.Component<IProps> {
                         reference={ref => (this.customerReference = ref)}
                     />
 
-                    <Text style={[styles.inputTextStyle, styles.label]}>
+                    <Text dark3 medium h5 style={styles.label}>
                         {Lng.t('estimates.items', { locale })}
-                        <Text style={styles.required}> *</Text>
+                        <Text danger> *</Text>
                     </Text>
 
                     <ListView

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { styles } from './styles';
 import { AnimateModal } from '../AnimateModal';
 import { Field } from 'redux-form';
@@ -9,6 +9,7 @@ import Lng from '@/lang/i18n';
 import { Icon } from 'react-native-elements';
 import { colors } from '@/styles';
 import { BUTTON_COLOR } from '@/constants';
+import { Text } from '../Text';
 
 type Iprops = {
     modalProps?: Object,
@@ -106,7 +107,7 @@ export class InputModal extends Component<Iprops> {
         return (
             <View style={styles.rowViewContainer}>
                 <View style={styles.rowView}>
-                    <Text style={styles.heading}>{headerTitle}</Text>
+                    <Text dark2 style={styles.heading}>{headerTitle}</Text>
                 </View>
                 <View>
                     <Icon

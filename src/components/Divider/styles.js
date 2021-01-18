@@ -24,11 +24,6 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.white,
         left: '45%'
     },
-    title: {
-        color: colors.darkGray,
-        fontFamily: fonts.poppins,
-        textAlign: 'left'
-    },
     withoutTitle: {
         backgroundColor: colors.gray,
         borderColor: colors.gray,

@@ -8,9 +8,9 @@ import {
     InputField,
     AssetImage,
     CtGradientButton,
-    CtHeader
+    CtHeader,
+    Text
 } from '@/components';
-import { Text } from 'react-native-elements'
 import { IMAGES } from '@/assets';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
@@ -156,7 +156,7 @@ export class ForgotPassword extends React.Component<IProps> {
                                         }}
                                         inputContainerStyle={styles.inputField}
                                     />
-                                    <Text style={styles.forgotTextTitle}>
+                                    <Text veryDarkGray h5 style={styles.forgotTextTitle}>
                                         {Lng.t('forgot.emailLabel', {
                                             locale
                                         })}
@@ -168,7 +168,7 @@ export class ForgotPassword extends React.Component<IProps> {
                                         imageSource={IMAGES.OPEN_ENVELOP}
                                         imageStyle={styles.imgLogo}
                                     />
-                                    <Text style={styles.emailSendDescription}>
+                                    <Text h5 veryDarkGray style={styles.emailSendDescription}>
                                         {Lng.t('forgot.emailSendDescription', {
                                             locale
                                         })}

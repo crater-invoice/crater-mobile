@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Input } from 'react-native-elements';
 import debounce from 'lodash/debounce';
@@ -11,7 +11,7 @@ import { AssetIcon } from '../AssetIcon';
 import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { hasValue } from '@/constants';
-
+import { Text } from '../Text';
 export class InputFieldComponent extends Component<IInputField> {
     constructor(props) {
         super(props);
@@ -160,7 +160,7 @@ export class InputFieldComponent extends Component<IInputField> {
             leftIconSymbol = {
                 leftIcon: (
                     <View style={styles.leftSymbolView}>
-                        <Text style={styles.leftSymbol}>{leftSymbol}</Text>
+                        <Text secondary width style={styles.leftSymbol}>{leftSymbol}</Text>
                     </View>
                 )
             };
@@ -190,10 +190,10 @@ export class InputFieldComponent extends Component<IInputField> {
                 ]}
             >
                 {hint && (
-                    <Text h6 bold style={[styles.hint, hintStyle && hintStyle]}>
+                    <Text secondary medium h5 style={hintStyle && hintStyle}>
                         {hint}
                         {isRequired ? (
-                            <Text style={styles.required}> *</Text>
+                            <Text danger> *</Text>
                         ) : null}
                     </Text>
                 )}
@@ -255,7 +255,7 @@ export class InputFieldComponent extends Component<IInputField> {
                         />
                     </View>
                     {sign && (
-                        <Text style={styles.signField} opacity={0.6}>
+                        <Text positionAbsolute style={styles.signField} opacity={0.6}>
                             {sign}
                         </Text>
                     )}
@@ -284,12 +284,9 @@ export class InputFieldComponent extends Component<IInputField> {
                             ]}
                         >
                             <Text
+                                white
+                                h6
                                 numberOfLines={errorNumberOfLines || 3}
-                                style={{
-                                    color: 'white',
-                                    fontSize: 12,
-                                    textAlign: 'left'
-                                }}
                             >
                                 {Lng.t(error, {
                                     locale,
@@ -302,7 +299,7 @@ export class InputFieldComponent extends Component<IInputField> {
                         </View>
                     )}
                     {!(submitFailed && error) && !isOptions && tip && (
-                        <Text numberOfLines={3} style={styles.inputTip}>
+                        <Text white positionAbsolute numberOfLines={3} style={styles.inputTip}>
                             {tip}
                         </Text>
                     )}

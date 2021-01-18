@@ -46,3 +46,4 @@ export * from './Animations';
 export * from './Modal';
 export * from './CircularProgress';
 export * from './AssetIcon';
+export * from './Text';

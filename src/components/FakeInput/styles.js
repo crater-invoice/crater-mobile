@@ -8,10 +8,7 @@ export default StyleSheet.create({
     },
     label: {
         paddingBottom: 7,
-        color: colors.dark2,
-        fontSize: 14,
-        fontFamily: fonts.poppins,
-        textAlign: 'left'
+        fontSize: 14
     },
     required: {
         color: colors.danger
@@ -42,17 +39,11 @@ export default StyleSheet.create({
     },
     textValue: {
         paddingLeft: 10,
-        color: colors.secondary,
-        fontSize: 15,
-        fontFamily: fonts.poppins,
-        textAlign: 'left'
+        fontSize: 15
     },
     placeholderText: {
         paddingLeft: 10,
-        color: colors.darkGray,
-        fontSize: 15,
-        fontFamily: fonts.poppins,
-        textAlign: 'left'
+        fontSize: 15
     },
     hasRightIcon: {
         paddingRight: 15

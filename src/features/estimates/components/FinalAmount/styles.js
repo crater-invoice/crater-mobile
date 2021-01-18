@@ -26,12 +26,6 @@ export default styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row'
     },
-    taxFakeInput: {
-        color: colors.primary,
-        textAlign: 'right',
-        fontFamily: fonts.poppinsMedium,
-        fontSize: 16
-    },
     amountContainer: {
         borderWidth: 0.8,
         borderColor: colors.lightGray,
@@ -46,10 +40,7 @@ export default styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     amountHeading: {
-        color: colors.darkGray,
-        fontFamily: fonts.poppinsMedium,
-        marginTop: 6,
-        textAlign: 'left'
+        marginTop: 6
     },
     subAmount: {
         color: colors.dark2,

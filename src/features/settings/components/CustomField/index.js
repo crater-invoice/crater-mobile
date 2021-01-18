@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import {
     alertMe,
@@ -18,7 +18,8 @@ import {
     CtButton,
     DefaultLayout,
     ToggleSwitch,
-    SelectPickerField
+    SelectPickerField,
+    Text
 } from '@/components';
 import {
     setCustomFieldRefs,
@@ -195,7 +196,7 @@ export class CustomField extends React.Component<IProps> {
         return (
             <View style={[styles.row, { marginTop: 10 }]}>
                 <View style={styles.positionView}>
-                    <Text style={styles.textStyle}>
+                    <Text secondary h4 style={{marginLeft: 3}}>
                         {Lng.t('customFields.required', {
                             locale
                         })}
@@ -219,7 +220,7 @@ export class CustomField extends React.Component<IProps> {
         return (
             <View style={styles.row}>
                 <View style={styles.positionView}>
-                    <Text style={styles.textStyle}>
+                    <Text secondary h4 style={{marginLeft: 3}}>
                         {Lng.t('customFields.displayInPortal', {
                             locale
                         })}
@@ -238,7 +239,7 @@ export class CustomField extends React.Component<IProps> {
                 </View>
 
                 <View style={styles.columnRight}>
-                    <Text style={styles.textStyle}>
+                    <Text secondary h4 style={{marginLeft: 3}}>
                         {Lng.t('customFields.yes', { locale })}
                     </Text>
                 </View>

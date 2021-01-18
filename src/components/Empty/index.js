@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { AssetImage } from '../AssetImage';
 import { styles } from './styles';
 import { CtButton } from '../Button';
 import { BUTTON_TYPE } from '@/constants';
+import { Text } from '../Text';
 
 type IProps = {
     title: String,
@@ -25,11 +26,11 @@ export const Empty = ({
                 <AssetImage imageSource={image} imageStyle={styles.emptyImage} />
             )}
 
-            <Text numberOfLines={2} style={styles.emptyTitle}>
+            <Text mediumSize dark semiBoldFont semiBold numberOfLines={2} style={styles.emptyTitle}>
                 {title && title}
             </Text>
 
-            <Text numberOfLines={2} style={styles.emptyDescription}>
+            <Text veryDarkGray numberOfLines={2} style={styles.emptyDescription}>
                 {description && description}
             </Text>
 

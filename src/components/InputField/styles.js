@@ -3,17 +3,8 @@ import { colors, fonts } from '@/styles';
 import { isRTL } from '@/utils';
 
 export default StyleSheet.create({
-    hint: {
-        color: colors.secondary,
-        fontSize: 14,
-        fontFamily: fonts.poppinsMedium,
-        textAlign: 'left'
-    },
     hintFocused: {
         opacity: 1
-    },
-    required: {
-        color: colors.danger
     },
     inputFieldWrapper: {
         flexShrink: 0,
@@ -93,9 +84,7 @@ export default StyleSheet.create({
         // borderColor: colors.white,
     },
     inputTip: {
-        color: colors.white,
         opacity: 0.5,
-        position: 'absolute',
         top: 38,
         left: 0,
         right: 0
@@ -107,7 +96,6 @@ export default StyleSheet.create({
         paddingLeft: 22
     },
     signField: {
-        position: 'absolute',
         top: 4,
         left: 0
     },
@@ -134,9 +122,7 @@ export default StyleSheet.create({
     },
     // left Symbol
     leftSymbol: {
-        fontSize: 20,
-        color: colors.secondary,
-        width: '100%'
+        fontSize: 20
     },
     leftSymbolView: {
         height: '100%',

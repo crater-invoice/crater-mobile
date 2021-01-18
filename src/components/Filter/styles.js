@@ -66,8 +66,6 @@ export default StyleSheet.create({
         justifyContent: 'center'
     },
     counterText: {
-        color: colors.veryLightGray,
-        fontSize: 13,
-        textAlign: 'center'
+        fontSize: 13
     }
 });

@@ -192,6 +192,7 @@ export class SelectPickerField extends Component<IProps> {
                         ]}
                     >
                         <Text
+                          darkGray
                             numberOfLines={1}
                             style={[
                                 FakeInputStyle.textValue,

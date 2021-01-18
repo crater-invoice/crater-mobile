@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { styles } from './styles';
 import { ListItem, Avatar, CheckBox } from 'react-native-elements';
 import { Empty } from '../Empty';
@@ -8,6 +8,7 @@ import { CurrencyFormat } from '../CurrencyFormat';
 import { FadeListAnimation, AssetIcon } from '@/components';
 import { isIosPlatform } from '@/constants';
 import { isRTL } from '@/utils';
+import { Text } from '../Text';
 
 type IProps = {
     hasAvatar: Boolean,
@@ -35,8 +36,10 @@ export class ListView extends Component<IProps> {
         const { leftTitleStyle } = this.props;
         return (
             <Text
+                light
+                mediumSize
                 numberOfLines={1}
-                style={[styles.leftTitle, leftTitleStyle && leftTitleStyle]}
+                style={leftTitleStyle && leftTitleStyle}
             >
                 {title}
             </Text>
@@ -77,10 +80,9 @@ export class ListView extends Component<IProps> {
         return (
             <View style={styles.leftSubTitleContainer}>
                 <Text
-                    style={[
-                        styles.leftSubTitleText,
-                        leftSubTitleStyle && leftSubTitleStyle
-                    ]}
+                    h5
+                    darkGray
+                    style={leftSubTitleStyle && leftSubTitleStyle}
                     numberOfLines={3}
                 >
                     {title}
@@ -103,9 +105,10 @@ export class ListView extends Component<IProps> {
                                 labelComponent
                             ) : (
                                 <Text
+                                    upperCase
+                                    h6
                                     style={[
                                         { color: labelTextColor },
-                                        styles.leftSubTitleLabel,
                                         leftSubTitleLabelStyle &&
                                             leftSubTitleLabelStyle
                                     ]}

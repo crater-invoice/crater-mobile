@@ -1,14 +1,15 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
 import {
     DefaultLayout,
     CtButton,
     InputField,
     CtDivider,
-    FilePicker
+    FilePicker,
+    Text
 } from '@/components';
 import { Field, change } from 'redux-form';
 import Lng from '@/lang/i18n';
@@ -213,10 +214,10 @@ export class Account extends React.Component<IProps> {
                     <CtDivider dividerStyle={styles.dividerLine} />
 
                     <View style={styles.versionContainer}>
-                        <Text style={styles.versionTitle}>
+                        <Text secondary h4>
                             {Lng.t('settings.account.version', { locale })}
                             {'  '}
-                            <Text style={styles.version}>
+                            <Text semiBoldFont>
                                 {env.APP_VERSION}
                             </Text>
                         </Text>

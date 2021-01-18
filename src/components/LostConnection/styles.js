@@ -28,10 +28,6 @@ export default styles = StyleSheet.create({
     },
     title: {
         marginBottom: 25,
-        color: colors.secondary,
-        fontFamily: fonts.poppinsSemiBold,
-        fontSize: 22,
-        textAlign: 'left'
     },
     internetIcon: {
         marginTop: 15,
@@ -39,9 +35,6 @@ export default styles = StyleSheet.create({
     },
     description: {
         marginTop: 50,
-        color: colors.veryDarkGray,
-        fontFamily: fonts.poppinsLight,
-        textAlign: 'center',
         fontSize: 13
     }
 });

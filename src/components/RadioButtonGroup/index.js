@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { FakeInput } from '../FakeInput';
+import { Text } from '../Text';
 import { styles } from './styles';
 
 type IProps = {
@@ -44,7 +45,7 @@ export class RadioButtonGroup extends Component<IProps> {
         return (
             <View style={styles.fieldContainer}>
                 {hint && (
-                    <Text style={styles.hintStyle}>{hint}</Text>
+                    <Text dark2 h5 style={styles.hintStyle}>{hint}</Text>
                 )}
                 <View style={styles.buttonGroupContainer}>
                     {options.map(item => (
@@ -60,7 +61,7 @@ export class RadioButtonGroup extends Component<IProps> {
                             >
                                 <View style={styles.middleCircle} />
                             </View>
-                            <Text style={[styles.label, selected === item.key && styles.checkedLabel]}>
+                            <Text dark2 h5 style={selected === item.key && styles.checkedLabel}>
                                 {item.label}
                             </Text>
                         </TouchableOpacity>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import * as Linking from 'expo-linking';
 import * as IntentLauncher from 'expo-intent-launcher';
 import * as ImagePicker from 'expo-image-picker';
@@ -16,6 +16,7 @@ import { Content } from '../Content';
 import Dropdown from '../Dropdown';
 import { IMAGES } from '@/assets';
 import { styles } from './styles';
+import { Text } from '../Text';
 
 interface IProps {
     label: String;
@@ -280,7 +281,7 @@ export class FilePicker extends Component<IProps, IStates> {
                     size={23}
                     color={colors.gray}
                 />
-                <Text style={styles.title}>
+                <Text darkGray h5 light center style={styles.title}>
                     {Lng.t('filePicker.file', { locale })}
                 </Text>
             </View>
@@ -353,7 +354,7 @@ export class FilePicker extends Component<IProps, IStates> {
 
         return (
             <View style={[styles.mainContainer, containerStyle]}>
-                {label && <Text style={styles.label}>{label}</Text>}
+                {label && <Text secondary medium h5 margin-bottom-1 style={styles.label}>{label}</Text>}
 
                 <Dropdown
                     ref={this.actionSheet}
