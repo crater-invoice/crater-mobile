@@ -55,7 +55,7 @@ export class LostConnection extends Component {
                 <View style={styles.main}>
 
                     <View style={styles.bodyContainer}>
-                        <Text secondary semiBoldFont h3 style={styles.title}>
+                        <Text secondary bold2 h3 style={styles.title}>
                             {Lng.t("lostInternet.title", { locale })}
                         </Text>
 

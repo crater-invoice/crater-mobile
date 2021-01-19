@@ -46,7 +46,7 @@ export class Tabs extends Component<IProps> {
                             {typeof tabName === 'string' ? (
                                 <Text
                                   darkGray
-                                    semiBoldFont
+                                    bold2
                                     h5
                                     style={activeTab === Title && styles.selectedTabTitle}
                                 >

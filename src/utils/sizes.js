@@ -1,36 +1,33 @@
 import { Dimensions } from 'react-native';
+import { css } from 'styled-components/native';
 
 const { width, height } = Dimensions.get('window');
 const realWidth = height > width ? width : height;
 
 export const normalize = size => Math.round((size * realWidth) / 375);
 
+export const generateSize = size => css`
+    font-size: ${size};
+`;
+
 export const fontSizes = {
-    h6: {
-        fontSize: normalize(12)
-    },
-    h5: {
-        fontSize: normalize(14)
-    },
-    h4: {
-        fontSize: normalize(16)
-    },
-    mediumSize: {
-        fontSize: normalize(18)
-    },
-    h3: {
-        fontSize: normalize(22)
-    },
-    bigMediumSize: {
-        fontSize: normalize(24)
-    },
-    h2: {
-        fontSize: normalize(32)
-    },
-    h1: {
-        fontSize: normalize(36)
-    },
-    biggestSize: {
-        fontSize: normalize(48)
-    }
+    h6: generateSize(normalize(12)),
+
+    h5: generateSize(normalize(14)),
+
+    h4: generateSize(normalize(16)),
+
+    mediumSize: generateSize(normalize(18)),
+
+    h3: generateSize(normalize(22)),
+
+    bigMediumSize: generateSize(normalize(24)),
+
+    h2: generateSize(normalize(32)),
+
+    h1: generateSize(normalize(36)),
+
+    biggestSize: generateSize(normalize(48))
 };
+
+

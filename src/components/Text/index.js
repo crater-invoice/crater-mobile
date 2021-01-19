@@ -2,12 +2,8 @@ import React from 'react';
 import { Text as RNText } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { ifProp, prop } from 'styled-tools';
-import { fontSizes } from '../../utils/sizes';
+import { fontSizes } from '../../utils';
 import { fonts, colors } from '../../styles';
-
-const generateSize = size => css`
-    font-size: ${size};
-`;
 
 const CTText = ({ children, ...props }) => (
     <RNText {...props}>
@@ -21,25 +17,23 @@ export const Text = styled(CTText)`
     text-align: left;
     font-family: ${fonts.poppins};
 
-    ${generateSize(fontSizes.h4.fontSize)}
+    ${ifProp('h6', fontSizes.h6)}
 
-    ${ifProp('biggestSize', generateSize(fontSizes.biggestSize.fontSize))}
+    ${ifProp('h5', fontSizes.h5)}
 
-    ${ifProp('h1', generateSize(fontSizes.h1.fontSize))}
+    ${ifProp('h4', fontSizes.h4)}
 
-    ${ifProp('h2', generateSize(fontSizes.h2.fontSize))}
+    ${ifProp('mediumSize', fontSizes.mediumSize)}
 
-    ${ifProp('h3', generateSize(fontSizes.h3.fontSize))}
+    ${ifProp('h3', fontSizes.h3)}
 
-    ${ifProp('h4', generateSize(fontSizes.h4.fontSize))}
+    ${ifProp('bigMediumSize', fontSizes.bigMediumSize)}
 
-    ${ifProp('h5', generateSize(fontSizes.h5.fontSize))}
+    ${ifProp('h2', fontSizes.h2)}
 
-    ${ifProp('h6', generateSize(fontSizes.h6.fontSize))}
+    ${ifProp('h1', fontSizes.h1)}
 
-    ${ifProp('mediumSize', generateSize(fontSizes.mediumSize.fontSize))}
-
-    ${ifProp('bigMediumSize', generateSize(fontSizes.bigMediumSize.fontSize))}
+    ${ifProp('biggestSize', fontSizes.biggestSize)}
 
     ${ifProp(
         'danger',
@@ -68,7 +62,6 @@ export const Text = styled(CTText)`
             color: ${colors.secondary};
         `
     )};
-
 
     ${ifProp(
         'white',
@@ -141,13 +134,6 @@ export const Text = styled(CTText)`
     )};
 
     ${ifProp(
-        'opacity',
-        css`
-            opacity: ${prop('opacity')};
-        `
-    )};
-
-    ${ifProp(
         'wide',
         css`
             width: 100%;
@@ -155,9 +141,9 @@ export const Text = styled(CTText)`
     )};
 
     ${ifProp(
-        'width',
+        'left',
         css`
-            width: ${prop('width')};
+            text-align: left;
         `
     )};
 
@@ -169,9 +155,9 @@ export const Text = styled(CTText)`
     )};
 
     ${ifProp(
-        'left',
+        'right',
         css`
-            text-align: left;
+            text-align: right;
         `
     )};
 
@@ -185,58 +171,44 @@ export const Text = styled(CTText)`
     ${ifProp(
         'bold',
         css`
-            font-family: Poppins-bold;
+            font-family: ${fonts.poppinsBold};
         `
     )};
 
     ${ifProp(
         'normal',
         css`
-            font-family: Poppins;
+            font-family: ${fonts.poppins};
         `
     )};
 
     ${ifProp(
         'light',
         css`
-            font-family: Poppins-light;
+            font-family: ${fonts.poppinsLight};
         `
     )};
 
     ${ifProp(
-        'semiBoldFont',
+        'bold2',
         css`
-            font-family: Poppins-semi-bold;
+            font-family: ${fonts.poppinsSemiBold};
         `
     )};
 
     ${ifProp(
         'medium',
         css`
-            font-family: Poppins-medium;
+            font-family: ${fonts.poppinsMedium};
         `
     )};
 
     ${ifProp(
-        'semiBold',
+        'font-weight-600',
         css`
             font-weight: 600;
         `
     )};
-
-    ${ifProp(
-        'flex',
-        css`
-            flex: ${prop('flex')};
-        `
-    )};
-
-    ${ifProp(
-        'lineHeight',
-        css`
-            line-height: ${prop('lineHeight')};
-        `
-    )}
 
     ${ifProp(
         'upperCase',
@@ -246,16 +218,16 @@ export const Text = styled(CTText)`
     )}
 
     ${ifProp(
-        'marginBottom',
+        'lowercase',
         css`
-            margin-bottom: marginBottom;
+            text-transform: lowercase;
         `
     )}
 
     ${ifProp(
-        'marginTop',
+        'capitalize',
         css`
-            margin-top: marginTop;
+            text-transform: capitalize;
         `
     )}
 

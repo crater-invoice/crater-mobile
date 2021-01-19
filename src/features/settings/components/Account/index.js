@@ -217,7 +217,7 @@ export class Account extends React.Component<IProps> {
                         <Text secondary h4>
                             {Lng.t('settings.account.version', { locale })}
                             {'  '}
-                            <Text semiBoldFont>
+                            <Text bold2>
                                 {env.APP_VERSION}
                             </Text>
                         </Text>

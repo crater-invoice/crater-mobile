@@ -26,7 +26,7 @@ export const Empty = ({
                 <AssetImage imageSource={image} imageStyle={styles.emptyImage} />
             )}
 
-            <Text mediumSize dark semiBoldFont center semiBold numberOfLines={2} style={styles.emptyTitle}>
+            <Text mediumSize dark bold2 center font-weight-600 numberOfLines={2} style={styles.emptyTitle}>
                 {title && title}
             </Text>
 
