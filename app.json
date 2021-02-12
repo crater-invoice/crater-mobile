@@ -3,7 +3,11 @@
         "name": "Crater Invoice",
         "slug": "crater",
         "privacy": "public",
-        "platforms": ["ios", "android", "web"],
+        "platforms": [
+            "ios",
+            "android",
+            "web"
+        ],
         "version": "4.1.0",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
@@ -15,15 +19,17 @@
         "updates": {
             "fallbackToCacheTimeout": 0
         },
-        "assetBundlePatterns": ["**/*"],
+        "assetBundlePatterns": [
+            "**/*"
+        ],
         "userInterfaceStyle": "automatic",
         "ios": {
             "supportsTablet": true,
             "bundleIdentifier": "com.craterapp.app",
-            "buildNumber": "8",
+            "buildNumber": "9",
             "usesIcloudStorage": true,
             "infoPlist": {
-              "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID to save login"
+                "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID to save login"
             }
         },
         "android": {
@@ -31,14 +37,14 @@
             "versionCode": 13,
             "softwareKeyboardLayoutMode": "pan",
             "permissions": [
-              "CAMERA",
-              "READ_CALENDAR",
-              "READ_EXTERNAL_STORAGE",
-              "WRITE_EXTERNAL_STORAGE",
-              "USE_FINGERPRINT",
-              "USE_BIOMETRIC",
-              "VIBRATE",
-              "com.htc.launcher.permission.READ_SETTINGS"
+                "CAMERA",
+                "READ_CALENDAR",
+                "READ_EXTERNAL_STORAGE",
+                "WRITE_EXTERNAL_STORAGE",
+                "USE_FINGERPRINT",
+                "USE_BIOMETRIC",
+                "VIBRATE",
+                "com.htc.launcher.permission.READ_SETTINGS"
             ]
         },
         "description": "",
