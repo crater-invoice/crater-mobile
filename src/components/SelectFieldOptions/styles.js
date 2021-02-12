@@ -6,7 +6,8 @@ export default styles = StyleSheet.create({
         flexDirection: 'row'
     },
     column1: {
-        flex: 1
+        flex: 0.4,
+        justifyContent: 'center'
     },
     column2: {
         flex: 2,
@@ -19,7 +20,7 @@ export default styles = StyleSheet.create({
         textAlign: 'left'
     },
     scrollContainer: {
-        height: 240,
+        minHeight: 240,
         borderWidth: 0.8,
         borderRadius: 6,
         marginTop: 12,
@@ -38,7 +39,6 @@ export default styles = StyleSheet.create({
     input: {
         borderWidth: 1,
         marginLeft: 20,
-        width: '115%'
     },
     removeButton: {
         justifyContent: 'center',
@@ -46,12 +46,8 @@ export default styles = StyleSheet.create({
         alignSelf: 'center',
         width: 25,
         height: 25,
-        marginTop: 22,
         borderRadius: 25 / 2,
-        marginLeft: 55,
-        backgroundColor: colors.danger,
-        justifyContent: 'center',
-        alignItems: 'center'
+        backgroundColor: colors.danger
     },
     removeButtonWhiteLine: {
         width: 12,

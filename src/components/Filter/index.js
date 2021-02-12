@@ -11,7 +11,7 @@ import { colors } from '@/styles';
 import { DatePickerField } from '../DatePickerField';
 import { CtButton } from '../Button';
 import Lng from '@/lang/i18n';
-import { BUTTON_TYPE, isIosPlatform } from '@/constants';
+import { BUTTON_TYPE, isIosPlatform, isAndroidPlatform } from '@/constants';
 
 type IProps = {
     visible: Boolean,
@@ -211,6 +211,24 @@ export class Filter extends Component<IProps> {
 
         const { visible, counter, isKeyboardVisible } = this.state;
 
+        const headerView = {
+            leftIconStyle: styles.backIcon,
+            title: Lng.t('header.filter', {
+                locale
+            }),
+            placement: 'center',
+            rightIcon: 'search',
+            hasCircle: false,
+            noBorder: false,
+            transparent: false,
+            leftIconPress: () => this.onToggleFilter(),
+            rightIconPress: handleSubmit(this.onSubmit),
+            ...(isAndroidPlatform() && {
+                containerStyle: { marginTop: 25 }
+            }),
+            ...headerProps
+        };
+
         return (
             <View>
                 <TouchableOpacity
@@ -236,23 +254,11 @@ export class Filter extends Component<IProps> {
                     visible={visible}
                     onRequestClose={() => this.onToggleFilter()}
                     hardwareAccelerated={true}
+                    statusBarTranslucent={true}
                 >
                     <View style={styles.modalContainer}>
                         <DefaultLayout
-                            headerProps={{
-                                leftIconStyle: styles.backIcon,
-                                title: Lng.t('header.filter', {
-                                    locale
-                                }),
-                                placement: 'center',
-                                rightIcon: 'search',
-                                hasCircle: false,
-                                noBorder: false,
-                                transparent: false,
-                                leftIconPress: () => this.onToggleFilter(),
-                                rightIconPress: handleSubmit(this.onSubmit),
-                                ...headerProps
-                            }}
+                            headerProps={headerView}
                             bottomAction={
                                 !isKeyboardVisible && this.BOTTOM_ACTION()
                             }

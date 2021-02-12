@@ -17,7 +17,7 @@ import { ITEM_FORM, EDIT_ITEM, ADD_ITEM } from '../../constants';
 import { colors } from '@/styles/colors';
 import Lng from '@/lang/i18n';
 import { goBack, UNMOUNT, MOUNT } from '@/navigation';
-import { BUTTON_COLOR, isIPhoneX } from '@/constants';
+import { BUTTON_COLOR, isIosPlatform, isIPhoneX } from '@/constants';
 import { alertMe, hasValue, MAX_LENGTH } from '@/constants';
 import { ADD_TAX } from '@/features/settings/constants';
 
@@ -235,10 +235,8 @@ export class Item extends React.Component {
         const {
             locale,
             formValues: { taxes, price },
-            navigation
+            currency
         } = this.props;
-
-        const currency = navigation.getParam('currency');
 
         return (
             <View style={styles.amountContainer}>
@@ -248,7 +246,7 @@ export class Item extends React.Component {
                             {Lng.t('items.subTotal', { locale })}
                         </Text>
                     </View>
-                    <View>
+                    <View style={{ marginTop: isIosPlatform() ? 6 : 4 }}>
                         <CurrencyFormat
                             amount={price}
                             currency={currency}
@@ -266,7 +264,7 @@ export class Item extends React.Component {
                                         {this.getTaxName(val)} ({val.percent} %)
                                     </Text>
                                 </View>
-                                <View>
+                                <View style={{ justifyContent: 'center' }}>
                                     <CurrencyFormat
                                         amount={this.getTaxValue(val.percent)}
                                         currency={currency}
@@ -286,7 +284,7 @@ export class Item extends React.Component {
                                         {this.getTaxName(val)} ({val.percent} %)
                                     </Text>
                                 </View>
-                                <View>
+                                <View style={{ justifyContent: 'center' }}>
                                     <CurrencyFormat
                                         amount={this.getCompoundTaxValue(
                                             val.percent
@@ -307,11 +305,14 @@ export class Item extends React.Component {
                             {Lng.t('items.finalAmount', { locale })}
                         </Text>
                     </View>
-                    <View>
+                    <View style={{ marginTop: isIosPlatform() ? 4 : 3 }}>
                         <CurrencyFormat
                             amount={this.finalAmount()}
                             currency={currency}
                             style={styles.totalPrice}
+                            currencyStyle={{
+                                marginTop: isIosPlatform() ? -1.5 : -6
+                            }}
                         />
                     </View>
                 </View>

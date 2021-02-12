@@ -5,9 +5,15 @@ import moment from 'moment';
 import { FakeInput } from '../FakeInput';
 import Lng from '@/lang/i18n';
 import { CtButton } from '../Button';
-import { isIosPlatform, TIME_FORMAT, TIME_FORMAT_MERIDIEM } from '@/constants';
+import {
+    isIosPlatform,
+    majorVersionIOS,
+    TIME_FORMAT,
+    TIME_FORMAT_MERIDIEM
+} from '@/constants';
 import { colors } from '@/styles';
 import styles from './styles';
+import { isDarkMode } from '@/utils';
 
 export class TimePickerField extends Component {
     constructor(props) {
@@ -15,11 +21,17 @@ export class TimePickerField extends Component {
         this.state = {
             visible: false,
             timeStamp: new Date(),
-            selectedTimeStamp: new Date()
+            selectedTimeStamp: new Date(),
+            displayMode: null
         };
     }
 
     componentDidMount() {
+        this.setInitialTimeValue();
+        this.setVersionCompatiblePicker();
+    }
+
+    setInitialTimeValue = () => {
         const {
             input: { value }
         } = this.props;
@@ -43,7 +55,21 @@ export class TimePickerField extends Component {
                 time: moment(displayTime).format(TIME_FORMAT_MERIDIEM)
             });
         }
-    }
+    };
+
+    setVersionCompatiblePicker = () => {
+        if (isIosPlatform() && majorVersionIOS >= 14) {
+            this.setState({ displayMode: 'spinner' });
+            return;
+        }
+
+        if (isIosPlatform()) {
+            this.setState({ displayMode: 'inline' });
+            return;
+        }
+
+        this.setState({ displayMode: 'default' });
+    };
 
     onToggleModal = () => {
         const { visible, selectedTimeStamp } = this.state;
@@ -84,7 +110,7 @@ export class TimePickerField extends Component {
     };
 
     renderPicker = () => {
-        const { timeStamp, visible } = this.state;
+        const { timeStamp, visible, displayMode } = this.state;
 
         if (!isIosPlatform()) {
             if (visible) {
@@ -109,11 +135,16 @@ export class TimePickerField extends Component {
             >
                 <DateTimePicker
                     testID="dateTimePicker"
-                    style={{ backgroundColor: colors.veryLightGray }}
+                    style={{
+                        backgroundColor: isDarkMode()
+                            ? colors.dark
+                            : colors.veryLightGray
+                    }}
                     value={timeStamp}
                     mode={'time'}
                     is24Hour={true}
                     onChange={this.onChange}
+                    display={displayMode}
                 />
 
                 <CtButton
@@ -134,7 +165,11 @@ export class TimePickerField extends Component {
             isRequired,
             meta
         } = this.props;
-        const { time } = this.state;
+        const { time, displayMode } = this.state;
+
+        if (!displayMode) {
+            return null;
+        }
 
         return (
             <>

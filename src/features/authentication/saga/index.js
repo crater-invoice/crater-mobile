@@ -1,17 +1,21 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, delay, select } from 'redux-saga/effects';
+import { NavigationActions } from 'react-navigation';
+import * as Updates from 'expo-updates';
+import moment from 'moment';
+import { env } from '@/config';
 import {
     saveIdToken,
     authTriggerSpinner,
     getBootstrap,
     setGlobalBootstrap,
-    setAppVersion,
-    saveEndpointApi
+    saveEndpointApi,
+    setLastAutoUpdateDate
 } from '../actions';
 import * as TYPES from '../constants';
 import { resetNavigation, ROUTES } from '@/navigation';
 import { setAccountInformation } from '../../settings/actions';
-import { alertMe } from '@/constants';
-import { GET_APP_VERSION } from '@/constants';
+import { alertMe, hasValue } from '@/constants';
+import { CHECK_OTA_UPDATE } from '@/constants';
 import Request from '@/api/request';
 import { getTitleByLanguage, setI18nManagerValue } from '@/utils';
 
@@ -70,6 +74,26 @@ function* socialLogin({ payload: { idToken, navigation } }: any) {
     }
 }
 
+function* biometryAuthLogin({ payload }: any) {
+    yield put(authTriggerSpinner({ loginLoading: true }));
+
+    try {
+        yield put(getBootstrap());
+
+        yield delay(100);
+
+        resetNavigation({
+            navigation: payload.navigation,
+            route: ROUTES.MAIN_TABS,
+            index: 0
+        });
+    } catch (e) {
+        yield put(authTriggerSpinner({ loginLoading: false }));
+    } finally {
+        yield put(authTriggerSpinner({ loginLoading: false }));
+    }
+}
+
 function* getBootstrapData(payloadData: any) {
     try {
         const options = { path: 'bootstrap' };
@@ -86,8 +110,26 @@ function* getBootstrapData(payloadData: any) {
     } catch (e) {}
 }
 
-function* getAppVersion({ payload: { onResult } }: any) {
+function* checkOTAUpdate(payloadData) {
     try {
+        const state = yield select();
+        const lastAutoUpdateDate = state?.global?.lastAutoUpdateDate;
+        const endpointApi = state?.global?.endpointApi;
+        const idToken = state?.auth?.idToken;
+        const currentDate: string = moment().format('YYYY-MM-DD');
+
+        const isSameDate: boolean = hasValue(lastAutoUpdateDate)
+            ? moment(currentDate).isSame(lastAutoUpdateDate)
+            : false;
+
+        if (idToken) {
+            yield put(getBootstrap());
+        }
+
+        if (isSameDate || !endpointApi) {
+            return;
+        }
+
         const options = {
             path: 'app/version',
             isAuthRequired: false
@@ -95,9 +137,31 @@ function* getAppVersion({ payload: { onResult } }: any) {
 
         const response = yield call([Request, 'get'], options);
 
-        yield put(setAppVersion(response));
+        const currentVersion = env.APP_VERSION;
+        const newVersion = response?.version;
 
-        onResult?.(response);
+        if (
+            currentVersion &&
+            newVersion &&
+            parseInt(currentVersion) < parseInt(newVersion)
+        ) {
+            yield put(setLastAutoUpdateDate(null));
+            yield put(
+                NavigationActions.navigate({
+                    routeName: ROUTES.UPDATE_APP_VERSION
+                })
+            );
+            return;
+        }
+
+        yield put(setLastAutoUpdateDate(currentDate));
+
+        const update = yield Updates.checkForUpdateAsync();
+
+        if (update.isAvailable) {
+            yield Updates.fetchUpdateAsync();
+            yield Updates.reloadAsync();
+        }
     } catch (e) {}
 }
 
@@ -161,8 +225,9 @@ function* checkEndpointApi({ payload: { endpointURL, onResult } }: any) {
 export default function* loginSaga() {
     yield takeLatest(TYPES.LOGIN, login);
     yield takeLatest(TYPES.SOCIAL_LOGIN, socialLogin);
+    yield takeLatest(TYPES.BIOMETRY_AUTH_LOGIN, biometryAuthLogin);
     yield takeLatest(TYPES.GET_BOOTSTRAP, getBootstrapData);
     yield takeLatest(TYPES.SEND_FORGOT_PASSWORD_MAIL, sendRecoveryMail);
     yield takeLatest(TYPES.CHECK_ENDPOINT_API, checkEndpointApi);
-    yield takeLatest(GET_APP_VERSION, getAppVersion);
+    yield takeLatest(CHECK_OTA_UPDATE, checkOTAUpdate);
 }

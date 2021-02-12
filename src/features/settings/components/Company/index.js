@@ -96,21 +96,35 @@ export class Company extends React.Component<IProps> {
         const {
             navigation,
             editCompanyInformation,
-            editCompanyLoading
+            editCompanyLoading,
+            getCompanyInfoLoading,
+            countriesLoading
         } = this.props;
         const { logo, fileLoading } = this.state;
 
-        if (!fileLoading && !editCompanyLoading) {
-            editCompanyInformation({
-                params: value,
-                logo,
-                navigation
-            });
+        if (
+            getCompanyInfoLoading ||
+            countriesLoading ||
+            fileLoading ||
+            editCompanyLoading
+        ) {
+            return;
         }
+
+        editCompanyInformation({
+            params: value,
+            logo,
+            navigation
+        });
     };
 
     BOTTOM_ACTION = handleSubmit => {
-        const { locale, editCompanyLoading } = this.props;
+        const {
+            locale,
+            editCompanyLoading,
+            getCompanyInfoLoading,
+            countriesLoading
+        } = this.props;
         const { fileLoading } = this.state;
 
         return (
@@ -118,7 +132,12 @@ export class Company extends React.Component<IProps> {
                 <CtButton
                     onPress={handleSubmit(this.onCompanyUpdate)}
                     btnTitle={Lng.t('button.save', { locale })}
-                    loading={editCompanyLoading || fileLoading}
+                    loading={
+                        editCompanyLoading ||
+                        fileLoading ||
+                        getCompanyInfoLoading ||
+                        countriesLoading
+                    }
                 />
             </View>
         );
@@ -158,10 +177,10 @@ export class Company extends React.Component<IProps> {
                     <Field
                         name={'logo'}
                         component={FilePicker}
+                        locale={locale}
                         label={Lng.t('settings.company.logo', { locale })}
-                        navigation={navigation}
                         onChangeCallback={val => this.setState({ logo: val })}
-                        imageUrl={this.state.image}
+                        uploadedFileUrl={this.state.image}
                         containerStyle={{
                             marginTop: 15
                         }}

@@ -18,6 +18,7 @@ export const CREATE_EXPENSE = 'expenses/CREATE_EXPENSE';
 export const UPDATE_EXPENSE = 'expenses/UPDATE_EXPENSE';
 export const REMOVE_EXPENSE = 'expenses/REMOVE_EXPENSE';
 export const EXPENSES_TRIGGER_SPINNER = 'expenses/EXPENSES_TRIGGER_SPINNER';
+export const SHOW_IMAGE_ON_EDIT = 'expenses/SHOW_IMAGE_ON_EDIT'
 
 export const ACTIONS_VALUE = {
     REMOVE: 'remove',

@@ -102,7 +102,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                 <CtButton
                     onPress={handleSubmit(this.onSubmit)}
                     btnTitle={Lng.t('button.save', { locale })}
-                    loading={editPreferencesLoading}
+                    loading={editPreferencesLoading || this.isLoading()}
                 />
             </View>
         );

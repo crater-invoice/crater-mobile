@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, TouchableOpacity, Alert } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Header, Text } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
@@ -24,7 +24,8 @@ type IProps = {
     rightIconProps: Object,
     rightComponent: any,
     rightIconHintStyle: Object,
-    titleOnPress: Object
+    titleOnPress: Object,
+    containerStyle: any
 };
 
 export const CtHeader = ({
@@ -45,6 +46,7 @@ export const CtHeader = ({
     rightIconHintStyle,
     filterProps,
     titleOnPress,
+    containerStyle
 }: IProps) => {
     const hederTitle = {
         text: title,
@@ -167,7 +169,8 @@ export const CtHeader = ({
             containerStyle={[
                 styles.containerStyle,
                 transparent && styles.transparent,
-                noBorder && styles.borderBottom
+                noBorder && styles.borderBottom,
+                containerStyle
             ]}
         />
     );

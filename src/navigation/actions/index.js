@@ -57,7 +57,7 @@ export const goBack = (type, navigation = {}, params) => {
                     }
 
                     if (params && route && typeof route === 'string') {
-                        navigateToMainTabs(navigation, route);
+                        navigation.navigate(route);
                     } else {
                         navigation.goBack(null);
                     }

@@ -128,6 +128,7 @@ export default class Note extends React.Component<IProps> {
 
     BOTTOM_ACTION = handleSubmit => {
         const { locale, type, noteLoading } = this.props;
+        const { isLoading } = this.state;
 
         return (
             <View
@@ -141,7 +142,7 @@ export default class Note extends React.Component<IProps> {
                     btnTitle={Lng.t('button.save', { locale })}
                     buttonContainerStyle={type === NOTES_EDIT && styles.flex}
                     containerStyle={styles.btnContainerStyle}
-                    loading={noteLoading}
+                    loading={noteLoading || isLoading}
                 />
 
                 {type === NOTES_EDIT && (
@@ -151,7 +152,7 @@ export default class Note extends React.Component<IProps> {
                         buttonColor={BUTTON_COLOR.DANGER}
                         containerStyle={styles.btnContainerStyle}
                         buttonContainerStyle={styles.flex}
-                        loading={noteLoading}
+                        loading={noteLoading || isLoading}
                     />
                 )}
             </View>

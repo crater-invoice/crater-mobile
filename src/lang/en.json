@@ -358,6 +358,7 @@
         "taxes": "Tax Types",
         "expenseCategory": "Expense Categories",
         "customize": "Customization",
+        "touchOrFaceId": "Touch / Face ID",
         "endpoint": "API Endpoint",
         "company": {
             "name": "Company Name",
@@ -653,11 +654,26 @@
             "customerAddress": "From Customer Address Format"
         }
     },
+    "touchFaceId": {
+        "touchId": "Touch ID",
+        "faceId": "Face ID",
+        "finger": "Fingerprint",
+        "face": "Face",
+        "notCompatible": "Your device is not compatible.",
+        "hardwareNotAvailable": "{{type}} HardWare not Available.",
+        "activated": "{{type}} activated",
+        "enableLogin": "{{type}} Login",
+        "enableLoginHint": "You can now use {{type}} to access your account faster and easier.",
+        "subTitle1": "Authenticate using app's",
+        "subTitle2": "{{type}} instead of entering your password.",
+        "login": "Log in with {{type}}"
+    },
     "filePicker": {
         "file": "Click here to choose a file",
         "permission": "Sorry, we need camera roll permissions to make this work!",
         "camera": "Camera",
-        "gallery": "Gallery"
+        "gallery": "Gallery",
+        "document": "Document"
     },
     "sendMail": {
         "from": "From",
@@ -704,7 +720,9 @@
         "recoveryEmailAgain": "Send Again",
         "cancel": "Cancel",
         "send": "Send",
-        "change": "Change"
+        "change": "Change",
+        "setUpNow": "Set up now",
+        "later": "Will do it later"
     },
     "filter": {
         "empty": {

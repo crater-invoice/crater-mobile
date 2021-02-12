@@ -13,9 +13,10 @@ import { BUTTON_COLOR, BUTTON_TYPE } from '@/constants';
 type IProps = {
     children?: any,
     onPress?: Function,
-    loading?: boolean,
-    disabled?: boolean,
-    whiteButton?: boolean,
+    loading?: Boolean,
+    isLoading?: Boolean,
+    disabled?: Boolean,
+    whiteButton?: Boolean,
     style?: Object,
     iconPlacement?: any,
     btnTitle?: String,
@@ -26,7 +27,8 @@ type IProps = {
     raised?: Boolean,
     imageSource?: String | any,
     buttonType?: String,
-    containerStyle?: Object
+    containerStyle?: Object,
+    buttonContainerStyle?: any
 };
 export class CtGradientButton extends Component<IProps> {
     constructor(props) {
@@ -73,7 +75,8 @@ export class CtGradientButton extends Component<IProps> {
             buttonColor = BUTTON_COLOR.PRIMARY,
             containerStyle,
             buttonContainerStyle,
-            hasFocus = true
+            hasFocus = true,
+            isLoading = false
         } = this.props;
 
         const { buttonFocus, animatedScale } = this.state;
@@ -113,7 +116,10 @@ export class CtGradientButton extends Component<IProps> {
                         hasFocus &&
                             buttonFocus && {
                                 borderColor: colors[`${buttonColor}Light`]
-                            }
+                            },
+                        isLoading && {
+                            borderColor: colors[`${buttonColor}Light`]
+                        }
                     ]}
                     buttonStyle={[
                         styles.buttonStyle,
@@ -139,7 +145,7 @@ export class CtGradientButton extends Component<IProps> {
                             color: colors[buttonColor]
                         }
                     ]}
-                    loading={loading && buttonFocus}
+                    loading={(loading && buttonFocus) || isLoading}
                     loadingStyle={{ opacity: 0.7 }}
                     loadingProps={{ color: colors.darkGray }}
                     linearGradientProps={{

@@ -18,7 +18,13 @@ import { colors } from '@/styles/colors';
 import { ROUTES } from '@/navigation';
 import Lng from '@/lang/i18n';
 import { IMAGES } from '@/assets';
-import { isIosPlatform, isIPhoneX } from '@/constants';
+import { biometricAuthentication } from '@/utils';
+import {
+    BIOMETRY_AUTH_TYPES,
+    hasValue,
+    isIosPlatform,
+    isIPhoneX
+} from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -26,9 +32,15 @@ type IProps = {
     handleSubmit: Function,
     loading: Boolean,
     socialLoading: Boolean,
-    locale: String
+    locale: String,
+    biometryAuthType: string,
+    biometryAuthLogin: Function
 };
+
 export class Login extends React.Component<IProps> {
+    keyboardDidShowListener: any;
+    keyboardDidHideListener: any;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -60,12 +72,31 @@ export class Login extends React.Component<IProps> {
         });
     };
 
+    loginViaBiometry = async () => {
+        const { locale, biometryAuthLogin, navigation } = this.props;
+
+        try {
+            biometricAuthentication({
+                locale,
+                onSuccess: () => biometryAuthLogin({ navigation })
+            });
+        } catch (e) {}
+    };
+
     render() {
-        let passwordInput = {};
-        const { loading, socialLoading, navigation, locale } = this.props;
+        const { loading, navigation, locale, biometryAuthType } = this.props;
         const { isKeyboardVisible } = this.state;
 
-        let loginRefs = {};
+        const BIOMETRY_TYPES_TITLES = {
+            [BIOMETRY_AUTH_TYPES.FINGERPRINT]: Lng.t('touchFaceId.touchId', {
+                locale
+            }),
+            [BIOMETRY_AUTH_TYPES.FACE]: Lng.t('touchFaceId.faceId', {
+                locale
+            })
+        };
+
+        let loginRefs: any = {};
         let scrollViewStyle = {
             paddingTop:
                 isKeyboardVisible && !isIPhoneX()
@@ -105,66 +136,61 @@ export class Login extends React.Component<IProps> {
                                 />
                             </View>
 
-                            <View style={styles.loginContainer}>
-                                <Field
-                                    name="username"
-                                    component={InputField}
-                                    inputProps={{
-                                        returnKeyType: 'next',
-                                        autoCapitalize: 'none',
-                                        placeholder: Lng.t('login.email', {
-                                            locale
-                                        }),
-                                        autoCorrect: true,
-                                        keyboardType: 'email-address',
-                                        onSubmitEditing: () => {
-                                            loginRefs.password.focus();
-                                        }
-                                    }}
-                                    placeholderColor={colors.white5}
-                                    inputContainerStyle={styles.inputField}
-                                />
+                            <Field
+                                name="username"
+                                component={InputField}
+                                inputProps={{
+                                    returnKeyType: 'next',
+                                    autoCapitalize: 'none',
+                                    placeholder: Lng.t('login.email', {
+                                        locale
+                                    }),
+                                    autoCorrect: true,
+                                    keyboardType: 'email-address',
+                                    onSubmitEditing: () => {
+                                        loginRefs.password.focus();
+                                    }
+                                }}
+                                placeholderColor={colors.white5}
+                                inputContainerStyle={styles.inputField}
+                            />
 
-                                <Field
-                                    refLinkFn={ref => {
-                                        passwordInput = ref;
-                                    }}
-                                    name="password"
-                                    component={InputField}
-                                    inputProps={{
-                                        returnKeyType: 'go',
-                                        autoCapitalize: 'none',
-                                        placeholder: Lng.t('login.password', {
-                                            locale
-                                        }),
-                                        autoCorrect: true,
-                                        onSubmitEditing: this.props.handleSubmit(
-                                            this.onLogin
+                            <Field
+                                name="password"
+                                component={InputField}
+                                inputProps={{
+                                    returnKeyType: 'go',
+                                    autoCapitalize: 'none',
+                                    placeholder: Lng.t('login.password', {
+                                        locale
+                                    }),
+                                    autoCorrect: true,
+                                    onSubmitEditing: this.props.handleSubmit(
+                                        this.onLogin
+                                    )
+                                }}
+                                inputContainerStyle={styles.inputField}
+                                secureTextEntry
+                                refLinkFn={ref => {
+                                    loginRefs.password = ref;
+                                }}
+                                minCharacter={8}
+                            />
+
+                            <View style={styles.forgetPasswordContainer}>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        navigation.navigate(
+                                            ROUTES.FORGOT_PASSWORD
                                         )
-                                    }}
-                                    inputContainerStyle={styles.inputField}
-                                    secureTextEntry
-                                    refLinkFn={ref => {
-                                        loginRefs.password = ref;
-                                    }}
-                                    minCharacter={8}
-                                />
-
-                                <View style={styles.forgetPasswordContainer}>
-                                    <TouchableOpacity
-                                        onPress={() =>
-                                            navigation.navigate(
-                                                ROUTES.FORGOT_PASSWORD
-                                            )
-                                        }
-                                    >
-                                        <Text style={styles.forgetPassword}>
-                                            {Lng.t('button.forget', {
-                                                locale
-                                            })}
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
+                                    }
+                                >
+                                    <Text style={styles.forgetPassword}>
+                                        {Lng.t('button.forget', {
+                                            locale
+                                        })}
+                                    </Text>
+                                </TouchableOpacity>
                             </View>
 
                             <View style={{ marginTop: 25 }}>
@@ -176,11 +202,25 @@ export class Login extends React.Component<IProps> {
                                         locale
                                     })}
                                     loading={loading}
+                                    isLoading={loading}
                                 />
                             </View>
                         </View>
                     </KeyboardAvoidingView>
                 </ScrollView>
+                {hasValue(biometryAuthType) && (
+                    <TouchableOpacity
+                        onPress={this.loginViaBiometry}
+                        style={styles.biometryButton}
+                    >
+                        <Text style={styles.biometryText}>
+                            {Lng.t('touchFaceId.login', {
+                                locale,
+                                type: BIOMETRY_TYPES_TITLES[biometryAuthType]
+                            })}
+                        </Text>
+                    </TouchableOpacity>
+                )}
             </View>
         );
     }

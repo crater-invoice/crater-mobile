@@ -15,25 +15,25 @@ export class Reports extends React.Component {
 
         this.state = {
             endpointVisible: false
-        }
+        };
     }
 
     componentDidMount() {
-        const { navigation } = this.props
-        goBack(MOUNT, navigation, { route: ROUTES.MAIN_MORE })
+        const { navigation } = this.props;
+        goBack(MOUNT, navigation, { route: ROUTES.MAIN_MORE });
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
     }
 
     onSelectMenu = ({ route, type }) => {
-        const { navigation } = this.props
+        const { navigation } = this.props;
 
         if (route) {
-            navigation.navigate(route, { type })
+            navigation.navigate(route, { type });
         }
-    }
+    };
 
     render() {
         const { navigation, locale } = this.props;
@@ -42,8 +42,9 @@ export class Reports extends React.Component {
             <View style={styles.container}>
                 <DefaultLayout
                     headerProps={{
-                        leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t("header.reports", { locale }),
+                        leftIconPress: () =>
+                            navigation.navigate(ROUTES.MAIN_MORE),
+                        title: Lng.t('header.reports', { locale }),
                         leftIconStyle: { color: colors.dark2 }
                     }}
                     hasSearchField={false}
@@ -53,13 +54,8 @@ export class Reports extends React.Component {
                             items={REPORTS_MENU(locale, Lng)}
                             onPress={this.onSelectMenu}
                             leftTitleStyle={styles.listViewTitle}
-                            listItemProps={{
-                                chevron: {
-                                    size: 18,
-                                    color: colors.darkGray,
-                                    containerStyle: { marginTop: 5 }
-                                },
-                            }}
+                            rightArrowIcon
+                            rightArrowIconStyle={{ marginTop: 5 }}
                         />
                     </View>
                 </DefaultLayout>

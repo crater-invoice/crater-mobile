@@ -103,11 +103,11 @@ export class Expense extends React.Component<IProps, IState> {
         if (type === EXPENSE_EDIT) {
             getExpenseDetail({
                 id,
-                onSuccess: res => {
+                onSuccess: (res, receipt) => {
                     this.setFormField(`expense`, res);
                     this.setState({
-                        imageUrl: res.receipt,
-                        fileType: res?.media?.[0]?.mime_type,
+                        imageUrl: receipt?.image,
+                        fileType: receipt?.type,
                         isLoading: false
                     });
                     return;
@@ -221,14 +221,14 @@ export class Expense extends React.Component<IProps, IState> {
 
     BOTTOM_ACTION = handleSubmit => {
         const { loading, locale } = this.props;
-        const { fileLoading } = this.state;
+        const { fileLoading, isLoading } = this.state;
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.onSubmit)}
                     btnTitle={Lng.t('button.save', { locale })}
-                    loading={loading || fileLoading}
+                    loading={loading || fileLoading | isLoading}
                 />
             </View>
         );
@@ -252,7 +252,6 @@ export class Expense extends React.Component<IProps, IState> {
 
         const isCreateExpense = type === EXPENSE_ADD;
         const isEditExpense = type === EXPENSE_EDIT;
-
         const hasCustomField = isEditExpense
             ? formValues?.expense && formValues.expense.hasOwnProperty('fields')
             : isArray(customFields);
@@ -291,19 +290,20 @@ export class Expense extends React.Component<IProps, IState> {
                     <Field
                         name={`expense.${FIELDS.RECEIPT}`}
                         component={FilePicker}
-                        mediaType={'All'}
+                        locale={locale}
+                        withDocument
                         label={Lng.t('expenses.receipt', { locale })}
-                        navigation={navigation}
+                        fileLoading={val => this.setState({ fileLoading: val })}
+                        containerStyle={styles.filePicker}
+                        uploadedFileType={fileType}
                         onChangeCallback={val =>
                             this.setState({ attachmentReceipt: val })
                         }
-                        imageUrl={
+                        uploadedFileUrl={
                             fileType && fileType.includes('image')
                                 ? imageUrl
                                 : null
                         }
-                        containerStyle={styles.filePicker}
-                        fileLoading={val => this.setState({ fileLoading: val })}
                     />
 
                     <Field

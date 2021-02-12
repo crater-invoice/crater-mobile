@@ -20,6 +20,7 @@ import CustomFieldsContainer from '../../features/settings/containers/CustomFiel
 import CustomFieldContainer from '../../features/settings/containers/CustomField';
 import NotesContainer from '@/features/settings/containers/Notes';
 import NoteContainer from '@/features/settings/containers/Note';
+import TouchOrFaceIdContainer from '@/features/settings/containers/Touch-Face-Id';
 
 export const SettingNavigator = {
     // Settings
@@ -108,6 +109,13 @@ export const SettingNavigator = {
     [ROUTES.CUSTOMER_FIELD]: generateStackNavigation(
         ROUTES.CUSTOMER_FIELD,
         CustomFieldContainer
+    ),
+
+    // Touch/Face ID
+    // -----------------------------------------
+    [ROUTES.TOUCH_OR_FACE_ID]: generateStackNavigation(
+        ROUTES.TOUCH_OR_FACE_ID,
+        TouchOrFaceIdContainer
     ),
 
     // Update App Version

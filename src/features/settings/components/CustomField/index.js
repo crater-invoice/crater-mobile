@@ -170,7 +170,7 @@ export class CustomField extends React.Component<IProps> {
                         type === EDIT_CUSTOM_FIELD_TYPE && styles.flex
                     }
                     containerStyle={styles.btnContainerStyle}
-                    loading={loading}
+                    loading={loading || this.isLoading()}
                 />
 
                 {type === EDIT_CUSTOM_FIELD_TYPE && (
@@ -182,7 +182,7 @@ export class CustomField extends React.Component<IProps> {
                         buttonColor={BUTTON_COLOR.DANGER}
                         containerStyle={styles.btnContainerStyle}
                         buttonContainerStyle={styles.flex}
-                        loading={removeCustomFieldLoading}
+                        loading={removeCustomFieldLoading || this.isLoading()}
                         isLoading={removeCustomFieldLoading}
                     />
                 )}
@@ -302,6 +302,13 @@ export class CustomField extends React.Component<IProps> {
         return !hasLength(optionView) ? <></> : optionView;
     };
 
+    isLoading = () => {
+        const { formValues, getCustomFieldLoading } = this.props;
+        return (
+            !formValues || !hasObjectLength(formValues) || getCustomFieldLoading
+        );
+    };
+
     render() {
         const {
             navigation,
@@ -313,11 +320,6 @@ export class CustomField extends React.Component<IProps> {
         } = this.props;
 
         this.customFieldRefs(this);
-
-        const isLoading =
-            !formValues ||
-            !hasObjectLength(formValues) ||
-            getCustomFieldLoading;
 
         return (
             <DefaultLayout
@@ -341,7 +343,7 @@ export class CustomField extends React.Component<IProps> {
                     rightIconPress: handleSubmit(this.onSubmit)
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
-                loadingProps={{ is: isLoading }}
+                loadingProps={{ is: this.isLoading() }}
             >
                 <View style={styles.bodyContainer}>
                     <Field

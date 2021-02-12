@@ -21,6 +21,7 @@ import {
 } from '../../constants';
 import { isFilterApply } from '@/utils';
 import InvoiceServices from '../../services';
+import { openRatingReviewModal } from '@/utils';
 
 type IProps = {
     locale: String,
@@ -66,10 +67,12 @@ export class Invoices extends React.Component<IProps> {
 
             if (InvoiceServices.isEmailSent) {
                 InvoiceServices.toggleIsEmailSent(false);
-                this.toastReference?.show?.(
-                    'toast.send_invoice_successfully',
-                    1500
-                );
+                this.toastReference?.show?.('toast.send_invoice_successfully');
+            }
+
+            if (InvoiceServices.isFirstInvoiceCreated) {
+                InvoiceServices.toggleIsFirstInvoiceCreated(false);
+                openRatingReviewModal();
             }
         });
     };

@@ -178,13 +178,14 @@ export class Customer extends React.Component<IProps> {
 
     BOTTOM_ACTION = handleSubmit => {
         const { loading, locale } = this.props;
+        const { isLoading } = this.state;
 
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={handleSubmit(this.onSubmit)}
                     btnTitle={Lng.t('button.save', { locale })}
-                    loading={loading}
+                    loading={loading | isLoading}
                 />
             </View>
         );

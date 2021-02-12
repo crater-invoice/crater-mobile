@@ -358,6 +358,7 @@
         "taxes": "أنواع الضرائب",
         "expenseCategory": "فئات المصاريف",
         "customize": "التخصيص",
+        "touchOrFaceId": "اللمس / معرف الوجه",
         "endpoint": "نقطة نهاية API",
         "company": {
             "name": "اسم الشركة",
@@ -653,6 +654,20 @@
             "customerAddress": "من تنسيق عنوان العميل"
         }
     },
+    "touchFaceId": {
+        "touchId": "معرف اتصال",
+        "faceId": "معرف الوجه",
+        "finger": "بصمة",
+        "face": "وجه",
+        "notCompatible": "جهازك غير متوافق.",
+        "hardwareNotAvailable": "{{type}} الأجهزة غير متوفرة.",
+        "activated": "{{type}} مفعل",
+        "enableLogin": "{{type}} تسجيل الدخول",
+        "enableLoginHint": "يمكنك الآن استخدام {{type}} للوصول إلى حسابك بشكل أسرع وأسهل.",
+        "subTitle1": "المصادقة باستخدام التطبيق",
+        "subTitle2": "{{type}} بدلاً من إدخال كلمة المرور الخاصة بك.",
+        "login": "تسجيل الدخول مع {{type}}"
+    },
     "filePicker": {
         "file": "انقر هنا لاختيار ملف",
         "permission": "عذرا ، نحن بحاجة إلى أذونات لفة الكاميرا لإنجاح هذا!",
@@ -704,7 +719,9 @@
         "recoveryEmailAgain": "أعد الإرسال",
         "cancel": "إلغاء",
         "send": "إرسال",
-        "change": "يتغيرون"
+        "change": "يتغيرون",
+        "setUpNow": "الإعداد الآن",
+        "later": "سأفعل ذلك لاحقًا"
     },
     "filter": {
         "empty": {

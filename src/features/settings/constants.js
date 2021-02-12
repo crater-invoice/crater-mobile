@@ -25,6 +25,7 @@ export const CUSTOM_FIELD_FORM = 'custom-field/CUSTOM_FIELD_FORM';
 
 export const NOTES_SEARCH = 'notes/NOTES_SEARCH';
 export const NOTE_FORM = 'notes/NOTE_FORM';
+export const TOUCH_FACE_ID_FORM = 'biometry/TOUCH_FACE_ID_FORM';
 
 // Types
 // -----------------------------------------
@@ -129,9 +130,12 @@ export const GET_CUSTOM_FIELD = 'custom-field/GET_CUSTOM_FIELD';
 export const EDIT_CUSTOM_FIELD = 'custom-field/EDIT_CUSTOM_FIELD';
 export const REMOVE_CUSTOM_FIELD = 'custom-field/REMOVE_CUSTOM_FIELD';
 
-export const CREATE_FROM_CUSTOM_FIELDS = 'custom-field/CREATE_FROM_CUSTOM_FIELDS'
-export const REMOVE_FROM_CUSTOM_FIELDS = 'custom-field/REMOVE_FROM_CUSTOM_FIELDS'
-export const UPDATE_FROM_CUSTOM_FIELDS = 'custom-field/UPDATE_FROM_CUSTOM_FIELDS'
+export const CREATE_FROM_CUSTOM_FIELDS =
+    'custom-field/CREATE_FROM_CUSTOM_FIELDS';
+export const REMOVE_FROM_CUSTOM_FIELDS =
+    'custom-field/REMOVE_FROM_CUSTOM_FIELDS';
+export const UPDATE_FROM_CUSTOM_FIELDS =
+    'custom-field/UPDATE_FROM_CUSTOM_FIELDS';
 
 // Taxes
 export const GET_TAXES = 'taxes/GET_TAXES';
@@ -142,6 +146,9 @@ export const SET_REMOVE_TAX = 'taxes/SET_REMOVE_TAX';
 export const TAX_EDIT = 'taxes/TAX_EDIT';
 export const TAX_ADD = 'taxes/TAX_ADD';
 export const REMOVE_TAX = 'taxes/REMOVE_TAX';
+
+// Biometry Auth
+export const SET_BIOMETRY_AUTH_TYPE = 'authType/SET_BIOMETRY_AUTH_TYPE';
 
 export const CREATE_EXPENSE_CATEGORY = 'categories/CREATE_EXPENSE_CATEGORY';
 export const EDIT_EXPENSE_CATEGORY = 'categories/EDIT_EXPENSE_CATEGORY';
@@ -323,6 +330,15 @@ export const SETTINGS_MENU = (locale, Lng) => {
             iconSize: 24,
             fullItem: {
                 route: ROUTES.CATEGORIES
+            }
+        },
+        {
+            title: Lng.t('settings.touchOrFaceId', { locale }),
+            leftIcon: 'key',
+            leftIconSolid: true,
+            iconSize: 21,
+            fullItem: {
+                route: ROUTES.TOUCH_OR_FACE_ID
             }
         },
         {

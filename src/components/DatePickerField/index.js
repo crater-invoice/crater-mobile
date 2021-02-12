@@ -4,11 +4,10 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import styles from './styles';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import debounce from 'lodash/debounce';
 import moment from 'moment';
 import { FakeInput } from '../FakeInput';
 import { connect } from 'react-redux';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, isIosPlatform, majorVersionIOS } from '@/constants';
 
 type IProps = {
     label: String,
@@ -18,16 +17,35 @@ type IProps = {
     rightIcon: String,
     displayValue: Boolean,
     isRequired: Boolean,
-    formDateFormat: String
+    formDateFormat: string,
+    input: any,
+    dateFormat: string,
+    selectedDate: string,
+    selectedDateValue: string,
+    meta: any,
+    placeholder: string,
+    fakeInputProps: any,
+    filter: any
 };
 
-export class DatePickerComponent extends Component<IProps> {
+type IStates = {
+    isDateTimePickerVisible: boolean,
+    value: string,
+    displayMode: any
+};
+
+export class DatePickerComponent extends Component<IProps, IStates> {
+    pickerDateValue: any;
+    displayValue: any;
+
     constructor(props) {
         super(props);
         this.pickerDateValue = new Date();
+        this.displayValue = null;
         this.state = {
             isDateTimePickerVisible: false,
-            value: ''
+            value: '',
+            displayMode: null
         };
     }
 
@@ -36,6 +54,11 @@ export class DatePickerComponent extends Component<IProps> {
     };
 
     componentDidMount() {
+        this.setVersionCompatiblePicker();
+        this.setInitialDateValue();
+    }
+
+    setInitialDateValue = () => {
         const {
             input: { value, onChange },
             dateFormat,
@@ -60,16 +83,25 @@ export class DatePickerComponent extends Component<IProps> {
                 this.pickerDateValue = formDate;
             }
         }
+    };
 
-        this.getPickerOption = debounce(this.getPickerOption, 300);
-    }
+    setVersionCompatiblePicker = () => {
+        if (isIosPlatform() && majorVersionIOS >= 14) {
+            this.setState({ displayMode: 'spinner' });
+            return;
+        }
+
+        if (isIosPlatform()) {
+            this.setState({ displayMode: 'inline' });
+            return;
+        }
+
+        this.setState({ displayMode: 'default' });
+    };
 
     showHideDateTimePicker = () => {
-        this.setState(prevState => {
-            return {
-                isDateTimePickerVisible: !prevState.isDateTimePickerVisible
-            };
-        });
+        const { isDateTimePickerVisible } = this.state;
+        this.setState({ isDateTimePickerVisible: !isDateTimePickerVisible });
     };
 
     handleDatePicked = date => {
@@ -85,7 +117,9 @@ export class DatePickerComponent extends Component<IProps> {
 
         let formDate = moment(date).format(formDateFormat);
 
-        this.setState({ value: displayDate });
+        isIosPlatform()
+            ? this.setState({ value: displayDate })
+            : (this.displayValue = displayDate);
 
         this.pickerDateValue = formDate;
 
@@ -121,31 +155,40 @@ export class DatePickerComponent extends Component<IProps> {
         return {};
     };
 
+    getDisplayValue = () => {
+        const { displayValue, input } = this.props;
+
+        if (displayValue) {
+            return this.getDate(displayValue);
+        }
+
+        return input?.value ? this.displayValue ?? this.state.value ?? '' : '';
+    };
+
     render() {
         const {
             label,
             containerStyle,
             meta,
-            displayValue,
             isRequired = false,
-            input,
             placeholder = ' ',
             fakeInputProps
         } = this.props;
 
-        const { isDateTimePickerVisible, value } = this.state;
+        const { isDateTimePickerVisible, displayMode } = this.state;
 
         let pickerOption = this.getPickerOption();
+
+        if (!displayMode) {
+            return null;
+        }
 
         return (
             <View style={styles.container}>
                 <FakeInput
                     label={label}
                     icon={'calendar-alt'}
-                    values={
-                        (displayValue && this.getDate(displayValue)) ||
-                        (input.value ? value : '')
-                    }
+                    values={this.getDisplayValue()}
                     placeholder={placeholder}
                     onChangeCallback={() => this.showHideDateTimePicker()}
                     meta={meta}
@@ -155,10 +198,12 @@ export class DatePickerComponent extends Component<IProps> {
                 />
 
                 <DateTimePicker
+                    mode="date"
                     isVisible={isDateTimePickerVisible}
                     onConfirm={this.handleDatePicked}
-                    {...pickerOption}
                     onCancel={this.showHideDateTimePicker}
+                    display={displayMode}
+                    {...pickerOption}
                 />
             </View>
         );

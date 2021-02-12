@@ -44,3 +44,4 @@ export * from './Editor';
 export * from './HtmlView';
 export * from './Animations';
 export * from './Modal';
+export * from './CircularProgress';

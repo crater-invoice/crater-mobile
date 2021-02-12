@@ -129,17 +129,16 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     };
 
     changeDisplayValueByUsingCompareField = async val => {
-        const { defaultItem } = this.state;
-        const { compareField, displayName } = this.props;
+        const { compareField, displayName, items } = this.props;
 
-        if (!isArray(defaultItem)) {
+        if (!isArray(items)) {
             return;
         }
 
-        for (const key in defaultItem) {
-            if (defaultItem[key]['fullItem'][compareField] === val) {
+        for (const key in items) {
+            if (items[key]['fullItem'][compareField] === val) {
                 this.setState({
-                    values: defaultItem[key]['fullItem'][displayName]
+                    values: items[key]['fullItem'][displayName]
                 });
                 break;
             }

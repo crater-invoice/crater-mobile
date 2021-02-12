@@ -48,6 +48,13 @@ export const SET_GLOBAL_BOOTSTRAP = 'SET_GLOBAL_BOOTSTRAP';
 export const SAVE_ENDPOINT_API = 'SAVE_ENDPOINT_API';
 export const SET_SETTINGS = 'SET_SETTINGS';
 export const GLOBAL_TRIGGER_SPINNER = 'GLOBAL_TRIGGER_SPINNER';
-export const GET_APP_VERSION = 'GET_APP_VERSION';
-export const SET_APP_VERSION = 'SET_APP_VERSION';
+export const CHECK_OTA_UPDATE = 'CHECK_OTA_UPDATE';
+export const SET_LAST_AUTO_UPDATE_DATE = 'SET_LAST_AUTO_UPDATE_DATE';
 export const SET_MAIL_CONFIGURATION = 'SET_MAIL_CONFIGURATION';
+
+//  Biometry Auth Types
+// -----------------------------------------
+export const BIOMETRY_AUTH_TYPES = {
+    FINGERPRINT: 'FINGERPRINT',
+    FACE: 'FACE'
+};

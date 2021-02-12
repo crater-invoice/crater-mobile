@@ -358,6 +358,7 @@
         "taxes": "Tipos de impuestos",
         "expenseCategory": "Categorías de gastos",
         "customize": "Personalización",
+        "touchOrFaceId": "Identificación táctil / facial",
         "endpoint": "point final api",
         "company": {
             "name": "nombre de empresa",
@@ -653,6 +654,20 @@
             "customerAddress": "Formato de dirección de cliente"
         }
     },
+    "touchFaceId": {
+        "touchId": "identifición de toque",
+        "faceId": "Identificación facial",
+        "finger": "Huella dactilar",
+        "face": "Cara",
+        "notCompatible": "Tu dispositivo no es compatible.",
+        "hardwareNotAvailable": "{{type}} HardWare no disponible.",
+        "activated": "{{type}} activado",
+        "enableLogin": "{{type}} Iniciar sesión",
+        "enableLoginHint": "Ahora puede utilizar {{type}} para acceder a su cuenta de forma más rápida y sencilla.",
+        "subTitle1": "Autenticar usando la aplicación",
+        "subTitle2": "{{type}} en lugar de ingresar su contraseña.",
+        "login": "Iniciar con {{type}}"
+    },
     "filePicker": {
         "file": "Haga clic aquí para elegir un archivo.",
         "permission": "Lo sentimos, necesitamos permisos de cámara para hacer que esto funcione.",
@@ -704,7 +719,9 @@
         "recoveryEmailAgain": "Enviar de nuevo",
         "cancel": "Cancelar",
         "send": "Enviar",
-        "change": "Cambio"
+        "change": "Cambio",
+        "setUpNow": "Configurar ahora",
+        "later": "Lo hare mas tarde"
     },
     "filter": {
         "empty": {

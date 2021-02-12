@@ -311,7 +311,7 @@ export class Estimate extends React.Component<IProps> {
 
     BOTTOM_ACTION = () => {
         const { locale, loading, handleSubmit } = this.props;
-
+        const { isLoading } = this.state;
         return (
             <View style={styles.submitButton}>
                 <CtButton
@@ -320,7 +320,7 @@ export class Estimate extends React.Component<IProps> {
                     type={BUTTON_TYPE.OUTLINE}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
-                    loading={loading}
+                    loading={loading | isLoading}
                 />
 
                 <CtButton
@@ -328,7 +328,7 @@ export class Estimate extends React.Component<IProps> {
                     btnTitle={Lng.t('button.save', { locale })}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
-                    loading={loading}
+                    loading={loading | isLoading}
                 />
             </View>
         );
@@ -522,6 +522,7 @@ export class Estimate extends React.Component<IProps> {
                 headerTitle={'header.sendMailEstimate'}
                 alertDesc={'estimates.alert.sendEstimate'}
                 user={this.props?.formValues?.customer}
+                subject="New Estimate"
                 body="estimate_mail_body"
                 onSendMail={params => this.sendEmail(params)}
             />

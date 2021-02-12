@@ -7,13 +7,20 @@ import { fonts } from '@/styles';
 
 const model = Constants.deviceName.toLowerCase();
 
-// export const isIPhoneX = () => model.indexOf('iphone x') !== -1;
-
 export function isIPhoneX() {
-    const dimension = Dimensions.get('window');
+    const { height, width } = Dimensions.get('window');
     return (
-        Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS &&
-        ((dimension.height === 812 || dimension.width === 812) || (dimension.height === 896 || dimension.width === 896))
+        Platform.OS === 'ios' &&
+        !Platform.isPad &&
+        !Platform.isTVOS &&
+        (height === 812 ||
+            width === 812 ||
+            height === 844 ||
+            width === 844 ||
+            height === 896 ||
+            width === 896 ||
+            height === 926 ||
+            width === 926)
     );
 }
 
@@ -27,11 +34,15 @@ export const trim = (data) => {
 
 export const isIosPlatform = () => Platform.OS === 'ios';
 
+export const isAndroidPlatform = () => Platform.OS === 'android';
+
 export const SCREEN_WIDTH = Dimensions.get('window').width
 
 export const SCREEN_HEIGHT = Dimensions.get('window').height
 
 export const definePlatformParam = (ios, android) => (isIosPlatform() ? ios : android);
+
+export const defineLargeSizeParam = (large, normal) => (isIPhoneX() ? large : normal);
 
 export const scrollToInput = ({ scrollView }, { target }) => {
     scrollView.scrollToFocusedInput(findNodeHandle(target));
@@ -112,3 +123,5 @@ export const checkExpiredToken = (expiresIn) => {
     }
     return true
 }
+
+export const majorVersionIOS = parseInt(String(Platform.Version), 10);

@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { colors, fonts } from '@/styles';
+import { defineLargeSizeParam } from '@/constants';
 
 const { width } = Dimensions.get('window');
 
@@ -41,5 +42,20 @@ export default styles = StyleSheet.create({
     inputField: {
         paddingVertical: 3,
         borderRadius: 3
+    },
+    biometryButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 20,
+        position: 'absolute',
+        bottom: defineLargeSizeParam(50, 5),
+        left: 0,
+        right: 0
+    },
+    biometryText: {
+        fontSize: 17,
+        color: colors.primary,
+        fontWeight: '500',
+        opacity: 0.9
     }
 });

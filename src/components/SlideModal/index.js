@@ -7,6 +7,7 @@ import { MainLayout, DefaultLayout } from '../Layouts';
 import { colors } from '@/styles';
 import { InfiniteScroll } from '../InfiniteScroll';
 import { ScrollView } from '../ScrollView';
+import { isAndroidPlatform } from '@/constants';
 
 type IProps = {
     visible: Boolean,
@@ -71,11 +72,17 @@ export class SlideModal extends Component<IProps> {
                 visible={visible}
                 onRequestClose={onToggle && onToggle}
                 hardwareAccelerated={true}
+                statusBarTranslucent={true}
             >
                 <View style={styles.modalContainer}>
                     {!defaultLayout && (
                         <MainLayout
-                            headerProps={headerProps && headerProps}
+                            headerProps={{
+                                ...headerProps,
+                                ...(isAndroidPlatform() && {
+                                    containerStyle: { marginTop: 25 }
+                                })
+                            }}
                             onSearch={onSearch}
                             bottomDivider={bottomDivider}
                             bottomAction={bottomAction}
@@ -88,7 +95,12 @@ export class SlideModal extends Component<IProps> {
 
                     {defaultLayout && (
                         <DefaultLayout
-                            headerProps={headerProps && headerProps}
+                            headerProps={{
+                                ...headerProps,
+                                ...(isAndroidPlatform() && {
+                                    containerStyle: { marginTop: 25 }
+                                })
+                            }}
                             bottomAction={bottomAction}
                         >
                             {children ? (

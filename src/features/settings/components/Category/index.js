@@ -108,7 +108,12 @@ export class Category extends React.Component<IProps> {
     };
 
     BOTTOM_ACTION = handleSubmit => {
-        const { locale, categoryLoading, type } = this.props;
+        const {
+            locale,
+            categoryLoading,
+            type,
+            getEditCategoryLoading
+        } = this.props;
 
         return (
             <View
@@ -122,7 +127,7 @@ export class Category extends React.Component<IProps> {
                     btnTitle={Lng.t('button.save', { locale })}
                     buttonContainerStyle={type === CATEGORY_EDIT && styles.flex}
                     containerStyle={styles.btnContainerStyle}
-                    loading={categoryLoading}
+                    loading={categoryLoading || getEditCategoryLoading}
                 />
 
                 {type === CATEGORY_EDIT && (
@@ -132,7 +137,7 @@ export class Category extends React.Component<IProps> {
                         buttonColor={BUTTON_COLOR.DANGER}
                         containerStyle={styles.btnContainerStyle}
                         buttonContainerStyle={styles.flex}
-                        loading={categoryLoading}
+                        loading={categoryLoading || getEditCategoryLoading}
                     />
                 )}
             </View>

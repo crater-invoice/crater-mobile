@@ -5,11 +5,9 @@ import { View } from 'react-native';
 import styles from './styles';
 import { MainLayout, ListView } from '@/components';
 import { MORE_MENU } from '../../constants';
-import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { alertMe } from '@/constants';
-import { isRTL } from '@/utils';
 
 export class More extends React.Component {
     constructor(props) {
@@ -79,21 +77,10 @@ export class More extends React.Component {
                             leftTitleStyle={styles.listViewTitle}
                             leftIconStyle={styles.listViewIcon}
                             itemContainer={styles.itemContainer}
+                            rightArrowIcon
                             listViewContainerStyle={
                                 styles.listViewScrollContainerStyle
                             }
-                            listItemProps={{
-                                chevron: {
-                                    size: 19,
-                                    color: colors.darkGray,
-                                    containerStyle: {
-                                        marginTop: 5,
-                                        ...(isRTL() && {
-                                            transform: [{ rotate: '180deg' }]
-                                        })
-                                    }
-                                }
-                            }}
                         />
                     </View>
                 </MainLayout>

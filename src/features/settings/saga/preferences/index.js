@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { I18nManager } from 'react-native';
-import { Updates } from 'expo';
+import * as Updates from 'expo-updates';
 import Request from '@/api/request';
 import {
     settingsTriggerSpinner as spinner,
@@ -88,7 +88,7 @@ function* editPreferences({ payload }) {
                 const isRTL = params.language === 'ar';
                 setI18nManagerValue({ isRTL });
                 if (locale === 'ar' || isRTL) {
-                    Updates.reload();
+                    Updates.reloadAsync();
                 }
             }
         }

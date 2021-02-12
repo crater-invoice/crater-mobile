@@ -4,7 +4,7 @@
         "slug": "crater",
         "privacy": "public",
         "platforms": ["ios", "android", "web"],
-        "version": "4.0.0",
+        "version": "4.1.0",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "splash": {
@@ -16,21 +16,35 @@
             "fallbackToCacheTimeout": 0
         },
         "assetBundlePatterns": ["**/*"],
+        "userInterfaceStyle": "automatic",
         "ios": {
             "supportsTablet": true,
             "bundleIdentifier": "com.craterapp.app",
-            "buildNumber": "8"
+            "buildNumber": "8",
+            "usesIcloudStorage": true,
+            "infoPlist": {
+              "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID to save login"
+            }
         },
         "android": {
             "package": "com.craterapp.app",
-            "versionCode": 12,
-            "softwareKeyboardLayoutMode": "pan"
+            "versionCode": 13,
+            "softwareKeyboardLayoutMode": "pan",
+            "permissions": [
+              "CAMERA",
+              "READ_CALENDAR",
+              "READ_EXTERNAL_STORAGE",
+              "WRITE_EXTERNAL_STORAGE",
+              "USE_FINGERPRINT",
+              "USE_BIOMETRIC",
+              "VIBRATE",
+              "com.htc.launcher.permission.READ_SETTINGS"
+            ]
         },
         "description": "",
         "androidStatusBar": {
             "backgroundColor": "#F9FBFF",
             "barStyle": "dark-content",
-            "animated": true,
             "translucent": true
         }
     }

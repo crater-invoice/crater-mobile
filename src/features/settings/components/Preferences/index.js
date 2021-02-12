@@ -153,7 +153,7 @@ export class Preferences extends React.Component<IProps> {
                 <CtButton
                     onPress={handleSubmit(this.onSubmitPreferences)}
                     btnTitle={Lng.t('button.save', { locale })}
-                    loading={editPreferencesLoading}
+                    loading={editPreferencesLoading || this.isLoading()}
                 />
             </View>
         );

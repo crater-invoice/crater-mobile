@@ -28,7 +28,6 @@ import {
 
 const initialState = {
     loading: {
-        logoutLoading: false,
         // account
         getAccountInfoLoading: false,
         editAccountInfoLoading: false,
