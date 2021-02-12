@@ -156,12 +156,12 @@ function* checkOTAUpdate(payloadData) {
 
         yield put(setLastAutoUpdateDate(currentDate));
 
-        const update = yield Updates.checkForUpdateAsync();
+        // const update = yield Updates.checkForUpdateAsync();
 
-        if (update.isAvailable) {
-            yield Updates.fetchUpdateAsync();
-            yield Updates.reloadAsync();
-        }
+        // if (update.isAvailable) {
+        //     yield Updates.fetchUpdateAsync();
+        //     yield Updates.reloadAsync();
+        // }
     } catch (e) {}
 }
 
