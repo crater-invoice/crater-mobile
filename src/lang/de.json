@@ -3,13 +3,13 @@
         "invoices": "Rechnungen",
         "addInvoice": "Rechnung hinzufügen",
         "editInvoice": "Rechnung bearbeiten",
-        "estimates": "Schätzungen",
-        "addEstimate": "Schätzung hinzufügen",
-        "editEstimate": "Schätzung bearbeiten",
+        "estimates": "Kostenvorschläge",
+        "addEstimate": "Kostenvoranschlag hinzufügen",
+        "editEstimate": "Kostenvoranschlag bearbeiten",
         "template": "Wählen Sie eine Vorlage aus",
         "customers": "Kunden",
-        "addCustomer": "Kunden hinzufügen",
-        "editCustomer": "Kunden bearbeiten",
+        "addCustomer": "Kunde hinzufügen",
+        "editCustomer": "Kunde bearbeiten",
         "selectCurrency": "Währung wählen",
         "billingAddress": "Rechnungsadresse",
         "shippingAddress": "Lieferanschrift",
@@ -28,7 +28,7 @@
         "editCategory": "Kategorie bearbeiten",
         "addNote": "Notiz hinzufügen",
         "editNote": "Notiz bearbeiten",
-        "settings": "die Einstellungen",
+        "settings": "Einstellungen",
         "notifications": "Benachrichtigung",
         "setting": {
             "company": "Firmeninformation",
@@ -57,7 +57,7 @@
         "addCurrency": "Währung hinzufügen",
         "editCurrency": "Währung bearbeiten",
         "sendMailInvoice": "Rechnung senden",
-        "sendMailEstimate": "Schätzung senden",
+        "sendMailEstimate": "Kostenvoranschlag senden",
         "sendMailPayment": "Senden Sie die Zahlung",
         "recurringInvoice": "Wiederkehrende Rechnungen",
         "addRecurring": "Wiederkehrende Rechnung hinzufügen",
@@ -82,7 +82,7 @@
             "ALL": "ALLES"
         },
         "invoiceDate": "Rechnungsdatum",
-        "dueDate": "Geburtstermin",
+        "dueDate": "Fälligkeitsdatum",
         "discount": "RABATT",
         "invoiceNumber": "Rechnungsnummer",
         "referenceNumber": "Referenznummer",
@@ -159,7 +159,7 @@
             "reSendInvoice": "Rechnung erneut senden",
             "editInvoice": "Rechnung bearbeiten",
             "delete": "Löschen",
-            "recordPayment": "Rekordzahlung",
+            "recordPayment": "Zahlungsaufzeichnung",
             "markAsSent": "Als gesendet markieren",
             "clone": "Rechnung klonen"
         }
@@ -185,16 +185,16 @@
         "address": {
             "name": "Name",
             "country": "Land",
-            "state": "Zustand",
+            "state": "Bundesland",
             "city": "Stadt",
             "address": "Adresse",
-            "street1": "Straße 1",
-            "street2": "Straße Nummer 2",
+            "street1": "Adresszeile 1",
+            "street2": "Adresszeile 2",
             "addressStreet1": "Adresse Straße 1",
             "addressStreet2": "Adresse Straße 2",
             "phone": "Telefon",
             "zipcode": "Postleitzahl",
-            "sameAs": "Kopie von der Rechnungsadresse"
+            "sameAs": "Aus der Rechnungsadresse kopieren"
         },
         "removeCustomer": "Löschen",
         "empty": {
@@ -205,14 +205,14 @@
                 "title": "Kein Land verfügbar"
             },
             "state": {
-                "title": "Kein Status verfügbar"
+                "title": "Kein Bundesland verfügbar"
             },
             "city": {
                 "title": "Keine Stadt verfügbar"
             }
         },
         "title": "Wählen Sie einen Kunden aus",
-        "placeholder": "Wählen Sie Kunde"
+        "placeholder": "Kunden wählen"
     },
     "payments": {
         "date": "Zahlungsdatum",
@@ -222,20 +222,20 @@
         "mode": "Zahlungsart",
         "modes": "Zahlungsmodi",
         "prefix": "Zahlungspräfix",
-        "addMode": "Zahlungsmodus hinzufügen",
-        "editMode": "Zahlungsmodus bearbeiten",
-        "modeHint": "Modusname",
-        "modePlaceholder": "Wählen Sie Zahlungsmodus",
+        "addMode": "Zahlungsart hinzufügen",
+        "editMode": "Zahlungsart bearbeiten",
+        "modeHint": "Zahlungsart Name",
+        "modePlaceholder": "Zahlungsart wählen",
         "amount": "Menge",
         "notes": "Anmerkungen",
-        "notesPlaceholder": "Zusätzliche Bemerkungen",
+        "notesPlaceholder": "Zusätzliche Anmerkungen",
         "invoice": "Rechnung",
-        "invoicePlaceholder": "Wählen Sie Rechnung",
+        "invoicePlaceholder": "Rechnung wählen",
         "sendReceipt": " Zahlungsbeleg senden",
         "alertAmount": "Die eingegebene Zahlung ist mehr als der fällige Betrag dieser Rechnung.",
         "alertDescription": "Sie können diese Zahlung nicht zurückerhalten",
-        "alertMode": "Sie können diesen Zahlungsmodus nicht wiederherstellen",
-        "alreadyInUseMode": "Der Zahlungsmodus wird bereits verwendet",
+        "alertMode": "Sie können diese Zahlungsart nicht wiederherstellen",
+        "alreadyInUseMode": "Die Zahlungsart wird bereits verwendet",
         "alreadyInUseNumber": "Die Zahlungsnummer wurde bereits vergeben.",
         "alertSendDescription": "Diese Zahlung wird per E-Mail an den Kunden gesendet",
         "removePayment": "Löschen",
@@ -257,11 +257,11 @@
         }
     },
     "expenses": {
-        "receipt": "Kassenbon",
+        "receipt": "Rechnung",
         "date": "Aufwandsdatum",
         "fromDate": "Ab Datum",
         "toDate": "Miteinander ausgehen",
-        "amount": "Menge",
+        "amount": "Summe",
         "category": "Kategorie",
         "categoryPlaceholder": "Kategorie wählen",
         "notes": "Anmerkungen",
@@ -307,7 +307,7 @@
         }
     },
     "more": {
-        "estimate": "Schätzungen",
+        "estimate": "Kostenvoranschläge",
         "recurringInvoice": "Wiederkehrende Rechnungen",
         "items": "Artikel",
         "reports": "Berichte",
@@ -382,9 +382,9 @@
             "send": "Benachrichtigungen senden an",
             "invoiceViewed": "Rechnung angezeigt",
             "invoiceViewedUpdated": "Benachrichtigungseinstellung erfolgreich aktualisiert",
-            "invoiceViewedDescription": "Wenn Ihr Kunde den per E-Mail gesendeten Rechnungslink anzeigt.",
-            "estimateViewed": "Schätzung angezeigt",
-            "estimateViewedDescription": "Wenn Ihr Kunde den per E-Mail gesendeten Schätzungslink anzeigt.",
+            "invoiceViewedDescription": "Wenn Ihr Kunde den per E-Mail gesendeten Rechnungslink ansieht.",
+            "estimateViewed": "Kostenvoranschlag angezeigt",
+            "estimateViewedDescription": "Wenn Ihr Kunde den per E-Mail gesendeten Kostenvoranschlagslink ansieht.",
             "estimateViewedUpdated": "Benachrichtigungseinstellung erfolgreich aktualisiert"
         },
         "preferences": {
@@ -433,20 +433,20 @@
     },
     "endpoint": {
         "endpointURL": "Endpunkt-URL",
-        "endpointDesc": "Die obige URL wird verwendet, um eine Verbindung mit Ihrer selbst gehosteten Kraterinstallation herzustellen.",
-        "urlPlaceHolder": "Z.B: https://craterapp.com",
+        "endpointDesc": "Die obige URL wird verwendet, um eine Verbindung mit Ihrer selbst gehosteten Crate-Installation herzustellen.",
+        "urlPlaceHolder": "z.B.: https://craterapp.com",
         "alertInvalidUrl": "ungültige URL"
     },
     "estimates": {
         "tabs": {
-            "SENT": "Geschickt",
+            "SENT": "Versendet",
             "DRAFT": " Entwurf",
             "ALL": "Alles"
         },
-        "estimateDate": "Schätzdatum",
+        "estimateDate": "Kostenvoranschlagsdatum",
         "expiryDate": "Verfallsdatum",
         "discount": "RABATT",
-        "estimateNumber": "Geschätzte Anzahl",
+        "estimateNumber": "Kostenvoranschlag Nummer",
         "template": "Vorlage",
         "templatePlaceholder": "Wählen Sie eine neue Vorlage aus oder fügen Sie sie hinzu",
         "customer": "Kunde",
@@ -456,7 +456,7 @@
         "taxPlaceholder": "+ Steuern hinzufügen",
         "addItem": "Artikel hinzufügen",
         "notes": "Anmerkungen",
-        "notePlaceholder": "Zusätzliche Hinweise auf Schätzung sichtbar",
+        "notePlaceholder": "Zusätzliche Hinweise auf Kostenvoranschlag sichtbar",
         "fromDate": "Ab Datum",
         "toDate": "Miteinander ausgehen",
         "status": "Status",
@@ -466,35 +466,35 @@
         "totalAmount": "GESAMTSUMME",
         "alert": {
             "convertToInvoiceDescription": "Möchten Sie diesen Kostenvoranschlag wirklich in eine Rechnung umwandeln?",
-            "removeDescription": "Sie können diese Schätzung nicht wiederherstellen",
+            "removeDescription": "Sie können diesen Kostenvoranschlag nicht wiederherstellen",
             "lessAmount": "Der Gesamtbetrag sollte nicht unter 0 liegen",
             "draftTitle": "Änderungen speichern?",
-            "alreadyInUseNumber": "Die geschätzte Anzahl wurde bereits vergeben.",
+            "alreadyInUseNumber": "Die Kostenvoranschlagsnummer wurde bereits vergeben.",
             "sendEstimate": "Dieser Kostenvoranschlag wird per E-Mail an den Kunden gesendet",
-            "markAsSent": "Diese Schätzung wird als gesendet markiert",
-            "markAsAccept": "Diese Schätzung wird als Akzeptiert markiert",
-            "markAsReject": "Diese Schätzung wird als abgelehnt markiert"
+            "markAsSent": "Dieser Kostenvoranschlag wird als gesendet markiert",
+            "markAsAccept": "Dieser Kostenvoranschlag wird als akzeptiert markiert",
+            "markAsReject": "Dieser Kostenvoranschlag wird als abgelehnt markiert"
         },
         "empty": {
             "sent": {
-                "title": "Sie haben keine Schätzungen gesendet",
-                "description": "Dieser Abschnitt enthält die Liste der gesendeten Schätzungen."
+                "title": "Sie haben keinen Kostenvoranschlag gesendet",
+                "description": "Dieser Abschnitt enthält die Liste der gesendeten Kostenvoranschläge."
             },
             "draft": {
-                "title": "Sie haben keine Schätzungen",
-                "description": "Dieser Abschnitt enthält die Liste der Entwurfsschätzungen."
+                "title": "Sie haben keine Kostenvoranschläge",
+                "description": "Dieser Abschnitt enthält die Liste der Kostenvoranschläge im Statu Entwurf."
             },
             "all": {
-                "title": "Sie haben keine Schätzungen erstellt",
-                "description": "Dieser Abschnitt enthält die Liste der Schätzungen."
+                "title": "Sie haben keine Kostenvoranschläge erstellt",
+                "description": "Dieser Abschnitt enthält die Liste der Kostenvoranschläge."
             },
-            "buttonTitle": "Neue Schätzung hinzufügen"
+            "buttonTitle": "Neuen Kostenvoranschlag hinzufügen"
         },
         "actions": {
             "downloadPdf": "PDF Herunterladen",
-            "sendEstimate": "Schätzung senden",
-            "reSendEstimate": "Schätzung erneut senden",
-            "editEstimate": "Schätzung bearbeiten",
+            "sendEstimate": "Kostenvoranschlag senden",
+            "reSendEstimate": "Kostenvoranschlag erneut senden",
+            "editEstimate": "Kostenvoranschlag bearbeiten",
             "delete": "Löschen",
             "convertToInvoice": "In Rechnung konvertieren",
             "markAsSent": "Als gesendet markieren",
@@ -532,7 +532,7 @@
         "defaultValue": "Standardwert",
         "displayInPortal": "Im Portal anzeigen",
         "placeholder": "Platzhalter",
-        "order":"Auftrag",
+        "order":"Position",
         "yes": "Ja",
         "no": "Nein",
         "help": "Hilfstext",
@@ -624,20 +624,20 @@
         "prefix": {
             "title": "Präfix",
             "invoice": "Rechnungspräfix",
-            "estimate": "Präfix schätzen",
+            "estimate": "Kostenvoranschlagspräfix",
             "payment": "Zahlungspräfix"
         },
         "autoGenerate": {
             "invoice": "Rechnungsnummer automatisch generieren",
             "invoiceDescription": "Deaktivieren Sie diese Option, wenn Sie beim Erstellen einer neuen Rechnung keine Rechnungsnummern automatisch generieren möchten.",
             "estimate": "Autogenerate Estimation Number",
-            "estimateDescription": "Deaktivieren Sie diese Option, wenn Sie beim Erstellen einer neuen Schätzung keine Schätzungsnummern automatisch generieren möchten.",
+            "estimateDescription": "Deaktivieren Sie diese Option, wenn Sie beim Erstellen eines neuen Kostenvoranschläge keine Kostenvoranschlagsnummer automatisch generieren möchten.",
             "payment": "Zahlungsnummer automatisch generieren",
             "paymentDescription": "Deaktivieren Sie diese Option, wenn Sie beim Erstellen einer neuen Zahlung keine Zahlungsnummern automatisch generieren möchten."
         },
         "setting": {
             "invoice": "Rechnungseinstellungen",
-            "estimate": "Einstellungen schätzen",
+            "estimate": "Kostenvoranschlqgseinstellungen",
             "payment": "Zahlungseinstellungen"
         },
         "addresses": {
@@ -648,7 +648,7 @@
             "contact": "KONTAKT",
             "address": "ADRESSE",
             "sendInvoiceEmailBody": "Rechnungs-E-Mail-Text senden",
-            "sendEstimateEmailBody": "Senden Sie einen geschätzten E-Mail-Text",
+            "sendEstimateEmailBody": "Kostenvoranschlags-E-Mail senden",
             "sendPaymentEmailBody": "Zahlungs-E-Mail senden",
             "customerAddress": "Aus dem Kundenadressformat"
         }
@@ -684,14 +684,14 @@
         "description": "Überprüfen Sie, ob Sie die Allgemeinen Geschäftsbedingungen im PDF anzeigen möchten."
     },
     "button": {
-        "remove": "Entfernen",
-        "save": "sparen",
+        "remove": "Löschen",
+        "save": "Speichern",
         "add": "Hinzufügen",
         "edit": "Bearbeiten",
         "retry": "Wiederholen",
         "done": "Erledigt",
         "skip": "Überspringen",
-        "clear": "klar",
+        "clear": "Leeren",
         "viewPdf": "PDF anzeigen",
         "singIn": "Anmelden",
         "singInGoogle": "Anmeldung mit Google",
@@ -702,7 +702,7 @@
         "generateReport": "Bericht generieren",
         "recoveryEmail": "Reset-Link senden",
         "recoveryEmailAgain": "Erneut senden",
-        "cancel": "Stornieren",
+        "cancel": "Abbrechen",
         "send": "Senden",
         "change": "Veränderung"
     },
@@ -719,7 +719,7 @@
     "toast":{
         "send_invoice_successfully": "Rechnung erfolgreich gesendet",
         "send_payment_successfully": "Zahlung erfolgreich gesendet",
-        "send_estimate_successfully": "Schätzung erfolgreich gesendet"
+        "send_estimate_successfully": "Kostenvoranschlag erfolgreich gesendet"
     },
     "validation": {
         "Customer": "Kunde",
