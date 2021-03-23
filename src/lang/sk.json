@@ -379,7 +379,7 @@
             "avatar": "Profilová fotka"
         },
         "notifications": {
-            "send": "Odoslať notifikáciu
+            "send": "Odoslať notifikáciu",
             "invoiceViewed": "Faktúra bola zobrazená",
             "invoiceViewedUpdated": "Nastavenie upozornení bolo úspešne aktualizované",
             "invoiceViewedDescription": "Keď zákazník zobrazí odkaz na faktúru odoslaný e-mailom.",
