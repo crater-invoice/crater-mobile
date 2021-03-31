@@ -18,8 +18,8 @@ import {
     SET_GLOBAL_BOOTSTRAP,
     GLOBAL_TRIGGER_SPINNER,
     SAVE_ENDPOINT_API,
-    GET_APP_VERSION,
-    SET_APP_VERSION
+    CHECK_OTA_UPDATE,
+    SET_LAST_AUTO_UPDATE_DATE
  } from '@/constants';
 
 export const login = (payload: ILoginPayload) => ({
@@ -66,18 +66,18 @@ export const getBootstrap = (payload) => ({
     payload,
 });
 
-export const getAppVersion = (payload) => ({
-    type: GET_APP_VERSION,
-    payload,
+export const checkOTAUpdate = (payload = {}) => ({
+    type: CHECK_OTA_UPDATE,
+    payload
+});
+
+export const setLastAutoUpdateDate = (payload = {}) => ({
+    type: SET_LAST_AUTO_UPDATE_DATE,
+    payload
 });
 
 export const setBootstrap = (payload) => ({
     type: SET_BOOTSTRAP,
-    payload,
-});
-
-export const setAppVersion = (payload) => ({
-    type: SET_APP_VERSION,
     payload,
 });
 

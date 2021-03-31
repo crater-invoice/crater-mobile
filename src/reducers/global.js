@@ -5,8 +5,8 @@ import {
     GLOBAL_TRIGGER_SPINNER,
     DATE_FORMAT,
     SAVE_ENDPOINT_API,
-    SET_APP_VERSION,
-    SET_MAIL_CONFIGURATION
+    SET_MAIL_CONFIGURATION,
+    SET_LAST_AUTO_UPDATE_DATE
 } from '@/constants';
 import {
     SET_TAX,
@@ -36,8 +36,8 @@ const initialState = {
     endpointURL: null,
     mailDriver: null,
     fiscalYear: '2-1',
-    appVersion: '1.0.0',
-    biometryAuthType: null
+    biometryAuthType: null,
+    lastAutoUpdateDate: null
 };
 
 export default function globalReducer(state = initialState, action) {
@@ -58,10 +58,6 @@ export default function globalReducer(state = initialState, action) {
 
         case SET_COMPANY_INFO:
             return { ...state, company: payload.company };
-
-        case SET_APP_VERSION:
-            const { app_version } = payload;
-            return { ...state, appVersion: app_version };
 
         case SET_GLOBAL_BOOTSTRAP:
             const {
@@ -167,6 +163,9 @@ export default function globalReducer(state = initialState, action) {
 
         case SET_BIOMETRY_AUTH_TYPE:
             return { ...state, biometryAuthType: payload };
+
+        case SET_LAST_AUTO_UPDATE_DATE:
+            return { ...state, lastAutoUpdateDate: payload };
 
         default:
             return state;
