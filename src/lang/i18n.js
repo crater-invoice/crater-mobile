@@ -7,7 +7,7 @@ import es from './es.json';
 import de from './de.json';
 import it from './it.json';
 import ar from './ar.json';
-import ar from './sk.json';
+import sk from './sk.json';
 
 Lng.fallbacks = true;
 
