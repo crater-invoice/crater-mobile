@@ -392,10 +392,11 @@ export class Payment extends React.Component<IProps> {
             getUnpaidInvoices,
             unPaidInvoices,
             withLoading,
-            customFields
+            customFields,
+            currency
         } = this.props;
 
-        const { isLoading } = this.state;
+        const { isLoading, selectedCustomer } = this.state;
         const isEditPayment = type === PAYMENT_EDIT;
 
         const hasCustomField = isEditPayment
@@ -534,7 +535,10 @@ export class Payment extends React.Component<IProps> {
                     <Field
                         name={`payment.${FIELDS.AMOUNT}`}
                         component={InputField}
-                        leftIcon={'dollar-sign'}
+                        leftSymbol={
+                            selectedCustomer?.currency?.symbol ??
+                            currency?.symbol
+                        }
                         hint={Lng.t('payments.amount', { locale })}
                         inputProps={{
                             returnKeyType: 'next',

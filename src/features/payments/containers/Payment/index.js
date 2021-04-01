@@ -15,7 +15,7 @@ import { getPaymentMethodsState } from '../../selectors';
 const mapStateToProps = (state, { navigation }) => {
     const {
         customers: { customers },
-        global: { locale },
+        global: { locale, currency },
         settings: { paymentMethods, notes, customFields },
         payments: { loading, unPaidInvoices }
     } = state;
@@ -39,6 +39,7 @@ const mapStateToProps = (state, { navigation }) => {
         id,
         paymentMethods: getPaymentMethodsState(paymentMethods),
         formValues: getFormValues(PAYMENT_FORM)(state) || {},
+        currency,
         initialValues: {
             payment: {
                 [FIELDS.CUSTOMER]: null,

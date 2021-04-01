@@ -243,7 +243,7 @@ export class Item extends React.Component {
             <View style={styles.amountContainer}>
                 <View style={styles.subContainer}>
                     <View>
-                        <Text gray h5 medium style={{marginTop: 6}}>
+                        <Text gray h5 medium style={{ marginTop: 6 }}>
                             {Lng.t('items.subTotal', { locale })}
                         </Text>
                     </View>
@@ -261,7 +261,12 @@ export class Item extends React.Component {
                         !val.compound_tax ? (
                             <View style={styles.subContainer}>
                                 <View>
-                                    <Text gray h5 medium style={{marginTop: 6}}>
+                                    <Text
+                                        gray
+                                        h5
+                                        medium
+                                        style={{ marginTop: 6 }}
+                                    >
                                         {this.getTaxName(val)} ({val.percent} %)
                                     </Text>
                                 </View>
@@ -281,7 +286,12 @@ export class Item extends React.Component {
                         val.compound_tax ? (
                             <View style={styles.subContainer}>
                                 <View>
-                                    <Text gray h5 medium style={{marginTop: 6}}>
+                                    <Text
+                                        gray
+                                        h5
+                                        medium
+                                        style={{ marginTop: 6 }}
+                                    >
                                         {this.getTaxName(val)} ({val.percent} %)
                                     </Text>
                                 </View>
@@ -302,7 +312,7 @@ export class Item extends React.Component {
 
                 <View style={styles.subContainer}>
                     <View>
-                        <Text gray h5 medium style={{marginTop: 6}}>
+                        <Text gray h5 medium style={{ marginTop: 6 }}>
                             {Lng.t('items.finalAmount', { locale })}
                         </Text>
                     </View>
@@ -411,7 +421,8 @@ export class Item extends React.Component {
             type,
             units,
             formValues,
-            getItemUnits
+            getItemUnits,
+            currency
         } = this.props;
         const { isTaxPerItem, isLoading } = this.state;
         const isCreateItem = type === ADD_ITEM;
@@ -455,6 +466,7 @@ export class Item extends React.Component {
                         name="price"
                         component={InputField}
                         isRequired
+                        leftSymbol={currency?.symbol}
                         hint={Lng.t('items.price', { locale })}
                         inputProps={{
                             returnKeyType: 'next',

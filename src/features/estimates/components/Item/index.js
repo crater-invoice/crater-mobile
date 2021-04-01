@@ -265,7 +265,7 @@ export class EstimateItem extends React.Component {
                 {(discountPerItem === 'YES' || discountPerItem === '1') && (
                     <View style={styles.subContainer}>
                         <View>
-                            <Text gray h5 medium style={{marginTop: 6}}>
+                            <Text gray h5 medium style={{ marginTop: 6 }}>
                                 {Lng.t('items.finalDiscount', { locale })}
                             </Text>
                         </View>
@@ -284,7 +284,12 @@ export class EstimateItem extends React.Component {
                         !val.compound_tax ? (
                             <View style={styles.subContainer} key={index}>
                                 <View>
-                                    <Text gray h5 medium style={{marginTop: 6}}>
+                                    <Text
+                                        gray
+                                        h5
+                                        medium
+                                        style={{ marginTop: 6 }}
+                                    >
                                         {this.getTaxName(val)} ({val.percent} %)
                                     </Text>
                                 </View>
@@ -304,7 +309,12 @@ export class EstimateItem extends React.Component {
                         val.compound_tax ? (
                             <View style={styles.subContainer}>
                                 <View>
-                                    <Text gray h5 medium style={{marginTop: 6}}>
+                                    <Text
+                                        gray
+                                        h5
+                                        medium
+                                        style={{ marginTop: 6 }}
+                                    >
                                         {this.getTaxName(val)} ({val.percent} %)
                                     </Text>
                                 </View>
@@ -325,7 +335,7 @@ export class EstimateItem extends React.Component {
 
                 <View style={styles.subContainer}>
                     <View>
-                        <Text gray h5 medium style={{marginTop: 6}}>
+                        <Text gray h5 medium style={{ marginTop: 6 }}>
                             {Lng.t('items.finalAmount', { locale })}
                         </Text>
                     </View>
@@ -388,6 +398,7 @@ export class EstimateItem extends React.Component {
             getItemUnits
         } = this.props;
 
+        const currency = navigation.getParam('currency');
         const isCreateItem = type === ITEM_ADD;
         let itemRefs = {};
 
@@ -450,6 +461,7 @@ export class EstimateItem extends React.Component {
                                 name="price"
                                 isRequired
                                 component={InputField}
+                                leftSymbol={currency?.symbol}
                                 hint={Lng.t('items.price', { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',

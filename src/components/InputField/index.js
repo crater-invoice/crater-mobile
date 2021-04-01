@@ -219,6 +219,7 @@ export class InputFieldComponent extends Component<IInputField> {
                             {...leftIconSymbol}
                             inputStyle={[
                                 styles.input,
+                                leftSymbol && styles.withLeftSymbolText,
                                 active && styles.activeInput,
                                 textColor && { color: textColor },
                                 textStyle && textStyle,

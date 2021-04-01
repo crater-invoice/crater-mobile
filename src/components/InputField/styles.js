@@ -1,6 +1,7 @@
 import { StyleSheet, Platform } from 'react-native';
 import { colors, fonts } from '@/styles';
 import { isRTL } from '@/utils';
+import { isIosPlatform } from '@/constants';
 
 export default StyleSheet.create({
     hintFocused: {
@@ -131,5 +132,8 @@ export default StyleSheet.create({
         alignContent: 'center',
         paddingLeft: 10,
         paddingRight: 5
+    },
+    withLeftSymbolText: {
+        paddingTop: isIosPlatform() ? 1 : 4
     }
 });
