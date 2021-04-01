@@ -12,6 +12,7 @@ import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { hasValue } from '@/constants';
 import { Text } from '../Text';
+
 export class InputFieldComponent extends Component<IInputField> {
     constructor(props) {
         super(props);
@@ -21,14 +22,32 @@ export class InputFieldComponent extends Component<IInputField> {
             active: false,
             inputHeight: 0,
             isOptionsVisible: false,
-            autoHeight: props?.defaultHeight ? props?.defaultHeight : null
+            autoHeight: props?.defaultHeight ? props?.defaultHeight : null,
+            inputVal: ''
         };
     }
 
     componentDidMount() {
+        this.initialValue(this.props.input?.value);
         this.setHeight = debounce(this.setHeight, 100);
         this.onErrorCallback = debounce(this.onErrorCallback, 200);
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps?.input?.value !== this.props.input?.value)
+            this.initialValue(nextProps?.input?.value);
+    }
+
+    initialValue = value => {
+        const { isCurrencyInput } = this.props;
+
+        if (value && isCurrencyInput && this.isNumber(value)) {
+            this.setState({ inputVal: `${value / 100}` });
+            return;
+        }
+
+        this.setState({ inputVal: `${value}` });
+    };
 
     toggleSecureTextEntry = () => {
         this.setState(({ isSecureTextEntry }) => ({
@@ -79,7 +98,7 @@ export class InputFieldComponent extends Component<IInputField> {
 
     render() {
         const {
-            input: { onChange, onBlur, onFocus, value },
+            input: { onChange, onFocus },
             hint,
             meta: { error, submitFailed },
             secureTextEntry,
@@ -122,20 +141,12 @@ export class InputFieldComponent extends Component<IInputField> {
             isSecureTextEntry,
             active,
             inputHeight,
-            isOptionsVisible
+            isOptionsVisible,
+            inputVal
         } = this.state;
 
         const sign = this.getSign();
         const isOptions = autocomplete && isOptionsVisible && !!options.length;
-
-        let initialValueProps = {};
-
-        if (value && isCurrencyInput && this.isNumber(value)) {
-            const newValue = value / 100;
-            initialValueProps = { value: `${newValue}` };
-        } else {
-            initialValueProps = { defaultValue: `${value}` };
-        }
 
         !hideError && onError && this.onErrorCallback(error);
 
@@ -160,7 +171,9 @@ export class InputFieldComponent extends Component<IInputField> {
             leftIconSymbol = {
                 leftIcon: (
                     <View style={styles.leftSymbolView}>
-                        <Text secondary width style={styles.leftSymbol}>{leftSymbol}</Text>
+                        <Text secondary width style={styles.leftSymbol}>
+                            {leftSymbol}
+                        </Text>
                     </View>
                 )
             };
@@ -192,9 +205,7 @@ export class InputFieldComponent extends Component<IInputField> {
                 {hint && (
                     <Text secondary medium h5 style={hintStyle && hintStyle}>
                         {hint}
-                        {isRequired ? (
-                            <Text danger> *</Text>
-                        ) : null}
+                        {isRequired ? <Text danger> *</Text> : null}
                     </Text>
                 )}
 
@@ -227,10 +238,11 @@ export class InputFieldComponent extends Component<IInputField> {
                             {...autoHeightInputProps}
                             {...methods}
                             onChangeText={enteredValue => {
+                                this.setState({ inputVal: enteredValue });
                                 onChangeText?.(enteredValue);
 
                                 isCurrencyInput && this.isNumber(enteredValue)
-                                    ? onChange(enteredValue * 100)
+                                    ? onChange(Math.round(enteredValue * 100))
                                     : onChange(enteredValue);
                             }}
                             onFocus={event => {
@@ -243,7 +255,7 @@ export class InputFieldComponent extends Component<IInputField> {
                                     onFocus(event);
                                 }
                             }}
-                            {...initialValueProps}
+                            defaultValue={`${inputVal}`}
                             secureTextEntry={isSecureTextEntry}
                             ref={ref => refLinkFn?.(ref)}
                             placeholderTextColor={colors.darkGray}
@@ -255,7 +267,11 @@ export class InputFieldComponent extends Component<IInputField> {
                         />
                     </View>
                     {sign && (
-                        <Text positionAbsolute style={styles.signField} opacity={0.6}>
+                        <Text
+                            positionAbsolute
+                            style={styles.signField}
+                            opacity={0.6}
+                        >
                             {sign}
                         </Text>
                     )}
@@ -299,7 +315,12 @@ export class InputFieldComponent extends Component<IInputField> {
                         </View>
                     )}
                     {!(submitFailed && error) && !isOptions && tip && (
-                        <Text white positionAbsolute numberOfLines={3} style={styles.inputTip}>
+                        <Text
+                            white
+                            positionAbsolute
+                            numberOfLines={3}
+                            style={styles.inputTip}
+                        >
                             {tip}
                         </Text>
                     )}
