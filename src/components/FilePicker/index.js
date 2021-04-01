@@ -17,6 +17,7 @@ import Dropdown from '../Dropdown';
 import { IMAGES } from '@/assets';
 import { styles } from './styles';
 import { Text } from '../Text';
+import { CacheImage } from '../CacheImage';
 
 interface IProps {
     label: String;
@@ -31,6 +32,7 @@ interface IProps {
     fileLoading: Function;
     uploadedFileUrl: String;
     uploadedFileType: String;
+    showUploadedImageAsCache: boolean;
 }
 
 interface IStates {
@@ -260,7 +262,8 @@ export class FilePicker extends Component<IProps, IStates> {
             imageStyle,
             locale,
             uploadedFileType,
-            hasAvatar
+            hasAvatar,
+            showUploadedImageAsCache = true
         } = this.props;
 
         const fileView = (
@@ -321,7 +324,36 @@ export class FilePicker extends Component<IProps, IStates> {
         }
 
         if (uploadedFileUrl) {
-            return imageView(uploadedFileUrl);
+            if (!showUploadedImageAsCache) {
+                return imageView(uploadedFileUrl);
+            }
+
+            const getImageName = () => {
+                const split = uploadedFileUrl?.split('/') ?? [];
+                return `${split?.[split.length - 2]}-${
+                    split?.[split.length - 1]
+                }`;
+            };
+
+            const imageName = getImageName();
+
+            return hasAvatar ? (
+                <CacheImage
+                    uri={uploadedFileUrl}
+                    imageName={imageName}
+                    resizeMode="stretch"
+                    style={styles.uploadedImage}
+                />
+            ) : (
+                <View style={[styles.imageContainer, imageContainerStyle]}>
+                    <CacheImage
+                        uri={uploadedFileUrl}
+                        imageName={imageName}
+                        style={styles.uploadedFullImage}
+                        resizeMode="contain"
+                    />
+                </View>
+            );
         }
 
         if (hasAvatar) {
@@ -354,7 +386,17 @@ export class FilePicker extends Component<IProps, IStates> {
 
         return (
             <View style={[styles.mainContainer, containerStyle]}>
-                {label && <Text secondary medium h5 margin-bottom-1 style={styles.label}>{label}</Text>}
+                {label && (
+                    <Text
+                        secondary
+                        medium
+                        h5
+                        margin-bottom-1
+                        style={styles.label}
+                    >
+                        {label}
+                    </Text>
+                )}
 
                 <Dropdown
                     ref={this.actionSheet}

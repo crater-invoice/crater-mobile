@@ -59,5 +59,11 @@ export const styles = StyleSheet.create({
     },
     loadImage: {
         width: wp('88%')
+    },
+    uploadedImage: {
+        height: '100%'
+    },
+    uploadedFullImage: {
+        height: 110
     }
 });

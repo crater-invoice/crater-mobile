@@ -305,6 +305,7 @@ export class Expense extends React.Component<IProps, IState> {
                                 ? imageUrl
                                 : null
                         }
+                        showUploadedImageAsCache={false}
                     />
 
                     <Field
