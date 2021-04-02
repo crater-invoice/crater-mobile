@@ -54,7 +54,7 @@ export const formatMoney = (amount, currency = 0) => {
         currency = { precision: 2, thousand_separator: ',', decimal_separator: '.', symbol: '$' }
     }
 
-    let { precision, decimal_separator, thousand_separator, symbol } = currency
+    let { precision, decimal_separator, thousand_separator, symbol, swap_currency_symbol } = currency
 
     try {
         precision = Math.abs(precision)
@@ -66,7 +66,7 @@ export const formatMoney = (amount, currency = 0) => {
         let j = (i.length > 3) ? i.length % 3 : 0
 
         // return symbol + ' ' + negativeSign + (j ? i.substr(0, j) + thousand_separator : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousand_separator) + (precision ? decimal_separator + Math.abs(amount - i).toFixed(precision).slice(2) : '')
-        return { symbol, money: negativeSign + (j ? i.substr(0, j) + thousand_separator : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousand_separator) + (precision ? decimal_separator + Math.abs(amount - i).toFixed(precision).slice(2) : '') }
+        return { symbol, money: negativeSign + (j ? i.substr(0, j) + thousand_separator : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousand_separator) + (precision ? decimal_separator + Math.abs(amount - i).toFixed(precision).slice(2) : ''), swap_currency_symbol }
 
     } catch (e) {
         // console.log(e)

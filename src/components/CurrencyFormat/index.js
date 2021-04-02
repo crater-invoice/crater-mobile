@@ -26,24 +26,25 @@ export class CurrencyFormat extends Component<IProps> {
             currencyStyle,
             moneyStyle
         } = this.props;
-        const { symbol, money } = formatMoney(amount, currency);
+        const { symbol, money, swap_currency_symbol } = formatMoney(amount, currency);
+        const combinedSymbolStyle = [style && style, currencyStyle && currencyStyle, SymbolStyle];
+        const combinedMoneyStyle = [style, moneyStyle];
+
+        let firstComponent = (swap_currency_symbol ? money : symbol);
+        let firstComponentStyle = (swap_currency_symbol ? combinedMoneyStyle : combinedSymbolStyle);
+        let secondComponent = (swap_currency_symbol ? symbol : money);
+        let secondComponentStyle = (swap_currency_symbol ? combinedSymbolStyle : combinedMoneyStyle);
+
         return (
             <View style={[styles.container, containerStyle && containerStyle]}>
                 <Text numberOfLines={1} style={style && style}>
                     {preText && preText}
                 </Text>
-                <Text
-                    numberOfLines={1}
-                    style={[
-                        style && style,
-                        currencyStyle && currencyStyle,
-                        SymbolStyle
-                    ]}
-                >
-                    {symbol}{' '}
+                <Text numberOfLines={1} style={firstComponentStyle}>
+                    {firstComponent}
                 </Text>
-                <Text numberOfLines={1} style={[style, moneyStyle]}>
-                    {money}
+                <Text numberOfLines={1} style={secondComponentStyle}>
+                    {secondComponent}
                 </Text>
             </View>
         );
