@@ -541,7 +541,7 @@ export class Payment extends React.Component<IProps> {
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
-                            keyboardType: 'numeric'
+                            keyboardType: 'decimal-pad'
                         }}
                         isCurrencyInput
                         isRequired
