@@ -65,7 +65,7 @@ function* getCreatePayment({ payload: { onSuccess } }) {
 }
 
 function* createPayment({ payload }) {
-    const { params, navigation, submissionError } = payload;
+    const { params, navigation, hasRecordPayment, submissionError } = payload;
 
     yield put(spinner({ paymentLoading: true }));
 
@@ -93,7 +93,9 @@ function* createPayment({ payload }) {
             return;
         }
 
-        navigation.goBack(null);
+        !hasRecordPayment
+            ? navigation.goBack(null)
+            : navigation.navigate(ROUTES.MAIN_INVOICES);
     } catch (e) {
     } finally {
         yield put(spinner({ paymentLoading: false }));
