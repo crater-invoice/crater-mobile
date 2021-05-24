@@ -114,7 +114,7 @@ const FinalAmount = ({ state, props }) => {
                                 returnKeyType: 'next',
                                 autoCapitalize: 'none',
                                 autoCorrect: true,
-                                keyboardType: 'numeric'
+                                keyboardType: 'decimal-pad'
                             }}
                             fieldStyle={styles.fieldStyle}
                         />

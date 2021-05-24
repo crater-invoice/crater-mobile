@@ -172,7 +172,7 @@ export class Tax extends React.Component {
                         hint={Lng.t('taxes.percentage', { locale }) + ' (%)'}
                         inputProps={{
                             returnKeyType: 'next',
-                            keyboardType: 'numeric',
+                            keyboardType: 'decimal-pad',
                             onSubmitEditing: () => {
                                 taxRefs.description.focus();
                             }

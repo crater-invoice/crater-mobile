@@ -322,7 +322,7 @@ export class Expense extends React.Component<IProps, IState> {
                         leftIcon={'dollar-sign'}
                         inputProps={{
                             returnKeyType: 'go',
-                            keyboardType: 'numeric'
+                            keyboardType: 'decimal-pad'
                         }}
                         isCurrencyInput
                     />
