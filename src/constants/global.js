@@ -57,6 +57,7 @@ export const alertMe = ({
 export const KEYBOARD_TYPE = {
     DEFAULT: 'default',
     NUMERIC: 'numeric',
+    DECIMAL: 'decimal-pad',
     EMAIL: 'email-address',
     PHONE: 'phone-pad',
     URL: 'url'
