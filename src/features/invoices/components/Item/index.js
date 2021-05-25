@@ -454,7 +454,7 @@ export class InvoiceItem extends React.Component {
                                 hint={Lng.t('items.price', { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',
-                                    keyboardType: 'numeric'
+                                    keyboardType: 'decimal-pad'
                                 }}
                                 refLinkFn={ref => {
                                     itemRefs.price = ref;
@@ -516,7 +516,7 @@ export class InvoiceItem extends React.Component {
                                     returnKeyType: 'next',
                                     autoCapitalize: 'none',
                                     autoCorrect: true,
-                                    keyboardType: 'numeric'
+                                    keyboardType: 'decimal-pad'
                                 }}
                                 disabled={discount_type === 'none'}
                             />

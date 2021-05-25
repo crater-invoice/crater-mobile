@@ -472,7 +472,7 @@ export class Item extends React.Component {
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
                             autoCorrect: true,
-                            keyboardType: 'numeric'
+                            keyboardType: 'decimal-pad'
                         }}
                         isCurrencyInput
                         refLinkFn={ref => {

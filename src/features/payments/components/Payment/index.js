@@ -186,6 +186,7 @@ export class Payment extends React.Component<IProps> {
             updatePayment,
             navigation,
             locale,
+            hasRecordPayment,
             id
         } = this.props;
 
@@ -227,6 +228,7 @@ export class Payment extends React.Component<IProps> {
             createPayment({
                 params,
                 navigation,
+                hasRecordPayment,
                 submissionError: errors =>
                     handleSubmit(() => this.throwError(errors, locale))()
             });
@@ -543,7 +545,7 @@ export class Payment extends React.Component<IProps> {
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
-                            keyboardType: 'numeric'
+                            keyboardType: 'decimal-pad'
                         }}
                         isCurrencyInput
                         isRequired

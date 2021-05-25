@@ -24,7 +24,7 @@ export const itemsFilterFields = ({ props, setFormField }) => {
             refLinkFn: ref => (filterRefs.price = ref),
             inputProps: {
                 returnKeyType: 'next',
-                keyboardType: 'numeric'
+                keyboardType: 'decimal-pad'
             }
         }
     ];
