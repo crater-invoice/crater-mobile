@@ -41,7 +41,7 @@ export class CurrencyFormat extends Component<IProps> {
                     {preText && preText}
                 </Text>
                 <Text numberOfLines={1} style={firstComponentStyle}>
-                    {firstComponent}
+                {`${firstComponent} `}
                 </Text>
                 <Text numberOfLines={1} style={secondComponentStyle}>
                     {secondComponent}

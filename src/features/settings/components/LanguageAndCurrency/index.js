@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { View } from 'react-native';
+import { find } from 'lodash';
 import styles from './styles';
 import { DefaultLayout, CtButton, SelectField } from '@/components';
 import { Field, change } from 'redux-form';
@@ -175,6 +176,21 @@ export class LanguageAndCurrency extends React.Component<IProps> {
         );
     };
 
+    getSelectedCurrencySymbol = () => {
+        const { currencyList } = this.state;
+        const { formValues } = this.props;
+
+        if (!isArray(currencyList) || !formValues?.currency) {
+            return null;
+        }
+
+        const currency = find(currencyList, {
+            fullItem: { id: Number(formValues.currency) }
+        });
+
+        return currency?.fullItem?.symbol;
+    };
+
     render() {
         const {
             navigation,
@@ -261,7 +277,6 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                         label={Lng.t('settings.preferences.currency', {
                             locale
                         })}
-                        icon="dollar-sign"
                         rightIcon="angle-right"
                         placeholder={
                             currency
@@ -280,7 +295,8 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                         compareField="id"
                         fakeInputProps={{
                             valueStyle: styles.selectedField,
-                            placeholderStyle: styles.selectedField
+                            placeholderStyle: styles.selectedField,
+                            leftSymbol: this.getSelectedCurrencySymbol()
                         }}
                         onSelect={val => {
                             this.setFormField('currency', val.id);

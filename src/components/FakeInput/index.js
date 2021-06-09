@@ -48,6 +48,8 @@ export class FakeInputComponent extends Component<IProps> {
         const {
             label,
             icon,
+            leftSymbol,
+            leftSymbolStyle,
             onChangeCallback,
             placeholder,
             containerStyle,
@@ -186,13 +188,26 @@ export class FakeInputComponent extends Component<IProps> {
                                     />
                                 )}
 
+                                {leftSymbol && (
+                                    <View style={styles.leftSymbolView}>
+                                        <Text medium style={[styles.leftSymbol,leftSymbolStyle]}>
+                                            {leftSymbol}
+                                        </Text>
+                                    </View>
+                                )}
+
                                 {values ? (
                                     <Text
                                         numberOfLines={1}
                                         style={[
                                             styles.textValue,
                                             color && { color: color },
-                                            icon && { paddingLeft: 39 },
+                                            icon && {
+                                                paddingLeft: 39
+                                            },
+                                            leftSymbol && {
+                                                paddingLeft: 50
+                                            },
                                             rightIcon && styles.hasRightIcon,
                                             valueStyle && valueStyle,
                                             disabled && { opacity: 0.5 }
@@ -207,7 +222,12 @@ export class FakeInputComponent extends Component<IProps> {
                                             styles.placeholderText,
                                             placeholderStyle &&
                                                 placeholderStyle,
-                                            icon && { paddingLeft: 39 },
+                                            icon && {
+                                                paddingLeft: 39
+                                            },
+                                            leftSymbol && {
+                                                paddingLeft: 50
+                                            },
                                             rightIcon && styles.hasRightIcon,
                                             color && { color: color },
                                             disabled && { opacity: 0.5 }

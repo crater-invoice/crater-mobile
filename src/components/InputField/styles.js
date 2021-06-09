@@ -1,6 +1,7 @@
 import { StyleSheet, Platform } from 'react-native';
 import { colors, fonts } from '@/styles';
 import { isRTL } from '@/utils';
+import { isIosPlatform } from '@/constants'
 
 export default StyleSheet.create({
     hint: {
@@ -135,8 +136,10 @@ export default StyleSheet.create({
     // left Symbol
     leftSymbol: {
         fontSize: 20,
-        color: colors.secondary,
-        width: '100%'
+        color: colors.darkGray,
+        width: '100%',
+        fontWeight: '500',
+        ...!isIosPlatform() && {marginTop:-5}
     },
     leftSymbolView: {
         height: '100%',

@@ -388,6 +388,7 @@ export class InvoiceItem extends React.Component {
 
         const isCreateItem = type === ITEM_ADD;
         let itemRefs = {};
+        const currency = navigation.getParam('currency');
 
         return (
             <DefaultLayout
@@ -456,6 +457,7 @@ export class InvoiceItem extends React.Component {
                                 refLinkFn={ref => {
                                     itemRefs.price = ref;
                                 }}
+                                leftSymbol={currency?.symbol}
                                 isCurrencyInput
                             />
                         </View>

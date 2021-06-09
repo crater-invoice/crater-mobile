@@ -133,7 +133,8 @@ export class InputFieldComponent extends Component<IInputField> {
             secureTextIconContainerStyle,
             leftSymbol,
             autoHeight = false,
-            onError
+            onError,
+            currency
         } = this.props;
 
         const {
@@ -164,6 +165,15 @@ export class InputFieldComponent extends Component<IInputField> {
                     styles.leftIcon,
                     leftIconStyle && leftIconStyle
                 ]
+            };
+        }
+        if (isCurrencyInput && currency?.symbol) {
+            leftIconSymbol = {
+                leftIcon: (
+                    <View style={styles.leftSymbolView}>
+                        <Text style={styles.leftSymbol}>{currency.symbol}</Text>
+                    </View>
+                )
             };
         }
         if (leftSymbol) {
@@ -324,7 +334,8 @@ export class InputFieldComponent extends Component<IInputField> {
 }
 
 const mapStateToProps = ({ global }) => ({
-    locale: global?.locale
+    locale: global?.locale,
+    currency: global?.currency
 });
 
 const mapDispatchToProps = {};

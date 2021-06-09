@@ -398,8 +398,8 @@ export class Payment extends React.Component<IProps> {
             withLoading,
             customFields
         } = this.props;
+        const { isLoading, selectedCustomer } = this.state;
 
-        const { isLoading } = this.state;
         const isEditPayment = type === PAYMENT_EDIT;
 
         const hasCustomField = isEditPayment
@@ -545,6 +545,7 @@ export class Payment extends React.Component<IProps> {
                             autoCorrect: true,
                             keyboardType: 'decimal-pad'
                         }}
+                        leftSymbol={selectedCustomer?.currency?.symbol}
                         isCurrencyInput
                         isRequired
                     />

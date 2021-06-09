@@ -161,5 +161,23 @@ export default StyleSheet.create({
                 top: 3.5
             }
         })
+    },
+    // left Symbol
+    leftSymbol: {
+        color: colors.darkGray,
+        fontSize: 18,
+        fontFamily: fonts.poppinsMedium
+    },
+    leftSymbolView: {
+        position: 'absolute',
+        zIndex: 20,
+        left: 15,
+        top: 9,
+        ...Platform.select({
+            android: {
+                left: 15,
+                top: 8
+            }
+        })
     }
 });

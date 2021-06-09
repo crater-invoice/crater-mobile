@@ -157,10 +157,8 @@ export class Item extends React.Component {
     };
 
     totalAmount = () => {
-        const {
-            formValues: { price }
-        } = this.props;
-
+        const { formValues } = this.props;
+        const price = formValues?.price ?? 0;
         return price + this.itemTax();
     };
 
@@ -199,9 +197,8 @@ export class Item extends React.Component {
     };
 
     getTaxValue = tax => {
-        const {
-            formValues: { price }
-        } = this.props;
+        const { formValues } = this.props;
+        const price = formValues?.price ?? 0;
         return (tax * price) / 100;
     };
 
@@ -234,10 +231,11 @@ export class Item extends React.Component {
     FINAL_AMOUNT = () => {
         const {
             locale,
-            formValues: { taxes, price },
+            formValues: { taxes },
+            formValues,
             navigation
         } = this.props;
-
+        const price = formValues?.price ?? 0;
         const currency = navigation.getParam('currency');
 
         return (
