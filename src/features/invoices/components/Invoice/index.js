@@ -25,7 +25,8 @@ import {
     FakeInput,
     SendMail,
     CustomField,
-    Text
+    Text,
+    Label
 } from '@/components';
 import {
     INVOICE_ADD,
@@ -669,10 +670,9 @@ export class Invoice extends React.Component<IProps, IStates> {
                         reference={ref => (this.customerReference = ref)}
                     />
 
-                    <Text dark3 h5 medium style={styles.label}>
+                    <Label isRequired style={styles.label}>
                         {Lng.t('invoices.items', { locale })}
-                        <Text danger> *</Text>
-                    </Text>
+                    </Label>
 
                     <ListView
                         items={this.getInvoiceItemList(invoiceItems)}

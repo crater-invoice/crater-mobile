@@ -1,11 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import {
-    View,
-    TouchableWithoutFeedback,
-    TouchableOpacity
-} from 'react-native';
+import { View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Field } from 'redux-form';
 import styles from './styles';
@@ -15,6 +11,7 @@ import Lng from '@/lang/i18n';
 import { InputField } from '../InputField';
 import { AssetIcon } from '../AssetIcon';
 import { Text } from '../Text';
+import { Label } from '../Label';
 
 type IProps = {
     label: String,
@@ -71,14 +68,7 @@ export class FakeInputComponent extends Component<IProps> {
 
         return (
             <View style={[styles.container, containerStyle && containerStyle]}>
-                {label && (
-                    <Text dark2 left style={styles.label}>
-                        {label}
-                        {isRequired ? (
-                            <Text danger> *</Text>
-                        ) : null}
-                    </Text>
-                )}
+                <Label isRequired={isRequired}>{label}</Label>
                 {fakeInput ? (
                     <TouchableWithoutFeedback
                         onPress={() => onChangeCallback && onChangeCallback()}
@@ -204,7 +194,7 @@ export class FakeInputComponent extends Component<IProps> {
                                     </Text>
                                 ) : (
                                     <Text
-                                      darkGray
+                                        darkGray
                                         numberOfLines={1}
                                         style={[
                                             styles.placeholderText,
@@ -235,11 +225,7 @@ export class FakeInputComponent extends Component<IProps> {
 
                 {submitFailed && error && (
                     <View style={styles.validation}>
-                        <Text
-                            white
-                            h6
-                            numberOfLines={1}
-                        >
+                        <Text white h6 numberOfLines={1}>
                             {Lng.t(error, {
                                 locale,
                                 hint: label

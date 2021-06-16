@@ -15,7 +15,7 @@ import {
     FakeInput,
     SendMail,
     CustomField,
-    Text
+    Label
 } from '@/components';
 import {
     ESTIMATE_ADD,
@@ -587,10 +587,6 @@ export class Estimate extends React.Component<IProps> {
                     title: isEditEstimate
                         ? Lng.t('header.editEstimate', { locale })
                         : Lng.t('header.addEstimate', { locale }),
-                    titleStyle: headerTitle({
-                        marginLeft: -15,
-                        marginRight: -15
-                    }),
                     rightIcon: !isEditEstimate ? 'save' : null,
                     rightIconPress: handleSubmit(this.saveEstimate),
                     rightIconProps: {
@@ -696,10 +692,9 @@ export class Estimate extends React.Component<IProps> {
                         reference={ref => (this.customerReference = ref)}
                     />
 
-                    <Text dark3 medium h5 style={styles.label}>
+                    <Label isRequired style={styles.label}>
                         {Lng.t('estimates.items', { locale })}
-                        <Text danger> *</Text>
-                    </Text>
+                    </Label>
 
                     <ListView
                         items={this.getEstimateItemList(estimateItems)}

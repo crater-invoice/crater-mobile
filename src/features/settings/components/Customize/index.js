@@ -452,10 +452,6 @@ export class Customize extends React.Component<IProps> {
                 headerProps={{
                     leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZES),
                     title: Lng.t(data.headerTitle, { locale }),
-                    titleStyle: headerTitle({
-                        marginLeft: -26,
-                        marginRight: -50
-                    }),
                     rightIconPress: null,
                     placement: 'center'
                 }}

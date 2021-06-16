@@ -13,13 +13,13 @@ export const styles = StyleSheet.create({
     content: {
         flex: 1
     },
-    headerTitleStyle: {
-        fontSize: 30,
+    headerTitleStyle: medium => ({
+        fontSize: medium ? 17 : 30,
         color: colors.dark2,
         fontWeight: '600',
         fontFamily: fonts.poppinsMedium,
         textAlign: 'left'
-    },
+    }),
     inputField: {
         paddingHorizontal: 20,
         paddingVertical: 0,

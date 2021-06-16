@@ -160,7 +160,6 @@ export class Company extends React.Component<IProps> {
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
                     title: Lng.t('header.setting.company', { locale }),
-                    titleStyle: styles.titleStyle,
                     placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {

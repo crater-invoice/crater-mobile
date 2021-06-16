@@ -12,6 +12,7 @@ import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { hasValue } from '@/constants';
 import { Text } from '../Text';
+import { Label } from '../Label';
 
 export class InputFieldComponent extends Component<IInputField> {
     constructor(props) {
@@ -202,12 +203,9 @@ export class InputFieldComponent extends Component<IInputField> {
                     fieldStyle && { ...fieldStyle }
                 ]}
             >
-                {hint && (
-                    <Text secondary medium h5 style={hintStyle && hintStyle}>
-                        {hint}
-                        {isRequired ? <Text danger> *</Text> : null}
-                    </Text>
-                )}
+                <Label h5 isRequired={isRequired} style={hintStyle}>
+                    {hint}
+                </Label>
 
                 <View style={styles.inputWrapper}>
                     <View onLayout={this.saveInputHeight}>

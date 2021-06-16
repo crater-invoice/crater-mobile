@@ -107,10 +107,6 @@ export class Account extends React.Component<IProps> {
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
                     title: Lng.t('header.setting.account', { locale }),
-                    titleStyle: headerTitle({
-                        marginLeft: -20,
-                        marginRight: -25
-                    }),
                     placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {
@@ -217,9 +213,7 @@ export class Account extends React.Component<IProps> {
                         <Text secondary h4>
                             {Lng.t('settings.account.version', { locale })}
                             {'  '}
-                            <Text bold2>
-                                {env.APP_VERSION}
-                            </Text>
+                            <Text bold2>{env.APP_VERSION}</Text>
                         </Text>
                     </View>
                 </View>

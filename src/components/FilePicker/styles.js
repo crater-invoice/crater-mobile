@@ -55,7 +55,8 @@ export const styles = StyleSheet.create({
         paddingTop: 5
     },
     label: {
-        paddingBottom: 7
+        paddingBottom: 8,
+        marginLeft: -2
     },
     loadImage: {
         width: wp('88%')

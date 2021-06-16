@@ -105,7 +105,6 @@ export class Items extends React.Component<IProps> {
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
             title: Lng.t('header.items', { locale }),
-            titleStyle: styles.headerTitle,
             rightIcon: 'plus',
             placement: 'center',
             rightIcon: 'plus',

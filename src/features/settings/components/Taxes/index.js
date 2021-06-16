@@ -69,7 +69,6 @@ export class Taxes extends React.Component {
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
             title: Lng.t('header.taxes', { locale }),
-            titleStyle: styles.headerTitle,
             placement: 'center',
             rightIcon: 'plus',
             rightIconPress: () =>

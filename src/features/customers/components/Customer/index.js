@@ -235,7 +235,6 @@ export class Customer extends React.Component<IProps> {
                     title: isEditScreen
                         ? Lng.t('header.editCustomer', { locale })
                         : Lng.t('header.addCustomer', { locale }),
-                    titleStyle: styles.headerTitle,
                     placement: 'center',
                     rightIcon: !isEditScreen ? 'save' : null,
                     rightIconProps: {
@@ -351,10 +350,6 @@ export class Customer extends React.Component<IProps> {
                             }
                             headerProps={{
                                 title: Lng.t('currencies.title', { locale }),
-                                titleStyle: headerTitle({
-                                    marginLeft: -30,
-                                    marginRight: -65
-                                }),
                                 rightIconPress: null
                             }}
                             listViewProps={{

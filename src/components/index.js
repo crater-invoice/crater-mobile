@@ -48,3 +48,4 @@ export * from './CircularProgress';
 export * from './AssetIcon';
 export * from './Text';
 export * from './CacheImage';
+export * from './Label';

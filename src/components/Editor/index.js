@@ -27,6 +27,7 @@ import { HtmlView } from '../HtmlView';
 import { PENCIL_ICON, EYE_ICON } from '@/assets';
 import { colors } from '@/styles';
 import { Text } from '../Text';
+import { Label } from '../Label';
 
 export const PLACEHOLDER_TYPES = {
     CUSTOMER: 'Customer',
@@ -302,7 +303,13 @@ export class Editor extends Component<IProps, IStates> {
                                     height={14}
                                 />
                             </View>
-                            <Text darkGray2 h4 medium style={styles.itemText} numberOfLines={1}>
+                            <Text
+                                darkGray2
+                                h4
+                                medium
+                                style={styles.itemText}
+                                numberOfLines={1}
+                            >
                                 {field.label}
                             </Text>
                         </TouchableOpacity>
@@ -348,12 +355,9 @@ export class Editor extends Component<IProps, IStates> {
                 style={[styles.row, labelStyle, preview && previewLabelStyle]}
             >
                 <View style={{ flex: 1 }}>
-                    <Text dark2 h5>
+                    <Label h5 isRequired>
                         {Lng.t(this.props.label, { locale })}
-                        {isRequired ? (
-                            <Text danger> *</Text>
-                        ) : null}
-                    </Text>
+                    </Label>
                 </View>
                 <Animated.View
                     style={[
@@ -394,7 +398,11 @@ export class Editor extends Component<IProps, IStates> {
                                         right: 5
                                     }}
                                 >
-                                    <Text primary h5 style={styles.insertFields}>
+                                    <Text
+                                        primary
+                                        h5
+                                        style={styles.insertFields}
+                                    >
                                         {Lng.t('notes.insertFields', {
                                             locale
                                         })}
@@ -499,11 +507,7 @@ export class Editor extends Component<IProps, IStates> {
                 />
                 {hasError && (
                     <View style={styles.validation}>
-                        <Text
-                            white
-                            h6
-                            numberOfLines={1}
-                        >
+                        <Text white h6 numberOfLines={1}>
                             {Lng.t('validation.required', { locale })}
                         </Text>
                     </View>

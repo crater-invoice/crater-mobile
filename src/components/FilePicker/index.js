@@ -18,6 +18,7 @@ import { IMAGES } from '@/assets';
 import { styles } from './styles';
 import { Text } from '../Text';
 import { CacheImage } from '../CacheImage';
+import { Label } from '../Label';
 
 interface IProps {
     label: String;
@@ -386,17 +387,7 @@ export class FilePicker extends Component<IProps, IStates> {
 
         return (
             <View style={[styles.mainContainer, containerStyle]}>
-                {label && (
-                    <Text
-                        secondary
-                        medium
-                        h5
-                        margin-bottom-1
-                        style={styles.label}
-                    >
-                        {label}
-                    </Text>
-                )}
+                <Label style={styles.label}> {label}</Label>
 
                 <Dropdown
                     ref={this.actionSheet}

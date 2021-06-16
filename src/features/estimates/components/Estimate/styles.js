@@ -60,7 +60,7 @@ export default styles = StyleSheet.create({
         textAlign: 'left'
     },
     label: {
-        paddingBottom: 10,
-        paddingTop: 15
+        paddingBottom: -1,
+        paddingTop: 12
     }
 });

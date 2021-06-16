@@ -90,7 +90,6 @@ export class Categories extends React.Component<IProps> {
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
             title: Lng.t('header.expenseCategory', { locale }),
-            titleStyle: styles.titleStyle,
             placement: 'center',
             rightIcon: 'plus',
             rightIconPress: () =>

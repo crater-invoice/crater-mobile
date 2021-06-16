@@ -83,7 +83,6 @@ export class Notes extends Component<IProps> {
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
             title: Lng.t('header.notes', { locale }),
-            titleStyle: styles.titleStyle,
             placement: 'center',
             rightIcon: 'plus',
             rightIconPress: () =>

@@ -52,7 +52,12 @@ const MainLayoutComponent = ({
 
             <View style={styles.content}>
                 <CtHeader
-                    titleStyle={styles.headerTitleStyle}
+                    titleStyle={{
+                        ...styles.headerTitleStyle(
+                            headerProps?.leftIcon || headerProps?.leftIconPress
+                        ),
+                        ...headerProps?.withTitleStyle
+                    }}
                     placement="left"
                     transparent
                     noBorder
