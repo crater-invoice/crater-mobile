@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Switch, View, Text } from 'react-native';
+import { Switch, View } from 'react-native';
 import { colors } from '@/styles';
 import { styles } from './styles';
+import { Text } from '../Text';
 
 type IProps = {
     input: Object,
@@ -79,12 +80,14 @@ export class ToggleSwitch extends Component<IProps> {
                 >
                     {hint && (
                         <Text
+                            secondary
+                            h4
                             numberOfLines={2}
                             style={[styles.hint, hintStyle && hintStyle]}
                         >
                             {hint}
                             {isRequired ? (
-                                <Text style={styles.required}> *</Text>
+                                <Text danger> *</Text>
                             ) : null}
                         </Text>
                     )}
@@ -103,10 +106,9 @@ export class ToggleSwitch extends Component<IProps> {
                 {description && (
                     <View style={styles.descriptionContainer}>
                         <Text
-                            style={[
-                                styles.description,
-                                descriptionStyle && descriptionStyle
-                            ]}
+                            darkGray
+                            h5
+                            style={descriptionStyle && descriptionStyle}
                         >
                             {description}
                         </Text>

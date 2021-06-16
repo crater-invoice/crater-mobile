@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
@@ -11,7 +11,8 @@ import {
     DefaultLayout,
     SelectField,
     CurrencyFormat,
-    RadioButtonGroup
+    RadioButtonGroup,
+    Text
 } from '@/components';
 import {
     ITEM_DISCOUNT_OPTION,
@@ -263,7 +264,7 @@ export class InvoiceItem extends React.Component {
                 {(discountPerItem === 'YES' || discountPerItem === '1') && (
                     <View style={styles.subContainer}>
                         <View>
-                            <Text style={styles.label}>
+                            <Text gray medium style={{ marginTop: 6 }}>
                                 {Lng.t('items.finalDiscount', { locale })}
                             </Text>
                         </View>
@@ -282,7 +283,7 @@ export class InvoiceItem extends React.Component {
                         !val.compound_tax ? (
                             <View style={styles.subContainer} key={index}>
                                 <View>
-                                    <Text style={styles.label}>
+                                    <Text gray medium style={{ marginTop: 6 }}>
                                         {val.name} ({val.percent} %)
                                     </Text>
                                 </View>
@@ -302,7 +303,7 @@ export class InvoiceItem extends React.Component {
                         val.compound_tax ? (
                             <View style={styles.subContainer}>
                                 <View>
-                                    <Text style={styles.label}>
+                                    <Text gray medium style={{ marginTop: 6 }}>
                                         {this.getTaxName(val)} ({val.percent} %)
                                     </Text>
                                 </View>
@@ -323,7 +324,7 @@ export class InvoiceItem extends React.Component {
 
                 <View style={styles.subContainer}>
                     <View>
-                        <Text style={styles.label}>
+                        <Text gray medium style={{ marginTop: 6 }}>
                             {Lng.t('items.finalAmount', { locale })}
                         </Text>
                     </View>
@@ -386,6 +387,7 @@ export class InvoiceItem extends React.Component {
             getTaxes
         } = this.props;
 
+        const currency = navigation.getParam('currency');
         const isCreateItem = type === ITEM_ADD;
         let itemRefs = {};
 
@@ -448,6 +450,7 @@ export class InvoiceItem extends React.Component {
                                 name="price"
                                 isRequired
                                 component={InputField}
+                                leftSymbol={currency?.symbol}
                                 hint={Lng.t('items.price', { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',

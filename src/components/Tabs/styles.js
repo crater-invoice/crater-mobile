@@ -27,11 +27,6 @@ export const styles = StyleSheet.create({
         borderBottomWidth: 2,
         borderBottomColor: colors.primary
     },
-    TabTitle: {
-        color: colors.darkGray,
-        fontFamily: fonts.poppinsSemiBold,
-        textAlign: 'left'
-    },
     selectedTabTitle: {
         color: colors.primary
     }

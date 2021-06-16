@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
@@ -12,7 +12,8 @@ import {
     CtDivider,
     Tabs,
     Editor,
-    PLACEHOLDER_TYPES
+    PLACEHOLDER_TYPES,
+    Text
 } from '@/components';
 import { CUSTOMIZE_FORM, CUSTOMIZE_TYPE, PAYMENT_TABS } from '../../constants';
 import Lng from '@/lang/i18n';
@@ -233,7 +234,7 @@ export class Customize extends React.Component<IProps> {
             <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
                 <CtDivider dividerStyle={styles.dividerLine} />
 
-                <Text style={styles.autoGenerateHeader}>
+                <Text dark2 style={styles.autoGenerateHeader}>
                     {Lng.t(data.settingLabel, { locale })}
                 </Text>
                 <Field

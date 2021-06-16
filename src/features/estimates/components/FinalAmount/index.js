@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
@@ -7,7 +7,8 @@ import {
     CtDivider,
     SelectField,
     SelectPickerField,
-    CurrencyFormat
+    CurrencyFormat,
+    Text
 } from '@/components';
 import { ROUTES } from '@/navigation';
 import { colors } from '@/styles';
@@ -32,7 +33,7 @@ const DISPLAY_ITEM_TAX = ({ state }) => {
         ? taxes.map((val, index) => (
               <View style={styles.subContainer} key={index}>
                   <View>
-                      <Text style={styles.amountHeading}>
+                      <Text darkGray h5 medium style={styles.amountHeading}>
                           {getTaxName(val)} ({val.percent} %)
                       </Text>
                   </View>
@@ -86,7 +87,7 @@ const FinalAmount = ({ state, props }) => {
         <View style={styles.amountContainer}>
             <View style={styles.subContainer}>
                 <View>
-                    <Text style={styles.amountHeading}>
+                    <Text darkGray h5 medium style={styles.amountHeading}>
                         {Lng.t('estimates.subtotal', { locale })}
                     </Text>
                 </View>
@@ -102,7 +103,7 @@ const FinalAmount = ({ state, props }) => {
             {!discountPerItem && (
                 <View style={[styles.subContainer, styles.discount]}>
                     <View>
-                        <Text style={styles.amountHeading}>
+                        <Text darkGray h5 medium style={styles.amountHeading}>
                             {Lng.t('estimates.discount', { locale })}
                         </Text>
                     </View>
@@ -146,7 +147,7 @@ const FinalAmount = ({ state, props }) => {
                     !val.compound_tax ? (
                         <View style={styles.subContainer} key={index}>
                             <View>
-                                <Text style={styles.amountHeading}>
+                                <Text darkGray h5 medium style={styles.amountHeading}>
                                     {getTaxName(val)} ({val.percent} %)
                                 </Text>
                             </View>
@@ -166,7 +167,7 @@ const FinalAmount = ({ state, props }) => {
                     val.compound_tax ? (
                         <View style={styles.subContainer} key={index}>
                             <View>
-                                <Text style={styles.amountHeading}>
+                                <Text darkGray h5 medium style={styles.amountHeading}>
                                     {getTaxName(val)} ({val.percent} %)
                                 </Text>
                             </View>
@@ -195,7 +196,7 @@ const FinalAmount = ({ state, props }) => {
                     onlyPlaceholder
                     fakeInputProps={{
                         fakeInput: (
-                            <Text style={styles.taxFakeInput}>
+                            <Text primary right medium h4>
                                 {Lng.t('estimates.taxPlaceholder', { locale })}
                             </Text>
                         )
@@ -230,7 +231,7 @@ const FinalAmount = ({ state, props }) => {
 
             <View style={styles.subContainer}>
                 <View>
-                    <Text style={styles.amountHeading}>
+                    <Text darkGray h5 medium style={styles.amountHeading}>
                         {Lng.t('estimates.totalAmount', { locale })}:
                     </Text>
                 </View>

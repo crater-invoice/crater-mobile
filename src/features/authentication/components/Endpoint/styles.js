@@ -30,8 +30,7 @@ export default StyleSheet.create({
         resizeMode: 'contain'
     },
     endpointTextTitle: {
-        marginTop: 15,
-        color: colors.veryDarkGray
+        marginTop: 15
     },
     SendingMailContainer: {
         alignItems: 'center'

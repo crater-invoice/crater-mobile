@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import * as Linking from 'expo-linking';
 import * as IntentLauncher from 'expo-intent-launcher';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { AssetIcon } from '../AssetIcon';
 import Constants from 'expo-constants';
 import * as DocumentPicker from 'expo-document-picker';
 import Lng from '@/lang/i18n';
@@ -16,6 +16,8 @@ import { Content } from '../Content';
 import Dropdown from '../Dropdown';
 import { IMAGES } from '@/assets';
 import { styles } from './styles';
+import { Text } from '../Text';
+import { CacheImage } from '../CacheImage';
 
 interface IProps {
     label: String;
@@ -30,6 +32,7 @@ interface IProps {
     fileLoading: Function;
     uploadedFileUrl: String;
     uploadedFileType: String;
+    showUploadedImageAsCache: boolean;
 }
 
 interface IStates {
@@ -259,12 +262,13 @@ export class FilePicker extends Component<IProps, IStates> {
             imageStyle,
             locale,
             uploadedFileType,
-            hasAvatar
+            hasAvatar,
+            showUploadedImageAsCache = true
         } = this.props;
 
         const fileView = (
             <View style={styles.container}>
-                <Icon
+                <AssetIcon
                     name={'file'}
                     size={50}
                     color={colors.primary}
@@ -275,8 +279,12 @@ export class FilePicker extends Component<IProps, IStates> {
 
         const defaultView = (
             <View style={styles.container}>
-                <Icon name={'cloud-upload-alt'} size={23} color={colors.gray} />
-                <Text style={styles.title}>
+                <AssetIcon
+                    name={'cloud-upload-alt'}
+                    size={23}
+                    color={colors.gray}
+                />
+                <Text darkGray h5 light center style={styles.title}>
                     {Lng.t('filePicker.file', { locale })}
                 </Text>
             </View>
@@ -316,7 +324,36 @@ export class FilePicker extends Component<IProps, IStates> {
         }
 
         if (uploadedFileUrl) {
-            return imageView(uploadedFileUrl);
+            if (!showUploadedImageAsCache) {
+                return imageView(uploadedFileUrl);
+            }
+
+            const getImageName = () => {
+                const split = uploadedFileUrl?.split('/') ?? [];
+                return `${split?.[split.length - 2]}-${
+                    split?.[split.length - 1]
+                }`;
+            };
+
+            const imageName = getImageName();
+
+            return hasAvatar ? (
+                <CacheImage
+                    uri={uploadedFileUrl}
+                    imageName={imageName}
+                    resizeMode="stretch"
+                    style={styles.uploadedImage}
+                />
+            ) : (
+                <View style={[styles.imageContainer, imageContainerStyle]}>
+                    <CacheImage
+                        uri={uploadedFileUrl}
+                        imageName={imageName}
+                        style={styles.uploadedFullImage}
+                        resizeMode="contain"
+                    />
+                </View>
+            );
         }
 
         if (hasAvatar) {
@@ -349,7 +386,17 @@ export class FilePicker extends Component<IProps, IStates> {
 
         return (
             <View style={[styles.mainContainer, containerStyle]}>
-                {label && <Text style={styles.label}>{label}</Text>}
+                {label && (
+                    <Text
+                        secondary
+                        medium
+                        h5
+                        margin-bottom-1
+                        style={styles.label}
+                    >
+                        {label}
+                    </Text>
+                )}
 
                 <Dropdown
                     ref={this.actionSheet}
@@ -375,7 +422,7 @@ export class FilePicker extends Component<IProps, IStates> {
 
                     {hasAvatar && (
                         <View style={styles.iconContainer}>
-                            <Icon
+                            <AssetIcon
                                 name={'camera'}
                                 size={20}
                                 color={colors.white}

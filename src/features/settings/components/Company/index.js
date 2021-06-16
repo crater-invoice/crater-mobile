@@ -182,7 +182,8 @@ export class Company extends React.Component<IProps> {
                         onChangeCallback={val => this.setState({ logo: val })}
                         uploadedFileUrl={this.state.image}
                         containerStyle={{
-                            marginTop: 15
+                            marginTop: 15,
+                            marginBottom: 5
                         }}
                         fileLoading={val => {
                             this.setState({ fileLoading: val });

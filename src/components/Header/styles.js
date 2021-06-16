@@ -16,10 +16,7 @@ export default StyleSheet.create({
     },
     title: {
         fontSize: 17,
-        color: colors.dark,
-        fontFamily: fonts.poppinsMedium,
-        marginLeft: 10,
-        textAlign: 'left'
+        marginLeft: 10
     },
     rightBtn: {
         flexDirection: 'row',
@@ -36,8 +33,7 @@ export default StyleSheet.create({
     },
     rightBtnTitle: {
         paddingRight: 10,
-        paddingTop: 3,
-        color: colors.primary
+        paddingTop: 3
     },
     rightContainer: {
         flexDirection: 'row'

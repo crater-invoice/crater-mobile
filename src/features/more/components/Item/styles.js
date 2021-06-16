@@ -78,12 +78,6 @@ export default styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    label: {
-        color: colors.gray,
-        fontFamily: fonts.poppinsMedium,
-        marginTop: 6,
-        textAlign: 'left'
-    },
     price: {
         color: colors.dark2,
         fontSize: 16

@@ -19,10 +19,7 @@ export const styles = StyleSheet.create({
 
     title: {
         fontSize: isIPhoneX() ? 15 : 13,
-        fontFamily: fonts.poppins,
         alignSelf: 'stretch',
-        textAlign: 'center',
-        color: colors.white,
         paddingTop: isIosPlatform() ? 1 : 3
     }
 });

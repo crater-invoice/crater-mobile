@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import * as Linking from 'expo-linking';
 import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
@@ -24,7 +24,8 @@ import {
     CurrencyFormat,
     FakeInput,
     SendMail,
-    CustomField
+    CustomField,
+    Text
 } from '@/components';
 import {
     INVOICE_ADD,
@@ -668,9 +669,9 @@ export class Invoice extends React.Component<IProps, IStates> {
                         reference={ref => (this.customerReference = ref)}
                     />
 
-                    <Text style={[styles.inputTextStyle, styles.label]}>
+                    <Text dark3 h5 medium style={styles.label}>
                         {Lng.t('invoices.items', { locale })}
-                        <Text style={styles.required}> *</Text>
+                        <Text danger> *</Text>
                     </Text>
 
                     <ListView

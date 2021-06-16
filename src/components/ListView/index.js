@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { View } from 'react-native';
 import { styles } from './styles';
 import { ListItem, Avatar, CheckBox } from 'react-native-elements';
 import { Empty } from '../Empty';
 import { colors, fonts } from '@/styles';
 import { CurrencyFormat } from '../CurrencyFormat';
-import { FadeListAnimation } from '@/components';
+import { FadeListAnimation, AssetIcon } from '@/components';
 import { isIosPlatform } from '@/constants';
 import { isRTL } from '@/utils';
+import { Text } from '../Text';
 
 type IProps = {
     hasAvatar: Boolean,
@@ -36,8 +36,10 @@ export class ListView extends Component<IProps> {
         const { leftTitleStyle } = this.props;
         return (
             <Text
+                light
+                mediumSize
                 numberOfLines={1}
-                style={[styles.leftTitle, leftTitleStyle && leftTitleStyle]}
+                style={leftTitleStyle && leftTitleStyle}
             >
                 {title}
             </Text>
@@ -78,10 +80,9 @@ export class ListView extends Component<IProps> {
         return (
             <View style={styles.leftSubTitleContainer}>
                 <Text
-                    style={[
-                        styles.leftSubTitleText,
-                        leftSubTitleStyle && leftSubTitleStyle
-                    ]}
+                    h5
+                    darkGray
+                    style={leftSubTitleStyle && leftSubTitleStyle}
                     numberOfLines={3}
                 >
                     {title}
@@ -104,9 +105,10 @@ export class ListView extends Component<IProps> {
                                 labelComponent
                             ) : (
                                 <Text
+                                    upperCase
+                                    h6
                                     style={[
                                         { color: labelTextColor },
-                                        styles.leftSubTitleLabel,
                                         leftSubTitleLabelStyle &&
                                             leftSubTitleLabelStyle
                                     ]}
@@ -147,7 +149,7 @@ export class ListView extends Component<IProps> {
         if (rightArrowIcon) {
             otherProps = {
                 rightAvatar: (
-                    <Icon
+                    <AssetIcon
                         name={!isRTL() ? 'chevron-right' : 'chevron-left'}
                         size={15}
                         color={colors.darkGray}
@@ -268,7 +270,7 @@ export class ListView extends Component<IProps> {
         if (rightArrowIcon) {
             otherProps = {
                 rightAvatar: (
-                    <Icon
+                    <AssetIcon
                         name={!isRTL() ? 'chevron-right' : 'chevron-left'}
                         size={15}
                         color={colors.darkGray}
@@ -304,7 +306,7 @@ export class ListView extends Component<IProps> {
                             }}
                         />
                     ) : (
-                        <Icon
+                        <AssetIcon
                             name={leftIcon}
                             size={iconSize}
                             color={colors.primaryLight}

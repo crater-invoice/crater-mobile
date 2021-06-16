@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { AssetImage } from '../AssetImage';
 import { CtGradientButton } from '../Button';
-import { Text } from 'react-native-elements';
 import Lng from '@/lang/i18n';
 import { checkConnection } from '@/constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { IMAGES } from '@/assets';
+import { Text } from '../Text';
 
 export class LostConnection extends Component {
 
@@ -55,7 +55,7 @@ export class LostConnection extends Component {
                 <View style={styles.main}>
 
                     <View style={styles.bodyContainer}>
-                        <Text style={styles.title}>
+                        <Text secondary bold2 h3 style={styles.title}>
                             {Lng.t("lostInternet.title", { locale })}
                         </Text>
 
@@ -66,7 +66,7 @@ export class LostConnection extends Component {
                             />
                         </View>
 
-                        <Text h6 style={styles.description}>
+                        <Text veryDarkGray light center style={styles.description}>
                             {Lng.t("lostInternet.description", { locale })}
                         </Text>
                     </View>

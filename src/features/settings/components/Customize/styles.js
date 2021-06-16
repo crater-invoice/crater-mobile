@@ -25,10 +25,7 @@ export default styles = StyleSheet.create({
     },
     autoGenerateHeader: {
         marginTop: 7,
-        color: colors.dark2,
-        fontFamily: fonts.poppins,
-        fontSize: 20,
-        textAlign: 'left'
+        fontSize: 20
     },
 
     // row

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Text, Animated } from 'react-native';
+import { Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { styles } from './styles';
 import Lng from '@/lang/i18n';
+import { Text } from '../Text';
 
 interface IProps {
     reference: any;
@@ -56,7 +57,7 @@ export class ToastComponent extends Component<IProps> {
                     containerStyle && containerStyle
                 ]}
             >
-                <Text numberOfLines={2} style={styles.title}>
+                <Text center white numberOfLines={2} style={styles.title}>
                     {Lng.t(this.state.message, { locale })}
                 </Text>
             </Animated.View>

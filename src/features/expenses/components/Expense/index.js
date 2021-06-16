@@ -245,7 +245,8 @@ export class Expense extends React.Component<IProps, IState> {
             getCustomers,
             customers,
             customFields,
-            formValues
+            formValues,
+            currency
         } = this.props;
 
         const { imageUrl, isLoading, fileType } = this.state;
@@ -304,6 +305,7 @@ export class Expense extends React.Component<IProps, IState> {
                                 ? imageUrl
                                 : null
                         }
+                        showUploadedImageAsCache={false}
                     />
 
                     <Field
@@ -318,6 +320,7 @@ export class Expense extends React.Component<IProps, IState> {
                         name={`expense.${FIELDS.AMOUNT}`}
                         component={InputField}
                         isRequired
+                        leftSymbol={currency?.symbol}
                         hint={Lng.t('expenses.amount', { locale })}
                         leftIcon={'dollar-sign'}
                         inputProps={{

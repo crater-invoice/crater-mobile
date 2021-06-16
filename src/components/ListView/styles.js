@@ -2,10 +2,6 @@ import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
 
 export const styles = StyleSheet.create({
-    leftTitle: {
-        fontSize: 18,
-        fontFamily: fonts.poppinsLight
-    },
     rightTitle: {
         fontSize: 18,
         color: colors.dark2,
@@ -34,22 +30,13 @@ export const styles = StyleSheet.create({
     },
     rightSubTitle: {
         fontSize: 13,
-        color: '#8e95ac'
-    },
-    leftSubTitleText: {
-        fontSize: 14,
-        color: colors.darkGray
+        color: '#8e95ac',
+        marginTop: 4
     },
     leftSubTitleLabelContainer: {
         display: 'flex',
         alignItems: 'flex-start',
         marginTop: 6
-    },
-    leftSubTitleLabel: {
-        textTransform: 'uppercase',
-        fontFamily: fonts.poppins,
-        fontSize: 12,
-        textAlign: 'left'
     },
     success: {
         backgroundColor: colors.successLight2,

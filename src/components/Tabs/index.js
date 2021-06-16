@@ -1,8 +1,8 @@
 import { getConditionStyles } from '@/constants';
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
+import { Text } from '../Text';
 import { styles } from './styles';
-
 
 type IProps = {
     activeTab: String,
@@ -45,7 +45,10 @@ export class Tabs extends Component<IProps> {
                         >
                             {typeof tabName === 'string' ? (
                                 <Text
-                                    style={[styles.TabTitle, activeTab === Title && styles.selectedTabTitle]}
+                                  darkGray
+                                    bold2
+                                    h5
+                                    style={activeTab === Title && styles.selectedTabTitle}
                                 >
                                     {tabName && tabName}
                                 </Text>

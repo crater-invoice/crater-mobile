@@ -8,10 +8,9 @@ import styles from './styles';
 import { FakeInput } from '../FakeInput';
 import FakeInputStyle from '../FakeInput/styles';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { AssetIcon } from '../AssetIcon';
 import { colors } from '@/styles';
-import { isIosPlatform } from '@/constants';
-
+import { isAndroidPlatform, isIosPlatform } from '@/constants';
 
 type IProps = {
     hint: string,
@@ -61,6 +60,9 @@ export class SelectPickerField extends Component<IProps> {
     }
 
     toggleIcon = () => {
+        if (isAndroidPlatform()) {
+            return;
+        }
         const { icon } = this.state;
         this.setState({
             icon: icon === 'angle-down' ? 'angle-up' : 'angle-down'
@@ -168,7 +170,11 @@ export class SelectPickerField extends Component<IProps> {
                 }}
                 Icon={() => (
                     <View>
-                        <Icon name={icon} size={18} color={colors.darkGray} />
+                        <AssetIcon
+                            name={icon}
+                            size={18}
+                            color={colors.darkGray}
+                        />
                     </View>
                 )}
                 modalProps={{
@@ -186,6 +192,7 @@ export class SelectPickerField extends Component<IProps> {
                         ]}
                     >
                         <Text
+                          darkGray
                             numberOfLines={1}
                             style={[
                                 FakeInputStyle.textValue,
@@ -201,7 +208,7 @@ export class SelectPickerField extends Component<IProps> {
                                       defaultPickerOptions.label)
                                 : selectedLabel}
                         </Text>
-                        <Icon
+                        <AssetIcon
                             name={icon}
                             size={18}
                             color={colors.darkGray}

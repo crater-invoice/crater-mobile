@@ -2,9 +2,6 @@ import { colors, fonts } from '@/styles';
 import { StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
-    required: {
-        color: colors.danger
-    },
     bodyContainer: {
         paddingHorizontal: 22,
         paddingVertical: 17

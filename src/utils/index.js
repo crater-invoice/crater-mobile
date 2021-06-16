@@ -6,3 +6,4 @@ export * from './search';
 export * from './appearance';
 export * from './biometricAuthentication';
 export * from './ratingReview';
+export * from './sizes'

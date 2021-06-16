@@ -6,13 +6,12 @@ import {
     ScrollView,
     View,
     KeyboardAvoidingView,
-    Text,
     TouchableOpacity,
     Keyboard
 } from 'react-native';
 import { Field } from 'redux-form';
 import styles from './styles';
-import { InputField, AssetImage, CtGradientButton } from '@/components';
+import { InputField, AssetImage, CtGradientButton, Text } from '@/components';
 import Constants from 'expo-constants';
 import { colors } from '@/styles/colors';
 import { ROUTES } from '@/navigation';
@@ -185,7 +184,7 @@ export class Login extends React.Component<IProps> {
                                         )
                                     }
                                 >
-                                    <Text style={styles.forgetPassword}>
+                                    <Text primaryLight light style={styles.forgetPassword}>
                                         {Lng.t('button.forget', {
                                             locale
                                         })}
@@ -213,7 +212,7 @@ export class Login extends React.Component<IProps> {
                         onPress={this.loginViaBiometry}
                         style={styles.biometryButton}
                     >
-                        <Text style={styles.biometryText}>
+                        <Text primary style={styles.biometryText}>
                             {Lng.t('touchFaceId.login', {
                                 locale,
                                 type: BIOMETRY_TYPES_TITLES[biometryAuthType]

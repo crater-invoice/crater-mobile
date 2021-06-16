@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { reduxForm, Field, change } from 'redux-form';
 import moment from 'moment';
 import { DatePickerField } from '../DatePickerField';
@@ -7,6 +7,7 @@ import { TimePickerField } from '../TimePickerField';
 import { DATE_FORMAT } from '@/constants';
 import Lng from '@/lang/i18n';
 import styles from './styles';
+import { Text } from '../Text';
 
 const DATE_TIME_PICKER_FORM = 'DATE_TIME_PICKER_FORM';
 
@@ -122,10 +123,10 @@ class DateTimePickerFieldComponent extends Component<Props> {
         return (
             <View style={styles.container}>
                 {label && (
-                    <Text style={[styles.label, labelStyle]}>
+                    <Text secondary h5 medium style={labelStyle}>
                         {label}
                         {isRequired ? (
-                            <Text style={styles.required}> *</Text>
+                            <Text danger> *</Text>
                         ) : null}
                     </Text>
                 )}
@@ -164,11 +165,8 @@ class DateTimePickerFieldComponent extends Component<Props> {
                 {hasError && (
                     <View style={styles.validation}>
                         <Text
-                            style={{
-                                color: 'white',
-                                fontSize: 12,
-                                textAlign: 'left'
-                            }}
+                            white
+                            h6
                         >
                             {Lng.t(error, { locale, hint: label })}
                         </Text>

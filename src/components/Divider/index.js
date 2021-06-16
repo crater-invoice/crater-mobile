@@ -1,8 +1,9 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { Divider } from 'react-native-elements';
+import { Text } from '../Text';
 import { styles } from './styles';
 
 type IProps = {
@@ -17,7 +18,7 @@ export const CtDivider = ({ title, dividerStyle, titleStyle }: IProps) => {
             <Divider style={[styles.divider, dividerStyle]} />
 
             <View style={styles.titleContainer}>
-                <Text style={[styles.title, titleStyle]}>{title}</Text>
+                <Text darkGray style={titleStyle}>{title}</Text>
             </View>
         </View>
     ) : (

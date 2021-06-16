@@ -5,12 +5,6 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 10
     },
-    label: {
-        color: colors.secondary,
-        fontSize: 14,
-        fontFamily: fonts.poppinsMedium,
-        textAlign: 'left'
-    },
     row: {
         flexDirection: 'row'
     },
@@ -18,9 +12,6 @@ const styles = StyleSheet.create({
         flex: 1.2
     },
     timeColumn: { flex: 1 },
-    required: {
-        color: colors.danger
-    },
     validation: {
         paddingVertical: 2,
         paddingHorizontal: 5,

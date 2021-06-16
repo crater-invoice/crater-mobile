@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import {
     View,
     KeyboardAvoidingView,
-    Text,
     StatusBar,
     ScrollView,
     Platform,
@@ -16,7 +15,8 @@ import {
     InputField,
     AssetImage,
     CtGradientButton,
-    CtHeader
+    CtHeader,
+    Text
 } from '@/components';
 import Lng from '@/lang/i18n';
 import { IMAGES } from '@/assets';
@@ -197,7 +197,7 @@ export class Endpoint extends Component<IProps> {
                                     onFocus={() => this.toggleFocus()}
                                     inputContainerStyle={styles.inputField}
                                 />
-                                <Text style={styles.endpointTextTitle}>
+                                <Text veryDarkGray h5 style={styles.endpointTextTitle}>
                                     {Lng.t('endpoint.endpointDesc', { locale })}
                                 </Text>
                             </View>

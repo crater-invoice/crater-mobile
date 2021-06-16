@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
 import { Field, change } from 'redux-form';
 import {
@@ -10,7 +10,8 @@ import {
     CtButton,
     DefaultLayout,
     SelectField,
-    CurrencyFormat
+    CurrencyFormat,
+    Text
 } from '@/components';
 import { ROUTES } from '@/navigation';
 import { ITEM_FORM, EDIT_ITEM, ADD_ITEM } from '../../constants';
@@ -242,7 +243,7 @@ export class Item extends React.Component {
             <View style={styles.amountContainer}>
                 <View style={styles.subContainer}>
                     <View>
-                        <Text style={styles.label}>
+                        <Text gray h5 medium style={{ marginTop: 6 }}>
                             {Lng.t('items.subTotal', { locale })}
                         </Text>
                     </View>
@@ -260,7 +261,12 @@ export class Item extends React.Component {
                         !val.compound_tax ? (
                             <View style={styles.subContainer}>
                                 <View>
-                                    <Text style={styles.label}>
+                                    <Text
+                                        gray
+                                        h5
+                                        medium
+                                        style={{ marginTop: 6 }}
+                                    >
                                         {this.getTaxName(val)} ({val.percent} %)
                                     </Text>
                                 </View>
@@ -280,7 +286,12 @@ export class Item extends React.Component {
                         val.compound_tax ? (
                             <View style={styles.subContainer}>
                                 <View>
-                                    <Text style={styles.label}>
+                                    <Text
+                                        gray
+                                        h5
+                                        medium
+                                        style={{ marginTop: 6 }}
+                                    >
                                         {this.getTaxName(val)} ({val.percent} %)
                                     </Text>
                                 </View>
@@ -301,7 +312,7 @@ export class Item extends React.Component {
 
                 <View style={styles.subContainer}>
                     <View>
-                        <Text style={styles.label}>
+                        <Text gray h5 medium style={{ marginTop: 6 }}>
                             {Lng.t('items.finalAmount', { locale })}
                         </Text>
                     </View>
@@ -410,7 +421,8 @@ export class Item extends React.Component {
             type,
             units,
             formValues,
-            getItemUnits
+            getItemUnits,
+            currency
         } = this.props;
         const { isTaxPerItem, isLoading } = this.state;
         const isCreateItem = type === ADD_ITEM;
@@ -454,6 +466,7 @@ export class Item extends React.Component {
                         name="price"
                         component={InputField}
                         isRequired
+                        leftSymbol={currency?.symbol}
                         hint={Lng.t('items.price', { locale })}
                         inputProps={{
                             returnKeyType: 'next',

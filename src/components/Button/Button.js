@@ -2,13 +2,13 @@
 
 import React, { Component } from 'react';
 import { View, Animated } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
 import { colors } from '@/styles';
 import { Button } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AssetImage } from '../AssetImage';
 import { BUTTON_COLOR, BUTTON_TYPE } from '@/constants';
+import { AssetIcon } from '../AssetIcon';
 
 type IProps = {
     children?: any,
@@ -101,7 +101,7 @@ export class CtGradientButton extends Component<IProps> {
                                 imageStyle={styles.imageIcon}
                             />
                         ) : (
-                            <Icon
+                            <AssetIcon
                                 name={iconName}
                                 size={15}
                                 color={colors.white}
@@ -254,7 +254,7 @@ export class CtButton extends Component<IProps> {
                                 imageStyle={styles.imageIcon}
                             />
                         ) : (
-                            <Icon
+                            <AssetIcon
                                 name={iconName}
                                 size={15}
                                 color={colors.white}
