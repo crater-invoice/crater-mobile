@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { colors, fonts } from '@/styles';
+import { colors } from '@/styles';
 import { defineLargeSizeParam } from '@/constants';
 
 const { width } = Dimensions.get('window');
@@ -53,5 +53,12 @@ export default styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: '500',
         opacity: 0.9
+    },
+    setting: {
+        position: 'absolute',
+        right: 20,
+        top: defineLargeSizeParam(55, 35),
+        transform: [{ rotate: '-10deg' }],
+        zIndex: 10
     }
 });

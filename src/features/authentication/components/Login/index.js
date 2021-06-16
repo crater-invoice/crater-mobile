@@ -11,12 +11,19 @@ import {
 } from 'react-native';
 import { Field } from 'redux-form';
 import styles from './styles';
-import { InputField, AssetImage, CtGradientButton, Text } from '@/components';
+import {
+    InputField,
+    AssetImage,
+    CtGradientButton,
+    Text,
+    AssetSvg
+} from '@/components';
 import Constants from 'expo-constants';
 import { colors } from '@/styles/colors';
 import { ROUTES } from '@/navigation';
 import Lng from '@/lang/i18n';
 import { IMAGES } from '@/assets';
+import { SettingIcon } from '@/icons';
 import { biometricAuthentication } from '@/utils';
 import {
     BIOMETRY_AUTH_TYPES,
@@ -115,6 +122,24 @@ export class Login extends React.Component<IProps> {
                     translucent={true}
                 />
 
+                <TouchableOpacity
+                    onPress={() => navigation.navigate(ROUTES.ENDPOINTS)}
+                    style={styles.setting}
+                    hitSlop={{
+                        top: 15,
+                        left: 15,
+                        bottom: 15,
+                        right: 15
+                    }}
+                >
+                    <AssetSvg
+                        name={SettingIcon}
+                        width={35}
+                        height={35}
+                        fill={colors.primary}
+                    />
+                </TouchableOpacity>
+
                 <ScrollView
                     style={scrollViewStyle}
                     bounces={isKeyboardVisible}
@@ -184,7 +209,11 @@ export class Login extends React.Component<IProps> {
                                         )
                                     }
                                 >
-                                    <Text primaryLight light style={styles.forgetPassword}>
+                                    <Text
+                                        primaryLight
+                                        light
+                                        style={styles.forgetPassword}
+                                    >
                                         {Lng.t('button.forget', {
                                             locale
                                         })}
