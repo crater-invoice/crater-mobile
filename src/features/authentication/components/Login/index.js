@@ -123,7 +123,11 @@ export class Login extends React.Component<IProps> {
                 />
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate(ROUTES.ENDPOINTS)}
+                    onPress={() =>
+                        navigation.navigate(ROUTES.ENDPOINTS, {
+                            skipEndpoint: true
+                        })
+                    }
                     style={styles.setting}
                     hitSlop={{
                         top: 15,
