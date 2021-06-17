@@ -10,6 +10,7 @@ import EmptyPayments from '../assets/empty-payments-icon.png';
 import LostConnection from '../assets/lost-connection.png';
 import OpenEnvelop from '../assets/envelop.png';
 import DefaultAvatar from '../assets/default-avatar.jpg';
+import EmptyInvoicesDark from '../assets/empty-invoices-icon-dark.png';
 
 export const IMAGES = {
     LOGO_DARK: LogoDark,
@@ -23,7 +24,14 @@ export const IMAGES = {
     EMPTY_PAYMENTS: EmptyPayments,
     LOST_CONNECTION: LostConnection,
     OPEN_ENVELOP: OpenEnvelop,
-    DEFAULT_AVATAR: DefaultAvatar
+    DEFAULT_AVATAR: DefaultAvatar,
+
+    light:{
+        EMPTY_INVOICES: EmptyInvoices,
+    },
+    dark:{
+        EMPTY_INVOICES: EmptyInvoicesDark,
+    },
 };
 
 export const LOGO = {

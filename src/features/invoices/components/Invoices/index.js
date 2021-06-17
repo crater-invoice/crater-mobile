@@ -201,7 +201,7 @@ export class Invoices extends React.Component<IProps> {
     onChangeState = (field, value) => this.setState({ [field]: value });
 
     getEmptyContentProps = activeTab => {
-        const { locale, navigation, formValues } = this.props;
+        const { locale, navigation, formValues,theme } = this.props;
         const { search } = this.state;
         const isFilter = isFilterApply(formValues);
         let title = '';
@@ -226,7 +226,7 @@ export class Invoices extends React.Component<IProps> {
 
         return {
             title: Lng.t(emptyTitle, { locale, search }),
-            image: IMAGES.EMPTY_INVOICES,
+            image: IMAGES[theme?.mode]?.EMPTY_INVOICES,
             ...(!search && {
                 description: Lng.t(description, { locale })
             }),
