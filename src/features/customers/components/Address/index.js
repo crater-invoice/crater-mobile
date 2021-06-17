@@ -180,10 +180,9 @@ export class Address extends Component<IProps> {
             handleSubmit,
             hasBillingAddress,
             navigation,
-            addressValue,
-            formValues,
             locale,
-            countries
+            countries,
+            theme
         } = this.props;
 
         const { status, isKeyboardVisible } = this.state;
@@ -200,10 +199,10 @@ export class Address extends Component<IProps> {
                 {!hasBillingAddress && (
                     <FakeInput
                         icon={'copy'}
-                        color={colors.primaryLight}
+                        color={theme?.text?.fourthColor}
                         leftIconSolid={false}
                         values={Lng.t('customers.address.sameAs', { locale })}
-                        valueStyle={styles.sameAsToggle}
+                        valueStyle={{ color: theme?.text?.primaryColor }}
                         onChangeCallback={() =>
                             this.fillShippingAddress(!status)
                         }
@@ -351,13 +350,15 @@ export class Address extends Component<IProps> {
             handleSubmit,
             locale,
             type,
-            fakeInputProps
+            fakeInputProps,
+            theme,
+            mainContainerStyle
         } = this.props;
 
         const { visible, values } = this.state;
 
         return (
-            <View style={styles.container}>
+            <View style={[styles.container(theme), mainContainerStyle]}>
                 <FakeInput
                     label={label}
                     icon={icon}

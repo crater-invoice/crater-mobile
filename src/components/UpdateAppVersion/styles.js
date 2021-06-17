@@ -32,8 +32,7 @@ export default styles = StyleSheet.create({
         alignItems: "center",
     },
     title: {
-        paddingBottom: 10,
-        color: colors.primary,
+        paddingBottom: 10
     },
     subTitle: {
         paddingTop: 5,
@@ -41,8 +40,6 @@ export default styles = StyleSheet.create({
     },
     description: {
         paddingHorizontal: 10,
-        paddingTop: 18,
-        color: colors.primaryLight,
-        textAlign: "center",
+        paddingTop: 18
     },
 });

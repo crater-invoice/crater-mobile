@@ -312,10 +312,6 @@ export class Preferences extends React.Component<IProps> {
                         }}
                         headerProps={{
                             title: Lng.t('timeZones.title', { locale }),
-                            titleStyle: headerTitle({
-                                marginLeft: -23,
-                                marginRight: -40
-                            }),
                             rightIconPress: null
                         }}
                         emptyContentProps={{
@@ -362,10 +358,6 @@ export class Preferences extends React.Component<IProps> {
                         }}
                         headerProps={{
                             title: Lng.t('dateFormats.title', { locale }),
-                            titleStyle: headerTitle({
-                                marginLeft: -20,
-                                marginRight: -55
-                            }),
                             rightIconPress: null
                         }}
                         emptyContentProps={{
@@ -401,10 +393,6 @@ export class Preferences extends React.Component<IProps> {
                         }}
                         headerProps={{
                             title: Lng.t('fiscalYears.title', { locale }),
-                            titleStyle: headerTitle({
-                                marginLeft: -15,
-                                marginRight: -35
-                            }),
                             rightIconPress: null
                         }}
                         emptyContentProps={{

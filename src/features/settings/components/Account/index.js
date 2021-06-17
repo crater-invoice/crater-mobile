@@ -1,14 +1,15 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
 import {
     DefaultLayout,
     CtButton,
     InputField,
     CtDivider,
-    FilePicker
+    FilePicker,
+    Text
 } from '@/components';
 import { Field, change } from 'redux-form';
 import Lng from '@/lang/i18n';
@@ -97,7 +98,13 @@ export class Account extends React.Component<IProps> {
     };
 
     render() {
-        const { navigation, handleSubmit, locale, isLoading } = this.props;
+        const {
+            navigation,
+            handleSubmit,
+            locale,
+            isLoading,
+            theme
+        } = this.props;
 
         let accountRefs = {};
 
@@ -106,7 +113,7 @@ export class Account extends React.Component<IProps> {
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
                     title: Lng.t('header.setting.account', { locale }),
-                    titleStyle: headerTitle({
+                    withTitleStyle: headerTitle({
                         marginLeft: -20,
                         marginRight: -25
                     }),
@@ -213,10 +220,10 @@ export class Account extends React.Component<IProps> {
                     <CtDivider dividerStyle={styles.dividerLine} />
 
                     <View style={styles.versionContainer}>
-                        <Text style={styles.versionTitle}>
+                        <Text color={theme.viewLabel.secondaryColor} h4>
                             {Lng.t('settings.account.version', { locale })}
                             {'  '}
-                            <Text style={styles.version}>
+                            <Text bold2 color={theme.viewLabel.secondaryColor}>
                                 {env.APP_VERSION}
                             </Text>
                         </Text>

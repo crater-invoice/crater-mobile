@@ -44,6 +44,11 @@ export const definePlatformParam = (ios, android) => (isIosPlatform() ? ios : an
 
 export const defineLargeSizeParam = (large, normal) => (isIPhoneX() ? large : normal);
 
+export const isMajorScreenHeight = Dimensions.get('window').height >= 800;
+
+export const defineSize = (normal, large) =>
+    !isMajorScreenHeight ? normal : large;
+
 export const scrollToInput = ({ scrollView }, { target }) => {
     scrollView.scrollToFocusedInput(findNodeHandle(target));
 };

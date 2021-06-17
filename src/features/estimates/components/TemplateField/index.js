@@ -5,7 +5,7 @@ import { TouchableWithoutFeedback, View } from 'react-native';
 import styles from './styles';
 import { SlideModal, FakeInput, AssetImage, CtButton } from '@/components';
 import { Icon } from 'react-native-elements';
-import { colors, headerTitle } from '@/styles';
+import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 
 type IProps = {
@@ -122,10 +122,6 @@ export class TemplateField extends Component<IProps> {
                     headerProps={{
                         leftIconPress: () => this.onToggle(),
                         title: Lng.t('header.template', { locale }),
-                        titleStyle: headerTitle({
-                            marginLeft: -19,
-                            marginRight: -19
-                        }),
                         placement: 'center',
                         hasCircle: false,
                         noBorder: false,

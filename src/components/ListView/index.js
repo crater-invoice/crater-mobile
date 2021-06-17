@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { styles } from './styles';
+import { View } from 'react-native';
+import { connect } from 'react-redux';
 import { ListItem, Avatar, CheckBox } from 'react-native-elements';
+import { styles } from './styles';
 import { Empty } from '../Empty';
 import { colors, fonts } from '@/styles';
 import { CurrencyFormat } from '../CurrencyFormat';
-import { FadeListAnimation } from '@/components';
+import { FadeListAnimation, AssetIcon } from '@/components';
 import { isIosPlatform } from '@/constants';
 import { isRTL } from '@/utils';
+import { Text } from '../Text';
 
 type IProps = {
     hasAvatar: Boolean,
@@ -27,17 +28,19 @@ type IProps = {
     parentViewStyle?: any
 };
 
-export class ListView extends Component<IProps> {
+class ListViewComponent extends Component<IProps> {
     constructor(props) {
         super(props);
     }
 
     leftTitle = title => {
-        const { leftTitleStyle } = this.props;
+        const { leftTitleStyle, theme } = this.props;
         return (
             <Text
+                mediumSize
                 numberOfLines={1}
-                style={[styles.leftTitle, leftTitleStyle && leftTitleStyle]}
+                color={theme?.listItem?.secondary?.color}
+                style={leftTitleStyle && leftTitleStyle}
             >
                 {title}
             </Text>
@@ -69,8 +72,10 @@ export class ListView extends Component<IProps> {
         const {
             leftSubTitleLabelStyle,
             leftSubTitleStyle,
-            leftSubTitleContainerStyle
+            leftSubTitleContainerStyle,
+            theme
         } = this.props;
+
         if (!title && !label && !labelComponent) {
             return;
         }
@@ -78,11 +83,11 @@ export class ListView extends Component<IProps> {
         return (
             <View style={styles.leftSubTitleContainer}>
                 <Text
-                    style={[
-                        styles.leftSubTitleText,
-                        leftSubTitleStyle && leftSubTitleStyle
-                    ]}
+                    h5
+                    medium={theme?.mode === 'dark'}
+                    style={leftSubTitleStyle && leftSubTitleStyle}
                     numberOfLines={3}
+                    color={theme?.listItem?.fourth?.color}
                 >
                     {title}
                 </Text>
@@ -104,9 +109,10 @@ export class ListView extends Component<IProps> {
                                 labelComponent
                             ) : (
                                 <Text
+                                    upperCase
+                                    h6
                                     style={[
                                         { color: labelTextColor },
-                                        styles.leftSubTitleLabel,
                                         leftSubTitleLabelStyle &&
                                             leftSubTitleLabelStyle
                                     ]}
@@ -139,7 +145,8 @@ export class ListView extends Component<IProps> {
             isAnimated,
             parentViewStyle,
             rightArrowIcon = false,
-            rightArrowIconStyle
+            rightArrowIconStyle,
+            theme
         } = this.props;
 
         let otherProps = {};
@@ -147,7 +154,7 @@ export class ListView extends Component<IProps> {
         if (rightArrowIcon) {
             otherProps = {
                 rightAvatar: (
-                    <Icon
+                    <AssetIcon
                         name={!isRTL() ? 'chevron-right' : 'chevron-left'}
                         size={15}
                         color={colors.darkGray}
@@ -168,7 +175,7 @@ export class ListView extends Component<IProps> {
                             amount={item.amount}
                             currency={item.currency}
                             style={[
-                                styles.rightTitle,
+                                styles.rightTitle(theme),
                                 rightTitleStyle && rightTitleStyle
                             ]}
                             currencyStyle={{
@@ -182,10 +189,10 @@ export class ListView extends Component<IProps> {
                 rightSubtitle={item.rightSubtitle}
                 bottomDivider={bottomDivider}
                 rightTitleStyle={[
-                    styles.rightTitle,
+                    styles.rightTitle(theme),
                     rightTitleStyle && rightTitleStyle
                 ]}
-                rightSubtitleStyle={styles.rightSubTitle}
+                rightSubtitleStyle={styles.rightSubTitle(theme)}
                 contentContainerStyle={[
                     styles.contentContainer,
                     contentContainerStyle
@@ -196,7 +203,7 @@ export class ListView extends Component<IProps> {
                     {
                         backgroundColor:
                             (backgroundColor && backgroundColor) ||
-                            colors.veryLightGray
+                            theme?.backgroundColor
                     },
                     itemContainer && itemContainer
                 ]}
@@ -215,6 +222,9 @@ export class ListView extends Component<IProps> {
                 }
                 fontFamily={fonts.poppins}
                 onPress={() => onPress(item.fullItem)}
+                {...(theme?.mode === 'dark' && {
+                    underlayColor: colors.gray
+                })}
                 {...listItemProps}
                 {...otherProps}
             />
@@ -251,7 +261,8 @@ export class ListView extends Component<IProps> {
             leftIconStyle,
             isAnimated,
             rightArrowIcon = false,
-            rightArrowIconStyle
+            rightArrowIconStyle,
+            theme
         } = this.props;
         const {
             title,
@@ -268,10 +279,10 @@ export class ListView extends Component<IProps> {
         if (rightArrowIcon) {
             otherProps = {
                 rightAvatar: (
-                    <Icon
+                    <AssetIcon
                         name={!isRTL() ? 'chevron-right' : 'chevron-left'}
                         size={15}
-                        color={colors.darkGray}
+                        color={theme?.icons?.primaryColor}
                         style={rightArrowIconStyle}
                     />
                 )
@@ -286,25 +297,29 @@ export class ListView extends Component<IProps> {
                 bottomDivider={bottomDivider}
                 containerStyle={[
                     styles.containerWithAvatar,
-                    { backgroundColor: colors.veryLightGray },
+                    { backgroundColor: theme?.backgroundColor },
                     itemContainer && itemContainer
                 ]}
                 fontFamily={fonts.poppins}
                 onPress={() => onPress(fullItem)}
+                {...(theme?.mode === 'dark' && {
+                    underlayColor: colors.gray
+                })}
                 leftAvatar={
                     leftAvatar ? (
                         <Avatar
                             size={40}
                             rounded
                             title={leftAvatar}
+                            titleStyle={{ fontWeight: '600' }}
                             overlayContainerStyle={{
                                 backgroundColor: leftIcon
                                     ? 'transparent'
-                                    : colors.gray
+                                    : theme?.avatar?.bgColor
                             }}
                         />
                     ) : (
-                        <Icon
+                        <AssetIcon
                             name={leftIcon}
                             size={iconSize}
                             color={colors.primaryLight}
@@ -337,7 +352,8 @@ export class ListView extends Component<IProps> {
             items,
             hasAvatar = false,
             isEmpty,
-            emptyContentProps
+            emptyContentProps,
+            theme
         } = this.props;
 
         return (
@@ -349,11 +365,18 @@ export class ListView extends Component<IProps> {
                             : this.itemsWithAvatar(item, index)
                     )
                 ) : (
-                    <Empty {...emptyContentProps} />
+                    <Empty {...emptyContentProps} theme={theme} />
                 )}
             </>
         );
     }
 }
 
-export default ListView;
+const mapStateToProps = ({ global }) => ({
+    theme: global?.theme
+});
+
+export const ListView = connect(
+    mapStateToProps,
+    {}
+)(ListViewComponent);

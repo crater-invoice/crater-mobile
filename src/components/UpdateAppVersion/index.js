@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { AssetImage } from '../AssetImage';
 import { CtGradientButton } from '../Button';
-import { Text } from 'react-native-elements';
+import { Text } from '../Text';
 import { IMAGES } from '@/assets';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
@@ -56,11 +56,11 @@ export class UpdateAppVersion extends Component {
                     </View>
 
                     <View style={styles.bodyContainer}>
-                        <Text h4 style={styles.title}>
+                        <Text primary h5 style={styles.title}>
                             {Lng.t('updateApp.title', { locale })}
                         </Text>
 
-                        <Text h6 style={styles.description}>
+                        <Text primaryLight center h6 style={styles.description}>
                             {Lng.t('updateApp.description', { locale })}
                         </Text>
                     </View>

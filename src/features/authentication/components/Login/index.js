@@ -6,19 +6,24 @@ import {
     ScrollView,
     View,
     KeyboardAvoidingView,
-    Text,
     TouchableOpacity,
     Keyboard
 } from 'react-native';
 import { Field } from 'redux-form';
-import styles from './styles';
-import { InputField, AssetImage, CtGradientButton } from '@/components';
+import { styles, Container } from './styles';
+import {
+    InputField,
+    AssetImage,
+    CtGradientButton,
+    Text,
+    AssetSvg
+} from '@/components';
 import Constants from 'expo-constants';
-import { colors } from '@/styles/colors';
 import { ROUTES } from '@/navigation';
 import Lng from '@/lang/i18n';
-import { IMAGES } from '@/assets';
-import { biometricAuthentication } from '@/utils';
+import { LOGO } from '@/assets';
+import { SettingIcon } from '@/icons';
+import { biometricAuthentication, STATUS_BAR_CONTENT } from '@/utils';
 import {
     BIOMETRY_AUTH_TYPES,
     hasValue,
@@ -84,7 +89,13 @@ export class Login extends React.Component<IProps> {
     };
 
     render() {
-        const { loading, navigation, locale, biometryAuthType } = this.props;
+        const {
+            loading,
+            navigation,
+            locale,
+            biometryAuthType,
+            theme
+        } = this.props;
         const { isKeyboardVisible } = this.state;
 
         const BIOMETRY_TYPES_TITLES = {
@@ -109,12 +120,35 @@ export class Login extends React.Component<IProps> {
         };
 
         return (
-            <View style={styles.container}>
+            <Container>
                 <StatusBar
-                    barStyle="dark-content"
+                    barStyle={STATUS_BAR_CONTENT[(theme?.mode)]}
                     hidden={false}
                     translucent={true}
+                    backgroundColor={theme?.backgroundColor}
                 />
+
+                <TouchableOpacity
+                    onPress={() =>
+                        navigation.navigate(ROUTES.ENDPOINTS, {
+                            skipEndpoint: true
+                        })
+                    }
+                    style={styles.setting}
+                    hitSlop={{
+                        top: 15,
+                        left: 15,
+                        bottom: 15,
+                        right: 15
+                    }}
+                >
+                    <AssetSvg
+                        name={SettingIcon}
+                        width={35}
+                        height={35}
+                        fill={theme?.icons?.primaryBgColor}
+                    />
+                </TouchableOpacity>
 
                 <ScrollView
                     style={scrollViewStyle}
@@ -131,7 +165,7 @@ export class Login extends React.Component<IProps> {
                         <View style={styles.main}>
                             <View style={styles.logoContainer}>
                                 <AssetImage
-                                    imageSource={IMAGES.LOGO_DARK}
+                                    imageSource={LOGO[(theme?.mode)]}
                                     imageStyle={styles.imgLogo}
                                 />
                             </View>
@@ -151,7 +185,6 @@ export class Login extends React.Component<IProps> {
                                         loginRefs.password.focus();
                                     }
                                 }}
-                                placeholderColor={colors.white5}
                                 inputContainerStyle={styles.inputField}
                             />
 
@@ -185,7 +218,11 @@ export class Login extends React.Component<IProps> {
                                         )
                                     }
                                 >
-                                    <Text style={styles.forgetPassword}>
+                                    <Text
+                                        light
+                                        color={theme?.text?.fourthColor}
+                                        style={styles.forgetPassword}
+                                    >
                                         {Lng.t('button.forget', {
                                             locale
                                         })}
@@ -203,6 +240,7 @@ export class Login extends React.Component<IProps> {
                                     })}
                                     loading={loading}
                                     isLoading={loading}
+                                    style={{ paddingVertical: 8 }}
                                 />
                             </View>
                         </View>
@@ -213,7 +251,11 @@ export class Login extends React.Component<IProps> {
                         onPress={this.loginViaBiometry}
                         style={styles.biometryButton}
                     >
-                        <Text style={styles.biometryText}>
+                        <Text
+                            primary
+                            style={styles.biometryText}
+                            color={theme?.text?.primaryColor}
+                        >
                             {Lng.t('touchFaceId.login', {
                                 locale,
                                 type: BIOMETRY_TYPES_TITLES[biometryAuthType]
@@ -221,7 +263,7 @@ export class Login extends React.Component<IProps> {
                         </Text>
                     </TouchableOpacity>
                 )}
-            </View>
+            </Container>
         );
     }
 }

@@ -12,7 +12,7 @@ import { isArray } from '@/constants';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, taxTypes, currency },
+        global: { locale, taxTypes, currency, theme },
         invoices: { loading, invoiceItems, invoiceData, items },
         customers: { customers },
         settings: { notes, customFields }
@@ -49,6 +49,7 @@ const mapStateToProps = (state, { navigation }) => {
         formValues: getFormValues(INVOICE_FORM)(state) || {},
         taxTypes,
         currency,
+        theme,
         customFields,
         id,
         initialValues: !isLoading

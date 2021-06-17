@@ -7,17 +7,19 @@ import { FadeAnimation } from '@/components';
 type IProps = {
     withLoading?: Boolean,
     loadingProps?: any,
-    emptyProps?: any
+    emptyProps?: any,
+    theme?: any
 };
 
 export const Content = ({
     children,
     withLoading = false,
     loadingProps,
-    emptyProps
+    emptyProps,
+    theme
 }: IProps) => {
     if (emptyProps?.is) {
-        return <Empty {...emptyProps} />;
+        return <Empty {...emptyProps} theme={theme} />;
     }
 
     if (withLoading) {
@@ -32,6 +34,7 @@ export const Content = ({
                             height: '100%'
                         }}
                         {...loadingProps}
+                        theme={theme}
                     />
                 )}
             </>
@@ -39,7 +42,7 @@ export const Content = ({
     }
 
     if (loadingProps?.is) {
-        return <Loading {...loadingProps} />;
+        return <Loading {...loadingProps} theme={theme} />;
     }
 
     return <FadeAnimation>{children}</FadeAnimation>;

@@ -1,20 +1,17 @@
 // @flow
 
 import React, { Component } from 'react';
-import {
-    View,
-    TouchableWithoutFeedback,
-    Text,
-    TouchableOpacity
-} from 'react-native';
+import { View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Field } from 'redux-form';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
 import { colors } from '@/styles';
 import { Content } from '../Content';
 import Lng from '@/lang/i18n';
 import { InputField } from '../InputField';
+import { AssetIcon } from '../AssetIcon';
+import { Text } from '../Text';
+import { Label } from '../Label';
 
 type IProps = {
     label: String,
@@ -25,7 +22,7 @@ type IProps = {
     rightIcon: String,
     leftIcon: String,
     color: String,
-    value: String,
+    value: string,
     fakeInput: any,
     fakeInputContainerStyle: Object,
     valueStyle: Object,
@@ -66,19 +63,15 @@ export class FakeInputComponent extends Component<IProps> {
             isRequired = false,
             leftIconSolid = true,
             disabled = false,
-            prefixProps = null
+            prefixProps = null,
+            theme
         } = this.props;
 
         return (
             <View style={[styles.container, containerStyle && containerStyle]}>
-                {label && (
-                    <Text style={styles.label}>
-                        {label}
-                        {isRequired ? (
-                            <Text style={styles.required}> *</Text>
-                        ) : null}
-                    </Text>
-                )}
+                <Label isRequired={isRequired} theme={theme}>
+                    {label}
+                </Label>
                 {fakeInput ? (
                     <TouchableWithoutFeedback
                         onPress={() => onChangeCallback && onChangeCallback()}
@@ -88,10 +81,16 @@ export class FakeInputComponent extends Component<IProps> {
                             style={submitFailed && error && styles.pickerError}
                         >
                             {leftIcon && (
-                                <Icon
+                                <AssetIcon
                                     name={leftIcon}
                                     size={16}
-                                    color={(color && color) || colors.darkGray}
+                                    color={
+                                        color
+                                            ? color
+                                            : values
+                                            ? theme?.icons?.primaryColor
+                                            : theme?.icons?.secondaryColor
+                                    }
                                     solid
                                     style={styles.leftIcon}
                                 />
@@ -102,7 +101,7 @@ export class FakeInputComponent extends Component<IProps> {
                 ) : prefixProps ? (
                     <View
                         style={[
-                            styles.prefixInput,
+                            styles.prefixInput(theme),
                             submitFailed &&
                                 error && {
                                     ...styles.inputError,
@@ -112,19 +111,22 @@ export class FakeInputComponent extends Component<IProps> {
                     >
                         <View style={styles.prefixLabelContainer}>
                             {prefixProps.icon && (
-                                <Icon
+                                <AssetIcon
                                     name={prefixProps.icon}
                                     size={16}
-                                    color={colors.darkGray}
+                                    color={theme?.icons?.primaryColor}
                                     solid={prefixProps.iconSolid}
                                     style={styles.prefixLeftIcon}
                                 />
                             )}
                             <Text
+                                color={theme?.text?.secondaryColor}
                                 numberOfLines={1}
                                 style={[
                                     styles.textValue,
-                                    { color: colors.dark2, fontSize: 16 },
+                                    {
+                                        fontSize: 16
+                                    },
                                     prefixProps.icon && { paddingLeft: 39 }
                                 ]}
                             >
@@ -152,9 +154,10 @@ export class FakeInputComponent extends Component<IProps> {
                     <Content
                         loadingProps={{
                             is: loading,
-                            style: styles.loadingFakeInput,
+                            style: styles.loadingFakeInput(theme),
                             size: 'small'
                         }}
+                        theme={theme}
                     >
                         <TouchableOpacity
                             onPress={() =>
@@ -164,19 +167,24 @@ export class FakeInputComponent extends Component<IProps> {
                         >
                             <View
                                 style={[
-                                    styles.fakeInput,
+                                    styles.fakeInput(theme),
                                     fakeInputContainerStyle &&
                                         fakeInputContainerStyle,
                                     submitFailed && error && styles.inputError,
-                                    disabled && styles.disabledSelectedValue
+                                    disabled &&
+                                        styles.disabledSelectedValue(theme)
                                 ]}
                             >
                                 {icon && (
-                                    <Icon
+                                    <AssetIcon
                                         name={icon}
                                         size={16}
                                         color={
-                                            (color && color) || colors.darkGray
+                                            color
+                                                ? color
+                                                : values
+                                                ? theme?.icons?.primaryColor
+                                                : theme?.icons?.secondaryColor
                                         }
                                         solid={leftIconSolid}
                                         style={[
@@ -188,20 +196,28 @@ export class FakeInputComponent extends Component<IProps> {
 
                                 {values ? (
                                     <Text
+                                        color={theme?.text?.secondaryColor}
                                         numberOfLines={1}
+                                        medium={theme?.mode === 'dark'}
                                         style={[
                                             styles.textValue,
                                             color && { color: color },
                                             icon && { paddingLeft: 39 },
                                             rightIcon && styles.hasRightIcon,
                                             valueStyle && valueStyle,
-                                            disabled && { opacity: 0.5 }
+                                            disabled && {
+                                                opacity:
+                                                    theme?.mode === 'dark'
+                                                        ? 0.9
+                                                        : 0.5
+                                            }
                                         ]}
                                     >
                                         {values}
                                     </Text>
                                 ) : (
                                     <Text
+                                        color={theme?.text?.fifthColor}
                                         numberOfLines={1}
                                         style={[
                                             styles.placeholderText,
@@ -218,7 +234,7 @@ export class FakeInputComponent extends Component<IProps> {
                                 )}
 
                                 {rightIcon && (
-                                    <Icon
+                                    <AssetIcon
                                         name={rightIcon}
                                         size={18}
                                         color={colors.darkGray}
@@ -233,17 +249,12 @@ export class FakeInputComponent extends Component<IProps> {
                 {submitFailed && error && (
                     <View style={styles.validation}>
                         <Text
+                            white
+                            h6
                             numberOfLines={1}
-                            style={{
-                                color: 'white',
-                                fontSize: 12,
-                                textAlign: 'left'
-                            }}
+                            medium={theme?.mode === 'dark'}
                         >
-                            {Lng.t(error, {
-                                locale,
-                                hint: label
-                            })}
+                            {Lng.t(error, { locale, hint: label })}
                         </Text>
                     </View>
                 )}
@@ -253,7 +264,8 @@ export class FakeInputComponent extends Component<IProps> {
 }
 
 const mapStateToProps = ({ global }) => ({
-    locale: global?.locale
+    locale: global?.locale,
+    theme: global?.theme
 });
 
 const mapDispatchToProps = {};

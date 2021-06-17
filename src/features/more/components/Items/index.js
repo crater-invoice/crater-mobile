@@ -95,7 +95,8 @@ export class Items extends React.Component<IProps> {
             handleSubmit,
             formValues,
             getItems,
-            currency
+            currency,
+            theme
         } = this.props;
 
         const { search } = this.state;
@@ -104,8 +105,6 @@ export class Items extends React.Component<IProps> {
             title: Lng.t('header.items', { locale }),
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
-            title: Lng.t('header.items', { locale }),
-            titleStyle: styles.headerTitle,
             rightIcon: 'plus',
             placement: 'center',
             rightIcon: 'plus',
@@ -150,34 +149,32 @@ export class Items extends React.Component<IProps> {
         };
 
         return (
-            <View style={styles.container}>
-                <MainLayout
-                    headerProps={headerProps}
-                    onSearch={this.onSearch}
-                    bottomDivider
-                    onFocus={() => {}}
-                    filterProps={filterProps}
-                >
-                    <View style={styles.listViewContainer}>
-                        <InfiniteScroll
-                            getItems={getItems}
-                            reference={ref => (this.scrollViewReference = ref)}
-                            getItemsInMount={false}
-                            paginationLimit={isIPhoneX() ? 20 : 15}
-                        >
-                            <ListView
-                                items={formatItems(items, currency)}
-                                onPress={this.onSelect}
-                                isEmpty={isEmpty}
-                                bottomDivider
-                                leftSubTitleStyle={itemsDescriptionStyle()}
-                                emptyContentProps={emptyContentProps}
-                                isAnimated
-                            />
-                        </InfiniteScroll>
-                    </View>
-                </MainLayout>
-            </View>
+            <MainLayout
+                headerProps={headerProps}
+                onSearch={this.onSearch}
+                bottomDivider
+                onFocus={() => {}}
+                filterProps={filterProps}
+            >
+                <View style={styles.listViewContainer}>
+                    <InfiniteScroll
+                        getItems={getItems}
+                        reference={ref => (this.scrollViewReference = ref)}
+                        getItemsInMount={false}
+                        paginationLimit={isIPhoneX() ? 20 : 15}
+                    >
+                        <ListView
+                            items={formatItems(items, currency)}
+                            onPress={this.onSelect}
+                            isEmpty={isEmpty}
+                            bottomDivider
+                            leftSubTitleStyle={itemsDescriptionStyle()}
+                            emptyContentProps={emptyContentProps}
+                            isAnimated
+                        />
+                    </InfiniteScroll>
+                </View>
+            </MainLayout>
         );
     }
 }

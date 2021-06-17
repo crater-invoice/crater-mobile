@@ -6,6 +6,7 @@ import { TOUCH_FACE_ID_FORM } from '../../constants';
 
 const mapStateToProps = ({ global }) => ({
     locale: global?.locale,
+    theme: global?.theme,
     biometryAuthType: global?.biometryAuthType,
     initialValues: {
         biometry: true

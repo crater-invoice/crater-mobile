@@ -4,25 +4,25 @@ import React, { Component } from 'react';
 import {
     View,
     KeyboardAvoidingView,
-    Text,
     StatusBar,
     ScrollView,
     Platform,
     Keyboard
 } from 'react-native';
-import styles from './styles';
+import { styles, Container } from './styles';
 import { Field } from 'redux-form';
 import {
     InputField,
     AssetImage,
     CtGradientButton,
-    CtHeader
+    CtHeader,
+    Text
 } from '@/components';
 import Lng from '@/lang/i18n';
-import { IMAGES } from '@/assets';
+import { IMAGES, LOGO } from '@/assets';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { alertMe, isIosPlatform, isIPhoneX } from '@/constants';
-import { isRTL } from '@/utils';
+import { isRTL, STATUS_BAR_CONTENT } from '@/utils';
 
 type IProps = {
     label: String,
@@ -111,7 +111,8 @@ export class Endpoint extends Component<IProps> {
             handleSubmit,
             locale,
             skipEndpoint = false,
-            loading
+            loading,
+            theme
         } = this.props;
 
         const { isKeyboardVisible } = this.state;
@@ -134,7 +135,7 @@ export class Endpoint extends Component<IProps> {
         };
 
         return (
-            <View style={styles.container}>
+            <Container>
                 {skipEndpoint ? (
                     <CtHeader
                         leftIcon={!isRTL() ? 'angle-left' : 'angle-right'}
@@ -148,12 +149,14 @@ export class Endpoint extends Component<IProps> {
                         placement="left"
                         noBorder
                         transparent
+                        theme={theme}
                     />
                 ) : (
                     <StatusBar
-                        barStyle="dark-content"
+                        barStyle={STATUS_BAR_CONTENT[(theme?.mode)]}
                         hidden={false}
                         translucent={true}
+                        backgroundColor={theme?.backgroundColor}
                     />
                 )}
 
@@ -172,7 +175,7 @@ export class Endpoint extends Component<IProps> {
                         <View style={styles.main}>
                             <View style={styles.logoContainer}>
                                 <AssetImage
-                                    imageSource={IMAGES.LOGO_DARK}
+                                    imageSource={LOGO[(theme?.mode)]}
                                     imageStyle={styles.imgLogo}
                                 />
                             </View>
@@ -197,7 +200,11 @@ export class Endpoint extends Component<IProps> {
                                     onFocus={() => this.toggleFocus()}
                                     inputContainerStyle={styles.inputField}
                                 />
-                                <Text style={styles.endpointTextTitle}>
+                                <Text
+                                    h5
+                                    color={theme?.viewLabel?.fourthColor}
+                                    style={styles.endpointTextTitle}
+                                >
                                     {Lng.t('endpoint.endpointDesc', { locale })}
                                 </Text>
                             </View>
@@ -212,7 +219,7 @@ export class Endpoint extends Component<IProps> {
                         </View>
                     </KeyboardAvoidingView>
                 </ScrollView>
-            </View>
+            </Container>
         );
     }
 }

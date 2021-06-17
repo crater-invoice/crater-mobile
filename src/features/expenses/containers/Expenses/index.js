@@ -3,12 +3,8 @@ import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as ExpensesAction from '../../actions';
 import * as CategoriesAction from '../../../settings/actions';
-import { colors } from '@/styles';
 import { Expenses } from '../../components/Expenses';
 import { EXPENSE_SEARCH } from '../../constants';
-import { EXPENSES_ICON } from '@/assets';
-import { getTitleByLanguage } from '@/utils';
-import { AssetSvg } from '@/components';
 import { getExpensesState, getCategoriesState } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
 
@@ -47,14 +43,7 @@ const ExpensesContainer = connect(
 )(ExpensesSearchReduxForm);
 
 ExpensesContainer.navigationOptions = ({ navigation }) => ({
-    gesturesEnabled: false,
-    tabBarLabel: getTitleByLanguage('tabNavigation.expenses'),
-    tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <AssetSvg
-            name={EXPENSES_ICON}
-            fill={focused ? colors.primary : colors.darkGray}
-        />
-    )
+    gesturesEnabled: false
 });
 
 export default ExpensesContainer;

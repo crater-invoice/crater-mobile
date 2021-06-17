@@ -7,13 +7,15 @@ import {
     ScrollView,
     StatusBar
 } from 'react-native';
-import { styles } from './styles';
+import { connect } from 'react-redux';
+import { styles, Container } from './styles';
 import { CtHeader } from '../..';
 import { Content } from '../../Content';
 import Dropdown from '../../Dropdown';
 import { ARROW_ICON } from '@/assets';
 import { isIosPlatform } from '@/constants';
 import { Toast } from '@/components';
+import { STATUS_BAR_CONTENT } from '@/utils';
 
 type IProps = {
     children?: Object,
@@ -29,7 +31,7 @@ type IProps = {
     toastProps?: any
 };
 
-export const DefaultLayout = ({
+const Layout = ({
     children,
     headerProps,
     rightIcon,
@@ -39,32 +41,42 @@ export const DefaultLayout = ({
     hideScrollView = false,
     contentProps,
     keyboardProps,
-    toastProps
+    toastProps,
+    theme
 }: IProps) => {
     const keyboardVerticalOffset = isIosPlatform() ? 60 : 0;
-
     return (
-        <View style={styles.page}>
+        <Container>
             <StatusBar
-                barStyle="dark-content"
+                barStyle={STATUS_BAR_CONTENT[(theme?.mode)]}
                 hidden={false}
                 translucent={true}
+                backgroundColor={theme?.secondaryBgColor}
             />
 
-            <View style={styles.headerContainer}>
-                <CtHeader
-                    titleStyle={styles.headerTitleStyle}
-                    placement="center"
-                    leftIcon={ARROW_ICON}
-                    rightIcon={rightIcon}
-                    {...headerProps}
-                    rightComponent={
-                        dropdownProps && <Dropdown {...dropdownProps} />
-                    }
-                />
-            </View>
+            <CtHeader
+                titleStyle={{
+                    ...styles.headerTitleStyle(theme),
+                    ...headerProps?.withTitleStyle
+                }}
+                placement="center"
+                leftIcon={ARROW_ICON}
+                rightIcon={rightIcon}
+                theme={theme}
+                containerStyle={styles.header}
+                {...headerProps}
+                rightComponent={
+                    dropdownProps && (
+                        <Dropdown {...dropdownProps} theme={theme} />
+                    )
+                }
+            />
 
-            <Content {...contentProps} loadingProps={loadingProps}>
+            <Content
+                {...contentProps}
+                loadingProps={loadingProps}
+                theme={theme}
+            >
                 <KeyboardAvoidingView
                     style={{ flex: 1 }}
                     contentContainerStyle={{ flex: 1 }}
@@ -83,10 +95,20 @@ export const DefaultLayout = ({
             </Content>
 
             {bottomAction && (
-                <View style={styles.bottomView}>{bottomAction}</View>
+                <View style={styles.bottomView(theme)}>{bottomAction}</View>
             )}
 
             {toastProps && <Toast {...toastProps} />}
-        </View>
+        </Container>
     );
 };
+
+const mapStateToProps = ({ global }) => ({
+    locale: global?.locale,
+    theme: global?.theme
+});
+
+export const DefaultLayout = connect(
+    mapStateToProps,
+    {}
+)(Layout);

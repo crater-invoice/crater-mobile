@@ -1,18 +1,15 @@
 import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
+import { isAndroidPlatform } from '@/constants';
 
 export const styles = StyleSheet.create({
-    leftTitle: {
+    rightTitle: theme => ({
         fontSize: 18,
-        fontFamily: fonts.poppinsLight
-    },
-    rightTitle: {
-        fontSize: 18,
-        color: colors.dark2,
+        color: theme?.listItem?.primary?.color,
         fontWeight: '500',
         fontFamily: fonts.poppinsSemiBold,
         textAlign: 'left'
-    },
+    }),
     containerStyle: {
         alignItems: 'flex-start',
         paddingVertical: 13,
@@ -32,24 +29,17 @@ export const styles = StyleSheet.create({
     checkboxContainerPadding: {
         paddingTop: 12
     },
-    rightSubTitle: {
+    rightSubTitle: theme => ({
         fontSize: 13,
-        color: '#8e95ac'
-    },
-    leftSubTitleText: {
-        fontSize: 14,
-        color: colors.darkGray
-    },
+        color: theme?.listItem?.third?.color,
+        marginTop: 4,
+        fontFamily:
+            theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium
+    }),
     leftSubTitleLabelContainer: {
         display: 'flex',
         alignItems: 'flex-start',
         marginTop: 6
-    },
-    leftSubTitleLabel: {
-        textTransform: 'uppercase',
-        fontFamily: fonts.poppins,
-        fontSize: 12,
-        textAlign: 'left'
     },
     success: {
         backgroundColor: colors.successLight2,
@@ -66,7 +56,8 @@ export const styles = StyleSheet.create({
     labelInnerContainerStyle: {
         paddingVertical: 4,
         paddingHorizontal: 8,
-        borderRadius: 1
+        borderRadius: 1,
+        ...(isAndroidPlatform() && { paddingTop: 5 })
     },
     leftSubTitleContainer: {
         paddingLeft: 1

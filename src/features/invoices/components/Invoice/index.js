@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import * as Linking from 'expo-linking';
 import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
@@ -24,7 +24,9 @@ import {
     CurrencyFormat,
     FakeInput,
     SendMail,
-    CustomField
+    CustomField,
+    Text,
+    Label
 } from '@/components';
 import {
     INVOICE_ADD,
@@ -349,7 +351,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                             amount={price}
                             currency={currency}
                             preText={`${quantity} * `}
-                            style={styles.itemLeftSubTitle}
+                            style={styles.itemLeftSubTitle(this.props.theme)}
                             containerStyle={styles.itemLeftSubTitleLabel}
                         />
                     )
@@ -522,7 +524,8 @@ export class Invoice extends React.Component<IProps, IStates> {
             customers,
             formValues,
             withLoading,
-            customFields
+            customFields,
+            theme
         } = this.props;
 
         const { currency, customerName, markAsStatus, isLoading } = this.state;
@@ -668,22 +671,21 @@ export class Invoice extends React.Component<IProps, IStates> {
                         reference={ref => (this.customerReference = ref)}
                     />
 
-                    <Text style={[styles.inputTextStyle, styles.label]}>
+                    <Label isRequired theme={theme} style={styles.label}>
                         {Lng.t('invoices.items', { locale })}
-                        <Text style={styles.required}> *</Text>
-                    </Text>
+                    </Label>
 
                     <ListView
                         items={this.getInvoiceItemList(invoiceItems)}
-                        itemContainer={styles.itemContainer}
-                        leftTitleStyle={styles.itemLeftTitle}
+                        itemContainer={styles.itemContainer(theme)}
+                        leftTitleStyle={styles.itemLeftTitle(theme)}
                         leftSubTitleLabelStyle={[
-                            styles.itemLeftSubTitle,
+                            styles.itemLeftSubTitle(theme),
                             styles.itemLeftSubTitleLabel
                         ]}
-                        leftSubTitleStyle={styles.itemLeftSubTitle}
-                        rightTitleStyle={styles.itemRightTitle}
-                        backgroundColor={colors.white}
+                        leftSubTitleStyle={styles.itemLeftSubTitle(theme)}
+                        rightTitleStyle={styles.itemRightTitle(theme)}
+                        backgroundColor={theme.thirdBgColor}
                         onPress={this.onEditItem}
                         parentViewStyle={{ marginVertical: 4 }}
                     />

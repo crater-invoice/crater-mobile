@@ -8,6 +8,7 @@ import {
     StyleProp,
     ViewStyle
 } from 'react-native';
+import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
 import { styles } from './styles';
 import { colors } from '@/styles/colors';
@@ -48,7 +49,7 @@ const isScrollToEnd = ({ layoutMeasurement, contentOffset, contentSize }) => {
     );
 };
 
-export class InfiniteScroll extends React.Component<IProps, IState> {
+class ScrollList extends React.Component<IProps, IState> {
     constructor(props) {
         super(props);
         this.isLoading = false;
@@ -187,22 +188,28 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
             refreshControlColor,
             emptyContentProps,
             children,
-            hideRefreshControl
+            hideRefreshControl,
+            theme
         } = this.props;
+
+        const loaderColor =
+            refreshControlColor || theme?.mode === 'light'
+                ? colors.veryDarkGray
+                : colors.white;
 
         const refreshControl =
             !loading && !hideRefreshControl ? (
                 <RefreshControl
                     refreshing={refreshing}
                     onRefresh={this.onRefresh}
-                    tintColor={refreshControlColor || colors.veryDarkGray}
+                    tintColor={loaderColor}
                 />
             ) : null;
 
         const loader = (
             <ActivityIndicator
                 size={'large'}
-                color={refreshControlColor}
+                color={loaderColor}
                 style={styles.loader}
             />
         );
@@ -229,8 +236,12 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
                     }
                 }}
             >
-                <Content loadingProps={loadingProps}>
-                    {!isEmpty ? children : <Empty {...emptyContentProps} />}
+                <Content loadingProps={loadingProps} theme={theme}>
+                    {!isEmpty ? (
+                        children
+                    ) : (
+                        <Empty {...emptyContentProps} theme={theme} />
+                    )}
 
                     {!loading && !refreshing && isMore && loader}
                 </Content>
@@ -238,3 +249,13 @@ export class InfiniteScroll extends React.Component<IProps, IState> {
         );
     }
 }
+
+const mapStateToProps = ({ global }) => ({
+    locale: global?.locale,
+    theme: global?.theme
+});
+
+export const InfiniteScroll = connect(
+    mapStateToProps,
+    {}
+)(ScrollList);

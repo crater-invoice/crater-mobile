@@ -1,6 +1,5 @@
 import queryString from 'query-string';
 import Lng from '@/lang/i18n';
-import { colors } from '@/styles';
 
 // Invoice Refs
 // -----------------------------------------
@@ -20,7 +19,7 @@ export const ITEM_FORM = 'item/ITEM_FORM';
 export const INVOICE_ADD = 'invoiceForm/INVOICE_ADD';
 export const INVOICE_EDIT = 'invoiceForm/INVOICE_EDIT';
 export const RECURRING_ADD = 'recurringInvoice/RECURRING_ADD';
-export const RECURRING_EDIT = 'recurringInvoice/RECURRING_EDIT'; 
+export const RECURRING_EDIT = 'recurringInvoice/RECURRING_EDIT';
 
 // Actions
 // -----------------------------------------
@@ -39,7 +38,7 @@ export const REMOVE_INVOICE = 'invoice/REMOVE_INVOICE';
 export const REMOVE_FROM_INVOICES = 'invoice/REMOVE_FROM_INVOICES';
 export const CHANGE_INVOICE_STATUS = 'invoice/CHANGE_INVOICE_STATUS';
 export const GET_INVOICE_TEMPLATE = 'invoice/GET_INVOICE_TEMPLATE';
-export const UPDATE_FROM_INVOICES = 'invoices/UPDATE_FROM_INVOICES'
+export const UPDATE_FROM_INVOICES = 'invoices/UPDATE_FROM_INVOICES';
 
 export const GET_RECURRING_INVOICES = 'recurring/GET_RECURRING_INVOICES';
 export const SET_RECURRING_INVOICES = 'recurring/SET_RECURRING_INVOICES';
@@ -121,28 +120,6 @@ export const INVOICES_STATUS = {
     OVERDUE: 'danger',
     DRAFT: 'warning',
     PAID: 'success'
-};
-
-export const INVOICES_STATUS_BG_COLOR = {
-    DRAFT: colors.warningLight,
-    SENT: colors.warningLight2,
-    VIEWED: colors.infoLight,
-    OVERDUE: colors.dangerLight,
-    COMPLETED: colors.successLight2,
-    UNPAID: colors.warningLight,
-    PAID: colors.successLight2,
-    PARTIALLY_PAID: colors.infoLight
-};
-
-export const INVOICES_STATUS_TEXT_COLOR = {
-    DRAFT: colors.warningDark,
-    SENT: colors.warningDark2,
-    VIEWED: colors.infoDark,
-    OVERDUE: colors.dangerDark,
-    COMPLETED: colors.successDark,
-    UNPAID: colors.warningDark,
-    PAID: colors.successDark,
-    PARTIALLY_PAID: colors.infoDark
 };
 
 // ActionSheet Actions

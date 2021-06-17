@@ -45,31 +45,28 @@ export class Settings extends React.Component {
     };
 
     render() {
-        const { navigation, locale } = this.props;
+        const { navigation, locale, theme } = this.props;
         return (
-            <View style={styles.container}>
-                <DefaultLayout
-                    headerProps={{
-                        leftIconPress: () =>
-                            navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t('header.settings', { locale }),
-                        leftIconStyle: { color: colors.dark2 }
-                    }}
-                    hasSearchField={false}
-                >
-                    <View style={styles.listViewContainer}>
-                        <ListView
-                            items={SETTINGS_MENU(locale, Lng)}
-                            onPress={this.onSelectMenu}
-                            leftTitleStyle={styles.listViewTitle}
-                            leftIconStyle={styles.listViewIcon}
-                            itemContainer={styles.itemContainer}
-                            rightArrowIcon
-                            hasAvatar
-                        />
-                    </View>
-                </DefaultLayout>
-            </View>
+            <DefaultLayout
+                headerProps={{
+                    leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
+                    title: Lng.t('header.settings', { locale }),
+                    leftIconStyle: { color: theme?.header?.primary?.color }
+                }}
+                hasSearchField={false}
+            >
+                <View style={styles.listViewContainer}>
+                    <ListView
+                        items={SETTINGS_MENU(locale, Lng)}
+                        onPress={this.onSelectMenu}
+                        leftTitleStyle={styles.listViewTitle(theme)}
+                        leftIconStyle={styles.listViewIcon}
+                        itemContainer={styles.itemContainer}
+                        rightArrowIcon
+                        hasAvatar
+                    />
+                </View>
+            </DefaultLayout>
         );
     }
 }

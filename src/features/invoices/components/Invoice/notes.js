@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Editor, SelectField } from '@/components';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Editor, SelectField, Text } from '@/components';
+import { View, TouchableOpacity } from 'react-native';
 import Lng from '@/lang/i18n';
 import { Field } from 'redux-form';
 import { formatNotesType } from '@/utils';
@@ -11,7 +11,6 @@ import {
     NOTES_TYPE_VALUE as NOTES_TYPE
 } from '@/features/settings/constants';
 import { isIPhoneX } from '@/constants';
-
 interface IProps {
     locale?: string;
     isEditInvoice?: boolean;
@@ -52,7 +51,8 @@ export default class Notes extends Component<IProps> {
             isEditInvoice,
             notes,
             getNotes,
-            navigation
+            navigation,
+            theme
         } = this.props;
 
         return (
@@ -104,13 +104,9 @@ export default class Notes extends Component<IProps> {
                                     }}
                                 >
                                     <Text
-                                        style={{
-                                            color: colors.primary,
-                                            fontFamily: fonts.poppins,
-                                            fontSize: 16,
-                                            paddingBottom: 6,
-                                            textAlign: 'left'
-                                        }}
+                                        h4
+                                        color={theme?.viewLabel?.thirdColor}
+                                        style={{ paddingBottom: 6 }}
                                     >
                                         {Lng.t('notes.insertNote', {
                                             locale

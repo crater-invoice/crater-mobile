@@ -104,7 +104,7 @@ export class CustomFields extends React.Component<IProps> {
             title: Lng.t('header.customFields', { locale }),
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.goBack(null),
-            titleStyle: styles.headerTitle,
+            titleSize: 'medium',
             rightIcon: 'plus',
             placement: 'center',
             rightIconPress: () => {
@@ -115,36 +115,34 @@ export class CustomFields extends React.Component<IProps> {
         };
 
         return (
-            <View style={styles.container}>
-                <MainLayout
-                    headerProps={headerProps}
-                    onSearch={this.onSearch}
-                    bottomDivider
-                >
-                    <View style={styles.listViewContainer}>
-                        <InfiniteScroll
-                            getItems={getCustomFields}
-                            reference={ref => (this.scrollViewReference = ref)}
-                            getItemsInMount={false}
-                        >
-                            <ListView
-                                items={customFields}
-                                onPress={this.onSelect}
-                                isEmpty={isEmpty}
-                                bottomDivider
-                                emptyContentProps={emptyContentProps}
-                                leftTitleStyle={styles.leftTitleText}
-                                leftSubTitleLabelStyle={styles.leftSubTitleText}
-                                leftSubTitleContainerStyle={
-                                    styles.leftTitleContainer
-                                }
-                                rightTitleStyle={styles.rightTitleText}
-                                isAnimated
-                            />
-                        </InfiniteScroll>
-                    </View>
-                </MainLayout>
-            </View>
+            <MainLayout
+                headerProps={headerProps}
+                onSearch={this.onSearch}
+                bottomDivider
+            >
+                <View style={styles.listViewContainer}>
+                    <InfiniteScroll
+                        getItems={getCustomFields}
+                        reference={ref => (this.scrollViewReference = ref)}
+                        getItemsInMount={false}
+                    >
+                        <ListView
+                            items={customFields}
+                            onPress={this.onSelect}
+                            isEmpty={isEmpty}
+                            bottomDivider
+                            emptyContentProps={emptyContentProps}
+                            leftTitleStyle={styles.leftTitleText}
+                            leftSubTitleLabelStyle={styles.leftSubTitleText}
+                            leftSubTitleContainerStyle={
+                                styles.leftTitleContainer
+                            }
+                            rightTitleStyle={styles.rightTitleText}
+                            isAnimated
+                        />
+                    </InfiniteScroll>
+                </View>
+            </MainLayout>
         );
     }
 }

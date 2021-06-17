@@ -1,10 +1,11 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { colors, fonts } from '@/styles';
+import { StyleSheet, Dimensions, View } from 'react-native';
+import styled from 'styled-components/native';
+import { colors } from '@/styles';
 import { defineLargeSizeParam } from '@/constants';
 
 const { width } = Dimensions.get('window');
 
-export default styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 25,
@@ -33,15 +34,12 @@ export default styles = StyleSheet.create({
         marginTop: 8
     },
     forgetPassword: {
-        fontSize: 15,
-        color: colors.primaryLight,
-        fontFamily: fonts.poppinsLight,
-        textAlign: 'left'
+        fontSize: 15
     },
     socialLoginContainer: {},
     inputField: {
         paddingVertical: 3,
-        borderRadius: 3
+        borderRadius: 4
     },
     biometryButton: {
         justifyContent: 'center',
@@ -54,8 +52,24 @@ export default styles = StyleSheet.create({
     },
     biometryText: {
         fontSize: 17,
-        color: colors.primary,
         fontWeight: '500',
         opacity: 0.9
+    },
+    setting: {
+        position: 'absolute',
+        right: 20,
+        top: defineLargeSizeParam(55, 35),
+        transform: [{ rotate: '-10deg' }],
+        zIndex: 10
     }
 });
+
+const Container = styled(View)`
+    flex: 1;
+    padding-horizontal: 25;
+    justify-content: center;
+    display: flex;
+    background-color: ${props => props.theme?.backgroundColor};
+`;
+
+export { styles, Container };

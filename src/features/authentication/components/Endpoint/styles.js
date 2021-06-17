@@ -1,15 +1,9 @@
-import { colors } from '@/styles';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, View } from 'react-native';
+import styled from 'styled-components/native';
 
 const { width } = Dimensions.get('window');
 
-export default StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        display: 'flex',
-        paddingHorizontal: 5
-    },
+const styles = StyleSheet.create({
     main: {
         flex: 1,
         flexDirection: 'column',
@@ -30,8 +24,7 @@ export default StyleSheet.create({
         resizeMode: 'contain'
     },
     endpointTextTitle: {
-        marginTop: 15,
-        color: colors.veryDarkGray
+        marginTop: 15
     },
     SendingMailContainer: {
         alignItems: 'center'
@@ -48,3 +41,13 @@ export default StyleSheet.create({
         marginHorizontal: -5
     }
 });
+
+const Container = styled(View)`
+    flex: 1;
+    justify-content: flex-start;
+    display: flex;
+    padding-horizontal: 5;
+    background-color: ${props => props.theme?.backgroundColor};
+`;
+
+export { styles, Container };

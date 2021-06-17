@@ -1,4 +1,5 @@
 import LogoDark from '../assets/crater-logo.png';
+import LogoWhite from '../assets/crater-logo-white.png';
 import GoogleIcon from '../assets/google.png';
 import EmptyInvoices from '../assets/empty-invoices-icon.png';
 import EmptyCustomers from '../assets/empty-customers-icon.png';
@@ -12,6 +13,7 @@ import DefaultAvatar from '../assets/default-avatar.jpg';
 
 export const IMAGES = {
     LOGO_DARK: LogoDark,
+    LOGO_WHITE: LogoWhite,
     GOOGLE_ICON: GoogleIcon,
     EMPTY_INVOICES: EmptyInvoices,
     EMPTY_CUSTOMERS: EmptyCustomers,
@@ -22,4 +24,9 @@ export const IMAGES = {
     LOST_CONNECTION: LostConnection,
     OPEN_ENVELOP: OpenEnvelop,
     DEFAULT_AVATAR: DefaultAvatar
+};
+
+export const LOGO = {
+    light: IMAGES.LOGO_DARK,
+    dark: IMAGES.LOGO_WHITE
 };

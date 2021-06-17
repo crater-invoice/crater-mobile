@@ -24,13 +24,6 @@ export default styles = StyleSheet.create({
     handleBtn: {
         marginHorizontal: 5
     },
-    textStyle: {
-        color: colors.secondary,
-        fontFamily: fonts.poppins,
-        fontSize: 16,
-        marginLeft: 3,
-        textAlign: 'left'
-    },
     // Row Column
     row: {
         flexDirection: 'row'

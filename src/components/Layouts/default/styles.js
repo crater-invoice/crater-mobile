@@ -1,35 +1,31 @@
-import { definePlatformParam, isIPhoneX } from '@/constants';
-import { StyleSheet } from 'react-native';
-import { colors, fonts, headerTitle } from '@/styles';
+import { StyleSheet, View } from 'react-native';
+import styled from 'styled-components/native';
+import { definePlatformParam, isAndroidPlatform, isIPhoneX } from '@/constants';
+import { headerTitle } from '@/styles';
 
-export const styles = StyleSheet.create({
-    page: {
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 1,
-        backgroundColor: colors.veryLightGray
-    },
+const styles = StyleSheet.create({
     content: {
         flex: 1,
         paddingTop: definePlatformParam(0, 16),
         marginBottom: isIPhoneX() ? 82 : 52
     },
-    bottomView: {
-        backgroundColor: colors.white,
+    bottomView: theme => ({
+        backgroundColor: theme?.secondaryBgColor,
+        borderColor: theme?.input?.borderColor,
         paddingVertical: 15,
         paddingHorizontal: 10,
         paddingBottom: isIPhoneX() ? 35 : 13,
-        borderTopWidth: 1,
-        borderColor: colors.lightGray
+        borderTopWidth: 1
+    }),
+    header: {
+        ...(isAndroidPlatform() && { marginTop: 10 })
     },
-    headerTitleStyle: {
+    headerTitleStyle: theme => ({
         fontSize: 17,
-        color: colors.dark1,
-        fontFamily: fonts.poppins,
+        color: theme?.header?.secondary?.color,
         textAlign: 'left',
-        ...headerTitle({})
-    },
+        ...headerTitle({ theme })
+    }),
     inputField: {
         paddingHorizontal: 19,
         paddingVertical: 0,
@@ -40,3 +36,13 @@ export const styles = StyleSheet.create({
         paddingVertical: 10
     }
 });
+
+const Container = styled(View)`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: ${props => props.theme?.backgroundColor};
+`;
+
+export { styles, Container };

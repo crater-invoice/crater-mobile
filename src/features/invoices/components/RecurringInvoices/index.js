@@ -287,8 +287,7 @@ export class RecurringInvoices extends React.Component<IProps> {
                         title: Lng.t('header.recurringInvoice', { locale }),
                         placement: 'center',
                         rightIcon: 'plus',
-                        rightIconPress: () => this.onAddInvoice(),
-                        titleStyle: styles.headerTitle
+                        rightIconPress: () => this.onAddInvoice()
                     }}
                     onSearch={this.onSearch}
                     filterProps={{

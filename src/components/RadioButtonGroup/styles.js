@@ -15,38 +15,27 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 30
     },
-    label: {
-        color: colors.dark2,
-        fontFamily: fonts.poppins,
-        textAlign: 'left'
-    },
     hintStyle: {
-        color: colors.dark2,
-        fontFamily: fonts.poppins,
-        marginBottom: 15,
-        textAlign: 'left'
+        marginBottom: 15
     },
-    checkedLabel: {
-        color: colors.primary
-    },
-    circle: {
+    circle: theme => ({
         height: 20,
         width: 20,
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: colors.lightGray,
-        backgroundColor: colors.white,
+        borderColor: theme.divider.secondaryBgColor,
+        backgroundColor: theme.icons.circle.secondaryBgColor,
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: 10
-    },
+    }),
     checkedCircle: {
         backgroundColor: colors.primary
     },
-    middleCircle: {
+    middleCircle: theme => ({
         width: 6,
         height: 6,
         borderRadius: 3,
-        backgroundColor: colors.white
-    }
+        backgroundColor: theme.icons.circle.secondaryBgColor
+    })
 });

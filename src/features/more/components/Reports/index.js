@@ -4,7 +4,6 @@ import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
 import { ListView, DefaultLayout } from '@/components';
-import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { REPORTS_MENU } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
@@ -36,30 +35,27 @@ export class Reports extends React.Component {
     };
 
     render() {
-        const { navigation, locale } = this.props;
+        const { navigation, locale, theme } = this.props;
 
         return (
-            <View style={styles.container}>
-                <DefaultLayout
-                    headerProps={{
-                        leftIconPress: () =>
-                            navigation.navigate(ROUTES.MAIN_MORE),
-                        title: Lng.t('header.reports', { locale }),
-                        leftIconStyle: { color: colors.dark2 }
-                    }}
-                    hasSearchField={false}
-                >
-                    <View style={styles.listViewContainer}>
-                        <ListView
-                            items={REPORTS_MENU(locale, Lng)}
-                            onPress={this.onSelectMenu}
-                            leftTitleStyle={styles.listViewTitle}
-                            rightArrowIcon
-                            rightArrowIconStyle={{ marginTop: 5 }}
-                        />
-                    </View>
-                </DefaultLayout>
-            </View>
+            <DefaultLayout
+                headerProps={{
+                    leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
+                    title: Lng.t('header.reports', { locale }),
+                    leftArrow: 'primary'
+                }}
+                hasSearchField={false}
+            >
+                <View style={styles.listViewContainer}>
+                    <ListView
+                        items={REPORTS_MENU(locale, Lng)}
+                        onPress={this.onSelectMenu}
+                        leftTitleStyle={styles.listViewTitle(theme)}
+                        rightArrowIcon
+                        rightArrowIconStyle={{ marginTop: 5 }}
+                    />
+                </View>
+            </DefaultLayout>
         );
     }
 }

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Text, Animated } from 'react-native';
+import { Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { styles } from './styles';
 import Lng from '@/lang/i18n';
+import { Text } from '../Text';
 
 interface IProps {
     reference: any;
@@ -25,11 +26,11 @@ export class ToastComponent extends Component<IProps> {
         this.props.reference?.(undefined);
     }
 
-    show = async (message = '', duration = 1500) => {
+    show = async (message = '', duration = 2000) => {
         await this.setState({ message });
 
         Animated.timing(this.animateOpacityValue, {
-            toValue: 0.8,
+            toValue: 0.9,
             duration: 200,
             useNativeDriver: true
         }).start(this.hide(duration));
@@ -46,17 +47,23 @@ export class ToastComponent extends Component<IProps> {
     };
 
     render() {
-        const { containerStyle, locale } = this.props;
+        const { containerStyle, locale, theme } = this.props;
 
         return (
             <Animated.View
                 style={[
-                    styles.animatedToastView,
+                    styles.animatedToastView(theme),
                     { opacity: this.animateOpacityValue },
                     containerStyle && containerStyle
                 ]}
             >
-                <Text numberOfLines={2} style={styles.title}>
+                <Text
+                    center
+                    color={theme?.toast?.textColor}
+                    medium={theme?.mode === 'dark'}
+                    numberOfLines={2}
+                    style={styles.title}
+                >
                     {Lng.t(this.state.message, { locale })}
                 </Text>
             </Animated.View>
@@ -65,7 +72,8 @@ export class ToastComponent extends Component<IProps> {
 }
 
 const mapStateToProps = ({ global }) => ({
-    locale: global?.locale
+    locale: global?.locale,
+    theme: global?.theme
 });
 
 export const Toast = connect(

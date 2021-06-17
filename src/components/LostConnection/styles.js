@@ -1,9 +1,11 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, View } from 'react-native';
+import styled from 'styled-components/native';
 import { colors, fonts } from '@/styles';
+import { defineSize } from '@/constants';
 
 const { width, height } = Dimensions.get('window');
 
-export default styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'flex-start',
@@ -27,21 +29,24 @@ export default styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: {
-        marginBottom: 25,
-        color: colors.secondary,
-        fontFamily: fonts.poppinsSemiBold,
-        fontSize: 22,
-        textAlign: 'left'
+        marginBottom: defineSize(30, 40)
     },
     internetIcon: {
         marginTop: 15,
         marginBottom: 10
     },
     description: {
-        marginTop: 50,
-        color: colors.veryDarkGray,
-        fontFamily: fonts.poppinsLight,
-        textAlign: 'center',
-        fontSize: 13
+        marginTop: defineSize(55, 65),
+        fontSize: 14,
+        paddingHorizontal: 10
     }
 });
+
+const Container = styled(View)`
+    flex: 1;
+    justify-content: flex-start;
+    display: flex;
+    background-color: ${props => props.theme?.backgroundColor};
+`;
+
+export { styles, Container };

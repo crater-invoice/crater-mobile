@@ -15,14 +15,14 @@ export default styles = StyleSheet.create({
     listViewScrollContainerStyle: {
         paddingTop: 10
     },
-    listViewTitle: {
-        fontFamily: fonts.poppins,
-        color: colors.secondary,
+    listViewTitle: theme => ({
+        fontFamily:
+            theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium,
+        color: theme?.listItem?.secondary?.color,
         textAlign: 'left'
-    },
+    }),
     listViewIcon: {
         width: 28,
-        height: 29,
         textAlign: 'center'
     },
     itemContainer: {

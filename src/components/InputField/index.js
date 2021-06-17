@@ -1,16 +1,18 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Input } from 'react-native-elements';
 import debounce from 'lodash/debounce';
 import styles from './styles';
 import { IInputField } from './type';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { AssetIcon } from '../AssetIcon';
 import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
-import { hasValue } from '@/constants';
+import { hasTextLength, hasValue } from '@/constants';
+import { Text } from '../Text';
+import { Label } from '../Label';
 
 export class InputFieldComponent extends Component<IInputField> {
     constructor(props) {
@@ -95,6 +97,10 @@ export class InputFieldComponent extends Component<IInputField> {
         this.props.onError?.(hasValue(error));
     };
 
+    toggleFocus = status => {
+        this.setState({ active: status });
+    };
+
     render() {
         const {
             input: { onChange, onFocus },
@@ -133,7 +139,8 @@ export class InputFieldComponent extends Component<IInputField> {
             secureTextIconContainerStyle,
             leftSymbol,
             autoHeight = false,
-            onError
+            onError,
+            theme
         } = this.props;
 
         const {
@@ -153,7 +160,7 @@ export class InputFieldComponent extends Component<IInputField> {
         if (leftIcon) {
             leftIconSymbol = {
                 leftIcon: (
-                    <Icon
+                    <AssetIcon
                         name={leftIcon}
                         solid={leftIconSolid}
                         size={18}
@@ -170,7 +177,17 @@ export class InputFieldComponent extends Component<IInputField> {
             leftIconSymbol = {
                 leftIcon: (
                     <View style={styles.leftSymbolView}>
-                        <Text style={styles.leftSymbol}>{leftSymbol}</Text>
+                        <Text
+                            color={
+                                active || hasTextLength(inputVal)
+                                    ? theme?.text?.secondaryColor
+                                    : theme?.text?.fifthColor
+                            }
+                            width
+                            style={styles.leftSymbol}
+                        >
+                            {leftSymbol}
+                        </Text>
                     </View>
                 )
             };
@@ -187,8 +204,20 @@ export class InputFieldComponent extends Component<IInputField> {
         }
 
         let methods: any = {
+            onFocus: event => {
+                this.toggleFocus(true);
+                this.setState({ isOptionsVisible: true });
+                setActivity?.(true);
+                onFocus?.(event);
+            },
             ...(!inputProps?.multiline && {
                 blurOnSubmit: inputProps?.onSubmitEditing ? false : true
+            }),
+            ...(!inputProps?.multiline && {
+                onEndEditing: () => this.toggleFocus(false)
+            }),
+            ...(inputProps?.multiline && {
+                onBlur: () => this.toggleFocus(false)
             })
         };
 
@@ -199,14 +228,14 @@ export class InputFieldComponent extends Component<IInputField> {
                     fieldStyle && { ...fieldStyle }
                 ]}
             >
-                {hint && (
-                    <Text h6 bold style={[styles.hint, hintStyle && hintStyle]}>
-                        {hint}
-                        {isRequired ? (
-                            <Text style={styles.required}> *</Text>
-                        ) : null}
-                    </Text>
-                )}
+                <Label
+                    h5
+                    theme={theme}
+                    isRequired={isRequired}
+                    medium={theme?.mode !== 'light'}
+                >
+                    {hint}
+                </Label>
 
                 <View style={styles.inputWrapper}>
                     <View onLayout={this.saveInputHeight}>
@@ -217,7 +246,11 @@ export class InputFieldComponent extends Component<IInputField> {
                             ]}
                             {...leftIconSymbol}
                             inputStyle={[
-                                styles.input,
+                                styles.input(theme),
+                                {
+                                    color: theme?.input?.color
+                                },
+                                leftSymbol && styles.withLeftSymbolText,
                                 active && styles.activeInput,
                                 textColor && { color: textColor },
                                 textStyle && textStyle,
@@ -227,11 +260,21 @@ export class InputFieldComponent extends Component<IInputField> {
                             ]}
                             inputContainerStyle={[
                                 styles.inputContainerStyle,
+                                {
+                                    backgroundColor:
+                                        theme?.input?.backgroundColor,
+                                    borderColor: theme?.input?.borderColor
+                                },
                                 secureTextEntry && styles.inputPassword,
                                 inputContainerStyle && inputContainerStyle,
                                 rounded && { borderRadius: 5 },
-                                disabled && styles.disabledInput,
-                                submitFailed && error && styles.inputError
+                                disabled && styles.disabledInput(theme),
+                                submitFailed &&
+                                    error && {
+                                        borderColor:
+                                            theme?.input
+                                                ?.validationBackgroundColor
+                                    }
                             ]}
                             {...inputProps}
                             {...autoHeightInputProps}
@@ -244,29 +287,28 @@ export class InputFieldComponent extends Component<IInputField> {
                                     ? onChange(Math.round(enteredValue * 100))
                                     : onChange(enteredValue);
                             }}
-                            onFocus={event => {
-                                this.setState({
-                                    active: true,
-                                    isOptionsVisible: true
-                                });
-                                setActivity?.(true);
-                                if (onFocus) {
-                                    onFocus(event);
-                                }
-                            }}
                             defaultValue={`${inputVal}`}
                             secureTextEntry={isSecureTextEntry}
                             ref={ref => refLinkFn?.(ref)}
-                            placeholderTextColor={colors.darkGray}
+                            placeholderTextColor={
+                                theme?.input?.placeholderColor
+                            }
                             editable={editable && !disabled}
                             allowFontScaling={false}
                             textAlignVertical={
                                 inputProps && inputProps.multiline && 'top'
                             }
+                            {...(theme?.mode === 'dark' && {
+                                selectionColor: theme?.text?.primaryColor
+                            })}
                         />
                     </View>
                     {sign && (
-                        <Text style={styles.signField} opacity={0.6}>
+                        <Text
+                            positionAbsolute
+                            style={styles.signField}
+                            opacity={0.6}
+                        >
                             {sign}
                         </Text>
                     )}
@@ -278,11 +320,17 @@ export class InputFieldComponent extends Component<IInputField> {
                                 secureTextIconContainerStyle &&
                                     secureTextIconContainerStyle
                             ]}
+                            hitSlop={{
+                                top: 13,
+                                left: 13,
+                                bottom: 13,
+                                right: 13
+                            }}
                         >
-                            <Icon
+                            <AssetIcon
                                 name={isSecureTextEntry ? 'eye' : 'eye-slash'}
                                 size={18}
-                                color={colors.dark3}
+                                color={theme?.icons?.eye?.color}
                             />
                         </TouchableOpacity>
                     )}
@@ -295,12 +343,10 @@ export class InputFieldComponent extends Component<IInputField> {
                             ]}
                         >
                             <Text
+                                white
+                                h6
                                 numberOfLines={errorNumberOfLines || 3}
-                                style={{
-                                    color: 'white',
-                                    fontSize: 12,
-                                    textAlign: 'left'
-                                }}
+                                medium={theme?.mode === 'dark'}
                             >
                                 {Lng.t(error, {
                                     locale,
@@ -313,7 +359,12 @@ export class InputFieldComponent extends Component<IInputField> {
                         </View>
                     )}
                     {!(submitFailed && error) && !isOptions && tip && (
-                        <Text numberOfLines={3} style={styles.inputTip}>
+                        <Text
+                            white
+                            positionAbsolute
+                            numberOfLines={3}
+                            style={styles.inputTip}
+                        >
                             {tip}
                         </Text>
                     )}
@@ -324,7 +375,8 @@ export class InputFieldComponent extends Component<IInputField> {
 }
 
 const mapStateToProps = ({ global }) => ({
-    locale: global?.locale
+    locale: global?.locale,
+    theme: global?.theme
 });
 
 const mapDispatchToProps = {};

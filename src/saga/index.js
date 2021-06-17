@@ -10,7 +10,6 @@ import payments from '../features/payments/saga';
 import settings from '../features/settings/saga';
 import more from '../features/more/saga';
 import { store } from '../store';
-import moment from 'moment';
 import { ROUTES } from '@/navigation';
 import { resetAuthLoaders } from '@/features/authentication/actions';
 

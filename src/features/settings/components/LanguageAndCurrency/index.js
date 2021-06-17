@@ -198,8 +198,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                     rightIconProps: {
                         solid: true
                     },
-                    rightIconPress: handleSubmit(this.onSubmit),
-                    titleStyle: styles.titleStyle
+                    rightIconPress: handleSubmit(this.onSubmit)
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
@@ -287,10 +286,6 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                         }}
                         headerProps={{
                             title: Lng.t('currencies.title', { locale }),
-                            titleStyle: headerTitle({
-                                marginLeft: -20,
-                                marginRight: -52
-                            }),
                             rightIconPress: null
                         }}
                         emptyContentProps={{

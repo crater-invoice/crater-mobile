@@ -10,10 +10,6 @@ import Lng from '@/lang/i18n';
 import { IMAGES } from '@/assets';
 import { CUSTOMER_ADD } from '@/features/customers/constants';
 import {
-    INVOICES_STATUS_BG_COLOR,
-    INVOICES_STATUS_TEXT_COLOR
-} from '@/features/invoices/constants';
-import {
     InputField,
     CtButton,
     DefaultLayout,
@@ -33,7 +29,11 @@ import {
     PAYMENT_FIELDS as FIELDS
 } from '../../constants';
 import { alertMe, DATE_FORMAT, hasObjectLength, isArray } from '@/constants';
-import { getApiFormattedCustomFields } from '@/utils';
+import {
+    BADGE_STATUS_BG_COLOR,
+    BADGE_STATUS_TEXT_COLOR,
+    getApiFormattedCustomFields
+} from '@/utils';
 import Notes from './notes';
 import PaymentServices from '../../services';
 
@@ -263,6 +263,7 @@ export class Payment extends React.Component<IProps> {
         }
 
         const { selectedCustomer } = this.state;
+        const { theme } = this.props;
 
         return items.map(item => {
             const {
@@ -278,8 +279,9 @@ export class Payment extends React.Component<IProps> {
                 subtitle: {
                     title: invoice_number,
                     label: status,
-                    labelBgColor: INVOICES_STATUS_BG_COLOR[status],
-                    labelTextColor: INVOICES_STATUS_TEXT_COLOR[status]
+                    labelBgColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode],
+                    labelTextColor:
+                        BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode]
                 },
                 amount: due_amount,
                 currency: selectedCustomer?.currency,
@@ -394,10 +396,11 @@ export class Payment extends React.Component<IProps> {
             getUnpaidInvoices,
             unPaidInvoices,
             withLoading,
-            customFields
+            customFields,
+            currency
         } = this.props;
 
-        const { isLoading } = this.state;
+        const { isLoading, selectedCustomer } = this.state;
         const isEditPayment = type === PAYMENT_EDIT;
 
         const hasCustomField = isEditPayment
@@ -536,7 +539,10 @@ export class Payment extends React.Component<IProps> {
                     <Field
                         name={`payment.${FIELDS.AMOUNT}`}
                         component={InputField}
-                        leftIcon={'dollar-sign'}
+                        leftSymbol={
+                            selectedCustomer?.currency?.symbol ??
+                            currency?.symbol
+                        }
                         hint={Lng.t('payments.amount', { locale })}
                         inputProps={{
                             returnKeyType: 'next',

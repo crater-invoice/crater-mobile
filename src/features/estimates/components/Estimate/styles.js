@@ -1,10 +1,7 @@
+import { StyleSheet, Dimensions } from 'react-native';
 import { colors, fonts } from '@/styles';
-import { StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
-    required: {
-        color: colors.danger
-    },
     bodyContainer: {
         paddingHorizontal: 22,
         paddingVertical: 17
@@ -21,7 +18,8 @@ export default styles = StyleSheet.create({
     },
     inputTextStyle: {
         color: colors.dark3,
-        fontFamily: fonts.poppinsMedium
+        fontFamily: fonts.poppinsMedium,
+        textAlign: 'left'
     },
     noteHintStyle: {
         paddingBottom: 6,
@@ -40,30 +38,34 @@ export default styles = StyleSheet.create({
     buttonContainer: {
         flex: 1
     },
-    itemContainer: {
+    itemContainer: theme => ({
         borderWidth: 1,
-        borderColor: colors.lightGray
-    },
-    itemLeftTitle: {
+        borderColor: theme?.input?.borderColor
+    }),
+    itemLeftTitle: theme => ({
         fontSize: 15,
         fontFamily: fonts.poppins,
-        color: colors.dark
-    },
+        color: theme?.listItem?.fifth?.color,
+        textAlign: 'left'
+    }),
     itemLeftSubTitleLabel: {
         marginLeft: -6
     },
-    itemLeftSubTitle: {
-        color: colors.darkGray,
+    itemLeftSubTitle: theme => ({
+        color: theme?.listItem?.fourth?.color,
         fontSize: 13
-    },
-    itemRightTitle: {
+    }),
+    itemRightTitle: theme => ({
         fontFamily: fonts.poppins,
         fontSize: 18,
-        color: colors.secondary,
+        color: theme?.listItem?.secondary?.color,
         textAlign: 'left'
-    },
+    }),
     label: {
-        paddingBottom: 10,
-        paddingTop: 15
+        paddingBottom: -1,
+        paddingTop: 12
+    },
+    required: {
+        color: colors.danger
     }
 });

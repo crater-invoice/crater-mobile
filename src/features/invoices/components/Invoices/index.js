@@ -3,7 +3,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { change } from 'redux-form';
-import styles from './styles';
+import { styles, Container } from './styles';
 import { All, Draft, Due } from '../Tab';
 import { invoicesFilterFields as FilterFields } from './filterFields';
 import { goBack, MOUNT } from '@/navigation';
@@ -244,7 +244,7 @@ export class Invoices extends React.Component<IProps> {
     };
 
     render() {
-        const { locale, navigation, handleSubmit } = this.props;
+        const { locale, navigation, handleSubmit, theme } = this.props;
 
         const { activeTab } = this.state;
 
@@ -296,23 +296,22 @@ export class Invoices extends React.Component<IProps> {
         ];
 
         return (
-            <View style={styles.container}>
-                <MainLayout
-                    headerProps={headerProps}
-                    onSearch={this.onSearch}
-                    filterProps={filterProps}
-                    toastProps={{
-                        reference: ref => (this.toastReference = ref)
-                    }}
-                >
-                    <Tabs
-                        style={styles.Tabs}
-                        activeTab={activeTab}
-                        setActiveTab={this.setActiveTab}
-                        tabs={tabs}
-                    />
-                </MainLayout>
-            </View>
+            <MainLayout
+                headerProps={headerProps}
+                onSearch={this.onSearch}
+                filterProps={filterProps}
+                toastProps={{
+                    reference: ref => (this.toastReference = ref)
+                }}
+            >
+                <Tabs
+                    style={styles.tabs(theme)}
+                    activeTab={activeTab}
+                    setActiveTab={this.setActiveTab}
+                    tabs={tabs}
+                    theme={theme}
+                />
+            </MainLayout>
         );
     }
 }

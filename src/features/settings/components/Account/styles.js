@@ -27,16 +27,6 @@ export default styles = StyleSheet.create({
     versionContainer: {
         marginVertical: 17
     },
-    versionTitle: {
-        color: colors.secondary,
-        fontFamily: fonts.poppins,
-        fontSize: 16,
-        textAlign: 'left'
-    },
-    version: {
-        fontFamily: fonts.poppinsSemiBold,
-        textAlign: 'left'
-    },
     avatarContainer: {
         marginTop: 25,
         marginBottom: 5,

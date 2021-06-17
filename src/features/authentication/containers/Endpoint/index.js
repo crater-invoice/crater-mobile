@@ -7,23 +7,26 @@ import * as AuthAction from '../../actions';
 import { validate } from './validation';
 
 const mapStateToProps = (state, { navigation }) => {
-
     const {
-        global: { locale, endpointURL },
+        global: { locale, endpointURL, theme },
         auth: { loading }
-    } = state
+    } = state;
 
-    let CRATER_URL = (typeof endpointURL !== 'undefined' && endpointURL !== null) ? endpointURL : ''
+    let CRATER_URL =
+        typeof endpointURL !== 'undefined' && endpointURL !== null
+            ? endpointURL
+            : '';
 
-    let skipEndpoint = navigation.getParam('skipEndpoint', false)
+    let skipEndpoint = navigation.getParam('skipEndpoint', false);
 
     return {
         locale,
+        theme,
         skipEndpoint,
         CRATER_URL,
         loading: loading && loading.pingEndpointLoading,
         initialValues: {
-            endpointURL: CRATER_URL,
+            endpointURL: CRATER_URL
         }
     };
 };
@@ -42,7 +45,7 @@ const EndpointReduxForm = reduxForm({
 //  connect
 const EndpointContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(EndpointReduxForm);
 
 EndpointContainer.navigationOptions = () => ({
@@ -50,5 +53,3 @@ EndpointContainer.navigationOptions = () => ({
 });
 
 export default EndpointContainer;
-
-

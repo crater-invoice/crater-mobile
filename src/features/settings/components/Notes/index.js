@@ -8,6 +8,7 @@ import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { formatNotes } from '@/utils';
 import { ARROW_ICON } from '@/assets';
 import { isIPhoneX } from '@/constants';
+import { fonts } from '@/styles';
 
 type IProps = {
     navigation: Object,
@@ -83,7 +84,6 @@ export class Notes extends Component<IProps> {
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
             title: Lng.t('header.notes', { locale }),
-            titleStyle: styles.titleStyle,
             placement: 'center',
             rightIcon: 'plus',
             rightIconPress: () =>
@@ -93,33 +93,32 @@ export class Notes extends Component<IProps> {
         };
 
         return (
-            <View style={styles.container}>
-                <MainLayout
-                    headerProps={headerProps}
-                    onSearch={this.onSearch}
-                    bottomDivider
-                >
-                    <View style={styles.listViewContainer}>
-                        <InfiniteScroll
-                            getItems={getNotes}
-                            reference={ref => (this.scrollViewReference = ref)}
-                            getItemsInMount={false}
-                            paginationLimit={isIPhoneX() ? 20 : 15}
-                        >
-                            <ListView
-                                items={formatNotes(notes)}
-                                onPress={this.onSelect}
-                                isEmpty={isEmpty}
-                                contentContainerStyle={{ flex: 1 }}
-                                bottomDivider
-                                emptyContentProps={emptyContentProps}
-                                leftSubTitleStyle={{ textAlign: 'justify' }}
-                                isAnimated
-                            />
-                        </InfiniteScroll>
-                    </View>
-                </MainLayout>
-            </View>
+            <MainLayout
+                headerProps={headerProps}
+                onSearch={this.onSearch}
+                bottomDivider
+            >
+                <View style={styles.listViewContainer}>
+                    <InfiniteScroll
+                        getItems={getNotes}
+                        reference={ref => (this.scrollViewReference = ref)}
+                        getItemsInMount={false}
+                        paginationLimit={isIPhoneX() ? 20 : 15}
+                    >
+                        <ListView
+                            items={formatNotes(notes)}
+                            onPress={this.onSelect}
+                            isEmpty={isEmpty}
+                            contentContainerStyle={{ flex: 1 }}
+                            bottomDivider
+                            emptyContentProps={emptyContentProps}
+                            leftSubTitleStyle={{ textAlign: 'justify' }}
+                            rightTitleStyle={{ fontFamily: fonts.poppins }}
+                            isAnimated
+                        />
+                    </InfiniteScroll>
+                </View>
+            </MainLayout>
         );
     }
 }
