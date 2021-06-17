@@ -45,10 +45,7 @@ export default styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     amountHeading: {
-        color: colors.darkGray,
-        fontFamily: fonts.poppinsMedium,
-        marginTop: 6,
-        textAlign: 'left'
+        marginTop: 6
     },
     subAmount: theme => ({
         color: theme?.listItem?.primary?.color,

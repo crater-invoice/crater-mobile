@@ -232,7 +232,7 @@ export class InputFieldComponent extends Component<IInputField> {
                     h5
                     theme={theme}
                     isRequired={isRequired}
-                    medium={theme?.mode !== 'light'}
+                    medium={theme?.mode === 'dark'}
                 >
                     {hint}
                 </Label>

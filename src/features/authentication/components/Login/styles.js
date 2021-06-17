@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
         marginTop: 8
     },
     forgetPassword: {
-        fontSize: 15
+        fontSize: 15,
+        paddingLeft: 3
     },
     socialLoginContainer: {},
     inputField: {
