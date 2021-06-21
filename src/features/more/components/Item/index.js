@@ -198,9 +198,8 @@ export class Item extends React.Component {
     };
 
     getTaxValue = tax => {
-        const {
-            formValues: { price }
-        } = this.props;
+        const { formValues } = this.props;
+        const price = formValues?.price ?? 0;
         return (tax * price) / 100;
     };
 

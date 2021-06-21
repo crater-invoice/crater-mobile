@@ -10,6 +10,7 @@ import { FadeListAnimation, AssetIcon } from '@/components';
 import { isIosPlatform } from '@/constants';
 import { isRTL } from '@/utils';
 import { Text } from '../Text';
+import AssetSvg from '../AssetSvg';
 
 type IProps = {
     hasAvatar: Boolean,
@@ -270,6 +271,7 @@ class ListViewComponent extends Component<IProps> {
             fullItem,
             leftAvatar,
             leftIcon,
+            leftIconSvg,
             leftIconSolid = false,
             iconSize = 22
         } = item;
@@ -289,6 +291,47 @@ class ListViewComponent extends Component<IProps> {
             };
         }
 
+        const avatarView = () => (
+            <Avatar
+                size={40}
+                rounded
+                title={leftAvatar}
+                titleStyle={{ fontWeight: '600' }}
+                overlayContainerStyle={{
+                    backgroundColor: leftIcon
+                        ? 'transparent'
+                        : theme?.avatar?.bgColor
+                }}
+            />
+        );
+
+        const assetIconView = () => (
+            <AssetIcon
+                name={leftIcon}
+                size={iconSize}
+                color={colors.primaryLight}
+                solid={leftIconSolid}
+                style={leftIconStyle && leftIconStyle}
+            />
+        );
+
+        const assetSvgView = () => (
+            <View style={[{ paddingLeft: 3 }, leftIconStyle]}>
+                <AssetSvg
+                    name={leftIconSvg}
+                    width={20}
+                    height={20}
+                    fill={colors.primaryLight}
+                />
+            </View>
+        );
+
+        let leftIconView = null;
+
+        if (leftAvatar) leftIconView = avatarView();
+        if (leftIcon) leftIconView = assetIconView();
+        if (leftIconSvg) leftIconView = assetSvgView();
+
         const children = (
             <ListItem
                 key={index}
@@ -305,29 +348,7 @@ class ListViewComponent extends Component<IProps> {
                 {...(theme?.mode === 'dark' && {
                     underlayColor: colors.gray
                 })}
-                leftAvatar={
-                    leftAvatar ? (
-                        <Avatar
-                            size={40}
-                            rounded
-                            title={leftAvatar}
-                            titleStyle={{ fontWeight: '600' }}
-                            overlayContainerStyle={{
-                                backgroundColor: leftIcon
-                                    ? 'transparent'
-                                    : theme?.avatar?.bgColor
-                            }}
-                        />
-                    ) : (
-                        <AssetIcon
-                            name={leftIcon}
-                            size={iconSize}
-                            color={colors.primaryLight}
-                            solid={leftIconSolid}
-                            style={leftIconStyle && leftIconStyle}
-                        />
-                    )
-                }
+                leftAvatar={leftIconView}
                 {...listItemProps}
                 {...otherProps}
             />
