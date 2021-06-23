@@ -3,7 +3,6 @@ import React, { useRef, useEffect } from 'react';
 import { View } from 'react-native';
 import { styles } from './styles';
 import { ListView, InfiniteScroll } from '@/components';
-import { getFilterStatusType } from '../../constants';
 
 type IProps = {
     reference: any,
@@ -19,10 +18,7 @@ export const All = ({ reference, parentProps }: IProps) => {
     useEffect(() => {
         const values = parentProps?.props?.formValues;
 
-        const status = values?.filterStatus
-            ? getFilterStatusType(values?.filterStatus)
-            : values?.paid_status;
-
+        const status = values?.filterStatus;
         const queryString = {
             status: status ?? '',
             search,
