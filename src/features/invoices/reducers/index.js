@@ -39,7 +39,7 @@ const initialState = {
         invoiceTemplates: []
     },
     invoiceItems: [],
-    activeTab: 'UNPAID'
+    activeTab: 'DUE'
 };
 
 export default function invoicesReducer(state = initialState, action) {

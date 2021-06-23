@@ -12,7 +12,6 @@ import { ROUTES } from '@/navigation';
 import { MainLayout, Tabs } from '@/components';
 import { IMAGES } from '@/assets';
 import {
-    getFilterStatusType,
     INVOICES_TABS,
     INVOICE_ADD,
     INVOICE_EDIT,
@@ -108,7 +107,7 @@ export class Invoices extends React.Component<IProps> {
     getActiveTab = (activeTab = this.state.activeTab) => {
         if (activeTab == INVOICES_TABS.DUE) {
             return {
-                status: 'UNPAID',
+                status: INVOICES_TABS.DUE,
                 ref: this.dueReference
             };
         }
@@ -138,7 +137,7 @@ export class Invoices extends React.Component<IProps> {
         });
     };
 
-    changeTabBasedOnFilterStatusSelection = (status, paid_status) => {
+    changeTabBasedOnFilterStatusSelection = status => {
         if (status === INVOICES_TABS.DUE) {
             return {
                 activeTab: INVOICES_TABS.DUE,
@@ -161,7 +160,6 @@ export class Invoices extends React.Component<IProps> {
 
     onSubmitFilter = ({
         filterStatus = '',
-        paid_status = '',
         from_date = '',
         to_date = '',
         invoice_number = '',
@@ -169,20 +167,15 @@ export class Invoices extends React.Component<IProps> {
     }) => {
         const { search } = this.state;
 
-        const status = filterStatus
-            ? getFilterStatusType(filterStatus)
-            : paid_status;
-
         const { activeTab, ref } = this.changeTabBasedOnFilterStatusSelection(
-            filterStatus,
-            paid_status
+            filterStatus
         );
 
         this.setState({ activeTab });
 
         ref?.getItems?.({
             queryString: {
-                status,
+                status: filterStatus,
                 search,
                 customer_id,
                 invoice_number,

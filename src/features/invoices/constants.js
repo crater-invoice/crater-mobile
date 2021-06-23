@@ -89,13 +89,6 @@ export const INVOICES_TABS = {
     ALL: 'ALL'
 };
 
-export const getFilterStatusType = type => {
-    if (type === INVOICES_TABS.DUE) {
-        return 'UNPAID';
-    }
-
-    return type;
-};
 export const TAB_NAME = (name, locale) => {
     return Lng.t(`invoices.tabs.${name}`, { locale });
 };
