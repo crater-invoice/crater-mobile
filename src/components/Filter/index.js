@@ -9,7 +9,7 @@ import { SelectField } from '../SelectField';
 import { SelectPickerField } from '../SelectPickerField';
 import { colors } from '@/styles';
 import { DatePickerField } from '../DatePickerField';
-import { CtButton } from '../Button';
+import { CtButton, CtDecorativeButton } from '../Button';
 import Lng from '@/lang/i18n';
 import { BUTTON_TYPE, isIosPlatform, isAndroidPlatform } from '@/constants';
 import { Text } from '../Text';
@@ -232,29 +232,41 @@ export class Filter extends Component<IProps> {
 
         return (
             <View>
-                <TouchableOpacity
+                <CtDecorativeButton
                     onPress={() => this.onToggleFilter()}
                     activeOpacity={0.4}
+                    scale={0.95}
+                    justify-center
+                    items-center
+                    withHitSlop
+                    {...(this.props['is-small'] && { 'pr-15': true })}
                 >
                     <AssetIcon
                         name={'filter'}
-                        size={22}
+                        size={19}
                         color={theme?.icons?.filter?.color}
                         style={styles.filterIcon}
                     />
 
                     {counter > 0 && (
-                        <View style={styles.counter(theme)}>
+                        <View
+                            style={styles.counter(
+                                theme,
+                                this.props['is-small']
+                            )}
+                        >
                             <Text
                                 veryLightGray
                                 center
-                                style={styles.counterText}
+                                style={styles.counterText(
+                                    this.props['is-small']
+                                )}
                             >
                                 {counter}
                             </Text>
                         </View>
                     )}
-                </TouchableOpacity>
+                </CtDecorativeButton>
 
                 <Modal
                     animationType="slide"

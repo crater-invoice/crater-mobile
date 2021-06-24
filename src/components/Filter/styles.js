@@ -52,7 +52,7 @@ export default StyleSheet.create({
     inputIconStyle: {
         marginLeft: 5
     },
-    counter: theme => ({
+    counter: (theme, isSmall) => ({
         position: 'absolute',
         top: -9,
         right: -11,
@@ -63,9 +63,19 @@ export default StyleSheet.create({
         borderWidth: 1.5,
         borderColor: theme?.backgroundColor,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        ...(isSmall && {
+            top: -9,
+            right: 1,
+            width: 18,
+            height: 18,
+            borderRadius: 18 / 2
+        })
     }),
-    counterText: {
-        fontSize: 12
-    }
+    counterText: isSmall => ({
+        fontSize: 12,
+        ...(isSmall && {
+            fontSize: 11
+        })
+    })
 });

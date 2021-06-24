@@ -194,7 +194,7 @@ export class Invoices extends React.Component<IProps> {
     onChangeState = (field, value) => this.setState({ [field]: value });
 
     getEmptyContentProps = activeTab => {
-        const { locale, navigation, formValues,theme } = this.props;
+        const { locale, navigation, formValues, theme } = this.props;
         const { search } = this.state;
         const isFilter = isFilterApply(formValues);
         let title = '';
@@ -219,7 +219,7 @@ export class Invoices extends React.Component<IProps> {
 
         return {
             title: Lng.t(emptyTitle, { locale, search }),
-            image: IMAGES[theme?.mode]?.EMPTY_INVOICES,
+            image: IMAGES[(theme?.mode)]?.EMPTY_INVOICES,
             ...(!search && {
                 description: Lng.t(description, { locale })
             }),
@@ -242,8 +242,7 @@ export class Invoices extends React.Component<IProps> {
         const { activeTab } = this.state;
 
         const headerProps = {
-            rightIcon: 'plus',
-            rightIconPress: () => this.onAddInvoice(),
+            hasCircle: false,
             title: Lng.t('header.invoices', { locale })
         };
 
@@ -296,6 +295,9 @@ export class Invoices extends React.Component<IProps> {
                 toastProps={{
                     reference: ref => (this.toastReference = ref)
                 }}
+                plusButtonOnPress={this.onAddInvoice}
+                with-company
+                with-input-filter
             >
                 <Tabs
                     style={styles.tabs(theme)}

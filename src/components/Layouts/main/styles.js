@@ -38,7 +38,23 @@ const styles = StyleSheet.create({
     columnIcon: {
         flex: 1,
         justifyContent: 'center'
-    }
+    },
+    floatingAction: theme => ({
+        position: 'absolute',
+        bottom: 20,
+        right: 15,
+        height: 31,
+        width: 31,
+        borderRadius: 31,
+        zIndex: 9999,
+        paddingLeft: 1,
+        paddingTop: 1,
+
+        shadowColor: theme.text.primaryColor,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5
+    })
 });
 
 const Container = styled(View)`

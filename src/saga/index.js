@@ -9,6 +9,7 @@ import expenses from '../features/expenses/saga';
 import payments from '../features/payments/saga';
 import settings from '../features/settings/saga';
 import more from '../features/more/saga';
+import common from '../features/common/saga';
 import { store } from '../store';
 import { ROUTES } from '@/navigation';
 import { resetAuthLoaders } from '@/features/authentication/actions';
@@ -44,7 +45,8 @@ export default function* rootSaga() {
             more(),
             expenses(),
             payments(),
-            settings()
+            settings(),
+            common()
         ]);
     });
 }

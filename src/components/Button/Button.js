@@ -230,7 +230,8 @@ class ActionButton extends Component<IProps> {
             containerStyle,
             buttonContainerStyle,
             hasFocus = true,
-            theme
+            theme,
+            titleStyle
         } = this.props;
 
         const { buttonFocus, animatedScale } = this.state;
@@ -298,6 +299,7 @@ class ActionButton extends Component<IProps> {
                     }}
                     titleStyle={[
                         styles.titleStyle,
+                        titleStyle,
                         isOutline && {
                             color: colors[buttonColor]
                         }

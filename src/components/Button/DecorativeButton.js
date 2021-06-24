@@ -130,6 +130,13 @@ export const CtDecorativeButton = styled(Button)`
   )}
 
   ${ifProp(
+      'opacity',
+      css`
+          opacity: ${prop('opacity')};
+      `
+  )}
+
+  ${ifProp(
       'paddingVertical',
       css`
           padding-vertical: ${prop('paddingVertical')};

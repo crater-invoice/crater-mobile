@@ -7,3 +7,4 @@ export * from './CheckIcon';
 export * from './CancelIcon';
 export * from './SettingIcon';
 export * from './PercentageIcon';
+export * from './CloseIcon';
