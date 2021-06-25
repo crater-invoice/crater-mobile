@@ -116,11 +116,12 @@ export const CtDecorativeButton = styled(Button)`
       `
   )}
 
-  ${props =>
-      hasProp(props, 'border-width') &&
+  ${ifProp(
+      'border-width',
       css`
-          border-width: ${applyProp(props, 'border-width')};
-      `};
+          border-width: ${prop('border-width')};
+      `
+  )}
 
   ${ifProp(
       'border-color',

@@ -757,5 +757,9 @@
         "wrong": "Something went wrong. Please, try again.",
         "alreadyTaken": "ALREADY TAKEN",
         "minCharacter": "Please enter at least {{minCharacter}} characters"
+    },
+    "company": {
+        "text_switch_company": "SWITCH COMPANY",
+        "text_add_new_company": "Add new company"
     }
 }

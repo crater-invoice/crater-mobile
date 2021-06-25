@@ -756,5 +756,9 @@
         "wrong": "Un problème est survenu. Veuillez réessayer.",
         "alreadyTaken": "DÉJÀ PRIS",
         "minCharacter": "Veuillez saisir au moins {{minCharacter}} caractères"
+    },
+    "company": {
+        "text_switch_company": "CHANGER D'ENTREPRISE",
+        "text_add_new_company": "Ajouter une nouvelle entreprise"
     }
 }

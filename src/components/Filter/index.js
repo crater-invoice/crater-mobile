@@ -244,7 +244,11 @@ export class Filter extends Component<IProps> {
                     <AssetIcon
                         name={'filter'}
                         size={19}
-                        color={theme?.icons?.filter?.color}
+                        color={
+                            counter <= 0 && this.props['is-small']
+                                ? colors.darkGray
+                                : theme?.icons?.filter?.color
+                        }
                         style={styles.filterIcon}
                     />
 

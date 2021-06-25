@@ -1,47 +1,41 @@
-import { StyleSheet, Platform, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import styled from 'styled-components/native';
 import { colors } from '@/styles';
-import { defineSize, isIPhoneX, SCREEN_HEIGHT } from '@/constants';
+import { defineSize, SCREEN_HEIGHT } from '@/constants';
 
 const customStyleSheet = StyleSheet.create({
     closeButton: {
-        paddingRight: 22,
-        paddingVertical: 30
+        paddingRight: 20,
+        paddingVertical: 15
     },
-    logo: {
-        width: 50,
-        height: 50,
-        borderRadius: 50
-    },
-    bottomAction: {
-        marginTop: 10,
-        marginHorizontal: 22
-    },
-    body: {
-        paddingBottom: isIPhoneX() ? 40 : 25
-    }
+    logo: (theme, isMedium) => ({
+        width: 36,
+        height: 36,
+        borderRadius: 36,
+        borderWidth: 1,
+        borderColor: theme.divider.secondaryBgColor,
+        ...(isMedium && {
+            width: 34,
+            height: 34,
+            borderRadius: 34
+        })
+    }),
+    bottomAction: theme => ({
+        borderTopWidth: 1,
+        borderTopColor: theme.divider.secondaryBgColor
+    })
 });
 
 const Styles = {
     Modal: styled(View)`
-        background-color: ${colors.veryLightGray};
+        background-color: ${props => props.theme.secondaryBgColor};
         position: absolute;
-        bottom: 0;
+        top: ${defineSize(SCREEN_HEIGHT / 7, SCREEN_HEIGHT / 8)};
         left: 0;
         right: 0;
-        border-top-left-radius: 15;
-        border-top-right-radius: 15;
-        max-height: ${defineSize(SCREEN_HEIGHT - 70, SCREEN_HEIGHT - 100)};
-    `,
-
-    FlexEnd: styled(View)`
-        justify-content: flex-end;
-        align-items: flex-end;
-    `,
-
-    Item: styled(View)`
-        flex-direction: row;
-        align-items: center;
+        margin-horizontal: 23;
+        border-radius: 3;
+        max-height: ${SCREEN_HEIGHT * 0.8};
     `,
 
     ...customStyleSheet

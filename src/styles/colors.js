@@ -23,6 +23,7 @@ export const colors = {
     dark2: '#263B5E',
     dark3: '#555577',
     dark4: '#000000',
+    dark5: '#222d3b',
     veryLightGray: '#F9FBFF',
     lightGray: '#EAF1FB',
     gray: '#B9C1D1',

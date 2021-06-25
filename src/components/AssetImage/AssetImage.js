@@ -1,41 +1,47 @@
 import React, { Component } from 'react';
 import { Image, View, ActivityIndicator } from 'react-native';
 
-type IProps = {
-    imageStyle: Object,
-    imageName: String,
-    uri: Boolean,
-    imageProps: Object,
-    loadingImageStyle: Object
-};
+interface IProps {
+    imageStyle: Object;
+    imageName: String;
+    uri: Boolean;
+    imageProps: Object;
+    loadingImageStyle: Object;
+    loaderSize: 'large' | 'small';
+}
+
 export class AssetImage extends Component<IProps> {
     constructor(props) {
         super(props);
-        this.state = {
-            loading: false,
-        };
-    }
-
-    imageLoad() {
-        const { loading } = this.state;
-        this.setState({ loading: !loading });
+        this.state = { loading: true };
     }
 
     render() {
-        const { imageSource, imageStyle, loadingImageStyle, uri, imageProps } = this.props;
-        const { loading } = this.state;
+        const {
+            imageSource,
+            imageStyle,
+            loadingImageStyle,
+            uri,
+            imageProps,
+            loaderSize = 'large'
+        } = this.props;
+
         return (
             <View>
-                {loading && <ActivityIndicator
-                    size="large"
-                    style={[imageStyle, loadingImageStyle && loadingImageStyle, { position: 'absolute' }]}
-                />
-                }
+                {this.state.loading && (
+                    <ActivityIndicator
+                        size={loaderSize}
+                        style={[
+                            imageStyle,
+                            loadingImageStyle && loadingImageStyle,
+                            { position: 'absolute' }
+                        ]}
+                    />
+                )}
                 <Image
                     source={uri ? { uri: imageSource } : imageSource}
                     style={imageStyle}
-                    onLoadStart={() => this.imageLoad()}
-                    onLoad={() => this.imageLoad()}
+                    onLoadEnd={() => this.setState({ loading: false })}
                     {...imageProps}
                 />
             </View>

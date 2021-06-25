@@ -7,7 +7,9 @@ import styles from './styles';
 interface IProps {
     onToggle?: Function;
     visible?: Boolean;
-    modalProps?: Object;
+    modalProps?: any;
+    style?: any;
+    children?: any;
 }
 
 export const AnimateModal = (props: IProps) => {

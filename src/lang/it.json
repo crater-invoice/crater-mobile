@@ -756,5 +756,9 @@
         "wrong": "Qualcosa è andato storto. Per favore riprova.",
         "alreadyTaken": "GIÀ PRESO",
         "minCharacter": "Si prega di inserire almeno {{minCharacter}} caratteri"
+    },
+    "company": {
+        "text_switch_company": "SWITCH AZIENDA",
+        "text_add_new_company": "Aggiungi nuova azienda"
     }
 }

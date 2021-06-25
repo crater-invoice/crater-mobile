@@ -138,6 +138,13 @@ export const Text = styled(CTText)`
         `
     )}
 
+    ${ifProp(
+        'letter-spacing',
+        css`
+            letter-spacing: ${prop('letter-spacing')};
+        `
+    )}
+      
     ${props =>
         props?.theme?.mode === 'light' &&
         props?.lightColor &&
@@ -264,6 +271,26 @@ export const Text = styled(CTText)`
         `
     )}
 
+    ${props =>
+        hasProp(props, 'border-width') &&
+        css`
+            border-width: ${applyProp(props, 'border-width')};
+        `};
+  
+    ${ifProp(
+        'border-color',
+        css`
+            border-color: ${prop('border-color')};
+        `
+    )}
+  
+    ${ifProp(
+        'opacity',
+        css`
+            opacity: ${prop('opacity')};
+        `
+    )}
+    
     ${/* Margin */ ''}
     ${props =>
         hasProp(props, 'mx-') &&

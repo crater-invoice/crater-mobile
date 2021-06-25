@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, ScrollView } from 'react-native';
+import Styles from './styles';
+import Lng from '@/lang/i18n';
+import { CloseIcon2 as CloseIcon } from '@/icons';
+import { colors } from '@/styles';
+import {
+    defineSize,
+    hasTextLength as hasValue,
+    isAndroidPlatform
+} from '@/constants';
 import {
     AnimateModal,
-    AssetIcon,
     AssetImage,
     AssetSvg,
-    CtButton,
     CtDecorativeButton,
     Text,
     View
 } from '@/components';
-import Styles from './styles';
-import { CheckIcon, CloseIcon } from '@/icons';
-import { colors } from '@/styles';
-import { BUTTON_TYPE } from '@/constants';
 
 export class Modal extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            visible: true
-        };
+        this.state = { visible: false };
     }
 
     onToggle = () => {
@@ -30,127 +31,163 @@ export class Modal extends Component {
     };
 
     render() {
-        const { theme, company } = this.props;
+        const { theme, company, locale } = this.props;
         const { visible } = this.state;
 
-        const { Modal, FlexEnd, Item } = Styles;
+        const { Modal } = Styles;
 
         const companies = [
             {
                 id: 1,
-                logo:
-                    'https://media-exp3.licdn.com/dms/image/C4E0BAQGDDeprIC77vQ/company-logo_200_200/0/1600697340369?e=2159024400&v=beta&t=-zkQxBAABmZdu7x5q0-6Dl7LhYdDLI_oI2nlZl-hSa8',
-                name: 'Bytefury',
-                country: 'India'
+                logo: '',
+                name: 'Bytefury'
+            },
+            {
+                id: 2,
+                logo: null,
+                name: 'Quiktract'
             },
             {
                 id: 3,
                 logo:
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3iJiYUJRUf-cwCHCT8DQFJAFxhAMVThnNvbvAGqiME99Kg29yhgoS9LVNRbIomHfESxM&usqp=CAU',
-                name: 'Mozavi Technologies Pvt. Ltd.',
-                country: 'Kuwait'
-            },
-            {
-                id: 2,
-                logo:
-                    'https://www.saashub.com/images/app/service_logos/116/81efa55694f5/large.png?1577342487',
-                name: 'Crater Pvt. Ltd.',
-                country: 'United Kingdom'
+                    'https://www.vippng.com/png/full/341-3419991_slack-on-the-mac-app-store-slack-new.png',
+                name: 'Slack'
             },
             {
                 id: 4,
                 logo:
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSddgQEyXCGoaPy_iUzAFnJkenDKIG3IaYolw&usqp=CAU',
-                name: 'GohilSir Business Pvt.ltd.',
-                country: 'Kuwait'
+                    'https://i.pinimg.com/originals/1b/76/01/1b7601e035a83c13c208b4ec905ee6d9.png',
+                name: 'Pinterest'
             }
         ];
 
+        const companyLogo = (company, type) => {
+            const isMedium = type === 'medium';
+
+            if (hasValue(company?.logo)) {
+                return (
+                    <AssetImage
+                        uri
+                        imageSource={company.logo}
+                        imageStyle={Styles.logo(theme, isMedium)}
+                        loaderSize="small"
+                    />
+                );
+            }
+
+            return (
+                <View
+                    width={36}
+                    height={36}
+                    radius-36
+                    background-color={colors.primaryLight}
+                    justify-center
+                    items-center
+                    border-width={1}
+                    border-color={theme.divider.secondaryBgColor}
+                    {...(isMedium && {
+                        width: 32,
+                        height: 32,
+                        'radius-32': true,
+                        'background-color': colors.primary
+                    })}
+                    {...(isAndroidPlatform() && { 'pt-2': true })}
+                >
+                    <Text h4 center medium color={colors.white}>
+                        {company?.name.toUpperCase().charAt(0)}
+                    </Text>
+                </View>
+            );
+        };
+
         const COMPANIES_LIST = com => {
-            const { id, name, logo, country } = com;
+            const { id, name } = com;
             const isSelected = id === 1;
             return (
                 <CtDecorativeButton
                     key={id}
                     button={TouchableHighlight}
-                    underlayColor={colors.lightGray}
+                    underlayColor={theme.card.secondary.bgColor}
                     scale={1}
                     px-20
                     py-10
                     justify-center
-                    opacity={isSelected ? 1 : 0.98}
+                    background-color={
+                        isSelected && theme.card.secondary.bgColor
+                    }
                 >
-                    <>
-                        <View flex-row items-center>
-                            <AssetImage
-                                uri
-                                imageSource={logo}
-                                imageStyle={Styles.logo}
-                            />
-                            <View flex={1} pl-15 pr-20>
-                                <Text h5 medium>
-                                    {name}
-                                </Text>
-                                <Text h5 mt-3>
-                                    {country}
-                                </Text>
-                            </View>
-                            {isSelected && (
-                                <FlexEnd>
-                                    <AssetSvg
-                                        name={CheckIcon(
-                                            theme.icons.circle.backgroundColor
-                                        )}
-                                        width={25}
-                                        height={25}
-                                    />
-                                </FlexEnd>
-                            )}
-                        </View>
-                        {isSelected && (
-                            <View mt-20>
-                                <CtButton
-                                    onPress={() => {}}
-                                    btnTitle={'Manage Company'}
-                                    type={BUTTON_TYPE.OUTLINE}
-                                    loading={false}
-                                    containerStyle={{ marginHorizontal: 3 }}
-                                />
-                                <View
-                                    mt-15
-                                    mb-5
-                                    height={1}
-                                    background-color={colors.gray}
-                                />
-                            </View>
-                        )}
-                    </>
+                    <View flex-row items-center>
+                        {companyLogo(com, 'large')}
+                        <Text
+                            h4
+                            pl-14
+                            pr-14
+                            color={
+                                isSelected
+                                    ? theme.viewLabel.thirdColor
+                                    : theme.header.primary.color
+                            }
+                        >
+                            {name}
+                        </Text>
+                    </View>
                 </CtDecorativeButton>
             );
         };
 
-        const isMore = companies.length > 5;
+        const isMore = defineSize(companies.length > 6, companies.length > 7);
+        const isOnlyOne = companies.length === 1;
+
+        const animationIn = {
+            0: {
+                translateX: 7,
+                translateY: -7,
+                opacity: 0
+            },
+            0.5: {
+                translateX: 5,
+                translateY: -5,
+                opacity: 0.7
+            },
+            1: {
+                translateX: 0,
+                translateY: 0,
+                opacity: 1
+            }
+        };
 
         return (
             <View>
-                <CtDecorativeButton onPress={this.onToggle}>
-                    <Text h3 mr-15 medium color={theme?.text?.primaryColor}>
-                        {company.name}
-                    </Text>
+                <CtDecorativeButton withHitSlop mr-11 onPress={this.onToggle}>
+                    {companyLogo(company, 'medium')}
                 </CtDecorativeButton>
 
                 <AnimateModal
                     visible={visible}
                     onToggle={this.onToggle}
                     modalProps={{
-                        animationIn: 'slideInUp',
-                        animationOut: 'slideOutDown'
+                        animationIn,
+                        animationOut: 'fadeOut',
+                        animationInTiming: 350,
+                        animationOutTiming: 200,
+                        ...(!isMore && {
+                            swipeDirection: 'right',
+                            onSwipeComplete: this.onToggle
+                        })
                     }}
                 >
                     <Modal>
                         <View flex={1} flex-row items-center pl-22>
-                            <Text h4 flex={1}>
-                                Select Your Company
+                            <Text
+                                h6
+                                medium
+                                flex={1}
+                                color={colors.darkGray}
+                                letter-spacing={0.3}
+                            >
+                                {Lng.t('company.text_switch_company', {
+                                    locale
+                                })}
                             </Text>
                             <CtDecorativeButton
                                 style={Styles.closeButton}
@@ -159,51 +196,38 @@ export class Modal extends Component {
                             >
                                 <AssetSvg
                                     name={CloseIcon}
-                                    width={17}
-                                    height={17}
-                                    fill={colors.darkGray}
+                                    width={15}
+                                    height={15}
                                 />
                             </CtDecorativeButton>
                         </View>
                         <ScrollView
-                            contentContainerStyle={Styles.body}
+                            contentContainerStyle={{
+                                marginBottom: !isOnlyOne ? 20 : 35
+                            }}
                             showsVerticalScrollIndicator={isMore}
                             bounces={isMore}
                         >
                             {companies.map(com => COMPANIES_LIST(com))}
-
-                            <CtDecorativeButton
-                                flex-row
-                                items-center
-                                pl-30
-                                mt-15
-                                mb-5
-                                scale={1}
-                            >
-                                <View
-                                    justify-center
-                                    items-center
-                                    radius-5
-                                    border-width={1}
-                                    width={31}
-                                    height={31}
-                                    pl-1
-                                    border-color={colors.veryDarkGray}
-                                >
-                                    <Text h3 center color={colors.veryDarkGray}>
-                                        +
-                                    </Text>
-                                </View>
-                                <Text
-                                    h5
-                                    flex={1}
-                                    ml-23
-                                    color={colors.veryDarkGray}
-                                >
-                                    Add another company
-                                </Text>
-                            </CtDecorativeButton>
                         </ScrollView>
+                        <CtDecorativeButton
+                            scale={1}
+                            justify-center
+                            items-center
+                            flex-row
+                            style={Styles.bottomAction(theme)}
+                            pt-8
+                            pb-10
+                        >
+                            <Text h3 medium color={colors.primaryLight}>
+                                +
+                            </Text>
+                            <Text h5 ml-10 color={colors.primaryLight}>
+                                {Lng.t('company.text_add_new_company', {
+                                    locale
+                                })}
+                            </Text>
+                        </CtDecorativeButton>
                     </Modal>
                 </AnimateModal>
             </View>

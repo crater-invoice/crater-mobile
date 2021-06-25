@@ -739,5 +739,9 @@
         "wrong": "Niečo neprebehlo v poriadku, odskúšajte prosím znova.",
         "alreadyTaken": "Už sa používa",
         "minCharacter": "Prosím použite minimálne {{minCharacter}} znakov"
+    },
+    "company": {
+        "text_switch_company": "SPÍNAJTE SPOLOČNOSŤ",
+        "text_add_new_company": "Pridať novú spoločnosť"
     }
 }

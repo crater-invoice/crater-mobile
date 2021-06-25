@@ -4,7 +4,8 @@ import * as action from '../../actions';
 
 const mapStateToProps = ({ global }) => ({
     company: global?.company,
-    theme: global?.theme
+    theme: global?.theme,
+    locale: global?.locale
 });
 
 const mapDispatchToProps = {

@@ -756,5 +756,9 @@
         "wrong": "Etwas ist schief gelaufen. Bitte versuche es erneut.",
         "alreadyTaken": "BEREITS GENOMMEN",
         "minCharacter": "Bitte geben Sie mindestens {{minCharacter}} Zeichen ein"
+    },
+    "company": {
+        "text_switch_company": "UNTERNEHMEN WECHSELN",
+        "text_add_new_company": "Neues Unternehmen hinzufügen"
     }
 }

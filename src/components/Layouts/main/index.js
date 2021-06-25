@@ -10,25 +10,25 @@ import { Content } from '../../Content';
 import Lng from '@/lang/i18n';
 import { Toast } from '@/components';
 import { STATUS_BAR_CONTENT } from '@/utils';
-import { CtDecorativeButton, Text } from '@/components';
+import { CtDecorativeButton } from '@/components';
 import { AssetIcon } from '@/components/AssetIcon';
 import { Filter } from '@/components/Filter';
 import CompanyModal from '@/features/common/containers/CompanyModal';
 
-type IProps = {
-    children: any,
-    headerProps?: any,
-    onSearch?: Function,
-    bottomDivider?: Boolean,
-    hasSearchField?: Boolean,
-    onToggleFilter?: Function,
-    filterProps?: Object,
-    inputProps?: Object,
-    dividerStyle?: Object,
-    loadingProps?: Object,
-    searchFieldProps?: any,
-    toastProps?: any
-};
+interface IProps {
+    children: any;
+    headerProps?: any;
+    onSearch?: Function;
+    bottomDivider?: Boolean;
+    hasSearchField?: Boolean;
+    onToggleFilter?: Function;
+    filterProps?: Object;
+    inputProps?: Object;
+    dividerStyle?: Object;
+    loadingProps?: Object;
+    searchFieldProps?: any;
+    toastProps?: any;
+}
 
 const Layout = (props: IProps) => {
     const {
@@ -143,25 +143,26 @@ const Layout = (props: IProps) => {
                     <Toast containerStyle={{ bottom: 20 }} {...toastProps} />
                 )}
             </Container>
-
             {plusButtonOnPress ? (
-                <CtDecorativeButton
-                    justify-center
-                    items-center
-                    background-color={theme?.icons.circle.backgroundColor}
-                    style={styles.floatingAction(theme)}
-                    onPress={plusButtonOnPress}
-                    withHitSlop
-                    scale={1}
-                >
-                    <AssetIcon
-                        name={'plus'}
-                        size={17}
-                        style={{
-                            color: theme?.icons?.plus?.backgroundColor
-                        }}
-                    />
-                </CtDecorativeButton>
+                <View style={styles.floatingActionView}>
+                    <CtDecorativeButton
+                        justify-center
+                        items-center
+                        background-color={theme?.icons.circle.backgroundColor}
+                        style={styles.floatingAction(theme)}
+                        onPress={plusButtonOnPress}
+                        withHitSlop
+                        scale={1}
+                    >
+                        <AssetIcon
+                            name={'plus'}
+                            size={20}
+                            style={{
+                                color: theme?.icons?.plus?.backgroundColor
+                            }}
+                        />
+                    </CtDecorativeButton>
+                </View>
             ) : null}
         </>
     );

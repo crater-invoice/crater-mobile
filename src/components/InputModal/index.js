@@ -131,7 +131,11 @@ class inputModalComponent extends Component<Iprops> {
             <AnimateModal
                 visible={this.state.visible}
                 onToggle={this.onToggle}
-                modalProps={{ ...this.props?.modalProps }}
+                modalProps={{
+                    swipeDirection: 'right',
+                    onSwipeComplete: this.onToggle,
+                    ...this.props?.modalProps
+                }}
             >
                 <KeyboardAvoidingView
                     keyboardVerticalOffset={0}

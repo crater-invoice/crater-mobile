@@ -179,7 +179,7 @@ export class TimePickerField extends Component {
                     isRequired={true}
                     onChangeCallback={this.onToggleModal}
                     values={time}
-                    placeholder={placeholder}
+                    placeholder={placeholder ?? ' '}
                     isRequired={isRequired}
                     meta={meta}
                     {...fakeInputProps}

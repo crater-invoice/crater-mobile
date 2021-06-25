@@ -126,6 +126,9 @@ export const lightTheme = {
     card: {
         primary: {
             bgColor: colors.veryLightGray
+        },
+        secondary: {
+            bgColor: colors.veryLightGray
         }
     },
 

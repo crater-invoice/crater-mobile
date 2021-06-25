@@ -11,7 +11,10 @@ const styles = StyleSheet.create({
     dateColumn: {
         flex: 1.2
     },
-    timeColumn: { flex: 1 },
+    timeColumn: theme => ({
+        flex: 1,
+        marginLeft: theme?.mode === 'light' ? 0 : 1
+    }),
     validation: {
         paddingVertical: 2,
         paddingHorizontal: 5,

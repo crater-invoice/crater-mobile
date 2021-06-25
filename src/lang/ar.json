@@ -756,5 +756,9 @@
         "wrong": "هناك خطأ ما. حاول مرة اخرى.",
         "alreadyTaken": "مأخوذة",
         "minCharacter": "الرجاء إدخال {{minCharacter}} أحرف على الأقل"
+    },
+    "company": {
+        "text_switch_company": "شركة سويتش",
+        "text_add_new_company": "اضافة شركة جديدة"
     }
 }

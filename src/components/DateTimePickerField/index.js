@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { reduxForm, Field, change } from 'redux-form';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import { DatePickerField } from '../DatePickerField';
 import { TimePickerField } from '../TimePickerField';
@@ -8,6 +9,7 @@ import { DATE_FORMAT } from '@/constants';
 import Lng from '@/lang/i18n';
 import styles from './styles';
 import { Text } from '../Text';
+import { Label } from '../Label';
 
 const DATE_TIME_PICKER_FORM = 'DATE_TIME_PICKER_FORM';
 
@@ -20,7 +22,7 @@ type Props = {
     meta: any
 };
 
-class DateTimePickerFieldComponent extends Component<Props> {
+class Picker extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = { loading: true };
@@ -113,7 +115,8 @@ class DateTimePickerFieldComponent extends Component<Props> {
             dateFieldName,
             timeFieldName,
             hideError,
-            locale
+            locale,
+            theme
         } = this.props;
 
         if (loading) return null;
@@ -122,14 +125,14 @@ class DateTimePickerFieldComponent extends Component<Props> {
 
         return (
             <View style={styles.container}>
-                {label && (
-                    <Text secondary h5 medium style={labelStyle}>
-                        {label}
-                        {isRequired ? (
-                            <Text danger> *</Text>
-                        ) : null}
-                    </Text>
-                )}
+                <Label
+                    h5
+                    isRequired={isRequired}
+                    theme={theme}
+                    style={labelStyle}
+                >
+                    {label}
+                </Label>
 
                 <View style={styles.row}>
                     <View style={styles.dateColumn}>
@@ -147,7 +150,7 @@ class DateTimePickerFieldComponent extends Component<Props> {
                             }}
                         />
                     </View>
-                    <View style={styles.timeColumn}>
+                    <View style={styles.timeColumn(theme)}>
                         <Field
                             name={timeFieldName}
                             component={TimePickerField}
@@ -164,10 +167,7 @@ class DateTimePickerFieldComponent extends Component<Props> {
                 </View>
                 {hasError && (
                     <View style={styles.validation}>
-                        <Text
-                            white
-                            h6
-                        >
+                        <Text white h6>
                             {Lng.t(error, { locale, hint: label })}
                         </Text>
                     </View>
@@ -177,7 +177,13 @@ class DateTimePickerFieldComponent extends Component<Props> {
     }
 }
 
-//  Redux Forms
-export const DateTimePickerField = reduxForm({
+const dateTimePickerForm = reduxForm({
     form: DATE_TIME_PICKER_FORM
-})(DateTimePickerFieldComponent);
+})(Picker);
+
+export const DateTimePickerField = connect(
+    ({ global }) => ({
+        theme: global.theme
+    }),
+    {}
+)(dateTimePickerForm);

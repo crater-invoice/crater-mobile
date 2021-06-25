@@ -126,6 +126,9 @@ export const darkTheme = {
     card: {
         primary: {
             bgColor: colors.gray7
+        },
+        secondary: {
+            bgColor: colors.dark5
         }
     },
 

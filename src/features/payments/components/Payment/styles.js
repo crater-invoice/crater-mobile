@@ -1,5 +1,6 @@
 import { StyleSheet, Platform } from 'react-native';
 import { colors } from '@/styles';
+import { isAndroidPlatform } from '@/constants';
 
 export default styles = StyleSheet.create({
     container: {
@@ -12,6 +13,12 @@ export default styles = StyleSheet.create({
     },
     selectPicker: {
         marginTop: 17
+    },
+    date: {
+        ...(isAndroidPlatform() && {
+            paddingTop: 11,
+            paddingBottom: 11
+        })
     },
     numberDateFieldContainer: {
         flex: 1,
