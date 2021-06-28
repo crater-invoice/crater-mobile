@@ -254,7 +254,8 @@ class Picker extends Component<IProps, IStates> {
         }
     };
 
-    openDropdown = () => this.actionSheet.current.showActionSheet();
+    openDropdown = () =>
+        !this.props.disabled && this.actionSheet.current.showActionSheet();
 
     selectedFile = () => {
         const { image, action } = this.state;
@@ -266,7 +267,8 @@ class Picker extends Component<IProps, IStates> {
             uploadedFileType,
             hasAvatar,
             showUploadedImageAsCache = true,
-            theme
+            theme,
+            disabled
         } = this.props;
 
         const fileView = (
@@ -281,7 +283,12 @@ class Picker extends Component<IProps, IStates> {
         );
 
         const defaultView = (
-            <View style={styles.container}>
+            <View
+                style={[
+                    styles.container,
+                    disabled && styles.disabledInput(theme)
+                ]}
+            >
                 <AssetIcon
                     name={'cloud-upload-alt'}
                     size={23}

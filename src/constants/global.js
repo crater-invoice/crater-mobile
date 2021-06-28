@@ -77,6 +77,8 @@ export const hasFieldValue = fields => hasValue(fields) && hasLength(fields);
 
 export const isArray = fields => hasValue(fields) && hasLength(fields);
 
+export const isEmpty = fields => !hasValue(fields) || !hasLength(fields);
+
 export const hasObjectLength = field => {
     return field && Object.keys(field).length !== 0;
 };

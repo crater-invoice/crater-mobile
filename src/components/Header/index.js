@@ -8,6 +8,7 @@ import styles from './styles';
 import { colors } from '@/styles';
 import { Filter } from '../Filter';
 import { Text } from '../Text';
+import { PermissionService } from '@/services';
 
 type IProps = {
     leftIcon: String,
@@ -49,7 +50,8 @@ export const CtHeader = ({
     titleOnPress,
     containerStyle,
     leftArrow,
-    theme
+    theme,
+    navigation
 }: IProps) => {
     const leftIconColor =
         leftArrow === 'secondary'
@@ -95,6 +97,82 @@ export const CtHeader = ({
         );
     };
 
+    const rightElement = () => {
+        if (rightComponent) {
+            return rightComponent;
+        }
+
+        let showHeaderRightElement = true;
+
+        if (navigation && rightIcon && rightIcon === 'plus') {
+            showHeaderRightElement = PermissionService.isAllowToCreate(
+                navigation?.state?.routeName
+            );
+        }
+
+        const hitSlop = {
+            top: 13,
+            left: 13,
+            bottom: 13,
+            right: 13
+        };
+
+        const icon = rightIconPress && !rightIconHint && (
+            <AssetIcon
+                name={rightIcon}
+                size={18}
+                style={{
+                    color:
+                        transparent && hasCircle
+                            ? theme?.icons?.plus?.backgroundColor
+                            : theme?.icons?.primaryBgColor
+                }}
+                {...rightIconProps}
+            />
+        );
+
+        const hint = rightIconHint && (
+            <Text
+                primary
+                style={[
+                    styles.rightBtnTitle,
+                    rightIconHintStyle && rightIconHintStyle
+                ]}
+            >
+                {rightIconHint}
+            </Text>
+        );
+
+        const button = (
+            <TouchableOpacity
+                onPress={rightIconPress && rightIconPress}
+                hitSlop={hitSlop}
+            >
+                <View
+                    style={[
+                        styles.rightBtn,
+                        hasCircle && styles.hasCircle(theme)
+                    ]}
+                >
+                    {hint}
+                    {icon}
+                </View>
+            </TouchableOpacity>
+        );
+
+        return (
+            <View style={styles.rightContainer}>
+                {filterProps && (
+                    <View style={styles.filterColumn}>
+                        <Filter {...filterProps} theme={theme} />
+                    </View>
+                )}
+
+                {showHeaderRightElement ? button : null}
+            </View>
+        );
+    };
+
     return (
         <Header
             placement={placement}
@@ -127,69 +205,7 @@ export const CtHeader = ({
                 )
             }
             centerComponent={displayTitle()}
-            rightComponent={
-                !rightComponent ? (
-                    <View style={styles.rightContainer}>
-                        {filterProps && (
-                            <View style={styles.filterColumn}>
-                                <Filter {...filterProps} theme={theme} />
-                            </View>
-                        )}
-
-                        <TouchableOpacity
-                            onPress={rightIconPress && rightIconPress}
-                            hitSlop={{
-                                top: 13,
-                                left: 13,
-                                bottom: 13,
-                                right: 13
-                            }}
-                        >
-                            <View
-                                style={[
-                                    styles.rightBtn,
-                                    hasCircle && styles.hasCircle(theme)
-                                ]}
-                            >
-                                <View>
-                                    {rightIconHint && (
-                                        <Text
-                                            primary
-                                            style={[
-                                                styles.rightBtnTitle,
-                                                rightIconHintStyle &&
-                                                    rightIconHintStyle
-                                            ]}
-                                        >
-                                            {rightIconHint}
-                                        </Text>
-                                    )}
-                                </View>
-
-                                <View>
-                                    {rightIconPress && !rightIconHint && (
-                                        <AssetIcon
-                                            name={rightIcon}
-                                            size={18}
-                                            style={{
-                                                color:
-                                                    transparent && hasCircle
-                                                        ? theme?.icons?.plus
-                                                              ?.backgroundColor
-                                                        : theme?.icons
-                                                              ?.primaryBgColor
-                                            }}
-                                            {...rightIconProps}
-                                        />
-                                    )}
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                ) : (
-                    rightComponent
-                )
-            }
+            rightComponent={rightElement()}
             containerStyle={[
                 styles.containerStyle(theme),
                 transparent && styles.transparent,

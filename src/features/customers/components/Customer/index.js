@@ -13,7 +13,6 @@ import {
 } from '@/components';
 import {
     CUSTOMER_FORM,
-    CUSTOMER_EDIT,
     CUSTOMER_ADD,
     CUSTOMER_ACTIONS,
     ACTIONS_VALUE,
@@ -25,7 +24,6 @@ import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import Lng from '@/lang/i18n';
 import { colors } from '@/styles/colors';
 import { SymbolStyle } from '@/components/CurrencyFormat/styles';
-import { headerTitle } from '@/styles';
 import { getApiFormattedCustomFields } from '@/utils';
 
 interface IProps {
@@ -66,6 +64,7 @@ export class Customer extends React.Component<IProps> {
             currency,
             currencies,
             getCreateCustomer,
+            isEditScreen,
             id
         } = this.props;
 
@@ -84,7 +83,7 @@ export class Customer extends React.Component<IProps> {
             return;
         }
 
-        if (type === CUSTOMER_EDIT) {
+        if (isEditScreen) {
             getCustomerDetail({
                 id,
                 currencies,
@@ -129,7 +128,8 @@ export class Customer extends React.Component<IProps> {
             createCustomer,
             updateCustomer,
             navigation,
-            handleSubmit
+            handleSubmit,
+            isEditScreen
         } = this.props;
 
         if (this.state.isLoading) {
@@ -150,7 +150,7 @@ export class Customer extends React.Component<IProps> {
             return;
         }
 
-        if (type === CUSTOMER_EDIT) {
+        if (isEditScreen) {
             updateCustomer({
                 params,
                 navigation,
@@ -177,8 +177,12 @@ export class Customer extends React.Component<IProps> {
     };
 
     BOTTOM_ACTION = handleSubmit => {
-        const { loading, locale } = this.props;
+        const { loading, locale, isEditScreen, isAllowToEdit } = this.props;
         const { isLoading } = this.state;
+
+        if (isEditScreen && !isAllowToEdit) {
+            return null;
+        }
 
         return (
             <View style={styles.submitButton}>
@@ -204,6 +208,9 @@ export class Customer extends React.Component<IProps> {
             type,
             currencies,
             customFields,
+            isAllowToEdit,
+            isAllowToDelete,
+            isEditScreen,
             formValues
         } = this.props;
 
@@ -211,7 +218,6 @@ export class Customer extends React.Component<IProps> {
         const shippingAddress = formValues?.customer?.[FIELDS.SHIPPING];
 
         const { isLoading } = this.state;
-        const isEditScreen = type === CUSTOMER_EDIT;
 
         const hasCustomField = isEditScreen
             ? formValues?.customer &&
@@ -219,7 +225,7 @@ export class Customer extends React.Component<IProps> {
             : isArray(customFields);
 
         const drownDownProps =
-            isEditScreen && !isLoading
+            isEditScreen && !isLoading && isAllowToDelete
                 ? {
                       options: CUSTOMER_ACTIONS(Lng, locale),
                       onSelect: this.onOptionSelect,
@@ -228,19 +234,27 @@ export class Customer extends React.Component<IProps> {
                   }
                 : null;
 
+        const disabled = !isAllowToEdit;
+
+        const getTitle = () => {
+            let title = 'header.addCustomer';
+            if (isEditScreen && !isAllowToEdit) title = 'header.viewCustomer';
+            if (isEditScreen && isAllowToEdit) title = 'header.editCustomer';
+
+            return Lng.t(title, { locale });
+        };
+
         return (
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: isEditScreen
-                        ? Lng.t('header.editCustomer', { locale })
-                        : Lng.t('header.addCustomer', { locale }),
+                    title: getTitle(),
                     placement: 'center',
-                    rightIcon: !isEditScreen ? 'save' : null,
-                    rightIconProps: {
-                        solid: true
-                    },
-                    rightIconPress: handleSubmit(this.onSubmit)
+                    ...((!isEditScreen || !isAllowToDelete) && {
+                        rightIcon: 'save',
+                        rightIconProps: { solid: true },
+                        rightIconPress: handleSubmit(this.onSubmit)
+                    })
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{ is: isLoading }}
@@ -261,6 +275,7 @@ export class Customer extends React.Component<IProps> {
                                 customerRefs.contactName.focus()
                         }}
                         validationStyle={styles.inputFieldValidation}
+                        disabled={disabled}
                         withRef
                     />
 
@@ -277,6 +292,7 @@ export class Customer extends React.Component<IProps> {
                         }}
                         refLinkFn={ref => (customerRefs.contactName = ref)}
                         validationStyle={styles.inputFieldValidation}
+                        disabled={disabled}
                         withRef
                     />
 
@@ -294,6 +310,7 @@ export class Customer extends React.Component<IProps> {
                         }}
                         refLinkFn={ref => (customerRefs.email = ref)}
                         validationStyle={styles.inputFieldValidation}
+                        disabled={disabled}
                     />
 
                     <Field
@@ -310,6 +327,7 @@ export class Customer extends React.Component<IProps> {
                         }}
                         refLinkFn={ref => (customerRefs.phone = ref)}
                         validationStyle={styles.inputFieldValidation}
+                        disabled={disabled}
                     />
 
                     <Field
@@ -325,6 +343,7 @@ export class Customer extends React.Component<IProps> {
                         }}
                         refLinkFn={ref => (customerRefs.website = ref)}
                         validationStyle={styles.inputFieldValidation}
+                        disabled={disabled}
                     />
 
                     <View style={styles.inputGroup}>
@@ -357,6 +376,8 @@ export class Customer extends React.Component<IProps> {
                                 rightTitleStyle: SymbolStyle
                             }}
                             emptyContentProps={{ contentType: 'currencies' }}
+                            isEditable={!disabled}
+                            fakeInputProps={{ disabled }}
                         />
 
                         <Field
@@ -387,6 +408,7 @@ export class Customer extends React.Component<IProps> {
                             mainContainerStyle={
                                 theme?.mode === 'dark' && styles.line(theme)
                             }
+                            disabled={disabled}
                         />
 
                         <Field
@@ -414,6 +436,7 @@ export class Customer extends React.Component<IProps> {
                                     : null
                             }}
                             theme={theme}
+                            disabled={disabled}
                         />
                     </View>
 

@@ -13,6 +13,7 @@ import { ROUTES } from '../routes';
 import { fonts } from '@/styles';
 import { AssetSvg } from '@/components';
 import { isIPhoneX } from '@/constants';
+import { PermissionService } from '@/services';
 import {
     CUSTOMERS_ICON,
     EXPENSES_ICON,
@@ -96,6 +97,13 @@ const Tab = (props: any) => {
         <Container backgroundColor={theme?.tabNavigator?.backgroundColor}>
             {navigation?.state &&
                 navigation?.state.routes.map((route, index) => {
+                    if (
+                        route.routeName !== ROUTES.MAIN_MORE &&
+                        !PermissionService.isAllowToView(route.routeName)
+                    ) {
+                        return null;
+                    }
+
                     const isFocused = navigation?.state.index === index;
 
                     const onPress = () => {
@@ -144,13 +152,11 @@ const Tab = (props: any) => {
     );
 };
 
-const mapStateToProps = ({ global }) => ({
-    theme: global?.theme,
-    locale: global?.locale
-});
-
 const BottomTab = connect(
-    mapStateToProps,
+    ({ global }) => ({
+        theme: global?.theme,
+        locale: global?.locale
+    }),
     {}
 )(Tab);
 

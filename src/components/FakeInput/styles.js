@@ -91,7 +91,8 @@ export default StyleSheet.create({
         borderColor: colors.dangerLight
     },
     disabledSelectedValue: theme => ({
-        backgroundColor: theme?.button?.disable?.bgColor
+        backgroundColor: theme?.input?.disableBackgroundColor,
+        opacity: 0.7
     }),
     pickerError: {
         borderColor: colors.dangerLight,

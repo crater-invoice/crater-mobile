@@ -170,6 +170,8 @@ export class Modal extends Component {
                         animationOut: 'fadeOut',
                         animationInTiming: 350,
                         animationOutTiming: 200,
+                        backdropTransitionInTiming: 1,
+                        backdropTransitionOutTiming: 1,
                         ...(!isMore && {
                             swipeDirection: 'right',
                             onSwipeComplete: this.onToggle

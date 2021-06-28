@@ -17,12 +17,10 @@ import {
     SelectField,
     FakeInput,
     SendMail,
-    CustomField,
-    PaymentModeModal
+    CustomField
 } from '@/components';
 import {
     PAYMENT_ADD,
-    PAYMENT_EDIT,
     PAYMENT_FORM,
     PAYMENT_ACTIONS,
     ACTIONS_VALUE,
@@ -88,6 +86,7 @@ export class Payment extends React.Component<IProps> {
         const {
             getCreatePayment,
             getPaymentDetail,
+            isEditScreen,
             type,
             id,
             hasRecordPayment
@@ -114,7 +113,7 @@ export class Payment extends React.Component<IProps> {
             return;
         }
 
-        if (type === PAYMENT_EDIT) {
+        if (isEditScreen) {
             getPaymentDetail({
                 id,
                 onSuccess: res => {
@@ -187,6 +186,7 @@ export class Payment extends React.Component<IProps> {
             navigation,
             locale,
             hasRecordPayment,
+            isEditScreen,
             id
         } = this.props;
 
@@ -234,7 +234,7 @@ export class Payment extends React.Component<IProps> {
             });
         }
 
-        if (type === PAYMENT_EDIT) {
+        if (isEditScreen) {
             updatePayment({
                 id,
                 params,
@@ -327,7 +327,7 @@ export class Payment extends React.Component<IProps> {
     };
 
     nextNumberView = () => {
-        const { formValues, locale } = this.props;
+        const { formValues, locale, isAllowToEdit } = this.props;
 
         return (
             <Field
@@ -339,14 +339,19 @@ export class Payment extends React.Component<IProps> {
                     fieldName: `payment.${FIELDS.NUMBER}`,
                     prefix: formValues?.payment?.[FIELDS.PREFIX]
                 }}
+                disabled={!isAllowToEdit}
             />
         );
     };
 
     BOTTOM_ACTION = handleSubmit => {
-        const { locale, loading } = this.props;
+        const { locale, loading, isEditScreen, isAllowToEdit } = this.props;
         const { isLoading } = this.state;
         let buttonTitle = Lng.t('button.save', { locale });
+
+        if (isEditScreen && !isAllowToEdit) {
+            return null;
+        }
 
         return (
             <View style={styles.submitButton}>
@@ -397,37 +402,50 @@ export class Payment extends React.Component<IProps> {
             unPaidInvoices,
             withLoading,
             customFields,
+            isEditScreen,
+            isAllowToEdit,
+            isAllowToDelete,
             currency
         } = this.props;
 
         const { isLoading, selectedCustomer } = this.state;
-        const isEditPayment = type === PAYMENT_EDIT;
+        const disabled = !isAllowToEdit;
 
-        const hasCustomField = isEditPayment
+        const hasCustomField = isEditScreen
             ? formValues?.payment && formValues.payment.hasOwnProperty('fields')
             : isArray(customFields);
 
         const drownDownProps =
-            isEditPayment && !isLoading
+            isEditScreen && !isLoading
                 ? {
-                      options: PAYMENT_ACTIONS(Lng, locale),
+                      options: PAYMENT_ACTIONS(isAllowToDelete, Lng, locale),
                       onSelect: this.onOptionSelect,
                       cancelButtonIndex: 2,
-                      destructiveButtonIndex: 1
+                      destructiveButtonIndex: 1,
+                      ...(!isAllowToDelete && {
+                          cancelButtonIndex: 1,
+                          destructiveButtonIndex: 2
+                      })
                   }
                 : null;
 
+        const getTitle = () => {
+            let title = 'header.addPayment';
+            if (isEditScreen && !isAllowToEdit) title = 'header.viewPayment';
+            if (isEditScreen && isAllowToEdit) title = 'header.editPayment';
+
+            return Lng.t(title, { locale });
+        };
+
         const headerProps = {
             leftIconPress: () => navigation.goBack(null),
-            title: isEditPayment
-                ? Lng.t('header.editPayment', { locale })
-                : Lng.t('header.addPayment', { locale }),
+            title: getTitle(),
             placement: 'center',
-            rightIcon: type !== PAYMENT_EDIT ? 'save' : null,
-            rightIconProps: {
-                solid: true
-            },
-            rightIconPress: handleSubmit(this.onSubmit)
+            ...(!isEditScreen && {
+                rightIcon: 'save',
+                rightIconProps: { solid: true },
+                rightIconPress: handleSubmit(this.onSubmit)
+            })
         };
 
         return (
@@ -446,7 +464,7 @@ export class Payment extends React.Component<IProps> {
                         { opacity: withLoading ? 0.8 : 1 }
                     ]}
                 >
-                    {isEditPayment && this.sendMailComponent()}
+                    {isEditScreen && this.sendMailComponent()}
 
                     <View style={styles.numberDateFieldContainer}>
                         <View style={styles.numberDateField}>
@@ -463,6 +481,7 @@ export class Payment extends React.Component<IProps> {
                                 fakeInputProps={{
                                     fakeInputContainerStyle: styles.date
                                 }}
+                                disabled={disabled}
                             />
                         </View>
 
@@ -552,6 +571,7 @@ export class Payment extends React.Component<IProps> {
                             autoCorrect: true,
                             keyboardType: 'decimal-pad'
                         }}
+                        disabled={disabled}
                         isCurrencyInput
                         isRequired
                     />
@@ -585,11 +605,13 @@ export class Payment extends React.Component<IProps> {
                         }}
                         emptyContentProps={{ contentType: 'paymentMode' }}
                         inputModalName="PaymentModeModal"
+                        isEditable={!disabled}
+                        fakeInputProps={{ disabled }}
                     />
 
                     <Notes
                         {...this.props}
-                        isEditPayment={isEditPayment}
+                        isEditPayment={isEditScreen}
                         setFormField={this.setFormField}
                     />
 

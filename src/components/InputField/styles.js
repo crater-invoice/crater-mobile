@@ -101,7 +101,7 @@ export default StyleSheet.create({
     },
     disabledInput: theme => ({
         backgroundColor: theme?.input?.disableBackgroundColor,
-        opacity: 0.5
+        opacity: 0.6
     }),
     lightThemeDisabledInput: {
         color: colors.gray6

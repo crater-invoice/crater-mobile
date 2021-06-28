@@ -5,10 +5,12 @@ import { validate } from './validation';
 import * as actions from '../../actions';
 import { Customer } from '../../components/Customer';
 import { getStateCurrencies } from '../../selectors';
+import { PermissionService } from '@/services';
 import {
     CUSTOMER_FORM,
     CUSTOMER_ADD,
-    CUSTOMER_FIELDS as FIELDS
+    CUSTOMER_FIELDS as FIELDS,
+    CUSTOMER_EDIT
 } from '../../constants';
 
 const mapStateToProps = (state, { navigation }) => {
@@ -20,6 +22,13 @@ const mapStateToProps = (state, { navigation }) => {
 
     const id = navigation.getParam('customerId', null);
     const type = navigation.getParam('type', CUSTOMER_ADD);
+    const isEditScreen = type === CUSTOMER_EDIT;
+    const isAllowToEdit = isEditScreen
+        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
+        : true;
+    const isAllowToDelete = isEditScreen
+        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
+        : true;
 
     return {
         formValues: getFormValues(CUSTOMER_FORM)(state) || {},
@@ -30,6 +39,9 @@ const mapStateToProps = (state, { navigation }) => {
         countries,
         currency,
         customFields,
+        isAllowToEdit,
+        isAllowToDelete,
+        isEditScreen,
         loading: loading?.customerLoading,
         id,
         initialValues: {

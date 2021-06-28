@@ -74,6 +74,10 @@ export class TimePickerField extends Component {
     onToggleModal = () => {
         const { visible, selectedTimeStamp } = this.state;
 
+        if (this.props.disabled) {
+            return;
+        }
+
         if (!visible) {
             this.setState({ timeStamp: selectedTimeStamp });
         }
@@ -163,7 +167,8 @@ export class TimePickerField extends Component {
             placeholder = TIME_FORMAT,
             fakeInputProps,
             isRequired,
-            meta
+            meta,
+            disabled
         } = this.props;
         const { time, displayMode } = this.state;
 
@@ -182,6 +187,7 @@ export class TimePickerField extends Component {
                     placeholder={placeholder ?? ' '}
                     isRequired={isRequired}
                     meta={meta}
+                    disabled={disabled}
                     {...fakeInputProps}
                 />
                 {this.renderPicker()}

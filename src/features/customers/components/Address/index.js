@@ -155,10 +155,10 @@ export class Address extends Component<IProps> {
     };
 
     BOTTOM_ACTION = handleSubmit => {
-        const { locale } = this.props;
+        const { locale, disabled } = this.props;
         const { isKeyboardVisible } = this.state;
 
-        if (isKeyboardVisible) {
+        if (isKeyboardVisible || disabled) {
             return;
         }
 
@@ -182,7 +182,8 @@ export class Address extends Component<IProps> {
             navigation,
             locale,
             countries,
-            theme
+            theme,
+            disabled
         } = this.props;
 
         const { status, isKeyboardVisible } = this.state;
@@ -196,7 +197,7 @@ export class Address extends Component<IProps> {
                     isKeyboardVisible && { paddingBottom: 120 }
                 ]}
             >
-                {!hasBillingAddress && (
+                {!hasBillingAddress && !disabled && (
                     <FakeInput
                         icon={'copy'}
                         color={theme?.text?.fourthColor}
@@ -218,6 +219,7 @@ export class Address extends Component<IProps> {
                         autoCapitalize: 'none',
                         autoCorrect: true
                     }}
+                    disabled={disabled}
                 />
 
                 <Field
@@ -244,6 +246,8 @@ export class Address extends Component<IProps> {
                         contentType: 'countries'
                     }}
                     reference={ref => (this.countryReference = ref)}
+                    fakeInputProps={{ disabled }}
+                    isEditable={!disabled}
                 />
 
                 <Field
@@ -256,6 +260,7 @@ export class Address extends Component<IProps> {
                         autoCorrect: true,
                         onSubmitEditing: () => addressRefs.city.focus()
                     }}
+                    disabled={disabled}
                 />
 
                 <Field
@@ -269,6 +274,7 @@ export class Address extends Component<IProps> {
                         onSubmitEditing: () => addressRefs.street1.focus()
                     }}
                     refLinkFn={ref => (addressRefs.city = ref)}
+                    disabled={disabled}
                 />
 
                 <Field
@@ -288,6 +294,7 @@ export class Address extends Component<IProps> {
                     height={60}
                     autoCorrect={true}
                     refLinkFn={ref => (addressRefs.street1 = ref)}
+                    disabled={disabled}
                 />
 
                 <Field
@@ -306,6 +313,7 @@ export class Address extends Component<IProps> {
                     height={60}
                     autoCorrect={true}
                     containerStyle={styles.addressStreetField}
+                    disabled={disabled}
                 />
 
                 <Field
@@ -320,6 +328,7 @@ export class Address extends Component<IProps> {
                         onSubmitEditing: () => addressRefs.zip.focus()
                     }}
                     refLinkFn={ref => (addressRefs.phone = ref)}
+                    disabled={disabled}
                 />
 
                 <Field
@@ -333,6 +342,7 @@ export class Address extends Component<IProps> {
                         onSubmitEditing: handleSubmit(this.saveAddress)
                     }}
                     refLinkFn={ref => (addressRefs.zip = ref)}
+                    disabled={disabled}
                 />
             </ScrollView>
         );

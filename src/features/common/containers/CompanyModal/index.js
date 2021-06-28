@@ -9,7 +9,7 @@ const mapStateToProps = ({ global }) => ({
 });
 
 const mapDispatchToProps = {
-    login: action.getCompanies
+    getCompanies: action.getCompanies
 };
 
 const CompanyModal = connect(

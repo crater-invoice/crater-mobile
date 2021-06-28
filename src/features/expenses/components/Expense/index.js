@@ -22,7 +22,6 @@ import {
 import {
     EXPENSE_FORM,
     EXPENSE_ADD,
-    EXPENSE_EDIT,
     EXPENSE_ACTIONS,
     ACTIONS_VALUE,
     EXPENSE_FIELDS as FIELDS
@@ -88,7 +87,13 @@ export class Expense extends React.Component<IProps, IState> {
     }
 
     setInitialValues = () => {
-        const { type, getCreateExpense, getExpenseDetail, id } = this.props;
+        const {
+            type,
+            getCreateExpense,
+            getExpenseDetail,
+            isEditScreen,
+            id
+        } = this.props;
 
         if (type === EXPENSE_ADD) {
             getCreateExpense({
@@ -100,7 +105,7 @@ export class Expense extends React.Component<IProps, IState> {
             return;
         }
 
-        if (type === EXPENSE_EDIT) {
+        if (isEditScreen) {
             getExpenseDetail({
                 id,
                 onSuccess: (res, receipt) => {
@@ -138,6 +143,7 @@ export class Expense extends React.Component<IProps, IState> {
             navigation,
             updateExpense,
             type,
+            isEditScreen,
             id
         } = this.props;
 
@@ -156,7 +162,7 @@ export class Expense extends React.Component<IProps, IState> {
             return;
         }
 
-        if (type === EXPENSE_EDIT) {
+        if (isEditScreen) {
             updateExpense({
                 id,
                 params,
@@ -220,8 +226,12 @@ export class Expense extends React.Component<IProps, IState> {
     };
 
     BOTTOM_ACTION = handleSubmit => {
-        const { loading, locale } = this.props;
+        const { loading, locale, isEditScreen, isAllowToEdit } = this.props;
         const { fileLoading, isLoading } = this.state;
+
+        if (isEditScreen && !isAllowToEdit) {
+            return null;
+        }
 
         return (
             <View style={styles.submitButton}>
@@ -246,38 +256,60 @@ export class Expense extends React.Component<IProps, IState> {
             customers,
             customFields,
             formValues,
-            currency
+            currency,
+            isEditScreen,
+            isAllowToEdit,
+            isAllowToDelete
         } = this.props;
+        const disabled = !isAllowToEdit;
 
         const { imageUrl, isLoading, fileType } = this.state;
 
         const isCreateExpense = type === EXPENSE_ADD;
-        const isEditExpense = type === EXPENSE_EDIT;
-        const hasCustomField = isEditExpense
+        const hasCustomField = isEditScreen
             ? formValues?.expense && formValues.expense.hasOwnProperty('fields')
             : isArray(customFields);
 
         const drownDownProps =
             !isCreateExpense && !isLoading
                 ? {
-                      options: EXPENSE_ACTIONS(Lng, locale, imageUrl),
+                      options: EXPENSE_ACTIONS(
+                          Lng,
+                          locale,
+                          imageUrl,
+                          isAllowToDelete
+                      ),
                       onSelect: this.onOptionSelect,
-                      cancelButtonIndex: imageUrl ? 2 : 1,
-                      destructiveButtonIndex: imageUrl ? 1 : 2
+                      cancelButtonIndex: 1,
+                      destructiveButtonIndex: 2,
+                      ...(imageUrl && {
+                          cancelButtonIndex: 2,
+                          destructiveButtonIndex: 1
+                      }),
+                      ...(!isAllowToDelete && {
+                          cancelButtonIndex: 1,
+                          destructiveButtonIndex: 2
+                      })
                   }
                 : null;
 
+        const getTitle = () => {
+            let title = 'header.addExpense';
+            if (isEditScreen && !isAllowToEdit) title = 'header.viewExpense';
+            if (isEditScreen && isAllowToEdit) title = 'header.editExpense';
+
+            return Lng.t(title, { locale });
+        };
+
         const headerProps = {
             leftIconPress: () => navigation.goBack(null),
-            title: isCreateExpense
-                ? Lng.t('header.addExpense', { locale })
-                : Lng.t('header.editExpense', { locale }),
+            title: getTitle(),
             placement: 'center',
-            rightIcon: isCreateExpense ? 'save' : null,
-            rightIconPress: handleSubmit(this.onSubmit),
-            rightIconProps: {
-                solid: true
-            }
+            ...(!isEditScreen && {
+                rightIcon: 'save',
+                rightIconProps: { solid: true },
+                rightIconPress: handleSubmit(this.onSubmit)
+            })
         };
 
         return (
@@ -306,6 +338,7 @@ export class Expense extends React.Component<IProps, IState> {
                                 : null
                         }
                         showUploadedImageAsCache={false}
+                        disabled={disabled}
                     />
 
                     <Field
@@ -314,6 +347,7 @@ export class Expense extends React.Component<IProps, IState> {
                         isRequired
                         label={Lng.t('expenses.date', { locale })}
                         icon={'calendar-alt'}
+                        disabled={disabled}
                     />
 
                     <Field
@@ -323,6 +357,7 @@ export class Expense extends React.Component<IProps, IState> {
                         leftSymbol={currency?.symbol}
                         hint={Lng.t('expenses.amount', { locale })}
                         leftIcon={'dollar-sign'}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'go',
                             keyboardType: 'decimal-pad'
@@ -360,6 +395,8 @@ export class Expense extends React.Component<IProps, IState> {
                         }}
                         emptyContentProps={{ contentType: 'categories' }}
                         reference={ref => (this.categoryReference = ref)}
+                        isEditable={!disabled}
+                        fakeInputProps={{ disabled }}
                     />
 
                     <Field
@@ -392,6 +429,8 @@ export class Expense extends React.Component<IProps, IState> {
                             image: IMAGES.EMPTY_CUSTOMERS
                         }}
                         reference={ref => (this.customerReference = ref)}
+                        isEditable={!disabled}
+                        fakeInputProps={{ disabled }}
                     />
 
                     <Field
@@ -407,6 +446,7 @@ export class Expense extends React.Component<IProps, IState> {
                             multiline: true,
                             maxLength: MAX_LENGTH
                         }}
+                        disabled={disabled}
                         height={80}
                     />
 

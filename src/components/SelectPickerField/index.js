@@ -142,7 +142,9 @@ class Picker extends Component<IProps> {
                 style={{
                     inputIOS: {
                         ...styles.inputIOS(theme),
-                        ...(disabled ? styles.disabledSelectedValue : {}),
+                        ...(disabled
+                            ? styles.disabledSelectedValue(theme)
+                            : {}),
                         ...(fakeInputContainerStyle && fakeInputContainerStyle),
                         ...(!isFakeInput && { paddingLeft: 41 })
                     },
@@ -247,7 +249,9 @@ class Picker extends Component<IProps> {
                     fakeInputContainerStyle={
                         isFakeDisplay && {
                             ...styles.inputIOS(theme),
-                            ...(disabled ? styles.disabledSelectedValue : {}),
+                            ...(disabled
+                                ? styles.disabledSelectedValue(theme)
+                                : {}),
                             ...(fakeInputContainerStyle &&
                                 fakeInputContainerStyle)
                         }
@@ -260,6 +264,7 @@ class Picker extends Component<IProps> {
                         isFakeDisplay && selectRef.togglePicker()
                     }
                     containerStyle={containerStyle}
+                    disabled={disabled}
                 />
                 {isFakeDisplay && pickerField}
             </View>

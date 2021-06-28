@@ -28,9 +28,9 @@ export default StyleSheet.create({
         fontFamily:
             theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium
     }),
-    disabledSelectedValue: {
-        ...styles.disabledSelectedValue
-    },
+    disabledSelectedValue: theme => ({
+        ...styles.disabledSelectedValue(theme)
+    }),
     rightIcon: {
         paddingLeft: 5,
         alignItems: 'center',

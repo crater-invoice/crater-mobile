@@ -25,7 +25,7 @@ interface IProps {
     type?: String;
 }
 
-const FIELDS = ({ fields, customFields, locale }) => {
+const FIELDS = ({ fields, customFields, locale, disabled }) => {
     const items = [];
 
     if (fields.length === 0) return null;
@@ -37,7 +37,8 @@ const FIELDS = ({ fields, customFields, locale }) => {
             field,
             name,
             key: index,
-            locale
+            locale,
+            disabled
         };
 
         switch (type) {
@@ -90,7 +91,15 @@ const FIELDS = ({ fields, customFields, locale }) => {
 };
 
 export const CustomField = (props: IProps) => {
-    const { locale, customFields, dispatch, form, formValues, type } = props;
+    const {
+        locale,
+        customFields,
+        dispatch,
+        form,
+        formValues,
+        type,
+        isAllowToEdit
+    } = props;
 
     const [sortableFields, setSortableFields] = useState(null);
 
@@ -117,6 +126,7 @@ export const CustomField = (props: IProps) => {
             component={FIELDS}
             locale={locale}
             customFields={sortableFields}
+            disabled={!isAllowToEdit}
         />
     );
 };

@@ -3,7 +3,7 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { InputField } from '../../InputField';
 
-export function NumberType({ field, name }) {
+export function NumberType({ field, name, disabled }) {
     const { label = null, is_required = false, placeholder = null } = field;
 
     return (
@@ -18,6 +18,7 @@ export function NumberType({ field, name }) {
                 keyboardType: KEYBOARD_TYPE.NUMERIC
             }}
             isRequired={is_required}
+            disabled={disabled}
         />
     );
 }

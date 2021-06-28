@@ -125,7 +125,8 @@ export class Customers extends React.Component<IProps> {
                     type: CUSTOMER_ADD
                 });
             },
-            title: Lng.t('header.customers', { locale })
+            title: Lng.t('header.customers', { locale }),
+            navigation
         };
 
         const filterProps = {

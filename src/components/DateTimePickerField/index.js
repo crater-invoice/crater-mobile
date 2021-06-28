@@ -116,7 +116,8 @@ class Picker extends Component<Props> {
             timeFieldName,
             hideError,
             locale,
-            theme
+            theme,
+            disabled
         } = this.props;
 
         if (loading) return null;
@@ -129,7 +130,7 @@ class Picker extends Component<Props> {
                     h5
                     isRequired={isRequired}
                     theme={theme}
-                    style={labelStyle}
+                    style={[labelStyle, { marginBottom: -2 }]}
                 >
                     {label}
                 </Label>
@@ -148,6 +149,7 @@ class Picker extends Component<Props> {
                                 fakeInputContainerStyle:
                                     hasError && styles.inputError
                             }}
+                            disabled={disabled}
                         />
                     </View>
                     <View style={styles.timeColumn(theme)}>
@@ -162,6 +164,7 @@ class Picker extends Component<Props> {
                                 fakeInputContainerStyle:
                                     hasError && styles.inputError
                             }}
+                            disabled={disabled}
                         />
                     </View>
                 </View>

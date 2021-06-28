@@ -149,7 +149,8 @@ export class Payments extends React.Component<IProps> {
                     type: PAYMENT_ADD
                 });
             },
-            title: Lng.t('header.payments', { locale })
+            title: Lng.t('header.payments', { locale }),
+            navigation
         };
 
         const filterProps = {

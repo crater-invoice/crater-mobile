@@ -40,9 +40,14 @@ class Switch extends Component<IProps> {
     onToggle = () => {
         const {
             onChangeCallback,
+            disabled,
             input: { onChange }
         } = this.props;
         const { status } = this.state;
+
+        if (disabled) {
+            return;
+        }
 
         this.setState(prevState => {
             return { status: !prevState.status };

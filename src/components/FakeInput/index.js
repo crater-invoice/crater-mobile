@@ -106,7 +106,8 @@ export class FakeInputComponent extends Component<IProps> {
                                 error && {
                                     ...styles.inputError,
                                     borderBottomWidth: 0
-                                }
+                                },
+                            disabled && styles.disabledSelectedValue(theme)
                         ]}
                     >
                         <View style={styles.prefixLabelContainer}>
@@ -147,6 +148,7 @@ export class FakeInputComponent extends Component<IProps> {
                                 }
                                 textStyle={styles.prefixInputText}
                                 hideError={true}
+                                disabled={disabled}
                             />
                         </View>
                     </View>
@@ -226,7 +228,7 @@ export class FakeInputComponent extends Component<IProps> {
                                             icon && { paddingLeft: 39 },
                                             rightIcon && styles.hasRightIcon,
                                             color && { color: color },
-                                            disabled && { opacity: 0.5 }
+                                            disabled && { opacity: 0.7 }
                                         ]}
                                     >
                                         {placeholder && placeholder}

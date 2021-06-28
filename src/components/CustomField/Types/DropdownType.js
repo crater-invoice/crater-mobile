@@ -3,8 +3,7 @@ import { Field } from 'redux-form';
 import { SelectPickerField } from '@/components/SelectPickerField';
 import { hasFieldValue } from '@/constants';
 
-
-export function DropdownType({ field, name }) {
+export function DropdownType({ field, name, disabled }) {
     const {
         label = null,
         is_required = false,
@@ -40,6 +39,7 @@ export function DropdownType({ field, name }) {
                 value: null
             }}
             findValueByForm={false}
+            disabled={disabled}
         />
     );
 }

@@ -98,6 +98,13 @@ class EditorComponent extends Component<IProps, IStates> {
     };
 
     togglePreview = () => {
+        const { isAllowToEdit = true } = this.props;
+        const disabled = !isAllowToEdit;
+
+        if (disabled) {
+            return;
+        }
+
         this.reverseOpacityAnimation();
 
         setTimeout(() => {
@@ -344,10 +351,11 @@ class EditorComponent extends Component<IProps, IStates> {
             previewContainerStyle,
             labelStyle,
             previewLabelStyle,
+            isAllowToEdit = true,
             theme
         } = this.props;
         const { visible, preview, hasError } = this.state;
-
+        const disabled = !isAllowToEdit;
         const items = this.getFields();
         const hasFields = isArray(items);
         const value = this.getValue();
@@ -457,6 +465,7 @@ class EditorComponent extends Component<IProps, IStates> {
                     multiline: true,
                     placeholder
                 }}
+                disabled={disabled}
                 {...fieldInputProps}
                 {...fieldProps}
             />
@@ -498,7 +507,8 @@ class EditorComponent extends Component<IProps, IStates> {
                         opacity: this.animatedOpacityReverse
                     },
                     htmlViewStyle,
-                    hasError && styles.error
+                    hasError && styles.error,
+                    disabled && styles.disabledInput(theme)
                 ]}
             >
                 <HtmlView

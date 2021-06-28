@@ -65,7 +65,10 @@
         "customFields": "Custom Fields",
         "addCustomField": "Add Custom Field",
         "editCustomField": "Edit Custom Field",
-        "notes": "Notes"
+        "notes": "Notes",
+        "viewCustomer": "View Customer",
+        "viewPayment": "View Payment",
+        "viewExpense": "View Expense"
     },
     "tabNavigation": {
         "invoices": "Invoices",

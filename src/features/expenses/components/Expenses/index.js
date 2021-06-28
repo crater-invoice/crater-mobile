@@ -134,7 +134,8 @@ export class Expenses extends React.Component<IProps> {
                     type: EXPENSE_ADD
                 });
             },
-            title: Lng.t('header.expenses', { locale })
+            title: Lng.t('header.expenses', { locale }),
+            navigation
         };
 
         const filterProps = {

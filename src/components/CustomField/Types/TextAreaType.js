@@ -3,7 +3,7 @@ import { Field } from 'redux-form';
 import { InputField } from '../../InputField';
 import { MAX_LENGTH } from '@/constants';
 
-export function TextAreaType({ field, name }) {
+export function TextAreaType({ field, name, disabled }) {
     const { label = null, is_required = false, placeholder = null } = field;
 
     return (
@@ -21,6 +21,7 @@ export function TextAreaType({ field, name }) {
             }}
             height={80}
             isRequired={is_required}
+            disabled={disabled}
         />
     );
 }

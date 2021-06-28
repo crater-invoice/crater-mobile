@@ -2,7 +2,7 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { InputField } from '../../InputField';
 
-export function UrlType({ field, name }) {
+export function UrlType({ field, name, disabled }) {
     const { label = null, is_required = false, placeholder = null } = field;
 
     return (
@@ -16,6 +16,7 @@ export function UrlType({ field, name }) {
                 placeholder
             }}
             isRequired={is_required}
+            disabled={disabled}
         />
     );
 }

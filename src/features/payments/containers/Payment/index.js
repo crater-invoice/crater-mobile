@@ -5,12 +5,14 @@ import * as actions from '../../actions';
 import {
     PAYMENT_FORM,
     PAYMENT_ADD,
-    PAYMENT_FIELDS as FIELDS
+    PAYMENT_FIELDS as FIELDS,
+    PAYMENT_EDIT
 } from '../../constants';
 import { Payment } from '../../components/Payment';
 import { getCustomers } from '@/features/customers/actions';
 import { getPaymentModes, getNotes } from '@/features/settings/actions';
 import { getPaymentMethodsState } from '../../selectors';
+import { PermissionService } from '@/services';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -25,6 +27,14 @@ const mapStateToProps = (state, { navigation }) => {
     const invoice = navigation.getParam('invoice', null);
     const hasRecordPayment = navigation.getParam('hasRecordPayment', false);
 
+    const isEditScreen = type === PAYMENT_EDIT;
+    const isAllowToEdit = isEditScreen
+        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
+        : true;
+    const isAllowToDelete = isEditScreen
+        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
+        : true;
+
     return {
         type,
         customers,
@@ -33,6 +43,9 @@ const mapStateToProps = (state, { navigation }) => {
         invoice,
         notes,
         hasRecordPayment,
+        isAllowToEdit,
+        isAllowToDelete,
+        isEditScreen,
         loading: loading?.paymentLoading,
         withLoading: loading?.sendReceiptLoading,
         unPaidInvoices,

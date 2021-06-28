@@ -66,5 +66,9 @@ export const styles = StyleSheet.create({
     },
     uploadedFullImage: {
         height: 110
-    }
+    },
+    disabledInput: theme => ({
+        backgroundColor: theme?.input?.disableBackgroundColor,
+        opacity: 0.7
+    })
 });

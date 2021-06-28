@@ -18,25 +18,34 @@ export const CREATE_EXPENSE = 'expenses/CREATE_EXPENSE';
 export const UPDATE_EXPENSE = 'expenses/UPDATE_EXPENSE';
 export const REMOVE_EXPENSE = 'expenses/REMOVE_EXPENSE';
 export const EXPENSES_TRIGGER_SPINNER = 'expenses/EXPENSES_TRIGGER_SPINNER';
-export const SHOW_IMAGE_ON_EDIT = 'expenses/SHOW_IMAGE_ON_EDIT'
+export const SHOW_IMAGE_ON_EDIT = 'expenses/SHOW_IMAGE_ON_EDIT';
 
 export const ACTIONS_VALUE = {
     REMOVE: 'remove',
     DOWNLOAD: 'download'
 };
 
-export const EXPENSE_ACTIONS = (Lng, locale, imageUrl = '') => {
-    let viewReceipt = {
-        label: Lng.t('expenses.viewReceipt', { locale }),
-        value: ACTIONS_VALUE.DOWNLOAD
-    };
+export const EXPENSE_ACTIONS = (
+    Lng,
+    locale,
+    imageUrl = '',
+    isAllowToDelete
+) => {
+    const options = [];
 
-    let actions = {
-        label: Lng.t('expenses.removeExpense', { locale }),
-        value: ACTIONS_VALUE.REMOVE
-    };
+    imageUrl &&
+        options.push({
+            label: Lng.t('expenses.viewReceipt', { locale }),
+            value: ACTIONS_VALUE.DOWNLOAD
+        });
 
-    return imageUrl ? [viewReceipt, actions] : [actions];
+    isAllowToDelete &&
+        options.push({
+            label: Lng.t('expenses.removeExpense', { locale }),
+            value: ACTIONS_VALUE.REMOVE
+        });
+
+    return options;
 };
 
 // Expense Fields

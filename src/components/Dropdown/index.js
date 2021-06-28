@@ -4,7 +4,7 @@ import ActionSheet from 'react-native-actionsheet';
 import { styles } from './styles';
 import { AssetIcon } from '../AssetIcon';
 import { colors } from '@/styles';
-import { isIosPlatform } from '@/constants';
+import { isEmpty, isIosPlatform } from '@/constants';
 import { isDarkMode } from '@/utils';
 
 type IProps = {
@@ -88,6 +88,10 @@ export default class Dropdown extends Component<IProps> {
             theme
         } = this.props;
         const { labelOptions, visible } = this.state;
+
+        if (isEmpty(options)) {
+            return null;
+        }
 
         return (
             <View>

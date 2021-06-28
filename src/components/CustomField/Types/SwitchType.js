@@ -3,7 +3,7 @@ import { Field } from 'redux-form';
 import { StyleSheet } from 'react-native';
 import { ToggleSwitch } from '@/components';
 
-export function SwitchType({ field, name }) {
+export function SwitchType({ field, name, disabled }) {
     const { label = null, is_required = false } = field;
 
     return (
@@ -14,6 +14,7 @@ export function SwitchType({ field, name }) {
             hint={label ?? ' '}
             hintStyle={styles.label}
             containerStyle={styles.container}
+            disabled={disabled}
         />
     );
 }

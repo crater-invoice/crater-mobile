@@ -94,7 +94,11 @@ const styles = StyleSheet.create({
         flex: 1,
         zIndex: 100,
         backgroundColor: colors.danger
-    }
+    },
+    disabledInput: theme => ({
+        backgroundColor: theme?.input?.disableBackgroundColor,
+        opacity: 0.7
+    })
 });
 
 export default styles;

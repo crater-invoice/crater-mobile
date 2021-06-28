@@ -2,7 +2,7 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { TimePickerField } from '@/components/TimePickerField';
 
-export function TimeType({ field, name }) {
+export function TimeType({ field, name, disabled }) {
     const { label = null, is_required = false, placeholder = null } = field;
 
     return (
@@ -12,6 +12,7 @@ export function TimeType({ field, name }) {
             label={label}
             isRequired={is_required}
             placeholder={placeholder}
+            disabled={disabled}
         />
     );
 }

@@ -172,7 +172,8 @@ export class DatePickerComponent extends Component<IProps, IStates> {
             meta,
             isRequired = false,
             placeholder = ' ',
-            fakeInputProps
+            fakeInputProps,
+            disabled
         } = this.props;
 
         const { isDateTimePickerVisible, displayMode } = this.state;
@@ -190,10 +191,13 @@ export class DatePickerComponent extends Component<IProps, IStates> {
                     icon={'calendar-alt'}
                     values={this.getDisplayValue()}
                     placeholder={placeholder}
-                    onChangeCallback={() => this.showHideDateTimePicker()}
+                    onChangeCallback={() =>
+                        !disabled && this.showHideDateTimePicker()
+                    }
                     meta={meta}
                     isRequired={isRequired}
                     containerStyle={containerStyle}
+                    disabled={disabled}
                     {...fakeInputProps}
                 />
 
