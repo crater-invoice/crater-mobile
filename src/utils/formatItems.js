@@ -148,7 +148,7 @@ export const formatItems = (items, currency) => {
     return items.map(item => {
         const { name, description, price, title } = item;
         return {
-            title: title || name,
+            title: title ?? name ?? '',
             subtitle: { title: description },
             amount: price,
             currency,

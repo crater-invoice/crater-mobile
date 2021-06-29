@@ -7,12 +7,12 @@ import styles from './styles';
 import {
     InputField,
     CtDivider,
-    CtButton,
     DefaultLayout,
     SelectField,
     CurrencyFormat,
     RadioButtonGroup,
-    Text
+    Text,
+    ActionButton
 } from '@/components';
 import {
     ITEM_DISCOUNT_OPTION,
@@ -25,7 +25,6 @@ import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import {
     alertMe,
-    BUTTON_COLOR,
     hasValue,
     isIosPlatform,
     isIPhoneX,
@@ -357,32 +356,6 @@ export class InvoiceItem extends React.Component {
         );
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const { locale, loading, type } = this.props;
-        const isCreateItem = type === ITEM_ADD;
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={handleSubmit(this.saveItem)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    containerStyle={styles.handleBtn}
-                    buttonContainerStyle={styles.buttonContainer}
-                    loading={loading}
-                />
-                {!isCreateItem && (
-                    <CtButton
-                        onPress={this.removeItem}
-                        btnTitle={Lng.t('button.remove', { locale })}
-                        containerStyle={styles.handleBtn}
-                        buttonColor={BUTTON_COLOR.DANGER}
-                        buttonContainerStyle={styles.buttonContainer}
-                        loading={loading}
-                    />
-                )}
-            </View>
-        );
-    };
-
     render() {
         const {
             navigation,
@@ -405,6 +378,20 @@ export class InvoiceItem extends React.Component {
         const currency = navigation.getParam('currency');
         const isCreateItem = type === ITEM_ADD;
         let itemRefs = {};
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.saveItem),
+                loading
+            },
+            {
+                label: 'button.remove',
+                onPress: this.removeItem,
+                loading,
+                bgColor: 'btn-danger',
+                show: !isCreateItem
+            }
+        ];
 
         return (
             <DefaultLayout
@@ -423,7 +410,9 @@ export class InvoiceItem extends React.Component {
                 loadingProps={{
                     is: loading
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
             >
                 <View style={styles.bodyContainer}>
                     <Field

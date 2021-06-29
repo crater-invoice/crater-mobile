@@ -12,12 +12,12 @@ import { alertMe, isArray, MAX_LENGTH } from '@/constants';
 import { IMAGES } from '@/assets';
 import {
     InputField,
-    CtButton,
     DefaultLayout,
     FilePicker,
     DatePickerField,
     SelectField,
-    CustomField
+    CustomField,
+    ActionButton
 } from '@/components';
 import {
     EXPENSE_FORM,
@@ -225,25 +225,6 @@ export class Expense extends React.Component<IProps, IState> {
         });
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const { loading, locale, isEditScreen, isAllowToEdit } = this.props;
-        const { fileLoading, isLoading } = this.state;
-
-        if (isEditScreen && !isAllowToEdit) {
-            return null;
-        }
-
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    loading={loading || fileLoading | isLoading}
-                />
-            </View>
-        );
-    };
-
     render() {
         const {
             navigation,
@@ -259,11 +240,12 @@ export class Expense extends React.Component<IProps, IState> {
             currency,
             isEditScreen,
             isAllowToEdit,
-            isAllowToDelete
+            isAllowToDelete,
+            loading
         } = this.props;
         const disabled = !isAllowToEdit;
 
-        const { imageUrl, isLoading, fileType } = this.state;
+        const { imageUrl, isLoading, fileLoading, fileType } = this.state;
 
         const isCreateExpense = type === EXPENSE_ADD;
         const hasCustomField = isEditScreen
@@ -312,12 +294,23 @@ export class Expense extends React.Component<IProps, IState> {
             })
         };
 
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.onSubmit),
+                loading: loading || fileLoading || isLoading,
+                show: isAllowToEdit
+            }
+        ];
+
         return (
             <DefaultLayout
                 headerProps={headerProps}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{ is: isLoading }}
                 dropdownProps={drownDownProps}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
             >
                 <View style={styles.bodyContainer}>
                     <Field

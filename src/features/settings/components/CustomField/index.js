@@ -15,11 +15,11 @@ import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import {
     InputField,
-    CtButton,
     DefaultLayout,
     ToggleSwitch,
     SelectPickerField,
-    Text
+    Text,
+    ActionButton
 } from '@/components';
 import {
     setCustomFieldRefs,
@@ -44,7 +44,6 @@ import {
     CUSTOM_FIELD_DATA_TYPE_LIST as DATA_TYPES
 } from '../../constants';
 import styles from './styles';
-import { BUTTON_COLOR } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -152,43 +151,6 @@ export class CustomField extends React.Component<IProps> {
         this.setFormField(FIELDS.DEFAULT_VALUE, '');
         this.setFormField(FIELDS.PLACEHOLDER, '');
         this.setFormField(FIELDS.OPTIONS, []);
-    };
-
-    BOTTOM_ACTION = handleSubmit => {
-        const { locale, loading, type, removeCustomFieldLoading } = this.props;
-
-        return (
-            <View
-                style={[
-                    styles.submitButton,
-                    type === EDIT_CUSTOM_FIELD_TYPE && styles.multipleButton
-                ]}
-            >
-                <CtButton
-                    onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    buttonContainerStyle={
-                        type === EDIT_CUSTOM_FIELD_TYPE && styles.flex
-                    }
-                    containerStyle={styles.btnContainerStyle}
-                    loading={loading || this.isLoading()}
-                />
-
-                {type === EDIT_CUSTOM_FIELD_TYPE && (
-                    <CtButton
-                        onPress={this.removeField}
-                        btnTitle={Lng.t('button.remove', {
-                            locale
-                        })}
-                        buttonColor={BUTTON_COLOR.DANGER}
-                        containerStyle={styles.btnContainerStyle}
-                        buttonContainerStyle={styles.flex}
-                        loading={removeCustomFieldLoading || this.isLoading()}
-                        isLoading={removeCustomFieldLoading}
-                    />
-                )}
-            </View>
-        );
     };
 
     REQUIRE_FIELD_VIEW = () => {
@@ -321,9 +283,24 @@ export class CustomField extends React.Component<IProps> {
             handleSubmit,
             locale,
             type,
-            formValues,
-            getCustomFieldLoading
+            loading,
+            removeCustomFieldLoading
         } = this.props;
+
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.onSubmit),
+                loading: loading || this.isLoading()
+            },
+            {
+                label: 'button.remove',
+                onPress: this.removeField,
+                loading: removeCustomFieldLoading || this.isLoading(),
+                bgColor: 'btn-danger',
+                show: type === EDIT_CUSTOM_FIELD_TYPE
+            }
+        ];
 
         this.customFieldRefs(this);
 
@@ -348,7 +325,9 @@ export class CustomField extends React.Component<IProps> {
                     },
                     rightIconPress: handleSubmit(this.onSubmit)
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
                 loadingProps={{ is: this.isLoading() }}
             >
                 <View style={styles.bodyContainer}>

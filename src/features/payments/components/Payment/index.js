@@ -11,13 +11,13 @@ import { IMAGES } from '@/assets';
 import { CUSTOMER_ADD } from '@/features/customers/constants';
 import {
     InputField,
-    CtButton,
     DefaultLayout,
     DatePickerField,
     SelectField,
     FakeInput,
     SendMail,
-    CustomField
+    CustomField,
+    ActionButton
 } from '@/components';
 import {
     PAYMENT_ADD,
@@ -344,26 +344,6 @@ export class Payment extends React.Component<IProps> {
         );
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const { locale, loading, isEditScreen, isAllowToEdit } = this.props;
-        const { isLoading } = this.state;
-        let buttonTitle = Lng.t('button.save', { locale });
-
-        if (isEditScreen && !isAllowToEdit) {
-            return null;
-        }
-
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={buttonTitle}
-                    loading={loading | isLoading}
-                />
-            </View>
-        );
-    };
-
     sendEmail = params => {
         const { navigation, sendPaymentReceipt, id } = this.props;
 
@@ -405,7 +385,8 @@ export class Payment extends React.Component<IProps> {
             isEditScreen,
             isAllowToEdit,
             isAllowToDelete,
-            currency
+            currency,
+            loading
         } = this.props;
 
         const { isLoading, selectedCustomer } = this.state;
@@ -448,15 +429,26 @@ export class Payment extends React.Component<IProps> {
             })
         };
 
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.onSubmit),
+                loading: loading || isLoading,
+                show: isAllowToEdit
+            }
+        ];
+
         return (
             <DefaultLayout
                 headerProps={headerProps}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
                     is: isLoading || !hasObjectLength(formValues) || withLoading
                 }}
                 contentProps={{ withLoading }}
                 dropdownProps={drownDownProps}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
             >
                 <View
                     style={[

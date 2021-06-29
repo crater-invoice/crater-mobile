@@ -122,7 +122,7 @@ export class Currency extends React.Component<IProps> {
             <View style={styles.row}>
                 <View style={styles.positionView}>
                     <Text secondary h4>
-                        {Lng.t("currencies.position", { locale })}
+                        {Lng.t('currencies.position', { locale })}
                     </Text>
                 </View>
 
@@ -137,7 +137,7 @@ export class Currency extends React.Component<IProps> {
 
                 <View style={styles.columnRight}>
                     <Text secondary h4>
-                        {Lng.t("currencies.right", { locale })}
+                        {Lng.t('currencies.right', { locale })}
                     </Text>
                 </View>
             </View>
@@ -172,7 +172,6 @@ export class Currency extends React.Component<IProps> {
                     },
                     rightIconPress: handleSubmit(this.onSubmit)
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{
                     is: !hasObjectLength(formValues)
                 }}

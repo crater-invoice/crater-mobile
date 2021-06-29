@@ -3,12 +3,11 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { DefaultLayout, CtButton, SelectField } from '@/components';
+import { DefaultLayout, SelectField, ActionButton } from '@/components';
 import { Field, change } from 'redux-form';
 import Lng from '@/lang/i18n';
 import { EDIT_LANGUAGE_AND_CURRENCY } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import { headerTitle } from '@/styles';
 import { SymbolStyle } from '@/components/CurrencyFormat/styles';
 import { hasObjectLength, isArray } from '@/constants';
 
@@ -95,19 +94,6 @@ export class LanguageAndCurrency extends React.Component<IProps> {
         });
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const { editPreferencesLoading, locale } = this.props;
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    loading={editPreferencesLoading || this.isLoading()}
-                />
-            </View>
-        );
-    };
-
     getCurrenciesList = currencies => {
         let currencyList = [];
         if (typeof currencies !== 'undefined' && currencies.length != 0) {
@@ -181,10 +167,18 @@ export class LanguageAndCurrency extends React.Component<IProps> {
             handleSubmit,
             locale,
             formValues: { currency },
+            editPreferencesLoading,
             formValues
         } = this.props;
 
         const { currencyList, languagesList } = this.state;
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.onSubmit),
+                loading: editPreferencesLoading || this.isLoading()
+            }
+        ];
 
         return (
             <DefaultLayout
@@ -200,7 +194,9 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                     },
                     rightIconPress: handleSubmit(this.onSubmit)
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
                 loadingProps={{
                     is: this.isLoading()
                 }}

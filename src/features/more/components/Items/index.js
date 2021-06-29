@@ -95,14 +95,14 @@ export class Items extends React.Component<IProps> {
             handleSubmit,
             formValues,
             getItems,
-            currency,
-            theme
+            currency
         } = this.props;
 
         const { search } = this.state;
 
         const headerProps = {
             title: Lng.t('header.items', { locale }),
+            navigation,
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
             rightIcon: 'plus',

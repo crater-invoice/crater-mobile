@@ -4,15 +4,15 @@ import { Field, SubmissionError } from 'redux-form';
 import styles from './styles';
 import {
     InputField,
-    CtButton,
     DefaultLayout,
     SelectPickerField,
     Editor,
-    PLACEHOLDER_TYPES as TYPES
+    PLACEHOLDER_TYPES as TYPES,
+    ActionButton
 } from '@/components';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import Lng from '@/lang/i18n';
-import { alertMe, BUTTON_COLOR, hasTextLength, hasValue } from '@/constants';
+import { alertMe, hasTextLength, hasValue } from '@/constants';
 import {
     NOTES_EDIT,
     NOTES_FIELD_MODAL_TYPES as MODAL_TYPES,
@@ -126,39 +126,6 @@ export default class Note extends React.Component<IProps> {
         });
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const { locale, type, noteLoading } = this.props;
-        const { isLoading } = this.state;
-
-        return (
-            <View
-                style={[
-                    styles.submitButton,
-                    type === NOTES_EDIT && styles.multipleButton
-                ]}
-            >
-                <CtButton
-                    onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    buttonContainerStyle={type === NOTES_EDIT && styles.flex}
-                    containerStyle={styles.btnContainerStyle}
-                    loading={noteLoading || isLoading}
-                />
-
-                {type === NOTES_EDIT && (
-                    <CtButton
-                        onPress={this.removeNote}
-                        btnTitle={Lng.t('button.remove', { locale })}
-                        buttonColor={BUTTON_COLOR.DANGER}
-                        containerStyle={styles.btnContainerStyle}
-                        buttonContainerStyle={styles.flex}
-                        loading={noteLoading || isLoading}
-                    />
-                )}
-            </View>
-        );
-    };
-
     getCustomFieldTypes = () => {
         const { formValues } = this.props;
         const types = [TYPES.PREDEFINE_CUSTOMER, TYPES.CUSTOMER];
@@ -176,11 +143,26 @@ export default class Note extends React.Component<IProps> {
             handleSubmit,
             locale,
             type,
-            selectedModalType
+            selectedModalType,
+            noteLoading
         } = this.props;
         const { isLoading } = this.state;
         const isEditScreen = type === NOTES_EDIT;
         const types = this.getCustomFieldTypes();
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.onSubmit),
+                loading: noteLoading || isLoading
+            },
+            {
+                label: 'button.remove',
+                onPress: this.removeNote,
+                loading: noteLoading || isLoading,
+                bgColor: 'btn-danger',
+                show: isEditScreen
+            }
+        ];
 
         return (
             <DefaultLayout
@@ -198,7 +180,9 @@ export default class Note extends React.Component<IProps> {
                     },
                     rightIconPress: handleSubmit(this.onSubmit)
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
                 loadingProps={{
                     is: isLoading
                 }}

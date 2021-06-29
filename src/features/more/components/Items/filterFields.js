@@ -13,7 +13,6 @@ export const itemsFilterFields = ({ props, setFormField }) => {
             inputProps: {
                 returnKeyType: 'next',
                 autoCorrect: true,
-                autoFocus: true,
                 onSubmitEditing: () => filterRefs.price.focus()
             }
         },

@@ -517,7 +517,6 @@ export class RecurringInvoice extends React.Component<IProps> {
                     },
                     placement: 'center'
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{ is: initLoading }}
                 dropdownProps={drownDownProps}
             >

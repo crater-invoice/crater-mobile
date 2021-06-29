@@ -7,18 +7,18 @@ import { Field, change } from 'redux-form';
 import {
     InputField,
     CtDivider,
-    CtButton,
     DefaultLayout,
     SelectField,
     CurrencyFormat,
-    Text
+    Text,
+    ActionButton
 } from '@/components';
 import { ROUTES } from '@/navigation';
-import { ITEM_FORM, EDIT_ITEM, ADD_ITEM } from '../../constants';
+import { ITEM_FORM, ADD_ITEM } from '../../constants';
 import { colors } from '@/styles/colors';
 import Lng from '@/lang/i18n';
 import { goBack, UNMOUNT, MOUNT } from '@/navigation';
-import { BUTTON_COLOR, isIosPlatform, isIPhoneX } from '@/constants';
+import { isIosPlatform, isIPhoneX } from '@/constants';
 import { alertMe, hasValue, MAX_LENGTH } from '@/constants';
 import { ADD_TAX } from '@/features/settings/constants';
 
@@ -43,7 +43,13 @@ export class Item extends React.Component {
     }
 
     setInitialValues = () => {
-        const { getEditItem, type, itemId, getSettingInfo } = this.props;
+        const {
+            getEditItem,
+            type,
+            isEditItem,
+            itemId,
+            getSettingInfo
+        } = this.props;
 
         if (type === ADD_ITEM) {
             getSettingInfo({
@@ -58,7 +64,7 @@ export class Item extends React.Component {
             return;
         }
 
-        if (type === EDIT_ITEM) {
+        if (isEditItem) {
             getEditItem({
                 id: itemId,
                 onResult: () => {
@@ -332,41 +338,16 @@ export class Item extends React.Component {
         );
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const { locale, loading, type } = this.props;
-        const isCreateItem = type === ADD_ITEM;
-
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={handleSubmit(this.saveItem)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    containerStyle={styles.handleBtn}
-                    buttonContainerStyle={styles.buttonContainer}
-                    loading={loading}
-                />
-                {!isCreateItem && (
-                    <CtButton
-                        onPress={this.removeItem}
-                        btnTitle={Lng.t('button.remove', { locale })}
-                        containerStyle={styles.handleBtn}
-                        buttonContainerStyle={styles.buttonContainer}
-                        buttonColor={BUTTON_COLOR.DANGER}
-                        loading={loading}
-                    />
-                )}
-            </View>
-        );
-    };
-
     TAX_FIELD_VIEW = () => {
         const {
             navigation,
             locale,
             taxTypes,
             formValues: { taxes },
-            getTaxes
+            getTaxes,
+            isAllowToEdit
         } = this.props;
+        const disabled = !isAllowToEdit;
 
         return (
             <Field
@@ -384,7 +365,8 @@ export class Item extends React.Component {
                 fakeInputProps={{
                     icon: 'percent',
                     rightIcon: 'angle-right',
-                    color: colors.gray
+                    color: colors.gray,
+                    disabled
                 }}
                 navigation={navigation}
                 isMultiSelect
@@ -409,6 +391,7 @@ export class Item extends React.Component {
                 emptyContentProps={{
                     contentType: 'taxes'
                 }}
+                isEditable={!disabled}
             />
         );
     };
@@ -417,35 +400,62 @@ export class Item extends React.Component {
         const {
             navigation,
             handleSubmit,
-            loading,
             locale,
             type,
             units,
-            formValues,
             getItemUnits,
-            currency
+            currency,
+            isEditItem,
+            isAllowToEdit,
+            isAllowToDelete,
+            loading
         } = this.props;
+
         const { isTaxPerItem, isLoading } = this.state;
-        const isCreateItem = type === ADD_ITEM;
+        const disabled = !isAllowToEdit;
         let itemRefs = {};
+
+        const getTitle = () => {
+            let title = 'header.addItem';
+            if (isEditItem && !isAllowToEdit) title = 'header.viewItem';
+            if (isEditItem && isAllowToEdit) title = 'header.editItem';
+
+            return Lng.t(title, { locale });
+        };
+
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.saveItem),
+                loading,
+                show: isAllowToEdit
+            },
+            {
+                label: 'button.remove',
+                onPress: this.removeItem,
+                loading,
+                bgColor: 'btn-danger',
+                show: isEditItem && isAllowToDelete
+            }
+        ];
 
         return (
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () =>
                         navigation.navigate(ROUTES.GLOBAL_ITEMS),
-                    title: isCreateItem
-                        ? Lng.t('header.addItem', { locale })
-                        : Lng.t('header.editItem', { locale }),
+                    title: getTitle(),
                     placement: 'center',
-                    rightIcon: 'save',
-                    rightIconProps: {
-                        solid: true
-                    },
-                    rightIconPress: handleSubmit(this.saveItem)
+                    ...(isAllowToEdit && {
+                        rightIcon: 'save',
+                        rightIconProps: { solid: true },
+                        rightIconPress: handleSubmit(this.saveItem)
+                    })
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{ is: isLoading }}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
             >
                 <View style={styles.bodyContainer}>
                     <Field
@@ -453,6 +463,7 @@ export class Item extends React.Component {
                         component={InputField}
                         isRequired
                         hint={Lng.t('items.name', { locale })}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -469,6 +480,7 @@ export class Item extends React.Component {
                         isRequired
                         leftSymbol={currency?.symbol}
                         hint={Lng.t('items.price', { locale })}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -499,12 +511,14 @@ export class Item extends React.Component {
                             title: Lng.t('items.unitPlaceholder', { locale })
                         }}
                         fakeInputProps={{
+                            disabled,
                             valueStyle: styles.units,
                             placeholderStyle: styles.units
                         }}
                         onSelect={item => this.setFormField('unit_id', item.id)}
                         paginationLimit={isIPhoneX() ? 20 : 15}
                         inputModalName="UnitModal"
+                        isEditable={!disabled}
                     />
 
                     {isTaxPerItem && this.TAX_FIELD_VIEW()}
@@ -522,6 +536,7 @@ export class Item extends React.Component {
                             multiline: true,
                             maxLength: MAX_LENGTH
                         }}
+                        disabled={disabled}
                         height={80}
                         refLinkFn={ref => {
                             itemRefs.description = ref;

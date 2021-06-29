@@ -5,16 +5,15 @@ import { View } from 'react-native';
 import styles from './styles';
 import {
     DefaultLayout,
-    CtButton,
     SelectField,
     ToggleSwitch,
-    CtDivider
+    CtDivider,
+    ActionButton
 } from '@/components';
 import { Field, change } from 'redux-form';
 import Lng from '@/lang/i18n';
 import { EDIT_PREFERENCES } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import { headerTitle } from '@/styles';
 import { hasObjectLength, isArray } from '@/constants';
 
 type IProps = {
@@ -146,19 +145,6 @@ export class Preferences extends React.Component<IProps> {
         }
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const { editPreferencesLoading, locale } = this.props;
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={handleSubmit(this.onSubmitPreferences)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    loading={editPreferencesLoading || this.isLoading()}
-                />
-            </View>
-        );
-    };
-
     getTimeZoneList = timezones => {
         if (!isArray(timezones)) {
             return [];
@@ -256,10 +242,17 @@ export class Preferences extends React.Component<IProps> {
             handleSubmit,
             locale,
             formValues: { time_zone },
-            formValues
+            editPreferencesLoading
         } = this.props;
 
         const { timezoneList, dateFormatList, fiscalYearLst } = this.state;
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.onSubmitPreferences),
+                loading: editPreferencesLoading || this.isLoading()
+            }
+        ];
 
         return (
             <DefaultLayout
@@ -273,7 +266,9 @@ export class Preferences extends React.Component<IProps> {
                     },
                     rightIconPress: handleSubmit(this.onSubmitPreferences)
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
                 loadingProps={{
                     is: this.isLoading()
                 }}

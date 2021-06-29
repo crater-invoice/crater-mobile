@@ -5,11 +5,10 @@ import { View } from 'react-native';
 import styles from './styles';
 import {
     DefaultLayout,
-    CtButton,
     InputField,
     FilePicker,
-    AssetImage,
-    SelectField
+    SelectField,
+    ActionButton
 } from '@/components';
 import { Field, change } from 'redux-form';
 import Lng from '@/lang/i18n';
@@ -39,6 +38,7 @@ let companyField = [
     'address_street_2',
     'phone'
 ];
+
 export class Company extends React.Component<IProps> {
     constructor(props) {
         super(props);
@@ -118,31 +118,6 @@ export class Company extends React.Component<IProps> {
         });
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const {
-            locale,
-            editCompanyLoading,
-            getCompanyInfoLoading,
-            countriesLoading
-        } = this.props;
-        const { fileLoading } = this.state;
-
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={handleSubmit(this.onCompanyUpdate)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    loading={
-                        editCompanyLoading ||
-                        fileLoading ||
-                        getCompanyInfoLoading ||
-                        countriesLoading
-                    }
-                />
-            </View>
-        );
-    };
-
     render() {
         const {
             navigation,
@@ -150,10 +125,22 @@ export class Company extends React.Component<IProps> {
             locale,
             getCompanyInfoLoading,
             countriesLoading,
+            editCompanyLoading,
             countries
         } = this.props;
-
+        const { fileLoading } = this.state;
         let companyRefs = {};
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.onCompanyUpdate),
+                loading:
+                    editCompanyLoading ||
+                    fileLoading ||
+                    getCompanyInfoLoading ||
+                    countriesLoading
+            }
+        ];
 
         return (
             <DefaultLayout
@@ -168,7 +155,9 @@ export class Company extends React.Component<IProps> {
                     },
                     rightIconPress: handleSubmit(this.onCompanyUpdate)
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
                 loadingProps={{
                     is: getCompanyInfoLoading || countriesLoading
                 }}

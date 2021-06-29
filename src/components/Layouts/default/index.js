@@ -45,6 +45,7 @@ const Layout = ({
     theme
 }: IProps) => {
     const keyboardVerticalOffset = isIosPlatform() ? 60 : 0;
+
     return (
         <Container>
             <StatusBar
@@ -94,9 +95,7 @@ const Layout = ({
                 </KeyboardAvoidingView>
             </Content>
 
-            {bottomAction && (
-                <View style={styles.bottomView(theme)}>{bottomAction}</View>
-            )}
+            {bottomAction}
 
             {toastProps && <Toast {...toastProps} />}
         </Container>

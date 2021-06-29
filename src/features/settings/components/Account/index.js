@@ -9,7 +9,8 @@ import {
     InputField,
     CtDivider,
     FilePicker,
-    Text
+    Text,
+    ActionButton
 } from '@/components';
 import { Field, change } from 'redux-form';
 import Lng from '@/lang/i18n';
@@ -82,31 +83,25 @@ export class Account extends React.Component<IProps> {
         });
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const { editAccountLoading, locale, isLoading } = this.props;
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={handleSubmit(this.onProfileUpdate)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    loading={
-                        editAccountLoading || this.state.fileLoading | isLoading
-                    }
-                />
-            </View>
-        );
-    };
-
     render() {
         const {
             navigation,
             handleSubmit,
             locale,
             isLoading,
+            editAccountLoading,
             theme
         } = this.props;
 
         let accountRefs = {};
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.onProfileUpdate),
+                loading:
+                    editAccountLoading || this.state.fileLoading || isLoading
+            }
+        ];
 
         return (
             <DefaultLayout
@@ -124,7 +119,9 @@ export class Account extends React.Component<IProps> {
                     },
                     rightIconPress: handleSubmit(this.onProfileUpdate)
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
                 loadingProps={{
                     is: isLoading
                 }}

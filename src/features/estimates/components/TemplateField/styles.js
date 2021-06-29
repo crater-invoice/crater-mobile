@@ -5,7 +5,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 export default StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 10,
+        marginTop: 10
     },
     imageList: {
         display: 'flex',
@@ -28,14 +28,10 @@ export default StyleSheet.create({
     imageContainer: {
         position: 'relative',
         overflow: 'visible',
-        marginHorizontal: 10,
+        marginHorizontal: 10
     },
     iconStyle: {
-        padding: 3,
-    },
-    submitButton: {
-        // flexDirection: "row",
-        // justifyContent: "space-between",
+        padding: 3
     },
     iconContainer: {
         position: 'absolute',
@@ -45,6 +41,6 @@ export default StyleSheet.create({
         backgroundColor: colors.primary,
         borderRadius: 20,
         padding: 0,
-        margin: 0,
+        margin: 0
     }
 });

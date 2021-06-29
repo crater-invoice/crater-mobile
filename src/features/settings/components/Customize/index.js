@@ -13,7 +13,8 @@ import {
     Tabs,
     Editor,
     PLACEHOLDER_TYPES,
-    Text
+    Text,
+    ActionButton
 } from '@/components';
 import { CUSTOMIZE_FORM, CUSTOMIZE_TYPE, PAYMENT_TABS } from '../../constants';
 import Lng from '@/lang/i18n';
@@ -196,37 +197,6 @@ export class Customize extends React.Component<IProps> {
 
         const { editCustomizeSettings, navigation } = this.props;
         editCustomizeSettings({ params, navigation });
-    };
-
-    BOTTOM_ACTION = () => {
-        const { locale, loading, handleSubmit, type } = this.props;
-        const { activeTab } = this.state;
-
-        let isPaymentMode =
-            type === CUSTOMIZE_TYPE.PAYMENTS && activeTab === PAYMENT_TABS.MODE;
-        let isItemScreen = type === CUSTOMIZE_TYPE.ITEMS;
-
-        let title =
-            isPaymentMode || isItemScreen ? 'button.add' : 'button.save';
-
-        return (
-            <View style={styles.submitButton}>
-                <View style={{ flex: 1 }}>
-                    <CtButton
-                        onPress={() =>
-                            isPaymentMode
-                                ? this.paymentChild.current.openModal()
-                                : isItemScreen
-                                ? this.itemChild.current.openModal()
-                                : handleSubmit(this.onSave)()
-                        }
-                        btnTitle={Lng.t(title, { locale })}
-                        containerStyle={styles.handleBtn}
-                        loading={loading}
-                    />
-                </View>
-            </View>
-        );
     };
 
     TOGGLE_FIELD_VIEW = (locale, data) => {
@@ -440,17 +410,44 @@ export class Customize extends React.Component<IProps> {
     };
 
     render() {
-        const { navigation, locale, type, isLoading, formValues } = this.props;
-        const { data } = this.state;
+        const {
+            navigation,
+            locale,
+            type,
+            isLoading,
+            handleSubmit,
+            formValues
+        } = this.props;
+        const { data, activeTab } = this.state;
 
         let isItemsScreen = type === CUSTOMIZE_TYPE.ITEMS;
         let isPaymentsScreen = type === CUSTOMIZE_TYPE.PAYMENTS;
+
+        let isPaymentMode =
+            type === CUSTOMIZE_TYPE.PAYMENTS && activeTab === PAYMENT_TABS.MODE;
+        let isItemScreen = type === CUSTOMIZE_TYPE.ITEMS;
+
+        let label =
+            isPaymentMode || isItemScreen ? 'button.add' : 'button.save';
 
         let loading = isItemsScreen
             ? !hasObjectLength(data)
             : !hasObjectLength(data) ||
               isLoading ||
               !hasObjectLength(formValues);
+
+        const bottomAction = [
+            {
+                label,
+                onPress: () =>
+                    isPaymentMode
+                        ? this.paymentChild.current.openModal()
+                        : isItemScreen
+                        ? this.itemChild.current.openModal()
+                        : handleSubmit(this.onSave)(),
+                loading: this.props.loading
+            }
+        ];
 
         return (
             <DefaultLayout
@@ -465,7 +462,9 @@ export class Customize extends React.Component<IProps> {
                     placement: 'center',
                     leftArrow: 'primary'
                 }}
-                bottomAction={this.BOTTOM_ACTION()}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
                 loadingProps={{ is: loading }}
                 hideScrollView
                 toastProps={{

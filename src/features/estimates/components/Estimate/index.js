@@ -7,7 +7,6 @@ import styles from './styles';
 import {
     InputField,
     DatePickerField,
-    CtButton,
     ListView,
     DefaultLayout,
     SelectField,
@@ -15,7 +14,8 @@ import {
     FakeInput,
     SendMail,
     CustomField,
-    Label
+    Label,
+    ActionButton
 } from '@/components';
 import {
     ESTIMATE_ADD,
@@ -46,7 +46,7 @@ import {
     estimateCompoundTax
 } from '../EstimateCalculation';
 import FinalAmount from '../FinalAmount';
-import { alertMe, BUTTON_TYPE, isArray } from '@/constants';
+import { alertMe, isArray } from '@/constants';
 import { getApiFormattedCustomFields } from '@/utils';
 import Notes from './notes';
 import EstimateServices from '../../services';
@@ -320,42 +320,6 @@ export class Estimate extends React.Component<IProps> {
         return taxes;
     };
 
-    BOTTOM_ACTION = () => {
-        const {
-            locale,
-            loading,
-            handleSubmit,
-            isEditEstimate,
-            isAllowToEdit
-        } = this.props;
-        const { isLoading } = this.state;
-
-        if (isEditEstimate && !isAllowToEdit) {
-            return null;
-        }
-
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={handleSubmit(this.downloadEstimate)}
-                    btnTitle={Lng.t('button.viewPdf', { locale })}
-                    type={BUTTON_TYPE.OUTLINE}
-                    containerStyle={styles.handleBtn}
-                    buttonContainerStyle={styles.buttonContainer}
-                    loading={loading | isLoading}
-                />
-
-                <CtButton
-                    onPress={handleSubmit(this.saveEstimate)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    containerStyle={styles.handleBtn}
-                    buttonContainerStyle={styles.buttonContainer}
-                    loading={loading | isLoading}
-                />
-            </View>
-        );
-    };
-
     navigateToCustomer = () => {
         const { navigation } = this.props;
         const { currency } = this.state;
@@ -575,6 +539,7 @@ export class Estimate extends React.Component<IProps> {
             isEditEstimate,
             isAllowToEdit,
             isAllowToDelete,
+            loading,
             theme
         } = this.props;
 
@@ -630,6 +595,22 @@ export class Estimate extends React.Component<IProps> {
 
         this.estimateRefs(this);
 
+        const bottomAction = [
+            {
+                label: 'button.viewPdf',
+                onPress: handleSubmit(this.downloadEstimate),
+                type: 'btn-outline',
+                show: isAllowToEdit,
+                loading: loading || isLoading
+            },
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.saveEstimate),
+                show: isAllowToEdit,
+                loading: loading || isLoading
+            }
+        ];
+
         return (
             <DefaultLayout
                 headerProps={{
@@ -646,7 +627,9 @@ export class Estimate extends React.Component<IProps> {
                         rightIconPress: handleSubmit(this.saveEstimate)
                     })
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
                 loadingProps={{ is: isLoading || initLoading || withLoading }}
                 contentProps={{ withLoading }}
                 dropdownProps={drownDownProps}

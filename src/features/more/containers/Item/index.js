@@ -11,6 +11,7 @@ import {
     getTaxes
 } from '@/features/settings/actions';
 import { getUnitState } from '../../selectors';
+import { PermissionService } from '@/services';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -27,10 +28,16 @@ const mapStateToProps = (state, { navigation }) => {
 
     const type = navigation.getParam('type');
 
+    const isEditItem = type === EDIT_ITEM;
+    const isAllowToEdit = isEditItem
+        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
+        : true;
+    const isAllowToDelete = isEditItem
+        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
+        : true;
+
     const isLoading =
-        loading?.itemLoading ||
-        itemUnitsLoading ||
-        (type === EDIT_ITEM && !item);
+        loading?.itemLoading || itemUnitsLoading || (isEditItem && !item);
 
     return {
         loading: isLoading,
@@ -41,6 +48,9 @@ const mapStateToProps = (state, { navigation }) => {
         locale,
         theme,
         type,
+        isEditItem,
+        isAllowToEdit,
+        isAllowToDelete,
         currency,
         units: getUnitState(units),
         initialValues: !isLoading

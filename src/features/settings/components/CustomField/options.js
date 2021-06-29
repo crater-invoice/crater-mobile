@@ -10,12 +10,7 @@ import {
     CheckBox,
     DateTimePickerField
 } from '@/components';
-import {
-    KEYBOARD_TYPE,
-    MAX_LENGTH,
-    hasFieldValue,
-    isIosPlatform
-} from '@/constants';
+import { KEYBOARD_TYPE, MAX_LENGTH, hasFieldValue } from '@/constants';
 import Lng from '@/lang/i18n';
 
 // Custom Field Refs

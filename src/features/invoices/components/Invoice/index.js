@@ -11,13 +11,12 @@ import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import Lng from '@/lang/i18n';
 import { IMAGES } from '@/assets';
 import FinalAmount from '../FinalAmount';
-import { alertMe, BUTTON_TYPE, isArray } from '@/constants';
+import { alertMe, isArray } from '@/constants';
 import { PAYMENT_ADD } from '@/features/payments/constants';
 import { CUSTOMER_ADD } from '@/features/customers/constants';
 import {
     InputField,
     DatePickerField,
-    CtButton,
     ListView,
     DefaultLayout,
     SelectField,
@@ -25,7 +24,8 @@ import {
     FakeInput,
     SendMail,
     CustomField,
-    Label
+    Label,
+    ActionButton
 } from '@/components';
 import {
     INVOICE_ADD,
@@ -313,42 +313,6 @@ export class Invoice extends React.Component<IProps, IStates> {
         });
     };
 
-    BOTTOM_ACTION = () => {
-        const {
-            locale,
-            loading,
-            handleSubmit,
-            isEditInvoice,
-            isAllowToEdit
-        } = this.props;
-        const { isLoading } = this.state;
-
-        if (isEditInvoice && !isAllowToEdit) {
-            return null;
-        }
-
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={handleSubmit(this.downloadInvoice)}
-                    btnTitle={Lng.t('button.viewPdf', { locale })}
-                    type={BUTTON_TYPE.OUTLINE}
-                    containerStyle={styles.handleBtn}
-                    buttonContainerStyle={styles.buttonContainer}
-                    loading={loading || isLoading}
-                />
-
-                <CtButton
-                    onPress={handleSubmit(this.saveInvoice)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    containerStyle={styles.handleBtn}
-                    buttonContainerStyle={styles.buttonContainer}
-                    loading={loading || isLoading}
-                />
-            </View>
-        );
-    };
-
     getInvoiceItemList = invoiceItems => {
         this.setFormField('items', invoiceItems);
 
@@ -547,6 +511,7 @@ export class Invoice extends React.Component<IProps, IStates> {
             isAllowToEdit,
             isAllowToDelete,
             isEditInvoice,
+            loading,
             theme
         } = this.props;
 
@@ -610,6 +575,22 @@ export class Invoice extends React.Component<IProps, IStates> {
 
         this.invoiceRefs(this);
 
+        const bottomAction = [
+            {
+                label: 'button.viewPdf',
+                onPress: handleSubmit(this.downloadInvoice),
+                type: 'btn-outline',
+                show: isAllowToEdit,
+                loading: loading || isLoading
+            },
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.saveInvoice),
+                show: isAllowToEdit,
+                loading: loading || isLoading
+            }
+        ];
+
         return (
             <DefaultLayout
                 headerProps={{
@@ -622,7 +603,9 @@ export class Invoice extends React.Component<IProps, IStates> {
                         rightIconPress: handleSubmit(this.downloadInvoice)
                     })
                 }}
-                bottomAction={this.BOTTOM_ACTION()}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
                 loadingProps={{ is: isLoading || initLoading || withLoading }}
                 contentProps={{ withLoading }}
                 dropdownProps={drownDownProps}

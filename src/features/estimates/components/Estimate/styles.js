@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
 
 export default styles = StyleSheet.create({
@@ -27,16 +27,6 @@ export default styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: fonts.poppins,
         textAlign: 'left'
-    },
-    submitButton: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    handleBtn: {
-        marginHorizontal: 9
-    },
-    buttonContainer: {
-        flex: 1
     },
     itemContainer: (theme, disabled) => ({
         borderWidth: 1,
@@ -67,8 +57,5 @@ export default styles = StyleSheet.create({
     label: {
         paddingBottom: -1,
         paddingTop: 12
-    },
-    required: {
-        color: colors.danger
     }
 });

@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Keyboard, ScrollView } from 'react-native';
+import { Keyboard, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import {
     reduxForm,
@@ -14,7 +14,7 @@ import styles from './styles';
 import { validate } from './validation';
 import { SlideModal } from '../SlideModal';
 import { InputField } from '../InputField';
-import { CtButton } from '../Button';
+import { ActionButton } from '../Button';
 import Lng from '@/lang/i18n';
 import {
     alertMe,
@@ -169,24 +169,6 @@ class SendMailComponent extends Component<IProps> {
         this.props.dispatch(change(MAIL_FORM, field, value || undefined));
     };
 
-    BOTTOM_ACTION = (handleSubmit, locale, isKeyboardVisible) => {
-        if (isKeyboardVisible) {
-            return null;
-        }
-
-        return (
-            <View style={styles.submitButton}>
-                <View style={{ flex: 1 }}>
-                    <CtButton
-                        onPress={handleSubmit(this.onSendMail)}
-                        btnTitle={Lng.t('button.send', { locale })}
-                        containerStyle={styles.handleBtn}
-                    />
-                </View>
-            </View>
-        );
-    };
-
     Screen = () => {
         const { isKeyboardVisible } = this.state;
         const { locale } = this.props;
@@ -274,17 +256,23 @@ class SendMailComponent extends Component<IProps> {
             transparent: false
         };
 
+        const bottomAction = [
+            {
+                label: 'button.send',
+                onPress: handleSubmit(this.onSendMail),
+                show: !isKeyboardVisible
+            }
+        ];
+
         return (
             <SlideModal
                 defaultLayout
                 visible={visible}
                 onToggle={this.onToggle}
                 headerProps={headerProps}
-                bottomAction={this.BOTTOM_ACTION(
-                    handleSubmit,
-                    locale,
-                    isKeyboardVisible
-                )}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
             >
                 <Content
                     loadingProps={{

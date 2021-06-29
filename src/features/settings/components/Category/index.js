@@ -4,11 +4,11 @@ import React from 'react';
 import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
-import { InputField, CtButton, DefaultLayout } from '@/components';
+import { InputField, DefaultLayout, ActionButton } from '@/components';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import Lng from '@/lang/i18n';
 import { CATEGORY_EDIT, CATEGORY_ADD, CATEGORY_FORM } from '../../constants';
-import { alertMe, BUTTON_COLOR, MAX_LENGTH } from '@/constants';
+import { alertMe, MAX_LENGTH } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -107,53 +107,31 @@ export class Category extends React.Component<IProps> {
         });
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const {
-            locale,
-            categoryLoading,
-            type,
-            getEditCategoryLoading
-        } = this.props;
-
-        return (
-            <View
-                style={[
-                    styles.submitButton,
-                    type === CATEGORY_EDIT && styles.multipleButton
-                ]}
-            >
-                <CtButton
-                    onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    buttonContainerStyle={type === CATEGORY_EDIT && styles.flex}
-                    containerStyle={styles.btnContainerStyle}
-                    loading={categoryLoading || getEditCategoryLoading}
-                />
-
-                {type === CATEGORY_EDIT && (
-                    <CtButton
-                        onPress={this.removeCategory}
-                        btnTitle={Lng.t('button.remove', { locale })}
-                        buttonColor={BUTTON_COLOR.DANGER}
-                        containerStyle={styles.btnContainerStyle}
-                        buttonContainerStyle={styles.flex}
-                        loading={categoryLoading || getEditCategoryLoading}
-                    />
-                )}
-            </View>
-        );
-    };
-
     render() {
         const {
             navigation,
             handleSubmit,
             locale,
+            categoryLoading,
             getEditCategoryLoading,
             type
         } = this.props;
 
         let categoryRefs = {};
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.onSubmit),
+                loading: categoryLoading || getEditCategoryLoading
+            },
+            {
+                label: 'button.remove',
+                onPress: this.removeCategory,
+                loading: categoryLoading || getEditCategoryLoading,
+                bgColor: 'btn-danger',
+                show: type === CATEGORY_EDIT
+            }
+        ];
 
         return (
             <DefaultLayout
@@ -170,7 +148,9 @@ export class Category extends React.Component<IProps> {
                     },
                     rightIconPress: handleSubmit(this.onSubmit)
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
                 loadingProps={{
                     is: getEditCategoryLoading
                 }}

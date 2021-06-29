@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Modal, TouchableOpacity, Keyboard } from 'react-native';
+import { View, Modal, Keyboard } from 'react-native';
 import { Field, reset, change } from 'redux-form';
 import { AssetIcon } from '../AssetIcon';
 import styles from './styles';
@@ -9,9 +9,9 @@ import { SelectField } from '../SelectField';
 import { SelectPickerField } from '../SelectPickerField';
 import { colors } from '@/styles';
 import { DatePickerField } from '../DatePickerField';
-import { CtButton, CtDecorativeButton } from '../Button';
+import { ActionButton, CtDecorativeButton } from '../Button';
 import Lng from '@/lang/i18n';
-import { BUTTON_TYPE, isIosPlatform, isAndroidPlatform } from '@/constants';
+import { isIosPlatform, isAndroidPlatform } from '@/constants';
 import { Text } from '../Text';
 
 type IProps = {
@@ -173,32 +173,6 @@ export class Filter extends Component<IProps> {
         onResetFilter?.();
     };
 
-    BOTTOM_ACTION = () => {
-        const {
-            locale,
-            clearFilter: { handleSubmit }
-        } = this.props;
-
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={() => this.onClear()}
-                    btnTitle={Lng.t('button.clear', { locale })}
-                    type={BUTTON_TYPE.OUTLINE}
-                    containerStyle={styles.handleBtn}
-                    buttonContainerStyle={styles.buttonContainer}
-                />
-
-                <CtButton
-                    onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t('search.title', { locale })}
-                    containerStyle={styles.handleBtn}
-                    buttonContainerStyle={styles.buttonContainer}
-                />
-            </View>
-        );
-    };
-
     render() {
         const {
             headerProps,
@@ -229,6 +203,20 @@ export class Filter extends Component<IProps> {
             }),
             ...headerProps
         };
+
+        const bottomAction = [
+            {
+                label: 'button.clear',
+                onPress: this.onClear,
+                type: 'btn-outline',
+                show: !isKeyboardVisible
+            },
+            {
+                label: 'search.title',
+                onPress: handleSubmit(this.onSubmit),
+                show: !isKeyboardVisible
+            }
+        ];
 
         return (
             <View>
@@ -283,7 +271,10 @@ export class Filter extends Component<IProps> {
                         <DefaultLayout
                             headerProps={headerView}
                             bottomAction={
-                                !isKeyboardVisible && this.BOTTOM_ACTION()
+                                <ActionButton
+                                    locale={locale}
+                                    buttons={bottomAction}
+                                />
                             }
                             keyboardProps={{
                                 keyboardVerticalOffset: isIosPlatform()

@@ -5,16 +5,15 @@ import { View, Keyboard, ScrollView } from 'react-native';
 import { Field, change } from 'redux-form';
 import { CUSTOMER_ADDRESS } from '../../constants';
 import Lng from '@/lang/i18n';
-import { colors } from '@/styles';
 import { MAX_LENGTH } from '@/constants';
+import styles from './styles';
 import {
     SlideModal,
     FakeInput,
     InputField,
-    CtButton,
-    SelectField
+    SelectField,
+    ActionButton
 } from '@/components';
-import styles from './styles';
 
 type IProps = {
     label: String,
@@ -152,27 +151,6 @@ export class Address extends Component<IProps> {
 
         onChangeCallback(address);
         this.clearFormField();
-    };
-
-    BOTTOM_ACTION = handleSubmit => {
-        const { locale, disabled } = this.props;
-        const { isKeyboardVisible } = this.state;
-
-        if (isKeyboardVisible || disabled) {
-            return;
-        }
-
-        return (
-            <View style={styles.submitButton}>
-                <View style={styles.flexRow}>
-                    <CtButton
-                        onPress={handleSubmit(this.saveAddress)}
-                        btnTitle={Lng.t('button.done', { locale })}
-                        containerStyle={styles.handleBtn}
-                    />
-                </View>
-            </View>
-        );
     };
 
     Screen = () => {
@@ -362,10 +340,18 @@ export class Address extends Component<IProps> {
             type,
             fakeInputProps,
             theme,
-            mainContainerStyle
+            mainContainerStyle,
+            disabled
         } = this.props;
 
-        const { visible, values } = this.state;
+        const { visible, values, isKeyboardVisible } = this.state;
+        const bottomAction = [
+            {
+                label: 'button.done',
+                onPress: handleSubmit(this.saveAddress),
+                show: !isKeyboardVisible || !disabled
+            }
+        ];
 
         return (
             <View style={[styles.container(theme), mainContainerStyle]}>
@@ -395,7 +381,9 @@ export class Address extends Component<IProps> {
                         noBorder: false,
                         transparent: false
                     }}
-                    bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                    bottomAction={
+                        <ActionButton locale={locale} buttons={bottomAction} />
+                    }
                 >
                     {this.Screen()}
                 </SlideModal>

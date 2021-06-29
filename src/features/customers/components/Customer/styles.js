@@ -13,12 +13,6 @@ export default styles = StyleSheet.create({
         marginTop: -10,
         borderTopWidth: 0
     },
-    submitButton: {
-        paddingHorizontal: 10
-    },
-    flex: {
-        flex: 1
-    },
     line: theme => ({
         borderTopWidth: 0.4,
         borderBottomWidth: 0.4

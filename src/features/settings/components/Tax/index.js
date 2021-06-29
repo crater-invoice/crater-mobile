@@ -3,17 +3,17 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import {
-    DefaultLayout,
-    CtButton,
-    InputField,
-    ToggleSwitch
-} from '@/components';
 import { Field } from 'redux-form';
 import Lng from '@/lang/i18n';
 import { ADD_TAX } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import { alertMe, BUTTON_COLOR, MAX_LENGTH } from '@/constants';
+import { alertMe, MAX_LENGTH } from '@/constants';
+import {
+    DefaultLayout,
+    InputField,
+    ToggleSwitch,
+    ActionButton
+} from '@/components';
 
 export class Tax extends React.Component {
     constructor(props) {
@@ -37,27 +37,17 @@ export class Tax extends React.Component {
         const { addTax, navigation, type, editTax, loading } = this.props;
         const isCreate = type === ADD_TAX;
 
-        if (!loading) {
-            isCreate
-                ? addTax({
-                      tax,
-                      onResult: res => {
-                          const onSelect = navigation.getParam(
-                              'onSelect',
-                              null
-                          );
-                          onSelect &&
-                              onSelect([{ ...res, tax_type_id: res.id }]);
-                          navigation.goBack(null);
-                      }
-                  })
-                : editTax({
-                      tax,
-                      onResult: () => {
-                          navigation.goBack(null);
-                      }
-                  });
+        if (loading) {
+            return;
         }
+
+        const onResult = res => {
+            const onSelect = navigation.getParam('onSelect', null);
+            onSelect?.([{ ...res, tax_type_id: res?.id }]);
+            navigation.goBack(null);
+        };
+
+        isCreate ? addTax({ tax, onResult }) : editTax({ tax, onResult });
     };
 
     removeTax = () => {
@@ -69,69 +59,47 @@ export class Tax extends React.Component {
             initialValues: { name }
         } = this.props;
 
+        const remove = () => {
+            removeTax({
+                id: taxId,
+                onResult: val => {
+                    val
+                        ? navigation.navigate(ROUTES.TAXES)
+                        : alertMe({
+                              title: `${name} ${Lng.t('taxes.alreadyUsed', {
+                                  locale
+                              })}`
+                          });
+                }
+            });
+        };
+
         alertMe({
             title: Lng.t('alert.title', { locale }),
             desc: Lng.t('taxes.alertDescription', { locale }),
             showCancel: true,
-            okPress: () =>
-                removeTax({
-                    id: taxId,
-                    onResult: val => {
-                        val
-                            ? navigation.navigate(ROUTES.TAXES)
-                            : alertMe({
-                                  title: `${name} ${Lng.t('taxes.alreadyUsed', {
-                                      locale
-                                  })}`
-                              });
-                    }
-                })
+            okPress: remove
         });
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const { loading, locale, type } = this.props;
-        const isCreate = type === ADD_TAX;
-
-        return (
-            <View
-                style={[
-                    styles.submitButton,
-                    !isCreate && styles.multipleButton
-                ]}
-            >
-                <CtButton
-                    onPress={handleSubmit(this.onSave)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    containerStyle={styles.handleBtn}
-                    buttonContainerStyle={!isCreate && styles.buttonContainer}
-                    loading={loading}
-                />
-                {!isCreate && (
-                    <CtButton
-                        onPress={this.removeTax}
-                        btnTitle={Lng.t('button.remove', { locale })}
-                        containerStyle={styles.handleBtn}
-                        buttonContainerStyle={styles.buttonContainer}
-                        buttonColor={BUTTON_COLOR.DANGER}
-                        loading={loading}
-                    />
-                )}
-            </View>
-        );
-    };
-
     render() {
-        const {
-            navigation,
-            handleSubmit,
-            locale,
-            type,
-            initialValues
-        } = this.props;
+        const { navigation, handleSubmit, locale, type, loading } = this.props;
         const isCreate = type === ADD_TAX;
-
         let taxRefs = {};
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.onSave),
+                loading
+            },
+            {
+                label: 'button.remove',
+                onPress: this.removeTax,
+                loading,
+                bgColor: 'btn-danger',
+                show: !isCreate
+            }
+        ];
 
         return (
             <DefaultLayout
@@ -147,7 +115,9 @@ export class Tax extends React.Component {
                     },
                     rightIconPress: handleSubmit(this.onSave)
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
             >
                 <View style={styles.mainContainer}>
                     <Field

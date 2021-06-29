@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { TouchableWithoutFeedback, View } from 'react-native';
 import styles from './styles';
-import { SlideModal, FakeInput, AssetImage, CtButton } from '@/components';
+import { SlideModal, FakeInput, AssetImage, ActionButton } from '@/components';
 import { Icon } from 'react-native-elements';
 import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
@@ -33,17 +33,13 @@ export class TemplateField extends Component<IProps> {
     }
 
     componentDidMount() {
-        const {
-            input: { value },
-            templates,
-            navigation
-        } = this.props;
+        const { templates, input } = this.props;
 
-        const template = templates.filter(val => val.name === value)[0];
+        const selectedTemplate = templates.filter(
+            val => val.name === input?.value
+        )?.[0];
 
-        this.setState({
-            selectedTemplate: template
-        });
+        this.setState({ selectedTemplate });
     }
 
     onToggle = () => {
@@ -94,19 +90,6 @@ export class TemplateField extends Component<IProps> {
         this.onToggle();
     };
 
-    BOTTOM_ACTION = () => {
-        const { locale } = this.props;
-
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={this.onSubmit}
-                    btnTitle={Lng.t('button.chooseTemplate', { locale })}
-                />
-            </View>
-        );
-    };
-
     render() {
         const {
             containerStyle,
@@ -120,6 +103,12 @@ export class TemplateField extends Component<IProps> {
         } = this.props;
 
         const { visible, selectedTemplate: { name } = {} } = this.state;
+        const bottomAction = [
+            {
+                label: 'button.chooseTemplate',
+                onPress: this.onSubmit
+            }
+        ];
 
         return (
             <View style={styles.container}>
@@ -147,7 +136,9 @@ export class TemplateField extends Component<IProps> {
                     }}
                     bottomDivider
                     defaultLayout
-                    bottomAction={this.BOTTOM_ACTION()}
+                    bottomAction={
+                        <ActionButton locale={locale} buttons={bottomAction} />
+                    }
                 >
                     <View style={styles.imageList}>
                         {templates.map((val, index) => (

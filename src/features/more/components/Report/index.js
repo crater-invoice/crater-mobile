@@ -5,10 +5,10 @@ import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
-    CtButton,
     DefaultLayout,
     DatePickerField,
-    SelectPickerField
+    SelectPickerField,
+    ActionButton
 } from '@/components';
 import {
     REPORT_FORM,
@@ -284,23 +284,6 @@ export class Report extends React.Component<IProps> {
         }
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const { locale, loading } = this.props;
-
-        return (
-            <View style={styles.submitButton}>
-                <View style={{ flex: 1 }}>
-                    <CtButton
-                        onPress={handleSubmit(this.saveReport)}
-                        btnTitle={Lng.t('button.generateReport', { locale })}
-                        containerStyle={styles.handleBtn}
-                        loading={loading}
-                    />
-                </View>
-            </View>
-        );
-    };
-
     getReport = ({ isTitle, reportType = '' }) => {
         const { type, locale } = this.props;
 
@@ -354,6 +337,13 @@ export class Report extends React.Component<IProps> {
         } = this.props;
 
         const { displayFromDate, displayToDate } = this.state;
+        const bottomAction = [
+            {
+                label: 'button.generateReport',
+                onPress: handleSubmit(this.saveReport),
+                loading
+            }
+        ];
 
         return (
             <DefaultLayout
@@ -363,7 +353,9 @@ export class Report extends React.Component<IProps> {
                     placement: 'center',
                     leftArrow: 'primary'
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
                 loadingProps={{ is: loading }}
             >
                 <View style={styles.bodyContainer}>

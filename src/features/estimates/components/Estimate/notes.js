@@ -4,7 +4,6 @@ import { View, TouchableOpacity } from 'react-native';
 import Lng from '@/lang/i18n';
 import { Field } from 'redux-form';
 import { formatNotesType } from '@/utils';
-import { colors, fonts } from '@/styles';
 import { ROUTES } from '@/navigation';
 import {
     NOTES_ADD,

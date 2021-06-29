@@ -98,16 +98,6 @@ export default styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 8
     },
-    submitButton: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    handleBtn: {
-        marginHorizontal: 9
-    },
-    buttonContainer: {
-        flex: 1
-    },
     itemContainer: {
         marginVertical: 4,
         borderWidth: 1,

@@ -6,10 +6,10 @@ import styles from './styles';
 import { Field, change, SubmissionError } from 'redux-form';
 import {
     InputField,
-    CtButton,
     DefaultLayout,
     SelectField,
-    CustomField
+    CustomField,
+    ActionButton
 } from '@/components';
 import {
     CUSTOMER_FORM,
@@ -176,25 +176,6 @@ export class Customer extends React.Component<IProps> {
         });
     };
 
-    BOTTOM_ACTION = handleSubmit => {
-        const { loading, locale, isEditScreen, isAllowToEdit } = this.props;
-        const { isLoading } = this.state;
-
-        if (isEditScreen && !isAllowToEdit) {
-            return null;
-        }
-
-        return (
-            <View style={styles.submitButton}>
-                <CtButton
-                    onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t('button.save', { locale })}
-                    loading={loading | isLoading}
-                />
-            </View>
-        );
-    };
-
     onOptionSelect = action => {
         if (action == ACTIONS_VALUE.REMOVE) this.removeCustomer();
     };
@@ -211,7 +192,8 @@ export class Customer extends React.Component<IProps> {
             isAllowToEdit,
             isAllowToDelete,
             isEditScreen,
-            formValues
+            formValues,
+            loading
         } = this.props;
 
         const billingAddress = formValues?.customer?.[FIELDS.BILLING];
@@ -244,6 +226,15 @@ export class Customer extends React.Component<IProps> {
             return Lng.t(title, { locale });
         };
 
+        const bottomAction = [
+            {
+                label: 'button.save',
+                onPress: handleSubmit(this.onSubmit),
+                loading: loading || isLoading,
+                show: isAllowToEdit
+            }
+        ];
+
         return (
             <DefaultLayout
                 headerProps={{
@@ -256,7 +247,9 @@ export class Customer extends React.Component<IProps> {
                         rightIconPress: handleSubmit(this.onSubmit)
                     })
                 }}
-                bottomAction={this.BOTTOM_ACTION(handleSubmit)}
+                bottomAction={
+                    <ActionButton locale={locale} buttons={bottomAction} />
+                }
                 loadingProps={{ is: isLoading }}
                 dropdownProps={drownDownProps}
             >
