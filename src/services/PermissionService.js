@@ -101,6 +101,14 @@ class Service {
             case ROUTES.EXPENSE:
                 return 'expenses';
 
+            case ROUTES.ESTIMATE_LIST:
+            case ROUTES.ESTIMATE:
+                return 'estimates';
+
+            case ROUTES.GLOBAL_ITEMS:
+            case ROUTES.GLOBAL_ITEM:
+                return 'items';
+
             default:
                 return '';
         }

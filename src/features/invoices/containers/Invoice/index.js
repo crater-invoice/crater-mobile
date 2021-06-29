@@ -9,6 +9,7 @@ import moment from 'moment';
 import { getCustomers } from '@/features/customers/actions';
 import { getTaxes, getNotes } from '@/features/settings/actions';
 import { isArray } from '@/constants';
+import { PermissionService } from '@/services';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -26,12 +27,19 @@ const mapStateToProps = (state, { navigation }) => {
 
     const type = navigation.getParam('type');
     const id = navigation.getParam('id');
-    const isEditScreen = type === INVOICE_EDIT;
+    const isEditInvoice = type === INVOICE_EDIT;
 
     const isLoading =
         loading?.initInvoiceLoading ||
-        (isEditScreen && !invoice) ||
+        (isEditInvoice && !invoice) ||
         !isArray(invoiceTemplates);
+
+    const isAllowToEdit = isEditInvoice
+        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
+        : true;
+    const isAllowToDelete = isEditInvoice
+        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
+        : true;
 
     return {
         initLoading: isLoading,
@@ -52,6 +60,9 @@ const mapStateToProps = (state, { navigation }) => {
         theme,
         customFields,
         id,
+        isEditInvoice,
+        isAllowToEdit,
+        isAllowToDelete,
         initialValues: !isLoading
             ? {
                   due_date: moment().add(7, 'days'),
@@ -59,13 +70,13 @@ const mapStateToProps = (state, { navigation }) => {
                   discount_type: 'fixed',
                   discount: 0,
                   taxes: [],
-                  invoice_template_id: invoiceTemplates?.[0]?.id,
+                  template_name: invoiceTemplates?.[0]?.name,
                   notes: invoice_notes,
                   ...invoice,
-                  invoice_number: isEditScreen
+                  invoice_number: isEditInvoice
                       ? invoiceData?.nextInvoiceNumber
                       : invoiceData?.nextNumber,
-                  prefix: isEditScreen
+                  prefix: isEditInvoice
                       ? invoiceData?.invoicePrefix
                       : invoiceData?.prefix,
                   customer: invoice?.user,

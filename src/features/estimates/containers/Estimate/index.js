@@ -9,6 +9,7 @@ import moment from 'moment';
 import { getTaxes, getNotes } from '@/features/settings/actions';
 import { isArray } from '@/constants';
 import { getCustomers } from '@/features/customers/actions';
+import { PermissionService } from '@/services';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -26,12 +27,19 @@ const mapStateToProps = (state, { navigation }) => {
 
     const type = navigation.getParam('type');
     const id = navigation.getParam('id');
-    const isEditScreen = type === ESTIMATE_EDIT;
+    const isEditEstimate = type === ESTIMATE_EDIT;
 
     const isLoading =
         loading?.initEstimateLoading ||
-        (isEditScreen && !estimate) ||
+        (isEditEstimate && !estimate) ||
         !isArray(estimateTemplates);
+
+    const isAllowToEdit = isEditEstimate
+        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
+        : true;
+    const isAllowToDelete = isEditEstimate
+        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
+        : true;
 
     return {
         initLoading: isLoading,
@@ -52,6 +60,9 @@ const mapStateToProps = (state, { navigation }) => {
         customFields,
         id,
         currency,
+        isEditEstimate,
+        isAllowToEdit,
+        isAllowToDelete,
         initialValues: !isLoading
             ? {
                   expiry_date: moment().add(7, 'days'),
@@ -59,13 +70,13 @@ const mapStateToProps = (state, { navigation }) => {
                   discount_type: 'fixed',
                   discount: 0,
                   taxes: [],
-                  estimate_template_id: estimateTemplates?.[0]?.id,
+                  template_name: estimateTemplates?.[0]?.name,
                   notes: estimate_notes,
                   ...estimate,
-                  estimate_number: isEditScreen
+                  estimate_number: isEditEstimate
                       ? estimateData?.nextEstimateNumber
                       : estimateData?.nextNumber,
-                  prefix: isEditScreen
+                  prefix: isEditEstimate
                       ? estimateData?.estimatePrefix
                       : estimateData?.prefix,
                   customer: estimate?.user,

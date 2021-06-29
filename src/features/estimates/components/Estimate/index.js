@@ -19,7 +19,6 @@ import {
 } from '@/components';
 import {
     ESTIMATE_ADD,
-    ESTIMATE_EDIT,
     ITEM_ADD,
     ITEM_EDIT,
     ESTIMATE_FORM,
@@ -108,7 +107,13 @@ export class Estimate extends React.Component<IProps> {
     }
 
     setInitialValues = () => {
-        const { getCreateEstimate, getEditEstimate, type, id } = this.props;
+        const {
+            getCreateEstimate,
+            getEditEstimate,
+            type,
+            isEditEstimate,
+            id
+        } = this.props;
 
         if (type === ESTIMATE_ADD) {
             getCreateEstimate({
@@ -119,7 +124,7 @@ export class Estimate extends React.Component<IProps> {
             return;
         }
 
-        if (type === ESTIMATE_EDIT) {
+        if (isEditEstimate) {
             getEditEstimate({
                 id,
                 onSuccess: ({ user, status }) => {
@@ -149,9 +154,14 @@ export class Estimate extends React.Component<IProps> {
     onEditItem = item => {
         const {
             navigation,
-            estimateData: { discount_per_item, tax_per_item }
+            estimateData: { discount_per_item, tax_per_item },
+            isAllowToEdit
         } = this.props;
         const { currency } = this.state;
+
+        if (!isAllowToEdit) {
+            return;
+        }
 
         navigation.navigate(ROUTES.ESTIMATE_ITEM, {
             item,
@@ -163,7 +173,7 @@ export class Estimate extends React.Component<IProps> {
     };
 
     onDraft = handleSubmit => {
-        const { locale, navigation, type } = this.props;
+        const { locale, navigation, isEditEstimate } = this.props;
         const { isLoading } = this.state;
 
         if (isLoading) {
@@ -171,7 +181,7 @@ export class Estimate extends React.Component<IProps> {
             return;
         }
 
-        if (type === ESTIMATE_EDIT) {
+        if (isEditEstimate) {
             navigation.navigate(ROUTES.ESTIMATE_LIST);
             return;
         }
@@ -311,8 +321,19 @@ export class Estimate extends React.Component<IProps> {
     };
 
     BOTTOM_ACTION = () => {
-        const { locale, loading, handleSubmit } = this.props;
+        const {
+            locale,
+            loading,
+            handleSubmit,
+            isEditEstimate,
+            isAllowToEdit
+        } = this.props;
         const { isLoading } = this.state;
+
+        if (isEditEstimate && !isAllowToEdit) {
+            return null;
+        }
+
         return (
             <View style={styles.submitButton}>
                 <CtButton
@@ -551,12 +572,14 @@ export class Estimate extends React.Component<IProps> {
             customers,
             formValues,
             customFields,
+            isEditEstimate,
+            isAllowToEdit,
+            isAllowToDelete,
             theme
         } = this.props;
 
         const { currency, customerName, markAsStatus, isLoading } = this.state;
-
-        const isEditEstimate = type === ESTIMATE_EDIT;
+        const disabled = !isAllowToEdit;
 
         const hasCustomField = isEditEstimate
             ? formValues && formValues.hasOwnProperty('fields')
@@ -572,12 +595,38 @@ export class Estimate extends React.Component<IProps> {
         let drownDownProps =
             isEditEstimate && !initLoading
                 ? {
-                      options: EDIT_ESTIMATE_ACTIONS(locale, markAsStatus),
+                      options: EDIT_ESTIMATE_ACTIONS(
+                          locale,
+                          markAsStatus,
+                          isAllowToDelete
+                      ),
                       onSelect: this.onOptionSelect,
-                      cancelButtonIndex: hasMark ? 5 : 6,
-                      destructiveButtonIndex: hasMark ? 4 : 5
+                      cancelButtonIndex: 6,
+                      destructiveButtonIndex: 5,
+                      ...(hasMark && {
+                          cancelButtonIndex: 5,
+                          destructiveButtonIndex: 4
+                      }),
+                      ...(!isAllowToDelete &&
+                          !hasMark && {
+                              cancelButtonIndex: 5,
+                              destructiveButtonIndex: 6
+                          }),
+                      ...(!isAllowToDelete &&
+                          hasMark && {
+                              cancelButtonIndex: 4,
+                              destructiveButtonIndex: 5
+                          })
                   }
                 : null;
+
+        const getTitle = () => {
+            let title = 'header.addEstimate';
+            if (isEditEstimate && !isAllowToEdit) title = 'header.viewEstimate';
+            if (isEditEstimate && isAllowToEdit) title = 'header.editEstimate';
+
+            return Lng.t(title, { locale });
+        };
 
         this.estimateRefs(this);
 
@@ -585,19 +634,17 @@ export class Estimate extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => this.onDraft(handleSubmit),
-                    title: isEditEstimate
-                        ? Lng.t('header.editEstimate', { locale })
-                        : Lng.t('header.addEstimate', { locale }),
+                    title: getTitle(),
+                    placement: 'center',
                     withTitleStyle: headerTitle({
                         marginLeft: -15,
                         marginRight: -15
                     }),
-                    rightIcon: !isEditEstimate ? 'save' : null,
-                    rightIconPress: handleSubmit(this.saveEstimate),
-                    rightIconProps: {
-                        solid: true
-                    },
-                    placement: 'center'
+                    ...(!isEditEstimate && {
+                        rightIcon: 'save',
+                        rightIconProps: { solid: true },
+                        rightIconPress: handleSubmit(this.saveEstimate)
+                    })
                 }}
                 bottomAction={this.BOTTOM_ACTION(handleSubmit)}
                 loadingProps={{ is: isLoading || initLoading || withLoading }}
@@ -627,6 +674,7 @@ export class Estimate extends React.Component<IProps> {
                                 onChangeCallback={val =>
                                     this.setFormField('estimate_date', val)
                                 }
+                                disabled={disabled}
                             />
                         </View>
                         <View style={styles.dateField}>
@@ -641,6 +689,7 @@ export class Estimate extends React.Component<IProps> {
                                 onChangeCallback={val =>
                                     this.setFormField('expiry_date', val)
                                 }
+                                disabled={disabled}
                             />
                         </View>
                     </View>
@@ -656,6 +705,7 @@ export class Estimate extends React.Component<IProps> {
                             icon: 'hashtag',
                             iconSolid: false
                         }}
+                        disabled={disabled}
                     />
 
                     <Field
@@ -695,6 +745,8 @@ export class Estimate extends React.Component<IProps> {
                             image: IMAGES.EMPTY_CUSTOMERS
                         }}
                         reference={ref => (this.customerReference = ref)}
+                        isEditable={!disabled}
+                        fakeInputProps={{ disabled }}
                     />
 
                     <Label isRequired theme={theme} style={styles.label}>
@@ -703,7 +755,7 @@ export class Estimate extends React.Component<IProps> {
 
                     <ListView
                         items={this.getEstimateItemList(estimateItems)}
-                        itemContainer={styles.itemContainer(theme)}
+                        itemContainer={styles.itemContainer(theme, disabled)}
                         leftTitleStyle={styles.itemLeftTitle(theme)}
                         leftSubTitleLabelStyle={[
                             styles.itemLeftSubTitle(theme),
@@ -711,7 +763,11 @@ export class Estimate extends React.Component<IProps> {
                         ]}
                         leftSubTitleStyle={styles.itemLeftSubTitle(theme)}
                         rightTitleStyle={styles.itemRightTitle(theme)}
-                        backgroundColor={theme.thirdBgColor}
+                        backgroundColor={
+                            !disabled
+                                ? theme.thirdBgColor
+                                : theme?.input?.disableBackgroundColor
+                        }
                         onPress={this.onEditItem}
                         parentViewStyle={{ marginVertical: 4 }}
                     />
@@ -735,7 +791,8 @@ export class Estimate extends React.Component<IProps> {
                         fakeInputProps={{
                             icon: 'shopping-basket',
                             rightIcon: 'angle-right',
-                            color: colors.primaryLight
+                            color: colors.primaryLight,
+                            disabled
                         }}
                         onSelect={item => {
                             navigation.navigate(ROUTES.ESTIMATE_ITEM, {
@@ -765,6 +822,7 @@ export class Estimate extends React.Component<IProps> {
                             leftSubTitleStyle: itemsDescriptionStyle()
                         }}
                         paginationLimit={15}
+                        isEditable={!disabled}
                     />
 
                     <FinalAmount state={this.state} props={this.props} />
@@ -774,6 +832,7 @@ export class Estimate extends React.Component<IProps> {
                         component={InputField}
                         hint={Lng.t('invoices.referenceNumber', { locale })}
                         leftIcon={'hashtag'}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -788,7 +847,7 @@ export class Estimate extends React.Component<IProps> {
                     />
 
                     <Field
-                        name="estimate_template_id"
+                        name="template_name"
                         templates={estimateTemplates}
                         component={TemplateField}
                         label={Lng.t('estimates.template', { locale })}
@@ -798,6 +857,7 @@ export class Estimate extends React.Component<IProps> {
                         })}
                         navigation={navigation}
                         locale={locale}
+                        disabled={disabled}
                     />
 
                     {hasCustomField && (

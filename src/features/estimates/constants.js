@@ -117,7 +117,7 @@ export const MARK_AS_SENT = 'SENT';
 export const MARK_AS_ACCEPT = 'ACCEPTED';
 export const MARK_AS_REJECT = 'REJECTED';
 
-export const EDIT_ESTIMATE_ACTIONS = (locale, markAs = '') => {
+export const EDIT_ESTIMATE_ACTIONS = (locale, markAs = '', isAllowToDelete) => {
     const markAsSent = [
         {
             label: Lng.t('estimates.actions.markAsSent', { locale }),
@@ -174,5 +174,7 @@ export const EDIT_ESTIMATE_ACTIONS = (locale, markAs = '') => {
         items = [...markAsSent, ...markAsAccept, ...markAsReject];
     }
 
-    return [...actions, ...items, ...deleteAction];
+    return isAllowToDelete
+        ? [...actions, ...items, ...deleteAction]
+        : [...actions, ...items];
 };

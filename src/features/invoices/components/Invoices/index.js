@@ -21,6 +21,7 @@ import {
 import { isFilterApply } from '@/utils';
 import InvoiceServices from '../../services';
 import { openRatingReviewModal } from '@/utils';
+import { PermissionService } from '@/services';
 
 type IProps = {
     locale: String,
@@ -295,9 +296,11 @@ export class Invoices extends React.Component<IProps> {
                 toastProps={{
                     reference: ref => (this.toastReference = ref)
                 }}
-                plusButtonOnPress={this.onAddInvoice}
                 with-company
                 with-input-filter
+                {...(PermissionService.isAllowToView(ROUTES.MAIN_INVOICES) && {
+                    plusButtonOnPress: this.onAddInvoice
+                })}
             >
                 <Tabs
                     style={styles.tabs(theme)}

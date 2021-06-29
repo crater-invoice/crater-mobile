@@ -1,5 +1,6 @@
 import queryString from 'query-string';
 import { ROUTES } from '@/navigation';
+import { PermissionService } from '@/services';
 
 // Forms
 // -----------------------------------------
@@ -40,8 +41,10 @@ export const TAXES = 'reportType/TAXES';
 // Menus
 // -----------------------------------------
 export const MORE_MENU = (locale, Lng) => {
-    return [
-        {
+    const list1 = [];
+
+    PermissionService.isAllowToView(ROUTES.ESTIMATE_LIST) &&
+        list1.push({
             title: Lng.t('more.estimate', { locale }),
             leftIcon: 'file-alt',
             leftIconSolid: true,
@@ -49,15 +52,19 @@ export const MORE_MENU = (locale, Lng) => {
             fullItem: {
                 route: ROUTES.ESTIMATE_LIST
             }
-        },
-        {
+        });
+
+    PermissionService.isAllowToView(ROUTES.GLOBAL_ITEMS) &&
+        list1.push({
             title: Lng.t('more.items', { locale }),
             leftIcon: 'product-hunt',
             iconSize: 20,
             fullItem: {
                 route: ROUTES.GLOBAL_ITEMS
             }
-        },
+        });
+
+    const list2 = [
         {
             title: Lng.t('more.reports', { locale }),
             leftIcon: 'signal',
@@ -83,6 +90,8 @@ export const MORE_MENU = (locale, Lng) => {
             }
         }
     ];
+
+    return [...list1, ...list2];
 };
 
 export const REPORTS_MENU = (locale, Lng) => {

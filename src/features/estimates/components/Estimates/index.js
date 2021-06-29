@@ -251,6 +251,7 @@ export class Estimates extends React.Component<IProps, IStates> {
             leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
             placement: 'center',
             rightIcon: 'plus',
+            navigation,
             rightIconPress: () => {
                 this.onAddEstimate();
             }
@@ -297,25 +298,23 @@ export class Estimates extends React.Component<IProps, IStates> {
         ];
 
         return (
-            <View style={styles.container}>
-                <MainLayout
-                    headerProps={headerProps}
-                    onSearch={this.onSearch}
-                    filterProps={filterProps}
-                    toastProps={{
-                        reference: ref => (this.toastReference = ref),
-                        containerStyle: { bottom: 50 }
-                    }}
-                >
-                    <Tabs
-                        style={styles.tabs(theme)}
-                        activeTab={activeTab}
-                        setActiveTab={this.setActiveTab}
-                        tabs={tabs}
-                        theme={theme}
-                    />
-                </MainLayout>
-            </View>
+            <MainLayout
+                headerProps={headerProps}
+                onSearch={this.onSearch}
+                filterProps={filterProps}
+                toastProps={{
+                    reference: ref => (this.toastReference = ref),
+                    containerStyle: { bottom: 50 }
+                }}
+            >
+                <Tabs
+                    style={styles.tabs(theme)}
+                    activeTab={activeTab}
+                    setActiveTab={this.setActiveTab}
+                    tabs={tabs}
+                    theme={theme}
+                />
+            </MainLayout>
         );
     }
 }

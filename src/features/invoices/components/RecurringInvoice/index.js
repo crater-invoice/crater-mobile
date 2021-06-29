@@ -756,7 +756,7 @@ export class RecurringInvoice extends React.Component<IProps> {
                     />
 
                     <Field
-                        name="invoice_template_id"
+                        name="template_name"
                         templates={invoiceTemplates}
                         component={TemplateField}
                         label={Lng.t('invoices.template', { locale })}

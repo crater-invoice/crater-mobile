@@ -47,8 +47,7 @@ const mapStateToProps = (state, { navigation }) => {
                   discount_type: 'fixed',
                   discount: 0,
                   taxes: [],
-                  invoice_template_id:
-                      invoiceTemplates[0] && invoiceTemplates[0].id,
+                  template_name: invoiceTemplates[0] && invoiceTemplates[0].id,
                   display_terms_and_conditions: false,
                   terms_and_conditions,
                   notes: invoice_notes,

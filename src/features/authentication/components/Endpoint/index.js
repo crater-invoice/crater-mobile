@@ -194,8 +194,9 @@ export class Endpoint extends Component<IProps> {
                                         ),
                                         autoCorrect: true,
                                         keyboardType: 'url',
-                                        onSubmitEditing: () =>
-                                            this.toggleFocus()
+                                        onSubmitEditing: handleSubmit(
+                                            this.onSetEndpointApi
+                                        )
                                     }}
                                     onFocus={() => this.toggleFocus()}
                                     inputContainerStyle={styles.inputField}

@@ -68,7 +68,9 @@
         "notes": "Notes",
         "viewCustomer": "View Customer",
         "viewPayment": "View Payment",
-        "viewExpense": "View Expense"
+        "viewExpense": "View Expense",
+        "viewInvoice": "View Invoice",
+        "viewEstimate": "View Estimate"
     },
     "tabNavigation": {
         "invoices": "Invoices",

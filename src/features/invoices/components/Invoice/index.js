@@ -25,12 +25,10 @@ import {
     FakeInput,
     SendMail,
     CustomField,
-    Text,
     Label
 } from '@/components';
 import {
     INVOICE_ADD,
-    INVOICE_EDIT,
     ITEM_ADD,
     ITEM_EDIT,
     INVOICE_FORM,
@@ -135,7 +133,13 @@ export class Invoice extends React.Component<IProps, IStates> {
     };
 
     setInitialValues = () => {
-        const { getCreateInvoice, getEditInvoice, type, id } = this.props;
+        const {
+            getCreateInvoice,
+            getEditInvoice,
+            type,
+            isEditInvoice,
+            id
+        } = this.props;
 
         if (type === INVOICE_ADD) {
             getCreateInvoice({
@@ -146,7 +150,7 @@ export class Invoice extends React.Component<IProps, IStates> {
             return;
         }
 
-        if (type === INVOICE_EDIT) {
+        if (isEditInvoice) {
             getEditInvoice({
                 id,
                 onSuccess: ({ user, status }) => {
@@ -176,9 +180,14 @@ export class Invoice extends React.Component<IProps, IStates> {
     onEditItem = item => {
         const {
             navigation,
-            invoiceData: { discount_per_item, tax_per_item }
+            invoiceData: { discount_per_item, tax_per_item },
+            isAllowToEdit
         } = this.props;
         const { currency } = this.state;
+
+        if (!isAllowToEdit) {
+            return;
+        }
 
         navigation.navigate(ROUTES.INVOICE_ITEM, {
             item,
@@ -190,7 +199,7 @@ export class Invoice extends React.Component<IProps, IStates> {
     };
 
     onDraft = handleSubmit => {
-        const { locale, navigation, type } = this.props;
+        const { locale, navigation, isEditInvoice } = this.props;
         const { isLoading } = this.state;
 
         if (isLoading) {
@@ -198,7 +207,7 @@ export class Invoice extends React.Component<IProps, IStates> {
             return;
         }
 
-        if (type === INVOICE_EDIT) {
+        if (isEditInvoice) {
             navigation.navigate(ROUTES.MAIN_INVOICES);
             return;
         }
@@ -305,8 +314,18 @@ export class Invoice extends React.Component<IProps, IStates> {
     };
 
     BOTTOM_ACTION = () => {
-        const { locale, loading, handleSubmit } = this.props;
+        const {
+            locale,
+            loading,
+            handleSubmit,
+            isEditInvoice,
+            isAllowToEdit
+        } = this.props;
         const { isLoading } = this.state;
+
+        if (isEditInvoice && !isAllowToEdit) {
+            return null;
+        }
 
         return (
             <View style={styles.submitButton}>
@@ -525,12 +544,14 @@ export class Invoice extends React.Component<IProps, IStates> {
             formValues,
             withLoading,
             customFields,
+            isAllowToEdit,
+            isAllowToDelete,
+            isEditInvoice,
             theme
         } = this.props;
 
         const { currency, customerName, markAsStatus, isLoading } = this.state;
-
-        const isEditInvoice = type === INVOICE_EDIT;
+        const disabled = !isAllowToEdit;
 
         const hasCustomField = isEditInvoice
             ? formValues && formValues.hasOwnProperty('fields')
@@ -546,36 +567,60 @@ export class Invoice extends React.Component<IProps, IStates> {
                       options: EDIT_INVOICE_ACTIONS(
                           locale,
                           hasSentStatus,
-                          hasCompleteStatus
+                          hasCompleteStatus,
+                          isAllowToDelete
                       ),
                       onSelect: this.onOptionSelect,
-                      cancelButtonIndex: hasSentStatus
-                          ? 4
-                          : hasCompleteStatus
-                          ? 2
-                          : 5,
-                      destructiveButtonIndex: hasSentStatus
-                          ? 3
-                          : hasCompleteStatus
-                          ? 1
-                          : 4
+                      cancelButtonIndex: 5,
+                      destructiveButtonIndex: 4,
+                      ...(hasSentStatus && {
+                          cancelButtonIndex: 4,
+                          destructiveButtonIndex: 3
+                      }),
+                      ...(hasCompleteStatus && {
+                          cancelButtonIndex: 2,
+                          destructiveButtonIndex: 1
+                      }),
+                      ...(!isAllowToDelete &&
+                          hasSentStatus && {
+                              cancelButtonIndex: 3,
+                              destructiveButtonIndex: 4
+                          }),
+                      ...(!isAllowToDelete &&
+                          hasCompleteStatus && {
+                              cancelButtonIndex: 1,
+                              destructiveButtonIndex: 2
+                          }),
+                      ...(!isAllowToDelete &&
+                          !hasSentStatus &&
+                          !hasCompleteStatus && {
+                              cancelButtonIndex: 4,
+                              destructiveButtonIndex: 5
+                          })
                   }
                 : null;
 
+        const getTitle = () => {
+            let title = 'header.addInvoice';
+            if (isEditInvoice && !isAllowToEdit) title = 'header.viewInvoice';
+            if (isEditInvoice && isAllowToEdit) title = 'header.editInvoice';
+
+            return Lng.t(title, { locale });
+        };
+
         this.invoiceRefs(this);
+
         return (
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => this.onDraft(handleSubmit),
-                    title: isEditInvoice
-                        ? Lng.t('header.editInvoice', { locale })
-                        : Lng.t('header.addInvoice', { locale }),
-                    rightIcon: !isEditInvoice ? 'save' : null,
-                    rightIconPress: handleSubmit(this.downloadInvoice),
-                    rightIconProps: {
-                        solid: true
-                    },
-                    placement: 'center'
+                    title: getTitle(),
+                    placement: 'center',
+                    ...(!isEditInvoice && {
+                        rightIcon: 'save',
+                        rightIconProps: { solid: true },
+                        rightIconPress: handleSubmit(this.downloadInvoice)
+                    })
                 }}
                 bottomAction={this.BOTTOM_ACTION()}
                 loadingProps={{ is: isLoading || initLoading || withLoading }}
@@ -605,6 +650,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                                 onChangeCallback={val =>
                                     this.setFormField('invoice_date', val)
                                 }
+                                disabled={disabled}
                             />
                         </View>
                         <View style={styles.dateField}>
@@ -617,6 +663,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                                 onChangeCallback={val =>
                                     this.setFormField('due_date', val)
                                 }
+                                disabled={disabled}
                             />
                         </View>
                     </View>
@@ -632,6 +679,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                             icon: 'hashtag',
                             iconSolid: false
                         }}
+                        disabled={disabled}
                     />
 
                     <Field
@@ -669,6 +717,8 @@ export class Invoice extends React.Component<IProps, IStates> {
                             image: IMAGES.EMPTY_CUSTOMERS
                         }}
                         reference={ref => (this.customerReference = ref)}
+                        isEditable={!disabled}
+                        fakeInputProps={{ disabled }}
                     />
 
                     <Label isRequired theme={theme} style={styles.label}>
@@ -677,7 +727,7 @@ export class Invoice extends React.Component<IProps, IStates> {
 
                     <ListView
                         items={this.getInvoiceItemList(invoiceItems)}
-                        itemContainer={styles.itemContainer(theme)}
+                        itemContainer={styles.itemContainer(theme, disabled)}
                         leftTitleStyle={styles.itemLeftTitle(theme)}
                         leftSubTitleLabelStyle={[
                             styles.itemLeftSubTitle(theme),
@@ -685,7 +735,11 @@ export class Invoice extends React.Component<IProps, IStates> {
                         ]}
                         leftSubTitleStyle={styles.itemLeftSubTitle(theme)}
                         rightTitleStyle={styles.itemRightTitle(theme)}
-                        backgroundColor={theme.thirdBgColor}
+                        backgroundColor={
+                            !disabled
+                                ? theme.thirdBgColor
+                                : theme?.input?.disableBackgroundColor
+                        }
                         onPress={this.onEditItem}
                         parentViewStyle={{ marginVertical: 4 }}
                     />
@@ -709,7 +763,8 @@ export class Invoice extends React.Component<IProps, IStates> {
                         fakeInputProps={{
                             icon: 'shopping-basket',
                             rightIcon: 'angle-right',
-                            color: colors.primaryLight
+                            color: colors.primaryLight,
+                            disabled
                         }}
                         onSelect={item => {
                             navigation.navigate(ROUTES.INVOICE_ITEM, {
@@ -739,6 +794,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                             leftSubTitleStyle: itemsDescriptionStyle()
                         }}
                         paginationLimit={15}
+                        isEditable={!disabled}
                     />
 
                     <FinalAmount state={this.state} props={this.props} />
@@ -748,6 +804,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                         component={InputField}
                         hint={Lng.t('invoices.referenceNumber', { locale })}
                         leftIcon={'hashtag'}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -762,7 +819,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                     />
 
                     <Field
-                        name="invoice_template_id"
+                        name="template_name"
                         templates={invoiceTemplates ?? []}
                         component={TemplateField}
                         label={Lng.t('invoices.template', { locale })}
@@ -772,6 +829,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                         })}
                         navigation={navigation}
                         locale={locale}
+                        disabled={disabled}
                     />
 
                     {hasCustomField && (

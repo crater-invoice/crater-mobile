@@ -131,66 +131,50 @@ export const INVOICE_ACTIONS = {
 export const EDIT_INVOICE_ACTIONS = (
     locale,
     sentStatus = false,
-    completeStatus = false
+    completeStatus = false,
+    isAllowToDelete
 ) => {
-    const markActions = [
-        {
-            label: Lng.t('invoices.actions.sendInvoice', { locale }),
-            value: INVOICE_ACTIONS.SEND
-        },
-        {
-            label: Lng.t('invoices.actions.markAsSent', { locale }),
-            value: INVOICE_ACTIONS.MARK_AS_SENT
-        }
-    ];
+    const options = [];
 
-    const resendActions = [
-        {
+    !sentStatus &&
+        !completeStatus &&
+        options.push(
+            {
+                label: Lng.t('invoices.actions.sendInvoice', { locale }),
+                value: INVOICE_ACTIONS.SEND
+            },
+            {
+                label: Lng.t('invoices.actions.markAsSent', { locale }),
+                value: INVOICE_ACTIONS.MARK_AS_SENT
+            }
+        );
+
+    sentStatus &&
+        options.push({
             label: Lng.t('invoices.actions.reSendInvoice', { locale }),
             value: INVOICE_ACTIONS.SEND
-        }
-    ];
+        });
 
-    const paymentAction = [
-        {
+    options.push({
+        label: Lng.t('invoices.actions.clone', { locale }),
+        value: INVOICE_ACTIONS.CLONE
+    });
+
+    (sentStatus || (!sentStatus && !completeStatus)) &&
+        options.push({
             label: Lng.t('invoices.actions.recordPayment', {
                 locale
             }),
             value: INVOICE_ACTIONS.RECORD_PAYMENT
-        }
-    ];
+        });
 
-    const deleteAction = [
-        {
+    isAllowToDelete &&
+        options.push({
             label: Lng.t('invoices.actions.delete', { locale }),
             value: INVOICE_ACTIONS.DELETE
-        }
-    ];
+        });
 
-    const cloneAction = [
-        {
-            label: Lng.t('invoices.actions.clone', { locale }),
-            value: INVOICE_ACTIONS.CLONE
-        }
-    ];
-
-    if (sentStatus) {
-        return [
-            ...resendActions,
-            ...cloneAction,
-            ...paymentAction,
-            ...deleteAction
-        ];
-    } else if (completeStatus) {
-        return [...cloneAction, ...deleteAction];
-    } else {
-        return [
-            ...markActions,
-            ...cloneAction,
-            ...paymentAction,
-            ...deleteAction
-        ];
-    }
+    return options;
 };
 
 export const REPEAT_RECURRING_INVOICE_OPTION_VALUE = {

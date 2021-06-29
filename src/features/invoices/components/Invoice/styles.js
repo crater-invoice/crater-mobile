@@ -39,9 +39,12 @@ export default styles = StyleSheet.create({
     buttonContainer: {
         flex: 1
     },
-    itemContainer: theme => ({
+    itemContainer: (theme, disabled) => ({
         borderWidth: 1,
-        borderColor: theme?.input?.borderColor
+        borderColor: theme?.input?.borderColor,
+        ...(disabled && {
+            opacity: 0.7
+        })
     }),
     itemLeftTitle: theme => ({
         fontSize: 15,

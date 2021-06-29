@@ -39,7 +39,7 @@ export class TemplateField extends Component<IProps> {
             navigation
         } = this.props;
 
-        const template = templates.filter(val => val.id === value)[0];
+        const template = templates.filter(val => val.name === value)[0];
 
         this.setState({
             selectedTemplate: template
@@ -47,9 +47,25 @@ export class TemplateField extends Component<IProps> {
     }
 
     onToggle = () => {
-        this.setState(prevState => {
-            return { visible: !prevState.visible };
-        });
+        const {
+            input: { value },
+            templates,
+            disabled
+        } = this.props;
+        const { selectedTemplate, visible } = this.state;
+
+        if (disabled) {
+            return;
+        }
+
+        if (visible && selectedTemplate?.name !== value) {
+            const template = templates.filter(val => val.name === value)[0];
+            this.setState({
+                selectedTemplate: template
+            });
+        }
+
+        this.setState({ visible: !visible });
     };
 
     onTemplateSelect = template => {
@@ -63,7 +79,7 @@ export class TemplateField extends Component<IProps> {
         this.getItems({ fresh: true, q: search });
     };
 
-    onSubmit = () => {
+    onSubmit = async () => {
         const {
             onChangeCallback,
             input: { onChange }
@@ -71,7 +87,7 @@ export class TemplateField extends Component<IProps> {
 
         const { selectedTemplate } = this.state;
 
-        onChange(selectedTemplate.id);
+        await onChange(selectedTemplate.name);
 
         onChangeCallback && onChangeCallback(selectedTemplate);
 
@@ -99,10 +115,11 @@ export class TemplateField extends Component<IProps> {
             icon,
             placeholder,
             meta,
-            locale
+            locale,
+            disabled
         } = this.props;
 
-        const { visible, selectedTemplate: { name, id } = {} } = this.state;
+        const { visible, selectedTemplate: { name } = {} } = this.state;
 
         return (
             <View style={styles.container}>
@@ -113,6 +130,7 @@ export class TemplateField extends Component<IProps> {
                     placeholder={placeholder}
                     onChangeCallback={this.onToggle}
                     containerStyle={containerStyle}
+                    disabled={disabled}
                     meta={meta}
                 />
 
@@ -143,10 +161,10 @@ export class TemplateField extends Component<IProps> {
                                         imageSource={val.path}
                                         imageStyle={[
                                             styles.image,
-                                            id === val.id && styles.active
+                                            name === val.name && styles.active
                                         ]}
                                     />
-                                    {id === val.id && (
+                                    {name === val.name && (
                                         <Icon
                                             name="check"
                                             size={18}

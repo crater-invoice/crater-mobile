@@ -60,9 +60,10 @@ const FinalAmount = ({ state, props }) => {
         invoiceData: { discount_per_item, tax_per_item },
         formValues,
         getTaxes,
+        isAllowToEdit,
         theme
     } = props;
-
+    const disabled = !isAllowToEdit;
     let taxes = formValues?.taxes;
 
     let taxPerItem = !(
@@ -141,6 +142,7 @@ const FinalAmount = ({ state, props }) => {
                                     backgroundColor: colors.gray7
                                 }
                             })}
+                            disabled={disabled}
                         />
                         <Field
                             name="discount_type"
@@ -161,6 +163,7 @@ const FinalAmount = ({ state, props }) => {
                                 theme
                             )}
                             containerStyle={styles.SelectPickerContainer}
+                            disabled={disabled}
                         />
                     </View>
                 </View>
@@ -231,6 +234,7 @@ const FinalAmount = ({ state, props }) => {
                     component={SelectField}
                     onlyPlaceholder
                     fakeInputProps={{
+                        disabled,
                         fakeInput: (
                             <Text
                                 right
@@ -259,6 +263,7 @@ const FinalAmount = ({ state, props }) => {
                     }
                     listViewProps={{ contentContainerStyle: { flex: 2 } }}
                     emptyContentProps={{ contentType: 'taxes' }}
+                    isEditable={!disabled}
                 />
             )}
 
