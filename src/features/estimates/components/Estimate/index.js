@@ -2,6 +2,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import * as Linking from 'expo-linking';
+import { find } from 'lodash';
 import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
 import {
@@ -196,7 +197,8 @@ export class Estimate extends React.Component<IProps> {
             initLoading,
             id,
             handleSubmit,
-            withLoading
+            withLoading,
+            estimateData: { estimateTemplates = [] } = {}
         } = this.props;
 
         if (this.state.isLoading || initLoading || withLoading) {
@@ -230,6 +232,10 @@ export class Estimate extends React.Component<IProps> {
         if (status === 'send') {
             estimate.estimateSend = true;
         }
+
+        estimate.estimate_template_id = find(estimateTemplates, {
+            name: estimate?.template_name
+        })?.id;
 
         const params = {
             estimate: {

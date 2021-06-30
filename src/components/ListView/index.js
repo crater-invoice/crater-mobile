@@ -7,7 +7,7 @@ import { Empty } from '../Empty';
 import { colors, fonts } from '@/styles';
 import { CurrencyFormat } from '../CurrencyFormat';
 import { FadeListAnimation, AssetIcon } from '@/components';
-import { defineSize, isIosPlatform } from '@/constants';
+import { isIosPlatform } from '@/constants';
 import { isRTL } from '@/utils';
 import { Text } from '../Text';
 import AssetSvg from '../AssetSvg';
@@ -108,10 +108,9 @@ class ListViewComponent extends Component<IProps> {
                                     backgroundColor: labelBgColor
                                 },
                                 labelOutlineColor && {
-                                    borderColor: labelOutlineColor,
-                                    borderWidth: 1,
-                                    paddingVertical: defineSize(3, 4)
-                                }
+                                    borderColor: labelOutlineColor
+                                },
+                                labelOutlineColor && styles.labelOutline
                             ]}
                         >
                             {labelComponent ? (
