@@ -1,4 +1,5 @@
 import { Appearance } from 'react-native-appearance';
+import { store } from '@/store';
 
 export const SYSTEM_APPEARANCE_COLOR = {
     LIGHT: 'light',
@@ -14,3 +15,10 @@ export const isDarkMode = () => {
         return false;
     }
 };
+
+export const STATUS_BAR_CONTENT = {
+    light: 'dark-content',
+    dark: 'light-content'
+};
+
+export const THEME = store?.getState?.()?.global?.theme;

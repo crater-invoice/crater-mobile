@@ -7,7 +7,8 @@ export default styles = StyleSheet.create({
         backgroundColor: colors.veryLightGray
     },
     mainContainer: {
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        marginBottom: 10
     },
     headerContainer: {
         backgroundColor: colors.veryLightGray

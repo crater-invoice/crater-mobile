@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { CheckBox } from 'react-native-elements';
 import { styles } from './styles';
 import { colors } from '@/styles';
-import { Text } from 'react-native';
+import { Text } from '../Text';
 
 type IProps = {
     label: String,
@@ -37,6 +37,8 @@ export class CtCheckbox extends Component<IProps> {
             <>
                 {hint && (
                     <Text
+                        secondary
+                        h5
                         numberOfLines={2}
                         style={[styles.hint, hintStyle && hintStyle]}
                     >

@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { connect } from 'react-redux';
 import { styles } from './styles';
 import { AnimateModal } from '../AnimateModal';
 import { Field } from 'redux-form';
 import { InputField } from '../InputField';
-import { CtButton } from '../Button';
+import { CtButton, CtDecorativeButton } from '../Button';
 import Lng from '@/lang/i18n';
 import { Icon } from 'react-native-elements';
 import { colors } from '@/styles';
 import { BUTTON_COLOR } from '@/constants';
+import { Text } from '../Text';
 
 type Iprops = {
     modalProps?: Object,
@@ -23,7 +25,7 @@ type Iprops = {
     onSubmitLoading?: Boolean
 };
 
-export class InputModal extends Component<Iprops> {
+class inputModalComponent extends Component<Iprops> {
     constructor(props) {
         super(props);
         this.state = { visible: false };
@@ -50,11 +52,12 @@ export class InputModal extends Component<Iprops> {
             onRemoveLoading = false,
             onRemove,
             onSubmit,
-            locale
+            locale,
+            theme
         } = this.props;
 
         return (
-            <View style={styles.rowViewContainer}>
+            <View style={styles.rowViewContainer(theme)}>
                 {showRemoveButton && (
                     <View style={styles.rowView}>
                         <CtButton
@@ -101,20 +104,23 @@ export class InputModal extends Component<Iprops> {
     };
 
     HEADER_VIEW = () => {
-        const { headerTitle } = this.props;
+        const { headerTitle, theme } = this.props;
 
         return (
-            <View style={styles.rowViewContainer}>
+            <View style={styles.rowViewContainer(theme)}>
                 <View style={styles.rowView}>
-                    <Text style={styles.heading}>{headerTitle}</Text>
+                    <Text color={theme.input.color} style={styles.heading}>
+                        {headerTitle}
+                    </Text>
                 </View>
                 <View>
-                    <Icon
-                        name="close"
-                        size={28}
-                        color={colors.dark}
-                        onPress={this.onToggle}
-                    />
+                    <CtDecorativeButton onPress={this.onToggle} withHitSlop>
+                        <Icon
+                            name="close"
+                            size={28}
+                            color={theme.listItem.fifth.color}
+                        />
+                    </CtDecorativeButton>
                 </View>
             </View>
         );
@@ -136,7 +142,9 @@ export class InputModal extends Component<Iprops> {
                         showsVerticalScrollIndicator={false}
                         keyboardShouldPersistTaps="handled"
                     >
-                        <View style={styles.modalViewContainer}>
+                        <View
+                            style={styles.modalViewContainer(this.props.theme)}
+                        >
                             {this.HEADER_VIEW()}
 
                             {this.FIELD()}
@@ -149,3 +157,10 @@ export class InputModal extends Component<Iprops> {
         );
     }
 }
+
+export const InputModal = connect(
+    ({ global }) => ({
+        theme: global?.theme
+    }),
+    {}
+)(inputModalComponent);

@@ -137,31 +137,29 @@ export class Customers extends React.Component<IProps> {
         };
 
         return (
-            <View style={styles.container}>
-                <MainLayout
-                    headerProps={headerProps}
-                    onSearch={this.onSearch}
-                    filterProps={filterProps}
-                    bottomDivider
-                >
-                    <View style={styles.listViewContainer}>
-                        <InfiniteScroll
-                            getItems={getCustomer}
-                            reference={ref => (this.scrollViewReference = ref)}
-                        >
-                            <ListView
-                                items={customers}
-                                onPress={this.onSelect}
-                                isEmpty={isEmpty}
-                                bottomDivider
-                                hasAvatar
-                                emptyContentProps={emptyContentProps}
-                                isAnimated
-                            />
-                        </InfiniteScroll>
-                    </View>
-                </MainLayout>
-            </View>
+            <MainLayout
+                headerProps={headerProps}
+                onSearch={this.onSearch}
+                filterProps={filterProps}
+                bottomDivider
+            >
+                <View style={styles.listViewContainer}>
+                    <InfiniteScroll
+                        getItems={getCustomer}
+                        reference={ref => (this.scrollViewReference = ref)}
+                    >
+                        <ListView
+                            items={customers}
+                            onPress={this.onSelect}
+                            isEmpty={isEmpty}
+                            bottomDivider
+                            hasAvatar
+                            emptyContentProps={emptyContentProps}
+                            isAnimated
+                        />
+                    </InfiniteScroll>
+                </View>
+            </MainLayout>
         );
     }
 }

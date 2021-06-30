@@ -2,13 +2,14 @@
 
 import React, { Component } from 'react';
 import { View, Animated } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './styles';
 import { colors } from '@/styles';
 import { Button } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
+import { connect } from 'react-redux';
 import { AssetImage } from '../AssetImage';
 import { BUTTON_COLOR, BUTTON_TYPE } from '@/constants';
+import { AssetIcon } from '../AssetIcon';
 
 type IProps = {
     children?: any,
@@ -101,7 +102,7 @@ export class CtGradientButton extends Component<IProps> {
                                 imageStyle={styles.imageIcon}
                             />
                         ) : (
-                            <Icon
+                            <AssetIcon
                                 name={iconName}
                                 size={15}
                                 color={colors.white}
@@ -146,8 +147,8 @@ export class CtGradientButton extends Component<IProps> {
                         }
                     ]}
                     loading={(loading && buttonFocus) || isLoading}
-                    loadingStyle={{ opacity: 0.7 }}
-                    loadingProps={{ color: colors.darkGray }}
+                    loadingStyle={{ opacity: 1 }}
+                    loadingProps={{ color: colors.white }}
                     linearGradientProps={{
                         colors: [colors.primary, colors.primaryLight],
                         start: { x: 0, y: 0.5 },
@@ -183,7 +184,7 @@ export class CtGradientButton extends Component<IProps> {
     }
 }
 
-export class CtButton extends Component<IProps> {
+class ActionButton extends Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {
@@ -226,10 +227,10 @@ export class CtButton extends Component<IProps> {
             imageIcon = false,
             imageSource,
             raised,
-            buttonColor = BUTTON_COLOR.PRIMARY,
             containerStyle,
             buttonContainerStyle,
-            hasFocus = true
+            hasFocus = true,
+            theme
         } = this.props;
 
         const { buttonFocus, animatedScale } = this.state;
@@ -237,6 +238,11 @@ export class CtButton extends Component<IProps> {
         const animatedStyle = {
             transform: [{ scale: animatedScale }]
         };
+        const buttonColor = this.props.buttonColor
+            ? this.props.buttonColor
+            : theme?.mode === 'light'
+            ? BUTTON_COLOR.PRIMARY
+            : BUTTON_COLOR.PRIMARY_LIGHT;
 
         return (
             <Animated.View
@@ -254,7 +260,7 @@ export class CtButton extends Component<IProps> {
                                 imageStyle={styles.imageIcon}
                             />
                         ) : (
-                            <Icon
+                            <AssetIcon
                                 name={iconName}
                                 size={15}
                                 color={colors.white}
@@ -265,11 +271,7 @@ export class CtButton extends Component<IProps> {
                     containerStyle={[
                         styles.containerStyle,
                         raised && styles.containerShadow,
-                        containerStyle && containerStyle,
-                        hasFocus &&
-                            buttonFocus && {
-                                borderColor: colors[`${buttonColor}Light`]
-                            }
+                        containerStyle && containerStyle
                     ]}
                     buttonStyle={[
                         styles.buttonStyle,
@@ -290,7 +292,7 @@ export class CtButton extends Component<IProps> {
                     type={type}
                     title={btnTitle}
                     loading={(loading && buttonFocus) || isLoading}
-                    loadingStyle={{ opacity: 0.7 }}
+                    loadingStyle={{ opacity: 1 }}
                     loadingProps={{
                         color: !isOutline ? colors.white : colors[buttonColor]
                     }}
@@ -328,3 +330,12 @@ export class CtButton extends Component<IProps> {
         );
     }
 }
+
+const mapStateToProps = ({ global }) => ({
+    theme: global?.theme
+});
+
+export const CtButton = connect(
+    mapStateToProps,
+    {}
+)(ActionButton);

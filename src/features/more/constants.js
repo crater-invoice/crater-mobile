@@ -45,23 +45,15 @@ export const MORE_MENU = (locale, Lng) => {
             title: Lng.t('more.estimate', { locale }),
             leftIcon: 'file-alt',
             leftIconSolid: true,
-            iconSize: 27,
+            iconSize: 19,
             fullItem: {
                 route: ROUTES.ESTIMATE_LIST
             }
         },
-        // {
-        //     title: Lng.t('more.recurringInvoice', { locale }),
-        //     leftIcon: 'file-alt',
-        //     iconSize: 27,
-        //     fullItem: {
-        //         route: ROUTES.RECURRING_INVOICES
-        //     }
-        // },
         {
             title: Lng.t('more.items', { locale }),
             leftIcon: 'product-hunt',
-            iconSize: 27,
+            iconSize: 20,
             fullItem: {
                 route: ROUTES.GLOBAL_ITEMS
             }
@@ -69,6 +61,7 @@ export const MORE_MENU = (locale, Lng) => {
         {
             title: Lng.t('more.reports', { locale }),
             leftIcon: 'signal',
+            iconSize: 15,
             fullItem: {
                 route: ROUTES.REPORTS
             }
@@ -76,6 +69,7 @@ export const MORE_MENU = (locale, Lng) => {
         {
             title: Lng.t('more.settings', { locale }),
             leftIcon: 'cogs',
+            iconSize: 17,
             fullItem: {
                 route: ROUTES.SETTING_LIST
             }
@@ -83,7 +77,7 @@ export const MORE_MENU = (locale, Lng) => {
         {
             title: Lng.t('more.logout', { locale }),
             leftIcon: 'sign-out-alt',
-            iconSize: 26,
+            iconSize: 19,
             fullItem: {
                 action: 'onLogout'
             }

@@ -1,20 +1,21 @@
-import { StyleSheet } from 'react-native';
-import { colors } from '@/styles/colors';
+import { StyleSheet, View } from 'react-native';
+import styled from 'styled-components/native';
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.veryLightGray
-    },
-    Tabs: {
-        backgroundColor: colors.veryLightGray,
+    tabs: theme => ({
+        backgroundColor: theme?.backgroundColor,
         borderBottomRightRadius: 10,
         borderBottomLeftRadius: 10
-    },
+    }),
     selectPicker: {
         marginTop: 12,
         marginBottom: 2
     }
 });
 
-export default styles;
+const Container = styled(View)`
+    flex: 1;
+    background-color: ${props => props.theme?.backgroundColor};
+`;
+
+export { styles, Container };

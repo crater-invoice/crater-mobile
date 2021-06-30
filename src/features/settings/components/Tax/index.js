@@ -204,6 +204,7 @@ export class Tax extends React.Component {
                         name="compound_tax"
                         component={ToggleSwitch}
                         hint={Lng.t('taxes.compoundTax', { locale })}
+                        title-text-default
                     />
                 </View>
             </DefaultLayout>

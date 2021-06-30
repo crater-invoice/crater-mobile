@@ -4,10 +4,11 @@ import { Text, View } from 'react-native';
 import { colors, fonts } from '@/styles';
 
 interface IProps {
-    content: any;
+    content?: any;
+    theme?: any;
 }
 
-export const HtmlView: FC<IProps> = ({ content }) => {
+export const HtmlView: FC<IProps> = ({ content, theme }) => {
     return (
         <HTML
             html={content}
@@ -22,7 +23,7 @@ export const HtmlView: FC<IProps> = ({ content }) => {
             }}
             baseFontStyle={{
                 fontSize: 16,
-                color: colors.dark2,
+                color: theme?.input?.color,
                 textAlign: 'left'
             }}
         />

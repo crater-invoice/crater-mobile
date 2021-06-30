@@ -3,7 +3,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { change } from 'redux-form';
-import styles from './styles';
+import { styles, Container } from './styles';
 import { All, Draft, Due } from '../Tab';
 import { invoicesFilterFields as FilterFields } from './filterFields';
 import { goBack, MOUNT } from '@/navigation';
@@ -12,7 +12,6 @@ import { ROUTES } from '@/navigation';
 import { MainLayout, Tabs } from '@/components';
 import { IMAGES } from '@/assets';
 import {
-    getFilterStatusType,
     INVOICES_TABS,
     INVOICE_ADD,
     INVOICE_EDIT,
@@ -108,7 +107,7 @@ export class Invoices extends React.Component<IProps> {
     getActiveTab = (activeTab = this.state.activeTab) => {
         if (activeTab == INVOICES_TABS.DUE) {
             return {
-                status: 'UNPAID',
+                status: INVOICES_TABS.DUE,
                 ref: this.dueReference
             };
         }
@@ -138,7 +137,7 @@ export class Invoices extends React.Component<IProps> {
         });
     };
 
-    changeTabBasedOnFilterStatusSelection = (status, paid_status) => {
+    changeTabBasedOnFilterStatusSelection = status => {
         if (status === INVOICES_TABS.DUE) {
             return {
                 activeTab: INVOICES_TABS.DUE,
@@ -161,7 +160,6 @@ export class Invoices extends React.Component<IProps> {
 
     onSubmitFilter = ({
         filterStatus = '',
-        paid_status = '',
         from_date = '',
         to_date = '',
         invoice_number = '',
@@ -169,20 +167,15 @@ export class Invoices extends React.Component<IProps> {
     }) => {
         const { search } = this.state;
 
-        const status = filterStatus
-            ? getFilterStatusType(filterStatus)
-            : paid_status;
-
         const { activeTab, ref } = this.changeTabBasedOnFilterStatusSelection(
-            filterStatus,
-            paid_status
+            filterStatus
         );
 
         this.setState({ activeTab });
 
         ref?.getItems?.({
             queryString: {
-                status,
+                status: filterStatus,
                 search,
                 customer_id,
                 invoice_number,
@@ -201,7 +194,7 @@ export class Invoices extends React.Component<IProps> {
     onChangeState = (field, value) => this.setState({ [field]: value });
 
     getEmptyContentProps = activeTab => {
-        const { locale, navigation, formValues } = this.props;
+        const { locale, navigation, formValues,theme } = this.props;
         const { search } = this.state;
         const isFilter = isFilterApply(formValues);
         let title = '';
@@ -226,7 +219,7 @@ export class Invoices extends React.Component<IProps> {
 
         return {
             title: Lng.t(emptyTitle, { locale, search }),
-            image: IMAGES.EMPTY_INVOICES,
+            image: IMAGES[theme?.mode]?.EMPTY_INVOICES,
             ...(!search && {
                 description: Lng.t(description, { locale })
             }),
@@ -244,7 +237,7 @@ export class Invoices extends React.Component<IProps> {
     };
 
     render() {
-        const { locale, navigation, handleSubmit } = this.props;
+        const { locale, navigation, handleSubmit, theme } = this.props;
 
         const { activeTab } = this.state;
 
@@ -296,23 +289,22 @@ export class Invoices extends React.Component<IProps> {
         ];
 
         return (
-            <View style={styles.container}>
-                <MainLayout
-                    headerProps={headerProps}
-                    onSearch={this.onSearch}
-                    filterProps={filterProps}
-                    toastProps={{
-                        reference: ref => (this.toastReference = ref)
-                    }}
-                >
-                    <Tabs
-                        style={styles.Tabs}
-                        activeTab={activeTab}
-                        setActiveTab={this.setActiveTab}
-                        tabs={tabs}
-                    />
-                </MainLayout>
-            </View>
+            <MainLayout
+                headerProps={headerProps}
+                onSearch={this.onSearch}
+                filterProps={filterProps}
+                toastProps={{
+                    reference: ref => (this.toastReference = ref)
+                }}
+            >
+                <Tabs
+                    style={styles.tabs(theme)}
+                    activeTab={activeTab}
+                    setActiveTab={this.setActiveTab}
+                    tabs={tabs}
+                    theme={theme}
+                />
+            </MainLayout>
         );
     }
 }

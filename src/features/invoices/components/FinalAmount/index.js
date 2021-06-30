@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
@@ -7,7 +7,8 @@ import {
     CtDivider,
     SelectField,
     SelectPickerField,
-    CurrencyFormat
+    CurrencyFormat,
+    Text
 } from '@/components';
 import { ROUTES } from '@/navigation';
 import { colors } from '@/styles';
@@ -24,7 +25,7 @@ import {
 } from '../InvoiceCalculation';
 import { isIosPlatform } from '@/constants';
 
-const DISPLAY_ITEM_TAX = ({ state }) => {
+const DISPLAY_ITEM_TAX = ({ state, theme }) => {
     const { currency } = state;
     let taxes = invoiceItemTotalTaxes();
 
@@ -32,7 +33,7 @@ const DISPLAY_ITEM_TAX = ({ state }) => {
         ? taxes.map((val, index) => (
               <View style={styles.subContainer} key={index}>
                   <View>
-                      <Text style={styles.amountHeading}>
+                      <Text darkGray medium style={{ marginTop: 6 }}>
                           {getTaxName(val)} ({val.percent} %)
                       </Text>
                   </View>
@@ -40,7 +41,8 @@ const DISPLAY_ITEM_TAX = ({ state }) => {
                       <CurrencyFormat
                           amount={val.amount}
                           currency={currency}
-                          style={styles.subAmount}
+                          style={styles.subAmount(theme)}
+                          symbolStyle={styles.currencySymbol}
                       />
                   </View>
               </View>
@@ -57,7 +59,8 @@ const FinalAmount = ({ state, props }) => {
         navigation,
         invoiceData: { discount_per_item, tax_per_item },
         formValues,
-        getTaxes
+        getTaxes,
+        theme
     } = props;
 
     let taxes = formValues?.taxes;
@@ -83,10 +86,16 @@ const FinalAmount = ({ state, props }) => {
     };
 
     return (
-        <View style={styles.amountContainer}>
+        <View style={styles.amountContainer(theme)}>
             <View style={styles.subContainer}>
                 <View>
-                    <Text style={styles.amountHeading}>
+                    <Text
+                        darkGray
+                        h5
+                        medium={theme?.mode === 'light'}
+                        bold2={theme?.mode === 'dark'}
+                        style={{ marginTop: 6 }}
+                    >
                         {Lng.t('invoices.subtotal', { locale })}
                     </Text>
                 </View>
@@ -94,7 +103,11 @@ const FinalAmount = ({ state, props }) => {
                     <CurrencyFormat
                         amount={invoiceSubTotal()}
                         currency={currency}
-                        style={styles.subAmount}
+                        style={styles.subAmount(theme)}
+                        symbolStyle={styles.currencySymbol}
+                        currencySymbolStyle={styles.symbol(
+                            currency?.symbol?.length
+                        )}
                     />
                 </View>
             </View>
@@ -102,11 +115,19 @@ const FinalAmount = ({ state, props }) => {
             {!discountPerItem && (
                 <View style={[styles.subContainer, styles.discount]}>
                     <View>
-                        <Text style={styles.amountHeading}>
+                        <Text
+                            darkGray
+                            h5
+                            medium={theme?.mode === 'light'}
+                            bold2={theme?.mode === 'dark'}
+                            style={{ marginTop: 6 }}
+                        >
                             {Lng.t('invoices.discount', { locale })}
                         </Text>
                     </View>
-                    <View style={[styles.subAmount, styles.discountField]}>
+                    <View
+                        style={[styles.subAmount(theme), styles.discountField]}
+                    >
                         <Field
                             name="discount"
                             component={InputField}
@@ -117,6 +138,12 @@ const FinalAmount = ({ state, props }) => {
                                 keyboardType: 'decimal-pad'
                             }}
                             fieldStyle={styles.fieldStyle}
+                            {...(theme?.mode === 'dark' && {
+                                inputContainerStyle: {
+                                    borderColor: colors.gray5,
+                                    backgroundColor: colors.gray7
+                                }
+                            })}
                         />
                         <Field
                             name="discount_type"
@@ -133,7 +160,9 @@ const FinalAmount = ({ state, props }) => {
                                 displayLabel: currency ? currency.symbol : '$'
                             }}
                             fakeInputValueStyle={styles.fakeInputValueStyle}
-                            fakeInputContainerStyle={styles.selectPickerField}
+                            fakeInputContainerStyle={styles.selectPickerField(
+                                theme
+                            )}
                             containerStyle={styles.SelectPickerContainer}
                         />
                     </View>
@@ -145,7 +174,12 @@ const FinalAmount = ({ state, props }) => {
                     !val.compound_tax ? (
                         <View style={styles.subContainer} key={index}>
                             <View>
-                                <Text style={styles.amountHeading}>
+                                <Text
+                                    darkGray
+                                    h5
+                                    medium
+                                    style={{ marginTop: 6 }}
+                                >
                                     {getTaxName(val)} ({val.percent} %)
                                 </Text>
                             </View>
@@ -153,7 +187,11 @@ const FinalAmount = ({ state, props }) => {
                                 <CurrencyFormat
                                     amount={getTaxValue(val.percent)}
                                     currency={currency}
-                                    style={styles.subAmount}
+                                    style={styles.taxAmount(theme)}
+                                    symbolStyle={styles.currencySymbol}
+                                    currencySymbolStyle={styles.symbol(
+                                        currency?.symbol?.length
+                                    )}
                                 />
                             </View>
                         </View>
@@ -165,7 +203,12 @@ const FinalAmount = ({ state, props }) => {
                     val.compound_tax ? (
                         <View style={styles.subContainer} key={index}>
                             <View>
-                                <Text style={styles.amountHeading}>
+                                <Text
+                                    darkGray
+                                    h5
+                                    medium
+                                    style={{ marginTop: 6 }}
+                                >
                                     {getTaxName(val)} ({val.percent} %)
                                 </Text>
                             </View>
@@ -173,14 +216,18 @@ const FinalAmount = ({ state, props }) => {
                                 <CurrencyFormat
                                     amount={getCompoundTaxValue(val.percent)}
                                     currency={currency}
-                                    style={styles.subAmount}
+                                    style={styles.taxAmount(theme)}
+                                    symbolStyle={styles.currencySymbol}
+                                    currencySymbolStyle={styles.symbol(
+                                        currency?.symbol?.length
+                                    )}
                                 />
                             </View>
                         </View>
                     ) : null
                 )}
 
-            {DISPLAY_ITEM_TAX({ state })}
+            {DISPLAY_ITEM_TAX({ state, theme })}
 
             {!taxPerItem && (
                 <Field
@@ -194,7 +241,12 @@ const FinalAmount = ({ state, props }) => {
                     onlyPlaceholder
                     fakeInputProps={{
                         fakeInput: (
-                            <Text style={styles.taxFakeInput}>
+                            <Text
+                                right
+                                medium
+                                h4
+                                color={theme?.viewLabel?.thirdColor}
+                            >
                                 {Lng.t('invoices.taxPlaceholder', { locale })}
                             </Text>
                         )
@@ -219,11 +271,17 @@ const FinalAmount = ({ state, props }) => {
                 />
             )}
 
-            <CtDivider dividerStyle={styles.divider} />
+            <CtDivider dividerStyle={styles.divider(theme)} />
 
             <View style={[styles.subContainer]}>
                 <View>
-                    <Text style={styles.amountHeading}>
+                    <Text
+                        darkGray
+                        h5
+                        medium={theme?.mode === 'light'}
+                        bold2={theme?.mode === 'dark'}
+                        style={{ marginTop: 6 }}
+                    >
                         {Lng.t('invoices.totalAmount', { locale })}:
                     </Text>
                 </View>
@@ -231,10 +289,15 @@ const FinalAmount = ({ state, props }) => {
                     <CurrencyFormat
                         amount={finalAmount()}
                         currency={currency}
-                        style={styles.finalAmount}
+                        style={styles.finalAmount(theme)}
                         currencyStyle={{
                             marginTop: isIosPlatform() ? -1.5 : -6
                         }}
+                        {...(isIosPlatform() && {
+                            currencySymbolStyle: styles.symbol(
+                                currency?.symbol?.length
+                            )
+                        })}
                     />
                 </View>
             </View>

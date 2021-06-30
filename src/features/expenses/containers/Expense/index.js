@@ -15,7 +15,7 @@ import { getCustomers } from '@/features/customers/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { endpointURL, locale },
+        global: { endpointURL, locale, currency },
         expenses: { loading },
         settings: { categories, customFields },
         customers: { customers }
@@ -33,6 +33,7 @@ const mapStateToProps = (state, { navigation }) => {
         loading: loading?.expenseLoading,
         type,
         id,
+        currency,
         formValues: getFormValues(EXPENSE_FORM)(state) || {},
         initialValues: {
             expense: {

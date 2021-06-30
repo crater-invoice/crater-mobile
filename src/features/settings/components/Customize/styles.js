@@ -25,10 +25,7 @@ export default styles = StyleSheet.create({
     },
     autoGenerateHeader: {
         marginTop: 7,
-        color: colors.dark2,
-        fontFamily: fonts.poppins,
-        fontSize: 20,
-        textAlign: 'left'
+        fontSize: 20
     },
 
     // row
@@ -41,11 +38,11 @@ export default styles = StyleSheet.create({
     },
 
     // tabs
-    tabs: {
-        backgroundColor: colors.veryLightGray,
+    tabs: theme => ({
+        backgroundColor: theme?.backgroundColor,
         borderBottomRightRadius: 10,
         borderBottomLeftRadius: 10
-    },
+    }),
     tabView: {
         height: 55
     },

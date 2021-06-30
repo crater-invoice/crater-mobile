@@ -19,5 +19,9 @@ export default StyleSheet.create({
                 padding: 0
             }
         })
+    },
+    header: {
+        paddingTop: 60,
+        height: 110
     }
 });

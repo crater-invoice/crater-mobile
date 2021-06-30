@@ -90,7 +90,6 @@ export class Categories extends React.Component<IProps> {
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
             title: Lng.t('header.expenseCategory', { locale }),
-            titleStyle: styles.titleStyle,
             placement: 'center',
             rightIcon: 'plus',
             rightIconPress: () =>
@@ -100,30 +99,28 @@ export class Categories extends React.Component<IProps> {
         };
 
         return (
-            <View style={styles.container}>
-                <MainLayout
-                    headerProps={headerProps}
-                    onSearch={this.onSearch}
-                    bottomDivider
-                >
-                    <View style={styles.listViewContainer}>
-                        <InfiniteScroll
-                            getItems={getExpenseCategories}
-                            reference={ref => (this.scrollViewReference = ref)}
-                            getItemsInMount={false}
-                        >
-                            <ListView
-                                items={formatCategories(categories)}
-                                onPress={this.onSelect}
-                                isEmpty={isEmpty}
-                                bottomDivider
-                                emptyContentProps={emptyContentProps}
-                                isAnimated
-                            />
-                        </InfiniteScroll>
-                    </View>
-                </MainLayout>
-            </View>
+            <MainLayout
+                headerProps={headerProps}
+                onSearch={this.onSearch}
+                bottomDivider
+            >
+                <View style={styles.listViewContainer}>
+                    <InfiniteScroll
+                        getItems={getExpenseCategories}
+                        reference={ref => (this.scrollViewReference = ref)}
+                        getItemsInMount={false}
+                    >
+                        <ListView
+                            items={formatCategories(categories)}
+                            onPress={this.onSelect}
+                            isEmpty={isEmpty}
+                            bottomDivider
+                            emptyContentProps={emptyContentProps}
+                            isAnimated
+                        />
+                    </InfiniteScroll>
+                </View>
+            </MainLayout>
         );
     }
 }

@@ -39,29 +39,29 @@ export default styles = StyleSheet.create({
     buttonContainer: {
         flex: 1
     },
-    itemContainer: {
+    itemContainer: theme => ({
         borderWidth: 1,
-        borderColor: colors.lightGray
-    },
-    itemLeftTitle: {
+        borderColor: theme?.input?.borderColor
+    }),
+    itemLeftTitle: theme => ({
         fontSize: 15,
         fontFamily: fonts.poppins,
-        color: colors.dark,
+        color: theme?.listItem?.fifth?.color,
         textAlign: 'left'
-    },
+    }),
     itemLeftSubTitleLabel: {
         marginLeft: -6
     },
-    itemLeftSubTitle: {
-        color: colors.darkGray,
+    itemLeftSubTitle: theme => ({
+        color: theme?.listItem?.fourth?.color,
         fontSize: 13
-    },
-    itemRightTitle: {
+    }),
+    itemRightTitle: theme => ({
         fontFamily: fonts.poppins,
         fontSize: 18,
-        color: colors.secondary,
+        color: theme?.listItem?.secondary?.color,
         textAlign: 'left'
-    },
+    }),
     label: {
         paddingBottom: -1,
         paddingTop: 12

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
 import { View, Modal, StatusBar } from 'react-native';
+import { connect } from 'react-redux';
 import styles from './styles';
 import { ListView } from '../ListView';
 import { MainLayout, DefaultLayout } from '../Layouts';
@@ -27,7 +27,7 @@ type IProps = {
     scrollViewProps: any
 };
 
-export class SlideModal extends Component<IProps> {
+class Screen extends Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {};
@@ -49,7 +49,8 @@ export class SlideModal extends Component<IProps> {
             isPagination = false,
             infiniteScrollProps,
             scrollViewProps,
-            customView
+            customView,
+            theme
         } = this.props;
 
         const listViewChildren = isPagination ? (
@@ -80,14 +81,25 @@ export class SlideModal extends Component<IProps> {
                             headerProps={{
                                 ...headerProps,
                                 ...(isAndroidPlatform() && {
-                                    containerStyle: { marginTop: 25 }
+                                    containerStyle: styles.header
                                 })
                             }}
                             onSearch={onSearch}
                             bottomDivider={bottomDivider}
                             bottomAction={bottomAction}
                             inputProps={searchInputProps && searchInputProps}
-                            searchFieldProps={searchFieldProps}
+                            searchFieldProps={{
+                                ...searchFieldProps,
+                                ...(theme?.mode === 'dark' && {
+                                    inputContainerStyle: {
+                                        height: 38
+                                    },
+                                    inputFieldStyle: {
+                                        marginTop: 10,
+                                        marginBottom: 14
+                                    }
+                                })
+                            }}
                         >
                             {listViewChildren}
                         </MainLayout>
@@ -98,7 +110,7 @@ export class SlideModal extends Component<IProps> {
                             headerProps={{
                                 ...headerProps,
                                 ...(isAndroidPlatform() && {
-                                    containerStyle: { marginTop: 25 }
+                                    containerStyle: styles.header
                                 })
                             }}
                             bottomAction={bottomAction}
@@ -118,3 +130,12 @@ export class SlideModal extends Component<IProps> {
         );
     }
 }
+
+const mapStateToProps = ({ global }) => ({
+    theme: global?.theme
+});
+
+export const SlideModal = connect(
+    mapStateToProps,
+    {}
+)(Screen);

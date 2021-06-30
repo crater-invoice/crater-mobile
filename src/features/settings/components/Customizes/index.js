@@ -40,34 +40,33 @@ export class Customizes extends React.Component {
             navigation,
             locale,
             paymentModesLoading,
-            itemUnitsLoading
+            itemUnitsLoading,
+            theme
         } = this.props;
 
         let loading = paymentModesLoading || itemUnitsLoading;
 
         return (
-            <View style={styles.container}>
-                <DefaultLayout
-                    headerProps={{
-                        leftIconPress: () =>
-                            navigation.navigate(ROUTES.SETTING_LIST),
-                        title: Lng.t('header.customize', { locale }),
-                        leftIconStyle: { color: colors.dark2 }
-                    }}
-                    hasSearchField={false}
-                    loadingProps={{ is: loading }}
-                >
-                    <View style={styles.listViewContainer}>
-                        <ListView
-                            items={CUSTOMIZES_MENU(locale, Lng)}
-                            onPress={this.onSelectMenu}
-                            leftTitleStyle={styles.listViewTitle}
-                            rightArrowIcon
-                            rightArrowIconStyle={{ marginTop: 5 }}
-                        />
-                    </View>
-                </DefaultLayout>
-            </View>
+            <DefaultLayout
+                headerProps={{
+                    leftIconPress: () =>
+                        navigation.navigate(ROUTES.SETTING_LIST),
+                    title: Lng.t('header.customize', { locale }),
+                    leftArrow: 'primary'
+                }}
+                hasSearchField={false}
+                loadingProps={{ is: loading }}
+            >
+                <View style={styles.listViewContainer}>
+                    <ListView
+                        items={CUSTOMIZES_MENU(locale, Lng)}
+                        onPress={this.onSelectMenu}
+                        leftTitleStyle={styles.listViewTitle(theme)}
+                        rightArrowIcon
+                        rightArrowIconStyle={{ marginTop: 5 }}
+                    />
+                </View>
+            </DefaultLayout>
         );
     }
 }

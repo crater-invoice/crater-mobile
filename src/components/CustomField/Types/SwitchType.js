@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import { StyleSheet } from 'react-native';
-import ToggleSwitch from '@/components/ToggleSwitch';
+import { ToggleSwitch } from '@/components';
 
 export function SwitchType({ field, name }) {
     const { label = null, is_required = false } = field;

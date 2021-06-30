@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
+import { isAndroidPlatform } from '@/constants';
 
 export default styles = StyleSheet.create({
     container: {
@@ -65,35 +66,31 @@ export default styles = StyleSheet.create({
     fakeInputStyle: {
         marginTop: 5
     },
-    amountContainer: {
+    amountContainer: theme => ({
         borderWidth: 0.8,
-        borderColor: colors.lightGray,
+        borderColor: theme?.input?.borderColor,
         marginTop: 24,
-        marginBottom: 20,
+        marginBottom: 18,
         padding: 20,
-        backgroundColor: colors.white
-    },
+        backgroundColor: theme?.thirdBgColor,
+        borderRadius: 3
+    }),
     subContainer: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    label: {
-        color: colors.gray,
-        fontFamily: fonts.poppinsMedium,
-        marginTop: 6,
-        textAlign: 'left'
-    },
-    price: {
-        color: colors.dark2,
+    price: theme => ({
+        color: theme?.listItem?.primary?.color,
         fontSize: 16
-    },
-    totalPrice: {
-        color: colors.primary,
+    }),
+    totalPrice: theme => ({
+        color: theme?.listItem?.primary?.color,
         fontSize: 18,
-        fontFamily: fonts.poppinsMedium,
-        textAlign: 'left'
-    },
+        fontWeight: '500',
+        textAlign: 'left',
+        fontFamily: fonts.poppinsMedium
+    }),
     divider: {
         backgroundColor: colors.lightGray,
         borderColor: colors.lightGray,
@@ -139,5 +136,10 @@ export default styles = StyleSheet.create({
     },
     units: {
         paddingLeft: 48
+    },
+    currencySymbol: {
+        ...(isAndroidPlatform() && {
+            marginTop: -5
+        })
     }
 });

@@ -26,7 +26,7 @@
         "ios": {
             "supportsTablet": true,
             "bundleIdentifier": "com.craterapp.app",
-            "buildNumber": "11",
+            "buildNumber": "12",
             "usesIcloudStorage": true,
             "infoPlist": {
                 "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID to save login"
@@ -34,7 +34,7 @@
         },
         "android": {
             "package": "com.craterapp.app",
-            "versionCode": 16,
+            "versionCode": 17,
             "softwareKeyboardLayoutMode": "pan",
             "permissions": [
                 "CAMERA",

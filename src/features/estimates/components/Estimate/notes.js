@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Editor, SelectField } from '@/components';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Editor, SelectField, Text } from '@/components';
+import { View, TouchableOpacity } from 'react-native';
 import Lng from '@/lang/i18n';
 import { Field } from 'redux-form';
 import { formatNotesType } from '@/utils';
@@ -53,7 +53,8 @@ export default class Notes extends Component<IProps> {
             notes,
             getNotes,
             navigation,
-            setFormField
+            setFormField,
+            theme
         } = this.props;
 
         return (
@@ -103,13 +104,10 @@ export default class Notes extends Component<IProps> {
                                     }}
                                 >
                                     <Text
-                                        style={{
-                                            color: colors.primary,
-                                            fontFamily: fonts.poppins,
-                                            fontSize: 16,
-                                            paddingBottom: 6,
-                                            textAlign: 'left'
-                                        }}
+                                        primary
+                                        h4
+                                        style={{ paddingBottom: 6 }}
+                                        color={theme?.viewLabel?.thirdColor}
                                     >
                                         {Lng.t('notes.insertNote', {
                                             locale

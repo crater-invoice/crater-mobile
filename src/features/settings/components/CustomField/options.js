@@ -48,7 +48,6 @@ const DEFAULT_NUMBER_FIELD = symbol => {
                 keyboardType: KEYBOARD_TYPE.NUMERIC
             }}
             leftSymbol={symbol ?? currency?.symbol}
-            textStyle={{ paddingTop: isIosPlatform() ? 1 : 4 }}
         />
     );
 };

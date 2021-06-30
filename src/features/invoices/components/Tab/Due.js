@@ -20,7 +20,7 @@ export const Due = ({ reference, parentProps }: IProps) => {
         const values = parentProps?.props?.formValues;
 
         const queryString = {
-            status: 'UNPAID',
+            status: 'DUE',
             search,
             ...values
         };

@@ -1,20 +1,21 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, View } from 'react-native';
+import styled from 'styled-components/native';
 import { colors } from '@/styles';
 
 const { width, height } = Dimensions.get('window');
 
-export default styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'flex-start',
         display: 'flex',
-        paddingHorizontal: 5,
+        paddingHorizontal: 5
     },
     main: {
         flex: 1,
         flexDirection: 'column',
         paddingHorizontal: 25,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     inputField: {
         paddingVertical: 3
@@ -22,36 +23,43 @@ export default styles = StyleSheet.create({
     logoContainer: {
         paddingBottom: 40,
         alignItems: 'center',
-        marginTop: -35,
+        marginTop: -35
     },
     imgLogo: {
         width: width - 150,
         height: 120,
-        resizeMode: 'contain',
+        resizeMode: 'contain'
     },
     forgotTextTitle: {
-        marginTop: 10,
-        color: colors.veryDarkGray,
+        marginTop: 10
     },
     SendingMailContainer: {
-        alignItems: 'center',
+        alignItems: 'center'
     },
     buttonContainer: {
         marginHorizontal: -5,
         marginTop: 55
     },
-    buttonStyle : {
+    buttonStyle: {
         paddingVertical: 10
     },
     emailSendTitle: {
         paddingBottom: 10,
-        color: colors.primary,
+        color: colors.primary
     },
     emailSendDescription: {
         paddingHorizontal: 10,
-        fontSize: 14,
         paddingTop: 18,
-        color: colors.veryDarkGray,
-        textAlign: 'justify',
-    },
+        textAlign: 'justify'
+    }
 });
+
+const Container = styled(View)`
+    flex: 1;
+    justify-content: flex-start;
+    display: flex;
+    padding-horizontal: 5;
+    background-color: ${props => props.theme?.backgroundColor};
+`;
+
+export { styles, Container };
