@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { AssetImage } from '../AssetImage';
 import { styles } from './styles';
 import { CtButton } from '../Button';
 import { BUTTON_TYPE } from '@/constants';
+import { Text } from '../Text';
 
 type IProps = {
     title: String,
@@ -11,6 +12,7 @@ type IProps = {
     image: String,
     buttonTitle: String,
     buttonPress: Function,
+    theme: any
 };
 export const Empty = ({
     title,
@@ -18,18 +20,36 @@ export const Empty = ({
     image,
     buttonTitle,
     buttonPress,
+    theme
 }: IProps) => {
     return (
         <View style={styles.emptyContainer}>
             {image && (
-                <AssetImage imageSource={image} imageStyle={styles.emptyImage} />
+                <AssetImage
+                    imageSource={image}
+                    imageStyle={styles.emptyImage}
+                />
             )}
 
-            <Text numberOfLines={2} style={styles.emptyTitle}>
+            <Text
+                mediumSize
+                bold2
+                center
+                font-weight-600
+                numberOfLines={2}
+                color={theme?.listItem?.fifth?.color}
+                style={styles.emptyTitle}
+            >
                 {title && title}
             </Text>
 
-            <Text numberOfLines={2} style={styles.emptyDescription}>
+            <Text
+                center
+                numberOfLines={2}
+                color={theme?.text?.thirdColor}
+                style={styles.emptyDescription}
+                medium={theme?.mode === 'dark'}
+            >
                 {description && description}
             </Text>
 
@@ -42,8 +62,6 @@ export const Empty = ({
                     buttonContainerStyle={styles.emptyButton}
                 />
             )}
-
-
         </View>
     );
 };

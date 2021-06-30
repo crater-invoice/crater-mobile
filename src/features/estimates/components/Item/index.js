@@ -1,10 +1,9 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
 import { Field, change } from 'redux-form';
-
 import {
     InputField,
     CtDivider,
@@ -12,7 +11,8 @@ import {
     DefaultLayout,
     SelectField,
     CurrencyFormat,
-    RadioButtonGroup
+    RadioButtonGroup,
+    Text
 } from '@/components';
 import {
     ITEM_DISCOUNT_OPTION,
@@ -231,20 +231,22 @@ export class EstimateItem extends React.Component {
             locale,
             formValues: { quantity, price, taxes },
             navigation,
-            discountPerItem
+            discountPerItem,
+            theme
         } = this.props;
 
         const currency = navigation.getParam('currency');
+        const color = theme?.listItem?.primary?.color;
 
         return (
-            <View style={styles.amountContainer}>
+            <View style={styles.amountContainer(theme)}>
                 <View style={styles.subContainer}>
                     <View style={{ overflow: 'hidden' }}>
                         <CurrencyFormat
                             amount={price}
                             currency={currency}
                             preText={`${quantity} x `}
-                            style={styles.label}
+                            style={styles.label(theme)}
                             currencyStyle={{
                                 marginTop: isIosPlatform() ? 6.5 : 3
                             }}
@@ -258,14 +260,19 @@ export class EstimateItem extends React.Component {
                         <CurrencyFormat
                             amount={this.itemSubTotal()}
                             currency={currency}
-                            style={styles.price}
+                            style={styles.price(theme)}
+                            symbolStyle={styles.currencySymbol}
+                            currencySymbolStyle={styles.symbol(
+                                currency?.symbol?.length
+                            )}
                         />
                     </View>
                 </View>
+
                 {(discountPerItem === 'YES' || discountPerItem === '1') && (
                     <View style={styles.subContainer}>
                         <View>
-                            <Text style={styles.label}>
+                            <Text gray medium style={{ marginTop: 6 }}>
                                 {Lng.t('items.finalDiscount', { locale })}
                             </Text>
                         </View>
@@ -273,7 +280,11 @@ export class EstimateItem extends React.Component {
                             <CurrencyFormat
                                 amount={this.totalDiscount()}
                                 currency={currency}
-                                style={styles.price}
+                                style={styles.price(theme)}
+                                symbolStyle={styles.currencySymbol}
+                                currencySymbolStyle={styles.symbol(
+                                    currency?.symbol?.length
+                                )}
                             />
                         </View>
                     </View>
@@ -284,7 +295,11 @@ export class EstimateItem extends React.Component {
                         !val.compound_tax ? (
                             <View style={styles.subContainer} key={index}>
                                 <View>
-                                    <Text style={styles.label}>
+                                    <Text
+                                        color={color}
+                                        medium
+                                        style={{ marginTop: 6 }}
+                                    >
                                         {this.getTaxName(val)} ({val.percent} %)
                                     </Text>
                                 </View>
@@ -292,7 +307,11 @@ export class EstimateItem extends React.Component {
                                     <CurrencyFormat
                                         amount={this.getTaxValue(val.percent)}
                                         currency={currency}
-                                        style={styles.price}
+                                        style={styles.price(theme)}
+                                        symbolStyle={styles.currencySymbol}
+                                        currencySymbolStyle={styles.symbol(
+                                            currency?.symbol?.length
+                                        )}
                                     />
                                 </View>
                             </View>
@@ -304,7 +323,11 @@ export class EstimateItem extends React.Component {
                         val.compound_tax ? (
                             <View style={styles.subContainer}>
                                 <View>
-                                    <Text style={styles.label}>
+                                    <Text
+                                        color={color}
+                                        medium
+                                        style={{ marginTop: 6 }}
+                                    >
                                         {this.getTaxName(val)} ({val.percent} %)
                                     </Text>
                                 </View>
@@ -314,7 +337,11 @@ export class EstimateItem extends React.Component {
                                             val.percent
                                         )}
                                         currency={currency}
-                                        style={styles.price}
+                                        style={styles.price(theme)}
+                                        symbolStyle={styles.currencySymbol}
+                                        currencySymbolStyle={styles.symbol(
+                                            currency?.symbol?.length
+                                        )}
                                     />
                                 </View>
                             </View>
@@ -325,7 +352,7 @@ export class EstimateItem extends React.Component {
 
                 <View style={styles.subContainer}>
                     <View>
-                        <Text style={styles.label}>
+                        <Text color={color} medium style={{ marginTop: 6 }}>
                             {Lng.t('items.finalAmount', { locale })}
                         </Text>
                     </View>
@@ -333,10 +360,15 @@ export class EstimateItem extends React.Component {
                         <CurrencyFormat
                             amount={this.finalAmount()}
                             currency={currency}
-                            style={styles.totalPrice}
+                            style={styles.totalPrice(theme)}
                             moneyStyle={{
                                 marginTop: isIosPlatform() ? 2 : 4.5
                             }}
+                            {...(isIosPlatform() && {
+                                currencySymbolStyle: styles.symbol(
+                                    currency?.symbol?.length
+                                )
+                            })}
                         />
                     </View>
                 </View>
@@ -385,9 +417,11 @@ export class EstimateItem extends React.Component {
             taxPerItem,
             units,
             getTaxes,
-            getItemUnits
+            getItemUnits,
+            theme
         } = this.props;
 
+        const currency = navigation.getParam('currency');
         const isCreateItem = type === ITEM_ADD;
         let itemRefs = {};
 
@@ -450,6 +484,7 @@ export class EstimateItem extends React.Component {
                                 name="price"
                                 isRequired
                                 component={InputField}
+                                leftSymbol={currency?.symbol}
                                 hint={Lng.t('items.price', { locale })}
                                 inputProps={{
                                     returnKeyType: 'next',
@@ -505,6 +540,7 @@ export class EstimateItem extends React.Component {
                                 hint={Lng.t('items.discountType', { locale })}
                                 options={ITEM_DISCOUNT_OPTION}
                                 initialValue={initialValues.discount_type}
+                                theme={theme}
                             />
 
                             <Field

@@ -2,11 +2,12 @@
 
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { Header, Text } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Header } from 'react-native-elements';
+import { AssetIcon } from '../AssetIcon';
 import styles from './styles';
 import { colors } from '@/styles';
 import { Filter } from '../Filter';
+import { Text } from '../Text';
 
 type IProps = {
     leftIcon: String,
@@ -46,43 +47,53 @@ export const CtHeader = ({
     rightIconHintStyle,
     filterProps,
     titleOnPress,
-    containerStyle
+    containerStyle,
+    leftArrow,
+    theme
 }: IProps) => {
+    const leftIconColor =
+        leftArrow === 'secondary'
+            ? theme?.icons?.primaryBgColor
+            : leftArrow === 'primary' || transparent
+            ? theme?.icons?.thirdColor
+            : theme?.icons?.primaryBgColor;
+
     const hederTitle = {
         text: title,
         style: [
             {
-                color: transparent ? colors.dark2 : colors.white,
+                color: transparent ? colors.dark2 : colors.white
             },
-            styles.title,
-            titleStyle && titleStyle,
-        ],
-    }
+            styles.title(theme),
+            titleStyle
+        ]
+    };
 
     const displayTitle = () => {
-
-        if (titleOnPress) {
-            return (
-                <TouchableOpacity
-                    onPress={() => titleOnPress()}
-                >
-                    <Text
-                        style={[
-                            {
-                                color: transparent ? colors.dark2 : colors.white,
-                            },
-                            styles.title,
-                            titleStyle && titleStyle,
-                        ]}
-                    >
-                        {title}
-                    </Text>
-                </TouchableOpacity>
-            )
+        if (!titleOnPress) {
+            return leftIcon && hederTitle;
         }
 
-        return leftIcon && hederTitle
-    }
+        return (
+            <TouchableOpacity onPress={() => titleOnPress?.()}>
+                <Text
+                    dark
+                    medium
+                    style={[
+                        {
+                            color: transparent
+                                ? theme?.icons?.thirdColor
+                                : colors.white
+                        },
+                        styles.title,
+                        titleStyle && titleStyle
+                    ]}
+                >
+                    {title}
+                </Text>
+            </TouchableOpacity>
+        );
+    };
 
     return (
         <Header
@@ -98,76 +109,89 @@ export const CtHeader = ({
                             right: 13
                         }}
                     >
-                        <Icon
+                        <AssetIcon
                             name={leftIcon}
                             size={25}
                             style={[
                                 {
                                     paddingLeft: 10,
                                     padding: 4,
-                                    color: transparent ? colors.dark2 : colors.primary,
+                                    color: leftIconColor
                                 },
-                                styles.leftIcon,
-                                leftIconStyle && leftIconStyle,
+                                leftIconStyle && leftIconStyle
                             ]}
                         />
                     </TouchableOpacity>
-                ) : hederTitle
+                ) : (
+                    hederTitle
+                )
             }
             centerComponent={displayTitle()}
-            rightComponent={!rightComponent ? (
-                <View style={styles.rightContainer}>
-                    {filterProps && (
-                        <View style={styles.filterColumn}>
-                            <Filter
-                                {...filterProps}
-                            />
-                        </View>
-                    )}
+            rightComponent={
+                !rightComponent ? (
+                    <View style={styles.rightContainer}>
+                        {filterProps && (
+                            <View style={styles.filterColumn}>
+                                <Filter {...filterProps} theme={theme} />
+                            </View>
+                        )}
 
-                    <TouchableOpacity
-                        onPress={rightIconPress && rightIconPress}
-                        hitSlop={{
-                            top: 13,
-                            left: 13,
-                            bottom: 13,
-                            right: 13
-                        }}
-                    >
-                        <View
-                            style={[styles.rightBtn, hasCircle && styles.hasCircle]}
+                        <TouchableOpacity
+                            onPress={rightIconPress && rightIconPress}
+                            hitSlop={{
+                                top: 13,
+                                left: 13,
+                                bottom: 13,
+                                right: 13
+                            }}
                         >
-                            <View>
-                                {rightIconHint && (
-                                    <Text
-                                        style={[styles.rightBtnTitle,
-                                        rightIconHintStyle && rightIconHintStyle]}
-                                    >
-                                        {rightIconHint}
-                                    </Text>
-                                )}
-                            </View>
+                            <View
+                                style={[
+                                    styles.rightBtn,
+                                    hasCircle && styles.hasCircle(theme)
+                                ]}
+                            >
+                                <View>
+                                    {rightIconHint && (
+                                        <Text
+                                            primary
+                                            style={[
+                                                styles.rightBtnTitle,
+                                                rightIconHintStyle &&
+                                                    rightIconHintStyle
+                                            ]}
+                                        >
+                                            {rightIconHint}
+                                        </Text>
+                                    )}
+                                </View>
 
-                            <View>
-                                {rightIconPress && !rightIconHint && (
-                                    <Icon
-                                        name={rightIcon}
-                                        size={18}
-                                        style={{
-                                            color: transparent && hasCircle ? colors.white : colors.primary,
-                                        }}
-                                        {...rightIconProps}
-                                    />
-                                )}
-
+                                <View>
+                                    {rightIconPress && !rightIconHint && (
+                                        <AssetIcon
+                                            name={rightIcon}
+                                            size={18}
+                                            style={{
+                                                color:
+                                                    transparent && hasCircle
+                                                        ? theme?.icons?.plus
+                                                              ?.backgroundColor
+                                                        : theme?.icons
+                                                              ?.primaryBgColor
+                                            }}
+                                            {...rightIconProps}
+                                        />
+                                    )}
+                                </View>
                             </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            ) : rightComponent
+                        </TouchableOpacity>
+                    </View>
+                ) : (
+                    rightComponent
+                )
             }
             containerStyle={[
-                styles.containerStyle,
+                styles.containerStyle(theme),
                 transparent && styles.transparent,
                 noBorder && styles.borderBottom,
                 containerStyle

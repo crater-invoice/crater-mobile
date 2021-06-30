@@ -52,19 +52,19 @@ export const styles = StyleSheet.create({
         padding: 10
     },
     title: {
-        paddingTop: 5,
-        color: colors.darkGray,
-        fontFamily: fonts.poppinsLight,
-        textAlign: 'center'
+        paddingTop: 5
     },
     label: {
-        paddingBottom: 7,
-        color: colors.secondary,
-        fontSize: 14,
-        fontFamily: fonts.poppinsMedium,
-        textAlign: 'left'
+        paddingBottom: 8,
+        marginLeft: -2
     },
     loadImage: {
         width: wp('88%')
+    },
+    uploadedImage: {
+        height: '100%'
+    },
+    uploadedFullImage: {
+        height: 110
     }
 });

@@ -1,25 +1,21 @@
-import { isIPhoneX } from '@/constants';
-import { StyleSheet } from 'react-native';
+import { isAndroidPlatform, isIPhoneX } from '@/constants';
+import { StyleSheet, View } from 'react-native';
+import styled from 'styled-components/native';
 import { colors, fonts } from '@/styles';
 
-export const styles = StyleSheet.create({
-    page: {
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 1,
-        backgroundColor: colors.veryLightGray
-    },
+const styles = StyleSheet.create({
     content: {
         flex: 1
     },
-    headerTitleStyle: {
-        fontSize: 30,
-        color: colors.dark2,
-        fontWeight: '600',
-        fontFamily: fonts.poppinsMedium,
-        textAlign: 'left'
+    header: {
+        ...(isAndroidPlatform() && { marginTop: 15 })
     },
+    headerTitleStyle: (theme, medium) => ({
+        fontSize: medium ? 17 : 30,
+        fontFamily: fonts.poppinsMedium,
+        textAlign: 'left',
+        color: theme?.header?.primary?.color
+    }),
     inputField: {
         paddingHorizontal: 20,
         paddingVertical: 0,
@@ -28,14 +24,14 @@ export const styles = StyleSheet.create({
     searchFieldContainer: {
         paddingBottom: 5
     },
-    bottomView: {
-        backgroundColor: colors.white,
+    bottomView: theme => ({
+        backgroundColor: theme?.secondaryBgColor,
+        borderColor: theme?.input?.borderColor,
         paddingVertical: 15,
         paddingHorizontal: 10,
         paddingBottom: isIPhoneX() ? 35 : 13,
-        borderTopWidth: 1,
-        borderColor: colors.lightGray
-    },
+        borderTopWidth: 1
+    }),
     columnSearch: {
         flex: 7
     },
@@ -44,3 +40,13 @@ export const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 });
+
+const Container = styled(View)`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: ${props => props.theme?.backgroundColor};
+`;
+
+export { styles, Container };

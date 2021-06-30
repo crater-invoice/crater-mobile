@@ -1,16 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { More } from '../../components/More';
-import { colors } from '@/styles';
 import { reduxForm } from 'redux-form';
 import { MORE_SEARCH } from '../../constants';
 import * as MoreAction from '../../actions';
-import { getTitleByLanguage } from '@/utils';
-import { MORE_ICON } from '@/assets';
-import { AssetSvg } from '@/components';
 
-const mapStateToProps = ({ more, global }) => ({
-    locale: global?.locale
+const mapStateToProps = ({ global }) => ({
+    locale: global?.locale,
+    theme: global?.theme
 });
 
 const mapDispatchToProps = {
@@ -29,14 +26,7 @@ const MoreContainer = connect(
 )(moreSearchReduxForm);
 
 MoreContainer.navigationOptions = () => ({
-    gesturesEnabled: false,
-    tabBarLabel: getTitleByLanguage('tabNavigation.more'),
-    tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <AssetSvg
-            name={MORE_ICON}
-            fill={focused ? colors.primary : colors.darkGray}
-        />
-    )
+    gesturesEnabled: false
 });
 
 export default MoreContainer;

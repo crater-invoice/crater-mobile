@@ -13,12 +13,6 @@ export default styles = StyleSheet.create({
         flex: 2,
         justifyContent: 'center'
     },
-    label: {
-        color: colors.secondary,
-        fontSize: 14,
-        fontFamily: fonts.poppinsMedium,
-        textAlign: 'left'
-    },
     scrollContainer: {
         minHeight: 240,
         borderWidth: 0.8,

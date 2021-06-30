@@ -1,6 +1,5 @@
 import queryString from 'query-string';
 import Lng from '@/lang/i18n';
-import { colors } from '@/styles';
 
 // Estimate Refs
 // -----------------------------------------
@@ -75,24 +74,6 @@ export const ESTIMATE_DISCOUNT_OPTION = [
         label: 'Percentage'
     }
 ];
-
-export const ESTIMATES_STATUS_BG_COLOR = {
-    DRAFT: colors.warningLight,
-    SENT: colors.warningLight2,
-    VIEWED: colors.infoLight,
-    EXPIRED: colors.dangerLight,
-    REJECTED: colors.gray2,
-    ACCEPTED: colors.successLight2
-};
-
-export const ESTIMATES_STATUS_TEXT_COLOR = {
-    DRAFT: colors.warningDark,
-    SENT: colors.warningDark2,
-    VIEWED: colors.infoDark,
-    EXPIRED: colors.dangerDark,
-    REJECTED: colors.darkGray2,
-    ACCEPTED: colors.successDark
-};
 
 export const TAB_NAME = (name, locale) => {
     return Lng.t(`estimates.tabs.${name}`, { locale });

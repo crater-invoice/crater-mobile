@@ -55,36 +55,34 @@ export class More extends React.Component {
     };
 
     render() {
-        const { locale } = this.props;
+        const { locale, theme } = this.props;
 
         return (
-            <View style={styles.container}>
-                <MainLayout
-                    headerProps={{
-                        hasCircle: false,
-                        title: Lng.t('header.more', { locale })
-                    }}
-                    bottomDivider
-                    dividerStyle={styles.dividerStyle}
-                    hasSearchField={false}
-                >
-                    <View style={styles.listViewContainer}>
-                        <ListView
-                            items={MORE_MENU(locale, Lng)}
-                            onPress={this.onSelectMenu}
-                            hasAvatar
-                            refreshing={false}
-                            leftTitleStyle={styles.listViewTitle}
-                            leftIconStyle={styles.listViewIcon}
-                            itemContainer={styles.itemContainer}
-                            rightArrowIcon
-                            listViewContainerStyle={
-                                styles.listViewScrollContainerStyle
-                            }
-                        />
-                    </View>
-                </MainLayout>
-            </View>
+            <MainLayout
+                headerProps={{
+                    hasCircle: false,
+                    title: Lng.t('header.more', { locale })
+                }}
+                bottomDivider
+                dividerStyle={styles.dividerStyle}
+                hasSearchField={false}
+            >
+                <View style={styles.listViewContainer}>
+                    <ListView
+                        items={MORE_MENU(locale, Lng)}
+                        onPress={this.onSelectMenu}
+                        hasAvatar
+                        refreshing={false}
+                        leftTitleStyle={styles.listViewTitle(theme)}
+                        leftIconStyle={styles.listViewIcon}
+                        itemContainer={styles.itemContainer}
+                        rightArrowIcon
+                        listViewContainerStyle={
+                            styles.listViewScrollContainerStyle
+                        }
+                    />
+                </View>
+            </MainLayout>
         );
     }
 }

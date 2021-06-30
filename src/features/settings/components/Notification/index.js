@@ -147,7 +147,6 @@ export class Notification extends React.Component<IProps> {
                     rightIconProps: {
                         solid: true
                     },
-                    leftIconStyle: { color: colors.dark2 },
                     rightIconPress: handleSubmit(this.onNotificationSubmit)
                 }}
                 loadingProps={{

@@ -44,6 +44,11 @@ export const definePlatformParam = (ios, android) => (isIosPlatform() ? ios : an
 
 export const defineLargeSizeParam = (large, normal) => (isIPhoneX() ? large : normal);
 
+export const isMajorScreenHeight = Dimensions.get('window').height >= 800;
+
+export const defineSize = (normal, large) =>
+    !isMajorScreenHeight ? normal : large;
+
 export const scrollToInput = ({ scrollView }, { target }) => {
     scrollView.scrollToFocusedInput(findNodeHandle(target));
 };
@@ -125,3 +130,7 @@ export const checkExpiredToken = (expiresIn) => {
 }
 
 export const majorVersionIOS = parseInt(String(Platform.Version), 10);
+
+export const capitalize = word => {
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
+};

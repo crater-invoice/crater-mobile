@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { Field } from 'redux-form';
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './styles';
 import { InputField } from '../InputField';
 import { CtButton } from '../Button';
 import { hasFieldValue } from '@/constants';
+import { Text } from '../Text';
 
 const removeItem = (fields, index, removeFirstItemOnPress) => {
     if (fields?.length === 1 && removeFirstItemOnPress) return;
@@ -76,7 +77,7 @@ export const SelectFieldOptions = props => {
         <>
             <View style={styles.row}>
                 <View style={styles.column2}>
-                    <Text style={styles.label}>Options</Text>
+                    <Text secondary h5 medium>Options</Text>
                 </View>
                 <View style={styles.column}>
                     <CtButton

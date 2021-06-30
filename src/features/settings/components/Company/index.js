@@ -160,7 +160,7 @@ export class Company extends React.Component<IProps> {
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
                     title: Lng.t('header.setting.company', { locale }),
-                    titleStyle: styles.titleStyle,
+                    withTitleStyle: styles.titleStyle,
                     placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {
@@ -182,7 +182,8 @@ export class Company extends React.Component<IProps> {
                         onChangeCallback={val => this.setState({ logo: val })}
                         uploadedFileUrl={this.state.image}
                         containerStyle={{
-                            marginTop: 15
+                            marginTop: 15,
+                            marginBottom: 5
                         }}
                         fileLoading={val => {
                             this.setState({ fileLoading: val });
@@ -324,6 +325,8 @@ export class Company extends React.Component<IProps> {
                             onSubmitEditing: handleSubmit(this.onCompanyUpdate)
                         }}
                     />
+
+                    <View style={{ marginBottom: 20 }} />
                 </View>
             </DefaultLayout>
         );

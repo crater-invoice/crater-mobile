@@ -9,26 +9,27 @@ const mapStateToProps = ({ auth, global }) => ({
     loading: auth.loading.forgetPasswordLoading,
     validation: true,
     locale: global?.locale,
+    theme: global?.theme
 });
 
 const mapDispatchToProps = {
-    sendForgotPasswordMail: AuthAction.sendForgotPasswordMail,
+    sendForgotPasswordMail: AuthAction.sendForgotPasswordMail
 };
 
 //  Redux Forms
 const forgotPasswordReduxForm = reduxForm({
     form: FORGOT_PASSWORD_FORM,
-    validate,
+    validate
 })(ForgotPassword);
 
 //  connect
 const ForgotPasswordContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(forgotPasswordReduxForm);
 
 ForgotPasswordContainer.navigationOptions = {
-    header: null,
+    header: null
 };
 
 export default ForgotPasswordContainer;

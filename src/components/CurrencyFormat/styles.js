@@ -1,4 +1,4 @@
-import { isIosPlatform } from '@/constants';
+import { isAndroidPlatform, isIosPlatform } from '@/constants';
 import { StyleSheet } from 'react-native';
 
 export const SymbolStyle = {
@@ -11,5 +11,8 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row'
+    },
+    symbol: {
+        ...(isIosPlatform() && { marginBottom: -2 })
     }
 });

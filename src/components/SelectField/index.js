@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { change } from 'redux-form';
 import Lng from '@/lang/i18n';
 import { IProps, IStates } from './type';
-import { headerTitle } from '@/styles';
+import { colors, headerTitle } from '@/styles';
 import styles from './styles';
 import { SlideModal } from '../SlideModal';
 import { FakeInput } from '../FakeInput';
@@ -419,7 +419,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         const layoutHeaderProps = {
             leftIcon: ARROW_ICON,
             leftIconPress: () => this.onToggle(),
-            titleStyle: headerTitle({}),
+            withTitleStyle: headerTitle({}),
             placement: 'center',
             rightIcon: 'plus',
             hasCircle: false,

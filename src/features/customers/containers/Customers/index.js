@@ -4,10 +4,6 @@ import { Customers } from '../../components/Customers';
 import * as CustomersAction from '../../actions';
 import { reduxForm, getFormValues } from 'redux-form';
 import { CUSTOMER_SEARCH } from '../../constants';
-import { colors } from '@/styles';
-import { getTitleByLanguage } from '@/utils';
-import { CUSTOMERS_ICON } from '@/assets';
-import { AssetSvg } from '@/components';
 
 const mapStateToProps = state => {
     const {
@@ -38,14 +34,7 @@ const CustomersContainer = connect(
 )(customerSearchReduxForm);
 
 CustomersContainer.navigationOptions = ({ navigation }) => ({
-    gesturesEnabled: false,
-    tabBarLabel: getTitleByLanguage('tabNavigation.customers'),
-    tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <AssetSvg 
-            name={CUSTOMERS_ICON}
-            fill={focused ? colors.primary : colors.darkGray}
-        />
-    )
+    gesturesEnabled: false
 });
 
 export default CustomersContainer;

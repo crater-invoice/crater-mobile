@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { TouchableOpacity, View, StatusBar } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { styles } from './styles';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { AssetIcon } from '../AssetIcon';
 import { colors } from '@/styles';
 import { isIosPlatform } from '@/constants';
 import { isDarkMode } from '@/utils';
@@ -56,7 +56,7 @@ export default class Dropdown extends Component<IProps> {
     };
 
     BUTTON_VIEW = () => {
-        const { hasIcon = true } = this.props;
+        const { hasIcon = true, theme } = this.props;
         return !hasIcon ? (
             <Fragment />
         ) : (
@@ -70,7 +70,11 @@ export default class Dropdown extends Component<IProps> {
                     right: 13
                 }}
             >
-                <Icon name={'ellipsis-h'} size={18} style={styles.iconStyle} />
+                <AssetIcon
+                    name={'ellipsis-h'}
+                    size={18}
+                    style={styles.iconStyle(theme)}
+                />
             </TouchableOpacity>
         );
     };
@@ -80,7 +84,8 @@ export default class Dropdown extends Component<IProps> {
             options,
             onPress,
             cancelButtonIndex,
-            destructiveButtonIndex
+            destructiveButtonIndex,
+            theme
         } = this.props;
         const { labelOptions, visible } = this.state;
 
@@ -90,7 +95,11 @@ export default class Dropdown extends Component<IProps> {
                     <StatusBar
                         backgroundColor={colors.secondary}
                         barStyle={
-                            isIosPlatform() ? 'dark-content' : 'light-content'
+                            theme.mode === 'dark'
+                                ? 'light-content'
+                                : isIosPlatform()
+                                ? 'dark-content'
+                                : 'light-content'
                         }
                         translucent={true}
                     />

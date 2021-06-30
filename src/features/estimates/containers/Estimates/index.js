@@ -13,18 +13,19 @@ import {
 
 const mapStateToProps = state => {
     const {
-        global: { locale },
+        global: { locale, theme },
         estimates: { estimates },
         customers: { customers }
     } = state;
 
     return {
         estimates,
-        draftEstimates: getDraftEstimatesState(estimates ?? []),
-        sentEstimates: getSentEstimatesState(estimates ?? []),
-        allEstimates: getAllEstimatesState(estimates ?? []),
+        draftEstimates: getDraftEstimatesState({ estimates, theme }),
+        sentEstimates: getSentEstimatesState({ estimates, theme }),
+        allEstimates: getAllEstimatesState({ estimates, theme }),
         customers,
         locale,
+        theme,
         formValues: getFormValues(ESTIMATE_SEARCH)(state) || {}
     };
 };

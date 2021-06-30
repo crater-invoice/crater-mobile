@@ -7,9 +7,10 @@ const mapStateToProps = ({
     settings: {
         loading: { paymentModesLoading, itemUnitsLoading }
     },
-    global: { locale }
+    global: { locale, theme }
 }) => ({
     locale,
+    theme,
     paymentModesLoading,
     itemUnitsLoading
 });

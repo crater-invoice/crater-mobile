@@ -13,26 +13,21 @@ export const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row'
     },
-    tab: {
+    tab: theme => ({
         flex: 1,
         borderBottomWidth: 2,
-        borderColor: colors.darkGray,
+        borderColor: theme?.tab?.borderColor,
         fontFamily: fonts.poppinsSemiBold,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'left'
-    },
-    selected_tab: {
+    }),
+    selected_tab: theme => ({
         borderBottomWidth: 2,
-        borderBottomColor: colors.primary
-    },
-    TabTitle: {
-        color: colors.darkGray,
-        fontFamily: fonts.poppinsSemiBold,
-        textAlign: 'left'
-    },
-    selectedTabTitle: {
-        color: colors.primary
-    }
+        borderBottomColor: theme?.tab?.borderBottomColor
+    }),
+    selectedTabTitle: theme => ({
+        color: theme?.tab?.activeColor
+    })
 });

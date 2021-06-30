@@ -1,43 +1,47 @@
 import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
+import { theme } from 'styled-tools';
+import { isIPhoneX } from '@/constants';
 
 export default StyleSheet.create({
     transparent: {
         backgroundColor: 'transparent'
     },
-    containerStyle: {
+    containerStyle: theme => ({
         borderBottomWidth: 1,
         borderColor: colors.darkGray,
-        backgroundColor: colors.white,
-        marginTop: 8
-    },
+        backgroundColor: theme?.secondaryBgColor,
+        height: isIPhoneX() ? 90 : 80,
+        paddingTop: 25,
+        ...(theme?.mode === 'dark' && {
+            borderBottomWidth: 0.5,
+            borderBottomColor: colors.dark3,
+            marginTop: 0
+        })
+    }),
     borderBottom: {
         borderBottomWidth: 0
     },
-    title: {
+    title: theme => ({
         fontSize: 17,
-        color: colors.dark,
-        fontFamily: fonts.poppinsMedium,
-        marginLeft: 10,
-        textAlign: 'left'
-    },
+        marginLeft: 10
+    }),
     rightBtn: {
         flexDirection: 'row',
         marginRight: 10
     },
-    hasCircle: {
+    hasCircle: theme => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         height: 28,
         width: 28,
         borderRadius: 16,
-        backgroundColor: colors.primary
-    },
+        backgroundColor: theme?.icons.circle.backgroundColor
+    }),
     rightBtnTitle: {
         paddingRight: 10,
-        paddingTop: 3,
-        color: colors.primary
+        paddingTop: 3
     },
     rightContainer: {
         flexDirection: 'row'

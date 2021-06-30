@@ -69,7 +69,6 @@ export class Taxes extends React.Component {
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
             title: Lng.t('header.taxes', { locale }),
-            titleStyle: styles.headerTitle,
             placement: 'center',
             rightIcon: 'plus',
             rightIconPress: () =>
@@ -77,32 +76,30 @@ export class Taxes extends React.Component {
         };
 
         return (
-            <View style={styles.container}>
-                <MainLayout
-                    headerProps={headerProps}
-                    onSearch={this.onSearch}
-                    bottomDivider
-                >
-                    <View style={styles.listViewContainer}>
-                        <InfiniteScroll
-                            getItems={getTaxes}
-                            reference={ref => (this.scrollViewReference = ref)}
-                            getItemsInMount={false}
-                        >
-                            <ListView
-                                items={taxTypes}
-                                onPress={this.onSelect}
-                                isEmpty={isEmpty}
-                                bottomDivider
-                                contentContainerStyle={{ flex: 3 }}
-                                leftSubTitleStyle={itemsDescriptionStyle(45)}
-                                emptyContentProps={emptyContentProps}
-                                isAnimated
-                            />
-                        </InfiniteScroll>
-                    </View>
-                </MainLayout>
-            </View>
+            <MainLayout
+                headerProps={headerProps}
+                onSearch={this.onSearch}
+                bottomDivider
+            >
+                <View style={styles.listViewContainer}>
+                    <InfiniteScroll
+                        getItems={getTaxes}
+                        reference={ref => (this.scrollViewReference = ref)}
+                        getItemsInMount={false}
+                    >
+                        <ListView
+                            items={taxTypes}
+                            onPress={this.onSelect}
+                            isEmpty={isEmpty}
+                            bottomDivider
+                            contentContainerStyle={{ flex: 3 }}
+                            leftSubTitleStyle={itemsDescriptionStyle(45)}
+                            emptyContentProps={emptyContentProps}
+                            isAnimated
+                        />
+                    </InfiniteScroll>
+                </View>
+            </MainLayout>
         );
     }
 }

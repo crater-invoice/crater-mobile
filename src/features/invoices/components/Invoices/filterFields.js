@@ -87,7 +87,7 @@ export const invoicesFilterFields = ({ props, setFormField }) => {
             name: 'filterStatus',
             label: Lng.t('invoices.status', { locale }),
             fieldIcon: 'align-center',
-            items: FILTER_INVOICE_STATUS,
+            items: [...FILTER_INVOICE_STATUS, ...FILTER_INVOICE_PAID_STATUS],
             onChangeCallback: val => setFormField('filterStatus', val),
             defaultPickerOptions: {
                 label: Lng.t('invoices.statusPlaceholder', {
@@ -95,21 +95,6 @@ export const invoicesFilterFields = ({ props, setFormField }) => {
                 }),
                 value: ''
             },
-            containerStyle: dropdownStyle
-        },
-        {
-            name: 'paid_status',
-            label: Lng.t('invoices.paidStatus', { locale }),
-            fieldIcon: 'align-center',
-            items: FILTER_INVOICE_PAID_STATUS,
-            onChangeCallback: val => setFormField('paid_status', val),
-            defaultPickerOptions: {
-                label: Lng.t('invoices.paidStatusPlaceholder', {
-                    locale
-                }),
-                value: ''
-            },
-            onDonePress: () => filterRefs.invNumber.focus(),
             containerStyle: dropdownStyle
         }
     ];

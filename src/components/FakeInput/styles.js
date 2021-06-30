@@ -8,15 +8,12 @@ export default StyleSheet.create({
     },
     label: {
         paddingBottom: 7,
-        color: colors.dark2,
-        fontSize: 14,
-        fontFamily: fonts.poppins,
-        textAlign: 'left'
+        fontSize: 14
     },
     required: {
         color: colors.danger
     },
-    fakeInput: {
+    fakeInput: theme => ({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingTop: 10,
@@ -29,30 +26,24 @@ export default StyleSheet.create({
         }),
         paddingRight: 5,
         borderWidth: 1,
-        borderColor: colors.lightGray,
-        backgroundColor: colors.white,
+        borderColor: theme?.input?.borderColor,
+        backgroundColor: theme?.thirdBgColor,
         marginBottom: 10
-    },
-    loadingFakeInput: {
+    }),
+    loadingFakeInput: theme => ({
         paddingVertical: 11,
         borderWidth: 1,
-        borderColor: colors.lightGray,
-        backgroundColor: colors.white,
+        borderColor: theme?.input?.borderColor,
+        backgroundColor: theme?.thirdBgColor,
         marginBottom: 10
-    },
+    }),
     textValue: {
         paddingLeft: 10,
-        color: colors.secondary,
-        fontSize: 15,
-        fontFamily: fonts.poppins,
-        textAlign: 'left'
+        fontSize: 15
     },
     placeholderText: {
         paddingLeft: 10,
-        color: colors.darkGray,
-        fontSize: 15,
-        fontFamily: fonts.poppins,
-        textAlign: 'left'
+        fontSize: 15
     },
     hasRightIcon: {
         paddingRight: 15
@@ -98,16 +89,16 @@ export default StyleSheet.create({
     inputError: {
         borderColor: colors.dangerLight
     },
-    disabledSelectedValue: {
-        backgroundColor: colors.lightGray
-    },
+    disabledSelectedValue: theme => ({
+        backgroundColor: theme?.button?.disable?.bgColor
+    }),
     pickerError: {
         borderColor: colors.dangerLight,
         borderWidth: 1
     },
 
     // Prefix Auto Generate
-    prefixInput: {
+    prefixInput: theme => ({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -121,10 +112,11 @@ export default StyleSheet.create({
         }),
         paddingRight: 5,
         borderWidth: 1,
-        borderColor: colors.lightGray,
-        backgroundColor: colors.white,
+        // borderColor: colors.lightGray,
+        borderColor: theme?.input?.borderColor,
+        backgroundColor: theme?.thirdBgColor,
         marginBottom: 10
-    },
+    }),
     prefixLabelContainer: {
         marginTop: 1
     },
@@ -137,7 +129,7 @@ export default StyleSheet.create({
         paddingLeft: 0
     },
     prefixInputFieldStyle: {
-        marginTop: -14,
+        marginTop: -15,
         marginBottom: -10
     },
     prefixInputText: {
@@ -161,5 +153,28 @@ export default StyleSheet.create({
                 top: 3.5
             }
         })
-    }
+    },
+    // left Symbol
+    leftSymbol: length => ({
+        fontSize: 18,
+        fontFamily: fonts.poppinsMedium,
+        ...(length >= 3 && {
+            fontSize: 14
+        })
+    }),
+    leftSymbolView: length => ({
+        position: 'absolute',
+        zIndex: 20,
+        left: 15,
+        top: 9,
+        ...Platform.select({
+            android: {
+                left: 15,
+                top: 8
+            }
+        }),
+        ...(length >= 3 && {
+            top: 11
+        })
+    })
 });

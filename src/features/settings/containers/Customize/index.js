@@ -9,7 +9,7 @@ import { getUnitState } from '@/features/more/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale },
+        global: { locale, theme },
         settings: {
             customizes,
             paymentMethods,
@@ -35,6 +35,7 @@ const mapStateToProps = (state, { navigation }) => {
     return {
         formValues: getFormValues(CUSTOMIZE_FORM)(state) || {},
         locale,
+        theme,
         type,
         customizes,
         paymentMethods,

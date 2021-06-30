@@ -409,8 +409,8 @@
         "notes": "Notes"
     },
     "login": {
-        "email": "Enter Your Email",
-        "password": "Enter Your Password",
+        "email": "Enter your email",
+        "password": "Enter your password",
         "invalid": "Invalid Credentials"
     },
     "logout": {
@@ -711,7 +711,7 @@
         "viewPdf": "View PDF",
         "singIn": "Sign in",
         "singInGoogle": "Sign in with google",
-        "forget": "Forget Password?",
+        "forget": "Forgot Password?",
         "update": "Update",
         "updateCapital": "UPDATE",
         "chooseTemplate": "Choose Template",

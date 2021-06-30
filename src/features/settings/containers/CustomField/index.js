@@ -14,7 +14,7 @@ import { CustomField } from '../../components/CustomField';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, currency },
+        global: { locale, currency, theme },
         settings: {
             loading: {
                 customFieldLoading,
@@ -37,6 +37,7 @@ const mapStateToProps = (state, { navigation }) => {
         field,
         id,
         locale,
+        theme,
         formValues: getFormValues(CUSTOM_FIELD_FORM)(state) || {},
         initialValues:
             type === CREATE_CUSTOM_FIELD_TYPE

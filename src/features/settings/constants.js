@@ -1,4 +1,5 @@
 import { ROUTES } from '@/navigation';
+import { PercentageIcon } from '@/icons';
 
 // Forms
 // -----------------------------------------
@@ -256,8 +257,9 @@ export const SETTINGS_MENU = (locale, Lng) => {
     return [
         {
             title: Lng.t('settings.accountSettings', { locale }),
-            leftIcon: 'user',
-            iconSize: 24,
+            leftIcon: 'user-circle',
+            leftIconSolid: true,
+            iconSize: 20,
             fullItem: {
                 route: ROUTES.ACCOUNT_INFO
             }
@@ -265,7 +267,8 @@ export const SETTINGS_MENU = (locale, Lng) => {
         {
             title: Lng.t('settings.companyInformation', { locale }),
             leftIcon: 'building',
-            iconSize: 24,
+            leftIconSolid: true,
+            iconSize: 17,
             fullItem: {
                 route: ROUTES.COMPANY_INFO
             }
@@ -274,6 +277,7 @@ export const SETTINGS_MENU = (locale, Lng) => {
             title: Lng.t('settings.preference', { locale }),
             leftIcon: 'sun',
             leftIconSolid: true,
+            iconSize: 21,
             fullItem: {
                 route: ROUTES.PREFERENCES
             }
@@ -281,15 +285,16 @@ export const SETTINGS_MENU = (locale, Lng) => {
         {
             title: Lng.t('settings.LanguageAndCurrency', { locale: locale }),
             leftIcon: 'language',
-            iconSize: 21,
+            iconSize: 20,
             fullItem: {
                 route: ROUTES.LANGUAGE_AND_CURRENCY
             }
         },
         {
             title: Lng.t('settings.customize', { locale }),
-            leftIcon: 'edit',
-            iconSize: 22,
+            leftIcon: 'pen-square',
+            leftIconSolid: true,
+            iconSize: 21,
             fullItem: {
                 route: ROUTES.CUSTOMIZES
             }
@@ -297,14 +302,17 @@ export const SETTINGS_MENU = (locale, Lng) => {
         {
             title: Lng.t('settings.notification', { locale }),
             leftIcon: 'bell',
-            iconSize: 25,
+            leftIconSolid: true,
+            iconSize: 20,
             fullItem: {
                 route: ROUTES.NOTIFICATIONS
             }
         },
         {
             title: Lng.t('settings.taxes', { locale }),
-            leftIcon: 'percent',
+            leftIconSvg: PercentageIcon,
+            leftIconSolid: true,
+            iconSize: 17,
             fullItem: {
                 route: ROUTES.TAXES
             }
@@ -312,14 +320,16 @@ export const SETTINGS_MENU = (locale, Lng) => {
         {
             title: Lng.t('header.customFields', { locale }),
             leftIcon: 'cube',
+            iconSize: 20,
             fullItem: {
                 route: ROUTES.CUSTOM_FIELDS
             }
         },
         {
             title: Lng.t('settings.notes', { locale }),
-            leftIcon: 'pen-square',
-            iconSize: 24,
+            leftIcon: 'clipboard-check',
+            leftIconSolid: true,
+            iconSize: 20,
             fullItem: {
                 route: ROUTES.NOTES
             }
@@ -327,7 +337,7 @@ export const SETTINGS_MENU = (locale, Lng) => {
         {
             title: Lng.t('settings.expenseCategory', { locale }),
             leftIcon: 'clipboard-list',
-            iconSize: 24,
+            iconSize: 20,
             fullItem: {
                 route: ROUTES.CATEGORIES
             }
@@ -336,7 +346,7 @@ export const SETTINGS_MENU = (locale, Lng) => {
             title: Lng.t('settings.touchOrFaceId', { locale }),
             leftIcon: 'key',
             leftIconSolid: true,
-            iconSize: 21,
+            iconSize: 20,
             fullItem: {
                 route: ROUTES.TOUCH_OR_FACE_ID
             }
@@ -344,6 +354,7 @@ export const SETTINGS_MENU = (locale, Lng) => {
         {
             title: Lng.t('settings.endpoint', { locale }),
             leftIcon: 'link',
+            iconSize: 20,
             fullItem: {
                 route: ROUTES.ENDPOINTS_SETTINGS
             }

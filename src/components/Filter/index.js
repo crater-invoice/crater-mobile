@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Modal, TouchableOpacity, Text, Keyboard } from 'react-native';
+import { View, Modal, TouchableOpacity, Keyboard } from 'react-native';
 import { Field, reset, change } from 'redux-form';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { AssetIcon } from '../AssetIcon';
 import styles from './styles';
 import { DefaultLayout } from '../Layouts';
 import { InputField } from '../InputField';
@@ -12,6 +12,7 @@ import { DatePickerField } from '../DatePickerField';
 import { CtButton } from '../Button';
 import Lng from '@/lang/i18n';
 import { BUTTON_TYPE, isIosPlatform, isAndroidPlatform } from '@/constants';
+import { Text } from '../Text';
 
 type IProps = {
     visible: Boolean,
@@ -206,13 +207,13 @@ export class Filter extends Component<IProps> {
             selectFields,
             datePickerFields,
             locale,
-            clearFilter: { handleSubmit }
+            clearFilter: { handleSubmit },
+            theme
         } = this.props;
 
         const { visible, counter, isKeyboardVisible } = this.state;
 
         const headerView = {
-            leftIconStyle: styles.backIcon,
             title: Lng.t('header.filter', {
                 locale
             }),
@@ -224,7 +225,7 @@ export class Filter extends Component<IProps> {
             leftIconPress: () => this.onToggleFilter(),
             rightIconPress: handleSubmit(this.onSubmit),
             ...(isAndroidPlatform() && {
-                containerStyle: { marginTop: 25 }
+                containerStyle: { paddingTop: 60, height: 110 }
             }),
             ...headerProps
         };
@@ -235,16 +236,22 @@ export class Filter extends Component<IProps> {
                     onPress={() => this.onToggleFilter()}
                     activeOpacity={0.4}
                 >
-                    <Icon
+                    <AssetIcon
                         name={'filter'}
                         size={22}
-                        color={colors.primary}
+                        color={theme?.icons?.filter?.color}
                         style={styles.filterIcon}
                     />
 
                     {counter > 0 && (
-                        <View style={styles.counter}>
-                            <Text style={styles.counterText}>{counter}</Text>
+                        <View style={styles.counter(theme)}>
+                            <Text
+                                veryLightGray
+                                center
+                                style={styles.counterText}
+                            >
+                                {counter}
+                            </Text>
                         </View>
                     )}
                 </TouchableOpacity>

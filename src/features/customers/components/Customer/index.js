@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { View } from 'react-native';
+import { find } from 'lodash';
 import styles from './styles';
 import { Field, change, SubmissionError } from 'redux-form';
 import {
@@ -195,11 +196,26 @@ export class Customer extends React.Component<IProps> {
         if (action == ACTIONS_VALUE.REMOVE) this.removeCustomer();
     };
 
+    getSelectedCurrencySymbol = () => {
+        const { formValues, currencies } = this.props;
+
+        if (!isArray(currencies) || !formValues?.customer?.currency_id) {
+            return null;
+        }
+
+        const currency = find(currencies, {
+            fullItem: { id: Number(formValues?.customer?.currency_id) }
+        });
+
+        return currency?.fullItem?.symbol;
+    };
+
     render() {
         const {
             navigation,
             handleSubmit,
             locale,
+            theme,
             type,
             currencies,
             customFields,
@@ -230,12 +246,10 @@ export class Customer extends React.Component<IProps> {
         return (
             <DefaultLayout
                 headerProps={{
-                    leftIconStyle: styles.leftIcon,
                     leftIconPress: () => navigation.goBack(null),
                     title: isEditScreen
                         ? Lng.t('header.editCustomer', { locale })
                         : Lng.t('header.addCustomer', { locale }),
-                    titleStyle: styles.headerTitle,
                     placement: 'center',
                     rightIcon: !isEditScreen ? 'save' : null,
                     rightIconProps: {
@@ -335,8 +349,6 @@ export class Customer extends React.Component<IProps> {
                             displayName="name"
                             component={SelectField}
                             isInternalSearch
-                            icon="dollar-sign"
-                            rightIcon="angle-right"
                             placeholder={Lng.t('customers.currency', {
                                 locale
                             })}
@@ -351,10 +363,6 @@ export class Customer extends React.Component<IProps> {
                             }
                             headerProps={{
                                 title: Lng.t('currencies.title', { locale }),
-                                titleStyle: headerTitle({
-                                    marginLeft: -30,
-                                    marginRight: -65
-                                }),
                                 rightIconPress: null
                             }}
                             listViewProps={{
@@ -362,6 +370,12 @@ export class Customer extends React.Component<IProps> {
                                 rightTitleStyle: SymbolStyle
                             }}
                             emptyContentProps={{ contentType: 'currencies' }}
+                            fakeInputProps={{
+                                rightIcon: 'angle-right',
+                                valueStyle: styles.selectedField,
+                                placeholderStyle: styles.selectedField,
+                                leftSymbol: this.getSelectedCurrencySymbol()
+                            }}
                         />
 
                         <Field
@@ -384,10 +398,16 @@ export class Customer extends React.Component<IProps> {
                             containerStyle={styles.addressField}
                             type={type}
                             fakeInputProps={{
+                                valueStyle: styles.selectedField,
+                                placeholderStyle: styles.selectedField,
                                 color: hasObjectLength(billingAddress)
                                     ? colors.primaryLight
                                     : null
                             }}
+                            theme={theme}
+                            mainContainerStyle={
+                                theme?.mode === 'dark' && styles.line(theme)
+                            }
                         />
 
                         <Field
@@ -410,10 +430,13 @@ export class Customer extends React.Component<IProps> {
                             containerStyle={styles.addressField}
                             type={type}
                             fakeInputProps={{
+                                valueStyle: styles.selectedField,
+                                placeholderStyle: styles.selectedField,
                                 color: hasObjectLength(shippingAddress)
                                     ? colors.primaryLight
                                     : null
                             }}
+                            theme={theme}
                         />
                     </View>
 
