@@ -5,7 +5,6 @@ import { styles } from './styles';
 import { AssetIcon } from '../AssetIcon';
 import { colors } from '@/styles';
 import { isIosPlatform } from '@/constants';
-import { isDarkMode } from '@/utils';
 
 type IProps = {
     options: Array,
@@ -80,13 +79,7 @@ export default class Dropdown extends Component<IProps> {
     };
 
     render() {
-        const {
-            options,
-            onPress,
-            cancelButtonIndex,
-            destructiveButtonIndex,
-            theme
-        } = this.props;
+        const { cancelButtonIndex, destructiveButtonIndex, theme } = this.props;
         const { labelOptions, visible } = this.state;
 
         return (
@@ -110,7 +103,12 @@ export default class Dropdown extends Component<IProps> {
                 {labelOptions && (
                     <ActionSheet
                         ref={o => (this.ActionSheet = o)}
-                        tintColor={isDarkMode() ? colors.gray2 : colors.primary}
+                        tintColor={colors.primary}
+                        tintColor={
+                            theme?.mode === 'dark' && isIosPlatform()
+                                ? colors.gray2
+                                : colors.primary
+                        }
                         options={labelOptions}
                         cancelButtonIndex={cancelButtonIndex || 2}
                         destructiveButtonIndex={destructiveButtonIndex || 1}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { find } from 'lodash';
 import { Estimate } from '../../components/Estimate';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
@@ -9,6 +10,18 @@ import moment from 'moment';
 import { getTaxes, getNotes } from '@/features/settings/actions';
 import { isArray } from '@/constants';
 import { getCustomers } from '@/features/customers/actions';
+
+const getSelectedTemplate = (templates, form, isEditScreen) => {
+    if (!isEditScreen) {
+        return templates?.[0]?.name;
+    }
+
+    if (form?.template_name) {
+        return form?.template_name;
+    }
+
+    return find(templates, { id: form?.estimate_template_id })?.name;
+};
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -59,7 +72,11 @@ const mapStateToProps = (state, { navigation }) => {
                   discount_type: 'fixed',
                   discount: 0,
                   taxes: [],
-                  template_name: estimateTemplates?.[0]?.name,
+                  template_name: getSelectedTemplate(
+                      estimateTemplates,
+                      estimate,
+                      isEditScreen
+                  ),
                   notes: estimate_notes,
                   ...estimate,
                   estimate_number: isEditScreen

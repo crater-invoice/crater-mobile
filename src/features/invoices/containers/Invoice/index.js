@@ -11,7 +11,7 @@ import { getCustomers } from '@/features/customers/actions';
 import { getTaxes, getNotes } from '@/features/settings/actions';
 import { isArray } from '@/constants';
 
-export const getSelectedTemplate = (templates, form, isEditScreen) => {
+const getSelectedTemplate = (templates, form, isEditScreen) => {
     if (!isEditScreen) {
         return templates?.[0]?.name;
     }
