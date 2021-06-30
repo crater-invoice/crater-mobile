@@ -9,7 +9,7 @@ export const validate = values => {
         due_date,
         user_id,
         items,
-        invoice_template_id
+        template_name
     } = values;
 
     errors.invoice_date = getError(invoice_date, ['required']);
@@ -23,9 +23,7 @@ export const validate = values => {
 
     errors.user_id = getError(user_id, ['requiredField']);
 
-    errors.invoice_template_id = getError(invoice_template_id, [
-        'requiredField'
-    ]);
+    errors.template_name = getError(template_name, ['requiredField']);
 
     const fieldErrors = validateCustomField(values?.customFields);
     isArray(fieldErrors) && (errors.customFields = fieldErrors);

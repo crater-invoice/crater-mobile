@@ -58,7 +58,7 @@ const mapStateToProps = (state, { navigation }) => {
                   discount_type: 'fixed',
                   discount: 0,
                   taxes: [],
-                  estimate_template_id: estimateTemplates?.[0]?.id,
+                  template_name: estimateTemplates?.[0]?.name,
                   notes: estimate_notes,
                   ...estimate,
                   estimate_number: isEditScreen

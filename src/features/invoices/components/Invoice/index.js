@@ -760,7 +760,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                     />
 
                     <Field
-                        name="invoice_template_id"
+                        name="template_name"
                         templates={invoiceTemplates ?? []}
                         component={TemplateField}
                         label={Lng.t('invoices.template', { locale })}

@@ -787,7 +787,7 @@ export class Estimate extends React.Component<IProps> {
                     />
 
                     <Field
-                        name="estimate_template_id"
+                        name="template_name"
                         templates={estimateTemplates}
                         component={TemplateField}
                         label={Lng.t('estimates.template', { locale })}
