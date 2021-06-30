@@ -2,25 +2,21 @@ import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
 
 export const styles = StyleSheet.create({
-    modalViewContainer: {
+    modalViewContainer: theme => ({
         borderTopWidth: 10,
         borderTopColor: colors.primary,
-        backgroundColor: colors.white,
+        backgroundColor: theme.secondaryBgColor,
         paddingHorizontal: 15,
         paddingVertical: 15,
         marginHorizontal: 17
-    },
+    }),
     heading: {
-        color: colors.dark2,
-        fontFamily: fonts.poppins,
-        fontSize: 17,
-        textAlign: 'left'
+        fontSize: 17
     },
     // row
-    rowViewContainer: {
-        // flex: 1,
+    rowViewContainer: theme => ({
         flexDirection: 'row'
-    },
+    }),
     rowView: {
         flex: 1
     },

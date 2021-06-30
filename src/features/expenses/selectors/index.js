@@ -12,15 +12,15 @@ const formatExpenseItems = (expenses, currency) =>
                 : '',
             subtitle: { title: user_name },
             amount,
-            ...currency,
+            currency,
             rightSubtitle: formattedExpenseDate,
             fullItem: expense
         };
     });
 
 const getExpensesState = createSelector(
-    expenses => expenses,
-    currency => currency,
+    state => state.expenses,
+    state => state.currency,
     (expenses, currency) =>
         !hasLength(expenses) ? [] : formatExpenseItems(expenses, currency)
 );

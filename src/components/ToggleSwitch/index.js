@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Switch, View, Text } from 'react-native';
+import { Switch as RNSwitch, View } from 'react-native';
+import { connect } from 'react-redux';
 import { colors } from '@/styles';
 import { styles } from './styles';
+import { Text } from '../Text';
 
 type IProps = {
     input: Object,
@@ -15,7 +17,7 @@ type IProps = {
     description: String,
     switchType: String
 };
-export class ToggleSwitch extends Component<IProps> {
+class Switch extends Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {
@@ -64,7 +66,8 @@ export class ToggleSwitch extends Component<IProps> {
             descriptionStyle,
             input: { value },
             switchStyle,
-            isRequired
+            isRequired,
+            theme
         } = this.props;
 
         return (
@@ -79,16 +82,20 @@ export class ToggleSwitch extends Component<IProps> {
                 >
                     {hint && (
                         <Text
+                            h4
+                            color={theme?.text?.secondaryColor}
                             numberOfLines={2}
+                            medium={
+                                !this.props?.['title-text-default'] &&
+                                theme?.mode === 'dark'
+                            }
                             style={[styles.hint, hintStyle && hintStyle]}
                         >
                             {hint}
-                            {isRequired ? (
-                                <Text style={styles.required}> *</Text>
-                            ) : null}
+                            {isRequired ? <Text danger> *</Text> : null}
                         </Text>
                     )}
-                    <Switch
+                    <RNSwitch
                         ios_backgroundColor={colors.darkGray}
                         thumbColor={colors.white}
                         trackColor={{
@@ -100,21 +107,23 @@ export class ToggleSwitch extends Component<IProps> {
                         style={[styles.switchStyle, switchStyle && switchStyle]}
                     />
                 </View>
-                {description && (
+                {description ? (
                     <View style={styles.descriptionContainer}>
                         <Text
-                            style={[
-                                styles.description,
-                                descriptionStyle && descriptionStyle
-                            ]}
+                            color={theme?.icons?.primaryColor}
+                            h5
+                            style={descriptionStyle}
                         >
                             {description}
                         </Text>
                     </View>
-                )}
+                ) : null}
             </View>
         );
     }
 }
 
-export default ToggleSwitch;
+export const ToggleSwitch = connect(
+    ({ global }) => ({ theme: global?.theme }),
+    {}
+)(Switch);

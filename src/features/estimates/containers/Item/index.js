@@ -11,7 +11,7 @@ import { getUnitState } from '@/features/more/selectors';
 const mapStateToProps = (state, { navigation }) => {
     const {
         estimates: { loading },
-        global: { locale, taxTypes },
+        global: { locale, taxTypes, theme },
         settings: {
             units,
             loading: { itemUnitsLoading }
@@ -36,6 +36,7 @@ const mapStateToProps = (state, { navigation }) => {
         taxTypes,
         currency: navigation.getParam('currency'),
         locale,
+        theme,
         discountPerItem,
         taxPerItem,
         type,

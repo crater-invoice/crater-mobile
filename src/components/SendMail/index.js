@@ -254,7 +254,8 @@ class SendMailComponent extends Component<IProps> {
             handleSubmit,
             headerTitle = '',
             locale,
-            formValues
+            formValues,
+            theme
         } = this.props;
         const {
             visible,
@@ -292,6 +293,7 @@ class SendMailComponent extends Component<IProps> {
                             !getMailConfigApiCalled,
                         style: styles.loadingContainer
                     }}
+                    theme={theme}
                 >
                     {this.Screen()}
                 </Content>
@@ -303,7 +305,8 @@ class SendMailComponent extends Component<IProps> {
 const mapStateToProps = state => {
     return {
         locale: state?.global?.locale,
-        formValues: getFormValues(MAIL_FORM)(state) || {}
+        formValues: getFormValues(MAIL_FORM)(state) || {},
+        theme: state?.global?.theme
     };
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { find } from 'lodash';
 import { Invoice } from '../../components/Invoice';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
@@ -10,9 +11,21 @@ import { getCustomers } from '@/features/customers/actions';
 import { getTaxes, getNotes } from '@/features/settings/actions';
 import { isArray } from '@/constants';
 
+export const getSelectedTemplate = (templates, form, isEditScreen) => {
+    if (!isEditScreen) {
+        return templates?.[0]?.name;
+    }
+
+    if (form?.template_name) {
+        return form?.template_name;
+    }
+
+    return find(templates, { id: form?.invoice_template_id })?.name;
+};
+
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, taxTypes, currency },
+        global: { locale, taxTypes, currency, theme },
         invoices: { loading, invoiceItems, invoiceData, items },
         customers: { customers },
         settings: { notes, customFields }
@@ -49,6 +62,7 @@ const mapStateToProps = (state, { navigation }) => {
         formValues: getFormValues(INVOICE_FORM)(state) || {},
         taxTypes,
         currency,
+        theme,
         customFields,
         id,
         initialValues: !isLoading
@@ -58,7 +72,11 @@ const mapStateToProps = (state, { navigation }) => {
                   discount_type: 'fixed',
                   discount: 0,
                   taxes: [],
-                  invoice_template_id: invoiceTemplates?.[0]?.id,
+                  template_name: getSelectedTemplate(
+                      invoiceTemplates,
+                      invoice,
+                      isEditScreen
+                  ),
                   notes: invoice_notes,
                   ...invoice,
                   invoice_number: isEditScreen

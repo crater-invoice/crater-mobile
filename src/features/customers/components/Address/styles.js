@@ -2,19 +2,19 @@ import { StyleSheet } from 'react-native';
 import { colors } from '@/styles';
 
 export default styles = StyleSheet.create({
-    container: {
+    container: theme => ({
         flex: 1,
-        backgroundColor: colors.veryLightGray,
-    },
+        backgroundColor: theme?.backgroundColor
+    }),
     submitButton: {
-        flexDirection: "row",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     handleBtn: {
-        marginHorizontal: 9,
+        marginHorizontal: 9
     },
     addressStreetField: {
-        marginTop: -20,
+        marginTop: -20
     },
     sameAsToggle: {
         color: colors.primary

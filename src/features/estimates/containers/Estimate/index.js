@@ -12,7 +12,7 @@ import { getCustomers } from '@/features/customers/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, taxTypes, currency },
+        global: { locale, taxTypes, currency, theme },
         estimates: { loading, estimateItems, estimateData, items },
         customers: { customers },
         settings: { notes, customFields }
@@ -46,6 +46,7 @@ const mapStateToProps = (state, { navigation }) => {
         customers,
         itemsLoading: loading?.itemsLoading,
         locale,
+        theme,
         formValues: getFormValues(ESTIMATE_FORM)(state) || {},
         taxTypes,
         customFields,
@@ -58,7 +59,7 @@ const mapStateToProps = (state, { navigation }) => {
                   discount_type: 'fixed',
                   discount: 0,
                   taxes: [],
-                  estimate_template_id: estimateTemplates?.[0]?.id,
+                  template_name: estimateTemplates?.[0]?.name,
                   notes: estimate_notes,
                   ...estimate,
                   estimate_number: isEditScreen

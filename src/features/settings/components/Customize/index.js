@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
@@ -12,7 +12,8 @@ import {
     CtDivider,
     Tabs,
     Editor,
-    PLACEHOLDER_TYPES
+    PLACEHOLDER_TYPES,
+    Text
 } from '@/components';
 import { CUSTOMIZE_FORM, CUSTOMIZE_TYPE, PAYMENT_TABS } from '../../constants';
 import Lng from '@/lang/i18n';
@@ -229,11 +230,15 @@ export class Customize extends React.Component<IProps> {
     };
 
     TOGGLE_FIELD_VIEW = (locale, data) => {
+        const { theme } = this.props;
         return (
             <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
                 <CtDivider dividerStyle={styles.dividerLine} />
 
-                <Text style={styles.autoGenerateHeader}>
+                <Text
+                    color={theme.header.primary.color}
+                    style={styles.autoGenerateHeader}
+                >
                     {Lng.t(data.settingLabel, { locale })}
                 </Text>
                 <Field
@@ -389,15 +394,16 @@ export class Customize extends React.Component<IProps> {
     };
 
     PAYMENT_CUSTOMIZE_TAB = () => {
-        const { locale } = this.props;
+        const { locale, theme } = this.props;
         const { activeTab, data } = this.state;
 
         return (
             <Tabs
                 activeTab={activeTab}
-                style={styles.tabs}
+                style={styles.tabs(theme)}
                 tabStyle={styles.tabView}
                 setActiveTab={this.setActiveTab}
+                theme={theme}
                 tabs={[
                     {
                         Title: PAYMENT_TABS.MODE,
@@ -451,12 +457,13 @@ export class Customize extends React.Component<IProps> {
                 headerProps={{
                     leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZES),
                     title: Lng.t(data.headerTitle, { locale }),
-                    titleStyle: headerTitle({
+                    withTitleStyle: headerTitle({
                         marginLeft: -26,
                         marginRight: -50
                     }),
                     rightIconPress: null,
-                    placement: 'center'
+                    placement: 'center',
+                    leftArrow: 'primary'
                 }}
                 bottomAction={this.BOTTOM_ACTION()}
                 loadingProps={{ is: loading }}

@@ -1,9 +1,8 @@
 import { isIosPlatform, isIPhoneX } from '@/constants';
 import { StyleSheet } from 'react-native';
-import { colors, fonts } from '@/styles';
 
 export const styles = StyleSheet.create({
-    animatedToastView: {
+    animatedToastView: theme => ({
         marginHorizontal: 22,
         paddingHorizontal: 25,
         paddingVertical: 11,
@@ -13,16 +12,13 @@ export const styles = StyleSheet.create({
         bottom: isIPhoneX() ? 130 : 100,
         left: 0,
         right: 0,
-        backgroundColor: colors.veryDarkGray,
+        backgroundColor: theme?.toast?.bgColor,
         justifyContent: 'center'
-    },
+    }),
 
     title: {
         fontSize: isIPhoneX() ? 15 : 13,
-        fontFamily: fonts.poppins,
         alignSelf: 'stretch',
-        textAlign: 'center',
-        color: colors.white,
         paddingTop: isIosPlatform() ? 1 : 3
     }
 });

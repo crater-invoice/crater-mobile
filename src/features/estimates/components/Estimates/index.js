@@ -241,7 +241,7 @@ export class Estimates extends React.Component<IProps, IStates> {
     };
 
     render() {
-        const { locale, navigation, handleSubmit } = this.props;
+        const { locale, navigation, handleSubmit, theme } = this.props;
 
         const { activeTab } = this.state;
 
@@ -308,10 +308,11 @@ export class Estimates extends React.Component<IProps, IStates> {
                     }}
                 >
                     <Tabs
-                        style={styles.Tabs}
+                        style={styles.tabs(theme)}
                         activeTab={activeTab}
                         setActiveTab={this.setActiveTab}
                         tabs={tabs}
+                        theme={theme}
                     />
                 </MainLayout>
             </View>

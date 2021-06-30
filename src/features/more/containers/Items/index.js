@@ -10,13 +10,14 @@ import { getUnitState } from '../../selectors';
 const mapStateToProps = state => {
     const {
         more: { items },
-        global: { currency, locale },
+        global: { currency, locale, theme },
         settings: { units }
     } = state;
 
     return {
         items,
         locale,
+        theme,
         currency,
         units: getUnitState(units),
         formValues: getFormValues(ITEM_SEARCH)(state) || {}

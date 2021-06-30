@@ -17,11 +17,6 @@ export const styles = StyleSheet.create({
         textAlign: 'left'
     },
     hint: {
-        color: colors.secondary,
-        fontFamily: fonts.poppins,
-        fontSize: 16,
-        marginTop: 15,
-        marginBottom: 5,
-        textAlign: 'left'
+        marginTop: 15
     }
 });

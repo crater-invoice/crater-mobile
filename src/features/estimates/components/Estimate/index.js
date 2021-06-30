@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import * as Linking from 'expo-linking';
 import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
@@ -14,7 +14,8 @@ import {
     CurrencyFormat,
     FakeInput,
     SendMail,
-    CustomField
+    CustomField,
+    Label
 } from '@/components';
 import {
     ESTIMATE_ADD,
@@ -370,7 +371,7 @@ export class Estimate extends React.Component<IProps> {
                             amount={price}
                             currency={currency}
                             preText={`${quantity} * `}
-                            style={styles.itemLeftSubTitle}
+                            style={styles.itemLeftSubTitle(this.props.theme)}
                             containerStyle={styles.itemLeftSubTitleLabel}
                         />
                     )
@@ -549,7 +550,8 @@ export class Estimate extends React.Component<IProps> {
             getCustomers,
             customers,
             formValues,
-            customFields
+            customFields,
+            theme
         } = this.props;
 
         const { currency, customerName, markAsStatus, isLoading } = this.state;
@@ -586,7 +588,7 @@ export class Estimate extends React.Component<IProps> {
                     title: isEditEstimate
                         ? Lng.t('header.editEstimate', { locale })
                         : Lng.t('header.addEstimate', { locale }),
-                    titleStyle: headerTitle({
+                    withTitleStyle: headerTitle({
                         marginLeft: -15,
                         marginRight: -15
                     }),
@@ -695,24 +697,23 @@ export class Estimate extends React.Component<IProps> {
                         reference={ref => (this.customerReference = ref)}
                     />
 
-                    <Text style={[styles.inputTextStyle, styles.label]}>
+                    <Label isRequired theme={theme} style={styles.label}>
                         {Lng.t('estimates.items', { locale })}
-                        <Text style={styles.required}> *</Text>
-                    </Text>
+                    </Label>
 
                     <ListView
                         items={this.getEstimateItemList(estimateItems)}
-                        itemContainer={styles.itemContainer}
-                        leftTitleStyle={styles.itemLeftTitle}
+                        itemContainer={styles.itemContainer(theme)}
+                        leftTitleStyle={styles.itemLeftTitle(theme)}
                         leftSubTitleLabelStyle={[
-                            styles.itemLeftSubTitle,
+                            styles.itemLeftSubTitle(theme),
                             styles.itemLeftSubTitleLabel
                         ]}
-                        leftSubTitleStyle={styles.itemLeftSubTitle}
-                        rightTitleStyle={styles.itemRightTitle}
-                        backgroundColor={colors.white}
-                        parentViewStyle={{ marginVertical: 4 }}
+                        leftSubTitleStyle={styles.itemLeftSubTitle(theme)}
+                        rightTitleStyle={styles.itemRightTitle(theme)}
+                        backgroundColor={theme.thirdBgColor}
                         onPress={this.onEditItem}
+                        parentViewStyle={{ marginVertical: 4 }}
                     />
 
                     <Field
@@ -787,7 +788,7 @@ export class Estimate extends React.Component<IProps> {
                     />
 
                     <Field
-                        name="estimate_template_id"
+                        name="template_name"
                         templates={estimateTemplates}
                         component={TemplateField}
                         label={Lng.t('estimates.template', { locale })}

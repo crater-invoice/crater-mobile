@@ -1,17 +1,23 @@
 // @flow
 
-import React, { Component } from 'react'
-import { View, KeyboardAvoidingView, ScrollView, Platform, Keyboard } from 'react-native'
-import { Field } from 'redux-form'
-import styles from './styles'
+import React from 'react';
+import {
+    View,
+    KeyboardAvoidingView,
+    ScrollView,
+    Platform,
+    Keyboard
+} from 'react-native';
+import { Field } from 'redux-form';
+import { styles, Container } from './styles';
 import {
     InputField,
     AssetImage,
     CtGradientButton,
-    CtHeader
+    CtHeader,
+    Text
 } from '@/components';
-import { Text } from 'react-native-elements'
-import { IMAGES } from '@/assets';
+import { IMAGES, LOGO } from '@/assets';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { isIPhoneX } from '@/constants';
@@ -23,21 +29,21 @@ type IProps = {
     loading: Boolean,
     socialLoading: Boolean,
     locale: String
-}
+};
 export class ForgotPassword extends React.Component<IProps> {
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
             email: '',
             isMailSended: false,
             isKeyboardVisible: false
-        }
+        };
     }
 
     componentDidMount() {
-        const { navigation } = this.props
-        goBack(MOUNT, navigation)
+        const { navigation } = this.props;
+        goBack(MOUNT, navigation);
 
         this.keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
@@ -50,14 +56,14 @@ export class ForgotPassword extends React.Component<IProps> {
     }
 
     componentWillUnmount() {
-        goBack(UNMOUNT)
+        goBack(UNMOUNT);
 
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
     }
 
     onSendMail = ({ email }) => {
-        const { sendForgotPasswordMail, navigation } = this.props
+        const { sendForgotPasswordMail, navigation } = this.props;
 
         sendForgotPasswordMail({
             email,
@@ -67,25 +73,25 @@ export class ForgotPassword extends React.Component<IProps> {
                     this.setState({
                         email,
                         isMailSended: true
-                    })
+                    });
                 }
             }
-        })
-    }
+        });
+    };
 
     resendMail = () => {
-        const { email } = this.state
-        this.onSendMail({ email })
-    }
+        const { email } = this.state;
+        this.onSendMail({ email });
+    };
 
     render() {
-        let passwordInput = {}
+        let passwordInput = {};
 
-        const { handleSubmit, navigation, loading, locale } = this.props
-        const { isMailSended, email, isKeyboardVisible } = this.state
+        const { handleSubmit, navigation, loading, locale, theme } = this.props;
+        const { isMailSended, email, isKeyboardVisible } = this.state;
 
         return (
-            <View style={styles.container}>
+            <Container>
                 {!isMailSended ? (
                     <CtHeader
                         leftIcon="angle-left"
@@ -99,6 +105,7 @@ export class ForgotPassword extends React.Component<IProps> {
                         placement="left"
                         noBorder
                         transparent
+                        theme={theme}
                     />
                 ) : (
                     <CtHeader
@@ -107,16 +114,18 @@ export class ForgotPassword extends React.Component<IProps> {
                         rightIcon="times"
                         noBorder
                         rightIconPress={() => navigation.goBack(null)}
+                        theme={theme}
                     />
                 )}
 
                 <ScrollView
                     style={{
-                        paddingTop: isKeyboardVisible && !isIPhoneX()
-                            ? '5%'
-                            : !isMailSended
-                            ? '23%'
-                            : '8%',
+                        paddingTop:
+                            isKeyboardVisible && !isIPhoneX()
+                                ? '5%'
+                                : !isMailSended
+                                ? '23%'
+                                : '8%'
                     }}
                     bounces={true}
                     showsVerticalScrollIndicator={false}
@@ -131,7 +140,7 @@ export class ForgotPassword extends React.Component<IProps> {
                         <View style={styles.main}>
                             <View style={styles.logoContainer}>
                                 <AssetImage
-                                    imageSource={IMAGES.LOGO_DARK}
+                                    imageSource={LOGO[(theme?.mode)]}
                                     imageStyle={styles.imgLogo}
                                 />
                             </View>
@@ -156,7 +165,11 @@ export class ForgotPassword extends React.Component<IProps> {
                                         }}
                                         inputContainerStyle={styles.inputField}
                                     />
-                                    <Text style={styles.forgotTextTitle}>
+                                    <Text
+                                        h5
+                                        color={theme?.viewLabel?.fourthColor}
+                                        style={styles.forgotTextTitle}
+                                    >
                                         {Lng.t('forgot.emailLabel', {
                                             locale
                                         })}
@@ -168,7 +181,11 @@ export class ForgotPassword extends React.Component<IProps> {
                                         imageSource={IMAGES.OPEN_ENVELOP}
                                         imageStyle={styles.imgLogo}
                                     />
-                                    <Text style={styles.emailSendDescription}>
+                                    <Text
+                                        h5
+                                        color={theme?.viewLabel?.fourthColor}
+                                        style={styles.emailSendDescription}
+                                    >
                                         {Lng.t('forgot.emailSendDescription', {
                                             locale
                                         })}
@@ -204,7 +221,7 @@ export class ForgotPassword extends React.Component<IProps> {
                         </View>
                     </KeyboardAvoidingView>
                 </ScrollView>
-            </View>
-        )
+            </Container>
+        );
     }
 }

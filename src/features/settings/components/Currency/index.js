@@ -1,14 +1,15 @@
 // @flow
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
     InputField,
     CtButton,
     DefaultLayout,
-    ToggleSwitch
+    ToggleSwitch,
+    Text
 } from '@/components';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import Lng from '@/lang/i18n';
@@ -120,8 +121,8 @@ export class Currency extends React.Component<IProps> {
         return (
             <View style={styles.row}>
                 <View style={styles.positionView}>
-                    <Text style={styles.textStyle}>
-                        {Lng.t('currencies.position', { locale })}
+                    <Text secondary h4>
+                        {Lng.t("currencies.position", { locale })}
                     </Text>
                 </View>
 
@@ -135,8 +136,8 @@ export class Currency extends React.Component<IProps> {
                 </View>
 
                 <View style={styles.columnRight}>
-                    <Text style={styles.textStyle}>
-                        {Lng.t('currencies.right', { locale })}
+                    <Text secondary h4>
+                        {Lng.t("currencies.right", { locale })}
                     </Text>
                 </View>
             </View>

@@ -1,14 +1,15 @@
 import { getConditionStyles } from '@/constants';
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
+import { Text } from '../Text';
 import { styles } from './styles';
-
 
 type IProps = {
     activeTab: String,
     tabs: Array<Object>,
     setActiveTab: Function,
     style: Object,
+    theme: any
 };
 
 export class Tabs extends Component<IProps> {
@@ -23,9 +24,18 @@ export class Tabs extends Component<IProps> {
     }
 
     render() {
-        const { activeTab, tabs, setActiveTab, style, tabStyle } = this.props;
+        const {
+            activeTab,
+            tabs,
+            setActiveTab,
+            style,
+            tabStyle,
+            theme
+        } = this.props;
 
-        let { render } = tabs.find(({ id, Title }) => [id, Title].includes(activeTab));
+        let { render } = tabs.find(({ id, Title }) =>
+            [id, Title].includes(activeTab)
+        );
 
         return (
             <View style={{ ...styles.container, ...style }}>
@@ -35,23 +45,32 @@ export class Tabs extends Component<IProps> {
                             key={Title}
                             activeOpacity={0.8}
                             style={getConditionStyles([
-                                styles.tab,
+                                styles.tab(theme),
                                 {
                                     condition: [Title, id].includes(activeTab),
-                                    style: styles.selected_tab,
-                                },
+                                    style: styles.selected_tab(theme)
+                                }
                             ])}
                             onPress={() => setActiveTab(Title)}
                         >
                             {typeof tabName === 'string' ? (
                                 <Text
-                                    style={[styles.TabTitle, activeTab === Title && styles.selectedTabTitle]}
+                                    color={theme?.tab?.color}
+                                    bold2
+                                    h5
+                                    style={
+                                        activeTab === Title &&
+                                        styles.selectedTabTitle(theme)
+                                    }
                                 >
                                     {tabName && tabName}
                                 </Text>
                             ) : (
-                                    tabName && tabName({ active: [tabName, id].includes(activeTab) })
-                                )}
+                                tabName &&
+                                tabName({
+                                    active: [tabName, id].includes(activeTab)
+                                })
+                            )}
                         </TouchableOpacity>
                     ))}
                 </View>
@@ -60,4 +79,3 @@ export class Tabs extends Component<IProps> {
         );
     }
 }
-

@@ -1,19 +1,11 @@
 import { StyleSheet, Platform } from 'react-native';
 import { colors, fonts } from '@/styles';
 import { isRTL } from '@/utils';
+import { isAndroidPlatform, isIosPlatform } from '@/constants';
 
 export default StyleSheet.create({
-    hint: {
-        color: colors.secondary,
-        fontSize: 14,
-        fontFamily: fonts.poppinsMedium,
-        textAlign: 'left'
-    },
     hintFocused: {
         opacity: 1
-    },
-    required: {
-        color: colors.danger
     },
     inputFieldWrapper: {
         flexShrink: 0,
@@ -24,11 +16,11 @@ export default StyleSheet.create({
         position: 'relative',
         marginTop: 6
     },
-    input: {
-        color: colors.dark2,
+    input: theme => ({
         fontSize: 16,
         paddingTop: 1,
-        fontFamily: fonts.poppins,
+        fontFamily:
+            theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium,
         textAlign: 'left',
         height: 40,
         ...Platform.select({
@@ -40,26 +32,22 @@ export default StyleSheet.create({
             writingDirection: 'rtl',
             textAlign: 'right'
         })
-    },
+    }),
     multilineField: {
         paddingHorizontal: 2,
         paddingTop: 6,
         paddingBottom: 5
     },
     inputContainerStyle: {
-        backgroundColor: 'white',
         borderWidth: 1,
-        borderColor: colors.lightGray,
-        paddingLeft: 10
+        paddingLeft: 10,
+        borderRadius: 3
     },
     containerStyle: {
         paddingHorizontal: 0
     },
     inputPassword: {
         paddingRight: 30
-    },
-    inputError: {
-        borderColor: colors.dangerLight
     },
     validation: {
         position: 'absolute',
@@ -93,9 +81,7 @@ export default StyleSheet.create({
         // borderColor: colors.white,
     },
     inputTip: {
-        color: colors.white,
         opacity: 0.5,
-        position: 'absolute',
         top: 38,
         left: 0,
         right: 0
@@ -107,17 +93,16 @@ export default StyleSheet.create({
         paddingLeft: 22
     },
     signField: {
-        position: 'absolute',
         top: 4,
         left: 0
     },
     optionsList: {
         // maxHeight: 180,
     },
-    disabledInput: {
-        backgroundColor: colors.lightGray,
+    disabledInput: theme => ({
+        backgroundColor: theme?.input?.disableBackgroundColor,
         opacity: 0.5
-    },
+    }),
     lightThemeDisabledInput: {
         color: colors.gray6
     },
@@ -135,8 +120,9 @@ export default StyleSheet.create({
     // left Symbol
     leftSymbol: {
         fontSize: 20,
-        color: colors.secondary,
-        width: '100%'
+        width: '100%',
+        fontWeight: '500',
+        ...(isAndroidPlatform() && { marginTop: 5 })
     },
     leftSymbolView: {
         height: '100%',
@@ -145,5 +131,8 @@ export default StyleSheet.create({
         alignContent: 'center',
         paddingLeft: 10,
         paddingRight: 5
+    },
+    withLeftSymbolText: {
+        paddingTop: isIosPlatform() ? 1 : 4
     }
 });

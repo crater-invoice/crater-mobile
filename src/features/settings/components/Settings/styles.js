@@ -10,19 +10,20 @@ export default styles = StyleSheet.create({
     headerContainer: {
         backgroundColor: colors.veryLightGray
     },
-    listViewTitle: {
-        fontFamily: fonts.poppins,
-        color: colors.secondary,
+    listViewTitle: theme => ({
+        fontFamily:
+            theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium,
+        color: theme?.listItem?.secondary?.color,
         marginLeft: isIPhoneX() ? 0 : -4,
         marginRight: isIPhoneX() ? 0 : -11,
         textAlign: 'left'
-    },
+    }),
     listViewContainer: {
         marginTop: 10,
         marginHorizontal: isIPhoneX() ? 0 : -5
     },
     listViewIcon: {
-        width: 25,
+        width: 26,
         textAlign: 'center'
     },
     itemContainer: {

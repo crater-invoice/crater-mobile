@@ -6,34 +6,30 @@ import { EDIT_ACCOUNT } from '../../constants';
 import * as AccountAction from '../../actions';
 import { validate } from './validation';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     const {
         settings: {
-            loading: {
-                getAccountInfoLoading,
-                editAccountInfoLoading
-            },
+            loading: { getAccountInfoLoading, editAccountInfoLoading },
             account
         },
-        global: { locale }
-    } = state
+        global: { locale, theme }
+    } = state;
 
-    let isLoading = getAccountInfoLoading || !account
-
+    let isLoading = getAccountInfoLoading || !account;
 
     return {
         isLoading,
         editAccountLoading: editAccountInfoLoading,
         locale,
-
-        initialValues: !isLoading ? {
-            name: account.name,
-            email: account.email
-        } : null
-
+        theme,
+        initialValues: !isLoading
+            ? {
+                  name: account.name,
+                  email: account.email
+              }
+            : null
     };
 };
-
 
 const mapDispatchToProps = {
     editAccount: AccountAction.editAccount,
@@ -44,17 +40,17 @@ const mapDispatchToProps = {
 //  Redux Forms
 const AccountReduxForm = reduxForm({
     form: EDIT_ACCOUNT,
-    validate,
+    validate
 })(Account);
 
 //  connect
 const AccountContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(AccountReduxForm);
 
 AccountContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default AccountContainer;

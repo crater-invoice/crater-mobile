@@ -5,22 +5,16 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 10
     },
-    label: {
-        color: colors.secondary,
-        fontSize: 14,
-        fontFamily: fonts.poppinsMedium,
-        textAlign: 'left'
-    },
     row: {
         flexDirection: 'row'
     },
     dateColumn: {
         flex: 1.2
     },
-    timeColumn: { flex: 1 },
-    required: {
-        color: colors.danger
-    },
+    timeColumn: theme => ({
+        flex: 1,
+        marginLeft: theme?.mode === 'light' ? 0 : 1
+    }),
     validation: {
         paddingVertical: 2,
         paddingHorizontal: 5,

@@ -186,7 +186,6 @@ export class Currencies extends React.Component<IProps> {
                         title: Lng.t('header.currencies', { locale }),
                         leftIcon: ARROW_ICON,
                         leftIconPress: () => navigation.goBack(null),
-                        titleStyle: styles.headerTitle,
                         rightIcon: 'plus',
                         placement: 'center',
                         rightIcon: 'plus',

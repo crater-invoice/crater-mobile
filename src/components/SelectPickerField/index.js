@@ -3,15 +3,15 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import { connect } from 'react-redux';
 
 import styles from './styles';
 import { FakeInput } from '../FakeInput';
 import FakeInputStyle from '../FakeInput/styles';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { colors } from '@/styles';
-import { isIosPlatform } from '@/constants';
-
+import { AssetIcon } from '../AssetIcon';
+import { colors, fonts } from '@/styles';
+import { isAndroidPlatform, isIosPlatform } from '@/constants';
 
 type IProps = {
     hint: string,
@@ -39,7 +39,7 @@ type IProps = {
     isFakeInput: Boolean
 };
 
-export class SelectPickerField extends Component<IProps> {
+class Picker extends Component<IProps> {
     constructor(props) {
         super(props);
         this.state = {
@@ -61,6 +61,9 @@ export class SelectPickerField extends Component<IProps> {
     }
 
     toggleIcon = () => {
+        if (isAndroidPlatform()) {
+            return;
+        }
         const { icon } = this.state;
         this.setState({
             icon: icon === 'angle-down' ? 'angle-up' : 'angle-down'
@@ -103,7 +106,8 @@ export class SelectPickerField extends Component<IProps> {
             label,
             isFakeInput,
             fakeInputValueStyle,
-            findValueByForm = true
+            findValueByForm = true,
+            theme
         } = this.props;
 
         const { icon, selectedItemValue } = this.state;
@@ -137,7 +141,7 @@ export class SelectPickerField extends Component<IProps> {
                 }}
                 style={{
                     inputIOS: {
-                        ...styles.inputIOS,
+                        ...styles.inputIOS(theme),
                         ...(disabled ? styles.disabledSelectedValue : {}),
                         ...(fakeInputContainerStyle && fakeInputContainerStyle),
                         ...(!isFakeInput && { paddingLeft: 41 })
@@ -168,7 +172,11 @@ export class SelectPickerField extends Component<IProps> {
                 }}
                 Icon={() => (
                     <View>
-                        <Icon name={icon} size={18} color={colors.darkGray} />
+                        <AssetIcon
+                            name={icon}
+                            size={18}
+                            color={colors.darkGray}
+                        />
                     </View>
                 )}
                 modalProps={{
@@ -181,18 +189,23 @@ export class SelectPickerField extends Component<IProps> {
                 {!isIosPlatform() && (
                     <View
                         style={[
-                            styles.fakeInput,
+                            styles.fakeInput(theme),
                             fakeInputContainerStyle && fakeInputContainerStyle
                         ]}
                     >
                         <Text
+                            darkGray
                             numberOfLines={1}
                             style={[
                                 FakeInputStyle.textValue,
-                                { paddingRight: 5 },
+                                styles.androidText(theme),
                                 fakeInputValueStyle && fakeInputValueStyle,
                                 !isFakeInput && { paddingLeft: 39 },
-                                !selectedValue && { color: colors.darkGray }
+                                {
+                                    color: !selectedValue
+                                        ? colors.darkGray
+                                        : theme?.text?.secondaryColor
+                                }
                             ]}
                         >
                             {!selectedLabel
@@ -201,7 +214,7 @@ export class SelectPickerField extends Component<IProps> {
                                       defaultPickerOptions.label)
                                 : selectedLabel}
                         </Text>
-                        <Icon
+                        <AssetIcon
                             name={icon}
                             size={18}
                             color={colors.darkGray}
@@ -221,17 +234,19 @@ export class SelectPickerField extends Component<IProps> {
                     label={label}
                     isRequired={isRequired}
                     values={
-                        isFakeDisplay &&
-                        (!selectedLabel
-                            ? defaultPickerOptions &&
-                              (defaultPickerOptions.displayLabel ||
-                                  defaultPickerOptions.label)
-                            : selectedLabel)
+                        isFakeDisplay
+                            ? !selectedLabel
+                                ? defaultPickerOptions &&
+                                  (defaultPickerOptions.displayLabel ||
+                                      defaultPickerOptions.label)
+                                : selectedLabel
+                            : typeof selectedValue !== 'undefined' &&
+                              selectedValue
                     }
                     fakeInput={!isFakeDisplay && pickerField}
                     fakeInputContainerStyle={
                         isFakeDisplay && {
-                            ...styles.inputIOS,
+                            ...styles.inputIOS(theme),
                             ...(disabled ? styles.disabledSelectedValue : {}),
                             ...(fakeInputContainerStyle &&
                                 fakeInputContainerStyle)
@@ -251,3 +266,12 @@ export class SelectPickerField extends Component<IProps> {
         );
     }
 }
+
+const mapStateToProps = ({ global }) => ({
+    theme: global?.theme
+});
+
+export const SelectPickerField = connect(
+    mapStateToProps,
+    {}
+)(Picker);

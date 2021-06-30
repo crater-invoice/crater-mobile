@@ -6,7 +6,8 @@ import {
     DATE_FORMAT,
     SAVE_ENDPOINT_API,
     SET_MAIL_CONFIGURATION,
-    SET_LAST_AUTO_UPDATE_DATE
+    SET_LAST_AUTO_UPDATE_DATE,
+    SWITCH_THEME
 } from '@/constants';
 import {
     SET_TAX,
@@ -17,6 +18,7 @@ import {
     SET_GLOBAL_CURRENCIES,
     SET_BIOMETRY_AUTH_TYPE
 } from '../features/settings/constants';
+import { lightTheme, darkTheme } from '@/theme';
 
 const initialState = {
     customers: [],
@@ -37,7 +39,8 @@ const initialState = {
     mailDriver: null,
     fiscalYear: '2-1',
     biometryAuthType: null,
-    lastAutoUpdateDate: null
+    lastAutoUpdateDate: null,
+    theme: darkTheme
 };
 
 export default function globalReducer(state = initialState, action) {
@@ -166,6 +169,9 @@ export default function globalReducer(state = initialState, action) {
 
         case SET_LAST_AUTO_UPDATE_DATE:
             return { ...state, lastAutoUpdateDate: payload };
+
+        case SWITCH_THEME:
+            return { ...state, theme: payload };
 
         default:
             return state;

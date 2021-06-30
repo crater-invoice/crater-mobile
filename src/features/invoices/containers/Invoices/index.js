@@ -3,21 +3,17 @@ import { connect } from 'react-redux';
 import { Invoices } from '../../components/Invoices';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as InvoicesAction from '../../actions';
-import { colors } from '@/styles';
 import { INVOICE_SEARCH } from '../../constants';
-import { INVOICES_ICON } from '@/assets';
 import { getCustomers } from '../../../customers/actions';
-import { getTitleByLanguage } from '@/utils';
 import {
     getDueInvoicesState,
     getDraftInvoicesState,
     getAllInvoicesState
 } from '../../selectors';
-import { AssetSvg } from '@/components';
 
 const mapStateToProps = state => {
     const {
-        global: { locale },
+        global: { locale, theme },
         customers: { customers },
         invoices: {
             invoices,
@@ -27,11 +23,12 @@ const mapStateToProps = state => {
 
     return {
         invoices,
-        dueInvoices: getDueInvoicesState(invoices ?? []),
-        draftInvoices: getDraftInvoicesState(invoices ?? []),
-        allInvoices: getAllInvoicesState(invoices ?? []),
+        dueInvoices: getDueInvoicesState({ invoices, theme }),
+        draftInvoices: getDraftInvoicesState({ invoices, theme }),
+        allInvoices: getAllInvoicesState({ invoices, theme }),
         loading: invoicesLoading,
         locale,
+        theme,
         customers,
         formValues: getFormValues(INVOICE_SEARCH)(state) || {}
     };
@@ -54,14 +51,7 @@ const InvoicesContainer = connect(
 )(invoiceSearchReduxForm);
 
 InvoicesContainer.navigationOptions = ({ navigation }) => ({
-    gesturesEnabled: false,
-    tabBarLabel: getTitleByLanguage('tabNavigation.invoices'),
-    tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <AssetSvg
-            name={INVOICES_ICON}
-            fill={focused ? colors.primary : colors.darkGray}
-        />
-    )
+    gesturesEnabled: false
 });
 
 export default InvoicesContainer;

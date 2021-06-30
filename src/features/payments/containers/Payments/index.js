@@ -5,12 +5,9 @@ import * as PaymentsAction from '../../actions';
 import { colors } from '@/styles';
 import { Payments } from '../../components/Payments';
 import { PAYMENT_SEARCH } from '../../constants';
-import { PAYMENTS_ICON } from '@/assets';
-import { getTitleByLanguage } from '@/utils';
 import { getPaymentsState, getPaymentMethodsState } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
 import { getPaymentModes } from '@/features/settings/actions';
-import { AssetSvg } from '@/components';
 
 const mapStateToProps = state => {
     const {
@@ -47,14 +44,7 @@ const PaymentsContainer = connect(
 )(paymentSearchReduxForm);
 
 PaymentsContainer.navigationOptions = ({ navigation }) => ({
-    gesturesEnabled: false,
-    tabBarLabel: getTitleByLanguage('tabNavigation.payments'),
-    tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <AssetSvg
-            name={PAYMENTS_ICON}
-            fill={focused ? colors.primary : colors.darkGray}
-        />
-    )
+    gesturesEnabled: false
 });
 
 export default PaymentsContainer;

@@ -4,12 +4,12 @@ import { defineLargeSizeParam, isIPhoneX, SCREEN_WIDTH } from '@/constants';
 import { colors, fonts } from '@/styles';
 
 const customStyleSheet = StyleSheet.create({
-    toggleBiometryContainer: {
-        backgroundColor: colors.white,
+    toggleBiometryContainer: theme => ({
+        backgroundColor: theme.secondaryBgColor,
         width: SCREEN_WIDTH,
         paddingVertical: 10,
         paddingHorizontal: 20
-    },
+    }),
     toggleBiometryDescription: {
         paddingHorizontal: 20,
         fontSize: 13
@@ -38,6 +38,7 @@ const Styles = {
         font-size: 22;
         font-family: ${fonts.poppinsMedium};
         text-align: center;
+        color: ${props => props.theme.viewLabel.fifthColor};
     `,
 
     SubTitle: styled(Text)`
@@ -46,14 +47,14 @@ const Styles = {
         text-align: center;
         margin-top: 15;
         text-align: center;
-        color: ${colors.dark};
+        color: ${props => props.theme.viewLabel.fifthColor};
     `,
 
     SubTitle2: styled(Text)`
         font-size: 17;
         font-family: ${fonts.poppins};
         text-align: center;
-        color: ${colors.dark};
+        color: ${props => props.theme.viewLabel.fifthColor};
     `,
 
     ScanIconView: styled(View)`
@@ -124,7 +125,7 @@ const Styles = {
         border-radius: 100;
         padding-horizontal: ${defineLargeSizeParam(20, 15)};
         padding-vertical: ${defineLargeSizeParam(20, 15)};
-        border-color: ${colors.primaryLight2};
+        border-color: ${props => props.theme.icons.circle.borderColor};
     `,
 
     CheckIconView: styled(View)`
@@ -146,6 +147,7 @@ const Styles = {
         font-family: ${fonts.poppinsMedium};
         text-align: center;
         margin-top: ${defineLargeSizeParam(50, 40)};
+        color: ${props => props.theme.text.secondaryColor};
     `,
 
     ToggleBiometryView: styled(View)`
@@ -177,14 +179,15 @@ const Styles = {
         font-size: 20;
         font-family: ${fonts.poppinsMedium};
         text-align: center;
+        color: ${props => props.theme.viewLabel.fifthColor};
     `,
 
     NotSupportedSubTitle: styled(Text)`
         font-size: 15;
         font-family: ${fonts.poppins};
         text-align: center;
-        color: ${colors.dark};
         margin-top: 3;
+        color: ${props => props.theme.viewLabel.fifthColor};
     `,
 
     CancelIconView: styled(View)`

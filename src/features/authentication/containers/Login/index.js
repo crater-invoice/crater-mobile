@@ -11,6 +11,7 @@ const mapStateToProps = ({ auth, global, settings: { account } }) => ({
     socialLoading: auth.loading && auth.loading.socialLoginLoading,
     locale: global?.locale,
     biometryAuthType: global?.biometryAuthType,
+    theme: global?.theme,
     initialValues: {
         username: hasValue(account) ? account?.email ?? '' : '',
         password: ''

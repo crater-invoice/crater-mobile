@@ -24,15 +24,10 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.white,
         left: '45%'
     },
-    title: {
-        color: colors.darkGray,
-        fontFamily: fonts.poppins,
-        textAlign: 'left'
-    },
-    withoutTitle: {
-        backgroundColor: colors.gray,
-        borderColor: colors.gray,
+    withoutTitle: theme => ({
+        backgroundColor: theme?.divider?.primaryBgColor,
+        borderColor: theme?.divider?.primaryBgColor,
         borderWidth: 0.7,
         marginBottom: 2
-    }
+    })
 });

@@ -7,7 +7,7 @@ export const validate = values => {
         estimate_date,
         estimate_number,
         expiry_date,
-        estimate_template_id,
+        template_name,
         items,
         user_id
     } = values;
@@ -26,11 +26,9 @@ export const validate = values => {
         fieldName: 'Customer'
     });
 
-    errors.estimate_template_id = getError(
-        estimate_template_id,
-        ['requiredField'],
-        { fieldName: 'Template' }
-    );
+    errors.template_name = getError(template_name, ['requiredField'], {
+        fieldName: 'Template'
+    });
 
     const fieldErrors = validateCustomField(values?.customFields);
     isArray(fieldErrors) && (errors.customFields = fieldErrors);

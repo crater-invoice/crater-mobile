@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import * as Linking from 'expo-linking';
 import * as IntentLauncher from 'expo-intent-launcher';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { connect } from 'react-redux';
+import { AssetIcon } from '../AssetIcon';
 import Constants from 'expo-constants';
 import * as DocumentPicker from 'expo-document-picker';
 import Lng from '@/lang/i18n';
@@ -16,6 +17,9 @@ import { Content } from '../Content';
 import Dropdown from '../Dropdown';
 import { IMAGES } from '@/assets';
 import { styles } from './styles';
+import { Text } from '../Text';
+import { CacheImage } from '../CacheImage';
+import { Label } from '../Label';
 
 interface IProps {
     label: String;
@@ -30,6 +34,7 @@ interface IProps {
     fileLoading: Function;
     uploadedFileUrl: String;
     uploadedFileType: String;
+    showUploadedImageAsCache: boolean;
 }
 
 interface IStates {
@@ -45,7 +50,7 @@ const ACTIONS = {
     CAMERA: 'CAMERA'
 };
 
-export class FilePicker extends Component<IProps, IStates> {
+class Picker extends Component<IProps, IStates> {
     actionSheet: any;
 
     constructor(props) {
@@ -259,15 +264,17 @@ export class FilePicker extends Component<IProps, IStates> {
             imageStyle,
             locale,
             uploadedFileType,
-            hasAvatar
+            hasAvatar,
+            showUploadedImageAsCache = true,
+            theme
         } = this.props;
 
         const fileView = (
             <View style={styles.container}>
-                <Icon
+                <AssetIcon
                     name={'file'}
                     size={50}
-                    color={colors.primary}
+                    color={theme?.icons?.secondaryBgColor}
                     style={{ opacity: 0.9 }}
                 />
             </View>
@@ -275,8 +282,18 @@ export class FilePicker extends Component<IProps, IStates> {
 
         const defaultView = (
             <View style={styles.container}>
-                <Icon name={'cloud-upload-alt'} size={23} color={colors.gray} />
-                <Text style={styles.title}>
+                <AssetIcon
+                    name={'cloud-upload-alt'}
+                    size={23}
+                    color={theme?.icons?.fourthColor}
+                />
+                <Text
+                    color={theme.tabNavigator.inActiveIconColor}
+                    h5
+                    light
+                    center
+                    style={styles.title}
+                >
                     {Lng.t('filePicker.file', { locale })}
                 </Text>
             </View>
@@ -316,7 +333,36 @@ export class FilePicker extends Component<IProps, IStates> {
         }
 
         if (uploadedFileUrl) {
-            return imageView(uploadedFileUrl);
+            if (!showUploadedImageAsCache) {
+                return imageView(uploadedFileUrl);
+            }
+
+            const getImageName = () => {
+                const split = uploadedFileUrl?.split('/') ?? [];
+                return `${split?.[split.length - 2]}-${
+                    split?.[split.length - 1]
+                }`;
+            };
+
+            const imageName = getImageName();
+
+            return hasAvatar ? (
+                <CacheImage
+                    uri={uploadedFileUrl}
+                    imageName={imageName}
+                    resizeMode="stretch"
+                    style={styles.uploadedImage}
+                />
+            ) : (
+                <View style={[styles.imageContainer, imageContainerStyle]}>
+                    <CacheImage
+                        uri={uploadedFileUrl}
+                        imageName={imageName}
+                        style={styles.uploadedFullImage}
+                        resizeMode="contain"
+                    />
+                </View>
+            );
         }
 
         if (hasAvatar) {
@@ -334,7 +380,8 @@ export class FilePicker extends Component<IProps, IStates> {
             imageContainerStyle,
             loadingContainerStyle,
             hasAvatar = false,
-            withDocument
+            withDocument,
+            theme
         } = this.props;
 
         const File = this.selectedFile();
@@ -349,7 +396,9 @@ export class FilePicker extends Component<IProps, IStates> {
 
         return (
             <View style={[styles.mainContainer, containerStyle]}>
-                {label && <Text style={styles.label}>{label}</Text>}
+                <Label theme={theme} style={styles.label}>
+                    {label}
+                </Label>
 
                 <Dropdown
                     ref={this.actionSheet}
@@ -358,6 +407,7 @@ export class FilePicker extends Component<IProps, IStates> {
                     cancelButtonIndex={withDocument ? 3 : 2}
                     destructiveButtonIndex={withDocument ? 5 : 3}
                     hasIcon={false}
+                    theme={theme}
                 />
 
                 <TouchableOpacity
@@ -370,12 +420,14 @@ export class FilePicker extends Component<IProps, IStates> {
                             hasAvatar && imageContainerStyle
                         ]}
                     >
-                        <Content loadingProps={loadingProps}>{File}</Content>
+                        <Content loadingProps={loadingProps} theme={theme}>
+                            {File}
+                        </Content>
                     </View>
 
                     {hasAvatar && (
                         <View style={styles.iconContainer}>
-                            <Icon
+                            <AssetIcon
                                 name={'camera'}
                                 size={20}
                                 color={colors.white}
@@ -387,3 +439,12 @@ export class FilePicker extends Component<IProps, IStates> {
         );
     }
 }
+
+const mapStateToProps = ({ global }) => ({
+    theme: global?.theme
+});
+
+export const FilePicker = connect(
+    mapStateToProps,
+    {}
+)(Picker);

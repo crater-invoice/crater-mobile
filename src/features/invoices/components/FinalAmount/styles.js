@@ -1,13 +1,14 @@
 import { StyleSheet, Platform } from 'react-native';
 import { colors, fonts } from '@/styles';
 import { SymbolStyle } from '@/components/CurrencyFormat/styles';
+import { isAndroidPlatform, isIosPlatform } from '@/constants';
 
 export default styles = StyleSheet.create({
     discount: {
         marginTop: 10
     },
-    selectPickerField: {
-        backgroundColor: colors.veryLightGray,
+    selectPickerField: theme => ({
+        backgroundColor: theme?.card?.primary?.bgColor,
         paddingRight: 15,
         paddingLeft: 5,
         ...Platform.select({
@@ -15,8 +16,11 @@ export default styles = StyleSheet.create({
                 paddingRight: 30
             }
         }),
-        borderLeftWidth: 0
-    },
+        borderLeftWidth: 0,
+        ...(theme?.mode === 'dark' && {
+            borderColor: colors.gray5
+        })
+    }),
     fieldStyle: {
         display: 'flex',
         minWidth: 80,
@@ -26,20 +30,15 @@ export default styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row'
     },
-    taxFakeInput: {
-        color: colors.primary,
-        textAlign: 'right',
-        fontFamily: fonts.poppinsMedium,
-        fontSize: 16
-    },
-    amountContainer: {
+    amountContainer: theme => ({
         borderWidth: 0.8,
-        borderColor: colors.lightGray,
+        borderColor: theme?.input?.borderColor,
         marginTop: 24,
         marginBottom: 10,
         padding: 20,
-        backgroundColor: colors.white
-    },
+        backgroundColor: theme?.thirdBgColor,
+        borderRadius: 3
+    }),
     subContainer: {
         flex: 1,
         flexDirection: 'row',
@@ -51,24 +50,34 @@ export default styles = StyleSheet.create({
         marginTop: 6,
         textAlign: 'left'
     },
-    subAmount: {
-        color: colors.dark2,
+    subAmount: theme => ({
+        color: theme?.listItem?.primary?.color,
+        fontSize: 16,
+        ...(theme?.mode === 'dark' && {
+            fontFamily: fonts.poppinsMedium
+        })
+    }),
+    taxAmount: theme => ({
+        color: theme?.listItem?.primary?.color,
         fontSize: 16
-    },
-    finalAmount: {
-        color: colors.primary,
+    }),
+    finalAmount: theme => ({
+        color: theme?.viewLabel?.thirdColor,
         fontSize: 18,
         fontWeight: '500',
-        fontFamily: fonts.poppinsMedium,
-        textAlign: 'left'
-    },
-    divider: {
-        backgroundColor: colors.lightGray,
-        borderColor: colors.lightGray,
+        textAlign: 'left',
+        fontFamily:
+            theme?.mode === 'light'
+                ? fonts.poppinsMedium
+                : fonts.poppinsSemiBold
+    }),
+    divider: theme => ({
+        backgroundColor: theme?.divider?.secondaryBgColor,
+        borderColor: theme?.divider?.secondaryBgColor,
         borderWidth: 0.7,
         marginTop: 10,
         marginBottom: 8
-    },
+    }),
     SelectPickerContainer: {
         marginTop: 0
     },
@@ -80,5 +89,17 @@ export default styles = StyleSheet.create({
             }
         }),
         ...SymbolStyle
-    }
+    },
+    currencySymbol: {
+        ...(isAndroidPlatform() && {
+            marginTop: -5
+        })
+    },
+    symbol: length => ({
+        ...(isIosPlatform() && { marginTop: 2 }),
+        ...(isAndroidPlatform() &&
+            length <= 3 && {
+                marginTop: -9
+            })
+    })
 });

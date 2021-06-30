@@ -296,7 +296,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
     };
 
     render() {
-        const { locale, navigation } = this.props;
+        const { locale, navigation, theme } = this.props;
         const {
             isCompatible,
             isEnrolled,
@@ -319,7 +319,8 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                     navigation.goBack(null);
                 },
                 title: Lng.t('settings.touchOrFaceId', { locale }),
-                placement: 'center'
+                placement: 'center',
+                leftArrow: 'primary'
             },
             loadingProps: { is: loading }
         };
@@ -382,8 +383,8 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                         <ScanIconView>
                             <AnimatedCircle>
                                 <AnimatedCircularProgress
-                                    backgroundColor={colors.veryLightGray}
-                                    innerBackgroundColor={colors.veryLightGray}
+                                    backgroundColor={theme.backgroundColor}
+                                    innerBackgroundColor={theme.backgroundColor}
                                     color={colors.primary}
                                     startDeg={0}
                                     endDeg={360}
@@ -404,15 +405,27 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                                     <AnimatedBounce style={bounceScale}>
                                         {isFingerprintType ? (
                                             <AssetSvg
-                                                name={FingerprintIcon()}
+                                                name={FingerprintIcon({
+                                                    stroke:
+                                                        theme.icons.biometric
+                                                            .backgroundColor
+                                                })}
                                                 width={135}
                                                 height={135}
                                                 fill="transparent"
-                                                style={{ opacity: 0.8 }}
+                                                style={{
+                                                    opacity:
+                                                        theme?.mode === 'light'
+                                                            ? 0.8
+                                                            : 0.93
+                                                }}
                                             />
                                         ) : (
                                             <AssetSvg
-                                                name={FaceIcon()}
+                                                name={FaceIcon(
+                                                    theme.icons.biometric
+                                                        .backgroundColor
+                                                )}
                                                 width={135}
                                                 height={135}
                                             />
@@ -477,11 +490,11 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
 
             return (
                 <AnimatedView style={{ opacity: this.fadeIn }}>
-                    <EnrolledIconView>
+                    <EnrolledIconView theme={theme}>
                         {isFingerprintType ? (
                             <AssetSvg
                                 name={FingerprintIcon({
-                                    stroke: colors.primary
+                                    stroke: theme.icons.circle.backgroundColor
                                 })}
                                 width={defineLargeSizeParam(130, 120)}
                                 height={defineLargeSizeParam(130, 120)}
@@ -490,7 +503,9 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                             />
                         ) : (
                             <AssetSvg
-                                name={FaceIcon(colors.primary)}
+                                name={FaceIcon(
+                                    theme.icons.circle.backgroundColor
+                                )}
                                 width={defineLargeSizeParam(125, 120)}
                                 height={defineLargeSizeParam(125, 120)}
                             />
@@ -504,14 +519,16 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                             }}
                         >
                             <AssetSvg
-                                name={CheckIcon}
+                                name={CheckIcon(
+                                    theme.icons.circle.backgroundColor
+                                )}
                                 width={defineLargeSizeParam(45, 40)}
                                 height={defineLargeSizeParam(45, 40)}
                             />
                         </AnimatedCheckIconView>
                     </EnrolledIconView>
                     <EnrolledBody>
-                        <EnrolledTitle>
+                        <EnrolledTitle theme={theme}>
                             {Lng.t('touchFaceId.activated', { locale, type })}
                         </EnrolledTitle>
 
@@ -534,7 +551,9 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                                 onChangeCallback={status => {
                                     this.disableBiometryAuthLogin();
                                 }}
-                                containerStyle={Styles.toggleBiometryContainer}
+                                containerStyle={Styles.toggleBiometryContainer(
+                                    theme
+                                )}
                                 descriptionStyle={
                                     Styles.toggleBiometryDescription
                                 }

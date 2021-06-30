@@ -52,22 +52,20 @@ export default StyleSheet.create({
     inputIconStyle: {
         marginLeft: 5
     },
-    counter: {
+    counter: theme => ({
         position: 'absolute',
         top: -9,
         right: -11,
         width: 20,
         height: 20,
         borderRadius: 20 / 2,
-        backgroundColor: colors.primary,
+        backgroundColor: theme?.icons?.filter?.color,
         borderWidth: 1.5,
-        borderColor: colors.veryLightGray,
+        borderColor: theme?.backgroundColor,
         alignItems: 'center',
         justifyContent: 'center'
-    },
+    }),
     counterText: {
-        color: colors.veryLightGray,
-        fontSize: 13,
-        textAlign: 'center'
+        fontSize: 12
     }
 });

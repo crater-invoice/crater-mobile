@@ -9,11 +9,12 @@ export default styles = StyleSheet.create({
     headerContainer: {
         backgroundColor: colors.veryLightGray
     },
-    listViewTitle: {
-        fontFamily: fonts.poppins,
-        color: colors.secondary,
+    listViewTitle: theme => ({
+        fontFamily:
+            theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium,
+        color: theme?.listItem?.secondary?.color,
         textAlign: 'left'
-    },
+    }),
     listViewContainer: {
         marginTop: 20
     },

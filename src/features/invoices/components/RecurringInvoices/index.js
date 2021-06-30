@@ -57,7 +57,7 @@ export class RecurringInvoices extends React.Component<IProps> {
 
     componentDidMount() {
         const { navigation } = this.props;
-        this.getItems({ fresh: true, q: '', type: 'UNPAID' });
+        this.getItems({ fresh: true, q: '', type: 'DUE' });
         goBack(MOUNT, navigation, { exit: true });
     }
 
@@ -160,12 +160,6 @@ export class RecurringInvoices extends React.Component<IProps> {
         return type;
     };
 
-    getFilterStatusType = filterType => {
-        let type = filterType;
-        if (type === INVOICES_TABS.DUE) type = 'UNPAID';
-        return type;
-    };
-
     onResetFilter = (tab = '') => {
         const { filter } = this.state;
 
@@ -178,7 +172,6 @@ export class RecurringInvoices extends React.Component<IProps> {
 
     onSubmitFilter = ({
         filterStatus = '',
-        paid_status = '',
         from_date = '',
         to_date = '',
         invoice_number = '',
@@ -186,7 +179,6 @@ export class RecurringInvoices extends React.Component<IProps> {
     }) => {
         if (
             filterStatus ||
-            paid_status ||
             from_date ||
             to_date ||
             invoice_number ||
@@ -210,8 +202,6 @@ export class RecurringInvoices extends React.Component<IProps> {
                     to_date
                 },
                 type: filterStatus
-                    ? this.getFilterStatusType(filterStatus)
-                    : paid_status
             });
         } else this.onResetFilter();
     };
@@ -221,7 +211,6 @@ export class RecurringInvoices extends React.Component<IProps> {
         const {
             formValues: {
                 filterStatus = '',
-                paid_status = '',
                 from_date = '',
                 to_date = '',
                 invoice_number = '',
@@ -238,9 +227,7 @@ export class RecurringInvoices extends React.Component<IProps> {
                     from_date,
                     to_date
                 },
-                type: filterStatus
-                    ? this.getFilterStatusType(filterStatus)
-                    : paid_status,
+                type: filterStatus,
                 filter: true
             });
         } else this.getItems({ type, q });
@@ -287,8 +274,7 @@ export class RecurringInvoices extends React.Component<IProps> {
                         title: Lng.t('header.recurringInvoice', { locale }),
                         placement: 'center',
                         rightIcon: 'plus',
-                        rightIconPress: () => this.onAddInvoice(),
-                        titleStyle: styles.headerTitle
+                        rightIconPress: () => this.onAddInvoice()
                     }}
                     onSearch={this.onSearch}
                     filterProps={{

@@ -13,7 +13,7 @@ import {
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, currencies, currency },
+        global: { locale, currencies, currency, theme },
         customers: { countries, loading },
         settings: { customFields }
     } = state;
@@ -25,6 +25,7 @@ const mapStateToProps = (state, { navigation }) => {
         formValues: getFormValues(CUSTOMER_FORM)(state) || {},
         type,
         locale,
+        theme,
         currencies: getStateCurrencies(currencies),
         countries,
         currency,
