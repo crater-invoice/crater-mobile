@@ -2,16 +2,16 @@ import { StyleSheet } from 'react-native';
 import { colors } from '@/styles';
 
 const styles = StyleSheet.create({
-    image: {
+    image: theme => ({
         zIndex: 3,
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
-        backgroundColor: colors.veryLightGray
-    },
-    loader: {
-        backgroundColor: colors.veryLightGray,
+        backgroundColor: theme?.backgroundColor
+    }),
+    loader: theme => ({
+        backgroundColor: theme?.backgroundColor,
         position: 'absolute',
         top: 0,
         left: 0,
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         zIndex: 3,
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    })
 });
 
 export default styles;

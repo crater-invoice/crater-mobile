@@ -6,16 +6,6 @@ export default styles = StyleSheet.create({
         paddingHorizontal: 22,
         paddingVertical: 17
     },
-    dateFieldContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        marginHorizontal: -10
-    },
-    dateField: {
-        flex: 1,
-        paddingHorizontal: 5,
-        justifyContent: 'space-between'
-    },
     inputTextStyle: {
         color: colors.dark3,
         fontFamily: fonts.poppinsMedium,

@@ -18,7 +18,7 @@ import {
     FakeInput,
     SendMail,
     CustomField,
-    PaymentModeModal
+    View as CtView
 } from '@/components';
 import {
     PAYMENT_ADD,
@@ -463,8 +463,8 @@ export class Payment extends React.Component<IProps> {
                 >
                     {isEditPayment && this.sendMailComponent()}
 
-                    <View style={styles.numberDateFieldContainer}>
-                        <View style={styles.numberDateField}>
+                    <CtView flex={1} flex-row>
+                        <CtView flex={1} justify-between>
                             <Field
                                 name={`payment.${FIELDS.DATE}`}
                                 component={DatePickerField}
@@ -476,12 +476,12 @@ export class Payment extends React.Component<IProps> {
                                 }}
                                 isRequired
                             />
-                        </View>
-
-                        <View style={styles.numberDateField}>
+                        </CtView>
+                        <CtView flex={0.07} />
+                        <CtView flex={1} justify-between>
                             {this.nextNumberView()}
-                        </View>
-                    </View>
+                        </CtView>
+                    </CtView>
 
                     <Field
                         name={`payment.${FIELDS.CUSTOMER}`}

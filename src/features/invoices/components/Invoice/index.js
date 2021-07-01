@@ -27,7 +27,8 @@ import {
     SendMail,
     CustomField,
     Text,
-    Label
+    Label,
+    View as CtView
 } from '@/components';
 import {
     INVOICE_ADD,
@@ -598,8 +599,8 @@ export class Invoice extends React.Component<IProps, IStates> {
                         !hasCompleteStatus &&
                         this.sendMailComponent()}
 
-                    <View style={styles.dateFieldContainer}>
-                        <View style={styles.dateField}>
+                    <CtView flex={1} flex-row>
+                        <CtView flex={1} justify-between>
                             <Field
                                 name={'invoice_date'}
                                 isRequired
@@ -612,8 +613,9 @@ export class Invoice extends React.Component<IProps, IStates> {
                                     this.setFormField('invoice_date', val)
                                 }
                             />
-                        </View>
-                        <View style={styles.dateField}>
+                        </CtView>
+                        <CtView flex={0.07} />
+                        <CtView flex={1} justify-between>
                             <Field
                                 name="due_date"
                                 isRequired
@@ -624,8 +626,8 @@ export class Invoice extends React.Component<IProps, IStates> {
                                     this.setFormField('due_date', val)
                                 }
                             />
-                        </View>
-                    </View>
+                        </CtView>
+                    </CtView>
 
                     <Field
                         name="invoice_number"

@@ -28,17 +28,6 @@ export default StyleSheet.create({
         fontSize: 17,
         textAlign: 'left'
     },
-    dateFieldContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        marginTop: 5,
-        marginHorizontal: -10
-    },
-    dateField: {
-        flex: 1,
-        justifyContent: 'space-between',
-        paddingHorizontal: 6
-    },
     submitButton: {
         flexDirection: 'row'
         // justifyContent: "space-between",

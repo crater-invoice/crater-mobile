@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, Modal, TouchableOpacity, Keyboard } from 'react-native';
 import { Field, reset, change } from 'redux-form';
 import { AssetIcon } from '../AssetIcon';
@@ -7,12 +7,12 @@ import { DefaultLayout } from '../Layouts';
 import { InputField } from '../InputField';
 import { SelectField } from '../SelectField';
 import { SelectPickerField } from '../SelectPickerField';
-import { colors } from '@/styles';
 import { DatePickerField } from '../DatePickerField';
 import { CtButton } from '../Button';
 import Lng from '@/lang/i18n';
 import { BUTTON_TYPE, isIosPlatform, isAndroidPlatform } from '@/constants';
 import { Text } from '../Text';
+import { View as CtView } from '../View';
 
 type IProps = {
     visible: Boolean,
@@ -120,14 +120,17 @@ export class Filter extends Component<IProps> {
             const { name } = field;
 
             return (
-                <View key={index} style={styles.dateField}>
-                    <Field
-                        name={name}
-                        component={DatePickerField}
-                        filter={true}
-                        {...field}
-                    />
-                </View>
+                <Fragment key={index}>
+                    <CtView flex={1} justify-between>
+                        <Field
+                            name={name}
+                            component={DatePickerField}
+                            filter={true}
+                            {...field}
+                        />
+                    </CtView>
+                    {index === 0 && <CtView flex={0.07} />}
+                </Fragment>
             );
         });
     };
@@ -278,10 +281,10 @@ export class Filter extends Component<IProps> {
                             <View style={styles.bodyContainer}>
                                 {selectFields && this.selectField(selectFields)}
 
-                                <View style={styles.dateFieldContainer}>
+                                <CtView flex={1} flex-row mt-5>
                                     {datePickerFields &&
                                         this.datePickerField(datePickerFields)}
-                                </View>
+                                </CtView>
 
                                 {dropdownFields &&
                                     this.dropdownField(dropdownFields)}

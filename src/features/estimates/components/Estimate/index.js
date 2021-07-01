@@ -16,7 +16,8 @@ import {
     FakeInput,
     SendMail,
     CustomField,
-    Label
+    Label,
+    View as CtView
 } from '@/components';
 import {
     ESTIMATE_ADD,
@@ -620,8 +621,8 @@ export class Estimate extends React.Component<IProps> {
                         !hasCompleteStatus &&
                         this.sendMailComponent()}
 
-                    <View style={styles.dateFieldContainer}>
-                        <View style={styles.dateField}>
+                    <CtView flex={1} flex-row>
+                        <CtView flex={1} justify-between>
                             <Field
                                 name={'estimate_date'}
                                 isRequired
@@ -634,8 +635,9 @@ export class Estimate extends React.Component<IProps> {
                                     this.setFormField('estimate_date', val)
                                 }
                             />
-                        </View>
-                        <View style={styles.dateField}>
+                        </CtView>
+                        <CtView flex={0.07} />
+                        <CtView flex={1} justify-between>
                             <Field
                                 name="expiry_date"
                                 isRequired
@@ -648,8 +650,8 @@ export class Estimate extends React.Component<IProps> {
                                     this.setFormField('expiry_date', val)
                                 }
                             />
-                        </View>
-                    </View>
+                        </CtView>
+                    </CtView>
 
                     <Field
                         name="estimate_number"

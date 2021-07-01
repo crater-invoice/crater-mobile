@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { AppState, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Appearance, AppearanceProvider } from 'react-native-appearance';
@@ -20,8 +20,6 @@ interface IState {
 }
 
 class App extends Component<{}, IState> {
-    appearanceListener: any;
-
     constructor(props) {
         super(props);
         this.state = { theme: null };
@@ -30,17 +28,26 @@ class App extends Component<{}, IState> {
     componentDidMount() {
         this.switchCurrentTheme(Appearance.getColorScheme());
         store?.dispatch?.(checkOTAUpdate());
-
-        this.appearanceListener = Appearance.addChangeListener(
-            ({ colorScheme }) => {
-                this.switchCurrentTheme(colorScheme);
-            }
-        );
+        AppState?.addEventListener?.('change', this.handleAppStateChange);
     }
 
     componentWillUnmount() {
-        this.appearanceListener?.remove?.();
+        AppState?.removeEventListener?.('change', this.handleAppStateChange);
     }
+
+    handleAppStateChange = nextAppState => {
+        try {
+            if (nextAppState !== 'active') {
+                return;
+            }
+
+            const newColorScheme = Appearance.getColorScheme();
+            const oldColorScheme = this.state?.theme?.mode;
+
+            newColorScheme !== oldColorScheme &&
+                this.switchCurrentTheme(newColorScheme);
+        } catch (e) {}
+    };
 
     switchCurrentTheme = colorScheme => {
         const theme = colorScheme === 'dark' ? darkTheme : lightTheme;

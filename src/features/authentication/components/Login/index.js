@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     Keyboard
 } from 'react-native';
-import { Field } from 'redux-form';
+import { Field, reset } from 'redux-form';
 import { styles, Container } from './styles';
 import {
     InputField,
@@ -24,6 +24,7 @@ import Lng from '@/lang/i18n';
 import { LOGO } from '@/assets';
 import { SettingIcon } from '@/icons';
 import { biometricAuthentication, STATUS_BAR_CONTENT } from '@/utils';
+import { INVOICE_SEARCH as INVOICES_FORM } from '@/features/invoices/constants';
 import {
     BIOMETRY_AUTH_TYPES,
     hasValue,
@@ -62,6 +63,7 @@ export class Login extends React.Component<IProps> {
             'keyboardDidHide',
             () => this.setState({ isKeyboardVisible: false })
         );
+        this.props.dispatch?.(reset?.(INVOICES_FORM));
     };
 
     componentWillUnmount = () => {
