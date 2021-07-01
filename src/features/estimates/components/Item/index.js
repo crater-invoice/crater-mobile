@@ -263,9 +263,7 @@ export class EstimateItem extends React.Component {
                             currency={currency}
                             style={styles.price(theme)}
                             symbolStyle={styles.currencySymbol}
-                            currencySymbolStyle={styles.symbol(
-                                currency?.symbol?.length
-                            )}
+                            currencySymbolStyle={styles.symbol(currency)}
                         />
                     </View>
                 </View>
@@ -283,9 +281,7 @@ export class EstimateItem extends React.Component {
                                 currency={currency}
                                 style={styles.price(theme)}
                                 symbolStyle={styles.currencySymbol}
-                                currencySymbolStyle={styles.symbol(
-                                    currency?.symbol?.length
-                                )}
+                                currencySymbolStyle={styles.symbol(currency)}
                             />
                         </View>
                     </View>
@@ -311,7 +307,7 @@ export class EstimateItem extends React.Component {
                                         style={styles.price(theme)}
                                         symbolStyle={styles.currencySymbol}
                                         currencySymbolStyle={styles.symbol(
-                                            currency?.symbol?.length
+                                            currency
                                         )}
                                     />
                                 </View>
@@ -341,7 +337,7 @@ export class EstimateItem extends React.Component {
                                         style={styles.price(theme)}
                                         symbolStyle={styles.currencySymbol}
                                         currencySymbolStyle={styles.symbol(
-                                            currency?.symbol?.length
+                                            currency
                                         )}
                                     />
                                 </View>
@@ -366,9 +362,7 @@ export class EstimateItem extends React.Component {
                                 marginTop: isIosPlatform() ? 2 : 4.5
                             }}
                             {...(isIosPlatform() && {
-                                currencySymbolStyle: styles.symbol(
-                                    currency?.symbol?.length
-                                )
+                                currencySymbolStyle: styles.symbol(currency)
                             })}
                         />
                     </View>

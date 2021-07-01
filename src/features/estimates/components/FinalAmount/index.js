@@ -105,9 +105,7 @@ const FinalAmount = ({ state, props }) => {
                         currency={currency}
                         style={styles.subAmount(theme)}
                         symbolStyle={styles.currencySymbol}
-                        currencySymbolStyle={styles.symbol(
-                            currency?.symbol?.length
-                        )}
+                        currencySymbolStyle={styles.symbol(currency)}
                     />
                 </View>
             </View>
@@ -190,7 +188,7 @@ const FinalAmount = ({ state, props }) => {
                                     style={styles.taxAmount(theme)}
                                     symbolStyle={styles.currencySymbol}
                                     currencySymbolStyle={styles.symbol(
-                                        currency?.symbol?.length
+                                        currency
                                     )}
                                 />
                             </View>
@@ -219,7 +217,7 @@ const FinalAmount = ({ state, props }) => {
                                     style={styles.taxAmount(theme)}
                                     symbolStyle={styles.currencySymbol}
                                     currencySymbolStyle={styles.symbol(
-                                        currency?.symbol?.length
+                                        currency
                                     )}
                                 />
                             </View>
@@ -294,9 +292,7 @@ const FinalAmount = ({ state, props }) => {
                             marginTop: isIosPlatform() ? -1.5 : -6
                         }}
                         {...(isIosPlatform() && {
-                            currencySymbolStyle: styles.symbol(
-                                currency?.symbol?.length
-                            )
+                            currencySymbolStyle: styles.symbol(currency)
                         })}
                     />
                 </View>

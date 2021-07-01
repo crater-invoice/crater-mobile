@@ -148,10 +148,10 @@ export default styles = StyleSheet.create({
             marginTop: -5
         })
     },
-    symbol: length => ({
+    symbol: currency => ({
         ...(isIosPlatform() && { marginTop: 2 }),
         ...(isAndroidPlatform() &&
-            length <= 3 && {
+            currency?.swap_currency_symbol && {
                 marginTop: -9
             })
     })
