@@ -10,15 +10,15 @@ import { EDIT_LANGUAGE_AND_CURRENCY } from '../../constants';
 const mapStateToProps = state => {
     const {
         settings: {
-            loading: { 
-                getPreferencesLoading, 
-                editPreferencesLoading, 
-                generalSettingsLoading 
+            loading: {
+                getPreferencesLoading,
+                editPreferencesLoading,
+                generalSettingsLoading
             },
             preferences,
             currencies
         },
-        global: { locale }
+        global: { locale, theme }
     } = state;
 
     let isLoading =
@@ -28,11 +28,12 @@ const mapStateToProps = state => {
 
     return {
         locale,
+        theme,
         isLoading,
         currencies,
         editPreferencesLoading,
         generalSettingsLoading,
-        formValues: getFormValues(EDIT_LANGUAGE_AND_CURRENCY)(state) || {},
+        formValues: getFormValues(EDIT_LANGUAGE_AND_CURRENCY)(state) || {}
     };
 };
 
@@ -40,7 +41,7 @@ const mapDispatchToProps = {
     getPreferences: PreferencesAction.getPreferences,
     editPreferences: PreferencesAction.editPreferences,
     clearPreferences: PreferencesAction.clearPreferences,
-    getGeneralSetting: PreferencesAction.getGeneralSetting,
+    getGeneralSetting: PreferencesAction.getGeneralSetting
 };
 
 //  Redux Forms

@@ -197,7 +197,8 @@ export class LanguageAndCurrency extends React.Component<IProps> {
             handleSubmit,
             locale,
             formValues: { currency },
-            formValues
+            formValues,
+            theme
         } = this.props;
 
         const { currencyList, languagesList } = this.state;
@@ -295,7 +296,10 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                         fakeInputProps={{
                             valueStyle: styles.selectedField,
                             placeholderStyle: styles.selectedField,
-                            leftSymbol: this.getSelectedCurrencySymbol()
+                            leftSymbol: this.getSelectedCurrencySymbol(),
+                            leftSymbolStyle: {
+                                color: theme?.icons?.secondaryColor
+                            }
                         }}
                         onSelect={val => {
                             this.setFormField('currency', val.id);
