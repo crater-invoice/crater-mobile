@@ -1,5 +1,6 @@
 import { StyleSheet, Platform } from 'react-native';
 import { colors, fonts } from '@/styles';
+import { isAndroidPlatform } from '@/constants';
 
 export default StyleSheet.create({
     container: {
@@ -131,7 +132,10 @@ export default StyleSheet.create({
     },
     prefixInputFieldStyle: {
         marginTop: -15,
-        marginBottom: -10
+        marginBottom: -10,
+        ...(isAndroidPlatform() && {
+            marginTop: -16
+        })
     },
     prefixInputText: {
         fontSize: 16.5,
