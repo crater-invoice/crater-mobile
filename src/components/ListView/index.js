@@ -68,7 +68,8 @@ class ListViewComponent extends Component<IProps> {
         label,
         labelBgColor,
         labelTextColor,
-        labelComponent
+        labelComponent,
+        labelOutlineColor
     } = {}) => {
         const {
             leftSubTitleLabelStyle,
@@ -103,14 +104,19 @@ class ListViewComponent extends Component<IProps> {
                         <View
                             style={[
                                 styles.labelInnerContainerStyle,
-                                { backgroundColor: labelBgColor }
+                                labelBgColor && {
+                                    backgroundColor: labelBgColor
+                                },
+                                labelOutlineColor && {
+                                    borderColor: labelOutlineColor
+                                },
+                                labelOutlineColor && styles.labelOutline
                             ]}
                         >
                             {labelComponent ? (
                                 labelComponent
                             ) : (
                                 <Text
-                                    upperCase
                                     h6
                                     style={[
                                         { color: labelTextColor },

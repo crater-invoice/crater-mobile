@@ -9,6 +9,7 @@ import { colors } from '@/styles';
 import { Filter } from '../Filter';
 import { Text } from '../Text';
 import { PermissionService } from '@/services';
+import { dismissKeyboard } from '@/constants';
 
 type IProps = {
     leftIcon: String,
@@ -62,6 +63,7 @@ export const CtHeader = ({
 
     const hederTitle = {
         text: title,
+        onPress: () => dismissKeyboard(),
         style: [
             {
                 color: transparent ? colors.dark2 : colors.white

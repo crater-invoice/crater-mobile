@@ -1,7 +1,7 @@
 import { StyleSheet, Platform } from 'react-native';
 import { colors, fonts } from '@/styles';
 import { isRTL } from '@/utils';
-import { isIosPlatform } from '@/constants';
+import { isAndroidPlatform, isIosPlatform } from '@/constants';
 
 export default StyleSheet.create({
     hintFocused: {
@@ -119,8 +119,10 @@ export default StyleSheet.create({
     },
     // left Symbol
     leftSymbol: {
-        fontSize: 19,
-        paddingTop: 3
+        fontSize: 20,
+        width: '100%',
+        fontWeight: '500',
+        ...(isAndroidPlatform() && { marginTop: 5 })
     },
     leftSymbolView: {
         height: '100%',

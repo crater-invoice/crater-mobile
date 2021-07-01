@@ -63,13 +63,20 @@ export const View = styled(CtView)`
            justify-content: center;
        `
    )}
+
+   ${ifProp(
+       'justify-between',
+       css`
+           justify-content: space-between;
+       `
+   )}
  
- ${ifProp(
-     'items-center',
-     css`
-         align-items: center;
-     `
- )}
+    ${ifProp(
+        'items-center',
+        css`
+            align-items: center;
+        `
+    )}
  
    ${ifProp(
        'flex-row',

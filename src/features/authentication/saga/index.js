@@ -9,7 +9,8 @@ import {
     getBootstrap,
     setGlobalBootstrap,
     saveEndpointApi,
-    setLastAutoUpdateDate
+    setLastAutoUpdateDate,
+    checkOTAUpdate as actionCheckOTAUpdate
 } from '../actions';
 import * as TYPES from '../constants';
 import { resetNavigation, ROUTES } from '@/navigation';
@@ -44,7 +45,8 @@ function* login({ payload: { params, navigation } }: any) {
         }
 
         yield put(saveIdToken({ idToken: response.token, expiresIn: null }));
-        yield put(getBootstrap());
+
+        yield put(actionCheckOTAUpdate({}));
 
         resetNavigation({
             navigation,
@@ -156,12 +158,12 @@ function* checkOTAUpdate(payloadData) {
 
         yield put(setLastAutoUpdateDate(currentDate));
 
-        // const update = yield Updates.checkForUpdateAsync();
+        const update = yield Updates.checkForUpdateAsync();
 
-        // if (update.isAvailable) {
-        //     yield Updates.fetchUpdateAsync();
-        //     yield Updates.reloadAsync();
-        // }
+        if (update.isAvailable) {
+            yield Updates.fetchUpdateAsync();
+            yield Updates.reloadAsync();
+        }
     } catch (e) {}
 }
 

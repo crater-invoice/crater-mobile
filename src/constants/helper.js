@@ -130,3 +130,7 @@ export const checkExpiredToken = (expiresIn) => {
 }
 
 export const majorVersionIOS = parseInt(String(Platform.Version), 10);
+
+export const capitalize = word => {
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
+};

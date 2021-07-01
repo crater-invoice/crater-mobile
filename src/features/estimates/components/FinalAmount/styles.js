@@ -1,7 +1,7 @@
 import { StyleSheet, Platform } from 'react-native';
 import { colors, fonts } from '@/styles';
 import { SymbolStyle } from '@/components/CurrencyFormat/styles';
-import { isAndroidPlatform } from '@/constants';
+import { isAndroidPlatform, isIosPlatform } from '@/constants';
 
 export default styles = StyleSheet.create({
     discount: {
@@ -91,5 +91,12 @@ export default styles = StyleSheet.create({
         ...(isAndroidPlatform() && {
             marginTop: -5
         })
-    }
+    },
+    symbol: currency => ({
+        ...(isIosPlatform() && { marginTop: 2 }),
+        ...(isAndroidPlatform() &&
+            currency?.swap_currency_symbol && {
+                marginTop: -9
+            })
+    })
 });

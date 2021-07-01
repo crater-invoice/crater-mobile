@@ -17,7 +17,7 @@ const mapStateToProps = state => {
     } = state;
 
     return {
-        expenses: getExpensesState(expenses, currency),
+        expenses: getExpensesState({ expenses, currency }),
         locale,
         currency,
         customers,

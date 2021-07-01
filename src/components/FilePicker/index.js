@@ -359,6 +359,7 @@ class Picker extends Component<IProps, IStates> {
                     imageName={imageName}
                     resizeMode="stretch"
                     style={styles.uploadedImage}
+                    theme={theme}
                 />
             ) : (
                 <View style={[styles.imageContainer, imageContainerStyle]}>
@@ -367,6 +368,7 @@ class Picker extends Component<IProps, IStates> {
                         imageName={imageName}
                         style={styles.uploadedFullImage}
                         resizeMode="contain"
+                        theme={theme}
                     />
                 </View>
             );

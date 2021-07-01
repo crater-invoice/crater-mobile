@@ -1,6 +1,6 @@
-import { hasLength } from '@/constants';
-import { BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR } from '@/utils';
 import { createSelector } from 'reselect';
+import { BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR } from '@/utils';
+import { capitalize, hasLength } from '@/constants';
 
 const formatEstimateItems = (estimates, theme) =>
     estimates.map(item => {
@@ -16,9 +16,18 @@ const formatEstimateItems = (estimates, theme) =>
             title: name,
             subtitle: {
                 title: estimate_number,
-                label: status,
-                labelBgColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode],
-                labelTextColor: BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode]
+                labelTextColor: BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode],
+                ...(theme.mode === 'dark'
+                    ? {
+                          label: capitalize(status),
+                          labelOutlineColor:
+                              BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
+                      }
+                    : {
+                          label: status,
+                          labelBgColor:
+                              BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
+                      })
             },
             amount: total,
             currency,

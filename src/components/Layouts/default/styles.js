@@ -1,6 +1,11 @@
 import { StyleSheet, View } from 'react-native';
 import styled from 'styled-components/native';
-import { definePlatformParam, isAndroidPlatform, isIPhoneX } from '@/constants';
+import {
+    definePlatformParam,
+    isAndroidPlatform,
+    isIosPlatform,
+    isIPhoneX
+} from '@/constants';
 import { headerTitle } from '@/styles';
 
 const styles = StyleSheet.create({
@@ -18,7 +23,11 @@ const styles = StyleSheet.create({
         borderTopWidth: 1
     }),
     header: {
-        ...(isAndroidPlatform() && { marginTop: 10 })
+        ...(isAndroidPlatform() && { marginTop: 10 }),
+        ...(isIPhoneX() && {
+            height: 100,
+            paddingTop: 40
+        })
     },
     headerTitleStyle: theme => ({
         fontSize: 17,

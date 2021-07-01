@@ -7,16 +7,6 @@ export default styles = StyleSheet.create({
         paddingHorizontal: 22,
         paddingVertical: 17
     },
-    dateFieldContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        marginHorizontal: -10
-    },
-    dateField: {
-        flex: 1,
-        justifyContent: 'space-between',
-        paddingHorizontal: 10
-    },
     amountContainer: theme => ({
         borderWidth: 0.8,
         borderColor: theme?.input?.borderColor,
@@ -73,5 +63,17 @@ export default styles = StyleSheet.create({
         ...(isAndroidPlatform() && {
             marginTop: -5
         })
-    }
+    },
+    currencySymbol: {
+        ...(isAndroidPlatform() && {
+            marginTop: -5
+        })
+    },
+    symbol: currency => ({
+        ...(isIosPlatform() && { marginTop: 2 }),
+        ...(isAndroidPlatform() &&
+            currency?.swap_currency_symbol && {
+                marginTop: -9
+            })
+    })
 });

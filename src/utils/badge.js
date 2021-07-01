@@ -7,11 +7,11 @@ export const BADGE_STATUS_BG_COLOR = {
     },
     SENT: {
         light: colors.warningLight2,
-        dark: colors.warningDark2
+        dark: colors.white9
     },
     VIEWED: {
         light: colors.infoLight,
-        dark: colors.infoDark
+        dark: colors.infoLight
     },
     OVERDUE: {
         light: colors.dangerLight,
@@ -23,7 +23,7 @@ export const BADGE_STATUS_BG_COLOR = {
     },
     COMPLETED: {
         light: colors.successLight2,
-        dark: colors.successDark
+        dark: colors.success
     },
     UNPAID: {
         light: colors.warningLight,
@@ -39,11 +39,11 @@ export const BADGE_STATUS_BG_COLOR = {
     },
     EXPIRED: {
         light: colors.dangerLight,
-        dark: colors.dangerLight
+        dark: colors.danger
     },
     REJECTED: {
         light: colors.gray2,
-        dark: colors.secondaryDark
+        dark: colors.white4
     },
     ACCEPTED: {
         light: colors.successLight2,
@@ -54,50 +54,50 @@ export const BADGE_STATUS_BG_COLOR = {
 export const BADGE_STATUS_TEXT_COLOR = {
     DRAFT: {
         light: colors.warningDark,
-        dark: colors.white
+        dark: colors.warning
     },
     SENT: {
         light: colors.warningDark2,
-        dark: colors.white
+        dark: colors.white9
     },
     VIEWED: {
         light: colors.infoDark,
-        dark: colors.white
+        dark: colors.infoLight
     },
     OVERDUE: {
         light: colors.dangerDark,
-        dark: colors.white
+        dark: colors.danger
     },
     DUE: {
         light: colors.dangerDark,
-        dark: colors.white
+        dark: colors.danger
     },
     COMPLETED: {
         light: colors.successDark,
-        dark: colors.white
+        dark: colors.success
     },
     UNPAID: {
         light: colors.warningDark,
-        dark: colors.white
+        dark: colors.warningDark
     },
     PAID: {
         light: colors.successDark,
-        dark: colors.white
+        dark: colors.success
     },
     PARTIALLY_PAID: {
         light: colors.infoDark,
-        dark: colors.white
+        dark: colors.success
     },
     EXPIRED: {
         light: colors.dangerDark,
-        dark: colors.dangerDark
+        dark: colors.danger
     },
     REJECTED: {
         light: colors.darkGray2,
-        dark: colors.white
+        dark: colors.white4
     },
     ACCEPTED: {
         light: colors.successDark,
-        dark: colors.white
+        dark: colors.success
     }
 };

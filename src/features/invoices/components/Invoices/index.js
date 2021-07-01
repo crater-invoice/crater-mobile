@@ -1,9 +1,8 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import { change } from 'redux-form';
-import { styles, Container } from './styles';
+import { styles } from './styles';
 import { All, Draft, Due } from '../Tab';
 import { invoicesFilterFields as FilterFields } from './filterFields';
 import { goBack, MOUNT } from '@/navigation';

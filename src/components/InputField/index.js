@@ -140,6 +140,7 @@ export class InputFieldComponent extends Component<IInputField> {
             leftSymbol,
             autoHeight = false,
             onError,
+            currency,
             theme
         } = this.props;
 
@@ -173,6 +174,24 @@ export class InputFieldComponent extends Component<IInputField> {
                 ]
             };
         }
+        if (isCurrencyInput && currency?.symbol) {
+            leftIconSymbol = {
+                leftIcon: (
+                    <View style={styles.leftSymbolView}>
+                        <Text
+                            color={
+                                active || hasTextLength(inputVal)
+                                    ? theme?.text?.secondaryColor
+                                    : theme?.text?.fifthColor
+                            }
+                            style={styles.leftSymbol}
+                        >
+                            {currency.symbol}
+                        </Text>
+                    </View>
+                )
+            };
+        }
         if (leftSymbol) {
             leftIconSymbol = {
                 leftIcon: (
@@ -183,7 +202,6 @@ export class InputFieldComponent extends Component<IInputField> {
                                     ? theme?.text?.secondaryColor
                                     : theme?.text?.fifthColor
                             }
-                            width
                             style={styles.leftSymbol}
                         >
                             {leftSymbol}
@@ -376,7 +394,8 @@ export class InputFieldComponent extends Component<IInputField> {
 
 const mapStateToProps = ({ global }) => ({
     locale: global?.locale,
-    theme: global?.theme
+    theme: global?.theme,
+    currency: global?.currency
 });
 
 const mapDispatchToProps = {};

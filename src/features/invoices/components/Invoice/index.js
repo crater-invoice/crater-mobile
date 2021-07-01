@@ -3,6 +3,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import * as Linking from 'expo-linking';
+import { find } from 'lodash';
 import { Field, change, SubmissionError } from 'redux-form';
 import styles from './styles';
 import { colors, itemsDescriptionStyle } from '@/styles';
@@ -25,6 +26,7 @@ import {
     SendMail,
     CustomField,
     Label,
+    View as CtView,
     ActionButton
 } from '@/components';
 import {
@@ -232,7 +234,8 @@ export class Invoice extends React.Component<IProps, IStates> {
             id,
             handleSubmit,
             initLoading,
-            withLoading
+            withLoading,
+            invoiceData: { invoiceTemplates = [] } = {}
         } = this.props;
 
         if (this.state.isLoading || initLoading || withLoading) {
@@ -266,6 +269,10 @@ export class Invoice extends React.Component<IProps, IStates> {
         if (status === 'send') {
             invoice.invoiceSend = true;
         }
+
+        invoice.invoice_template_id = find(invoiceTemplates, {
+            name: invoice?.template_name
+        })?.id;
 
         const params = {
             invoice: {
@@ -620,8 +627,8 @@ export class Invoice extends React.Component<IProps, IStates> {
                         !hasCompleteStatus &&
                         this.sendMailComponent()}
 
-                    <View style={styles.dateFieldContainer}>
-                        <View style={styles.dateField}>
+                    <CtView flex={1} flex-row>
+                        <CtView flex={1} justify-between>
                             <Field
                                 name={'invoice_date'}
                                 isRequired
@@ -635,8 +642,9 @@ export class Invoice extends React.Component<IProps, IStates> {
                                 }
                                 disabled={disabled}
                             />
-                        </View>
-                        <View style={styles.dateField}>
+                        </CtView>
+                        <CtView flex={0.07} />
+                        <CtView flex={1} justify-between>
                             <Field
                                 name="due_date"
                                 isRequired
@@ -648,8 +656,8 @@ export class Invoice extends React.Component<IProps, IStates> {
                                 }
                                 disabled={disabled}
                             />
-                        </View>
-                    </View>
+                        </CtView>
+                    </CtView>
 
                     <Field
                         name="invoice_number"

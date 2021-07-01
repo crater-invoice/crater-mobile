@@ -45,7 +45,6 @@ const Layout = ({
     theme
 }: IProps) => {
     const keyboardVerticalOffset = isIosPlatform() ? 60 : 0;
-
     return (
         <Container>
             <StatusBar

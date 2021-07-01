@@ -349,7 +349,6 @@ export class Expense extends React.Component<IProps, IState> {
                         isRequired
                         leftSymbol={currency?.symbol}
                         hint={Lng.t('expenses.amount', { locale })}
-                        leftIcon={'dollar-sign'}
                         disabled={disabled}
                         inputProps={{
                             returnKeyType: 'go',

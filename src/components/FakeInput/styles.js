@@ -29,7 +29,8 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderColor: theme?.input?.borderColor,
         backgroundColor: theme?.thirdBgColor,
-        marginBottom: 10
+        marginBottom: 10,
+        borderRadius: 3
     }),
     loadingFakeInput: theme => ({
         paddingVertical: 11,
@@ -108,16 +109,16 @@ export default StyleSheet.create({
         paddingBottom: 8,
         ...Platform.select({
             ios: {
-                paddingTop: 11,
+                paddingTop: 9,
                 paddingBottom: 9
             }
         }),
         paddingRight: 5,
         borderWidth: 1,
-        // borderColor: colors.lightGray,
         borderColor: theme?.input?.borderColor,
         backgroundColor: theme?.thirdBgColor,
-        marginBottom: 10
+        marginBottom: 10,
+        borderRadius: 3
     }),
     prefixLabelContainer: {
         marginTop: 1
@@ -134,7 +135,7 @@ export default StyleSheet.create({
         marginTop: -15,
         marginBottom: -10,
         ...(isAndroidPlatform() && {
-            marginBottom: -8
+            marginTop: -16
         })
     },
     prefixInputText: {
@@ -158,5 +159,28 @@ export default StyleSheet.create({
                 top: 3.5
             }
         })
-    }
+    },
+    // left Symbol
+    leftSymbol: length => ({
+        fontSize: 18,
+        fontFamily: fonts.poppinsMedium,
+        ...(length >= 3 && {
+            fontSize: 14
+        })
+    }),
+    leftSymbolView: length => ({
+        position: 'absolute',
+        zIndex: 20,
+        left: 15,
+        top: 9,
+        ...Platform.select({
+            android: {
+                left: 15,
+                top: 8
+            }
+        }),
+        ...(length >= 3 && {
+            top: 11
+        })
+    })
 });

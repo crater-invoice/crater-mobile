@@ -8,7 +8,10 @@ const styles = StyleSheet.create({
         flex: 1
     },
     header: {
-        ...(isAndroidPlatform() && { marginTop: 15 })
+        ...(isAndroidPlatform() && { marginTop: 15 }),
+        ...(isIosPlatform() && {
+            marginTop: isIPhoneX() ? 15 : 5
+        })
     },
     headerTitleStyle: (theme, medium) => ({
         fontSize: medium ? 17 : 30,
@@ -22,7 +25,10 @@ const styles = StyleSheet.create({
         marginVertical: 8
     },
     searchFieldContainer: {
-        paddingBottom: 5
+        paddingBottom: 5,
+        ...(isIosPlatform() && {
+            marginTop: isIPhoneX() ? -13 : -6
+        })
     },
     bottomView: theme => ({
         backgroundColor: theme?.secondaryBgColor,

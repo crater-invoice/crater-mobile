@@ -64,6 +64,8 @@ export class FakeInputComponent extends Component<IProps> {
             leftIconSolid = true,
             disabled = false,
             prefixProps = null,
+            leftSymbol,
+            leftSymbolStyle,
             theme
         } = this.props;
 
@@ -196,6 +198,32 @@ export class FakeInputComponent extends Component<IProps> {
                                     />
                                 )}
 
+                                {leftSymbol && (
+                                    <View
+                                        style={styles.leftSymbolView(
+                                            leftSymbol.length
+                                        )}
+                                    >
+                                        <Text
+                                            medium
+                                            color={
+                                                values
+                                                    ? theme?.text
+                                                          ?.secondaryColor
+                                                    : theme?.text?.fifthColor
+                                            }
+                                            style={[
+                                                styles.leftSymbol(
+                                                    leftSymbol.length
+                                                ),
+                                                leftSymbolStyle
+                                            ]}
+                                        >
+                                            {leftSymbol}
+                                        </Text>
+                                    </View>
+                                )}
+
                                 {values ? (
                                     <Text
                                         color={theme?.text?.secondaryColor}
@@ -204,7 +232,12 @@ export class FakeInputComponent extends Component<IProps> {
                                         style={[
                                             styles.textValue,
                                             color && { color: color },
-                                            icon && { paddingLeft: 39 },
+                                            icon && {
+                                                paddingLeft: 39
+                                            },
+                                            leftSymbol && {
+                                                paddingLeft: 50
+                                            },
                                             rightIcon && styles.hasRightIcon,
                                             valueStyle && valueStyle,
                                             disabled && {
@@ -225,7 +258,12 @@ export class FakeInputComponent extends Component<IProps> {
                                             styles.placeholderText,
                                             placeholderStyle &&
                                                 placeholderStyle,
-                                            icon && { paddingLeft: 39 },
+                                            icon && {
+                                                paddingLeft: 39
+                                            },
+                                            leftSymbol && {
+                                                paddingLeft: 50
+                                            },
                                             rightIcon && styles.hasRightIcon,
                                             color && { color: color },
                                             disabled && { opacity: 0.7 }

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { View } from 'react-native';
+import { find } from 'lodash';
 import styles from './styles';
 import { Field, change, SubmissionError } from 'redux-form';
 import {
@@ -180,6 +181,20 @@ export class Customer extends React.Component<IProps> {
         if (action == ACTIONS_VALUE.REMOVE) this.removeCustomer();
     };
 
+    getSelectedCurrencySymbol = () => {
+        const { formValues, currencies } = this.props;
+
+        if (!isArray(currencies) || !formValues?.customer?.currency_id) {
+            return null;
+        }
+
+        const currency = find(currencies, {
+            fullItem: { id: Number(formValues?.customer?.currency_id) }
+        });
+
+        return currency?.fullItem?.symbol;
+    };
+
     render() {
         const {
             navigation,
@@ -346,8 +361,6 @@ export class Customer extends React.Component<IProps> {
                             displayName="name"
                             component={SelectField}
                             isInternalSearch
-                            icon="dollar-sign"
-                            rightIcon="angle-right"
                             placeholder={Lng.t('customers.currency', {
                                 locale
                             })}
@@ -370,7 +383,13 @@ export class Customer extends React.Component<IProps> {
                             }}
                             emptyContentProps={{ contentType: 'currencies' }}
                             isEditable={!disabled}
-                            fakeInputProps={{ disabled }}
+                            fakeInputProps={{
+                                disabled,
+                                rightIcon: 'angle-right',
+                                valueStyle: styles.selectedField,
+                                placeholderStyle: styles.selectedField,
+                                leftSymbol: this.getSelectedCurrencySymbol()
+                            }}
                         />
 
                         <Field
@@ -393,6 +412,8 @@ export class Customer extends React.Component<IProps> {
                             containerStyle={styles.addressField}
                             type={type}
                             fakeInputProps={{
+                                valueStyle: styles.selectedField,
+                                placeholderStyle: styles.selectedField,
                                 color: hasObjectLength(billingAddress)
                                     ? colors.primaryLight
                                     : null
@@ -424,6 +445,8 @@ export class Customer extends React.Component<IProps> {
                             containerStyle={styles.addressField}
                             type={type}
                             fakeInputProps={{
+                                valueStyle: styles.selectedField,
+                                placeholderStyle: styles.selectedField,
                                 color: hasObjectLength(shippingAddress)
                                     ? colors.primaryLight
                                     : null

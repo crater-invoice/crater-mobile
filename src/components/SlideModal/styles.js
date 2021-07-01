@@ -1,4 +1,4 @@
-import { isIPhoneX } from '@/constants';
+import { isIosPlatform, isIPhoneX } from '@/constants';
 import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
@@ -23,5 +23,10 @@ export default StyleSheet.create({
     header: {
         paddingTop: 60,
         height: 110
+    },
+    searchView: {
+        ...(isIosPlatform() && {
+            marginTop: isIPhoneX() ? 0 : 3
+        })
     }
 });

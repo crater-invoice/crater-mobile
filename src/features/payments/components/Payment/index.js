@@ -17,6 +17,7 @@ import {
     FakeInput,
     SendMail,
     CustomField,
+    View as CtView,
     ActionButton
 } from '@/components';
 import {
@@ -26,7 +27,13 @@ import {
     ACTIONS_VALUE,
     PAYMENT_FIELDS as FIELDS
 } from '../../constants';
-import { alertMe, DATE_FORMAT, hasObjectLength, isArray } from '@/constants';
+import {
+    alertMe,
+    capitalize,
+    DATE_FORMAT,
+    hasObjectLength,
+    isArray
+} from '@/constants';
 import {
     BADGE_STATUS_BG_COLOR,
     BADGE_STATUS_TEXT_COLOR,
@@ -278,10 +285,19 @@ export class Payment extends React.Component<IProps> {
                 title: user?.name,
                 subtitle: {
                     title: invoice_number,
-                    label: status,
-                    labelBgColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode],
                     labelTextColor:
-                        BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode]
+                        BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode],
+                    ...(theme.mode === 'dark'
+                        ? {
+                              label: capitalize(status),
+                              labelOutlineColor:
+                                  BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
+                          }
+                        : {
+                              label: status,
+                              labelBgColor:
+                                  BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
+                          })
                 },
                 amount: due_amount,
                 currency: selectedCustomer?.currency,
@@ -391,6 +407,7 @@ export class Payment extends React.Component<IProps> {
 
         const { isLoading, selectedCustomer } = this.state;
         const disabled = !isAllowToEdit;
+        const isEditPayment = type === PAYMENT_EDIT;
 
         const hasCustomField = isEditScreen
             ? formValues?.payment && formValues.payment.hasOwnProperty('fields')
@@ -458,8 +475,8 @@ export class Payment extends React.Component<IProps> {
                 >
                     {isEditScreen && this.sendMailComponent()}
 
-                    <View style={styles.numberDateFieldContainer}>
-                        <View style={styles.numberDateField}>
+                    <CtView flex={1} flex-row>
+                        <CtView flex={1} justify-between>
                             <Field
                                 name={`payment.${FIELDS.DATE}`}
                                 component={DatePickerField}
@@ -475,12 +492,12 @@ export class Payment extends React.Component<IProps> {
                                 }}
                                 disabled={disabled}
                             />
-                        </View>
-
-                        <View style={styles.numberDateField}>
+                        </CtView>
+                        <CtView flex={0.07} />
+                        <CtView flex={1} justify-between>
                             {this.nextNumberView()}
-                        </View>
-                    </View>
+                        </CtView>
+                    </CtView>
 
                     <Field
                         name={`payment.${FIELDS.CUSTOMER}`}

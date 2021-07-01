@@ -27,7 +27,8 @@ export class CurrencyFormat extends Component<IProps> {
             containerStyle,
             currencyStyle,
             moneyStyle,
-            symbolStyle
+            symbolStyle,
+            currencySymbolStyle
         } = this.props;
         const { symbol, money, swap_currency_symbol } = formatMoney(
             amount,
@@ -60,7 +61,10 @@ export class CurrencyFormat extends Component<IProps> {
                 >
                     {`${firstComponent} `}
                 </Text>
-                <Text numberOfLines={1} style={secondComponentStyle}>
+                <Text
+                    numberOfLines={1}
+                    style={[secondComponentStyle, currencySymbolStyle]}
+                >
                     {secondComponent}
                 </Text>
             </View>

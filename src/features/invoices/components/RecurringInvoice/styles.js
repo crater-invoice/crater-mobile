@@ -8,11 +8,6 @@ export default styles = StyleSheet.create({
         paddingHorizontal: 22,
         paddingVertical: 17
     },
-    dateFieldContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        marginHorizontal: -10
-    },
     expireToggle: {
         flex: 1,
         marginHorizontal: 5,

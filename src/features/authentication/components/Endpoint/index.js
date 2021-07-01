@@ -19,7 +19,7 @@ import {
     Text
 } from '@/components';
 import Lng from '@/lang/i18n';
-import { IMAGES, LOGO } from '@/assets';
+import { LOGO } from '@/assets';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { alertMe, isIosPlatform, isIPhoneX } from '@/constants';
 import { isRTL, STATUS_BAR_CONTENT } from '@/utils';
@@ -55,8 +55,7 @@ export class Endpoint extends Component<IProps> {
     componentDidMount() {
         const { navigation, skipEndpoint } = this.props;
 
-        skipEndpoint &&
-            goBack(MOUNT, navigation, { route: ROUTES.SETTING_LIST });
+        skipEndpoint && goBack(MOUNT, navigation);
 
         this.keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
@@ -97,7 +96,7 @@ export class Endpoint extends Component<IProps> {
     };
 
     onBack = () => {
-        this.props.navigation.navigate(ROUTES.SETTING_LIST);
+        this.props.navigation.goBack(null);
     };
 
     toggleFocus = () => {

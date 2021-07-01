@@ -6,6 +6,6 @@ export default styles = StyleSheet.create({
         marginTop: 15
     },
     selectedField: {
-        paddingLeft: 47
+        paddingLeft: 52
     }
 });

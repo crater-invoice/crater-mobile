@@ -15,16 +15,22 @@ export default StyleSheet.create({
             }
         })
     },
-    dateFieldContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        marginTop: 5,
-        marginHorizontal: -10
+    backIcon: {
+        color: colors.dark
     },
-    dateField: {
-        flex: 1,
-        justifyContent: 'space-between',
-        paddingHorizontal: 6
+    submitHint: {
+        fontSize: 17,
+        textAlign: 'left'
+    },
+    submitButton: {
+        flexDirection: 'row'
+        // justifyContent: "space-between",
+    },
+    handleBtn: {
+        marginHorizontal: 9
+    },
+    buttonContainer: {
+        flex: 1
     },
     inputIconStyle: {
         marginLeft: 5

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
-import { isAndroidPlatform } from '@/constants';
+import { defineSize, isAndroidPlatform } from '@/constants';
 
 export const styles = StyleSheet.create({
     rightTitle: theme => ({
@@ -58,6 +58,16 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 8,
         borderRadius: 1,
         ...(isAndroidPlatform() && { paddingTop: 5 })
+    },
+    labelOutline: {
+        borderWidth: 1,
+        paddingVertical: defineSize(3, 4),
+        ...(isAndroidPlatform() && {
+            paddingTop: 3,
+            paddingBottom: 1,
+            paddingVertical: 0,
+            paddingHorizontal: 10
+        })
     },
     leftSubTitleContainer: {
         paddingLeft: 1

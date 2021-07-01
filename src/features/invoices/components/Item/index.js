@@ -11,8 +11,9 @@ import {
     SelectField,
     CurrencyFormat,
     RadioButtonGroup,
-    Text,
-    ActionButton
+    View as CtView,
+    ActionButton,
+    Text
 } from '@/components';
 import {
     ITEM_DISCOUNT_OPTION,
@@ -244,9 +245,6 @@ export class InvoiceItem extends React.Component {
                             currency={currency}
                             preText={`${quantity} x `}
                             style={styles.label(theme)}
-                            currencyStyle={{
-                                marginTop: isIosPlatform() ? 6.5 : 3
-                            }}
                         />
                     </View>
                     <View
@@ -259,6 +257,7 @@ export class InvoiceItem extends React.Component {
                             currency={currency}
                             style={styles.price(theme)}
                             symbolStyle={styles.currencySymbol}
+                            currencySymbolStyle={styles.symbol(currency)}
                         />
                     </View>
                 </View>
@@ -276,6 +275,7 @@ export class InvoiceItem extends React.Component {
                                 currency={currency}
                                 style={styles.price(theme)}
                                 symbolStyle={styles.currencySymbol}
+                                currencySymbolStyle={styles.symbol(currency)}
                             />
                         </View>
                     </View>
@@ -300,6 +300,9 @@ export class InvoiceItem extends React.Component {
                                         currency={currency}
                                         style={styles.price(theme)}
                                         symbolStyle={styles.currencySymbol}
+                                        currencySymbolStyle={styles.symbol(
+                                            currency
+                                        )}
                                     />
                                 </View>
                             </View>
@@ -327,6 +330,9 @@ export class InvoiceItem extends React.Component {
                                         currency={currency}
                                         style={styles.price(theme)}
                                         symbolStyle={styles.currencySymbol}
+                                        currencySymbolStyle={styles.symbol(
+                                            currency
+                                        )}
                                     />
                                 </View>
                             </View>
@@ -349,6 +355,9 @@ export class InvoiceItem extends React.Component {
                             moneyStyle={{
                                 marginTop: isIosPlatform() ? 2 : 4.5
                             }}
+                            {...(isIosPlatform() && {
+                                currencySymbolStyle: styles.symbol(currency)
+                            })}
                         />
                     </View>
                 </View>
@@ -430,8 +439,8 @@ export class InvoiceItem extends React.Component {
                         }}
                     />
 
-                    <View style={styles.dateFieldContainer}>
-                        <View style={styles.dateField}>
+                    <CtView flex={1} flex-row>
+                        <CtView flex={1} justify-between>
                             <Field
                                 name={'quantity'}
                                 component={InputField}
@@ -448,8 +457,9 @@ export class InvoiceItem extends React.Component {
                                     itemRefs.quantity = ref;
                                 }}
                             />
-                        </View>
-                        <View style={styles.dateField}>
+                        </CtView>
+                        <CtView flex={0.07} />
+                        <CtView flex={1} justify-between>
                             <Field
                                 name="price"
                                 isRequired
@@ -465,8 +475,8 @@ export class InvoiceItem extends React.Component {
                                 }}
                                 isCurrencyInput
                             />
-                        </View>
-                    </View>
+                        </CtView>
+                    </CtView>
 
                     {(initialValues.unit || !itemId) && (
                         <Field

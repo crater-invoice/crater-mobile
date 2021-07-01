@@ -201,7 +201,8 @@ export default class CacheImage extends React.Component<IProps, ImageState> {
             imageName,
             loadingProps,
             loaderStyle,
-            resizeMode = 'cover'
+            resizeMode = 'cover',
+            theme
         } = this.props;
 
         const {
@@ -217,7 +218,7 @@ export default class CacheImage extends React.Component<IProps, ImageState> {
         }
 
         const imageStyle: any = [
-            styles.image,
+            styles.image(theme),
             style,
             findImageHeight && { height },
             findImageHeight && height === minHeight && minHeightStyle,
@@ -236,7 +237,7 @@ export default class CacheImage extends React.Component<IProps, ImageState> {
                 size={'large'}
                 color={colors.primary}
                 style={[
-                    styles.loader,
+                    styles.loader(theme),
                     findImageHeight && { height },
                     style,
                     loaderStyle

@@ -95,7 +95,8 @@ export class Items extends React.Component<IProps> {
             handleSubmit,
             formValues,
             getItems,
-            currency
+            currency,
+            theme
         } = this.props;
 
         const { search } = this.state;

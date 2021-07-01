@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { hasLength } from '@/constants';
+import { capitalize, hasLength } from '@/constants';
 import { BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR } from '@/utils';
 
 const formatItems = (invoices, theme) => {
@@ -20,9 +20,18 @@ const formatItems = (invoices, theme) => {
             title: name,
             subtitle: {
                 title: invoice_number,
-                label: status,
-                labelBgColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode],
-                labelTextColor: BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode]
+                labelTextColor: BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode],
+                ...(theme.mode === 'dark'
+                    ? {
+                          label: capitalize(status),
+                          labelOutlineColor:
+                              BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
+                      }
+                    : {
+                          label: status,
+                          labelBgColor:
+                              BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
+                      })
             },
             amount: total,
             currency,

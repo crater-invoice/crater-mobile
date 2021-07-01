@@ -173,7 +173,8 @@ export class DatePickerComponent extends Component<IProps, IStates> {
             isRequired = false,
             placeholder = ' ',
             fakeInputProps,
-            disabled
+            disabled,
+            theme
         } = this.props;
 
         const { isDateTimePickerVisible, displayMode } = this.state;
@@ -207,6 +208,7 @@ export class DatePickerComponent extends Component<IProps, IStates> {
                     onConfirm={this.handleDatePicked}
                     onCancel={this.showHideDateTimePicker}
                     display={displayMode}
+                    isDarkModeEnabled={theme?.mode === 'dark'}
                     {...pickerOption}
                 />
             </View>
@@ -215,7 +217,8 @@ export class DatePickerComponent extends Component<IProps, IStates> {
 }
 
 const mapStateToProps = ({ global }) => ({
-    dateFormat: global.dateFormat
+    dateFormat: global.dateFormat,
+    theme: global.theme
 });
 
 const mapDispatchToProps = {};
