@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { colors } from '@/styles';
 
 export default styles = StyleSheet.create({
@@ -12,27 +12,6 @@ export default styles = StyleSheet.create({
     },
     selectPicker: {
         marginTop: 17
-    },
-    numberDateFieldContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        marginHorizontal: -10
-    },
-    numberDateField: {
-        flex: 1,
-        paddingHorizontal: 5,
-        justifyContent: 'space-between'
-    },
-    paymentNumberField: {
-        paddingVertical: 1,
-        ...Platform.select({
-            ios: {
-                paddingVertical: 2
-            }
-        })
-    },
-    inBetweenSpace: {
-        paddingHorizontal: 5
     },
     submitButton: {
         paddingHorizontal: 10

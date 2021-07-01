@@ -8,7 +8,8 @@ import {
     CtButton,
     DefaultLayout,
     DatePickerField,
-    SelectPickerField
+    SelectPickerField,
+    View as CtView
 } from '@/components';
 import {
     REPORT_FORM,
@@ -378,8 +379,8 @@ export class Report extends React.Component<IProps> {
                         fakeInputContainerStyle={styles.selectPickerField}
                     />
 
-                    <View style={styles.dateFieldContainer}>
-                        <View style={styles.dateField}>
+                    <CtView flex={1} flex-row>
+                        <CtView flex={1} justify-between>
                             <Field
                                 name={'from_date'}
                                 component={DatePickerField}
@@ -392,8 +393,9 @@ export class Report extends React.Component<IProps> {
                                     this.setState({ displayFromDate: '' });
                                 }}
                             />
-                        </View>
-                        <View style={styles.dateField}>
+                        </CtView>
+                        <CtView flex={0.07} />
+                        <CtView flex={1} justify-between>
                             <Field
                                 name="to_date"
                                 component={DatePickerField}
@@ -406,8 +408,8 @@ export class Report extends React.Component<IProps> {
                                     this.setState({ displayToDate: '' });
                                 }}
                             />
-                        </View>
-                    </View>
+                        </CtView>
+                    </CtView>
 
                     {type === SALES && (
                         <Field

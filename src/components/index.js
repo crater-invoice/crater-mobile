@@ -49,3 +49,4 @@ export * from './AssetIcon';
 export * from './Text';
 export * from './CacheImage';
 export * from './Label';
+export * from './View';

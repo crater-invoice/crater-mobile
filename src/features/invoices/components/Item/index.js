@@ -12,6 +12,7 @@ import {
     SelectField,
     CurrencyFormat,
     RadioButtonGroup,
+    View as CtView,
     Text
 } from '@/components';
 import {
@@ -455,8 +456,8 @@ export class InvoiceItem extends React.Component {
                         }}
                     />
 
-                    <View style={styles.dateFieldContainer}>
-                        <View style={styles.dateField}>
+                    <CtView flex={1} flex-row>
+                        <CtView flex={1} justify-between>
                             <Field
                                 name={'quantity'}
                                 component={InputField}
@@ -473,8 +474,9 @@ export class InvoiceItem extends React.Component {
                                     itemRefs.quantity = ref;
                                 }}
                             />
-                        </View>
-                        <View style={styles.dateField}>
+                        </CtView>
+                        <CtView flex={0.07} />
+                        <CtView flex={1} justify-between>
                             <Field
                                 name="price"
                                 isRequired
@@ -490,8 +492,8 @@ export class InvoiceItem extends React.Component {
                                 }}
                                 isCurrencyInput
                             />
-                        </View>
-                    </View>
+                        </CtView>
+                    </CtView>
 
                     {(initialValues.unit || !itemId) && (
                         <Field

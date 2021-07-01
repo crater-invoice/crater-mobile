@@ -28,7 +28,8 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderColor: theme?.input?.borderColor,
         backgroundColor: theme?.thirdBgColor,
-        marginBottom: 10
+        marginBottom: 10,
+        borderRadius: 3
     }),
     loadingFakeInput: theme => ({
         paddingVertical: 11,
@@ -106,16 +107,16 @@ export default StyleSheet.create({
         paddingBottom: 8,
         ...Platform.select({
             ios: {
-                paddingTop: 11,
+                paddingTop: 9,
                 paddingBottom: 9
             }
         }),
         paddingRight: 5,
         borderWidth: 1,
-        // borderColor: colors.lightGray,
         borderColor: theme?.input?.borderColor,
         backgroundColor: theme?.thirdBgColor,
-        marginBottom: 10
+        marginBottom: 10,
+        borderRadius: 3
     }),
     prefixLabelContainer: {
         marginTop: 1

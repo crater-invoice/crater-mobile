@@ -100,6 +100,7 @@ class Screen extends Component<IProps> {
                                     }
                                 })
                             }}
+                            searchFieldStyle={styles.searchView}
                         >
                             {listViewChildren}
                         </MainLayout>

@@ -12,7 +12,8 @@ import {
     SelectField,
     CurrencyFormat,
     RadioButtonGroup,
-    Text
+    Text,
+    View as CtView
 } from '@/components';
 import {
     ITEM_DISCOUNT_OPTION,
@@ -460,8 +461,8 @@ export class EstimateItem extends React.Component {
                         }}
                     />
 
-                    <View style={styles.dateFieldContainer}>
-                        <View style={styles.dateField}>
+                    <CtView flex={1} flex-row>
+                        <CtView flex={1} justify-between>
                             <Field
                                 name={'quantity'}
                                 isRequired
@@ -478,8 +479,9 @@ export class EstimateItem extends React.Component {
                                     itemRefs.quantity = ref;
                                 }}
                             />
-                        </View>
-                        <View style={styles.dateField}>
+                        </CtView>
+                        <CtView flex={0.07} />
+                        <CtView flex={1} justify-between>
                             <Field
                                 name="price"
                                 isRequired
@@ -495,8 +497,8 @@ export class EstimateItem extends React.Component {
                                 }}
                                 isCurrencyInput
                             />
-                        </View>
-                    </View>
+                        </CtView>
+                    </CtView>
 
                     {(initialValues.unit || !itemId) && (
                         <Field

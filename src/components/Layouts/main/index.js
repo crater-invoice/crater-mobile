@@ -39,6 +39,7 @@ const Layout = ({
     loadingProps,
     locale,
     searchFieldProps,
+    searchFieldStyle,
     toastProps,
     theme
 }: IProps) => {
@@ -77,7 +78,9 @@ const Layout = ({
                 />
 
                 {hasSearchField && (
-                    <View style={styles.searchFieldContainer}>
+                    <View
+                        style={[styles.searchFieldContainer, searchFieldStyle]}
+                    >
                         <Field
                             name="search"
                             component={InputField}
