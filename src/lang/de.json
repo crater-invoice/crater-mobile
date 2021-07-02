@@ -65,7 +65,19 @@
         "customFields": "Benutzerdefinierte Felde",
         "addCustomField": "Benutzerdefiniertes Feld hinzufügen",
         "editCustomField": "Benutzerdefiniertes Feld bearbeiten",
-        "notes": "Anmerkungen"
+        "notes": "Anmerkungen",
+        "viewCustomer": "Kunden anzeigen",
+        "viewPayment": "Zahlung anzeigen",
+        "viewExpense": "Ausgaben anzeigen",
+        "viewInvoice": "Rechnung anzeigen",
+        "viewEstimate": "Schätzung anzeigen",
+        "viewItem": "Artikel anzeigen",
+        "viewTax": "Steuer anzeigen",
+        "viewCustomField": "Benutzerdefiniertes Feld anzeigen",
+        "viewNote": "Hinweis anzeigen",
+        "viewCategory": "Kategorie anzeigen",
+        "viewUnit": "Artikeleinheit anzeigen",
+        "viewPaymentMode": "Zahlungsmodus anzeigen"
     },
     "tabNavigation": {
         "invoices": "Rechnungen",

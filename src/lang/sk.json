@@ -65,7 +65,19 @@
         "customFields": "Vlastné polia",
         "addCustomField": "Pridať vlastné pole",
         "editCustomField": "Upraviť vlastné pole",
-        "notes": "Poznámky"
+        "notes": "Poznámky",
+        "viewCustomer": "Zobraziť zákazníka",
+        "viewPayment": "Zobraziť platbu",
+        "viewExpense": "Zobraziť náklady",
+        "viewInvoice": "Zobraziť faktúru",
+        "viewEstimate": "Zobraziť odhad",
+        "viewItem": "Zobraziť položku",
+        "viewTax": "Zobraziť daň",
+        "viewCustomField": "Zobraziť vlastné pole",
+        "viewNote": "Zobraziť poznámku",
+        "viewCategory": "Zobraziť kategóriu",
+        "viewUnit": "Zobraziť jednotku položky",
+        "viewPaymentMode": "Zobraziť režim platby"
     },
     "tabNavigation": {
         "invoices": "Faktúry",

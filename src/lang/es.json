@@ -65,7 +65,19 @@
         "customFields": "Campos Personalizados",
         "addCustomField": "Agregar campo personalizado",
         "editCustomField": "Editar campo personalizado",
-        "notes": "Notas"
+        "notes": "Notas",
+        "viewCustomer": "Ver cliente",
+        "viewPayment": "Ver pago",
+        "viewExpense": "Ver gastos",
+        "viewInvoice": "Mirar la factura",
+        "viewEstimate": "Ver estimación",
+        "viewItem": "Ver ítem",
+        "viewTax": "Ver impuestos",
+        "viewCustomField": "Ver campo personalizado",
+        "viewNote": "Ver nota",
+        "viewCategory": "Ver categoría",
+        "viewUnit": "Ver unidad de artículo",
+        "viewPaymentMode": "Ver modo de pago"
     },
     "tabNavigation": {
         "invoices": "Facturas",

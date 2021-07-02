@@ -65,7 +65,19 @@
         "customFields": "الحقول المخصصة",
         "addCustomField": "أضف حقل مخصص",
         "editCustomField": "تحرير حقل مخصص",
-        "notes": "ملاحظات"
+        "notes": "ملاحظات",
+        "viewCustomer": "عرض العملاء",
+        "viewPayment": "مشاهدة الدفع",
+        "viewExpense": "مشاهدة ملف",
+        "viewInvoice": "عرض الفاتورة",
+        "viewEstimate": "عرض التقدير",
+        "viewItem": "عرض العنصر",
+        "viewTax": "عرض الضرائب",
+        "viewCustomField": "عرض الحقل المخصص",
+        "viewNote": "مشاهدة الملاحظة",
+        "viewCategory": "مشاهدة الفئة",
+        "viewUnit": "عرض وحدة العنصر",
+        "viewPaymentMode": "مشاهدة وضع الدفع"
     },
     "tabNavigation": {
         "invoices": "الفواتير",
