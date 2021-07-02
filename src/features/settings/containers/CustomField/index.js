@@ -49,7 +49,7 @@ const mapStateToProps = (state, { navigation }) => {
         locale,
         theme,
         isEditScreen,
-        isAllowToEdit: false,
+        isAllowToEdit,
         isAllowToDelete,
         formValues: getFormValues(CUSTOM_FIELD_FORM)(state) || {},
         initialValues:

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { CheckBox } from 'react-native-elements';
+import { CheckBox as RNCheckBox } from 'react-native-elements';
+import { connect } from 'react-redux';
 import { styles } from './styles';
 import { colors } from '@/styles';
 import { Text } from '../Text';
+import { Label } from '../Label';
 
 type IProps = {
     label: String,
@@ -11,7 +13,7 @@ type IProps = {
     onChangeCallback: Function
 };
 
-export class CtCheckbox extends Component<IProps> {
+class CheckBox extends Component<IProps> {
     toggleChecked = () => {
         const {
             input: { onChange, value },
@@ -25,46 +27,47 @@ export class CtCheckbox extends Component<IProps> {
     render() {
         const {
             input: { value },
-            label,
+            label = '',
             containerStyle,
             checkBoxProps,
-            disable = false,
+            disabled = false,
             hint,
-            hintStyle
+            hintStyle,
+            theme
         } = this.props;
 
         return (
             <>
-                {hint && (
-                    <Text
-                        secondary
-                        h5
-                        numberOfLines={2}
-                        style={[styles.hint, hintStyle && hintStyle]}
-                    >
-                        {hint}
-                    </Text>
-                )}
-                <CheckBox
+                <Label
+                    theme={theme}
+                    h5
+                    numberOfLines={2}
+                    mt-15
+                    style={hintStyle}
+                >
+                    {hint}
+                </Label>
+                <RNCheckBox
                     title={label}
                     checked={value || false}
                     size={25}
-                    onPress={() => !disable && this.toggleChecked()}
+                    onPress={() => !disabled && this.toggleChecked()}
                     containerStyle={[
                         styles.container,
                         containerStyle && containerStyle
                     ]}
-                    textStyle={styles.label}
+                    textStyle={styles.label(theme)}
                     checkedColor={colors.primaryLight}
-                    uncheckedColor={colors.secondary}
+                    uncheckedColor={theme.viewLabel.secondaryColor}
                     {...checkBoxProps}
-                    activeOpacity={disable ? 1 : 0.4}
+                    activeOpacity={disabled ? 0.8 : 0.4}
                 />
             </>
         );
     }
 }
 
-CtCheckbox.defaultProps = {
-    label: ''
-};
+export const CtCheckbox = connect(
+    ({ global }) => ({ theme: global?.theme }),
+    {}
+)(CheckBox);

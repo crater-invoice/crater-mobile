@@ -122,7 +122,7 @@ const PLACEHOLDER_FIELD = () => {
 };
 
 const SELECT_FIELD_OPTIONS = () => {
-    const { isAllowToEdit } = customFieldRefs?.props;
+    const { isAllowToEdit, theme } = customFieldRefs?.props;
     return (
         <FieldArray
             name={`${FIELDS.FIELD}.${FIELDS.OPTIONS}`}
@@ -130,6 +130,7 @@ const SELECT_FIELD_OPTIONS = () => {
             addFirstItem
             removeFirstItemOnPress
             disabled={!isAllowToEdit}
+            theme={theme}
         />
     );
 };

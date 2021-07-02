@@ -4,8 +4,8 @@ import { colors } from '@/styles';
 import moment from 'moment';
 
 const getCustomFieldsState = createSelector(
-    customFields => customFields,
-    customFields =>
+    [state => state.customFields, state => state.theme],
+    (customFields, theme) =>
         !hasLength(customFields)
             ? []
             : customFields.map(field => {
@@ -14,8 +14,15 @@ const getCustomFieldsState = createSelector(
                       title: name,
                       subtitle: {
                           label: type,
-                          labelBgColor: colors.gray2,
-                          labelTextColor: colors.darkGray2
+                          ...(theme.mode === 'dark'
+                              ? {
+                                    labelTextColor: colors.white4,
+                                    labelOutlineColor: colors.white4
+                                }
+                              : {
+                                    labelBgColor: colors.gray2,
+                                    labelTextColor: colors.darkGray2
+                                })
                       },
                       rightTitle: model_type,
                       rightSubtitle: moment(created_at).format('DD MMM YYYY'),

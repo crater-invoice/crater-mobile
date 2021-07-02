@@ -8,15 +8,12 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 0,
         marginVertical: -2
     },
-    label: {
+    label: theme => ({
         fontWeight: 'normal',
         fontFamily: fonts.poppins,
         fontSize: 15,
         marginLeft: 5,
-        color: colors.secondary,
+        color: theme.text.secondaryColor,
         textAlign: 'left'
-    },
-    hint: {
-        marginTop: 15
-    }
+    })
 });

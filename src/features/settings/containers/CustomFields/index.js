@@ -8,13 +8,13 @@ import { getCustomFieldsState } from '../../selectors';
 
 const mapStateToProps = state => {
     const {
-        global: { locale },
+        global: { locale, theme },
         settings: { customFields }
     } = state;
 
     return {
         locale,
-        customFields: getCustomFieldsState(customFields)
+        customFields: getCustomFieldsState({ customFields, theme })
     };
 };
 
