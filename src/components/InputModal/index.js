@@ -48,6 +48,7 @@ class inputModalComponent extends Component<Iprops> {
     BUTTON_VIEW = () => {
         const {
             showRemoveButton = false,
+            showSaveButton = true,
             onSubmitLoading = false,
             onRemoveLoading = false,
             onRemove,
@@ -55,6 +56,10 @@ class inputModalComponent extends Component<Iprops> {
             locale,
             theme
         } = this.props;
+
+        if (!showRemoveButton && !showSaveButton) {
+            return null;
+        }
 
         return (
             <View style={styles.rowViewContainer(theme)}>
@@ -72,20 +77,22 @@ class inputModalComponent extends Component<Iprops> {
                     </View>
                 )}
 
-                <View style={styles.rowView}>
-                    <CtButton
-                        onPress={() => onSubmit?.()}
-                        btnTitle={Lng.t('button.save', { locale })}
-                        containerStyle={styles.handleBtn}
-                        loading={onSubmitLoading}
-                    />
-                </View>
+                {showSaveButton && (
+                    <View style={styles.rowView}>
+                        <CtButton
+                            onPress={() => onSubmit?.()}
+                            btnTitle={Lng.t('button.save', { locale })}
+                            containerStyle={styles.handleBtn}
+                            loading={onSubmitLoading}
+                        />
+                    </View>
+                )}
             </View>
         );
     };
 
     FIELD = () => {
-        const { fieldName, hint } = this.props;
+        const { fieldName, hint, disabled } = this.props;
 
         return (
             <View style={styles.fieldView}>
@@ -93,6 +100,7 @@ class inputModalComponent extends Component<Iprops> {
                     name={fieldName}
                     component={InputField}
                     hint={hint}
+                    disabled={disabled}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCorrect: true

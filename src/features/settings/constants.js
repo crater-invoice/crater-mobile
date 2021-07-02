@@ -1,5 +1,6 @@
 import { ROUTES } from '@/navigation';
 import { PercentageIcon } from '@/icons';
+import { PermissionService } from '@/services';
 
 // Forms
 // -----------------------------------------
@@ -376,7 +377,7 @@ export const CUSTOMIZE_TYPE = {
 // Customize Menu
 // -----------------------------------------
 export const CUSTOMIZES_MENU = (locale, Lng) => {
-    return [
+    const list = [
         {
             title: Lng.t('header.invoices', { locale }),
             fullItem: {
@@ -397,15 +398,19 @@ export const CUSTOMIZES_MENU = (locale, Lng) => {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.PAYMENTS
             }
-        },
-        {
+        }
+    ];
+
+    PermissionService.isAllowToView(CUSTOMIZE_TYPE.ITEMS) &&
+        list.push({
             title: Lng.t('header.items', { locale }),
             fullItem: {
                 route: ROUTES.CUSTOMIZE,
                 type: CUSTOMIZE_TYPE.ITEMS
             }
-        }
-    ];
+        });
+
+    return list;
 };
 
 // Customize Address Fields

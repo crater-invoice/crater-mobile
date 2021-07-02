@@ -7,6 +7,7 @@ import {
     EXPENSES as EXPENSES_REPORT,
     TAXES as TAXES_REPORT
 } from '@/features/more/constants';
+import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
 
 class Service {
     permissions: any;
@@ -140,6 +141,20 @@ class Service {
             case ROUTES.CUSTOM_FIELDS:
             case ROUTES.CUSTOMER_FIELD:
                 return 'custom-fields';
+
+            case ROUTES.NOTES:
+            case ROUTES.NOTE:
+                return 'notes';
+
+            case ROUTES.CATEGORIES:
+            case ROUTES.CATEGORY:
+                return 'expense-categories';
+
+            case CUSTOMIZE_TYPE.ITEMS:
+                return 'units';
+
+            case CUSTOMIZE_TYPE.PAYMENTS:
+                return 'payment-methods';
 
             default:
                 return '';

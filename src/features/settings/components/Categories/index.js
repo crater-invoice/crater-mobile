@@ -87,9 +87,10 @@ export class Categories extends React.Component<IProps> {
         };
 
         const headerProps = {
+            title: Lng.t('header.expenseCategory', { locale }),
+            navigation,
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
-            title: Lng.t('header.expenseCategory', { locale }),
             placement: 'center',
             rightIcon: 'plus',
             rightIconPress: () =>

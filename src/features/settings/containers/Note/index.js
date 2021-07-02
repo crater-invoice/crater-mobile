@@ -2,10 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import Note from '../../components/Note';
-import { NOTE_FORM, NOTES_ADD, NOTES_TYPE_VALUE } from '../../constants';
+import {
+    NOTE_FORM,
+    NOTES_ADD,
+    NOTES_TYPE_VALUE,
+    NOTES_EDIT
+} from '../../constants';
 import * as noteAction from '../../actions';
 import { validate } from './validations';
 import { hasValue } from '@/constants';
+import { PermissionService } from '@/services';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -21,6 +27,14 @@ const mapStateToProps = (state, { navigation }) => {
     const onSelect = navigation.getParam('onSelect', null);
     const selectedModalType = navigation.getParam('modalType', null);
 
+    const isEditScreen = type === NOTES_EDIT;
+    const isAllowToEdit = isEditScreen
+        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
+        : true;
+    const isAllowToDelete = isEditScreen
+        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
+        : true;
+
     return {
         noteLoading: getNotesLoading,
         type,
@@ -31,6 +45,9 @@ const mapStateToProps = (state, { navigation }) => {
         noteDetail,
         onSelect,
         selectedModalType,
+        isEditScreen,
+        isAllowToEdit,
+        isAllowToDelete,
         initialValues: {
             type: !hasValue(selectedModalType)
                 ? NOTES_TYPE_VALUE.INVOICE

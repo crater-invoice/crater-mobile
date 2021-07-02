@@ -4,7 +4,8 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as actions from '../../actions';
 import { Category } from '../../components/Category';
-import { CATEGORY_FORM, CATEGORY_ADD } from '../../constants';
+import { CATEGORY_FORM, CATEGORY_ADD, CATEGORY_EDIT } from '../../constants';
+import { PermissionService } from '@/services';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -15,12 +16,22 @@ const mapStateToProps = (state, { navigation }) => {
     } = state;
 
     let type = navigation.getParam('type', CATEGORY_ADD);
+    const isEditScreen = type === CATEGORY_EDIT;
+    const isAllowToEdit = isEditScreen
+        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
+        : true;
+    const isAllowToDelete = isEditScreen
+        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
+        : true;
 
     return {
         categoryLoading: expenseCategoryLoading,
         getEditCategoryLoading: initExpenseCategoryLoading,
         type,
         locale,
+        isEditScreen,
+        isAllowToEdit,
+        isAllowToDelete,
         formValues: getFormValues(CATEGORY_FORM)(state) || {},
         initialValues: {
             name: null,

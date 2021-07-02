@@ -73,7 +73,11 @@
         "viewEstimate": "View Estimate",
         "viewItem": "View Item",
         "viewTax": "View Tax",
-        "viewCustomField": "View Custom Field"
+        "viewCustomField": "View Custom Field",
+        "viewNote": "View Note",
+        "viewCategory": "View Category",
+        "viewUnit": "View Item Unit",
+        "viewPaymentMode": "View Payment Mode"
     },
     "tabNavigation": {
         "invoices": "Invoices",

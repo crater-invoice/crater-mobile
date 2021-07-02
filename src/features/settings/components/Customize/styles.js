@@ -1,20 +1,16 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
 
-const { width, height } = Dimensions.get('window');
-
 export default styles = StyleSheet.create({
-    bodyContainer: {
+    scrollContainer: {
         paddingHorizontal: 22,
-        paddingVertical: 17,
+        paddingTop: 10,
+        paddingBottom: 20
+    },
+    childContainer: {
+        paddingTop: 10,
+        paddingHorizontal: 22,
         flex: 1
-    },
-    submitButton: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    handleBtn: {
-        marginHorizontal: 9
     },
     dividerLine: {
         marginTop: 18,
@@ -57,9 +53,5 @@ export default styles = StyleSheet.create({
         paddingTop: 11,
         paddingBottom: 11,
         textAlign: 'left'
-    },
-    bodyContainerStyle: {
-        paddingHorizontal: 0,
-        paddingVertical: 0
     }
 });

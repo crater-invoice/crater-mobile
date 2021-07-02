@@ -81,9 +81,10 @@ export class Notes extends Component<IProps> {
         };
 
         const headerProps = {
+            title: Lng.t('header.notes', { locale }),
+            navigation,
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
-            title: Lng.t('header.notes', { locale }),
             placement: 'center',
             rightIcon: 'plus',
             rightIconPress: () =>

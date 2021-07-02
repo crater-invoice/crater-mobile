@@ -114,22 +114,36 @@ export class Category extends React.Component<IProps> {
             locale,
             categoryLoading,
             getEditCategoryLoading,
+            isEditScreen,
+            isAllowToEdit,
+            isAllowToDelete,
             type
         } = this.props;
 
         let categoryRefs = {};
+        const disabled = !isAllowToEdit;
+
+        const getTitle = () => {
+            let title = 'header.addCategory';
+            if (isEditScreen && !isAllowToEdit) title = 'header.viewCategory';
+            if (isEditScreen && isAllowToEdit) title = 'header.editCategory';
+
+            return Lng.t(title, { locale });
+        };
+
         const bottomAction = [
             {
                 label: 'button.save',
                 onPress: handleSubmit(this.onSubmit),
-                loading: categoryLoading || getEditCategoryLoading
+                loading: categoryLoading || getEditCategoryLoading,
+                show: isAllowToEdit
             },
             {
                 label: 'button.remove',
                 onPress: this.removeCategory,
-                loading: categoryLoading || getEditCategoryLoading,
                 bgColor: 'btn-danger',
-                show: type === CATEGORY_EDIT
+                show: isEditScreen && isAllowToDelete,
+                loading: categoryLoading || getEditCategoryLoading
             }
         ];
 
@@ -137,16 +151,13 @@ export class Category extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title:
-                        type === CATEGORY_EDIT
-                            ? Lng.t('header.editCategory', { locale })
-                            : Lng.t('header.addCategory', { locale }),
+                    title: getTitle(),
                     placement: 'center',
-                    rightIcon: 'save',
-                    rightIconProps: {
-                        solid: true
-                    },
-                    rightIconPress: handleSubmit(this.onSubmit)
+                    ...(isAllowToEdit && {
+                        rightIcon: 'save',
+                        rightIconProps: { solid: true },
+                        rightIconPress: handleSubmit(this.onSubmit)
+                    })
                 }}
                 bottomAction={
                     <ActionButton locale={locale} buttons={bottomAction} />
@@ -170,6 +181,7 @@ export class Category extends React.Component<IProps> {
                             }
                         }}
                         validationStyle={styles.inputFieldValidation}
+                        disabled={disabled}
                     />
 
                     <Field
@@ -185,9 +197,8 @@ export class Category extends React.Component<IProps> {
                         }}
                         height={100}
                         autoCorrect={true}
-                        refLinkFn={ref => {
-                            categoryRefs.description = ref;
-                        }}
+                        refLinkFn={ref => (categoryRefs.description = ref)}
+                        disabled={disabled}
                     />
                 </View>
             </DefaultLayout>

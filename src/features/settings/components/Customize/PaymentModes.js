@@ -5,6 +5,8 @@ import { ListView, InputModal, InfiniteScroll } from '@/components';
 import Lng from '@/lang/i18n';
 import { formatListByName } from '@/utils';
 import { alertMe, isIPhoneX } from '@/constants';
+import { PermissionService } from '@/services';
+import { CUSTOMIZE_TYPE } from '../../constants';
 
 export class PaymentModes extends Component {
     constructor(props) {
@@ -72,22 +74,37 @@ export class PaymentModes extends Component {
             props: { locale, paymentModeLoading = false }
         } = this.props;
 
+        const isAllowToEdit = isCreateMethod
+            ? true
+            : PermissionService.isAllowToEdit(CUSTOMIZE_TYPE.PAYMENTS);
+        const disabled = !isAllowToEdit;
+
+        const getTitle = () => {
+            let title = 'payments.addMode';
+            if (!isCreateMethod && !isAllowToEdit)
+                title = 'header.viewPaymentMode';
+            if (!isCreateMethod && isAllowToEdit) title = 'payments.editMode';
+
+            return Lng.t(title, { locale });
+        };
+
         return (
             <InputModal
                 reference={ref => (this.modalReference = ref)}
                 locale={locale}
-                headerTitle={
-                    isCreateMethod
-                        ? Lng.t('payments.addMode', { locale })
-                        : Lng.t('payments.editMode', { locale })
-                }
+                headerTitle={getTitle()}
                 hint={Lng.t('payments.modeHint', { locale })}
                 fieldName="methodName"
                 onSubmit={() => this.onSaveMethod()}
                 onRemove={() => this.onRemoveMethod()}
-                showRemoveButton={!isCreateMethod}
+                showRemoveButton={
+                    !isCreateMethod &&
+                    PermissionService.isAllowToDelete(CUSTOMIZE_TYPE.PAYMENTS)
+                }
+                showSaveButton={isAllowToEdit}
                 onSubmitLoading={paymentModeLoading}
                 onRemoveLoading={paymentModeLoading}
+                disabled={disabled}
             />
         );
     };
@@ -109,7 +126,7 @@ export class PaymentModes extends Component {
         } = this.props;
 
         return (
-            <View style={styles.bodyContainer}>
+            <View style={styles.childContainer}>
                 {this.INPUT_MODAL()}
                 <InfiniteScroll
                     getItems={getPaymentModes}

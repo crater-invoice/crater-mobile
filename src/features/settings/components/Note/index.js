@@ -14,7 +14,6 @@ import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import Lng from '@/lang/i18n';
 import { alertMe, hasTextLength, hasValue } from '@/constants';
 import {
-    NOTES_EDIT,
     NOTES_FIELD_MODAL_TYPES as MODAL_TYPES,
     NOTES_ADD
 } from '../../constants';
@@ -54,7 +53,7 @@ export default class Note extends React.Component<IProps> {
     }
 
     getCustomFields = () => {
-        const { type, getCreateNote, getNoteDetail } = this.props;
+        const { type, getCreateNote, isEditScreen, getNoteDetail } = this.props;
 
         if (type === NOTES_ADD) {
             getCreateNote({
@@ -63,7 +62,7 @@ export default class Note extends React.Component<IProps> {
             return;
         }
 
-        if (type === NOTES_EDIT) {
+        if (isEditScreen) {
             getNoteDetail({
                 onSuccess: () => this.setState({ isLoading: false })
             });
@@ -144,48 +143,56 @@ export default class Note extends React.Component<IProps> {
             locale,
             type,
             selectedModalType,
-            noteLoading
+            noteLoading,
+            isEditScreen,
+            isAllowToEdit,
+            isAllowToDelete
         } = this.props;
+
         const { isLoading } = this.state;
-        const isEditScreen = type === NOTES_EDIT;
+        const disabled = !isAllowToEdit;
         const types = this.getCustomFieldTypes();
+
+        const getTitle = () => {
+            let title = 'header.addNote';
+            if (isEditScreen && !isAllowToEdit) title = 'header.viewNote';
+            if (isEditScreen && isAllowToEdit) title = 'header.editNote';
+
+            return Lng.t(title, { locale });
+        };
+
         const bottomAction = [
             {
                 label: 'button.save',
                 onPress: handleSubmit(this.onSubmit),
+                show: isAllowToEdit,
                 loading: noteLoading || isLoading
             },
             {
                 label: 'button.remove',
                 onPress: this.removeNote,
-                loading: noteLoading || isLoading,
                 bgColor: 'btn-danger',
-                show: isEditScreen
+                show: isEditScreen && isAllowToDelete,
+                loading: noteLoading || isLoading
             }
         ];
 
         return (
             <DefaultLayout
                 headerProps={{
-                    leftIconPress: () => {
-                        navigation.goBack(null);
-                    },
-                    title: isEditScreen
-                        ? Lng.t('header.editNote', { locale })
-                        : Lng.t('header.addNote', { locale }),
+                    leftIconPress: () => navigation.goBack(null),
+                    title: getTitle(),
                     placement: 'center',
-                    rightIcon: 'save',
-                    rightIconProps: {
-                        solid: true
-                    },
-                    rightIconPress: handleSubmit(this.onSubmit)
+                    ...(isAllowToEdit && {
+                        rightIcon: 'save',
+                        rightIconProps: { solid: true },
+                        rightIconPress: handleSubmit(this.onSubmit)
+                    })
                 }}
                 bottomAction={
                     <ActionButton locale={locale} buttons={bottomAction} />
                 }
-                loadingProps={{
-                    is: isLoading
-                }}
+                loadingProps={{ is: isLoading }}
             >
                 <View style={styles.bodyContainer}>
                     <Field
@@ -199,6 +206,7 @@ export default class Note extends React.Component<IProps> {
                             autoCorrect: true
                         }}
                         validationStyle={styles.inputFieldValidation}
+                        disabled={disabled}
                     />
 
                     <Field
@@ -216,7 +224,7 @@ export default class Note extends React.Component<IProps> {
                             value: ''
                         }}
                         isRequired
-                        disabled={hasValue(selectedModalType)}
+                        disabled={disabled || hasValue(selectedModalType)}
                     />
 
                     <Editor

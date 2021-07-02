@@ -23,6 +23,7 @@ import { PaymentModes } from './PaymentModes';
 import { Units } from './Units';
 import { headerTitle } from '@/styles';
 import { hasObjectLength, hasTextLength, hasValue } from '@/constants';
+import { PermissionService } from '@/services';
 
 type IProps = {
     navigation: Object,
@@ -367,6 +368,20 @@ export class Customize extends React.Component<IProps> {
         const { locale, theme } = this.props;
         const { activeTab, data } = this.state;
 
+        if (!PermissionService.isAllowToView(CUSTOMIZE_TYPE.PAYMENTS)) {
+            return (
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="handled"
+                    contentContainerStyle={styles.scrollContainer}
+                >
+                    {this.PREFIX_FIELD(locale, data)}
+                    {this.TEXTAREA_FIELDS()}
+                    {this.TOGGLE_FIELD_VIEW(locale, data)}
+                </ScrollView>
+            );
+        }
+
         return (
             <Tabs
                 activeTab={activeTab}
@@ -392,16 +407,15 @@ export class Customize extends React.Component<IProps> {
                         Title: PAYMENT_TABS.PREFIX,
                         tabName: Lng.t('payments.prefix', { locale }),
                         render: (
-                            <View style={styles.bodyContainer}>
-                                <ScrollView
-                                    showsVerticalScrollIndicator={false}
-                                    keyboardShouldPersistTaps="handled"
-                                >
-                                    {this.PREFIX_FIELD(locale, data)}
-                                    {this.TEXTAREA_FIELDS()}
-                                    {this.TOGGLE_FIELD_VIEW(locale, data)}
-                                </ScrollView>
-                            </View>
+                            <ScrollView
+                                showsVerticalScrollIndicator={false}
+                                keyboardShouldPersistTaps="handled"
+                                contentContainerStyle={styles.scrollContainer}
+                            >
+                                {this.PREFIX_FIELD(locale, data)}
+                                {this.TEXTAREA_FIELDS()}
+                                {this.TOGGLE_FIELD_VIEW(locale, data)}
+                            </ScrollView>
                         )
                     }
                 ]}
@@ -445,7 +459,17 @@ export class Customize extends React.Component<IProps> {
                         : isItemScreen
                         ? this.itemChild.current.openModal()
                         : handleSubmit(this.onSave)(),
-                loading: this.props.loading
+                loading: this.props.loading,
+                ...(isItemScreen && {
+                    show: PermissionService.isAllowToCreate(
+                        CUSTOMIZE_TYPE.ITEMS
+                    )
+                }),
+                ...(isPaymentMode && {
+                    show: PermissionService.isAllowToCreate(
+                        CUSTOMIZE_TYPE.PAYMENTS
+                    )
+                })
             }
         ];
 
@@ -484,16 +508,15 @@ export class Customize extends React.Component<IProps> {
                 )}
 
                 {!isPaymentsScreen && !isItemsScreen && (
-                    <View style={styles.bodyContainer}>
-                        <ScrollView
-                            showsVerticalScrollIndicator={false}
-                            keyboardShouldPersistTaps="handled"
-                        >
-                            {this.PREFIX_FIELD(locale, data)}
-                            {this.TEXTAREA_FIELDS()}
-                            {this.TOGGLE_FIELD_VIEW(locale, data)}
-                        </ScrollView>
-                    </View>
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps="handled"
+                        contentContainerStyle={styles.scrollContainer}
+                    >
+                        {this.PREFIX_FIELD(locale, data)}
+                        {this.TEXTAREA_FIELDS()}
+                        {this.TOGGLE_FIELD_VIEW(locale, data)}
+                    </ScrollView>
                 )}
             </DefaultLayout>
         );

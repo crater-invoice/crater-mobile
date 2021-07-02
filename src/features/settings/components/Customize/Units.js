@@ -4,6 +4,8 @@ import styles from './styles';
 import { ListView, InputModal, InfiniteScroll } from '@/components';
 import Lng from '@/lang/i18n';
 import { alertMe } from '@/constants';
+import { PermissionService } from '@/services';
+import { CUSTOMIZE_TYPE } from '../../constants';
 
 export class Units extends Component {
     constructor(props) {
@@ -68,22 +70,36 @@ export class Units extends Component {
             props: { locale, itemUnitLoading }
         } = this.props;
 
+        const isAllowToEdit = isCreateMethod
+            ? true
+            : PermissionService.isAllowToEdit(CUSTOMIZE_TYPE.ITEMS);
+        const disabled = !isAllowToEdit;
+
+        const getTitle = () => {
+            let title = 'items.addUnit';
+            if (!isCreateMethod && !isAllowToEdit) title = 'header.viewUnit';
+            if (!isCreateMethod && isAllowToEdit) title = 'items.editUnit';
+
+            return Lng.t(title, { locale });
+        };
+
         return (
             <InputModal
                 reference={ref => (this.modalReference = ref)}
                 locale={locale}
-                headerTitle={
-                    isCreateMethod
-                        ? Lng.t('items.addUnit', { locale })
-                        : Lng.t('items.editUnit', { locale })
-                }
+                headerTitle={getTitle()}
                 hint={Lng.t('items.unitHint', { locale })}
                 fieldName="unitName"
                 onSubmit={() => this.onSave()}
                 onRemove={() => this.onRemove()}
-                showRemoveButton={!isCreateMethod}
+                showRemoveButton={
+                    !isCreateMethod &&
+                    PermissionService.isAllowToDelete(CUSTOMIZE_TYPE.ITEMS)
+                }
+                showSaveButton={isAllowToEdit}
                 onSubmitLoading={itemUnitLoading}
                 onRemoveLoading={itemUnitLoading}
+                disabled={disabled}
             />
         );
     };
@@ -105,7 +121,7 @@ export class Units extends Component {
         } = this.props;
 
         return (
-            <View style={styles.bodyContainer}>
+            <View style={styles.childContainer}>
                 {this.INPUT_MODAL()}
                 <InfiniteScroll
                     getItems={getItemUnits}
