@@ -83,21 +83,40 @@ export class Tax extends React.Component {
     };
 
     render() {
-        const { navigation, handleSubmit, locale, type, loading } = this.props;
-        const isCreate = type === ADD_TAX;
+        const {
+            navigation,
+            handleSubmit,
+            locale,
+            loading,
+            isEditScreen,
+            isAllowToEdit,
+            isAllowToDelete
+        } = this.props;
+
         let taxRefs = {};
+        const disabled = !isAllowToEdit;
+
+        const getTitle = () => {
+            let title = 'header.addTaxes';
+            if (isEditScreen && !isAllowToEdit) title = 'header.viewTax';
+            if (isEditScreen && isAllowToEdit) title = 'header.editTaxes';
+
+            return Lng.t(title, { locale });
+        };
+
         const bottomAction = [
             {
                 label: 'button.save',
                 onPress: handleSubmit(this.onSave),
+                show: isAllowToEdit,
                 loading
             },
             {
                 label: 'button.remove',
                 onPress: this.removeTax,
-                loading,
                 bgColor: 'btn-danger',
-                show: !isCreate
+                show: isEditScreen && isAllowToDelete,
+                loading
             }
         ];
 
@@ -105,15 +124,13 @@ export class Tax extends React.Component {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: isCreate
-                        ? Lng.t('header.addTaxes', { locale })
-                        : Lng.t('header.editTaxes', { locale }),
+                    title: getTitle(),
                     placement: 'center',
-                    rightIcon: 'save',
-                    rightIconProps: {
-                        solid: true
-                    },
-                    rightIconPress: handleSubmit(this.onSave)
+                    ...(isAllowToEdit && {
+                        rightIcon: 'save',
+                        rightIconProps: { solid: true },
+                        rightIconPress: handleSubmit(this.onSave)
+                    })
                 }}
                 bottomAction={
                     <ActionButton locale={locale} buttons={bottomAction} />
@@ -125,6 +142,7 @@ export class Tax extends React.Component {
                         component={InputField}
                         isRequired
                         hint={Lng.t('taxes.type', { locale })}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -140,6 +158,9 @@ export class Tax extends React.Component {
                         isRequired
                         component={InputField}
                         hint={Lng.t('taxes.percentage', { locale }) + ' (%)'}
+                        maxNumber={100}
+                        refLinkFn={ref => (taxRefs.percent = ref)}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             keyboardType: 'decimal-pad',
@@ -147,16 +168,15 @@ export class Tax extends React.Component {
                                 taxRefs.description.focus();
                             }
                         }}
-                        refLinkFn={ref => {
-                            taxRefs.percent = ref;
-                        }}
-                        maxNumber={100}
                     />
 
                     <Field
                         name="description"
                         component={InputField}
                         hint={Lng.t('taxes.description', { locale })}
+                        refLinkFn={ref => (taxRefs.description = ref)}
+                        height={80}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -164,10 +184,6 @@ export class Tax extends React.Component {
                             multiline: true,
                             maxLength: MAX_LENGTH
                         }}
-                        refLinkFn={ref => {
-                            taxRefs.description = ref;
-                        }}
-                        height={80}
                     />
 
                     <Field
@@ -175,6 +191,7 @@ export class Tax extends React.Component {
                         component={ToggleSwitch}
                         hint={Lng.t('taxes.compoundTax', { locale })}
                         title-text-default
+                        disabled={disabled}
                     />
                 </View>
             </DefaultLayout>

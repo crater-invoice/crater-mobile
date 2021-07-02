@@ -64,15 +64,20 @@ export const MORE_MENU = (locale, Lng) => {
             }
         });
 
-    const list2 = [
-        {
+    (PermissionService.isAllowToView(SALES) ||
+        PermissionService.isAllowToView(PROFIT_AND_LOSS) ||
+        PermissionService.isAllowToView(EXPENSES) ||
+        PermissionService.isAllowToView(TAXES)) &&
+        list1.push({
             title: Lng.t('more.reports', { locale }),
             leftIcon: 'signal',
             iconSize: 15,
             fullItem: {
                 route: ROUTES.REPORTS
             }
-        },
+        });
+
+    const list2 = [
         {
             title: Lng.t('more.settings', { locale }),
             leftIcon: 'cogs',
@@ -95,37 +100,46 @@ export const MORE_MENU = (locale, Lng) => {
 };
 
 export const REPORTS_MENU = (locale, Lng) => {
-    return [
-        {
+    const reports = [];
+
+    PermissionService.isAllowToView(SALES) &&
+        reports.push({
             title: Lng.t('reports.sales', { locale }),
             fullItem: {
                 route: ROUTES.GENERATE_REPORT,
                 type: SALES
             }
-        },
-        {
+        });
+
+    PermissionService.isAllowToView(PROFIT_AND_LOSS) &&
+        reports.push({
             title: Lng.t('reports.profitAndLoss', { locale }),
             leftIcon: 'building',
             fullItem: {
                 route: ROUTES.GENERATE_REPORT,
                 type: PROFIT_AND_LOSS
             }
-        },
-        {
+        });
+
+    PermissionService.isAllowToView(EXPENSES) &&
+        reports.push({
             title: Lng.t('reports.expenses', { locale }),
             fullItem: {
                 route: ROUTES.GENERATE_REPORT,
                 type: EXPENSES
             }
-        },
-        {
+        });
+
+    PermissionService.isAllowToView(TAXES) &&
+        reports.push({
             title: Lng.t('reports.taxes', { locale }),
             fullItem: {
                 route: ROUTES.GENERATE_REPORT,
                 type: TAXES
             }
-        }
-    ];
+        });
+
+    return reports;
 };
 
 export const REPORT_TYPE_OPTION = (locale, Lng) => {

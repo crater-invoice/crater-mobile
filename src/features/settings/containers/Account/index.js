@@ -5,8 +5,9 @@ import { reduxForm } from 'redux-form';
 import { EDIT_ACCOUNT } from '../../constants';
 import * as AccountAction from '../../actions';
 import { validate } from './validation';
+import { PermissionService } from '@/services';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, { navigation }) => {
     const {
         settings: {
             loading: { getAccountInfoLoading, editAccountInfoLoading },
@@ -16,16 +17,20 @@ const mapStateToProps = state => {
     } = state;
 
     let isLoading = getAccountInfoLoading || !account;
+    const isAllowToEdit = PermissionService.isAllowToManage(
+        navigation?.state?.routeName
+    );
 
     return {
         isLoading,
         editAccountLoading: editAccountInfoLoading,
         locale,
         theme,
+        isAllowToEdit,
         initialValues: !isLoading
             ? {
-                  name: account.name,
-                  email: account.email
+                  name: account?.name,
+                  email: account?.email
               }
             : null
     };

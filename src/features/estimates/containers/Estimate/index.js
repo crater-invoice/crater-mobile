@@ -86,7 +86,7 @@ const mapStateToProps = (state, { navigation }) => {
                   template_name: getSelectedTemplate(
                       estimateTemplates,
                       estimate,
-                      isEditScreen
+                      isEditEstimate
                   ),
                   notes: estimate_notes,
                   ...estimate,

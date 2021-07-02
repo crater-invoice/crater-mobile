@@ -13,6 +13,7 @@ import Lng from '@/lang/i18n';
 import { isIosPlatform, isAndroidPlatform } from '@/constants';
 import { Text } from '../Text';
 import { View as CtView } from '../View';
+import { colors } from '@/styles';
 
 type IProps = {
     visible: Boolean,

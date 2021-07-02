@@ -4,7 +4,8 @@ import { Tax } from '../../components/Tax';
 import { reduxForm } from 'redux-form';
 import * as TaxAction from '../../actions';
 import { validate } from './validation';
-import { TAX_FORM, ADD_TAX } from '../../constants';
+import { TAX_FORM, ADD_TAX, EDIT_TAX } from '../../constants';
+import { PermissionService } from '@/services';
 
 const mapStateToProps = ({ settings, global }, { navigation }) => {
     const taxType = navigation.getParam('tax', {});
@@ -15,11 +16,22 @@ const mapStateToProps = ({ settings, global }, { navigation }) => {
         settings.loading.addTaxLoading ||
         settings.loading.removeTaxLoading;
 
+    const isEditScreen = type === EDIT_TAX;
+    const isAllowToEdit = isEditScreen
+        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
+        : true;
+    const isAllowToDelete = isEditScreen
+        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
+        : true;
+
     return {
         loading: isLoading,
         type,
         taxId: taxType && taxType.id,
         locale: global?.locale,
+        isEditScreen,
+        isAllowToEdit,
+        isAllowToDelete,
         initialValues: {
             collective_tax: 0,
             compound_tax: 0,

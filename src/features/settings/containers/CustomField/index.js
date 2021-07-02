@@ -8,9 +8,11 @@ import {
     CUSTOM_FIELD_FORM,
     CUSTOM_FIELDS as FIELDS,
     CUSTOM_FIELD_MODAL_TYPES as MODAL_TYPES,
-    CUSTOM_FIELD_DATA_TYPE_LIST as DATA_TYPES
+    CUSTOM_FIELD_DATA_TYPE_LIST as DATA_TYPES,
+    EDIT_CUSTOM_FIELD_TYPE
 } from '../../constants';
 import { CustomField } from '../../components/CustomField';
+import { PermissionService } from '@/services';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -28,6 +30,14 @@ const mapStateToProps = (state, { navigation }) => {
     let field = navigation.getParam('field', {});
     let id = field?.id;
 
+    const isEditScreen = type === EDIT_CUSTOM_FIELD_TYPE;
+    const isAllowToEdit = isEditScreen
+        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
+        : true;
+    const isAllowToDelete = isEditScreen
+        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
+        : true;
+
     return {
         loading: customFieldLoading,
         getCustomFieldLoading,
@@ -38,6 +48,9 @@ const mapStateToProps = (state, { navigation }) => {
         id,
         locale,
         theme,
+        isEditScreen,
+        isAllowToEdit: false,
+        isAllowToDelete,
         formValues: getFormValues(CUSTOM_FIELD_FORM)(state) || {},
         initialValues:
             type === CREATE_CUSTOM_FIELD_TYPE

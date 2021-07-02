@@ -86,7 +86,7 @@ const mapStateToProps = (state, { navigation }) => {
                   template_name: getSelectedTemplate(
                       invoiceTemplates,
                       invoice,
-                      isEditScreen
+                      isEditInvoice
                   ),
                   notes: invoice_notes,
                   ...invoice,

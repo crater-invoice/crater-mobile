@@ -349,7 +349,7 @@ export class Address extends Component<IProps> {
             {
                 label: 'button.done',
                 onPress: handleSubmit(this.saveAddress),
-                show: !isKeyboardVisible || !disabled
+                show: !isKeyboardVisible && !disabled
             }
         ];
 

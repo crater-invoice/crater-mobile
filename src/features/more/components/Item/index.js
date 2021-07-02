@@ -427,15 +427,15 @@ export class Item extends React.Component {
             {
                 label: 'button.save',
                 onPress: handleSubmit(this.saveItem),
-                loading,
-                show: isAllowToEdit
+                show: isAllowToEdit,
+                loading
             },
             {
                 label: 'button.remove',
                 onPress: this.removeItem,
-                loading,
                 bgColor: 'btn-danger',
-                show: isEditItem && isAllowToDelete
+                show: isEditItem && isAllowToDelete,
+                loading
             }
         ];
 

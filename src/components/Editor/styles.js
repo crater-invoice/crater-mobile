@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
         backgroundColor: theme?.thirdBgColor,
         paddingHorizontal: 12,
         paddingVertical: 7,
+        borderRadius: 3,
         ...(theme?.mode === 'light' && {
             borderColor: colors.gray2
         })

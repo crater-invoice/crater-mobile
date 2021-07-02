@@ -102,6 +102,7 @@ export class CustomFields extends React.Component<IProps> {
 
         const headerProps = {
             title: Lng.t('header.customFields', { locale }),
+            navigation,
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.goBack(null),
             titleSize: 'medium',

@@ -154,7 +154,7 @@ export class CustomField extends React.Component<IProps> {
     };
 
     REQUIRE_FIELD_VIEW = () => {
-        const { locale, theme } = this.props;
+        const { locale, theme, isAllowToEdit } = this.props;
         return (
             <View style={[styles.row, { marginTop: 10 }]}>
                 <View style={styles.positionView}>
@@ -176,6 +176,7 @@ export class CustomField extends React.Component<IProps> {
                         component={ToggleSwitch}
                         switchStyle={{ marginRight: 100 }}
                         hintStyle={styles.leftText}
+                        disabled={!isAllowToEdit}
                     />
                 </View>
             </View>
@@ -284,21 +285,35 @@ export class CustomField extends React.Component<IProps> {
             locale,
             type,
             loading,
-            removeCustomFieldLoading
+            removeCustomFieldLoading,
+            isEditScreen,
+            isAllowToEdit,
+            isAllowToDelete
         } = this.props;
+        const disabled = !isAllowToEdit;
+
+        const getTitle = () => {
+            let title = 'header.addCustomField';
+            if (isEditScreen && !isAllowToEdit)
+                title = 'header.viewCustomField';
+            if (isEditScreen && isAllowToEdit) title = 'header.editCustomField';
+
+            return Lng.t(title, { locale });
+        };
 
         const bottomAction = [
             {
                 label: 'button.save',
                 onPress: handleSubmit(this.onSubmit),
+                show: isAllowToEdit,
                 loading: loading || this.isLoading()
             },
             {
                 label: 'button.remove',
                 onPress: this.removeField,
-                loading: removeCustomFieldLoading || this.isLoading(),
                 bgColor: 'btn-danger',
-                show: type === EDIT_CUSTOM_FIELD_TYPE
+                show: isEditScreen && isAllowToDelete,
+                loading: removeCustomFieldLoading || this.isLoading()
             }
         ];
 
@@ -310,20 +325,13 @@ export class CustomField extends React.Component<IProps> {
                     leftIconPress: () => {
                         navigation.goBack(null);
                     },
-                    title:
-                        type === EDIT_CUSTOM_FIELD_TYPE
-                            ? Lng.t('header.editCustomField', {
-                                  locale
-                              })
-                            : Lng.t('header.addCustomField', {
-                                  locale
-                              }),
+                    title: getTitle(),
                     placement: 'center',
-                    rightIcon: 'save',
-                    rightIconProps: {
-                        solid: true
-                    },
-                    rightIconPress: handleSubmit(this.onSubmit)
+                    ...(isAllowToEdit && {
+                        rightIcon: 'save',
+                        rightIconProps: { solid: true },
+                        rightIconPress: handleSubmit(this.onSubmit)
+                    })
                 }}
                 bottomAction={
                     <ActionButton locale={locale} buttons={bottomAction} />
@@ -335,6 +343,7 @@ export class CustomField extends React.Component<IProps> {
                         name={`${FIELDS.FIELD}.${FIELDS.NAME}`}
                         component={InputField}
                         isRequired
+                        disabled={disabled}
                         hint={Lng.t('customFields.name', {
                             locale
                         })}
@@ -352,6 +361,7 @@ export class CustomField extends React.Component<IProps> {
                         })}
                         fieldIcon="align-center"
                         items={MODAL_TYPES}
+                        disabled={disabled}
                         defaultPickerOptions={{
                             label: Lng.t('customFields.modelPlaceholder', {
                                 locale
@@ -378,6 +388,7 @@ export class CustomField extends React.Component<IProps> {
                             }),
                             value: ''
                         }}
+                        disabled={disabled}
                         onChangeCallback={() => this.onChangeReset()}
                         callbackWhenMount={() => {}}
                     />
@@ -386,6 +397,7 @@ export class CustomField extends React.Component<IProps> {
                         name={`${FIELDS.FIELD}.${FIELDS.LABEL}`}
                         component={InputField}
                         isRequired
+                        disabled={disabled}
                         hint={Lng.t('customFields.label', {
                             locale
                         })}
@@ -401,6 +413,7 @@ export class CustomField extends React.Component<IProps> {
                         name={`${FIELDS.FIELD}.${FIELDS.ORDER}`}
                         component={InputField}
                         hint={Lng.t('customFields.order', { locale })}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,

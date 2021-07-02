@@ -256,7 +256,7 @@ export class Customer extends React.Component<IProps> {
                     leftIconPress: () => navigation.goBack(null),
                     title: getTitle(),
                     placement: 'center',
-                    ...((!isEditScreen || !isAllowToDelete) && {
+                    ...(!isEditScreen && {
                         rightIcon: 'save',
                         rightIconProps: { solid: true },
                         rightIconPress: handleSubmit(this.onSubmit)

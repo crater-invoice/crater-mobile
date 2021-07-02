@@ -71,7 +71,9 @@
         "viewExpense": "View Expense",
         "viewInvoice": "View Invoice",
         "viewEstimate": "View Estimate",
-        "viewItem": "View Item"
+        "viewItem": "View Item",
+        "viewTax": "View Tax",
+        "viewCustomField": "View Custom Field"
     },
     "tabNavigation": {
         "invoices": "Invoices",

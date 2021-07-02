@@ -19,19 +19,20 @@ export let customFieldRefs = {};
 export const setCustomFieldRefs = refs => (customFieldRefs = refs);
 
 const DEFAULT_TIME_FIELD = () => {
-    const { locale } = customFieldRefs?.props;
+    const { locale, isAllowToEdit } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={TimePickerField}
             label={Lng.t('customFields.defaultValue', { locale })}
             locale={locale}
+            disabled={!isAllowToEdit}
         />
     );
 };
 
 const DEFAULT_NUMBER_FIELD = symbol => {
-    const { locale, currency } = customFieldRefs?.props;
+    const { locale, currency, isAllowToEdit } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
@@ -43,12 +44,13 @@ const DEFAULT_NUMBER_FIELD = symbol => {
                 keyboardType: KEYBOARD_TYPE.NUMERIC
             }}
             leftSymbol={symbol ?? currency?.symbol}
+            disabled={!isAllowToEdit}
         />
     );
 };
 
 const DEFAULT_DATE_FIELD = () => {
-    const { locale } = customFieldRefs?.props;
+    const { locale, isAllowToEdit } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
@@ -56,16 +58,18 @@ const DEFAULT_DATE_FIELD = () => {
             label={Lng.t('customFields.defaultValue', { locale })}
             icon={'calendar-alt'}
             formDateFormat="YYYY-MM-DD"
+            disabled={!isAllowToEdit}
         />
     );
 };
 
 const DEFAULT_INPUT_FIELD = () => {
-    const { locale } = customFieldRefs?.props;
+    const { locale, isAllowToEdit } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={InputField}
+            disabled={!isAllowToEdit}
             hint={Lng.t('customFields.defaultValue', {
                 locale
             })}
@@ -78,11 +82,12 @@ const DEFAULT_INPUT_FIELD = () => {
 };
 
 const DEFAULT_TEXTAREA_FIELD = () => {
-    const { locale } = customFieldRefs?.props;
+    const { locale, isAllowToEdit } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={InputField}
+            disabled={!isAllowToEdit}
             hint={Lng.t('customFields.defaultValue', {
                 locale
             })}
@@ -99,11 +104,12 @@ const DEFAULT_TEXTAREA_FIELD = () => {
 };
 
 const PLACEHOLDER_FIELD = () => {
-    const { locale } = customFieldRefs?.props;
+    const { locale, isAllowToEdit } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.PLACEHOLDER}`}
             component={InputField}
+            disabled={!isAllowToEdit}
             hint={Lng.t('customFields.placeholder', {
                 locale
             })}
@@ -115,17 +121,21 @@ const PLACEHOLDER_FIELD = () => {
     );
 };
 
-const SELECT_FIELD_OPTIONS = () => (
-    <FieldArray
-        name={`${FIELDS.FIELD}.${FIELDS.OPTIONS}`}
-        component={SelectFieldOptions}
-        addFirstItem
-        removeFirstItemOnPress
-    />
-);
+const SELECT_FIELD_OPTIONS = () => {
+    const { isAllowToEdit } = customFieldRefs?.props;
+    return (
+        <FieldArray
+            name={`${FIELDS.FIELD}.${FIELDS.OPTIONS}`}
+            component={SelectFieldOptions}
+            addFirstItem
+            removeFirstItemOnPress
+            disabled={!isAllowToEdit}
+        />
+    );
+};
 
 const SELECT_FIELD_DEFAULT_VALUE = () => {
-    const { locale, formValues } = customFieldRefs?.props;
+    const { locale, formValues, isAllowToEdit } = customFieldRefs?.props;
     const options = formValues?.[FIELDS.FIELD][FIELDS.OPTIONS];
 
     const optionsFormat = () => {
@@ -152,35 +162,39 @@ const SELECT_FIELD_DEFAULT_VALUE = () => {
             })}
             fieldIcon="align-center"
             items={optionsFormat()}
+            disabled={!isAllowToEdit}
         />
     );
 };
 
 const DEFAULT_CHECKBOX_FIELD = () => {
-    const { locale } = customFieldRefs?.props;
+    const { locale, isAllowToEdit } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={CheckBox}
             hint={Lng.t('customFields.defaultValue', { locale })}
             label={Lng.t('customFields.check', { locale })}
+            disabled={!isAllowToEdit}
         />
     );
 };
 
 const DEFAULT_DATE_TIME_FIELD = () => {
-    const { locale } = customFieldRefs?.props;
+    const { locale, isAllowToEdit } = customFieldRefs?.props;
     return (
         <Field
             name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
             component={DateTimePickerField}
             label={Lng.t('customFields.defaultValue', { locale })}
             locale={locale}
+            disabled={!isAllowToEdit}
             callOnChangeInMount
             removeSecond
         />
     );
 };
+
 export {
     DEFAULT_INPUT_FIELD,
     DEFAULT_TEXTAREA_FIELD,

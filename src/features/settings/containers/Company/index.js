@@ -6,8 +6,9 @@ import { EDIT_COMPANY } from '../../constants';
 import * as CompanyAction from '../../actions';
 import { validate } from './validation';
 import { getCountries } from '@/features/customers/actions';
+import { PermissionService } from '@/services';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, { navigation }) => {
     const {
         settings: {
             loading: { editCompanyInfoLoading, getCompanyInfoLoading }
@@ -18,6 +19,9 @@ const mapStateToProps = state => {
             loading: { countriesLoading }
         }
     } = state;
+    const isAllowToEdit = PermissionService.isAllowToManage(
+        navigation?.state?.routeName
+    );
 
     return {
         formValues: getFormValues(EDIT_COMPANY)(state) || {},
@@ -26,6 +30,7 @@ const mapStateToProps = state => {
         getCompanyInfoLoading,
         countries,
         countriesLoading,
+        isAllowToEdit,
         initialValues: {
             name: null,
             country_id: null,

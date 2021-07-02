@@ -70,6 +70,7 @@ export class Taxes extends React.Component {
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
             title: Lng.t('header.taxes', { locale }),
             placement: 'center',
+            navigation,
             rightIcon: 'plus',
             rightIconPress: () =>
                 navigation.navigate(ROUTES.TAX, { type: ADD_TAX })

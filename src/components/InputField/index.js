@@ -51,6 +51,10 @@ export class InputFieldComponent extends Component<IInputField> {
     };
 
     toggleSecureTextEntry = () => {
+        if (this.props.disabled) {
+            return;
+        }
+
         this.setState(({ isSecureTextEntry }) => ({
             isSecureTextEntry: !isSecureTextEntry
         }));

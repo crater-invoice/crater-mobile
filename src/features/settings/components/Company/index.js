@@ -126,14 +126,19 @@ export class Company extends React.Component<IProps> {
             getCompanyInfoLoading,
             countriesLoading,
             editCompanyLoading,
+            isAllowToEdit,
             countries
         } = this.props;
+
         const { fileLoading } = this.state;
         let companyRefs = {};
+        const disabled = !isAllowToEdit;
+
         const bottomAction = [
             {
                 label: 'button.save',
                 onPress: handleSubmit(this.onCompanyUpdate),
+                show: isAllowToEdit,
                 loading:
                     editCompanyLoading ||
                     fileLoading ||
@@ -149,11 +154,11 @@ export class Company extends React.Component<IProps> {
                     title: Lng.t('header.setting.company', { locale }),
                     withTitleStyle: styles.titleStyle,
                     placement: 'center',
-                    rightIcon: 'save',
-                    rightIconProps: {
-                        solid: true
-                    },
-                    rightIconPress: handleSubmit(this.onCompanyUpdate)
+                    ...(isAllowToEdit && {
+                        rightIcon: 'save',
+                        rightIconProps: { solid: true },
+                        rightIconPress: handleSubmit(this.onCompanyUpdate)
+                    })
                 }}
                 bottomAction={
                     <ActionButton locale={locale} buttons={bottomAction} />
@@ -170,6 +175,7 @@ export class Company extends React.Component<IProps> {
                         label={Lng.t('settings.company.logo', { locale })}
                         onChangeCallback={val => this.setState({ logo: val })}
                         uploadedFileUrl={this.state.image}
+                        disabled={disabled}
                         containerStyle={{
                             marginTop: 15,
                             marginBottom: 5
@@ -184,6 +190,7 @@ export class Company extends React.Component<IProps> {
                         component={InputField}
                         isRequired
                         hint={Lng.t('settings.company.name', { locale })}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
@@ -198,6 +205,7 @@ export class Company extends React.Component<IProps> {
                         name={'phone'}
                         component={InputField}
                         hint={Lng.t('settings.company.phone', { locale })}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             keyboardType: 'phone-pad'
@@ -232,6 +240,8 @@ export class Company extends React.Component<IProps> {
                         emptyContentProps={{
                             contentType: 'countries'
                         }}
+                        fakeInputProps={{ disabled }}
+                        isEditable={!disabled}
                         isRequired
                     />
 
@@ -239,6 +249,7 @@ export class Company extends React.Component<IProps> {
                         name={'state'}
                         component={InputField}
                         hint={Lng.t('customers.address.state', { locale })}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -253,6 +264,7 @@ export class Company extends React.Component<IProps> {
                         name={'city'}
                         component={InputField}
                         hint={Lng.t('customers.address.city', { locale })}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -270,6 +282,12 @@ export class Company extends React.Component<IProps> {
                         name={'address_street_1'}
                         component={InputField}
                         hint={Lng.t('settings.company.address', { locale })}
+                        disabled={disabled}
+                        height={60}
+                        autoCorrect={true}
+                        refLinkFn={ref => {
+                            companyRefs.street1 = ref;
+                        }}
                         inputProps={{
                             returnKeyType: 'next',
                             placeholder: Lng.t('settings.company.street1', {
@@ -279,16 +297,15 @@ export class Company extends React.Component<IProps> {
                             multiline: true,
                             maxLength: MAX_LENGTH
                         }}
-                        height={60}
-                        autoCorrect={true}
-                        refLinkFn={ref => {
-                            companyRefs.street1 = ref;
-                        }}
                     />
 
                     <Field
                         name={'address_street_2'}
                         component={InputField}
+                        disabled={disabled}
+                        height={60}
+                        autoCorrect={true}
+                        containerStyle={styles.addressStreetField}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -299,15 +316,13 @@ export class Company extends React.Component<IProps> {
                             multiline: true,
                             maxLength: MAX_LENGTH
                         }}
-                        height={60}
-                        autoCorrect={true}
-                        containerStyle={styles.addressStreetField}
                     />
 
                     <Field
                         name={'zip'}
                         component={InputField}
                         hint={Lng.t('settings.company.zipcode', { locale })}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',

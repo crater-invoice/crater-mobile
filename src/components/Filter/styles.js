@@ -15,9 +15,6 @@ export default StyleSheet.create({
             }
         })
     },
-    backIcon: {
-        color: colors.dark
-    },
     submitHint: {
         fontSize: 17,
         textAlign: 'left'

@@ -5,7 +5,6 @@ import { View } from 'react-native';
 import styles from './styles';
 import {
     DefaultLayout,
-    CtButton,
     InputField,
     CtDivider,
     FilePicker,
@@ -17,7 +16,6 @@ import Lng from '@/lang/i18n';
 import { EDIT_ACCOUNT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { headerTitle } from '@/styles';
-import { IMAGES } from '@/assets';
 import { env } from '@/config';
 
 let name = 'name';
@@ -34,6 +32,7 @@ type IProps = {
     isLoading: Boolean,
     editAccountLoading: Boolean
 };
+
 export class Account extends React.Component<IProps> {
     constructor(props) {
         super(props);
@@ -90,14 +89,16 @@ export class Account extends React.Component<IProps> {
             locale,
             isLoading,
             editAccountLoading,
+            isAllowToEdit,
             theme
         } = this.props;
-
         let accountRefs = {};
+        const disabled = !isAllowToEdit;
         const bottomAction = [
             {
                 label: 'button.save',
                 onPress: handleSubmit(this.onProfileUpdate),
+                show: isAllowToEdit,
                 loading:
                     editAccountLoading || this.state.fileLoading || isLoading
             }
@@ -113,11 +114,11 @@ export class Account extends React.Component<IProps> {
                         marginRight: -25
                     }),
                     placement: 'center',
-                    rightIcon: 'save',
-                    rightIconProps: {
-                        solid: true
-                    },
-                    rightIconPress: handleSubmit(this.onProfileUpdate)
+                    ...(isAllowToEdit && {
+                        rightIcon: 'save',
+                        rightIconProps: { solid: true },
+                        rightIconPress: handleSubmit(this.onProfileUpdate)
+                    })
                 }}
                 bottomAction={
                     <ActionButton locale={locale} buttons={bottomAction} />
@@ -138,6 +139,7 @@ export class Account extends React.Component<IProps> {
                         imageContainerStyle={styles.imageContainerStyle}
                         imageStyle={styles.imageStyle}
                         loadingContainerStyle={styles.loadingContainerStyle}
+                        disabled={disabled}
                         fileLoading={val => {
                             this.setState({ fileLoading: val });
                         }}
@@ -148,6 +150,7 @@ export class Account extends React.Component<IProps> {
                         component={InputField}
                         isRequired
                         hint={Lng.t('settings.account.name', { locale })}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCorrect: true,
@@ -162,6 +165,7 @@ export class Account extends React.Component<IProps> {
                         component={InputField}
                         isRequired
                         hint={Lng.t('settings.account.email', { locale })}
+                        disabled={disabled}
                         inputProps={{
                             returnKeyType: 'next',
                             autoCapitalize: 'none',
@@ -171,9 +175,7 @@ export class Account extends React.Component<IProps> {
                                 accountRefs.password.focus();
                             }
                         }}
-                        refLinkFn={ref => {
-                            accountRefs.email = ref;
-                        }}
+                        refLinkFn={ref => (accountRefs.email = ref)}
                     />
 
                     <Field
@@ -190,6 +192,7 @@ export class Account extends React.Component<IProps> {
                         }}
                         secureTextEntry
                         secureTextIconContainerStyle={styles.eyeIcon}
+                        disabled={disabled}
                         refLinkFn={ref => {
                             accountRefs.password = ref;
                         }}
@@ -209,6 +212,7 @@ export class Account extends React.Component<IProps> {
                         }}
                         secureTextEntry
                         secureTextIconContainerStyle={styles.eyeIcon}
+                        disabled={disabled}
                         refLinkFn={ref => {
                             accountRefs.confirm = ref;
                         }}

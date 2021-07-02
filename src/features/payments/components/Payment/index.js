@@ -407,7 +407,6 @@ export class Payment extends React.Component<IProps> {
 
         const { isLoading, selectedCustomer } = this.state;
         const disabled = !isAllowToEdit;
-        const isEditPayment = type === PAYMENT_EDIT;
 
         const hasCustomField = isEditScreen
             ? formValues?.payment && formValues.payment.hasOwnProperty('fields')
