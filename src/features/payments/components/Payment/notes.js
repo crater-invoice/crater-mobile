@@ -91,6 +91,7 @@ export default class Notes extends Component<IProps> {
                                 title: Lng.t('notes.select', { locale })
                             }}
                             rightIconPress={this.navigateToNote}
+                            createActionRouteName={ROUTES.NOTE}
                             emptyContentProps={{
                                 contentType: 'notes'
                             }}

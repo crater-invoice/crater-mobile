@@ -92,6 +92,7 @@ export default class Notes extends Component<IProps> {
                                 })
                             }}
                             rightIconPress={this.navigateToNote}
+                            createActionRouteName={ROUTES.NOTE}
                             emptyContentProps={{
                                 contentType: 'notes'
                             }}

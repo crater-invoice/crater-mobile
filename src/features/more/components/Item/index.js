@@ -20,7 +20,7 @@ import Lng from '@/lang/i18n';
 import { goBack, UNMOUNT, MOUNT } from '@/navigation';
 import { isIosPlatform, isIPhoneX } from '@/constants';
 import { alertMe, hasValue, MAX_LENGTH } from '@/constants';
-import { ADD_TAX } from '@/features/settings/constants';
+import { ADD_TAX, CUSTOMIZE_TYPE } from '@/features/settings/constants';
 
 export class Item extends React.Component {
     constructor(props) {
@@ -388,6 +388,7 @@ export class Item extends React.Component {
                         }
                     })
                 }
+                createActionRouteName={ROUTES.TAX}
                 emptyContentProps={{
                     contentType: 'taxes'
                 }}
@@ -518,6 +519,7 @@ export class Item extends React.Component {
                         onSelect={item => this.setFormField('unit_id', item.id)}
                         paginationLimit={isIPhoneX() ? 20 : 15}
                         inputModalName="UnitModal"
+                        createActionRouteName={CUSTOMIZE_TYPE.ITEMS}
                         isEditable={!disabled}
                     />
 

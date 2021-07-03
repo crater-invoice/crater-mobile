@@ -24,7 +24,7 @@ import {
 import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import { ADD_TAX } from '@/features/settings/constants';
+import { ADD_TAX, CUSTOMIZE_TYPE } from '@/features/settings/constants';
 import {
     alertMe,
     hasValue,
@@ -514,6 +514,7 @@ export class EstimateItem extends React.Component {
                             }
                             paginationLimit={isIPhoneX() ? 20 : 15}
                             inputModalName="UnitModal"
+                            createActionRouteName={CUSTOMIZE_TYPE.ITEMS}
                         />
                     )}
 
@@ -585,6 +586,7 @@ export class EstimateItem extends React.Component {
                                     }
                                 })
                             }
+                            createActionRouteName={ROUTES.TAX}
                             emptyContentProps={{
                                 contentType: 'taxes'
                             }}

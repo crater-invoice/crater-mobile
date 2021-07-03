@@ -380,6 +380,7 @@ export class Expense extends React.Component<IProps, IState> {
                             )
                         }
                         rightIconPress={this.navigateToCategory}
+                        createActionRouteName={ROUTES.CATEGORY}
                         headerProps={{
                             title: Lng.t('expenses.categoryPlaceholder', {
                                 locale
@@ -413,6 +414,7 @@ export class Expense extends React.Component<IProps, IState> {
                             )
                         }
                         rightIconPress={this.navigateToCustomer}
+                        createActionRouteName={ROUTES.CUSTOMER}
                         headerProps={{
                             title: Lng.t('customers.title', { locale })
                         }}

@@ -725,6 +725,7 @@ export class Estimate extends React.Component<IProps> {
                             this.setState({ currency: item.currency });
                         }}
                         rightIconPress={this.navigateToCustomer}
+                        createActionRouteName={ROUTES.CUSTOMER}
                         headerProps={{
                             title: Lng.t('customers.title', { locale })
                         }}
@@ -802,6 +803,7 @@ export class Estimate extends React.Component<IProps> {
                                 tax_per_item
                             })
                         }
+                        createActionRouteName={ROUTES.GLOBAL_ITEM}
                         headerProps={{
                             title: Lng.t('items.title', { locale })
                         }}

@@ -685,6 +685,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                         component={SelectField}
                         label={Lng.t('invoices.customer', { locale })}
                         icon={'user'}
+                        createActionRouteName={ROUTES.CUSTOMER}
                         placeholder={
                             customerName
                                 ? customerName
@@ -757,6 +758,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                             color: colors.primaryLight,
                             disabled
                         }}
+                        createActionRouteName={ROUTES.GLOBAL_ITEM}
                         onSelect={item => {
                             navigation.navigate(ROUTES.INVOICE_ITEM, {
                                 item,

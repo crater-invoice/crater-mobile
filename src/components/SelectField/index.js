@@ -15,6 +15,7 @@ import { hasValue, isArray } from '@/constants';
 import { internalSearch as searchItem } from '@/utils';
 import { ARROW_ICON } from '@/assets';
 import { PaymentModeModal, UnitModal } from '../Modal';
+import { PermissionService } from '@/services';
 
 export class SelectFieldComponent extends Component<IProps, IStates> {
     scrollViewReference: any;
@@ -375,7 +376,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             locale,
             paginationLimit,
             customView,
-            inputModalName
+            inputModalName,
+            createActionRouteName
         } = this.props;
 
         const {
@@ -416,7 +418,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             };
         }
 
-        const layoutHeaderProps = {
+        let layoutHeaderProps = {
             leftIcon: ARROW_ICON,
             leftIconPress: () => this.onToggle(),
             withTitleStyle: headerTitle({}),
@@ -428,6 +430,24 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             rightIconPress: () => this.onRightIconPress(),
             ...headerProps
         };
+
+        if (
+            createActionRouteName &&
+            layoutHeaderProps?.rightIcon &&
+            layoutHeaderProps?.rightIcon === 'plus' &&
+            layoutHeaderProps?.rightIconPress
+        ) {
+            const isAllowToCreate = PermissionService.isAllowToCreate(
+                createActionRouteName
+            );
+
+            if (!isAllowToCreate) {
+                layoutHeaderProps = {
+                    ...layoutHeaderProps,
+                    rightIconPress: null
+                };
+            }
+        }
 
         const listProps = {
             items: apiSearch ? items : internalSearchItem,

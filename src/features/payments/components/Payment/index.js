@@ -41,6 +41,7 @@ import {
 } from '@/utils';
 import Notes from './notes';
 import PaymentServices from '../../services';
+import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
 
 type IProps = {
     navigation: Object,
@@ -515,6 +516,7 @@ export class Payment extends React.Component<IProps> {
                         navigation={navigation}
                         compareField="id"
                         onSelect={item => this.onSelectCustomer(item)}
+                        createActionRouteName={ROUTES.CUSTOMER}
                         rightIconPress={this.navigateToCustomer}
                         headerProps={{
                             title: Lng.t('customers.title', { locale })
@@ -613,6 +615,7 @@ export class Payment extends React.Component<IProps> {
                         }}
                         emptyContentProps={{ contentType: 'paymentMode' }}
                         inputModalName="PaymentModeModal"
+                        createActionRouteName={CUSTOMIZE_TYPE.PAYMENTS}
                         isEditable={!disabled}
                         fakeInputProps={{ disabled }}
                     />

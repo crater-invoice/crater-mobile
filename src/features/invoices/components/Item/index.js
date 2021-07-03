@@ -31,7 +31,7 @@ import {
     isIPhoneX,
     MAX_LENGTH
 } from '@/constants';
-import { ADD_TAX } from '@/features/settings/constants';
+import { ADD_TAX, CUSTOMIZE_TYPE } from '@/features/settings/constants';
 
 export class InvoiceItem extends React.Component {
     constructor(props) {
@@ -509,6 +509,7 @@ export class InvoiceItem extends React.Component {
                             }
                             paginationLimit={isIPhoneX() ? 20 : 15}
                             inputModalName="UnitModal"
+                            createActionRouteName={CUSTOMIZE_TYPE.ITEMS}
                         />
                     )}
 
@@ -578,6 +579,7 @@ export class InvoiceItem extends React.Component {
                                     }
                                 })
                             }
+                            createActionRouteName={ROUTES.TAX}
                             emptyContentProps={{
                                 contentType: 'taxes'
                             }}
