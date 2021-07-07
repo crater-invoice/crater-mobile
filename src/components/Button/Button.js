@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Animated } from 'react-native';
+import { Animated } from 'react-native';
 import styles from './styles';
 import { colors } from '@/styles';
 import { Button } from 'react-native-elements';
@@ -40,17 +40,8 @@ export class CtGradientButton extends Component<IProps> {
         };
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        const { loading } = nextProps;
-        const { buttonFocus } = nextState;
-
-        if (!loading && buttonFocus) {
-            this.setState({ buttonFocus: false });
-        }
-    }
-
-    onBtnPress = () => {
-        this.setState({ buttonFocus: true });
+    onBtnPress = async () => {
+        await this.setState({ buttonFocus: true });
         this.props?.onPress?.();
     };
 
@@ -115,6 +106,7 @@ export class CtGradientButton extends Component<IProps> {
                         raised && styles.containerShadow,
                         containerStyle && containerStyle,
                         hasFocus &&
+                            loading &&
                             buttonFocus && {
                                 borderColor: colors[`${buttonColor}Light`]
                             },
@@ -193,17 +185,8 @@ class ActionButton extends Component<IProps> {
         };
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        const { loading } = nextProps;
-        const { buttonFocus } = nextState;
-
-        if (!loading && buttonFocus) {
-            this.setState({ buttonFocus: false });
-        }
-    }
-
-    onBtnPress = () => {
-        this.setState({ buttonFocus: true });
+    onBtnPress = async () => {
+        await this.setState({ buttonFocus: true });
         this.props?.onPress?.();
     };
 
@@ -272,7 +255,10 @@ class ActionButton extends Component<IProps> {
                     containerStyle={[
                         styles.containerStyle,
                         raised && styles.containerShadow,
-                        containerStyle && containerStyle
+                        containerStyle && containerStyle,
+                        isLoading && {
+                            borderColor: colors[`${buttonColor}Light`]
+                        }
                     ]}
                     buttonStyle={[
                         styles.buttonStyle,
@@ -310,7 +296,10 @@ class ActionButton extends Component<IProps> {
                         style,
                         isOutline
                             ? [
-                                  { borderColor: colors[buttonColor] },
+                                  {
+                                      borderColor: colors[buttonColor],
+                                      opacity: 0.7
+                                  },
                                   styles.buttonOutline
                               ]
                             : {
