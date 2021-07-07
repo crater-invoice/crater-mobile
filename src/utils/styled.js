@@ -9,6 +9,15 @@ export const applyProp = (props, prop) => {
     return split[split.length - 1];
 };
 
+export const applyDivisionProp = (props, prop, division = 100) => {
+    const property = Object.keys(props).filter(k => k.includes(prop))?.[0];
+
+    if (!property) return 0;
+
+    const split = property.split('-');
+    return split[split.length - 1] / division;
+};
+
 export const applyColor = (props, prop) => {
     const property = Object.keys(props).filter(k => k.includes(prop))?.[0];
     const split = property.split('-');

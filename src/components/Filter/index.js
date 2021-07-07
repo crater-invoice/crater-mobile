@@ -286,19 +286,17 @@ export class Filter extends Component<IProps> {
                                     : 100
                             }}
                         >
-                            <View style={styles.bodyContainer}>
-                                {selectFields && this.selectField(selectFields)}
+                            {selectFields && this.selectField(selectFields)}
 
-                                <CtView flex={1} flex-row mt-5>
-                                    {datePickerFields &&
-                                        this.datePickerField(datePickerFields)}
-                                </CtView>
+                            <CtView flex={1} flex-row mt-5>
+                                {datePickerFields &&
+                                    this.datePickerField(datePickerFields)}
+                            </CtView>
 
-                                {dropdownFields &&
-                                    this.dropdownField(dropdownFields)}
+                            {dropdownFields &&
+                                this.dropdownField(dropdownFields)}
 
-                                {inputFields && this.inputField(inputFields)}
-                            </View>
+                            {inputFields && this.inputField(inputFields)}
                         </DefaultLayout>
                     </View>
                 </Modal>

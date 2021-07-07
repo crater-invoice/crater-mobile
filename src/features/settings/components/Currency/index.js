@@ -176,97 +176,93 @@ export class Currency extends React.Component<IProps> {
                     is: !hasObjectLength(formValues)
                 }}
             >
-                <View style={styles.bodyContainer}>
-                    <Field
-                        name="name"
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('currencies.name', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCorrect: true,
-                            onSubmitEditing: () => currencyRefs.code.focus()
-                        }}
-                    />
+                <Field
+                    name="name"
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('currencies.name', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true,
+                        onSubmitEditing: () => currencyRefs.code.focus()
+                    }}
+                />
 
-                    <Field
-                        name="code"
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('currencies.code', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCorrect: true,
-                            onSubmitEditing: () => currencyRefs.symbol.focus()
-                        }}
-                        refLinkFn={ref => {
-                            currencyRefs.code = ref;
-                        }}
-                    />
+                <Field
+                    name="code"
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('currencies.code', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true,
+                        onSubmitEditing: () => currencyRefs.symbol.focus()
+                    }}
+                    refLinkFn={ref => {
+                        currencyRefs.code = ref;
+                    }}
+                />
 
-                    <Field
-                        name="symbol"
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('currencies.symbol', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCorrect: true,
-                            onSubmitEditing: () =>
-                                currencyRefs.precision.focus()
-                        }}
-                        refLinkFn={ref => {
-                            currencyRefs.symbol = ref;
-                        }}
-                    />
+                <Field
+                    name="symbol"
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('currencies.symbol', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true,
+                        onSubmitEditing: () => currencyRefs.precision.focus()
+                    }}
+                    refLinkFn={ref => {
+                        currencyRefs.symbol = ref;
+                    }}
+                />
 
-                    <Field
-                        name="precision"
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('currencies.precision', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            keyboardType: 'decimal-pad',
-                            autoCorrect: true,
-                            onSubmitEditing: () =>
-                                currencyRefs.thousSeparator.focus()
-                        }}
-                        refLinkFn={ref => {
-                            currencyRefs.precision = ref;
-                        }}
-                    />
+                <Field
+                    name="precision"
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('currencies.precision', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        keyboardType: 'decimal-pad',
+                        autoCorrect: true,
+                        onSubmitEditing: () =>
+                            currencyRefs.thousSeparator.focus()
+                    }}
+                    refLinkFn={ref => {
+                        currencyRefs.precision = ref;
+                    }}
+                />
 
-                    <Field
-                        name="thousand_separator"
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('currencies.thousSeparator', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            onSubmitEditing: () =>
-                                currencyRefs.decSeparator.focus()
-                        }}
-                        refLinkFn={ref => {
-                            currencyRefs.thousSeparator = ref;
-                        }}
-                    />
+                <Field
+                    name="thousand_separator"
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('currencies.thousSeparator', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        onSubmitEditing: () => currencyRefs.decSeparator.focus()
+                    }}
+                    refLinkFn={ref => {
+                        currencyRefs.thousSeparator = ref;
+                    }}
+                />
 
-                    <Field
-                        name="decimal_separator"
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('currencies.decSeparator', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next'
-                        }}
-                        refLinkFn={ref => {
-                            currencyRefs.decSeparator = ref;
-                        }}
-                    />
+                <Field
+                    name="decimal_separator"
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('currencies.decSeparator', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next'
+                    }}
+                    refLinkFn={ref => {
+                        currencyRefs.decSeparator = ref;
+                    }}
+                />
 
-                    {this.POSITION_VIEW()}
-                </View>
+                {this.POSITION_VIEW()}
             </DefaultLayout>
         );
     }

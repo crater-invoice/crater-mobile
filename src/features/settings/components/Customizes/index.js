@@ -4,7 +4,6 @@ import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
 import { ListView, DefaultLayout } from '@/components';
-import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { CUSTOMIZES_MENU } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
@@ -56,6 +55,7 @@ export class Customizes extends React.Component {
                 }}
                 hasSearchField={false}
                 loadingProps={{ is: loading }}
+                bodyStyle="px-0 py-0"
             >
                 <View style={styles.listViewContainer}>
                     <ListView

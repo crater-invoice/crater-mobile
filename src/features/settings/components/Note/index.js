@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { Field, SubmissionError } from 'redux-form';
 import styles from './styles';
 import {
@@ -141,7 +140,6 @@ export default class Note extends React.Component<IProps> {
             navigation,
             handleSubmit,
             locale,
-            type,
             selectedModalType,
             noteLoading,
             isEditScreen,
@@ -194,48 +192,46 @@ export default class Note extends React.Component<IProps> {
                 }
                 loadingProps={{ is: isLoading }}
             >
-                <View style={styles.bodyContainer}>
-                    <Field
-                        name="name"
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('notes.title', { locale })}
-                        inputFieldStyle={styles.inputFieldStyle}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCorrect: true
-                        }}
-                        validationStyle={styles.inputFieldValidation}
-                        disabled={disabled}
-                    />
+                <Field
+                    name="name"
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('notes.title', { locale })}
+                    inputFieldStyle={styles.inputFieldStyle}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true
+                    }}
+                    validationStyle={styles.inputFieldValidation}
+                    disabled={disabled}
+                />
 
-                    <Field
-                        name="type"
-                        component={SelectPickerField}
-                        label={Lng.t('notes.type', {
+                <Field
+                    name="type"
+                    component={SelectPickerField}
+                    label={Lng.t('notes.type', {
+                        locale
+                    })}
+                    fieldIcon="align-center"
+                    items={MODAL_TYPES}
+                    defaultPickerOptions={{
+                        label: Lng.t('notes.modelPlaceholder', {
                             locale
-                        })}
-                        fieldIcon="align-center"
-                        items={MODAL_TYPES}
-                        defaultPickerOptions={{
-                            label: Lng.t('notes.modelPlaceholder', {
-                                locale
-                            }),
-                            value: ''
-                        }}
-                        isRequired
-                        disabled={disabled || hasValue(selectedModalType)}
-                    />
+                        }),
+                        value: ''
+                    }}
+                    isRequired
+                    disabled={disabled || hasValue(selectedModalType)}
+                />
 
-                    <Editor
-                        {...this.props}
-                        types={types}
-                        name="notes"
-                        label="notes.description"
-                        isRequired
-                        showPreview={isEditScreen}
-                    />
-                </View>
+                <Editor
+                    {...this.props}
+                    types={types}
+                    name="notes"
+                    label="notes.description"
+                    isRequired
+                    showPreview={isEditScreen}
+                />
             </DefaultLayout>
         );
     }

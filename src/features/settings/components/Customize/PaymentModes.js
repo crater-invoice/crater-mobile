@@ -147,6 +147,9 @@ export class PaymentModes extends Component {
                         emptyContentProps={{
                             title: Lng.t('payments.empty.modeTitle', { locale })
                         }}
+                        itemContainer={{
+                            paddingHorizontal: 35
+                        }}
                         isAnimated
                     />
                 </InfiniteScroll>

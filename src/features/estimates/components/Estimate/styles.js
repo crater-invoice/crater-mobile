@@ -2,10 +2,6 @@ import { StyleSheet } from 'react-native';
 import { colors, fonts } from '@/styles';
 
 export default styles = StyleSheet.create({
-    bodyContainer: {
-        paddingHorizontal: 22,
-        paddingVertical: 17
-    },
     inputTextStyle: {
         color: colors.dark3,
         fontFamily: fonts.poppinsMedium,

@@ -2,7 +2,7 @@ import React from 'react';
 import { View as RNView } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { ifProp, prop } from 'styled-tools';
-import { applyProp, hasProp } from '@/utils';
+import { applyDivisionProp, applyProp, hasProp } from '@/utils';
 
 const CtView = ({ children, ...props }) => (
     <RNView {...props}>{children}</RNView>
@@ -92,6 +92,12 @@ export const View = styled(CtView)`
        `
    )}
  
+   ${props =>
+       hasProp(props, 'opacity-') &&
+       css`
+           opacity: ${applyDivisionProp(props, 'opacity-')};
+       `};
+
    ${/* Margin */ ''}
    ${props =>
        hasProp(props, 'mx-') &&

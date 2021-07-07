@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Fragment } from 'react';
-import { View, Text, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
@@ -520,255 +520,251 @@ export class RecurringInvoice extends React.Component<IProps> {
                 loadingProps={{ is: initLoading }}
                 dropdownProps={drownDownProps}
             >
-                <View style={styles.bodyContainer}>
-                    <TermsAndCondition
-                        termsConditionRef={ref =>
-                            (this.termsAndConditionRef = ref)
-                        }
+                <TermsAndCondition
+                    termsConditionRef={ref => (this.termsAndConditionRef = ref)}
+                    props={this.props}
+                    fieldName={termsCondition.description}
+                />
+                {isEditInvoice && !hasSentStatus && !hasCompleteStatus && (
+                    <SendMail
+                        mailReference={ref => (this.sendMailRef = ref)}
                         props={this.props}
-                        fieldName={termsCondition.description}
+                        headerTitle={'header.sendMailInvoice'}
+                        alertDesc={'invoices.alert.sendInvoice'}
+                        onSendMail={params =>
+                            changeInvoiceStatus({
+                                id: navigation.getParam('id'),
+                                action: 'send',
+                                navigation,
+                                params
+                            })
+                        }
                     />
-                    {isEditInvoice && !hasSentStatus && !hasCompleteStatus && (
-                        <SendMail
-                            mailReference={ref => (this.sendMailRef = ref)}
-                            props={this.props}
-                            headerTitle={'header.sendMailInvoice'}
-                            alertDesc={'invoices.alert.sendInvoice'}
-                            onSendMail={params =>
-                                changeInvoiceStatus({
-                                    id: navigation.getParam('id'),
-                                    action: 'send',
-                                    navigation,
-                                    params
-                                })
-                            }
-                        />
-                    )}
+                )}
 
+                <Field
+                    name={'startOn'}
+                    isRequired
+                    component={DatePickerField}
+                    label={Lng.t('invoices.startOn', { locale })}
+                    icon={'calendar-alt'}
+                    onChangeCallback={val =>
+                        this.setFormField('invoice_date', val)
+                    }
+                />
+
+                <Field
+                    name="user_id"
+                    items={customers}
+                    apiSearch
+                    hasPagination
+                    isRequired
+                    getItems={getCustomers}
+                    displayName="name"
+                    component={SelectField}
+                    label={Lng.t('invoices.customer', { locale })}
+                    icon={'user'}
+                    placeholder={
+                        customerName
+                            ? customerName
+                            : Lng.t('invoices.customerPlaceholder', {
+                                  locale
+                              })
+                    }
+                    navigation={navigation}
+                    compareField="id"
+                    onSelect={item => {
+                        this.setFormField('user_id', item.id);
+                        this.setState({ currency: item.currency });
+                    }}
+                    rightIconPress={() =>
+                        navigation.navigate(ROUTES.CUSTOMER, {
+                            type: CUSTOMER_ADD,
+                            currency,
+                            onSelect: val => {
+                                this.setFormField('user_id', val.id);
+                                this.setState({ currency: val.currency });
+                            }
+                        })
+                    }
+                    headerProps={{
+                        title: Lng.t('customers.title', { locale })
+                    }}
+                    listViewProps={{
+                        hasAvatar: true
+                    }}
+                    emptyContentProps={{
+                        contentType: 'customers',
+                        image: IMAGES.EMPTY_CUSTOMERS
+                    }}
+                    fakeInputProps={{ loading: false }}
+                />
+
+                <Field
+                    name="profileName"
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('invoices.profileName', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true,
+                        keyboardType: KEYBOARD_TYPE.DEFAULT
+                    }}
+                />
+
+                <Field
+                    name="repeat_every"
+                    label={Lng.t('invoices.repeatEvery', { locale })}
+                    component={SelectPickerField}
+                    isRequired
+                    fieldIcon="calendar-week"
+                    items={REPEAT_RECURRING_INVOICE_OPTION(locale, Lng)}
+                    defaultPickerOptions={{
+                        label: Lng.t('invoices.repeatEvery', { locale }),
+                        value: ''
+                    }}
+                />
+
+                {formValues?.repeat_every === REPEAT_SELECT_VALUE.CUSTOM &&
+                    this.CustomRepeat()}
+
+                <View style={styles.row}>
+                    <View style={styles.expireToggle}>
+                        <Field
+                            name="neverExpire"
+                            component={ToggleSwitch}
+                            hint={Lng.t('invoices.neverExpire', { locale })}
+                            mainContainerStyle={{ marginTop: 12 }}
+                        />
+                    </View>
+                    <View style={styles.expireToggle} />
+                </View>
+
+                {!formValues?.neverExpire && (
                     <Field
-                        name={'startOn'}
+                        name={'endsOn'}
                         isRequired
                         component={DatePickerField}
-                        label={Lng.t('invoices.startOn', { locale })}
+                        label={Lng.t('invoices.endsOn', { locale })}
                         icon={'calendar-alt'}
-                        onChangeCallback={val =>
-                            this.setFormField('invoice_date', val)
-                        }
                     />
+                )}
 
-                    <Field
-                        name="user_id"
-                        items={customers}
-                        apiSearch
-                        hasPagination
-                        isRequired
-                        getItems={getCustomers}
-                        displayName="name"
-                        component={SelectField}
-                        label={Lng.t('invoices.customer', { locale })}
-                        icon={'user'}
-                        placeholder={
-                            customerName
-                                ? customerName
-                                : Lng.t('invoices.customerPlaceholder', {
-                                      locale
-                                  })
-                        }
-                        navigation={navigation}
-                        compareField="id"
-                        onSelect={item => {
-                            this.setFormField('user_id', item.id);
-                            this.setState({ currency: item.currency });
-                        }}
-                        rightIconPress={() =>
-                            navigation.navigate(ROUTES.CUSTOMER, {
-                                type: CUSTOMER_ADD,
-                                currency,
-                                onSelect: val => {
-                                    this.setFormField('user_id', val.id);
-                                    this.setState({ currency: val.currency });
-                                }
-                            })
-                        }
-                        headerProps={{
-                            title: Lng.t('customers.title', { locale })
-                        }}
-                        listViewProps={{
-                            hasAvatar: true
-                        }}
-                        emptyContentProps={{
-                            contentType: 'customers',
-                            image: IMAGES.EMPTY_CUSTOMERS
-                        }}
-                        fakeInputProps={{ loading: false }}
-                    />
+                <Text style={[styles.inputTextStyle, styles.label]}>
+                    {Lng.t('invoices.items', { locale })}
+                    <Text style={styles.required}> *</Text>
+                </Text>
 
-                    <Field
-                        name="profileName"
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('invoices.profileName', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCorrect: true,
-                            keyboardType: KEYBOARD_TYPE.DEFAULT
-                        }}
-                    />
+                <ListView
+                    items={this.getInvoiceItemList(invoiceItems)}
+                    itemContainer={styles.itemContainer}
+                    leftTitleStyle={styles.itemLeftTitle}
+                    leftSubTitleLabelStyle={[
+                        styles.itemLeftSubTitle,
+                        styles.itemLeftSubTitleLabel
+                    ]}
+                    leftSubTitleStyle={styles.itemLeftSubTitle}
+                    rightTitleStyle={styles.itemRightTitle}
+                    backgroundColor={colors.white}
+                    onPress={this.onEditItem}
+                />
 
-                    <Field
-                        name="repeat_every"
-                        label={Lng.t('invoices.repeatEvery', { locale })}
-                        component={SelectPickerField}
-                        isRequired
-                        fieldIcon="calendar-week"
-                        items={REPEAT_RECURRING_INVOICE_OPTION(locale, Lng)}
-                        defaultPickerOptions={{
-                            label: Lng.t('invoices.repeatEvery', { locale }),
-                            value: ''
-                        }}
-                    />
+                <Field
+                    name="items"
+                    items={getItemList(items)}
+                    displayName="name"
+                    component={SelectField}
+                    hasPagination
+                    apiSearch
+                    getItems={getItems}
+                    compareField="id"
+                    valueCompareField="item_id"
+                    icon={'percent'}
+                    placeholder={Lng.t('invoices.addItem', { locale })}
+                    navigation={navigation}
+                    onlyPlaceholder
+                    isMultiSelect
+                    loading={itemsLoading}
+                    fakeInputProps={{
+                        icon: 'shopping-basket',
+                        rightIcon: 'angle-right',
+                        color: colors.primaryLight
+                    }}
+                    onSelect={item => {
+                        navigation.navigate(ROUTES.INVOICE_ITEM, {
+                            item,
+                            currency,
+                            type: ITEM_ADD,
+                            discount_per_item,
+                            tax_per_item
+                        });
+                    }}
+                    rightIconPress={() =>
+                        navigation.navigate(ROUTES.INVOICE_ITEM, {
+                            type: ITEM_ADD,
+                            currency,
+                            discount_per_item,
+                            tax_per_item
+                        })
+                    }
+                    headerProps={{
+                        title: Lng.t('items.title', { locale })
+                    }}
+                    emptyContentProps={{
+                        contentType: 'items',
+                        image: IMAGES.EMPTY_ITEMS
+                    }}
+                    listViewProps={{
+                        leftSubTitleStyle: itemsDescriptionStyle()
+                    }}
+                />
 
-                    {formValues?.repeat_every === REPEAT_SELECT_VALUE.CUSTOM &&
-                        this.CustomRepeat()}
+                <FinalAmount state={this.state} props={this.props} />
 
-                    <View style={styles.row}>
-                        <View style={styles.expireToggle}>
-                            <Field
-                                name="neverExpire"
-                                component={ToggleSwitch}
-                                hint={Lng.t('invoices.neverExpire', { locale })}
-                                mainContainerStyle={{ marginTop: 12 }}
-                            />
-                        </View>
-                        <View style={styles.expireToggle} />
-                    </View>
+                <Field
+                    name="reference_number"
+                    component={InputField}
+                    hint={Lng.t('invoices.referenceNumber', { locale })}
+                    leftIcon={'hashtag'}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true
+                    }}
+                />
 
-                    {!formValues?.neverExpire && (
-                        <Field
-                            name={'endsOn'}
-                            isRequired
-                            component={DatePickerField}
-                            label={Lng.t('invoices.endsOn', { locale })}
-                            icon={'calendar-alt'}
-                        />
-                    )}
-
-                    <Text style={[styles.inputTextStyle, styles.label]}>
-                        {Lng.t('invoices.items', { locale })}
-                        <Text style={styles.required}> *</Text>
-                    </Text>
-
-                    <ListView
-                        items={this.getInvoiceItemList(invoiceItems)}
-                        itemContainer={styles.itemContainer}
-                        leftTitleStyle={styles.itemLeftTitle}
-                        leftSubTitleLabelStyle={[
-                            styles.itemLeftSubTitle,
-                            styles.itemLeftSubTitleLabel
-                        ]}
-                        leftSubTitleStyle={styles.itemLeftSubTitle}
-                        rightTitleStyle={styles.itemRightTitle}
-                        backgroundColor={colors.white}
-                        onPress={this.onEditItem}
-                    />
-
-                    <Field
-                        name="items"
-                        items={getItemList(items)}
-                        displayName="name"
-                        component={SelectField}
-                        hasPagination
-                        apiSearch
-                        getItems={getItems}
-                        compareField="id"
-                        valueCompareField="item_id"
-                        icon={'percent'}
-                        placeholder={Lng.t('invoices.addItem', { locale })}
-                        navigation={navigation}
-                        onlyPlaceholder
-                        isMultiSelect
-                        loading={itemsLoading}
-                        fakeInputProps={{
-                            icon: 'shopping-basket',
-                            rightIcon: 'angle-right',
-                            color: colors.primaryLight
-                        }}
-                        onSelect={item => {
-                            navigation.navigate(ROUTES.INVOICE_ITEM, {
-                                item,
-                                currency,
-                                type: ITEM_ADD,
-                                discount_per_item,
-                                tax_per_item
-                            });
-                        }}
-                        rightIconPress={() =>
-                            navigation.navigate(ROUTES.INVOICE_ITEM, {
-                                type: ITEM_ADD,
-                                currency,
-                                discount_per_item,
-                                tax_per_item
-                            })
-                        }
-                        headerProps={{
-                            title: Lng.t('items.title', { locale })
-                        }}
-                        emptyContentProps={{
-                            contentType: 'items',
-                            image: IMAGES.EMPTY_ITEMS
-                        }}
-                        listViewProps={{
-                            leftSubTitleStyle: itemsDescriptionStyle()
-                        }}
-                    />
-
-                    <FinalAmount state={this.state} props={this.props} />
-
-                    <Field
-                        name="reference_number"
-                        component={InputField}
-                        hint={Lng.t('invoices.referenceNumber', { locale })}
-                        leftIcon={'hashtag'}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true
-                        }}
-                    />
-
-                    <Field
-                        name="notes"
-                        component={InputField}
-                        hint={Lng.t('invoices.notes', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            placeholder: Lng.t('invoices.notePlaceholder', {
-                                locale
-                            }),
-                            autoCorrect: true,
-                            multiline: true,
-                            maxLength: MAX_LENGTH
-                        }}
-                        height={80}
-                        hintStyle={styles.noteHintStyle}
-                        autoCorrect={true}
-                    />
-
-                    <Field
-                        name="template_name"
-                        templates={invoiceTemplates}
-                        component={TemplateField}
-                        label={Lng.t('invoices.template', { locale })}
-                        icon={'file-alt'}
-                        placeholder={Lng.t('invoices.templatePlaceholder', {
+                <Field
+                    name="notes"
+                    component={InputField}
+                    hint={Lng.t('invoices.notes', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        placeholder: Lng.t('invoices.notePlaceholder', {
                             locale
-                        })}
-                        navigation={navigation}
-                        locale={locale}
-                    />
+                        }),
+                        autoCorrect: true,
+                        multiline: true,
+                        maxLength: MAX_LENGTH
+                    }}
+                    height={80}
+                    hintStyle={styles.noteHintStyle}
+                    autoCorrect={true}
+                />
 
-                    {this.TOGGLE_TERMS_CONDITION_VIEW()}
-                </View>
+                <Field
+                    name="template_name"
+                    templates={invoiceTemplates}
+                    component={TemplateField}
+                    label={Lng.t('invoices.template', { locale })}
+                    icon={'file-alt'}
+                    placeholder={Lng.t('invoices.templatePlaceholder', {
+                        locale
+                    })}
+                    navigation={navigation}
+                    locale={locale}
+                />
+
+                {this.TOGGLE_TERMS_CONDITION_VIEW()}
             </DefaultLayout>
         );
     }

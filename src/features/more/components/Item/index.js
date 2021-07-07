@@ -458,93 +458,91 @@ export class Item extends React.Component {
                     <ActionButton locale={locale} buttons={bottomAction} />
                 }
             >
-                <View style={styles.bodyContainer}>
-                    <Field
-                        name="name"
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('items.name', { locale })}
-                        disabled={disabled}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            onSubmitEditing: () => {
-                                itemRefs.price.focus();
-                            }
-                        }}
-                    />
+                <Field
+                    name="name"
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('items.name', { locale })}
+                    disabled={disabled}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        onSubmitEditing: () => {
+                            itemRefs.price.focus();
+                        }
+                    }}
+                />
 
-                    <Field
-                        name="price"
-                        component={InputField}
-                        isRequired
-                        leftSymbol={currency?.symbol}
-                        hint={Lng.t('items.price', { locale })}
-                        disabled={disabled}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            keyboardType: 'decimal-pad'
-                        }}
-                        isCurrencyInput
-                        refLinkFn={ref => {
-                            itemRefs.price = ref;
-                        }}
-                    />
+                <Field
+                    name="price"
+                    component={InputField}
+                    isRequired
+                    leftSymbol={currency?.symbol}
+                    hint={Lng.t('items.price', { locale })}
+                    disabled={disabled}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        keyboardType: 'decimal-pad'
+                    }}
+                    isCurrencyInput
+                    refLinkFn={ref => {
+                        itemRefs.price = ref;
+                    }}
+                />
 
-                    <Field
-                        name="unit_id"
-                        component={SelectField}
-                        apiSearch={true}
-                        hasPagination={true}
-                        getItems={getItemUnits}
-                        items={units}
-                        displayName={'name'}
-                        label={Lng.t('items.unit', { locale })}
-                        icon={'balance-scale'}
-                        placeholder={Lng.t('items.unitPlaceholder', { locale })}
-                        navigation={navigation}
-                        compareField={'id'}
-                        emptyContentProps={{ contentType: 'units' }}
-                        headerProps={{
-                            title: Lng.t('items.unitPlaceholder', { locale })
-                        }}
-                        fakeInputProps={{
-                            disabled,
-                            valueStyle: styles.units,
-                            placeholderStyle: styles.units
-                        }}
-                        onSelect={item => this.setFormField('unit_id', item.id)}
-                        paginationLimit={isIPhoneX() ? 20 : 15}
-                        inputModalName="UnitModal"
-                        createActionRouteName={CUSTOMIZE_TYPE.ITEMS}
-                        isEditable={!disabled}
-                    />
+                <Field
+                    name="unit_id"
+                    component={SelectField}
+                    apiSearch={true}
+                    hasPagination={true}
+                    getItems={getItemUnits}
+                    items={units}
+                    displayName={'name'}
+                    label={Lng.t('items.unit', { locale })}
+                    icon={'balance-scale'}
+                    placeholder={Lng.t('items.unitPlaceholder', { locale })}
+                    navigation={navigation}
+                    compareField={'id'}
+                    emptyContentProps={{ contentType: 'units' }}
+                    headerProps={{
+                        title: Lng.t('items.unitPlaceholder', { locale })
+                    }}
+                    fakeInputProps={{
+                        disabled,
+                        valueStyle: styles.units,
+                        placeholderStyle: styles.units
+                    }}
+                    onSelect={item => this.setFormField('unit_id', item.id)}
+                    paginationLimit={isIPhoneX() ? 20 : 15}
+                    inputModalName="UnitModal"
+                    createActionRouteName={CUSTOMIZE_TYPE.ITEMS}
+                    isEditable={!disabled}
+                />
 
-                    {isTaxPerItem && this.TAX_FIELD_VIEW()}
+                {isTaxPerItem && this.TAX_FIELD_VIEW()}
 
-                    {this.FINAL_AMOUNT()}
+                {this.FINAL_AMOUNT()}
 
-                    <Field
-                        name="description"
-                        component={InputField}
-                        hint={Lng.t('items.description', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            multiline: true,
-                            maxLength: MAX_LENGTH
-                        }}
-                        disabled={disabled}
-                        height={80}
-                        refLinkFn={ref => {
-                            itemRefs.description = ref;
-                        }}
-                    />
-                </View>
+                <Field
+                    name="description"
+                    component={InputField}
+                    hint={Lng.t('items.description', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        multiline: true,
+                        maxLength: MAX_LENGTH
+                    }}
+                    disabled={disabled}
+                    height={80}
+                    refLinkFn={ref => {
+                        itemRefs.description = ref;
+                    }}
+                />
             </DefaultLayout>
         );
     }

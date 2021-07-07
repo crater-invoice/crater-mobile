@@ -160,55 +160,53 @@ export class Notification extends React.Component<IProps> {
                     reference: ref => (this.toastReference = ref)
                 }}
             >
-                <View style={styles.mainContainer}>
-                    <Field
-                        name={'notification_email'}
-                        component={InputField}
-                        hint={Lng.t('settings.notifications.send', {
-                            locale
-                        })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            keyboardType: 'email-address'
-                        }}
-                        leftIcon={'envelope'}
-                        leftIconSolid={true}
-                        isRequired
-                    />
+                <Field
+                    name={'notification_email'}
+                    component={InputField}
+                    hint={Lng.t('settings.notifications.send', {
+                        locale
+                    })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        keyboardType: 'email-address'
+                    }}
+                    leftIcon={'envelope'}
+                    leftIconSolid={true}
+                    isRequired
+                />
 
-                    <CtDivider dividerStyle={styles.dividerLine} />
+                <CtDivider dividerStyle={styles.dividerLine} />
 
-                    <Field
-                        name="notify_invoice_viewed"
-                        component={ToggleSwitch}
-                        status={invoiceStatus === 'YES' ? true : false}
-                        hint={Lng.t('settings.notifications.invoiceViewed', {
-                            locale
-                        })}
-                        description={Lng.t(
-                            'settings.notifications.invoiceViewedDescription',
-                            { locale }
-                        )}
-                        onChangeCallback={val => this.invoiceStatus(val)}
-                    />
+                <Field
+                    name="notify_invoice_viewed"
+                    component={ToggleSwitch}
+                    status={invoiceStatus === 'YES' ? true : false}
+                    hint={Lng.t('settings.notifications.invoiceViewed', {
+                        locale
+                    })}
+                    description={Lng.t(
+                        'settings.notifications.invoiceViewedDescription',
+                        { locale }
+                    )}
+                    onChangeCallback={val => this.invoiceStatus(val)}
+                />
 
-                    <Field
-                        name="notify_estimate_viewed"
-                        component={ToggleSwitch}
-                        status={estimateStatus === 'YES' ? true : false}
-                        hint={Lng.t('settings.notifications.estimateViewed', {
-                            locale
-                        })}
-                        description={Lng.t(
-                            'settings.notifications.estimateViewedDescription',
-                            { locale }
-                        )}
-                        onChangeCallback={val => this.estimateStatus(val)}
-                        mainContainerStyle={{ marginTop: 12 }}
-                    />
-                </View>
+                <Field
+                    name="notify_estimate_viewed"
+                    component={ToggleSwitch}
+                    status={estimateStatus === 'YES' ? true : false}
+                    hint={Lng.t('settings.notifications.estimateViewed', {
+                        locale
+                    })}
+                    description={Lng.t(
+                        'settings.notifications.estimateViewedDescription',
+                        { locale }
+                    )}
+                    onChangeCallback={val => this.estimateStatus(val)}
+                    mainContainerStyle={{ marginTop: 12 }}
+                />
             </DefaultLayout>
         );
     }

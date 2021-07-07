@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import { Field, change, SubmissionError } from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
@@ -466,170 +465,162 @@ export class Payment extends React.Component<IProps> {
                 bottomAction={
                     <ActionButton locale={locale} buttons={bottomAction} />
                 }
+                bodyStyle={`px-22 pt-10 pb-15 opacity-${
+                    withLoading ? 80 : 100
+                }`}
             >
-                <View
-                    style={[
-                        styles.bodyContainer,
-                        { opacity: withLoading ? 0.8 : 1 }
-                    ]}
-                >
-                    {isEditScreen && this.sendMailComponent()}
+                {isEditScreen && this.sendMailComponent()}
 
-                    <CtView flex={1} flex-row>
-                        <CtView flex={1} justify-between>
-                            <Field
-                                name={`payment.${FIELDS.DATE}`}
-                                component={DatePickerField}
-                                dateTimeFormat={DATE_FORMAT}
-                                label={Lng.t('payments.date', { locale })}
-                                icon={'calendar-alt'}
-                                onChangeCallback={val => {
-                                    this.setFormField('payment_date', val);
-                                }}
-                                isRequired
-                                fakeInputProps={{
-                                    fakeInputContainerStyle: styles.date
-                                }}
-                                disabled={disabled}
-                            />
-                        </CtView>
-                        <CtView flex={0.07} />
-                        <CtView flex={1} justify-between>
-                            {this.nextNumberView()}
-                        </CtView>
+                <CtView flex={1} flex-row>
+                    <CtView flex={1} justify-between>
+                        <Field
+                            name={`payment.${FIELDS.DATE}`}
+                            component={DatePickerField}
+                            dateTimeFormat={DATE_FORMAT}
+                            label={Lng.t('payments.date', { locale })}
+                            icon={'calendar-alt'}
+                            onChangeCallback={val => {
+                                this.setFormField('payment_date', val);
+                            }}
+                            isRequired
+                            fakeInputProps={{
+                                fakeInputContainerStyle: styles.date
+                            }}
+                            disabled={disabled}
+                        />
                     </CtView>
+                    <CtView flex={0.07} />
+                    <CtView flex={1} justify-between>
+                        {this.nextNumberView()}
+                    </CtView>
+                </CtView>
 
-                    <Field
-                        name={`payment.${FIELDS.CUSTOMER}`}
-                        apiSearch
-                        hasPagination
-                        getItems={getCustomers}
-                        items={customers}
-                        selectedItem={formValues?.payment?.user}
-                        displayName="name"
-                        component={SelectField}
-                        label={Lng.t('payments.customer', { locale })}
-                        icon={'user'}
-                        placeholder={Lng.t('payments.customerPlaceholder', {
+                <Field
+                    name={`payment.${FIELDS.CUSTOMER}`}
+                    apiSearch
+                    hasPagination
+                    getItems={getCustomers}
+                    items={customers}
+                    selectedItem={formValues?.payment?.user}
+                    displayName="name"
+                    component={SelectField}
+                    label={Lng.t('payments.customer', { locale })}
+                    icon={'user'}
+                    placeholder={Lng.t('payments.customerPlaceholder', {
+                        locale
+                    })}
+                    navigation={navigation}
+                    compareField="id"
+                    onSelect={item => this.onSelectCustomer(item)}
+                    createActionRouteName={ROUTES.CUSTOMER}
+                    rightIconPress={this.navigateToCustomer}
+                    headerProps={{
+                        title: Lng.t('customers.title', { locale })
+                    }}
+                    listViewProps={{ hasAvatar: true }}
+                    emptyContentProps={{
+                        contentType: 'customers',
+                        image: IMAGES.EMPTY_CUSTOMERS
+                    }}
+                    isRequired
+                    isEditable={type === PAYMENT_ADD}
+                    fakeInputProps={{
+                        disabled: type !== PAYMENT_ADD
+                    }}
+                    reference={ref => (this.customerReference = ref)}
+                />
+
+                <Field
+                    name={`payment.${FIELDS.INVOICE}`}
+                    component={SelectField}
+                    isRequired
+                    apiSearch
+                    hasPagination
+                    getItems={getUnpaidInvoices}
+                    items={this.formatUnpaidInvoices(unPaidInvoices)}
+                    selectedItem={formValues?.payment?.invoice}
+                    displayName="invoice_number"
+                    label={Lng.t('payments.invoice', { locale })}
+                    icon="align-center"
+                    placeholder={Lng.t('payments.invoicePlaceholder', {
+                        locale
+                    })}
+                    navigation={navigation}
+                    compareField="id"
+                    onSelect={item => this.onSelectInvoice(item)}
+                    headerProps={{
+                        title: Lng.t('invoices.title', { locale }),
+                        rightIconPress: null
+                    }}
+                    emptyContentProps={{ contentType: 'invoices' }}
+                    queryString={{
+                        customer_id: formValues?.payment?.[FIELDS.CUSTOMER],
+                        status: 'UNPAID'
+                    }}
+                    reference={ref => (this.invoiceReference = ref)}
+                    isEditable={type === PAYMENT_ADD}
+                    fakeInputProps={{
+                        disabled: type !== PAYMENT_ADD
+                    }}
+                />
+
+                <Field
+                    name={`payment.${FIELDS.AMOUNT}`}
+                    component={InputField}
+                    leftSymbol={
+                        selectedCustomer?.currency?.symbol ?? currency?.symbol
+                    }
+                    hint={Lng.t('payments.amount', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true,
+                        keyboardType: 'decimal-pad'
+                    }}
+                    disabled={disabled}
+                    isCurrencyInput
+                    isRequired
+                />
+
+                <Field
+                    name={`payment.${FIELDS.METHOD}`}
+                    component={SelectField}
+                    apiSearch
+                    hasPagination
+                    getItems={getPaymentModes}
+                    items={paymentMethods}
+                    selectedItem={formValues?.payment?.payment_method}
+                    displayName="name"
+                    label={Lng.t('payments.mode', { locale })}
+                    icon="align-center"
+                    placeholder={Lng.t('payments.modePlaceholder', {
+                        locale
+                    })}
+                    navigation={navigation}
+                    compareField="id"
+                    onSelect={item =>
+                        this.setFormField(`payment.${FIELDS.METHOD}`, item.id)
+                    }
+                    headerProps={{
+                        title: Lng.t('payments.modePlaceholder', {
                             locale
-                        })}
-                        navigation={navigation}
-                        compareField="id"
-                        onSelect={item => this.onSelectCustomer(item)}
-                        createActionRouteName={ROUTES.CUSTOMER}
-                        rightIconPress={this.navigateToCustomer}
-                        headerProps={{
-                            title: Lng.t('customers.title', { locale })
-                        }}
-                        listViewProps={{ hasAvatar: true }}
-                        emptyContentProps={{
-                            contentType: 'customers',
-                            image: IMAGES.EMPTY_CUSTOMERS
-                        }}
-                        isRequired
-                        isEditable={type === PAYMENT_ADD}
-                        fakeInputProps={{
-                            disabled: type !== PAYMENT_ADD
-                        }}
-                        reference={ref => (this.customerReference = ref)}
-                    />
+                        })
+                    }}
+                    emptyContentProps={{ contentType: 'paymentMode' }}
+                    inputModalName="PaymentModeModal"
+                    createActionRouteName={CUSTOMIZE_TYPE.PAYMENTS}
+                    isEditable={!disabled}
+                    fakeInputProps={{ disabled }}
+                />
 
-                    <Field
-                        name={`payment.${FIELDS.INVOICE}`}
-                        component={SelectField}
-                        isRequired
-                        apiSearch
-                        hasPagination
-                        getItems={getUnpaidInvoices}
-                        items={this.formatUnpaidInvoices(unPaidInvoices)}
-                        selectedItem={formValues?.payment?.invoice}
-                        displayName="invoice_number"
-                        label={Lng.t('payments.invoice', { locale })}
-                        icon="align-center"
-                        placeholder={Lng.t('payments.invoicePlaceholder', {
-                            locale
-                        })}
-                        navigation={navigation}
-                        compareField="id"
-                        onSelect={item => this.onSelectInvoice(item)}
-                        headerProps={{
-                            title: Lng.t('invoices.title', { locale }),
-                            rightIconPress: null
-                        }}
-                        emptyContentProps={{ contentType: 'invoices' }}
-                        queryString={{
-                            customer_id: formValues?.payment?.[FIELDS.CUSTOMER],
-                            status: 'UNPAID'
-                        }}
-                        reference={ref => (this.invoiceReference = ref)}
-                        isEditable={type === PAYMENT_ADD}
-                        fakeInputProps={{
-                            disabled: type !== PAYMENT_ADD
-                        }}
-                    />
+                <Notes
+                    {...this.props}
+                    isEditPayment={isEditScreen}
+                    setFormField={this.setFormField}
+                />
 
-                    <Field
-                        name={`payment.${FIELDS.AMOUNT}`}
-                        component={InputField}
-                        leftSymbol={
-                            selectedCustomer?.currency?.symbol ??
-                            currency?.symbol
-                        }
-                        hint={Lng.t('payments.amount', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCorrect: true,
-                            keyboardType: 'decimal-pad'
-                        }}
-                        disabled={disabled}
-                        isCurrencyInput
-                        isRequired
-                    />
-
-                    <Field
-                        name={`payment.${FIELDS.METHOD}`}
-                        component={SelectField}
-                        apiSearch
-                        hasPagination
-                        getItems={getPaymentModes}
-                        items={paymentMethods}
-                        selectedItem={formValues?.payment?.payment_method}
-                        displayName="name"
-                        label={Lng.t('payments.mode', { locale })}
-                        icon="align-center"
-                        placeholder={Lng.t('payments.modePlaceholder', {
-                            locale
-                        })}
-                        navigation={navigation}
-                        compareField="id"
-                        onSelect={item =>
-                            this.setFormField(
-                                `payment.${FIELDS.METHOD}`,
-                                item.id
-                            )
-                        }
-                        headerProps={{
-                            title: Lng.t('payments.modePlaceholder', {
-                                locale
-                            })
-                        }}
-                        emptyContentProps={{ contentType: 'paymentMode' }}
-                        inputModalName="PaymentModeModal"
-                        createActionRouteName={CUSTOMIZE_TYPE.PAYMENTS}
-                        isEditable={!disabled}
-                        fakeInputProps={{ disabled }}
-                    />
-
-                    <Notes
-                        {...this.props}
-                        isEditPayment={isEditScreen}
-                        setFormField={this.setFormField}
-                    />
-
-                    {hasCustomField && (
-                        <CustomField {...this.props} type="payment" />
-                    )}
-                </View>
+                {hasCustomField && (
+                    <CustomField {...this.props} type="payment" />
+                )}
             </DefaultLayout>
         );
     }

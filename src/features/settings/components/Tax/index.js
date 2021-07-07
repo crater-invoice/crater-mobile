@@ -1,8 +1,6 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
-import styles from './styles';
 import { Field } from 'redux-form';
 import Lng from '@/lang/i18n';
 import { ADD_TAX } from '../../constants';
@@ -136,64 +134,62 @@ export class Tax extends React.Component {
                     <ActionButton locale={locale} buttons={bottomAction} />
                 }
             >
-                <View style={styles.mainContainer}>
-                    <Field
-                        name="name"
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('taxes.type', { locale })}
-                        disabled={disabled}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            onSubmitEditing: () => {
-                                taxRefs.percent.focus();
-                            }
-                        }}
-                    />
+                <Field
+                    name="name"
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('taxes.type', { locale })}
+                    disabled={disabled}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        onSubmitEditing: () => {
+                            taxRefs.percent.focus();
+                        }
+                    }}
+                />
 
-                    <Field
-                        name="percent"
-                        isRequired
-                        component={InputField}
-                        hint={Lng.t('taxes.percentage', { locale }) + ' (%)'}
-                        maxNumber={100}
-                        refLinkFn={ref => (taxRefs.percent = ref)}
-                        disabled={disabled}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            keyboardType: 'decimal-pad',
-                            onSubmitEditing: () => {
-                                taxRefs.description.focus();
-                            }
-                        }}
-                    />
+                <Field
+                    name="percent"
+                    isRequired
+                    component={InputField}
+                    hint={Lng.t('taxes.percentage', { locale }) + ' (%)'}
+                    maxNumber={100}
+                    refLinkFn={ref => (taxRefs.percent = ref)}
+                    disabled={disabled}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        keyboardType: 'decimal-pad',
+                        onSubmitEditing: () => {
+                            taxRefs.description.focus();
+                        }
+                    }}
+                />
 
-                    <Field
-                        name="description"
-                        component={InputField}
-                        hint={Lng.t('taxes.description', { locale })}
-                        refLinkFn={ref => (taxRefs.description = ref)}
-                        height={80}
-                        disabled={disabled}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            multiline: true,
-                            maxLength: MAX_LENGTH
-                        }}
-                    />
+                <Field
+                    name="description"
+                    component={InputField}
+                    hint={Lng.t('taxes.description', { locale })}
+                    refLinkFn={ref => (taxRefs.description = ref)}
+                    height={80}
+                    disabled={disabled}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        multiline: true,
+                        maxLength: MAX_LENGTH
+                    }}
+                />
 
-                    <Field
-                        name="compound_tax"
-                        component={ToggleSwitch}
-                        hint={Lng.t('taxes.compoundTax', { locale })}
-                        title-text-default
-                        disabled={disabled}
-                    />
-                </View>
+                <Field
+                    name="compound_tax"
+                    component={ToggleSwitch}
+                    hint={Lng.t('taxes.compoundTax', { locale })}
+                    title-text-default
+                    disabled={disabled}
+                />
             </DefaultLayout>
         );
     }

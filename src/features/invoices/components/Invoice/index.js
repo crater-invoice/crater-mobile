@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import * as Linking from 'expo-linking';
 import { find } from 'lodash';
 import { Field, change, SubmissionError } from 'redux-form';
@@ -616,219 +615,213 @@ export class Invoice extends React.Component<IProps, IStates> {
                 loadingProps={{ is: isLoading || initLoading || withLoading }}
                 contentProps={{ withLoading }}
                 dropdownProps={drownDownProps}
+                bodyStyle={`px-22 pt-10 pb-15 opacity-${
+                    withLoading ? 80 : 100
+                }`}
             >
-                <View
-                    style={[
-                        styles.bodyContainer,
-                        { opacity: withLoading ? 0.8 : 1 }
-                    ]}
-                >
-                    {isEditInvoice &&
-                        !hasCompleteStatus &&
-                        this.sendMailComponent()}
+                {isEditInvoice &&
+                    !hasCompleteStatus &&
+                    this.sendMailComponent()}
 
-                    <CtView flex={1} flex-row>
-                        <CtView flex={1} justify-between>
-                            <Field
-                                name={'invoice_date'}
-                                isRequired
-                                component={DatePickerField}
-                                label={Lng.t('invoices.invoiceDate', {
-                                    locale
-                                })}
-                                icon={'calendar-alt'}
-                                onChangeCallback={val =>
-                                    this.setFormField('invoice_date', val)
-                                }
-                                disabled={disabled}
-                            />
-                        </CtView>
-                        <CtView flex={0.07} />
-                        <CtView flex={1} justify-between>
-                            <Field
-                                name="due_date"
-                                isRequired
-                                component={DatePickerField}
-                                label={Lng.t('invoices.dueDate', { locale })}
-                                icon={'calendar-alt'}
-                                onChangeCallback={val =>
-                                    this.setFormField('due_date', val)
-                                }
-                                disabled={disabled}
-                            />
-                        </CtView>
+                <CtView flex={1} flex-row>
+                    <CtView flex={1} justify-between>
+                        <Field
+                            name={'invoice_date'}
+                            isRequired
+                            component={DatePickerField}
+                            label={Lng.t('invoices.invoiceDate', {
+                                locale
+                            })}
+                            icon={'calendar-alt'}
+                            onChangeCallback={val =>
+                                this.setFormField('invoice_date', val)
+                            }
+                            disabled={disabled}
+                        />
                     </CtView>
+                    <CtView flex={0.07} />
+                    <CtView flex={1} justify-between>
+                        <Field
+                            name="due_date"
+                            isRequired
+                            component={DatePickerField}
+                            label={Lng.t('invoices.dueDate', { locale })}
+                            icon={'calendar-alt'}
+                            onChangeCallback={val =>
+                                this.setFormField('due_date', val)
+                            }
+                            disabled={disabled}
+                        />
+                    </CtView>
+                </CtView>
 
-                    <Field
-                        name="invoice_number"
-                        component={FakeInput}
-                        label={Lng.t('invoices.invoiceNumber', { locale })}
-                        isRequired
-                        prefixProps={{
-                            fieldName: 'invoice_number',
-                            prefix: formValues?.prefix,
-                            icon: 'hashtag',
-                            iconSolid: false
-                        }}
-                        disabled={disabled}
-                    />
+                <Field
+                    name="invoice_number"
+                    component={FakeInput}
+                    label={Lng.t('invoices.invoiceNumber', { locale })}
+                    isRequired
+                    prefixProps={{
+                        fieldName: 'invoice_number',
+                        prefix: formValues?.prefix,
+                        icon: 'hashtag',
+                        iconSolid: false
+                    }}
+                    disabled={disabled}
+                />
 
-                    <Field
-                        name="user_id"
-                        items={customers}
-                        apiSearch
-                        hasPagination
-                        isRequired
-                        getItems={getCustomers}
-                        selectedItem={formValues?.user}
-                        displayName="name"
-                        component={SelectField}
-                        label={Lng.t('invoices.customer', { locale })}
-                        icon={'user'}
-                        createActionRouteName={ROUTES.CUSTOMER}
-                        placeholder={
-                            customerName
-                                ? customerName
-                                : Lng.t('invoices.customerPlaceholder', {
-                                      locale
-                                  })
-                        }
-                        navigation={navigation}
-                        compareField="id"
-                        onSelect={item => {
-                            this.setFormField('user_id', item.id);
-                            this.setState({ currency: item.currency });
-                        }}
-                        rightIconPress={this.navigateToCustomer}
-                        headerProps={{
-                            title: Lng.t('customers.title', { locale })
-                        }}
-                        listViewProps={{ hasAvatar: true }}
-                        emptyContentProps={{
-                            contentType: 'customers',
-                            image: IMAGES.EMPTY_CUSTOMERS
-                        }}
-                        reference={ref => (this.customerReference = ref)}
-                        isEditable={!disabled}
-                        fakeInputProps={{ disabled }}
-                    />
+                <Field
+                    name="user_id"
+                    items={customers}
+                    apiSearch
+                    hasPagination
+                    isRequired
+                    getItems={getCustomers}
+                    selectedItem={formValues?.user}
+                    displayName="name"
+                    component={SelectField}
+                    label={Lng.t('invoices.customer', { locale })}
+                    icon={'user'}
+                    createActionRouteName={ROUTES.CUSTOMER}
+                    placeholder={
+                        customerName
+                            ? customerName
+                            : Lng.t('invoices.customerPlaceholder', {
+                                  locale
+                              })
+                    }
+                    navigation={navigation}
+                    compareField="id"
+                    onSelect={item => {
+                        this.setFormField('user_id', item.id);
+                        this.setState({ currency: item.currency });
+                    }}
+                    rightIconPress={this.navigateToCustomer}
+                    headerProps={{
+                        title: Lng.t('customers.title', { locale })
+                    }}
+                    listViewProps={{ hasAvatar: true }}
+                    emptyContentProps={{
+                        contentType: 'customers',
+                        image: IMAGES.EMPTY_CUSTOMERS
+                    }}
+                    reference={ref => (this.customerReference = ref)}
+                    isEditable={!disabled}
+                    fakeInputProps={{ disabled }}
+                />
 
-                    <Label isRequired theme={theme} style={styles.label}>
-                        {Lng.t('invoices.items', { locale })}
-                    </Label>
+                <Label isRequired theme={theme} style={styles.label}>
+                    {Lng.t('invoices.items', { locale })}
+                </Label>
 
-                    <ListView
-                        items={this.getInvoiceItemList(invoiceItems)}
-                        itemContainer={styles.itemContainer(theme, disabled)}
-                        leftTitleStyle={styles.itemLeftTitle(theme)}
-                        leftSubTitleLabelStyle={[
-                            styles.itemLeftSubTitle(theme),
-                            styles.itemLeftSubTitleLabel
-                        ]}
-                        leftSubTitleStyle={styles.itemLeftSubTitle(theme)}
-                        rightTitleStyle={styles.itemRightTitle(theme)}
-                        backgroundColor={
-                            !disabled
-                                ? theme.thirdBgColor
-                                : theme?.input?.disableBackgroundColor
-                        }
-                        onPress={this.onEditItem}
-                        parentViewStyle={{ marginVertical: 4 }}
-                    />
+                <ListView
+                    items={this.getInvoiceItemList(invoiceItems)}
+                    itemContainer={styles.itemContainer(theme, disabled)}
+                    leftTitleStyle={styles.itemLeftTitle(theme)}
+                    leftSubTitleLabelStyle={[
+                        styles.itemLeftSubTitle(theme),
+                        styles.itemLeftSubTitleLabel
+                    ]}
+                    leftSubTitleStyle={styles.itemLeftSubTitle(theme)}
+                    rightTitleStyle={styles.itemRightTitle(theme)}
+                    backgroundColor={
+                        !disabled
+                            ? theme.thirdBgColor
+                            : theme?.input?.disableBackgroundColor
+                    }
+                    onPress={this.onEditItem}
+                    parentViewStyle={{ marginVertical: 4 }}
+                />
 
-                    <Field
-                        name="items"
-                        items={getItemList(items)}
-                        displayName="name"
-                        component={SelectField}
-                        hasPagination
-                        apiSearch
-                        getItems={getItems}
-                        compareField="id"
-                        valueCompareField="item_id"
-                        icon={'percent'}
-                        placeholder={Lng.t('invoices.addItem', { locale })}
-                        navigation={navigation}
-                        onlyPlaceholder
-                        isMultiSelect
-                        loading={itemsLoading}
-                        fakeInputProps={{
-                            icon: 'shopping-basket',
-                            rightIcon: 'angle-right',
-                            color: colors.primaryLight,
-                            disabled
-                        }}
-                        createActionRouteName={ROUTES.GLOBAL_ITEM}
-                        onSelect={item => {
-                            navigation.navigate(ROUTES.INVOICE_ITEM, {
-                                item,
-                                currency,
-                                type: ITEM_ADD,
-                                discount_per_item,
-                                tax_per_item
-                            });
-                        }}
-                        rightIconPress={() =>
-                            navigation.navigate(ROUTES.INVOICE_ITEM, {
-                                type: ITEM_ADD,
-                                currency,
-                                discount_per_item,
-                                tax_per_item
-                            })
-                        }
-                        headerProps={{
-                            title: Lng.t('items.title', { locale })
-                        }}
-                        emptyContentProps={{
-                            contentType: 'items',
-                            image: IMAGES.EMPTY_ITEMS
-                        }}
-                        listViewProps={{
-                            leftSubTitleStyle: itemsDescriptionStyle()
-                        }}
-                        paginationLimit={15}
-                        isEditable={!disabled}
-                    />
+                <Field
+                    name="items"
+                    items={getItemList(items)}
+                    displayName="name"
+                    component={SelectField}
+                    hasPagination
+                    apiSearch
+                    getItems={getItems}
+                    compareField="id"
+                    valueCompareField="item_id"
+                    icon={'percent'}
+                    placeholder={Lng.t('invoices.addItem', { locale })}
+                    navigation={navigation}
+                    onlyPlaceholder
+                    isMultiSelect
+                    loading={itemsLoading}
+                    fakeInputProps={{
+                        icon: 'shopping-basket',
+                        rightIcon: 'angle-right',
+                        color: colors.primaryLight,
+                        disabled
+                    }}
+                    createActionRouteName={ROUTES.GLOBAL_ITEM}
+                    onSelect={item => {
+                        navigation.navigate(ROUTES.INVOICE_ITEM, {
+                            item,
+                            currency,
+                            type: ITEM_ADD,
+                            discount_per_item,
+                            tax_per_item
+                        });
+                    }}
+                    rightIconPress={() =>
+                        navigation.navigate(ROUTES.INVOICE_ITEM, {
+                            type: ITEM_ADD,
+                            currency,
+                            discount_per_item,
+                            tax_per_item
+                        })
+                    }
+                    headerProps={{
+                        title: Lng.t('items.title', { locale })
+                    }}
+                    emptyContentProps={{
+                        contentType: 'items',
+                        image: IMAGES.EMPTY_ITEMS
+                    }}
+                    listViewProps={{
+                        leftSubTitleStyle: itemsDescriptionStyle()
+                    }}
+                    paginationLimit={15}
+                    isEditable={!disabled}
+                />
 
-                    <FinalAmount state={this.state} props={this.props} />
+                <FinalAmount state={this.state} props={this.props} />
 
-                    <Field
-                        name="reference_number"
-                        component={InputField}
-                        hint={Lng.t('invoices.referenceNumber', { locale })}
-                        leftIcon={'hashtag'}
-                        disabled={disabled}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true
-                        }}
-                    />
+                <Field
+                    name="reference_number"
+                    component={InputField}
+                    hint={Lng.t('invoices.referenceNumber', { locale })}
+                    leftIcon={'hashtag'}
+                    disabled={disabled}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true
+                    }}
+                />
 
-                    <Notes
-                        {...this.props}
-                        isEditInvoice={isEditInvoice}
-                        setFormField={this.setFormField}
-                    />
+                <Notes
+                    {...this.props}
+                    isEditInvoice={isEditInvoice}
+                    setFormField={this.setFormField}
+                />
 
-                    <Field
-                        name="template_name"
-                        templates={invoiceTemplates ?? []}
-                        component={TemplateField}
-                        label={Lng.t('invoices.template', { locale })}
-                        icon={'file-alt'}
-                        placeholder={Lng.t('invoices.templatePlaceholder', {
-                            locale
-                        })}
-                        navigation={navigation}
-                        locale={locale}
-                        disabled={disabled}
-                    />
+                <Field
+                    name="template_name"
+                    templates={invoiceTemplates ?? []}
+                    component={TemplateField}
+                    label={Lng.t('invoices.template', { locale })}
+                    icon={'file-alt'}
+                    placeholder={Lng.t('invoices.templatePlaceholder', {
+                        locale
+                    })}
+                    navigation={navigation}
+                    locale={locale}
+                    disabled={disabled}
+                />
 
-                    {hasCustomField && (
-                        <CustomField {...this.props} type={null} />
-                    )}
-                </View>
+                {hasCustomField && <CustomField {...this.props} type={null} />}
             </DefaultLayout>
         );
     }

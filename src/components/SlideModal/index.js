@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, Modal, StatusBar } from 'react-native';
+import { View, Modal } from 'react-native';
 import { connect } from 'react-redux';
 import styles from './styles';
 import { ListView } from '../ListView';
 import { MainLayout, DefaultLayout } from '../Layouts';
-import { colors } from '@/styles';
 import { InfiniteScroll } from '../InfiniteScroll';
 import { ScrollView } from '../ScrollView';
 import { isAndroidPlatform } from '@/constants';
@@ -116,13 +115,7 @@ class Screen extends Component<IProps> {
                             }}
                             bottomAction={bottomAction}
                         >
-                            {children ? (
-                                <View style={styles.bodyContainer}>
-                                    {children}
-                                </View>
-                            ) : (
-                                listViewChildren
-                            )}
+                            {children ? children : listViewChildren}
                         </DefaultLayout>
                     )}
                 </View>

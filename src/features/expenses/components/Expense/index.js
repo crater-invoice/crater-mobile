@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
@@ -312,142 +311,132 @@ export class Expense extends React.Component<IProps, IState> {
                     <ActionButton locale={locale} buttons={bottomAction} />
                 }
             >
-                <View style={styles.bodyContainer}>
-                    <Field
-                        name={`expense.${FIELDS.RECEIPT}`}
-                        component={FilePicker}
-                        locale={locale}
-                        withDocument
-                        label={Lng.t('expenses.receipt', { locale })}
-                        fileLoading={val => this.setState({ fileLoading: val })}
-                        containerStyle={styles.filePicker}
-                        uploadedFileType={fileType}
-                        onChangeCallback={val =>
-                            this.setState({ attachmentReceipt: val })
-                        }
-                        uploadedFileUrl={
-                            fileType && fileType.includes('image')
-                                ? imageUrl
-                                : null
-                        }
-                        showUploadedImageAsCache={false}
-                        disabled={disabled}
-                    />
+                <Field
+                    name={`expense.${FIELDS.RECEIPT}`}
+                    component={FilePicker}
+                    locale={locale}
+                    withDocument
+                    label={Lng.t('expenses.receipt', { locale })}
+                    fileLoading={val => this.setState({ fileLoading: val })}
+                    containerStyle={styles.filePicker}
+                    uploadedFileType={fileType}
+                    onChangeCallback={val =>
+                        this.setState({ attachmentReceipt: val })
+                    }
+                    uploadedFileUrl={
+                        fileType && fileType.includes('image') ? imageUrl : null
+                    }
+                    showUploadedImageAsCache={false}
+                    disabled={disabled}
+                />
 
-                    <Field
-                        name={`expense.${FIELDS.DATE}`}
-                        component={DatePickerField}
-                        isRequired
-                        label={Lng.t('expenses.date', { locale })}
-                        icon={'calendar-alt'}
-                        disabled={disabled}
-                    />
+                <Field
+                    name={`expense.${FIELDS.DATE}`}
+                    component={DatePickerField}
+                    isRequired
+                    label={Lng.t('expenses.date', { locale })}
+                    icon={'calendar-alt'}
+                    disabled={disabled}
+                />
 
-                    <Field
-                        name={`expense.${FIELDS.AMOUNT}`}
-                        component={InputField}
-                        isRequired
-                        leftSymbol={currency?.symbol}
-                        hint={Lng.t('expenses.amount', { locale })}
-                        disabled={disabled}
-                        inputProps={{
-                            returnKeyType: 'go',
-                            keyboardType: 'decimal-pad'
-                        }}
-                        isCurrencyInput
-                    />
+                <Field
+                    name={`expense.${FIELDS.AMOUNT}`}
+                    component={InputField}
+                    isRequired
+                    leftSymbol={currency?.symbol}
+                    hint={Lng.t('expenses.amount', { locale })}
+                    disabled={disabled}
+                    inputProps={{
+                        returnKeyType: 'go',
+                        keyboardType: 'decimal-pad'
+                    }}
+                    isCurrencyInput
+                />
 
-                    <Field
-                        name={`expense.${FIELDS.CATEGORY}`}
-                        component={SelectField}
-                        isRequired
-                        apiSearch
-                        hasPagination
-                        getItems={getCategories}
-                        items={categories}
-                        displayName="name"
-                        label={Lng.t('expenses.category', { locale })}
-                        icon="align-center"
-                        placeholder={Lng.t('expenses.categoryPlaceholder', {
+                <Field
+                    name={`expense.${FIELDS.CATEGORY}`}
+                    component={SelectField}
+                    isRequired
+                    apiSearch
+                    hasPagination
+                    getItems={getCategories}
+                    items={categories}
+                    displayName="name"
+                    label={Lng.t('expenses.category', { locale })}
+                    icon="align-center"
+                    placeholder={Lng.t('expenses.categoryPlaceholder', {
+                        locale
+                    })}
+                    navigation={navigation}
+                    compareField="id"
+                    onSelect={item =>
+                        this.setFormField(`expense.${FIELDS.CATEGORY}`, item.id)
+                    }
+                    rightIconPress={this.navigateToCategory}
+                    createActionRouteName={ROUTES.CATEGORY}
+                    headerProps={{
+                        title: Lng.t('expenses.categoryPlaceholder', {
                             locale
-                        })}
-                        navigation={navigation}
-                        compareField="id"
-                        onSelect={item =>
-                            this.setFormField(
-                                `expense.${FIELDS.CATEGORY}`,
-                                item.id
-                            )
-                        }
-                        rightIconPress={this.navigateToCategory}
-                        createActionRouteName={ROUTES.CATEGORY}
-                        headerProps={{
-                            title: Lng.t('expenses.categoryPlaceholder', {
-                                locale
-                            })
-                        }}
-                        emptyContentProps={{ contentType: 'categories' }}
-                        reference={ref => (this.categoryReference = ref)}
-                        isEditable={!disabled}
-                        fakeInputProps={{ disabled }}
-                    />
+                        })
+                    }}
+                    emptyContentProps={{ contentType: 'categories' }}
+                    reference={ref => (this.categoryReference = ref)}
+                    isEditable={!disabled}
+                    fakeInputProps={{ disabled }}
+                />
 
-                    <Field
-                        name={`expense.${FIELDS.CUSTOMER}`}
-                        component={SelectField}
-                        apiSearch
-                        hasPagination
-                        getItems={getCustomers}
-                        items={customers}
-                        displayName="name"
-                        label={Lng.t('payments.customer', { locale })}
-                        icon="user"
-                        placeholder={Lng.t('customers.placeholder', {
+                <Field
+                    name={`expense.${FIELDS.CUSTOMER}`}
+                    component={SelectField}
+                    apiSearch
+                    hasPagination
+                    getItems={getCustomers}
+                    items={customers}
+                    displayName="name"
+                    label={Lng.t('payments.customer', { locale })}
+                    icon="user"
+                    placeholder={Lng.t('customers.placeholder', {
+                        locale
+                    })}
+                    navigation={navigation}
+                    compareField="id"
+                    onSelect={item =>
+                        this.setFormField(`expense.${FIELDS.CUSTOMER}`, item.id)
+                    }
+                    rightIconPress={this.navigateToCustomer}
+                    createActionRouteName={ROUTES.CUSTOMER}
+                    headerProps={{
+                        title: Lng.t('customers.title', { locale })
+                    }}
+                    emptyContentProps={{
+                        contentType: 'customers',
+                        image: IMAGES.EMPTY_CUSTOMERS
+                    }}
+                    reference={ref => (this.customerReference = ref)}
+                    isEditable={!disabled}
+                    fakeInputProps={{ disabled }}
+                />
+
+                <Field
+                    name={`expense.${FIELDS.NOTES}`}
+                    component={InputField}
+                    hint={Lng.t('expenses.notes', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        placeholder: Lng.t('expenses.notesPlaceholder', {
                             locale
-                        })}
-                        navigation={navigation}
-                        compareField="id"
-                        onSelect={item =>
-                            this.setFormField(
-                                `expense.${FIELDS.CUSTOMER}`,
-                                item.id
-                            )
-                        }
-                        rightIconPress={this.navigateToCustomer}
-                        createActionRouteName={ROUTES.CUSTOMER}
-                        headerProps={{
-                            title: Lng.t('customers.title', { locale })
-                        }}
-                        emptyContentProps={{
-                            contentType: 'customers',
-                            image: IMAGES.EMPTY_CUSTOMERS
-                        }}
-                        reference={ref => (this.customerReference = ref)}
-                        isEditable={!disabled}
-                        fakeInputProps={{ disabled }}
-                    />
+                        }),
+                        autoCorrect: true,
+                        multiline: true,
+                        maxLength: MAX_LENGTH
+                    }}
+                    disabled={disabled}
+                    height={80}
+                />
 
-                    <Field
-                        name={`expense.${FIELDS.NOTES}`}
-                        component={InputField}
-                        hint={Lng.t('expenses.notes', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            placeholder: Lng.t('expenses.notesPlaceholder', {
-                                locale
-                            }),
-                            autoCorrect: true,
-                            multiline: true,
-                            maxLength: MAX_LENGTH
-                        }}
-                        disabled={disabled}
-                        height={80}
-                    />
-
-                    {hasCustomField && (
-                        <CustomField {...this.props} type="expense" />
-                    )}
-                </View>
+                {hasCustomField && (
+                    <CustomField {...this.props} type="expense" />
+                )}
             </DefaultLayout>
         );
     }

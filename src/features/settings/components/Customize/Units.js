@@ -133,12 +133,15 @@ export class Units extends Component {
                         onPress={this.onSelectUnit}
                         isEmpty={units ? units.length <= 0 : true}
                         bottomDivider
-                        contentContainerStyle={{ flex: 3 }}
+                        contentContainerStyle={{
+                            flex: 3
+                        }}
                         emptyContentProps={{
                             title: Lng.t('payments.empty.modeTitle', { locale })
                         }}
                         itemContainer={{
-                            paddingVertical: 8
+                            paddingVertical: 14,
+                            paddingHorizontal: 22
                         }}
                     />
                 </InfiniteScroll>

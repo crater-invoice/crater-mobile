@@ -1,12 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { isAndroidPlatform } from '@/constants';
-import { colors } from '@/styles';
 
 export default styles = StyleSheet.create({
-    bodyContainer: {
-        paddingHorizontal: 22,
-        paddingVertical: 17
-    },
     date: {
         ...(isAndroidPlatform() && {
             paddingTop: 11,

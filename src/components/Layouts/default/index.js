@@ -1,15 +1,10 @@
 // @flow
 
 import React from 'react';
-import {
-    View,
-    KeyboardAvoidingView,
-    ScrollView,
-    StatusBar
-} from 'react-native';
+import { KeyboardAvoidingView, ScrollView, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { styles, Container } from './styles';
-import { CtHeader } from '../..';
+import { CtHeader, View } from '../..';
 import { Content } from '../../Content';
 import Dropdown from '../../Dropdown';
 import { ARROW_ICON } from '@/assets';
@@ -31,20 +26,31 @@ type IProps = {
     toastProps?: any
 };
 
-const Layout = ({
-    children,
-    headerProps,
-    rightIcon,
-    bottomAction,
-    loadingProps,
-    dropdownProps,
-    hideScrollView = false,
-    contentProps,
-    keyboardProps,
-    toastProps,
-    theme
-}: IProps) => {
+const Layout = (props: IProps) => {
+    const {
+        children,
+        headerProps,
+        rightIcon,
+        bottomAction,
+        loadingProps,
+        dropdownProps,
+        hideScrollView = false,
+        contentProps,
+        keyboardProps,
+        toastProps,
+        theme
+    } = props;
     const keyboardVerticalOffset = isIosPlatform() ? 60 : 0;
+    let bodyStyle = {};
+
+    if (props?.bodyStyle) {
+        for (const property of props?.bodyStyle.split(' ')) {
+            bodyStyle = { ...bodyStyle, [property]: true };
+        }
+    } else {
+        bodyStyle = { 'px-22': true, 'pt-10': true, 'pb-15': true };
+    }
+
     return (
         <Container>
             <StatusBar
@@ -88,7 +94,7 @@ const Layout = ({
                         children
                     ) : (
                         <ScrollView keyboardShouldPersistTaps="handled">
-                            {children}
+                            <View {...bodyStyle}>{children}</View>
                         </ScrollView>
                     )}
                 </KeyboardAvoidingView>

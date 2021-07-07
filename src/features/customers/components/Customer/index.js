@@ -268,198 +268,192 @@ export class Customer extends React.Component<IProps> {
                 loadingProps={{ is: isLoading }}
                 dropdownProps={drownDownProps}
             >
-                <View style={styles.bodyContainer}>
+                <Field
+                    name={`customer.${FIELDS.NAME}`}
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('customers.displayName', { locale })}
+                    inputFieldStyle={styles.inputFieldStyle}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true,
+                        keyboardType: KEYBOARD_TYPE.DEFAULT,
+                        onSubmitEditing: () => customerRefs.contactName.focus()
+                    }}
+                    validationStyle={styles.inputFieldValidation}
+                    disabled={disabled}
+                    withRef
+                />
+
+                <Field
+                    name={`customer.${FIELDS.CONTACT_NAME}`}
+                    component={InputField}
+                    hint={Lng.t('customers.contactName', { locale })}
+                    inputFieldStyle={styles.inputFieldStyle}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true,
+                        keyboardType: KEYBOARD_TYPE.DEFAULT,
+                        onSubmitEditing: () => customerRefs.email.focus()
+                    }}
+                    refLinkFn={ref => (customerRefs.contactName = ref)}
+                    validationStyle={styles.inputFieldValidation}
+                    disabled={disabled}
+                    withRef
+                />
+
+                <Field
+                    name={`customer.${FIELDS.EMAIL}`}
+                    component={InputField}
+                    hint={Lng.t('customers.email', { locale })}
+                    inputFieldStyle={styles.inputFieldStyle}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        keyboardType: KEYBOARD_TYPE.EMAIL,
+                        onSubmitEditing: () => customerRefs.phone.focus()
+                    }}
+                    refLinkFn={ref => (customerRefs.email = ref)}
+                    validationStyle={styles.inputFieldValidation}
+                    disabled={disabled}
+                />
+
+                <Field
+                    name={`customer.${FIELDS.PHONE}`}
+                    component={InputField}
+                    hint={Lng.t('customers.phone', { locale })}
+                    inputFieldStyle={styles.inputFieldStyle}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        keyboardType: KEYBOARD_TYPE.PHONE,
+                        onSubmitEditing: () => customerRefs.website.focus()
+                    }}
+                    refLinkFn={ref => (customerRefs.phone = ref)}
+                    validationStyle={styles.inputFieldValidation}
+                    disabled={disabled}
+                />
+
+                <Field
+                    name={`customer.${FIELDS.WEBSITE}`}
+                    component={InputField}
+                    hint={Lng.t('customers.website', { locale })}
+                    inputFieldStyle={styles.inputFieldStyle}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        keyboardType: KEYBOARD_TYPE.URL
+                    }}
+                    refLinkFn={ref => (customerRefs.website = ref)}
+                    validationStyle={styles.inputFieldValidation}
+                    disabled={disabled}
+                />
+
+                <View style={styles.inputGroup}>
                     <Field
-                        name={`customer.${FIELDS.NAME}`}
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('customers.displayName', { locale })}
-                        inputFieldStyle={styles.inputFieldStyle}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCorrect: true,
-                            keyboardType: KEYBOARD_TYPE.DEFAULT,
-                            onSubmitEditing: () =>
-                                customerRefs.contactName.focus()
+                        name={`customer.${FIELDS.CURRENCY}`}
+                        items={currencies ?? []}
+                        displayName="name"
+                        component={SelectField}
+                        isInternalSearch
+                        placeholder={Lng.t('customers.currency', {
+                            locale
+                        })}
+                        navigation={navigation}
+                        searchFields={['name']}
+                        compareField="id"
+                        onSelect={val =>
+                            this.setFormField(
+                                `customer.${FIELDS.CURRENCY}`,
+                                val.id
+                            )
+                        }
+                        headerProps={{
+                            title: Lng.t('currencies.title', { locale }),
+                            rightIconPress: null
                         }}
-                        validationStyle={styles.inputFieldValidation}
-                        disabled={disabled}
-                        withRef
+                        listViewProps={{
+                            contentContainerStyle: { flex: 5 },
+                            rightTitleStyle: SymbolStyle
+                        }}
+                        emptyContentProps={{ contentType: 'currencies' }}
+                        isEditable={!disabled}
+                        fakeInputProps={{
+                            disabled,
+                            rightIcon: 'angle-right',
+                            valueStyle: styles.selectedField,
+                            placeholderStyle: styles.selectedField,
+                            leftSymbol: this.getSelectedCurrencySymbol()
+                        }}
                     />
 
                     <Field
-                        name={`customer.${FIELDS.CONTACT_NAME}`}
-                        component={InputField}
-                        hint={Lng.t('customers.contactName', { locale })}
-                        inputFieldStyle={styles.inputFieldStyle}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCorrect: true,
-                            keyboardType: KEYBOARD_TYPE.DEFAULT,
-                            onSubmitEditing: () => customerRefs.email.focus()
+                        name={`customer.${FIELDS.BILLING}`}
+                        component={AddressContainer}
+                        hasBillingAddress
+                        addressValue={billingAddress}
+                        icon="map-marker-alt"
+                        rightIcon="angle-right"
+                        placeholder={Lng.t('customers.billingAddress', {
+                            locale
+                        })}
+                        navigation={navigation}
+                        onChangeCallback={val =>
+                            this.setFormField(`customer.${FIELDS.BILLING}`, val)
+                        }
+                        containerStyle={styles.addressField}
+                        type={type}
+                        fakeInputProps={{
+                            valueStyle: styles.selectedField,
+                            placeholderStyle: styles.selectedField,
+                            color: hasObjectLength(billingAddress)
+                                ? colors.primaryLight
+                                : null
                         }}
-                        refLinkFn={ref => (customerRefs.contactName = ref)}
-                        validationStyle={styles.inputFieldValidation}
-                        disabled={disabled}
-                        withRef
-                    />
-
-                    <Field
-                        name={`customer.${FIELDS.EMAIL}`}
-                        component={InputField}
-                        hint={Lng.t('customers.email', { locale })}
-                        inputFieldStyle={styles.inputFieldStyle}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            keyboardType: KEYBOARD_TYPE.EMAIL,
-                            onSubmitEditing: () => customerRefs.phone.focus()
-                        }}
-                        refLinkFn={ref => (customerRefs.email = ref)}
-                        validationStyle={styles.inputFieldValidation}
+                        theme={theme}
+                        mainContainerStyle={
+                            theme?.mode === 'dark' && styles.line(theme)
+                        }
                         disabled={disabled}
                     />
 
                     <Field
-                        name={`customer.${FIELDS.PHONE}`}
-                        component={InputField}
-                        hint={Lng.t('customers.phone', { locale })}
-                        inputFieldStyle={styles.inputFieldStyle}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            keyboardType: KEYBOARD_TYPE.PHONE,
-                            onSubmitEditing: () => customerRefs.website.focus()
+                        name={`customer.${FIELDS.SHIPPING}`}
+                        component={AddressContainer}
+                        addressValue={shippingAddress}
+                        autoFillValue={billingAddress}
+                        icon="map-marker-alt"
+                        rightIcon="angle-right"
+                        placeholder={Lng.t('customers.shippingAddress', {
+                            locale
+                        })}
+                        navigation={navigation}
+                        onChangeCallback={val =>
+                            this.setFormField(
+                                `customer.${FIELDS.SHIPPING}`,
+                                val
+                            )
+                        }
+                        containerStyle={styles.addressField}
+                        type={type}
+                        fakeInputProps={{
+                            valueStyle: styles.selectedField,
+                            placeholderStyle: styles.selectedField,
+                            color: hasObjectLength(shippingAddress)
+                                ? colors.primaryLight
+                                : null
                         }}
-                        refLinkFn={ref => (customerRefs.phone = ref)}
-                        validationStyle={styles.inputFieldValidation}
+                        theme={theme}
                         disabled={disabled}
                     />
-
-                    <Field
-                        name={`customer.${FIELDS.WEBSITE}`}
-                        component={InputField}
-                        hint={Lng.t('customers.website', { locale })}
-                        inputFieldStyle={styles.inputFieldStyle}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            keyboardType: KEYBOARD_TYPE.URL
-                        }}
-                        refLinkFn={ref => (customerRefs.website = ref)}
-                        validationStyle={styles.inputFieldValidation}
-                        disabled={disabled}
-                    />
-
-                    <View style={styles.inputGroup}>
-                        <Field
-                            name={`customer.${FIELDS.CURRENCY}`}
-                            items={currencies ?? []}
-                            displayName="name"
-                            component={SelectField}
-                            isInternalSearch
-                            placeholder={Lng.t('customers.currency', {
-                                locale
-                            })}
-                            navigation={navigation}
-                            searchFields={['name']}
-                            compareField="id"
-                            onSelect={val =>
-                                this.setFormField(
-                                    `customer.${FIELDS.CURRENCY}`,
-                                    val.id
-                                )
-                            }
-                            headerProps={{
-                                title: Lng.t('currencies.title', { locale }),
-                                rightIconPress: null
-                            }}
-                            listViewProps={{
-                                contentContainerStyle: { flex: 5 },
-                                rightTitleStyle: SymbolStyle
-                            }}
-                            emptyContentProps={{ contentType: 'currencies' }}
-                            isEditable={!disabled}
-                            fakeInputProps={{
-                                disabled,
-                                rightIcon: 'angle-right',
-                                valueStyle: styles.selectedField,
-                                placeholderStyle: styles.selectedField,
-                                leftSymbol: this.getSelectedCurrencySymbol()
-                            }}
-                        />
-
-                        <Field
-                            name={`customer.${FIELDS.BILLING}`}
-                            component={AddressContainer}
-                            hasBillingAddress
-                            addressValue={billingAddress}
-                            icon="map-marker-alt"
-                            rightIcon="angle-right"
-                            placeholder={Lng.t('customers.billingAddress', {
-                                locale
-                            })}
-                            navigation={navigation}
-                            onChangeCallback={val =>
-                                this.setFormField(
-                                    `customer.${FIELDS.BILLING}`,
-                                    val
-                                )
-                            }
-                            containerStyle={styles.addressField}
-                            type={type}
-                            fakeInputProps={{
-                                valueStyle: styles.selectedField,
-                                placeholderStyle: styles.selectedField,
-                                color: hasObjectLength(billingAddress)
-                                    ? colors.primaryLight
-                                    : null
-                            }}
-                            theme={theme}
-                            mainContainerStyle={
-                                theme?.mode === 'dark' && styles.line(theme)
-                            }
-                            disabled={disabled}
-                        />
-
-                        <Field
-                            name={`customer.${FIELDS.SHIPPING}`}
-                            component={AddressContainer}
-                            addressValue={shippingAddress}
-                            autoFillValue={billingAddress}
-                            icon="map-marker-alt"
-                            rightIcon="angle-right"
-                            placeholder={Lng.t('customers.shippingAddress', {
-                                locale
-                            })}
-                            navigation={navigation}
-                            onChangeCallback={val =>
-                                this.setFormField(
-                                    `customer.${FIELDS.SHIPPING}`,
-                                    val
-                                )
-                            }
-                            containerStyle={styles.addressField}
-                            type={type}
-                            fakeInputProps={{
-                                valueStyle: styles.selectedField,
-                                placeholderStyle: styles.selectedField,
-                                color: hasObjectLength(shippingAddress)
-                                    ? colors.primaryLight
-                                    : null
-                            }}
-                            theme={theme}
-                            disabled={disabled}
-                        />
-                    </View>
-
-                    {hasCustomField && (
-                        <CustomField {...this.props} type="customer" />
-                    )}
                 </View>
+
+                {hasCustomField && (
+                    <CustomField {...this.props} type="customer" />
+                )}
             </DefaultLayout>
         );
     }

@@ -6,10 +6,6 @@ export default StyleSheet.create({
         paddingBottom: isIPhoneX() ? 30 : 0,
         flex: 0.99
     },
-    bodyContainer: {
-        paddingHorizontal: 22,
-        paddingVertical: 17
-    },
     modalContainer: {
         flex: 1,
         ...Platform.select({

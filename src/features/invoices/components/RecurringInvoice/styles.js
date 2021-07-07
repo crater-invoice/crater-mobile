@@ -4,10 +4,6 @@ import { colors, fonts } from '@/styles';
 const { width } = Dimensions.get('window');
 
 export default styles = StyleSheet.create({
-    bodyContainer: {
-        paddingHorizontal: 22,
-        paddingVertical: 17
-    },
     expireToggle: {
         flex: 1,
         marginHorizontal: 5,

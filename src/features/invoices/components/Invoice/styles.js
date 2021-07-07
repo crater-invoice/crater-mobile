@@ -2,10 +2,6 @@ import { StyleSheet } from 'react-native';
 import { fonts } from '@/styles';
 
 export default styles = StyleSheet.create({
-    bodyContainer: {
-        paddingHorizontal: 22,
-        paddingVertical: 17
-    },
     itemContainer: (theme, disabled) => ({
         borderWidth: 1,
         borderColor: theme?.input?.borderColor,

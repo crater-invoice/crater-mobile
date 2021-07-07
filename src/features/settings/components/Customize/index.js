@@ -1,11 +1,10 @@
 // @flow
 
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
-    CtButton,
     DefaultLayout,
     InputField,
     ToggleSwitch,

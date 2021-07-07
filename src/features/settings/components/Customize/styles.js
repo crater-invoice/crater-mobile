@@ -9,7 +9,6 @@ export default styles = StyleSheet.create({
     },
     childContainer: {
         paddingTop: 10,
-        paddingHorizontal: 22,
         flex: 1
     },
     dividerLine: {

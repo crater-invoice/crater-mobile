@@ -1,10 +1,8 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import styles from './styles';
 import { ListView, DefaultLayout } from '@/components';
-import { colors } from '@/styles';
 import Lng from '@/lang/i18n';
 import { SETTINGS_MENU } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
@@ -54,18 +52,17 @@ export class Settings extends React.Component {
                     leftIconStyle: { color: theme?.header?.primary?.color }
                 }}
                 hasSearchField={false}
+                bodyStyle="px-0 pt-12 pb-17"
             >
-                <View style={styles.listViewContainer}>
-                    <ListView
-                        items={SETTINGS_MENU(locale, Lng)}
-                        onPress={this.onSelectMenu}
-                        leftTitleStyle={styles.listViewTitle(theme)}
-                        leftIconStyle={styles.listViewIcon}
-                        itemContainer={styles.itemContainer}
-                        rightArrowIcon
-                        hasAvatar
-                    />
-                </View>
+                <ListView
+                    items={SETTINGS_MENU(locale, Lng)}
+                    onPress={this.onSelectMenu}
+                    leftTitleStyle={styles.listViewTitle(theme)}
+                    leftIconStyle={styles.listViewIcon}
+                    itemContainer={styles.itemContainer}
+                    rightArrowIcon
+                    hasAvatar
+                />
             </DefaultLayout>
         );
     }

@@ -1,10 +1,6 @@
 import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-    bodyContainer: {
-        paddingHorizontal: 22,
-        paddingVertical: 17
-    },
     modalContainer: {
         flex: 1,
         ...Platform.select({
@@ -14,20 +10,6 @@ export default StyleSheet.create({
                 padding: 0
             }
         })
-    },
-    submitHint: {
-        fontSize: 17,
-        textAlign: 'left'
-    },
-    submitButton: {
-        flexDirection: 'row'
-        // justifyContent: "space-between",
-    },
-    handleBtn: {
-        marginHorizontal: 9
-    },
-    buttonContainer: {
-        flex: 1
     },
     inputIconStyle: {
         marginLeft: 5

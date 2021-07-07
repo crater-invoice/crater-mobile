@@ -3,10 +3,6 @@ import { colors, fonts } from '@/styles';
 import { isAndroidPlatform, isIosPlatform } from '@/constants';
 
 export default styles = StyleSheet.create({
-    bodyContainer: {
-        paddingHorizontal: 22,
-        paddingVertical: 17
-    },
     amountContainer: theme => ({
         borderWidth: 0.8,
         borderColor: theme?.input?.borderColor,

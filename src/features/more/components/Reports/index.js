@@ -45,6 +45,7 @@ export class Reports extends React.Component {
                     leftArrow: 'primary'
                 }}
                 hasSearchField={false}
+                bodyStyle="px-0 py-0"
             >
                 <View style={styles.listViewContainer}>
                     <ListView

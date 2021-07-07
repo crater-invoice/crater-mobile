@@ -428,187 +428,183 @@ export class EstimateItem extends React.Component {
                     <ActionButton locale={locale} buttons={bottomAction} />
                 }
             >
-                <View style={styles.bodyContainer}>
-                    <Field
-                        name="name"
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('items.name', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            onSubmitEditing: () => {
-                                itemRefs.quantity.focus();
-                            }
-                        }}
-                    />
+                <Field
+                    name="name"
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('items.name', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        onSubmitEditing: () => {
+                            itemRefs.quantity.focus();
+                        }
+                    }}
+                />
 
-                    <CtView flex={1} flex-row>
-                        <CtView flex={1} justify-between>
-                            <Field
-                                name={'quantity'}
-                                isRequired
-                                component={InputField}
-                                hint={Lng.t('items.quantity', { locale })}
-                                inputProps={{
-                                    returnKeyType: 'next',
-                                    keyboardType: 'numeric',
-                                    onSubmitEditing: () => {
-                                        itemRefs.price.focus();
-                                    }
-                                }}
-                                refLinkFn={ref => {
-                                    itemRefs.quantity = ref;
-                                }}
-                            />
-                        </CtView>
-                        <CtView flex={0.07} />
-                        <CtView flex={1} justify-between>
-                            <Field
-                                name="price"
-                                isRequired
-                                component={InputField}
-                                leftSymbol={currency?.symbol}
-                                hint={Lng.t('items.price', { locale })}
-                                inputProps={{
-                                    returnKeyType: 'next',
-                                    keyboardType: 'decimal-pad'
-                                }}
-                                refLinkFn={ref => {
-                                    itemRefs.price = ref;
-                                }}
-                                isCurrencyInput
-                            />
-                        </CtView>
+                <CtView flex={1} flex-row>
+                    <CtView flex={1} justify-between>
+                        <Field
+                            name={'quantity'}
+                            isRequired
+                            component={InputField}
+                            hint={Lng.t('items.quantity', { locale })}
+                            inputProps={{
+                                returnKeyType: 'next',
+                                keyboardType: 'numeric',
+                                onSubmitEditing: () => {
+                                    itemRefs.price.focus();
+                                }
+                            }}
+                            refLinkFn={ref => {
+                                itemRefs.quantity = ref;
+                            }}
+                        />
                     </CtView>
-
-                    {(initialValues.unit || !itemId) && (
+                    <CtView flex={0.07} />
+                    <CtView flex={1} justify-between>
                         <Field
-                            name="unit_id"
-                            component={SelectField}
-                            apiSearch
-                            hasPagination
-                            getItems={getItemUnits}
-                            items={units}
-                            displayName={'name'}
-                            label={Lng.t('items.unit', { locale })}
-                            icon={'balance-scale'}
-                            placeholder={Lng.t('items.unitPlaceholder', {
-                                locale
-                            })}
-                            navigation={navigation}
-                            compareField={'id'}
-                            emptyContentProps={{ contentType: 'units' }}
-                            headerProps={{
-                                title: Lng.t('items.unitPlaceholder', {
-                                    locale
-                                })
+                            name="price"
+                            isRequired
+                            component={InputField}
+                            leftSymbol={currency?.symbol}
+                            hint={Lng.t('items.price', { locale })}
+                            inputProps={{
+                                returnKeyType: 'next',
+                                keyboardType: 'decimal-pad'
                             }}
-                            fakeInputProps={{
-                                valueStyle: styles.units,
-                                placeholderStyle: styles.units
+                            refLinkFn={ref => {
+                                itemRefs.price = ref;
                             }}
-                            onSelect={item =>
-                                this.setFormField('unit_id', item.id)
-                            }
-                            paginationLimit={isIPhoneX() ? 20 : 15}
-                            inputModalName="UnitModal"
-                            createActionRouteName={CUSTOMIZE_TYPE.ITEMS}
+                            isCurrencyInput
                         />
-                    )}
+                    </CtView>
+                </CtView>
 
-                    {(discountPerItem == 'YES' || discountPerItem == '1') && (
-                        <View>
-                            <Field
-                                name="discount_type"
-                                component={RadioButtonGroup}
-                                hint={Lng.t('items.discountType', { locale })}
-                                options={ITEM_DISCOUNT_OPTION}
-                                initialValue={initialValues.discount_type}
-                                theme={theme}
-                            />
-
-                            <Field
-                                name="discount"
-                                component={InputField}
-                                hint={Lng.t('items.discount', { locale })}
-                                inputProps={{
-                                    returnKeyType: 'next',
-                                    autoCapitalize: 'none',
-                                    autoCorrect: true,
-                                    keyboardType: 'decimal-pad'
-                                }}
-                                disabled={discount_type === 'none'}
-                            />
-                        </View>
-                    )}
-
-                    {(taxPerItem === 'YES' || taxPerItem === '1') && (
-                        <Field
-                            name="taxes"
-                            items={taxTypes}
-                            getItems={getTaxes}
-                            apiSearch
-                            hasPagination
-                            displayName="name"
-                            label={Lng.t('items.taxes', { locale })}
-                            component={SelectField}
-                            placeholder={Lng.t('items.selectTax', {
-                                locale
-                            })}
-                            onlyPlaceholder
-                            fakeInputProps={{
-                                icon: 'percent',
-                                rightIcon: 'angle-right',
-                                color: colors.gray
-                            }}
-                            navigation={navigation}
-                            isMultiSelect
-                            locale={locale}
-                            concurrentMultiSelect
-                            compareField="id"
-                            valueCompareField="tax_type_id"
-                            listViewProps={{
-                                contentContainerStyle: { flex: 2 }
-                            }}
-                            headerProps={{
-                                title: Lng.t('taxes.title', { locale })
-                            }}
-                            rightIconPress={() =>
-                                navigation.navigate(ROUTES.TAX, {
-                                    type: ADD_TAX,
-                                    onSelect: val => {
-                                        this.setFormField('taxes', [
-                                            ...val,
-                                            ...taxes
-                                        ]);
-                                    }
-                                })
-                            }
-                            createActionRouteName={ROUTES.TAX}
-                            emptyContentProps={{
-                                contentType: 'taxes'
-                            }}
-                        />
-                    )}
-
-                    {this.FINAL_AMOUNT()}
-
+                {(initialValues.unit || !itemId) && (
                     <Field
-                        name="description"
-                        component={InputField}
-                        hint={Lng.t('items.description', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            multiline: true,
-                            maxLength: MAX_LENGTH
+                        name="unit_id"
+                        component={SelectField}
+                        apiSearch
+                        hasPagination
+                        getItems={getItemUnits}
+                        items={units}
+                        displayName={'name'}
+                        label={Lng.t('items.unit', { locale })}
+                        icon={'balance-scale'}
+                        placeholder={Lng.t('items.unitPlaceholder', {
+                            locale
+                        })}
+                        navigation={navigation}
+                        compareField={'id'}
+                        emptyContentProps={{ contentType: 'units' }}
+                        headerProps={{
+                            title: Lng.t('items.unitPlaceholder', {
+                                locale
+                            })
                         }}
-                        height={80}
+                        fakeInputProps={{
+                            valueStyle: styles.units,
+                            placeholderStyle: styles.units
+                        }}
+                        onSelect={item => this.setFormField('unit_id', item.id)}
+                        paginationLimit={isIPhoneX() ? 20 : 15}
+                        inputModalName="UnitModal"
+                        createActionRouteName={CUSTOMIZE_TYPE.ITEMS}
                     />
-                </View>
+                )}
+
+                {(discountPerItem == 'YES' || discountPerItem == '1') && (
+                    <View>
+                        <Field
+                            name="discount_type"
+                            component={RadioButtonGroup}
+                            hint={Lng.t('items.discountType', { locale })}
+                            options={ITEM_DISCOUNT_OPTION}
+                            initialValue={initialValues.discount_type}
+                            theme={theme}
+                        />
+
+                        <Field
+                            name="discount"
+                            component={InputField}
+                            hint={Lng.t('items.discount', { locale })}
+                            inputProps={{
+                                returnKeyType: 'next',
+                                autoCapitalize: 'none',
+                                autoCorrect: true,
+                                keyboardType: 'decimal-pad'
+                            }}
+                            disabled={discount_type === 'none'}
+                        />
+                    </View>
+                )}
+
+                {(taxPerItem === 'YES' || taxPerItem === '1') && (
+                    <Field
+                        name="taxes"
+                        items={taxTypes}
+                        getItems={getTaxes}
+                        apiSearch
+                        hasPagination
+                        displayName="name"
+                        label={Lng.t('items.taxes', { locale })}
+                        component={SelectField}
+                        placeholder={Lng.t('items.selectTax', {
+                            locale
+                        })}
+                        onlyPlaceholder
+                        fakeInputProps={{
+                            icon: 'percent',
+                            rightIcon: 'angle-right',
+                            color: colors.gray
+                        }}
+                        navigation={navigation}
+                        isMultiSelect
+                        locale={locale}
+                        concurrentMultiSelect
+                        compareField="id"
+                        valueCompareField="tax_type_id"
+                        listViewProps={{
+                            contentContainerStyle: { flex: 2 }
+                        }}
+                        headerProps={{
+                            title: Lng.t('taxes.title', { locale })
+                        }}
+                        rightIconPress={() =>
+                            navigation.navigate(ROUTES.TAX, {
+                                type: ADD_TAX,
+                                onSelect: val => {
+                                    this.setFormField('taxes', [
+                                        ...val,
+                                        ...taxes
+                                    ]);
+                                }
+                            })
+                        }
+                        createActionRouteName={ROUTES.TAX}
+                        emptyContentProps={{
+                            contentType: 'taxes'
+                        }}
+                    />
+                )}
+
+                {this.FINAL_AMOUNT()}
+
+                <Field
+                    name="description"
+                    component={InputField}
+                    hint={Lng.t('items.description', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        multiline: true,
+                        maxLength: MAX_LENGTH
+                    }}
+                    height={80}
+                />
             </DefaultLayout>
         );
     }

@@ -3,6 +3,10 @@ import { Animated, Easing } from 'react-native';
 import { Field } from 'redux-form';
 import * as LocalAuthentication from 'expo-local-authentication';
 import Lng from '@/lang/i18n';
+import { colors } from '@/styles';
+import Styles from './styles';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import { biometricAuthentication } from '@/utils';
 import {
     DefaultLayout,
     AssetSvg,
@@ -23,10 +27,6 @@ import {
     hasValue,
     isArray
 } from '@/constants';
-import { colors } from '@/styles';
-import Styles from './styles';
-import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import { biometricAuthentication } from '@/utils';
 
 interface IProps {
     locale: string;

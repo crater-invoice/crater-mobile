@@ -3,10 +3,6 @@ import { colors, fonts } from '@/styles';
 import { isIosPlatform } from '@/constants';
 
 export default styles = StyleSheet.create({
-    bodyContainer: {
-        paddingHorizontal: 22,
-        paddingVertical: 17
-    },
     flex: {
         flex: 1
     },

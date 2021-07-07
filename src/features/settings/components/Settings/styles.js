@@ -18,10 +18,6 @@ export default styles = StyleSheet.create({
         marginRight: isIPhoneX() ? 0 : -11,
         textAlign: 'left'
     }),
-    listViewContainer: {
-        marginTop: 10,
-        marginHorizontal: isIPhoneX() ? 0 : -5
-    },
     listViewIcon: {
         width: 26,
         textAlign: 'center'

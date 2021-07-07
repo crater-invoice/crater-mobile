@@ -20,10 +20,6 @@ export default styles = StyleSheet.create({
         fontFamily: fonts.poppinsMedium,
         fontSize: 16
     },
-    bodyContainer: {
-        paddingHorizontal: 22,
-        paddingVertical: 17
-    },
     inputFieldStyle: {
         borderRadius: 0
     },

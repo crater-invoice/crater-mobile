@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import {
@@ -359,64 +358,62 @@ export class Report extends React.Component<IProps> {
                 }
                 loadingProps={{ is: loading }}
             >
-                <View style={styles.bodyContainer}>
+                <Field
+                    name="date_range"
+                    label={Lng.t('reports.dateRange', { locale })}
+                    component={SelectPickerField}
+                    isRequired
+                    fieldIcon="calendar-week"
+                    items={DATE_RANGE_OPTION(locale, Lng)}
+                    onChangeCallback={this.onDateRangeChange}
+                    fakeInputContainerStyle={styles.selectPickerField}
+                />
+
+                <CtView flex={1} flex-row>
+                    <CtView flex={1} justify-between>
+                        <Field
+                            name={'from_date'}
+                            component={DatePickerField}
+                            isRequired
+                            displayValue={displayFromDate}
+                            label={Lng.t('reports.fromDate', { locale })}
+                            formDateFormat={DATE_FORMAT}
+                            onChangeCallback={val => {
+                                this.setFormField('date_range', 'custom');
+                                this.setState({ displayFromDate: '' });
+                            }}
+                        />
+                    </CtView>
+                    <CtView flex={0.07} />
+                    <CtView flex={1} justify-between>
+                        <Field
+                            name="to_date"
+                            component={DatePickerField}
+                            isRequired
+                            displayValue={displayToDate}
+                            label={Lng.t('reports.toDate', { locale })}
+                            formDateFormat={DATE_FORMAT}
+                            onChangeCallback={val => {
+                                this.setFormField('date_range', 'custom');
+                                this.setState({ displayToDate: '' });
+                            }}
+                        />
+                    </CtView>
+                </CtView>
+
+                {type === SALES && (
                     <Field
-                        name="date_range"
-                        label={Lng.t('reports.dateRange', { locale })}
+                        name="report_type"
+                        label={Lng.t('reports.reportType', { locale })}
                         component={SelectPickerField}
-                        isRequired
-                        fieldIcon="calendar-week"
-                        items={DATE_RANGE_OPTION(locale, Lng)}
-                        onChangeCallback={this.onDateRangeChange}
+                        fieldIcon="vial"
+                        items={REPORT_TYPE_OPTION(locale, Lng)}
+                        onChangeCallback={val => {
+                            this.setFormField('report_type', val);
+                        }}
                         fakeInputContainerStyle={styles.selectPickerField}
                     />
-
-                    <CtView flex={1} flex-row>
-                        <CtView flex={1} justify-between>
-                            <Field
-                                name={'from_date'}
-                                component={DatePickerField}
-                                isRequired
-                                displayValue={displayFromDate}
-                                label={Lng.t('reports.fromDate', { locale })}
-                                formDateFormat={DATE_FORMAT}
-                                onChangeCallback={val => {
-                                    this.setFormField('date_range', 'custom');
-                                    this.setState({ displayFromDate: '' });
-                                }}
-                            />
-                        </CtView>
-                        <CtView flex={0.07} />
-                        <CtView flex={1} justify-between>
-                            <Field
-                                name="to_date"
-                                component={DatePickerField}
-                                isRequired
-                                displayValue={displayToDate}
-                                label={Lng.t('reports.toDate', { locale })}
-                                formDateFormat={DATE_FORMAT}
-                                onChangeCallback={val => {
-                                    this.setFormField('date_range', 'custom');
-                                    this.setState({ displayToDate: '' });
-                                }}
-                            />
-                        </CtView>
-                    </CtView>
-
-                    {type === SALES && (
-                        <Field
-                            name="report_type"
-                            label={Lng.t('reports.reportType', { locale })}
-                            component={SelectPickerField}
-                            fieldIcon="vial"
-                            items={REPORT_TYPE_OPTION(locale, Lng)}
-                            onChangeCallback={val => {
-                                this.setFormField('report_type', val);
-                            }}
-                            fakeInputContainerStyle={styles.selectPickerField}
-                        />
-                    )}
-                </View>
+                )}
             </DefaultLayout>
         );
     }

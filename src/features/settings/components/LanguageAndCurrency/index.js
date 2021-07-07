@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import { find } from 'lodash';
 import styles from './styles';
 import { DefaultLayout, SelectField, ActionButton } from '@/components';
@@ -218,103 +217,101 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                     is: this.isLoading()
                 }}
             >
-                <View style={styles.mainContainer}>
-                    <Field
-                        name="language"
-                        items={languagesList}
-                        component={SelectField}
-                        label={Lng.t('settings.preferences.language', {
-                            locale
-                        })}
-                        icon="language"
-                        rightIcon="angle-right"
-                        displayName="name"
-                        placeholder={
-                            formValues?.language
-                                ? this.getSelectedField(
-                                      languagesList,
-                                      formValues.language,
-                                      'code'
-                                  )
-                                : Lng.t(
-                                      'settings.preferences.languagePlaceholder',
-                                      { locale }
-                                  )
-                        }
-                        navigation={navigation}
-                        fakeInputProps={{
-                            valueStyle: styles.selectedField,
-                            placeholderStyle: styles.selectedField
-                        }}
-                        searchFields={['name']}
-                        compareField="code"
-                        onSelect={val => {
-                            this.setFormField('language', val.code);
-                        }}
-                        headerProps={{
-                            title: Lng.t('languages.title', { locale }),
-                            rightIconPress: null
-                        }}
-                        listViewProps={{
-                            hasAvatar: true
-                        }}
-                        emptyContentProps={{
-                            contentType: 'languages'
-                        }}
-                        isRequired
-                        isInternalSearch
-                    />
+                <Field
+                    name="language"
+                    items={languagesList}
+                    component={SelectField}
+                    label={Lng.t('settings.preferences.language', {
+                        locale
+                    })}
+                    icon="language"
+                    rightIcon="angle-right"
+                    displayName="name"
+                    placeholder={
+                        formValues?.language
+                            ? this.getSelectedField(
+                                  languagesList,
+                                  formValues.language,
+                                  'code'
+                              )
+                            : Lng.t(
+                                  'settings.preferences.languagePlaceholder',
+                                  { locale }
+                              )
+                    }
+                    navigation={navigation}
+                    fakeInputProps={{
+                        valueStyle: styles.selectedField,
+                        placeholderStyle: styles.selectedField
+                    }}
+                    searchFields={['name']}
+                    compareField="code"
+                    onSelect={val => {
+                        this.setFormField('language', val.code);
+                    }}
+                    headerProps={{
+                        title: Lng.t('languages.title', { locale }),
+                        rightIconPress: null
+                    }}
+                    listViewProps={{
+                        hasAvatar: true
+                    }}
+                    emptyContentProps={{
+                        contentType: 'languages'
+                    }}
+                    isRequired
+                    isInternalSearch
+                />
 
-                    <Field
-                        name="currency"
-                        items={currencyList}
-                        displayName="name"
-                        component={SelectField}
-                        label={Lng.t('settings.preferences.currency', {
-                            locale
-                        })}
-                        rightIcon="angle-right"
-                        placeholder={
-                            currency
-                                ? this.getSelectedField(
-                                      currencyList,
-                                      currency,
-                                      'id'
-                                  )
-                                : Lng.t(
-                                      'settings.preferences.currencyPlaceholder',
-                                      { locale }
-                                  )
+                <Field
+                    name="currency"
+                    items={currencyList}
+                    displayName="name"
+                    component={SelectField}
+                    label={Lng.t('settings.preferences.currency', {
+                        locale
+                    })}
+                    rightIcon="angle-right"
+                    placeholder={
+                        currency
+                            ? this.getSelectedField(
+                                  currencyList,
+                                  currency,
+                                  'id'
+                              )
+                            : Lng.t(
+                                  'settings.preferences.currencyPlaceholder',
+                                  { locale }
+                              )
+                    }
+                    navigation={navigation}
+                    searchFields={['name']}
+                    compareField="id"
+                    fakeInputProps={{
+                        valueStyle: styles.selectedField,
+                        placeholderStyle: styles.selectedField,
+                        leftSymbol: this.getSelectedCurrencySymbol(),
+                        leftSymbolStyle: {
+                            color: theme?.icons?.secondaryColor
                         }
-                        navigation={navigation}
-                        searchFields={['name']}
-                        compareField="id"
-                        fakeInputProps={{
-                            valueStyle: styles.selectedField,
-                            placeholderStyle: styles.selectedField,
-                            leftSymbol: this.getSelectedCurrencySymbol(),
-                            leftSymbolStyle: {
-                                color: theme?.icons?.secondaryColor
-                            }
-                        }}
-                        onSelect={val => {
-                            this.setFormField('currency', val.id);
-                        }}
-                        headerProps={{
-                            title: Lng.t('currencies.title', { locale }),
-                            rightIconPress: null
-                        }}
-                        emptyContentProps={{
-                            contentType: 'currencies'
-                        }}
-                        isRequired
-                        listViewProps={{
-                            contentContainerStyle: { flex: 5 },
-                            rightTitleStyle: SymbolStyle
-                        }}
-                        isInternalSearch
-                    />
-                </View>
+                    }}
+                    onSelect={val => {
+                        this.setFormField('currency', val.id);
+                    }}
+                    headerProps={{
+                        title: Lng.t('currencies.title', { locale }),
+                        rightIconPress: null
+                    }}
+                    emptyContentProps={{
+                        contentType: 'currencies'
+                    }}
+                    isRequired
+                    listViewProps={{
+                        contentContainerStyle: { flex: 5 },
+                        rightTitleStyle: SymbolStyle
+                    }}
+                    isInternalSearch
+                />
             </DefaultLayout>
         );
     }

@@ -338,90 +338,88 @@ export class CustomField extends React.Component<IProps> {
                 }
                 loadingProps={{ is: this.isLoading() }}
             >
-                <View style={styles.bodyContainer}>
-                    <Field
-                        name={`${FIELDS.FIELD}.${FIELDS.NAME}`}
-                        component={InputField}
-                        isRequired
-                        disabled={disabled}
-                        hint={Lng.t('customFields.name', {
+                <Field
+                    name={`${FIELDS.FIELD}.${FIELDS.NAME}`}
+                    component={InputField}
+                    isRequired
+                    disabled={disabled}
+                    hint={Lng.t('customFields.name', {
+                        locale
+                    })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true
+                    }}
+                />
+
+                <Field
+                    name={`${FIELDS.FIELD}.${FIELDS.MODAL_TYPE}`}
+                    component={SelectPickerField}
+                    label={Lng.t('customFields.model', {
+                        locale
+                    })}
+                    fieldIcon="align-center"
+                    items={MODAL_TYPES}
+                    disabled={disabled}
+                    defaultPickerOptions={{
+                        label: Lng.t('customFields.modelPlaceholder', {
                             locale
-                        })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCorrect: true
-                        }}
-                    />
+                        }),
+                        value: ''
+                    }}
+                    isRequired
+                />
 
-                    <Field
-                        name={`${FIELDS.FIELD}.${FIELDS.MODAL_TYPE}`}
-                        component={SelectPickerField}
-                        label={Lng.t('customFields.model', {
+                {this.REQUIRE_FIELD_VIEW()}
+
+                <Field
+                    name={`${FIELDS.FIELD}.${FIELDS.TYPE}`}
+                    label={Lng.t('customFields.type', {
+                        locale
+                    })}
+                    component={SelectPickerField}
+                    isRequired
+                    fieldIcon="align-center"
+                    items={DATA_TYPES}
+                    defaultPickerOptions={{
+                        label: Lng.t('customFields.typePlaceholder', {
                             locale
-                        })}
-                        fieldIcon="align-center"
-                        items={MODAL_TYPES}
-                        disabled={disabled}
-                        defaultPickerOptions={{
-                            label: Lng.t('customFields.modelPlaceholder', {
-                                locale
-                            }),
-                            value: ''
-                        }}
-                        isRequired
-                    />
+                        }),
+                        value: ''
+                    }}
+                    disabled={disabled}
+                    onChangeCallback={() => this.onChangeReset()}
+                    callbackWhenMount={() => {}}
+                />
 
-                    {this.REQUIRE_FIELD_VIEW()}
+                <Field
+                    name={`${FIELDS.FIELD}.${FIELDS.LABEL}`}
+                    component={InputField}
+                    isRequired
+                    disabled={disabled}
+                    hint={Lng.t('customFields.label', {
+                        locale
+                    })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true
+                    }}
+                />
 
-                    <Field
-                        name={`${FIELDS.FIELD}.${FIELDS.TYPE}`}
-                        label={Lng.t('customFields.type', {
-                            locale
-                        })}
-                        component={SelectPickerField}
-                        isRequired
-                        fieldIcon="align-center"
-                        items={DATA_TYPES}
-                        defaultPickerOptions={{
-                            label: Lng.t('customFields.typePlaceholder', {
-                                locale
-                            }),
-                            value: ''
-                        }}
-                        disabled={disabled}
-                        onChangeCallback={() => this.onChangeReset()}
-                        callbackWhenMount={() => {}}
-                    />
+                {this.DATA_TYPE_OPTION_BASE_VIEW()}
 
-                    <Field
-                        name={`${FIELDS.FIELD}.${FIELDS.LABEL}`}
-                        component={InputField}
-                        isRequired
-                        disabled={disabled}
-                        hint={Lng.t('customFields.label', {
-                            locale
-                        })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCorrect: true
-                        }}
-                    />
-
-                    {this.DATA_TYPE_OPTION_BASE_VIEW()}
-
-                    <Field
-                        name={`${FIELDS.FIELD}.${FIELDS.ORDER}`}
-                        component={InputField}
-                        hint={Lng.t('customFields.order', { locale })}
-                        disabled={disabled}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCorrect: true,
-                            keyboardType: KEYBOARD_TYPE.NUMERIC
-                        }}
-                        isRequired
-                    />
-                </View>
+                <Field
+                    name={`${FIELDS.FIELD}.${FIELDS.ORDER}`}
+                    component={InputField}
+                    hint={Lng.t('customFields.order', { locale })}
+                    disabled={disabled}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true,
+                        keyboardType: KEYBOARD_TYPE.NUMERIC
+                    }}
+                    isRequired
+                />
             </DefaultLayout>
         );
     }

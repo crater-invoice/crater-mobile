@@ -1,11 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '@/styles';
 
 export default styles = StyleSheet.create({
-    bodyContainer: {
-        paddingHorizontal: 22,
-        paddingVertical: 17
-    },
     inputGroup: {
         marginVertical: 10
     },

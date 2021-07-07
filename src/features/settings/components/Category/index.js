@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import { Field, change } from 'redux-form';
 import styles from './styles';
 import { InputField, DefaultLayout, ActionButton } from '@/components';
@@ -166,41 +165,39 @@ export class Category extends React.Component<IProps> {
                     is: getEditCategoryLoading
                 }}
             >
-                <View style={styles.bodyContainer}>
-                    <Field
-                        name="name"
-                        component={InputField}
-                        isRequired
-                        hint={Lng.t('categories.title', { locale })}
-                        inputFieldStyle={styles.inputFieldStyle}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCorrect: true,
-                            onSubmitEditing: () => {
-                                categoryRefs.description.focus();
-                            }
-                        }}
-                        validationStyle={styles.inputFieldValidation}
-                        disabled={disabled}
-                    />
+                <Field
+                    name="name"
+                    component={InputField}
+                    isRequired
+                    hint={Lng.t('categories.title', { locale })}
+                    inputFieldStyle={styles.inputFieldStyle}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCorrect: true,
+                        onSubmitEditing: () => {
+                            categoryRefs.description.focus();
+                        }
+                    }}
+                    validationStyle={styles.inputFieldValidation}
+                    disabled={disabled}
+                />
 
-                    <Field
-                        name="description"
-                        component={InputField}
-                        hint={Lng.t('categories.description', { locale })}
-                        inputProps={{
-                            returnKeyType: 'next',
-                            autoCapitalize: 'none',
-                            autoCorrect: true,
-                            multiline: true,
-                            maxLength: MAX_LENGTH
-                        }}
-                        height={100}
-                        autoCorrect={true}
-                        refLinkFn={ref => (categoryRefs.description = ref)}
-                        disabled={disabled}
-                    />
-                </View>
+                <Field
+                    name="description"
+                    component={InputField}
+                    hint={Lng.t('categories.description', { locale })}
+                    inputProps={{
+                        returnKeyType: 'next',
+                        autoCapitalize: 'none',
+                        autoCorrect: true,
+                        multiline: true,
+                        maxLength: MAX_LENGTH
+                    }}
+                    height={100}
+                    autoCorrect={true}
+                    refLinkFn={ref => (categoryRefs.description = ref)}
+                    disabled={disabled}
+                />
             </DefaultLayout>
         );
     }
