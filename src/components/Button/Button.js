@@ -8,7 +8,7 @@ import { Button } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { connect } from 'react-redux';
 import { AssetImage } from '../AssetImage';
-import { BUTTON_COLOR, BUTTON_TYPE } from '@/constants';
+import { BUTTON_COLOR, BUTTON_TYPE, isAndroidPlatform } from '@/constants';
 import { AssetIcon } from '../AssetIcon';
 
 type IProps = {
@@ -255,10 +255,7 @@ class ActionButton extends Component<IProps> {
                     containerStyle={[
                         styles.containerStyle,
                         raised && styles.containerShadow,
-                        containerStyle && containerStyle,
-                        isLoading && {
-                            borderColor: colors[`${buttonColor}Light`]
-                        }
+                        containerStyle && containerStyle
                     ]}
                     buttonStyle={[
                         styles.buttonStyle,
@@ -279,7 +276,10 @@ class ActionButton extends Component<IProps> {
                     type={type}
                     title={btnTitle}
                     loading={(loading && buttonFocus) || isLoading}
-                    loadingStyle={{ opacity: 1 }}
+                    loadingStyle={{
+                        opacity: 1,
+                        ...(isAndroidPlatform() && { paddingVertical: 1.6 })
+                    }}
                     loadingProps={{
                         color: !isOutline ? colors.white : colors[buttonColor]
                     }}
