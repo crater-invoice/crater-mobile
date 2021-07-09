@@ -162,34 +162,30 @@ export class Payments extends React.Component<IProps> {
         };
 
         return (
-            <View style={styles.container}>
-                <MainLayout
-                    headerProps={headerProps}
-                    onSearch={this.onSearch}
-                    bottomDivider
-                    filterProps={filterProps}
-                    toastProps={{
-                        reference: ref => (this.toastReference = ref)
-                    }}
+            <MainLayout
+                headerProps={headerProps}
+                onSearch={this.onSearch}
+                bottomDivider
+                filterProps={filterProps}
+                toastProps={{
+                    reference: ref => (this.toastReference = ref)
+                }}
+            >
+                <InfiniteScroll
+                    getItems={getPayments}
+                    reference={ref => (this.scrollViewReference = ref)}
                 >
-                    <View style={styles.listViewContainer}>
-                        <InfiniteScroll
-                            getItems={getPayments}
-                            reference={ref => (this.scrollViewReference = ref)}
-                        >
-                            <ListView
-                                items={payments}
-                                onPress={this.onSelect}
-                                isEmpty={isEmpty}
-                                contentContainerStyle={{ flex: 0 }}
-                                bottomDivider
-                                emptyContentProps={emptyContentProps}
-                                isAnimated
-                            />
-                        </InfiniteScroll>
-                    </View>
-                </MainLayout>
-            </View>
+                    <ListView
+                        items={payments}
+                        onPress={this.onSelect}
+                        isEmpty={isEmpty}
+                        contentContainerStyle={{ flex: 0 }}
+                        bottomDivider
+                        emptyContentProps={emptyContentProps}
+                        isAnimated
+                    />
+                </InfiniteScroll>
+            </MainLayout>
         );
     }
 }

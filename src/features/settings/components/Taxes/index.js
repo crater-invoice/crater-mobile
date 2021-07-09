@@ -1,8 +1,6 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
-import styles from './styles';
 import { InfiniteScroll, ListView, MainLayout } from '@/components';
 import Lng from '@/lang/i18n';
 import { EDIT_TAX, ADD_TAX } from '../../constants';
@@ -82,24 +80,22 @@ export class Taxes extends React.Component {
                 onSearch={this.onSearch}
                 bottomDivider
             >
-                <View style={styles.listViewContainer}>
-                    <InfiniteScroll
-                        getItems={getTaxes}
-                        reference={ref => (this.scrollViewReference = ref)}
-                        getItemsInMount={false}
-                    >
-                        <ListView
-                            items={taxTypes}
-                            onPress={this.onSelect}
-                            isEmpty={isEmpty}
-                            bottomDivider
-                            contentContainerStyle={{ flex: 3 }}
-                            leftSubTitleStyle={itemsDescriptionStyle(45)}
-                            emptyContentProps={emptyContentProps}
-                            isAnimated
-                        />
-                    </InfiniteScroll>
-                </View>
+                <InfiniteScroll
+                    getItems={getTaxes}
+                    reference={ref => (this.scrollViewReference = ref)}
+                    getItemsInMount={false}
+                >
+                    <ListView
+                        items={taxTypes}
+                        onPress={this.onSelect}
+                        isEmpty={isEmpty}
+                        bottomDivider
+                        contentContainerStyle={{ flex: 3 }}
+                        leftSubTitleStyle={itemsDescriptionStyle(45)}
+                        emptyContentProps={emptyContentProps}
+                        isAnimated
+                    />
+                </InfiniteScroll>
             </MainLayout>
         );
     }

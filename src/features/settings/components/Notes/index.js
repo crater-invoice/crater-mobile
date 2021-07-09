@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import styles from './styles';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import Lng from '@/lang/i18n';
 import { NOTES_ADD, NOTES_EDIT } from '../../constants';
@@ -18,7 +16,7 @@ type IProps = {
     notes: any
 };
 
-export class Notes extends Component<IProps> {
+export default class Notes extends Component<IProps> {
     constructor(props) {
         super(props);
         this.scrollViewReference = React.createRef();
@@ -98,30 +96,27 @@ export class Notes extends Component<IProps> {
                 headerProps={headerProps}
                 onSearch={this.onSearch}
                 bottomDivider
+                bodyStyle="is-full-listView"
             >
-                <View style={styles.listViewContainer}>
-                    <InfiniteScroll
-                        getItems={getNotes}
-                        reference={ref => (this.scrollViewReference = ref)}
-                        getItemsInMount={false}
-                        paginationLimit={isIPhoneX() ? 20 : 15}
-                    >
-                        <ListView
-                            items={formatNotes(notes)}
-                            onPress={this.onSelect}
-                            isEmpty={isEmpty}
-                            contentContainerStyle={{ flex: 1 }}
-                            bottomDivider
-                            emptyContentProps={emptyContentProps}
-                            leftSubTitleStyle={{ textAlign: 'justify' }}
-                            rightTitleStyle={{ fontFamily: fonts.poppins }}
-                            isAnimated
-                        />
-                    </InfiniteScroll>
-                </View>
+                <InfiniteScroll
+                    getItems={getNotes}
+                    reference={ref => (this.scrollViewReference = ref)}
+                    getItemsInMount={false}
+                    paginationLimit={isIPhoneX() ? 20 : 15}
+                >
+                    <ListView
+                        items={formatNotes(notes)}
+                        onPress={this.onSelect}
+                        isEmpty={isEmpty}
+                        contentContainerStyle={{ flex: 1 }}
+                        bottomDivider
+                        emptyContentProps={emptyContentProps}
+                        leftSubTitleStyle={{ textAlign: 'justify' }}
+                        rightTitleStyle={{ fontFamily: fonts.poppins }}
+                        isAnimated
+                    />
+                </InfiniteScroll>
             </MainLayout>
         );
     }
 }
-
-export default Notes;

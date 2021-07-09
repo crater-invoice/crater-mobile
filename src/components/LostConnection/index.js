@@ -9,7 +9,6 @@ import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { IMAGES } from '@/assets';
 import { Text } from '../Text';
 import { styles, Container } from './styles';
-import { colors } from '@/styles';
 
 export class LostConnection extends Component {
     constructor(props) {

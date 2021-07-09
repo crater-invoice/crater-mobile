@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import styles from './styles';
 import { MainLayout, ListView } from '@/components';
 import { MORE_MENU } from '../../constants';
@@ -67,21 +66,17 @@ export class More extends React.Component {
                 dividerStyle={styles.dividerStyle}
                 hasSearchField={false}
             >
-                <View style={styles.listViewContainer}>
-                    <ListView
-                        items={MORE_MENU(locale, Lng)}
-                        onPress={this.onSelectMenu}
-                        hasAvatar
-                        refreshing={false}
-                        leftTitleStyle={styles.listViewTitle(theme)}
-                        leftIconStyle={styles.listViewIcon}
-                        itemContainer={styles.itemContainer}
-                        rightArrowIcon
-                        listViewContainerStyle={
-                            styles.listViewScrollContainerStyle
-                        }
-                    />
-                </View>
+                <ListView
+                    items={MORE_MENU(locale, Lng)}
+                    onPress={this.onSelectMenu}
+                    hasAvatar
+                    refreshing={false}
+                    leftTitleStyle={styles.listViewTitle(theme)}
+                    leftIconStyle={styles.listViewIcon}
+                    itemContainer={styles.itemContainer}
+                    rightArrowIcon
+                    listViewContainerStyle={styles.listViewScrollContainerStyle}
+                />
             </MainLayout>
         );
     }

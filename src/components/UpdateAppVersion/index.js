@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { View, Platform } from 'react-native';
 import * as Linking from 'expo-linking';
 import { connect } from 'react-redux';
-import styles from './styles';
+import { styles, Container } from './styles';
 import { AssetImage } from '../AssetImage';
 import { CtGradientButton } from '../Button';
 import { Text } from '../Text';
-import { IMAGES } from '@/assets';
+import { IMAGES, LOGO } from '@/assets';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 
@@ -42,25 +42,36 @@ export class UpdateAppVersion extends Component {
     };
 
     render() {
-        const { locale } = this.props;
+        const { locale, theme } = this.props;
         const { loading } = this.state;
 
         return (
-            <View style={styles.container}>
+            <Container>
                 <View style={styles.main}>
                     <View style={styles.logoContainer}>
                         <AssetImage
-                            imageSource={IMAGES.LOGO_DARK}
+                            imageSource={LOGO[(theme?.mode)]}
                             imageStyle={styles.imgLogo}
                         />
                     </View>
 
                     <View style={styles.bodyContainer}>
-                        <Text primary h5 style={styles.title}>
+                        <Text
+                            h5
+                            style={styles.title}
+                            bold2={theme?.mode === 'dark'}
+                            color={theme?.text?.primaryColor}
+                        >
                             {Lng.t('updateApp.title', { locale })}
                         </Text>
 
-                        <Text primaryLight center h6 style={styles.description}>
+                        <Text
+                            h6
+                            center
+                            style={styles.description}
+                            medium={theme?.mode === 'dark'}
+                            color={theme?.text?.fourthColor}
+                        >
                             {Lng.t('updateApp.description', { locale })}
                         </Text>
                     </View>
@@ -73,13 +84,14 @@ export class UpdateAppVersion extends Component {
                         />
                     </View>
                 </View>
-            </View>
+            </Container>
         );
     }
 }
 
 const mapStateToProps = ({ global }) => ({
-    locale: global?.locale
+    locale: global?.locale,
+    theme: global?.theme
 });
 
 const mapDispatchToProps = {};

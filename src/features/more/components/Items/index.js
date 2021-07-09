@@ -1,9 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import { change } from 'redux-form';
-import styles from './styles';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { ROUTES } from '@/navigation';
 import { ARROW_ICON, IMAGES } from '@/assets';
@@ -95,8 +93,7 @@ export class Items extends React.Component<IProps> {
             handleSubmit,
             formValues,
             getItems,
-            currency,
-            theme
+            currency
         } = this.props;
 
         const { search } = this.state;
@@ -154,27 +151,25 @@ export class Items extends React.Component<IProps> {
                 headerProps={headerProps}
                 onSearch={this.onSearch}
                 bottomDivider
-                onFocus={() => {}}
                 filterProps={filterProps}
+                bodyStyle="is-full-listView"
             >
-                <View style={styles.listViewContainer}>
-                    <InfiniteScroll
-                        getItems={getItems}
-                        reference={ref => (this.scrollViewReference = ref)}
-                        getItemsInMount={false}
-                        paginationLimit={isIPhoneX() ? 20 : 15}
-                    >
-                        <ListView
-                            items={formatItems(items, currency)}
-                            onPress={this.onSelect}
-                            isEmpty={isEmpty}
-                            bottomDivider
-                            leftSubTitleStyle={itemsDescriptionStyle()}
-                            emptyContentProps={emptyContentProps}
-                            isAnimated
-                        />
-                    </InfiniteScroll>
-                </View>
+                <InfiniteScroll
+                    getItems={getItems}
+                    reference={ref => (this.scrollViewReference = ref)}
+                    getItemsInMount={false}
+                    paginationLimit={isIPhoneX() ? 20 : 15}
+                >
+                    <ListView
+                        items={formatItems(items, currency)}
+                        onPress={this.onSelect}
+                        isEmpty={isEmpty}
+                        bottomDivider
+                        leftSubTitleStyle={itemsDescriptionStyle()}
+                        emptyContentProps={emptyContentProps}
+                        isAnimated
+                    />
+                </InfiniteScroll>
             </MainLayout>
         );
     }

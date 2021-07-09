@@ -1,18 +1,10 @@
 import { StyleSheet, Dimensions, View } from 'react-native';
 import styled from 'styled-components/native';
-import { colors } from '@/styles';
 import { defineLargeSizeParam } from '@/constants';
 
 const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingHorizontal: 25,
-        justifyContent: 'center',
-        display: 'flex',
-        backgroundColor: colors.veryLightGray
-    },
     main: {
         flex: 1,
         flexDirection: 'column',

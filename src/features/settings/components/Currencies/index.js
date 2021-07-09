@@ -199,38 +199,36 @@ export class Currencies extends React.Component<IProps> {
                     bottomDivider
                     loadingProps={{ is: loading && fresh }}
                 >
-                    <View style={styles.listViewContainer}>
-                        <ListView
-                            items={
-                                hasLength(currenciesFilter)
-                                    ? currenciesFilter
-                                    : found
-                                    ? formatListByName(currencies)
-                                    : []
-                            }
-                            onPress={this.onSelect}
-                            refreshing={refreshing}
-                            loading={loading}
-                            isEmpty={found ? !hasLength(currencies) : true}
-                            canLoadMore={canLoadMore}
-                            getFreshItems={onHide => {
-                                this.getItems({
-                                    fresh: true,
-                                    onResult: onHide,
-                                    search
-                                });
-                            }}
-                            getItems={() => {
-                                this.loadMoreItems();
-                            }}
-                            bottomDivider
-                            leftSubTitleStyle={itemsDescriptionStyle()}
-                            emptyContentProps={{
-                                title: emptyTitle,
-                                ...empty
-                            }}
-                        />
-                    </View>
+                    <ListView
+                        items={
+                            hasLength(currenciesFilter)
+                                ? currenciesFilter
+                                : found
+                                ? formatListByName(currencies)
+                                : []
+                        }
+                        onPress={this.onSelect}
+                        refreshing={refreshing}
+                        loading={loading}
+                        isEmpty={found ? !hasLength(currencies) : true}
+                        canLoadMore={canLoadMore}
+                        getFreshItems={onHide => {
+                            this.getItems({
+                                fresh: true,
+                                onResult: onHide,
+                                search
+                            });
+                        }}
+                        getItems={() => {
+                            this.loadMoreItems();
+                        }}
+                        bottomDivider
+                        leftSubTitleStyle={itemsDescriptionStyle()}
+                        emptyContentProps={{
+                            title: emptyTitle,
+                            ...empty
+                        }}
+                    />
                 </MainLayout>
             </View>
         );

@@ -1,11 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import styled from 'styled-components/native';
-import {
-    definePlatformParam,
-    isAndroidPlatform,
-    isIosPlatform,
-    isIPhoneX
-} from '@/constants';
+import { definePlatformParam, isAndroidPlatform, isIPhoneX } from '@/constants';
 import { headerTitle } from '@/styles';
 
 const styles = StyleSheet.create({
@@ -41,7 +36,6 @@ const styles = StyleSheet.create({
         marginVertical: 8
     },
     searchFieldContainer: {
-        // backgroundColor: colors.veryLightGray,
         paddingVertical: 10
     }
 });

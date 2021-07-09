@@ -1,8 +1,6 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
-import styles from './styles';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import Lng from '@/lang/i18n';
 import { CATEGORY_ADD, CATEGORY_EDIT } from '../../constants';
@@ -104,23 +102,22 @@ export class Categories extends React.Component<IProps> {
                 headerProps={headerProps}
                 onSearch={this.onSearch}
                 bottomDivider
+                bodyStyle="is-full-listView"
             >
-                <View style={styles.listViewContainer}>
-                    <InfiniteScroll
-                        getItems={getExpenseCategories}
-                        reference={ref => (this.scrollViewReference = ref)}
-                        getItemsInMount={false}
-                    >
-                        <ListView
-                            items={formatCategories(categories)}
-                            onPress={this.onSelect}
-                            isEmpty={isEmpty}
-                            bottomDivider
-                            emptyContentProps={emptyContentProps}
-                            isAnimated
-                        />
-                    </InfiniteScroll>
-                </View>
+                <InfiniteScroll
+                    getItems={getExpenseCategories}
+                    reference={ref => (this.scrollViewReference = ref)}
+                    getItemsInMount={false}
+                >
+                    <ListView
+                        items={formatCategories(categories)}
+                        onPress={this.onSelect}
+                        isEmpty={isEmpty}
+                        bottomDivider
+                        emptyContentProps={emptyContentProps}
+                        isAnimated
+                    />
+                </InfiniteScroll>
             </MainLayout>
         );
     }

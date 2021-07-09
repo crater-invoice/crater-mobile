@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
@@ -121,28 +120,24 @@ export class CustomFields extends React.Component<IProps> {
                 onSearch={this.onSearch}
                 bottomDivider
             >
-                <View style={styles.listViewContainer}>
-                    <InfiniteScroll
-                        getItems={getCustomFields}
-                        reference={ref => (this.scrollViewReference = ref)}
-                        getItemsInMount={false}
-                    >
-                        <ListView
-                            items={customFields}
-                            onPress={this.onSelect}
-                            isEmpty={isEmpty}
-                            bottomDivider
-                            emptyContentProps={emptyContentProps}
-                            leftTitleStyle={styles.leftTitleText}
-                            leftSubTitleLabelStyle={styles.leftSubTitleText}
-                            leftSubTitleContainerStyle={
-                                styles.leftTitleContainer
-                            }
-                            rightTitleStyle={styles.rightTitleText}
-                            isAnimated
-                        />
-                    </InfiniteScroll>
-                </View>
+                <InfiniteScroll
+                    getItems={getCustomFields}
+                    reference={ref => (this.scrollViewReference = ref)}
+                    getItemsInMount={false}
+                >
+                    <ListView
+                        items={customFields}
+                        onPress={this.onSelect}
+                        isEmpty={isEmpty}
+                        bottomDivider
+                        emptyContentProps={emptyContentProps}
+                        leftTitleStyle={styles.leftTitleText}
+                        leftSubTitleLabelStyle={styles.leftSubTitleText}
+                        leftSubTitleContainerStyle={styles.leftTitleContainer}
+                        rightTitleStyle={styles.rightTitleText}
+                        isAnimated
+                    />
+                </InfiniteScroll>
             </MainLayout>
         );
     }

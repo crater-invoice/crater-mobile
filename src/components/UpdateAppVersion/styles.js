@@ -1,45 +1,48 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, View } from 'react-native';
+import styled from 'styled-components/native';
 import { colors } from '@/styles';
 
+const { width } = Dimensions.get('window');
 
-const { width, height } = Dimensions.get('window');
-
-export default styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        display: 'flex',
-        backgroundColor: colors.veryLightGray
-    },
+const styles = StyleSheet.create({
     main: {
         flex: 1,
         flexDirection: 'column',
         paddingHorizontal: 25,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     logoContainer: {
         paddingBottom: 30,
         alignItems: 'center',
-        marginTop: -70,
+        marginTop: -70
     },
     imgLogo: {
         width: width - 150,
         height: 120,
-        resizeMode: 'contain',
+        resizeMode: 'contain'
     },
     bodyContainer: {
-        textAlign: "center",
-        alignItems: "center",
+        textAlign: 'center',
+        alignItems: 'center'
     },
     title: {
         paddingBottom: 10
     },
     subTitle: {
         paddingTop: 5,
-        color: colors.primaryLight,
+        color: colors.primaryLight
     },
     description: {
         paddingHorizontal: 10,
         paddingTop: 18
-    },
+    }
 });
+
+const Container = styled(View)`
+    flex: 1;
+    justify-content: flex-start;
+    display: flex;
+    background-color: ${props => props.theme?.backgroundColor};
+`;
+
+export { styles, Container };

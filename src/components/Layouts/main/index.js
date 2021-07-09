@@ -10,10 +10,11 @@ import { Content } from '../../Content';
 import Lng from '@/lang/i18n';
 import { Toast } from '@/components';
 import { STATUS_BAR_CONTENT } from '@/utils';
-import { CtDecorativeButton } from '@/components';
+import { View as CtView, CtDecorativeButton } from '@/components';
 import { AssetIcon } from '@/components/AssetIcon';
 import { Filter } from '@/components/Filter';
 import CompanyModal from '@/features/common/containers/CompanyModal';
+import { isIPhoneX } from '@/constants';
 
 interface IProps {
     children: any;
@@ -48,6 +49,23 @@ const Layout = (props: IProps) => {
         plusButtonOnPress,
         theme
     } = props;
+
+    let bodyStyle = {};
+
+    if (props?.bodyStyle) {
+        props?.bodyStyle.split(' ').map(property => {
+            if (property === 'is-full-listView') {
+                bodyStyle = {
+                    ...bodyStyle,
+                    [`pb-${isIPhoneX() ? 30 : 0}`]: true
+                };
+                return;
+            }
+
+            bodyStyle = { ...bodyStyle, [property]: true };
+        });
+    }
+
     return (
         <>
             <Container>
@@ -131,7 +149,9 @@ const Layout = (props: IProps) => {
                     )}
 
                     <Content loadingProps={loadingProps} theme={theme}>
-                        {children}
+                        <CtView flex={1} {...bodyStyle}>
+                            {children}
+                        </CtView>
                     </Content>
                 </View>
 

@@ -1,9 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import { change } from 'redux-form';
-import styles from './styles';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { IMAGES } from '@/assets';
 import Lng from '@/lang/i18n';
@@ -147,32 +145,28 @@ export class Expenses extends React.Component<IProps> {
         };
 
         return (
-            <View style={styles.container}>
-                <MainLayout
-                    headerProps={headerProps}
-                    onSearch={this.onSearch}
-                    bottomDivider
-                    filterProps={filterProps}
+            <MainLayout
+                headerProps={headerProps}
+                onSearch={this.onSearch}
+                bottomDivider
+                filterProps={filterProps}
+            >
+                <InfiniteScroll
+                    getItems={getExpenses}
+                    reference={ref => (this.scrollViewReference = ref)}
                 >
-                    <View style={styles.listViewContainer}>
-                        <InfiniteScroll
-                            getItems={getExpenses}
-                            reference={ref => (this.scrollViewReference = ref)}
-                        >
-                            <ListView
-                                items={expenses}
-                                onPress={this.onSelect}
-                                isEmpty={isEmpty}
-                                contentContainerStyle={{ flex: 1 }}
-                                bottomDivider
-                                emptyContentProps={emptyContentProps}
-                                leftSubTitleStyle={{ textAlign: 'justify' }}
-                                isAnimated
-                            />
-                        </InfiniteScroll>
-                    </View>
-                </MainLayout>
-            </View>
+                    <ListView
+                        items={expenses}
+                        onPress={this.onSelect}
+                        isEmpty={isEmpty}
+                        contentContainerStyle={{ flex: 1 }}
+                        bottomDivider
+                        emptyContentProps={emptyContentProps}
+                        leftSubTitleStyle={{ textAlign: 'justify' }}
+                        isAnimated
+                    />
+                </InfiniteScroll>
+            </MainLayout>
         );
     }
 }

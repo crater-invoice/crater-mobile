@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
 import { Tabs, MainLayout } from '@/components';

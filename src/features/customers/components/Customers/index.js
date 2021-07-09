@@ -1,12 +1,10 @@
 // @flow
 import React from 'react';
-import { View } from 'react-native';
 import Lng from '@/lang/i18n';
 import { ListView, MainLayout, InfiniteScroll } from '@/components';
 import { ROUTES } from '@/navigation';
 import { CUSTOMER_ADD, CUSTOMER_EDIT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import styles from './styles';
 import { customersFilterFields as filterFields } from './filterFields';
 import { IMAGES } from '@/assets';
 import { isFilterApply } from '@/utils';
@@ -144,22 +142,20 @@ export class Customers extends React.Component<IProps> {
                 filterProps={filterProps}
                 bottomDivider
             >
-                <View style={styles.listViewContainer}>
-                    <InfiniteScroll
-                        getItems={getCustomer}
-                        reference={ref => (this.scrollViewReference = ref)}
-                    >
-                        <ListView
-                            items={customers}
-                            onPress={this.onSelect}
-                            isEmpty={isEmpty}
-                            bottomDivider
-                            hasAvatar
-                            emptyContentProps={emptyContentProps}
-                            isAnimated
-                        />
-                    </InfiniteScroll>
-                </View>
+                <InfiniteScroll
+                    getItems={getCustomer}
+                    reference={ref => (this.scrollViewReference = ref)}
+                >
+                    <ListView
+                        items={customers}
+                        onPress={this.onSelect}
+                        isEmpty={isEmpty}
+                        bottomDivider
+                        hasAvatar
+                        emptyContentProps={emptyContentProps}
+                        isAnimated
+                    />
+                </InfiniteScroll>
             </MainLayout>
         );
     }

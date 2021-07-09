@@ -1,7 +1,3 @@
 import { StyleSheet } from 'react-native';
 
-export default styles = StyleSheet.create({
-    listViewContainer: {
-        flex: 1
-    }
-});
+export default styles = StyleSheet.create({});

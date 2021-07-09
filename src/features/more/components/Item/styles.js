@@ -3,55 +3,6 @@ import { colors, fonts } from '@/styles';
 import { isAndroidPlatform } from '@/constants';
 
 export default styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.veryLightGray
-    },
-    headerTitle: {
-        fontSize: 17,
-        color: colors.dark1
-    },
-    headerContainer: {
-        // backgroundColor: colors.veryLightGray,
-    },
-    taxFakeInput: {
-        color: colors.primary,
-        textAlign: 'right',
-        fontFamily: fonts.poppinsMedium,
-        fontSize: 16
-    },
-    inputFieldStyle: {
-        borderRadius: 0
-    },
-    inputFieldContainer: {
-        paddingHorizontal: 0
-    },
-    inputTextStyle: {
-        color: colors.dark3,
-        fontFamily: fonts.poppinsMedium,
-        textAlign: 'left'
-    },
-    inputFieldValidation: {
-        marginHorizontal: 0
-    },
-    hintStyle: {
-        marginTop: -6,
-        paddingBottom: 6,
-        color: colors.dark2,
-        fontSize: 14,
-        fontFamily: fonts.poppins,
-        textAlign: 'left'
-    },
-    noteHintStyle: {
-        paddingBottom: 6,
-        color: colors.dark2,
-        fontSize: 14,
-        fontFamily: fonts.poppins,
-        textAlign: 'left'
-    },
-    fakeInputStyle: {
-        marginTop: 5
-    },
     amountContainer: theme => ({
         borderWidth: 0.8,
         borderColor: theme?.input?.borderColor,
@@ -83,32 +34,6 @@ export default styles = StyleSheet.create({
         borderWidth: 0.7,
         marginTop: 10,
         marginBottom: 8
-    },
-    itemContainer: {
-        marginVertical: 4,
-        borderWidth: 1,
-        borderColor: colors.lightGray
-    },
-    itemLeftTitle: {
-        fontSize: 15,
-        fontFamily: fonts.poppins,
-        color: colors.dark
-    },
-    itemLeftSubTitleLabel: {
-        marginLeft: -6
-    },
-    itemLeftSubTitle: {
-        color: colors.darkGray,
-        fontSize: 13
-    },
-    itemRightTitle: {
-        fontFamily: fonts.poppins,
-        fontSize: 18,
-        color: colors.secondary,
-        textAlign: 'left'
-    },
-    selectPicker: {
-        marginTop: 17
     },
     units: {
         paddingLeft: 48
