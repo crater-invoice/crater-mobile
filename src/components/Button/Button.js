@@ -185,9 +185,21 @@ class ActionButton extends Component<IProps> {
         };
     }
 
+    componentDidMount() {
+        this.props.reference?.(this);
+    }
+
+    componentWillUnmount() {
+        this.props.reference?.(undefined);
+    }
+
     onBtnPress = async () => {
         await this.setState({ buttonFocus: true });
         this.props?.onPress?.();
+    };
+
+    toggleFocus = status => {
+        this.setState({ buttonFocus: status });
     };
 
     toggleAnimatedScale = (toValue = 0.98) => {

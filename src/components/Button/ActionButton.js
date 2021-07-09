@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 import Lng from '@/lang/i18n';
 import { CtButton } from './Button';
 import { BUTTON_COLOR, BUTTON_TYPE, isEmpty, isIPhoneX } from '@/constants';
 
-export const ActionButton = ({ buttons, locale }) => {
+export const ActionButton = props => {
+    const { buttons, locale } = props;
+    const [buttonRefs, setButtonRefs] = useState([]);
+
     if (isEmpty(buttons)) {
         return null;
     }
 
     const actions = [];
+
+    const onBtnPress = (callBack, label) => {
+        if (buttonRefs.length <= 1) {
+            callBack?.();
+            return;
+        }
+
+        buttonRefs.map(ref => {
+            if (
+                Lng.t(label, { locale }) !== ref?.props?.btnTitle &&
+                ref?.state?.buttonFocus
+            ) {
+                ref?.toggleFocus?.(false);
+            }
+        });
+
+        callBack?.();
+    };
 
     buttons.map((button, i) => {
         const { label, onPress, loading, show = true } = button;
@@ -22,7 +43,7 @@ export const ActionButton = ({ buttons, locale }) => {
         actions.push(
             <CtButton
                 key={i}
-                onPress={onPress}
+                onPress={() => onBtnPress(onPress, label)}
                 btnTitle={Lng.t(label, { locale })}
                 containerStyle={styles.buttonContainer}
                 buttonContainerStyle={styles.buttonView}
@@ -33,12 +54,17 @@ export const ActionButton = ({ buttons, locale }) => {
                 {...(button?.type === 'btn-outline' && {
                     type: BUTTON_TYPE.OUTLINE
                 })}
+                reference={ref => setButtonRefs(refs => [...refs, ref])}
             />
         );
     });
 
     if (isEmpty(actions)) {
         return null;
+    }
+
+    if (props?.['hide-container-style']) {
+        return <Row>{actions}</Row>;
     }
 
     return (

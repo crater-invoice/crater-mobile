@@ -5,11 +5,8 @@ import { styles } from './styles';
 import { AnimateModal } from '../AnimateModal';
 import { Field } from 'redux-form';
 import { InputField } from '../InputField';
-import { CtButton, CtDecorativeButton } from '../Button';
-import Lng from '@/lang/i18n';
+import { ActionButton, CtDecorativeButton } from '../Button';
 import { Icon } from 'react-native-elements';
-import { colors } from '@/styles';
-import { BUTTON_COLOR } from '@/constants';
 import { Text } from '../Text';
 
 type Iprops = {
@@ -53,41 +50,42 @@ class inputModalComponent extends Component<Iprops> {
             onRemoveLoading = false,
             onRemove,
             onSubmit,
-            locale,
-            theme
+            locale
         } = this.props;
 
         if (!showRemoveButton && !showSaveButton) {
             return null;
         }
 
-        return (
-            <View style={styles.rowViewContainer(theme)}>
-                {showRemoveButton && (
-                    <View style={styles.rowView}>
-                        <CtButton
-                            onPress={() => onRemove?.()}
-                            btnTitle={Lng.t('button.remove', {
-                                locale
-                            })}
-                            containerStyle={styles.handleBtn}
-                            buttonColor={BUTTON_COLOR.DANGER}
-                            loading={onRemoveLoading}
-                        />
-                    </View>
-                )}
+        const bottomAction = [
+            {
+                label: 'button.cancel',
+                onPress: this.onToggle,
+                type: 'btn-outline',
+                show: !showRemoveButton,
+                loading: onSubmitLoading
+            },
+            {
+                label: 'button.remove',
+                onPress: () => onRemove?.(),
+                bgColor: 'btn-danger',
+                show: showRemoveButton,
+                loading: onRemoveLoading
+            },
+            {
+                label: 'button.save',
+                onPress: () => onSubmit?.(),
+                show: showSaveButton,
+                loading: onSubmitLoading
+            }
+        ];
 
-                {showSaveButton && (
-                    <View style={styles.rowView}>
-                        <CtButton
-                            onPress={() => onSubmit?.()}
-                            btnTitle={Lng.t('button.save', { locale })}
-                            containerStyle={styles.handleBtn}
-                            loading={onSubmitLoading}
-                        />
-                    </View>
-                )}
-            </View>
+        return (
+            <ActionButton
+                locale={locale}
+                buttons={bottomAction}
+                hide-container-style
+            />
         );
     };
 
@@ -135,14 +133,18 @@ class inputModalComponent extends Component<Iprops> {
     };
 
     render() {
+        const { modalProps, onSubmitLoading, onRemoveLoading } = this.props;
         return (
             <AnimateModal
                 visible={this.state.visible}
                 onToggle={this.onToggle}
                 modalProps={{
-                    swipeDirection: 'right',
+                    animationInTiming: 1,
+                    animationOutTiming: 1,
                     onSwipeComplete: this.onToggle,
-                    ...this.props?.modalProps
+                    ...(!onSubmitLoading &&
+                        !onRemoveLoading && { swipeDirection: 'right' }),
+                    ...modalProps
                 }}
             >
                 <KeyboardAvoidingView
