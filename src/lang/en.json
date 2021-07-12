@@ -77,7 +77,11 @@
         "viewNote": "View Note",
         "viewCategory": "View Category",
         "viewUnit": "View Item Unit",
-        "viewPaymentMode": "View Payment Mode"
+        "viewPaymentMode": "View Payment Mode",
+        "companies": "Companies",
+        "addCompany": "Add Company",
+        "editCompany": "Edit Company",
+        "viewCompany": "View Company"
     },
     "tabNavigation": {
         "invoices": "Invoices",
@@ -772,6 +776,12 @@
     },
     "company": {
         "text_switch_company": "SWITCH COMPANY",
-        "text_add_new_company": "Add new company"
+        "text_add_new_company": "Add new company",
+        "text_already_used": "Company already in use",
+        "text_alert_description": "You will not be able to recover this Company",
+        "empty": {
+            "title": "No companies yet!",
+            "description": "This section will contain the list of companies."
+        }
     }
 }

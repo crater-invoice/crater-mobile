@@ -80,5 +80,12 @@ export const styles = StyleSheet.create({
     },
     rightContentContainer: {
         flex: 1
-    }
+    },
+    leftImage: theme => ({
+        width: 40,
+        height: 40,
+        borderRadius: 40,
+        borderWidth: 1,
+        borderColor: theme.divider.secondaryBgColor
+    })
 });

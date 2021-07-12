@@ -86,7 +86,11 @@ class Service {
             { name: 'settings-backups:delete', guard_name: '*' },
             { name: 'settings-file-disk:manage', guard_name: '*' },
             { name: 'settings-update-app:manage', guard_name: '*' },
-            { name: 'settings-mail-config:manage', guard_name: '*' }
+            { name: 'settings-mail-config:manage', guard_name: '*' },
+            { name: 'company:create', guard_name: '*' },
+            { name: 'company:view', guard_name: '*' },
+            { name: 'company:edit', guard_name: '*' },
+            { name: 'company:delete', guard_name: '*' }
         ];
     }
 
@@ -155,6 +159,10 @@ class Service {
 
             case CUSTOMIZE_TYPE.PAYMENTS:
                 return 'payment-methods';
+
+            case ROUTES.COMPANIES:
+            case ROUTES.COMPANY:
+                return 'company';
 
             default:
                 return '';

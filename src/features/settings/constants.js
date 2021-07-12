@@ -255,7 +255,7 @@ export const NOTES_FIELD_MODAL_TYPES = [
 // Menus
 // -----------------------------------------
 export const SETTINGS_MENU = (locale, Lng) => {
-    return [
+    const list = [
         {
             title: Lng.t('settings.accountSettings', { locale }),
             leftIcon: 'user-circle',
@@ -301,6 +301,15 @@ export const SETTINGS_MENU = (locale, Lng) => {
             }
         },
         {
+            title: Lng.t('header.companies', { locale }),
+            leftIcon: 'building',
+            leftIconSolid: true,
+            iconSize: 17,
+            fullItem: {
+                route: ROUTES.COMPANIES
+            }
+        },
+        {
             title: Lng.t('settings.notification', { locale }),
             leftIcon: 'bell',
             leftIconSolid: true,
@@ -308,8 +317,11 @@ export const SETTINGS_MENU = (locale, Lng) => {
             fullItem: {
                 route: ROUTES.NOTIFICATIONS
             }
-        },
-        {
+        }
+    ];
+
+    PermissionService.isAllowToView(ROUTES.TAXES) &&
+        list.push({
             title: Lng.t('settings.taxes', { locale }),
             leftIconSvg: PercentageIcon,
             leftIconSolid: true,
@@ -317,16 +329,20 @@ export const SETTINGS_MENU = (locale, Lng) => {
             fullItem: {
                 route: ROUTES.TAXES
             }
-        },
-        {
+        });
+
+    PermissionService.isAllowToView(ROUTES.CUSTOM_FIELDS) &&
+        list.push({
             title: Lng.t('header.customFields', { locale }),
             leftIcon: 'cube',
             iconSize: 20,
             fullItem: {
                 route: ROUTES.CUSTOM_FIELDS
             }
-        },
-        {
+        });
+
+    PermissionService.isAllowToView(ROUTES.NOTES) &&
+        list.push({
             title: Lng.t('settings.notes', { locale }),
             leftIcon: 'clipboard-check',
             leftIconSolid: true,
@@ -334,15 +350,19 @@ export const SETTINGS_MENU = (locale, Lng) => {
             fullItem: {
                 route: ROUTES.NOTES
             }
-        },
-        {
+        });
+
+    PermissionService.isAllowToView(ROUTES.CATEGORIES) &&
+        list.push({
             title: Lng.t('settings.expenseCategory', { locale }),
             leftIcon: 'clipboard-list',
             iconSize: 20,
             fullItem: {
                 route: ROUTES.CATEGORIES
             }
-        },
+        });
+
+    list.push(
         {
             title: Lng.t('settings.touchOrFaceId', { locale }),
             leftIcon: 'key',
@@ -360,7 +380,9 @@ export const SETTINGS_MENU = (locale, Lng) => {
                 route: ROUTES.ENDPOINTS_SETTINGS
             }
         }
-    ];
+    );
+
+    return list;
 };
 
 // Customize Type

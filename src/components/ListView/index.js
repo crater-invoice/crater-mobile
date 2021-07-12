@@ -11,6 +11,7 @@ import { isIosPlatform } from '@/constants';
 import { isRTL } from '@/utils';
 import { Text } from '../Text';
 import AssetSvg from '../AssetSvg';
+import { AssetImage } from '../AssetImage';
 
 type IProps = {
     hasAvatar: Boolean,
@@ -278,6 +279,7 @@ class ListViewComponent extends Component<IProps> {
             leftAvatar,
             leftIcon,
             leftIconSvg,
+            leftImage,
             leftIconSolid = false,
             iconSize = 22
         } = item;
@@ -332,11 +334,21 @@ class ListViewComponent extends Component<IProps> {
             </View>
         );
 
+        const assetImageView = () => (
+            <AssetImage
+                uri
+                imageSource={leftImage}
+                imageStyle={styles.leftImage(theme)}
+                loaderSize="small"
+            />
+        );
+
         let leftIconView = null;
 
         if (leftAvatar) leftIconView = avatarView();
         if (leftIcon) leftIconView = assetIconView();
         if (leftIconSvg) leftIconView = assetSvgView();
+        if (leftImage) leftIconView = assetImageView();
 
         const children = (
             <ListItem

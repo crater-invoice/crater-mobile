@@ -5,7 +5,6 @@ export const ROUTES = {
     ENDPOINTS: 'ENDPOINTS',
 
     // Main Tabs
-    // -----------------------------------------
     MAIN_TABS: 'MAIN_TABS',
     MAIN_INVOICES: 'MAIN_INVOICES',
     MAIN_CUSTOMERS: 'MAIN_CUSTOMERS',
@@ -16,46 +15,38 @@ export const ROUTES = {
     MAIN_SETTINGS: 'MAIN_SETTINGS',
 
     // Invoice & items
-    // -----------------------------------------
     INVOICE: 'INVOICE',
     INVOICE_ITEM: 'INVOICE_ITEM',
     RECURRING_INVOICES: 'RECURRING_INVOICES',
     RECURRING_INVOICE: 'RECURRING_INVOICE',
 
     // Items
-    // -----------------------------------------
     ADD_ITEMS: 'ADD_ITEMS',
     EDIT_ITEM: 'EDIT_ITEM',
     GLOBAL_ITEM: 'GLOBAL_ITEM',
     GLOBAL_ITEMS: 'GLOBAL_ITEMS',
 
     // Estimate & items
-    // -----------------------------------------
     ESTIMATE_LIST: 'ESTIMATE_LIST',
     ESTIMATE: 'ESTIMATE',
     ESTIMATE_ITEM: 'ESTIMATE_ITEM',
 
     // Customer
-    // -----------------------------------------
     CUSTOMER_FIELD: 'CUSTOMER_FIELD',
     CUSTOMER: 'CUSTOMER',
 
     // More
-    // -----------------------------------------
     MORE: 'MORE',
 
     // Categories
-    // -----------------------------------------
     CATEGORIES: 'CATEGORIES',
     CATEGORY: 'CATEGORY',
 
     // Taxes
-    // -----------------------------------------
     TAX: 'TAX',
     TAXES: 'TAXES',
 
     // Settings
-    // -----------------------------------------
     SETTING: 'SETTING',
     SETTING_LIST: 'SETTING_LIST',
     ACCOUNT_INFO: 'ACCOUNT_INFO',
@@ -71,23 +62,21 @@ export const ROUTES = {
     CUSTOM_FIELDS: 'CUSTOM_FIELDS',
     CUSTOM_FIELD: 'CUSTOM_FIELD',
     TOUCH_OR_FACE_ID: 'TOUCH_OR_FACE_ID',
+    COMPANIES: 'COMPANIES',
+    COMPANY: 'COMPANY',
 
     // Expenses
-    // -----------------------------------------
     ADD_EXPENSE: 'ADD_EXPENSE',
     EXPENSE: 'EXPENSE',
 
     // Notes
-    // -----------------------------------------
     NOTE: 'NOTE',
     NOTES: 'NOTES',
 
     // Payments
-    // -----------------------------------------
     PAYMENT: 'PAYMENT',
 
     // Report
-    // -----------------------------------------
     REPORTS: 'REPORTS',
     GENERATE_REPORT: 'GENERATE_REPORT',
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TouchableHighlight, ScrollView } from 'react-native';
 import Styles from './styles';
 import Lng from '@/lang/i18n';
-import { CloseIcon2 as CloseIcon } from '@/icons';
+import { CloseIcon2 } from '@/icons';
 import { colors } from '@/styles';
 import {
     defineSize,
@@ -184,7 +184,7 @@ export class Modal extends Component {
                                 h6
                                 medium
                                 flex={1}
-                                color={colors.darkGray}
+                                color={theme.text.fifthColor}
                                 letter-spacing={0.3}
                             >
                                 {Lng.t('company.text_switch_company', {
@@ -197,7 +197,9 @@ export class Modal extends Component {
                                 withHitSlop
                             >
                                 <AssetSvg
-                                    name={CloseIcon}
+                                    name={CloseIcon2(
+                                        theme.viewLabel.fourthColor
+                                    )}
                                     width={15}
                                     height={15}
                                 />
