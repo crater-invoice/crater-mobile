@@ -19,6 +19,7 @@ import { alertMe, hasValue } from '@/constants';
 import { CHECK_OTA_UPDATE } from '@/constants';
 import Request from '@/api/request';
 import { getTitleByLanguage, setI18nManagerValue } from '@/utils';
+import { FETCH_COMPANIES_SUCCESS } from '@/features/common/constants';
 
 // Login
 // -----------------------------------------
@@ -109,6 +110,11 @@ function* getBootstrapData(payloadData: any) {
         yield put(setAccountInformation({ account: user }));
 
         yield put(setGlobalBootstrap(response));
+
+        yield put({
+            type: FETCH_COMPANIES_SUCCESS,
+            payload: { companies: response?.companies ?? [] }
+        });
     } catch (e) {}
 }
 

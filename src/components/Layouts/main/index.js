@@ -101,7 +101,9 @@ const Layout = (props: IProps) => {
                             !props?.['with-input-filter'] && filterProps
                         }
                         {...(props?.['with-company'] && {
-                            rightComponent: <CompanyModal />
+                            rightComponent: (
+                                <CompanyModal navigation={props?.navigation} />
+                            )
                         })}
                     />
 

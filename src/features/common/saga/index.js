@@ -11,39 +11,50 @@ function* fetchCompaniesSaga(payloadData) {
     } = payloadData;
 
     try {
-        if (!hasTextLength(queryString?.search)) {
-            const response = yield call([Request, 'get'], {
-                path: `companies/get`
-            });
-
-            yield put({
-                type: Actions.FETCH_COMPANIES_SUCCESS,
-                payload: { companies: response?.companies ?? [] }
-            });
-
-            onSuccess?.(response);
-            return;
-        }
-
-        const { search, companies } = queryString;
-        const filterData = internalSearch({
-            items: companies,
-            search,
-            searchFields: ['name']
+        const response = yield call([Request, 'get'], {
+            path: `companies/get`
         });
+
+        let companies = response?.companies ?? [];
+
+        if (hasTextLength(queryString?.search)) {
+            const { search } = queryString;
+            companies = internalSearch({
+                items: companies,
+                search,
+                searchFields: ['name']
+            });
+        }
 
         yield put({
             type: Actions.FETCH_COMPANIES_SUCCESS,
-            payload: { companies: filterData }
+            payload: { companies }
         });
 
-        onSuccess?.({});
+        onSuccess?.(response);
     } catch (e) {}
+}
+
+function* uploadCompanyLogo(payloadData) {
+    const { logo, id } = payloadData;
+
+    if (!logo || !id) {
+        return;
+    }
+
+    const options = {
+        path: `company/upload-logo`,
+        image: logo,
+        imageName: 'company_logo',
+        headers: { company: id }
+    };
+
+    yield call([Request, 'post'], options);
 }
 
 function* addCompanySaga(payloadData) {
     const {
-        payload: { params, onSuccess }
+        payload: { params, logo, onSuccess }
     } = payloadData;
 
     yield put(spinner({ companyLoading: true }));
@@ -55,6 +66,8 @@ function* addCompanySaga(payloadData) {
         };
 
         const response = yield call([Request, 'post'], options);
+
+        yield call(uploadCompanyLogo, { logo, id: response?.company?.id });
 
         yield put({
             type: Actions.ADD_COMPANY_SUCCESS,
@@ -70,7 +83,7 @@ function* addCompanySaga(payloadData) {
 
 function* updateCompanySaga(payloadData) {
     const {
-        payload: { params, onSuccess }
+        payload: { params, logo, onSuccess }
     } = payloadData;
 
     yield put(spinner({ companyLoading: true }));
@@ -82,6 +95,8 @@ function* updateCompanySaga(payloadData) {
         };
 
         const response = yield call([Request, 'put'], options);
+
+        yield call(uploadCompanyLogo, { logo, id: response?.company?.id });
 
         yield put({
             type: Actions.UPDATE_COMPANY_SUCCESS,

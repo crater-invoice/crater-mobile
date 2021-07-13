@@ -8,16 +8,12 @@ const getCompaniesState = createSelector(
             return [];
         }
 
-        if (companies?.[0]?.fullItem) {
-            return companies;
-        }
-
         return companies.map(company => {
-            const { name, logo_path } = company;
+            const { name, logo } = company;
             return {
                 title: name,
                 leftAvatar: name.toUpperCase().charAt(0),
-                leftImage: logo_path,
+                leftImage: logo,
                 fullItem: company
             };
         });

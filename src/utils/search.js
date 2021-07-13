@@ -8,7 +8,7 @@ export const internalSearch = ({ items, search, searchFields }) => {
         let filterData = false;
 
         searchFields.filter(field => {
-            let itemField = item.fullItem[field];
+            let itemField = item?.fullItem ? item.fullItem[field] : item[field];
 
             if (typeof itemField === 'number') {
                 itemField = itemField.toString();

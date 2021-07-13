@@ -1,20 +1,13 @@
 import { connect } from 'react-redux';
 import { Modal } from '../../components/CompanyModal';
-import * as action from '../../actions';
 
-const mapStateToProps = ({ global }) => ({
+const mapStateToProps = ({ global, common }) => ({
+    companies: common?.companies ?? [],
     company: global?.company,
     theme: global?.theme,
     locale: global?.locale
 });
 
-const mapDispatchToProps = {
-    getCompanies: action.getCompanies
-};
-
-const CompanyModal = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Modal);
+const CompanyModal = connect(mapStateToProps)(Modal);
 
 export default CompanyModal;

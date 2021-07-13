@@ -297,6 +297,7 @@ export class Invoices extends React.Component<IProps> {
                 }}
                 with-company
                 with-input-filter
+                navigation={navigation}
                 {...(PermissionService.isAllowToView(ROUTES.MAIN_INVOICES) && {
                     plusButtonOnPress: this.onAddInvoice
                 })}

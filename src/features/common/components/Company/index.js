@@ -5,13 +5,21 @@ import { Field } from 'redux-form';
 import Lng from '@/lang/i18n';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { alertMe } from '@/constants';
-import { DefaultLayout, InputField, ActionButton } from '@/components';
 import { addCompany, updateCompany, removeCompany } from '../../actions';
+import {
+    DefaultLayout,
+    InputField,
+    ActionButton,
+    FilePicker
+} from '@/components';
 
 export default class Company extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            logo: null,
+            fileLoading: false
+        };
     }
 
     componentDidMount() {
@@ -25,8 +33,9 @@ export default class Company extends React.Component {
 
     onSave = params => {
         const { isCreateScreen, dispatch, navigation, loading } = this.props;
+        const { logo, fileLoading } = this.state;
 
-        if (loading) {
+        if (loading || fileLoading) {
             return;
         }
 
@@ -37,8 +46,8 @@ export default class Company extends React.Component {
         };
 
         isCreateScreen
-            ? dispatch(addCompany({ params, onSuccess }))
-            : dispatch(updateCompany({ params, onSuccess }));
+            ? dispatch(addCompany({ params, logo, onSuccess }))
+            : dispatch(updateCompany({ params, logo, onSuccess }));
     };
 
     removeCompany = () => {
@@ -50,7 +59,7 @@ export default class Company extends React.Component {
             dispatch
         } = this.props;
 
-        const text_alreadyUsedAlert = () =>
+        const alreadyUsedAlert = () =>
             alertMe({
                 title: `${name} ${Lng.t('company.text_already_used', {
                     locale
@@ -65,11 +74,10 @@ export default class Company extends React.Component {
                 dispatch(
                     removeCompany({
                         id: companyId,
-                        onSuccess: val => {
+                        onSuccess: val =>
                             val
                                 ? navigation.navigate(ROUTES.COMPANIES)
-                                : text_alreadyUsedAlert();
-                        }
+                                : alreadyUsedAlert()
                     })
                 )
         });
@@ -83,7 +91,8 @@ export default class Company extends React.Component {
             loading,
             isEditScreen,
             isAllowToEdit,
-            isAllowToDelete
+            isAllowToDelete,
+            initialValues
         } = this.props;
 
         const disabled = !isAllowToEdit;
@@ -101,7 +110,7 @@ export default class Company extends React.Component {
                 label: 'button.save',
                 onPress: handleSubmit(this.onSave),
                 show: isAllowToEdit,
-                loading
+                loading: loading || this.state.fileLoading
             },
             {
                 label: 'button.remove',
@@ -139,6 +148,17 @@ export default class Company extends React.Component {
                         autoCapitalize: 'none',
                         autoCorrect: true
                     }}
+                />
+
+                <Field
+                    name={'logo'}
+                    component={FilePicker}
+                    locale={locale}
+                    label={Lng.t('settings.company.logo', { locale })}
+                    onChangeCallback={logo => this.setState({ logo })}
+                    uploadedFileUrl={initialValues?.logo}
+                    disabled={disabled}
+                    fileLoading={fileLoading => this.setState({ fileLoading })}
                 />
             </DefaultLayout>
         );

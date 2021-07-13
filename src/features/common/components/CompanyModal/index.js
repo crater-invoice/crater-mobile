@@ -4,6 +4,8 @@ import Styles from './styles';
 import Lng from '@/lang/i18n';
 import { CloseIcon2 } from '@/icons';
 import { colors } from '@/styles';
+import { ROUTES } from '@/navigation';
+import { fetchCompanies } from '../../actions';
 import {
     defineSize,
     hasTextLength as hasValue,
@@ -30,36 +32,23 @@ export class Modal extends Component {
         });
     };
 
+    openModal = async () => {
+        await this.setState({ visible: true });
+        this.props.dispatch?.(fetchCompanies());
+    };
+
+    addNewCompany = async () => {
+        await this.setState({ visible: false });
+        setTimeout(() => {
+            this.props.navigation.navigate(ROUTES.COMPANY);
+        }, 200);
+    };
+
     render() {
-        const { theme, company, locale } = this.props;
+        const { theme, company, locale, companies } = this.props;
         const { visible } = this.state;
 
         const { Modal } = Styles;
-
-        const companies = [
-            {
-                id: 1,
-                logo: '',
-                name: 'Bytefury'
-            },
-            {
-                id: 2,
-                logo: null,
-                name: 'Quiktract'
-            },
-            {
-                id: 3,
-                logo:
-                    'https://www.vippng.com/png/full/341-3419991_slack-on-the-mac-app-store-slack-new.png',
-                name: 'Slack'
-            },
-            {
-                id: 4,
-                logo:
-                    'https://i.pinimg.com/originals/1b/76/01/1b7601e035a83c13c208b4ec905ee6d9.png',
-                name: 'Pinterest'
-            }
-        ];
 
         const companyLogo = (company, type) => {
             const isMedium = type === 'medium';
@@ -158,7 +147,7 @@ export class Modal extends Component {
 
         return (
             <View>
-                <CtDecorativeButton withHitSlop mr-11 onPress={this.onToggle}>
+                <CtDecorativeButton withHitSlop mr-11 onPress={this.openModal}>
                     {companyLogo(company, 'medium')}
                 </CtDecorativeButton>
 
@@ -222,6 +211,7 @@ export class Modal extends Component {
                             style={Styles.bottomAction(theme)}
                             pt-8
                             pb-10
+                            onPress={this.addNewCompany}
                         >
                             <Text h3 medium color={colors.primaryLight}>
                                 +
