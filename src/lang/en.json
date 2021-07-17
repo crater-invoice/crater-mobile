@@ -81,7 +81,11 @@
         "companies": "Companies",
         "addCompany": "Add Company",
         "editCompany": "Edit Company",
-        "viewCompany": "View Company"
+        "viewCompany": "View Company",
+        "roles": "Roles and Permission",
+        "addRole": "Add Role",
+        "editRole": "Edit Role",
+        "viewRole": "View Role"
     },
     "tabNavigation": {
         "invoices": "Invoices",
@@ -776,12 +780,23 @@
     },
     "company": {
         "text_switch_company": "SWITCH COMPANY",
-        "text_add_new_company": "Add new company",
+        "text_add_new_company": "Add New Company",
         "text_already_used": "Company already in use",
         "text_alert_description": "You will not be able to recover this Company",
         "empty": {
             "title": "No companies yet!",
             "description": "This section will contain the list of companies."
         }
+    },
+    "roles": {
+        "text_add_new_role": "Add New Role",
+        "text_already_used": "Role already in use",
+        "text_alert_description": "You will not be able to recover this Role",
+        "empty": {
+            "title": "No roles yet!",
+            "description": "This section will contain the list of roles."
+        },
+        "text_name": "Name",
+        "text_permissions": "Permissions"
     }
 }

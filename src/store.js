@@ -1,17 +1,17 @@
-import { applyMiddleware, createStore, compose } from 'redux';
+import {applyMiddleware, createStore, compose} from 'redux';
 import rootReducer from './reducers';
 import * as reduxStorage from 'redux-storage';
 import createSagaMiddleware from 'redux-saga';
-import sagas from './saga';
-import { persistStore, persistReducer } from 'redux-persist';
+import sagas from './sagas';
+import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
-import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
+import {createReactNavigationReduxMiddleware} from 'react-navigation-redux-helpers';
 
 const persistConfig = {
-    key: 'root',
-    storage: AsyncStorage,
-    whitelist: ['auth', 'nav', 'settings', 'global', 'more'],
-    blackList: ['form']
+  key: 'root',
+  storage: AsyncStorage,
+  whitelist: ['auth', 'nav', 'settings', 'global', 'more'],
+  blackList: ['form']
 };
 
 const reducer = reduxStorage.reducer(rootReducer);
@@ -20,13 +20,13 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 
 const sagaMiddleware = createSagaMiddleware();
 const navigationMiddleware = createReactNavigationReduxMiddleware(
-    state => state.nav
+  state => state.nav
 );
 const middleware = [sagaMiddleware, navigationMiddleware];
 
 export const store: any = createStore(
-    persistedReducer,
-    applyMiddleware(...middleware)
+  persistedReducer,
+  applyMiddleware(...middleware)
 );
 
 export const persistor = persistStore(store);
