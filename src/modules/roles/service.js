@@ -33,3 +33,22 @@ export const fetchPermissions = () => {
 export const addRole = body => {
   return Request.post({path: `roles`, body});
 };
+
+/**
+ * Update role
+ * @param id : role id
+ * @param body : params
+ * @returns {*}
+ */
+export const updateRole = (id, body) => {
+  return Request.put({path: `roles/${id}`, body});
+};
+
+/**
+ * Remove role
+ * @param id : role id
+ * @returns {*}
+ */
+export const removeRole = id => {
+  return Request.delete({path: `roles/delete`, body: {id}});
+};

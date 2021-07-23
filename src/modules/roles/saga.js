@@ -1,21 +1,19 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
-import Request from '@/api/request';
 import * as types from './constants';
+import * as req from './service';
 import {spinner} from './actions';
 import {hasTextLength} from '@/constants';
 import {internalSearch} from '@/utils';
-import * as req from './service';
 
 /**
  * Fetch roles saga
  * @returns {IterableIterator<*>}
  */
 function* fetchRoles(payloadData) {
-  const {
-    payload: {onSuccess, queryString}
-  } = payloadData;
-
   try {
+    const {
+      payload: {onSuccess, queryString}
+    } = payloadData;
     const response = yield call(req.fetchRoles);
     let roles = response?.roles ?? [];
 
@@ -38,11 +36,10 @@ function* fetchRoles(payloadData) {
  * @returns {IterableIterator<*>}
  */
 function* fetchSingleRole(payloadData) {
-  const {
-    payload: {id, onSuccess}
-  } = payloadData;
-
   try {
+    const {
+      payload: {id, onSuccess}
+    } = payloadData;
     const response = yield call(req.fetchSingleRole, id);
     const {abilities: permissions} = yield call(req.fetchPermissions);
     yield put({
@@ -52,7 +49,7 @@ function* fetchSingleRole(payloadData) {
         currentPermissions: response?.role?.abilities ?? []
       }
     });
-    onSuccess?.(response);
+    onSuccess?.(response?.role);
   } catch (e) {
     console.log(e);
   }
@@ -63,8 +60,8 @@ function* fetchSingleRole(payloadData) {
  * @returns {IterableIterator<*>}
  */
 function* fetchPermissions(payloadData) {
-  const {payload} = payloadData;
   try {
+    const {payload} = payloadData;
     const response = yield call(req.fetchPermissions);
     yield put({
       type: types.FETCH_PERMISSIONS_SUCCESS,
@@ -79,11 +76,10 @@ function* fetchPermissions(payloadData) {
  * @returns {IterableIterator<*>}
  */
 function* addRole(payloadData) {
-  const {
-    payload: {params, navigation}
-  } = payloadData;
-
   try {
+    const {
+      payload: {params, navigation}
+    } = payloadData;
     yield put(spinner({roleLoading: true}));
     const response = yield call(req.addRole, params);
     yield put({type: types.ADD_ROLE_SUCCESS, payload: response?.role});
@@ -99,18 +95,12 @@ function* addRole(payloadData) {
  * @returns {IterableIterator<*>}
  */
 function* updateRole(payloadData) {
-  const {
-    payload: {params, navigation}
-  } = payloadData;
-
   try {
+    const {
+      payload: {roleId, params, navigation}
+    } = payloadData;
     yield put(spinner({roleLoading: true}));
-
-    const response = yield call([Request, 'put'], {
-      path: `roles/${params.id}`,
-      body: params
-    });
-
+    const response = yield call(req.updateRole, roleId, params);
     yield put({type: types.UPDATE_ROLE_SUCCESS, payload: response?.role});
     navigation.goBack(null);
   } catch (e) {
@@ -124,25 +114,18 @@ function* updateRole(payloadData) {
  * @returns {IterableIterator<*>}
  */
 function* removeRole(payloadData) {
-  const {
-    payload: {id, onSuccess}
-  } = payloadData;
-
   try {
+    const {
+      payload: {id, onSuccess}
+    } = payloadData;
     yield put(spinner({roleLoading: true}));
-
-    const response = yield call([Request, 'delete'], {
-      path: `roles/delete`,
-      body: {id}
-    });
-
+    const response = yield call(req.removeRole, id);
     if (response?.success) {
       yield put({
         type: types.REMOVE_ROLE_SUCCESS,
         payload: id
       });
     }
-
     onSuccess?.(response?.success);
   } catch (e) {
   } finally {

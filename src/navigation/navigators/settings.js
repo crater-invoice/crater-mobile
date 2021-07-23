@@ -22,8 +22,8 @@ import NotesContainer from '@/features/settings/containers/Notes';
 import NoteContainer from '@/features/settings/containers/Note';
 import TouchOrFaceIdContainer from '@/features/settings/containers/Touch-Face-Id';
 
-import Roles from '@/screens/roles';
-import Role from '@/screens/role/role-container';
+import Roles from 'screens/roles';
+import Role from 'screens/role';
 
 export const SettingNavigator = {
   // Settings

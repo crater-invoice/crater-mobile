@@ -1,10 +1,10 @@
 import {connect} from 'react-redux';
-import Role from './role';
 import {reduxForm} from 'redux-form';
+import {groupBy} from 'lodash';
+import Role from './role';
 import {ROLE_FORM} from 'modules/roles/constants';
 import {validateRole} from 'modules/roles/validator';
 import {permissionSelector} from 'modules/common/selectors';
-import {groupBy} from 'lodash';
 
 const mapStateToProps = ({roles, global}, {navigation}) => {
   const role = navigation.getParam('role', {});

@@ -1,12 +1,14 @@
 // @flow
 
 import React from 'react';
-import {Field, FieldArray, change, SubmissionError} from 'redux-form';
+import {Field, change} from 'redux-form';
 import {pick} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './role-type';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
 import {styles} from './role-styles';
+import {alertMe} from '@/constants';
+import {ROLE_FORM} from 'modules/roles/constants';
 import {
   DefaultLayout,
   InputField,
@@ -14,8 +16,7 @@ import {
   View,
   Text,
   CheckBox,
-  Label,
-  CtDivider
+  Label
 } from '@/components';
 import {
   fetchPermissions,
@@ -25,8 +26,6 @@ import {
   updatePermission,
   fetchSingleRole
 } from 'modules/roles/actions';
-import {ROLE_FORM} from '@/modules/roles/constants';
-import {hasValue} from '@/constants';
 
 export default class Role extends React.Component<IProps, IStates> {
   constructor(props) {
@@ -48,7 +47,10 @@ export default class Role extends React.Component<IProps, IStates> {
       dispatch(
         fetchSingleRole({
           id: roleId,
-          onSuccess: () => this.setState({isFetchingInitialData: false})
+          onSuccess: role => {
+            this.setFormField('name', role?.title);
+            this.setState({isFetchingInitialData: false});
+          }
         })
       );
       return;
@@ -72,7 +74,8 @@ export default class Role extends React.Component<IProps, IStates> {
       dispatch,
       navigation,
       loading,
-      permissions
+      permissions,
+      roleId
     } = this.props;
 
     const abilities = permissions.map(p =>
@@ -86,14 +89,39 @@ export default class Role extends React.Component<IProps, IStates> {
 
     isCreateScreen
       ? dispatch(addRole({params, navigation}))
-      : dispatch(updateRole({params, navigation}));
+      : dispatch(updateRole({params, roleId, navigation}));
   };
 
-  removeRole = () => {};
+  removeRole = () => {
+    const {navigation, roleId, dispatch} = this.props;
+    const alreadyUsedAlert = () =>
+      alertMe({
+        title: t('roles.text_already_used')
+      });
+
+    alertMe({
+      title: t('alert.title'),
+      desc: t('roles.text_alert_description'),
+      showCancel: true,
+      okPress: () =>
+        dispatch(
+          removeRole({
+            id: roleId,
+            onSuccess: val =>
+              val ? navigation.navigate(ROUTES.ROLES) : alreadyUsedAlert()
+          })
+        )
+    });
+  };
 
   toggleAbility = (allowed, ability) => {
     const {dispatch} = this.props;
     dispatch(updatePermission({allowed, ability}));
+  };
+
+  setFormField = (field, value) => {
+    const {dispatch} = this.props;
+    dispatch(change(ROLE_FORM, field, value));
   };
 
   render() {
@@ -158,7 +186,6 @@ export default class Role extends React.Component<IProps, IStates> {
               />
             );
           })}
-          {/* <CtDivider dividerStyle={styles.dividerLine} /> */}
         </View>
       );
     }
@@ -193,7 +220,6 @@ export default class Role extends React.Component<IProps, IStates> {
         <Label h5 mt-8 mb-12 theme={theme}>
           {t('roles.text_permissions', {locale})}
         </Label>
-
         <View pb-10>{permissionList}</View>
       </DefaultLayout>
     );

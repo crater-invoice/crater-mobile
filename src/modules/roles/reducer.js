@@ -1,5 +1,6 @@
-import * as types from './constants';
 import {find} from 'lodash';
+import * as types from './constants';
+import {getModalName} from './constants';
 import {hasValue} from '@/constants';
 
 const initialState = {
@@ -26,35 +27,26 @@ export default function rolesReducer(state = initialState, action) {
         ...p,
         allowed: false,
         disabled: false,
-        modelName: p?.model
-          ? p.model.substring(p.model.lastIndexOf('\\') + 1)
-          : 'Common'
+        modelName: p?.model ? getModalName(p.model) : 'Common'
       }));
       return {...state, permissions};
 
     case types.FETCH_SINGLE_ROLE_SUCCESS:
-      console.log({payload});
-      const currentPermissions = payload.currentPermissions.map(p => {
-        let name = p.name;
-        // p?.entity_type &&
-        //   (name += ` ${p.entity_type.substring(
-        //     p.model.lastIndexOf("\") + 1
-        //   )}`);
-
-        return {name: name.toLowerCase()};
-      });
-
       const isAllowed = name => {
         return hasValue(find(currentPermissions, {name}));
       };
-
+      const currentPermissions = payload.currentPermissions.map(p => {
+        let name = p.name;
+        if (p?.entity_type) {
+          name += ` ${getModalName(p.entity_type)}`;
+        }
+        return {name: name.toLowerCase()};
+      });
       const filteredCreatedPermissions = payload.permissions.map(p => ({
         ...p,
-        allowed: isAllowed(p?.model ? p.name : p.ability),
         disabled: false,
-        modelName: p?.model
-          ? p.model.substring(p.model.lastIndexOf('\\') + 1)
-          : 'Common'
+        allowed: isAllowed(p?.model ? p.name : p.ability),
+        modelName: p?.model ? getModalName(p.model) : 'Common'
       }));
 
       return {...state, permissions: filteredCreatedPermissions};
@@ -63,28 +55,23 @@ export default function rolesReducer(state = initialState, action) {
       const {allowed, ability} = payload;
       const {name} = ability;
       let filteredPermissions = state.permissions;
-      const pos = filteredPermissions.findIndex(p => p.name === ability.name);
+      let pos = filteredPermissions.findIndex(p => p.name === ability.name);
 
       filteredPermissions[pos] = {...ability, allowed};
 
+      const checkAvailability = name =>
+        find(filteredPermissions, {name})?.allowed;
+
       if (name.includes('delete') || name.includes('edit')) {
         const abilityName = name.split(' ')[1];
-
-        const isAllowToEdit = find(filteredPermissions, {
-          name: `edit ${abilityName}`
-        })?.allowed;
-
-        const isAllowToDelete = find(filteredPermissions, {
-          name: `delete ${abilityName}`
-        })?.allowed;
-
+        const isAllowToEdit = checkAvailability(`edit ${abilityName}`);
+        const isAllowToDelete = checkAvailability(`delete ${abilityName}`);
         const disabled = isAllowToEdit || isAllowToDelete;
 
         filteredPermissions = filteredPermissions.map(p =>
           p.name === `view ${abilityName}` ? {...p, allowed: true, disabled} : p
         );
       }
-
       return {
         ...state,
         permissions: filteredPermissions
@@ -97,14 +84,10 @@ export default function rolesReducer(state = initialState, action) {
       };
 
     case types.UPDATE_ROLE_SUCCESS:
-      const roles = [];
-      state.roles.map(company => {
-        let value = company;
-        company.id === payload.id && (value = payload);
-        roles.push(value);
-      });
-
-      return {...state, roles};
+      const filterUpdatedRoles = state.roles;
+      pos = filterUpdatedRoles.findIndex(role => role.id === payload.id);
+      filterUpdatedRoles[pos] = payload;
+      return {...state, roles: filterUpdatedRoles};
 
     case types.REMOVE_ROLE_SUCCESS:
       return {

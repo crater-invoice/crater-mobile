@@ -18,6 +18,9 @@
             "modules/*": [
                 "src/modules/*"
             ],
+            "screens/*": [
+                "src/screens/*"
+            ],
             "locales/*": [
                 "src/locales/*"
             ]
