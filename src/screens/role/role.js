@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, {Component} from 'react';
 import {Field, change} from 'redux-form';
 import {pick} from 'lodash';
 import t from 'locales/use-translation';
@@ -27,7 +27,7 @@ import {
   fetchSingleRole
 } from 'modules/roles/actions';
 
-export default class Role extends React.Component<IProps, IStates> {
+export default class Role extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,6 +39,10 @@ export default class Role extends React.Component<IProps, IStates> {
     const {navigation} = this.props;
     goBack(MOUNT, navigation);
     this.loadData();
+  }
+
+  componentWillUnmount() {
+    goBack(UNMOUNT);
   }
 
   loadData = () => {
@@ -62,10 +66,6 @@ export default class Role extends React.Component<IProps, IStates> {
       })
     );
   };
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
-  }
 
   onSave = ({name}) => {
     const {isFetchingInitialData} = this.state;

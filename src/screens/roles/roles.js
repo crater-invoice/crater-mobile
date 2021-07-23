@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import t from 'locales/use-translation';
 import {ARROW_ICON} from '@/assets';
 import {isEmpty} from '@/constants';
@@ -7,7 +7,7 @@ import {IProps, IStates} from './roles-type';
 import {InfiniteScroll, ListView, MainLayout} from '@/components';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
 
-export default class Roles extends React.Component<IProps, IStates> {
+export default class Roles extends Component<IProps, IStates> {
   scrollViewReference: any;
   focusListener: any;
 
@@ -17,7 +17,7 @@ export default class Roles extends React.Component<IProps, IStates> {
     this.state = {search: ''};
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const {navigation} = this.props;
     goBack(MOUNT, navigation);
     this.onFocus();
