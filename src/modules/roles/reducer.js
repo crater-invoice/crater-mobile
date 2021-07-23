@@ -32,20 +32,13 @@ export default function rolesReducer(state = initialState, action) {
       return {...state, permissions};
 
     case types.FETCH_SINGLE_ROLE_SUCCESS:
-      const isAllowed = name => {
-        return hasValue(find(currentPermissions, {name}));
+      const isAllowed = (entity_type, name) => {
+        return hasValue(find(payload.currentPermissions, {entity_type, name}));
       };
-      const currentPermissions = payload.currentPermissions.map(p => {
-        let name = p.name;
-        if (p?.entity_type) {
-          name += ` ${getModalName(p.entity_type)}`;
-        }
-        return {name: name.toLowerCase()};
-      });
       const filteredCreatedPermissions = payload.permissions.map(p => ({
         ...p,
         disabled: false,
-        allowed: isAllowed(p?.model ? p.name : p.ability),
+        allowed: isAllowed(p?.model, p.ability),
         modelName: p?.model ? getModalName(p.model) : 'Common'
       }));
 
@@ -63,7 +56,7 @@ export default function rolesReducer(state = initialState, action) {
         find(filteredPermissions, {name})?.allowed;
 
       if (name.includes('delete') || name.includes('edit')) {
-        const abilityName = name.split(' ')[1];
+        const abilityName = name.replace(`${name.split(' ')[0]} `, '');
         const isAllowToEdit = checkAvailability(`edit ${abilityName}`);
         const isAllowToDelete = checkAvailability(`delete ${abilityName}`);
         const disabled = isAllowToEdit || isAllowToDelete;
