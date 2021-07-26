@@ -42,27 +42,54 @@ export default function rolesReducer(state = initialState, action) {
         modelName: p?.model ? getModalName(p.model) : 'Common'
       }));
 
+      const checkViewAvailability = (model, ability) =>
+        find(filteredCreatedPermissions, {model, ability})?.allowed;
+
+      filteredCreatedPermissions.map(p => {
+        const {ability, model} = p;
+
+        if (ability.includes('edit') || ability.includes('delete')) {
+          const isAllowToEdit = checkViewAvailability(model, `edit`);
+          const isAllowToDelete = checkViewAvailability(model, `delete`);
+          const disabled = isAllowToEdit || isAllowToDelete;
+          const viewAbility = find(filteredCreatedPermissions, {
+            model,
+            ability: 'view'
+          });
+          let pos = filteredCreatedPermissions.findIndex(
+            p => p.name === viewAbility.name
+          );
+          filteredCreatedPermissions[pos] = {
+            ...viewAbility,
+            disabled
+          };
+        }
+      });
       return {...state, permissions: filteredCreatedPermissions};
 
     case types.UPDATE_PERMISSION:
       const {allowed, ability} = payload;
-      const {name} = ability;
+      const {model} = ability;
       let filteredPermissions = state.permissions;
       let pos = filteredPermissions.findIndex(p => p.name === ability.name);
 
       filteredPermissions[pos] = {...ability, allowed};
 
-      const checkAvailability = name =>
-        find(filteredPermissions, {name})?.allowed;
+      const checkAvailability = ability =>
+        find(filteredPermissions, {model, ability})?.allowed;
 
-      if (name.includes('delete') || name.includes('edit')) {
-        const abilityName = name.replace(`${name.split(' ')[0]} `, '');
-        const isAllowToEdit = checkAvailability(`edit ${abilityName}`);
-        const isAllowToDelete = checkAvailability(`delete ${abilityName}`);
+      if (
+        ability.ability.includes('edit') ||
+        ability.ability.includes('delete')
+      ) {
+        const isAllowToEdit = checkAvailability(`edit`);
+        const isAllowToDelete = checkAvailability(`delete`);
         const disabled = isAllowToEdit || isAllowToDelete;
 
         filteredPermissions = filteredPermissions.map(p =>
-          p.name === `view ${abilityName}` ? {...p, allowed: true, disabled} : p
+          p.model === model && p.ability === `view`
+            ? {...p, allowed: true, disabled}
+            : p
         );
       }
       return {
@@ -77,10 +104,10 @@ export default function rolesReducer(state = initialState, action) {
       };
 
     case types.UPDATE_ROLE_SUCCESS:
-      const filterUpdatedRoles = state.roles;
-      pos = filterUpdatedRoles.findIndex(role => role.id === payload.id);
-      filterUpdatedRoles[pos] = payload;
-      return {...state, roles: filterUpdatedRoles};
+      const filteredUpdatedRoles = state.roles;
+      pos = filteredUpdatedRoles.findIndex(role => role.id === payload.id);
+      filteredUpdatedRoles[pos] = payload;
+      return {...state, roles: filteredUpdatedRoles};
 
     case types.REMOVE_ROLE_SUCCESS:
       return {

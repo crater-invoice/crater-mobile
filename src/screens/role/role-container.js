@@ -4,17 +4,19 @@ import {groupBy} from 'lodash';
 import Role from './role';
 import {ROLE_FORM} from 'modules/roles/constants';
 import {validateRole} from 'modules/roles/validator';
-import {permissionSelector} from 'modules/common/selectors';
+import {commonSelector, permissionSelector} from 'modules/common/selectors';
 
-const mapStateToProps = ({roles, global}, {navigation}) => {
+const mapStateToProps = (state, {navigation}) => {
+  const {
+    roles: {permissions, loading}
+  } = state;
   const role = navigation.getParam('role', {});
   return {
-    permissions: roles?.permissions,
-    formattedPermissions: groupBy(roles?.permissions ?? [], 'modelName'),
-    loading: roles?.loading?.roleLoading,
+    permissions,
+    formattedPermissions: groupBy(permissions ?? [], 'modelName'),
+    loading: loading?.roleLoading,
     roleId: role?.id,
-    locale: global?.locale,
-    theme: global?.theme,
+    ...commonSelector(state),
     ...permissionSelector(navigation),
     initialValues: {
       name: ''

@@ -50,9 +50,7 @@ function* fetchSingleRole(payloadData) {
       }
     });
     onSuccess?.(response?.role);
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 }
 
 /**
@@ -80,13 +78,13 @@ function* addRole(payloadData) {
     const {
       payload: {params, navigation}
     } = payloadData;
-    yield put(spinner({roleLoading: true}));
+    yield put(spinner(true));
     const response = yield call(req.addRole, params);
     yield put({type: types.ADD_ROLE_SUCCESS, payload: response?.role});
     navigation.goBack(null);
   } catch (e) {
   } finally {
-    yield put(spinner({roleLoading: false}));
+    yield put(spinner(false));
   }
 }
 
@@ -99,13 +97,13 @@ function* updateRole(payloadData) {
     const {
       payload: {roleId, params, navigation}
     } = payloadData;
-    yield put(spinner({roleLoading: true}));
+    yield put(spinner(true));
     const response = yield call(req.updateRole, roleId, params);
     yield put({type: types.UPDATE_ROLE_SUCCESS, payload: response?.role});
     navigation.goBack(null);
   } catch (e) {
   } finally {
-    yield put(spinner({roleLoading: false}));
+    yield put(spinner(false));
   }
 }
 
@@ -118,7 +116,7 @@ function* removeRole(payloadData) {
     const {
       payload: {id, onSuccess}
     } = payloadData;
-    yield put(spinner({roleLoading: true}));
+    yield put(spinner(true));
     const response = yield call(req.removeRole, id);
     if (response?.success) {
       yield put({
@@ -129,7 +127,7 @@ function* removeRole(payloadData) {
     onSuccess?.(response?.success);
   } catch (e) {
   } finally {
-    yield put(spinner({roleLoading: false}));
+    yield put(spinner(false));
   }
 }
 

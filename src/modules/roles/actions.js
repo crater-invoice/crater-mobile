@@ -8,7 +8,7 @@ import * as types from './constants';
 export function spinner(payload) {
   return {
     type: types.SPINNER,
-    payload
+    payload: typeof payload === 'object' ? payload : {roleLoading: payload}
   };
 }
 

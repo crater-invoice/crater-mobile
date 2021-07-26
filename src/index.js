@@ -28,8 +28,8 @@ class App extends Component<{}, IState> {
 
   componentDidMount() {
     this.switchCurrentTheme(Appearance.getColorScheme());
-    // store?.dispatch?.(checkOTAUpdate());
-    // AppState?.addEventListener?.('change', this.handleAppStateChange);
+    store?.dispatch?.(checkOTAUpdate());
+    AppState?.addEventListener?.('change', this.handleAppStateChange);
 
     store?.subscribe?.(() => {
       const state = store?.getState?.();
@@ -39,7 +39,7 @@ class App extends Component<{}, IState> {
   }
 
   componentWillUnmount() {
-    // AppState?.removeEventListener?.('change', this.handleAppStateChange);
+    AppState?.removeEventListener?.('change', this.handleAppStateChange);
   }
 
   handleAppStateChange = nextAppState => {

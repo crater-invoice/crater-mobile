@@ -50,5 +50,5 @@ export const updateRole = (id, body) => {
  * @returns {*}
  */
 export const removeRole = id => {
-  return Request.delete({path: `roles/delete`, body: {id}});
+  return Request.delete({path: `roles/${id}`});
 };

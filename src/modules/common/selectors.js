@@ -3,7 +3,6 @@ import {PermissionService} from '@/services';
 export const permissionSelector = navigation => {
   const type = navigation?.getParam?.('type', 'ADD');
   const isEditScreen = type === 'UPDATE';
-
   const isAllowToEdit = isEditScreen
     ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
     : true;
@@ -17,5 +16,13 @@ export const permissionSelector = navigation => {
     isEditScreen,
     isAllowToEdit,
     isAllowToDelete
+  };
+};
+
+export const commonSelector = state => {
+  const {global} = state;
+  return {
+    locale: global?.locale,
+    theme: global?.theme
   };
 };

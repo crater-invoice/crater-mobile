@@ -1,13 +1,11 @@
-// @flow
-
 import React, {Component} from 'react';
 import {Field, change} from 'redux-form';
-import {pick} from 'lodash';
+import {pick, find} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './role-type';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
 import {styles} from './role-styles';
-import {alertMe} from '@/constants';
+import {alertMe, hasValue} from '@/constants';
 import {ROLE_FORM} from 'modules/roles/constants';
 import {
   DefaultLayout,
@@ -48,15 +46,11 @@ export default class Role extends Component<IProps, IStates> {
   loadData = () => {
     const {isEditScreen, roleId, dispatch} = this.props;
     if (isEditScreen) {
-      dispatch(
-        fetchSingleRole({
-          id: roleId,
-          onSuccess: role => {
-            this.setFormField('name', role?.title);
-            this.setState({isFetchingInitialData: false});
-          }
-        })
-      );
+      const onSuccess = role => {
+        this.setFormField('name', role?.title);
+        this.setState({isFetchingInitialData: false});
+      };
+      dispatch(fetchSingleRole({id: roleId, onSuccess}));
       return;
     }
 
@@ -78,14 +72,22 @@ export default class Role extends Component<IProps, IStates> {
       roleId
     } = this.props;
 
-    const abilities = permissions.map(p =>
-      pick(p, ['name', 'ability', 'model', 'allowed'])
-    );
-    const params = {name, abilities};
-
     if (loading || isFetchingInitialData) {
       return;
     }
+
+    const abilities = permissions.map(p =>
+      pick(p, ['name', 'ability', 'model', 'allowed'])
+    );
+
+    const hasPermission = hasValue(find(abilities, {allowed: true})?.allowed);
+
+    if (!hasPermission) {
+      alertMe({desc: 'Choose at least one permission'});
+      return;
+    }
+
+    const params = {name, abilities};
 
     isCreateScreen
       ? dispatch(addRole({params, navigation}))
@@ -94,24 +96,30 @@ export default class Role extends Component<IProps, IStates> {
 
   removeRole = () => {
     const {navigation, roleId, dispatch} = this.props;
-    const alreadyUsedAlert = () =>
+    function alreadyUsedAlert() {
       alertMe({
         title: t('roles.text_already_used')
       });
+    }
 
-    alertMe({
-      title: t('alert.title'),
-      desc: t('roles.text_alert_description'),
-      showCancel: true,
-      okPress: () =>
-        dispatch(
-          removeRole({
-            id: roleId,
-            onSuccess: val =>
-              val ? navigation.navigate(ROUTES.ROLES) : alreadyUsedAlert()
-          })
-        )
-    });
+    function confirmationAlert(remove) {
+      alertMe({
+        title: t('alert.title'),
+        desc: t('roles.text_alert_description'),
+        showCancel: true,
+        okPress: remove
+      });
+    }
+
+    confirmationAlert(() =>
+      dispatch(
+        removeRole({
+          id: roleId,
+          onSuccess: val =>
+            val ? navigation.navigate(ROUTES.ROLES) : alreadyUsedAlert()
+        })
+      )
+    );
   };
 
   toggleAbility = (allowed, ability) => {
@@ -128,7 +136,6 @@ export default class Role extends Component<IProps, IStates> {
     const {
       navigation,
       handleSubmit,
-      locale,
       loading,
       isEditScreen,
       isAllowToEdit,
@@ -190,26 +197,28 @@ export default class Role extends Component<IProps, IStates> {
       );
     }
 
+    const headerProps = {
+      leftIconPress: () => navigation.goBack(null),
+      title: getTitle(),
+      placement: 'center',
+      ...(isAllowToEdit && {
+        rightIcon: 'save',
+        rightIconProps: {solid: true},
+        rightIconPress: handleSubmit(this.onSave)
+      })
+    };
+
     return (
       <DefaultLayout
-        headerProps={{
-          leftIconPress: () => navigation.goBack(null),
-          title: getTitle(),
-          placement: 'center',
-          ...(isAllowToEdit && {
-            rightIcon: 'save',
-            rightIconProps: {solid: true},
-            rightIconPress: handleSubmit(this.onSave)
-          })
-        }}
-        bottomAction={<ActionButton locale={locale} buttons={bottomAction} />}
+        headerProps={headerProps}
+        bottomAction={<ActionButton buttons={bottomAction} />}
         loadingProps={{is: isFetchingInitialData}}
       >
         <Field
           name="name"
           component={InputField}
           isRequired
-          hint={t('roles.text_name', {locale})}
+          hint={t('roles.text_name')}
           disabled={disabled}
           inputProps={{
             returnKeyType: 'next',
@@ -218,7 +227,7 @@ export default class Role extends Component<IProps, IStates> {
           }}
         />
         <Label h5 mt-8 mb-12 theme={theme}>
-          {t('roles.text_permissions', {locale})}
+          {t('roles.text_permissions')}
         </Label>
         <View pb-10>{permissionList}</View>
       </DefaultLayout>
