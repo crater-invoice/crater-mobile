@@ -9,11 +9,9 @@ import {internalSearch} from '@/utils';
  * Fetch roles saga
  * @returns {IterableIterator<*>}
  */
-function* fetchRoles(payloadData) {
+function* fetchRoles({payload}) {
   try {
-    const {
-      payload: {onSuccess, queryString}
-    } = payloadData;
+    const {onSuccess, queryString} = payload;
     const response = yield call(req.fetchRoles);
     let roles = response?.roles ?? [];
 
@@ -35,11 +33,9 @@ function* fetchRoles(payloadData) {
  * Fetch single role saga
  * @returns {IterableIterator<*>}
  */
-function* fetchSingleRole(payloadData) {
+function* fetchSingleRole({payload}) {
   try {
-    const {
-      payload: {id, onSuccess}
-    } = payloadData;
+    const {id, onSuccess} = payload;
     const response = yield call(req.fetchSingleRole, id);
     const {abilities: permissions} = yield call(req.fetchPermissions);
     yield put({
@@ -57,9 +53,8 @@ function* fetchSingleRole(payloadData) {
  * Fetch permissions saga
  * @returns {IterableIterator<*>}
  */
-function* fetchPermissions(payloadData) {
+function* fetchPermissions({payload}) {
   try {
-    const {payload} = payloadData;
     const response = yield call(req.fetchPermissions);
     yield put({
       type: types.FETCH_PERMISSIONS_SUCCESS,
@@ -73,11 +68,9 @@ function* fetchPermissions(payloadData) {
  * Add role saga
  * @returns {IterableIterator<*>}
  */
-function* addRole(payloadData) {
+function* addRole({payload}) {
   try {
-    const {
-      payload: {params, navigation}
-    } = payloadData;
+    const {params, navigation} = payload;
     yield put(spinner(true));
     const response = yield call(req.addRole, params);
     yield put({type: types.ADD_ROLE_SUCCESS, payload: response?.role});
@@ -92,11 +85,9 @@ function* addRole(payloadData) {
  * Update role saga
  * @returns {IterableIterator<*>}
  */
-function* updateRole(payloadData) {
+function* updateRole({payload}) {
   try {
-    const {
-      payload: {roleId, params, navigation}
-    } = payloadData;
+    const {roleId, params, navigation} = payload;
     yield put(spinner(true));
     const response = yield call(req.updateRole, roleId, params);
     yield put({type: types.UPDATE_ROLE_SUCCESS, payload: response?.role});
@@ -111,18 +102,13 @@ function* updateRole(payloadData) {
  * Remove role saga
  * @returns {IterableIterator<*>}
  */
-function* removeRole(payloadData) {
+function* removeRole({payload}) {
   try {
-    const {
-      payload: {id, onSuccess}
-    } = payloadData;
+    const {id, onSuccess} = payload;
     yield put(spinner(true));
     const response = yield call(req.removeRole, id);
     if (response?.success) {
-      yield put({
-        type: types.REMOVE_ROLE_SUCCESS,
-        payload: id
-      });
+      yield put({type: types.REMOVE_ROLE_SUCCESS, payload: id});
     }
     onSuccess?.(response?.success);
   } catch (e) {
