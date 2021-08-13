@@ -5,36 +5,34 @@ import { CUSTOMER_ADDRESS } from '../../constants';
 import { Address } from '../../components/Address';
 import { getStateCountries } from '../../selectors';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     const {
         global: { locale },
         customers: { countries }
-    } = state
+    } = state;
 
     return {
         formValues: getFormValues(CUSTOMER_ADDRESS)(state) || {},
         locale,
-        countries: getStateCountries(countries),
+        countries: getStateCountries(countries)
     };
 };
 
-const mapDispatchToProps = {
-};
+const mapDispatchToProps = {};
 
 //  Redux Forms
 const addressReduxForm = reduxForm({
-    form: CUSTOMER_ADDRESS,
+    form: CUSTOMER_ADDRESS
 })(Address);
 
 //  connect
 const AddressContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(addressReduxForm);
 
 AddressContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default AddressContainer;
-

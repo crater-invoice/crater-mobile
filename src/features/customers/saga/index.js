@@ -30,32 +30,29 @@ const addressParams = (address, type) => {
 
 export function* getCustomers({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
-
     try {
         const options = {
             path: `customers?${queryStrings.stringify(queryString)}`
         };
 
         const response = yield call([Request, 'get'], options);
-
-        if (response?.customers) {
-            const { data } = response.customers;
+        if (response) {
+            const { data } = response;
             yield put(setCustomers({ customers: data, fresh }));
         }
 
-        onSuccess?.(response?.customers);
+        onSuccess?.(response);
     } catch (e) {}
 }
 
 export function* getCountries({ payload: { onResult = null } }) {
     yield put(customerTriggerSpinner({ countriesLoading: true }));
-
     try {
         const options = { path: 'countries' };
 
         const response = yield call([Request, 'get'], options);
         onResult?.(response);
-        yield put(setCountries({ countries: response?.countries ?? [] }));
+        yield put(setCountries({ countries: response?.data ?? [] }));
     } catch (e) {
     } finally {
         yield put(customerTriggerSpinner({ countriesLoading: false }));
@@ -112,11 +109,11 @@ function* createCustomer({ payload }) {
             return;
         }
 
-        if (response?.success) {
+        if (response?.data) {
             yield put(
-                setCustomers({ customers: [response.customer], prepend: true })
+                setCustomers({ customers: [response.data], prepend: true })
             );
-            onResult?.(response.customer);
+            onResult?.(response.data);
         }
     } catch (e) {
     } finally {
@@ -130,7 +127,10 @@ function* updateCustomer({ payload }) {
     yield put(customerTriggerSpinner({ customerLoading: true }));
 
     let addresses = [];
-
+    console.log(hasObjectLength(params?.billingAddress));
+    console.log(params?.billingAddress);
+    console.log(addressParams(params?.billingAddress, 'BILLING'));
+    console.log(addressParams(params?.shippingAddress, 'SHIPPING'));
     if (hasObjectLength(params?.billingAddress)) {
         addresses.push(addressParams(params?.billingAddress, 'BILLING'));
     }
@@ -138,23 +138,30 @@ function* updateCustomer({ payload }) {
     if (hasObjectLength(params?.shippingAddress)) {
         addresses.push(addressParams(params?.shippingAddress, 'SHIPPING'));
     }
-
+    console.error(JSON.stringify({ ...params, addresses }));
+    const bodyData = {
+        ...params,
+        billing: { ...params.billing, ...params.billingAddress },
+        shipping: { ...params.shipping, ...params.shippingAddress }
+    };
+    console.log('bodydata ====================================');
+    console.log(JSON.stringify(bodyData));
+    console.log('bodydata ====================================');
     try {
         const options = {
             path: `customers/${params.id}`,
-            body: { ...params, addresses }
+            body: bodyData
         };
 
         const response = yield call([Request, 'put'], options);
-
         if (response?.data?.errors) {
             submissionError?.(response?.data?.errors);
             return;
         }
 
-        if (response.success) {
-            yield put(updateFromCustomers({ customer: response.customer }));
-            navigation.navigate(ROUTES.MAIN_CUSTOMERS);
+        if (response.data) {
+            yield put(updateFromCustomers({ customer: response.data }));
+            yield navigation.navigate(ROUTES.MAIN_CUSTOMERS);
         }
     } catch (e) {
     } finally {
@@ -181,8 +188,7 @@ function* getCustomerDetail({ payload }) {
 
         const options = { path: `customers/${id}` };
         const response = yield call([Request, 'get'], options);
-
-        onSuccess?.(response.customer);
+        onSuccess?.(response.data);
     } catch (e) {}
 }
 
