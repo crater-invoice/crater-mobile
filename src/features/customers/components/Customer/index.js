@@ -92,8 +92,8 @@ export class Customer extends React.Component<IProps> {
                 onSuccess: customer => {
                     const values = {
                         ...customer,
-                        [FIELDS.BILLING]: customer?.billing ?? [],
-                        [FIELDS.SHIPPING]: customer?.shipping ?? []
+                        [FIELDS.BILLING]: customer?.billing_address ?? [],
+                        [FIELDS.SHIPPING]: customer?.shipping_address ?? []
                     };
                     this.setFormField('customer', values);
                     this.setState({ isLoading: false });

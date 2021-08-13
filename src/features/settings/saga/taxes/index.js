@@ -20,12 +20,12 @@ function* getTaxTypes({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.data) {
-            const data = response.data;
+        if (response?.taxTypes) {
+            const { data } = response.taxTypes;
             yield put(setTaxes({ taxTypes: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response?.taxTypes);
     } catch (e) {}
 }
 
@@ -40,9 +40,9 @@ function* addTax({ payload: { tax, onResult } }) {
 
         const response = yield call([Request, 'post'], options);
 
-        yield put(setTax({ taxType: [response.data] }));
+        yield put(setTax({ taxType: [response.taxType] }));
 
-        onResult && onResult(response.data);
+        onResult && onResult(response.taxType);
     } catch (e) {
     } finally {
         yield put(spinner({ addTaxLoading: false }));
@@ -60,7 +60,7 @@ function* editTaxType({ payload: { tax, onResult } }) {
 
         const response = yield call([Request, 'put'], options);
 
-        yield put(setEditTax({ taxType: [response.data], taxId: tax.id }));
+        yield put(setEditTax({ taxType: [response.taxType], taxId: tax.id }));
 
         onResult && onResult(response);
     } catch (e) {

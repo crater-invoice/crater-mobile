@@ -71,27 +71,27 @@ export default function customersReducer(state = initialState, action) {
             return { ...state, loading: { ...payload } };
 
         case UPDATE_FROM_CUSTOMERS: {
-            const customerData = formatCustomers([payload.customer])[0];
-            const customersDataList = [];
+            const customerData = formatCustomers([payload.customer])[0]
+            const customersDataList = []
 
             if (state.customers) {
-                state.customers.map(customer => {
-                    const { id } = customer.fullItem;
-                    let value = customer;
+                state.customers.map((customer) => {
+                    const { id } = customer.fullItem
+                    let value = customer
 
                     if (id === payload.customer.id) {
                         value = {
                             ...customerData
-                        };
+                        }
                     }
-                    customersDataList.push(value);
-                });
+                    customersDataList.push(value)
+                })
             }
 
             return {
                 ...state,
                 customers: customersDataList
-            };
+            }
         }
 
         default:

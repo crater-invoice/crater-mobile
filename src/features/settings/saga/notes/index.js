@@ -21,12 +21,12 @@ function* getNotes({ payload }: any) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.data) {
-            const data = response.data;
+        if (response?.notes) {
+            const { data } = response.notes;
             yield put(setNotes({ notes: data, fresh }));
         }
 
-        onSuccess(response?.data);
+        onSuccess(response?.notes);
     } catch (e) {}
 }
 
@@ -55,9 +55,9 @@ function* createNote({ payload }: any) {
 
         const response = yield call([Request, 'post'], options);
 
-        if (response.data) {
-            yield put(createFromNotes({ note: response.data }));
-            onSuccess?.(response.data);
+        if (response.note) {
+            yield put(createFromNotes({ note: response.note }));
+            onSuccess?.(response.note);
         }
     } catch (e) {
     } finally {
@@ -108,9 +108,9 @@ function* editNote({ payload: { params, onSuccess } }: any) {
         };
 
         const response = yield call([Request, 'put'], options);
-        if (response.data) {
-            yield put(updateFromNotes({ note: response.data }));
-            onSuccess?.(response.data);
+        if (response.note) {
+            yield put(updateFromNotes({ note: response.note }));
+            onSuccess?.(response.note);
         }
     } catch (e) {
     } finally {

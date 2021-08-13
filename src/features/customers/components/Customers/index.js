@@ -86,6 +86,7 @@ export class Customers extends React.Component<IProps> {
             getCustomer,
             formValues
         } = this.props;
+
         const { search } = this.state;
         const isEmpty = customers && customers.length <= 0;
         const isFilter = isFilterApply(formValues);
