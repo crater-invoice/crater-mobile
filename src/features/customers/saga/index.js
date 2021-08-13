@@ -98,11 +98,15 @@ function* createCustomer({ payload }) {
     if (hasObjectLength(params?.shippingAddress)) {
         addresses.push(addressParams(params?.shippingAddress, 'SHIPPING'));
     }
-
+    const bodyData = {
+        ...params,
+        billing: params.billingAddress,
+        shipping: params.shippingAddress
+    };
     try {
         const options = {
             path: `customers`,
-            body: { ...params, addresses }
+            body: bodyData
         };
 
         const response = yield call([Request, 'post'], options);
