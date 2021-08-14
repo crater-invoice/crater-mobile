@@ -27,12 +27,12 @@ export function* getExpenseCategories({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.categories) {
-            const { data } = response.categories;
+        if (response?.data) {
+            const data = response.data;
             yield put(setExpenseCategories({ categories: data, fresh }));
         }
 
-        onSuccess?.(response?.categories);
+        onSuccess?.(response?.data);
     } catch (e) {}
 }
 
@@ -47,11 +47,9 @@ function* createExpenseCategory({ payload: { params, onResult } }) {
 
         const response = yield call([Request, 'post'], options);
 
-        yield put(
-            setCreateExpenseCategories({ categories: [response.category] })
-        );
+        yield put(setCreateExpenseCategories({ categories: [response.data] }));
 
-        onResult?.(response?.category);
+        onResult?.(response?.data);
     } catch (e) {
     } finally {
         yield put(spinner({ expenseCategoryLoading: false }));
@@ -67,7 +65,7 @@ function* getEditExpenseCategory({ payload: { id, onResult } }) {
         };
 
         const response = yield call([Request, 'get'], options);
-        onResult?.(response.category);
+        onResult?.(response.data);
     } catch (e) {
     } finally {
         yield put(spinner({ initExpenseCategoryLoading: false }));
@@ -86,7 +84,7 @@ function* editExpenseCategory({ payload: { id, params, navigation } }) {
         const response = yield call([Request, 'put'], options);
         navigation.navigate(ROUTES.CATEGORIES);
         yield put(
-            setEditExpenseCategories({ categories: [response.category], id })
+            setEditExpenseCategories({ categories: [response.data], id })
         );
     } catch (e) {
     } finally {

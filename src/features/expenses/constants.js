@@ -56,6 +56,6 @@ export const EXPENSE_FIELDS = {
     AMOUNT: 'amount',
     CATEGORY: 'expense_category_id',
     NOTES: 'notes',
-    CUSTOMER: 'user_id',
+    CUSTOMER: 'customer_id',
     CUSTOM_FIELDS: 'customFields'
 };

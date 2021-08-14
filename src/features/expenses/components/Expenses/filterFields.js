@@ -18,7 +18,7 @@ export default expenseFilterFields = ({ props, setFormField }) => {
 
     const selectFields = [
         {
-            name: 'user_id',
+            name: 'customer_id',
             apiSearch: true,
             hasPagination: true,
             getItems: getCustomers,
@@ -29,7 +29,7 @@ export default expenseFilterFields = ({ props, setFormField }) => {
             placeholder: Lng.t('customers.placeholder', { locale }),
             navigation: navigation,
             compareField: 'id',
-            onSelect: item => setFormField('user_id', item.id),
+            onSelect: item => setFormField('customer_id', item.id),
             headerProps: {
                 title: Lng.t('customers.title', { locale }),
                 rightIconPress: null
