@@ -91,9 +91,9 @@ function* getAccountInformation({ payload: { onResult } }) {
 
         const response = yield call([Request, 'get'], options);
 
-        yield put(setAccountInformation({ account: response.user }));
+        yield put(setAccountInformation({ account: response.data }));
 
-        onResult?.(response);
+        onResult?.(response.data);
     } catch (e) {
     } finally {
         yield put(spinner({ getAccountInfoLoading: false }));
@@ -113,7 +113,7 @@ function* editAccountInformation({ payload }) {
 
         const response = yield call([Request, 'put'], options);
 
-        yield put(setAccountInformation({ account: response.user }));
+        yield put(setAccountInformation({ account: response.data }));
 
         if (avatar) {
             const options2 = {

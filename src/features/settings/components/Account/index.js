@@ -196,6 +196,7 @@ export class Account extends React.Component<IProps> {
                     refLinkFn={ref => {
                         accountRefs.password = ref;
                     }}
+                    minCharacter={8}
                 />
 
                 <Field
