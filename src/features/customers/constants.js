@@ -43,7 +43,7 @@ export const CUSTOMER_ACTIONS = (Lng, locale) => {
         }
     ];
 };
-export const isAddressNull = object => {
+export const isAddress = object => {
     return object?.address_street_1 ||
         object?.address_street_2 ||
         object?.city ||

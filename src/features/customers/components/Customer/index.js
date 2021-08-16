@@ -18,7 +18,7 @@ import {
     CUSTOMER_ACTIONS,
     ACTIONS_VALUE,
     CUSTOMER_FIELDS as FIELDS,
-    isAddressNull
+    isAddress
 } from '../../constants';
 import AddressContainer from '../../containers/Address';
 import { alertMe, hasObjectLength, KEYBOARD_TYPE, isArray } from '@/constants';
@@ -409,7 +409,7 @@ export class Customer extends React.Component<IProps> {
                         fakeInputProps={{
                             valueStyle: styles.selectedField,
                             placeholderStyle: styles.selectedField,
-                            color: isAddressNull(billingAddress)
+                            color: isAddress(billingAddress)
                                 ? colors.primaryLight
                                 : null
                         }}
@@ -442,7 +442,7 @@ export class Customer extends React.Component<IProps> {
                         fakeInputProps={{
                             valueStyle: styles.selectedField,
                             placeholderStyle: styles.selectedField,
-                            color: isAddressNull(shippingAddress)
+                            color: isAddress(shippingAddress)
                                 ? colors.primaryLight
                                 : null
                         }}
