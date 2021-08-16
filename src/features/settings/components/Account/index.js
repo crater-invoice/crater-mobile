@@ -47,7 +47,7 @@ export class Account extends React.Component<IProps> {
     componentDidMount() {
         const { getAccount, navigation } = this.props;
         getAccount({
-            onResult: ({ user }) => {
+            onResult: user => {
                 this.setState({ avatarUrl: user?.avatar ?? null });
             }
         });

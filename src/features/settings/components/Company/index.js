@@ -36,7 +36,8 @@ let companyField = [
     'zip',
     'address_street_1',
     'address_street_2',
-    'phone'
+    'phone',
+    'country_id'
 ];
 
 export class Company extends React.Component<IProps> {
