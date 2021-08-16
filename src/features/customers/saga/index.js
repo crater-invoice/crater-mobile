@@ -145,8 +145,8 @@ function* updateCustomer({ payload }) {
 
     const bodyData = {
         ...params,
-        billing: { ...params.billing, ...params.billingAddress },
-        shipping: { ...params.shipping, ...params.shippingAddress }
+        billing: { ...params.billing, ...addresses[0] },
+        shipping: { ...params.shipping, ...addresses[1] }
     };
     try {
         const options = {
