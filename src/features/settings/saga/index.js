@@ -36,15 +36,16 @@ import Notes from './notes';
  */
 function* getCompanyInformation({ payload: { onResult } }) {
     yield put(spinner({ getCompanyInfoLoading: true }));
-
     try {
-        const options = { path: `me` };
+        // const options = { path: `me` };
+
+        // const response = yield call([Request, 'get'], options);
+        const options = { path: `current-company` };
 
         const response = yield call([Request, 'get'], options);
+        yield put(setCompanyInformation({ company: response.data }));
 
-        yield put(setCompanyInformation({ company: response.user.company }));
-
-        onResult?.(response.user);
+        onResult?.(response.data);
     } catch (e) {
     } finally {
         yield put(spinner({ getCompanyInfoLoading: false }));
@@ -85,7 +86,6 @@ function* editCompanyInformation({ payload }) {
 
 function* getAccountInformation({ payload: { onResult } }) {
     yield put(spinner({ getAccountInfoLoading: true }));
-
     try {
         const options = { path: `me` };
 
