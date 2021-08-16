@@ -17,7 +17,8 @@ import {
     CUSTOMER_ADD,
     CUSTOMER_ACTIONS,
     ACTIONS_VALUE,
-    CUSTOMER_FIELDS as FIELDS
+    CUSTOMER_FIELDS as FIELDS,
+    isAddress
 } from '../../constants';
 import AddressContainer from '../../containers/Address';
 import { alertMe, hasObjectLength, KEYBOARD_TYPE, isArray } from '@/constants';
@@ -92,8 +93,8 @@ export class Customer extends React.Component<IProps> {
                 onSuccess: customer => {
                     const values = {
                         ...customer,
-                        [FIELDS.BILLING]: customer?.billing_address ?? [],
-                        [FIELDS.SHIPPING]: customer?.shipping_address ?? []
+                        [FIELDS.BILLING]: customer?.billing ?? [],
+                        [FIELDS.SHIPPING]: customer?.shipping ?? []
                     };
                     this.setFormField('customer', values);
                     this.setState({ isLoading: false });
@@ -210,7 +211,6 @@ export class Customer extends React.Component<IProps> {
             formValues,
             loading
         } = this.props;
-
         const billingAddress = formValues?.customer?.[FIELDS.BILLING];
         const shippingAddress = formValues?.customer?.[FIELDS.SHIPPING];
 
@@ -409,7 +409,7 @@ export class Customer extends React.Component<IProps> {
                         fakeInputProps={{
                             valueStyle: styles.selectedField,
                             placeholderStyle: styles.selectedField,
-                            color: hasObjectLength(billingAddress)
+                            color: isAddress(billingAddress)
                                 ? colors.primaryLight
                                 : null
                         }}
@@ -442,7 +442,7 @@ export class Customer extends React.Component<IProps> {
                         fakeInputProps={{
                             valueStyle: styles.selectedField,
                             placeholderStyle: styles.selectedField,
-                            color: hasObjectLength(shippingAddress)
+                            color: isAddress(shippingAddress)
                                 ? colors.primaryLight
                                 : null
                         }}
