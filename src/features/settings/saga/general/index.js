@@ -54,7 +54,7 @@ export function* getGeneralSetting({ payload }) {
         if (url === 'currencies') {
             yield put(
                 setGlobalCurrencies({
-                    currencies: response[responseUrl ?? url]
+                    currencies: response.data
                 })
             );
         }
