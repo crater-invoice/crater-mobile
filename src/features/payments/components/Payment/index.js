@@ -124,7 +124,8 @@ export class Payment extends React.Component<IProps> {
             getPaymentDetail({
                 id,
                 onSuccess: res => {
-                    const { payment_prefix, nextPaymentNumber, payment } = res;
+                    const { payment_prefix, nextPaymentNumber } = res?.meta;
+                    const payment = res?.data;
                     const values = {
                         ...payment,
                         [FIELDS.PREFIX]: payment_prefix,
@@ -135,7 +136,7 @@ export class Payment extends React.Component<IProps> {
 
                     this.setState({
                         isLoading: false,
-                        selectedCustomer: payment?.user,
+                        selectedCustomer: payment?.customer,
                         selectedInvoice: payment?.invoice
                     });
                 }
@@ -148,17 +149,17 @@ export class Payment extends React.Component<IProps> {
         const { invoice } = this.props;
         const val = {
             ...values,
-            [FIELDS.CUSTOMER]: invoice?.user?.id,
+            [FIELDS.CUSTOMER]: invoice?.customer?.id,
             [FIELDS.INVOICE]: invoice?.id,
             [FIELDS.AMOUNT]: invoice?.due?.due_amount,
-            user: invoice?.user,
+            user: invoice?.customer,
             invoice: { invoice_number: invoice?.number }
         };
 
         this.setFormField(`payment`, val);
 
         this.setState({
-            selectedCustomer: invoice?.user,
+            selectedCustomer: invoice?.customer,
             selectedInvoice: invoice?.due,
             isLoading: false
         });
@@ -208,6 +209,7 @@ export class Payment extends React.Component<IProps> {
             [FIELDS.NUMBER]: `${payment?.[FIELDS.PREFIX]}-${
                 payment?.[FIELDS.NUMBER]
             }`,
+            [FIELDS.PAYMENT_NO]: payment?.[FIELDS.NUMBER],
             customFields
         };
 
@@ -278,11 +280,11 @@ export class Payment extends React.Component<IProps> {
                 status,
                 formattedDueDate,
                 due_amount,
-                user
+                customer
             } = item;
 
             return {
-                title: user?.name,
+                title: customer?.name,
                 subtitle: {
                     title: invoice_number,
                     labelTextColor:
@@ -501,7 +503,7 @@ export class Payment extends React.Component<IProps> {
                     hasPagination
                     getItems={getCustomers}
                     items={customers}
-                    selectedItem={formValues?.payment?.user}
+                    selectedItem={formValues?.payment?.customer}
                     displayName="name"
                     component={SelectField}
                     label={Lng.t('payments.customer', { locale })}

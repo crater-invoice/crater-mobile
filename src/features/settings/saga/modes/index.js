@@ -25,12 +25,12 @@ export function* getPaymentModes({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.paymentMethods) {
-            const { data } = response.paymentMethods;
+        if (response?.data) {
+            const data = response.data;
             yield put(setPaymentModes({ paymentMethods: data, fresh }));
         }
 
-        onSuccess?.(response?.paymentMethods);
+        onSuccess?.(response?.data);
     } catch (e) {}
 }
 
@@ -45,10 +45,10 @@ function* createPaymentMode({ payload: { params, onSuccess } }) {
 
         const response = yield call([Request, 'post'], options);
 
-        if (response?.paymentMethod) {
+        if (response?.data) {
             yield put(
                 setPaymentMode({
-                    paymentMethod: [response.paymentMethod],
+                    paymentMethod: [response.data],
                     isCreated: true
                 })
             );
@@ -78,10 +78,10 @@ function* editPaymentMode({ payload: { params, onSuccess } }) {
 
         const response = yield call([Request, 'put'], options);
 
-        if (response?.paymentMethod) {
+        if (response?.data) {
             yield put(
                 setPaymentMode({
-                    paymentMethod: response.paymentMethod,
+                    paymentMethod: response.data,
                     isUpdated: true
                 })
             );

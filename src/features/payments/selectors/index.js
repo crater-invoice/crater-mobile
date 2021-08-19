@@ -8,7 +8,8 @@ const formatPaymentItems = payments =>
             formattedPaymentDate,
             amount,
             payment_mode,
-            user: { name, currency }
+            customer: { name },
+            currency
         } = payment;
 
         return {

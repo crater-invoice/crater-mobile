@@ -30,12 +30,12 @@ function* getPayments({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.payments) {
-            const { data } = response.payments;
+        if (response?.data) {
+            const data = response.data;
             yield put(setPayments({ payments: data, fresh }));
         }
 
-        onSuccess?.(response?.payments);
+        onSuccess?.(response?.data);
     } catch (e) {}
 }
 
@@ -81,11 +81,11 @@ function* createPayment({ payload }) {
             return;
         }
 
-        if (response.success) {
-            yield put(createFromPayment({ payment: response.payment }));
+        if (response.data) {
+            yield put(createFromPayment({ payment: response.data }));
         }
 
-        if (!response.success) {
+        if (!response.data) {
             alertMe({
                 desc: getTitleByLanguage('validation.wrong'),
                 okPress: () => navigation.goBack(null)
@@ -116,12 +116,12 @@ function* getUnpaidInvoices({ payload }) {
 
         const response = yield call([Request, 'get'], { path });
 
-        if (response?.invoices) {
-            const { data } = response.invoices;
+        if (response?.data) {
+            const data = response?.data;
             yield put(saveUnpaidInvoices({ invoices: data, fresh }));
         }
 
-        onSuccess?.(response?.invoices);
+        onSuccess?.(response?.data);
     } catch (e) {}
 }
 
@@ -131,7 +131,7 @@ function* getPaymentDetail({ payload: { id, onSuccess } }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (!response?.payment) {
+        if (!response?.data) {
             return;
         }
 
@@ -163,11 +163,11 @@ function* updatePayment({ payload }) {
             return;
         }
 
-        if (response.success) {
-            yield put(updateFromPayment({ payment: response.payment }));
+        if (response.data) {
+            yield put(updateFromPayment({ payment: response.data }));
         }
 
-        if (!response.success) {
+        if (!response.data) {
             alertMe({
                 desc: getTitleByLanguage('validation.wrong'),
                 okPress: () => navigation.goBack(null)
