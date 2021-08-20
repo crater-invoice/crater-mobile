@@ -36,11 +36,10 @@ export class LanguageAndCurrency extends React.Component<IProps> {
     }
 
     componentWillMount() {
-        const { getPreferences, getGeneralSetting } = this.props;
-
+        const { getPreferences, getGeneralSetting, currencies } = this.props;
         getPreferences({
             onResult: val => {
-                const { language, currency, currencies } = val;
+                const { language, currency } = val;
                 this.setFormField('language', language);
                 this.setFormField('currency', currency);
                 this.setState({
