@@ -154,10 +154,10 @@ export class Invoice extends React.Component<IProps, IStates> {
         if (isEditInvoice) {
             getEditInvoice({
                 id,
-                onSuccess: ({ user, status }) => {
+                onSuccess: ({ customer, status }) => {
                     this.setState({
-                        currency: user.currency,
-                        customerName: user.name,
+                        currency: customer.currency,
+                        customerName: customer.name,
                         markAsStatus: status,
                         isLoading: false
                     });

@@ -175,7 +175,9 @@ class ListViewComponent extends Component<IProps> {
         const children = (
             <ListItem
                 key={index}
-                title={this.leftTitle(item.title)}
+                title={this.leftTitle(
+                    item.title ?? item?.fullItem?.customer?.name
+                )}
                 subtitle={this.leftSubTitle(item.subtitle)}
                 rightTitle={
                     item.amount ? (

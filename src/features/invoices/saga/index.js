@@ -49,11 +49,11 @@ function* getInvoices({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.invoices) {
-            const { data } = response.invoices;
+        if (response?.data) {
+            const data = response.data;
             yield put(setInvoices({ invoices: data, fresh }));
         }
-        onSuccess?.(response?.invoices);
+        onSuccess?.(response?.data);
     } catch (error) {
     } finally {
         yield put(spinner({ invoicesLoading: false }));
@@ -121,12 +121,12 @@ function* getEditInvoice({ payload: { id, onSuccess } }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (!response?.invoice) {
+        if (!response?.data) {
             return;
         }
 
-        const { invoice, invoicePrefix, nextInvoiceNumber } = response;
-
+        const { invoicePrefix, nextInvoiceNumber } = response?.meta;
+        const invoice = response?.data;
         const { invoiceTemplates } = yield call(geInvoiceTemplates, {});
 
         const values = {
@@ -142,7 +142,9 @@ function* getEditInvoice({ payload: { id, onSuccess } }) {
 
         yield put(removeInvoiceItems());
 
-        yield put(setInvoiceItems({ invoiceItem: invoice?.items ?? [] }));
+        yield put(
+            setInvoiceItems({ invoiceItem: invoice?.invoiceItems ?? [] })
+        );
 
         onSuccess?.(invoice);
     } catch (e) {
