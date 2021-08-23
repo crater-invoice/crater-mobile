@@ -18,12 +18,12 @@ export function* getItemUnits({ payload }) {
         };
 
         const response = yield call([Request, 'get'], options);
-        if (response?.units) {
-            const { data } = response.units;
+        if (response?.data) {
+            const data = response.data;
             yield put(setItemUnits({ units: data, fresh }));
         }
 
-        onSuccess?.(response?.units);
+        onSuccess?.(response?.data);
     } catch (e) {}
 }
 
@@ -38,8 +38,8 @@ function* createItemUnit({ payload: { params, onSuccess } }) {
 
         const response = yield call([Request, 'post'], options);
 
-        if (response?.unit) {
-            yield put(setItemUnit({ unit: [response.unit], isCreated: true }));
+        if (response?.data) {
+            yield put(setItemUnit({ unit: [response.data], isCreated: true }));
             onSuccess?.();
             return;
         }
@@ -66,8 +66,8 @@ function* editItemUnit({ payload: { params, onSuccess } }) {
 
         const response = yield call([Request, 'put'], options);
 
-        if (response?.unit) {
-            yield put(setItemUnit({ unit: response.unit, isUpdated: true }));
+        if (response?.data) {
+            yield put(setItemUnit({ unit: response.data, isUpdated: true }));
             onSuccess?.();
             return;
         }
