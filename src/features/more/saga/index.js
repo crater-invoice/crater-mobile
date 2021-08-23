@@ -36,12 +36,12 @@ function* getItems({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.items) {
-            const { data } = response.items;
+        if (response?.data) {
+            const data = response.data;
             yield put(setItems({ items: data, fresh }));
         }
 
-        onSuccess?.(response?.items);
+        onSuccess?.(response?.data);
     } catch (e) {}
 }
 
@@ -53,13 +53,13 @@ function* getEditItem({ payload: { id, onResult } }) {
 
         const response = yield call([Request, 'get'], options);
 
-        yield put(setItem(response));
+        yield put(setItem({ item: response?.data }));
 
         yield call(getItemUnits, {
             payload: { queryString: { limit: 'all' } }
         });
 
-        onResult?.(response);
+        onResult?.(response?.data);
     } catch (e) {}
 }
 
@@ -74,7 +74,7 @@ function* addItem({ payload: { item, onResult } }) {
 
         const res = yield call([Request, 'post'], options);
 
-        yield put(setItems({ items: [res.item], prepend: true }));
+        yield put(setItems({ items: [res.data], prepend: true }));
 
         onResult?.();
     } catch (e) {
@@ -96,7 +96,7 @@ function* editItem({ payload: { item, id, onResult } }) {
 
         yield put(deleteItem({ id }));
 
-        yield put(setItems({ items: [response.item], prepend: true }));
+        yield put(setItems({ items: [response.data], prepend: true }));
 
         onResult?.();
     } catch (e) {
