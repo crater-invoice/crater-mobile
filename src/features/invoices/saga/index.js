@@ -174,8 +174,8 @@ function* addItem({ payload: { item, onResult } }) {
 
         const invoiceItem = [
             {
-                ...response.item,
-                item_id: response.item.id,
+                ...response.data,
+                item_id: response.data.id,
                 ...item
             }
         ];
@@ -241,7 +241,7 @@ function* createInvoice({ payload }) {
             return;
         }
 
-        if (!response.invoice) {
+        if (!response.data) {
             alertMe({
                 desc: getTitleByLanguage('validation.wrong'),
                 okPress: () => navigation.goBack(null)
@@ -253,9 +253,9 @@ function* createInvoice({ payload }) {
 
         yield put(removeInvoiceItems());
 
-        yield put(setInvoices({ invoices: [response.invoice], prepend: true }));
+        yield put(setInvoices({ invoices: [response.data], prepend: true }));
 
-        onSuccess?.(response?.invoice?.invoicePdfUrl);
+        onSuccess?.(response?.data?.invoicePdfUrl);
     } catch (e) {
     } finally {
         yield put(spinner({ invoiceLoading: false }));
@@ -280,7 +280,7 @@ function* editInvoice({ payload }) {
             return;
         }
 
-        if (!response.invoice) {
+        if (!response.data) {
             alertMe({
                 desc: getTitleByLanguage('validation.wrong'),
                 okPress: () => navigation.goBack(null)
@@ -288,12 +288,12 @@ function* editInvoice({ payload }) {
             return;
         }
 
-        if (response.success) {
-            yield put(updateFromInvoices({ invoice: response.invoice }));
+        if (response.data) {
+            yield put(updateFromInvoices({ invoice: response.data }));
             status !== 'download' && navigation.goBack(null);
         }
 
-        onSuccess?.(response?.invoice?.invoicePdfUrl);
+        onSuccess?.(response?.data?.invoicePdfUrl);
     } catch (e) {
     } finally {
         yield put(spinner({ invoiceLoading: false }));
@@ -312,12 +312,12 @@ function* getItems({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.items) {
-            const { data } = response.items;
+        if (response?.data) {
+            const data = response.data;
             yield put(setItems({ items: data, fresh }));
         }
 
-        onSuccess?.(response?.items);
+        onSuccess?.(response?.data);
     } catch (e) {
     } finally {
         yield put(spinner({ itemsLoading: false }));
