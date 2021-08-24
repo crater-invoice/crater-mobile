@@ -128,10 +128,10 @@ export class Estimate extends React.Component<IProps> {
         if (isEditEstimate) {
             getEditEstimate({
                 id,
-                onSuccess: ({ user, status }) => {
+                onSuccess: ({ customer, status }) => {
                     this.setState({
-                        currency: user.currency,
-                        customerName: user.name,
+                        currency: customer.currency,
+                        customerName: customer.name,
                         markAsStatus: status,
                         isLoading: false
                     });
@@ -223,6 +223,7 @@ export class Estimate extends React.Component<IProps> {
         let estimate = {
             ...values,
             estimate_number: `${values.prefix}-${values.estimate_number}`,
+            estimate_no: values.estimate_number,
             total: finalAmount(),
             sub_total: estimateSubTotal(),
             tax: estimateTax() + estimateCompoundTax(),
@@ -335,7 +336,7 @@ export class Estimate extends React.Component<IProps> {
             currency,
             onSelect: item => {
                 this.customerReference?.changeDisplayValue?.(item);
-                this.setFormField('user_id', item.id);
+                this.setFormField('customer_id', item.id);
                 this.setState({ currency: item.currency });
             }
         });
@@ -696,7 +697,7 @@ export class Estimate extends React.Component<IProps> {
                 />
 
                 <Field
-                    name="user_id"
+                    name="customer_id"
                     items={customers}
                     apiSearch
                     hasPagination
@@ -717,7 +718,7 @@ export class Estimate extends React.Component<IProps> {
                     navigation={navigation}
                     compareField="id"
                     onSelect={item => {
-                        this.setFormField('user_id', item.id);
+                        this.setFormField('customer_id', item.id);
                         this.setState({ currency: item.currency });
                     }}
                     rightIconPress={this.navigateToCustomer}
