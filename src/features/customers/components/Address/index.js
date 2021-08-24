@@ -174,6 +174,7 @@ export class Address extends Component<IProps> {
                     { paddingBottom: 15 },
                     isKeyboardVisible && { paddingBottom: 120 }
                 ]}
+                keyboardShouldPersistTaps="handled"
             >
                 {!hasBillingAddress && !disabled && (
                     <FakeInput

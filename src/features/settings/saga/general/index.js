@@ -47,16 +47,15 @@ export function* getGeneralSetting({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (returnResponse) {
-            return response[responseUrl ?? url];
-        }
-
         if (url === 'currencies') {
             yield put(
                 setGlobalCurrencies({
-                    currencies: response[responseUrl ?? url]
+                    currencies: response.data
                 })
             );
+        }
+        if (returnResponse) {
+            return response.data;
         }
 
         if (response[responseUrl ?? url]) {
