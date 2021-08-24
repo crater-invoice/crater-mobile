@@ -63,11 +63,13 @@ export function getError(
                 : null;
         },
 
-        minCharacterRequired: () =>
-            value.length < minCharacter
-                ? message || 'validation.minCharacter'
-                : null,
-
+        minCharacterRequired: () => {
+            if (value) {
+                return value.length < minCharacter
+                    ? message || 'validation.minCharacter'
+                    : null;
+            }
+        },
         characterOnlyRequired: () =>
             CHARACTER_ONLY_REGEX.test(value) ? null : 'validation.character',
 

@@ -36,15 +36,16 @@ import Notes from './notes';
  */
 function* getCompanyInformation({ payload: { onResult } }) {
     yield put(spinner({ getCompanyInfoLoading: true }));
-
     try {
-        const options = { path: `me` };
+        // const options = { path: `me` };
+
+        // const response = yield call([Request, 'get'], options);
+        const options = { path: `current-company` };
 
         const response = yield call([Request, 'get'], options);
+        yield put(setCompanyInformation({ company: response.data }));
 
-        yield put(setCompanyInformation({ company: response.user.company }));
-
-        onResult?.(response.user);
+        onResult?.(response.data);
     } catch (e) {
     } finally {
         yield put(spinner({ getCompanyInfoLoading: false }));
@@ -85,15 +86,14 @@ function* editCompanyInformation({ payload }) {
 
 function* getAccountInformation({ payload: { onResult } }) {
     yield put(spinner({ getAccountInfoLoading: true }));
-
     try {
         const options = { path: `me` };
 
         const response = yield call([Request, 'get'], options);
 
-        yield put(setAccountInformation({ account: response.user }));
+        yield put(setAccountInformation({ account: response.data }));
 
-        onResult?.(response);
+        onResult?.(response.data);
     } catch (e) {
     } finally {
         yield put(spinner({ getAccountInfoLoading: false }));
@@ -113,7 +113,7 @@ function* editAccountInformation({ payload }) {
 
         const response = yield call([Request, 'put'], options);
 
-        yield put(setAccountInformation({ account: response.user }));
+        yield put(setAccountInformation({ account: response.data }));
 
         if (avatar) {
             const options2 = {

@@ -34,12 +34,12 @@ export function* getCustomFields({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.customFields) {
-            const { data } = response.customFields;
+        if (response?.data) {
+            const data = response.data;
             yield put(setCustomFields({ customFields: data, fresh }));
         }
 
-        onSuccess?.(response?.customFields);
+        onSuccess?.(response?.data);
 
         if (returnResponse) {
             return response?.customFields?.data ?? [];
@@ -58,10 +58,8 @@ function* createCustomField({ payload: { params, navigation } }) {
 
         const response = yield call([Request, 'post'], options);
 
-        if (response.success) {
-            yield put(
-                createFromCustomFields({ customField: response.customField })
-            );
+        if (response.data) {
+            yield put(createFromCustomFields({ customField: response.data }));
             navigation.goBack(null);
         }
     } catch (e) {
@@ -78,8 +76,8 @@ function* getCustomField({ payload: { id, onResult = null } }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response.customField) {
-            onResult?.(response.customField);
+        if (response.data) {
+            onResult?.(response.data);
         }
     } catch (e) {
     } finally {
@@ -98,10 +96,8 @@ function* editCustomField({ payload: { id, params, navigation } }) {
 
         const response = yield call([Request, 'put'], options);
 
-        if (response.success) {
-            yield put(
-                updateFromCustomFields({ customField: response.customField })
-            );
+        if (response.data) {
+            yield put(updateFromCustomFields({ customField: response.data }));
             navigation.goBack(null);
         }
 

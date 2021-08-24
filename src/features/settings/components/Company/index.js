@@ -30,13 +30,14 @@ type IProps = {
 };
 
 let companyField = [
-    'country_id',
+    'id',
     'state',
     'city',
     'zip',
     'address_street_1',
     'address_street_2',
-    'phone'
+    'phone',
+    'country_id'
 ];
 
 export class Company extends React.Component<IProps> {
@@ -66,18 +67,15 @@ export class Company extends React.Component<IProps> {
 
         getCompanyInformation({
             onResult: user => {
-                this.setFormField(
-                    'name',
-                    user.company_id ? user.company.name : ''
-                );
+                this.setFormField('name', user.id ? user.name : '');
 
-                if (user.company.address) {
+                if (user.address) {
                     companyField.map(field => {
-                        this.setFormField(field, user.company.address[field]);
+                        this.setFormField(field, user.address[field]);
                     });
                 }
-                if (user.company.logo) {
-                    this.setState({ image: user.company.logo });
+                if (user.logo) {
+                    this.setState({ image: user.logo });
                 }
             }
         });
