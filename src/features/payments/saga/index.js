@@ -116,12 +116,12 @@ function* getUnpaidInvoices({ payload }) {
 
         const response = yield call([Request, 'get'], { path });
 
-        if (response?.invoices) {
-            const { data } = response.invoices;
+        if (response?.data) {
+            const data = response.data;
             yield put(saveUnpaidInvoices({ invoices: data, fresh }));
         }
 
-        onSuccess?.(response?.invoices);
+        onSuccess?.(response?.data);
     } catch (e) {}
 }
 
@@ -131,7 +131,7 @@ function* getPaymentDetail({ payload: { id, onSuccess } }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (!response?.payment) {
+        if (!response?.data) {
             return;
         }
 
@@ -163,8 +163,8 @@ function* updatePayment({ payload }) {
             return;
         }
 
-        if (response.success) {
-            yield put(updateFromPayment({ payment: response.payment }));
+        if (response.data) {
+            yield put(updateFromPayment({ payment: response.data }));
         }
 
         if (!response.success) {

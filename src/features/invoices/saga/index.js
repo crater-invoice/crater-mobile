@@ -373,16 +373,16 @@ function* changeInvoiceStatus({ payload }) {
 
         const response = yield call([Request, 'post'], options);
 
-        if (!response?.success) {
+        if (response?.data || response?.success) {
+            onResult?.();
+            navigation.navigate(ROUTES.MAIN_INVOICES);
+        } else {
             alertMe({
                 desc: getTitleByLanguage('validation.wrong'),
                 okPress: () => navigation?.goBack?.(null)
             });
             return;
         }
-
-        onResult?.();
-        navigation.navigate(ROUTES.MAIN_INVOICES);
     } catch (e) {
     } finally {
         yield put(spinner({ changeStatusLoading: false }));
