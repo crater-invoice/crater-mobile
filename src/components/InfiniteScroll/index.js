@@ -163,7 +163,9 @@ class ScrollList extends React.Component<IProps, IState> {
             : { orderByField: 'created_at', orderBy: 'desc', ...queryString };
     };
 
-    updateInitialState = ({ next_page_url = null, current_page = 1 } = {}) => {
+    updateInitialState = res => {
+        let next_page_url = res?.links?.next ?? null;
+        let current_page = res?.meta?.current_page ?? 1;
         this.setState({
             loading: false,
             refreshing: false,
