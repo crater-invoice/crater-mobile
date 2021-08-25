@@ -49,11 +49,11 @@ function* getInvoices({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.invoices) {
-            const { data } = response.invoices;
+        if (response?.data) {
+            const data = response.data;
             yield put(setInvoices({ invoices: data, fresh }));
         }
-        onSuccess?.(response?.invoices);
+        onSuccess?.(response?.data);
     } catch (error) {
     } finally {
         yield put(spinner({ invoicesLoading: false }));
@@ -121,12 +121,12 @@ function* getEditInvoice({ payload: { id, onSuccess } }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (!response?.invoice) {
+        if (!response?.data) {
             return;
         }
 
-        const { invoice, invoicePrefix, nextInvoiceNumber } = response;
-
+        const { invoicePrefix, nextInvoiceNumber } = response?.meta;
+        const invoice = response?.data;
         const { invoiceTemplates } = yield call(geInvoiceTemplates, {});
 
         const values = {
@@ -142,7 +142,9 @@ function* getEditInvoice({ payload: { id, onSuccess } }) {
 
         yield put(removeInvoiceItems());
 
-        yield put(setInvoiceItems({ invoiceItem: invoice?.items ?? [] }));
+        yield put(
+            setInvoiceItems({ invoiceItem: invoice?.invoiceItems ?? [] })
+        );
 
         onSuccess?.(invoice);
     } catch (e) {
@@ -172,8 +174,8 @@ function* addItem({ payload: { item, onResult } }) {
 
         const invoiceItem = [
             {
-                ...response.item,
-                item_id: response.item.id,
+                ...response.data,
+                item_id: response.data.id,
                 ...item
             }
         ];
@@ -239,7 +241,7 @@ function* createInvoice({ payload }) {
             return;
         }
 
-        if (!response.invoice) {
+        if (!response.data) {
             alertMe({
                 desc: getTitleByLanguage('validation.wrong'),
                 okPress: () => navigation.goBack(null)
@@ -251,9 +253,9 @@ function* createInvoice({ payload }) {
 
         yield put(removeInvoiceItems());
 
-        yield put(setInvoices({ invoices: [response.invoice], prepend: true }));
+        yield put(setInvoices({ invoices: [response.data], prepend: true }));
 
-        onSuccess?.(response?.invoice?.invoicePdfUrl);
+        onSuccess?.(response?.data?.invoicePdfUrl);
     } catch (e) {
     } finally {
         yield put(spinner({ invoiceLoading: false }));
@@ -278,7 +280,7 @@ function* editInvoice({ payload }) {
             return;
         }
 
-        if (!response.invoice) {
+        if (!response.data) {
             alertMe({
                 desc: getTitleByLanguage('validation.wrong'),
                 okPress: () => navigation.goBack(null)
@@ -286,12 +288,12 @@ function* editInvoice({ payload }) {
             return;
         }
 
-        if (response.success) {
-            yield put(updateFromInvoices({ invoice: response.invoice }));
+        if (response.data) {
+            yield put(updateFromInvoices({ invoice: response.data }));
             status !== 'download' && navigation.goBack(null);
         }
 
-        onSuccess?.(response?.invoice?.invoicePdfUrl);
+        onSuccess?.(response?.data?.invoicePdfUrl);
     } catch (e) {
     } finally {
         yield put(spinner({ invoiceLoading: false }));
@@ -310,12 +312,12 @@ function* getItems({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.items) {
-            const { data } = response.items;
+        if (response?.data) {
+            const data = response.data;
             yield put(setItems({ items: data, fresh }));
         }
 
-        onSuccess?.(response?.items);
+        onSuccess?.(response?.data);
     } catch (e) {
     } finally {
         yield put(spinner({ itemsLoading: false }));
@@ -371,16 +373,16 @@ function* changeInvoiceStatus({ payload }) {
 
         const response = yield call([Request, 'post'], options);
 
-        if (!response?.success) {
+        if (response?.data || response?.success) {
+            onResult?.();
+            navigation.navigate(ROUTES.MAIN_INVOICES);
+        } else {
             alertMe({
                 desc: getTitleByLanguage('validation.wrong'),
                 okPress: () => navigation?.goBack?.(null)
             });
             return;
         }
-
-        onResult?.();
-        navigation.navigate(ROUTES.MAIN_INVOICES);
     } catch (e) {
     } finally {
         yield put(spinner({ changeStatusLoading: false }));

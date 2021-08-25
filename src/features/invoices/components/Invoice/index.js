@@ -127,7 +127,7 @@ export class Invoice extends React.Component<IProps, IStates> {
             currency,
             onSelect: item => {
                 this.customerReference?.changeDisplayValue?.(item);
-                this.setFormField('user_id', item.id);
+                this.setFormField('customer_id', item.id);
                 this.setState({ currency: item.currency });
             }
         });
@@ -154,10 +154,10 @@ export class Invoice extends React.Component<IProps, IStates> {
         if (isEditInvoice) {
             getEditInvoice({
                 id,
-                onSuccess: ({ user, status }) => {
+                onSuccess: ({ customer, status }) => {
                     this.setState({
-                        currency: user.currency,
-                        customerName: user.name,
+                        currency: customer.currency,
+                        customerName: customer.name,
                         markAsStatus: status,
                         isLoading: false
                     });
@@ -249,6 +249,7 @@ export class Invoice extends React.Component<IProps, IStates> {
         let invoice = {
             ...values,
             invoice_number: `${values.prefix}-${values.invoice_number}`,
+            invoice_no: values.invoice_number,
             total: finalAmount(),
             sub_total: invoiceSubTotal(),
             tax: invoiceTax() + invoiceCompoundTax(),
@@ -670,7 +671,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                 />
 
                 <Field
-                    name="user_id"
+                    name="customer_id"
                     items={customers}
                     apiSearch
                     hasPagination
@@ -692,7 +693,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                     navigation={navigation}
                     compareField="id"
                     onSelect={item => {
-                        this.setFormField('user_id', item.id);
+                        this.setFormField('customer_id', item.id);
                         this.setState({ currency: item.currency });
                     }}
                     rightIconPress={this.navigateToCustomer}
