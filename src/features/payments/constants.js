@@ -56,7 +56,8 @@ export const PAYMENT_ACTIONS = (isAllowToDelete, Lng, locale) => {
 export const PAYMENT_FIELDS = {
     DATE: 'payment_date',
     NUMBER: 'payment_number',
-    CUSTOMER: 'user_id',
+    PAYMENT_NO: 'payment_no',
+    CUSTOMER: 'customer_id',
     INVOICE: 'invoice_id',
     AMOUNT: 'amount',
     METHOD: 'payment_method_id',
