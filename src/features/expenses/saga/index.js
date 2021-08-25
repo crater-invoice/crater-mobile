@@ -5,7 +5,10 @@ import * as TYPES from '../constants';
 import {
     expenseTriggerSpinner,
     setExpenses,
-    showImageOnEdit
+    showImageOnEdit,
+    createFromExpense,
+    updateFromExpense,
+    removeFromExpense
 } from '../actions';
 import { getCustomers } from '@/features/customers/saga';
 import { getExpenseCategories } from '@/features/settings/saga/categories';
@@ -53,7 +56,7 @@ function* createExpense({ payload }) {
         const options = {
             path: `expenses`,
             body: params,
-            withMultipartFormData: true
+            withMultipartFormData: false
         };
         const response = yield call([Request, 'post'], options);
 
@@ -66,6 +69,10 @@ function* createExpense({ payload }) {
             };
 
             yield call([Request, 'post'], options2);
+        }
+
+        if (response.data) {
+            yield put(createFromExpense({ expense: response.data }));
         }
 
         navigation.goBack(null);
@@ -84,7 +91,7 @@ function* updateExpense({ payload }) {
         const options = {
             path: `expenses/${id}`,
             body: { ...params, _method: 'PUT' },
-            withMultipartFormData: true
+            withMultipartFormData: false
         };
 
         const response = yield call([Request, 'post'], options);
@@ -98,6 +105,10 @@ function* updateExpense({ payload }) {
             };
 
             yield call([Request, 'post'], options2);
+        }
+
+        if (response.data) {
+            yield put(updateFromExpense({ expense: response.data }));
         }
 
         navigation.goBack(null);
@@ -149,6 +160,7 @@ function* removeExpense({ payload: { id, navigation } }) {
         const response = yield call([Request, 'post'], options);
 
         if (response.success) {
+            yield put(removeFromExpense({ id }));
             navigation.goBack(null);
         }
     } catch (e) {

@@ -20,6 +20,10 @@ export const REMOVE_EXPENSE = 'expenses/REMOVE_EXPENSE';
 export const EXPENSES_TRIGGER_SPINNER = 'expenses/EXPENSES_TRIGGER_SPINNER';
 export const SHOW_IMAGE_ON_EDIT = 'expenses/SHOW_IMAGE_ON_EDIT';
 
+export const CREATE_FROM_EXPENSE = 'expenses/CREATE_FROM_EXPENSE';
+export const REMOVE_FROM_EXPENSE = 'expenses/REMOVE_FROM_EXPENSE';
+export const UPDATE_FROM_EXPENSE = 'expenses/UPDATE_FROM_EXPENSE';
+
 export const ACTIONS_VALUE = {
     REMOVE: 'remove',
     DOWNLOAD: 'download'

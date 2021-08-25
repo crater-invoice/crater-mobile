@@ -130,13 +130,14 @@ export class Expense extends React.Component<IProps, IState> {
         for (const key in values?.expense) {
             params[key] = values?.expense[key] ?? '';
         }
-
-        params = {
-            ...params,
-            customFields: JSON.stringify(
-                getApiFormattedCustomFields(values?.customFields)
-            )
-        };
+        if (values?.customFields) {
+            params = {
+                ...params,
+                customFields: getApiFormattedCustomFields(values?.customFields)
+            };
+        } else {
+            delete params.customFields;
+        }
         const {
             createExpense,
             navigation,
