@@ -48,12 +48,12 @@ function* getEstimates({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.estimates) {
-            const { data } = response.estimates;
+        if (response?.data) {
+            const data = response.data;
             yield put(setEstimates({ estimates: data, fresh }));
         }
 
-        onSuccess?.(response?.estimates);
+        onSuccess?.(response?.data);
     } catch (e) {}
 }
 
@@ -124,11 +124,12 @@ function* getEditEstimate({ payload: { id, onSuccess } }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (!response?.estimate) {
+        if (!response?.data) {
             return;
         }
 
-        const { estimate, estimatePrefix, nextEstimateNumber } = response;
+        const { estimatePrefix, nextEstimateNumber } = response?.meta;
+        const estimate = response?.data;
 
         const { templates } = yield call(geEstimateTemplates, {});
 
@@ -145,7 +146,9 @@ function* getEditEstimate({ payload: { id, onSuccess } }) {
 
         yield put(removeEstimateItems());
 
-        yield put(setEstimateItems({ estimateItem: estimate.items }));
+        yield put(
+            setEstimateItems({ estimateItem: estimate?.estimateItems ?? [] })
+        );
 
         onSuccess?.(estimate);
     } catch (e) {
@@ -175,8 +178,8 @@ function* addItem({ payload: { item, onResult } }) {
 
         const estimateItem = [
             {
-                ...response.item,
-                item_id: response.item.id,
+                ...response.data,
+                item_id: response.data.id,
                 ...item
             }
         ];
@@ -209,7 +212,7 @@ function* editItem({ payload: { item, onResult } }) {
 
         const estimateItem = [
             {
-                ...response.item,
+                ...response.data,
                 ...item
             }
         ];
@@ -243,7 +246,7 @@ function* createEstimate({ payload }) {
             return;
         }
 
-        if (!response.estimate) {
+        if (!response.data) {
             alertMe({
                 desc: getTitleByLanguage('validation.wrong'),
                 okPress: () => navigation.goBack(null)
@@ -253,11 +256,9 @@ function* createEstimate({ payload }) {
 
         yield put(removeEstimateItems());
 
-        yield put(
-            setEstimates({ estimates: [response.estimate], prepend: true })
-        );
+        yield put(setEstimates({ estimates: [response.data], prepend: true }));
 
-        onSuccess?.(response?.estimate?.estimatePdfUrl);
+        onSuccess?.(response?.data?.estimatePdfUrl);
     } catch (e) {
     } finally {
         yield put(spinner({ estimateLoading: false }));
@@ -282,7 +283,7 @@ function* editEstimate({ payload }) {
             return;
         }
 
-        if (!response.estimate) {
+        if (!response.data) {
             alertMe({
                 desc: getTitleByLanguage('validation.wrong'),
                 okPress: () => navigation.goBack(null)
@@ -290,11 +291,11 @@ function* editEstimate({ payload }) {
             return;
         }
 
-        if (response.estimate) {
-            yield put(updateFromEstimates({ estimate: response.estimate }));
+        if (response.data) {
+            yield put(updateFromEstimates({ estimate: response.data }));
         }
 
-        onSuccess?.(response?.estimate?.estimatePdfUrl);
+        onSuccess?.(response?.data?.estimatePdfUrl);
     } catch (e) {
     } finally {
         yield put(spinner({ estimateLoading: false }));
@@ -313,12 +314,12 @@ function* getItems({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.items) {
-            const { data } = response.items;
+        if (response?.data) {
+            const data = response.data;
             yield put(setItems({ items: data, fresh }));
         }
 
-        onSuccess?.(response?.items);
+        onSuccess?.(response?.data);
     } catch (e) {
     } finally {
         yield put(spinner({ itemsLoading: false }));
@@ -350,7 +351,7 @@ function* convertToInvoice({ payload: { onResult, id } }) {
 
         yield put(removeEstimateItems());
 
-        yield put(setInvoices({ invoices: [response.invoice], prepend: true }));
+        yield put(setInvoices({ invoices: [response.data], prepend: true }));
 
         onResult?.();
     } catch (e) {
