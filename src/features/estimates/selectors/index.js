@@ -6,7 +6,7 @@ const formatEstimateItems = (estimates, theme) =>
     estimates.map(item => {
         const {
             estimate_number,
-            user: { name, currency } = {},
+            customer: { name, currency } = {},
             status,
             formattedEstimateDate,
             total
