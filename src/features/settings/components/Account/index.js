@@ -47,7 +47,7 @@ export class Account extends React.Component<IProps> {
     componentDidMount() {
         const { getAccount, navigation } = this.props;
         getAccount({
-            onResult: ({ user }) => {
+            onResult: user => {
                 this.setState({ avatarUrl: user?.avatar ?? null });
             }
         });
@@ -196,6 +196,7 @@ export class Account extends React.Component<IProps> {
                     refLinkFn={ref => {
                         accountRefs.password = ref;
                     }}
+                    minCharacter={8}
                 />
 
                 <Field

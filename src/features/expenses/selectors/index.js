@@ -4,13 +4,19 @@ import { createSelector } from 'reselect';
 
 const formatExpenseItems = (expenses, currency) =>
     expenses.map(expense => {
-        const { user_name, formattedExpenseDate, amount, category } = expense;
+        const {
+            customer,
+            formattedExpenseDate,
+            amount,
+            expense_category
+        } = expense;
 
         return {
-            title: category.name
-                ? category.name[0].toUpperCase() + category.name.slice(1)
+            title: expense_category.name
+                ? expense_category.name[0].toUpperCase() +
+                  expense_category.name.slice(1)
                 : '',
-            subtitle: { title: user_name },
+            subtitle: { title: customer?.name },
             amount,
             currency,
             rightSubtitle: formattedExpenseDate,

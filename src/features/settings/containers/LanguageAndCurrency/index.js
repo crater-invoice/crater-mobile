@@ -15,12 +15,10 @@ const mapStateToProps = state => {
                 editPreferencesLoading,
                 generalSettingsLoading
             },
-            preferences,
-            currencies
+            preferences
         },
-        global: { locale, theme }
+        global: { locale, theme, currencies }
     } = state;
-
     let isLoading =
         getPreferencesLoading ||
         typeof preferences === 'undefined' ||

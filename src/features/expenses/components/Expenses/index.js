@@ -71,7 +71,12 @@ export class Expenses extends React.Component<IProps> {
         });
     };
 
-    onSubmitFilter = ({ from_date, to_date, expense_category_id, user_id }) => {
+    onSubmitFilter = ({
+        from_date,
+        to_date,
+        expense_category_id,
+        customer_id
+    }) => {
         const { search } = this.state;
 
         this.scrollViewReference?.getItems?.({
@@ -79,7 +84,7 @@ export class Expenses extends React.Component<IProps> {
                 expense_category_id,
                 from_date,
                 to_date,
-                user_id,
+                customer_id,
                 search
             },
             showLoader: true

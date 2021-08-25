@@ -2,7 +2,11 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import Request from '@/api/request';
 import * as queryStrings from 'query-string';
 import * as TYPES from '../constants';
-import { expenseTriggerSpinner, setExpenses, showImageOnEdit } from '../actions';
+import {
+    expenseTriggerSpinner,
+    setExpenses,
+    showImageOnEdit
+} from '../actions';
 import { getCustomers } from '@/features/customers/saga';
 import { getExpenseCategories } from '@/features/settings/saga/categories';
 import { getCustomFields } from '@/features/settings/saga/custom-fields';
@@ -31,12 +35,12 @@ function* getExpenses({ payload }) {
 
         const response = yield call([Request, 'get'], options);
 
-        if (response?.expenses) {
-            const { data } = response.expenses;
+        if (response?.data) {
+            const data = response.data;
             yield put(setExpenses({ expenses: data, fresh }));
         }
 
-        onSuccess?.(response?.expenses);
+        onSuccess?.(response?.data);
     } catch (e) {}
 }
 
@@ -51,12 +55,11 @@ function* createExpense({ payload }) {
             body: params,
             withMultipartFormData: true
         };
-
         const response = yield call([Request, 'post'], options);
 
-        if (attachmentReceipt && response?.expense?.id) {
+        if (attachmentReceipt && response?.data?.id) {
             const options2 = {
-                path: `expenses/${response.expense.id}/upload/receipts`,
+                path: `expenses/${response.data.id}/upload/receipts`,
                 image: attachmentReceipt,
                 type: 'create',
                 imageName: 'attachment_receipt'
@@ -86,7 +89,7 @@ function* updateExpense({ payload }) {
 
         const response = yield call([Request, 'post'], options);
 
-        if (attachmentReceipt && response?.expense) {
+        if (attachmentReceipt && response?.data) {
             const options2 = {
                 path: `expenses/${id}/upload/receipts`,
                 image: attachmentReceipt,
@@ -110,11 +113,11 @@ function* getExpenseDetail({ payload: { id, onSuccess } }) {
 
         const response = yield call([Request, 'get'], options);
 
-        const options3 = {
+        const options2 = {
             path: `expenses/${id}/show/receipt`
-        }
+        };
 
-        const response2 = yield call([Request, 'get'], options3)
+        const response2 = yield call([Request, 'get'], options2);
 
         yield call(getCustomers, {
             payload: { queryString: { limit: 'all' } }
@@ -130,7 +133,7 @@ function* getExpenseDetail({ payload: { id, onSuccess } }) {
             }
         });
 
-        onSuccess?.(response.expense, response2);
+        onSuccess?.(response.data, response2);
     } catch (e) {}
 }
 
