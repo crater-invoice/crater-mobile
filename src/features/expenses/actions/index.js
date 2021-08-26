@@ -7,7 +7,10 @@ import {
     UPDATE_EXPENSE,
     REMOVE_EXPENSE,
     GET_CREATE_EXPENSE,
-    SHOW_IMAGE_ON_EDIT
+    SHOW_IMAGE_ON_EDIT,
+    UPDATE_FROM_EXPENSE,
+    REMOVE_FROM_EXPENSE,
+    CREATE_FROM_EXPENSE
 } from '../constants';
 
 export const getCreateExpense = (payload = {}) => ({
@@ -30,6 +33,11 @@ export const createExpense = (payload = {}) => ({
     payload
 });
 
+export const createFromExpense = (payload = {}) => ({
+    type: CREATE_FROM_EXPENSE,
+    payload
+});
+
 export const expenseTriggerSpinner = payload => ({
     type: EXPENSES_TRIGGER_SPINNER,
     payload
@@ -45,8 +53,18 @@ export const updateExpense = payload => ({
     payload
 });
 
+export const updateFromExpense = (payload = {}) => ({
+    type: UPDATE_FROM_EXPENSE,
+    payload
+});
+
 export const removeExpense = (payload = {}) => ({
     type: REMOVE_EXPENSE,
+    payload
+});
+
+export const removeFromExpense = (payload = {}) => ({
+    type: REMOVE_FROM_EXPENSE,
     payload
 });
 
@@ -54,5 +72,3 @@ export const showImageOnEdit = payload => ({
     type: SHOW_IMAGE_ON_EDIT,
     payload
 });
-
-

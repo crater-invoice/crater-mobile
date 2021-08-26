@@ -25,7 +25,8 @@ import {
     BIOMETRY_AUTH_TYPES,
     defineLargeSizeParam,
     hasValue,
-    isArray
+    isArray,
+    isIosPlatform
 } from '@/constants';
 
 interface IProps {
@@ -197,7 +198,10 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                 return;
             }
 
-            if (supportedTypes.length === 2 || supportedTypes[0] === 2) {
+            if (
+                (supportedTypes.length === 2 || supportedTypes[0] === 2) &&
+                isIosPlatform()
+            ) {
                 this.setState({
                     supportBiometryType: BIOMETRY_AUTH_TYPES.FACE,
                     loading: false

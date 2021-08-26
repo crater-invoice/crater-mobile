@@ -59,7 +59,7 @@ export const getCustomFieldValueParams = customFields => {
             id,
             value: type !== DATA_TYPES.SWITCH ? value?.toString() : value,
             type,
-            required: is_required
+            isRequired: is_required
         };
     });
 };
