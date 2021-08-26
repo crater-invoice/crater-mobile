@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { ListItem, Avatar, CheckBox } from 'react-native-elements';
 import { styles } from './styles';
@@ -197,7 +197,6 @@ class ListViewComponent extends Component<IProps> {
                     )
                 }
                 rightSubtitle={item.rightSubtitle}
-                bottomDivider={bottomDivider}
                 rightTitleStyle={[
                     styles.rightTitle(theme),
                     rightTitleStyle && rightTitleStyle
@@ -215,7 +214,13 @@ class ListViewComponent extends Component<IProps> {
                             (backgroundColor && backgroundColor) ||
                             theme?.backgroundColor
                     },
-                    itemContainer && itemContainer
+                    itemContainer && itemContainer,
+                    bottomDivider
+                        ? {
+                              borderBottomWidth: StyleSheet.hairlineWidth,
+                              margin: StyleSheet.hairlineWidth
+                          }
+                        : {}
                 ]}
                 leftElement={
                     hasCheckbox && (
@@ -357,11 +362,16 @@ class ListViewComponent extends Component<IProps> {
                 key={index}
                 title={this.leftTitle(title)}
                 subtitle={this.leftSubTitle(subtitle)}
-                bottomDivider={bottomDivider}
                 containerStyle={[
                     styles.containerWithAvatar,
                     { backgroundColor: theme?.backgroundColor },
-                    itemContainer && itemContainer
+                    itemContainer && itemContainer,
+                    bottomDivider
+                        ? {
+                              borderBottomWidth: StyleSheet.hairlineWidth,
+                              margin: StyleSheet.hairlineWidth
+                          }
+                        : {}
                 ]}
                 fontFamily={fonts.poppins}
                 onPress={() => onPress(fullItem)}
