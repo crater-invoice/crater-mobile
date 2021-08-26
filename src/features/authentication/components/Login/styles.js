@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions, View, StatusBar } from 'react-native';
 import styled from 'styled-components/native';
-import { defineLargeSizeParam, isAndroidPlatform } from '@/constants';
+import { defineLargeSizeParam } from '@/constants';
 
 const { width } = Dimensions.get('window');
 
