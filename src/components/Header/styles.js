@@ -3,6 +3,7 @@ import { colors, fonts } from '@/styles';
 import { theme } from 'styled-tools';
 import { isAndroidPlatform, isIPhoneX } from '@/constants';
 import { StatusBar } from 'react-native';
+console.log(StatusBar.currentHeight);
 
 export default StyleSheet.create({
     transparent: {
@@ -13,7 +14,7 @@ export default StyleSheet.create({
         borderColor: colors.darkGray,
         backgroundColor: theme?.secondaryBgColor,
         height: isIPhoneX() ? 90 : 80,
-        paddingTop: isAndroidPlatform ? StatusBar.currentHeight : 25,
+        paddingTop: isAndroidPlatform() ? StatusBar.currentHeight : 25,
         ...(theme?.mode === 'dark' && {
             borderBottomWidth: 0.5,
             borderBottomColor: colors.dark3,
