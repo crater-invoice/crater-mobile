@@ -3,7 +3,6 @@ import { colors, fonts } from '@/styles';
 import { theme } from 'styled-tools';
 import { isAndroidPlatform, isIPhoneX } from '@/constants';
 import { StatusBar } from 'react-native';
-console.log(StatusBar.currentHeight);
 
 export default StyleSheet.create({
     transparent: {
