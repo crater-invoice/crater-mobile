@@ -28,6 +28,7 @@ import {
 import { CUSTOMER_ADD } from '@/features/customers/constants';
 import { CATEGORY_ADD } from '@/features/settings/constants';
 import { getApiFormattedCustomFields } from '@/utils';
+import _ from 'lodash';
 
 interface IProps {
     navigation: any;
@@ -136,7 +137,7 @@ export class Expense extends React.Component<IProps, IState> {
                 customFields: getApiFormattedCustomFields(values?.customFields)
             };
         } else {
-            delete params.customFields;
+            params = _.omit(params, ['customFields']);
         }
         const {
             createExpense,
