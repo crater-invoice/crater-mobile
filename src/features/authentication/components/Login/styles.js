@@ -1,6 +1,6 @@
-import { StyleSheet, Dimensions, View } from 'react-native';
+import { StyleSheet, Dimensions, View, StatusBar } from 'react-native';
 import styled from 'styled-components/native';
-import { defineLargeSizeParam } from '@/constants';
+import { defineLargeSizeParam, isAndroidPlatform } from '@/constants';
 
 const { width } = Dimensions.get('window');
 
@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
         right: 20,
         top: defineLargeSizeParam(55, 35),
         transform: [{ rotate: '-10deg' }],
-        zIndex: 10
+        zIndex: 10,
+        paddingTop: 20
     }
 });
 

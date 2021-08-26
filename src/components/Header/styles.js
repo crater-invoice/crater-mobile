@@ -13,7 +13,9 @@ export default StyleSheet.create({
         borderColor: colors.darkGray,
         backgroundColor: theme?.secondaryBgColor,
         height: isIPhoneX() ? 90 : 80,
-        paddingTop: isAndroidPlatform() ? StatusBar.currentHeight : 25,
+        paddingTop: isAndroidPlatform()
+            ? (StatusBar.currentHeight / 100) * 7 + 25
+            : 25,
         ...(theme?.mode === 'dark' && {
             borderBottomWidth: 0.5,
             borderBottomColor: colors.dark3,

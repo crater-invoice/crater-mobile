@@ -126,7 +126,7 @@ export class Login extends React.Component<IProps> {
                 <StatusBar
                     barStyle={STATUS_BAR_CONTENT[(theme?.mode)]}
                     hidden={false}
-                    translucent={false}
+                    translucent={true}
                     backgroundColor={theme?.backgroundColor}
                 />
 
