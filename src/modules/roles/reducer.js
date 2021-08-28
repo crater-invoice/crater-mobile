@@ -1,12 +1,25 @@
 import {find} from 'lodash';
 import * as types from './constants';
 import {getModalName} from './constants';
-import {hasValue} from '@/constants';
+import {hasValue, isArray} from '@/constants';
 
 const initialState = {
   roles: [],
   permissions: [],
   loading: {}
+};
+
+const formatRoles = roles => {
+    if (!isArray(roles)) {
+        return [];
+    }
+
+    return roles.map(role => {
+        return {
+            ...role,
+            fullItem: role
+        };
+    });
 };
 
 export default function rolesReducer(state = initialState, action) {
@@ -20,7 +33,8 @@ export default function rolesReducer(state = initialState, action) {
       };
 
     case types.FETCH_ROLES_SUCCESS:
-      return {...state, roles: payload};
+      const roleList = formatRoles(payload);
+      return {...state, roles: roleList};
 
     case types.FETCH_PERMISSIONS_SUCCESS:
       const permissions = payload.map(p => ({

@@ -77,6 +77,16 @@ export const MORE_MENU = (locale, Lng) => {
             }
         });
 
+    PermissionService.isAllowToView(ROUTES.USERS) &&
+        list1.push({
+            title: Lng.t('more.users', { locale }),
+            leftIcon: 'users',
+            iconSize: 20,
+            fullItem: {
+                route: ROUTES.USERS
+            }
+        });
+
     const list2 = [
         {
             title: Lng.t('more.settings', { locale }),

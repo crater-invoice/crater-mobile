@@ -66,6 +66,8 @@ export const ROUTES = {
   COMPANY: 'COMPANY',
   ROLES: 'ROLES',
   ROLE: 'ROLE',
+  USERS: 'USERS',
+  USER: 'USER',
 
   // Expenses
   ADD_EXPENSE: 'ADD_EXPENSE',

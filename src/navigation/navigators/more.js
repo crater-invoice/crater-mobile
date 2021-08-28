@@ -6,6 +6,8 @@ import ItemContainer from "../../features/more/containers/Item";
 import ReportsContainer from "../../features/more/containers/Reports";
 import ReportContainer from "../../features/more/containers/Report";
 import LostConnectionContainer from "../../components/LostConnection";
+import Users from "../../screens/users";
+import User from "../../screens/user";
 
 export const MoreNavigator = {
 
@@ -39,4 +41,9 @@ export const MoreNavigator = {
         ROUTES.LOST_CONNECTION,
         LostConnectionContainer,
     ),
+
+    // Users
+    // -----------------------------------------
+      [ROUTES.USERS]: generateStackNavigation(ROUTES.USERS, Users),
+      [ROUTES.USER]: generateStackNavigation(ROUTES.USER, User)
 }

@@ -90,7 +90,11 @@ class Service {
       {name: 'company:create', guard_name: '*'},
       {name: 'company:view', guard_name: '*'},
       {name: 'company:edit', guard_name: '*'},
-      {name: 'company:delete', guard_name: '*'}
+      {name: 'company:delete', guard_name: '*'},
+      {name: 'user:create', guard_name: '*'},
+      {name: 'user:view', guard_name: '*'},
+      {name: 'user:edit', guard_name: '*'},
+      {name: 'user:delete', guard_name: '*'}
     ];
   }
 
@@ -167,6 +171,10 @@ class Service {
       case ROUTES.ROLES:
       case ROUTES.ROLE:
         return 'role';
+
+      case ROUTES.USERS:
+      case ROUTES.USER:
+        return 'user';
 
       default:
         return '';
