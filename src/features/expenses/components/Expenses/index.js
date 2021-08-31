@@ -4,7 +4,7 @@ import React from 'react';
 import { change } from 'redux-form';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { IMAGES } from '@/assets';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { EXPENSE_ADD, EXPENSE_EDIT, EXPENSE_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import expenseFilterFields from './filterFields';
@@ -13,8 +13,7 @@ import { isFilterApply } from '@/utils';
 type IProps = {
     navigation: Object,
     getExpenses: Function,
-    expenses: Object,
-    locale: String
+    expenses: Object
 };
 
 export class Expenses extends React.Component<IProps> {
@@ -96,7 +95,6 @@ export class Expenses extends React.Component<IProps> {
         const {
             navigation,
             expenses,
-            locale,
             handleSubmit,
             getExpenses,
             formValues
@@ -112,16 +110,14 @@ export class Expenses extends React.Component<IProps> {
             : 'expenses.empty.title';
 
         const emptyContentProps = {
-            title: Lng.t(emptyTitle, { locale, search }),
+            title: t(emptyTitle, { search }),
             image: IMAGES.EMPTY_EXPENSES,
             ...(!search && {
-                description: Lng.t('expenses.empty.description', { locale })
+                description: t('expenses.empty.description')
             }),
             ...(!search &&
                 !isFilter && {
-                    buttonTitle: Lng.t('expenses.empty.buttonTitle', {
-                        locale
-                    }),
+                    buttonTitle: t('expenses.empty.buttonTitle'),
                     buttonPress: () => {
                         navigation.navigate(ROUTES.EXPENSE, {
                             type: EXPENSE_ADD
@@ -137,7 +133,7 @@ export class Expenses extends React.Component<IProps> {
                     type: EXPENSE_ADD
                 });
             },
-            title: Lng.t('header.expenses', { locale }),
+            title: t('header.expenses'),
             navigation
         };
 
@@ -145,7 +141,6 @@ export class Expenses extends React.Component<IProps> {
             onSubmitFilter: handleSubmit(this.onSubmitFilter),
             ...expenseFilterFields(this),
             clearFilter: this.props,
-            locale,
             onResetFilter: () => this.onResetFilter()
         };
 

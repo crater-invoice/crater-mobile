@@ -11,7 +11,7 @@ import {
     ActionButton
 } from '@/components';
 import { Field, change } from 'redux-form';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { EDIT_COMPANY } from '../../constants';
 import { formatCountries } from '@/utils';
 import { MAX_LENGTH } from '@/constants';
@@ -23,7 +23,6 @@ type IProps = {
     getCountries: Function,
     editCompanyInformation: Function,
     handleSubmit: Function,
-    locale: String,
     editCompanyLoading: Boolean,
     getCompanyInfoLoading: Boolean,
     countriesLoading: Boolean
@@ -120,7 +119,6 @@ export class Company extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            locale,
             getCompanyInfoLoading,
             countriesLoading,
             editCompanyLoading,
@@ -149,7 +147,7 @@ export class Company extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t('header.setting.company', { locale }),
+                    title: t('header.setting.company'),
                     withTitleStyle: styles.titleStyle,
                     placement: 'center',
                     ...(isAllowToEdit && {
@@ -158,9 +156,7 @@ export class Company extends React.Component<IProps> {
                         rightIconPress: handleSubmit(this.onCompanyUpdate)
                     })
                 }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
                 loadingProps={{
                     is: getCompanyInfoLoading || countriesLoading
                 }}
@@ -169,8 +165,7 @@ export class Company extends React.Component<IProps> {
                 <Field
                     name={'logo'}
                     component={FilePicker}
-                    locale={locale}
-                    label={Lng.t('settings.company.logo', { locale })}
+                    label={t('settings.company.logo')}
                     onChangeCallback={val => this.setState({ logo: val })}
                     uploadedFileUrl={this.state.image}
                     disabled={disabled}
@@ -187,7 +182,7 @@ export class Company extends React.Component<IProps> {
                     name={'name'}
                     component={InputField}
                     isRequired
-                    hint={Lng.t('settings.company.name', { locale })}
+                    hint={t('settings.company.name')}
                     disabled={disabled}
                     inputProps={{
                         returnKeyType: 'next',
@@ -202,7 +197,7 @@ export class Company extends React.Component<IProps> {
                 <Field
                     name={'phone'}
                     component={InputField}
-                    hint={Lng.t('settings.company.phone', { locale })}
+                    hint={t('settings.company.phone')}
                     disabled={disabled}
                     inputProps={{
                         returnKeyType: 'next',
@@ -218,7 +213,7 @@ export class Company extends React.Component<IProps> {
                     items={formatCountries(countries)}
                     displayName="name"
                     component={SelectField}
-                    label={Lng.t('customers.address.country', { locale })}
+                    label={t('customers.address.country')}
                     placeholder={' '}
                     rightIcon="angle-right"
                     navigation={navigation}
@@ -229,7 +224,7 @@ export class Company extends React.Component<IProps> {
                         this.setFormField('country_id', id);
                     }}
                     headerProps={{
-                        title: Lng.t('header.country', { locale }),
+                        title: t('header.country'),
                         rightIconPress: null
                     }}
                     listViewProps={{
@@ -246,7 +241,7 @@ export class Company extends React.Component<IProps> {
                 <Field
                     name={'state'}
                     component={InputField}
-                    hint={Lng.t('customers.address.state', { locale })}
+                    hint={t('customers.address.state')}
                     disabled={disabled}
                     inputProps={{
                         returnKeyType: 'next',
@@ -261,7 +256,7 @@ export class Company extends React.Component<IProps> {
                 <Field
                     name={'city'}
                     component={InputField}
-                    hint={Lng.t('customers.address.city', { locale })}
+                    hint={t('customers.address.city')}
                     disabled={disabled}
                     inputProps={{
                         returnKeyType: 'next',
@@ -279,7 +274,7 @@ export class Company extends React.Component<IProps> {
                 <Field
                     name={'address_street_1'}
                     component={InputField}
-                    hint={Lng.t('settings.company.address', { locale })}
+                    hint={t('settings.company.address')}
                     disabled={disabled}
                     height={60}
                     autoCorrect={true}
@@ -288,9 +283,7 @@ export class Company extends React.Component<IProps> {
                     }}
                     inputProps={{
                         returnKeyType: 'next',
-                        placeholder: Lng.t('settings.company.street1', {
-                            locale
-                        }),
+                        placeholder: t('settings.company.street1'),
                         autoCorrect: true,
                         multiline: true,
                         maxLength: MAX_LENGTH
@@ -307,9 +300,7 @@ export class Company extends React.Component<IProps> {
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
-                        placeholder: Lng.t('settings.company.street2', {
-                            locale
-                        }),
+                        placeholder: t('settings.company.street2'),
                         autoCorrect: true,
                         multiline: true,
                         maxLength: MAX_LENGTH
@@ -319,7 +310,7 @@ export class Company extends React.Component<IProps> {
                 <Field
                     name={'zip'}
                     component={InputField}
-                    hint={Lng.t('settings.company.zipcode', { locale })}
+                    hint={t('settings.company.zipcode')}
                     disabled={disabled}
                     inputProps={{
                         returnKeyType: 'next',

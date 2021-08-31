@@ -5,7 +5,7 @@ import { change } from 'redux-form';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { ROUTES } from '@/navigation';
 import { ARROW_ICON, IMAGES } from '@/assets';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { ADD_ITEM, EDIT_ITEM, ITEM_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { formatItems, isFilterApply } from '@/utils';
@@ -16,8 +16,7 @@ import { itemsDescriptionStyle } from '@/styles';
 type IProps = {
     navigation: Object,
     getItems: Function,
-    items: Object,
-    locale: String
+    items: Object
 };
 
 export class Items extends React.Component<IProps> {
@@ -89,7 +88,6 @@ export class Items extends React.Component<IProps> {
         const {
             navigation,
             items,
-            locale,
             handleSubmit,
             formValues,
             getItems,
@@ -99,7 +97,7 @@ export class Items extends React.Component<IProps> {
         const { search } = this.state;
 
         const headerProps = {
-            title: Lng.t('header.items', { locale }),
+            title: t('header.items'),
             navigation,
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
@@ -130,14 +128,14 @@ export class Items extends React.Component<IProps> {
             : 'items.empty.title';
 
         const emptyContentProps = {
-            title: Lng.t(emptyTitle, { locale, search }),
+            title: t(emptyTitle, { search }),
             image: IMAGES.EMPTY_ITEMS,
             ...(!search && {
-                description: Lng.t('items.empty.description', { locale })
+                description: t('items.empty.description')
             }),
             ...(!search &&
                 !isFilter && {
-                    buttonTitle: Lng.t('items.empty.buttonTitle', { locale }),
+                    buttonTitle: t('items.empty.buttonTitle'),
                     buttonPress: () => {
                         navigation.navigate(ROUTES.GLOBAL_ITEM, {
                             type: ADD_ITEM

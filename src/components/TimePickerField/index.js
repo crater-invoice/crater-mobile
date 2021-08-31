@@ -3,7 +3,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { AnimateModal } from '../AnimateModal';
 import moment from 'moment';
 import { FakeInput } from '../FakeInput';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { CtButton } from '../Button';
 import {
     isIosPlatform,
@@ -153,9 +153,7 @@ export class TimePickerField extends Component {
 
                 <CtButton
                     onPress={() => this.onChangeTime(timeStamp)}
-                    btnTitle={Lng.t('button.change', {
-                        locale: this.props.locale
-                    })}
+                    btnTitle={t('button.change')}
                     containerStyle={styles.button}
                 />
             </AnimateModal>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { styles } from './styles';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { Text } from '../Text';
 
 interface IProps {
@@ -47,7 +47,7 @@ export class ToastComponent extends Component<IProps> {
     };
 
     render() {
-        const { containerStyle, locale, theme } = this.props;
+        const { containerStyle, theme } = this.props;
 
         return (
             <Animated.View
@@ -64,7 +64,7 @@ export class ToastComponent extends Component<IProps> {
                     numberOfLines={2}
                     style={styles.title}
                 >
-                    {Lng.t(this.state.message, { locale })}
+                    {t(this.state.message)}
                 </Text>
             </Animated.View>
         );

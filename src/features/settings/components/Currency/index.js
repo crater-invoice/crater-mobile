@@ -12,7 +12,7 @@ import {
     Text
 } from '@/components';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import {
     EDIT_CURRENCY_TYPE,
     CREATE_CURRENCY_TYPE,
@@ -26,7 +26,6 @@ type IProps = {
     handleSubmit: Function,
     createCurrency: Function,
     editCurrency: Function,
-    locale: String,
     type: String,
     getEditCategoryLoading: Boolean,
     currencyLoading: Boolean,
@@ -72,18 +71,18 @@ export class Currency extends React.Component<IProps> {
     };
 
     removeCategory = () => {
-        const { removeCurrency, navigation, locale, id } = this.props;
+        const { removeCurrency, navigation, id } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('currencies.alertDescription', { locale }),
+            title: t('alert.title'),
+            desc: t('currencies.alertDescription'),
             showCancel: true,
             okPress: () => removeCurrency({ id, navigation })
         });
     };
 
     BOTTOM_ACTION = handleSubmit => {
-        const { locale, currencyLoading, type } = this.props;
+        const { currencyLoading, type } = this.props;
 
         return (
             <View
@@ -94,7 +93,7 @@ export class Currency extends React.Component<IProps> {
             >
                 <CtButton
                     onPress={handleSubmit(this.onSubmit)}
-                    btnTitle={Lng.t('button.save', { locale })}
+                    btnTitle={t('button.save')}
                     buttonContainerStyle={
                         type === EDIT_CURRENCY_TYPE && styles.flex
                     }
@@ -105,7 +104,7 @@ export class Currency extends React.Component<IProps> {
                 {type === EDIT_CURRENCY_TYPE && (
                     <CtButton
                         onPress={this.removeCategory}
-                        btnTitle={Lng.t('button.remove', { locale })}
+                        btnTitle={t('button.remove')}
                         buttonColor={BUTTON_COLOR.DANGER}
                         containerStyle={styles.btnContainerStyle}
                         buttonContainerStyle={styles.flex}
@@ -117,12 +116,11 @@ export class Currency extends React.Component<IProps> {
     };
 
     POSITION_VIEW = () => {
-        const { locale } = this.props;
         return (
             <View style={styles.row}>
                 <View style={styles.positionView}>
                     <Text secondary h4>
-                        {Lng.t('currencies.position', { locale })}
+                        {t('currencies.position')}
                     </Text>
                 </View>
 
@@ -130,14 +128,14 @@ export class Currency extends React.Component<IProps> {
                     <Field
                         name="position"
                         component={ToggleSwitch}
-                        hint={Lng.t('currencies.left', { locale })}
+                        hint={t('currencies.left')}
                         hintStyle={styles.leftText}
                     />
                 </View>
 
                 <View style={styles.columnRight}>
                     <Text secondary h4>
-                        {Lng.t('currencies.right', { locale })}
+                        {t('currencies.right')}
                     </Text>
                 </View>
             </View>
@@ -145,14 +143,7 @@ export class Currency extends React.Component<IProps> {
     };
 
     render() {
-        const {
-            navigation,
-            handleSubmit,
-            locale,
-            type,
-            formValues
-        } = this.props;
-
+        const { navigation, handleSubmit, type, formValues } = this.props;
         let currencyRefs = {};
 
         return (
@@ -163,8 +154,8 @@ export class Currency extends React.Component<IProps> {
                     },
                     title:
                         type === EDIT_CURRENCY_TYPE
-                            ? Lng.t('header.editCurrency', { locale })
-                            : Lng.t('header.addCurrency', { locale }),
+                            ? t('header.editCurrency')
+                            : t('header.addCurrency'),
                     placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {
@@ -180,7 +171,7 @@ export class Currency extends React.Component<IProps> {
                     name="name"
                     component={InputField}
                     isRequired
-                    hint={Lng.t('currencies.name', { locale })}
+                    hint={t('currencies.name')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCorrect: true,
@@ -192,7 +183,7 @@ export class Currency extends React.Component<IProps> {
                     name="code"
                     component={InputField}
                     isRequired
-                    hint={Lng.t('currencies.code', { locale })}
+                    hint={t('currencies.code')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCorrect: true,
@@ -207,7 +198,7 @@ export class Currency extends React.Component<IProps> {
                     name="symbol"
                     component={InputField}
                     isRequired
-                    hint={Lng.t('currencies.symbol', { locale })}
+                    hint={t('currencies.symbol')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCorrect: true,
@@ -222,7 +213,7 @@ export class Currency extends React.Component<IProps> {
                     name="precision"
                     component={InputField}
                     isRequired
-                    hint={Lng.t('currencies.precision', { locale })}
+                    hint={t('currencies.precision')}
                     inputProps={{
                         returnKeyType: 'next',
                         keyboardType: 'decimal-pad',
@@ -239,7 +230,7 @@ export class Currency extends React.Component<IProps> {
                     name="thousand_separator"
                     component={InputField}
                     isRequired
-                    hint={Lng.t('currencies.thousSeparator', { locale })}
+                    hint={t('currencies.thousSeparator')}
                     inputProps={{
                         returnKeyType: 'next',
                         onSubmitEditing: () => currencyRefs.decSeparator.focus()
@@ -253,7 +244,7 @@ export class Currency extends React.Component<IProps> {
                     name="decimal_separator"
                     component={InputField}
                     isRequired
-                    hint={Lng.t('currencies.decSeparator', { locale })}
+                    hint={t('currencies.decSeparator')}
                     inputProps={{
                         returnKeyType: 'next'
                     }}

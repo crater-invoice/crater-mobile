@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, ScrollView } from 'react-native';
 import Styles from './styles';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { CloseIcon2 } from '@/icons';
 import { colors } from '@/styles';
 import { ROUTES } from '@/navigation';
@@ -45,7 +45,7 @@ export class Modal extends Component {
     };
 
     render() {
-        const { theme, company, locale, companies } = this.props;
+        const { theme, company, companies } = this.props;
         const { visible } = this.state;
 
         const { Modal } = Styles;
@@ -176,9 +176,7 @@ export class Modal extends Component {
                                 color={theme.text.fifthColor}
                                 letter-spacing={0.3}
                             >
-                                {Lng.t('company.text_switch_company', {
-                                    locale
-                                })}
+                                {t('company.text_switch_company')}
                             </Text>
                             <CtDecorativeButton
                                 style={Styles.closeButton}
@@ -217,9 +215,7 @@ export class Modal extends Component {
                                 +
                             </Text>
                             <Text h5 ml-10 color={colors.primaryLight}>
-                                {Lng.t('company.text_add_new_company', {
-                                    locale
-                                })}
+                                {t('company.text_add_new_company')}
                             </Text>
                         </CtDecorativeButton>
                     </Modal>

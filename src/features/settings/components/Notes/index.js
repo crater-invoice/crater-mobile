@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { NOTES_ADD, NOTES_EDIT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { formatNotes } from '@/utils';
@@ -11,7 +11,6 @@ import { fonts } from '@/styles';
 type IProps = {
     navigation: Object,
     expenses: Object,
-    locale: String,
     getNotes: Function,
     notes: any
 };
@@ -59,17 +58,17 @@ export default class Notes extends Component<IProps> {
     };
 
     render() {
-        const { navigation, locale, notes, getNotes } = this.props;
+        const { navigation, notes, getNotes } = this.props;
 
         const { search } = this.state;
         const isEmpty = notes && notes.length <= 0;
 
         const emptyTitle = search ? 'search.noResult' : 'notes.empty.title';
         const emptyContentProps = {
-            title: Lng.t(emptyTitle, { locale, search }),
+            title: t(emptyTitle, { search }),
             ...(!search && {
-                description: Lng.t('notes.empty.description', { locale }),
-                buttonTitle: Lng.t('notes.empty.buttonTitle', { locale }),
+                description: t('notes.empty.description'),
+                buttonTitle: t('notes.empty.buttonTitle'),
                 buttonPress: () => {
                     navigation.navigate(ROUTES.NOTE, {
                         type: NOTES_ADD
@@ -79,7 +78,7 @@ export default class Notes extends Component<IProps> {
         };
 
         const headerProps = {
-            title: Lng.t('header.notes', { locale }),
+            title: t('header.notes'),
             navigation,
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),

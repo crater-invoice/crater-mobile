@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Editor, SelectField, Text } from '@/components';
 import { View, TouchableOpacity } from 'react-native';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { Field } from 'redux-form';
 import { formatNotesType } from '@/utils';
 import { PAYMENT_FIELDS as FIELDS } from '../../constants';
@@ -13,7 +13,6 @@ import {
 import { isIPhoneX } from '@/constants';
 
 interface IProps {
-    locale?: string;
     isEditPayment?: boolean;
     notes?: Array<any>;
     getNotes?: Function;
@@ -48,7 +47,6 @@ export default class Notes extends Component<IProps> {
 
     render() {
         const {
-            locale,
             isEditPayment,
             notes,
             getNotes,
@@ -61,9 +59,7 @@ export default class Notes extends Component<IProps> {
                 {...this.props}
                 name={`payment.${FIELDS.NOTES}`}
                 label="payments.notes"
-                placeholder={Lng.t('payments.notesPlaceholder', {
-                    locale
-                })}
+                placeholder={t('payments.notesPlaceholder')}
                 fieldInputProps={{ height: 80 }}
                 htmlViewStyle={{ minHeight: 82 }}
                 containerStyle={{ marginTop: -10, marginBottom: -10 }}
@@ -88,7 +84,7 @@ export default class Notes extends Component<IProps> {
                             navigation={navigation}
                             onSelect={item => this.onSelect(item)}
                             headerProps={{
-                                title: Lng.t('notes.select', { locale })
+                                title: t('notes.select')
                             }}
                             rightIconPress={this.navigateToNote}
                             createActionRouteName={ROUTES.NOTE}
@@ -109,9 +105,7 @@ export default class Notes extends Component<IProps> {
                                         style={{ paddingBottom: 6 }}
                                         color={theme?.viewLabel?.thirdColor}
                                     >
-                                        {Lng.t('notes.insertNote', {
-                                            locale
-                                        })}
+                                        {t('notes.insertNote')}
                                     </Text>
                                 </TouchableOpacity>
                             }

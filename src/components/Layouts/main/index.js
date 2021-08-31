@@ -7,7 +7,7 @@ import { Field } from 'redux-form';
 import { styles, Container } from './styles';
 import { InputField, CtHeader, CtDivider } from '../..';
 import { Content } from '../../Content';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { Toast } from '@/components';
 import { STATUS_BAR_CONTENT } from '@/utils';
 import { View as CtView, CtDecorativeButton } from '@/components';
@@ -43,7 +43,6 @@ const Layout = (props: IProps) => {
         inputProps,
         dividerStyle,
         loadingProps,
-        locale,
         searchFieldProps,
         toastProps,
         plusButtonOnPress,
@@ -115,9 +114,7 @@ const Layout = (props: IProps) => {
                                 inputProps={{
                                     returnKeyType: 'next',
                                     autoCapitalize: 'none',
-                                    placeholder: Lng.t('search.title', {
-                                        locale
-                                    }),
+                                    placeholder: t('search.title'),
                                     autoCorrect: true,
                                     ...(filterProps &&
                                         props?.['with-input-filter'] && {

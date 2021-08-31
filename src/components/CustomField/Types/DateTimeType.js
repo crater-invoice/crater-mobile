@@ -3,7 +3,7 @@ import { Field } from 'redux-form';
 import { DateTimePickerField } from '@/components/DateTimePickerField';
 
 export function DateTimeType({ field, name, disabled }) {
-    const { label = null, is_required = false, locale = 'en' } = field;
+    const { label = null, is_required = false } = field;
 
     return (
         <Field
@@ -13,7 +13,6 @@ export function DateTimeType({ field, name, disabled }) {
             isRequired={is_required}
             dateFieldName={`${name}-date`}
             timeFieldName={`${name}-time`}
-            locale={locale}
             callOnChangeInMount
             removeSecond
             disabled={disabled}

@@ -7,7 +7,7 @@ import {
 import { ROUTES } from '../routes';
 import { store } from '../../store';
 import { alertMe } from '@/constants';
-import { getTitleByLanguage } from '@/utils';
+import t from 'locales/use-translation';
 
 export const navigateBack = () => NavigationActions.back();
 
@@ -19,7 +19,7 @@ export const navigateTo = routeName => {
 // -----------------------------------------
 export const exitApp = () => {
     alertMe({
-        title: getTitleByLanguage('alert.exit'),
+        title: t('alert.exit'),
         okText: 'Exit',
         okPress: () => BackHandler.exitApp(),
         showCancel: true

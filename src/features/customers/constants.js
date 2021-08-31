@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import queryString from 'query-string';
+import t from 'locales/use-translation';
 
 // Forms
 // -----------------------------------------
@@ -35,10 +34,10 @@ export const ACTIONS_VALUE = {
     REMOVE: 'remove'
 };
 
-export const CUSTOMER_ACTIONS = (Lng, locale) => {
+export const CUSTOMER_ACTIONS = () => {
     return [
         {
-            label: Lng.t('customers.removeCustomer', { locale }),
+            label: t('customers.removeCustomer'),
             value: ACTIONS_VALUE.REMOVE
         }
     ];

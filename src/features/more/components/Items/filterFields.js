@@ -1,14 +1,14 @@
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import styles from './styles';
 
 export const itemsFilterFields = ({ props, setFormField }) => {
-    const { locale, units, getItemUnits, navigation } = props;
+    const { units, getItemUnits, navigation } = props;
     const filterRefs: any = {};
 
     const inputFields = [
         {
             name: 'name',
-            hint: Lng.t('items.name', { locale }),
+            hint: t('items.name'),
             refLinkFn: ref => (filterRefs.name = ref),
             inputProps: {
                 returnKeyType: 'next',
@@ -18,7 +18,7 @@ export const itemsFilterFields = ({ props, setFormField }) => {
         },
         {
             name: 'price',
-            hint: Lng.t('items.price', { locale }),
+            hint: t('items.price'),
             isCurrencyInput: true,
             refLinkFn: ref => (filterRefs.price = ref),
             inputProps: {
@@ -36,14 +36,14 @@ export const itemsFilterFields = ({ props, setFormField }) => {
             getItems: getItemUnits,
             items: units,
             displayName: 'name',
-            label: Lng.t('items.unit', { locale }),
+            label: t('items.unit'),
             icon: 'balance-scale',
-            placeholder: Lng.t('items.unitPlaceholder', { locale }),
+            placeholder: t('items.unitPlaceholder'),
             navigation: navigation,
             compareField: 'id',
             onSelect: item => setFormField('unit_id', item.id),
             headerProps: {
-                title: Lng.t('items.unitPlaceholder', { locale }),
+                title: t('items.unitPlaceholder'),
                 rightIconPress: null
             },
             emptyContentProps: {

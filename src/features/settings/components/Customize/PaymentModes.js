@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import styles from './styles';
 import { ListView, InputModal, InfiniteScroll } from '@/components';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { formatListByName } from '@/utils';
 import { alertMe, isIPhoneX } from '@/constants';
 import { PermissionService } from '@/services';
@@ -49,15 +49,14 @@ export class PaymentModes extends Component {
     onRemoveMethod = () => {
         const {
             props: {
-                locale,
                 removePaymentMode,
                 formValues: { methodId = null }
             }
         } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('payments.alertMode', { locale }),
+            title: t('alert.title'),
+            desc: t('payments.alertMode'),
             showCancel: true,
             okPress: () => {
                 removePaymentMode({
@@ -71,7 +70,7 @@ export class PaymentModes extends Component {
     INPUT_MODAL = () => {
         const { isCreateMethod } = this.state;
         const {
-            props: { locale, paymentModeLoading = false }
+            props: { paymentModeLoading = false }
         } = this.props;
 
         const isAllowToEdit = isCreateMethod
@@ -85,15 +84,14 @@ export class PaymentModes extends Component {
                 title = 'header.viewPaymentMode';
             if (!isCreateMethod && isAllowToEdit) title = 'payments.editMode';
 
-            return Lng.t(title, { locale });
+            return t(title);
         };
 
         return (
             <InputModal
                 reference={ref => (this.modalReference = ref)}
-                locale={locale}
                 headerTitle={getTitle()}
-                hint={Lng.t('payments.modeHint', { locale })}
+                hint={t('payments.modeHint')}
                 fieldName="methodName"
                 onSubmit={() => this.onSaveMethod()}
                 onRemove={() => this.onRemoveMethod()}
@@ -122,7 +120,7 @@ export class PaymentModes extends Component {
 
     render() {
         const {
-            props: { paymentMethods, locale, getPaymentModes }
+            props: { paymentMethods, getPaymentModes }
         } = this.props;
 
         return (
@@ -145,7 +143,7 @@ export class PaymentModes extends Component {
                         bottomDivider
                         contentContainerStyle={{ flex: 3 }}
                         emptyContentProps={{
-                            title: Lng.t('payments.empty.modeTitle', { locale })
+                            title: t('payments.empty.modeTitle')
                         }}
                         itemContainer={{
                             paddingHorizontal: 35

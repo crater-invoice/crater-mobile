@@ -10,7 +10,7 @@ import * as queryStrings from 'query-string';
 import Request from '@/api/request';
 import { alertMe } from '@/constants';
 import { ROUTES } from '@/navigation';
-import { getTitleByLanguage } from '@/utils';
+import t from 'locales/use-translation';
 import {
     GET_CUSTOM_FIELDS,
     CREATE_CUSTOM_FIELD,
@@ -103,7 +103,7 @@ function* editCustomField({ payload: { id, params, navigation } }) {
 
         if (response?.error === 'values_attached') {
             alertMe({
-                desc: getTitleByLanguage('customFields.alreadyUsed')
+                desc: t('customFields.alreadyUsed')
             });
         }
     } catch (e) {
@@ -127,7 +127,7 @@ function* removeCustomField({ payload: { id, navigation } }) {
 
         if (response?.error === 'values_attached') {
             alertMe({
-                desc: getTitleByLanguage('customFields.alreadyUsed')
+                desc: t('customFields.alreadyUsed')
             });
         }
     } catch (e) {

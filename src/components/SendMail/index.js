@@ -15,7 +15,7 @@ import { validate } from './validation';
 import { SlideModal } from '../SlideModal';
 import { InputField } from '../InputField';
 import { ActionButton } from '../Button';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import {
     alertMe,
     EMAIL_REGEX,
@@ -84,7 +84,7 @@ class SendMailComponent extends Component<IProps> {
     };
 
     onSendMail = values => {
-        const { locale, alertDesc = '', onSendMail } = this.props;
+        const { alertDesc = '', onSendMail } = this.props;
         const { getMailConfigApiCalled } = this.state;
 
         if (!getMailConfigApiCalled) {
@@ -100,8 +100,8 @@ class SendMailComponent extends Component<IProps> {
         }
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t(alertDesc, { locale }),
+            title: t('alert.title'),
+            desc: t(alertDesc),
             showCancel: true,
             okPress: () => {
                 this.onToggle();
@@ -171,7 +171,6 @@ class SendMailComponent extends Component<IProps> {
 
     Screen = () => {
         const { isKeyboardVisible } = this.state;
-        const { locale } = this.props;
         let mailRefs = {};
 
         return (
@@ -182,7 +181,7 @@ class SendMailComponent extends Component<IProps> {
                 <Field
                     name={emailField.from}
                     component={InputField}
-                    hint={Lng.t('sendMail.from', { locale })}
+                    hint={t('sendMail.from')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -196,7 +195,7 @@ class SendMailComponent extends Component<IProps> {
                 <Field
                     name={emailField.to}
                     component={InputField}
-                    hint={Lng.t('sendMail.to', { locale })}
+                    hint={t('sendMail.to')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -211,7 +210,7 @@ class SendMailComponent extends Component<IProps> {
                 <Field
                     name={emailField.subject}
                     component={InputField}
-                    hint={Lng.t('sendMail.subject', { locale })}
+                    hint={t('sendMail.subject')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCorrect: true
@@ -235,7 +234,6 @@ class SendMailComponent extends Component<IProps> {
         const {
             handleSubmit,
             headerTitle = '',
-            locale,
             formValues,
             theme
         } = this.props;
@@ -247,7 +245,7 @@ class SendMailComponent extends Component<IProps> {
 
         const headerProps = {
             leftIconPress: () => this.onToggle(),
-            title: Lng.t(headerTitle, { locale }),
+            title: t(headerTitle),
             rightIcon: 'paper-plane',
             rightIconPress: handleSubmit(this.onSendMail),
             placement: 'center',
@@ -270,9 +268,7 @@ class SendMailComponent extends Component<IProps> {
                 visible={visible}
                 onToggle={this.onToggle}
                 headerProps={headerProps}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
             >
                 <Content
                     loadingProps={{

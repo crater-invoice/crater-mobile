@@ -4,7 +4,7 @@ import * as queryStrings from 'query-string';
 import * as TYPES from '../constants';
 import { ROUTES } from '@/navigation';
 import { alertMe, hasValue } from '@/constants';
-import { getTitleByLanguage } from '@/utils';
+import t from 'locales/use-translation';
 import { getCustomFields } from '@/features/settings/saga/custom-fields';
 import {
     paymentTriggerSpinner as spinner,
@@ -87,7 +87,7 @@ function* createPayment({ payload }) {
 
         if (!response.data) {
             alertMe({
-                desc: getTitleByLanguage('validation.wrong'),
+                desc: t('validation.wrong'),
                 okPress: () => navigation.goBack(null)
             });
             return;
@@ -169,7 +169,7 @@ function* updatePayment({ payload }) {
 
         if (!response.data) {
             alertMe({
-                desc: getTitleByLanguage('validation.wrong'),
+                desc: t('validation.wrong'),
                 okPress: () => navigation.goBack(null)
             });
             return;
@@ -221,7 +221,7 @@ function* sendPaymentReceipt({ payload: { params, navigation, onSuccess } }) {
         }
 
         alertMe({
-            desc: getTitleByLanguage('validation.wrong')
+            desc: t('validation.wrong')
         });
     } catch (e) {
     } finally {

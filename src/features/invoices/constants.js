@@ -1,5 +1,5 @@
 import queryString from 'query-string';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 
 // Invoice Refs
 // -----------------------------------------
@@ -89,8 +89,8 @@ export const INVOICES_TABS = {
     ALL: 'ALL'
 };
 
-export const TAB_NAME = (name, locale) => {
-    return Lng.t(`invoices.tabs.${name}`, { locale });
+export const TAB_NAME = name => {
+    return t(`invoices.tabs.${name}`);
 };
 
 // Filter Invoice Mode
@@ -129,7 +129,6 @@ export const INVOICE_ACTIONS = {
 };
 
 export const EDIT_INVOICE_ACTIONS = (
-    locale,
     sentStatus = false,
     completeStatus = false,
     isAllowToDelete
@@ -140,37 +139,35 @@ export const EDIT_INVOICE_ACTIONS = (
         !completeStatus &&
         options.push(
             {
-                label: Lng.t('invoices.actions.sendInvoice', { locale }),
+                label: t('invoices.actions.sendInvoice'),
                 value: INVOICE_ACTIONS.SEND
             },
             {
-                label: Lng.t('invoices.actions.markAsSent', { locale }),
+                label: t('invoices.actions.markAsSent'),
                 value: INVOICE_ACTIONS.MARK_AS_SENT
             }
         );
 
     sentStatus &&
         options.push({
-            label: Lng.t('invoices.actions.reSendInvoice', { locale }),
+            label: t('invoices.actions.reSendInvoice'),
             value: INVOICE_ACTIONS.SEND
         });
 
     options.push({
-        label: Lng.t('invoices.actions.clone', { locale }),
+        label: t('invoices.actions.clone'),
         value: INVOICE_ACTIONS.CLONE
     });
 
     (sentStatus || (!sentStatus && !completeStatus)) &&
         options.push({
-            label: Lng.t('invoices.actions.recordPayment', {
-                locale
-            }),
+            label: t('invoices.actions.recordPayment'),
             value: INVOICE_ACTIONS.RECORD_PAYMENT
         });
 
     isAllowToDelete &&
         options.push({
-            label: Lng.t('invoices.actions.delete', { locale }),
+            label: t('invoices.actions.delete'),
             value: INVOICE_ACTIONS.DELETE
         });
 
@@ -198,102 +195,85 @@ export const CUSTOM_REPEAT_RECURRING_OPTION_VALUE = {
 };
 // Custom Repeat Recurring Invoice
 // -----------------------------------------
-export const CUSTOM_REPEAT_RECURRING_OPTION = (locale, Lng) => {
+export const CUSTOM_REPEAT_RECURRING_OPTION = () => {
     const VALUE = CUSTOM_REPEAT_RECURRING_OPTION_VALUE;
 
     return [
         {
-            label: Lng.t('invoices.customRepeatRecurring.days', {
-                locale
-            }),
+            label: t('invoices.customRepeatRecurring.days'),
             value: VALUE.DAYS
         },
         {
-            label: Lng.t('invoices.customRepeatRecurring.weeks', {
-                locale
-            }),
+            label: t('invoices.customRepeatRecurring.weeks'),
             value: VALUE.WEEKS
         },
         {
-            label: Lng.t('invoices.customRepeatRecurring.months', {
-                locale
-            }),
+            label: t('invoices.customRepeatRecurring.months'),
             value: VALUE.MONTHS
         },
         {
-            label: Lng.t('invoices.customRepeatRecurring.years', {
-                locale
-            }),
+            label: t('invoices.customRepeatRecurring.years'),
             value: VALUE.YEARS
         }
     ];
 };
 // Repeat Recurring Invoice
 // -----------------------------------------
-export const REPEAT_RECURRING_INVOICE_OPTION = (locale, Lng) => {
+export const REPEAT_RECURRING_INVOICE_OPTION = () => {
     const VALUE = REPEAT_RECURRING_INVOICE_OPTION_VALUE;
 
     return [
         {
-            label: Lng.t('invoices.repeatRecurring.week', { locale }),
+            label: t('invoices.repeatRecurring.week'),
             value: VALUE.WEEK
         },
         {
-            label: Lng.t('invoices.repeatRecurring.weeks', {
-                locale,
+            label: t('invoices.repeatRecurring.weeks', {
                 week: 2
             }),
             value: VALUE.WEEK2
         },
         {
-            label: Lng.t('invoices.repeatRecurring.month', {
-                locale
-            }),
+            label: t('invoices.repeatRecurring.month'),
             value: VALUE.MONTH
         },
         {
-            label: Lng.t('invoices.repeatRecurring.months', {
-                locale,
+            label: t('invoices.repeatRecurring.months', {
                 month: 2
             }),
             value: VALUE.MONTH2
         },
         {
-            label: Lng.t('invoices.repeatRecurring.months', {
-                locale,
+            label: t('invoices.repeatRecurring.months', {
                 month: 3
             }),
             value: VALUE.MONTH3
         },
         {
-            label: Lng.t('invoices.repeatRecurring.months', {
-                locale,
+            label: t('invoices.repeatRecurring.months', {
                 month: 6
             }),
             value: VALUE.MONTH6
         },
 
         {
-            label: Lng.t('invoices.repeatRecurring.year', { locale }),
+            label: t('invoices.repeatRecurring.year'),
             value: VALUE.YEAR
         },
         {
-            label: Lng.t('invoices.repeatRecurring.years', {
-                locale,
+            label: t('invoices.repeatRecurring.years', {
                 year: 2
             }),
             value: VALUE.YEAR2
         },
         {
-            label: Lng.t('invoices.repeatRecurring.years', {
-                locale,
+            label: t('invoices.repeatRecurring.years', {
                 year: 3
             }),
             value: VALUE.YEAR3
         },
         {
-            label: Lng.t('invoices.repeatRecurring.custom', {
-                locale,
+            label: t('invoices.repeatRecurring.custom', {
                 year: 3
             }),
             value: VALUE.CUSTOM

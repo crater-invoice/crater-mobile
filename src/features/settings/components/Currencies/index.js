@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import { change } from 'redux-form';
 import styles from './styles';
 import { MainLayout, ListView } from '@/components';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import {
     CURRENCIES_FORM,
     CREATE_CURRENCY_TYPE,
@@ -22,8 +22,7 @@ type IProps = {
     items: Object,
     getCurrencies: Function,
     currencies: Object,
-    loading: Boolean,
-    locale: String
+    loading: Boolean
 };
 
 export class Currencies extends React.Component<IProps> {
@@ -146,7 +145,7 @@ export class Currencies extends React.Component<IProps> {
     loadMoreItems = () => this.getItems({ search: this.state.search });
 
     render() {
-        const { navigation, currencies, loading, locale } = this.props;
+        const { navigation, currencies, loading } = this.props;
 
         const {
             refreshing,
@@ -161,12 +160,8 @@ export class Currencies extends React.Component<IProps> {
 
         let empty = !search
             ? {
-                  description: Lng.t('currencies.empty.description', {
-                      locale
-                  }),
-                  buttonTitle: Lng.t('currencies.empty.buttonTitle', {
-                      locale
-                  }),
+                  description: t('currencies.empty.description'),
+                  buttonTitle: t('currencies.empty.buttonTitle'),
                   buttonPress: () => {
                       navigation.navigate(ROUTES.CURRENCY, {
                           type: CREATE_CURRENCY_TYPE
@@ -176,14 +171,14 @@ export class Currencies extends React.Component<IProps> {
             : {};
 
         let emptyTitle = search
-            ? Lng.t('search.noResult', { locale, search })
-            : Lng.t('currencies.empty.title', { locale });
+            ? t('search.noResult', { search })
+            : t('currencies.empty.title');
 
         return (
             <View style={styles.container}>
                 <MainLayout
                     headerProps={{
-                        title: Lng.t('header.currencies', { locale }),
+                        title: t('header.currencies'),
                         leftIcon: ARROW_ICON,
                         leftIconPress: () => navigation.goBack(null),
                         rightIcon: 'plus',

@@ -18,7 +18,8 @@ import { setAccountInformation } from '../../settings/actions';
 import { alertMe, hasValue } from '@/constants';
 import { CHECK_OTA_UPDATE } from '@/constants';
 import Request from '@/api/request';
-import { getTitleByLanguage, setI18nManagerValue } from '@/utils';
+import { setI18nManagerValue } from '@/utils';
+import t from 'locales/use-translation';
 import { FETCH_COMPANIES_SUCCESS } from '@/features/common/constants';
 
 // Login
@@ -36,12 +37,12 @@ function* login({ payload: { params, navigation } }: any) {
         const response = yield call([Request, 'post'], options);
 
         if (response?.status == 401) {
-            alertMe({ desc: getTitleByLanguage('login.invalid') });
+            alertMe({ desc: t('login.invalid') });
             return;
         }
 
         if (!response?.token) {
-            alertMe({ desc: getTitleByLanguage('login.invalid') });
+            alertMe({ desc: t('login.invalid') });
             return;
         }
 
@@ -56,7 +57,7 @@ function* login({ payload: { params, navigation } }: any) {
         });
     } catch (e) {
         yield put(authTriggerSpinner({ loginLoading: false }));
-        alertMe({ desc: getTitleByLanguage('login.invalid') });
+        alertMe({ desc: t('login.invalid') });
     } finally {
         yield put(authTriggerSpinner({ loginLoading: false }));
     }
@@ -194,9 +195,9 @@ function* sendRecoveryMail({ payload: { email, onResult } }: any) {
             return;
         }
 
-        alertMe({ desc: getTitleByLanguage('forgot.emailSendError') });
+        alertMe({ desc: t('forgot.emailSendError') });
     } catch (e) {
-        alertMe({ desc: getTitleByLanguage('forgot.emailSendError') });
+        alertMe({ desc: t('forgot.emailSendError') });
     } finally {
         yield put(authTriggerSpinner({ forgetPasswordLoading: false }));
     }

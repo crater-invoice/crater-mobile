@@ -10,7 +10,7 @@ import {
     CtDivider
 } from '@/components';
 import { Field, change } from 'redux-form';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { NOTIFICATION } from '../../constants';
 import { colors } from '@/styles';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
@@ -18,7 +18,6 @@ import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 type IProps = {
     navigation: Object,
     handleSubmit: Function,
-    locale: String,
     getAccountLoading: Boolean
 };
 export class Notification extends React.Component<IProps> {
@@ -128,12 +127,7 @@ export class Notification extends React.Component<IProps> {
     };
 
     render() {
-        const {
-            navigation,
-            handleSubmit,
-            locale,
-            getSettingItemLoading
-        } = this.props;
+        const { navigation, handleSubmit, getSettingItemLoading } = this.props;
 
         const { invoiceStatus, estimateStatus, email } = this.state;
 
@@ -141,7 +135,7 @@ export class Notification extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t('header.notifications', { locale }),
+                    title: t('header.notifications'),
                     placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {
@@ -163,9 +157,7 @@ export class Notification extends React.Component<IProps> {
                 <Field
                     name={'notification_email'}
                     component={InputField}
-                    hint={Lng.t('settings.notifications.send', {
-                        locale
-                    })}
+                    hint={t('settings.notifications.send')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -183,12 +175,9 @@ export class Notification extends React.Component<IProps> {
                     name="notify_invoice_viewed"
                     component={ToggleSwitch}
                     status={invoiceStatus === 'YES' ? true : false}
-                    hint={Lng.t('settings.notifications.invoiceViewed', {
-                        locale
-                    })}
-                    description={Lng.t(
-                        'settings.notifications.invoiceViewedDescription',
-                        { locale }
+                    hint={t('settings.notifications.invoiceViewed')}
+                    description={t(
+                        'settings.notifications.invoiceViewedDescription'
                     )}
                     onChangeCallback={val => this.invoiceStatus(val)}
                 />
@@ -197,12 +186,9 @@ export class Notification extends React.Component<IProps> {
                     name="notify_estimate_viewed"
                     component={ToggleSwitch}
                     status={estimateStatus === 'YES' ? true : false}
-                    hint={Lng.t('settings.notifications.estimateViewed', {
-                        locale
-                    })}
-                    description={Lng.t(
-                        'settings.notifications.estimateViewedDescription',
-                        { locale }
+                    hint={t('settings.notifications.estimateViewed')}
+                    description={t(
+                        'settings.notifications.estimateViewedDescription'
                     )}
                     onChangeCallback={val => this.estimateStatus(val)}
                     mainContainerStyle={{ marginTop: 12 }}

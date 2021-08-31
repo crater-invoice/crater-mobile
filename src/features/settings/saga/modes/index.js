@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as queryStrings from 'query-string';
-import { getTitleByLanguage } from '@/utils';
+import t from 'locales/use-translation';
 import Request from '@/api/request';
 import { alertMe } from '@/constants';
 import {
@@ -117,7 +117,7 @@ function* removePaymentMode({ payload: { id, onSuccess } }) {
 
         if (response.error && response.error === 'payments_attached') {
             alertMe({
-                title: getTitleByLanguage('payments.alreadyInUseMode')
+                title: t('payments.alreadyInUseMode')
             });
         }
     } catch (e) {

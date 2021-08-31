@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Field } from 'redux-form';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { alertMe } from '@/constants';
 import { addCompany, updateCompany, removeCompany } from '../../actions';
@@ -54,21 +54,18 @@ export default class Company extends React.Component {
         const {
             companyId,
             navigation,
-            locale,
             initialValues: { name },
             dispatch
         } = this.props;
 
         const alreadyUsedAlert = () =>
             alertMe({
-                title: `${name} ${Lng.t('company.text_already_used', {
-                    locale
-                })}`
+                title: `${name} ${t('company.text_already_used')}`
             });
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('company.text_alert_description', { locale }),
+            title: t('alert.title'),
+            desc: t('company.text_alert_description'),
             showCancel: true,
             okPress: () =>
                 dispatch(
@@ -87,7 +84,6 @@ export default class Company extends React.Component {
         const {
             navigation,
             handleSubmit,
-            locale,
             loading,
             isEditScreen,
             isAllowToEdit,
@@ -102,7 +98,7 @@ export default class Company extends React.Component {
             if (isEditScreen && !isAllowToEdit) title = 'header.viewCompany';
             if (isEditScreen && isAllowToEdit) title = 'header.editCompany';
 
-            return Lng.t(title, { locale });
+            return t(title);
         };
 
         const bottomAction = [
@@ -133,15 +129,13 @@ export default class Company extends React.Component {
                         rightIconPress: handleSubmit(this.onSave)
                     })
                 }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
             >
                 <Field
                     name="name"
                     component={InputField}
                     isRequired
-                    hint={Lng.t('settings.company.name', { locale })}
+                    hint={t('settings.company.name')}
                     disabled={disabled}
                     inputProps={{
                         returnKeyType: 'next',
@@ -153,8 +147,7 @@ export default class Company extends React.Component {
                 <Field
                     name={'logo'}
                     component={FilePicker}
-                    locale={locale}
-                    label={Lng.t('settings.company.logo', { locale })}
+                    label={t('settings.company.logo')}
                     onChangeCallback={logo => this.setState({ logo })}
                     uploadedFileUrl={initialValues?.logo}
                     disabled={disabled}

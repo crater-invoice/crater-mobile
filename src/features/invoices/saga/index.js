@@ -28,7 +28,7 @@ import {
 } from '../actions';
 import { ROUTES } from '@/navigation';
 import { alertMe } from '@/constants';
-import { getTitleByLanguage } from '@/utils';
+import t from 'locales/use-translation';
 import {
     getNextNumber,
     getSettingInfo
@@ -243,7 +243,7 @@ function* createInvoice({ payload }) {
 
         if (!response.data) {
             alertMe({
-                desc: getTitleByLanguage('validation.wrong'),
+                desc: t('validation.wrong'),
                 okPress: () => navigation.goBack(null)
             });
             return;
@@ -282,7 +282,7 @@ function* editInvoice({ payload }) {
 
         if (!response.data) {
             alertMe({
-                desc: getTitleByLanguage('validation.wrong'),
+                desc: t('validation.wrong'),
                 okPress: () => navigation.goBack(null)
             });
             return;
@@ -378,7 +378,7 @@ function* changeInvoiceStatus({ payload }) {
             navigation.navigate(ROUTES.MAIN_INVOICES);
         } else {
             alertMe({
-                desc: getTitleByLanguage('validation.wrong'),
+                desc: t('validation.wrong'),
                 okPress: () => navigation?.goBack?.(null)
             });
             return;

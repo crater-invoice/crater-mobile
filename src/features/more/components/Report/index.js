@@ -20,7 +20,7 @@ import {
     REPORT_TYPE_OPTION,
     DATE_RANGE
 } from '../../constants';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import moment from 'moment';
 import * as Linking from 'expo-linking';
 import QueryString from 'qs';
@@ -31,7 +31,6 @@ import { store } from '@/store';
 type IProps = {
     navigation: Object,
     taxTypes: Object,
-    locale: String,
     type: String,
     loading: Boolean,
     handleSubmit: Function
@@ -285,7 +284,7 @@ export class Report extends React.Component<IProps> {
     };
 
     getReport = ({ isTitle, reportType = '' }) => {
-        const { type, locale } = this.props;
+        const { type } = this.props;
 
         let data = '';
 
@@ -294,7 +293,7 @@ export class Report extends React.Component<IProps> {
                 const tp = reportType === 'byCustomer';
 
                 data = isTitle
-                    ? Lng.t('header.salesReport', { locale })
+                    ? t('header.salesReport')
                     : tp
                     ? 'sales/customers/'
                     : 'sales/items/';
@@ -302,20 +301,16 @@ export class Report extends React.Component<IProps> {
 
             case PROFIT_AND_LOSS:
                 data = isTitle
-                    ? Lng.t('header.profitAndLossReport', { locale })
+                    ? t('header.profitAndLossReport')
                     : 'profit-loss/';
                 break;
 
             case EXPENSES:
-                data = isTitle
-                    ? Lng.t('header.expensesReport', { locale })
-                    : 'expenses/';
+                data = isTitle ? t('header.expensesReport') : 'expenses/';
                 break;
 
             case TAXES:
-                data = isTitle
-                    ? Lng.t('header.taxesReport', { locale })
-                    : 'tax-summary/';
+                data = isTitle ? t('header.taxesReport') : 'tax-summary/';
                 break;
 
             default:
@@ -326,16 +321,7 @@ export class Report extends React.Component<IProps> {
     };
 
     render() {
-        const {
-            navigation,
-            handleSubmit,
-            loading,
-            locale,
-            initialValues,
-            type,
-            theme
-        } = this.props;
-
+        const { navigation, handleSubmit, loading, type } = this.props;
         const { displayFromDate, displayToDate } = this.state;
         const bottomAction = [
             {
@@ -353,18 +339,16 @@ export class Report extends React.Component<IProps> {
                     placement: 'center',
                     leftArrow: 'primary'
                 }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
                 loadingProps={{ is: loading }}
             >
                 <Field
                     name="date_range"
-                    label={Lng.t('reports.dateRange', { locale })}
+                    label={t('reports.dateRange')}
                     component={SelectPickerField}
                     isRequired
                     fieldIcon="calendar-week"
-                    items={DATE_RANGE_OPTION(locale, Lng)}
+                    items={DATE_RANGE_OPTION()}
                     onChangeCallback={this.onDateRangeChange}
                     fakeInputContainerStyle={styles.selectPickerField}
                 />
@@ -376,7 +360,7 @@ export class Report extends React.Component<IProps> {
                             component={DatePickerField}
                             isRequired
                             displayValue={displayFromDate}
-                            label={Lng.t('reports.fromDate', { locale })}
+                            label={t('reports.fromDate')}
                             formDateFormat={DATE_FORMAT}
                             onChangeCallback={val => {
                                 this.setFormField('date_range', 'custom');
@@ -391,7 +375,7 @@ export class Report extends React.Component<IProps> {
                             component={DatePickerField}
                             isRequired
                             displayValue={displayToDate}
-                            label={Lng.t('reports.toDate', { locale })}
+                            label={t('reports.toDate')}
                             formDateFormat={DATE_FORMAT}
                             onChangeCallback={val => {
                                 this.setFormField('date_range', 'custom');
@@ -404,10 +388,10 @@ export class Report extends React.Component<IProps> {
                 {type === SALES && (
                     <Field
                         name="report_type"
-                        label={Lng.t('reports.reportType', { locale })}
+                        label={t('reports.reportType')}
                         component={SelectPickerField}
                         fieldIcon="vial"
-                        items={REPORT_TYPE_OPTION(locale, Lng)}
+                        items={REPORT_TYPE_OPTION()}
                         onChangeCallback={val => {
                             this.setFormField('report_type', val);
                         }}

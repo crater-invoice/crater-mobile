@@ -6,7 +6,7 @@ import styles from './styles';
 import { SlideModal, FakeInput, AssetImage, ActionButton } from '@/components';
 import { Icon } from 'react-native-elements';
 import { colors } from '@/styles';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 
 type IProps = {
     label: String,
@@ -98,7 +98,6 @@ export class TemplateField extends Component<IProps> {
             icon,
             placeholder,
             meta,
-            locale,
             disabled
         } = this.props;
 
@@ -128,7 +127,7 @@ export class TemplateField extends Component<IProps> {
                     onToggle={this.onToggle}
                     headerProps={{
                         leftIconPress: () => this.onToggle(),
-                        title: Lng.t('header.template', { locale }),
+                        title: t('header.template'),
                         placement: 'center',
                         hasCircle: false,
                         noBorder: false,
@@ -136,9 +135,7 @@ export class TemplateField extends Component<IProps> {
                     }}
                     bottomDivider
                     defaultLayout
-                    bottomAction={
-                        <ActionButton locale={locale} buttons={bottomAction} />
-                    }
+                    bottomAction={<ActionButton buttons={bottomAction} />}
                 >
                     <View style={styles.imageList}>
                         {templates.map((val, index) => (

@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { AssetIcon } from '../AssetIcon';
 import Constants from 'expo-constants';
 import * as DocumentPicker from 'expo-document-picker';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { colors } from '@/styles';
 import { alertMe, isIosPlatform } from '@/constants';
 import { AssetImage } from '../AssetImage';
@@ -30,7 +30,6 @@ interface IProps {
     hasAvatar: Boolean;
     loadingContainerStyle: Object;
     withDocument: boolean;
-    locale: String;
     fileLoading: Function;
     uploadedFileUrl: String;
     uploadedFileType: String;
@@ -69,9 +68,9 @@ class Picker extends Component<IProps, IStates> {
     };
 
     getDropdownOptions = () => {
-        const { withDocument, locale } = this.props;
+        const { withDocument } = this.props;
 
-        const label = string => Lng.t(string, { locale });
+        const label = string => t(string);
 
         const options = [
             {
@@ -111,7 +110,7 @@ class Picker extends Component<IProps, IStates> {
         };
 
         alertMe({
-            desc: Lng.t('filePicker.permission', { locale: this.props.locale }),
+            desc: t('filePicker.permission'),
             showCancel: true,
             okText: 'Allow',
             okPress: redirectToSetting
@@ -263,7 +262,6 @@ class Picker extends Component<IProps, IStates> {
             uploadedFileUrl,
             imageContainerStyle,
             imageStyle,
-            locale,
             uploadedFileType,
             hasAvatar,
             showUploadedImageAsCache = true,
@@ -301,7 +299,7 @@ class Picker extends Component<IProps, IStates> {
                     center
                     style={styles.title}
                 >
-                    {Lng.t('filePicker.file', { locale })}
+                    {t('filePicker.file')}
                 </Text>
             </View>
         );
@@ -450,7 +448,8 @@ class Picker extends Component<IProps, IStates> {
 }
 
 const mapStateToProps = ({ global }) => ({
-    theme: global?.theme
+    theme: global?.theme,
+    locale: global?.locale
 });
 
 export const FilePicker = connect(

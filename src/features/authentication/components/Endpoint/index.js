@@ -18,7 +18,7 @@ import {
     CtHeader,
     Text
 } from '@/components';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { LOGO } from '@/assets';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { alertMe, isIosPlatform, isIPhoneX } from '@/constants';
@@ -78,7 +78,7 @@ export class Endpoint extends Component<IProps> {
     onSetEndpointApi = ({ endpointURL }) => {
         this.setState({ isFocus: false });
 
-        const { checkEndpointApi, navigation, locale } = this.props;
+        const { checkEndpointApi, navigation } = this.props;
         let URL = endpointURL;
 
         checkEndpointApi({
@@ -88,7 +88,7 @@ export class Endpoint extends Component<IProps> {
             onResult: val => {
                 !val
                     ? alertMe({
-                          title: Lng.t('endpoint.alertInvalidUrl', { locale })
+                          title: t('endpoint.alertInvalidUrl')
                       })
                     : navigation.navigate(ROUTES.LOGIN);
             }
@@ -108,7 +108,6 @@ export class Endpoint extends Component<IProps> {
     render() {
         const {
             handleSubmit,
-            locale,
             skipEndpoint = false,
             loading,
             theme
@@ -139,7 +138,7 @@ export class Endpoint extends Component<IProps> {
                     <CtHeader
                         leftIcon={!isRTL() ? 'angle-left' : 'angle-right'}
                         leftIconPress={() => this.onBack()}
-                        title={Lng.t('header.back', { locale })}
+                        title={t('header.back')}
                         titleOnPress={() => this.onBack()}
                         titleStyle={{
                             marginLeft: -10,
@@ -182,14 +181,11 @@ export class Endpoint extends Component<IProps> {
                                 <Field
                                     name="endpointURL"
                                     component={InputField}
-                                    hint={Lng.t('endpoint.endpointURL', {
-                                        locale
-                                    })}
+                                    hint={t('endpoint.endpointURL')}
                                     inputProps={{
                                         autoCapitalize: 'none',
-                                        placeholder: Lng.t(
-                                            'endpoint.urlPlaceHolder',
-                                            { locale }
+                                        placeholder: t(
+                                            'endpoint.urlPlaceHolder'
                                         ),
                                         autoCorrect: true,
                                         keyboardType: 'url',
@@ -205,13 +201,13 @@ export class Endpoint extends Component<IProps> {
                                     color={theme?.viewLabel?.fourthColor}
                                     style={styles.endpointTextTitle}
                                 >
-                                    {Lng.t('endpoint.endpointDesc', { locale })}
+                                    {t('endpoint.endpointDesc')}
                                 </Text>
                             </View>
 
                             <CtGradientButton
                                 onPress={handleSubmit(this.onSetEndpointApi)}
-                                btnTitle={Lng.t('button.save', { locale })}
+                                btnTitle={t('button.save')}
                                 loading={this.state.isFocus ? false : loading}
                                 style={styles.buttonStyle}
                                 buttonContainerStyle={styles.buttonContainer}

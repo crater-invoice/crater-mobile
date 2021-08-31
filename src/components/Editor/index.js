@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Field, change } from 'redux-form';
 import { connect } from 'react-redux';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { includes } from 'lodash';
 import debounce from 'lodash/debounce';
 import { DOUBLE_RIGHT_ICON } from '@/assets';
@@ -50,7 +50,6 @@ interface IProps {
     label?: String;
     dispatch?: Function;
     form?: String;
-    locale?: String;
     formValues?: any;
     isRequired?: boolean;
     showPreview?: boolean;
@@ -340,7 +339,6 @@ class EditorComponent extends Component<IProps, IStates> {
 
     render() {
         const {
-            locale,
             name,
             isRequired,
             customRightLabelComponent,
@@ -366,7 +364,7 @@ class EditorComponent extends Component<IProps, IStates> {
             >
                 <View style={{ flex: 1 }}>
                     <Label theme={theme} h5 isRequired={isRequired}>
-                        {Lng.t(this.props.label, { locale })}
+                        {t(this.props.label)}
                     </Label>
                 </View>
                 <Animated.View
@@ -414,9 +412,7 @@ class EditorComponent extends Component<IProps, IStates> {
                                         style={styles.insertFields}
                                         color={theme?.viewLabel?.thirdColor}
                                     >
-                                        {Lng.t('notes.insertFields', {
-                                            locale
-                                        })}
+                                        {t('notes.insertFields')}
                                     </Text>
                                 </TouchableOpacity>
                             )}
@@ -522,7 +518,7 @@ class EditorComponent extends Component<IProps, IStates> {
                 {hasError && (
                     <View style={styles.validation}>
                         <Text white h6 numberOfLines={1}>
-                            {Lng.t('validation.required', { locale })}
+                            {t('validation.required')}
                         </Text>
                     </View>
                 )}

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Field } from 'redux-form';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { ADD_TAX } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { alertMe, MAX_LENGTH } from '@/constants';
@@ -53,7 +53,6 @@ export class Tax extends React.Component {
             removeTax,
             taxId,
             navigation,
-            locale,
             initialValues: { name }
         } = this.props;
 
@@ -64,17 +63,15 @@ export class Tax extends React.Component {
                     val
                         ? navigation.navigate(ROUTES.TAXES)
                         : alertMe({
-                              title: `${name} ${Lng.t('taxes.alreadyUsed', {
-                                  locale
-                              })}`
+                              title: `${name} ${t('taxes.alreadyUsed')}`
                           });
                 }
             });
         };
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('taxes.alertDescription', { locale }),
+            title: t('alert.title'),
+            desc: t('taxes.alertDescription'),
             showCancel: true,
             okPress: remove
         });
@@ -84,7 +81,6 @@ export class Tax extends React.Component {
         const {
             navigation,
             handleSubmit,
-            locale,
             loading,
             isEditScreen,
             isAllowToEdit,
@@ -99,7 +95,7 @@ export class Tax extends React.Component {
             if (isEditScreen && !isAllowToEdit) title = 'header.viewTax';
             if (isEditScreen && isAllowToEdit) title = 'header.editTaxes';
 
-            return Lng.t(title, { locale });
+            return t(title);
         };
 
         const bottomAction = [
@@ -130,15 +126,13 @@ export class Tax extends React.Component {
                         rightIconPress: handleSubmit(this.onSave)
                     })
                 }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
             >
                 <Field
                     name="name"
                     component={InputField}
                     isRequired
-                    hint={Lng.t('taxes.type', { locale })}
+                    hint={t('taxes.type')}
                     disabled={disabled}
                     inputProps={{
                         returnKeyType: 'next',
@@ -154,7 +148,7 @@ export class Tax extends React.Component {
                     name="percent"
                     isRequired
                     component={InputField}
-                    hint={Lng.t('taxes.percentage', { locale }) + ' (%)'}
+                    hint={t('taxes.percentage') + ' (%)'}
                     maxNumber={100}
                     refLinkFn={ref => (taxRefs.percent = ref)}
                     disabled={disabled}
@@ -170,7 +164,7 @@ export class Tax extends React.Component {
                 <Field
                     name="description"
                     component={InputField}
-                    hint={Lng.t('taxes.description', { locale })}
+                    hint={t('taxes.description')}
                     refLinkFn={ref => (taxRefs.description = ref)}
                     height={80}
                     disabled={disabled}
@@ -186,7 +180,7 @@ export class Tax extends React.Component {
                 <Field
                     name="compound_tax"
                     component={ToggleSwitch}
-                    hint={Lng.t('taxes.compoundTax', { locale })}
+                    hint={t('taxes.compoundTax')}
                     title-text-default
                     disabled={disabled}
                 />

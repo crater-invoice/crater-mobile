@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, View } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import InvoicesContainer from '../../features/invoices/containers/Invoices';
 import CustomersContainer from '../../features/customers/containers/Customers';
 import MoreContainer from '../../features/more/containers/More';
@@ -51,7 +51,7 @@ const Label = styled(Text)`
 `;
 
 const Tab = (props: any) => {
-    const { navigation, locale, theme } = props;
+    const { navigation, theme } = props;
 
     const getTab = route => {
         switch (route) {
@@ -143,7 +143,7 @@ const Tab = (props: any) => {
                         >
                             <AssetSvg name={icon} fill={iconColor} />
                             <Label color={labelColor} style={labelStyle}>
-                                {Lng.t(label, { locale })}
+                                {t(label)}
                             </Label>
                         </Button>
                     );

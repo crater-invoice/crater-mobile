@@ -33,7 +33,7 @@ import {
 import { colors, headerTitle, itemsDescriptionStyle } from '@/styles';
 import { TemplateField } from '../TemplateField';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { CUSTOMER_ADD } from '../../../customers/constants';
 import { IMAGES } from '@/assets';
 import {
@@ -70,7 +70,6 @@ type IProps = {
     loading: Boolean,
     estimateData: Object,
     items: Object,
-    locale: String,
     type: String,
     notesReference: any
 };
@@ -174,7 +173,7 @@ export class Estimate extends React.Component<IProps> {
     };
 
     onDraft = handleSubmit => {
-        const { locale, navigation, isEditEstimate } = this.props;
+        const { navigation, isEditEstimate } = this.props;
         const { isLoading } = this.state;
 
         if (isLoading) {
@@ -188,11 +187,11 @@ export class Estimate extends React.Component<IProps> {
         }
 
         alertMe({
-            title: Lng.t('estimates.alert.draftTitle', { locale }),
+            title: t('estimates.alert.draftTitle'),
             showCancel: true,
-            cancelText: Lng.t('alert.action.discard', { locale }),
+            cancelText: t('alert.action.discard'),
             cancelPress: () => navigation.navigate(ROUTES.ESTIMATE_LIST),
-            okText: Lng.t('alert.action.saveAsDraft', { locale }),
+            okText: t('alert.action.saveAsDraft'),
             okPress: handleSubmit(this.draftEstimate)
         });
     };
@@ -203,7 +202,6 @@ export class Estimate extends React.Component<IProps> {
             navigation,
             type,
             editEstimate,
-            locale,
             initLoading,
             id,
             handleSubmit,
@@ -216,7 +214,7 @@ export class Estimate extends React.Component<IProps> {
         }
 
         if (finalAmount() < 0) {
-            alert(Lng.t('estimates.alert.lessAmount', { locale }));
+            alert(t('estimates.alert.lessAmount'));
             return;
         }
 
@@ -263,7 +261,7 @@ export class Estimate extends React.Component<IProps> {
                 navigation.navigate(ROUTES.ESTIMATE_LIST);
             },
             submissionError: errors =>
-                handleSubmit(() => this.throwError(errors, locale))()
+                handleSubmit(() => this.throwError(errors))()
         };
 
         type === ESTIMATE_ADD ? createEstimate(params) : editEstimate(params);
@@ -281,7 +279,7 @@ export class Estimate extends React.Component<IProps> {
         this.onSubmitEstimate(values, 'draft');
     };
 
-    throwError = (errors, locale) => {
+    throwError = errors => {
         if (errors?.estimate_number) {
             throw new SubmissionError({
                 estimate_number: 'validation.alreadyTaken'
@@ -289,7 +287,7 @@ export class Estimate extends React.Component<IProps> {
         }
 
         alertMe({
-            desc: Lng.t('validation.wrong', { locale })
+            desc: t('validation.wrong')
         });
     };
 
@@ -376,13 +374,11 @@ export class Estimate extends React.Component<IProps> {
     };
 
     removeEstimate = () => {
-        const { removeEstimate, navigation, locale, id } = this.props;
+        const { removeEstimate, navigation, id } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('estimates.alert.removeDescription', {
-                locale
-            }),
+            title: t('alert.title'),
+            desc: t('estimates.alert.removeDescription'),
             showCancel: true,
             okPress: () =>
                 removeEstimate({
@@ -394,7 +390,7 @@ export class Estimate extends React.Component<IProps> {
                         }
 
                         alertMe({
-                            desc: Lng.t('validation.wrong', { locale })
+                            desc: t('validation.wrong')
                         });
                     }
                 })
@@ -404,7 +400,6 @@ export class Estimate extends React.Component<IProps> {
     onOptionSelect = action => {
         const {
             navigation,
-            locale,
             convertToInvoice,
             handleSubmit,
             changeEstimateStatus,
@@ -422,8 +417,8 @@ export class Estimate extends React.Component<IProps> {
 
             case ESTIMATE_ACTIONS.MARK_AS_SENT:
                 alertMe({
-                    title: Lng.t('alert.title', { locale }),
-                    desc: Lng.t('estimates.alert.markAsSent', { locale }),
+                    title: t('alert.title'),
+                    desc: t('estimates.alert.markAsSent'),
                     showCancel: true,
                     okPress: () =>
                         changeEstimateStatus?.({
@@ -439,8 +434,8 @@ export class Estimate extends React.Component<IProps> {
 
             case ESTIMATE_ACTIONS.MARK_AS_ACCEPTED:
                 alertMe({
-                    title: Lng.t('alert.title', { locale }),
-                    desc: Lng.t('estimates.alert.markAsAccept', { locale }),
+                    title: t('alert.title'),
+                    desc: t('estimates.alert.markAsAccept'),
                     showCancel: true,
                     okPress: () =>
                         changeEstimateStatus?.({
@@ -456,8 +451,8 @@ export class Estimate extends React.Component<IProps> {
 
             case ESTIMATE_ACTIONS.MARK_AS_REJECTED:
                 alertMe({
-                    title: Lng.t('alert.title', { locale }),
-                    desc: Lng.t('estimates.alert.markAsReject', { locale }),
+                    title: t('alert.title'),
+                    desc: t('estimates.alert.markAsReject'),
                     showCancel: true,
                     okPress: () =>
                         changeEstimateStatus?.({
@@ -473,9 +468,7 @@ export class Estimate extends React.Component<IProps> {
 
             case ESTIMATE_ACTIONS.CONVERT_TO_INVOICE:
                 alertMe({
-                    desc: Lng.t('estimates.alert.convertToInvoiceDescription', {
-                        locale
-                    }),
+                    desc: t('estimates.alert.convertToInvoiceDescription'),
                     showCancel: true,
                     okPress: () =>
                         convertToInvoice({
@@ -535,10 +528,8 @@ export class Estimate extends React.Component<IProps> {
             getItems,
             itemsLoading,
             items,
-            locale,
             initLoading,
             withLoading,
-            type,
             getCustomers,
             customers,
             formValues,
@@ -568,7 +559,6 @@ export class Estimate extends React.Component<IProps> {
             isEditEstimate && !initLoading
                 ? {
                       options: EDIT_ESTIMATE_ACTIONS(
-                          locale,
                           markAsStatus,
                           isAllowToDelete
                       ),
@@ -597,7 +587,7 @@ export class Estimate extends React.Component<IProps> {
             if (isEditEstimate && !isAllowToEdit) title = 'header.viewEstimate';
             if (isEditEstimate && isAllowToEdit) title = 'header.editEstimate';
 
-            return Lng.t(title, { locale });
+            return t(title);
         };
 
         this.estimateRefs(this);
@@ -634,9 +624,7 @@ export class Estimate extends React.Component<IProps> {
                         rightIconPress: handleSubmit(this.saveEstimate)
                     })
                 }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
                 loadingProps={{ is: isLoading || initLoading || withLoading }}
                 contentProps={{ withLoading }}
                 dropdownProps={drownDownProps}
@@ -654,9 +642,7 @@ export class Estimate extends React.Component<IProps> {
                             name={'estimate_date'}
                             isRequired
                             component={DatePickerField}
-                            label={Lng.t('estimates.estimateDate', {
-                                locale
-                            })}
+                            label={t('estimates.estimateDate')}
                             icon={'calendar-alt'}
                             onChangeCallback={val =>
                                 this.setFormField('estimate_date', val)
@@ -670,9 +656,7 @@ export class Estimate extends React.Component<IProps> {
                             name="expiry_date"
                             isRequired
                             component={DatePickerField}
-                            label={Lng.t('estimates.expiryDate', {
-                                locale
-                            })}
+                            label={t('estimates.expiryDate')}
                             icon={'calendar-alt'}
                             onChangeCallback={val =>
                                 this.setFormField('expiry_date', val)
@@ -685,7 +669,7 @@ export class Estimate extends React.Component<IProps> {
                 <Field
                     name="estimate_number"
                     component={FakeInput}
-                    label={Lng.t('estimates.estimateNumber', { locale })}
+                    label={t('estimates.estimateNumber')}
                     isRequired
                     prefixProps={{
                         prefix: formValues?.prefix,
@@ -706,14 +690,12 @@ export class Estimate extends React.Component<IProps> {
                     selectedItem={formValues?.user}
                     displayName="name"
                     component={SelectField}
-                    label={Lng.t('estimates.customer', { locale })}
+                    label={t('estimates.customer')}
                     icon={'user'}
                     placeholder={
                         customerName
                             ? customerName
-                            : Lng.t('estimates.customerPlaceholder', {
-                                  locale
-                              })
+                            : t('estimates.customerPlaceholder')
                     }
                     navigation={navigation}
                     compareField="id"
@@ -724,7 +706,7 @@ export class Estimate extends React.Component<IProps> {
                     rightIconPress={this.navigateToCustomer}
                     createActionRouteName={ROUTES.CUSTOMER}
                     headerProps={{
-                        title: Lng.t('customers.title', { locale })
+                        title: t('customers.title')
                     }}
                     listViewProps={{
                         hasAvatar: true
@@ -739,7 +721,7 @@ export class Estimate extends React.Component<IProps> {
                 />
 
                 <Label isRequired theme={theme} style={styles.label}>
-                    {Lng.t('estimates.items', { locale })}
+                    {t('estimates.items')}
                 </Label>
 
                 <ListView
@@ -772,7 +754,7 @@ export class Estimate extends React.Component<IProps> {
                     compareField="id"
                     valueCompareField="item_id"
                     icon={'percent'}
-                    placeholder={Lng.t('estimates.addItem', { locale })}
+                    placeholder={t('estimates.addItem')}
                     navigation={navigation}
                     onlyPlaceholder
                     isMultiSelect
@@ -802,7 +784,7 @@ export class Estimate extends React.Component<IProps> {
                     }
                     createActionRouteName={ROUTES.GLOBAL_ITEM}
                     headerProps={{
-                        title: Lng.t('items.title', { locale })
+                        title: t('items.title')
                     }}
                     emptyContentProps={{
                         contentType: 'items',
@@ -820,7 +802,7 @@ export class Estimate extends React.Component<IProps> {
                 <Field
                     name="reference_number"
                     component={InputField}
-                    hint={Lng.t('invoices.referenceNumber', { locale })}
+                    hint={t('invoices.referenceNumber')}
                     leftIcon={'hashtag'}
                     disabled={disabled}
                     inputProps={{
@@ -840,13 +822,10 @@ export class Estimate extends React.Component<IProps> {
                     name="template_name"
                     templates={estimateTemplates}
                     component={TemplateField}
-                    label={Lng.t('estimates.template', { locale })}
+                    label={t('estimates.template')}
                     icon={'file-alt'}
-                    placeholder={Lng.t('estimates.templatePlaceholder', {
-                        locale
-                    })}
+                    placeholder={t('estimates.templatePlaceholder')}
                     navigation={navigation}
-                    locale={locale}
                     disabled={disabled}
                 />
 

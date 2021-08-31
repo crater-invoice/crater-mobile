@@ -21,9 +21,9 @@ import {
     isAddress
 } from '../../constants';
 import AddressContainer from '../../containers/Address';
-import { alertMe, hasObjectLength, KEYBOARD_TYPE, isArray } from '@/constants';
+import { alertMe, KEYBOARD_TYPE, isArray } from '@/constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { colors } from '@/styles/colors';
 import { SymbolStyle } from '@/components/CurrencyFormat/styles';
 import { getApiFormattedCustomFields } from '@/utils';
@@ -37,7 +37,6 @@ interface IProps {
     handleSubmit: Function;
     customFields: any;
     loading: Boolean;
-    locale: String;
     formValues: Object;
 }
 
@@ -164,11 +163,11 @@ export class Customer extends React.Component<IProps> {
     };
 
     removeCustomer = () => {
-        const { removeCustomer, navigation, locale } = this.props;
+        const { removeCustomer, navigation } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('customers.alertDescription', { locale }),
+            title: t('alert.title'),
+            desc: t('customers.alertDescription'),
             showCancel: true,
             okPress: () =>
                 removeCustomer({
@@ -200,7 +199,6 @@ export class Customer extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            locale,
             theme,
             type,
             currencies,
@@ -224,7 +222,7 @@ export class Customer extends React.Component<IProps> {
         const drownDownProps =
             isEditScreen && !isLoading && isAllowToDelete
                 ? {
-                      options: CUSTOMER_ACTIONS(Lng, locale),
+                      options: CUSTOMER_ACTIONS(),
                       onSelect: this.onOptionSelect,
                       cancelButtonIndex: 1,
                       destructiveButtonIndex: 2
@@ -238,7 +236,7 @@ export class Customer extends React.Component<IProps> {
             if (isEditScreen && !isAllowToEdit) title = 'header.viewCustomer';
             if (isEditScreen && isAllowToEdit) title = 'header.editCustomer';
 
-            return Lng.t(title, { locale });
+            return t(title);
         };
 
         const bottomAction = [
@@ -262,9 +260,7 @@ export class Customer extends React.Component<IProps> {
                         rightIconPress: handleSubmit(this.onSubmit)
                     })
                 }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
                 loadingProps={{ is: isLoading }}
                 dropdownProps={drownDownProps}
             >
@@ -272,7 +268,7 @@ export class Customer extends React.Component<IProps> {
                     name={`customer.${FIELDS.NAME}`}
                     component={InputField}
                     isRequired
-                    hint={Lng.t('customers.displayName', { locale })}
+                    hint={t('customers.displayName')}
                     inputFieldStyle={styles.inputFieldStyle}
                     inputProps={{
                         returnKeyType: 'next',
@@ -288,7 +284,7 @@ export class Customer extends React.Component<IProps> {
                 <Field
                     name={`customer.${FIELDS.CONTACT_NAME}`}
                     component={InputField}
-                    hint={Lng.t('customers.contactName', { locale })}
+                    hint={t('customers.contactName')}
                     inputFieldStyle={styles.inputFieldStyle}
                     inputProps={{
                         returnKeyType: 'next',
@@ -305,7 +301,7 @@ export class Customer extends React.Component<IProps> {
                 <Field
                     name={`customer.${FIELDS.EMAIL}`}
                     component={InputField}
-                    hint={Lng.t('customers.email', { locale })}
+                    hint={t('customers.email')}
                     inputFieldStyle={styles.inputFieldStyle}
                     inputProps={{
                         returnKeyType: 'next',
@@ -322,7 +318,7 @@ export class Customer extends React.Component<IProps> {
                 <Field
                     name={`customer.${FIELDS.PHONE}`}
                     component={InputField}
-                    hint={Lng.t('customers.phone', { locale })}
+                    hint={t('customers.phone')}
                     inputFieldStyle={styles.inputFieldStyle}
                     inputProps={{
                         returnKeyType: 'next',
@@ -339,7 +335,7 @@ export class Customer extends React.Component<IProps> {
                 <Field
                     name={`customer.${FIELDS.WEBSITE}`}
                     component={InputField}
-                    hint={Lng.t('customers.website', { locale })}
+                    hint={t('customers.website')}
                     inputFieldStyle={styles.inputFieldStyle}
                     inputProps={{
                         returnKeyType: 'next',
@@ -359,9 +355,7 @@ export class Customer extends React.Component<IProps> {
                         displayName="name"
                         component={SelectField}
                         isInternalSearch
-                        placeholder={Lng.t('customers.currency', {
-                            locale
-                        })}
+                        placeholder={t('customers.currency')}
                         navigation={navigation}
                         searchFields={['name']}
                         compareField="id"
@@ -372,7 +366,7 @@ export class Customer extends React.Component<IProps> {
                             )
                         }
                         headerProps={{
-                            title: Lng.t('currencies.title', { locale }),
+                            title: t('currencies.title'),
                             rightIconPress: null
                         }}
                         listViewProps={{
@@ -397,9 +391,7 @@ export class Customer extends React.Component<IProps> {
                         addressValue={billingAddress}
                         icon="map-marker-alt"
                         rightIcon="angle-right"
-                        placeholder={Lng.t('customers.billingAddress', {
-                            locale
-                        })}
+                        placeholder={t('customers.billingAddress')}
                         navigation={navigation}
                         onChangeCallback={val =>
                             this.setFormField(`customer.${FIELDS.BILLING}`, val)
@@ -427,9 +419,7 @@ export class Customer extends React.Component<IProps> {
                         autoFillValue={billingAddress}
                         icon="map-marker-alt"
                         rightIcon="angle-right"
-                        placeholder={Lng.t('customers.shippingAddress', {
-                            locale
-                        })}
+                        placeholder={t('customers.shippingAddress')}
                         navigation={navigation}
                         onChangeCallback={val =>
                             this.setFormField(

@@ -7,7 +7,7 @@ import { Field } from 'redux-form';
 import styles from './styles';
 import { colors } from '@/styles';
 import { Content } from '../Content';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { InputField } from '../InputField';
 import { AssetIcon } from '../AssetIcon';
 import { Text } from '../Text';
@@ -28,7 +28,6 @@ type IProps = {
     valueStyle: Object,
     prefixProps: Object,
     loading: Boolean,
-    locale: String,
     isRequired: Boolean,
     leftIconSolid: Boolean,
     disabled: Boolean
@@ -59,7 +58,6 @@ export class FakeInputComponent extends Component<IProps> {
             loading = false,
             placeholderStyle,
             leftIconStyle,
-            locale,
             isRequired = false,
             leftIconSolid = true,
             disabled = false,
@@ -294,7 +292,7 @@ export class FakeInputComponent extends Component<IProps> {
                             numberOfLines={1}
                             medium={theme?.mode === 'dark'}
                         >
-                            {Lng.t(error, { locale, hint: label })}
+                            {t(error, { hint: label })}
                         </Text>
                     </View>
                 )}

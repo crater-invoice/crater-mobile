@@ -5,7 +5,7 @@ import { find } from 'lodash';
 import styles from './styles';
 import { DefaultLayout, SelectField, ActionButton } from '@/components';
 import { Field, change } from 'redux-form';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { EDIT_LANGUAGE_AND_CURRENCY } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { SymbolStyle } from '@/components/CurrencyFormat/styles';
@@ -13,7 +13,6 @@ import { hasObjectLength, isArray } from '@/constants';
 
 type IProps = {
     navigation: Object,
-    locale: String,
     handleSubmit: Function,
     handleSubmit: Function,
     formValues: Object,
@@ -179,7 +178,6 @@ export class LanguageAndCurrency extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            locale,
             formValues: { currency },
             editPreferencesLoading,
             formValues,
@@ -199,9 +197,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t('header.setting.LanguageAndCurrency', {
-                        locale
-                    }),
+                    title: t('header.setting.LanguageAndCurrency'),
                     placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {
@@ -209,9 +205,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                     },
                     rightIconPress: handleSubmit(this.onSubmit)
                 }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
                 loadingProps={{
                     is: this.isLoading()
                 }}
@@ -220,9 +214,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                     name="language"
                     items={languagesList}
                     component={SelectField}
-                    label={Lng.t('settings.preferences.language', {
-                        locale
-                    })}
+                    label={t('settings.preferences.language')}
                     icon="language"
                     rightIcon="angle-right"
                     displayName="name"
@@ -233,10 +225,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                                   formValues.language,
                                   'code'
                               )
-                            : Lng.t(
-                                  'settings.preferences.languagePlaceholder',
-                                  { locale }
-                              )
+                            : t('settings.preferences.languagePlaceholder')
                     }
                     navigation={navigation}
                     fakeInputProps={{
@@ -249,7 +238,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                         this.setFormField('language', val.code);
                     }}
                     headerProps={{
-                        title: Lng.t('languages.title', { locale }),
+                        title: t('languages.title'),
                         rightIconPress: null
                     }}
                     listViewProps={{
@@ -267,9 +256,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                     items={currencyList}
                     displayName="name"
                     component={SelectField}
-                    label={Lng.t('settings.preferences.currency', {
-                        locale
-                    })}
+                    label={t('settings.preferences.currency')}
                     rightIcon="angle-right"
                     placeholder={
                         currency
@@ -278,10 +265,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                                   currency,
                                   'id'
                               )
-                            : Lng.t(
-                                  'settings.preferences.currencyPlaceholder',
-                                  { locale }
-                              )
+                            : t('settings.preferences.currencyPlaceholder')
                     }
                     navigation={navigation}
                     searchFields={['name']}
@@ -298,7 +282,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
                         this.setFormField('currency', val.id);
                     }}
                     headerProps={{
-                        title: Lng.t('currencies.title', { locale }),
+                        title: t('currencies.title'),
                         rightIconPress: null
                     }}
                     emptyContentProps={{

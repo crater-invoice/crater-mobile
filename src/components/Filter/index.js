@@ -9,7 +9,7 @@ import { SelectField } from '../SelectField';
 import { SelectPickerField } from '../SelectPickerField';
 import { DatePickerField } from '../DatePickerField';
 import { ActionButton, CtDecorativeButton } from '../Button';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { isIosPlatform, isAndroidPlatform } from '@/constants';
 import { Text } from '../Text';
 import { View as CtView } from '../View';
@@ -24,7 +24,6 @@ type IProps = {
     dropdownFields: Object,
     selectFields: Object,
     datePickerFields: Object,
-    locale: String,
     onResetFilter: Function
 };
 
@@ -184,7 +183,6 @@ export class Filter extends Component<IProps> {
             dropdownFields,
             selectFields,
             datePickerFields,
-            locale,
             clearFilter: { handleSubmit },
             theme
         } = this.props;
@@ -192,9 +190,7 @@ export class Filter extends Component<IProps> {
         const { visible, counter, isKeyboardVisible } = this.state;
 
         const headerView = {
-            title: Lng.t('header.filter', {
-                locale
-            }),
+            title: t('header.filter'),
             placement: 'center',
             rightIcon: 'search',
             hasCircle: false,
@@ -275,10 +271,7 @@ export class Filter extends Component<IProps> {
                         <DefaultLayout
                             headerProps={headerView}
                             bottomAction={
-                                <ActionButton
-                                    locale={locale}
-                                    buttons={bottomAction}
-                                />
+                                <ActionButton buttons={bottomAction} />
                             }
                             keyboardProps={{
                                 keyboardVerticalOffset: isIosPlatform()

@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import Request from '@/api/request';
 import { hasValue } from '@/constants';
-import { getTitleByLanguage } from '@/utils';
+import t from 'locales/use-translation';
 import {
     GET_RECURRING_INVOICES,
     CREATE_RECURRING_INVOICE,
@@ -20,7 +20,7 @@ import {
 const alreadyInUse = error => {
     if (error.includes('errors') && error.includes('invoice_number')) {
         alertMe({
-            title: getTitleByLanguage('invoices.alert.alreadyInUseNumber')
+            title: t('invoices.alert.alreadyInUseNumber')
         });
         return true;
     }

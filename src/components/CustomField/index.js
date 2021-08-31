@@ -17,7 +17,6 @@ import {
 } from './Types';
 
 interface IProps {
-    locale?: String;
     customFields?: Array<any>;
     dispatch?: Function;
     form?: String;
@@ -25,7 +24,7 @@ interface IProps {
     type?: String;
 }
 
-const FIELDS = ({ fields, customFields, locale, disabled }) => {
+const FIELDS = ({ fields, customFields, disabled }) => {
     const items = [];
 
     if (fields.length === 0) return null;
@@ -37,7 +36,6 @@ const FIELDS = ({ fields, customFields, locale, disabled }) => {
             field,
             name,
             key: index,
-            locale,
             disabled
         };
 
@@ -92,7 +90,6 @@ const FIELDS = ({ fields, customFields, locale, disabled }) => {
 
 export const CustomField = (props: IProps) => {
     const {
-        locale,
         customFields,
         dispatch,
         form,
@@ -124,7 +121,6 @@ export const CustomField = (props: IProps) => {
         <FieldArray
             name={'customFields'}
             component={FIELDS}
-            locale={locale}
             customFields={sortableFields}
             disabled={!isAllowToEdit}
         />

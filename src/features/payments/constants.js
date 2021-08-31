@@ -1,4 +1,4 @@
-import queryString from 'query-string';
+import t from 'locales/use-translation';
 
 // Forms
 // -----------------------------------------
@@ -34,17 +34,17 @@ export const ACTIONS_VALUE = {
     REMOVE: 'remove'
 };
 
-export const PAYMENT_ACTIONS = (isAllowToDelete, Lng, locale) => {
+export const PAYMENT_ACTIONS = isAllowToDelete => {
     const options = [
         {
-            label: Lng.t('payments.sendReceipt', { locale }),
+            label: t('payments.sendReceipt'),
             value: ACTIONS_VALUE.SEND
         }
     ];
 
     isAllowToDelete &&
         options.push({
-            label: Lng.t('payments.removePayment', { locale }),
+            label: t('payments.removePayment'),
             value: ACTIONS_VALUE.REMOVE
         });
 

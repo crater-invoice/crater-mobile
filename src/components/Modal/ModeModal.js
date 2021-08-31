@@ -3,11 +3,10 @@ import { connect } from 'react-redux';
 import { reduxForm, change } from 'redux-form';
 import { InputModal } from '../InputModal';
 import { createPaymentMode } from '@/features/settings/actions';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { hasValue } from '@/constants';
 
 interface IProps {
-    locale: string;
     loading: boolean;
     reference: any;
     handleSubmit: Function;
@@ -56,13 +55,12 @@ class Modal extends Component<IProps> {
     };
 
     render() {
-        const { locale, handleSubmit, loading } = this.props;
+        const { handleSubmit, loading } = this.props;
         return (
             <InputModal
                 reference={ref => (this.modalReference = ref)}
-                locale={locale}
-                headerTitle={Lng.t('payments.addMode', { locale })}
-                hint={Lng.t('payments.modeHint', { locale })}
+                headerTitle={t('payments.addMode')}
+                hint={t('payments.modeHint')}
                 fieldName="name"
                 onSubmit={handleSubmit(this.onSubmit)}
                 onSubmitLoading={loading}

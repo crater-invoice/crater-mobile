@@ -6,7 +6,7 @@ import { styles } from './styles';
 import { All, Draft, Due } from '../Tab';
 import { invoicesFilterFields as FilterFields } from './filterFields';
 import { goBack, MOUNT } from '@/navigation';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { ROUTES } from '@/navigation';
 import { MainLayout, Tabs } from '@/components';
 import { IMAGES } from '@/assets';
@@ -23,7 +23,6 @@ import { openRatingReviewModal } from '@/utils';
 import { PermissionService } from '@/services';
 
 type IProps = {
-    locale: String,
     navigation: Object,
     invoices: Object,
     customers: Object,
@@ -194,7 +193,7 @@ export class Invoices extends React.Component<IProps> {
     onChangeState = (field, value) => this.setState({ [field]: value });
 
     getEmptyContentProps = activeTab => {
-        const { locale, navigation, formValues, theme } = this.props;
+        const { navigation, formValues, theme } = this.props;
         const { search } = this.state;
         const isFilter = isFilterApply(formValues);
         let title = '';
@@ -218,16 +217,14 @@ export class Invoices extends React.Component<IProps> {
             : title;
 
         return {
-            title: Lng.t(emptyTitle, { locale, search }),
+            title: t(emptyTitle, { search }),
             image: IMAGES[(theme?.mode)]?.EMPTY_INVOICES,
             ...(!search && {
-                description: Lng.t(description, { locale })
+                description: t(description)
             }),
             ...(!search &&
                 !isFilter && {
-                    buttonTitle: Lng.t('invoices.empty.buttonTitle', {
-                        locale
-                    }),
+                    buttonTitle: t('invoices.empty.buttonTitle'),
                     buttonPress: () =>
                         navigation.navigate(ROUTES.INVOICE, {
                             type: INVOICE_ADD
@@ -237,27 +234,26 @@ export class Invoices extends React.Component<IProps> {
     };
 
     render() {
-        const { locale, navigation, handleSubmit, theme } = this.props;
+        const { navigation, handleSubmit, theme } = this.props;
 
         const { activeTab } = this.state;
 
         const headerProps = {
             hasCircle: false,
-            title: Lng.t('header.invoices', { locale })
+            title: t('header.invoices')
         };
 
         const filterProps = {
             onSubmitFilter: handleSubmit(this.onSubmitFilter),
             ...FilterFields(this),
             clearFilter: this.props,
-            locale,
             onResetFilter: () => this.onResetFilter()
         };
 
         const tabs = [
             {
                 Title: INVOICES_TABS.DUE,
-                tabName: TAB_NAME(INVOICES_TABS.DUE, locale),
+                tabName: TAB_NAME(INVOICES_TABS.DUE),
                 render: (
                     <Due
                         parentProps={this}
@@ -267,7 +263,7 @@ export class Invoices extends React.Component<IProps> {
             },
             {
                 Title: INVOICES_TABS.DRAFT,
-                tabName: TAB_NAME(INVOICES_TABS.DRAFT, locale),
+                tabName: TAB_NAME(INVOICES_TABS.DRAFT),
                 render: (
                     <Draft
                         parentProps={this}
@@ -277,7 +273,7 @@ export class Invoices extends React.Component<IProps> {
             },
             {
                 Title: INVOICES_TABS.ALL,
-                tabName: TAB_NAME(INVOICES_TABS.ALL, locale),
+                tabName: TAB_NAME(INVOICES_TABS.ALL),
                 render: (
                     <All
                         parentProps={this}

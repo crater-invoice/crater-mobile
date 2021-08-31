@@ -9,7 +9,7 @@ import styles from './styles';
 import { IInputField } from './type';
 import { AssetIcon } from '../AssetIcon';
 import { colors } from '@/styles';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { hasTextLength, hasValue } from '@/constants';
 import { Text } from '../Text';
 import { Label } from '../Label';
@@ -135,7 +135,6 @@ export class InputFieldComponent extends Component<IInputField> {
             rounded,
             isCurrencyInput = false,
             leftIconStyle,
-            locale,
             maxNumber = 0,
             maxCharacter = 0,
             minCharacter = 0,
@@ -370,8 +369,7 @@ export class InputFieldComponent extends Component<IInputField> {
                                 numberOfLines={errorNumberOfLines || 3}
                                 medium={theme?.mode === 'dark'}
                             >
-                                {Lng.t(error, {
-                                    locale,
+                                {t(error, {
                                     hint,
                                     maxNumber,
                                     maxCharacter,

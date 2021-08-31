@@ -30,7 +30,7 @@ import {
 import { setInvoices } from '../../invoices/actions';
 import { ROUTES } from '@/navigation';
 import { alertMe } from '@/constants';
-import { getTitleByLanguage } from '@/utils';
+import t from 'locales/use-translation';
 import {
     getNextNumber,
     getSettingInfo
@@ -248,7 +248,7 @@ function* createEstimate({ payload }) {
 
         if (!response.data) {
             alertMe({
-                desc: getTitleByLanguage('validation.wrong'),
+                desc: t('validation.wrong'),
                 okPress: () => navigation.goBack(null)
             });
             return;
@@ -285,7 +285,7 @@ function* editEstimate({ payload }) {
 
         if (!response.data) {
             alertMe({
-                desc: getTitleByLanguage('validation.wrong'),
+                desc: t('validation.wrong'),
                 okPress: () => navigation.goBack(null)
             });
             return;
@@ -399,7 +399,7 @@ function* changeEstimateStatus({ payload }) {
 
         if (!response?.success) {
             alertMe({
-                desc: getTitleByLanguage('validation.wrong'),
+                desc: t('validation.wrong'),
                 okPress: () => navigation?.goBack?.(null)
             });
             return;

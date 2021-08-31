@@ -6,8 +6,8 @@ import { styles, Container } from './styles';
 import { AssetImage } from '../AssetImage';
 import { CtGradientButton } from '../Button';
 import { Text } from '../Text';
-import { IMAGES, LOGO } from '@/assets';
-import Lng from '@/lang/i18n';
+import { LOGO } from '@/assets';
+import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 
 export class UpdateAppVersion extends Component {
@@ -42,7 +42,7 @@ export class UpdateAppVersion extends Component {
     };
 
     render() {
-        const { locale, theme } = this.props;
+        const { theme } = this.props;
         const { loading } = this.state;
 
         return (
@@ -62,7 +62,7 @@ export class UpdateAppVersion extends Component {
                             bold2={theme?.mode === 'dark'}
                             color={theme?.text?.primaryColor}
                         >
-                            {Lng.t('updateApp.title', { locale })}
+                            {t('updateApp.title')}
                         </Text>
 
                         <Text
@@ -72,14 +72,14 @@ export class UpdateAppVersion extends Component {
                             medium={theme?.mode === 'dark'}
                             color={theme?.text?.fourthColor}
                         >
-                            {Lng.t('updateApp.description', { locale })}
+                            {t('updateApp.description')}
                         </Text>
                     </View>
 
                     <View style={{ marginTop: 25 }}>
                         <CtGradientButton
                             onPress={() => this.onUpdateApp()}
-                            btnTitle={Lng.t('button.updateCapital', { locale })}
+                            btnTitle={t('button.updateCapital')}
                             loading={loading}
                         />
                     </View>

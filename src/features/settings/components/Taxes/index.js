@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { InfiniteScroll, ListView, MainLayout } from '@/components';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { EDIT_TAX, ADD_TAX } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { itemsDescriptionStyle } from '@/styles';
@@ -47,16 +47,16 @@ export class Taxes extends React.Component {
     };
 
     render() {
-        const { taxTypes, navigation, locale, getTaxes } = this.props;
+        const { taxTypes, navigation, getTaxes } = this.props;
         const { search } = this.state;
 
         const isEmpty = taxTypes && taxTypes.length <= 0;
         const emptyTitle = search ? 'search.noResult' : 'taxes.empty.title';
         const emptyContentProps = {
-            title: Lng.t(emptyTitle, { locale, search }),
+            title: t(emptyTitle, { search }),
             ...(!search && {
-                description: Lng.t('taxes.empty.description', { locale }),
-                buttonTitle: Lng.t('taxes.empty.buttonTitle', { locale }),
+                description: t('taxes.empty.description'),
+                buttonTitle: t('taxes.empty.buttonTitle'),
                 buttonPress: () => {
                     navigation.navigate(ROUTES.TAX, { type: ADD_TAX });
                 }
@@ -66,7 +66,7 @@ export class Taxes extends React.Component {
         const headerProps = {
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
-            title: Lng.t('header.taxes', { locale }),
+            title: t('header.taxes'),
             placement: 'center',
             navigation,
             rightIcon: 'plus',

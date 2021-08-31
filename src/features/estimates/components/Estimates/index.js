@@ -5,7 +5,7 @@ import { change } from 'redux-form';
 import styles from './styles';
 import { Tabs, MainLayout } from '@/components';
 import { Sent, Draft, All } from '../Tab';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import estimateFilterFields from './filterFields';
 import { isFilterApply } from '@/utils';
@@ -20,7 +20,6 @@ import {
 import EstimateServices from '../../services';
 
 interface IProps {
-    locale: String;
     navigation: any;
     estimates: Object;
     customers: Object;
@@ -202,7 +201,7 @@ export class Estimates extends React.Component<IProps, IStates> {
     };
 
     getEmptyContentProps = activeTab => {
-        const { locale, formValues } = this.props;
+        const { formValues } = this.props;
         const { search } = this.state;
         const isFilter = isFilterApply(formValues);
         let type = '';
@@ -222,30 +221,26 @@ export class Estimates extends React.Component<IProps, IStates> {
             : `estimates.empty.${type}.title`;
 
         return {
-            title: Lng.t(emptyTitle, { locale, search }),
+            title: t(emptyTitle, { search }),
             image: IMAGES.EMPTY_ESTIMATES,
             ...(!search && {
-                description: Lng.t(`estimates.empty.${type}.description`, {
-                    locale
-                })
+                description: t(`estimates.empty.${type}.description`)
             }),
             ...(!search &&
                 !isFilter && {
-                    buttonTitle: Lng.t('estimates.empty.buttonTitle', {
-                        locale
-                    }),
+                    buttonTitle: t('estimates.empty.buttonTitle'),
                     buttonPress: () => this.onAddEstimate()
                 })
         };
     };
 
     render() {
-        const { locale, navigation, handleSubmit, theme } = this.props;
+        const { navigation, handleSubmit, theme } = this.props;
 
         const { activeTab } = this.state;
 
         const headerProps = {
-            title: Lng.t('header.estimates', { locale }),
+            title: t('header.estimates'),
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
             placement: 'center',
@@ -266,7 +261,7 @@ export class Estimates extends React.Component<IProps, IStates> {
         const tabs = [
             {
                 Title: ESTIMATES_TABS.DRAFT,
-                tabName: TAB_NAME(ESTIMATES_TABS.DRAFT, locale),
+                tabName: TAB_NAME(ESTIMATES_TABS.DRAFT),
                 render: (
                     <Draft
                         parentProps={this}
@@ -276,7 +271,7 @@ export class Estimates extends React.Component<IProps, IStates> {
             },
             {
                 Title: ESTIMATES_TABS.SENT,
-                tabName: TAB_NAME(ESTIMATES_TABS.SENT, locale),
+                tabName: TAB_NAME(ESTIMATES_TABS.SENT),
                 render: (
                     <Sent
                         parentProps={this}
@@ -286,7 +281,7 @@ export class Estimates extends React.Component<IProps, IStates> {
             },
             {
                 Title: ESTIMATES_TABS.ALL,
-                tabName: TAB_NAME(ESTIMATES_TABS.ALL, locale),
+                tabName: TAB_NAME(ESTIMATES_TABS.ALL),
                 render: (
                     <All
                         parentProps={this}

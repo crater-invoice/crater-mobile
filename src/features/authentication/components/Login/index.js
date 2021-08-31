@@ -20,7 +20,7 @@ import {
 } from '@/components';
 import Constants from 'expo-constants';
 import { ROUTES } from '@/navigation';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { LOGO } from '@/assets';
 import { SettingIcon } from '@/icons';
 import { biometricAuthentication, STATUS_BAR_CONTENT } from '@/utils';
@@ -38,7 +38,6 @@ type IProps = {
     handleSubmit: Function,
     loading: Boolean,
     socialLoading: Boolean,
-    locale: String,
     biometryAuthType: string,
     biometryAuthLogin: Function
 };
@@ -80,33 +79,22 @@ export class Login extends React.Component<IProps> {
     };
 
     loginViaBiometry = async () => {
-        const { locale, biometryAuthLogin, navigation } = this.props;
+        const { biometryAuthLogin, navigation } = this.props;
 
         try {
             biometricAuthentication({
-                locale,
                 onSuccess: () => biometryAuthLogin({ navigation })
             });
         } catch (e) {}
     };
 
     render() {
-        const {
-            loading,
-            navigation,
-            locale,
-            biometryAuthType,
-            theme
-        } = this.props;
+        const { loading, navigation, biometryAuthType, theme } = this.props;
         const { isKeyboardVisible } = this.state;
 
         const BIOMETRY_TYPES_TITLES = {
-            [BIOMETRY_AUTH_TYPES.FINGERPRINT]: Lng.t('touchFaceId.touchId', {
-                locale
-            }),
-            [BIOMETRY_AUTH_TYPES.FACE]: Lng.t('touchFaceId.faceId', {
-                locale
-            })
+            [BIOMETRY_AUTH_TYPES.FINGERPRINT]: t('touchFaceId.touchId'),
+            [BIOMETRY_AUTH_TYPES.FACE]: t('touchFaceId.faceId')
         };
 
         let loginRefs: any = {};
@@ -178,9 +166,7 @@ export class Login extends React.Component<IProps> {
                                 inputProps={{
                                     returnKeyType: 'next',
                                     autoCapitalize: 'none',
-                                    placeholder: Lng.t('login.email', {
-                                        locale
-                                    }),
+                                    placeholder: t('login.email'),
                                     autoCorrect: true,
                                     keyboardType: 'email-address',
                                     onSubmitEditing: () => {
@@ -196,9 +182,7 @@ export class Login extends React.Component<IProps> {
                                 inputProps={{
                                     returnKeyType: 'go',
                                     autoCapitalize: 'none',
-                                    placeholder: Lng.t('login.password', {
-                                        locale
-                                    }),
+                                    placeholder: t('login.password'),
                                     autoCorrect: true,
                                     onSubmitEditing: this.props.handleSubmit(
                                         this.onLogin
@@ -225,9 +209,7 @@ export class Login extends React.Component<IProps> {
                                         color={theme?.text?.fourthColor}
                                         style={styles.forgetPassword}
                                     >
-                                        {Lng.t('button.forget', {
-                                            locale
-                                        })}
+                                        {t('button.forget')}
                                     </Text>
                                 </TouchableOpacity>
                             </View>
@@ -237,9 +219,7 @@ export class Login extends React.Component<IProps> {
                                     onPress={this.props.handleSubmit(
                                         this.onLogin
                                     )}
-                                    btnTitle={Lng.t('button.singIn', {
-                                        locale
-                                    })}
+                                    btnTitle={t('button.singIn')}
                                     loading={loading}
                                     isLoading={loading}
                                     style={{ paddingVertical: 8 }}
@@ -258,8 +238,7 @@ export class Login extends React.Component<IProps> {
                             style={styles.biometryText}
                             color={theme?.text?.primaryColor}
                         >
-                            {Lng.t('touchFaceId.login', {
-                                locale,
+                            {t('touchFaceId.login', {
                                 type: BIOMETRY_TYPES_TITLES[biometryAuthType]
                             })}
                         </Text>
