@@ -23,7 +23,7 @@ export function* getItemUnits({ payload }) {
             yield put(setItemUnits({ units: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
     } catch (e) {}
 }
 

@@ -32,7 +32,7 @@ export function* getExpenseCategories({ payload }) {
             yield put(setExpenseCategories({ categories: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
     } catch (e) {}
 }
 

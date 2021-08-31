@@ -35,7 +35,7 @@ function* getPayments({ payload }) {
             yield put(setPayments({ payments: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
     } catch (e) {}
 }
 
@@ -121,7 +121,7 @@ function* getUnpaidInvoices({ payload }) {
             yield put(saveUnpaidInvoices({ invoices: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
     } catch (e) {}
 }
 

@@ -26,7 +26,7 @@ function* getNotes({ payload }: any) {
             yield put(setNotes({ notes: data, fresh }));
         }
 
-        onSuccess(response?.data);
+        onSuccess?.(response);
     } catch (e) {}
 }
 

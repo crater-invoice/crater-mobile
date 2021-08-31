@@ -41,7 +41,7 @@ function* getItems({ payload }) {
             yield put(setItems({ items: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
     } catch (e) {}
 }
 
