@@ -10,7 +10,7 @@ import { commonSelector } from 'modules/common/selectors';
 const mapStateToProps = state => ({
     items: state.more?.items,
     currency: state.global?.currency,
-    units: getUnitState(settings.units),
+    units: getUnitState(state.settings.units),
     formValues: getFormValues(ITEM_SEARCH)(state) || {},
     ...commonSelector(state)
 });
