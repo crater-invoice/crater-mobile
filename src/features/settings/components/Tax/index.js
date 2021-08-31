@@ -3,7 +3,6 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import t from 'locales/use-translation';
-import { ADD_TAX } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { alertMe, MAX_LENGTH } from '@/constants';
 import {
@@ -32,8 +31,13 @@ export class Tax extends React.Component {
     }
 
     onSave = tax => {
-        const { addTax, navigation, type, editTax, loading } = this.props;
-        const isCreate = type === ADD_TAX;
+        const {
+            addTax,
+            navigation,
+            isCreateScreen,
+            editTax,
+            loading
+        } = this.props;
 
         if (loading) {
             return;
@@ -45,7 +49,7 @@ export class Tax extends React.Component {
             navigation.goBack(null);
         };
 
-        isCreate ? addTax({ tax, onResult }) : editTax({ tax, onResult });
+        isCreateScreen ? addTax({ tax, onResult }) : editTax({ tax, onResult });
     };
 
     removeTax = () => {

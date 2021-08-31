@@ -6,7 +6,7 @@ import styles from './styles';
 import { InputField, DefaultLayout, ActionButton } from '@/components';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import t from 'locales/use-translation';
-import { CATEGORY_EDIT, CATEGORY_ADD, CATEGORY_FORM } from '../../constants';
+import { CATEGORY_FORM } from '../../constants';
 import { alertMe, MAX_LENGTH } from '@/constants';
 
 type IProps = {
@@ -27,9 +27,9 @@ export class Category extends React.Component<IProps> {
     }
 
     componentDidMount() {
-        const { navigation, getEditCategory, type } = this.props;
+        const { navigation, getEditCategory, isEditScreen } = this.props;
 
-        if (type === CATEGORY_EDIT) {
+        if (isEditScreen) {
             let id = navigation.getParam('categoryId', null);
             getEditCategory({
                 id,
@@ -54,15 +54,15 @@ export class Category extends React.Component<IProps> {
 
     onSubmit = values => {
         const {
-            type,
             createCategory,
             editCategory,
             navigation,
-            categoryLoading
+            categoryLoading,
+            isCreateScreen
         } = this.props;
 
         if (!categoryLoading) {
-            if (type === CATEGORY_ADD)
+            if (isCreateScreen)
                 createCategory({
                     params: values,
                     onResult: res => {

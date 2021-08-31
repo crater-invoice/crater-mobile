@@ -14,7 +14,6 @@ import {
 } from '@/components';
 import {
     CUSTOMER_FORM,
-    CUSTOMER_ADD,
     CUSTOMER_ACTIONS,
     ACTIONS_VALUE,
     CUSTOMER_FIELDS as FIELDS,
@@ -60,16 +59,16 @@ export class Customer extends React.Component<IProps> {
     setInitialValues = () => {
         const {
             getCustomerDetail,
-            type,
             countries,
             currency,
             currencies,
             getCreateCustomer,
             isEditScreen,
+            isCreateScreen,
             id
         } = this.props;
 
-        if (type === CUSTOMER_ADD) {
+        if (isCreateScreen) {
             getCreateCustomer({
                 currencies,
                 countries,
@@ -125,19 +124,19 @@ export class Customer extends React.Component<IProps> {
         };
 
         const {
-            type,
             createCustomer,
             updateCustomer,
             navigation,
             handleSubmit,
-            isEditScreen
+            isEditScreen,
+            isCreateScreen
         } = this.props;
 
         if (this.state.isLoading) {
             return;
         }
 
-        if (type === CUSTOMER_ADD) {
+        if (isCreateScreen) {
             createCustomer({
                 params,
                 onResult: res => {

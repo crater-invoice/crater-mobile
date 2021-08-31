@@ -20,13 +20,10 @@ import {
 } from '@/components';
 import {
     EXPENSE_FORM,
-    EXPENSE_ADD,
     EXPENSE_ACTIONS,
     ACTIONS_VALUE,
     EXPENSE_FIELDS as FIELDS
 } from '../../constants';
-import { CUSTOMER_ADD } from '@/features/customers/constants';
-import { CATEGORY_ADD } from '@/features/settings/constants';
 import { getApiFormattedCustomFields } from '@/utils';
 import _ from 'lodash';
 
@@ -87,14 +84,14 @@ export class Expense extends React.Component<IProps, IState> {
 
     setInitialValues = () => {
         const {
-            type,
             getCreateExpense,
             getExpenseDetail,
             isEditScreen,
+            isCreateScreen,
             id
         } = this.props;
 
-        if (type === EXPENSE_ADD) {
+        if (isCreateScreen) {
             getCreateExpense({
                 onSuccess: () => {
                     this.setFormField(`expense.${FIELDS.DATE}`, moment());
@@ -142,8 +139,8 @@ export class Expense extends React.Component<IProps, IState> {
             createExpense,
             navigation,
             updateExpense,
-            type,
             isEditScreen,
+            isCreateScreen,
             id
         } = this.props;
 
@@ -153,7 +150,7 @@ export class Expense extends React.Component<IProps, IState> {
             return;
         }
 
-        if (type === EXPENSE_ADD) {
+        if (isCreateScreen) {
             createExpense({
                 params,
                 attachmentReceipt,
@@ -206,7 +203,7 @@ export class Expense extends React.Component<IProps, IState> {
     navigateToCustomer = () => {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CUSTOMER, {
-            type: CUSTOMER_ADD,
+            type: 'ADD',
             onSelect: item => {
                 this.setFormField(`expense.${FIELDS.CUSTOMER}`, item.id);
                 this.customerReference?.changeDisplayValue?.(item);
@@ -217,7 +214,7 @@ export class Expense extends React.Component<IProps, IState> {
     navigateToCategory = () => {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CATEGORY, {
-            type: CATEGORY_ADD,
+            type: 'ADD',
             onSelect: item => {
                 this.setFormField(`expense.${FIELDS.CATEGORY}`, item.id);
                 this.categoryReference?.changeDisplayValue?.(item);
@@ -240,13 +237,14 @@ export class Expense extends React.Component<IProps, IState> {
             isEditScreen,
             isAllowToEdit,
             isAllowToDelete,
+            isCreateScreen,
             loading
         } = this.props;
         const disabled = !isAllowToEdit;
 
         const { imageUrl, isLoading, fileLoading, fileType } = this.state;
 
-        const isCreateExpense = type === EXPENSE_ADD;
+        const isCreateExpense = isCreateScreen;
         const hasCustomField = isEditScreen
             ? formValues?.expense && formValues.expense.hasOwnProperty('fields')
             : isArray(customFields);

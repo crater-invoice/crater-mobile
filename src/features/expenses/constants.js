@@ -5,11 +5,6 @@ import t from 'locales/use-translation';
 export const EXPENSE_SEARCH = 'expenses/EXPENSE_SEARCH';
 export const EXPENSE_FORM = 'expenses/EXPENSE_FORM';
 
-// Form Type
-// -----------------------------------------
-export const EXPENSE_ADD = 'expense/EXPENSE_ADD';
-export const EXPENSE_EDIT = 'expense/EXPENSE_EDIT';
-
 // Types
 // -----------------------------------------
 export const GET_CREATE_EXPENSE = 'expenses/GET_CREATE_EXPENSE';

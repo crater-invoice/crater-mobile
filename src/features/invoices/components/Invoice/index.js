@@ -12,8 +12,6 @@ import t from 'locales/use-translation';
 import { IMAGES } from '@/assets';
 import FinalAmount from '../FinalAmount';
 import { alertMe, isArray } from '@/constants';
-import { PAYMENT_ADD } from '@/features/payments/constants';
-import { CUSTOMER_ADD } from '@/features/customers/constants';
 import {
     InputField,
     DatePickerField,
@@ -29,7 +27,6 @@ import {
     ActionButton
 } from '@/components';
 import {
-    INVOICE_ADD,
     ITEM_ADD,
     ITEM_EDIT,
     INVOICE_FORM,
@@ -122,7 +119,7 @@ export class Invoice extends React.Component<IProps, IStates> {
         const { currency } = this.state;
 
         navigation.navigate(ROUTES.CUSTOMER, {
-            type: CUSTOMER_ADD,
+            type: 'ADD',
             currency,
             onSelect: item => {
                 this.customerReference?.changeDisplayValue?.(item);
@@ -136,12 +133,11 @@ export class Invoice extends React.Component<IProps, IStates> {
         const {
             getCreateInvoice,
             getEditInvoice,
-            type,
-            isEditInvoice,
+            isEditScreen,
             id
         } = this.props;
 
-        if (type === INVOICE_ADD) {
+        if (!isEditScreen) {
             getCreateInvoice({
                 onSuccess: () => {
                     this.setState({ isLoading: false });
@@ -150,7 +146,7 @@ export class Invoice extends React.Component<IProps, IStates> {
             return;
         }
 
-        if (isEditInvoice) {
+        if (isEditScreen) {
             getEditInvoice({
                 id,
                 onSuccess: ({ customer, status }) => {
@@ -199,7 +195,7 @@ export class Invoice extends React.Component<IProps, IStates> {
     };
 
     onDraft = handleSubmit => {
-        const { navigation, isEditInvoice } = this.props;
+        const { navigation, isEditScreen } = this.props;
         const { isLoading } = this.state;
 
         if (isLoading) {
@@ -207,7 +203,7 @@ export class Invoice extends React.Component<IProps, IStates> {
             return;
         }
 
-        if (isEditInvoice) {
+        if (isEditScreen) {
             navigation.navigate(ROUTES.MAIN_INVOICES);
             return;
         }
@@ -226,12 +222,12 @@ export class Invoice extends React.Component<IProps, IStates> {
         const {
             createInvoice,
             navigation,
-            type,
             editInvoice,
             id,
             handleSubmit,
             initLoading,
             withLoading,
+            isCreateScreen,
             invoiceData: { invoiceTemplates = [] } = {}
         } = this.props;
 
@@ -291,7 +287,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                 handleSubmit(() => this.throwError(errors))()
         };
 
-        type === INVOICE_ADD ? createInvoice(params) : editInvoice(params);
+        isCreateScreen ? createInvoice(params) : editInvoice(params);
     };
 
     downloadInvoice = values => {
@@ -426,7 +422,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                 };
 
                 navigation.navigate(ROUTES.PAYMENT, {
-                    type: PAYMENT_ADD,
+                    type: 'ADD',
                     invoice,
                     hasRecordPayment: true
                 });
@@ -503,7 +499,7 @@ export class Invoice extends React.Component<IProps, IStates> {
             customFields,
             isAllowToEdit,
             isAllowToDelete,
-            isEditInvoice,
+            isEditScreen,
             loading,
             theme
         } = this.props;
@@ -511,7 +507,7 @@ export class Invoice extends React.Component<IProps, IStates> {
         const { currency, customerName, markAsStatus, isLoading } = this.state;
         const disabled = !isAllowToEdit;
 
-        const hasCustomField = isEditInvoice
+        const hasCustomField = isEditScreen
             ? formValues && formValues.hasOwnProperty('fields')
             : isArray(customFields);
 
@@ -520,7 +516,7 @@ export class Invoice extends React.Component<IProps, IStates> {
         let hasCompleteStatus = markAsStatus === 'COMPLETED';
 
         let drownDownProps =
-            isEditInvoice && !initLoading
+            isEditScreen && !initLoading
                 ? {
                       options: EDIT_INVOICE_ACTIONS(
                           hasSentStatus,
@@ -559,8 +555,8 @@ export class Invoice extends React.Component<IProps, IStates> {
 
         const getTitle = () => {
             let title = 'header.addInvoice';
-            if (isEditInvoice && !isAllowToEdit) title = 'header.viewInvoice';
-            if (isEditInvoice && isAllowToEdit) title = 'header.editInvoice';
+            if (isEditScreen && !isAllowToEdit) title = 'header.viewInvoice';
+            if (isEditScreen && isAllowToEdit) title = 'header.editInvoice';
 
             return t(title);
         };
@@ -589,7 +585,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                     leftIconPress: () => this.onDraft(handleSubmit),
                     title: getTitle(),
                     placement: 'center',
-                    ...(!isEditInvoice && {
+                    ...(!isEditScreen && {
                         rightIcon: 'save',
                         rightIconProps: { solid: true },
                         rightIconPress: handleSubmit(this.downloadInvoice)
@@ -603,9 +599,7 @@ export class Invoice extends React.Component<IProps, IStates> {
                     withLoading ? 80 : 100
                 }`}
             >
-                {isEditInvoice &&
-                    !hasCompleteStatus &&
-                    this.sendMailComponent()}
+                {isEditScreen && !hasCompleteStatus && this.sendMailComponent()}
 
                 <CtView flex={1} flex-row>
                     <CtView flex={1} justify-between>
@@ -783,7 +777,7 @@ export class Invoice extends React.Component<IProps, IStates> {
 
                 <Notes
                     {...this.props}
-                    isEditInvoice={isEditInvoice}
+                    isEditScreen={isEditScreen}
                     setFormField={this.setFormField}
                 />
 

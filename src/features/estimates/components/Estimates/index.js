@@ -10,13 +10,7 @@ import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import estimateFilterFields from './filterFields';
 import { isFilterApply } from '@/utils';
 import { ARROW_ICON, IMAGES } from '@/assets';
-import {
-    ESTIMATES_TABS,
-    ESTIMATE_ADD,
-    ESTIMATE_EDIT,
-    ESTIMATE_SEARCH,
-    TAB_NAME
-} from '../../constants';
+import { ESTIMATES_TABS, ESTIMATE_SEARCH, TAB_NAME } from '../../constants';
 import EstimateServices from '../../services';
 
 interface IProps {
@@ -94,7 +88,7 @@ export class Estimates extends React.Component<IProps, IStates> {
 
         navigation.navigate(ROUTES.ESTIMATE, {
             id: estimate.id,
-            type: ESTIMATE_EDIT
+            type: 'UPDATE'
         });
     };
 
@@ -197,7 +191,7 @@ export class Estimates extends React.Component<IProps, IStates> {
 
     onAddEstimate = () => {
         const { navigation } = this.props;
-        navigation.navigate(ROUTES.ESTIMATE, { type: ESTIMATE_ADD });
+        navigation.navigate(ROUTES.ESTIMATE, { type: 'ADD' });
     };
 
     getEmptyContentProps = activeTab => {

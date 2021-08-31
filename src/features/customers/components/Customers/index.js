@@ -3,7 +3,6 @@ import React from 'react';
 import t from 'locales/use-translation';
 import { ListView, MainLayout, InfiniteScroll } from '@/components';
 import { ROUTES } from '@/navigation';
-import { CUSTOMER_ADD, CUSTOMER_EDIT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { customersFilterFields as filterFields } from './filterFields';
 import { IMAGES } from '@/assets';
@@ -72,7 +71,7 @@ export class Customers extends React.Component<IProps> {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CUSTOMER, {
             customerId: customer.id,
-            type: CUSTOMER_EDIT
+            type: 'UPDATE'
         });
     };
 
@@ -106,7 +105,7 @@ export class Customers extends React.Component<IProps> {
                     buttonTitle: t('customers.empty.buttonTitle'),
                     buttonPress: () => {
                         navigation.navigate(ROUTES.CUSTOMER, {
-                            type: CUSTOMER_ADD
+                            type: 'ADD'
                         });
                     }
                 })
@@ -116,7 +115,7 @@ export class Customers extends React.Component<IProps> {
             rightIcon: 'plus',
             rightIconPress: () => {
                 navigation.navigate(ROUTES.CUSTOMER, {
-                    type: CUSTOMER_ADD
+                    type: 'ADD'
                 });
             },
             title: t('header.customers'),

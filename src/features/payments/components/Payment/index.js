@@ -7,7 +7,6 @@ import styles from './styles';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import t from 'locales/use-translation';
 import { IMAGES } from '@/assets';
-import { CUSTOMER_ADD } from '@/features/customers/constants';
 import {
     InputField,
     DefaultLayout,
@@ -20,7 +19,6 @@ import {
     ActionButton
 } from '@/components';
 import {
-    PAYMENT_ADD,
     PAYMENT_FORM,
     PAYMENT_ACTIONS,
     ACTIONS_VALUE,
@@ -93,12 +91,12 @@ export class Payment extends React.Component<IProps> {
             getCreatePayment,
             getPaymentDetail,
             isEditScreen,
-            type,
-            id,
-            hasRecordPayment
+            isCreateScreen,
+            hasRecordPayment,
+            id
         } = this.props;
 
-        if (type === PAYMENT_ADD) {
+        if (isCreateScreen) {
             getCreatePayment({
                 onSuccess: ({ nextNumber, prefix }) => {
                     const values = {
@@ -186,13 +184,13 @@ export class Payment extends React.Component<IProps> {
 
         const { selectedInvoice, isLoading } = this.state;
         const {
-            type,
             handleSubmit,
             createPayment,
             updatePayment,
             navigation,
             hasRecordPayment,
             isEditScreen,
+            isCreateScreen,
             id
         } = this.props;
 
@@ -231,7 +229,7 @@ export class Payment extends React.Component<IProps> {
             }
         }
 
-        if (type === PAYMENT_ADD) {
+        if (isCreateScreen) {
             createPayment({
                 params,
                 navigation,
@@ -334,7 +332,7 @@ export class Payment extends React.Component<IProps> {
     navigateToCustomer = () => {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CUSTOMER, {
-            type: CUSTOMER_ADD,
+            type: 'ADD',
             onSelect: item => {
                 this.customerReference?.changeDisplayValue?.(item);
                 this.onSelectCustomer(item);
@@ -397,6 +395,7 @@ export class Payment extends React.Component<IProps> {
             unPaidInvoices,
             withLoading,
             customFields,
+            isCreateScreen,
             isEditScreen,
             isAllowToEdit,
             isAllowToDelete,
@@ -518,9 +517,9 @@ export class Payment extends React.Component<IProps> {
                         image: IMAGES.EMPTY_CUSTOMERS
                     }}
                     isRequired
-                    isEditable={type === PAYMENT_ADD}
+                    isEditable={isCreateScreen}
                     fakeInputProps={{
-                        disabled: type !== PAYMENT_ADD
+                        disabled: isEditScreen
                     }}
                     reference={ref => (this.customerReference = ref)}
                 />
@@ -551,9 +550,9 @@ export class Payment extends React.Component<IProps> {
                         status: 'UNPAID'
                     }}
                     reference={ref => (this.invoiceReference = ref)}
-                    isEditable={type === PAYMENT_ADD}
+                    isEditable={isCreateScreen}
                     fakeInputProps={{
-                        disabled: type !== PAYMENT_ADD
+                        disabled: isEditScreen
                     }}
                 />
 

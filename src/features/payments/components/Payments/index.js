@@ -6,7 +6,7 @@ import styles from './styles';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { IMAGES } from '@/assets';
 import t from 'locales/use-translation';
-import { PAYMENT_ADD, PAYMENT_EDIT, PAYMENT_SEARCH } from '../../constants';
+import { PAYMENT_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import paymentsFilterFields from './filterFields';
 import { isFilterApply } from '@/utils';
@@ -56,7 +56,7 @@ export class Payments extends React.Component<IProps> {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.PAYMENT, {
             paymentId: payment.id,
-            type: PAYMENT_EDIT
+            type: 'UPDATE'
         });
     };
 
@@ -132,7 +132,7 @@ export class Payments extends React.Component<IProps> {
                     buttonTitle: t('payments.empty.buttonTitle'),
                     buttonPress: () => {
                         navigation.navigate(ROUTES.PAYMENT, {
-                            type: PAYMENT_ADD
+                            type: 'ADD'
                         });
                     }
                 })
@@ -142,7 +142,7 @@ export class Payments extends React.Component<IProps> {
             rightIcon: 'plus',
             rightIconPress: () => {
                 navigation.navigate(ROUTES.PAYMENT, {
-                    type: PAYMENT_ADD
+                    type: 'ADD'
                 });
             },
             title: t('header.payments'),

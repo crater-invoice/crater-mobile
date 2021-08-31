@@ -6,10 +6,7 @@ import { Field } from 'redux-form';
 import { formatNotesType } from '@/utils';
 import { PAYMENT_FIELDS as FIELDS } from '../../constants';
 import { ROUTES } from '@/navigation';
-import {
-    NOTES_ADD,
-    NOTES_TYPE_VALUE as NOTES_TYPE
-} from '@/features/settings/constants';
+import { NOTES_TYPE_VALUE as NOTES_TYPE } from '@/features/settings/constants';
 import { isIPhoneX } from '@/constants';
 
 interface IProps {
@@ -34,7 +31,7 @@ export default class Notes extends Component<IProps> {
         const { navigation } = this.props;
 
         navigation.navigate(ROUTES.NOTE, {
-            type: NOTES_ADD,
+            type: 'ADD',
             modalType: NOTES_TYPE.PAYMENT,
             onSelect: item => this.onSelect(item)
         });

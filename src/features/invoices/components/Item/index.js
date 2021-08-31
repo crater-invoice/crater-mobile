@@ -31,7 +31,7 @@ import {
     isIPhoneX,
     MAX_LENGTH
 } from '@/constants';
-import { ADD_TAX, CUSTOMIZE_TYPE } from '@/features/settings/constants';
+import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
 
 export class InvoiceItem extends React.Component {
     constructor(props) {
@@ -557,7 +557,7 @@ export class InvoiceItem extends React.Component {
                         }}
                         rightIconPress={() =>
                             navigation.navigate(ROUTES.TAX, {
-                                type: ADD_TAX,
+                                type: 'ADD',
                                 onSelect: val => {
                                     this.setFormField('taxes', [
                                         ...val,

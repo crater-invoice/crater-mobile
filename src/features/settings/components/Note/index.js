@@ -12,10 +12,7 @@ import {
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import t from 'locales/use-translation';
 import { alertMe, hasTextLength, hasValue } from '@/constants';
-import {
-    NOTES_FIELD_MODAL_TYPES as MODAL_TYPES,
-    NOTES_ADD
-} from '../../constants';
+import { NOTES_FIELD_MODAL_TYPES as MODAL_TYPES } from '../../constants';
 
 interface IProps {
     navigation: any;
@@ -51,9 +48,9 @@ export default class Note extends React.Component<IProps> {
     }
 
     getCustomFields = () => {
-        const { type, getCreateNote, isEditScreen, getNoteDetail } = this.props;
+        const { getCreateNote, isEditScreen, getNoteDetail } = this.props;
 
-        if (type === NOTES_ADD) {
+        if (!isEditScreen) {
             getCreateNote({
                 onSuccess: () => this.setState({ isLoading: false })
             });
@@ -70,11 +67,11 @@ export default class Note extends React.Component<IProps> {
 
     onSubmit = note => {
         const {
-            type,
             createNote,
             updateNote,
             navigation,
-            onSelect
+            onSelect,
+            isCreateScreen
         } = this.props;
 
         if (this.state.isLoading) {
@@ -95,7 +92,7 @@ export default class Note extends React.Component<IProps> {
             }
         };
 
-        type === NOTES_ADD ? createNote(params) : updateNote(params);
+        isCreateScreen ? createNote(params) : updateNote(params);
     };
 
     removeNote = () => {

@@ -3,15 +3,14 @@ import { Item } from '../../components/Item';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as MoreAction from '../../actions';
-import { ITEM_FORM, EDIT_ITEM } from '../../constants';
+import { ITEM_FORM } from '../../constants';
+import { getUnitState } from '../../selectors';
+import { commonSelector, permissionSelector } from 'modules/common/selectors';
 import {
     getItemUnits,
     getSettingInfo,
     getTaxes
 } from '@/features/settings/actions';
-import { getUnitState } from '../../selectors';
-import { PermissionService } from '@/services';
-import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -25,19 +24,11 @@ const mapStateToProps = (state, { navigation }) => {
     } = state;
 
     const itemId = navigation.getParam('id', {});
-
-    const type = navigation.getParam('type');
-
-    const isEditItem = type === EDIT_ITEM;
-    const isAllowToEdit = isEditItem
-        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
-        : true;
-    const isAllowToDelete = isEditItem
-        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
-        : true;
+    const permissions = permissionSelector(navigation);
+    const isEditScreen = permissions.isEditScreen;
 
     const isLoading =
-        loading?.itemLoading || itemUnitsLoading || (isEditItem && !item);
+        loading?.itemLoading || itemUnitsLoading || (isEditScreen && !item);
 
     return {
         loading: isLoading,
@@ -45,12 +36,9 @@ const mapStateToProps = (state, { navigation }) => {
         itemId,
         taxTypes,
         taxByItems,
-        type,
-        isEditItem,
-        isAllowToEdit,
-        isAllowToDelete,
         currency,
         units: getUnitState(units),
+        ...permissions,
         ...commonSelector(state),
         initialValues: !isLoading
             ? {

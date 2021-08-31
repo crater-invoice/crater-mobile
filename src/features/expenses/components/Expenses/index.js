@@ -5,7 +5,7 @@ import { change } from 'redux-form';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { IMAGES } from '@/assets';
 import t from 'locales/use-translation';
-import { EXPENSE_ADD, EXPENSE_EDIT, EXPENSE_SEARCH } from '../../constants';
+import { EXPENSE_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import expenseFilterFields from './filterFields';
 import { isFilterApply } from '@/utils';
@@ -45,7 +45,7 @@ export class Expenses extends React.Component<IProps> {
 
     onSelect = ({ id }) => {
         const { navigation } = this.props;
-        navigation.navigate(ROUTES.EXPENSE, { type: EXPENSE_EDIT, id });
+        navigation.navigate(ROUTES.EXPENSE, { type: 'UPDATE', id });
     };
 
     setFormField = (field, value) => {
@@ -120,7 +120,7 @@ export class Expenses extends React.Component<IProps> {
                     buttonTitle: t('expenses.empty.buttonTitle'),
                     buttonPress: () => {
                         navigation.navigate(ROUTES.EXPENSE, {
-                            type: EXPENSE_ADD
+                            type: 'ADD'
                         });
                     }
                 })
@@ -130,7 +130,7 @@ export class Expenses extends React.Component<IProps> {
             rightIcon: 'plus',
             rightIconPress: () => {
                 navigation.navigate(ROUTES.EXPENSE, {
-                    type: EXPENSE_ADD
+                    type: 'ADD'
                 });
             },
             title: t('header.expenses'),

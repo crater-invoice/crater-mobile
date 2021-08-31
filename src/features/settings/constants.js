@@ -32,16 +32,8 @@ export const TOUCH_FACE_ID_FORM = 'biometry/TOUCH_FACE_ID_FORM';
 
 // Types
 // -----------------------------------------
-export const CATEGORY_ADD = 'category/CATEGORY_ADD';
-export const CATEGORY_EDIT = 'category/CATEGORY_EDIT';
-export const EDIT_TAX = 'taxType/EDIT_TAX';
-export const ADD_TAX = 'taxType/ADD_TAX';
 export const CREATE_CURRENCY_TYPE = 'currencies/CREATE_CURRENCY_TYPE';
 export const EDIT_CURRENCY_TYPE = 'currencies/EDIT_CURRENCY_TYPE';
-export const CREATE_CUSTOM_FIELD_TYPE = 'custom-field/CREATE_CUSTOM_FIELD_TYPE';
-export const EDIT_CUSTOM_FIELD_TYPE = 'custom-field/EDIT_CUSTOM_FIELD_TYPE';
-export const NOTES_ADD = 'notes/NOTES_ADD';
-export const NOTES_EDIT = 'notes/NOTES_EDIT';
 
 // -----------------------------------------
 export const SETTINGS_SEARCH = 'settings/SETTINGS_SEARCH';

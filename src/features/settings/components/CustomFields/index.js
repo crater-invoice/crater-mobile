@@ -6,11 +6,7 @@ import styles from './styles';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { ROUTES } from '@/navigation';
 import t from 'locales/use-translation';
-import {
-    CUSTOM_FIELDS_FORM,
-    CREATE_CUSTOM_FIELD_TYPE,
-    EDIT_CUSTOM_FIELD_TYPE
-} from '../../constants';
+import { CUSTOM_FIELDS_FORM } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { ARROW_ICON } from '@/assets';
 
@@ -49,7 +45,7 @@ export class CustomFields extends React.Component<IProps> {
     onSelect = field => {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CUSTOMER_FIELD, {
-            type: EDIT_CUSTOM_FIELD_TYPE,
+            type: 'UPDATE',
             field
         });
     };
@@ -82,7 +78,7 @@ export class CustomFields extends React.Component<IProps> {
                 buttonTitle: t('customFields.empty.buttonTitle'),
                 buttonPress: () => {
                     navigation.navigate(ROUTES.CUSTOMER_FIELD, {
-                        type: CREATE_CUSTOM_FIELD_TYPE
+                        type: 'ADD'
                     });
                 }
             })
@@ -98,7 +94,7 @@ export class CustomFields extends React.Component<IProps> {
             placement: 'center',
             rightIconPress: () => {
                 navigation.navigate(ROUTES.CUSTOMER_FIELD, {
-                    type: CREATE_CUSTOM_FIELD_TYPE
+                    type: 'ADD'
                 });
             }
         };

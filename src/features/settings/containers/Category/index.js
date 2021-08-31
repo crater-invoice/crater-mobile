@@ -3,34 +3,18 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as actions from '../../actions';
 import { Category } from '../../components/Category';
-import { CATEGORY_FORM, CATEGORY_ADD, CATEGORY_EDIT } from '../../constants';
-import { PermissionService } from '@/services';
-import { commonSelector } from 'modules/common/selectors';
+import { CATEGORY_FORM } from '../../constants';
+import { commonSelector, permissionSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
-    const {
-        settings: {
-            loading: { expenseCategoryLoading, initExpenseCategoryLoading }
-        }
-    } = state;
-
-    let type = navigation.getParam('type', CATEGORY_ADD);
-    const isEditScreen = type === CATEGORY_EDIT;
-    const isAllowToEdit = isEditScreen
-        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
-        : true;
-    const isAllowToDelete = isEditScreen
-        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
-        : true;
+    const loading = state.settings?.loading ?? {};
+    const { expenseCategoryLoading, initExpenseCategoryLoading } = loading;
 
     return {
         categoryLoading: expenseCategoryLoading,
         getEditCategoryLoading: initExpenseCategoryLoading,
-        type,
-        isEditScreen,
-        isAllowToEdit,
-        isAllowToDelete,
         formValues: getFormValues(CATEGORY_FORM)(state) || {},
+        ...permissionSelector(navigation),
         ...commonSelector(state),
         initialValues: {
             name: null,

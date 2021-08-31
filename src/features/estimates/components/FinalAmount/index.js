@@ -14,7 +14,6 @@ import { ROUTES } from '@/navigation';
 import { colors } from '@/styles';
 import t from 'locales/use-translation';
 import { ESTIMATE_DISCOUNT_OPTION } from '../../constants';
-import { ADD_TAX } from '../../../settings/constants';
 import {
     estimateSubTotal,
     getCompoundTaxValue,
@@ -260,7 +259,7 @@ const FinalAmount = ({ state, props }) => {
                     headerProps={{ title: t('taxes.title') }}
                     rightIconPress={() =>
                         navigation.navigate(ROUTES.TAX, {
-                            type: ADD_TAX,
+                            type: 'ADD',
                             onSelect: val => {
                                 setFormField('taxes', [...val, ...taxes]);
                             }

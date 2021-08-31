@@ -19,7 +19,6 @@ import {
     View as CtView
 } from '@/components';
 import {
-    ESTIMATE_ADD,
     ITEM_ADD,
     ITEM_EDIT,
     ESTIMATE_FORM,
@@ -34,7 +33,6 @@ import { colors, headerTitle, itemsDescriptionStyle } from '@/styles';
 import { TemplateField } from '../TemplateField';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import t from 'locales/use-translation';
-import { CUSTOMER_ADD } from '../../../customers/constants';
 import { IMAGES } from '@/assets';
 import {
     estimateSubTotal,
@@ -110,12 +108,11 @@ export class Estimate extends React.Component<IProps> {
         const {
             getCreateEstimate,
             getEditEstimate,
-            type,
-            isEditEstimate,
+            isEditScreen,
             id
         } = this.props;
 
-        if (type === ESTIMATE_ADD) {
+        if (!isEditScreen) {
             getCreateEstimate({
                 onSuccess: () => {
                     this.setState({ isLoading: false });
@@ -124,7 +121,7 @@ export class Estimate extends React.Component<IProps> {
             return;
         }
 
-        if (isEditEstimate) {
+        if (isEditScreen) {
             getEditEstimate({
                 id,
                 onSuccess: ({ customer, status }) => {
@@ -173,7 +170,7 @@ export class Estimate extends React.Component<IProps> {
     };
 
     onDraft = handleSubmit => {
-        const { navigation, isEditEstimate } = this.props;
+        const { navigation, isEditScreen } = this.props;
         const { isLoading } = this.state;
 
         if (isLoading) {
@@ -181,7 +178,7 @@ export class Estimate extends React.Component<IProps> {
             return;
         }
 
-        if (isEditEstimate) {
+        if (isEditScreen) {
             navigation.navigate(ROUTES.ESTIMATE_LIST);
             return;
         }
@@ -198,9 +195,9 @@ export class Estimate extends React.Component<IProps> {
 
     onSubmitEstimate = (values, status = 'draft') => {
         const {
+            isCreateScreen,
             createEstimate,
             navigation,
-            type,
             editEstimate,
             initLoading,
             id,
@@ -264,7 +261,7 @@ export class Estimate extends React.Component<IProps> {
                 handleSubmit(() => this.throwError(errors))()
         };
 
-        type === ESTIMATE_ADD ? createEstimate(params) : editEstimate(params);
+        isCreateScreen ? createEstimate(params) : editEstimate(params);
     };
 
     downloadEstimate = values => {
@@ -330,7 +327,7 @@ export class Estimate extends React.Component<IProps> {
         const { currency } = this.state;
 
         navigation.navigate(ROUTES.CUSTOMER, {
-            type: CUSTOMER_ADD,
+            type: 'ADD',
             currency,
             onSelect: item => {
                 this.customerReference?.changeDisplayValue?.(item);
@@ -534,7 +531,7 @@ export class Estimate extends React.Component<IProps> {
             customers,
             formValues,
             customFields,
-            isEditEstimate,
+            isEditScreen,
             isAllowToEdit,
             isAllowToDelete,
             loading,
@@ -544,7 +541,7 @@ export class Estimate extends React.Component<IProps> {
         const { currency, customerName, markAsStatus, isLoading } = this.state;
         const disabled = !isAllowToEdit;
 
-        const hasCustomField = isEditEstimate
+        const hasCustomField = isEditScreen
             ? formValues && formValues.hasOwnProperty('fields')
             : isArray(customFields);
 
@@ -556,7 +553,7 @@ export class Estimate extends React.Component<IProps> {
             markAsStatus === MARK_AS_SENT;
 
         let drownDownProps =
-            isEditEstimate && !initLoading
+            isEditScreen && !initLoading
                 ? {
                       options: EDIT_ESTIMATE_ACTIONS(
                           markAsStatus,
@@ -584,8 +581,8 @@ export class Estimate extends React.Component<IProps> {
 
         const getTitle = () => {
             let title = 'header.addEstimate';
-            if (isEditEstimate && !isAllowToEdit) title = 'header.viewEstimate';
-            if (isEditEstimate && isAllowToEdit) title = 'header.editEstimate';
+            if (isEditScreen && !isAllowToEdit) title = 'header.viewEstimate';
+            if (isEditScreen && isAllowToEdit) title = 'header.editEstimate';
 
             return t(title);
         };
@@ -618,7 +615,7 @@ export class Estimate extends React.Component<IProps> {
                         marginLeft: -15,
                         marginRight: -15
                     }),
-                    ...(!isEditEstimate && {
+                    ...(!isEditScreen && {
                         rightIcon: 'save',
                         rightIconProps: { solid: true },
                         rightIconPress: handleSubmit(this.saveEstimate)
@@ -632,9 +629,7 @@ export class Estimate extends React.Component<IProps> {
                     withLoading ? 80 : 100
                 }`}
             >
-                {isEditEstimate &&
-                    !hasCompleteStatus &&
-                    this.sendMailComponent()}
+                {isEditScreen && !hasCompleteStatus && this.sendMailComponent()}
 
                 <CtView flex={1} flex-row>
                     <CtView flex={1} justify-between>
@@ -814,7 +809,7 @@ export class Estimate extends React.Component<IProps> {
 
                 <Notes
                     {...this.props}
-                    isEditEstimate={isEditEstimate}
+                    isEditScreen={isEditScreen}
                     setFormField={this.setFormField}
                 />
 

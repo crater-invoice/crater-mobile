@@ -6,7 +6,7 @@ import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { ROUTES } from '@/navigation';
 import { ARROW_ICON, IMAGES } from '@/assets';
 import t from 'locales/use-translation';
-import { ADD_ITEM, EDIT_ITEM, ITEM_SEARCH } from '../../constants';
+import { ITEM_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { formatItems, isFilterApply } from '@/utils';
 import { hasTextLength, isIPhoneX } from '@/constants';
@@ -46,7 +46,7 @@ export class Items extends React.Component<IProps> {
 
     onSelect = ({ id }) => {
         const { navigation } = this.props;
-        navigation.navigate(ROUTES.GLOBAL_ITEM, { type: EDIT_ITEM, id });
+        navigation.navigate(ROUTES.GLOBAL_ITEM, { type: 'UPDATE', id });
     };
 
     onResetFilter = () => {
@@ -106,7 +106,7 @@ export class Items extends React.Component<IProps> {
             rightIcon: 'plus',
             rightIconPress: () => {
                 navigation.navigate(ROUTES.GLOBAL_ITEM, {
-                    type: ADD_ITEM
+                    type: 'ADD'
                 });
             }
         };
@@ -138,7 +138,7 @@ export class Items extends React.Component<IProps> {
                     buttonTitle: t('items.empty.buttonTitle'),
                     buttonPress: () => {
                         navigation.navigate(ROUTES.GLOBAL_ITEM, {
-                            type: ADD_ITEM
+                            type: 'ADD'
                         });
                     }
                 })

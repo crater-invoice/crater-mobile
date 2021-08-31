@@ -10,13 +10,7 @@ import t from 'locales/use-translation';
 import { ROUTES } from '@/navigation';
 import { MainLayout, Tabs } from '@/components';
 import { IMAGES } from '@/assets';
-import {
-    INVOICES_TABS,
-    INVOICE_ADD,
-    INVOICE_EDIT,
-    INVOICE_SEARCH,
-    TAB_NAME
-} from '../../constants';
+import { INVOICES_TABS, INVOICE_SEARCH, TAB_NAME } from '../../constants';
 import { isFilterApply } from '@/utils';
 import InvoiceServices from '../../services';
 import { openRatingReviewModal } from '@/utils';
@@ -88,7 +82,7 @@ export class Invoices extends React.Component<IProps> {
 
         navigation.navigate(ROUTES.INVOICE, {
             id: invoice?.id,
-            type: INVOICE_EDIT
+            type: 'UPDATE'
         });
     };
 
@@ -187,7 +181,7 @@ export class Invoices extends React.Component<IProps> {
 
     onAddInvoice = () => {
         const { navigation } = this.props;
-        navigation.navigate(ROUTES.INVOICE, { type: INVOICE_ADD });
+        navigation.navigate(ROUTES.INVOICE, { type: 'ADD' });
     };
 
     onChangeState = (field, value) => this.setState({ [field]: value });
@@ -227,7 +221,7 @@ export class Invoices extends React.Component<IProps> {
                     buttonTitle: t('invoices.empty.buttonTitle'),
                     buttonPress: () =>
                         navigation.navigate(ROUTES.INVOICE, {
-                            type: INVOICE_ADD
+                            type: 'ADD'
                         })
                 })
         };

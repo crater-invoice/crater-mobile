@@ -5,11 +5,6 @@ import t from 'locales/use-translation';
 export const PAYMENT_SEARCH = 'payments/PAYMENT_SEARCH';
 export const PAYMENT_FORM = 'payments/PAYMENT_FORM';
 
-// Screen Type
-// -----------------------------------------
-export const PAYMENT_ADD = 'payments/PAYMENT_ADD';
-export const PAYMENT_EDIT = 'payments/PAYMENT_EDIT';
-
 // Types
 // -----------------------------------------
 export const GET_PAYMENTS = 'payments/GET_PAYMENTS';

@@ -11,13 +11,11 @@ export const setInvoiceRefs = refs => (invoiceRefs = refs);
 export const INVOICE_SEARCH = 'invoiceForm/INVOICE_SEARCH';
 export const RECURRING_INVOICES_FORM = 'recurringInvoice/RECURRING_INVOICES';
 export const RECURRING_FORM = 'recurringInvoice/RECURRING_FORM';
-export const INVOICE_FORM = 'invoiceForm/INVOICE_EDIT';
+export const INVOICE_FORM = 'invoiceForm/INVOICE_FORM';
 export const ITEM_FORM = 'item/ITEM_FORM';
 
 // Type
 // -----------------------------------------
-export const INVOICE_ADD = 'invoiceForm/INVOICE_ADD';
-export const INVOICE_EDIT = 'invoiceForm/INVOICE_EDIT';
 export const RECURRING_ADD = 'recurringInvoice/RECURRING_ADD';
 export const RECURRING_EDIT = 'recurringInvoice/RECURRING_EDIT';
 

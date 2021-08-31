@@ -6,11 +6,6 @@ export const CUSTOMER_SEARCH = 'customers/CUSTOMER_SEARCH';
 export const CUSTOMER_FORM = 'customers/CUSTOMER_FORM';
 export const CUSTOMER_ADDRESS = 'customers/CUSTOMER_ADDRESS';
 
-// Type
-// -----------------------------------------
-export const CUSTOMER_ADD = 'customers/CUSTOMER_ADD';
-export const CUSTOMER_EDIT = 'customers/CUSTOMER_EDIT';
-
 // Types
 // -----------------------------------------
 export const GET_CUSTOMERS = 'customers/GET_CUSTOMERS';

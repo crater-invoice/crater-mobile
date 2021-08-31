@@ -4,14 +4,8 @@ import { validate } from './validation';
 import * as actions from '../../actions';
 import { Customer } from '../../components/Customer';
 import { getStateCurrencies } from '../../selectors';
-import { PermissionService } from '@/services';
-import { commonSelector } from 'modules/common/selectors';
-import {
-    CUSTOMER_FORM,
-    CUSTOMER_ADD,
-    CUSTOMER_FIELDS as FIELDS,
-    CUSTOMER_EDIT
-} from '../../constants';
+import { commonSelector, permissionSelector } from 'modules/common/selectors';
+import { CUSTOMER_FORM, CUSTOMER_FIELDS as FIELDS } from '../../constants';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -20,27 +14,16 @@ const mapStateToProps = (state, { navigation }) => {
     } = state;
     const customFields = state.settings?.customFields;
     const id = navigation.getParam('customerId', null);
-    const type = navigation.getParam('type', CUSTOMER_ADD);
-    const isEditScreen = type === CUSTOMER_EDIT;
-    const isAllowToEdit = isEditScreen
-        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
-        : true;
-    const isAllowToDelete = isEditScreen
-        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
-        : true;
 
     return {
         formValues: getFormValues(CUSTOMER_FORM)(state) || {},
-        type,
         currencies: getStateCurrencies(currencies),
         countries,
         currency,
         customFields,
-        isAllowToEdit,
-        isAllowToDelete,
-        isEditScreen,
         loading: loading?.customerLoading,
         id,
+        ...permissionSelector(navigation),
         ...commonSelector(state),
         initialValues: {
             customer: {

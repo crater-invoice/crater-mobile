@@ -3,7 +3,6 @@
 import React from 'react';
 import t from 'locales/use-translation';
 import { InfiniteScroll, ListView, MainLayout } from '@/components';
-import { EDIT_COMPANY_TYPE, ADD_COMPANY_TYPE } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { ARROW_ICON } from '@/assets';
 import { fetchCompanies } from '../../actions';
@@ -48,7 +47,7 @@ export default class Companies extends React.Component {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.COMPANY, {
             company,
-            type: EDIT_COMPANY_TYPE
+            type: 'UPDATE'
         });
     };
 
@@ -64,7 +63,7 @@ export default class Companies extends React.Component {
                 buttonTitle: t('company.text_add_new_company'),
                 buttonPress: () => {
                     navigation.navigate(ROUTES.COMPANY, {
-                        type: ADD_COMPANY_TYPE
+                        type: 'ADD'
                     });
                 }
             })
@@ -78,7 +77,7 @@ export default class Companies extends React.Component {
             navigation,
             rightIcon: 'plus',
             rightIconPress: () =>
-                navigation.navigate(ROUTES.COMPANY, { type: ADD_COMPANY_TYPE })
+                navigation.navigate(ROUTES.COMPANY, { type: 'ADD' })
         };
 
         return (

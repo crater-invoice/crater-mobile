@@ -35,8 +35,6 @@ import {
     DEFAULT_DATE_TIME_FIELD
 } from './options';
 import {
-    EDIT_CUSTOM_FIELD_TYPE,
-    CREATE_CUSTOM_FIELD_TYPE,
     CUSTOM_FIELD_FORM,
     CUSTOM_FIELDS as FIELDS,
     DATA_TYPE_OPTION_VALUE as OPTION_VALUE,
@@ -69,10 +67,17 @@ export class CustomField extends React.Component<IProps> {
     }
 
     componentDidMount() {
-        const { navigation, type, dispatch, getCustomField, id } = this.props;
+        const {
+            id,
+            navigation,
+            isEditScreen,
+            dispatch,
+            getCustomField
+        } = this.props;
+
         goBack(MOUNT, navigation);
 
-        if (type === EDIT_CUSTOM_FIELD_TYPE) {
+        if (isEditScreen) {
             getCustomField({
                 id,
                 onResult: res => {
@@ -104,14 +109,14 @@ export class CustomField extends React.Component<IProps> {
     onSubmit = ({ field }) => {
         const {
             id,
-            type,
             createCustomField,
             editCustomField,
             navigation,
             loading,
             formValues,
             getCustomFieldLoading,
-            removeCustomFieldLoading
+            removeCustomFieldLoading,
+            isCreateScreen
         } = this.props;
 
         if (
@@ -125,8 +130,7 @@ export class CustomField extends React.Component<IProps> {
                 : [];
             const params = { ...field, [FIELDS.OPTIONS]: options };
 
-            if (type === CREATE_CUSTOM_FIELD_TYPE)
-                createCustomField({ params, navigation });
+            if (isCreateScreen) createCustomField({ params, navigation });
             else {
                 editCustomField({ id, params, navigation });
             }

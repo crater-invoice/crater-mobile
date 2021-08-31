@@ -1,23 +1,23 @@
 import Lng from './i18n';
 
 class Translation {
-    locale: string;
+  locale: string;
 
-    constructor() {
-        this.locale = 'en';
+  constructor() {
+    this.locale = 'en';
+  }
+
+  setLocale = locale => {
+    if (this.locale === locale) {
+      return;
     }
 
-    setLocale = locale => {
-        if (this.locale === locale) {
-            return;
-        }
+    this.locale = locale;
+  };
 
-        this.locale = locale;
-    };
-
-    t = (title: string, options = {}) => {
-        return Lng.t(title, { locale: this.locale, ...options });
-    };
+  t = (title: string, options = {}) => {
+    return Lng.t(title, {locale: this.locale, ...options});
+  };
 }
 
 export const TranslationService = new Translation();

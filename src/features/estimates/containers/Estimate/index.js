@@ -4,13 +4,12 @@ import { Estimate } from '../../components/Estimate';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as actions from '../../actions';
-import { ESTIMATE_FORM, ESTIMATE_EDIT } from '../../constants';
+import { ESTIMATE_FORM } from '../../constants';
 import moment from 'moment';
 import { getTaxes, getNotes } from '@/features/settings/actions';
 import { isArray } from '@/constants';
 import { getCustomers } from '@/features/customers/actions';
-import { PermissionService } from '@/services';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector, permissionSelector } from 'modules/common/selectors';
 
 const getSelectedTemplate = (templates, form, isEditScreen) => {
     if (!isEditScreen) {
@@ -38,21 +37,14 @@ const mapStateToProps = (state, { navigation }) => {
         estimate_notes = ''
     } = estimateData;
 
-    const type = navigation.getParam('type');
     const id = navigation.getParam('id');
-    const isEditEstimate = type === ESTIMATE_EDIT;
+    const permissions = permissionSelector(navigation);
+    const isEditScreen = permissions.isEditScreen;
 
     const isLoading =
         loading?.initEstimateLoading ||
-        (isEditEstimate && !estimate) ||
+        (isEditScreen && !estimate) ||
         !isArray(estimateTemplates);
-
-    const isAllowToEdit = isEditEstimate
-        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
-        : true;
-    const isAllowToDelete = isEditEstimate
-        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
-        : true;
 
     return {
         initLoading: isLoading,
@@ -62,7 +54,6 @@ const mapStateToProps = (state, { navigation }) => {
         estimateItems,
         estimateData,
         items,
-        type,
         notes,
         customers,
         itemsLoading: loading?.itemsLoading,
@@ -71,9 +62,7 @@ const mapStateToProps = (state, { navigation }) => {
         customFields,
         id,
         currency,
-        isEditEstimate,
-        isAllowToEdit,
-        isAllowToDelete,
+        ...permissions,
         ...commonSelector(state),
         initialValues: !isLoading
             ? {
@@ -85,14 +74,14 @@ const mapStateToProps = (state, { navigation }) => {
                   template_name: getSelectedTemplate(
                       estimateTemplates,
                       estimate,
-                      isEditEstimate
+                      isEditScreen
                   ),
                   notes: estimate_notes,
                   ...estimate,
-                  estimate_number: isEditEstimate
+                  estimate_number: isEditScreen
                       ? estimateData?.nextEstimateNumber
                       : estimateData?.nextNumber,
-                  prefix: isEditEstimate
+                  prefix: isEditScreen
                       ? estimateData?.estimatePrefix
                       : estimateData?.prefix,
                   customer: estimate?.user,

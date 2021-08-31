@@ -24,7 +24,7 @@ import {
 import { colors } from '@/styles';
 import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import { ADD_TAX, CUSTOMIZE_TYPE } from '@/features/settings/constants';
+import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
 import {
     alertMe,
     hasValue,
@@ -562,7 +562,7 @@ export class EstimateItem extends React.Component {
                         }}
                         rightIconPress={() =>
                             navigation.navigate(ROUTES.TAX, {
-                                type: ADD_TAX,
+                                type: 'ADD',
                                 onSelect: val => {
                                     this.setFormField('taxes', [
                                         ...val,

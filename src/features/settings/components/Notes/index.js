@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import t from 'locales/use-translation';
-import { NOTES_ADD, NOTES_EDIT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { formatNotes } from '@/utils';
 import { ARROW_ICON } from '@/assets';
@@ -45,7 +44,7 @@ export default class Notes extends Component<IProps> {
     onSelect = note => {
         const { navigation } = this.props;
 
-        navigation.navigate(ROUTES.NOTE, { type: NOTES_EDIT, note });
+        navigation.navigate(ROUTES.NOTE, { type: 'UPDATE', note });
     };
 
     onSearch = search => {
@@ -71,7 +70,7 @@ export default class Notes extends Component<IProps> {
                 buttonTitle: t('notes.empty.buttonTitle'),
                 buttonPress: () => {
                     navigation.navigate(ROUTES.NOTE, {
-                        type: NOTES_ADD
+                        type: 'ADD'
                     });
                 }
             })
@@ -86,7 +85,7 @@ export default class Notes extends Component<IProps> {
             rightIcon: 'plus',
             rightIconPress: () =>
                 navigation.navigate(ROUTES.NOTE, {
-                    type: NOTES_ADD
+                    type: 'ADD'
                 })
         };
 

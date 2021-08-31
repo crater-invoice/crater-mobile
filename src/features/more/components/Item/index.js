@@ -14,13 +14,13 @@ import {
     ActionButton
 } from '@/components';
 import { ROUTES } from '@/navigation';
-import { ITEM_FORM, ADD_ITEM } from '../../constants';
+import { ITEM_FORM } from '../../constants';
 import { colors } from '@/styles/colors';
 import t from 'locales/use-translation';
 import { goBack, UNMOUNT, MOUNT } from '@/navigation';
 import { isIosPlatform, isIPhoneX } from '@/constants';
 import { alertMe, hasValue, MAX_LENGTH } from '@/constants';
-import { ADD_TAX, CUSTOMIZE_TYPE } from '@/features/settings/constants';
+import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
 
 export class Item extends React.Component {
     constructor(props) {
@@ -45,13 +45,12 @@ export class Item extends React.Component {
     setInitialValues = () => {
         const {
             getEditItem,
-            type,
-            isEditItem,
+            isEditScreen,
             itemId,
             getSettingInfo
         } = this.props;
 
-        if (type === ADD_ITEM) {
+        if (!isEditScreen) {
             getSettingInfo({
                 key: 'tax_per_item',
                 onSuccess: res => {
@@ -64,7 +63,7 @@ export class Item extends React.Component {
             return;
         }
 
-        if (isEditItem) {
+        if (isEditScreen) {
             getEditItem({
                 id: itemId,
                 onResult: () => {
@@ -80,7 +79,13 @@ export class Item extends React.Component {
     };
 
     saveItem = values => {
-        const { addItem, editItem, itemId, navigation, type } = this.props;
+        const {
+            addItem,
+            editItem,
+            itemId,
+            isCreateScreen,
+            navigation
+        } = this.props;
 
         if (this.state.isLoading) {
             return;
@@ -107,7 +112,7 @@ export class Item extends React.Component {
                 })
         };
 
-        type == ADD_ITEM
+        isCreateScreen
             ? addItem({
                   item,
                   onResult: () => {
@@ -368,7 +373,7 @@ export class Item extends React.Component {
                 }}
                 rightIconPress={() =>
                     navigation.navigate(ROUTES.TAX, {
-                        type: ADD_TAX,
+                        type: 'ADD',
                         onSelect: val => {
                             this.setFormField('taxes', [...val, ...taxes]);
                         }
@@ -390,7 +395,7 @@ export class Item extends React.Component {
             units,
             getItemUnits,
             currency,
-            isEditItem,
+            isEditScreen,
             isAllowToEdit,
             isAllowToDelete,
             loading
@@ -402,8 +407,8 @@ export class Item extends React.Component {
 
         const getTitle = () => {
             let title = 'header.addItem';
-            if (isEditItem && !isAllowToEdit) title = 'header.viewItem';
-            if (isEditItem && isAllowToEdit) title = 'header.editItem';
+            if (isEditScreen && !isAllowToEdit) title = 'header.viewItem';
+            if (isEditScreen && isAllowToEdit) title = 'header.editItem';
 
             return t(title);
         };
@@ -419,7 +424,7 @@ export class Item extends React.Component {
                 label: 'button.remove',
                 onPress: this.removeItem,
                 bgColor: 'btn-danger',
-                show: isEditItem && isAllowToDelete,
+                show: isEditScreen && isAllowToDelete,
                 loading
             }
         ];

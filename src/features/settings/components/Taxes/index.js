@@ -3,7 +3,6 @@
 import React from 'react';
 import { InfiniteScroll, ListView, MainLayout } from '@/components';
 import t from 'locales/use-translation';
-import { EDIT_TAX, ADD_TAX } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { itemsDescriptionStyle } from '@/styles';
 import { ARROW_ICON } from '@/assets';
@@ -43,7 +42,7 @@ export class Taxes extends React.Component {
 
     onSelect = tax => {
         const { navigation } = this.props;
-        navigation.navigate(ROUTES.TAX, { tax, type: EDIT_TAX });
+        navigation.navigate(ROUTES.TAX, { tax, type: 'UPDATE' });
     };
 
     render() {
@@ -58,7 +57,7 @@ export class Taxes extends React.Component {
                 description: t('taxes.empty.description'),
                 buttonTitle: t('taxes.empty.buttonTitle'),
                 buttonPress: () => {
-                    navigation.navigate(ROUTES.TAX, { type: ADD_TAX });
+                    navigation.navigate(ROUTES.TAX, { type: 'ADD' });
                 }
             })
         };
@@ -71,7 +70,7 @@ export class Taxes extends React.Component {
             navigation,
             rightIcon: 'plus',
             rightIconPress: () =>
-                navigation.navigate(ROUTES.TAX, { type: ADD_TAX })
+                navigation.navigate(ROUTES.TAX, { type: 'ADD' })
         };
 
         return (

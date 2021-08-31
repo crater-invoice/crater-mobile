@@ -9,13 +9,8 @@ export const setEstimateRefs = refs => (estimateRefs = refs);
 //  Forms
 // -----------------------------------------
 export const ESTIMATE_SEARCH = 'estimateForm/ESTIMATE_SEARCH';
-export const ESTIMATE_FORM = 'estimateForm/ESTIMATE_EDIT';
+export const ESTIMATE_FORM = 'estimateForm/ESTIMATE_FORM';
 export const ITEM_FORM = 'item/ITEM_FORM';
-
-// Type
-// -----------------------------------------
-export const ESTIMATE_ADD = 'estimateForm/ESTIMATE_ADD';
-export const ESTIMATE_EDIT = 'estimateForm/ESTIMATE_EDIT';
 
 // Actions
 // -----------------------------------------

@@ -4,13 +4,12 @@ import { Invoice } from '../../components/Invoice';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as actions from '../../actions';
-import { INVOICE_FORM, INVOICE_EDIT } from '../../constants';
+import { INVOICE_FORM } from '../../constants';
 import moment from 'moment';
 import { getCustomers } from '@/features/customers/actions';
 import { getTaxes, getNotes } from '@/features/settings/actions';
 import { isArray } from '@/constants';
-import { PermissionService } from '@/services';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector, permissionSelector } from 'modules/common/selectors';
 
 const getSelectedTemplate = (templates, form, isEditScreen) => {
     if (!isEditScreen) {
@@ -37,21 +36,14 @@ const mapStateToProps = (state, { navigation }) => {
         invoice_notes = ''
     } = invoiceData;
 
-    const type = navigation.getParam('type');
     const id = navigation.getParam('id');
-    const isEditInvoice = type === INVOICE_EDIT;
+    const permissions = permissionSelector(navigation);
+    const isEditScreen = permissions.isEditScreen;
 
     const isLoading =
         loading?.initInvoiceLoading ||
-        (isEditInvoice && !invoice) ||
+        (isEditScreen && !invoice) ||
         !isArray(invoiceTemplates);
-
-    const isAllowToEdit = isEditInvoice
-        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
-        : true;
-    const isAllowToDelete = isEditInvoice
-        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
-        : true;
 
     return {
         initLoading: isLoading,
@@ -61,7 +53,6 @@ const mapStateToProps = (state, { navigation }) => {
         invoiceItems,
         invoiceData,
         items,
-        type,
         notes,
         customers: state.customers?.customers,
         itemsLoading: loading?.itemsLoading,
@@ -70,9 +61,7 @@ const mapStateToProps = (state, { navigation }) => {
         currency,
         customFields,
         id,
-        isEditInvoice,
-        isAllowToEdit,
-        isAllowToDelete,
+        ...permissionSelector(navigation),
         ...commonSelector(state),
         initialValues: !isLoading
             ? {
@@ -84,14 +73,14 @@ const mapStateToProps = (state, { navigation }) => {
                   template_name: getSelectedTemplate(
                       invoiceTemplates,
                       invoice,
-                      isEditInvoice
+                      isEditScreen
                   ),
                   notes: invoice_notes,
                   ...invoice,
-                  invoice_number: isEditInvoice
+                  invoice_number: isEditScreen
                       ? invoiceData?.nextInvoiceNumber
                       : invoiceData?.nextNumber,
-                  prefix: isEditInvoice
+                  prefix: isEditScreen
                       ? invoiceData?.invoicePrefix
                       : invoiceData?.prefix,
                   customer: invoice?.user,

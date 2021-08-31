@@ -3,7 +3,6 @@
 import React from 'react';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import t from 'locales/use-translation';
-import { CATEGORY_ADD, CATEGORY_EDIT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { formatCategories } from '@/utils';
 import { ARROW_ICON } from '@/assets';
@@ -51,7 +50,7 @@ export class Categories extends React.Component<IProps> {
     onSelect = category => {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CATEGORY, {
-            type: CATEGORY_EDIT,
+            type: 'UPDATE',
             categoryId: category.id
         });
     };
@@ -71,7 +70,7 @@ export class Categories extends React.Component<IProps> {
                 buttonTitle: t('categories.empty.buttonTitle'),
                 buttonPress: () => {
                     navigation.navigate(ROUTES.CATEGORY, {
-                        type: CATEGORY_ADD
+                        type: 'ADD'
                     });
                 }
             })
@@ -86,7 +85,7 @@ export class Categories extends React.Component<IProps> {
             rightIcon: 'plus',
             rightIconPress: () =>
                 navigation.navigate(ROUTES.CATEGORY, {
-                    type: CATEGORY_ADD
+                    type: 'ADD'
                 })
         };
 

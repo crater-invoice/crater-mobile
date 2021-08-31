@@ -2,77 +2,59 @@ import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as CustomFieldAction from '../../actions';
+import { CustomField } from '../../components/CustomField';
+import { commonSelector, permissionSelector } from 'modules/common/selectors';
 import {
-    CREATE_CUSTOM_FIELD_TYPE,
     CUSTOM_FIELD_FORM,
     CUSTOM_FIELDS as FIELDS,
     CUSTOM_FIELD_MODAL_TYPES as MODAL_TYPES,
-    CUSTOM_FIELD_DATA_TYPE_LIST as DATA_TYPES,
-    EDIT_CUSTOM_FIELD_TYPE
+    CUSTOM_FIELD_DATA_TYPE_LIST as DATA_TYPES
 } from '../../constants';
-import { CustomField } from '../../components/CustomField';
-import { PermissionService } from '@/services';
-import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
+    const loading = state.settings?.loading ?? {};
     const {
-        settings: {
-            loading: {
-                customFieldLoading,
-                getCustomFieldLoading,
-                removeCustomFieldLoading
-            }
-        }
-    } = state;
+        customFieldLoading,
+        getCustomFieldLoading,
+        removeCustomFieldLoading
+    } = loading;
 
-    let type = navigation.getParam('type', CREATE_CUSTOM_FIELD_TYPE);
-    let field = navigation.getParam('field', {});
-    let id = field?.id;
-
-    const isEditScreen = type === EDIT_CUSTOM_FIELD_TYPE;
-    const isAllowToEdit = isEditScreen
-        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
-        : true;
-    const isAllowToDelete = isEditScreen
-        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
-        : true;
+    const id = field?.id;
+    const field = navigation.getParam('field', {});
+    const permissions = permissionSelector(navigation);
 
     return {
         loading: customFieldLoading,
         getCustomFieldLoading,
         removeCustomFieldLoading,
         currency: state.global?.currency,
-        type,
-        field,
         id,
-        isEditScreen,
-        isAllowToEdit,
-        isAllowToDelete,
+        field,
         formValues: getFormValues(CUSTOM_FIELD_FORM)(state) || {},
+        ...permissions,
         ...commonSelector(state),
-        initialValues:
-            type === CREATE_CUSTOM_FIELD_TYPE
-                ? {
-                      [FIELDS.FIELD]: {
-                          [FIELDS.IS_REQUIRED]: false,
-                          [FIELDS.MODAL_TYPE]: MODAL_TYPES[0].value,
-                          [FIELDS.TYPE]: DATA_TYPES[0].value,
-                          [FIELDS.OPTIONS]: [],
-                          [FIELDS.ORDER]: 1,
-                          [FIELDS.IS_REQUIRED]: false,
-                          [FIELDS.DEFAULT_VALUE]: null,
-                          [FIELDS.PLACEHOLDER]: null
-                      }
+        initialValues: permissions.isCreateScreen
+            ? {
+                  [FIELDS.FIELD]: {
+                      [FIELDS.IS_REQUIRED]: false,
+                      [FIELDS.MODAL_TYPE]: MODAL_TYPES[0].value,
+                      [FIELDS.TYPE]: DATA_TYPES[0].value,
+                      [FIELDS.OPTIONS]: [],
+                      [FIELDS.ORDER]: 1,
+                      [FIELDS.IS_REQUIRED]: false,
+                      [FIELDS.DEFAULT_VALUE]: null,
+                      [FIELDS.PLACEHOLDER]: null
                   }
-                : {
-                      [FIELDS.FIELD]: {
-                          [FIELDS.IS_REQUIRED]: false,
-                          [FIELDS.DEFAULT_VALUE]: null,
-                          [FIELDS.PLACEHOLDER]: null,
-                          [FIELDS.OPTIONS]: [],
-                          [FIELDS.ORDER]: 1
-                      }
+              }
+            : {
+                  [FIELDS.FIELD]: {
+                      [FIELDS.IS_REQUIRED]: false,
+                      [FIELDS.DEFAULT_VALUE]: null,
+                      [FIELDS.PLACEHOLDER]: null,
+                      [FIELDS.OPTIONS]: [],
+                      [FIELDS.ORDER]: 1
                   }
+              }
     };
 };
 

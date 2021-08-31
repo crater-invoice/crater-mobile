@@ -6,14 +6,8 @@ import * as actions from '../../actions';
 import { getExpenseCategories } from '@/features/settings/actions';
 import { getCategoriesState } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
-import { PermissionService } from '@/services';
-import { commonSelector } from 'modules/common/selectors';
-import {
-    EXPENSE_FORM,
-    EXPENSE_ADD,
-    EXPENSE_FIELDS as FIELDS,
-    EXPENSE_EDIT
-} from '../../constants';
+import { commonSelector, permissionSelector } from 'modules/common/selectors';
+import { EXPENSE_FORM, EXPENSE_FIELDS as FIELDS } from '../../constants';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -21,17 +15,7 @@ const mapStateToProps = (state, { navigation }) => {
         expenses: { loading },
         settings: { categories, customFields }
     } = state;
-
-    const type = navigation.getParam('type', EXPENSE_ADD);
     const id = navigation.getParam('id', null);
-
-    const isEditScreen = type === EXPENSE_EDIT;
-    const isAllowToEdit = isEditScreen
-        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
-        : true;
-    const isAllowToDelete = isEditScreen
-        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
-        : true;
 
     return {
         categories: getCategoriesState(categories),
@@ -39,13 +23,10 @@ const mapStateToProps = (state, { navigation }) => {
         endpointURL,
         customFields,
         loading: loading?.expenseLoading,
-        type,
         id,
         currency,
-        isEditScreen,
-        isAllowToEdit,
-        isAllowToDelete,
         formValues: getFormValues(EXPENSE_FORM)(state) || {},
+        ...permissionSelector(navigation),
         ...commonSelector(state),
         initialValues: {
             expense: {
