@@ -10,6 +10,7 @@ import expenses from '../features/expenses/reducers';
 import common from '../features/common/reducers';
 import global from './global';
 import roles from 'modules/roles/reducer';
+import users from 'modules/users/reducer';
 import navigationData from '../navigation/reducers';
 import {reducer as formReducer} from 'redux-form';
 import Navigator from '../navigation/navigators';
@@ -29,5 +30,6 @@ export default combineReducers({
   settings,
   common,
   roles,
+  users,
   nav: createNavigationReducer(Navigator)
 });

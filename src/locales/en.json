@@ -85,7 +85,11 @@
         "roles": "Roles and Permission",
         "addRole": "Add Role",
         "editRole": "Edit Role",
-        "viewRole": "View Role"
+        "viewRole": "View Role",
+        "users": "Users",
+        "addUser": "Add User",
+        "editUser": "Edit User",
+        "viewUser": "View User"
     },
     "tabNavigation": {
         "invoices": "Invoices",
@@ -332,7 +336,8 @@
         "items": "Items",
         "reports": "Reports",
         "settings": "Settings",
-        "logout": "Logout"
+        "logout": "Logout",
+        "users": "Users"
     },
     "categories": {
         "title": "Category Name",
@@ -797,6 +802,23 @@
             "description": "This section will contain the list of roles."
         },
         "text_name": "Name",
+        "text_permissions": "Permissions"
+    },
+    "users": {
+        "text_add_new_user": "Add New User",
+        "text_already_used": "User already in use",
+        "text_alert_description": "You will not be able to recover this User",
+        "empty": {
+            "title": "No users yet!",
+            "description": "This section will contain the list of users."
+        },
+        "text_name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "password": "Password",
+        "role": "Role",
+        "roles": "Roles",
+        "rolePlaceholder": "Select Role",
         "text_permissions": "Permissions"
     }
 }

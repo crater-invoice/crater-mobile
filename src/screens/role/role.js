@@ -90,7 +90,17 @@ export default class Role extends Component<IProps, IStates> {
     const params = {name, abilities};
 
     isCreateScreen
-      ? dispatch(addRole({params, navigation}))
+      ? dispatch(
+          addRole({
+            params,
+            navigation,
+            onResult: res => {
+              const onSelect = navigation.getParam('onSelect', null);
+              onSelect?.(res);
+              navigation.goBack(null);
+            }
+          })
+        )
       : dispatch(updateRole({params, roleId, navigation}));
   };
 

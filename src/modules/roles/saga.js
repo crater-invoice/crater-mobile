@@ -13,7 +13,7 @@ function* fetchRoles({payload}) {
   try {
     const {onSuccess, queryString} = payload;
     const response = yield call(req.fetchRoles);
-    let roles = response?.roles ?? [];
+    let roles = response?.data ?? [];
 
     if (hasTextLength(queryString?.search)) {
       const {search} = queryString;
@@ -42,10 +42,10 @@ function* fetchSingleRole({payload}) {
       type: types.FETCH_SINGLE_ROLE_SUCCESS,
       payload: {
         permissions,
-        currentPermissions: response?.role?.abilities ?? []
+        currentPermissions: response?.abilities ?? []
       }
     });
-    onSuccess?.(response?.role);
+    onSuccess?.(response);
   } catch (e) {}
 }
 
@@ -58,7 +58,7 @@ function* fetchPermissions({payload}) {
     const response = yield call(req.fetchPermissions);
     yield put({
       type: types.FETCH_PERMISSIONS_SUCCESS,
-      payload: response?.abilities ?? []
+      payload: response.abilities ?? []
     });
     payload?.(response);
   } catch (e) {}
@@ -70,11 +70,11 @@ function* fetchPermissions({payload}) {
  */
 function* addRole({payload}) {
   try {
-    const {params, navigation} = payload;
+    const {params, navigation, onResult} = payload;
     yield put(spinner(true));
     const response = yield call(req.addRole, params);
-    yield put({type: types.ADD_ROLE_SUCCESS, payload: response?.role});
-    navigation.goBack(null);
+    yield put({type: types.ADD_ROLE_SUCCESS, payload: response?.data});
+    onResult?.(response?.data);
   } catch (e) {
   } finally {
     yield put(spinner(false));
@@ -90,7 +90,7 @@ function* updateRole({payload}) {
     const {roleId, params, navigation} = payload;
     yield put(spinner(true));
     const response = yield call(req.updateRole, roleId, params);
-    yield put({type: types.UPDATE_ROLE_SUCCESS, payload: response?.role});
+    yield put({type: types.UPDATE_ROLE_SUCCESS, payload: response?.data});
     navigation.goBack(null);
   } catch (e) {
   } finally {

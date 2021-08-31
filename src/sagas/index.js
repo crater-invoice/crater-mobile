@@ -11,6 +11,7 @@ import settings from '../features/settings/saga';
 import more from '../features/more/saga';
 import common from '../features/common/saga';
 import roles from '../modules/roles/saga';
+import users from '../modules/users/saga';
 import {store} from '../store';
 import {ROUTES} from '@/navigation';
 import {resetAuthLoaders} from '@/features/authentication/actions';
@@ -44,7 +45,8 @@ export default function* rootSaga() {
       payments(),
       settings(),
       common(),
-      roles()
+      roles(),
+      users()
     ]);
   });
 }
