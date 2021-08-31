@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { EstimateItem } from '../../components/Item';
 import { reduxForm, getFormValues } from 'redux-form';
@@ -7,11 +6,11 @@ import * as EstimatesAction from '../../actions';
 import { ITEM_FORM } from '../../constants';
 import { getItemUnits, getTaxes } from '@/features/settings/actions';
 import { getUnitState } from '@/features/more/selectors';
+import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         estimates: { loading },
-        global: { locale, taxTypes, theme },
         settings: {
             units,
             loading: { itemUnitsLoading }
@@ -33,15 +32,13 @@ const mapStateToProps = (state, { navigation }) => {
         loading: isLoading,
         formValues: getFormValues(ITEM_FORM)(state) || {},
         itemId: item && (item.item_id || item.id),
-        taxTypes,
+        taxTypes: state.global?.taxTypes,
         currency: navigation.getParam('currency'),
-        locale,
-        theme,
         discountPerItem,
         taxPerItem,
         type,
         units: getUnitState(units),
-
+        ...commonSelector(state),
         initialValues: {
             price: null,
             quantity: 1,
@@ -61,13 +58,11 @@ const mapDispatchToProps = {
     getTaxes
 };
 
-//  Redux Forms
 const addItemReduxForm = reduxForm({
     form: ITEM_FORM,
     validate
 })(EstimateItem);
 
-//  connect
 const EstimateItemContainer = connect(
     mapStateToProps,
     mapDispatchToProps

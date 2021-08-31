@@ -1,30 +1,18 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { Reports } from '../../components/Reports';
-import { colors } from '@/styles';
 import { reduxForm } from 'redux-form';
 import { REPORTS_SEARCH } from '../../constants';
-import * as SettingAction from '../../actions';
+import { commonSelector } from 'modules/common/selectors';
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-const mapDispatchToProps = {
-    // logout: SettingAction.logout
-};
-
-// Redux Forms
 const reportSearchReduxForm = reduxForm({
     form: REPORTS_SEARCH
 })(Reports);
 
-// connect
-const SettingContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(reportSearchReduxForm);
+const SettingContainer = connect(mapStateToProps)(reportSearchReduxForm);
 
 SettingContainer.navigationOptions = () => ({
     header: null

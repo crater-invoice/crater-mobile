@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { Company } from '../../components/Company';
 import { reduxForm, getFormValues } from 'redux-form';
@@ -7,13 +6,13 @@ import * as CompanyAction from '../../actions';
 import { validate } from './validation';
 import { getCountries } from '@/features/customers/actions';
 import { PermissionService } from '@/services';
+import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         settings: {
             loading: { editCompanyInfoLoading, getCompanyInfoLoading }
         },
-        global: { locale },
         customers: {
             countries,
             loading: { countriesLoading }
@@ -25,12 +24,12 @@ const mapStateToProps = (state, { navigation }) => {
 
     return {
         formValues: getFormValues(EDIT_COMPANY)(state) || {},
-        locale,
         editCompanyLoading: editCompanyInfoLoading,
         getCompanyInfoLoading,
         countries,
         countriesLoading,
         isAllowToEdit,
+        ...commonSelector(state),
         initialValues: {
             name: null,
             country_id: null,
@@ -50,13 +49,11 @@ const mapDispatchToProps = {
     getCountries
 };
 
-//  Redux Forms
 const CompanyReduxForm = reduxForm({
     form: EDIT_COMPANY,
     validate
 })(Company);
 
-//  connect
 const CompanyContainer = connect(
     mapStateToProps,
     mapDispatchToProps

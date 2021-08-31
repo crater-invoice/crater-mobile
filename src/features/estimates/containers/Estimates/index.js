@@ -1,10 +1,10 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { Estimates } from '../../components/Estimates';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as EstimatesAction from '../../actions';
 import { ESTIMATE_SEARCH } from '../../constants';
 import { getCustomers } from '@/features/customers/actions';
+import { commonSelector } from 'modules/common/selectors';
 import {
     getDraftEstimatesState,
     getSentEstimatesState,
@@ -12,21 +12,16 @@ import {
 } from '../../selectors';
 
 const mapStateToProps = state => {
-    const {
-        global: { locale, theme },
-        estimates: { estimates },
-        customers: { customers }
-    } = state;
-
+    const theme = state.global?.theme;
+    const estimates = state.estimates?.estimates;
     return {
         estimates,
         draftEstimates: getDraftEstimatesState({ estimates, theme }),
         sentEstimates: getSentEstimatesState({ estimates, theme }),
         allEstimates: getAllEstimatesState({ estimates, theme }),
-        customers,
-        locale,
-        theme,
-        formValues: getFormValues(ESTIMATE_SEARCH)(state) || {}
+        customers: state.customers?.customers,
+        formValues: getFormValues(ESTIMATE_SEARCH)(state) || {},
+        ...commonSelector(state)
     };
 };
 
@@ -36,12 +31,10 @@ const mapDispatchToProps = {
     getCustomers: getCustomers
 };
 
-//  Redux Forms
 const estimateSearchReduxForm = reduxForm({
     form: ESTIMATE_SEARCH
 })(Estimates);
 
-//  connect
 const EstimatesContainer = connect(
     mapStateToProps,
     mapDispatchToProps

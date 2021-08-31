@@ -1,26 +1,22 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { Settings } from '../../components/Settings';
-import { colors } from '@/styles';
 import { reduxForm } from 'redux-form';
 import { SETTINGS_SEARCH } from '../../constants';
 import * as SettingAction from '../../actions';
+import { commonSelector } from 'modules/common/selectors';
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
 const mapDispatchToProps = {
     logout: SettingAction.logout
 };
 
-//  Redux Forms
 const settingSearchReduxForm = reduxForm({
     form: SETTINGS_SEARCH
 })(Settings);
 
-//  connect
 const SettingContainer = connect(
     mapStateToProps,
     mapDispatchToProps

@@ -1,10 +1,10 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { EDIT_PREFERENCES } from '../../constants';
 import * as PreferencesAction from '../../actions';
 import { validate } from './validation';
 import { Preferences } from '../../components/Preferences';
+import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = state => {
     const {
@@ -13,11 +13,10 @@ const mapStateToProps = state => {
                 getPreferencesLoading,
                 editPreferencesLoading,
                 getSettingItemLoading,
-                editSettingItemLoading,
+                editSettingItemLoading
             },
             preferences
-        },
-        global: { locale, currencies }
+        }
     } = state;
 
     let isLoading =
@@ -27,11 +26,11 @@ const mapStateToProps = state => {
         getSettingItemLoading;
 
     return {
-        locale,
         isLoading,
-        currencies,
+        currencies: state.global?.currencies,
         editPreferencesLoading,
         editSettingItemLoading,
+        ...commonSelector(state),
         formValues: getFormValues(EDIT_PREFERENCES)(state) || {}
     };
 };
@@ -42,16 +41,14 @@ const mapDispatchToProps = {
     clearPreferences: PreferencesAction.clearPreferences,
     getSettingItem: PreferencesAction.getSettingItem,
     editSettingItem: PreferencesAction.editSettingItem,
-    getGeneralSetting: PreferencesAction.getGeneralSetting,
+    getGeneralSetting: PreferencesAction.getGeneralSetting
 };
 
-//  Redux Forms
 const PreferencesReduxForm = reduxForm({
     form: EDIT_PREFERENCES,
     validate
 })(Preferences);
 
-//  connect
 const PreferencesContainer = connect(
     mapStateToProps,
     mapDispatchToProps

@@ -4,14 +4,13 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { connect } from 'react-redux';
-
 import styles from './styles';
 import { FakeInput } from '../FakeInput';
 import FakeInputStyle from '../FakeInput/styles';
-
 import { AssetIcon } from '../AssetIcon';
-import { colors, fonts } from '@/styles';
+import { colors } from '@/styles';
 import { isAndroidPlatform, isIosPlatform } from '@/constants';
+import { commonSelector } from 'modules/common/selectors';
 
 type IProps = {
     hint: string,
@@ -272,11 +271,8 @@ class Picker extends Component<IProps> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-export const SelectPickerField = connect(
-    mapStateToProps,
-    {}
-)(Picker);
+export const SelectPickerField = connect(mapStateToProps)(Picker);

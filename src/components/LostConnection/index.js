@@ -9,6 +9,7 @@ import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { IMAGES } from '@/assets';
 import { Text } from '../Text';
 import { styles, Container } from './styles';
+import { commonSelector } from 'modules/common/selectors';
 
 export class LostConnection extends Component {
     constructor(props) {
@@ -90,15 +91,11 @@ export class LostConnection extends Component {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-const LostConnectionContainer = connect(
-    mapStateToProps,
-    {}
-)(LostConnection);
+const LostConnectionContainer = connect(mapStateToProps)(LostConnection);
 
 LostConnectionContainer.navigationOptions = () => ({
     header: null

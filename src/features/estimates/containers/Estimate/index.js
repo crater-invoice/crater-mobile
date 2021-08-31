@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { find } from 'lodash';
 import { Estimate } from '../../components/Estimate';
@@ -11,6 +10,7 @@ import { getTaxes, getNotes } from '@/features/settings/actions';
 import { isArray } from '@/constants';
 import { getCustomers } from '@/features/customers/actions';
 import { PermissionService } from '@/services';
+import { commonSelector } from 'modules/common/selectors';
 
 const getSelectedTemplate = (templates, form, isEditScreen) => {
     if (!isEditScreen) {
@@ -26,7 +26,7 @@ const getSelectedTemplate = (templates, form, isEditScreen) => {
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, taxTypes, currency, theme },
+        global: { taxTypes, currency },
         estimates: { loading, estimateItems, estimateData, items },
         customers: { customers },
         settings: { notes, customFields }
@@ -66,8 +66,6 @@ const mapStateToProps = (state, { navigation }) => {
         notes,
         customers,
         itemsLoading: loading?.itemsLoading,
-        locale,
-        theme,
         formValues: getFormValues(ESTIMATE_FORM)(state) || {},
         taxTypes,
         customFields,
@@ -76,6 +74,7 @@ const mapStateToProps = (state, { navigation }) => {
         isEditEstimate,
         isAllowToEdit,
         isAllowToDelete,
+        ...commonSelector(state),
         initialValues: !isLoading
             ? {
                   expiry_date: moment().add(7, 'days'),
@@ -110,13 +109,11 @@ const mapDispatchToProps = {
     getNotes
 };
 
-//  Redux Forms
 const addEstimateReduxForm = reduxForm({
     form: ESTIMATE_FORM,
     validate
 })(Estimate);
 
-//  connect
 const EstimateContainer = connect(
     mapStateToProps,
     mapDispatchToProps

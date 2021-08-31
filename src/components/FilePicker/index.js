@@ -20,6 +20,7 @@ import { styles } from './styles';
 import { Text } from '../Text';
 import { CacheImage } from '../CacheImage';
 import { Label } from '../Label';
+import { commonSelector } from 'modules/common/selectors';
 
 interface IProps {
     label: String;
@@ -447,12 +448,8 @@ class Picker extends Component<IProps, IStates> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    theme: global?.theme,
-    locale: global?.locale
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-export const FilePicker = connect(
-    mapStateToProps,
-    {}
-)(Picker);
+export const FilePicker = connect(mapStateToProps)(Picker);

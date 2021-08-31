@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import Note from '../../components/Note';
@@ -12,10 +11,10 @@ import * as noteAction from '../../actions';
 import { validate } from './validations';
 import { hasValue } from '@/constants';
 import { PermissionService } from '@/services';
+import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale },
         settings: {
             customFields,
             loading: { getNotesLoading }
@@ -38,7 +37,6 @@ const mapStateToProps = (state, { navigation }) => {
     return {
         noteLoading: getNotesLoading,
         type,
-        locale,
         formValues: getFormValues(NOTE_FORM)(state) || {},
         noteId: noteDetail?.id,
         customFields,
@@ -48,6 +46,7 @@ const mapStateToProps = (state, { navigation }) => {
         isEditScreen,
         isAllowToEdit,
         isAllowToDelete,
+        ...commonSelector(state),
         initialValues: {
             type: !hasValue(selectedModalType)
                 ? NOTES_TYPE_VALUE.INVOICE
@@ -65,13 +64,12 @@ const mapDispatchToProps = {
     updateNote: noteAction.updateNote,
     getNoteDetail: noteAction.getNoteDetail
 };
-//  Redux Forms
+
 const NoteSearchReduxForm = reduxForm({
     form: NOTE_FORM,
     validate
 })(Note);
 
-//  connect
 const NoteContainer = connect(
     mapStateToProps,
     mapDispatchToProps

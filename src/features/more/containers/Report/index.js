@@ -1,54 +1,51 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { Report } from '../../components/Report';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as MoreAction from '../../actions';
 import { REPORT_FORM, DATE_RANGE } from '../../constants';
+import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         more: { loading },
-        global: { locale, company, fiscalYear = '2-1',theme },
+        global: { company, fiscalYear = '2-1' }
     } = state;
 
     const type = navigation.getParam('type');
 
-    const isLoading = loading.reportsLoading || !type
+    const isLoading = loading.reportsLoading || !type;
 
     return {
         loading: isLoading,
         formValues: getFormValues(REPORT_FORM)(state) || {},
-        locale,
-        theme,
         type,
         company,
         fiscalYear,
+        ...commonSelector(state),
         initialValues: !isLoading && {
             date_range: DATE_RANGE.THIS_MONTH,
             report_type: 'byCustomer'
-        },
+        }
     };
 };
 
 const mapDispatchToProps = {
-    generateReport: MoreAction.generateReport,
+    generateReport: MoreAction.generateReport
 };
 
-//  Redux Forms
 const ReportReduxForm = reduxForm({
     form: REPORT_FORM,
-    validate,
+    validate
 })(Report);
 
-//  connect
 const ReportContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(ReportReduxForm);
 
 ReportContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default ReportContainer;

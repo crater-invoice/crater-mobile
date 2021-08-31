@@ -15,6 +15,7 @@ import { AssetIcon } from '@/components/AssetIcon';
 import { Filter } from '@/components/Filter';
 import CompanyModal from '@/features/common/containers/CompanyModal';
 import { isIPhoneX } from '@/constants';
+import { commonSelector } from 'modules/common/selectors';
 
 interface IProps {
     children: any;
@@ -187,13 +188,9 @@ const Layout = (props: IProps) => {
     );
 };
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
 //  connect
-export const MainLayout = connect(
-    mapStateToProps,
-    {}
-)(Layout);
+export const MainLayout = connect(mapStateToProps)(Layout);

@@ -13,6 +13,7 @@ import t from 'locales/use-translation';
 import { hasTextLength, hasValue } from '@/constants';
 import { Text } from '../Text';
 import { Label } from '../Label';
+import { commonSelector } from 'modules/common/selectors';
 
 export class InputFieldComponent extends Component<IInputField> {
     constructor(props) {
@@ -394,15 +395,9 @@ export class InputFieldComponent extends Component<IInputField> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme,
-    currency: global?.currency
+const mapStateToProps = state => ({
+    currency: state.global?.currency,
+    ...commonSelector(state)
 });
 
-const mapDispatchToProps = {};
-
-export const InputField = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(InputFieldComponent);
+export const InputField = connect(mapStateToProps)(InputFieldComponent);

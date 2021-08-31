@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { AssetImage } from '../AssetImage';
 import { BUTTON_COLOR, BUTTON_TYPE, isAndroidPlatform } from '@/constants';
 import { AssetIcon } from '../AssetIcon';
+import { commonSelector } from 'modules/common/selectors';
 
 type IProps = {
     children?: any,
@@ -334,11 +335,8 @@ class ActionButton extends Component<IProps> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-export const CtButton = connect(
-    mapStateToProps,
-    {}
-)(ActionButton);
+export const CtButton = connect(mapStateToProps)(ActionButton);

@@ -1,10 +1,10 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { Invoices } from '../../components/Invoices';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as InvoicesAction from '../../actions';
 import { INVOICE_SEARCH } from '../../constants';
 import { getCustomers } from '../../../customers/actions';
+import { commonSelector } from 'modules/common/selectors';
 import {
     getDueInvoicesState,
     getDraftInvoicesState,
@@ -13,13 +13,12 @@ import {
 
 const mapStateToProps = state => {
     const {
-        global: { locale, theme },
-        customers: { customers },
         invoices: {
             invoices,
             loading: { invoicesLoading }
         }
     } = state;
+    const theme = state.global?.theme;
 
     return {
         invoices,
@@ -27,10 +26,9 @@ const mapStateToProps = state => {
         draftInvoices: getDraftInvoicesState({ invoices, theme }),
         allInvoices: getAllInvoicesState({ invoices, theme }),
         loading: invoicesLoading,
-        locale,
-        theme,
-        customers,
-        formValues: getFormValues(INVOICE_SEARCH)(state) || {}
+        customers: state.customers?.customers,
+        formValues: getFormValues(INVOICE_SEARCH)(state) || {},
+        ...commonSelector(state)
     };
 };
 
@@ -39,12 +37,10 @@ const mapDispatchToProps = {
     getCustomers: getCustomers
 };
 
-//  Redux Forms
 const invoiceSearchReduxForm = reduxForm({
     form: INVOICE_SEARCH
 })(Invoices);
 
-//  connect
 const InvoicesContainer = connect(
     mapStateToProps,
     mapDispatchToProps

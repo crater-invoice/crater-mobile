@@ -8,6 +8,7 @@ import moment from 'moment';
 import { FakeInput } from '../FakeInput';
 import { connect } from 'react-redux';
 import { DATE_FORMAT, isIosPlatform, majorVersionIOS } from '@/constants';
+import { commonSelector } from 'modules/common/selectors';
 
 type IProps = {
     label: String,
@@ -216,14 +217,9 @@ export class DatePickerComponent extends Component<IProps, IStates> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    dateFormat: global.dateFormat,
-    theme: global.theme
+const mapStateToProps = state => ({
+    dateFormat: state.global?.dateFormat,
+    ...commonSelector(state)
 });
 
-const mapDispatchToProps = {};
-
-export const DatePickerField = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(DatePickerComponent);
+export const DatePickerField = connect(mapStateToProps)(DatePickerComponent);

@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { Modal } from '../../components/CompanyModal';
+import { commonSelector } from 'modules/common/selectors';
 
-const mapStateToProps = ({ global, common }) => ({
-    companies: common?.companies ?? [],
-    company: global?.company,
-    theme: global?.theme,
-    locale: global?.locale
+const mapStateToProps = state => ({
+    companies: state.common?.companies ?? [],
+    company: state.global?.company,
+    ...commonSelector(state)
 });
 
 const CompanyModal = connect(mapStateToProps)(Modal);

@@ -1,45 +1,33 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { CURRENCIES_FORM } from '../../constants';
 import { Currencies } from '../../components/Currencies';
-import * as CurrenciesAction from '../../actions'
+import * as CurrenciesAction from '../../actions';
+import { commonSelector } from 'modules/common/selectors';
 
-const mapStateToProps = (state) => {
-
-    const {
-        global,
-        settings: {
-            currencies,
-            loading: { currenciesLoading }
-        }
-    } = state;
-
-    return {
-        locale: global.locale,
-        globalCurrencies: global.currencies,
-        loading: currenciesLoading,
-        currencies,
-        formValues: getFormValues(CURRENCIES_FORM)(state) || {},
-    };
-};
+const mapStateToProps = state => ({
+    globalCurrencies: state.global?.currencies,
+    loading: state.settings.loading.currenciesLoading,
+    currencies: state.settings?.currencies,
+    formValues: getFormValues(CURRENCIES_FORM)(state) || {},
+    ...commonSelector(state)
+});
 
 const mapDispatchToProps = {
     getCurrencies: CurrenciesAction.getCurrencies
 };
-//  Redux Forms
+
 const CurrenciesSearchReduxForm = reduxForm({
     form: CURRENCIES_FORM
 })(Currencies);
 
-//  connect
 const CurrenciesContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(CurrenciesSearchReduxForm);
 
 CurrenciesContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default CurrenciesContainer;

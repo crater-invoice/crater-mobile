@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Component } from 'react';
 import { Keyboard, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
@@ -16,6 +15,10 @@ import { SlideModal } from '../SlideModal';
 import { InputField } from '../InputField';
 import { ActionButton } from '../Button';
 import t from 'locales/use-translation';
+import { Content } from '../Content';
+import { Editor } from '../Editor';
+import { getMailConfiguration } from '../../features/more/actions';
+import { commonSelector } from 'modules/common/selectors';
 import {
     alertMe,
     EMAIL_REGEX,
@@ -23,9 +26,6 @@ import {
     hasTextLength,
     hasValue
 } from '@/constants';
-import { getMailConfiguration } from '../../features/more/actions';
-import { Content } from '../Content';
-import { Editor } from '../Editor';
 
 type IProps = {
     handleSubmit: Function,
@@ -286,24 +286,19 @@ class SendMailComponent extends Component<IProps> {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        locale: state?.global?.locale,
-        formValues: getFormValues(MAIL_FORM)(state) || {},
-        theme: state?.global?.theme
-    };
-};
+const mapStateToProps = state => ({
+    formValues: getFormValues(MAIL_FORM)(state) || {},
+    ...commonSelector(state)
+});
 
 const mapDispatchToProps = {
     getMailConfiguration
 };
-//  Redux Forms
 const SendMailReduxForm = reduxForm({
     form: MAIL_FORM,
     validate
 })(SendMailComponent);
 
-//  connect
 export const SendMail = connect(
     mapStateToProps,
     mapDispatchToProps

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { styles } from './styles';
 import t from 'locales/use-translation';
 import { Text } from '../Text';
+import { commonSelector } from 'modules/common/selectors';
 
 interface IProps {
     reference: any;
@@ -71,12 +72,8 @@ export class ToastComponent extends Component<IProps> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-export const Toast = connect(
-    mapStateToProps,
-    {}
-)(ToastComponent);
+export const Toast = connect(mapStateToProps)(ToastComponent);

@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { Tax } from '../../components/Tax';
 import { reduxForm } from 'redux-form';
@@ -6,8 +5,10 @@ import * as TaxAction from '../../actions';
 import { validate } from './validation';
 import { TAX_FORM, ADD_TAX, EDIT_TAX } from '../../constants';
 import { PermissionService } from '@/services';
+import { commonSelector } from 'modules/common/selectors';
 
-const mapStateToProps = ({ settings, global }, { navigation }) => {
+const mapStateToProps = (state, { navigation }) => {
+    const { settings } = state;
     const taxType = navigation.getParam('tax', {});
     const type = navigation.getParam('type', ADD_TAX);
 
@@ -28,10 +29,10 @@ const mapStateToProps = ({ settings, global }, { navigation }) => {
         loading: isLoading,
         type,
         taxId: taxType && taxType.id,
-        locale: global?.locale,
         isEditScreen,
         isAllowToEdit,
         isAllowToDelete,
+        ...commonSelector(state),
         initialValues: {
             collective_tax: 0,
             compound_tax: 0,
@@ -46,13 +47,11 @@ const mapDispatchToProps = {
     removeTax: TaxAction.removeTax
 };
 
-//  Redux Forms
 const TaxReduxForm = reduxForm({
     form: TAX_FORM,
     validate
 })(Tax);
 
-//  connect
 const TaxContainer = connect(
     mapStateToProps,
     mapDispatchToProps

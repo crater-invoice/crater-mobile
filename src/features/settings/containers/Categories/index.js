@@ -1,25 +1,23 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import * as CategoriesAction from '../../actions';
 import { reduxForm } from 'redux-form';
 import { Categories } from '../../components/Categories';
 import { CATEGORY_SEARCH } from '../../constants';
+import { commonSelector } from 'modules/common/selectors';
 
-const mapStateToProps = ({ global, settings }) => ({
-    locale: global?.locale,
-    categories: settings?.categories
+const mapStateToProps = state => ({
+    categories: state.settings?.categories,
+    ...commonSelector(state)
 });
 
 const mapDispatchToProps = {
     getExpenseCategories: CategoriesAction.getExpenseCategories
 };
 
-//  Redux Forms
 const categoriesSearchReduxForm = reduxForm({
     form: CATEGORY_SEARCH
 })(Categories);
 
-//  connect
 const CategoriesContainer = connect(
     mapStateToProps,
     mapDispatchToProps

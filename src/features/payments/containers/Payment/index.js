@@ -13,11 +13,12 @@ import { getCustomers } from '@/features/customers/actions';
 import { getPaymentModes, getNotes } from '@/features/settings/actions';
 import { getPaymentMethodsState } from '../../selectors';
 import { PermissionService } from '@/services';
+import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         customers: { customers },
-        global: { locale, currency, theme },
+        global: { currency },
         settings: { paymentMethods, notes, customFields },
         payments: { loading, unPaidInvoices }
     } = state;
@@ -38,8 +39,6 @@ const mapStateToProps = (state, { navigation }) => {
     return {
         type,
         customers,
-        locale,
-        theme,
         invoice,
         notes,
         hasRecordPayment,
@@ -54,6 +53,7 @@ const mapStateToProps = (state, { navigation }) => {
         paymentMethods: getPaymentMethodsState(paymentMethods),
         formValues: getFormValues(PAYMENT_FORM)(state) || {},
         currency,
+        ...commonSelector(state),
         initialValues: {
             payment: {
                 [FIELDS.CUSTOMER]: null,

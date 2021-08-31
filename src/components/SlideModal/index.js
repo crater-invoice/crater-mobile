@@ -7,6 +7,7 @@ import { MainLayout, DefaultLayout } from '../Layouts';
 import { InfiniteScroll } from '../InfiniteScroll';
 import { ScrollView } from '../ScrollView';
 import { isAndroidPlatform } from '@/constants';
+import { commonSelector } from 'modules/common/selectors';
 
 type IProps = {
     visible: Boolean,
@@ -125,11 +126,8 @@ class Screen extends Component<IProps> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-export const SlideModal = connect(
-    mapStateToProps,
-    {}
-)(Screen);
+export const SlideModal = connect(mapStateToProps)(Screen);

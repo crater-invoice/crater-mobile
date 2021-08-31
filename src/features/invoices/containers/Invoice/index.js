@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { find } from 'lodash';
 import { Invoice } from '../../components/Invoice';
@@ -11,6 +10,7 @@ import { getCustomers } from '@/features/customers/actions';
 import { getTaxes, getNotes } from '@/features/settings/actions';
 import { isArray } from '@/constants';
 import { PermissionService } from '@/services';
+import { commonSelector } from 'modules/common/selectors';
 
 const getSelectedTemplate = (templates, form, isEditScreen) => {
     if (!isEditScreen) {
@@ -26,9 +26,8 @@ const getSelectedTemplate = (templates, form, isEditScreen) => {
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, taxTypes, currency, theme },
+        global: { taxTypes, currency },
         invoices: { loading, invoiceItems, invoiceData, items },
-        customers: { customers },
         settings: { notes, customFields }
     } = state;
 
@@ -64,18 +63,17 @@ const mapStateToProps = (state, { navigation }) => {
         items,
         type,
         notes,
-        customers,
+        customers: state.customers?.customers,
         itemsLoading: loading?.itemsLoading,
-        locale,
         formValues: getFormValues(INVOICE_FORM)(state) || {},
         taxTypes,
         currency,
-        theme,
         customFields,
         id,
         isEditInvoice,
         isAllowToEdit,
         isAllowToDelete,
+        ...commonSelector(state),
         initialValues: !isLoading
             ? {
                   due_date: moment().add(7, 'days'),
@@ -110,13 +108,11 @@ const mapDispatchToProps = {
     getNotes
 };
 
-//  Redux Forms
 const addInvoiceReduxForm = reduxForm({
     form: INVOICE_FORM,
     validate
 })(Invoice);
 
-//  connect
 const InvoiceContainer = connect(
     mapStateToProps,
     mapDispatchToProps

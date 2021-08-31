@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
@@ -13,10 +12,10 @@ import {
 } from '../../constants';
 import { CustomField } from '../../components/CustomField';
 import { PermissionService } from '@/services';
+import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, currency, theme },
         settings: {
             loading: {
                 customFieldLoading,
@@ -42,16 +41,15 @@ const mapStateToProps = (state, { navigation }) => {
         loading: customFieldLoading,
         getCustomFieldLoading,
         removeCustomFieldLoading,
-        currency,
+        currency: state.global?.currency,
         type,
         field,
         id,
-        locale,
-        theme,
         isEditScreen,
         isAllowToEdit,
         isAllowToDelete,
         formValues: getFormValues(CUSTOM_FIELD_FORM)(state) || {},
+        ...commonSelector(state),
         initialValues:
             type === CREATE_CUSTOM_FIELD_TYPE
                 ? {
@@ -85,13 +83,11 @@ const mapDispatchToProps = {
     removeCustomField: CustomFieldAction.removeCustomField
 };
 
-//  Redux Forms
 const customFieldForm = reduxForm({
     form: CUSTOM_FIELD_FORM,
     validate
 })(CustomField);
 
-//  connect
 const CustomFieldContainer = connect(
     mapStateToProps,
     mapDispatchToProps

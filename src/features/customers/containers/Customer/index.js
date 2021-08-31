@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
@@ -6,6 +5,7 @@ import * as actions from '../../actions';
 import { Customer } from '../../components/Customer';
 import { getStateCurrencies } from '../../selectors';
 import { PermissionService } from '@/services';
+import { commonSelector } from 'modules/common/selectors';
 import {
     CUSTOMER_FORM,
     CUSTOMER_ADD,
@@ -15,11 +15,10 @@ import {
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, currencies, currency, theme },
-        customers: { countries, loading },
-        settings: { customFields }
+        global: { currencies, currency },
+        customers: { countries, loading }
     } = state;
-
+    const customFields = state.settings?.customFields;
     const id = navigation.getParam('customerId', null);
     const type = navigation.getParam('type', CUSTOMER_ADD);
     const isEditScreen = type === CUSTOMER_EDIT;
@@ -33,8 +32,6 @@ const mapStateToProps = (state, { navigation }) => {
     return {
         formValues: getFormValues(CUSTOMER_FORM)(state) || {},
         type,
-        locale,
-        theme,
         currencies: getStateCurrencies(currencies),
         countries,
         currency,
@@ -44,6 +41,7 @@ const mapStateToProps = (state, { navigation }) => {
         isEditScreen,
         loading: loading?.customerLoading,
         id,
+        ...commonSelector(state),
         initialValues: {
             customer: {
                 [FIELDS.NAME]: null,

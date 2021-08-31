@@ -12,6 +12,7 @@ import { isRTL } from '@/utils';
 import { Text } from '../Text';
 import AssetSvg from '../AssetSvg';
 import { AssetImage } from '../AssetImage';
+import { commonSelector } from 'modules/common/selectors';
 
 type IProps = {
     hasAvatar: Boolean,
@@ -423,11 +424,8 @@ class ListViewComponent extends Component<IProps> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-export const ListView = connect(
-    mapStateToProps,
-    {}
-)(ListViewComponent);
+export const ListView = connect(mapStateToProps)(ListViewComponent);

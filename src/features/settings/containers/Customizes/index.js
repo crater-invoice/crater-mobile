@@ -1,18 +1,11 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { Customizes } from '../../components/Customizes';
 import * as customizesAction from '../../actions';
+import { commonSelector } from 'modules/common/selectors';
 
-const mapStateToProps = ({
-    settings: {
-        loading: { paymentModesLoading, itemUnitsLoading }
-    },
-    global: { locale, theme }
-}) => ({
-    locale,
-    theme,
-    paymentModesLoading,
-    itemUnitsLoading
+const mapStateToProps = state => ({
+    ...state.settings.loading,
+    ...commonSelector(state)
 });
 
 const mapDispatchToProps = {
@@ -21,7 +14,6 @@ const mapDispatchToProps = {
     getItemUnits: customizesAction.getItemUnits
 };
 
-// connect
 const CustomizesContainer = connect(
     mapStateToProps,
     mapDispatchToProps

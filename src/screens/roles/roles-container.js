@@ -3,11 +3,12 @@ import {reduxForm} from 'redux-form';
 import Roles from './roles';
 import {ROLES_FORM} from 'modules/roles/constants';
 import {rolesSelector} from 'modules/roles/selectors';
+import {commonSelector} from 'modules/common/selectors';
 
-const mapStateToProps = ({roles, global}) => ({
-  roles: rolesSelector(roles?.roles),
-  locale: global?.locale,
-  ...roles.loading
+const mapStateToProps = state => ({
+  roles: rolesSelector(state.roles?.roles),
+  ...state.roles.loading,
+  ...commonSelector(state)
 });
 
 const RolesForm = reduxForm({

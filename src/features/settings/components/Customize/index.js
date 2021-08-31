@@ -361,7 +361,7 @@ export class Customize extends React.Component<IProps> {
     };
 
     PAYMENT_CUSTOMIZE_TAB = () => {
-        const { locale, theme } = this.props;
+        const { theme } = this.props;
         const { activeTab, data } = this.state;
 
         if (!PermissionService.isAllowToView(CUSTOMIZE_TYPE.PAYMENTS)) {

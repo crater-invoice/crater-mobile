@@ -16,6 +16,7 @@ import { internalSearch as searchItem } from '@/utils';
 import { ARROW_ICON } from '@/assets';
 import { PaymentModeModal, UnitModal } from '../Modal';
 import { PermissionService } from '@/services';
+import { commonSelector } from 'modules/common/selectors';
 
 export class SelectFieldComponent extends Component<IProps, IStates> {
     scrollViewReference: any;
@@ -508,11 +509,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-export const SelectField = connect(
-    mapStateToProps,
-    {}
-)(SelectFieldComponent);
+export const SelectField = connect(mapStateToProps)(SelectFieldComponent);

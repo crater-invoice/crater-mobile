@@ -1,26 +1,25 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { Expense } from '../../components/Expense';
 import { validate } from './validation';
 import * as actions from '../../actions';
+import { getExpenseCategories } from '@/features/settings/actions';
+import { getCategoriesState } from '../../selectors';
+import { getCustomers } from '@/features/customers/actions';
+import { PermissionService } from '@/services';
+import { commonSelector } from 'modules/common/selectors';
 import {
     EXPENSE_FORM,
     EXPENSE_ADD,
     EXPENSE_FIELDS as FIELDS,
     EXPENSE_EDIT
 } from '../../constants';
-import { getExpenseCategories } from '@/features/settings/actions';
-import { getCategoriesState } from '../../selectors';
-import { getCustomers } from '@/features/customers/actions';
-import { PermissionService } from '@/services';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { endpointURL, locale, currency },
+        global: { endpointURL, currency },
         expenses: { loading },
-        settings: { categories, customFields },
-        customers: { customers }
+        settings: { categories, customFields }
     } = state;
 
     const type = navigation.getParam('type', EXPENSE_ADD);
@@ -35,9 +34,8 @@ const mapStateToProps = (state, { navigation }) => {
         : true;
 
     return {
-        locale,
         categories: getCategoriesState(categories),
-        customers,
+        customers: state.customers?.customers,
         endpointURL,
         customFields,
         loading: loading?.expenseLoading,
@@ -48,6 +46,7 @@ const mapStateToProps = (state, { navigation }) => {
         isAllowToEdit,
         isAllowToDelete,
         formValues: getFormValues(EXPENSE_FORM)(state) || {},
+        ...commonSelector(state),
         initialValues: {
             expense: {
                 [FIELDS.RECEIPT]: '',
@@ -65,13 +64,11 @@ const mapDispatchToProps = {
     getCustomers
 };
 
-//  Redux Forms
 const addExpenseReduxForm = reduxForm({
     form: EXPENSE_FORM,
     validate
 })(Expense);
 
-//  connect
 const ExpenseContainer = connect(
     mapStateToProps,
     mapDispatchToProps

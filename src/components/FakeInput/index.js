@@ -12,6 +12,7 @@ import { InputField } from '../InputField';
 import { AssetIcon } from '../AssetIcon';
 import { Text } from '../Text';
 import { Label } from '../Label';
+import { commonSelector } from 'modules/common/selectors';
 
 type IProps = {
     label: String,
@@ -301,14 +302,8 @@ export class FakeInputComponent extends Component<IProps> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-const mapDispatchToProps = {};
-
-export const FakeInput = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(FakeInputComponent);
+export const FakeInput = connect(mapStateToProps)(FakeInputComponent);

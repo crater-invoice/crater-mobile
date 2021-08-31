@@ -5,6 +5,7 @@ import { InputModal } from '../InputModal';
 import { createItemUnit } from '@/features/settings/actions';
 import t from 'locales/use-translation';
 import { hasValue } from '@/constants';
+import { commonSelector } from 'modules/common/selectors';
 
 interface IProps {
     loading: boolean;
@@ -70,9 +71,9 @@ class Modal extends Component<IProps> {
     }
 }
 
-const mapStateToProps = ({ settings, global }) => ({
-    locale: global?.locale,
-    loading: settings?.loading?.itemUnitLoading
+const mapStateToProps = state => ({
+    ...commonSelector(state),
+    loading: state.settings?.loading?.itemUnitLoading
 });
 
 const mapDispatchToProps = {

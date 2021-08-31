@@ -1,42 +1,37 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as CurrencyAction from '../../actions';
 import { CREATE_CURRENCY_TYPE, CURRENCY_FORM } from '../../constants';
 import { Currency } from '../../components/Currency';
+import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
-
-    const {
-        global: { locale },
-        settings: {
-            loading: { currencyLoading }
-        }
-    } = state
-
-    let type = navigation.getParam('type', CREATE_CURRENCY_TYPE)
-    let currency = navigation.getParam('currency', {})
-    let id = currency ? currency.id : null
+    const type = navigation.getParam('type', CREATE_CURRENCY_TYPE);
+    const currency = navigation.getParam('currency', {});
+    const id = currency ? currency.id : null;
 
     return {
-        currencyLoading,
+        currencyLoading: state.settings.loading.currencyLoading,
         type,
         currency,
         id,
-        locale,
         formValues: getFormValues(CURRENCY_FORM)(state) || {},
-        initialValues: type === CREATE_CURRENCY_TYPE ? {
-            position: false
-        } : {
-                name: currency.name.toString(),
-                code: currency.code.toString(),
-                symbol: currency.symbol.toString(),
-                precision: currency.precision.toString(),
-                thousand_separator: currency.thousand_separator.toString(),
-                decimal_separator: currency.decimal_separator.toString(),
-                position: currency.swap_currency_symbol === 1
-            }
+        ...commonSelector(state),
+        initialValues:
+            type === CREATE_CURRENCY_TYPE
+                ? {
+                      position: false
+                  }
+                : {
+                      name: currency.name.toString(),
+                      code: currency.code.toString(),
+                      symbol: currency.symbol.toString(),
+                      precision: currency.precision.toString(),
+                      thousand_separator: currency.thousand_separator.toString(),
+                      decimal_separator: currency.decimal_separator.toString(),
+                      position: currency.swap_currency_symbol === 1
+                  }
     };
 };
 
@@ -46,20 +41,18 @@ const mapDispatchToProps = {
     removeCurrency: CurrencyAction.removeCurrency
 };
 
-//  Redux Forms
 const currencyReduxForm = reduxForm({
     form: CURRENCY_FORM,
-    validate,
+    validate
 })(Currency);
 
-//  connect
 const CurrencyContainer = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(currencyReduxForm);
 
 CurrencyContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default CurrencyContainer;

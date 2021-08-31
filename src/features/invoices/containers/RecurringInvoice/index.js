@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
@@ -7,12 +6,12 @@ import { RECURRING_FORM, RECURRING_EDIT } from '../../constants';
 import moment from 'moment';
 import * as CustomersAction from '../../../customers/actions';
 import { RecurringInvoice } from '../../components/RecurringInvoice';
+import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, taxTypes },
-        invoices: { loading, invoiceItems, invoiceData, items },
-        customers: { customers }
+        global: { taxTypes },
+        invoices: { loading, invoiceItems, invoiceData, items }
     } = state;
 
     const {
@@ -34,11 +33,11 @@ const mapStateToProps = (state, { navigation }) => {
         invoiceData,
         items,
         type,
-        customers,
+        customers: state.customers?.customers,
         itemsLoading: loading.itemsLoading,
-        locale,
         formValues: getFormValues(RECURRING_FORM)(state) || {},
         taxTypes,
+        ...commonSelector(state),
         initialValues: !isLoading
             ? {
                   due_date: moment().add(7, 'days'),
@@ -60,25 +59,15 @@ const mapStateToProps = (state, { navigation }) => {
 };
 
 const mapDispatchToProps = {
-    getCreateInvoice: InvoicesAction.getCreateInvoice,
-    createInvoice: InvoicesAction.createInvoice,
-    getItems: InvoicesAction.getItems,
-    getEditInvoice: InvoicesAction.getEditInvoice,
-    editInvoice: InvoicesAction.editInvoice,
-    removeInvoiceItems: InvoicesAction.removeInvoiceItems,
-    removeInvoice: InvoicesAction.removeInvoice,
-    clearInvoice: InvoicesAction.clearInvoice,
-    changeInvoiceStatus: InvoicesAction.changeInvoiceStatus,
+    ...InvoicesAction,
     getCustomers: CustomersAction.getCustomers
 };
 
-//  Redux Forms
 const recurringInvoiceForm = reduxForm({
     form: RECURRING_FORM,
     validate
 })(RecurringInvoice);
 
-//  connect
 const RecurringInvoiceContainer = connect(
     mapStateToProps,
     mapDispatchToProps

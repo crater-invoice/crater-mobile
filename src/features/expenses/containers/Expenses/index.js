@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as ExpensesAction from '../../actions';
@@ -7,22 +6,21 @@ import { Expenses } from '../../components/Expenses';
 import { EXPENSE_SEARCH } from '../../constants';
 import { getExpensesState, getCategoriesState } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
+import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = state => {
     const {
-        global: { locale, currency },
-        expenses: { expenses },
-        settings: { categories },
-        customers: { customers }
+        global: { currency },
+        expenses: { expenses }
     } = state;
 
     return {
         expenses: getExpensesState({ expenses, currency }),
-        locale,
         currency,
-        customers,
-        categories: getCategoriesState(categories),
-        formValues: getFormValues(EXPENSE_SEARCH)(state) || {}
+        customers: state.customers?.customers,
+        categories: getCategoriesState(state.settings?.categories),
+        formValues: getFormValues(EXPENSE_SEARCH)(state) || {},
+        ...commonSelector(state)
     };
 };
 
@@ -31,12 +29,11 @@ const mapDispatchToProps = {
     getCategories: CategoriesAction.getExpenseCategories,
     getCustomers
 };
-//  Redux Forms
+
 const ExpensesSearchReduxForm = reduxForm({
     form: EXPENSE_SEARCH
 })(Expenses);
 
-//  connect
 const ExpensesContainer = connect(
     mapStateToProps,
     mapDispatchToProps

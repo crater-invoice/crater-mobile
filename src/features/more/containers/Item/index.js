@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { Item } from '../../components/Item';
 import { reduxForm, getFormValues } from 'redux-form';
@@ -12,6 +11,7 @@ import {
 } from '@/features/settings/actions';
 import { getUnitState } from '../../selectors';
 import { PermissionService } from '@/services';
+import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -21,7 +21,7 @@ const mapStateToProps = (state, { navigation }) => {
             units,
             loading: { itemUnitsLoading }
         },
-        global: { locale, currency, taxTypes, theme }
+        global: { currency, taxTypes }
     } = state;
 
     const itemId = navigation.getParam('id', {});
@@ -45,14 +45,13 @@ const mapStateToProps = (state, { navigation }) => {
         itemId,
         taxTypes,
         taxByItems,
-        locale,
-        theme,
         type,
         isEditItem,
         isAllowToEdit,
         isAllowToDelete,
         currency,
         units: getUnitState(units),
+        ...commonSelector(state),
         initialValues: !isLoading
             ? {
                   taxes: [],
@@ -73,13 +72,11 @@ const mapDispatchToProps = {
     getSettingInfo
 };
 
-//  Redux Forms
 const ItemReduxForm = reduxForm({
     form: ITEM_FORM,
     validate
 })(Item);
 
-//  connect
 const ItemContainer = connect(
     mapStateToProps,
     mapDispatchToProps

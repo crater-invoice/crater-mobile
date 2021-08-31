@@ -15,6 +15,7 @@ import { colors } from '@/styles/colors';
 import Empty from '../Empty';
 import { Content } from '../Content';
 import { hasValue } from '@/constants';
+import { commonSelector } from 'modules/common/selectors';
 
 interface IProps {
     style?: StyleProp<ViewStyle>;
@@ -252,12 +253,8 @@ class ScrollList extends React.Component<IProps, IState> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-export const InfiniteScroll = connect(
-    mapStateToProps,
-    {}
-)(ScrollList);
+export const InfiniteScroll = connect(mapStateToProps)(ScrollList);

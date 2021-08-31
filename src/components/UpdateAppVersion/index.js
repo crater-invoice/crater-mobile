@@ -9,6 +9,7 @@ import { Text } from '../Text';
 import { LOGO } from '@/assets';
 import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import { commonSelector } from 'modules/common/selectors';
 
 export class UpdateAppVersion extends Component {
     constructor(props) {
@@ -89,18 +90,11 @@ export class UpdateAppVersion extends Component {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-const mapDispatchToProps = {};
-
-//  connect
-const UpdateAppVersionContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UpdateAppVersion);
+const UpdateAppVersionContainer = connect(mapStateToProps)(UpdateAppVersion);
 
 UpdateAppVersionContainer.navigationOptions = () => ({
     header: null

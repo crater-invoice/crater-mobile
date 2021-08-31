@@ -1,30 +1,20 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { Endpoint } from '../../components/Endpoint';
 import { reduxForm } from 'redux-form';
 import { SET_ENDPOINT_API } from '../../constants';
 import * as AuthAction from '../../actions';
 import { validate } from './validation';
+import { commonSelector } from 'modules/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
-    const {
-        global: { locale, endpointURL, theme },
-        auth: { loading }
-    } = state;
-
-    let CRATER_URL =
-        typeof endpointURL !== 'undefined' && endpointURL !== null
-            ? endpointURL
-            : '';
-
-    let skipEndpoint = navigation.getParam('skipEndpoint', false);
+    const CRATER_URL = state?.global?.endpointURL ?? '';
+    const skipEndpoint = navigation.getParam('skipEndpoint', false);
 
     return {
-        locale,
-        theme,
         skipEndpoint,
         CRATER_URL,
-        loading: loading && loading.pingEndpointLoading,
+        loading: state?.auth?.loading?.pingEndpointLoading,
+        ...commonSelector(state),
         initialValues: {
             endpointURL: CRATER_URL
         }
@@ -36,13 +26,11 @@ const mapDispatchToProps = {
     checkEndpointApi: AuthAction.checkEndpointApi
 };
 
-//  Redux Forms
 const EndpointReduxForm = reduxForm({
     form: SET_ENDPOINT_API,
     validate
 })(Endpoint);
 
-//  connect
 const EndpointContainer = connect(
     mapStateToProps,
     mapDispatchToProps

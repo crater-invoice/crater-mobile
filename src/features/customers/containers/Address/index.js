@@ -1,40 +1,24 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { CUSTOMER_ADDRESS } from '../../constants';
 import { Address } from '../../components/Address';
 import { getStateCountries } from '../../selectors';
+import { commonSelector } from 'modules/common/selectors';
 
-const mapStateToProps = (state) => {
-    const {
-        global: { locale },
-        customers: { countries }
-    } = state
+const mapStateToProps = state => ({
+    formValues: getFormValues(CUSTOMER_ADDRESS)(state) || {},
+    countries: getStateCountries(state.customers.countries),
+    ...commonSelector(state)
+});
 
-    return {
-        formValues: getFormValues(CUSTOMER_ADDRESS)(state) || {},
-        locale,
-        countries: getStateCountries(countries),
-    };
-};
-
-const mapDispatchToProps = {
-};
-
-//  Redux Forms
 const addressReduxForm = reduxForm({
-    form: CUSTOMER_ADDRESS,
+    form: CUSTOMER_ADDRESS
 })(Address);
 
-//  connect
-const AddressContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(addressReduxForm);
+const AddressContainer = connect(mapStateToProps)(addressReduxForm);
 
 AddressContainer.navigationOptions = () => ({
-    header: null,
+    header: null
 });
 
 export default AddressContainer;
-
