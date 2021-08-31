@@ -13,7 +13,9 @@ const mapStateToProps = (state, { navigation }) => {
         roles: { roles }
     } = state;
     const user = navigation.getParam('user', {});
+    const type = navigation.getParam('type', 'ADD');
     return {
+        type,
         permissions,
         formattedPermissions: groupBy(permissions ?? [], 'modelName'),
         loading: loading?.userLoading,

@@ -42,10 +42,10 @@ function* fetchSingleRole({payload}) {
       type: types.FETCH_SINGLE_ROLE_SUCCESS,
       payload: {
         permissions,
-        currentPermissions: response?.data?.abilities ?? []
+        currentPermissions: response?.abilities ?? []
       }
     });
-    onSuccess?.(response?.data);
+    onSuccess?.(response);
   } catch (e) {}
 }
 
@@ -58,7 +58,7 @@ function* fetchPermissions({payload}) {
     const response = yield call(req.fetchPermissions);
     yield put({
       type: types.FETCH_PERMISSIONS_SUCCESS,
-      payload: response?.data ?? []
+      payload: response.abilities ?? []
     });
     payload?.(response);
   } catch (e) {}
@@ -70,11 +70,11 @@ function* fetchPermissions({payload}) {
  */
 function* addRole({payload}) {
   try {
-    const {params, navigation} = payload;
+    const {params, navigation, onResult} = payload;
     yield put(spinner(true));
     const response = yield call(req.addRole, params);
     yield put({type: types.ADD_ROLE_SUCCESS, payload: response?.data});
-    navigation.goBack(null);
+    onResult?.(response?.data);
   } catch (e) {
   } finally {
     yield put(spinner(false));

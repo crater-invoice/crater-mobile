@@ -108,6 +108,15 @@ export default class User extends Component<IProps, IStates> {
         dispatch(change(USER_FORM, field, value));
     };
 
+    navigateToRole = () => {
+        const { navigation } = this.props;
+        navigation.navigate(ROUTES.ROLE, {
+            type: 'ADD',
+            onSelect: item => {
+                this.setFormField(`user.${FIELD.ROLE}`, item.name);
+            }
+        });
+    };
     render() {
         const {
             navigation,
@@ -242,6 +251,7 @@ export default class User extends Component<IProps, IStates> {
                     label={t('users.role')}
                     icon={'align-center'}
                     createActionRouteName={ROUTES.ROLE}
+                    rightIconPress={this.navigateToRole}
                     placeholder={
                         formValues?.user?.role ?? t('users.rolePlaceholder')
                     }
@@ -259,6 +269,7 @@ export default class User extends Component<IProps, IStates> {
                     }}
                     isEditable={!disabled}
                     fakeInputProps={{ disabled }}
+                    refLinkFn={ref => (userRefs.role = ref)}
                 />
             </DefaultLayout>
         );

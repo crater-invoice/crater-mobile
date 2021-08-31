@@ -1,7 +1,7 @@
 import { getError } from '@/constants';
 import { USER_FIELDS as FIELDS } from './constants';
 
-export const validateUser = values => {
+export const validateUser = (values,{type}) => {    
     const errors: any = { user: {} };
     errors.user[FIELDS.NAME] = getError(values?.user?.[FIELDS.NAME], [
         'required'
@@ -12,7 +12,7 @@ export const validateUser = values => {
     ]);
     errors.user[FIELDS.PASSWORD] = getError(
         values?.user?.[FIELDS.PASSWORD],
-        ['minCharacterRequired'],
+        type === 'ADD'? ['required' ,'minCharacterRequired']:['minCharacterRequired'],
         { minCharacter: 8 }
     );
     errors.user[FIELDS.ROLE] = getError(values?.user?.[FIELDS.ROLE], [
