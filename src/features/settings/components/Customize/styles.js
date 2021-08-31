@@ -48,7 +48,7 @@ export default styles = StyleSheet.create({
     label: {
         color: colors.secondary,
         fontSize: 14,
-        fontFamily: fonts.poppinsMedium,
+        fontFamily: fonts.medium,
         paddingTop: 11,
         paddingBottom: 11,
         textAlign: 'left'

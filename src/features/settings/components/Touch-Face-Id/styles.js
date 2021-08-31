@@ -36,14 +36,14 @@ const Styles = {
 
     Title: styled(Text)`
         font-size: 22;
-        font-family: ${fonts.poppinsMedium};
+        font-family: ${fonts.medium};
         text-align: center;
         color: ${props => props.theme.viewLabel.fifthColor};
     `,
 
     SubTitle: styled(Text)`
         font-size: 17;
-        font-family: ${fonts.poppins};
+        font-family: ${fonts.regular};
         text-align: center;
         margin-top: 15;
         text-align: center;
@@ -52,7 +52,7 @@ const Styles = {
 
     SubTitle2: styled(Text)`
         font-size: 17;
-        font-family: ${fonts.poppins};
+        font-family: ${fonts.regular};
         text-align: center;
         color: ${props => props.theme.viewLabel.fifthColor};
     `,
@@ -107,7 +107,7 @@ const Styles = {
 
     GobBackButtonText: styled(Text)`
         font-size: 17;
-        font-family: ${fonts.poppins};
+        font-family: ${fonts.regular};
         color: ${colors.primary};
         text-align: center;
     `,
@@ -144,7 +144,7 @@ const Styles = {
 
     EnrolledTitle: styled(Text)`
         font-size: 22;
-        font-family: ${fonts.poppinsMedium};
+        font-family: ${fonts.medium};
         text-align: center;
         margin-top: ${defineLargeSizeParam(50, 40)};
         color: ${props => props.theme.text.secondaryColor};
@@ -177,14 +177,14 @@ const Styles = {
 
     NotSupportedTitle: styled(Text)`
         font-size: 20;
-        font-family: ${fonts.poppinsMedium};
+        font-family: ${fonts.medium};
         text-align: center;
         color: ${props => props.theme.viewLabel.fifthColor};
     `,
 
     NotSupportedSubTitle: styled(Text)`
         font-size: 15;
-        font-family: ${fonts.poppins};
+        font-family: ${fonts.regular};
         text-align: center;
         margin-top: 3;
         color: ${props => props.theme.viewLabel.fifthColor};

@@ -6,8 +6,7 @@ export default styles = StyleSheet.create({
         paddingTop: 10
     },
     listViewTitle: theme => ({
-        fontFamily:
-            theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium,
+        fontFamily: theme?.mode === 'light' ? fonts.regular : fonts.medium,
         color: theme?.listItem?.secondary?.color,
         textAlign: 'left'
     }),

@@ -110,7 +110,7 @@ export default class Notes extends Component<IProps> {
                         bottomDivider
                         emptyContentProps={emptyContentProps}
                         leftSubTitleStyle={{ textAlign: 'justify' }}
-                        rightTitleStyle={{ fontFamily: fonts.poppins }}
+                        rightTitleStyle={{ fontFamily: fonts.regular }}
                         isAnimated
                     />
                 </InfiniteScroll>

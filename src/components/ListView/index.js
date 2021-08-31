@@ -236,7 +236,7 @@ class ListViewComponent extends Component<IProps> {
                         />
                     )
                 }
-                fontFamily={fonts.poppins}
+                fontFamily={fonts.regular}
                 onPress={() => onPress(item.fullItem)}
                 {...(theme?.mode === 'dark' && {
                     underlayColor: colors.gray
@@ -374,7 +374,7 @@ class ListViewComponent extends Component<IProps> {
                           }
                         : {}
                 ]}
-                fontFamily={fonts.poppins}
+                fontFamily={fonts.regular}
                 onPress={() => onPress(fullItem)}
                 {...(theme?.mode === 'dark' && {
                     underlayColor: colors.gray

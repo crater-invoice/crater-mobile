@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         borderBottomWidth: 2,
         borderColor: theme?.tab?.borderColor,
-        fontFamily: fonts.poppinsSemiBold,
+        fontFamily: fonts.semiBold,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

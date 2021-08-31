@@ -19,8 +19,7 @@ export default StyleSheet.create({
     input: theme => ({
         fontSize: 16,
         paddingTop: 1,
-        fontFamily:
-            theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium,
+        fontFamily: theme?.mode === 'light' ? fonts.regular : fonts.medium,
         textAlign: 'left',
         height: 40,
         ...Platform.select({

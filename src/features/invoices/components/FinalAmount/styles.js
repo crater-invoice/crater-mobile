@@ -46,7 +46,7 @@ export default styles = StyleSheet.create({
     },
     amountHeading: {
         color: colors.darkGray,
-        fontFamily: fonts.poppinsMedium,
+        fontFamily: fonts.medium,
         marginTop: 6,
         textAlign: 'left'
     },
@@ -54,7 +54,7 @@ export default styles = StyleSheet.create({
         color: theme?.listItem?.primary?.color,
         fontSize: 16,
         ...(theme?.mode === 'dark' && {
-            fontFamily: fonts.poppinsMedium
+            fontFamily: fonts.medium
         })
     }),
     taxAmount: theme => ({
@@ -66,10 +66,7 @@ export default styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '500',
         textAlign: 'left',
-        fontFamily:
-            theme?.mode === 'light'
-                ? fonts.poppinsMedium
-                : fonts.poppinsSemiBold
+        fontFamily: theme?.mode === 'light' ? fonts.medium : fonts.semiBold
     }),
     divider: theme => ({
         backgroundColor: theme?.divider?.secondaryBgColor,

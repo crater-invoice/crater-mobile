@@ -42,7 +42,7 @@ const Label = styled(Text)`
     font-size: 9px;
     font-weight: 400;
     letter-spacing: 0.7;
-    font-family: ${fonts.poppinsMedium};
+    font-family: ${fonts.medium};
     color: ${props => props.color};
     padding-top: 3.5;
     text-align: center;

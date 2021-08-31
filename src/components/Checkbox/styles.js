@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {colors, fonts} from '@/styles';
+import {fonts} from '@/styles';
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   },
   label: theme => ({
     fontWeight: 'normal',
-    fontFamily: fonts.poppins,
+    fontFamily: fonts.regular,
     fontSize: 15,
     marginLeft: 5,
     color: theme.text.secondaryColor,

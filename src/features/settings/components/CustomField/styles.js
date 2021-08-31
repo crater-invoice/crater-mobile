@@ -39,7 +39,7 @@ export default styles = StyleSheet.create({
     // help
     helpText: {
         color: colors.darkGray,
-        fontFamily: fonts.poppins,
+        fontFamily: fonts.regular,
         fontSize: 14,
         textAlign: 'left'
     }

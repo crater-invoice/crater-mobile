@@ -163,7 +163,7 @@ export default StyleSheet.create({
     // left Symbol
     leftSymbol: length => ({
         fontSize: 18,
-        fontFamily: fonts.poppinsMedium,
+        fontFamily: fonts.medium,
         ...(length >= 3 && {
             fontSize: 14
         })

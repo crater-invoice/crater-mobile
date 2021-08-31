@@ -1,7 +1,7 @@
 export const fonts = {
-    poppins: 'Poppins',
-    poppinsLight: 'Poppins-light',
-    poppinsMedium: 'Poppins-medium',
-    poppinsSemiBold: 'Poppins-semi-bold',
-    poppinsBold: 'Poppins-bold',
+  regular: 'Poppins',
+  light: 'Poppins-light',
+  medium: 'Poppins-medium',
+  semiBold: 'Poppins-semi-bold',
+  bold: 'Poppins-bold'
 };

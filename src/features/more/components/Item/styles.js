@@ -26,7 +26,7 @@ export default styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '500',
         textAlign: 'left',
-        fontFamily: fonts.poppinsMedium
+        fontFamily: fonts.medium
     }),
     divider: {
         backgroundColor: colors.lightGray,
