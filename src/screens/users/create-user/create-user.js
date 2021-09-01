@@ -2,11 +2,10 @@ import React, {Component} from 'react';
 import {Field, change, initialize, SubmissionError} from 'redux-form';
 import {pick, find, values} from 'lodash';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './user-type';
+import {IProps, IStates} from './create-user-type';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
-import {styles} from './user-styles';
 import {alertMe, hasValue, KEYBOARD_TYPE} from '@/constants';
-import {USER_FORM} from 'modules/users/constants';
+import {USER_CREATE_FORM} from '../../../stores/users/types';
 import {
   DefaultLayout,
   InputField,
@@ -22,10 +21,10 @@ import {
   updateUser,
   removeUser,
   fetchSingleUser
-} from 'modules/users/actions';
+} from '../../../stores/users/actions';
 import {IMAGES} from '@/assets';
 let userRefs = {};
-export default class User extends Component<IProps, IStates> {
+export default class CreateUser extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
   }
@@ -63,7 +62,7 @@ export default class User extends Component<IProps, IStates> {
 
   setInitialData = user => {
     const {dispatch} = this.props;
-    dispatch(initialize(USER_FORM, user));
+    dispatch(initialize(USER_CREATE_FORM, user));
   };
 
   onSave = params => {
@@ -130,7 +129,7 @@ export default class User extends Component<IProps, IStates> {
 
   setFormField = (field, value) => {
     const {dispatch} = this.props;
-    dispatch(change(USER_FORM, field, value));
+    dispatch(change(USER_CREATE_FORM, field, value));
   };
 
   navigateToRole = () => {
@@ -240,7 +239,7 @@ export default class User extends Component<IProps, IStates> {
             }
           }}
           secureTextEntry
-          secureTextIconContainerStyle={styles.eyeIcon}
+          secureTextIconContainerStyle={{top: 6}}
           disabled={disabled}
           refLinkFn={ref => {
             userRefs.password = ref;

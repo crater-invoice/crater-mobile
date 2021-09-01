@@ -1,29 +1,27 @@
 import {connect} from 'react-redux';
 import {getFormValues, reduxForm} from 'redux-form';
 import {groupBy} from 'lodash';
-import User from './user';
-import {USER_FORM} from 'modules/users/constants';
-import {validateUser} from 'modules/users/validator';
-import {commonSelector, permissionSelector} from 'modules/common/selectors';
-import * as actions from 'modules/users/actions';
-import {fetchRoles} from '@/modules/roles/actions';
+import CreateUser from './create-user';
+import {USER_CREATE_FORM} from 'stores/users/types';
+import {validateUser} from 'stores/users/validator';
+import {commonSelector, permissionSelector} from 'stores/common/selectors';
+import {fetchRoles} from 'stores/roles/actions';
+
 const mapStateToProps = (state, {navigation}) => {
   const {
     users: {permissions, loading},
-    roles: {roles}
+    roles: 
+    {roles}
   } = state;
   const user = navigation.getParam('user', {});
-  const type = navigation.getParam('type', 'ADD');
   return {
-    type,
     permissions,
-    formattedPermissions: groupBy(permissions ?? [], 'modelName'),
     loading: loading?.userLoading,
     userId: user?.id,
     ...commonSelector(state),
     ...permissionSelector(navigation),
     fetchRoles,
-    formValues: getFormValues(USER_FORM)(state) || {},
+    formValues: getFormValues(USER_CREATE_FORM)(state) || {},
     roles,
     initialValues: {
       name: null,
@@ -39,18 +37,17 @@ const mapDispatchToProps = {
   fetchRoles
 };
 
-const UserForm = reduxForm({
-  form: USER_FORM,
+const CreateUserForm = reduxForm({
+  form: USER_CREATE_FORM,
   validate: validateUser
-})(User);
+})(CreateUser);
 
-const UserContainer: any = connect(
+export const CreateUserContainer: any = connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserForm);
+)(CreateUserForm);
 
-UserContainer.navigationOptions = () => ({
+CreateUserContainer.navigationOptions = () => ({
   header: null
 });
 
-export default UserContainer;

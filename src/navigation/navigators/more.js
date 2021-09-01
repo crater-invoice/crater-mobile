@@ -6,9 +6,7 @@ import ItemContainer from "../../features/more/containers/Item";
 import ReportsContainer from "../../features/more/containers/Reports";
 import ReportContainer from "../../features/more/containers/Report";
 import LostConnectionContainer from "../../components/LostConnection";
-import Users from "../../screens/users";
-import User from "../../screens/user";
-
+import {Users, CreateUser} from 'screens/users';
 export const MoreNavigator = {
 
     // Items
@@ -45,5 +43,5 @@ export const MoreNavigator = {
     // Users
     // -----------------------------------------
       [ROUTES.USERS]: generateStackNavigation(ROUTES.USERS, Users),
-      [ROUTES.USER]: generateStackNavigation(ROUTES.USER, User)
+      [ROUTES.CREATE_USER]: generateStackNavigation(ROUTES.CREATE_USER, CreateUser)
 }

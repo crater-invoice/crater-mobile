@@ -14,10 +14,8 @@ const UsersForm = reduxForm({
     form: USERS_FORM
 })(Users);
 
-const UsersContainer: any = connect(mapStateToProps)(UsersForm);
+export const UsersContainer: any = connect(mapStateToProps)(UsersForm);
 
 UsersContainer.navigationOptions = () => ({
     header: null
 });
-
-export default UsersContainer;
