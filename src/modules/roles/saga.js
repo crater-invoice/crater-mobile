@@ -36,16 +36,16 @@ function* fetchRoles({payload}) {
 function* fetchSingleRole({payload}) {
   try {
     const {id, onSuccess} = payload;
-    const response = yield call(req.fetchSingleRole, id);
+    const {data} = yield call(req.fetchSingleRole, id);
     const {abilities: permissions} = yield call(req.fetchPermissions);
     yield put({
       type: types.FETCH_SINGLE_ROLE_SUCCESS,
       payload: {
         permissions,
-        currentPermissions: response?.abilities ?? []
+        currentPermissions: data?.abilities ?? []
       }
     });
-    onSuccess?.(response);
+    onSuccess?.(data);
   } catch (e) {}
 }
 
