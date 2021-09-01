@@ -70,7 +70,7 @@ function* fetchPermissions({payload}) {
  */
 function* addRole({payload}) {
   try {
-    const {params, navigation, onResult} = payload;
+    const {params, onResult} = payload;
     yield put(spinner(true));
     const response = yield call(req.addRole, params);
     yield put({type: types.ADD_ROLE_SUCCESS, payload: response?.data});

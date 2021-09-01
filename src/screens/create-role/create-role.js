@@ -92,7 +92,6 @@ export default class CreateRole extends Component<IProps, IStates> {
       ? dispatch(
           addRole({
             params,
-            navigation,
             onResult: res => {
               const onSelect = navigation.getParam('onSelect', null);
               onSelect?.(res);
