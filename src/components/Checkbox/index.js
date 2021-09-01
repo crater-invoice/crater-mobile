@@ -3,8 +3,8 @@ import {CheckBox as RNCheckBox} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {styles} from './styles';
 import {colors} from '@/styles';
-import {Text} from '../Text';
 import {Label} from '../Label';
+import {commonSelector} from 'stores/common/selectors';
 
 type IProps = {
   label: String,
@@ -66,7 +66,8 @@ class CheckBox extends Component<IProps> {
   }
 }
 
-export const CtCheckbox = connect(
-  ({global}) => ({theme: global?.theme}),
-  {}
-)(CheckBox);
+const mapStateToProps = state => ({
+  ...commonSelector(state)
+});
+
+export const CtCheckbox = connect(mapStateToProps)(CheckBox);
