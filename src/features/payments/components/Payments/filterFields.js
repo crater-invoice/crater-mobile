@@ -1,4 +1,4 @@
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { IMAGES } from '@/assets';
 
 export default paymentsFilterFields = ({ props, setFormField }) => {
@@ -6,7 +6,6 @@ export default paymentsFilterFields = ({ props, setFormField }) => {
         getCustomers,
         getPaymentModes,
         customers,
-        locale,
         navigation,
         paymentMethods
     } = props;
@@ -19,14 +18,14 @@ export default paymentsFilterFields = ({ props, setFormField }) => {
             getItems: getCustomers,
             items: customers,
             displayName: 'name',
-            label: Lng.t('payments.customer', { locale }),
+            label: t('payments.customer'),
             icon: 'user',
-            placeholder: Lng.t('customers.placeholder', { locale }),
+            placeholder: t('customers.placeholder'),
             navigation: navigation,
             compareField: 'id',
             onSelect: item => setFormField('customer_id', item.id),
             headerProps: {
-                title: Lng.t('customers.title', { locale }),
+                title: t('customers.title'),
                 rightIconPress: null
             },
             emptyContentProps: {
@@ -41,14 +40,14 @@ export default paymentsFilterFields = ({ props, setFormField }) => {
             getItems: getPaymentModes,
             items: paymentMethods,
             displayName: 'name',
-            label: Lng.t('payments.mode', { locale }),
+            label: t('payments.mode'),
             icon: 'align-center',
-            placeholder: Lng.t('payments.modePlaceholder', { locale }),
+            placeholder: t('payments.modePlaceholder'),
             navigation: navigation,
             compareField: 'id',
             onSelect: item => setFormField('payment_method_id', item.id),
             headerProps: {
-                title: Lng.t('payments.modePlaceholder', { locale }),
+                title: t('payments.modePlaceholder'),
                 rightIconPress: null
             },
             listViewProps: { hasAvatar: true },
@@ -61,7 +60,7 @@ export default paymentsFilterFields = ({ props, setFormField }) => {
     const inputFields = [
         {
             name: 'payment_number',
-            hint: Lng.t('payments.number', { locale }),
+            hint: t('payments.number'),
             leftIcon: 'hashtag',
             inputProps: {
                 autoCapitalize: 'none',

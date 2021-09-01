@@ -9,10 +9,11 @@ import styles from './styles';
 import { IInputField } from './type';
 import { AssetIcon } from '../AssetIcon';
 import { colors } from '@/styles';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { hasTextLength, hasValue } from '@/constants';
 import { Text } from '../Text';
 import { Label } from '../Label';
+import { commonSelector } from 'stores/common/selectors';
 
 export class InputFieldComponent extends Component<IInputField> {
     constructor(props) {
@@ -135,7 +136,6 @@ export class InputFieldComponent extends Component<IInputField> {
             rounded,
             isCurrencyInput = false,
             leftIconStyle,
-            locale,
             maxNumber = 0,
             maxCharacter = 0,
             minCharacter = 0,
@@ -370,8 +370,7 @@ export class InputFieldComponent extends Component<IInputField> {
                                 numberOfLines={errorNumberOfLines || 3}
                                 medium={theme?.mode === 'dark'}
                             >
-                                {Lng.t(error, {
-                                    locale,
+                                {t(error, {
                                     hint,
                                     maxNumber,
                                     maxCharacter,
@@ -396,15 +395,9 @@ export class InputFieldComponent extends Component<IInputField> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme,
-    currency: global?.currency
+const mapStateToProps = state => ({
+    currency: state.global?.currency,
+    ...commonSelector(state)
 });
 
-const mapDispatchToProps = {};
-
-export const InputField = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(InputFieldComponent);
+export const InputField = connect(mapStateToProps)(InputFieldComponent);

@@ -12,6 +12,7 @@ import { isRTL } from '@/utils';
 import { Text } from '../Text';
 import AssetSvg from '../AssetSvg';
 import { AssetImage } from '../AssetImage';
+import { commonSelector } from 'stores/common/selectors';
 
 type IProps = {
     hasAvatar: Boolean,
@@ -235,7 +236,7 @@ class ListViewComponent extends Component<IProps> {
                         />
                     )
                 }
-                fontFamily={fonts.poppins}
+                fontFamily={fonts.regular}
                 onPress={() => onPress(item.fullItem)}
                 {...(theme?.mode === 'dark' && {
                     underlayColor: colors.gray
@@ -373,7 +374,7 @@ class ListViewComponent extends Component<IProps> {
                           }
                         : {}
                 ]}
-                fontFamily={fonts.poppins}
+                fontFamily={fonts.regular}
                 onPress={() => onPress(fullItem)}
                 {...(theme?.mode === 'dark' && {
                     underlayColor: colors.gray
@@ -423,11 +424,8 @@ class ListViewComponent extends Component<IProps> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-export const ListView = connect(
-    mapStateToProps,
-    {}
-)(ListViewComponent);
+export const ListView = connect(mapStateToProps)(ListViewComponent);

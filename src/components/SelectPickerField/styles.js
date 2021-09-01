@@ -25,8 +25,7 @@ export default StyleSheet.create({
         paddingRight: 20,
         height: 42,
         color: theme?.text?.secondaryColor,
-        fontFamily:
-            theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium
+        fontFamily: theme?.mode === 'light' ? fonts.regular : fonts.medium
     }),
     disabledSelectedValue: theme => ({
         ...styles.disabledSelectedValue(theme)
@@ -43,7 +42,6 @@ export default StyleSheet.create({
     },
     androidText: theme => ({
         paddingRight: 5,
-        fontFamily:
-            theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium
+        fontFamily: theme?.mode === 'light' ? fonts.regular : fonts.medium
     })
 });

@@ -1,1 +1,1 @@
-export * from './PermissionService';
+export * from './permission-service';

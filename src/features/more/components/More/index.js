@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './styles';
 import { MainLayout, ListView } from '@/components';
 import { MORE_MENU } from '../../constants';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { alertMe } from '@/constants';
 
@@ -37,12 +37,12 @@ export class More extends React.Component {
     };
 
     onLogout = () => {
-        const { navigation, logout, locale } = this.props;
+        const { navigation, logout } = this.props;
 
         alertMe({
-            title: Lng.t('logout.confirmation', { locale }),
+            title: t('logout.confirmation'),
             showCancel: true,
-            okText: Lng.t('logout.title', { locale }),
+            okText: t('logout.title'),
             okPress: () => logout({ navigation })
         });
     };
@@ -54,20 +54,20 @@ export class More extends React.Component {
     };
 
     render() {
-        const { locale, theme } = this.props;
+        const { theme } = this.props;
 
         return (
             <MainLayout
                 headerProps={{
                     hasCircle: false,
-                    title: Lng.t('header.more', { locale })
+                    title: t('header.more')
                 }}
                 bottomDivider
                 dividerStyle={styles.dividerStyle}
                 hasSearchField={false}
             >
                 <ListView
-                    items={MORE_MENU(locale, Lng)}
+                    items={MORE_MENU()}
                     onPress={this.onSelectMenu}
                     hasAvatar
                     refreshing={false}

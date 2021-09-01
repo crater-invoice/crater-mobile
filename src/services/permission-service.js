@@ -169,7 +169,7 @@ class Service {
         return 'company';
 
       case ROUTES.ROLES:
-      case ROUTES.ROLE:
+      case ROUTES.CREATE_ROLE:
         return 'role';
 
       case ROUTES.USERS:

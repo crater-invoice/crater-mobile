@@ -5,9 +5,8 @@ import { Field, change, SubmissionError } from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { IMAGES } from '@/assets';
-import { CUSTOMER_ADD } from '@/features/customers/constants';
 import {
     InputField,
     DefaultLayout,
@@ -20,7 +19,6 @@ import {
     ActionButton
 } from '@/components';
 import {
-    PAYMENT_ADD,
     PAYMENT_FORM,
     PAYMENT_ACTIONS,
     ACTIONS_VALUE,
@@ -52,7 +50,6 @@ type IProps = {
     updatePayment: Function,
     handleSubmit: Function,
     type: String,
-    locale: String,
     loading: Boolean,
     getCustomers: Function,
     notesReference: any
@@ -94,12 +91,12 @@ export class Payment extends React.Component<IProps> {
             getCreatePayment,
             getPaymentDetail,
             isEditScreen,
-            type,
-            id,
-            hasRecordPayment
+            isCreateScreen,
+            hasRecordPayment,
+            id
         } = this.props;
 
-        if (type === PAYMENT_ADD) {
+        if (isCreateScreen) {
             getCreatePayment({
                 onSuccess: ({ nextNumber, prefix }) => {
                     const values = {
@@ -187,14 +184,13 @@ export class Payment extends React.Component<IProps> {
 
         const { selectedInvoice, isLoading } = this.state;
         const {
-            type,
             handleSubmit,
             createPayment,
             updatePayment,
             navigation,
-            locale,
             hasRecordPayment,
             isEditScreen,
+            isCreateScreen,
             id
         } = this.props;
 
@@ -220,26 +216,26 @@ export class Payment extends React.Component<IProps> {
 
             if (due !== 0 && amount > due) {
                 alertMe({
-                    desc: Lng.t('payments.alertAmount', { locale })
+                    desc: t('payments.alertAmount')
                 });
                 return;
             }
 
             if (due === 0 && amount > subTotal) {
                 alertMe({
-                    desc: Lng.t('payments.alertAmount', { locale })
+                    desc: t('payments.alertAmount')
                 });
                 return;
             }
         }
 
-        if (type === PAYMENT_ADD) {
+        if (isCreateScreen) {
             createPayment({
                 params,
                 navigation,
                 hasRecordPayment,
                 submissionError: errors =>
-                    handleSubmit(() => this.throwError(errors, locale))()
+                    handleSubmit(() => this.throwError(errors))()
             });
         }
 
@@ -249,12 +245,12 @@ export class Payment extends React.Component<IProps> {
                 params,
                 navigation,
                 submissionError: errors =>
-                    handleSubmit(() => this.throwError(errors, locale))()
+                    handleSubmit(() => this.throwError(errors))()
             });
         }
     };
 
-    throwError = (errors, locale) => {
+    throwError = errors => {
         if (errors?.[FIELDS.NUMBER]) {
             throw new SubmissionError({
                 payment: { [FIELDS.NUMBER]: 'validation.alreadyTaken' }
@@ -262,7 +258,7 @@ export class Payment extends React.Component<IProps> {
         }
 
         alertMe({
-            desc: Lng.t('validation.wrong', { locale })
+            desc: t('validation.wrong')
         });
     };
 
@@ -310,11 +306,11 @@ export class Payment extends React.Component<IProps> {
     };
 
     removePayment = () => {
-        const { removePayment, navigation, locale, id } = this.props;
+        const { removePayment, navigation, id } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('payments.alertDescription', { locale }),
+            title: t('alert.title'),
+            desc: t('payments.alertDescription'),
             showCancel: true,
             okPress: () => removePayment({ id, navigation })
         });
@@ -336,7 +332,7 @@ export class Payment extends React.Component<IProps> {
     navigateToCustomer = () => {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CUSTOMER, {
-            type: CUSTOMER_ADD,
+            type: 'ADD',
             onSelect: item => {
                 this.customerReference?.changeDisplayValue?.(item);
                 this.onSelectCustomer(item);
@@ -345,13 +341,13 @@ export class Payment extends React.Component<IProps> {
     };
 
     nextNumberView = () => {
-        const { formValues, locale, isAllowToEdit } = this.props;
+        const { formValues, isAllowToEdit } = this.props;
 
         return (
             <Field
                 name={`payment.${FIELDS.NUMBER}`}
                 component={FakeInput}
-                label={Lng.t('payments.number', { locale })}
+                label={t('payments.number')}
                 isRequired
                 prefixProps={{
                     fieldName: `payment.${FIELDS.NUMBER}`,
@@ -390,7 +386,6 @@ export class Payment extends React.Component<IProps> {
             navigation,
             handleSubmit,
             customers,
-            locale,
             type,
             getCustomers,
             getPaymentModes,
@@ -400,6 +395,7 @@ export class Payment extends React.Component<IProps> {
             unPaidInvoices,
             withLoading,
             customFields,
+            isCreateScreen,
             isEditScreen,
             isAllowToEdit,
             isAllowToDelete,
@@ -417,7 +413,7 @@ export class Payment extends React.Component<IProps> {
         const drownDownProps =
             isEditScreen && !isLoading
                 ? {
-                      options: PAYMENT_ACTIONS(isAllowToDelete, Lng, locale),
+                      options: PAYMENT_ACTIONS(isAllowToDelete),
                       onSelect: this.onOptionSelect,
                       cancelButtonIndex: 2,
                       destructiveButtonIndex: 1,
@@ -433,7 +429,7 @@ export class Payment extends React.Component<IProps> {
             if (isEditScreen && !isAllowToEdit) title = 'header.viewPayment';
             if (isEditScreen && isAllowToEdit) title = 'header.editPayment';
 
-            return Lng.t(title, { locale });
+            return t(title);
         };
 
         const headerProps = {
@@ -464,9 +460,7 @@ export class Payment extends React.Component<IProps> {
                 }}
                 contentProps={{ withLoading }}
                 dropdownProps={drownDownProps}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
                 bodyStyle={`px-22 pt-10 pb-15 opacity-${
                     withLoading ? 80 : 100
                 }`}
@@ -479,7 +473,7 @@ export class Payment extends React.Component<IProps> {
                             name={`payment.${FIELDS.DATE}`}
                             component={DatePickerField}
                             dateTimeFormat={DATE_FORMAT}
-                            label={Lng.t('payments.date', { locale })}
+                            label={t('payments.date')}
                             icon={'calendar-alt'}
                             onChangeCallback={val => {
                                 this.setFormField('payment_date', val);
@@ -506,18 +500,16 @@ export class Payment extends React.Component<IProps> {
                     selectedItem={formValues?.payment?.customer}
                     displayName="name"
                     component={SelectField}
-                    label={Lng.t('payments.customer', { locale })}
+                    label={t('payments.customer')}
                     icon={'user'}
-                    placeholder={Lng.t('payments.customerPlaceholder', {
-                        locale
-                    })}
+                    placeholder={t('payments.customerPlaceholder')}
                     navigation={navigation}
                     compareField="id"
                     onSelect={item => this.onSelectCustomer(item)}
                     createActionRouteName={ROUTES.CUSTOMER}
                     rightIconPress={this.navigateToCustomer}
                     headerProps={{
-                        title: Lng.t('customers.title', { locale })
+                        title: t('customers.title')
                     }}
                     listViewProps={{ hasAvatar: true }}
                     emptyContentProps={{
@@ -525,9 +517,9 @@ export class Payment extends React.Component<IProps> {
                         image: IMAGES.EMPTY_CUSTOMERS
                     }}
                     isRequired
-                    isEditable={type === PAYMENT_ADD}
+                    isEditable={isCreateScreen}
                     fakeInputProps={{
-                        disabled: type !== PAYMENT_ADD
+                        disabled: isEditScreen
                     }}
                     reference={ref => (this.customerReference = ref)}
                 />
@@ -542,16 +534,14 @@ export class Payment extends React.Component<IProps> {
                     items={this.formatUnpaidInvoices(unPaidInvoices)}
                     selectedItem={formValues?.payment?.invoice}
                     displayName="invoice_number"
-                    label={Lng.t('payments.invoice', { locale })}
+                    label={t('payments.invoice')}
                     icon="align-center"
-                    placeholder={Lng.t('payments.invoicePlaceholder', {
-                        locale
-                    })}
+                    placeholder={t('payments.invoicePlaceholder')}
                     navigation={navigation}
                     compareField="id"
                     onSelect={item => this.onSelectInvoice(item)}
                     headerProps={{
-                        title: Lng.t('invoices.title', { locale }),
+                        title: t('invoices.title'),
                         rightIconPress: null
                     }}
                     emptyContentProps={{ contentType: 'invoices' }}
@@ -560,9 +550,9 @@ export class Payment extends React.Component<IProps> {
                         status: 'UNPAID'
                     }}
                     reference={ref => (this.invoiceReference = ref)}
-                    isEditable={type === PAYMENT_ADD}
+                    isEditable={isCreateScreen}
                     fakeInputProps={{
-                        disabled: type !== PAYMENT_ADD
+                        disabled: isEditScreen
                     }}
                 />
 
@@ -572,7 +562,7 @@ export class Payment extends React.Component<IProps> {
                     leftSymbol={
                         selectedCustomer?.currency?.symbol ?? currency?.symbol
                     }
-                    hint={Lng.t('payments.amount', { locale })}
+                    hint={t('payments.amount')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCorrect: true,
@@ -592,20 +582,16 @@ export class Payment extends React.Component<IProps> {
                     items={paymentMethods}
                     selectedItem={formValues?.payment?.payment_method}
                     displayName="name"
-                    label={Lng.t('payments.mode', { locale })}
+                    label={t('payments.mode')}
                     icon="align-center"
-                    placeholder={Lng.t('payments.modePlaceholder', {
-                        locale
-                    })}
+                    placeholder={t('payments.modePlaceholder')}
                     navigation={navigation}
                     compareField="id"
                     onSelect={item =>
                         this.setFormField(`payment.${FIELDS.METHOD}`, item.id)
                     }
                     headerProps={{
-                        title: Lng.t('payments.modePlaceholder', {
-                            locale
-                        })
+                        title: t('payments.modePlaceholder')
                     }}
                     emptyContentProps={{ contentType: 'paymentMode' }}
                     inputModalName="PaymentModeModal"

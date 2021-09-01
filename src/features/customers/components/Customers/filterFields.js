@@ -1,15 +1,12 @@
-import React from 'react';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 
-export const customersFilterFields = locale => {
+export const customersFilterFields = () => {
     const filterRefs: any = {};
 
     return [
         {
             name: 'name',
-            hint: Lng.t('customers.filterDisplayName', {
-                locale
-            }),
+            hint: t('customers.filterDisplayName'),
             inputProps: {
                 autoCorrect: true,
                 onSubmitEditing: () => filterRefs.contactName.focus()
@@ -17,9 +14,7 @@ export const customersFilterFields = locale => {
         },
         {
             name: 'contact_name',
-            hint: Lng.t('customers.filterContactName', {
-                locale
-            }),
+            hint: t('customers.filterContactName'),
             inputProps: {
                 autoCorrect: true,
                 onSubmitEditing: () => filterRefs.phone.focus()
@@ -28,7 +23,7 @@ export const customersFilterFields = locale => {
         },
         {
             name: 'phone',
-            hint: Lng.t('customers.phone', { locale }),
+            hint: t('customers.phone'),
             inputProps: {
                 keyboardType: 'phone-pad'
             },

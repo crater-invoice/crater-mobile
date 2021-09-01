@@ -1,16 +1,10 @@
-import React, { Component } from 'react';
-import queryString from 'query-string';
+import t from 'locales/use-translation';
 
 // Forms
 // -----------------------------------------
 export const CUSTOMER_SEARCH = 'customers/CUSTOMER_SEARCH';
 export const CUSTOMER_FORM = 'customers/CUSTOMER_FORM';
 export const CUSTOMER_ADDRESS = 'customers/CUSTOMER_ADDRESS';
-
-// Type
-// -----------------------------------------
-export const CUSTOMER_ADD = 'customers/CUSTOMER_ADD';
-export const CUSTOMER_EDIT = 'customers/CUSTOMER_EDIT';
 
 // Types
 // -----------------------------------------
@@ -35,10 +29,10 @@ export const ACTIONS_VALUE = {
     REMOVE: 'remove'
 };
 
-export const CUSTOMER_ACTIONS = (Lng, locale) => {
+export const CUSTOMER_ACTIONS = () => {
     return [
         {
-            label: Lng.t('customers.removeCustomer', { locale }),
+            label: t('customers.removeCustomer'),
             value: ACTIONS_VALUE.REMOVE
         }
     ];

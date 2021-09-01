@@ -1,5 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
-import * as types from './constants';
+import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
 import {hasTextLength} from '@/constants';
@@ -36,16 +36,16 @@ function* fetchRoles({payload}) {
 function* fetchSingleRole({payload}) {
   try {
     const {id, onSuccess} = payload;
-    const response = yield call(req.fetchSingleRole, id);
+    const {data} = yield call(req.fetchSingleRole, id);
     const {abilities: permissions} = yield call(req.fetchPermissions);
     yield put({
       type: types.FETCH_SINGLE_ROLE_SUCCESS,
       payload: {
         permissions,
-        currentPermissions: response?.abilities ?? []
+        currentPermissions: data?.abilities ?? []
       }
     });
-    onSuccess?.(response?.data);
+    onSuccess?.(data);
   } catch (e) {}
 }
 
@@ -70,7 +70,7 @@ function* fetchPermissions({payload}) {
  */
 function* addRole({payload}) {
   try {
-    const {params, navigation, onResult} = payload;
+    const {params, onResult} = payload;
     yield put(spinner(true));
     const response = yield call(req.addRole, params);
     yield put({type: types.ADD_ROLE_SUCCESS, payload: response?.data});

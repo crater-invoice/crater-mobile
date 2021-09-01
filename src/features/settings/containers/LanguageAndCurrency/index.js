@@ -1,11 +1,10 @@
-import React from 'react';
 import { connect } from 'react-redux';
-import { Company } from '../../components/Company';
 import { reduxForm, getFormValues } from 'redux-form';
 import * as PreferencesAction from '../../actions';
 import { LanguageAndCurrency } from '../../components/LanguageAndCurrency';
 import { validate } from './validation';
 import { EDIT_LANGUAGE_AND_CURRENCY } from '../../constants';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => {
     const {
@@ -16,8 +15,7 @@ const mapStateToProps = state => {
                 generalSettingsLoading
             },
             preferences
-        },
-        global: { locale, theme, currencies }
+        }
     } = state;
     let isLoading =
         getPreferencesLoading ||
@@ -25,13 +23,12 @@ const mapStateToProps = state => {
         preferences === null;
 
     return {
-        locale,
-        theme,
         isLoading,
-        currencies,
+        currencies: state.global?.currencies,
         editPreferencesLoading,
         generalSettingsLoading,
-        formValues: getFormValues(EDIT_LANGUAGE_AND_CURRENCY)(state) || {}
+        formValues: getFormValues(EDIT_LANGUAGE_AND_CURRENCY)(state) || {},
+        ...commonSelector(state)
     };
 };
 
@@ -42,13 +39,11 @@ const mapDispatchToProps = {
     getGeneralSetting: PreferencesAction.getGeneralSetting
 };
 
-//  Redux Forms
 const LanguageandCurrencyReduxForm = reduxForm({
     form: EDIT_LANGUAGE_AND_CURRENCY,
     validate
 })(LanguageAndCurrency);
 
-//  connect
 const LanguageAndCurrencyContainer = connect(
     mapStateToProps,
     mapDispatchToProps

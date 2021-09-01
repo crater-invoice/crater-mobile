@@ -22,9 +22,9 @@ import {
     ITEM_FORM
 } from '../../constants';
 import { colors } from '@/styles';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import { ADD_TAX, CUSTOMIZE_TYPE } from '@/features/settings/constants';
+import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
 import {
     alertMe,
     hasValue,
@@ -59,12 +59,11 @@ export class EstimateItem extends React.Component {
             setEstimateItems,
             itemId,
             navigation,
-            type,
-            locale
+            type
         } = this.props;
 
         if (this.finalAmount() < 0) {
-            alert(Lng.t('items.lessAmount', { locale }));
+            alert(t('items.lessAmount'));
 
             return;
         }
@@ -113,10 +112,10 @@ export class EstimateItem extends React.Component {
     };
 
     removeItem = () => {
-        const { removeEstimateItem, itemId, navigation, locale } = this.props;
+        const { removeEstimateItem, itemId, navigation } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
+            title: t('alert.title'),
             showCancel: true,
             okPress: () => {
                 navigation.navigate(ROUTES.ESTIMATE);
@@ -228,7 +227,6 @@ export class EstimateItem extends React.Component {
 
     FINAL_AMOUNT = () => {
         const {
-            locale,
             formValues: { quantity, price, taxes },
             navigation,
             discountPerItem,
@@ -271,7 +269,7 @@ export class EstimateItem extends React.Component {
                     <View style={styles.subContainer}>
                         <View>
                             <Text gray medium style={{ marginTop: 6 }}>
-                                {Lng.t('items.finalDiscount', { locale })}
+                                {t('items.finalDiscount')}
                             </Text>
                         </View>
                         <View>
@@ -349,7 +347,7 @@ export class EstimateItem extends React.Component {
                 <View style={styles.subContainer}>
                     <View>
                         <Text color={color} medium style={{ marginTop: 6 }}>
-                            {Lng.t('items.finalAmount', { locale })}
+                            {t('items.finalAmount')}
                         </Text>
                     </View>
                     <View>
@@ -375,9 +373,8 @@ export class EstimateItem extends React.Component {
             navigation,
             handleSubmit,
             loading,
-            formValues: { discount_type, taxes, discount },
+            formValues: { discount_type, taxes },
             initialValues,
-            locale,
             type,
             discountPerItem,
             taxTypes,
@@ -412,8 +409,8 @@ export class EstimateItem extends React.Component {
                 headerProps={{
                     leftIconPress: () => navigation.navigate(ROUTES.ESTIMATE),
                     title: isCreateItem
-                        ? Lng.t('header.addItem', { locale })
-                        : Lng.t('header.editItem', { locale }),
+                        ? t('header.addItem')
+                        : t('header.editItem'),
                     placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {
@@ -424,15 +421,13 @@ export class EstimateItem extends React.Component {
                 loadingProps={{
                     is: loading
                 }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
             >
                 <Field
                     name="name"
                     component={InputField}
                     isRequired
-                    hint={Lng.t('items.name', { locale })}
+                    hint={t('items.name')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -449,7 +444,7 @@ export class EstimateItem extends React.Component {
                             name={'quantity'}
                             isRequired
                             component={InputField}
-                            hint={Lng.t('items.quantity', { locale })}
+                            hint={t('items.quantity')}
                             inputProps={{
                                 returnKeyType: 'next',
                                 keyboardType: 'numeric',
@@ -469,7 +464,7 @@ export class EstimateItem extends React.Component {
                             isRequired
                             component={InputField}
                             leftSymbol={currency?.symbol}
-                            hint={Lng.t('items.price', { locale })}
+                            hint={t('items.price')}
                             inputProps={{
                                 returnKeyType: 'next',
                                 keyboardType: 'decimal-pad'
@@ -491,18 +486,14 @@ export class EstimateItem extends React.Component {
                         getItems={getItemUnits}
                         items={units}
                         displayName={'name'}
-                        label={Lng.t('items.unit', { locale })}
+                        label={t('items.unit')}
                         icon={'balance-scale'}
-                        placeholder={Lng.t('items.unitPlaceholder', {
-                            locale
-                        })}
+                        placeholder={t('items.unitPlaceholder')}
                         navigation={navigation}
                         compareField={'id'}
                         emptyContentProps={{ contentType: 'units' }}
                         headerProps={{
-                            title: Lng.t('items.unitPlaceholder', {
-                                locale
-                            })
+                            title: t('items.unitPlaceholder')
                         }}
                         fakeInputProps={{
                             valueStyle: styles.units,
@@ -520,7 +511,7 @@ export class EstimateItem extends React.Component {
                         <Field
                             name="discount_type"
                             component={RadioButtonGroup}
-                            hint={Lng.t('items.discountType', { locale })}
+                            hint={t('items.discountType')}
                             options={ITEM_DISCOUNT_OPTION}
                             initialValue={initialValues.discount_type}
                             theme={theme}
@@ -529,7 +520,7 @@ export class EstimateItem extends React.Component {
                         <Field
                             name="discount"
                             component={InputField}
-                            hint={Lng.t('items.discount', { locale })}
+                            hint={t('items.discount')}
                             inputProps={{
                                 returnKeyType: 'next',
                                 autoCapitalize: 'none',
@@ -549,11 +540,9 @@ export class EstimateItem extends React.Component {
                         apiSearch
                         hasPagination
                         displayName="name"
-                        label={Lng.t('items.taxes', { locale })}
+                        label={t('items.taxes')}
                         component={SelectField}
-                        placeholder={Lng.t('items.selectTax', {
-                            locale
-                        })}
+                        placeholder={t('items.selectTax')}
                         onlyPlaceholder
                         fakeInputProps={{
                             icon: 'percent',
@@ -562,7 +551,6 @@ export class EstimateItem extends React.Component {
                         }}
                         navigation={navigation}
                         isMultiSelect
-                        locale={locale}
                         concurrentMultiSelect
                         compareField="id"
                         valueCompareField="tax_type_id"
@@ -570,11 +558,11 @@ export class EstimateItem extends React.Component {
                             contentContainerStyle: { flex: 2 }
                         }}
                         headerProps={{
-                            title: Lng.t('taxes.title', { locale })
+                            title: t('taxes.title')
                         }}
                         rightIconPress={() =>
                             navigation.navigate(ROUTES.TAX, {
-                                type: ADD_TAX,
+                                type: 'ADD',
                                 onSelect: val => {
                                     this.setFormField('taxes', [
                                         ...val,
@@ -595,7 +583,7 @@ export class EstimateItem extends React.Component {
                 <Field
                     name="description"
                     component={InputField}
-                    hint={Lng.t('items.description', { locale })}
+                    hint={t('items.description')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',

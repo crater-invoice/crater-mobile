@@ -10,14 +10,13 @@ import {
     ActionButton
 } from '@/components';
 import { Field, change } from 'redux-form';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { EDIT_PREFERENCES } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { hasObjectLength, isArray } from '@/constants';
 
 type IProps = {
     navigation: Object,
-    locale: String,
     handleSubmit: Function,
     handleSubmit: Function,
     formValues: Object,
@@ -239,7 +238,6 @@ export class Preferences extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            locale,
             formValues: { time_zone },
             editPreferencesLoading
         } = this.props;
@@ -257,7 +255,7 @@ export class Preferences extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t('header.setting.preferences', { locale }),
+                    title: t('header.setting.preferences'),
                     placement: 'center',
                     rightIcon: 'save',
                     rightIconProps: {
@@ -265,9 +263,7 @@ export class Preferences extends React.Component<IProps> {
                     },
                     rightIconPress: handleSubmit(this.onSubmitPreferences)
                 }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
                 loadingProps={{
                     is: this.isLoading()
                 }}
@@ -280,18 +276,13 @@ export class Preferences extends React.Component<IProps> {
                     items={timezoneList}
                     displayName="key"
                     component={SelectField}
-                    label={Lng.t('settings.preferences.timeZone', {
-                        locale
-                    })}
+                    label={t('settings.preferences.timeZone')}
                     icon="clock"
                     rightIcon="angle-right"
                     placeholder={
                         time_zone
                             ? time_zone
-                            : Lng.t(
-                                  'settings.preferences.timeZonePlaceholder',
-                                  { locale }
-                              )
+                            : t('settings.preferences.timeZonePlaceholder')
                     }
                     fakeInputProps={{
                         valueStyle: styles.selectedField,
@@ -304,7 +295,7 @@ export class Preferences extends React.Component<IProps> {
                         this.setFormField('time_zone', val.value);
                     }}
                     headerProps={{
-                        title: Lng.t('timeZones.title', { locale }),
+                        title: t('timeZones.title'),
                         rightIconPress: null
                     }}
                     emptyContentProps={{
@@ -319,14 +310,11 @@ export class Preferences extends React.Component<IProps> {
                     items={dateFormatList}
                     displayName="display_date"
                     component={SelectField}
-                    label={Lng.t('settings.preferences.dateFormat', {
-                        locale
-                    })}
+                    label={t('settings.preferences.dateFormat')}
                     icon="calendar-alt"
                     rightIcon="angle-right"
-                    placeholder={Lng.t(
-                        'settings.preferences.dateFormatPlaceholder',
-                        { locale }
+                    placeholder={t(
+                        'settings.preferences.dateFormatPlaceholder'
                     )}
                     fakeInputProps={{
                         valueStyle: styles.selectedField,
@@ -350,7 +338,7 @@ export class Preferences extends React.Component<IProps> {
                         );
                     }}
                     headerProps={{
-                        title: Lng.t('dateFormats.title', { locale }),
+                        title: t('dateFormats.title'),
                         rightIconPress: null
                     }}
                     emptyContentProps={{
@@ -365,14 +353,11 @@ export class Preferences extends React.Component<IProps> {
                     items={fiscalYearLst}
                     displayName="key"
                     component={SelectField}
-                    label={Lng.t('settings.preferences.fiscalYear', {
-                        locale
-                    })}
+                    label={t('settings.preferences.fiscalYear')}
                     icon="calendar-alt"
                     rightIcon="angle-right"
-                    placeholder={Lng.t(
-                        'settings.preferences.fiscalYearPlaceholder',
-                        { locale }
+                    placeholder={t(
+                        'settings.preferences.fiscalYearPlaceholder'
                     )}
                     fakeInputProps={{
                         valueStyle: styles.selectedField,
@@ -385,7 +370,7 @@ export class Preferences extends React.Component<IProps> {
                         this.setFormField('fiscal_year', val.value);
                     }}
                     headerProps={{
-                        title: Lng.t('fiscalYears.title', { locale }),
+                        title: t('fiscalYears.title'),
                         rightIconPress: null
                     }}
                     emptyContentProps={{
@@ -399,12 +384,9 @@ export class Preferences extends React.Component<IProps> {
                 <Field
                     name="discount_per_item"
                     component={ToggleSwitch}
-                    hint={Lng.t('settings.preferences.discountPerItem', {
-                        locale
-                    })}
-                    description={Lng.t(
-                        'settings.preferences.discountPerItemPlaceholder',
-                        { locale }
+                    hint={t('settings.preferences.discountPerItem')}
+                    description={t(
+                        'settings.preferences.discountPerItemPlaceholder'
                     )}
                     onChangeCallback={val => this.setDiscountPerItem(val)}
                 />
@@ -412,12 +394,9 @@ export class Preferences extends React.Component<IProps> {
                 <Field
                     name="tax_per_item"
                     component={ToggleSwitch}
-                    hint={Lng.t('settings.preferences.taxPerItem', {
-                        locale
-                    })}
-                    description={Lng.t(
-                        'settings.preferences.taxPerItemPlaceholder',
-                        { locale }
+                    hint={t('settings.preferences.taxPerItem')}
+                    description={t(
+                        'settings.preferences.taxPerItemPlaceholder'
                     )}
                     onChangeCallback={val => this.setTaxPerItem(val)}
                     mainContainerStyle={{ marginVertical: 12 }}

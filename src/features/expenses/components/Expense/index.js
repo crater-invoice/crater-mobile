@@ -5,7 +5,7 @@ import { Field, change } from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
 import { goBack, MOUNT, ROUTES, UNMOUNT } from '@/navigation';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import * as Linking from 'expo-linking';
 import { alertMe, isArray, MAX_LENGTH } from '@/constants';
 import { IMAGES } from '@/assets';
@@ -20,13 +20,10 @@ import {
 } from '@/components';
 import {
     EXPENSE_FORM,
-    EXPENSE_ADD,
     EXPENSE_ACTIONS,
     ACTIONS_VALUE,
     EXPENSE_FIELDS as FIELDS
 } from '../../constants';
-import { CUSTOMER_ADD } from '@/features/customers/constants';
-import { CATEGORY_ADD } from '@/features/settings/constants';
 import { getApiFormattedCustomFields } from '@/utils';
 import _ from 'lodash';
 
@@ -38,7 +35,6 @@ interface IProps {
     createExpense: Function;
     updateExpense: Function;
     removeExpense: Function;
-    locale: string;
     dispatch: Function;
     loading: boolean;
     endpointURL: string;
@@ -88,14 +84,14 @@ export class Expense extends React.Component<IProps, IState> {
 
     setInitialValues = () => {
         const {
-            type,
             getCreateExpense,
             getExpenseDetail,
             isEditScreen,
+            isCreateScreen,
             id
         } = this.props;
 
-        if (type === EXPENSE_ADD) {
+        if (isCreateScreen) {
             getCreateExpense({
                 onSuccess: () => {
                     this.setFormField(`expense.${FIELDS.DATE}`, moment());
@@ -143,8 +139,8 @@ export class Expense extends React.Component<IProps, IState> {
             createExpense,
             navigation,
             updateExpense,
-            type,
             isEditScreen,
+            isCreateScreen,
             id
         } = this.props;
 
@@ -154,7 +150,7 @@ export class Expense extends React.Component<IProps, IState> {
             return;
         }
 
-        if (type === EXPENSE_ADD) {
+        if (isCreateScreen) {
             createExpense({
                 params,
                 attachmentReceipt,
@@ -175,11 +171,11 @@ export class Expense extends React.Component<IProps, IState> {
     };
 
     removeExpense = () => {
-        const { removeExpense, navigation, locale } = this.props;
+        const { removeExpense, navigation } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('expenses.alertDescription', { locale }),
+            title: t('alert.title'),
+            desc: t('expenses.alertDescription'),
             showCancel: true,
             okPress: () =>
                 removeExpense({
@@ -207,7 +203,7 @@ export class Expense extends React.Component<IProps, IState> {
     navigateToCustomer = () => {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CUSTOMER, {
-            type: CUSTOMER_ADD,
+            type: 'ADD',
             onSelect: item => {
                 this.setFormField(`expense.${FIELDS.CUSTOMER}`, item.id);
                 this.customerReference?.changeDisplayValue?.(item);
@@ -218,7 +214,7 @@ export class Expense extends React.Component<IProps, IState> {
     navigateToCategory = () => {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CATEGORY, {
-            type: CATEGORY_ADD,
+            type: 'ADD',
             onSelect: item => {
                 this.setFormField(`expense.${FIELDS.CATEGORY}`, item.id);
                 this.categoryReference?.changeDisplayValue?.(item);
@@ -232,7 +228,6 @@ export class Expense extends React.Component<IProps, IState> {
             handleSubmit,
             categories,
             getCategories,
-            locale,
             type,
             getCustomers,
             customers,
@@ -242,13 +237,14 @@ export class Expense extends React.Component<IProps, IState> {
             isEditScreen,
             isAllowToEdit,
             isAllowToDelete,
+            isCreateScreen,
             loading
         } = this.props;
         const disabled = !isAllowToEdit;
 
         const { imageUrl, isLoading, fileLoading, fileType } = this.state;
 
-        const isCreateExpense = type === EXPENSE_ADD;
+        const isCreateExpense = isCreateScreen;
         const hasCustomField = isEditScreen
             ? formValues?.expense && formValues.expense.hasOwnProperty('fields')
             : isArray(customFields);
@@ -256,12 +252,7 @@ export class Expense extends React.Component<IProps, IState> {
         const drownDownProps =
             !isCreateExpense && !isLoading
                 ? {
-                      options: EXPENSE_ACTIONS(
-                          Lng,
-                          locale,
-                          imageUrl,
-                          isAllowToDelete
-                      ),
+                      options: EXPENSE_ACTIONS(imageUrl, isAllowToDelete),
                       onSelect: this.onOptionSelect,
                       cancelButtonIndex: 1,
                       destructiveButtonIndex: 2,
@@ -281,7 +272,7 @@ export class Expense extends React.Component<IProps, IState> {
             if (isEditScreen && !isAllowToEdit) title = 'header.viewExpense';
             if (isEditScreen && isAllowToEdit) title = 'header.editExpense';
 
-            return Lng.t(title, { locale });
+            return t(title);
         };
 
         const headerProps = {
@@ -309,16 +300,13 @@ export class Expense extends React.Component<IProps, IState> {
                 headerProps={headerProps}
                 loadingProps={{ is: isLoading }}
                 dropdownProps={drownDownProps}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
             >
                 <Field
                     name={`expense.${FIELDS.RECEIPT}`}
                     component={FilePicker}
-                    locale={locale}
                     withDocument
-                    label={Lng.t('expenses.receipt', { locale })}
+                    label={t('expenses.receipt')}
                     fileLoading={val => this.setState({ fileLoading: val })}
                     containerStyle={styles.filePicker}
                     uploadedFileType={fileType}
@@ -336,7 +324,7 @@ export class Expense extends React.Component<IProps, IState> {
                     name={`expense.${FIELDS.DATE}`}
                     component={DatePickerField}
                     isRequired
-                    label={Lng.t('expenses.date', { locale })}
+                    label={t('expenses.date')}
                     icon={'calendar-alt'}
                     disabled={disabled}
                 />
@@ -346,7 +334,7 @@ export class Expense extends React.Component<IProps, IState> {
                     component={InputField}
                     isRequired
                     leftSymbol={currency?.symbol}
-                    hint={Lng.t('expenses.amount', { locale })}
+                    hint={t('expenses.amount')}
                     disabled={disabled}
                     inputProps={{
                         returnKeyType: 'go',
@@ -364,11 +352,9 @@ export class Expense extends React.Component<IProps, IState> {
                     getItems={getCategories}
                     items={categories}
                     displayName="name"
-                    label={Lng.t('expenses.category', { locale })}
+                    label={t('expenses.category')}
                     icon="align-center"
-                    placeholder={Lng.t('expenses.categoryPlaceholder', {
-                        locale
-                    })}
+                    placeholder={t('expenses.categoryPlaceholder')}
                     navigation={navigation}
                     compareField="id"
                     onSelect={item =>
@@ -377,9 +363,7 @@ export class Expense extends React.Component<IProps, IState> {
                     rightIconPress={this.navigateToCategory}
                     createActionRouteName={ROUTES.CATEGORY}
                     headerProps={{
-                        title: Lng.t('expenses.categoryPlaceholder', {
-                            locale
-                        })
+                        title: t('expenses.categoryPlaceholder')
                     }}
                     emptyContentProps={{ contentType: 'categories' }}
                     reference={ref => (this.categoryReference = ref)}
@@ -395,11 +379,9 @@ export class Expense extends React.Component<IProps, IState> {
                     getItems={getCustomers}
                     items={customers}
                     displayName="name"
-                    label={Lng.t('payments.customer', { locale })}
+                    label={t('payments.customer')}
                     icon="user"
-                    placeholder={Lng.t('customers.placeholder', {
-                        locale
-                    })}
+                    placeholder={t('customers.placeholder')}
                     navigation={navigation}
                     compareField="id"
                     onSelect={item =>
@@ -408,7 +390,7 @@ export class Expense extends React.Component<IProps, IState> {
                     rightIconPress={this.navigateToCustomer}
                     createActionRouteName={ROUTES.CUSTOMER}
                     headerProps={{
-                        title: Lng.t('customers.title', { locale })
+                        title: t('customers.title')
                     }}
                     emptyContentProps={{
                         contentType: 'customers',
@@ -422,12 +404,10 @@ export class Expense extends React.Component<IProps, IState> {
                 <Field
                     name={`expense.${FIELDS.NOTES}`}
                     component={InputField}
-                    hint={Lng.t('expenses.notes', { locale })}
+                    hint={t('expenses.notes')}
                     inputProps={{
                         returnKeyType: 'next',
-                        placeholder: Lng.t('expenses.notesPlaceholder', {
-                            locale
-                        }),
+                        placeholder: t('expenses.notesPlaceholder'),
                         autoCorrect: true,
                         multiline: true,
                         maxLength: MAX_LENGTH

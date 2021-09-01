@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Animated, Easing } from 'react-native';
 import { Field } from 'redux-form';
 import * as LocalAuthentication from 'expo-local-authentication';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { colors } from '@/styles';
 import Styles from './styles';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
@@ -30,7 +30,6 @@ import {
 } from '@/constants';
 
 interface IProps {
-    locale: string;
     loading: boolean;
     setBiometryAuthType: Function;
     biometryAuthType: string;
@@ -262,11 +261,8 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
     };
 
     scanId = async () => {
-        const { locale } = this.props;
-
         try {
             biometricAuthentication({
-                locale,
                 onSuccess: () => this.setBiometryAuthType(),
                 onCancel: () => this.refreshScanAnimation(),
                 onFail: () => this.refreshScanAnimation()
@@ -300,7 +296,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
     };
 
     render() {
-        const { locale, navigation, theme } = this.props;
+        const { navigation, theme } = this.props;
         const {
             isCompatible,
             isEnrolled,
@@ -322,7 +318,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                 leftIconPress: () => {
                     navigation.goBack(null);
                 },
-                title: Lng.t('settings.touchOrFaceId', { locale }),
+                title: t('settings.touchOrFaceId'),
                 placement: 'center',
                 leftArrow: 'primary'
             },
@@ -330,12 +326,8 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
         };
 
         const TYPES_TITLES = {
-            [BIOMETRY_AUTH_TYPES.FINGERPRINT]: Lng.t('touchFaceId.touchId', {
-                locale
-            }),
-            [BIOMETRY_AUTH_TYPES.FACE]: Lng.t('touchFaceId.faceId', {
-                locale
-            })
+            [BIOMETRY_AUTH_TYPES.FINGERPRINT]: t('touchFaceId.touchId'),
+            [BIOMETRY_AUTH_TYPES.FACE]: t('touchFaceId.faceId')
         };
 
         const type = TYPES_TITLES[supportBiometryType];
@@ -373,12 +365,9 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                     <Center>
                         <HeadingView>
                             <Title>{type}</Title>
-                            <SubTitle>
-                                {Lng.t('touchFaceId.subTitle1', { locale })}
-                            </SubTitle>
+                            <SubTitle>{t('touchFaceId.subTitle1')}</SubTitle>
                             <SubTitle2>
-                                {Lng.t('touchFaceId.subTitle2', {
-                                    locale,
+                                {t('touchFaceId.subTitle2', {
                                     type
                                 })}
                             </SubTitle2>
@@ -463,14 +452,14 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                     >
                         <CtGradientButton
                             onPress={() => !isAllowToScan && this.setUpNow()}
-                            btnTitle={Lng.t('button.setUpNow', { locale })}
+                            btnTitle={t('button.setUpNow')}
                             loading={false}
                             buttonContainerStyle={{ width: '75%' }}
                         />
 
                         <GobBackButton onPress={() => navigation.goBack(null)}>
                             <GobBackButtonText>
-                                {Lng.t('button.later', { locale })}
+                                {t('button.later')}
                             </GobBackButtonText>
                         </GobBackButton>
                     </AnimatedButton>
@@ -533,7 +522,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                     </EnrolledIconView>
                     <EnrolledBody>
                         <EnrolledTitle theme={theme}>
-                            {Lng.t('touchFaceId.activated', { locale, type })}
+                            {t('touchFaceId.activated', { type })}
                         </EnrolledTitle>
 
                         <ToggleBiometryView>
@@ -541,17 +530,12 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                                 name="biometry"
                                 component={ToggleSwitch}
                                 status={true}
-                                hint={Lng.t('touchFaceId.enableLogin', {
-                                    locale,
+                                hint={t('touchFaceId.enableLogin', {
                                     type
                                 })}
-                                description={Lng.t(
-                                    'touchFaceId.enableLoginHint',
-                                    {
-                                        locale,
-                                        type
-                                    }
-                                )}
+                                description={t('touchFaceId.enableLoginHint', {
+                                    type
+                                })}
                                 onChangeCallback={status => {
                                     this.disableBiometryAuthLogin();
                                 }}
@@ -608,12 +592,11 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                     </NotSupportedIconView>
                     <NotSupportedTextView>
                         <NotSupportedTitle>
-                            {Lng.t('touchFaceId.notCompatible', { locale })}
+                            {t('touchFaceId.notCompatible')}
                         </NotSupportedTitle>
                         <NotSupportedSubTitle>
-                            {Lng.t('touchFaceId.hardwareNotAvailable', {
-                                locale,
-                                type: Lng.t(typeIdText, { locale })
+                            {t('touchFaceId.hardwareNotAvailable', {
+                                type: t(typeIdText)
                             })}
                         </NotSupportedSubTitle>
                     </NotSupportedTextView>

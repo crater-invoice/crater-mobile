@@ -1,14 +1,9 @@
-import queryString from 'query-string';
+import t from 'locales/use-translation';
 
 // Forms
 // -----------------------------------------
 export const PAYMENT_SEARCH = 'payments/PAYMENT_SEARCH';
 export const PAYMENT_FORM = 'payments/PAYMENT_FORM';
-
-// Screen Type
-// -----------------------------------------
-export const PAYMENT_ADD = 'payments/PAYMENT_ADD';
-export const PAYMENT_EDIT = 'payments/PAYMENT_EDIT';
 
 // Types
 // -----------------------------------------
@@ -34,17 +29,17 @@ export const ACTIONS_VALUE = {
     REMOVE: 'remove'
 };
 
-export const PAYMENT_ACTIONS = (isAllowToDelete, Lng, locale) => {
+export const PAYMENT_ACTIONS = isAllowToDelete => {
     const options = [
         {
-            label: Lng.t('payments.sendReceipt', { locale }),
+            label: t('payments.sendReceipt'),
             value: ACTIONS_VALUE.SEND
         }
     ];
 
     isAllowToDelete &&
         options.push({
-            label: Lng.t('payments.removePayment', { locale }),
+            label: t('payments.removePayment'),
             value: ACTIONS_VALUE.REMOVE
         });
 

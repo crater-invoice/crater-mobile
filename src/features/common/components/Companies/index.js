@@ -1,9 +1,8 @@
 // @flow
 
 import React from 'react';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { InfiniteScroll, ListView, MainLayout } from '@/components';
-import { EDIT_COMPANY_TYPE, ADD_COMPANY_TYPE } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { ARROW_ICON } from '@/assets';
 import { fetchCompanies } from '../../actions';
@@ -48,23 +47,23 @@ export default class Companies extends React.Component {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.COMPANY, {
             company,
-            type: EDIT_COMPANY_TYPE
+            type: 'UPDATE'
         });
     };
 
     render() {
-        const { navigation, locale, dispatch, companies } = this.props;
+        const { navigation, dispatch, companies } = this.props;
         const { search } = this.state;
 
         const emptyTitle = search ? 'search.noResult' : 'company.empty.title';
         const emptyContentProps = {
-            title: Lng.t(emptyTitle, { locale, search }),
+            title: t(emptyTitle, { search }),
             ...(!search && {
-                description: Lng.t('company.empty.description', { locale }),
-                buttonTitle: Lng.t('company.text_add_new_company', { locale }),
+                description: t('company.empty.description'),
+                buttonTitle: t('company.text_add_new_company'),
                 buttonPress: () => {
                     navigation.navigate(ROUTES.COMPANY, {
-                        type: ADD_COMPANY_TYPE
+                        type: 'ADD'
                     });
                 }
             })
@@ -73,12 +72,12 @@ export default class Companies extends React.Component {
         const headerProps = {
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.goBack(null),
-            title: Lng.t('header.companies', { locale }),
+            title: t('header.companies'),
             placement: 'center',
             navigation,
             rightIcon: 'plus',
             rightIconPress: () =>
-                navigation.navigate(ROUTES.COMPANY, { type: ADD_COMPANY_TYPE })
+                navigation.navigate(ROUTES.COMPANY, { type: 'ADD' })
         };
 
         return (

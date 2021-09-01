@@ -3,12 +3,13 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { AssetImage } from '../AssetImage';
 import { CtGradientButton } from '../Button';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { checkConnection } from '@/constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { IMAGES } from '@/assets';
 import { Text } from '../Text';
 import { styles, Container } from './styles';
+import { commonSelector } from 'stores/common/selectors';
 
 export class LostConnection extends Component {
     constructor(props) {
@@ -43,7 +44,7 @@ export class LostConnection extends Component {
     };
 
     render() {
-        const { locale, theme } = this.props;
+        const { theme } = this.props;
         const { loading } = this.state;
 
         return (
@@ -56,7 +57,7 @@ export class LostConnection extends Component {
                             style={styles.title}
                             color={theme?.text?.secondaryColor}
                         >
-                            {Lng.t('lostInternet.title', { locale })}
+                            {t('lostInternet.title')}
                         </Text>
 
                         <View style={styles.logoContainer}>
@@ -72,14 +73,14 @@ export class LostConnection extends Component {
                             style={styles.description}
                             color={theme?.text?.thirdColor}
                         >
-                            {Lng.t('lostInternet.description', { locale })}
+                            {t('lostInternet.description')}
                         </Text>
                     </View>
 
                     <View style={{ marginTop: 25 }}>
                         <CtGradientButton
                             onPress={() => this.onRetry()}
-                            btnTitle={Lng.t('button.retry', { locale })}
+                            btnTitle={t('button.retry')}
                             loading={loading}
                             style={{ paddingVertical: 8 }}
                         />
@@ -90,15 +91,11 @@ export class LostConnection extends Component {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-const LostConnectionContainer = connect(
-    mapStateToProps,
-    {}
-)(LostConnection);
+const LostConnectionContainer = connect(mapStateToProps)(LostConnection);
 
 LostConnectionContainer.navigationOptions = () => ({
     header: null

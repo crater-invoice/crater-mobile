@@ -14,13 +14,13 @@ import {
     ActionButton
 } from '@/components';
 import { ROUTES } from '@/navigation';
-import { ITEM_FORM, ADD_ITEM } from '../../constants';
+import { ITEM_FORM } from '../../constants';
 import { colors } from '@/styles/colors';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { goBack, UNMOUNT, MOUNT } from '@/navigation';
 import { isIosPlatform, isIPhoneX } from '@/constants';
 import { alertMe, hasValue, MAX_LENGTH } from '@/constants';
-import { ADD_TAX, CUSTOMIZE_TYPE } from '@/features/settings/constants';
+import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
 
 export class Item extends React.Component {
     constructor(props) {
@@ -45,13 +45,12 @@ export class Item extends React.Component {
     setInitialValues = () => {
         const {
             getEditItem,
-            type,
-            isEditItem,
+            isEditScreen,
             itemId,
             getSettingInfo
         } = this.props;
 
-        if (type === ADD_ITEM) {
+        if (!isEditScreen) {
             getSettingInfo({
                 key: 'tax_per_item',
                 onSuccess: res => {
@@ -64,7 +63,7 @@ export class Item extends React.Component {
             return;
         }
 
-        if (isEditItem) {
+        if (isEditScreen) {
             getEditItem({
                 id: itemId,
                 onResult: () => {
@@ -84,9 +83,8 @@ export class Item extends React.Component {
             addItem,
             editItem,
             itemId,
-            navigation,
-            type,
-            locale
+            isCreateScreen,
+            navigation
         } = this.props;
 
         if (this.state.isLoading) {
@@ -94,7 +92,7 @@ export class Item extends React.Component {
         }
 
         if (this.finalAmount() < 0) {
-            alert(Lng.t('items.lessAmount', { locale }));
+            alert(t('items.lessAmount'));
             return;
         }
 
@@ -114,7 +112,7 @@ export class Item extends React.Component {
                 })
         };
 
-        type == ADD_ITEM
+        isCreateScreen
             ? addItem({
                   item,
                   onResult: () => {
@@ -131,15 +129,15 @@ export class Item extends React.Component {
     };
 
     removeItem = () => {
-        const { removeItem, itemId, navigation, locale } = this.props;
+        const { removeItem, itemId, navigation } = this.props;
 
         if (this.state.isLoading) {
             return;
         }
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('items.alertDescription', { locale }),
+            title: t('alert.title'),
+            desc: t('items.alertDescription'),
             showCancel: true,
             okPress: () =>
                 removeItem({
@@ -151,12 +149,8 @@ export class Item extends React.Component {
                         }
 
                         alertMe({
-                            title: Lng.t('items.alreadyAttachTitle', {
-                                locale
-                            }),
-                            desc: Lng.t('items.alreadyAttachDescription', {
-                                locale
-                            })
+                            title: t('items.alreadyAttachTitle'),
+                            desc: t('items.alreadyAttachDescription')
                         });
                     }
                 })
@@ -237,7 +231,6 @@ export class Item extends React.Component {
 
     FINAL_AMOUNT = () => {
         const {
-            locale,
             formValues: { taxes, price },
             currency,
             theme
@@ -248,7 +241,7 @@ export class Item extends React.Component {
                 <View style={styles.subContainer}>
                     <View>
                         <Text gray h5 medium style={{ marginTop: 6 }}>
-                            {Lng.t('items.subTotal', { locale })}
+                            {t('items.subTotal')}
                         </Text>
                     </View>
                     <View style={{ marginTop: isIosPlatform() ? 6 : 4 }}>
@@ -320,7 +313,7 @@ export class Item extends React.Component {
                 <View style={styles.subContainer}>
                     <View>
                         <Text gray h5 medium style={{ marginTop: 6 }}>
-                            {Lng.t('items.finalAmount', { locale })}
+                            {t('items.finalAmount')}
                         </Text>
                     </View>
                     <View style={{ marginTop: isIosPlatform() ? 4 : 3 }}>
@@ -341,7 +334,6 @@ export class Item extends React.Component {
     TAX_FIELD_VIEW = () => {
         const {
             navigation,
-            locale,
             taxTypes,
             formValues: { taxes },
             getTaxes,
@@ -357,10 +349,10 @@ export class Item extends React.Component {
                 apiSearch
                 hasPagination
                 displayName="name"
-                label={Lng.t('items.taxes', { locale })}
+                label={t('items.taxes')}
                 component={SelectField}
                 searchFields={['name', 'percent']}
-                placeholder={Lng.t('items.selectTax', { locale })}
+                placeholder={t('items.selectTax')}
                 onlyPlaceholder
                 fakeInputProps={{
                     icon: 'percent',
@@ -370,7 +362,6 @@ export class Item extends React.Component {
                 }}
                 navigation={navigation}
                 isMultiSelect
-                locale={locale}
                 concurrentMultiSelect
                 compareField="id"
                 valueCompareField="tax_type_id"
@@ -378,11 +369,11 @@ export class Item extends React.Component {
                     contentContainerStyle: { flex: 2 }
                 }}
                 headerProps={{
-                    title: Lng.t('taxes.title', { locale })
+                    title: t('taxes.title')
                 }}
                 rightIconPress={() =>
                     navigation.navigate(ROUTES.TAX, {
-                        type: ADD_TAX,
+                        type: 'ADD',
                         onSelect: val => {
                             this.setFormField('taxes', [...val, ...taxes]);
                         }
@@ -401,12 +392,10 @@ export class Item extends React.Component {
         const {
             navigation,
             handleSubmit,
-            locale,
-            type,
             units,
             getItemUnits,
             currency,
-            isEditItem,
+            isEditScreen,
             isAllowToEdit,
             isAllowToDelete,
             loading
@@ -418,10 +407,10 @@ export class Item extends React.Component {
 
         const getTitle = () => {
             let title = 'header.addItem';
-            if (isEditItem && !isAllowToEdit) title = 'header.viewItem';
-            if (isEditItem && isAllowToEdit) title = 'header.editItem';
+            if (isEditScreen && !isAllowToEdit) title = 'header.viewItem';
+            if (isEditScreen && isAllowToEdit) title = 'header.editItem';
 
-            return Lng.t(title, { locale });
+            return t(title);
         };
 
         const bottomAction = [
@@ -435,7 +424,7 @@ export class Item extends React.Component {
                 label: 'button.remove',
                 onPress: this.removeItem,
                 bgColor: 'btn-danger',
-                show: isEditItem && isAllowToDelete,
+                show: isEditScreen && isAllowToDelete,
                 loading
             }
         ];
@@ -454,15 +443,13 @@ export class Item extends React.Component {
                     })
                 }}
                 loadingProps={{ is: isLoading }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
             >
                 <Field
                     name="name"
                     component={InputField}
                     isRequired
-                    hint={Lng.t('items.name', { locale })}
+                    hint={t('items.name')}
                     disabled={disabled}
                     inputProps={{
                         returnKeyType: 'next',
@@ -479,7 +466,7 @@ export class Item extends React.Component {
                     component={InputField}
                     isRequired
                     leftSymbol={currency?.symbol}
-                    hint={Lng.t('items.price', { locale })}
+                    hint={t('items.price')}
                     disabled={disabled}
                     inputProps={{
                         returnKeyType: 'next',
@@ -501,14 +488,14 @@ export class Item extends React.Component {
                     getItems={getItemUnits}
                     items={units}
                     displayName={'name'}
-                    label={Lng.t('items.unit', { locale })}
+                    label={t('items.unit')}
                     icon={'balance-scale'}
-                    placeholder={Lng.t('items.unitPlaceholder', { locale })}
+                    placeholder={t('items.unitPlaceholder')}
                     navigation={navigation}
                     compareField={'id'}
                     emptyContentProps={{ contentType: 'units' }}
                     headerProps={{
-                        title: Lng.t('items.unitPlaceholder', { locale })
+                        title: t('items.unitPlaceholder')
                     }}
                     fakeInputProps={{
                         disabled,
@@ -529,7 +516,7 @@ export class Item extends React.Component {
                 <Field
                     name="description"
                     component={InputField}
-                    hint={Lng.t('items.description', { locale })}
+                    hint={t('items.description')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',

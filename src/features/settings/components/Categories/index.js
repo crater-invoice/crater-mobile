@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
-import Lng from '@/lang/i18n';
-import { CATEGORY_ADD, CATEGORY_EDIT } from '../../constants';
+import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { formatCategories } from '@/utils';
 import { ARROW_ICON } from '@/assets';
@@ -11,8 +10,7 @@ import { ARROW_ICON } from '@/assets';
 type IProps = {
     navigation: Object,
     getPayments: Function,
-    payments: Object,
-    locale: String
+    payments: Object
 };
 
 export class Categories extends React.Component<IProps> {
@@ -52,19 +50,13 @@ export class Categories extends React.Component<IProps> {
     onSelect = category => {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CATEGORY, {
-            type: CATEGORY_EDIT,
+            type: 'UPDATE',
             categoryId: category.id
         });
     };
 
     render() {
-        const {
-            navigation,
-            locale,
-            categories,
-            getExpenseCategories
-        } = this.props;
-
+        const { navigation, categories, getExpenseCategories } = this.props;
         const { search } = this.state;
         const isEmpty = categories && categories.length <= 0;
 
@@ -72,20 +64,20 @@ export class Categories extends React.Component<IProps> {
             ? 'search.noResult'
             : 'categories.empty.title';
         const emptyContentProps = {
-            title: Lng.t(emptyTitle, { locale, search }),
+            title: t(emptyTitle, { search }),
             ...(!search && {
-                description: Lng.t('categories.empty.description', { locale }),
-                buttonTitle: Lng.t('categories.empty.buttonTitle', { locale }),
+                description: t('categories.empty.description'),
+                buttonTitle: t('categories.empty.buttonTitle'),
                 buttonPress: () => {
                     navigation.navigate(ROUTES.CATEGORY, {
-                        type: CATEGORY_ADD
+                        type: 'ADD'
                     });
                 }
             })
         };
 
         const headerProps = {
-            title: Lng.t('header.expenseCategory', { locale }),
+            title: t('header.expenseCategory'),
             navigation,
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
@@ -93,7 +85,7 @@ export class Categories extends React.Component<IProps> {
             rightIcon: 'plus',
             rightIconPress: () =>
                 navigation.navigate(ROUTES.CATEGORY, {
-                    type: CATEGORY_ADD
+                    type: 'ADD'
                 })
         };
 

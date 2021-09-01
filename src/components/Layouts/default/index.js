@@ -11,6 +11,7 @@ import { ARROW_ICON } from '@/assets';
 import { isIosPlatform } from '@/constants';
 import { Toast } from '@/components';
 import { STATUS_BAR_CONTENT } from '@/utils';
+import { commonSelector } from 'stores/common/selectors';
 
 type IProps = {
     children?: Object,
@@ -107,12 +108,8 @@ const Layout = (props: IProps) => {
     );
 };
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-export const DefaultLayout = connect(
-    mapStateToProps,
-    {}
-)(Layout);
+export const DefaultLayout = connect(mapStateToProps)(Layout);

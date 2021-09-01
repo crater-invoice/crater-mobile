@@ -2,11 +2,10 @@ import React, {Component} from 'react';
 import {Field, change} from 'redux-form';
 import {pick, find} from 'lodash';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './role-type';
+import {IProps, IStates} from './create-role-type';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
-import {styles} from './role-styles';
 import {alertMe, hasValue} from '@/constants';
-import {ROLE_FORM} from 'modules/roles/constants';
+import {CREATE_ROLE_FORM} from 'stores/roles/types';
 import {
   DefaultLayout,
   InputField,
@@ -23,9 +22,9 @@ import {
   removeRole,
   updatePermission,
   fetchSingleRole
-} from 'modules/roles/actions';
+} from 'stores/roles/actions';
 
-export default class Role extends Component<IProps, IStates> {
+export default class CreateRole extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {
@@ -93,7 +92,6 @@ export default class Role extends Component<IProps, IStates> {
       ? dispatch(
           addRole({
             params,
-            navigation,
             onResult: res => {
               const onSelect = navigation.getParam('onSelect', null);
               onSelect?.(res);
@@ -139,7 +137,7 @@ export default class Role extends Component<IProps, IStates> {
 
   setFormField = (field, value) => {
     const {dispatch} = this.props;
-    dispatch(change(ROLE_FORM, field, value));
+    dispatch(change(CREATE_ROLE_FORM, field, value));
   };
 
   render() {
@@ -194,7 +192,7 @@ export default class Role extends Component<IProps, IStates> {
               <CheckBox
                 key={name}
                 label={name}
-                labelStyle={styles.checkboxLabel}
+                labelStyle={{}}
                 disabled={disabled}
                 input={{
                   value: allowed,

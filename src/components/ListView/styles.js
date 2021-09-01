@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
         fontSize: 18,
         color: theme?.listItem?.primary?.color,
         fontWeight: '500',
-        fontFamily: fonts.poppinsSemiBold,
+        fontFamily: fonts.semiBold,
         textAlign: 'left'
     }),
     containerStyle: {
@@ -33,8 +33,7 @@ export const styles = StyleSheet.create({
         fontSize: 13,
         color: theme?.listItem?.third?.color,
         marginTop: 4,
-        fontFamily:
-            theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium
+        fontFamily: theme?.mode === 'light' ? fonts.regular : fonts.medium
     }),
     leftSubTitleLabelContainer: {
         display: 'flex',

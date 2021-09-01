@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import styles from './styles';
 import { ListView, InputModal, InfiniteScroll } from '@/components';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { alertMe } from '@/constants';
 import { PermissionService } from '@/services';
 import { CUSTOMIZE_TYPE } from '../../constants';
@@ -45,15 +45,14 @@ export class Units extends Component {
     onRemove = () => {
         const {
             props: {
-                locale,
                 removeItemUnit,
                 formValues: { unitId = null }
             }
         } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('items.alertUnit', { locale }),
+            title: t('alert.title'),
+            desc: t('items.alertUnit'),
             showCancel: true,
             okPress: () => {
                 removeItemUnit({
@@ -67,7 +66,7 @@ export class Units extends Component {
     INPUT_MODAL = () => {
         const { isCreateMethod } = this.state;
         const {
-            props: { locale, itemUnitLoading }
+            props: { itemUnitLoading }
         } = this.props;
 
         const isAllowToEdit = isCreateMethod
@@ -80,15 +79,14 @@ export class Units extends Component {
             if (!isCreateMethod && !isAllowToEdit) title = 'header.viewUnit';
             if (!isCreateMethod && isAllowToEdit) title = 'items.editUnit';
 
-            return Lng.t(title, { locale });
+            return t(title);
         };
 
         return (
             <InputModal
                 reference={ref => (this.modalReference = ref)}
-                locale={locale}
                 headerTitle={getTitle()}
-                hint={Lng.t('items.unitHint', { locale })}
+                hint={t('items.unitHint')}
                 fieldName="unitName"
                 onSubmit={() => this.onSave()}
                 onRemove={() => this.onRemove()}
@@ -117,7 +115,7 @@ export class Units extends Component {
 
     render() {
         const {
-            props: { units, locale, getItemUnits }
+            props: { units, getItemUnits }
         } = this.props;
 
         return (
@@ -137,7 +135,7 @@ export class Units extends Component {
                             flex: 3
                         }}
                         emptyContentProps={{
-                            title: Lng.t('payments.empty.modeTitle', { locale })
+                            title: t('payments.empty.modeTitle')
                         }}
                         itemContainer={{
                             paddingVertical: 14,

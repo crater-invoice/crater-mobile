@@ -1,16 +1,15 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { find } from 'lodash';
 import { Invoice } from '../../components/Invoice';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as actions from '../../actions';
-import { INVOICE_FORM, INVOICE_EDIT } from '../../constants';
+import { INVOICE_FORM } from '../../constants';
 import moment from 'moment';
 import { getCustomers } from '@/features/customers/actions';
 import { getTaxes, getNotes } from '@/features/settings/actions';
 import { isArray } from '@/constants';
-import { PermissionService } from '@/services';
+import { commonSelector, permissionSelector } from 'stores/common/selectors';
 
 const getSelectedTemplate = (templates, form, isEditScreen) => {
     if (!isEditScreen) {
@@ -26,9 +25,8 @@ const getSelectedTemplate = (templates, form, isEditScreen) => {
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, taxTypes, currency, theme },
+        global: { taxTypes, currency },
         invoices: { loading, invoiceItems, invoiceData, items },
-        customers: { customers },
         settings: { notes, customFields }
     } = state;
 
@@ -38,21 +36,14 @@ const mapStateToProps = (state, { navigation }) => {
         invoice_notes = ''
     } = invoiceData;
 
-    const type = navigation.getParam('type');
     const id = navigation.getParam('id');
-    const isEditInvoice = type === INVOICE_EDIT;
+    const permissions = permissionSelector(navigation);
+    const isEditScreen = permissions.isEditScreen;
 
     const isLoading =
         loading?.initInvoiceLoading ||
-        (isEditInvoice && !invoice) ||
+        (isEditScreen && !invoice) ||
         !isArray(invoiceTemplates);
-
-    const isAllowToEdit = isEditInvoice
-        ? PermissionService.isAllowToEdit(navigation?.state?.routeName)
-        : true;
-    const isAllowToDelete = isEditInvoice
-        ? PermissionService.isAllowToDelete(navigation?.state?.routeName)
-        : true;
 
     return {
         initLoading: isLoading,
@@ -62,20 +53,16 @@ const mapStateToProps = (state, { navigation }) => {
         invoiceItems,
         invoiceData,
         items,
-        type,
         notes,
-        customers,
+        customers: state.customers?.customers,
         itemsLoading: loading?.itemsLoading,
-        locale,
         formValues: getFormValues(INVOICE_FORM)(state) || {},
         taxTypes,
         currency,
-        theme,
         customFields,
         id,
-        isEditInvoice,
-        isAllowToEdit,
-        isAllowToDelete,
+        ...permissionSelector(navigation),
+        ...commonSelector(state),
         initialValues: !isLoading
             ? {
                   due_date: moment().add(7, 'days'),
@@ -86,14 +73,14 @@ const mapStateToProps = (state, { navigation }) => {
                   template_name: getSelectedTemplate(
                       invoiceTemplates,
                       invoice,
-                      isEditInvoice
+                      isEditScreen
                   ),
                   notes: invoice_notes,
                   ...invoice,
-                  invoice_number: isEditInvoice
+                  invoice_number: isEditScreen
                       ? invoiceData?.nextInvoiceNumber
                       : invoiceData?.nextNumber,
-                  prefix: isEditInvoice
+                  prefix: isEditScreen
                       ? invoiceData?.invoicePrefix
                       : invoiceData?.prefix,
                   customer: invoice?.user,
@@ -110,13 +97,11 @@ const mapDispatchToProps = {
     getNotes
 };
 
-//  Redux Forms
 const addInvoiceReduxForm = reduxForm({
     form: INVOICE_FORM,
     validate
 })(Invoice);
 
-//  connect
 const InvoiceContainer = connect(
     mapStateToProps,
     mapDispatchToProps

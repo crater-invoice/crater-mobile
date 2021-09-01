@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     },
     headerTitleStyle: (theme, medium) => ({
         fontSize: medium ? 17 : 30,
-        fontFamily: fonts.poppinsMedium,
+        fontFamily: fonts.medium,
         textAlign: 'left',
         color: theme?.header?.primary?.color
     }),

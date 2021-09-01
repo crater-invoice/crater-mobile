@@ -5,8 +5,8 @@ import { Field, change } from 'redux-form';
 import styles from './styles';
 import { InputField, DefaultLayout, ActionButton } from '@/components';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import Lng from '@/lang/i18n';
-import { CATEGORY_EDIT, CATEGORY_ADD, CATEGORY_FORM } from '../../constants';
+import t from 'locales/use-translation';
+import { CATEGORY_FORM } from '../../constants';
 import { alertMe, MAX_LENGTH } from '@/constants';
 
 type IProps = {
@@ -15,7 +15,6 @@ type IProps = {
     getEditCategory: Function,
     createCategory: Function,
     editCategory: Function,
-    locale: String,
     type: String,
     getEditCategoryLoading: Boolean,
     categoryLoading: Boolean
@@ -28,9 +27,9 @@ export class Category extends React.Component<IProps> {
     }
 
     componentDidMount() {
-        const { navigation, getEditCategory, type } = this.props;
+        const { navigation, getEditCategory, isEditScreen } = this.props;
 
-        if (type === CATEGORY_EDIT) {
+        if (isEditScreen) {
             let id = navigation.getParam('categoryId', null);
             getEditCategory({
                 id,
@@ -55,15 +54,15 @@ export class Category extends React.Component<IProps> {
 
     onSubmit = values => {
         const {
-            type,
             createCategory,
             editCategory,
             navigation,
-            categoryLoading
+            categoryLoading,
+            isCreateScreen
         } = this.props;
 
         if (!categoryLoading) {
-            if (type === CATEGORY_ADD)
+            if (isCreateScreen)
                 createCategory({
                     params: values,
                     onResult: res => {
@@ -83,13 +82,12 @@ export class Category extends React.Component<IProps> {
         const {
             removeCategory,
             navigation,
-            locale,
             formValues: { name }
         } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('categories.alertDescription', { locale }),
+            title: t('alert.title'),
+            desc: t('categories.alertDescription'),
             showCancel: true,
             okPress: () =>
                 removeCategory({
@@ -97,9 +95,7 @@ export class Category extends React.Component<IProps> {
                     navigation,
                     onResult: () => {
                         alertMe({
-                            title: `${name} ${Lng.t('categories.alreadyUsed', {
-                                locale
-                            })}`
+                            title: `${name} ${t('categories.alreadyUsed')}`
                         });
                     }
                 })
@@ -110,13 +106,11 @@ export class Category extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            locale,
             categoryLoading,
             getEditCategoryLoading,
             isEditScreen,
             isAllowToEdit,
-            isAllowToDelete,
-            type
+            isAllowToDelete
         } = this.props;
 
         let categoryRefs = {};
@@ -127,7 +121,7 @@ export class Category extends React.Component<IProps> {
             if (isEditScreen && !isAllowToEdit) title = 'header.viewCategory';
             if (isEditScreen && isAllowToEdit) title = 'header.editCategory';
 
-            return Lng.t(title, { locale });
+            return t(title);
         };
 
         const bottomAction = [
@@ -158,9 +152,7 @@ export class Category extends React.Component<IProps> {
                         rightIconPress: handleSubmit(this.onSubmit)
                     })
                 }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
                 loadingProps={{
                     is: getEditCategoryLoading
                 }}
@@ -169,7 +161,7 @@ export class Category extends React.Component<IProps> {
                     name="name"
                     component={InputField}
                     isRequired
-                    hint={Lng.t('categories.title', { locale })}
+                    hint={t('categories.title')}
                     inputFieldStyle={styles.inputFieldStyle}
                     inputProps={{
                         returnKeyType: 'next',
@@ -185,7 +177,7 @@ export class Category extends React.Component<IProps> {
                 <Field
                     name="description"
                     component={InputField}
-                    hint={Lng.t('categories.description', { locale })}
+                    hint={t('categories.description')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',

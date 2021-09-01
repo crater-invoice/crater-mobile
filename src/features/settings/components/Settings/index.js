@@ -3,7 +3,7 @@
 import React from 'react';
 import styles from './styles';
 import { ListView, DefaultLayout } from '@/components';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { SETTINGS_MENU } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 
@@ -43,19 +43,19 @@ export class Settings extends React.Component {
     };
 
     render() {
-        const { navigation, locale, theme } = this.props;
+        const { navigation, theme } = this.props;
         return (
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
-                    title: Lng.t('header.settings', { locale }),
+                    title: t('header.settings'),
                     leftIconStyle: { color: theme?.header?.primary?.color }
                 }}
                 hasSearchField={false}
                 bodyStyle="px-0 pt-12 pb-17"
             >
                 <ListView
-                    items={SETTINGS_MENU(locale, Lng)}
+                    items={SETTINGS_MENU()}
                     onPress={this.onSelectMenu}
                     leftTitleStyle={styles.listViewTitle(theme)}
                     leftIconStyle={styles.listViewIcon}

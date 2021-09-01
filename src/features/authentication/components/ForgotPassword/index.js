@@ -18,7 +18,7 @@ import {
     Text
 } from '@/components';
 import { IMAGES, LOGO } from '@/assets';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { isIPhoneX } from '@/constants';
 
@@ -85,10 +85,8 @@ export class ForgotPassword extends React.Component<IProps> {
     };
 
     render() {
-        let passwordInput = {};
-
-        const { handleSubmit, navigation, loading, locale, theme } = this.props;
-        const { isMailSended, email, isKeyboardVisible } = this.state;
+        const { handleSubmit, navigation, loading, theme } = this.props;
+        const { isMailSended, isKeyboardVisible } = this.state;
 
         return (
             <Container>
@@ -96,7 +94,7 @@ export class ForgotPassword extends React.Component<IProps> {
                     <CtHeader
                         leftIcon="angle-left"
                         leftIconPress={() => navigation.goBack(null)}
-                        title={Lng.t('header.back', { locale })}
+                        title={t('header.back')}
                         titleOnPress={() => navigation.goBack(null)}
                         titleStyle={{
                             marginLeft: -10,
@@ -153,9 +151,8 @@ export class ForgotPassword extends React.Component<IProps> {
                                         inputProps={{
                                             returnKeyType: 'go',
                                             autoCapitalize: 'none',
-                                            placeholder: Lng.t(
-                                                'forgot.emailPlaceholder',
-                                                { locale }
+                                            placeholder: t(
+                                                'forgot.emailPlaceholder'
                                             ),
                                             autoCorrect: true,
                                             keyboardType: 'email-address',
@@ -170,9 +167,7 @@ export class ForgotPassword extends React.Component<IProps> {
                                         color={theme?.viewLabel?.fourthColor}
                                         style={styles.forgotTextTitle}
                                     >
-                                        {Lng.t('forgot.emailLabel', {
-                                            locale
-                                        })}
+                                        {t('forgot.emailLabel')}
                                     </Text>
                                 </View>
                             ) : (
@@ -186,18 +181,14 @@ export class ForgotPassword extends React.Component<IProps> {
                                         color={theme?.viewLabel?.fourthColor}
                                         style={styles.emailSendDescription}
                                     >
-                                        {Lng.t('forgot.emailSendDescription', {
-                                            locale
-                                        })}
+                                        {t('forgot.emailSendDescription')}
                                     </Text>
                                 </View>
                             )}
                             {!isMailSended ? (
                                 <CtGradientButton
                                     onPress={handleSubmit(this.onSendMail)}
-                                    btnTitle={Lng.t('button.recoveryEmail', {
-                                        locale
-                                    })}
+                                    btnTitle={t('button.recoveryEmail')}
                                     loading={loading}
                                     style={styles.buttonStyle}
                                     buttonContainerStyle={
@@ -207,10 +198,7 @@ export class ForgotPassword extends React.Component<IProps> {
                             ) : (
                                 <CtGradientButton
                                     onPress={this.resendMail}
-                                    btnTitle={Lng.t(
-                                        'button.recoveryEmailAgain',
-                                        { locale }
-                                    )}
+                                    btnTitle={t('button.recoveryEmailAgain')}
                                     loading={loading}
                                     style={styles.buttonStyle}
                                     buttonContainerStyle={

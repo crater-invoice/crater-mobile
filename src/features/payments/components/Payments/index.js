@@ -5,8 +5,8 @@ import { change } from 'redux-form';
 import styles from './styles';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { IMAGES } from '@/assets';
-import Lng from '@/lang/i18n';
-import { PAYMENT_ADD, PAYMENT_EDIT, PAYMENT_SEARCH } from '../../constants';
+import t from 'locales/use-translation';
+import { PAYMENT_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import paymentsFilterFields from './filterFields';
 import { isFilterApply } from '@/utils';
@@ -16,7 +16,6 @@ type IProps = {
     navigation: Object,
     getPayments: Function,
     payments: Object,
-    locale: String,
     formValues: any
 };
 
@@ -57,7 +56,7 @@ export class Payments extends React.Component<IProps> {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.PAYMENT, {
             paymentId: payment.id,
-            type: PAYMENT_EDIT
+            type: 'UPDATE'
         });
     };
 
@@ -106,7 +105,6 @@ export class Payments extends React.Component<IProps> {
         const {
             navigation,
             payments,
-            locale,
             handleSubmit,
             getPayments,
             formValues
@@ -124,19 +122,17 @@ export class Payments extends React.Component<IProps> {
             : 'payments.empty.title';
 
         const emptyContentProps = {
-            title: Lng.t(emptyTitle, { locale, search }),
+            title: t(emptyTitle, { search }),
             image: IMAGES.EMPTY_PAYMENTS,
             ...(!search && {
-                description: Lng.t('payments.empty.description', { locale })
+                description: t('payments.empty.description')
             }),
             ...(!search &&
                 !isFilter && {
-                    buttonTitle: Lng.t('payments.empty.buttonTitle', {
-                        locale
-                    }),
+                    buttonTitle: t('payments.empty.buttonTitle'),
                     buttonPress: () => {
                         navigation.navigate(ROUTES.PAYMENT, {
-                            type: PAYMENT_ADD
+                            type: 'ADD'
                         });
                     }
                 })
@@ -146,10 +142,10 @@ export class Payments extends React.Component<IProps> {
             rightIcon: 'plus',
             rightIconPress: () => {
                 navigation.navigate(ROUTES.PAYMENT, {
-                    type: PAYMENT_ADD
+                    type: 'ADD'
                 });
             },
-            title: Lng.t('header.payments', { locale }),
+            title: t('header.payments'),
             navigation
         };
 
@@ -157,7 +153,6 @@ export class Payments extends React.Component<IProps> {
             onSubmitFilter: handleSubmit(this.onSubmitFilter),
             ...paymentsFilterFields(this),
             clearFilter: this.props,
-            locale,
             onResetFilter: () => this.onResetFilter()
         };
 

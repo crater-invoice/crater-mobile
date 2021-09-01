@@ -1,22 +1,20 @@
 import * as LocalAuthentication from 'expo-local-authentication';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { alertMe, hasValue } from '@/constants';
 
-const authenticationFail = locale => {
+const authenticationFail = () => {
     alertMe({
         title: 'Oops!',
-        desc: Lng.t('validation.wrong', { locale })
+        desc: t('validation.wrong')
     });
 };
 
 interface IProps {
-    locale: String;
     onSuccess?: Function;
     onCancel?: Function;
     onFail?: Function;
 }
 export const biometricAuthentication = async ({
-    locale,
     onSuccess,
     onCancel,
     onFail
@@ -36,7 +34,7 @@ export const biometricAuthentication = async ({
 
         onFail?.();
     } catch (e) {
-        authenticationFail(locale);
+        authenticationFail();
         onFail?.();
     }
 };

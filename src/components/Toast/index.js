@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { styles } from './styles';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { Text } from '../Text';
+import { commonSelector } from 'stores/common/selectors';
 
 interface IProps {
     reference: any;
@@ -47,7 +48,7 @@ export class ToastComponent extends Component<IProps> {
     };
 
     render() {
-        const { containerStyle, locale, theme } = this.props;
+        const { containerStyle, theme } = this.props;
 
         return (
             <Animated.View
@@ -64,19 +65,15 @@ export class ToastComponent extends Component<IProps> {
                     numberOfLines={2}
                     style={styles.title}
                 >
-                    {Lng.t(this.state.message, { locale })}
+                    {t(this.state.message)}
                 </Text>
             </Animated.View>
         );
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-export const Toast = connect(
-    mapStateToProps,
-    {}
-)(ToastComponent);
+export const Toast = connect(mapStateToProps)(ToastComponent);

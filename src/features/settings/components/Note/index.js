@@ -10,12 +10,9 @@ import {
     ActionButton
 } from '@/components';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { alertMe, hasTextLength, hasValue } from '@/constants';
-import {
-    NOTES_FIELD_MODAL_TYPES as MODAL_TYPES,
-    NOTES_ADD
-} from '../../constants';
+import { NOTES_FIELD_MODAL_TYPES as MODAL_TYPES } from '../../constants';
 
 interface IProps {
     navigation: any;
@@ -24,7 +21,6 @@ interface IProps {
     updateNote: Function;
     getNotesLoading: Boolean;
     removeNote: Function;
-    locale: any;
     noteId: Number;
     noteLoading: any;
     handleSubmit: Function;
@@ -52,9 +48,9 @@ export default class Note extends React.Component<IProps> {
     }
 
     getCustomFields = () => {
-        const { type, getCreateNote, isEditScreen, getNoteDetail } = this.props;
+        const { getCreateNote, isEditScreen, getNoteDetail } = this.props;
 
-        if (type === NOTES_ADD) {
+        if (!isEditScreen) {
             getCreateNote({
                 onSuccess: () => this.setState({ isLoading: false })
             });
@@ -71,11 +67,11 @@ export default class Note extends React.Component<IProps> {
 
     onSubmit = note => {
         const {
-            type,
             createNote,
             updateNote,
             navigation,
-            onSelect
+            onSelect,
+            isCreateScreen
         } = this.props;
 
         if (this.state.isLoading) {
@@ -96,15 +92,15 @@ export default class Note extends React.Component<IProps> {
             }
         };
 
-        type === NOTES_ADD ? createNote(params) : updateNote(params);
+        isCreateScreen ? createNote(params) : updateNote(params);
     };
 
     removeNote = () => {
-        const { removeNote, navigation, locale, noteId } = this.props;
+        const { removeNote, navigation, noteId } = this.props;
 
         alertMe({
-            title: Lng.t('alert.title', { locale }),
-            desc: Lng.t('notes.alertDescription', { locale }),
+            title: t('alert.title'),
+            desc: t('notes.alertDescription'),
             showCancel: true,
             okPress: () =>
                 removeNote({
@@ -112,9 +108,7 @@ export default class Note extends React.Component<IProps> {
                     navigation,
                     onFail: () => {
                         alertMe({
-                            title: `${name} ${Lng.t('notes.alreadyUsed', {
-                                locale
-                            })}`
+                            title: `${name} ${t('notes.alreadyUsed')}`
                         });
                     },
                     onResult: () => {
@@ -139,7 +133,6 @@ export default class Note extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            locale,
             selectedModalType,
             noteLoading,
             isEditScreen,
@@ -156,7 +149,7 @@ export default class Note extends React.Component<IProps> {
             if (isEditScreen && !isAllowToEdit) title = 'header.viewNote';
             if (isEditScreen && isAllowToEdit) title = 'header.editNote';
 
-            return Lng.t(title, { locale });
+            return t(title);
         };
 
         const bottomAction = [
@@ -187,16 +180,14 @@ export default class Note extends React.Component<IProps> {
                         rightIconPress: handleSubmit(this.onSubmit)
                     })
                 }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
                 loadingProps={{ is: isLoading }}
             >
                 <Field
                     name="name"
                     component={InputField}
                     isRequired
-                    hint={Lng.t('notes.title', { locale })}
+                    hint={t('notes.title')}
                     inputFieldStyle={styles.inputFieldStyle}
                     inputProps={{
                         returnKeyType: 'next',
@@ -209,15 +200,11 @@ export default class Note extends React.Component<IProps> {
                 <Field
                     name="type"
                     component={SelectPickerField}
-                    label={Lng.t('notes.type', {
-                        locale
-                    })}
+                    label={t('notes.type')}
                     fieldIcon="align-center"
                     items={MODAL_TYPES}
                     defaultPickerOptions={{
-                        label: Lng.t('notes.modelPlaceholder', {
-                            locale
-                        }),
+                        label: t('notes.modelPlaceholder'),
                         value: ''
                     }}
                     isRequired

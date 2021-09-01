@@ -34,7 +34,7 @@ export default StyleSheet.create({
     },
     titleStyle: {
         fontSize: 14,
-        fontFamily: fonts.poppinsMedium,
+        fontFamily: fonts.medium,
         color: colors.white,
         textAlign: 'left'
     },

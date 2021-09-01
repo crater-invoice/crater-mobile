@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { View, Keyboard, ScrollView } from 'react-native';
 import { Field, change } from 'redux-form';
 import { CUSTOMER_ADDRESS } from '../../constants';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { MAX_LENGTH } from '@/constants';
 import styles from './styles';
 import {
@@ -30,7 +30,6 @@ type IProps = {
     hasBillingAddress: Boolean,
     meta: Object,
     handleSubmit: Function,
-    locale: String,
     type: String
 };
 
@@ -158,7 +157,6 @@ export class Address extends Component<IProps> {
             handleSubmit,
             hasBillingAddress,
             navigation,
-            locale,
             countries,
             theme,
             disabled
@@ -181,7 +179,7 @@ export class Address extends Component<IProps> {
                         icon={'copy'}
                         color={theme?.text?.fourthColor}
                         leftIconSolid={false}
-                        values={Lng.t('customers.address.sameAs', { locale })}
+                        values={t('customers.address.sameAs')}
                         valueStyle={{ color: theme?.text?.primaryColor }}
                         onChangeCallback={() =>
                             this.fillShippingAddress(!status)
@@ -192,7 +190,7 @@ export class Address extends Component<IProps> {
                 <Field
                     name={'name'}
                     component={InputField}
-                    hint={Lng.t('customers.address.name', { locale })}
+                    hint={t('customers.address.name')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -206,7 +204,7 @@ export class Address extends Component<IProps> {
                     items={countries ?? []}
                     displayName="name"
                     component={SelectField}
-                    label={Lng.t('customers.address.country', { locale })}
+                    label={t('customers.address.country')}
                     placeholder={' '}
                     rightIcon="angle-right"
                     navigation={navigation}
@@ -215,7 +213,7 @@ export class Address extends Component<IProps> {
                     isInternalSearch
                     onSelect={({ id }) => this.setFormField(country, id)}
                     headerProps={{
-                        title: Lng.t('header.country', { locale }),
+                        title: t('header.country'),
                         rightIconPress: null
                     }}
                     listViewProps={{
@@ -232,7 +230,7 @@ export class Address extends Component<IProps> {
                 <Field
                     name={state}
                     component={InputField}
-                    hint={Lng.t('customers.address.state', { locale })}
+                    hint={t('customers.address.state')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -245,7 +243,7 @@ export class Address extends Component<IProps> {
                 <Field
                     name={city}
                     component={InputField}
-                    hint={Lng.t('customers.address.city', { locale })}
+                    hint={t('customers.address.city')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -259,13 +257,11 @@ export class Address extends Component<IProps> {
                 <Field
                     name={'address_street_1'}
                     component={InputField}
-                    hint={Lng.t('customers.address.address', { locale })}
+                    hint={t('customers.address.address')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
-                        placeholder: Lng.t('customers.address.street1', {
-                            locale
-                        }),
+                        placeholder: t('customers.address.street1'),
                         autoCorrect: true,
                         multiline: true,
                         maxLength: MAX_LENGTH
@@ -282,9 +278,7 @@ export class Address extends Component<IProps> {
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
-                        placeholder: Lng.t('customers.address.street2', {
-                            locale
-                        }),
+                        placeholder: t('customers.address.street2'),
                         autoCorrect: true,
                         multiline: true,
                         maxLength: MAX_LENGTH
@@ -298,7 +292,7 @@ export class Address extends Component<IProps> {
                 <Field
                     name={'phone'}
                     component={InputField}
-                    hint={Lng.t('customers.address.phone', { locale })}
+                    hint={t('customers.address.phone')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -313,7 +307,7 @@ export class Address extends Component<IProps> {
                 <Field
                     name={'zip'}
                     component={InputField}
-                    hint={Lng.t('customers.address.zipcode', { locale })}
+                    hint={t('customers.address.zipcode')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -337,8 +331,6 @@ export class Address extends Component<IProps> {
             rightIcon,
             hasBillingAddress,
             handleSubmit,
-            locale,
-            type,
             fakeInputProps,
             theme,
             mainContainerStyle,
@@ -375,16 +367,14 @@ export class Address extends Component<IProps> {
                     headerProps={{
                         leftIconPress: () => this.onToggle(),
                         title: hasBillingAddress
-                            ? Lng.t('header.billingAddress', { locale })
-                            : Lng.t('header.shippingAddress', { locale }),
+                            ? t('header.billingAddress')
+                            : t('header.shippingAddress'),
                         placement: 'center',
                         hasCircle: false,
                         noBorder: false,
                         transparent: false
                     }}
-                    bottomAction={
-                        <ActionButton locale={locale} buttons={bottomAction} />
-                    }
+                    bottomAction={<ActionButton buttons={bottomAction} />}
                 >
                     {this.Screen()}
                 </SlideModal>

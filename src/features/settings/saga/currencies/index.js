@@ -12,17 +12,16 @@ import {
     EDIT_CURRENCY,
     REMOVE_CURRENCY
 } from '../../constants';
-
-import { getTitleByLanguage } from '@/utils';
+import t from 'locales/use-translation';
 import { ROUTES } from '@/navigation';
-import Request from '@/api/request';
+import Request from 'utils/request';
 import { alertMe, hasValue } from '@/constants';
 
 const alreadyInUse = error => {
     if (error.includes('errors') && error.includes('name')) {
         setTimeout(() => {
             alertMe({
-                desc: getTitleByLanguage('alert.alreadyInUse', '"Name"')
+                desc: t('alert.alreadyInUse', { field: '"Name"' })
             });
         }, 1000);
 

@@ -1,12 +1,9 @@
+import t from 'locales/use-translation';
+
 // Forms
 // -----------------------------------------
 export const EXPENSE_SEARCH = 'expenses/EXPENSE_SEARCH';
 export const EXPENSE_FORM = 'expenses/EXPENSE_FORM';
-
-// Form Type
-// -----------------------------------------
-export const EXPENSE_ADD = 'expense/EXPENSE_ADD';
-export const EXPENSE_EDIT = 'expense/EXPENSE_EDIT';
 
 // Types
 // -----------------------------------------
@@ -29,23 +26,18 @@ export const ACTIONS_VALUE = {
     DOWNLOAD: 'download'
 };
 
-export const EXPENSE_ACTIONS = (
-    Lng,
-    locale,
-    imageUrl = '',
-    isAllowToDelete
-) => {
+export const EXPENSE_ACTIONS = (imageUrl = '', isAllowToDelete) => {
     const options = [];
 
     imageUrl &&
         options.push({
-            label: Lng.t('expenses.viewReceipt', { locale }),
+            label: t('expenses.viewReceipt'),
             value: ACTIONS_VALUE.DOWNLOAD
         });
 
     isAllowToDelete &&
         options.push({
-            label: Lng.t('expenses.removeExpense', { locale }),
+            label: t('expenses.removeExpense'),
             value: ACTIONS_VALUE.REMOVE
         });
 

@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import Request from '@/api/request';
+import Request from 'utils/request';
 import * as TYPES from '../../constants';
 import * as queryStrings from 'query-string';
 import { getCustomFields } from '../custom-fields';

@@ -1,5 +1,5 @@
 import queryString from 'query-string';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 
 // Estimate Refs
 // -----------------------------------------
@@ -9,13 +9,8 @@ export const setEstimateRefs = refs => (estimateRefs = refs);
 //  Forms
 // -----------------------------------------
 export const ESTIMATE_SEARCH = 'estimateForm/ESTIMATE_SEARCH';
-export const ESTIMATE_FORM = 'estimateForm/ESTIMATE_EDIT';
+export const ESTIMATE_FORM = 'estimateForm/ESTIMATE_FORM';
 export const ITEM_FORM = 'item/ITEM_FORM';
-
-// Type
-// -----------------------------------------
-export const ESTIMATE_ADD = 'estimateForm/ESTIMATE_ADD';
-export const ESTIMATE_EDIT = 'estimateForm/ESTIMATE_EDIT';
 
 // Actions
 // -----------------------------------------
@@ -75,8 +70,8 @@ export const ESTIMATE_DISCOUNT_OPTION = [
     }
 ];
 
-export const TAB_NAME = (name, locale) => {
-    return Lng.t(`estimates.tabs.${name}`, { locale });
+export const TAB_NAME = name => {
+    return t(`estimates.tabs.${name}`);
 };
 
 export const ESTIMATES_TABS = {
@@ -117,46 +112,45 @@ export const MARK_AS_SENT = 'SENT';
 export const MARK_AS_ACCEPT = 'ACCEPTED';
 export const MARK_AS_REJECT = 'REJECTED';
 
-export const EDIT_ESTIMATE_ACTIONS = (locale, markAs = '', isAllowToDelete) => {
+export const EDIT_ESTIMATE_ACTIONS = (markAs = '', isAllowToDelete) => {
     const markAsSent = [
         {
-            label: Lng.t('estimates.actions.markAsSent', { locale }),
+            label: t('estimates.actions.markAsSent'),
             value: ESTIMATE_ACTIONS.MARK_AS_SENT
         }
     ];
 
     const markAsAccept = [
         {
-            label: Lng.t('estimates.actions.markAsAccepted', { locale }),
+            label: t('estimates.actions.markAsAccepted'),
             value: ESTIMATE_ACTIONS.MARK_AS_ACCEPTED
         }
     ];
 
     const markAsReject = [
         {
-            label: Lng.t('estimates.actions.markAsRejected', { locale }),
+            label: t('estimates.actions.markAsRejected'),
             value: ESTIMATE_ACTIONS.MARK_AS_REJECTED
         }
     ];
 
     const deleteAction = [
         {
-            label: Lng.t('estimates.actions.delete', { locale }),
+            label: t('estimates.actions.delete'),
             value: ESTIMATE_ACTIONS.DELETE
         }
     ];
 
     const actions = [
         {
-            label: Lng.t('estimates.actions.convertToInvoice', { locale }),
+            label: t('estimates.actions.convertToInvoice'),
             value: ESTIMATE_ACTIONS.CONVERT_TO_INVOICE
         },
         {
-            label: Lng.t(
+            label: t(
                 markAs === MARK_AS_SENT
                     ? 'estimates.actions.reSendEstimate'
-                    : 'estimates.actions.sendEstimate',
-                { locale }
+                    : 'estimates.actions.sendEstimate'
             ),
             value: ESTIMATE_ACTIONS.SEND
         }

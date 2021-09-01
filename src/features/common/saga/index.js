@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import Request from '@/api/request';
+import Request from 'utils/request';
 import * as Actions from '../constants';
 import { spinner } from '../actions';
 import { hasTextLength } from '@/constants';

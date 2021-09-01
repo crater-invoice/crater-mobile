@@ -4,8 +4,7 @@ import { fonts } from '@/styles';
 
 export default styles = StyleSheet.create({
     listViewTitle: theme => ({
-        fontFamily:
-            theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium,
+        fontFamily: theme?.mode === 'light' ? fonts.regular : fonts.medium,
         color: theme?.listItem?.secondary?.color,
         marginLeft: isIPhoneX() ? 0 : -4,
         marginRight: isIPhoneX() ? 0 : -11,

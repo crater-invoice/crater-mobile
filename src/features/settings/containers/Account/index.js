@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { Account } from '../../components/Account';
 import { reduxForm } from 'redux-form';
@@ -6,14 +5,14 @@ import { EDIT_ACCOUNT } from '../../constants';
 import * as AccountAction from '../../actions';
 import { validate } from './validation';
 import { PermissionService } from '@/services';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         settings: {
             loading: { getAccountInfoLoading, editAccountInfoLoading },
             account
-        },
-        global: { locale, theme }
+        }
     } = state;
 
     let isLoading = getAccountInfoLoading || !account;
@@ -24,9 +23,8 @@ const mapStateToProps = (state, { navigation }) => {
     return {
         isLoading,
         editAccountLoading: editAccountInfoLoading,
-        locale,
-        theme,
         isAllowToEdit,
+        ...commonSelector(state),
         initialValues: !isLoading
             ? {
                   name: account?.name,
@@ -42,13 +40,11 @@ const mapDispatchToProps = {
     editAccount: AccountAction.editAccountInformation
 };
 
-//  Redux Forms
 const AccountReduxForm = reduxForm({
     form: EDIT_ACCOUNT,
     validate
 })(Account);
 
-//  connect
 const AccountContainer = connect(
     mapStateToProps,
     mapDispatchToProps

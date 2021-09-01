@@ -20,7 +20,7 @@ export default styles = StyleSheet.create({
     },
     label: theme => ({
         color: theme?.listItem?.primary?.color,
-        fontFamily: fonts.poppinsMedium,
+        fontFamily: fonts.medium,
         marginTop: 6,
         textAlign: 'left'
     }),
@@ -37,10 +37,7 @@ export default styles = StyleSheet.create({
         fontWeight: '500',
         textAlign: 'left',
         marginTop: isIosPlatform() ? 2 : 0,
-        fontFamily:
-            theme?.mode === 'light'
-                ? fonts.poppinsMedium
-                : fonts.poppinsSemiBold
+        fontFamily: theme?.mode === 'light' ? fonts.medium : fonts.semiBold
     }),
     divider: {
         backgroundColor: colors.lightGray,

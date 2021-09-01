@@ -5,12 +5,8 @@ import { change } from 'redux-form';
 import styles from './styles';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { ROUTES } from '@/navigation';
-import Lng from '@/lang/i18n';
-import {
-    CUSTOM_FIELDS_FORM,
-    CREATE_CUSTOM_FIELD_TYPE,
-    EDIT_CUSTOM_FIELD_TYPE
-} from '../../constants';
+import t from 'locales/use-translation';
+import { CUSTOM_FIELDS_FORM } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { ARROW_ICON } from '@/assets';
 
@@ -18,8 +14,7 @@ type IProps = {
     navigation: Object,
     getCustomFields: Function,
     customFields: Object,
-    loading: Boolean,
-    locale: String
+    loading: Boolean
 };
 
 export class CustomFields extends React.Component<IProps> {
@@ -50,7 +45,7 @@ export class CustomFields extends React.Component<IProps> {
     onSelect = field => {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CUSTOMER_FIELD, {
-            type: EDIT_CUSTOM_FIELD_TYPE,
+            type: 'UPDATE',
             field
         });
     };
@@ -68,14 +63,8 @@ export class CustomFields extends React.Component<IProps> {
     };
 
     render() {
-        const {
-            navigation,
-            customFields,
-            locale,
-            getCustomFields
-        } = this.props;
+        const { navigation, customFields, getCustomFields } = this.props;
         const { search } = this.state;
-
         const isEmpty = customFields && customFields.length <= 0;
 
         const emptyTitle = search
@@ -83,24 +72,20 @@ export class CustomFields extends React.Component<IProps> {
             : 'customFields.empty.title';
 
         const emptyContentProps = {
-            title: Lng.t(emptyTitle, { locale, search }),
+            title: t(emptyTitle, { search }),
             ...(!search && {
-                description: Lng.t('customFields.empty.description', {
-                    locale
-                }),
-                buttonTitle: Lng.t('customFields.empty.buttonTitle', {
-                    locale
-                }),
+                description: t('customFields.empty.description'),
+                buttonTitle: t('customFields.empty.buttonTitle'),
                 buttonPress: () => {
                     navigation.navigate(ROUTES.CUSTOMER_FIELD, {
-                        type: CREATE_CUSTOM_FIELD_TYPE
+                        type: 'ADD'
                     });
                 }
             })
         };
 
         const headerProps = {
-            title: Lng.t('header.customFields', { locale }),
+            title: t('header.customFields'),
             navigation,
             leftIcon: ARROW_ICON,
             leftIconPress: () => navigation.goBack(null),
@@ -109,7 +94,7 @@ export class CustomFields extends React.Component<IProps> {
             placement: 'center',
             rightIconPress: () => {
                 navigation.navigate(ROUTES.CUSTOMER_FIELD, {
-                    type: CREATE_CUSTOM_FIELD_TYPE
+                    type: 'ADD'
                 });
             }
         };

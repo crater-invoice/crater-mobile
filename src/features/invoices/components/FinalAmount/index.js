@@ -12,9 +12,8 @@ import {
 } from '@/components';
 import { ROUTES } from '@/navigation';
 import { colors } from '@/styles';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { INVOICE_DISCOUNT_OPTION } from '../../constants';
-import { ADD_TAX } from '@/features/settings/constants';
 import {
     invoiceSubTotal,
     getCompoundTaxValue,
@@ -54,7 +53,6 @@ const FinalAmount = ({ state, props }) => {
     const { currency } = state;
 
     const {
-        locale,
         taxTypes,
         navigation,
         invoiceData: { discount_per_item, tax_per_item },
@@ -97,7 +95,7 @@ const FinalAmount = ({ state, props }) => {
                         bold2={theme?.mode === 'dark'}
                         style={{ marginTop: 6 }}
                     >
-                        {Lng.t('invoices.subtotal', { locale })}
+                        {t('invoices.subtotal')}
                     </Text>
                 </View>
                 <View style={{ marginTop: isIosPlatform() ? 6 : 4 }}>
@@ -121,7 +119,7 @@ const FinalAmount = ({ state, props }) => {
                             bold2={theme?.mode === 'dark'}
                             style={{ marginTop: 6 }}
                         >
-                            {Lng.t('invoices.discount', { locale })}
+                            {t('invoices.discount')}
                         </Text>
                     </View>
                     <View
@@ -249,20 +247,19 @@ const FinalAmount = ({ state, props }) => {
                                 h4
                                 color={theme?.viewLabel?.thirdColor}
                             >
-                                {Lng.t('invoices.taxPlaceholder', { locale })}
+                                {t('invoices.taxPlaceholder')}
                             </Text>
                         )
                     }}
                     navigation={navigation}
                     isMultiSelect
-                    locale={locale}
                     concurrentMultiSelect
                     compareField="id"
                     valueCompareField="tax_type_id"
-                    headerProps={{ title: Lng.t('taxes.title', { locale }) }}
+                    headerProps={{ title: t('taxes.title') }}
                     rightIconPress={() =>
                         navigation.navigate(ROUTES.TAX, {
-                            type: ADD_TAX,
+                            type: 'ADD',
                             onSelect: val => {
                                 setFormField('taxes', [...val, ...taxes]);
                             }
@@ -286,7 +283,7 @@ const FinalAmount = ({ state, props }) => {
                         bold2={theme?.mode === 'dark'}
                         style={{ marginTop: 6 }}
                     >
-                        {Lng.t('invoices.totalAmount', { locale })}:
+                        {t('invoices.totalAmount')}:
                     </Text>
                 </View>
                 <View style={{ marginTop: isIosPlatform() ? 4 : 3 }}>

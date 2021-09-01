@@ -4,7 +4,7 @@ import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
 import { ListView, DefaultLayout } from '@/components';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { CUSTOMIZES_MENU } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 
@@ -37,7 +37,6 @@ export class Customizes extends React.Component {
     render() {
         const {
             navigation,
-            locale,
             paymentModesLoading,
             itemUnitsLoading,
             theme
@@ -50,7 +49,7 @@ export class Customizes extends React.Component {
                 headerProps={{
                     leftIconPress: () =>
                         navigation.navigate(ROUTES.SETTING_LIST),
-                    title: Lng.t('header.customize', { locale }),
+                    title: t('header.customize'),
                     leftArrow: 'primary'
                 }}
                 hasSearchField={false}
@@ -59,7 +58,7 @@ export class Customizes extends React.Component {
             >
                 <View style={styles.listViewContainer}>
                     <ListView
-                        items={CUSTOMIZES_MENU(locale, Lng)}
+                        items={CUSTOMIZES_MENU()}
                         onPress={this.onSelectMenu}
                         leftTitleStyle={styles.listViewTitle(theme)}
                         rightArrowIcon

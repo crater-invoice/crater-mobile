@@ -11,7 +11,7 @@ export default styles = StyleSheet.create({
     }),
     itemLeftTitle: theme => ({
         fontSize: 15,
-        fontFamily: fonts.poppins,
+        fontFamily: fonts.regular,
         color: theme?.listItem?.fifth?.color,
         textAlign: 'left'
     }),
@@ -23,7 +23,7 @@ export default styles = StyleSheet.create({
         fontSize: 13
     }),
     itemRightTitle: theme => ({
-        fontFamily: fonts.poppins,
+        fontFamily: fonts.regular,
         fontSize: 18,
         color: theme?.listItem?.secondary?.color,
         textAlign: 'left'

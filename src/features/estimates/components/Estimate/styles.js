@@ -4,14 +4,14 @@ import { colors, fonts } from '@/styles';
 export default styles = StyleSheet.create({
     inputTextStyle: {
         color: colors.dark3,
-        fontFamily: fonts.poppinsMedium,
+        fontFamily: fonts.medium,
         textAlign: 'left'
     },
     noteHintStyle: {
         paddingBottom: 6,
         color: colors.dark2,
         fontSize: 14,
-        fontFamily: fonts.poppins,
+        fontFamily: fonts.regular,
         textAlign: 'left'
     },
     itemContainer: (theme, disabled) => ({
@@ -23,7 +23,7 @@ export default styles = StyleSheet.create({
     }),
     itemLeftTitle: theme => ({
         fontSize: 15,
-        fontFamily: fonts.poppins,
+        fontFamily: fonts.regular,
         color: theme?.listItem?.fifth?.color,
         textAlign: 'left'
     }),
@@ -35,7 +35,7 @@ export default styles = StyleSheet.create({
         fontSize: 13
     }),
     itemRightTitle: theme => ({
-        fontFamily: fonts.poppins,
+        fontFamily: fonts.regular,
         fontSize: 18,
         color: theme?.listItem?.secondary?.color,
         textAlign: 'left'

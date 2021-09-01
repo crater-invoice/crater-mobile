@@ -1,16 +1,17 @@
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import {groupBy} from 'lodash';
-import Role from './role';
-import {ROLE_FORM} from 'modules/roles/constants';
-import {validateRole} from 'modules/roles/validator';
-import {commonSelector, permissionSelector} from 'modules/common/selectors';
+import CreateRole from './create-role';
+import {CREATE_ROLE_FORM} from 'stores/roles/types';
+import {validate} from 'stores/roles/validator';
+import {commonSelector, permissionSelector} from 'stores/common/selectors';
 
 const mapStateToProps = (state, {navigation}) => {
   const {
     roles: {permissions, loading}
   } = state;
   const role = navigation.getParam('role', {});
+
   return {
     permissions,
     formattedPermissions: groupBy(permissions ?? [], 'modelName'),
@@ -24,15 +25,14 @@ const mapStateToProps = (state, {navigation}) => {
   };
 };
 
-const RoleForm = reduxForm({
-  form: ROLE_FORM,
-  validate: validateRole
-})(Role);
+const CreateRoleForm = reduxForm({form: CREATE_ROLE_FORM, validate})(
+  CreateRole
+);
 
-const RoleContainer: any = connect(mapStateToProps)(RoleForm);
+export const CreateRoleContainer: any = connect(mapStateToProps)(
+  CreateRoleForm
+);
 
-RoleContainer.navigationOptions = () => ({
+CreateRoleContainer.navigationOptions = () => ({
   header: null
 });
-
-export default RoleContainer;

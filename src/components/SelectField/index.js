@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { change } from 'redux-form';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { IProps, IStates } from './type';
 import { colors, headerTitle } from '@/styles';
 import styles from './styles';
@@ -16,6 +16,7 @@ import { internalSearch as searchItem } from '@/utils';
 import { ARROW_ICON } from '@/assets';
 import { PaymentModeModal, UnitModal } from '../Modal';
 import { PermissionService } from '@/services';
+import { commonSelector } from 'stores/common/selectors';
 
 export class SelectFieldComponent extends Component<IProps, IStates> {
     scrollViewReference: any;
@@ -290,22 +291,20 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     };
 
     getEmptyTitle = () => {
-        const { locale, emptyContentProps } = this.props;
+        const { emptyContentProps } = this.props;
         const { search } = this.state;
         const emptyContentType = emptyContentProps?.contentType;
         let emptyTitle = '';
 
         if (emptyContentType) {
-            emptyTitle = Lng.t(`${emptyContentType}.empty.title`, { locale });
+            emptyTitle = t(`${emptyContentType}.empty.title`);
         }
 
-        let noSearchResult = Lng.t('search.noSearchResult', { locale });
+        let noSearchResult = t('search.noSearchResult');
 
         return {
             title: search ? `${noSearchResult} "${search}"` : emptyTitle,
-            description: Lng.t(`${emptyContentType}.empty.description`, {
-                locale
-            })
+            description: t(`${emptyContentType}.empty.description`)
         };
     };
 
@@ -338,12 +337,12 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         }
     };
 
-    BOTTOM_ACTION = locale => (
+    BOTTOM_ACTION = () => (
         <View style={styles.submitButton}>
             <View style={{ flex: 1 }}>
                 <CtButton
                     onPress={this.onSubmit}
-                    btnTitle={Lng.t('button.done', { locale })}
+                    btnTitle={t('button.done')}
                     containerStyle={styles.handleBtn}
                 />
             </View>
@@ -373,7 +372,6 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
             isRequired,
             isInternalSearch,
             getItems,
-            locale,
             paginationLimit,
             customView,
             inputModalName,
@@ -399,7 +397,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
                 checkedItems: selectedItems
             };
             bottomActionProps = {
-                bottomAction: this.BOTTOM_ACTION(locale)
+                bottomAction: this.BOTTOM_ACTION()
             };
         }
 
@@ -511,11 +509,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     }
 }
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
-export const SelectField = connect(
-    mapStateToProps,
-    {}
-)(SelectFieldComponent);
+export const SelectField = connect(mapStateToProps)(SelectFieldComponent);

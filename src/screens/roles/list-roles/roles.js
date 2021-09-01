@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import t from 'locales/use-translation';
 import {ARROW_ICON} from '@/assets';
 import {isEmpty} from '@/constants';
-import {fetchRoles} from 'modules/roles/actions';
+import {fetchRoles} from 'stores/roles/actions';
 import {IProps, IStates} from './roles-type';
 import {InfiniteScroll, ListView, MainLayout} from '@/components';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
@@ -45,10 +45,11 @@ export default class Roles extends Component<IProps, IStates> {
 
   onSelect = role => {
     const {navigation} = this.props;
-    navigation.navigate(ROUTES.ROLE, {role, type: 'UPDATE'});
+    navigation.navigate(ROUTES.CREATE_ROLE, {role, type: 'UPDATE'});
   };
 
-  addNewRole = () => this.props.navigation.navigate(ROUTES.ROLE, {type: 'ADD'});
+  addNewRole = () =>
+    this.props.navigation.navigate(ROUTES.CREATE_ROLE, {type: 'ADD'});
 
   render() {
     const {navigation, dispatch, roles} = this.props;

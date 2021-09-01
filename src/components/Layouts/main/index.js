@@ -7,7 +7,7 @@ import { Field } from 'redux-form';
 import { styles, Container } from './styles';
 import { InputField, CtHeader, CtDivider } from '../..';
 import { Content } from '../../Content';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { Toast } from '@/components';
 import { STATUS_BAR_CONTENT } from '@/utils';
 import { View as CtView, CtDecorativeButton } from '@/components';
@@ -15,6 +15,7 @@ import { AssetIcon } from '@/components/AssetIcon';
 import { Filter } from '@/components/Filter';
 import CompanyModal from '@/features/common/containers/CompanyModal';
 import { isIPhoneX } from '@/constants';
+import { commonSelector } from 'stores/common/selectors';
 
 interface IProps {
     children: any;
@@ -43,7 +44,6 @@ const Layout = (props: IProps) => {
         inputProps,
         dividerStyle,
         loadingProps,
-        locale,
         searchFieldProps,
         toastProps,
         plusButtonOnPress,
@@ -115,9 +115,7 @@ const Layout = (props: IProps) => {
                                 inputProps={{
                                     returnKeyType: 'next',
                                     autoCapitalize: 'none',
-                                    placeholder: Lng.t('search.title', {
-                                        locale
-                                    }),
+                                    placeholder: t('search.title'),
                                     autoCorrect: true,
                                     ...(filterProps &&
                                         props?.['with-input-filter'] && {
@@ -190,13 +188,9 @@ const Layout = (props: IProps) => {
     );
 };
 
-const mapStateToProps = ({ global }) => ({
-    locale: global?.locale,
-    theme: global?.theme
+const mapStateToProps = state => ({
+    ...commonSelector(state)
 });
 
 //  connect
-export const MainLayout = connect(
-    mapStateToProps,
-    {}
-)(Layout);
+export const MainLayout = connect(mapStateToProps)(Layout);

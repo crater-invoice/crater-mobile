@@ -1,4 +1,4 @@
-import Lng from '@/lang/i18n';
+import Lng from './i18n';
 
 class Translation {
   locale: string;

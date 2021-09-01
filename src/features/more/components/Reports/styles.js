@@ -4,8 +4,7 @@ import { defineSize } from '@/constants';
 
 export default styles = StyleSheet.create({
     listViewTitle: theme => ({
-        fontFamily:
-            theme?.mode === 'light' ? fonts.poppins : fonts.poppinsMedium,
+        fontFamily: theme?.mode === 'light' ? fonts.regular : fonts.medium,
         color: theme?.listItem?.secondary?.color,
         textAlign: 'left'
     }),

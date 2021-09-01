@@ -13,7 +13,7 @@ export const Text = styled(CTText)`
 
     color: ${colors.secondary};
     text-align: left;
-    font-family: ${fonts.poppins};
+    font-family: ${fonts.regular};
 
     ${ifProp('h6', fontSizes.h6)}
 
@@ -204,35 +204,35 @@ export const Text = styled(CTText)`
     ${ifProp(
         'bold',
         css`
-            font-family: ${fonts.poppinsBold};
+            font-family: ${fonts.bold};
         `
     )};
 
     ${ifProp(
         'normal',
         css`
-            font-family: ${fonts.poppins};
+            font-family: ${fonts.regular};
         `
     )};
 
     ${ifProp(
         'light',
         css`
-            font-family: ${fonts.poppinsLight};
+            font-family: ${fonts.light};
         `
     )};
 
     ${ifProp(
         'bold2',
         css`
-            font-family: ${fonts.poppinsSemiBold};
+            font-family: ${fonts.semiBold};
         `
     )};
 
     ${ifProp(
         'medium',
         css`
-            font-family: ${fonts.poppinsMedium};
+            font-family: ${fonts.medium};
         `
     )};
 

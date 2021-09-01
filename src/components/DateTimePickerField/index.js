@@ -6,7 +6,7 @@ import moment from 'moment';
 import { DatePickerField } from '../DatePickerField';
 import { TimePickerField } from '../TimePickerField';
 import { DATE_FORMAT } from '@/constants';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import styles from './styles';
 import { Text } from '../Text';
 import { Label } from '../Label';
@@ -111,11 +111,9 @@ class Picker extends Component<Props> {
             isRequired,
             input: { value },
             meta: { error, submitFailed },
-            meta,
             dateFieldName,
             timeFieldName,
             hideError,
-            locale,
             theme,
             disabled
         } = this.props;
@@ -171,7 +169,7 @@ class Picker extends Component<Props> {
                 {hasError && (
                     <View style={styles.validation}>
                         <Text white h6>
-                            {Lng.t(error, { locale, hint: label })}
+                            {t(error, { hint: label })}
                         </Text>
                     </View>
                 )}
@@ -186,7 +184,8 @@ const dateTimePickerForm = reduxForm({
 
 export const DateTimePickerField = connect(
     ({ global }) => ({
-        theme: global.theme
+        theme: global.theme,
+        locale: global.locale
     }),
     {}
 )(dateTimePickerForm);

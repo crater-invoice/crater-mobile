@@ -1,9 +1,8 @@
 // @flow
 import React from 'react';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { ListView, MainLayout, InfiniteScroll } from '@/components';
 import { ROUTES } from '@/navigation';
-import { CUSTOMER_ADD, CUSTOMER_EDIT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { customersFilterFields as filterFields } from './filterFields';
 import { IMAGES } from '@/assets';
@@ -12,7 +11,6 @@ import { isFilterApply } from '@/utils';
 type IProps = {
     customers: Object,
     navigation: Object,
-    locale: String,
     formValues: any
 };
 
@@ -73,7 +71,7 @@ export class Customers extends React.Component<IProps> {
         const { navigation } = this.props;
         navigation.navigate(ROUTES.CUSTOMER, {
             customerId: customer.id,
-            type: CUSTOMER_EDIT
+            type: 'UPDATE'
         });
     };
 
@@ -81,7 +79,6 @@ export class Customers extends React.Component<IProps> {
         const {
             customers,
             navigation,
-            locale,
             handleSubmit,
             getCustomer,
             formValues
@@ -98,19 +95,17 @@ export class Customers extends React.Component<IProps> {
             : 'customers.empty.title';
 
         const emptyContentProps = {
-            title: Lng.t(emptyTitle, { locale, search }),
+            title: t(emptyTitle, { search }),
             image: IMAGES.EMPTY_CUSTOMERS,
             ...(!search && {
-                description: Lng.t('customers.empty.description', { locale })
+                description: t('customers.empty.description')
             }),
             ...(!search &&
                 !isFilter && {
-                    buttonTitle: Lng.t('customers.empty.buttonTitle', {
-                        locale
-                    }),
+                    buttonTitle: t('customers.empty.buttonTitle'),
                     buttonPress: () => {
                         navigation.navigate(ROUTES.CUSTOMER, {
-                            type: CUSTOMER_ADD
+                            type: 'ADD'
                         });
                     }
                 })
@@ -120,18 +115,17 @@ export class Customers extends React.Component<IProps> {
             rightIcon: 'plus',
             rightIconPress: () => {
                 navigation.navigate(ROUTES.CUSTOMER, {
-                    type: CUSTOMER_ADD
+                    type: 'ADD'
                 });
             },
-            title: Lng.t('header.customers', { locale }),
+            title: t('header.customers'),
             navigation
         };
 
         const filterProps = {
             onSubmitFilter: handleSubmit(this.onSubmitFilter),
-            inputFields: filterFields(locale),
+            inputFields: filterFields(),
             clearFilter: this.props,
-            locale: locale,
             onResetFilter: () => this.onResetFilter()
         };
 

@@ -14,6 +14,3 @@ export const SPINNER = 'common/COMMON_TRIGGER_SPINNER';
 
 export const COMPANIES_FORM = 'companies/COMPANIES_FORM';
 export const COMPANY_FORM = 'companies/COMPANY_FORM';
-
-export const EDIT_COMPANY_TYPE = 'companies/EDIT_COMPANY_TYPE';
-export const ADD_COMPANY_TYPE = 'companies/ADD_COMPANY_TYPE';

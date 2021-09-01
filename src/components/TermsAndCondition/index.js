@@ -6,7 +6,7 @@ import { change } from 'redux-form';
 import styles from './styles';
 import { CtButton } from '../Button';
 import { AnimateModal } from '../AnimateModal';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { BUTTON_TYPE, isIPhoneX } from '@/constants';
 
 type IProps = {
@@ -116,20 +116,17 @@ export class TermsAndCondition extends React.Component<IProps> {
     };
 
     BOTTOM_ACTION = () => {
-        const {
-            props: { locale }
-        } = this.props;
         return (
             <View style={styles.submitButton}>
                 <CtButton
                     onPress={() => this.onToggle()}
-                    btnTitle={Lng.t('button.cancel', { locale })}
+                    btnTitle={t('button.cancel')}
                     type={BUTTON_TYPE.OUTLINE}
                     buttonOutlineStyle={styles.buttonOutline}
                 />
                 <CtButton
                     onPress={() => this.onSave()}
-                    btnTitle={Lng.t('button.update', { locale })}
+                    btnTitle={t('button.update')}
                     containerStyle={styles.handleBtn}
                     buttonContainerStyle={styles.buttonContainer}
                 />

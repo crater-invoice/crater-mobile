@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import { Editor, SelectField, Text } from '@/components';
 import { View, TouchableOpacity } from 'react-native';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { Field } from 'redux-form';
 import { formatNotesType } from '@/utils';
 import { ROUTES } from '@/navigation';
-import {
-    NOTES_ADD,
-    NOTES_TYPE_VALUE as NOTES_TYPE
-} from '@/features/settings/constants';
+import { NOTES_TYPE_VALUE as NOTES_TYPE } from '@/features/settings/constants';
 import { isIPhoneX } from '@/constants';
 
 interface IProps {
-    locale?: string;
-    isEditEstimate?: boolean;
+    isEditScreen?: boolean;
     notes?: Array<any>;
     getNotes?: Function;
     navigation?: any;
@@ -34,7 +30,7 @@ export default class Notes extends Component<IProps> {
         const { navigation } = this.props;
 
         navigation.navigate(ROUTES.NOTE, {
-            type: NOTES_ADD,
+            type: 'ADD',
             modalType: NOTES_TYPE.ESTIMATE,
             onSelect: item => this.onSelect(item)
         });
@@ -46,24 +42,14 @@ export default class Notes extends Component<IProps> {
     };
 
     render() {
-        const {
-            locale,
-            isEditEstimate,
-            notes,
-            getNotes,
-            navigation,
-            setFormField,
-            theme
-        } = this.props;
+        const { isEditScreen, notes, getNotes, navigation, theme } = this.props;
 
         return (
             <Editor
                 {...this.props}
                 name={`notes`}
                 label="estimates.notes"
-                placeholder={Lng.t('estimates.notePlaceholder', {
-                    locale
-                })}
+                placeholder={t('estimates.notePlaceholder')}
                 fieldInputProps={{ height: 80 }}
                 htmlViewStyle={{ minHeight: 82 }}
                 containerStyle={{ marginTop: -10, marginBottom: -10 }}
@@ -74,7 +60,7 @@ export default class Notes extends Component<IProps> {
                 labelStyle={{ marginBottom: -15 }}
                 previewLabelStyle={{ marginBottom: -10 }}
                 reference={ref => (this.editorReference = ref)}
-                showPreview={isEditEstimate}
+                showPreview={isEditScreen}
                 customRightLabelComponent={
                     <View style={{ marginTop: 5 }}>
                         <Field
@@ -88,7 +74,7 @@ export default class Notes extends Component<IProps> {
                             navigation={navigation}
                             onSelect={item => this.onSelect(item)}
                             headerProps={{
-                                title: Lng.t('notes.select', { locale })
+                                title: t('notes.select')
                             }}
                             rightIconPress={this.navigateToNote}
                             createActionRouteName={ROUTES.NOTE}
@@ -109,9 +95,7 @@ export default class Notes extends Component<IProps> {
                                         style={{ paddingBottom: 6 }}
                                         color={theme?.viewLabel?.thirdColor}
                                     >
-                                        {Lng.t('notes.insertNote', {
-                                            locale
-                                        })}
+                                        {t('notes.insertNote')}
                                     </Text>
                                 </TouchableOpacity>
                             }

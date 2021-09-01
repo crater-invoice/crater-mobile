@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
@@ -6,10 +5,10 @@ import { CUSTOMIZE_FORM } from '../../constants';
 import * as customizeAction from '../../actions';
 import { Customize } from '../../components/Customize';
 import { getUnitState } from '@/features/more/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { locale, theme },
         settings: {
             customizes,
             paymentMethods,
@@ -34,8 +33,6 @@ const mapStateToProps = (state, { navigation }) => {
 
     return {
         formValues: getFormValues(CUSTOMIZE_FORM)(state) || {},
-        locale,
-        theme,
         type,
         customizes,
         paymentMethods,
@@ -45,6 +42,7 @@ const mapStateToProps = (state, { navigation }) => {
         loading: customizeLoading,
         paymentModeLoading,
         itemUnitLoading,
+        ...commonSelector(state),
         initialValues: !isLoading
             ? {
                   ...customizes,
@@ -80,13 +78,11 @@ const mapDispatchToProps = {
     getItemUnits: customizeAction.getItemUnits
 };
 
-//  Redux Forms
 const CustomizeReduxForm = reduxForm({
     form: CUSTOMIZE_FORM,
     validate
 })(Customize);
 
-//  connect
 const CustomizeContainer = connect(
     mapStateToProps,
     mapDispatchToProps

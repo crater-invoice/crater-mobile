@@ -37,7 +37,7 @@ export default styles = StyleSheet.create({
     heading: {
         color: colors.dark2,
         fontSize: 17,
-        fontFamily: fonts.poppins,
+        fontFamily: fonts.regular,
         paddingVertical: 5,
         textAlign: 'left'
     },

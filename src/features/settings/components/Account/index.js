@@ -12,7 +12,7 @@ import {
     ActionButton
 } from '@/components';
 import { Field, change } from 'redux-form';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 import { EDIT_ACCOUNT } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { headerTitle } from '@/styles';
@@ -27,7 +27,6 @@ type IProps = {
     getAccount: Function,
     editAccount: Function,
     navigation: Object,
-    locale: String,
     handleSubmit: Function,
     isLoading: Boolean,
     editAccountLoading: Boolean
@@ -86,7 +85,6 @@ export class Account extends React.Component<IProps> {
         const {
             navigation,
             handleSubmit,
-            locale,
             isLoading,
             editAccountLoading,
             isAllowToEdit,
@@ -108,7 +106,7 @@ export class Account extends React.Component<IProps> {
             <DefaultLayout
                 headerProps={{
                     leftIconPress: () => navigation.goBack(null),
-                    title: Lng.t('header.setting.account', { locale }),
+                    title: t('header.setting.account'),
                     withTitleStyle: headerTitle({
                         marginLeft: -20,
                         marginRight: -25
@@ -120,9 +118,7 @@ export class Account extends React.Component<IProps> {
                         rightIconPress: handleSubmit(this.onProfileUpdate)
                     })
                 }}
-                bottomAction={
-                    <ActionButton locale={locale} buttons={bottomAction} />
-                }
+                bottomAction={<ActionButton buttons={bottomAction} />}
                 loadingProps={{
                     is: isLoading
                 }}
@@ -131,7 +127,6 @@ export class Account extends React.Component<IProps> {
                 <Field
                     name={'avatar'}
                     component={FilePicker}
-                    locale={locale}
                     hasAvatar
                     onChangeCallback={val => this.setState({ avatar: val })}
                     uploadedFileUrl={this.state.avatarUrl}
@@ -149,7 +144,7 @@ export class Account extends React.Component<IProps> {
                     name={name}
                     component={InputField}
                     isRequired
-                    hint={Lng.t('settings.account.name', { locale })}
+                    hint={t('settings.account.name')}
                     disabled={disabled}
                     inputProps={{
                         returnKeyType: 'next',
@@ -164,7 +159,7 @@ export class Account extends React.Component<IProps> {
                     name={Email}
                     component={InputField}
                     isRequired
-                    hint={Lng.t('settings.account.email', { locale })}
+                    hint={t('settings.account.email')}
                     disabled={disabled}
                     inputProps={{
                         returnKeyType: 'next',
@@ -181,7 +176,7 @@ export class Account extends React.Component<IProps> {
                 <Field
                     name={password}
                     component={InputField}
-                    hint={Lng.t('settings.account.password', { locale })}
+                    hint={t('settings.account.password')}
                     inputProps={{
                         returnKeyType: 'next',
                         autoCapitalize: 'none',
@@ -202,9 +197,7 @@ export class Account extends React.Component<IProps> {
                 <Field
                     name={cpassword}
                     component={InputField}
-                    hint={Lng.t('settings.account.confirmPassword', {
-                        locale
-                    })}
+                    hint={t('settings.account.confirmPassword')}
                     inputProps={{
                         returnKeyType: 'go',
                         autoCapitalize: 'none',
@@ -223,7 +216,7 @@ export class Account extends React.Component<IProps> {
 
                 <View style={styles.versionContainer}>
                     <Text color={theme.viewLabel.secondaryColor} h4>
-                        {Lng.t('settings.account.version', { locale })}
+                        {t('settings.account.version')}
                         {'  '}
                         <Text bold2 color={theme.viewLabel.secondaryColor}>
                             {env.APP_VERSION}

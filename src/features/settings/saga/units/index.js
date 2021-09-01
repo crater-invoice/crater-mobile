@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as queryStrings from 'query-string';
-import { getTitleByLanguage } from '@/utils';
-import Request from '@/api/request';
+import t from 'locales/use-translation';
+import Request from 'utils/request';
 import { alertMe } from '@/constants';
 import * as TYPES from '../../constants';
 import {
@@ -101,7 +101,7 @@ function* removeItemUnit({ payload: { id, onSuccess } }) {
 
         if (response.error && response.error === 'items_attached') {
             alertMe({
-                title: getTitleByLanguage('items.alreadyInUseUnit')
+                title: t('items.alreadyInUseUnit')
             });
         }
     } catch (e) {

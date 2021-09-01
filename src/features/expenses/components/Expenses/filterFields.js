@@ -1,5 +1,5 @@
 import { IMAGES } from '@/assets';
-import Lng from '@/lang/i18n';
+import t from 'locales/use-translation';
 
 let selectedFromDate = '';
 let selectedFromDateValue = '';
@@ -8,7 +8,6 @@ let selectedToDateValue = '';
 
 export default expenseFilterFields = ({ props, setFormField }) => {
     const {
-        locale,
         categories,
         getCategories,
         navigation,
@@ -24,14 +23,14 @@ export default expenseFilterFields = ({ props, setFormField }) => {
             getItems: getCustomers,
             items: customers,
             displayName: 'name',
-            label: Lng.t('payments.customer', { locale }),
+            label: t('payments.customer'),
             icon: 'user',
-            placeholder: Lng.t('customers.placeholder', { locale }),
+            placeholder: t('customers.placeholder'),
             navigation: navigation,
             compareField: 'id',
             onSelect: item => setFormField('customer_id', item.id),
             headerProps: {
-                title: Lng.t('customers.title', { locale }),
+                title: t('customers.title'),
                 rightIconPress: null
             },
             emptyContentProps: {
@@ -46,14 +45,14 @@ export default expenseFilterFields = ({ props, setFormField }) => {
             getItems: getCategories,
             items: categories,
             displayName: 'name',
-            label: Lng.t('expenses.category', { locale }),
+            label: t('expenses.category'),
             icon: 'align-center',
-            placeholder: Lng.t('expenses.categoryPlaceholder', { locale }),
+            placeholder: t('expenses.categoryPlaceholder'),
             navigation: navigation,
             compareField: 'id',
             onSelect: item => setFormField('expense_category_id', item.id),
             headerProps: {
-                title: Lng.t('expenses.categoryPlaceholder', { locale }),
+                title: t('expenses.categoryPlaceholder'),
                 rightIconPress: null
             },
             emptyContentProps: {
@@ -65,7 +64,7 @@ export default expenseFilterFields = ({ props, setFormField }) => {
     const datePickerFields = [
         {
             name: 'from_date',
-            label: Lng.t('expenses.fromDate', { locale }),
+            label: t('expenses.fromDate'),
             onChangeCallback: (formDate, displayDate) => {
                 (selectedFromDate = displayDate),
                     (selectedFromDateValue = formDate);
@@ -75,7 +74,7 @@ export default expenseFilterFields = ({ props, setFormField }) => {
         },
         {
             name: 'to_date',
-            label: Lng.t('expenses.toDate', { locale }),
+            label: t('expenses.toDate'),
             onChangeCallback: (formDate, displayDate) => {
                 (selectedToDate = displayDate),
                     (selectedToDateValue = formDate);

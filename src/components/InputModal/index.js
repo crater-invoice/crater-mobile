@@ -14,7 +14,6 @@ type Iprops = {
     headerTitle?: String,
     hint?: String,
     fieldName?: String,
-    locale?: String,
     onRemove?: Function,
     onSubmit?: Function,
     showRemoveButton?: Boolean,
@@ -49,8 +48,7 @@ class inputModalComponent extends Component<Iprops> {
             onSubmitLoading = false,
             onRemoveLoading = false,
             onRemove,
-            onSubmit,
-            locale
+            onSubmit
         } = this.props;
 
         if (!showRemoveButton && !showSaveButton) {
@@ -80,13 +78,7 @@ class inputModalComponent extends Component<Iprops> {
             }
         ];
 
-        return (
-            <ActionButton
-                locale={locale}
-                buttons={bottomAction}
-                hide-container-style
-            />
-        );
+        return <ActionButton buttons={bottomAction} hide-container-style />;
     };
 
     FIELD = () => {
@@ -174,7 +166,8 @@ class inputModalComponent extends Component<Iprops> {
 
 export const InputModal = connect(
     ({ global }) => ({
-        theme: global?.theme
+        theme: global?.theme,
+        locale: global?.locale
     }),
     {}
 )(inputModalComponent);
