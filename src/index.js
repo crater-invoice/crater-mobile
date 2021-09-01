@@ -4,7 +4,7 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Appearance, AppearanceProvider} from 'react-native-appearance';
 import {ThemeProvider} from 'styled-components/native';
-import {store, persistor} from './store';
+import {store, persistor} from '@/stores';
 import ApplicationNavigator from './navigation/containers';
 import {checkOTAUpdate} from './features/authentication/actions';
 import {loadFonts, switchTheme} from './constants';

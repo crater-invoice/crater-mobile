@@ -1,7 +1,7 @@
 // @flow
 import axios from 'axios';
 import {NavigationActions} from 'react-navigation';
-import {store} from '../store';
+import {store} from '@/stores';
 import {env} from '@/config';
 import {ROUTES} from '@/navigation';
 import {checkConnection, hasValue} from '@/constants';

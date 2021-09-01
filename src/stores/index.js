@@ -1,8 +1,8 @@
-import {applyMiddleware, createStore, compose} from 'redux';
-import rootReducer from './reducers';
+import {applyMiddleware, createStore} from 'redux';
+import rootReducer from 'stores/root-reducer';
 import * as reduxStorage from 'redux-storage';
 import createSagaMiddleware from 'redux-saga';
-import sagas from './sagas';
+import sagas from 'stores/root-saga';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import {createReactNavigationReduxMiddleware} from 'react-navigation-redux-helpers';

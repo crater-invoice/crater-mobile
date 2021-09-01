@@ -1,18 +1,19 @@
 import {all, takeEvery, select, put} from 'redux-saga/effects';
 import {REHYDRATE} from 'redux-persist/src/constants';
 import {NavigationActions} from 'react-navigation';
-import auth from '../features/authentication/saga';
-import invoices from '../features/invoices/saga';
-import estimates from '../features/estimates/saga';
-import customers from '../features/customers/saga';
-import expenses from '../features/expenses/saga';
-import payments from '../features/payments/saga';
-import settings from '../features/settings/saga';
-import more from '../features/more/saga';
-import common from '../features/common/saga';
-import roles from '../stores/roles/saga';
-import users from '../stores/users/saga';
-import {store} from '../store';
+
+import auth from '@/features/authentication/saga';
+import invoices from '@/features/invoices/saga';
+import estimates from '@/features/estimates/saga';
+import customers from '@/features/customers/saga';
+import expenses from '@/features/expenses/saga';
+import payments from '@/features/payments/saga';
+import settings from '@/features/settings/saga';
+import more from '@/features/more/saga';
+import common from '@/features/common/saga';
+import roles from 'stores/roles/saga';
+import users from 'stores/users/saga';
+import {store} from '@/stores';
 import {ROUTES} from '@/navigation';
 import {resetAuthLoaders} from '@/features/authentication/actions';
 
