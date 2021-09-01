@@ -9,7 +9,7 @@ import { CUSTOMER_FORM, CUSTOMER_FIELDS as FIELDS } from '../../constants';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { currencies, currency },
+        common: { currencies, currency },
         customers: { countries, loading }
     } = state;
     const customFields = state.settings?.customFields;

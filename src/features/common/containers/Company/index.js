@@ -6,14 +6,14 @@ import {COMPANY_FORM} from '../../constants';
 import {permissionSelector} from 'stores/common/selectors';
 
 const mapStateToProps = (state, {navigation}) => {
-  const {global} = state;
+  const {common} = state;
   const company = navigation.getParam('company', {});
   const isLoading = state.company?.loading?.companyLoading;
 
   return {
     loading: isLoading,
     companyId: company?.id,
-    locale: global?.locale,
+    locale: common?.locale,
     ...permissionSelector(navigation),
     initialValues: {
       name: '',

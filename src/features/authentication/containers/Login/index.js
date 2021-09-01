@@ -7,11 +7,11 @@ import { LOGIN_FORM } from '../../constants';
 import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => {
-    const { auth, global, settings } = state;
+    const { auth, common, settings } = state;
     return {
         loading: auth?.loading?.loginLoading,
         socialLoading: auth?.loading?.socialLoginLoading,
-        biometryAuthType: global?.biometryAuthType,
+        biometryAuthType: common?.biometryAuthType,
         ...commonSelector(state),
         initialValues: {
             username: settings?.account?.email ?? '',

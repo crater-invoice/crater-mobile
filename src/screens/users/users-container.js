@@ -4,9 +4,9 @@ import Users from './users';
 import { USERS_FORM } from 'stores/users/types';
 import { usersSelector } from 'stores/users/selectors';
 
-const mapStateToProps = ({ users, global }) => ({
+const mapStateToProps = ({ users, common }) => ({
     users: usersSelector(users.users),
-    locale: global?.locale,
+    locale: common?.locale,
     ...users.loading
 });
 

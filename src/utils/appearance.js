@@ -21,4 +21,4 @@ export const STATUS_BAR_CONTENT = {
   dark: 'light-content'
 };
 
-export const THEME = store?.getState?.()?.global?.theme;
+export const THEME = store?.getState?.()?.common?.theme;

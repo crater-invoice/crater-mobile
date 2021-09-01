@@ -2,7 +2,6 @@
 import axios from 'axios';
 import {NavigationActions} from 'react-navigation';
 import {store} from '@/stores';
-import {env} from '@/config';
 import {ROUTES} from '@/navigation';
 import {checkConnection, hasValue} from '@/constants';
 
@@ -105,12 +104,21 @@ export default class Request {
     const reduxStore = store.getState();
 
     const {idToken} = reduxStore.auth;
-    const {endpointApi, company} = reduxStore.global;
+    const {endpointApi, company} = reduxStore.common;
 
-    let apiUrl = endpointApi ?? env.ENDPOINT_API;
+    let apiUrl = endpointApi;
 
     if (isPing) {
       apiUrl = isPing;
+    }
+
+    if (!isPing && !endpointApi) {
+      store.dispatch(
+        NavigationActions.navigate({
+          routeName: ROUTES.ENDPOINTS
+        })
+      );
+      return;
     }
 
     const url = `${apiUrl}${path}`;

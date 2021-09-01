@@ -6,7 +6,7 @@ import { TOUCH_FACE_ID_FORM } from '../../constants';
 import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
-    biometryAuthType: state.global?.biometryAuthType,
+    biometryAuthType: state.common?.biometryAuthType,
     ...commonSelector(state),
     initialValues: {
         biometry: true

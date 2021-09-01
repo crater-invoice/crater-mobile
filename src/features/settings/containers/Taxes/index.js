@@ -4,10 +4,10 @@ import { reduxForm } from 'redux-form';
 import { SEARCH_TAX } from '../../constants';
 import * as TaxesAction from '../../actions';
 
-const mapStateToProps = ({ settings, global }) => ({
+const mapStateToProps = ({ settings, common }) => ({
     loading: settings.loading?.getTaxLoading,
-    taxTypes: global.taxTypes,
-    locale: global?.locale
+    taxTypes: common.taxTypes,
+    locale: common?.locale
 });
 
 const mapDispatchToProps = {

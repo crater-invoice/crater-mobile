@@ -32,8 +32,8 @@ export const BUTTON_COLOR = {
 };
 
 // type
-export const ENDPOINT_SETTINGS = 'global/ENDPOINT_SETTINGS';
-export const ENDPOINT_INITIAL = 'global/ENDPOINT_INITIAL';
+export const ENDPOINT_SETTINGS = 'common/ENDPOINT_SETTINGS';
+export const ENDPOINT_INITIAL = 'common/ENDPOINT_INITIAL';
 
 /**
  *  Date Time format for sending backend request
@@ -42,9 +42,6 @@ export const DATE_FORMAT = 'YYYY-MM-DD';
 export const TIME_FORMAT = 'HH:mm';
 export const TIME_FORMAT_MERIDIEM = 'hh:mm A';
 
-/**
- * Global Types
- */
 export const SET_GLOBAL_BOOTSTRAP = 'SET_GLOBAL_BOOTSTRAP';
 export const SAVE_ENDPOINT_API = 'SAVE_ENDPOINT_API';
 export const SET_SETTINGS = 'SET_SETTINGS';
@@ -58,8 +55,6 @@ export const BIOMETRY_AUTH_TYPES = {
     FACE: 'FACE'
 };
 
-//  Global Actions
-// -----------------------------------------
 export const switchTheme = (payload = {}) => ({
     type: SWITCH_THEME,
     payload

@@ -10,7 +10,7 @@ import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { taxTypes },
+        common: { taxTypes },
         invoices: { loading, invoiceItems, invoiceData, items }
     } = state;
 

@@ -4,7 +4,7 @@ import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     companies: state.company?.companies ?? [],
-    company: state.global?.company,
+    company: state.common?.company,
     ...commonSelector(state)
 });
 

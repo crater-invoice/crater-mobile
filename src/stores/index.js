@@ -10,7 +10,7 @@ import {createReactNavigationReduxMiddleware} from 'react-navigation-redux-helpe
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['auth', 'nav', 'settings', 'global', 'more'],
+  whitelist: ['auth', 'nav', 'settings', 'common', 'more'],
   blackList: ['form']
 };
 

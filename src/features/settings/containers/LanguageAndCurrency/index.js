@@ -24,7 +24,7 @@ const mapStateToProps = state => {
 
     return {
         isLoading,
-        currencies: state.global?.currencies,
+        currencies: state.common?.currencies,
         editPreferencesLoading,
         generalSettingsLoading,
         formValues: getFormValues(EDIT_LANGUAGE_AND_CURRENCY)(state) || {},

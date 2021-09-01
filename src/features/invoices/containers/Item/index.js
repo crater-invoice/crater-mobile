@@ -32,7 +32,7 @@ const mapStateToProps = (state, { navigation }) => {
         loading: isLoading,
         formValues: getFormValues(ITEM_FORM)(state) || {},
         itemId: item && (item.item_id || item.id),
-        taxTypes: state.global?.taxTypes,
+        taxTypes: state.common?.taxTypes,
         currency: navigation.getParam('currency'),
         discountPerItem,
         taxPerItem,

@@ -23,9 +23,6 @@ function* logout({ payload: { navigation } }) {
     }
 }
 
-/**
- * Global Items.
- */
 function* getItems({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;
 

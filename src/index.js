@@ -33,7 +33,7 @@ class App extends Component<{}, IState> {
 
     store?.subscribe?.(() => {
       const state = store?.getState?.();
-      const locale = state?.global?.locale;
+      const locale = state?.common?.locale;
       TranslationService.setLocale(locale);
     });
   }

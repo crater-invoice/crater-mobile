@@ -18,7 +18,7 @@ const mapStateToProps = state => {
             loading: { invoicesLoading }
         }
     } = state;
-    const theme = state.global?.theme;
+    const theme = state.common?.theme;
 
     return {
         invoices,

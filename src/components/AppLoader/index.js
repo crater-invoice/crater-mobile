@@ -1,32 +1,32 @@
 // @flow
 
 import React from 'react';
-import { connect } from 'react-redux';
-import { ActivityIndicator, View } from 'react-native';
+import {connect} from 'react-redux';
+import {ActivityIndicator, View} from 'react-native';
 
 import styles from './styles';
 
 type IProps = {
-    appLoading: boolean,
+  appLoading: boolean
 };
 
 const AppLoaderComponent = (props: IProps) => {
-    const { appLoading } = props;
+  const {appLoading} = props;
 
-    return (
-        <View style={[appLoading && styles.loadingWrapper]}>
-            {appLoading && <ActivityIndicator size="large" color={styles.white} />}
-        </View>
-    );
+  return (
+    <View style={[appLoading && styles.loadingWrapper]}>
+      {appLoading && <ActivityIndicator size="large" color={styles.white} />}
+    </View>
+  );
 };
 
-const mapStateToProps = ({ global }) => ({
-    appLoading: global.loading,
+const mapStateToProps = ({common}) => ({
+  appLoading: common.loading
 });
 
 const mapDispatchToProps = {};
 
 export const AppLoader = connect(
-    mapStateToProps,
-    mapDispatchToProps,
+  mapStateToProps,
+  mapDispatchToProps
 )(AppLoaderComponent);

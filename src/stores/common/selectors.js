@@ -20,9 +20,9 @@ export const permissionSelector = navigation => {
 };
 
 export const commonSelector = state => {
-  const {global} = state;
+  const {common} = state;
   return {
-    locale: global?.locale,
-    theme: global?.theme
+    locale: common?.locale,
+    theme: common?.theme
   };
 };

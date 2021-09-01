@@ -2,7 +2,6 @@ import { call, put, takeLatest, delay, select } from 'redux-saga/effects';
 import { NavigationActions } from 'react-navigation';
 import * as Updates from 'expo-updates';
 import moment from 'moment';
-import { env } from '@/config';
 import {
     saveIdToken,
     authTriggerSpinner,
@@ -21,6 +20,7 @@ import Request from 'utils/request';
 import { setI18nManagerValue } from '@/utils';
 import t from 'locales/use-translation';
 import { FETCH_COMPANIES_SUCCESS } from '@/features/common/constants';
+import {APP_VERSION} from '../../../../config';
 
 // Login
 // -----------------------------------------
@@ -122,8 +122,8 @@ function* getBootstrapData(payloadData: any) {
 function* checkOTAUpdate(payloadData) {
     try {
         const state = yield select();
-        const lastAutoUpdateDate = state?.global?.lastAutoUpdateDate;
-        const endpointApi = state?.global?.endpointApi;
+        const lastAutoUpdateDate = state?.common?.lastAutoUpdateDate;
+        const endpointApi = state?.common?.endpointApi;
         const idToken = state?.auth?.idToken;
         const currentDate: string = moment().format('YYYY-MM-DD');
 
@@ -146,7 +146,7 @@ function* checkOTAUpdate(payloadData) {
 
         const response = yield call([Request, 'get'], options);
 
-        const currentVersion = env.APP_VERSION;
+        const currentVersion = APP_VERSION;
         const newVersion = response?.version;
 
         if (

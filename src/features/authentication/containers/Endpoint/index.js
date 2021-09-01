@@ -7,7 +7,7 @@ import { validate } from './validation';
 import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
-    const CRATER_URL = state?.global?.endpointURL ?? '';
+    const CRATER_URL = state?.common?.endpointURL ?? '';
     const skipEndpoint = navigation.getParam('skipEndpoint', false);
 
     return {

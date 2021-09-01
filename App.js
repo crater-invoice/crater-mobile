@@ -1,10 +1,10 @@
 /**
  * Main Root component imported for export crater app.
  *
- * @version 1.0.0
+ * @version 5.0.0
  * @author [crater](https://craterapp.com)
  */
 
-import App from './src'
+import App from './src';
 
-export default App
+export default App;

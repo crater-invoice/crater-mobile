@@ -12,7 +12,7 @@ import {
 } from '../../selectors';
 
 const mapStateToProps = state => {
-    const theme = state.global?.theme;
+    const theme = state.common?.theme;
     const estimates = state.estimates?.estimates;
     return {
         estimates,

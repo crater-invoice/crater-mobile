@@ -43,7 +43,7 @@ const initialState = {
   theme: darkTheme
 };
 
-export default function globalReducer(state = initialState, action) {
+export default function commonReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {

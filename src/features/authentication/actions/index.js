@@ -81,7 +81,6 @@ export const setBootstrap = (payload) => ({
     payload,
 });
 
-//  Global settings
 export const setGlobalBootstrap = (payload = {}) => ({
     type: SET_GLOBAL_BOOTSTRAP,
     payload,

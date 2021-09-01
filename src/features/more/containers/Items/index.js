@@ -9,7 +9,7 @@ import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     items: state.more?.items,
-    currency: state.global?.currency,
+    currency: state.common?.currency,
     units: getUnitState(state.settings.units),
     formValues: getFormValues(ITEM_SEARCH)(state) || {},
     ...commonSelector(state)

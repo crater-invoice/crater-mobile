@@ -218,7 +218,7 @@ export class DatePickerComponent extends Component<IProps, IStates> {
 }
 
 const mapStateToProps = state => ({
-    dateFormat: state.global?.dateFormat,
+    dateFormat: state.common?.dateFormat,
     ...commonSelector(state)
 });
 

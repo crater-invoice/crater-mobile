@@ -12,7 +12,7 @@ import { commonSelector, permissionSelector } from 'stores/common/selectors';
 const mapStateToProps = (state, { navigation }) => {
     const {
         customers: { customers },
-        global: { currency },
+        common: { currency },
         settings: { paymentMethods, notes, customFields },
         payments: { loading, unPaidInvoices }
     } = state;

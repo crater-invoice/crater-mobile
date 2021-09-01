@@ -3,6 +3,12 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
+import { Field, change } from 'redux-form';
+import t from 'locales/use-translation';
+import { EDIT_ACCOUNT } from '../../constants';
+import { goBack, MOUNT, UNMOUNT } from '@/navigation';
+import { headerTitle } from '@/styles';
+import { APP_VERSION } from '../../../../../config';
 import {
     DefaultLayout,
     InputField,
@@ -11,12 +17,6 @@ import {
     Text,
     ActionButton
 } from '@/components';
-import { Field, change } from 'redux-form';
-import t from 'locales/use-translation';
-import { EDIT_ACCOUNT } from '../../constants';
-import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import { headerTitle } from '@/styles';
-import { env } from '@/config';
 
 let name = 'name';
 let Email = 'email';
@@ -219,7 +219,7 @@ export class Account extends React.Component<IProps> {
                         {t('settings.account.version')}
                         {'  '}
                         <Text bold2 color={theme.viewLabel.secondaryColor}>
-                            {env.APP_VERSION}
+                            {APP_VERSION}
                         </Text>
                     </Text>
                 </View>

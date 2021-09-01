@@ -11,7 +11,7 @@ import { EXPENSE_FORM, EXPENSE_FIELDS as FIELDS } from '../../constants';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { endpointURL, currency },
+        common: { endpointURL, currency },
         expenses: { loading },
         settings: { categories, customFields }
     } = state;

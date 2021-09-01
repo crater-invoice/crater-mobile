@@ -27,7 +27,7 @@ const mapStateToProps = (state, { navigation }) => {
         loading: customFieldLoading,
         getCustomFieldLoading,
         removeCustomFieldLoading,
-        currency: state.global?.currency,
+        currency: state.common?.currency,
         id,
         field,
         formValues: getFormValues(CUSTOM_FIELD_FORM)(state) || {},

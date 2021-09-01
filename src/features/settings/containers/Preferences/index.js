@@ -27,7 +27,7 @@ const mapStateToProps = state => {
 
     return {
         isLoading,
-        currencies: state.global?.currencies,
+        currencies: state.common?.currencies,
         editPreferencesLoading,
         editSettingItemLoading,
         ...commonSelector(state),

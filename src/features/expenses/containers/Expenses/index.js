@@ -10,7 +10,7 @@ import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => {
     const {
-        global: { currency },
+        common: { currency },
         expenses: { expenses }
     } = state;
 

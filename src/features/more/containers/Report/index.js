@@ -9,7 +9,7 @@ import { commonSelector } from 'stores/common/selectors';
 const mapStateToProps = (state, { navigation }) => {
     const {
         more: { loading },
-        global: { company, fiscalYear = '2-1' }
+        common: { company, fiscalYear = '2-1' }
     } = state;
 
     const type = navigation.getParam('type');

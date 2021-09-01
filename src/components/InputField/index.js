@@ -396,7 +396,7 @@ export class InputFieldComponent extends Component<IInputField> {
 }
 
 const mapStateToProps = state => ({
-    currency: state.global?.currency,
+    currency: state.common?.currency,
     ...commonSelector(state)
 });
 

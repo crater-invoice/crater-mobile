@@ -65,7 +65,7 @@ export class Report extends React.Component<IProps> {
   };
 
   saveReport = ({to_date, from_date, report_type}) => {
-    const {endpointURL} = store.getState().global;
+    const {endpointURL} = store.getState().common;
 
     const {company} = this.props;
 

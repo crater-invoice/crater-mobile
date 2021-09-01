@@ -11,7 +11,7 @@ import more from '@/features/more/reducers';
 import settings from '@/features/settings/reducers';
 import expenses from '@/features/expenses/reducers';
 import company from '@/features/common/reducers';
-import global from 'stores/common/reducer';
+import common from 'stores/common/reducer';
 import roles from 'stores/roles/reducer';
 import users from 'stores/users/reducer';
 import navigationData from '../navigation/reducers';
@@ -27,7 +27,7 @@ export default combineReducers({
   payments,
   navigationData,
   form: formReducer,
-  global,
+  common,
   settings,
   company,
   roles,

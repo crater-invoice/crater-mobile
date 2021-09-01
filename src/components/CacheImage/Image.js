@@ -11,7 +11,7 @@ import {
     Animated
 } from 'react-native';
 import CacheManager, { BASE_DIR, isImageChange } from './CacheManager';
-import { hasValue } from '@/constants/global';
+import { hasValue } from '@/constants';
 import { SCREEN_WIDTH } from '@/constants';
 import styles from './styles';
 import { CacheImageService, IS_UNDER_PROCESSING } from './ImageService';

@@ -20,7 +20,7 @@ const mapStateToProps = (state, { navigation }) => {
             units,
             loading: { itemUnitsLoading }
         },
-        global: { currency, taxTypes }
+        common: { currency, taxTypes }
     } = state;
 
     const itemId = navigation.getParam('id', {});

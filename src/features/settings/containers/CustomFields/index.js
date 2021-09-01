@@ -8,7 +8,7 @@ import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => {
     const {
-        global: { theme },
+        common: { theme },
         settings: { customFields }
     } = state;
 

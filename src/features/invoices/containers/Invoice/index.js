@@ -25,7 +25,7 @@ const getSelectedTemplate = (templates, form, isEditScreen) => {
 
 const mapStateToProps = (state, { navigation }) => {
     const {
-        global: { taxTypes, currency },
+        common: { taxTypes, currency },
         invoices: { loading, invoiceItems, invoiceData, items },
         settings: { notes, customFields }
     } = state;
