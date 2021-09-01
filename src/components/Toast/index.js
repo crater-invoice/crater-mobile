@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { styles } from './styles';
 import t from 'locales/use-translation';
 import { Text } from '../Text';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 interface IProps {
     reference: any;

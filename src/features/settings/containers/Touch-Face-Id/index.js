@@ -3,7 +3,7 @@ import { reduxForm } from 'redux-form';
 import * as action from '../../actions';
 import TouchOrFaceId from '../../components/Touch-Face-Id';
 import { TOUCH_FACE_ID_FORM } from '../../constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     biometryAuthType: state.global?.biometryAuthType,

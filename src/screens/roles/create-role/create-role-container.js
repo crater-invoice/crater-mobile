@@ -2,9 +2,9 @@ import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import {groupBy} from 'lodash';
 import CreateRole from './create-role';
-import {CREATE_ROLE_FORM} from 'modules/roles/constants';
-import {validate} from 'modules/roles/validator';
-import {commonSelector, permissionSelector} from 'modules/common/selectors';
+import {CREATE_ROLE_FORM} from 'stores/roles/types';
+import {validate} from 'stores/roles/validator';
+import {commonSelector, permissionSelector} from 'stores/common/selectors';
 
 const mapStateToProps = (state, {navigation}) => {
   const {
@@ -29,10 +29,10 @@ const CreateRoleForm = reduxForm({form: CREATE_ROLE_FORM, validate})(
   CreateRole
 );
 
-const CreateRoleContainer: any = connect(mapStateToProps)(CreateRoleForm);
+export const CreateRoleContainer: any = connect(mapStateToProps)(
+  CreateRoleForm
+);
 
 CreateRoleContainer.navigationOptions = () => ({
   header: null
 });
-
-export default CreateRoleContainer;

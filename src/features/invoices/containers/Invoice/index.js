@@ -9,7 +9,7 @@ import moment from 'moment';
 import { getCustomers } from '@/features/customers/actions';
 import { getTaxes, getNotes } from '@/features/settings/actions';
 import { isArray } from '@/constants';
-import { commonSelector, permissionSelector } from 'modules/common/selectors';
+import { commonSelector, permissionSelector } from 'stores/common/selectors';
 
 const getSelectedTemplate = (templates, form, isEditScreen) => {
     if (!isEditScreen) {

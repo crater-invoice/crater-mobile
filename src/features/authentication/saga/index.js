@@ -17,7 +17,7 @@ import { resetNavigation, ROUTES } from '@/navigation';
 import { setAccountInformation } from '../../settings/actions';
 import { alertMe, hasValue } from '@/constants';
 import { CHECK_OTA_UPDATE } from '@/constants';
-import Request from '@/api/request';
+import Request from 'utils/request';
 import { setI18nManagerValue } from '@/utils';
 import t from 'locales/use-translation';
 import { FETCH_COMPANIES_SUCCESS } from '@/features/common/constants';

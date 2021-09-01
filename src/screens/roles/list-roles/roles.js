@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import t from 'locales/use-translation';
 import {ARROW_ICON} from '@/assets';
 import {isEmpty} from '@/constants';
-import {fetchRoles} from 'modules/roles/actions';
+import {fetchRoles} from 'stores/roles/actions';
 import {IProps, IStates} from './roles-type';
 import {InfiniteScroll, ListView, MainLayout} from '@/components';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';

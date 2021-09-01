@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Customizes } from '../../components/Customizes';
 import * as customizesAction from '../../actions';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     ...state.settings.loading,

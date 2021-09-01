@@ -4,7 +4,7 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as MoreAction from '../../actions';
 import { REPORT_FORM, DATE_RANGE } from '../../constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {

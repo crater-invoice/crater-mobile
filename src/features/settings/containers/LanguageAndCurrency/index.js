@@ -4,7 +4,7 @@ import * as PreferencesAction from '../../actions';
 import { LanguageAndCurrency } from '../../components/LanguageAndCurrency';
 import { validate } from './validation';
 import { EDIT_LANGUAGE_AND_CURRENCY } from '../../constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => {
     const {

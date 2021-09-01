@@ -4,7 +4,7 @@ import { NOTIFICATION } from '../../constants';
 import * as NotificationAction from '../../actions';
 import { validate } from './validation';
 import { Notification } from '../../components/Notification';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     ...state.settings?.loading,

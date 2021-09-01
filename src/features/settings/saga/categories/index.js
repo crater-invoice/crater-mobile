@@ -15,7 +15,7 @@ import {
     REMOVE_EXPENSE_CATEGORY
 } from '../../constants';
 import { ROUTES } from '@/navigation';
-import Request from '@/api/request';
+import Request from 'utils/request';
 
 export function* getExpenseCategories({ payload }) {
     const { fresh = true, onSuccess, queryString } = payload;

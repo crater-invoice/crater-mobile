@@ -4,7 +4,7 @@ import { validate } from './validation';
 import { reduxForm } from 'redux-form';
 import * as AuthAction from '../../actions';
 import { FORGOT_PASSWORD_FORM } from '../../constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     loading: state.auth.loading.forgetPasswordLoading,

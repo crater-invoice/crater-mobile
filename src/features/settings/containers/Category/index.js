@@ -4,7 +4,7 @@ import { validate } from './validation';
 import * as actions from '../../actions';
 import { Category } from '../../components/Category';
 import { CATEGORY_FORM } from '../../constants';
-import { commonSelector, permissionSelector } from 'modules/common/selectors';
+import { commonSelector, permissionSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const loading = state.settings?.loading ?? {};

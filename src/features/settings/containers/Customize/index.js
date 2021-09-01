@@ -5,7 +5,7 @@ import { CUSTOMIZE_FORM } from '../../constants';
 import * as customizeAction from '../../actions';
 import { Customize } from '../../components/Customize';
 import { getUnitState } from '@/features/more/selectors';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {

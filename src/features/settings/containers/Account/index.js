@@ -5,7 +5,7 @@ import { EDIT_ACCOUNT } from '../../constants';
 import * as AccountAction from '../../actions';
 import { validate } from './validation';
 import { PermissionService } from '@/services';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {

@@ -3,7 +3,7 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as CustomFieldAction from '../../actions';
 import { CustomField } from '../../components/CustomField';
-import { commonSelector, permissionSelector } from 'modules/common/selectors';
+import { commonSelector, permissionSelector } from 'stores/common/selectors';
 import {
     CUSTOM_FIELD_FORM,
     CUSTOM_FIELDS as FIELDS,

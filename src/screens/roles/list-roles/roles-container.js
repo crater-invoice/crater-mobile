@@ -1,9 +1,9 @@
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import Roles from './roles';
-import {ROLES_FORM} from 'modules/roles/constants';
-import {rolesSelector} from 'modules/roles/selectors';
-import {commonSelector} from 'modules/common/selectors';
+import {ROLES_FORM} from 'stores/roles/types';
+import {rolesSelector} from 'stores/roles/selectors';
+import {commonSelector} from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
   roles: rolesSelector(state.roles?.roles),
@@ -15,10 +15,8 @@ const RolesForm = reduxForm({
   form: ROLES_FORM
 })(Roles);
 
-const RolesContainer = connect(mapStateToProps)(RolesForm);
+export const RolesContainer = connect(mapStateToProps)(RolesForm);
 
 RolesContainer.navigationOptions = () => ({
   header: null
 });
-
-export default RolesContainer;

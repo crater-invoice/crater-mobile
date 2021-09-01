@@ -7,7 +7,7 @@ import { Payment } from '../../components/Payment';
 import { getCustomers } from '@/features/customers/actions';
 import { getPaymentModes, getNotes } from '@/features/settings/actions';
 import { getPaymentMethodsState } from '../../selectors';
-import { commonSelector, permissionSelector } from 'modules/common/selectors';
+import { commonSelector, permissionSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {

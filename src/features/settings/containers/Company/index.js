@@ -6,7 +6,7 @@ import * as CompanyAction from '../../actions';
 import { validate } from './validation';
 import { getCountries } from '@/features/customers/actions';
 import { PermissionService } from '@/services';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {

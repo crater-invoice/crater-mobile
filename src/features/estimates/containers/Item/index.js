@@ -6,7 +6,7 @@ import * as EstimatesAction from '../../actions';
 import { ITEM_FORM } from '../../constants';
 import { getItemUnits, getTaxes } from '@/features/settings/actions';
 import { getUnitState } from '@/features/more/selectors';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {

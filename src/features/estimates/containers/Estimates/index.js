@@ -4,7 +4,7 @@ import { reduxForm, getFormValues } from 'redux-form';
 import * as EstimatesAction from '../../actions';
 import { ESTIMATE_SEARCH } from '../../constants';
 import { getCustomers } from '@/features/customers/actions';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 import {
     getDraftEstimatesState,
     getSentEstimatesState,

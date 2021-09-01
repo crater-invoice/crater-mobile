@@ -6,7 +6,7 @@ import { RECURRING_FORM, RECURRING_EDIT } from '../../constants';
 import moment from 'moment';
 import * as CustomersAction from '../../../customers/actions';
 import { RecurringInvoice } from '../../components/RecurringInvoice';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {

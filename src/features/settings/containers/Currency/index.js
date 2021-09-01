@@ -4,7 +4,7 @@ import { validate } from './validation';
 import * as CurrencyAction from '../../actions';
 import { CREATE_CURRENCY_TYPE, CURRENCY_FORM } from '../../constants';
 import { Currency } from '../../components/Currency';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const type = navigation.getParam('type', CREATE_CURRENCY_TYPE);

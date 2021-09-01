@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form';
 import { Login } from '../../components/Login';
 import * as action from '../../actions';
 import { LOGIN_FORM } from '../../constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => {
     const { auth, global, settings } = state;

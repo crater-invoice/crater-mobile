@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { Reports } from '../../components/Reports';
 import { reduxForm } from 'redux-form';
 import { REPORTS_SEARCH } from '../../constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     ...commonSelector(state)

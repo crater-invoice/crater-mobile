@@ -16,7 +16,7 @@ import { internalSearch as searchItem } from '@/utils';
 import { ARROW_ICON } from '@/assets';
 import { PaymentModeModal, UnitModal } from '../Modal';
 import { PermissionService } from '@/services';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 export class SelectFieldComponent extends Component<IProps, IStates> {
     scrollViewReference: any;

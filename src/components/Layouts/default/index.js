@@ -11,7 +11,7 @@ import { ARROW_ICON } from '@/assets';
 import { isIosPlatform } from '@/constants';
 import { Toast } from '@/components';
 import { STATUS_BAR_CONTENT } from '@/utils';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 type IProps = {
     children?: Object,

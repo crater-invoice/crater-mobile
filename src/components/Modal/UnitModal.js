@@ -5,7 +5,7 @@ import { InputModal } from '../InputModal';
 import { createItemUnit } from '@/features/settings/actions';
 import t from 'locales/use-translation';
 import { hasValue } from '@/constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 interface IProps {
     loading: boolean;

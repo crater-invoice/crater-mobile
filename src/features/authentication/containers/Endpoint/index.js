@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form';
 import { SET_ENDPOINT_API } from '../../constants';
 import * as AuthAction from '../../actions';
 import { validate } from './validation';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const CRATER_URL = state?.global?.endpointURL ?? '';

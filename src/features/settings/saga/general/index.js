@@ -4,7 +4,7 @@ import {
     GET_NEXT_NUMBER,
     GET_SETTING_INFO
 } from '../../constants';
-import Request from '@/api/request';
+import Request from 'utils/request';
 import { setGlobalCurrencies } from '../../actions';
 
 export function* getNextNumber({ payload: { key } }) {

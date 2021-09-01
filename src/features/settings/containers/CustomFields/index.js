@@ -4,7 +4,7 @@ import { CUSTOM_FIELDS_FORM } from '../../constants';
 import * as CustomFieldsAction from '../../actions';
 import { CustomFields } from '../../components/CustomFields';
 import { getCustomFieldsState } from '../../selectors';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => {
     const {

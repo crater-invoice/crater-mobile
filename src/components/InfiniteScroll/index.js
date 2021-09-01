@@ -15,7 +15,7 @@ import { colors } from '@/styles/colors';
 import Empty from '../Empty';
 import { Content } from '../Content';
 import { hasValue } from '@/constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 interface IProps {
     style?: StyleProp<ViewStyle>;

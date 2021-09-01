@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Modal } from '../../components/CompanyModal';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     companies: state.common?.companies ?? [],

@@ -15,14 +15,17 @@
             "@/*": [
                 "src/*"
             ],
-            "modules/*": [
-                "src/modules/*"
+            "stores/*": [
+                "src/stores/*"
             ],
             "screens/*": [
                 "src/screens/*"
             ],
             "locales/*": [
                 "src/locales/*"
+            ],
+            "utils/*": [
+                "src/utils/*"
             ]
         }
     }

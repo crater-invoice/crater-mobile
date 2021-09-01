@@ -6,7 +6,7 @@ import { IProps, IStates } from './user-type';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { styles } from './user-styles';
 import { alertMe, hasValue, KEYBOARD_TYPE } from '@/constants';
-import { USER_FORM, USER_FIELDS as FIELD } from 'modules/users/constants';
+import { USER_FORM, USER_FIELDS as FIELD } from 'stores/users/types';
 import {
     DefaultLayout,
     InputField,
@@ -22,7 +22,7 @@ import {
     updateUser,
     removeUser,
     fetchSingleUser
-} from 'modules/users/actions';
+} from 'stores/users/actions';
 import { IMAGES } from '@/assets';
 let userRefs = {};
 export default class User extends Component<IProps, IStates> {

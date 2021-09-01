@@ -3,7 +3,7 @@ import Company from '../../components/Company';
 import { reduxForm } from 'redux-form';
 import { validate } from './validation';
 import { COMPANY_FORM } from '../../constants';
-import { permissionSelector } from 'modules/common/selectors';
+import { permissionSelector } from 'stores/common/selectors';
 
 const mapStateToProps = ({ common, global }, { navigation }) => {
     const company = navigation.getParam('company', {});

@@ -3,7 +3,7 @@ import Companies from '../../components/Companies';
 import { reduxForm } from 'redux-form';
 import { COMPANIES_FORM } from '../../constants';
 import { getCompaniesState } from '../../selectors';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     companies: getCompaniesState(state.common?.companies),

@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import * as queryStrings from 'query-string';
 import t from 'locales/use-translation';
-import Request from '@/api/request';
+import Request from 'utils/request';
 import { alertMe } from '@/constants';
 import * as TYPES from '../../constants';
 import {

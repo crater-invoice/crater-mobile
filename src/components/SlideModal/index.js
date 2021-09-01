@@ -7,7 +7,7 @@ import { MainLayout, DefaultLayout } from '../Layouts';
 import { InfiniteScroll } from '../InfiniteScroll';
 import { ScrollView } from '../ScrollView';
 import { isAndroidPlatform } from '@/constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 type IProps = {
     visible: Boolean,

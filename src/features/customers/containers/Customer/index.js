@@ -4,7 +4,7 @@ import { validate } from './validation';
 import * as actions from '../../actions';
 import { Customer } from '../../components/Customer';
 import { getStateCurrencies } from '../../selectors';
-import { commonSelector, permissionSelector } from 'modules/common/selectors';
+import { commonSelector, permissionSelector } from 'stores/common/selectors';
 import { CUSTOMER_FORM, CUSTOMER_FIELDS as FIELDS } from '../../constants';
 
 const mapStateToProps = (state, { navigation }) => {

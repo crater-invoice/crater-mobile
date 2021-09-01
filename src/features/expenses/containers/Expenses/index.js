@@ -6,7 +6,7 @@ import { Expenses } from '../../components/Expenses';
 import { EXPENSE_SEARCH } from '../../constants';
 import { getExpensesState, getCategoriesState } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => {
     const {

@@ -1,6 +1,6 @@
 import {find} from 'lodash';
-import * as types from './constants';
-import {getModalName} from './constants';
+import * as types from './types';
+import {getModalName} from './helpers';
 import {hasValue} from '@/constants';
 
 const initialState = {

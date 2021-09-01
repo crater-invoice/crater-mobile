@@ -5,7 +5,7 @@ import { NOTE_FORM, NOTES_TYPE_VALUE } from '../../constants';
 import * as noteAction from '../../actions';
 import { validate } from './validations';
 import { hasValue } from '@/constants';
-import { commonSelector, permissionSelector } from 'modules/common/selectors';
+import { commonSelector, permissionSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const noteDetail = navigation.getParam('note', {});

@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import * as types from './constants';
+import * as types from './types';
 import * as req from './service';
 import { spinner } from './actions';
 import { hasTextLength } from '@/constants';

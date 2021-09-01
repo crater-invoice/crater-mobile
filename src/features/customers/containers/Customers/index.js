@@ -3,7 +3,7 @@ import { Customers } from '../../components/Customers';
 import * as CustomersAction from '../../actions';
 import { reduxForm, getFormValues } from 'redux-form';
 import { CUSTOMER_SEARCH } from '../../constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     customers: state.customers?.customers,

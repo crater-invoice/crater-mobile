@@ -5,7 +5,7 @@ import { validate } from './validation';
 import * as MoreAction from '../../actions';
 import { ITEM_FORM } from '../../constants';
 import { getUnitState } from '../../selectors';
-import { commonSelector, permissionSelector } from 'modules/common/selectors';
+import { commonSelector, permissionSelector } from 'stores/common/selectors';
 import {
     getItemUnits,
     getSettingInfo,

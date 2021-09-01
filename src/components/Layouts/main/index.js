@@ -15,7 +15,7 @@ import { AssetIcon } from '@/components/AssetIcon';
 import { Filter } from '@/components/Filter';
 import CompanyModal from '@/features/common/containers/CompanyModal';
 import { isIPhoneX } from '@/constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 interface IProps {
     children: any;

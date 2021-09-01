@@ -9,7 +9,7 @@ import { Text } from '../Text';
 import { LOGO } from '@/assets';
 import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 export class UpdateAppVersion extends Component {
     constructor(props) {

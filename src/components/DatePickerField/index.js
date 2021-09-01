@@ -8,7 +8,7 @@ import moment from 'moment';
 import { FakeInput } from '../FakeInput';
 import { connect } from 'react-redux';
 import { DATE_FORMAT, isIosPlatform, majorVersionIOS } from '@/constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 type IProps = {
     label: String,

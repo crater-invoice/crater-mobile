@@ -3,7 +3,7 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { CURRENCIES_FORM } from '../../constants';
 import { Currencies } from '../../components/Currencies';
 import * as CurrenciesAction from '../../actions';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     globalCurrencies: state.global?.currencies,

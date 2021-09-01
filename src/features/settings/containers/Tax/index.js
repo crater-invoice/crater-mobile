@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form';
 import * as TaxAction from '../../actions';
 import { validate } from './validation';
 import { TAX_FORM } from '../../constants';
-import { commonSelector, permissionSelector } from 'modules/common/selectors';
+import { commonSelector, permissionSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const { settings } = state;

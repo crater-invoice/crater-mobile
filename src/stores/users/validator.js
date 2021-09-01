@@ -1,5 +1,5 @@
 import { getError } from '@/constants';
-import { USER_FIELDS as FIELDS } from './constants';
+import { USER_FIELDS as FIELDS } from './types';
 
 export const validateUser = (values,{type}) => {    
     const errors: any = { user: {} };

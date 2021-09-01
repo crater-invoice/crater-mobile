@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { ROUTES } from '@/navigation';
-import Request from '@/api/request';
+import Request from 'utils/request';
 import { moreTriggerSpinner, setItems, setItem, deleteItem } from '../actions';
 import * as queryStrings from 'query-string';
 import { getItemUnits } from '@/features/settings/saga/units';

@@ -4,7 +4,7 @@ import { EDIT_PREFERENCES } from '../../constants';
 import * as PreferencesAction from '../../actions';
 import { validate } from './validation';
 import { Preferences } from '../../components/Preferences';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => {
     const {

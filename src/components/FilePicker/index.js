@@ -20,7 +20,7 @@ import { styles } from './styles';
 import { Text } from '../Text';
 import { CacheImage } from '../CacheImage';
 import { Label } from '../Label';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 interface IProps {
     label: String;

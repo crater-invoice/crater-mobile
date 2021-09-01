@@ -3,7 +3,7 @@ import * as CategoriesAction from '../../actions';
 import { reduxForm } from 'redux-form';
 import { Categories } from '../../components/Categories';
 import { CATEGORY_SEARCH } from '../../constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     categories: state.settings?.categories,

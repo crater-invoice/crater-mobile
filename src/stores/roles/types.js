@@ -22,6 +22,3 @@ export const REMOVE_ROLE = 'roles/REMOVE_ROLE';
 export const REMOVE_ROLE_SUCCESS = 'roles/REMOVE_ROLE_SUCCESS';
 
 export const UPDATE_PERMISSION = 'roles/UPDATE_PERMISSION';
-
-export const getModalName = model =>
-  model.substring(model.lastIndexOf('\\') + 1);

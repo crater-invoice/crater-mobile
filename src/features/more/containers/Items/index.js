@@ -5,7 +5,7 @@ import { Items } from '../../components/Items';
 import { ITEM_SEARCH } from '../../constants';
 import { getItemUnits } from '@/features/settings/actions';
 import { getUnitState } from '../../selectors';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     items: state.more?.items,

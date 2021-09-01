@@ -1,4 +1,4 @@
-import Request from '@/api/request';
+import Request from 'utils/request';
 
 /**
  * Fetch roles

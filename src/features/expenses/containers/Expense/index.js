@@ -6,7 +6,7 @@ import * as actions from '../../actions';
 import { getExpenseCategories } from '@/features/settings/actions';
 import { getCategoriesState } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
-import { commonSelector, permissionSelector } from 'modules/common/selectors';
+import { commonSelector, permissionSelector } from 'stores/common/selectors';
 import { EXPENSE_FORM, EXPENSE_FIELDS as FIELDS } from '../../constants';
 
 const mapStateToProps = (state, { navigation }) => {

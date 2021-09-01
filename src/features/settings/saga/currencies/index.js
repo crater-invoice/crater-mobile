@@ -14,7 +14,7 @@ import {
 } from '../../constants';
 import t from 'locales/use-translation';
 import { ROUTES } from '@/navigation';
-import Request from '@/api/request';
+import Request from 'utils/request';
 import { alertMe, hasValue } from '@/constants';
 
 const alreadyInUse = error => {

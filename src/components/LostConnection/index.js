@@ -9,7 +9,7 @@ import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { IMAGES } from '@/assets';
 import { Text } from '../Text';
 import { styles, Container } from './styles';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 export class LostConnection extends Component {
     constructor(props) {

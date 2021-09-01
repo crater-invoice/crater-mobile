@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { I18nManager } from 'react-native';
 import * as Updates from 'expo-updates';
-import Request from '@/api/request';
+import Request from 'utils/request';
 import {
     settingsTriggerSpinner as spinner,
     setPreferences,

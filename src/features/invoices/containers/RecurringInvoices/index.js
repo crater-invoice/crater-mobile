@@ -4,7 +4,7 @@ import * as InvoicesAction from '../../actions';
 import { RECURRING_INVOICES_FORM } from '../../constants';
 import { RecurringInvoices } from '../../components/RecurringInvoices';
 import { getCustomers } from '@/features/customers/actions';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 import {
     getDueInvoicesState,
     getDraftInvoicesState,

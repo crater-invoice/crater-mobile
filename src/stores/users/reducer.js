@@ -1,5 +1,5 @@
 import { find } from 'lodash';
-import * as types from './constants';
+import * as types from './types';
 
 const initialState = {
     users: [],

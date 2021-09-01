@@ -4,7 +4,7 @@ import { reduxForm, getFormValues } from 'redux-form';
 import * as InvoicesAction from '../../actions';
 import { INVOICE_SEARCH } from '../../constants';
 import { getCustomers } from '../../../customers/actions';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 import {
     getDueInvoicesState,
     getDraftInvoicesState,

@@ -6,7 +6,7 @@ import { PAYMENT_SEARCH } from '../../constants';
 import { getPaymentsState, getPaymentMethodsState } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
 import { getPaymentModes } from '@/features/settings/actions';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     payments: getPaymentsState(state.payments?.payments),

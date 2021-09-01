@@ -5,7 +5,7 @@ import t from 'locales/use-translation';
 import {IProps, IStates} from './create-role-type';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
 import {alertMe, hasValue} from '@/constants';
-import {CREATE_ROLE_FORM} from 'modules/roles/constants';
+import {CREATE_ROLE_FORM} from 'stores/roles/types';
 import {
   DefaultLayout,
   InputField,
@@ -22,7 +22,7 @@ import {
   removeRole,
   updatePermission,
   fetchSingleRole
-} from 'modules/roles/actions';
+} from 'stores/roles/actions';
 
 export default class CreateRole extends Component<IProps, IStates> {
   constructor(props) {

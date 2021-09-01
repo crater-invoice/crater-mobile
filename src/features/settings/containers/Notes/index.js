@@ -3,7 +3,7 @@ import { reduxForm } from 'redux-form';
 import * as notesAction from '../../actions';
 import Notes from '../../components/Notes';
 import { NOTES_SEARCH } from '../../constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     notes: state.settings?.notes,

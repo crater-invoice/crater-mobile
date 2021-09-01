@@ -12,7 +12,7 @@ import { InputField } from '../InputField';
 import { AssetIcon } from '../AssetIcon';
 import { Text } from '../Text';
 import { Label } from '../Label';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 type IProps = {
     label: String,

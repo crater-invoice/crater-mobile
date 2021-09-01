@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { AssetImage } from '../AssetImage';
 import { BUTTON_COLOR, BUTTON_TYPE, isAndroidPlatform } from '@/constants';
 import { AssetIcon } from '../AssetIcon';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 type IProps = {
     children?: any,

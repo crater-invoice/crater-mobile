@@ -12,7 +12,7 @@ import { isRTL } from '@/utils';
 import { Text } from '../Text';
 import AssetSvg from '../AssetSvg';
 import { AssetImage } from '../AssetImage';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 type IProps = {
     hasAvatar: Boolean,

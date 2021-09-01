@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import Request from '@/api/request';
+import Request from 'utils/request';
 import { hasValue } from '@/constants';
 import t from 'locales/use-translation';
 import {

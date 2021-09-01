@@ -7,7 +7,7 @@ import {
     removeFromCustomFields
 } from '../../actions';
 import * as queryStrings from 'query-string';
-import Request from '@/api/request';
+import Request from 'utils/request';
 import { alertMe } from '@/constants';
 import { ROUTES } from '@/navigation';
 import t from 'locales/use-translation';

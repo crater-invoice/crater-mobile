@@ -13,7 +13,7 @@ import t from 'locales/use-translation';
 import { hasTextLength, hasValue } from '@/constants';
 import { Text } from '../Text';
 import { Label } from '../Label';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 export class InputFieldComponent extends Component<IInputField> {
     constructor(props) {

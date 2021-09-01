@@ -10,7 +10,7 @@ import FakeInputStyle from '../FakeInput/styles';
 import { AssetIcon } from '../AssetIcon';
 import { colors } from '@/styles';
 import { isAndroidPlatform, isIosPlatform } from '@/constants';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 
 type IProps = {
     hint: string,

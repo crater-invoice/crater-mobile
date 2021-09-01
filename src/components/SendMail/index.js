@@ -18,7 +18,7 @@ import t from 'locales/use-translation';
 import { Content } from '../Content';
 import { Editor } from '../Editor';
 import { getMailConfiguration } from '../../features/more/actions';
-import { commonSelector } from 'modules/common/selectors';
+import { commonSelector } from 'stores/common/selectors';
 import {
     alertMe,
     EMAIL_REGEX,
