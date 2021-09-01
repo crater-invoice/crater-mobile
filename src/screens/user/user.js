@@ -110,7 +110,7 @@ export default class User extends Component<IProps, IStates> {
 
     navigateToRole = () => {
         const { navigation } = this.props;
-        navigation.navigate(ROUTES.ROLE, {
+        navigation.navigate(ROUTES.CREATE_ROLE, {
             type: 'ADD',
             onSelect: item => {
                 this.setFormField(`user.${FIELD.ROLE}`, item.name);
@@ -250,7 +250,7 @@ export default class User extends Component<IProps, IStates> {
                     component={SelectField}
                     label={t('users.role')}
                     icon={'align-center'}
-                    createActionRouteName={ROUTES.ROLE}
+                    createActionRouteName={ROUTES.CREATE_ROLE}
                     rightIconPress={this.navigateToRole}
                     placeholder={
                         formValues?.user?.role ?? t('users.rolePlaceholder')

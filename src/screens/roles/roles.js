@@ -45,10 +45,11 @@ export default class Roles extends Component<IProps, IStates> {
 
   onSelect = role => {
     const {navigation} = this.props;
-    navigation.navigate(ROUTES.ROLE, {role, type: 'UPDATE'});
+    navigation.navigate(ROUTES.CREATE_ROLE, {role, type: 'UPDATE'});
   };
 
-  addNewRole = () => this.props.navigation.navigate(ROUTES.ROLE, {type: 'ADD'});
+  addNewRole = () =>
+    this.props.navigation.navigate(ROUTES.CREATE_ROLE, {type: 'ADD'});
 
   render() {
     const {navigation, dispatch, roles} = this.props;

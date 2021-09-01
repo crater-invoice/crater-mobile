@@ -1,6 +1,6 @@
 import {getError} from '@/constants';
 
-export const validateRole = values => {
+export const validate = values => {
   const errors: any = {};
   const {name} = values;
 

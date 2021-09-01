@@ -23,7 +23,7 @@ import NoteContainer from '@/features/settings/containers/Note';
 import TouchOrFaceIdContainer from '@/features/settings/containers/Touch-Face-Id';
 
 import Roles from 'screens/roles';
-import Role from 'screens/role';
+import CreateRole from 'screens/create-role';
 
 export const SettingNavigator = {
   // Settings
@@ -129,5 +129,5 @@ export const SettingNavigator = {
   ),
 
   [ROUTES.ROLES]: generateStackNavigation(ROUTES.ROLES, Roles),
-  [ROUTES.ROLE]: generateStackNavigation(ROUTES.ROLE, Role)
+  [ROUTES.CREATE_ROLE]: generateStackNavigation(ROUTES.CREATE_ROLE, CreateRole)
 };
