@@ -15,7 +15,7 @@ function* fetchCompaniesSaga(payloadData) {
             path: `companies/get`
         });
 
-        let companies = response?.companies ?? [];
+        let companies = response?.data ?? [];
 
         if (hasTextLength(queryString?.search)) {
             const { search } = queryString;
@@ -67,14 +67,14 @@ function* addCompanySaga(payloadData) {
 
         const response = yield call([Request, 'post'], options);
 
-        yield call(uploadCompanyLogo, { logo, id: response?.company?.id });
+        yield call(uploadCompanyLogo, { logo, id: response?.data?.id });
 
         yield put({
             type: Actions.ADD_COMPANY_SUCCESS,
-            payload: response?.company
+            payload: response?.data
         });
 
-        onSuccess?.(response?.company);
+        onSuccess?.(response?.data);
     } catch (e) {
     } finally {
         yield put(spinner({ companyLoading: false }));
@@ -137,7 +137,7 @@ function* removeCompanySaga(payloadData) {
     }
 }
 
-export default function* commonSaga() {
+export default function* companySaga() {
     yield takeLatest(Actions.FETCH_COMPANIES, fetchCompaniesSaga);
     yield takeLatest(Actions.ADD_COMPANY, addCompanySaga);
     yield takeLatest(Actions.UPDATE_COMPANY, updateCompanySaga);

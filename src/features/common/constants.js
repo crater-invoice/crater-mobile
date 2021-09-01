@@ -10,7 +10,7 @@ export const UPDATE_COMPANY_SUCCESS = 'companies/UPDATE_COMPANY_SUCCESS';
 export const REMOVE_COMPANY = 'companies/REMOVE_COMPANY';
 export const REMOVE_COMPANY_SUCCESS = 'companies/REMOVE_COMPANY_SUCCESS';
 
-export const SPINNER = 'common/COMMON_TRIGGER_SPINNER';
+export const SPINNER = 'company/COMPANY_TRIGGER_SPINNER';
 
 export const COMPANIES_FORM = 'companies/COMPANIES_FORM';
 export const COMPANY_FORM = 'companies/COMPANY_FORM';

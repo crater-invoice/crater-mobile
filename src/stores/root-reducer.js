@@ -10,7 +10,7 @@ import payments from '@/features/payments/reducers';
 import more from '@/features/more/reducers';
 import settings from '@/features/settings/reducers';
 import expenses from '@/features/expenses/reducers';
-import common from '@/features/common/reducers';
+import company from '@/features/common/reducers';
 import global from 'stores/common/reducer';
 import roles from 'stores/roles/reducer';
 import users from 'stores/users/reducer';
@@ -29,7 +29,7 @@ export default combineReducers({
   form: formReducer,
   global,
   settings,
-  common,
+  company,
   roles,
   users,
   nav: createNavigationReducer(Navigator)

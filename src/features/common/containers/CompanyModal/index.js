@@ -3,7 +3,7 @@ import { Modal } from '../../components/CompanyModal';
 import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
-    companies: state.common?.companies ?? [],
+    companies: state.company?.companies ?? [],
     company: state.global?.company,
     ...commonSelector(state)
 });

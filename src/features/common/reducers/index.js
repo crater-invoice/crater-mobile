@@ -5,7 +5,7 @@ const initialState = {
     loading: {}
 };
 
-export default function commonReducer(state = initialState, action) {
+export default function companyReducer(state = initialState, action) {
     const { payload, type } = action;
 
     switch (type) {

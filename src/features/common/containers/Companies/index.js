@@ -6,8 +6,8 @@ import { getCompaniesState } from '../../selectors';
 import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
-    companies: getCompaniesState(state.common?.companies),
-    ...state.common.loading,
+    companies: getCompaniesState(state.company?.companies),
+    ...state.company.loading,
     ...commonSelector(state)
 });
 
