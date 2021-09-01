@@ -1,4 +1,5 @@
 import * as types from './types';
+import {isEmpty} from '@/constants';
 
 const initialState = {
   users: [],
@@ -31,6 +32,10 @@ export default function usersReducer(state = initialState, action) {
     case types.UPDATE_USER_SUCCESS:
       const userData = payload;
       const userList = [];
+
+      if (isEmpty(state.users)) {
+        return state;
+      }
 
       state.users.map(user => {
         const {id} = user;
