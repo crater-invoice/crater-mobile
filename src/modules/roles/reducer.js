@@ -9,19 +9,6 @@ const initialState = {
   loading: {}
 };
 
-const formatRoles = roles => {
-    if (!isArray(roles)) {
-        return [];
-    }
-
-    return roles.map(role => {
-        return {
-            ...role,
-            fullItem: role
-        };
-    });
-};
-
 export default function rolesReducer(state = initialState, action) {
   const {payload, type} = action;
 
@@ -33,8 +20,11 @@ export default function rolesReducer(state = initialState, action) {
       };
 
     case types.FETCH_ROLES_SUCCESS:
-      const roleList = formatRoles(payload);
-      return {...state, roles: roleList};
+      const roleList = payload.map(role => ({
+        ...role,
+        fullItem: role
+      }));
+      return {...state, roles: [...state.roles, ...roleList]};
 
     case types.FETCH_PERMISSIONS_SUCCESS:
       const permissions = payload.map(p => ({

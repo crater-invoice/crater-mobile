@@ -12,7 +12,7 @@ import {internalSearch} from '@/utils';
 function* fetchRoles({payload}) {
   try {
     const {onSuccess, queryString} = payload;
-    const response = yield call(req.fetchRoles);
+    const response = yield call(req.fetchRoles, queryString);
     let roles = response?.data ?? [];
 
     if (hasTextLength(queryString?.search)) {
@@ -45,7 +45,7 @@ function* fetchSingleRole({payload}) {
         currentPermissions: response?.abilities ?? []
       }
     });
-    onSuccess?.(response);
+    onSuccess?.(response?.data);
   } catch (e) {}
 }
 
