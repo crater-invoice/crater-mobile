@@ -1,45 +1,60 @@
-import { find } from 'lodash';
+import {find} from 'lodash';
 import * as types from './types';
 
 const initialState = {
-    users: [],
-    loading: {}
+  users: [],
+  loading: {}
 };
 
 export default function usersReducer(state = initialState, action) {
-    const { payload, type } = action;
+  const {payload, type} = action;
 
-    switch (type) {
-        case types.SPINNER:
-            return {
-                ...state,
-                loading: { ...state.loading, ...payload }
+  switch (type) {
+    case types.SPINNER:
+      return {
+        ...state,
+        loading: {...state.loading, ...payload}
+      };
+
+    case types.FETCH_USERS_SUCCESS:
+      return {...state, users: [...state.users, ...payload]};
+
+    case types.ADD_USER_SUCCESS:
+      return {
+        ...state,
+        users: [...[payload], ...state.users]
+      };
+
+    case types.UPDATE_USER_SUCCESS:
+      const userData = payload;
+      const userList = [];
+
+      if (state.users) {
+        state.users.map(user => {
+          const {id} = user;
+          let value = user;
+
+          if (id === userData.id) {
+            value = {
+              ...userData
             };
+          }
+          userList.push(value);
+        });
+      }
 
-        case types.FETCH_USERS_SUCCESS:
-            return { ...state, users: payload };
+      return {
+        ...state,
+        users: userList
+      };
 
-        case types.ADD_USER_SUCCESS:
-            return {
-                ...state,
-                users: [...[payload], ...state.users]
-            };
+    case types.REMOVE_USER_SUCCESS:
+      return {
+        ...state,
+        users: state.users.filter(({id}) => id !== payload)
+      };
 
-        case types.UPDATE_USER_SUCCESS:
-            const filteredUpdatedUsers = state.users;
-            pos = filteredUpdatedUsers.findIndex(
-                user => user.id === payload.id
-            );
-            filteredUpdatedUsers[pos] = payload;
-            return { ...state, users: filteredUpdatedUsers };
-
-        case types.REMOVE_USER_SUCCESS:
-            return {
-                ...state,
-                users: state.users.filter(({ id }) => id !== payload)
-            };
-
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 }

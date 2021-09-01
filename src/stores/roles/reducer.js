@@ -24,7 +24,7 @@ export default function rolesReducer(state = initialState, action) {
         ...role,
         fullItem: role
       }));
-      return {...state, roles: roleList};
+      return {...state, roles: [...state.roles, ...roleList]};
 
     case types.FETCH_PERMISSIONS_SUCCESS:
       const permissions = payload.map(p => ({

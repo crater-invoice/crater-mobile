@@ -67,7 +67,7 @@ export const ROUTES = {
   ROLES: 'ROLES',
   CREATE_ROLE: 'CREATE_ROLE',
   USERS: 'USERS',
-  USER: 'USER',
+  CREATE_USER: 'CREATE_USER',
 
   // Expenses
   ADD_EXPENSE: 'ADD_EXPENSE',

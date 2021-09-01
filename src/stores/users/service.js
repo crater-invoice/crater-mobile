@@ -1,11 +1,11 @@
-import Request from 'utils/request';
-
+import Request from '@/utils/request';
+import * as queryStrings from 'query-string';
 /**
  * Fetch users
  * @returns {*}
  */
-export const fetchUsers = () => {
-    return Request.get({ path: `users` });
+export const fetchUsers = queryString => {
+  return Request.get({path: `users?${queryStrings.stringify(queryString)}`});
 };
 
 /**
@@ -14,7 +14,7 @@ export const fetchUsers = () => {
  * @returns {*}
  */
 export const fetchSingleUser = id => {
-    return Request.get({ path: `users/${id}` });
+  return Request.get({path: `users/${id}`});
 };
 
 /**
@@ -23,7 +23,7 @@ export const fetchSingleUser = id => {
  * @returns {*}
  */
 export const addUser = body => {
-    return Request.post({ path: `users`, body });
+  return Request.post({path: `users`, body});
 };
 
 /**
@@ -33,7 +33,7 @@ export const addUser = body => {
  * @returns {*}
  */
 export const updateUser = (id, body) => {
-    return Request.put({ path: `users/${id}`, body });
+  return Request.put({path: `users/${id}`, body});
 };
 
 /**
@@ -42,5 +42,5 @@ export const updateUser = (id, body) => {
  * @returns {*}
  */
 export const removeUser = body => {
-    return Request.post({ path: `users/delete`, body });
+  return Request.post({path: `users/delete`, body});
 };

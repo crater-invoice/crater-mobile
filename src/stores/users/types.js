@@ -1,7 +1,7 @@
 export const SPINNER = 'users/SPINNER';
 
 export const USERS_FORM = 'users/USERS_FORM';
-export const USER_FORM = 'users/USER_FORM';
+export const USER_CREATE_FORM = 'users/USER_CREATE_FORM';
 
 export const FETCH_USERS = 'users/FETCH_USERS';
 export const FETCH_USERS_SUCCESS = 'users/FETCH_USERS_SUCCESS';
@@ -17,13 +17,3 @@ export const UPDATE_USER_SUCCESS = 'users/UPDATE_USER_SUCCESS';
 
 export const REMOVE_USER = 'users/REMOVE_USER';
 export const REMOVE_USER_SUCCESS = 'users/REMOVE_USER_SUCCESS';
-
-// Customer Fields
-// -----------------------------------------
-export const USER_FIELDS = {
-    NAME: `name`,
-    EMAIL: `email`,
-    PASSWORD: `password`,
-    PHONE: `phone`,
-    ROLE: `role`
-};
