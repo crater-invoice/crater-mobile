@@ -1,19 +1,15 @@
 import React, {Component} from 'react';
 import {Field, change, initialize, SubmissionError} from 'redux-form';
-import {pick, find, values} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-user-type';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
-import {alertMe, hasValue, KEYBOARD_TYPE} from '@/constants';
-import {USER_CREATE_FORM} from '../../../stores/users/types';
+import {alertMe, KEYBOARD_TYPE} from '@/constants';
+import {CREATE_USER_FORM} from 'stores/users/types';
+import {IMAGES} from '@/assets';
 import {
   DefaultLayout,
   InputField,
   ActionButton,
-  View,
-  Text,
-  CheckBox,
-  Label,
   SelectField
 } from '@/components';
 import {
@@ -21,9 +17,10 @@ import {
   updateUser,
   removeUser,
   fetchSingleUser
-} from '../../../stores/users/actions';
-import {IMAGES} from '@/assets';
+} from 'stores/users/actions';
+
 let userRefs = {};
+
 export default class CreateUser extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
@@ -53,25 +50,23 @@ export default class CreateUser extends Component<IProps, IStates> {
 
   throwError = errors => {
     let error = {};
-
     errors.email && (error.email = 'validation.alreadyTaken');
     errors.phone && (error.phone = 'validation.alreadyTaken');
-
     throw new SubmissionError(error);
   };
 
   setInitialData = user => {
     const {dispatch} = this.props;
-    dispatch(initialize(USER_CREATE_FORM, user));
+    dispatch(initialize(CREATE_USER_FORM, user));
   };
 
-  onSave = params => {
+  onSave = values => {
     const {
       isCreateScreen,
-      dispatch,
       navigation,
       loading,
       userId,
+      dispatch,
       handleSubmit
     } = this.props;
 
@@ -79,24 +74,14 @@ export default class CreateUser extends Component<IProps, IStates> {
       return;
     }
 
-    isCreateScreen
-      ? dispatch(
-          addUser({
-            params,
-            navigation,
-            submissionError: errors =>
-              handleSubmit(() => this.throwError(errors))()
-          })
-        )
-      : dispatch(
-          updateUser({
-            params,
-            userId,
-            navigation,
-            submissionError: errors =>
-              handleSubmit(() => this.throwError(errors))()
-          })
-        );
+    const params = {
+      params: values,
+      navigation,
+      userId,
+      submissionError: errors => handleSubmit(() => this.throwError(errors))()
+    };
+
+    isCreateScreen ? dispatch(addUser(params)) : dispatch(updateUser(params));
   };
 
   removeUser = () => {
@@ -129,12 +114,12 @@ export default class CreateUser extends Component<IProps, IStates> {
 
   setFormField = (field, value) => {
     const {dispatch} = this.props;
-    dispatch(change(USER_CREATE_FORM, field, value));
+    dispatch(change(CREATE_USER_FORM, field, value));
   };
 
   navigateToRole = () => {
     const {navigation} = this.props;
-    navigation.navigate(ROUTES.ROLE, {
+    navigation.navigate(ROUTES.CREATE_ROLE, {
       type: 'ADD',
       onSelect: item => {
         this.setFormField(`role`, item.name);
@@ -234,16 +219,12 @@ export default class CreateUser extends Component<IProps, IStates> {
             returnKeyType: 'next',
             autoCapitalize: 'none',
             autoCorrect: true,
-            onSubmitEditing: () => {
-              userRefs.phone.focus();
-            }
+            onSubmitEditing: () => userRefs.phone.focus()
           }}
           secureTextEntry
           secureTextIconContainerStyle={{top: 6}}
           disabled={disabled}
-          refLinkFn={ref => {
-            userRefs.password = ref;
-          }}
+          refLinkFn={ref => (userRefs.password = ref)}
           isRequired={!isEditScreen}
           minCharacter={8}
         />
@@ -279,9 +260,7 @@ export default class CreateUser extends Component<IProps, IStates> {
           placeholder={formValues?.role ?? t('users.rolePlaceholder')}
           navigation={navigation}
           compareField="id"
-          onSelect={item => {
-            this.setFormField(`role`, item.name);
-          }}
+          onSelect={item => this.setFormField(`role`, item.name)}
           headerProps={{
             title: t('users.roles')
           }}

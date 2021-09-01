@@ -20,10 +20,15 @@ export default function rolesReducer(state = initialState, action) {
       };
 
     case types.FETCH_ROLES_SUCCESS:
-      const roleList = payload.map(role => ({
+      const roleList = payload.roles.map(role => ({
         ...role,
         fullItem: role
       }));
+
+      if (payload.fresh) {
+        return {...state, roles: roleList};
+      }
+
       return {...state, roles: [...state.roles, ...roleList]};
 
     case types.FETCH_PERMISSIONS_SUCCESS:
@@ -60,6 +65,11 @@ export default function rolesReducer(state = initialState, action) {
             model,
             ability: 'view'
           });
+
+          if (!viewAbility) {
+            return;
+          }
+
           let pos = filteredCreatedPermissions.findIndex(
             p => p.name === viewAbility.name
           );

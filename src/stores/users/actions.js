@@ -6,11 +6,10 @@ import * as types from './types';
  * @returns {{type: string, payload: *}}
  */
 export function spinner(payload) {
-    return {
-        type: types.SPINNER,
-        payload:
-            typeof payload === 'object' ? payload : { userLoading: payload }
-    };
+  return {
+    type: types.SPINNER,
+    payload: typeof payload === 'object' ? payload : {userLoading: payload}
+  };
 }
 
 /**
@@ -19,10 +18,10 @@ export function spinner(payload) {
  * @returns {{type: string, payload: *}}
  */
 export function fetchUsers(payload = {}) {
-    return {
-        type: types.FETCH_USERS,
-        payload
-    };
+  return {
+    type: types.FETCH_USERS,
+    payload
+  };
 }
 
 /**
@@ -31,10 +30,10 @@ export function fetchUsers(payload = {}) {
  * @returns {{type: string, payload: *}}
  */
 export function fetchSingleUser(payload = {}) {
-    return {
-        type: types.FETCH_SINGLE_USER,
-        payload
-    };
+  return {
+    type: types.FETCH_SINGLE_USER,
+    payload
+  };
 }
 
 /**
@@ -43,10 +42,10 @@ export function fetchSingleUser(payload = {}) {
  * @returns {{type: string, payload: *}}
  */
 export function addUser(payload = {}) {
-    return {
-        type: types.ADD_USER,
-        payload
-    };
+  return {
+    type: types.ADD_USER,
+    payload
+  };
 }
 
 /**
@@ -55,10 +54,10 @@ export function addUser(payload = {}) {
  * @returns {{type: string, payload: *}}
  */
 export function updateUser(payload = {}) {
-    return {
-        type: types.UPDATE_USER,
-        payload
-    };
+  return {
+    type: types.UPDATE_USER,
+    payload
+  };
 }
 
 /**
@@ -67,8 +66,8 @@ export function updateUser(payload = {}) {
  * @returns {{type: string, payload: *}}
  */
 export function removeUser(payload = {}) {
-    return {
-        type: types.REMOVE_USER,
-        payload
-    };
+  return {
+    type: types.REMOVE_USER,
+    payload
+  };
 }

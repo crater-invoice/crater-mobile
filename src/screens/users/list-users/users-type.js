@@ -1,10 +1,26 @@
+import {INavigation} from '@/interfaces';
+
 export interface IProps {
-    navigation: any;
-    locale: string;
-    users: Array<any>;
-    dispatch(fun: object): any;
+  /**
+   * A navigator is an object of navigation functions that a view can call.
+   * @see INavigation
+   */
+  navigation: INavigation;
+
+  /**
+   * An array of objects with data for each user.
+   */
+  users: Array<any>;
+
+  /**
+   * dispatch change action.
+   */
+  dispatch: (fun: object) => void;
 }
 
 export interface IStates {
-    search: string;
+  /**
+   * Search roles in list data.
+   */
+  search: string;
 }

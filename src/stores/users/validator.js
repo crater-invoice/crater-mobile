@@ -1,7 +1,7 @@
 import {getError} from '@/constants';
 
-export const validateUser = (values, {type}) => {
-  const errors: any = {user: {}};
+export const validate = (values, {type}) => {
+  const errors: any = {};
   errors.name = getError(values?.name, ['required']);
   errors.email = getError(values?.email, ['required', 'emailFormat']);
   errors.password = getError(

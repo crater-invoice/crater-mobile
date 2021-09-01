@@ -1,4 +1,3 @@
-import {find} from 'lodash';
 import * as types from './types';
 
 const initialState = {
@@ -17,7 +16,11 @@ export default function usersReducer(state = initialState, action) {
       };
 
     case types.FETCH_USERS_SUCCESS:
-      return {...state, users: [...state.users, ...payload]};
+      if (payload.fresh) {
+        return {...state, users: payload.users};
+      }
+
+      return {...state, users: [...state.users, ...payload.users]};
 
     case types.ADD_USER_SUCCESS:
       return {
@@ -29,24 +32,17 @@ export default function usersReducer(state = initialState, action) {
       const userData = payload;
       const userList = [];
 
-      if (state.users) {
-        state.users.map(user => {
-          const {id} = user;
-          let value = user;
+      state.users.map(user => {
+        const {id} = user;
+        let value = user;
 
-          if (id === userData.id) {
-            value = {
-              ...userData
-            };
-          }
-          userList.push(value);
-        });
-      }
+        if (id === userData.id) {
+          value = userData;
+        }
+        userList.push(value);
+      });
 
-      return {
-        ...state,
-        users: userList
-      };
+      return {...state, users: userList};
 
     case types.REMOVE_USER_SUCCESS:
       return {

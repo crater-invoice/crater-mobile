@@ -173,7 +173,7 @@ class Service {
         return 'role';
 
       case ROUTES.USERS:
-      case ROUTES.USER:
+      case ROUTES.CREATE_USER:
         return 'user';
 
       default:

@@ -2,8 +2,6 @@ import {call, put, takeLatest} from 'redux-saga/effects';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
-import {hasTextLength} from '@/constants';
-import {internalSearch} from '@/utils';
 
 /**
  * Fetch roles saga
@@ -11,20 +9,10 @@ import {internalSearch} from '@/utils';
  */
 function* fetchRoles({payload}) {
   try {
-    const {onSuccess, queryString} = payload;
+    const {fresh = true, onSuccess, queryString} = payload;
     const response = yield call(req.fetchRoles, queryString);
-    let roles = response?.data ?? [];
-
-    if (hasTextLength(queryString?.search)) {
-      const {search} = queryString;
-      roles = internalSearch({
-        items: roles,
-        search,
-        searchFields: ['title']
-      });
-    }
-
-    yield put({type: types.FETCH_ROLES_SUCCESS, payload: roles});
+    const roles = response?.data ?? [];
+    yield put({type: types.FETCH_ROLES_SUCCESS, payload: {roles, fresh}});
     onSuccess?.(response);
   } catch (e) {}
 }

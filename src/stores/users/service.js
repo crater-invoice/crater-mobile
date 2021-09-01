@@ -1,11 +1,12 @@
 import Request from '@/utils/request';
-import * as queryStrings from 'query-string';
+import * as queryString from 'query-string';
 /**
  * Fetch users
+ * @param q : queryString
  * @returns {*}
  */
-export const fetchUsers = queryString => {
-  return Request.get({path: `users?${queryStrings.stringify(queryString)}`});
+export const fetchUsers = q => {
+  return Request.get({path: `users?${queryString.stringify(q)}`});
 };
 
 /**

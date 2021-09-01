@@ -1,7 +1,7 @@
 export const SPINNER = 'users/SPINNER';
 
 export const USERS_FORM = 'users/USERS_FORM';
-export const USER_CREATE_FORM = 'users/USER_CREATE_FORM';
+export const CREATE_USER_FORM = 'users/CREATE_USER_FORM';
 
 export const FETCH_USERS = 'users/FETCH_USERS';
 export const FETCH_USERS_SUCCESS = 'users/FETCH_USERS_SUCCESS';

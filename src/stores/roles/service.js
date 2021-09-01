@@ -1,12 +1,13 @@
 import Request from 'utils/request';
-import * as queryStrings from 'query-string';
+import * as queryString from 'query-string';
 
 /**
  * Fetch roles
+ * @param q : queryString
  * @returns {*}
  */
-export const fetchRoles = queryString => {
-  return Request.get({path: `roles?${queryStrings.stringify(queryString)}`});
+export const fetchRoles = q => {
+  return Request.get({path: `roles?${queryString.stringify(q)}`});
 };
 
 /**

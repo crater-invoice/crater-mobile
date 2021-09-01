@@ -7,6 +7,7 @@ import ReportsContainer from "../../features/more/containers/Reports";
 import ReportContainer from "../../features/more/containers/Report";
 import LostConnectionContainer from "../../components/LostConnection";
 import {Users, CreateUser} from 'screens/users';
+
 export const MoreNavigator = {
 
     // Items
