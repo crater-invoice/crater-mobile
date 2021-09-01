@@ -30,7 +30,7 @@ export function* getPaymentModes({ payload }) {
             yield put(setPaymentModes({ paymentMethods: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
     } catch (e) {}
 }
 

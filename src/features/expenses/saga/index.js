@@ -43,7 +43,7 @@ function* getExpenses({ payload }) {
             yield put(setExpenses({ expenses: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
     } catch (e) {}
 }
 

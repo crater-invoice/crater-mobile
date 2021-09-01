@@ -53,7 +53,7 @@ function* getInvoices({ payload }) {
             const data = response.data;
             yield put(setInvoices({ invoices: data, fresh }));
         }
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
     } catch (error) {
     } finally {
         yield put(spinner({ invoicesLoading: false }));
@@ -317,7 +317,7 @@ function* getItems({ payload }) {
             yield put(setItems({ items: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
     } catch (e) {
     } finally {
         yield put(spinner({ itemsLoading: false }));

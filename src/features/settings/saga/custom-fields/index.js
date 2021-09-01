@@ -39,7 +39,7 @@ export function* getCustomFields({ payload }) {
             yield put(setCustomFields({ customFields: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
 
         if (returnResponse) {
             return response?.customFields?.data ?? [];

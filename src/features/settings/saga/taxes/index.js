@@ -25,7 +25,7 @@ function* getTaxTypes({ payload }) {
             yield put(setTaxes({ taxTypes: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
     } catch (e) {}
 }
 

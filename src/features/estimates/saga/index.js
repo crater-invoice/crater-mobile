@@ -53,7 +53,7 @@ function* getEstimates({ payload }) {
             yield put(setEstimates({ estimates: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
     } catch (e) {}
 }
 
@@ -319,7 +319,7 @@ function* getItems({ payload }) {
             yield put(setItems({ items: data, fresh }));
         }
 
-        onSuccess?.(response?.data);
+        onSuccess?.(response);
     } catch (e) {
     } finally {
         yield put(spinner({ itemsLoading: false }));
