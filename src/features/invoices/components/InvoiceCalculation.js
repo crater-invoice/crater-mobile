@@ -1,11 +1,11 @@
-import { hasValue, isArray } from '@/constants';
+import { hasValue, isEmpty } from '@/constants';
 import { invoiceRefs } from '../constants';
 
 function invoiceSubTotal() {
     let invoiceItems = invoiceRefs?.props?.invoiceItems;
     let subTotal = 0;
 
-    if (!isArray(invoiceItems)) {
+    if (isEmpty(invoiceItems)) {
         return JSON.parse(subTotal);
     }
 
@@ -72,7 +72,7 @@ function invoiceItemTotalTaxes() {
     let invoiceItems = invoiceRefs?.props?.invoiceItems;
     let taxes = [];
 
-    if (!isArray(invoiceItems)) {
+    if (isEmpty(invoiceItems)) {
         return [];
     }
 
@@ -128,7 +128,7 @@ function getTaxName(tax) {
 function getItemList(items) {
     const { currency } = invoiceRefs?.state;
 
-    if (!isArray(items)) {
+    if (isEmpty(items)) {
         return [];
     }
 

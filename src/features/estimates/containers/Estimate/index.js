@@ -7,7 +7,7 @@ import * as actions from '../../actions';
 import { ESTIMATE_FORM } from '../../constants';
 import moment from 'moment';
 import { getTaxes, getNotes } from '@/features/settings/actions';
-import { isArray } from '@/constants';
+import { isEmpty } from '@/constants';
 import { getCustomers } from '@/features/customers/actions';
 import { commonSelector, permissionSelector } from 'stores/common/selectors';
 
@@ -44,7 +44,7 @@ const mapStateToProps = (state, { navigation }) => {
     const isLoading =
         loading?.initEstimateLoading ||
         (isEditScreen && !estimate) ||
-        !isArray(estimateTemplates);
+        isEmpty(estimateTemplates);
 
     return {
         initLoading: isLoading,

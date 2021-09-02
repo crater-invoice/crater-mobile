@@ -1,4 +1,4 @@
-import { isArray } from '@/constants';
+import { isEmpty } from '@/constants';
 import {
     SETTINGS_TRIGGER_SPINNER,
     SET_ACCOUNT_INFO,
@@ -288,7 +288,7 @@ export default function settingReducer(state = initialState, action) {
             const noteData = payload.note;
             const notesList = [];
 
-            if (!isArray(state.notes)) {
+            if (isEmpty(state.notes)) {
                 return { ...state };
             }
 

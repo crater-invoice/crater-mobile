@@ -1,4 +1,4 @@
-import { hasLength, isArray } from '@/constants';
+import { hasLength } from '@/constants';
 import { formatPaymentMethods } from '@/utils';
 import { createSelector } from 'reselect';
 

@@ -20,7 +20,7 @@ import {
     isAddress
 } from '../../constants';
 import AddressContainer from '../../containers/Address';
-import { alertMe, KEYBOARD_TYPE, isArray } from '@/constants';
+import { alertMe, KEYBOARD_TYPE, isEmpty } from '@/constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import t from 'locales/use-translation';
 import { colors } from '@/styles/colors';
@@ -183,7 +183,7 @@ export class Customer extends React.Component<IProps> {
     getSelectedCurrencySymbol = () => {
         const { formValues, currencies } = this.props;
 
-        if (!isArray(currencies) || !formValues?.customer?.currency_id) {
+        if (isEmpty(currencies) || !formValues?.customer?.currency_id) {
             return null;
         }
 
@@ -216,7 +216,7 @@ export class Customer extends React.Component<IProps> {
         const hasCustomField = isEditScreen
             ? formValues?.customer &&
               formValues.customer.hasOwnProperty('fields')
-            : isArray(customFields);
+            : !isEmpty(customFields);
 
         const drownDownProps =
             isEditScreen && !isLoading && isAllowToDelete

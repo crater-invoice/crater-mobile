@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import { SelectPickerField } from '@/components/SelectPickerField';
-import { hasFieldValue } from '@/constants';
+import { isEmpty } from '@/constants';
 
 export function DropdownType({ field, name, disabled }) {
     const {
@@ -13,7 +13,7 @@ export function DropdownType({ field, name, disabled }) {
 
     const optionsFormat = () => {
         const items = [];
-        if (!hasFieldValue(options)) return [];
+        if (isEmpty(options)) return [];
 
         options.map(option => {
             if (option && option.length !== 0)

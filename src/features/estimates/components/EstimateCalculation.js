@@ -1,11 +1,11 @@
-import { hasValue, isArray } from '@/constants';
+import { hasValue, isEmpty } from '@/constants';
 import { estimateRefs } from '../constants';
 
 function estimateSubTotal() {
     let estimateItems = estimateRefs?.props?.estimateItems;
     let subTotal = 0;
 
-    if (!isArray(estimateItems)) {
+    if (isEmpty(estimateItems)) {
         return JSON.parse(subTotal);
     }
 
@@ -72,7 +72,7 @@ function estimateItemTotalTaxes() {
     let estimateItems = estimateRefs?.props?.estimateItems;
     let taxes = [];
 
-    if (!isArray(estimateItems)) {
+    if (isEmpty(estimateItems)) {
         return [];
     }
 
@@ -127,7 +127,7 @@ function getTaxName(tax) {
 }
 
 function getItemList(items) {
-    if (!isArray(items)) {
+    if (isEmpty(items)) {
         return [];
     }
 

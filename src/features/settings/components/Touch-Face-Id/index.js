@@ -25,7 +25,7 @@ import {
     BIOMETRY_AUTH_TYPES,
     defineLargeSizeParam,
     hasValue,
-    isArray,
+    isEmpty,
     isIosPlatform
 } from '@/constants';
 
@@ -192,7 +192,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
             // 2 = FACIAL_RECOGNITION,
             // 3 = IRIS
 
-            if (!isArray(supportedTypes)) {
+            if (isEmpty(supportedTypes)) {
                 this.setState({ isCompatible: false, loading: false });
                 return;
             }

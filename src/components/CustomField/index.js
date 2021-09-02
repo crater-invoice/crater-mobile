@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FieldArray, change } from 'redux-form';
 import { CUSTOM_FIELD_DATA_TYPES as DATA_TYPES } from '@/features/settings/constants';
-import { isArray } from '@/constants';
+import { isEmpty } from '@/constants';
 import { getInitialCustomFields, getCustomFieldValueParams } from '@/utils';
 import {
     InputType,
@@ -113,7 +113,7 @@ export const CustomField = (props: IProps) => {
         dispatch(change(form, field, value));
     };
 
-    if (!isArray(sortableFields)) {
+    if (isEmpty(sortableFields)) {
         return null;
     }
 

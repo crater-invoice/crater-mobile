@@ -19,6 +19,7 @@ export class PaymentModes extends Component {
         };
     }
 
+    
     onToggle = () => this?.modalReference?.onToggle?.();
 
     onSaveMethod = () => {

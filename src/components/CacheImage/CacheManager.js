@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as FileSystem from 'expo-file-system';
-import { hasValue, hasFieldValue } from '@/constants';
+import { hasValue, isEmpty } from '@/constants';
 import { CacheImageService, IS_UNDER_PROCESSING } from './ImageService';
 
 export const BASE_DIR = `${FileSystem.cacheDirectory}crater-invoice-images/`;
@@ -126,7 +126,7 @@ export const isImageChange = (uri: string, name: string) => {
     if (uri.includes('http')) return false;
 
     const split = hasValue(uri) ? uri.split('/') : [];
-    const urlImageName = hasFieldValue(split)
+    const urlImageName = !isEmpty(split)
         ? split?.[split?.length - 1]
         : null;
 

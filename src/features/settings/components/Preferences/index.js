@@ -13,7 +13,7 @@ import { Field, change } from 'redux-form';
 import t from 'locales/use-translation';
 import { EDIT_PREFERENCES } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import { hasObjectLength, isArray } from '@/constants';
+import { hasObjectLength, isEmpty } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -144,7 +144,7 @@ export class Preferences extends React.Component<IProps> {
     };
 
     getTimeZoneList = timezones => {
-        if (!isArray(timezones)) {
+        if (isEmpty(timezones)) {
             return [];
         }
 
@@ -154,7 +154,7 @@ export class Preferences extends React.Component<IProps> {
     };
 
     getFiscalYearList = fiscalYears => {
-        if (!isArray(fiscalYears)) {
+        if (isEmpty(fiscalYears)) {
             return [];
         }
 
@@ -164,7 +164,7 @@ export class Preferences extends React.Component<IProps> {
     };
 
     getDateFormatList = dateFormats => {
-        if (!isArray(dateFormats)) {
+        if (isEmpty(dateFormats)) {
             return [];
         }
 
@@ -227,9 +227,9 @@ export class Preferences extends React.Component<IProps> {
         const { timezoneList, dateFormatList, fiscalYearLst } = this.state;
 
         return (
-            !isArray(timezoneList) ||
-            !isArray(dateFormatList) ||
-            !isArray(fiscalYearLst) ||
+            isEmpty(timezoneList) ||
+            isEmpty(dateFormatList) ||
+            isEmpty(fiscalYearLst) ||
             !hasObjectLength(formValues)
         );
     };

@@ -9,7 +9,7 @@ import {
 } from '../actions';
 import { ROUTES } from '@/navigation';
 import * as TYPES from '../constants';
-import { hasObjectLength, isArray } from '@/constants';
+import { hasObjectLength, isEmpty } from '@/constants';
 import { getGeneralSetting } from '@/features/settings/saga/general';
 import { getCustomFields } from '@/features/settings/saga/custom-fields';
 import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
@@ -66,11 +66,11 @@ function* getCreateCustomer({ payload }) {
     const { currencies, countries, onSuccess } = payload;
 
     try {
-        if (!isArray(countries)) {
+        if (isEmpty(countries)) {
             yield call(getCountries, { payload: {} });
         }
 
-        if (!isArray(currencies)) {
+        if (isEmpty(currencies)) {
             yield call(getGeneralSetting, { payload: { url: 'currencies' } });
         }
 
@@ -174,11 +174,11 @@ function* updateCustomer({ payload }) {
 function* getCustomerDetail({ payload }) {
     const { id, onSuccess, currencies, countries } = payload;
     try {
-        if (!isArray(countries)) {
+        if (isEmpty(countries)) {
             yield call(getCountries, { payload: {} });
         }
 
-        if (!isArray(currencies)) {
+        if (isEmpty(currencies)) {
             yield call(getGeneralSetting, { payload: { url: 'currencies' } });
         }
 

@@ -1,7 +1,6 @@
 export type INavigation = {
   /**
    * A navigator is an object of navigation functions that a view can call.
-   * @see Navigator
    */
   /**
    * Navigate forward to a new route

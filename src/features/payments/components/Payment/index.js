@@ -29,7 +29,7 @@ import {
     capitalize,
     DATE_FORMAT,
     hasObjectLength,
-    isArray
+    isEmpty
 } from '@/constants';
 import {
     BADGE_STATUS_BG_COLOR,
@@ -263,7 +263,7 @@ export class Payment extends React.Component<IProps> {
     };
 
     formatUnpaidInvoices = items => {
-        if (!isArray(items)) {
+        if (isEmpty(items)) {
             return [];
         }
 
@@ -408,7 +408,7 @@ export class Payment extends React.Component<IProps> {
 
         const hasCustomField = isEditScreen
             ? formValues?.payment && formValues.payment.hasOwnProperty('fields')
-            : isArray(customFields);
+            : !isEmpty(customFields);
 
         const drownDownProps =
             isEditScreen && !isLoading

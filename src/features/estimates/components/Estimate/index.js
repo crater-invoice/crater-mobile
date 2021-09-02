@@ -45,7 +45,7 @@ import {
     estimateCompoundTax
 } from '../EstimateCalculation';
 import FinalAmount from '../FinalAmount';
-import { alertMe, isArray } from '@/constants';
+import { alertMe, isEmpty } from '@/constants';
 import { getApiFormattedCustomFields } from '@/utils';
 import Notes from './notes';
 import EstimateServices from '../../services';
@@ -292,7 +292,7 @@ export class Estimate extends React.Component<IProps> {
         const { estimateItems } = this.props;
         let taxes = [];
 
-        if (!isArray(estimateItems)) {
+        if (isEmpty(estimateItems)) {
             return [];
         }
 
@@ -342,7 +342,7 @@ export class Estimate extends React.Component<IProps> {
 
         const { currency } = this.state;
 
-        if (!isArray(estimateItems)) {
+        if (isEmpty(estimateItems)) {
             return [];
         }
 
@@ -543,7 +543,7 @@ export class Estimate extends React.Component<IProps> {
 
         const hasCustomField = isEditScreen
             ? formValues && formValues.hasOwnProperty('fields')
-            : isArray(customFields);
+            : !isEmpty(customFields);
 
         let hasCompleteStatus = markAsStatus === 'COMPLETED';
 

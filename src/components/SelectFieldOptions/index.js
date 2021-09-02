@@ -4,8 +4,7 @@ import { View, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './styles';
 import { InputField } from '../InputField';
 import { CtButton } from '../Button';
-import { hasFieldValue } from '@/constants';
-import { Text } from '../Text';
+import { isEmpty } from '@/constants';
 import { Label } from '../Label';
 
 const removeItem = (fields, index, removeFirstItemOnPress) => {
@@ -18,7 +17,7 @@ const addItem = fields => {
 };
 
 const OptionList = ({ fields, removeFirstItemOnPress, disabled }) => {
-    if (!hasFieldValue(fields)) return null;
+    if (isEmpty(fields)) return null;
 
     return (
         <View style={styles.itemList}>

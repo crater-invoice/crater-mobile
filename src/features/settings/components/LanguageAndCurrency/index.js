@@ -9,7 +9,7 @@ import t from 'locales/use-translation';
 import { EDIT_LANGUAGE_AND_CURRENCY } from '../../constants';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { SymbolStyle } from '@/components/CurrencyFormat/styles';
-import { hasObjectLength, isArray } from '@/constants';
+import { hasObjectLength, isEmpty } from '@/constants';
 
 type IProps = {
     navigation: Object,
@@ -128,7 +128,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
 
     getSelectedField = (items, find, field) => {
         let newData = [];
-        if (isArray(items)) {
+        if (!isEmpty(items)) {
             newData = items.filter(item => {
                 let filterData = false;
                 let itemField = item.fullItem
@@ -153,8 +153,8 @@ export class LanguageAndCurrency extends React.Component<IProps> {
         const { currencyList, languagesList } = this.state;
 
         return (
-            !isArray(languagesList) ||
-            !isArray(currencyList) ||
+            isEmpty(languagesList) ||
+            isEmpty(currencyList) ||
             !hasObjectLength(formValues)
         );
     };
@@ -163,7 +163,7 @@ export class LanguageAndCurrency extends React.Component<IProps> {
         const { currencyList } = this.state;
         const { formValues } = this.props;
 
-        if (!isArray(currencyList) || !formValues?.currency) {
+        if (isEmpty(currencyList) || !formValues?.currency) {
             return null;
         }
 

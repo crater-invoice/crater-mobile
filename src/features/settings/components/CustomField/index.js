@@ -7,9 +7,9 @@ import {
     alertMe,
     hasObjectLength,
     hasLength,
-    hasFieldValue,
     hasValue,
-    KEYBOARD_TYPE
+    KEYBOARD_TYPE,
+    isEmpty
 } from '@/constants';
 import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT } from '@/navigation';
@@ -125,7 +125,7 @@ export class CustomField extends React.Component<IProps> {
             !removeCustomFieldLoading &&
             formValues
         ) {
-            const options = hasFieldValue(field[FIELDS.OPTIONS])
+            const options = !isEmpty(field[FIELDS.OPTIONS])
                 ? this.getOptionsValue(field[FIELDS.OPTIONS])
                 : [];
             const params = { ...field, [FIELDS.OPTIONS]: options };
