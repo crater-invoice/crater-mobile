@@ -6,7 +6,6 @@ import { Field, change } from 'redux-form';
 import {
     alertMe,
     hasObjectLength,
-    hasLength,
     hasValue,
     KEYBOARD_TYPE,
     isEmpty
@@ -262,7 +261,7 @@ export class CustomField extends React.Component<IProps> {
                 break;
         }
 
-        return !hasLength(optionView) ? <></> : optionView;
+        return isEmpty(optionView) ? <></> : optionView;
     };
 
     isLoading = () => {

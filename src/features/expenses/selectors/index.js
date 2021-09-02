@@ -1,4 +1,4 @@
-import { hasLength } from '@/constants';
+import { isEmpty } from '@/constants';
 import { formatCategories } from '@/utils';
 import { createSelector } from 'reselect';
 
@@ -28,7 +28,7 @@ const getExpensesState = createSelector(
     state => state.expenses,
     state => state.currency,
     (expenses, currency) =>
-        !hasLength(expenses) ? [] : formatExpenseItems(expenses, currency)
+        isEmpty(expenses) ? [] : formatExpenseItems(expenses, currency)
 );
 
 const getCategoriesState = createSelector(

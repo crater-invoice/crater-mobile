@@ -170,12 +170,16 @@ export default class Request {
         return data;
       })
       .catch(function({response}) {
-        if (response?.status === 401) {
+        const {status} = response;
+        if (status === 401) {
           store.dispatch(
             NavigationActions.navigate({
               routeName: ROUTES.AUTH
             })
           );
+          throw response;
+        }
+        if (status === 403 || status === 404 || status === 500) {
           throw response;
         }
         return response;

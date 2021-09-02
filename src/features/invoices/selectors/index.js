@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect';
-import { capitalize, hasLength } from '@/constants';
+import { capitalize, isEmpty } from '@/constants';
 import { BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR } from '@/utils';
 
 const formatItems = (invoices, theme) => {
-    if (!hasLength(invoices)) {
+    if (isEmpty(invoices)) {
         return [];
     }
 

@@ -21,6 +21,7 @@ import { setI18nManagerValue } from '@/utils';
 import t from 'locales/use-translation';
 import { FETCH_COMPANIES_SUCCESS } from '@/features/common/constants';
 import {APP_VERSION} from '../../../../config';
+import { PermissionService } from '@/services';
 
 // Login
 // -----------------------------------------
@@ -104,7 +105,10 @@ function* getBootstrapData(payloadData: any) {
 
         const response = yield call([Request, 'get'], options);
 
-        const { user, default_language = 'en' } = response;
+        const { user, default_language = 'en',abilities=[] } = response;
+
+        PermissionService.setPermissions(abilities);
+        
         const isRTL = default_language === 'ar';
         setI18nManagerValue({ isRTL });
 

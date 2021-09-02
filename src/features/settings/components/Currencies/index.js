@@ -13,7 +13,7 @@ import {
 } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import { formatListByName } from '@/utils';
-import { hasLength, hasValue } from '@/constants';
+import { hasValue, isEmpty } from '@/constants';
 import { itemsDescriptionStyle } from '@/styles';
 import { ARROW_ICON } from '@/assets';
 
@@ -112,7 +112,7 @@ export class Currencies extends React.Component<IProps> {
         const { globalCurrencies } = this.props;
         let searchFields = ['name'];
 
-        if (hasValue(globalCurrencies) && hasLength(globalCurrencies)) {
+        if (!isEmpty(globalCurrencies)) {
             let newData = globalCurrencies.filter(currency => {
                 let filterData = false;
 
@@ -136,7 +136,7 @@ export class Currencies extends React.Component<IProps> {
 
             this.setState({
                 currenciesFilter,
-                found: hasLength(currenciesFilter),
+                found: !isEmpty(currenciesFilter),
                 search
             });
         }
@@ -196,7 +196,7 @@ export class Currencies extends React.Component<IProps> {
                 >
                     <ListView
                         items={
-                            hasLength(currenciesFilter)
+                            !isEmpty(currenciesFilter)
                                 ? currenciesFilter
                                 : found
                                 ? formatListByName(currencies)
@@ -205,7 +205,7 @@ export class Currencies extends React.Component<IProps> {
                         onPress={this.onSelect}
                         refreshing={refreshing}
                         loading={loading}
-                        isEmpty={found ? !hasLength(currencies) : true}
+                        isEmpty={found ? isEmpty(currencies) : true}
                         canLoadMore={canLoadMore}
                         getFreshItems={onHide => {
                             this.getItems({

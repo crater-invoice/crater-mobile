@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR } from '@/utils';
-import { capitalize, hasLength } from '@/constants';
+import { capitalize, isEmpty } from '@/constants';
 
 const formatEstimateItems = (estimates, theme) =>
     estimates.map(item => {
@@ -39,19 +39,19 @@ const formatEstimateItems = (estimates, theme) =>
 const getDraftEstimatesState = createSelector(
     [state => state.estimates, state => state.theme],
     (estimates, theme) =>
-        !hasLength(estimates) ? [] : formatEstimateItems(estimates, theme)
+        isEmpty(estimates) ? [] : formatEstimateItems(estimates, theme)
 );
 
 const getSentEstimatesState = createSelector(
     [state => state.estimates, state => state.theme],
     (estimates, theme) =>
-        !hasLength(estimates) ? [] : formatEstimateItems(estimates, theme)
+        isEmpty(estimates) ? [] : formatEstimateItems(estimates, theme)
 );
 
 const getAllEstimatesState = createSelector(
     [state => state.estimates, state => state.theme],
     (estimates, theme) =>
-        !hasLength(estimates) ? [] : formatEstimateItems(estimates, theme)
+        isEmpty(estimates) ? [] : formatEstimateItems(estimates, theme)
 );
 
 export { getDraftEstimatesState, getSentEstimatesState, getAllEstimatesState };
