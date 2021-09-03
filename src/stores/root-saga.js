@@ -13,27 +13,29 @@ import more from '@/features/more/saga';
 import company from '@/features/common/saga';
 import roles from 'stores/roles/saga';
 import users from 'stores/users/saga';
-import {store} from '@/stores';
 import {ROUTES} from '@/navigation';
 import {resetAuthLoaders} from '@/features/authentication/actions';
+import {getActiveMainTab} from './common/helpers';
+import {PermissionService} from '@/services';
 
 export default function* rootSaga() {
   yield takeEvery(REHYDRATE, function* boot() {
-    const {routes} = yield select(state => state.nav);
+    const reduxStore = yield select();
+    const routes = reduxStore?.nav?.routes ?? [];
     const currentRoteBlock = routes[routes.length - 1];
     const currentRouteBlockName = currentRoteBlock.routeName;
 
-    const reduxStore = store.getState();
-
     if (currentRouteBlockName !== ROUTES.AUTH) {
-      yield put(NavigationActions.navigate({routeName: ROUTES.MAIN_INVOICES}));
+      const abilities = reduxStore?.common?.abilities;
+      PermissionService.setPermissions(abilities);
+      const tab = getActiveMainTab();
+      yield put(NavigationActions.navigate({routeName: tab}));
     } else {
       const {endpointApi, endpointURL} = reduxStore.common;
-
       if (!endpointApi || !endpointURL) {
         yield put(NavigationActions.navigate({routeName: ROUTES.ENDPOINTS}));
       }
-      yield put(resetAuthLoaders({}));
+      yield put(resetAuthLoaders());
     }
 
     yield all([

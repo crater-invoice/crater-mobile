@@ -92,3 +92,18 @@ export const hasTextLength = string => {
 export function dismissKeyboard() {
   Keyboard.dismiss();
 }
+
+export function toObject(arr) {
+  if (isEmpty(arr)) {
+    return {};
+  }
+
+  let output = {};
+
+  const objects = Object.assign({}, arr);
+  for (const key in objects) {
+    output = {...objects[key]};
+  }
+
+  return output;
+}

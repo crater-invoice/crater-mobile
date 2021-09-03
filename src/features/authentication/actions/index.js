@@ -51,7 +51,7 @@ export const authTriggerSpinner = (payload) => ({
     payload,
 });
 
-export const resetAuthLoaders = (payload) => ({
+export const resetAuthLoaders = (payload = {}) => ({
     type: RESET_AUTH_LOADERS,
     payload
 })
@@ -61,7 +61,7 @@ export const sendForgotPasswordMail = (payload) => ({
     payload,
 });
 
-export const getBootstrap = (payload) => ({
+export const getBootstrap = (payload = {}) => ({
     type: GET_BOOTSTRAP,
     payload,
 });

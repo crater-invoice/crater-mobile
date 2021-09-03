@@ -12,7 +12,7 @@ import {
   checkOTAUpdate as actionCheckOTAUpdate
 } from '../actions';
 import * as TYPES from '../constants';
-import {resetNavigation, ROUTES} from '@/navigation';
+import {navigateToActiveTab, ROUTES} from '@/navigation';
 import {setAccountInformation} from '../../settings/actions';
 import {alertMe, hasValue} from '@/constants';
 import {CHECK_OTA_UPDATE} from '@/constants';
@@ -22,9 +22,8 @@ import t from 'locales/use-translation';
 import {FETCH_COMPANIES_SUCCESS} from '@/features/common/constants';
 import {APP_VERSION} from '../../../../config';
 import {PermissionService} from '@/services';
+import {getActiveMainTab} from 'stores/common/helpers';
 
-// Login
-// -----------------------------------------
 function* login({payload: {params, navigation}}: any) {
   yield put(authTriggerSpinner({loginLoading: true}));
 
@@ -37,11 +36,6 @@ function* login({payload: {params, navigation}}: any) {
 
     const response = yield call([Request, 'post'], options);
 
-    if (response?.status == 401) {
-      alertMe({desc: t('login.invalid')});
-      return;
-    }
-
     if (!response?.token) {
       alertMe({desc: t('login.invalid')});
       return;
@@ -51,13 +45,9 @@ function* login({payload: {params, navigation}}: any) {
 
     yield put(actionCheckOTAUpdate({}));
 
-    resetNavigation({
-      navigation,
-      route: ROUTES.MAIN_TABS,
-      index: 0
-    });
+    const tab = getActiveMainTab();
+    navigateToActiveTab(navigation, tab);
   } catch (e) {
-    yield put(authTriggerSpinner({loginLoading: false}));
     alertMe({desc: t('login.invalid')});
   } finally {
     yield put(authTriggerSpinner({loginLoading: false}));
@@ -71,7 +61,6 @@ function* socialLogin({payload: {idToken, navigation}}: any) {
     if (idToken) {
       getBootstrap();
       yield put(saveIdToken({idToken}));
-      navigation.navigate(ROUTES.MAIN_INVOICES);
     }
   } catch (e) {
   } finally {
@@ -87,13 +76,9 @@ function* biometryAuthLogin({payload}: any) {
 
     yield delay(100);
 
-    resetNavigation({
-      navigation: payload.navigation,
-      route: ROUTES.MAIN_TABS,
-      index: 0
-    });
+    const tab = getActiveMainTab();
+    navigateToActiveTab(payload.navigation, tab);
   } catch (e) {
-    yield put(authTriggerSpinner({loginLoading: false}));
   } finally {
     yield put(authTriggerSpinner({loginLoading: false}));
   }
@@ -227,7 +212,6 @@ function* checkEndpointApi({payload: {endpointURL, onResult}}: any) {
 
     onResult?.(success);
   } catch (e) {
-    yield put(authTriggerSpinner({pingEndpointLoading: false}));
     onResult?.(false);
   } finally {
     yield put(authTriggerSpinner({pingEndpointLoading: false}));

@@ -12,7 +12,7 @@ import PaymentsContainer from '../../features/payments/containers/Payments';
 import {ROUTES} from '../routes';
 import {fonts} from '@/styles';
 import {AssetSvg} from '@/components';
-import {isIPhoneX} from '@/constants';
+import {isEmpty, isIPhoneX} from '@/constants';
 import {PermissionService} from '@/services';
 import {commonSelector} from 'stores/common/selectors';
 import {
@@ -93,6 +93,10 @@ const Tab = (props: any) => {
         };
     }
   };
+
+  if (isEmpty(PermissionService.permissions)) {
+    return null;
+  }
 
   return (
     <Container backgroundColor={theme?.tabNavigator?.backgroundColor}>
@@ -177,6 +181,7 @@ export default createBottomTabNavigator(
   },
   {
     initialRouteName: ROUTES.MAIN_INVOICES,
+    lazy: false,
     navigationOptions: {
       header: null,
       headerTitleAllowFontScaling: false

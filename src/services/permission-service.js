@@ -1,13 +1,116 @@
 import {find} from 'lodash';
-import {hasValue, isEmpty} from '@/constants';
-import {ROUTES} from '@/navigation';
+import {hasValue, isEmpty, toObject} from '@/constants';
+import {ROUTES as routes} from '@/navigation';
 import {
   SALES as SALES_REPORT,
-  PROFIT_AND_LOSS as PROFIT_AND_LOSS_REPORT,
   EXPENSES as EXPENSES_REPORT,
+  PROFIT_AND_LOSS as PROFIT_AND_LOSS_REPORT,
   TAXES as TAXES_REPORT
 } from '@/features/more/constants';
-import {CUSTOMIZE_TYPE} from '@/features/settings/constants';
+import {CUSTOMIZE_TYPE as customize} from '@/features/settings/constants';
+
+const abilities = [
+  // User
+  {route: routes.USERS, ability: 'view-user'},
+  {route: routes.USERS, ability: 'create-user'},
+  {route: routes.CREATE_USER, ability: 'edit-user'},
+  {route: routes.CREATE_USER, ability: 'delete-user'},
+
+  // Customer
+  {route: routes.MAIN_CUSTOMERS, ability: 'view-customer'},
+  {route: routes.MAIN_CUSTOMERS, ability: 'create-customer'},
+  {route: routes.CUSTOMER, ability: 'edit-customer'},
+  {route: routes.CUSTOMER, ability: 'delete-customer'},
+
+  // Item
+  {route: routes.GLOBAL_ITEMS, ability: 'view-item'},
+  {route: routes.GLOBAL_ITEMS, ability: 'create-item'},
+  {route: routes.GLOBAL_ITEM, ability: 'edit-item'},
+  {route: routes.GLOBAL_ITEM, ability: 'delete-item'},
+
+  // Unit
+  {route: customize.ITEMS, ability: 'view-unit'},
+  {route: customize.ITEMS, ability: 'create-unit'},
+  {route: customize.ITEMS, ability: 'edit-unit'},
+  {route: customize.ITEMS, ability: 'delete-unit'},
+
+  // Estimate
+  {route: routes.ESTIMATE_LIST, ability: 'view-estimate'},
+  {route: routes.ESTIMATE_LIST, ability: 'create-estimate'},
+  {route: routes.ESTIMATE, ability: 'edit-estimate'},
+  {route: routes.ESTIMATE, ability: 'delete-estimate'},
+  {route: routes.ESTIMATE, ability: 'send-estimate'},
+
+  // Invoice
+  {route: routes.MAIN_INVOICES, ability: 'view-invoice'},
+  {route: routes.MAIN_INVOICES, ability: 'create-invoice'},
+  {route: routes.INVOICE, ability: 'edit-invoice'},
+  {route: routes.INVOICE, ability: 'delete-invoice'},
+  {route: routes.INVOICE, ability: 'send-invoice'},
+
+  // Recurring Invoice
+  {route: routes.RECURRING_INVOICES, ability: 'view-recurring-invoice'},
+  {route: routes.RECURRING_INVOICES, ability: 'create-recurring-invoice'},
+  {route: routes.RECURRING_INVOICE, ability: 'edit-recurring-invoice'},
+  {route: routes.RECURRING_INVOICE, ability: 'delete-recurring-invoice'},
+  {route: routes.RECURRING_INVOICE, ability: 'send-recurring-invoice'},
+
+  // Payment
+  {route: routes.MAIN_PAYMENTS, ability: 'view-payment'},
+  {route: routes.MAIN_PAYMENTS, ability: 'create-payment'},
+  {route: routes.PAYMENT, ability: 'edit-payment'},
+  {route: routes.PAYMENT, ability: 'delete-payment'},
+  {route: routes.PAYMENT, ability: 'send-payment'},
+
+  // Expense Category
+  {route: routes.CATEGORIES, ability: 'view-expense-category'},
+  {route: routes.CATEGORIES, ability: 'create-expense-category'},
+  {route: routes.CATEGORY, ability: 'edit-expense-category'},
+  {route: routes.CATEGORY, ability: 'delete-expense-category'},
+
+  // Expense
+  {route: routes.MAIN_EXPENSES, ability: 'view-expense'},
+  {route: routes.MAIN_EXPENSES, ability: 'create-expense'},
+  {route: routes.EXPENSE, ability: 'edit-expense'},
+  {route: routes.EXPENSE, ability: 'delete-expense'},
+
+  // Note
+  {route: routes.NOTES, ability: 'view-note'},
+  {route: routes.NOTES, ability: 'create-note'},
+  {route: routes.NOTE, ability: 'edit-note'},
+  {route: routes.NOTE, ability: 'delete-note'},
+
+  // Tax Type
+  {route: routes.TAXES, ability: 'view-tax-type'},
+  {route: routes.TAXES, ability: 'create-tax-type'},
+  {route: routes.TAX, ability: 'edit-tax-type'},
+  {route: routes.TAX, ability: 'delete-tax-type'},
+
+  // Payment Method
+  {route: customize.PAYMENTS, ability: 'view-payment-method'},
+  {route: customize.PAYMENTS, ability: 'create-payment-method'},
+  {route: customize.PAYMENTS, ability: 'edit-payment-method'},
+  {route: customize.PAYMENTS, ability: 'delete-payment-method'},
+
+  // Custom Field
+  {route: routes.CUSTOM_FIELDS, ability: 'view-custom-field'},
+  {route: routes.CUSTOM_FIELDS, ability: 'create-custom-field'},
+  {route: routes.CUSTOMER_FIELD, ability: 'edit-custom-field'},
+  {route: routes.CUSTOMER_FIELD, ability: 'delete-custom-field'},
+
+  // Role
+  {route: routes.ROLES, ability: 'view-role'},
+  {route: routes.ROLES, ability: 'create-role'},
+  {route: routes.CREATE_ROLE, ability: 'edit-role'},
+  {route: routes.CREATE_ROLE, ability: 'delete-role'},
+
+  // Settings
+  {route: SALES_REPORT, ability: 'sales-report'},
+  {route: EXPENSES_REPORT, ability: 'expense-report'},
+  {route: PROFIT_AND_LOSS_REPORT, ability: 'pnl-report'},
+  {route: TAXES_REPORT, ability: 'tax-report'},
+  {route: routes.COMPANY_INFO, ability: 'company-settings'}
+];
 
 class Service {
   permissions: any;
@@ -17,128 +120,54 @@ class Service {
   }
 
   setPermissions = permissions => {
-    this.permissions = permissions;
-  };
-
-  getName = route => {
-    switch (route) {
-      case ROUTES.MAIN_INVOICES:
-      case ROUTES.INVOICE:
-        return 'invoices';
-
-      case ROUTES.MAIN_CUSTOMERS:
-      case ROUTES.CUSTOMER:
-        return 'users';
-
-      case ROUTES.MAIN_PAYMENTS:
-      case ROUTES.PAYMENT:
-        return 'payments';
-
-      case ROUTES.MAIN_EXPENSES:
-      case ROUTES.EXPENSE:
-        return 'expenses';
-
-      case ROUTES.ESTIMATE_LIST:
-      case ROUTES.ESTIMATE:
-        return 'estimates';
-
-      case ROUTES.GLOBAL_ITEMS:
-      case ROUTES.GLOBAL_ITEM:
-        return 'items';
-
-      case SALES_REPORT:
-        return 'sales-report';
-
-      case PROFIT_AND_LOSS_REPORT:
-        return 'pnl-report';
-
-      case EXPENSES_REPORT:
-        return 'expense-report';
-
-      case TAXES_REPORT:
-        return 'tax-report';
-
-      case ROUTES.ACCOUNT_INFO:
-        return 'settings-account';
-
-      case ROUTES.COMPANY_INFO:
-        return 'settings-company';
-
-      case ROUTES.TAXES:
-      case ROUTES.TAX:
-        return 'tax-types';
-
-      case ROUTES.CUSTOM_FIELDS:
-      case ROUTES.CUSTOMER_FIELD:
-        return 'custom-fields';
-
-      case ROUTES.NOTES:
-      case ROUTES.NOTE:
-        return 'notes';
-
-      case ROUTES.CATEGORIES:
-      case ROUTES.CATEGORY:
-        return 'expense-categories';
-
-      case CUSTOMIZE_TYPE.ITEMS:
-        return 'units';
-
-      case CUSTOMIZE_TYPE.PAYMENTS:
-        return 'payment-methods';
-
-      case ROUTES.COMPANIES:
-      case ROUTES.COMPANY:
-        return 'company';
-
-      case ROUTES.ROLES:
-      case ROUTES.CREATE_ROLE:
-        return 'role';
-
-      case ROUTES.USERS:
-      case ROUTES.CREATE_USER:
-        return 'user';
-
-      default:
-        return '';
+    if (!isEmpty(permissions)) {
+      this.permissions = permissions;
     }
   };
 
-  hasPermission = screenName => {
+  hasPermission = ability => {
     if (isEmpty(this.permissions)) {
       return true;
     }
 
-    return hasValue(find(this.permissions, {name: screenName}));
-  };
-
-  isAllowToCreate = route => {
-    const screenName = `${this.getName(route)}:create`;
-    return this.hasPermission(screenName);
-  };
-
-  isAllowToEdit = route => {
-    const screenName = `${this.getName(route)}:edit`;
-    return this.hasPermission(screenName);
-  };
-
-  isAllowToDelete = route => {
-    const screenName = `${this.getName(route)}:delete`;
-    return this.hasPermission(screenName);
-  };
-
-  isAllowToView = route => {
-    const screenName = `${this.getName(route)}:view`;
-
-    if (this.hasPermission(screenName) || this.isAllowToCreate(route)) {
+    if (!hasValue(ability)) {
       return true;
     }
 
-    return false;
+    return hasValue(find(this.permissions, {name: ability}));
+  };
+
+  isAllowToCreate = route => {
+    const ability = toObject(
+      abilities.filter(a => a.route === route && a.ability.includes('create'))
+    )?.ability;
+    return this.hasPermission(ability);
+  };
+
+  isAllowToEdit = route => {
+    const ability = toObject(
+      abilities.filter(a => a.route === route && a.ability.includes('edit'))
+    )?.ability;
+    return this.hasPermission(ability);
+  };
+
+  isAllowToDelete = route => {
+    const ability = toObject(
+      abilities.filter(a => a.route === route && a.ability.includes('delete'))
+    )?.ability;
+    return this.hasPermission(ability);
+  };
+
+  isAllowToView = route => {
+    const ability = toObject(
+      abilities.filter(a => a.route === route && a.ability.includes('view'))
+    )?.ability;
+    return this.hasPermission(ability);
   };
 
   isAllowToManage = route => {
-    const screenName = `${this.getName(route)}:manage`;
-    return this.hasPermission(screenName);
+    const ability = toObject(abilities.filter(a => a.route === route))?.ability;
+    return this.hasPermission(ability);
   };
 }
 

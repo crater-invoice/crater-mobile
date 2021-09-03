@@ -12,6 +12,7 @@ import {Loading} from './components';
 import {colors} from './styles';
 import {darkTheme, lightTheme} from './theme';
 import {TranslationService} from 'locales/use-translation';
+import {PermissionService} from './services';
 
 console.disableYellowBox = true;
 console.warn = () => {};
@@ -34,7 +35,9 @@ class App extends Component<{}, IState> {
     store?.subscribe?.(() => {
       const state = store?.getState?.();
       const locale = state?.common?.locale;
+      const abilities = state?.common?.abilities;
       TranslationService.setLocale(locale);
+      PermissionService.setPermissions(abilities);
     });
   }
 

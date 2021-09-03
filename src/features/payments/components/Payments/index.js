@@ -11,6 +11,7 @@ import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import paymentsFilterFields from './filterFields';
 import { isFilterApply } from '@/utils';
 import PaymentServices from '../../services';
+import { PermissionService } from '@/services';
 
 type IProps = {
     navigation: Object,
@@ -169,6 +170,7 @@ export class Payments extends React.Component<IProps> {
                 <InfiniteScroll
                     getItems={getPayments}
                     reference={ref => (this.scrollViewReference = ref)}
+                    getItemsInMount={PermissionService.isAllowToView(ROUTES.MAIN_PAYMENTS)}
                 >
                     <ListView
                         items={payments}
