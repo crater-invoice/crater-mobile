@@ -1,62 +1,66 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import styles from './styles';
-import { ListView, DefaultLayout } from '@/components';
+import {ListView, DefaultLayout} from '@/components';
 import t from 'locales/use-translation';
-import { REPORTS_MENU } from '../../constants';
-import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
+import {REPORTS_MENU} from '../../constants';
+import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
 
 export class Reports extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            endpointVisible: false
-        };
-    }
-
-    componentDidMount() {
-        const { navigation } = this.props;
-        goBack(MOUNT, navigation, { route: ROUTES.MAIN_MORE });
-    }
-
-    componentWillUnmount() {
-        goBack(UNMOUNT);
-    }
-
-    onSelectMenu = ({ route, type }) => {
-        const { navigation } = this.props;
-
-        if (route) {
-            navigation.navigate(route, { type });
-        }
+    this.state = {
+      endpointVisible: false
     };
+  }
 
-    render() {
-        const { navigation, theme } = this.props;
+  componentDidMount() {
+    const {navigation} = this.props;
+    goBack(MOUNT, navigation, {route: ROUTES.MAIN_MORE});
+  }
 
-        return (
-            <DefaultLayout
-                headerProps={{
-                    leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
-                    title: t('header.reports'),
-                    leftArrow: 'primary'
-                }}
-                hasSearchField={false}
-                bodyStyle="px-0 py-0"
-            >
-                <View style={styles.listViewContainer}>
-                    <ListView
-                        items={REPORTS_MENU()}
-                        onPress={this.onSelectMenu}
-                        leftTitleStyle={styles.listViewTitle(theme)}
-                        rightArrowIcon
-                        rightArrowIconStyle={{ marginTop: 5 }}
-                    />
-                </View>
-            </DefaultLayout>
-        );
+  componentWillUnmount() {
+    goBack(UNMOUNT);
+  }
+
+  onSelectMenu = ({route, type}) => {
+    const {navigation} = this.props;
+
+    if (route) {
+      navigation.navigate(route, {type});
     }
+  };
+
+  render() {
+    const {navigation, theme} = this.props;
+    const reportList = [];
+    REPORTS_MENU().map(list => {
+      list?.show && reportList.push(list);
+    });
+
+    return (
+      <DefaultLayout
+        headerProps={{
+          leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
+          title: t('header.reports'),
+          leftArrow: 'primary'
+        }}
+        hasSearchField={false}
+        bodyStyle="px-0 py-0"
+      >
+        <View style={styles.listViewContainer}>
+          <ListView
+            items={reportList}
+            onPress={this.onSelectMenu}
+            leftTitleStyle={styles.listViewTitle(theme)}
+            rightArrowIcon
+            rightArrowIconStyle={{marginTop: 5}}
+          />
+        </View>
+      </DefaultLayout>
+    );
+  }
 }

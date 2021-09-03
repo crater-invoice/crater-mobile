@@ -1,6 +1,6 @@
 import {ROUTES} from '@/navigation';
 import {PermissionService} from '@/services';
-import { isSuperAdmin } from '@/stores/common/helpers';
+import {isSuperAdmin} from '@/stores/common/helpers';
 import t from 'locales/use-translation';
 
 // Forms
@@ -61,10 +61,7 @@ export const MORE_MENU = () => {
       leftIcon: 'signal',
       iconSize: 15,
       fullItem: {route: ROUTES.REPORTS},
-      show: PermissionService.isAllowToManage(SALES) ||
-      PermissionService.isAllowToManage(PROFIT_AND_LOSS) ||
-      PermissionService.isAllowToManage(EXPENSES) ||
-      PermissionService.isAllowToManage(TAXES)
+      show: isSuperAdmin()
     },
     {
       title: t('more.users'),
@@ -87,49 +84,45 @@ export const MORE_MENU = () => {
       fullItem: {action: 'onLogout'},
       show: true
     }
-  ]
+  ];
 };
 
 export const REPORTS_MENU = () => {
-  const reports = [];
-  PermissionService.isAllowToManage(SALES) &&
-    reports.push({
+  return [
+    {
       title: t('reports.sales'),
       fullItem: {
         route: ROUTES.GENERATE_REPORT,
         type: SALES
-      }
-    });
-    
-  PermissionService.isAllowToManage(PROFIT_AND_LOSS) &&
-    reports.push({
+      },
+      show: PermissionService.isAllowToManage(SALES)
+    },
+    {
       title: t('reports.profitAndLoss'),
       leftIcon: 'building',
       fullItem: {
         route: ROUTES.GENERATE_REPORT,
         type: PROFIT_AND_LOSS
-      }
-    });
-
-  PermissionService.isAllowToManage(EXPENSES) &&
-    reports.push({
+      },
+      show: PermissionService.isAllowToManage(PROFIT_AND_LOSS)
+    },
+    {
       title: t('reports.expenses'),
       fullItem: {
         route: ROUTES.GENERATE_REPORT,
         type: EXPENSES
-      }
-    });
-
-  PermissionService.isAllowToManage(TAXES) &&
-    reports.push({
+      },
+      show: PermissionService.isAllowToManage(EXPENSES)
+    },
+    {
       title: t('reports.taxes'),
       fullItem: {
         route: ROUTES.GENERATE_REPORT,
         type: TAXES
-      }
-    });
-
-  return reports;
+      },
+      show: PermissionService.isAllowToManage(TAXES)
+    }
+  ];
 };
 
 export const REPORT_TYPE_OPTION = () => {
