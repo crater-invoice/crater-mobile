@@ -11,7 +11,7 @@ import {
 } from '../../actions';
 
 export function* getItemUnits({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
     try {
         const options = {
             path: `units?${queryStrings.stringify(queryString)}`
@@ -24,7 +24,9 @@ export function* getItemUnits({ payload }) {
         }
 
         onSuccess?.(response);
-    } catch (e) {}
+    } catch (e) {
+        onFail?.();
+    }
 }
 
 function* createItemUnit({ payload: { params, onSuccess } }) {

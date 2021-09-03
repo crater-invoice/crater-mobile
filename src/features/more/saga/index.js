@@ -24,7 +24,7 @@ function* logout({ payload: { navigation } }) {
 }
 
 function* getItems({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
 
     try {
         const options = {
@@ -39,7 +39,9 @@ function* getItems({ payload }) {
         }
 
         onSuccess?.(response);
-    } catch (e) {}
+    } catch (e) {
+        onFail?.();
+    }
 }
 
 function* getEditItem({ payload: { id, onResult } }) {

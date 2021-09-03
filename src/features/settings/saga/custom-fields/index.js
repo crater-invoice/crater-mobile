@@ -23,6 +23,7 @@ export function* getCustomFields({ payload }) {
     const {
         fresh = true,
         onSuccess,
+        onFail,
         queryString,
         returnResponse = false
     } = payload;
@@ -44,7 +45,9 @@ export function* getCustomFields({ payload }) {
         if (returnResponse) {
             return response?.customFields?.data ?? [];
         }
-    } catch (e) {}
+    } catch (e) {
+        onFail?.();
+    }
 }
 
 function* createCustomField({ payload: { params, navigation } }) {

@@ -39,7 +39,7 @@ import { getCustomFields } from '@/features/settings/saga/custom-fields';
 import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
 
 function* getEstimates({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
 
     try {
         const options = {
@@ -54,7 +54,9 @@ function* getEstimates({ payload }) {
         }
 
         onSuccess?.(response);
-    } catch (e) {}
+    } catch (e) {
+        onFail?.();
+    }
 }
 
 function* getCreateEstimate({ payload: { onSuccess } }) {
@@ -303,7 +305,7 @@ function* editEstimate({ payload }) {
 }
 
 function* getItems({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
 
     yield put(spinner({ itemsLoading: true }));
 
@@ -321,6 +323,7 @@ function* getItems({ payload }) {
 
         onSuccess?.(response);
     } catch (e) {
+        onFail?.();
     } finally {
         yield put(spinner({ itemsLoading: false }));
     }

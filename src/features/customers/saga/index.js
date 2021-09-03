@@ -29,7 +29,7 @@ const addressParams = (address, type) => {
 };
 
 export function* getCustomers({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
 
     try {
         const options = {
@@ -44,7 +44,9 @@ export function* getCustomers({ payload }) {
         }
 
         onSuccess?.(response);
-    } catch (e) {}
+    } catch (e) {
+        onFail?.();
+    }
 }
 
 export function* getCountries({ payload: { onResult = null } }) {

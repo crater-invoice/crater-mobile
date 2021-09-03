@@ -8,13 +8,15 @@ import {spinner} from './actions';
  * @returns {IterableIterator<*>}
  */
 function* fetchRoles({payload}) {
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
-    const {fresh = true, onSuccess, queryString} = payload;
     const response = yield call(req.fetchRoles, queryString);
     const roles = response?.data ?? [];
     yield put({type: types.FETCH_ROLES_SUCCESS, payload: {roles, fresh}});
     onSuccess?.(response);
-  } catch (e) {}
+  } catch (e) {
+    onFail?.();
+  }
 }
 
 /**

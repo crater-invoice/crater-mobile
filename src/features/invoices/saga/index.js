@@ -38,7 +38,7 @@ import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
 import InvoiceServices from '@/features/invoices/services';
 
 function* getInvoices({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
 
     yield put(spinner({ invoicesLoading: true }));
 
@@ -54,7 +54,8 @@ function* getInvoices({ payload }) {
             yield put(setInvoices({ invoices: data, fresh }));
         }
         onSuccess?.(response);
-    } catch (error) {
+    } catch (e) {
+        onFail?.();
     } finally {
         yield put(spinner({ invoicesLoading: false }));
     }
@@ -301,7 +302,7 @@ function* editInvoice({ payload }) {
 }
 
 function* getItems({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
 
     yield put(spinner({ itemsLoading: true }));
 
@@ -319,6 +320,7 @@ function* getItems({ payload }) {
 
         onSuccess?.(response);
     } catch (e) {
+        onFail?.();
     } finally {
         yield put(spinner({ itemsLoading: false }));
     }
