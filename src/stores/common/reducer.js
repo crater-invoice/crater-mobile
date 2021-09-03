@@ -40,7 +40,8 @@ const initialState = {
   fiscalYear: '2-1',
   biometryAuthType: null,
   lastAutoUpdateDate: null,
-  theme: darkTheme
+  theme: darkTheme,
+  abilities: []
 };
 
 export default function commonReducer(state = initialState, action) {
@@ -68,13 +69,16 @@ export default function commonReducer(state = initialState, action) {
         company,
         moment_date_format,
         fiscal_year,
-        default_language = 'en'
+        default_language = 'en',
+        abilities = []
       } = payload;
 
       return {
         ...state,
+        ...payload,
         currency: default_currency,
         company,
+        abilities,
         dateFormat: moment_date_format,
         fiscalYear: fiscal_year,
         locale: default_language

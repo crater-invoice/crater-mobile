@@ -1,246 +1,245 @@
-import { call, put, takeLatest, delay, select } from 'redux-saga/effects';
-import { NavigationActions } from 'react-navigation';
+import {call, put, takeLatest, delay, select} from 'redux-saga/effects';
+import {NavigationActions} from 'react-navigation';
 import * as Updates from 'expo-updates';
 import moment from 'moment';
 import {
-    saveIdToken,
-    authTriggerSpinner,
-    getBootstrap,
-    setGlobalBootstrap,
-    saveEndpointApi,
-    setLastAutoUpdateDate,
-    checkOTAUpdate as actionCheckOTAUpdate
+  saveIdToken,
+  authTriggerSpinner,
+  getBootstrap,
+  setGlobalBootstrap,
+  saveEndpointApi,
+  setLastAutoUpdateDate,
+  checkOTAUpdate as actionCheckOTAUpdate
 } from '../actions';
 import * as TYPES from '../constants';
-import { resetNavigation, ROUTES } from '@/navigation';
-import { setAccountInformation } from '../../settings/actions';
-import { alertMe, hasValue } from '@/constants';
-import { CHECK_OTA_UPDATE } from '@/constants';
+import {resetNavigation, ROUTES} from '@/navigation';
+import {setAccountInformation} from '../../settings/actions';
+import {alertMe, hasValue} from '@/constants';
+import {CHECK_OTA_UPDATE} from '@/constants';
 import Request from 'utils/request';
-import { setI18nManagerValue } from '@/utils';
+import {setI18nManagerValue} from '@/utils';
 import t from 'locales/use-translation';
-import { FETCH_COMPANIES_SUCCESS } from '@/features/common/constants';
+import {FETCH_COMPANIES_SUCCESS} from '@/features/common/constants';
 import {APP_VERSION} from '../../../../config';
-import { PermissionService } from '@/services';
+import {PermissionService} from '@/services';
 
 // Login
 // -----------------------------------------
-function* login({ payload: { params, navigation } }: any) {
-    yield put(authTriggerSpinner({ loginLoading: true }));
+function* login({payload: {params, navigation}}: any) {
+  yield put(authTriggerSpinner({loginLoading: true}));
 
-    try {
-        const options = {
-            path: 'auth/login',
-            body: params,
-            isAuthRequired: false
-        };
+  try {
+    const options = {
+      path: 'auth/login',
+      body: params,
+      isAuthRequired: false
+    };
 
-        const response = yield call([Request, 'post'], options);
+    const response = yield call([Request, 'post'], options);
 
-        if (response?.status == 401) {
-            alertMe({ desc: t('login.invalid') });
-            return;
-        }
-
-        if (!response?.token) {
-            alertMe({ desc: t('login.invalid') });
-            return;
-        }
-
-        yield put(saveIdToken({ idToken: response.token, expiresIn: null }));
-
-        yield put(actionCheckOTAUpdate({}));
-
-        resetNavigation({
-            navigation,
-            route: ROUTES.MAIN_TABS,
-            index: 0
-        });
-    } catch (e) {
-        yield put(authTriggerSpinner({ loginLoading: false }));
-        alertMe({ desc: t('login.invalid') });
-    } finally {
-        yield put(authTriggerSpinner({ loginLoading: false }));
+    if (response?.status == 401) {
+      alertMe({desc: t('login.invalid')});
+      return;
     }
+
+    if (!response?.token) {
+      alertMe({desc: t('login.invalid')});
+      return;
+    }
+
+    yield put(saveIdToken({idToken: response.token, expiresIn: null}));
+
+    yield put(actionCheckOTAUpdate({}));
+
+    resetNavigation({
+      navigation,
+      route: ROUTES.MAIN_TABS,
+      index: 0
+    });
+  } catch (e) {
+    yield put(authTriggerSpinner({loginLoading: false}));
+    alertMe({desc: t('login.invalid')});
+  } finally {
+    yield put(authTriggerSpinner({loginLoading: false}));
+  }
 }
 
-function* socialLogin({ payload: { idToken, navigation } }: any) {
-    try {
-        yield put(authTriggerSpinner({ socialLoginLoading: true }));
+function* socialLogin({payload: {idToken, navigation}}: any) {
+  try {
+    yield put(authTriggerSpinner({socialLoginLoading: true}));
 
-        if (idToken) {
-            getBootstrap();
-            yield put(saveIdToken({ idToken }));
-            navigation.navigate(ROUTES.MAIN_INVOICES);
-        }
-    } catch (e) {
-    } finally {
-        yield put(authTriggerSpinner({ socialLoginLoading: false }));
+    if (idToken) {
+      getBootstrap();
+      yield put(saveIdToken({idToken}));
+      navigation.navigate(ROUTES.MAIN_INVOICES);
     }
+  } catch (e) {
+  } finally {
+    yield put(authTriggerSpinner({socialLoginLoading: false}));
+  }
 }
 
-function* biometryAuthLogin({ payload }: any) {
-    yield put(authTriggerSpinner({ loginLoading: true }));
+function* biometryAuthLogin({payload}: any) {
+  yield put(authTriggerSpinner({loginLoading: true}));
 
-    try {
-        yield put(getBootstrap());
+  try {
+    yield put(getBootstrap());
 
-        yield delay(100);
+    yield delay(100);
 
-        resetNavigation({
-            navigation: payload.navigation,
-            route: ROUTES.MAIN_TABS,
-            index: 0
-        });
-    } catch (e) {
-        yield put(authTriggerSpinner({ loginLoading: false }));
-    } finally {
-        yield put(authTriggerSpinner({ loginLoading: false }));
-    }
+    resetNavigation({
+      navigation: payload.navigation,
+      route: ROUTES.MAIN_TABS,
+      index: 0
+    });
+  } catch (e) {
+    yield put(authTriggerSpinner({loginLoading: false}));
+  } finally {
+    yield put(authTriggerSpinner({loginLoading: false}));
+  }
 }
 
 function* getBootstrapData(payloadData: any) {
-    try {
-        const options = { path: 'bootstrap' };
+  try {
+    const options = {path: 'bootstrap'};
 
-        const response = yield call([Request, 'get'], options);
+    const response = yield call([Request, 'get'], options);
 
-        const { user, default_language = 'en',abilities=[] } = response;
+    const {
+      user,
+      default_language = 'en',
+      abilities = [],
+      companies = []
+    } = response;
 
-        PermissionService.setPermissions(abilities);
-        
-        const isRTL = default_language === 'ar';
-        setI18nManagerValue({ isRTL });
+    PermissionService.setPermissions(abilities);
 
-        yield put(setAccountInformation({ account: user }));
+    const isRTL = default_language === 'ar';
+    setI18nManagerValue({isRTL});
 
-        yield put(setGlobalBootstrap(response));
+    yield put(setAccountInformation({account: user}));
 
-        yield put({
-            type: FETCH_COMPANIES_SUCCESS,
-            payload: { companies: response?.companies ?? [] }
-        });
-    } catch (e) {}
+    yield put(setGlobalBootstrap(response));
+
+    yield put({type: FETCH_COMPANIES_SUCCESS, payload: {companies}});
+  } catch (e) {}
 }
 
 function* checkOTAUpdate(payloadData) {
-    try {
-        const state = yield select();
-        const lastAutoUpdateDate = state?.common?.lastAutoUpdateDate;
-        const endpointApi = state?.common?.endpointApi;
-        const idToken = state?.auth?.idToken;
-        const currentDate: string = moment().format('YYYY-MM-DD');
+  try {
+    const state = yield select();
+    const lastAutoUpdateDate = state?.common?.lastAutoUpdateDate;
+    const endpointApi = state?.common?.endpointApi;
+    const idToken = state?.auth?.idToken;
+    const currentDate: string = moment().format('YYYY-MM-DD');
 
-        const isSameDate: boolean = hasValue(lastAutoUpdateDate)
-            ? moment(currentDate).isSame(lastAutoUpdateDate)
-            : false;
+    const isSameDate: boolean = hasValue(lastAutoUpdateDate)
+      ? moment(currentDate).isSame(lastAutoUpdateDate)
+      : false;
 
-        if (idToken) {
-            yield put(getBootstrap());
-        }
+    if (idToken) {
+      yield put(getBootstrap());
+    }
 
-        if (isSameDate || !endpointApi) {
-            return;
-        }
+    if (isSameDate || !endpointApi) {
+      return;
+    }
 
-        const options = {
-            path: 'app/version',
-            isAuthRequired: false
-        };
+    const options = {
+      path: 'app/version',
+      isAuthRequired: false
+    };
 
-        const response = yield call([Request, 'get'], options);
+    const response = yield call([Request, 'get'], options);
 
-        const currentVersion = APP_VERSION;
-        const newVersion = response?.version;
+    const currentVersion = APP_VERSION;
+    const newVersion = response?.version;
 
-        if (
-            currentVersion &&
-            newVersion &&
-            parseInt(currentVersion) < parseInt(newVersion)
-        ) {
-            yield put(setLastAutoUpdateDate(null));
-            yield put(
-                NavigationActions.navigate({
-                    routeName: ROUTES.UPDATE_APP_VERSION
-                })
-            );
-            return;
-        }
+    if (
+      currentVersion &&
+      newVersion &&
+      parseInt(currentVersion) < parseInt(newVersion)
+    ) {
+      yield put(setLastAutoUpdateDate(null));
+      yield put(
+        NavigationActions.navigate({
+          routeName: ROUTES.UPDATE_APP_VERSION
+        })
+      );
+      return;
+    }
 
-        yield put(setLastAutoUpdateDate(currentDate));
+    yield put(setLastAutoUpdateDate(currentDate));
 
-        const update = yield Updates.checkForUpdateAsync();
+    const update = yield Updates.checkForUpdateAsync();
 
-        if (update.isAvailable) {
-            yield Updates.fetchUpdateAsync();
-            yield Updates.reloadAsync();
-        }
-    } catch (e) {}
+    if (update.isAvailable) {
+      yield Updates.fetchUpdateAsync();
+      yield Updates.reloadAsync();
+    }
+  } catch (e) {}
 }
 
 // Forget Password
-function* sendRecoveryMail({ payload: { email, onResult } }: any) {
-    yield put(authTriggerSpinner({ forgetPasswordLoading: true }));
+function* sendRecoveryMail({payload: {email, onResult}}: any) {
+  yield put(authTriggerSpinner({forgetPasswordLoading: true}));
 
-    try {
-        const options = {
-            path: 'auth/password/email',
-            body: { email },
-            isAuthRequired: false
-        };
+  try {
+    const options = {
+      path: 'auth/password/email',
+      body: {email},
+      isAuthRequired: false
+    };
 
-        const res = yield call([Request, 'post'], options);
+    const res = yield call([Request, 'post'], options);
 
-        if (
-            res?.message &&
-            res?.message.includes('Password reset email sent')
-        ) {
-            onResult?.(res);
-            return;
-        }
-
-        alertMe({ desc: t('forgot.emailSendError') });
-    } catch (e) {
-        alertMe({ desc: t('forgot.emailSendError') });
-    } finally {
-        yield put(authTriggerSpinner({ forgetPasswordLoading: false }));
+    if (res?.message && res?.message.includes('Password reset email sent')) {
+      onResult?.(res);
+      return;
     }
+
+    alertMe({desc: t('forgot.emailSendError')});
+  } catch (e) {
+    alertMe({desc: t('forgot.emailSendError')});
+  } finally {
+    yield put(authTriggerSpinner({forgetPasswordLoading: false}));
+  }
 }
 
-function* checkEndpointApi({ payload: { endpointURL, onResult } }: any) {
-    try {
-        yield put(authTriggerSpinner({ pingEndpointLoading: true }));
+function* checkEndpointApi({payload: {endpointURL, onResult}}: any) {
+  try {
+    yield put(authTriggerSpinner({pingEndpointLoading: true}));
 
-        const options = {
-            path: `ping`,
-            isAuthRequired: false,
-            isPing: `${endpointURL}/api/`
-        };
+    const options = {
+      path: `ping`,
+      isAuthRequired: false,
+      isPing: `${endpointURL}/api/`
+    };
 
-        const response = yield call([Request, 'get'], options);
+    const response = yield call([Request, 'get'], options);
 
-        let success = true;
-        if (response.success === 'crater-self-hosted') {
-            yield put(saveEndpointApi({ endpointURL }));
-        } else {
-            success = false;
-        }
-
-        onResult?.(success);
-    } catch (e) {
-        yield put(authTriggerSpinner({ pingEndpointLoading: false }));
-        onResult?.(false);
-    } finally {
-        yield put(authTriggerSpinner({ pingEndpointLoading: false }));
+    let success = true;
+    if (response.success === 'crater-self-hosted') {
+      yield put(saveEndpointApi({endpointURL}));
+    } else {
+      success = false;
     }
+
+    onResult?.(success);
+  } catch (e) {
+    yield put(authTriggerSpinner({pingEndpointLoading: false}));
+    onResult?.(false);
+  } finally {
+    yield put(authTriggerSpinner({pingEndpointLoading: false}));
+  }
 }
 
 export default function* loginSaga() {
-    yield takeLatest(TYPES.LOGIN, login);
-    yield takeLatest(TYPES.SOCIAL_LOGIN, socialLogin);
-    yield takeLatest(TYPES.BIOMETRY_AUTH_LOGIN, biometryAuthLogin);
-    yield takeLatest(TYPES.GET_BOOTSTRAP, getBootstrapData);
-    yield takeLatest(TYPES.SEND_FORGOT_PASSWORD_MAIL, sendRecoveryMail);
-    yield takeLatest(TYPES.CHECK_ENDPOINT_API, checkEndpointApi);
-    yield takeLatest(CHECK_OTA_UPDATE, checkOTAUpdate);
+  yield takeLatest(TYPES.LOGIN, login);
+  yield takeLatest(TYPES.SOCIAL_LOGIN, socialLogin);
+  yield takeLatest(TYPES.BIOMETRY_AUTH_LOGIN, biometryAuthLogin);
+  yield takeLatest(TYPES.GET_BOOTSTRAP, getBootstrapData);
+  yield takeLatest(TYPES.SEND_FORGOT_PASSWORD_MAIL, sendRecoveryMail);
+  yield takeLatest(TYPES.CHECK_ENDPOINT_API, checkEndpointApi);
+  yield takeLatest(CHECK_OTA_UPDATE, checkOTAUpdate);
 }
