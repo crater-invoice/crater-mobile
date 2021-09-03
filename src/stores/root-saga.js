@@ -13,6 +13,9 @@ import more from '@/features/more/saga';
 import company from '@/features/common/saga';
 import roles from 'stores/roles/saga';
 import users from 'stores/users/saga';
+import customize from 'stores/customize/saga';
+import paymentModes from 'stores/payment-modes/saga';
+import itemUnits from 'stores/item-units/saga';
 import {store} from '@/stores';
 import {ROUTES} from '@/navigation';
 import {resetAuthLoaders} from '@/features/authentication/actions';
@@ -47,7 +50,10 @@ export default function* rootSaga() {
       settings(),
       company(),
       roles(),
-      users()
+      users(),
+      customize(),
+      paymentModes(),
+      itemUnits()
     ]);
   });
 }

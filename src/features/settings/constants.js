@@ -290,7 +290,7 @@ export const SETTINGS_MENU = () => {
             leftIconSolid: true,
             iconSize: 21,
             fullItem: {
-                route: ROUTES.CUSTOMIZES
+                route: ROUTES.CUSTOMIZE_LIST
             }
         },
         {
