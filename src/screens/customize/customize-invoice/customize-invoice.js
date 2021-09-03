@@ -5,6 +5,7 @@ import styles from './customize-invoice-style';
 import {
   DefaultLayout,
   ToggleSwitch,
+  InputField,
   CtDivider,
   Editor,
   PLACEHOLDER_TYPES as TYPE,
@@ -208,6 +209,20 @@ export default class CustomizeInvoice extends Component<IProps> {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={styles.scrollContainer}
         >
+          <Field
+            name={'invoice_prefix'}
+            component={InputField}
+            hint={t('customizes.prefix.invoice')}
+            inputProps={{
+              returnKeyType: 'next',
+              autoCorrect: true,
+              autoCapitalize: 'characters',
+              maxLength: 5
+            }}
+            fieldName={t('customizes.prefix.title')}
+            maxCharacter={5}
+            isRequired
+          />
           {this.TEXTAREA_FIELDS()}
           {this.TOGGLE_FIELD_VIEW()}
         </ScrollView>

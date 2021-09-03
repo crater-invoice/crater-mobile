@@ -1,277 +1,231 @@
 import React, {Component} from 'react';
-import {Field, change, initialize, SubmissionError} from 'redux-form';
-import t from 'locales/use-translation';
-import {IProps, IStates} from './customize-estimate-type';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
-import {alertMe, KEYBOARD_TYPE} from '@/constants';
-import {CREATE_USER_FORM} from 'stores/customize/types';
-import {IMAGES} from '@/assets';
+import {ScrollView} from 'react-native';
+import {Field, change} from 'redux-form';
+import styles from './customize-estimate-style';
 import {
   DefaultLayout,
+  ToggleSwitch,
   InputField,
-  ActionButton,
-  SelectField
+  CtDivider,
+  Editor,
+  PLACEHOLDER_TYPES as TYPE,
+  Text,
+  ActionButton
 } from '@/components';
-import {
-  addUser,
-  updateUser,
-  removeUser,
-  fetchSingleUser
-} from 'stores/users/actions';
+import {CUSTOMIZE_ESTIMATE_FORM} from 'stores/customize/types';
+import t from 'locales/use-translation';
+import {IProps} from './customize-estimate-type';
+import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
 
-let userRefs = {};
-
-export default class CustomizeEstimate extends Component<IProps, IStates> {
+export default class CustomizeEstimate extends Component<IProps> {
   constructor(props) {
     super(props);
+    this.state = {
+      isUpdateAutoGenerate: false
+    };
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
+    const {getCustomizeSettings, customizes, navigation} = this.props;
+    console.log(this.props);
+
+    let hasCustomizeApiCalled = customizes
+      ? typeof customizes === 'undefined' || customizes === null
+      : true;
+
+    hasCustomizeApiCalled && getCustomizeSettings();
     goBack(MOUNT, navigation);
-    this.loadData();
   }
 
   componentWillUnmount() {
+    this.state.isUpdateAutoGenerate &&
+      this.props.setCustomizeSettings({customizes: null});
     goBack(UNMOUNT);
   }
 
-  loadData = () => {
-    const {isEditScreen, userId, dispatch} = this.props;
-
-    if (isEditScreen) {
-      const onSuccess = user => {
-        this.setInitialData(user);
-      };
-      dispatch(fetchSingleUser({id: userId, onSuccess}));
-      return;
-    }
+  setFormField = (field, value) => {
+    this.props.dispatch(change(CUSTOMIZE_ESTIMATE_FORM, field, value));
   };
 
-  throwError = errors => {
-    let error = {};
-    errors.email && (error.email = 'validation.alreadyTaken');
-    errors.phone && (error.phone = 'validation.alreadyTaken');
-    throw new SubmissionError(error);
-  };
+  changeAutoGenerateStatus = (field, status) => {
+    this.setFormField(field, status);
 
-  setInitialData = user => {
-    const {dispatch} = this.props;
-    dispatch(initialize(CREATE_USER_FORM, user));
-  };
+    const {editSettingItem} = this.props;
 
-  onSave = values => {
-    const {
-      isCreateScreen,
-      navigation,
-      loading,
-      userId,
-      dispatch,
-      handleSubmit
-    } = this.props;
-
-    if (loading) {
-      return;
-    }
-
-    const params = {
-      params: values,
-      navigation,
-      userId,
-      submissionError: errors => handleSubmit(() => this.throwError(errors))()
+    const settings = {
+      [field]: status === true ? 'YES' : 'NO'
     };
 
-    isCreateScreen ? dispatch(addUser(params)) : dispatch(updateUser(params));
-  };
-
-  removeUser = () => {
-    const {navigation, userId, dispatch} = this.props;
-    function alreadyUsedAlert() {
-      alertMe({
-        title: t('users.text_already_used')
-      });
-    }
-
-    function confirmationAlert(remove) {
-      alertMe({
-        title: t('alert.title'),
-        desc: t('users.text_alert_description'),
-        showCancel: true,
-        okPress: remove
-      });
-    }
-
-    confirmationAlert(() =>
-      dispatch(
-        removeUser({
-          id: userId,
-          onSuccess: val =>
-            val ? navigation.navigate(ROUTES.USERS) : alreadyUsedAlert()
-        })
-      )
-    );
-  };
-
-  setFormField = (field, value) => {
-    const {dispatch} = this.props;
-    dispatch(change(CREATE_USER_FORM, field, value));
-  };
-
-  navigateToRole = () => {
-    const {navigation} = this.props;
-    navigation.navigate(ROUTES.CREATE_ROLE, {
-      type: 'ADD',
-      onSelect: item => {
-        this.setFormField(`role`, item.name);
+    editSettingItem({
+      params: {
+        settings
+      },
+      hasCustomize: true,
+      onResult: () => {
+        this.toastReference?.show?.('settings.preferences.settingUpdate');
+        this.setState({isUpdateAutoGenerate: true});
       }
     });
   };
-  render() {
-    const {
-      navigation,
-      handleSubmit,
-      loading,
-      isEditScreen,
-      isAllowToEdit,
-      isAllowToDelete,
-      roles,
-      fetchRoles,
-      formValues
-    } = this.props;
-    const disabled = !isAllowToEdit;
 
-    const getTitle = () => {
-      let title = 'header.addUser';
+  onSave = values => {
+    let params = values;
+    for (const key in params) {
+      if (key.includes('mail_body') || key.includes('address_format')) {
+        if (!hasValue(params[key]) || !hasTextLength(params[key])) {
+          params[key] = `<p></p>`;
+        }
+      }
+    }
 
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewUser';
-      if (isEditScreen && isAllowToEdit) title = 'header.editUser';
+    const {editCustomizeSettings, navigation} = this.props;
+    editCustomizeSettings({params, navigation});
+  };
 
-      return t(title);
+  TOGGLE_FIELD_VIEW = () => {
+    const {theme} = this.props;
+    return (
+      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+        <CtDivider dividerStyle={styles.dividerLine} />
+
+        <Text
+          color={theme.header.primary.color}
+          style={styles.autoGenerateHeader}
+        >
+          {t('customizes.setting.estimate')}
+        </Text>
+        <Field
+          name={'estimate_auto_generate'}
+          component={ToggleSwitch}
+          hint={t('customizes.autoGenerate.estimate')}
+          description={t('customizes.autoGenerate.estimateDescription')}
+          onChangeCallback={val =>
+            this.changeAutoGenerateStatus('estimate_auto_generate', val)
+          }
+        />
+      </ScrollView>
+    );
+  };
+
+  getTextAreaPlaceholderTypes = () => {
+    const company = [TYPE.PREDEFINE_COMPANY, TYPE.ESTIMATE];
+    const email = [TYPE.PREDEFINE_CUSTOMER, TYPE.CUSTOMER, TYPE.ESTIMATE];
+    const shipping = [
+      TYPE.PREDEFINE_SHIPPING,
+      TYPE.PREDEFINE_CUSTOMER,
+      TYPE.CUSTOMER,
+      TYPE.ESTIMATE
+    ];
+    const billing = [
+      TYPE.PREDEFINE_BILLING,
+      TYPE.PREDEFINE_CUSTOMER,
+      TYPE.CUSTOMER,
+      TYPE.ESTIMATE
+    ];
+
+    return {
+      email,
+      company,
+      shipping,
+      billing
     };
+  };
 
+  TEXTAREA_FIELDS = () => {
+    const {
+      email,
+      company,
+      shipping,
+      billing
+    } = this.getTextAreaPlaceholderTypes();
+
+    return (
+      <>
+        <Editor
+          {...this.props}
+          types={email}
+          name={'estimate_mail_body'}
+          label={'customizes.addresses.sendEstimateEmailBody'}
+          showPreview
+        />
+
+        <Editor
+          {...this.props}
+          types={company}
+          name={'estimate_company_address_format'}
+          label={'customizes.addresses.company'}
+          showPreview
+        />
+
+        <Editor
+          {...this.props}
+          types={shipping}
+          name={'estimate_shipping_address_format'}
+          label={'customizes.addresses.shipping'}
+          showPreview
+        />
+
+        <Editor
+          {...this.props}
+          types={billing}
+          name={'estimate_billing_address_format'}
+          label={'customizes.addresses.billing'}
+          showPreview
+        />
+      </>
+    );
+  };
+
+  render() {
+    const {navigation, isLoading, handleSubmit, formValues} = this.props;
+    let loading = isLoading || !hasObjectLength(formValues);
     const bottomAction = [
       {
         label: 'button.save',
-        onPress: handleSubmit(this.onSave),
-        show: isAllowToEdit,
-        loading: loading
-      },
-      {
-        label: 'button.remove',
-        onPress: this.removeUser,
-        bgColor: 'btn-danger',
-        show: isEditScreen && isAllowToDelete,
-        loading: loading
+        onPress: () => handleSubmit(this.onSave)(),
+        loading: this.props.loading
       }
     ];
 
-    const headerProps = {
-      leftIconPress: () => navigation.goBack(null),
-      title: getTitle(),
-      placement: 'center',
-      ...(isAllowToEdit && {
-        rightIcon: 'save',
-        rightIconProps: {solid: true},
-        rightIconPress: handleSubmit(this.onSave)
-      })
-    };
-
     return (
       <DefaultLayout
-        headerProps={headerProps}
+        headerProps={{
+          leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZE_LIST),
+          title: t('header.estimates'),
+          rightIconPress: null,
+          placement: 'center',
+          leftArrow: 'primary'
+        }}
         bottomAction={<ActionButton buttons={bottomAction} />}
+        loadingProps={{is: loading}}
+        hideScrollView
+        toastProps={{
+          reference: ref => (this.toastReference = ref)
+        }}
       >
-        <Field
-          name="name"
-          component={InputField}
-          isRequired
-          hint={t('users.text_name')}
-          disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => userRefs.email.focus()
-          }}
-        />
-
-        <Field
-          name="email"
-          component={InputField}
-          hint={t('users.email')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.EMAIL,
-            onSubmitEditing: () => userRefs.password.focus()
-          }}
-          isRequired
-          refLinkFn={ref => (userRefs.email = ref)}
-          disabled={disabled}
-        />
-
-        <Field
-          name="password"
-          component={InputField}
-          hint={t('users.password')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => userRefs.phone.focus()
-          }}
-          secureTextEntry
-          secureTextIconContainerStyle={{top: 6}}
-          disabled={disabled}
-          refLinkFn={ref => (userRefs.password = ref)}
-          isRequired={!isEditScreen}
-          minCharacter={8}
-        />
-
-        <Field
-          name="phone"
-          component={InputField}
-          hint={t('users.phone')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.PHONE
-          }}
-          refLinkFn={ref => (userRefs.phone = ref)}
-          disabled={disabled}
-        />
-
-        <Field
-          name="role"
-          items={roles}
-          apiSearch
-          hasPagination
-          isRequired
-          getItems={fetchRoles}
-          selectedItem={formValues?.user?.role}
-          displayName="title"
-          component={SelectField}
-          label={t('users.role')}
-          icon={'align-center'}
-          createActionRouteName={ROUTES.ROLE}
-          rightIconPress={this.navigateToRole}
-          placeholder={formValues?.role ?? t('users.rolePlaceholder')}
-          navigation={navigation}
-          compareField="id"
-          onSelect={item => this.setFormField(`role`, item.name)}
-          headerProps={{
-            title: t('users.roles')
-          }}
-          emptyContentProps={{
-            contentType: 'roles',
-            image: IMAGES.EMPTY_CUSTOMERS
-          }}
-          isEditable={!disabled}
-          fakeInputProps={{disabled}}
-          refLinkFn={ref => (userRefs.role = ref)}
-        />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.scrollContainer}
+        >
+          <Field
+            name={'estimate_prefix'}
+            component={InputField}
+            hint={t('customizes.prefix.estimate')}
+            inputProps={{
+              returnKeyType: 'next',
+              autoCorrect: true,
+              autoCapitalize: 'characters',
+              maxLength: 5
+            }}
+            fieldName={t('customizes.prefix.title')}
+            maxCharacter={5}
+            isRequired
+          />
+          {this.TEXTAREA_FIELDS()}
+          {this.TOGGLE_FIELD_VIEW()}
+        </ScrollView>
       </DefaultLayout>
     );
   }
