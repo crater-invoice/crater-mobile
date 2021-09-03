@@ -1,73 +1,36 @@
 import * as types from './types';
 
-/**
- * Spinner
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export function spinner(payload) {
-  return {
-    type: types.SPINNER,
-    payload: typeof payload === 'object' ? payload : {userLoading: payload}
-  };
-}
+export const settingsTriggerSpinner = payload => ({
+  type: types.SETTINGS_TRIGGER_SPINNER,
+  payload
+});
 
-/**
- * Fetch users
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export function fetchUsers(payload = {}) {
-  return {
-    type: types.FETCH_USERS,
-    payload
-  };
-}
+export const getPaymentModes = (payload = {}) => ({
+  type: types.GET_PAYMENT_MODES,
+  payload
+});
 
-/**
- * Fetch single user
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export function fetchSingleUser(payload = {}) {
-  return {
-    type: types.FETCH_SINGLE_USER,
-    payload
-  };
-}
+export const setPaymentModes = (payload = {}) => ({
+  type: types.SET_PAYMENT_MODES,
+  payload
+});
 
-/**
- * Add user
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export function addUser(payload = {}) {
-  return {
-    type: types.ADD_USER,
-    payload
-  };
-}
+export const setPaymentMode = (payload = {}) => ({
+  type: types.SET_PAYMENT_MODE,
+  payload
+});
 
-/**
- * Update user
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export function updateUser(payload = {}) {
-  return {
-    type: types.UPDATE_USER,
-    payload
-  };
-}
+export const createPaymentMode = (payload = {}) => ({
+  type: types.CREATE_PAYMENT_MODE,
+  payload
+});
 
-/**
- * Remove user
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export function removeUser(payload = {}) {
-  return {
-    type: types.REMOVE_USER,
-    payload
-  };
-}
+export const editPaymentMode = (payload = {}) => ({
+  type: types.EDIT_PAYMENT_MODE,
+  payload
+});
+
+export const removePaymentMode = (payload = {}) => ({
+  type: types.REMOVE_PAYMENT_MODE,
+  payload
+});

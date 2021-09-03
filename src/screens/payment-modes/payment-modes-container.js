@@ -1,43 +1,30 @@
 import {connect} from 'react-redux';
-import {getFormValues, reduxForm} from 'redux-form';
-import PaymentModes from './payment-modes';
-import {CREATE_USER_FORM} from 'stores/payment-modes/types';
-import {validate} from 'stores/payment-modes/validator';
+import {PaymentModes} from './payment-modes';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
+import * as customizeAction from 'stores/payment-modes/actions';
 
-const mapStateToProps = (state, {navigation}) => {
+const mapStateToProps = state => {
   const {
-    users: {loading},
-    roles: {roles}
+    paymentModes: {modes}
   } = state;
-  const user = navigation.getParam('user', {});
+
   return {
-    roles,
-    loading: loading?.userLoading,
-    userId: user?.id,
-    ...commonSelector(state),
-    ...permissionSelector(navigation),
-    formValues: getFormValues(CREATE_USER_FORM)(state) || {},
-    initialValues: {
-      name: null,
-      email: null,
-      password: null,
-      phone: null,
-      role: null
-    }
+    modes,
+    ...commonSelector(state)
   };
 };
 
-const mapDispatchToProps = {};
-
-const PaymentModesForm = reduxForm({form: CREATE_USER_FORM, validate})(
-  PaymentModes
-);
+const mapDispatchToProps = {
+  createPaymentMode: customizeAction.createPaymentMode,
+  editPaymentMode: customizeAction.editPaymentMode,
+  removePaymentMode: customizeAction.removePaymentMode,
+  getPaymentModes: customizeAction.getPaymentModes
+};
 
 export const PaymentModesContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(PaymentModesForm);
+)(PaymentModes);
 
 PaymentModesContainer.navigationOptions = () => ({
   header: null

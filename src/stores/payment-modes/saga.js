@@ -1,110 +1,134 @@
-import {call, put, takeLatest} from 'redux-saga/effects';
-import * as types from './types';
-import * as req from './service';
-import {spinner} from './actions';
+import {call, put, takeEvery} from 'redux-saga/effects';
+import * as queryStrings from 'query-string';
+import t from 'locales/use-translation';
+import Request from 'utils/request';
+import {alertMe} from '@/constants';
+import {
+  settingsTriggerSpinner as spinner,
+  setPaymentModes,
+  setPaymentMode
+} from './actions';
+import {
+  GET_PAYMENT_MODES,
+  CREATE_PAYMENT_MODE,
+  EDIT_PAYMENT_MODE,
+  REMOVE_PAYMENT_MODE
+} from './types';
 
-/**
- * Fetch users saga
- * @returns {IterableIterator<*>}
- */
-function* fetchUsers({payload}) {
+export function* getPaymentModes({payload}) {
+  const {fresh = true, onSuccess, queryString} = payload;
+
   try {
-    const {fresh = true, onSuccess, queryString} = payload;
-    const response = yield call(req.fetchUsers, queryString);
-    const users = response?.data ?? [];
-    yield put({type: types.FETCH_USERS_SUCCESS, payload: {users, fresh}});
+    const options = {
+      path: `payment-methods?${queryStrings.stringify(queryString)}`
+    };
+
+    const response = yield call([Request, 'get'], options);
+
+    if (response?.data) {
+      const data = response.data;
+      yield put(setPaymentModes({paymentMethods: data, fresh}));
+    }
+
     onSuccess?.(response);
   } catch (e) {}
 }
 
-/**
- * Fetch single user saga
- * @returns {IterableIterator<*>}
- */
-function* fetchSingleUser({payload}) {
-  try {
-    const {id, onSuccess} = payload;
-    const response = yield call(req.fetchSingleUser, id);
-    onSuccess?.(response?.data);
-  } catch (e) {}
-}
+function* createPaymentMode({payload: {params, onSuccess}}) {
+  yield put(spinner({paymentModeLoading: true}));
 
-/**
- * Add user saga
- * @returns {IterableIterator<*>}
- */
-function* addUser({payload}) {
   try {
-    const {params, navigation, submissionError} = payload;
-    yield put(spinner(true));
-    const response = yield call(req.addUser, params);
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
+    const options = {
+      path: `payment-methods`,
+      body: params
+    };
+
+    const response = yield call([Request, 'post'], options);
+
+    if (response?.data) {
+      yield put(
+        setPaymentMode({
+          paymentMethod: [response.data],
+          isCreated: true
+        })
+      );
+      onSuccess?.();
       return;
     }
-    if (response?.data) {
-      yield put({
-        type: types.ADD_USER_SUCCESS,
-        payload: response?.data
+
+    if (response?.data?.errors?.name) {
+      alertMe({
+        desc: response?.data?.errors.name[0]
       });
-      navigation.goBack(null);
     }
   } catch (e) {
   } finally {
-    yield put(spinner(false));
+    yield put(spinner({paymentModeLoading: false}));
   }
 }
 
-/**
- * Update user saga
- * @returns {IterableIterator<*>}
- */
-function* updateUser({payload}) {
+function* editPaymentMode({payload: {params, onSuccess}}) {
+  yield put(spinner({paymentModeLoading: true}));
+
   try {
-    const {userId, params, navigation, submissionError} = payload;
-    yield put(spinner(true));
-    const response = yield call(req.updateUser, userId, params);
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
+    const options = {
+      path: `payment-methods/${params.id}`,
+      body: params
+    };
+
+    const response = yield call([Request, 'put'], options);
+
+    if (response?.data) {
+      yield put(
+        setPaymentMode({
+          paymentMethod: response.data,
+          isUpdated: true
+        })
+      );
+      onSuccess?.();
       return;
     }
-    if (response?.data) {
-      yield put({
-        type: types.UPDATE_USER_SUCCESS,
-        payload: response?.data
+
+    if (response?.data?.errors?.name) {
+      alertMe({
+        desc: response?.data?.errors.name[0]
       });
-      navigation.goBack(null);
     }
   } catch (e) {
   } finally {
-    yield put(spinner(false));
+    yield put(spinner({paymentModeLoading: false}));
   }
 }
 
-/**
- * Remove user saga
- * @returns {IterableIterator<*>}
- */
-function* removeUser({payload}) {
+function* removePaymentMode({payload: {id, onSuccess}}) {
+  yield put(spinner({paymentModeLoading: true}));
+
   try {
-    const {id, onSuccess} = payload;
-    const body = {users: [id]};
-    yield put(spinner(true));
-    const response = yield call(req.removeUser, body);
-    if (response?.success) {
-      yield put({type: types.REMOVE_USER_SUCCESS, payload: id});
+    const options = {
+      path: `payment-methods/${id}`
+    };
+
+    const response = yield call([Request, 'delete'], options);
+
+    if (response.success) {
+      yield put(setPaymentMode({id, isRemove: true}));
+      onSuccess?.();
     }
-    onSuccess?.(response?.success);
+
+    if (response.error && response.error === 'payments_attached') {
+      alertMe({
+        title: t('payments.alreadyInUseMode')
+      });
+    }
   } catch (e) {
   } finally {
-    yield put(spinner(false));
+    yield put(spinner({paymentModeLoading: false}));
   }
 }
 
-export default function* usersSaga() {
-  yield takeLatest(types.FETCH_USERS, fetchUsers);
-  yield takeLatest(types.FETCH_SINGLE_USER, fetchSingleUser);
-  yield takeLatest(types.ADD_USER, addUser);
-  yield takeLatest(types.UPDATE_USER, updateUser);
-  yield takeLatest(types.REMOVE_USER, removeUser);
+export default function* paymentMethodsSaga() {
+  yield takeEvery(GET_PAYMENT_MODES, getPaymentModes);
+  yield takeEvery(CREATE_PAYMENT_MODE, createPaymentMode);
+  yield takeEvery(EDIT_PAYMENT_MODE, editPaymentMode);
+  yield takeEvery(REMOVE_PAYMENT_MODE, removePaymentMode);
 }

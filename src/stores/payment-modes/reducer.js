@@ -3,60 +3,56 @@ import {isEmpty} from '@/constants';
 
 const initialState = {
   loading: {
-    // payment method
     paymentModesLoading: false,
     paymentModeLoading: false
-  }
+  },
+  modes: []
 };
 
 export default function paymentModesReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {
-    case types.SPINNER:
-      return {
-        ...state,
-        loading: {...state.loading, ...payload}
-      };
-
-    case types.FETCH_USERS_SUCCESS:
-      if (payload.fresh) {
-        return {...state, users: payload.users};
+    case types.SET_PAYMENT_MODES:
+      if (!payload.fresh) {
+        return {
+          ...state,
+          modes: [...state.modes, ...payload.modes]
+        };
       }
 
-      return {...state, users: [...state.users, ...payload.users]};
+      return {...state, modes: payload.modes};
 
-    case types.ADD_USER_SUCCESS:
-      return {
-        ...state,
-        users: [...[payload], ...state.users]
-      };
+    case types.SET_PAYMENT_MODE:
+      const {paymentMethod, isCreated, isUpdated, isRemove} = payload;
 
-    case types.UPDATE_USER_SUCCESS:
-      const userData = payload;
-      const userList = [];
+      if (isCreated) {
+        return {
+          ...state,
+          modes: [...paymentMethod, ...state.modes]
+        };
+      }
+      if (isUpdated) {
+        const methods = [];
 
-      if (isEmpty(state.users)) {
-        return state;
+        state.modes.map(method => {
+          let value = method;
+          method.id === paymentMethod.id && (value = paymentMethod);
+          methods.push(value);
+        });
+
+        return {
+          ...state,
+          modes: methods
+        };
+      }
+      if (isRemove) {
+        const remainMethods = state.modes.filter(({id}) => id !== payload.id);
+
+        return {...state, modes: remainMethods};
       }
 
-      state.users.map(user => {
-        const {id} = user;
-        let value = user;
-
-        if (id === userData.id) {
-          value = userData;
-        }
-        userList.push(value);
-      });
-
-      return {...state, users: userList};
-
-    case types.REMOVE_USER_SUCCESS:
-      return {
-        ...state,
-        users: state.users.filter(({id}) => id !== payload)
-      };
+      return {...state};
 
     default:
       return state;

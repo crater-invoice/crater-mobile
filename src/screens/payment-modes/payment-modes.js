@@ -1,278 +1,149 @@
 import React, {Component} from 'react';
-import {Field, change, initialize, SubmissionError} from 'redux-form';
+import {View} from 'react-native';
+import {ListView, InputModal, InfiniteScroll} from '@/components';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './payment-modes-type';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
-import {alertMe, KEYBOARD_TYPE} from '@/constants';
-import {CREATE_USER_FORM} from 'stores/payment-modes/types';
-import {IMAGES} from '@/assets';
-import {
-  DefaultLayout,
-  InputField,
-  ActionButton,
-  SelectField
-} from '@/components';
-import {
-  addUser,
-  updateUser,
-  removeUser,
-  fetchSingleUser
-} from 'stores/users/actions';
+import {formatListByName} from '@/utils';
+import {alertMe, isIPhoneX} from '@/constants';
+import {PermissionService} from '@/services';
+import {CUSTOMIZE_PAYMENT} from 'stores/payment-modes/types';
 
-let userRefs = {};
-
-export default class PaymentModes extends Component<IProps, IStates> {
+export class PaymentModes extends Component {
   constructor(props) {
     super(props);
+    this.scrollViewReference = React.createRef();
+    this.modalReference = React.createRef();
+
+    this.state = {
+      isCreateMethod: true
+    };
   }
 
-  componentDidMount() {
-    const {navigation} = this.props;
-    goBack(MOUNT, navigation);
-    this.loadData();
-  }
+  onToggle = () => this?.modalReference?.onToggle?.();
 
-  componentWillUnmount() {
-    goBack(UNMOUNT);
-  }
-
-  loadData = () => {
-    const {isEditScreen, userId, dispatch} = this.props;
-
-    if (isEditScreen) {
-      const onSuccess = user => {
-        this.setInitialData(user);
-      };
-      dispatch(fetchSingleUser({id: userId, onSuccess}));
-      return;
-    }
-  };
-
-  throwError = errors => {
-    let error = {};
-    errors.email && (error.email = 'validation.alreadyTaken');
-    errors.phone && (error.phone = 'validation.alreadyTaken');
-    throw new SubmissionError(error);
-  };
-
-  setInitialData = user => {
-    const {dispatch} = this.props;
-    dispatch(initialize(CREATE_USER_FORM, user));
-  };
-
-  onSave = values => {
+  onSaveMethod = () => {
+    const {isCreateMethod} = this.state;
     const {
-      isCreateScreen,
-      navigation,
-      loading,
-      userId,
-      dispatch,
-      handleSubmit
+      props: {
+        formValues: {methodName = '', methodId = null},
+        createPaymentMode,
+        editPaymentMode
+      }
     } = this.props;
 
-    if (loading) {
-      return;
-    }
-
     const params = {
-      params: values,
-      navigation,
-      userId,
-      submissionError: errors => handleSubmit(() => this.throwError(errors))()
+      params: {
+        id: methodId,
+        name: methodName
+      },
+      onSuccess: () => this.onToggle()
     };
 
-    isCreateScreen ? dispatch(addUser(params)) : dispatch(updateUser(params));
-  };
-
-  removeUser = () => {
-    const {navigation, userId, dispatch} = this.props;
-    function alreadyUsedAlert() {
-      alertMe({
-        title: t('users.text_already_used')
-      });
+    if (methodName) {
+      isCreateMethod ? createPaymentMode(params) : editPaymentMode(params);
     }
-
-    function confirmationAlert(remove) {
-      alertMe({
-        title: t('alert.title'),
-        desc: t('users.text_alert_description'),
-        showCancel: true,
-        okPress: remove
-      });
-    }
-
-    confirmationAlert(() =>
-      dispatch(
-        removeUser({
-          id: userId,
-          onSuccess: val =>
-            val ? navigation.navigate(ROUTES.USERS) : alreadyUsedAlert()
-        })
-      )
-    );
   };
 
-  setFormField = (field, value) => {
-    const {dispatch} = this.props;
-    dispatch(change(CREATE_USER_FORM, field, value));
-  };
+  onRemoveMethod = () => {
+    const {
+      props: {
+        removePaymentMode,
+        formValues: {methodId = null}
+      }
+    } = this.props;
 
-  navigateToRole = () => {
-    const {navigation} = this.props;
-    navigation.navigate(ROUTES.CREATE_ROLE, {
-      type: 'ADD',
-      onSelect: item => {
-        this.setFormField(`role`, item.name);
+    alertMe({
+      title: t('alert.title'),
+      desc: t('payments.alertMode'),
+      showCancel: true,
+      okPress: () => {
+        removePaymentMode({
+          id: methodId,
+          onSuccess: () => this.onToggle()
+        });
       }
     });
   };
-  render() {
-    const {
-      navigation,
-      handleSubmit,
-      loading,
-      isEditScreen,
-      isAllowToEdit,
-      isAllowToDelete,
-      roles,
-      fetchRoles,
-      formValues
-    } = this.props;
+
+  INPUT_MODAL = () => {
+    const {isCreateMethod} = this.state;
+    const {paymentModeLoading = false} = this.props;
+
+    const isAllowToEdit = isCreateMethod
+      ? true
+      : PermissionService.isAllowToEdit(CUSTOMIZE_PAYMENT);
     const disabled = !isAllowToEdit;
 
     const getTitle = () => {
-      let title = 'header.addUser';
-
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewUser';
-      if (isEditScreen && isAllowToEdit) title = 'header.editUser';
+      let title = 'payments.addMode';
+      if (!isCreateMethod && !isAllowToEdit) title = 'header.viewPaymentMode';
+      if (!isCreateMethod && isAllowToEdit) title = 'payments.editMode';
 
       return t(title);
     };
 
-    const bottomAction = [
-      {
-        label: 'button.save',
-        onPress: handleSubmit(this.onSave),
-        show: isAllowToEdit,
-        loading: loading
-      },
-      {
-        label: 'button.remove',
-        onPress: this.removeUser,
-        bgColor: 'btn-danger',
-        show: isEditScreen && isAllowToDelete,
-        loading: loading
-      }
-    ];
+    return (
+      <InputModal
+        reference={ref => (this.modalReference = ref)}
+        headerTitle={getTitle()}
+        hint={t('payments.modeHint')}
+        fieldName="methodName"
+        onSubmit={() => this.onSaveMethod()}
+        onRemove={() => this.onRemoveMethod()}
+        showRemoveButton={
+          !isCreateMethod &&
+          PermissionService.isAllowToDelete(CUSTOMIZE_PAYMENT)
+        }
+        showSaveButton={isAllowToEdit}
+        onSubmitLoading={paymentModeLoading}
+        onRemoveLoading={paymentModeLoading}
+        disabled={disabled}
+      />
+    );
+  };
 
-    const headerProps = {
-      leftIconPress: () => navigation.goBack(null),
-      title: getTitle(),
-      placement: 'center',
-      ...(isAllowToEdit && {
-        rightIcon: 'save',
-        rightIconProps: {solid: true},
-        rightIconPress: handleSubmit(this.onSave)
-      })
-    };
+  onSelectPaymentMethod = ({name, id}) => {
+    this.props.setFormField('methodId', id);
+    this.openModal(name);
+  };
+
+  openModal = (name = '') => {
+    console.log('called');
+
+    this.setState({isCreateMethod: name ? false : true});
+    this.props.setFormField('methodName', name);
+    this.onToggle();
+  };
+
+  render() {
+    const {modes, getPaymentModes} = this.props;
 
     return (
-      <DefaultLayout
-        headerProps={headerProps}
-        bottomAction={<ActionButton buttons={bottomAction} />}
-      >
-        <Field
-          name="name"
-          component={InputField}
-          isRequired
-          hint={t('users.text_name')}
-          disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => userRefs.email.focus()
-          }}
-        />
-
-        <Field
-          name="email"
-          component={InputField}
-          hint={t('users.email')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.EMAIL,
-            onSubmitEditing: () => userRefs.password.focus()
-          }}
-          isRequired
-          refLinkFn={ref => (userRefs.email = ref)}
-          disabled={disabled}
-        />
-
-        <Field
-          name="password"
-          component={InputField}
-          hint={t('users.password')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => userRefs.phone.focus()
-          }}
-          secureTextEntry
-          secureTextIconContainerStyle={{top: 6}}
-          disabled={disabled}
-          refLinkFn={ref => (userRefs.password = ref)}
-          isRequired={!isEditScreen}
-          minCharacter={8}
-        />
-
-        <Field
-          name="phone"
-          component={InputField}
-          hint={t('users.phone')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.PHONE
-          }}
-          refLinkFn={ref => (userRefs.phone = ref)}
-          disabled={disabled}
-        />
-
-        <Field
-          name="role"
-          items={roles}
-          apiSearch
-          hasPagination
-          isRequired
-          getItems={fetchRoles}
-          selectedItem={formValues?.user?.role}
-          displayName="title"
-          component={SelectField}
-          label={t('users.role')}
-          icon={'align-center'}
-          createActionRouteName={ROUTES.ROLE}
-          rightIconPress={this.navigateToRole}
-          placeholder={formValues?.role ?? t('users.rolePlaceholder')}
-          navigation={navigation}
-          compareField="id"
-          onSelect={item => this.setFormField(`role`, item.name)}
-          headerProps={{
-            title: t('users.roles')
-          }}
-          emptyContentProps={{
-            contentType: 'roles',
-            image: IMAGES.EMPTY_CUSTOMERS
-          }}
-          isEditable={!disabled}
-          fakeInputProps={{disabled}}
-          refLinkFn={ref => (userRefs.role = ref)}
-        />
-      </DefaultLayout>
+      <View style={{paddingTop: 10, flex: 1}}>
+        {this.INPUT_MODAL()}
+        <InfiniteScroll
+          getItems={getPaymentModes}
+          reference={ref => (this.scrollViewReference = ref)}
+          paginationLimit={isIPhoneX ? 20 : 15}
+        >
+          <ListView
+            items={formatListByName(modes)}
+            getFreshItems={onHide => {
+              onHide && onHide();
+            }}
+            onPress={this.onSelectPaymentMethod}
+            isEmpty={modes ? modes.length <= 0 : true}
+            bottomDivider
+            contentContainerStyle={{flex: 3}}
+            emptyContentProps={{
+              title: t('payments.empty.modeTitle')
+            }}
+            itemContainer={{
+              paddingHorizontal: 35
+            }}
+            isAnimated
+          />
+        </InfiniteScroll>
+      </View>
     );
   }
 }

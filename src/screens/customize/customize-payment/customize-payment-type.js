@@ -24,58 +24,33 @@ export interface IProps {
   loading: boolean;
 
   /**
-   * Initialize the form data.
-   */
-  initialValues: any;
-
-  /**
-   * Id of the current user.
-   */
-  userId: string;
-
-  /**
-   * It is a create screen view.
-   */
-  isCreateScreen: boolean;
-
-  /**
-   * It is a update screen view.
-   */
-  isEditScreen: boolean;
-
-  /**
-   * If true the user will be able to update the current role data.
-   */
-  isAllowToEdit: boolean;
-
-  /**
-   * If true the user will be able to remove the current role.
-   */
-  isAllowToDelete: boolean;
-
-  /**
    * An active theme object.
    * @see ITheme
    */
   theme: ITheme;
 
   /**
-   * The form data to previously initialized values.
-   */
-  formData: any;
-
-  /**
-   * An array of objects with data for each role.
-   */
-  roles: Array<any>;
-
-  /**
-   * An action to return a list of roles.
-   */
-  fetchRoles: () => void;
-
-  /**
    * Gets form data.
    */
   formValues: any;
+
+  /**
+   * The isLoading for the loading.
+   */
+  isLoading: Boolean;
+
+  /**
+   * get  customize settings data from api.
+   */
+  getCustomizeSettings: Function;
+
+  /**
+   *  customize settings data.
+   */
+  customizes: Object;
+
+  /**
+   * aet customize settings data.
+   */
+  setCustomizeSettings: Function;
 }
