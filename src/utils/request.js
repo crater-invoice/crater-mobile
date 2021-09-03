@@ -45,17 +45,12 @@ export default class Request {
     }
 
     const formData = new FormData();
-
     if (!hasValue(body)) {
       return formData;
     }
-
     for (const key in body) {
-      if (body.hasOwnProperty(key)) {
-        formData.append(key, body[key]);
-      }
+      body.hasOwnProperty(key) && formData.append(key, body[key]);
     }
-
     return formData;
   };
 
@@ -79,13 +74,9 @@ export default class Request {
     if (!hasValue(body)) {
       return formData;
     }
-
     for (const key in body) {
-      if (body.hasOwnProperty(key)) {
-        formData.append(key, body[key]);
-      }
+      body.hasOwnProperty(key) && formData.append(key, body[key]);
     }
-
     return formData;
   };
 
@@ -102,10 +93,8 @@ export default class Request {
     withMultipartFormData = false
   }: IProps) {
     const reduxStore = store.getState();
-
     const {idToken} = reduxStore.auth;
     const {endpointApi, company} = reduxStore.common;
-
     let apiUrl = endpointApi;
 
     if (isPing) {
@@ -113,11 +102,7 @@ export default class Request {
     }
 
     if (!isPing && !endpointApi) {
-      store.dispatch(
-        NavigationActions.navigate({
-          routeName: ROUTES.ENDPOINTS
-        })
-      );
+      store.dispatch(NavigationActions.navigate({routeName: ROUTES.ENDPOINTS}));
       return;
     }
 
@@ -126,9 +111,7 @@ export default class Request {
 
     if (!isConnected) {
       store.dispatch(
-        NavigationActions.navigate({
-          routeName: ROUTES.LOST_CONNECTION
-        })
+        NavigationActions.navigate({routeName: ROUTES.LOST_CONNECTION})
       );
       return;
     }
@@ -154,17 +137,8 @@ export default class Request {
     })
       .then(function(response) {
         const {data, status} = response;
-
         if (status === 401) {
-          store.dispatch(
-            NavigationActions.navigate({
-              routeName: ROUTES.AUTH
-            })
-          );
-          throw response;
-        }
-
-        if (status === 403 || status === 404 || status === 500) {
+          store.dispatch(NavigationActions.navigate({routeName: ROUTES.AUTH}));
           throw response;
         }
         return data;
@@ -172,11 +146,7 @@ export default class Request {
       .catch(function({response}) {
         const {status} = response;
         if (status === 401) {
-          store.dispatch(
-            NavigationActions.navigate({
-              routeName: ROUTES.AUTH
-            })
-          );
+          store.dispatch(NavigationActions.navigate({routeName: ROUTES.AUTH}));
           throw response;
         }
         if (status === 403 || status === 404 || status === 500) {
