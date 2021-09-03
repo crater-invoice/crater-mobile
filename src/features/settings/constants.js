@@ -2,6 +2,7 @@ import { ROUTES } from '@/navigation';
 import { PercentageIcon } from '@/icons';
 import { PermissionService } from '@/services';
 import t from 'locales/use-translation';
+import { isSuperAdmin } from '@/stores/common/helpers';
 
 // Forms
 // -----------------------------------------
@@ -248,143 +249,116 @@ export const NOTES_FIELD_MODAL_TYPES = [
 // Menus
 // -----------------------------------------
 export const SETTINGS_MENU = () => {
-    const list = [
+    return [
         {
             title: t('settings.accountSettings'),
             leftIcon: 'user-circle',
             leftIconSolid: true,
             iconSize: 20,
-            fullItem: {
-                route: ROUTES.ACCOUNT_INFO
-            }
+            fullItem: {route: ROUTES.ACCOUNT_INFO},
+            show: true
         },
         {
             title: t('settings.companyInformation'),
             leftIcon: 'building',
             leftIconSolid: true,
             iconSize: 17,
-            fullItem: {
-                route: ROUTES.COMPANY_INFO
-            }
+            fullItem: {route: ROUTES.COMPANY_INFO},
+            show: isSuperAdmin()
         },
         {
             title: t('settings.preference'),
             leftIcon: 'sun',
             leftIconSolid: true,
             iconSize: 21,
-            fullItem: {
-                route: ROUTES.PREFERENCES
-            }
+            fullItem: {route: ROUTES.PREFERENCES},
+            show: isSuperAdmin()
         },
         {
             title: t('settings.LanguageAndCurrency'),
             leftIcon: 'language',
             iconSize: 20,
-            fullItem: {
-                route: ROUTES.LANGUAGE_AND_CURRENCY
-            }
+            fullItem: {route: ROUTES.LANGUAGE_AND_CURRENCY},
+            show: isSuperAdmin()
         },
         {
             title: t('settings.customize'),
             leftIcon: 'pen-square',
             leftIconSolid: true,
             iconSize: 21,
-            fullItem: {
-                route: ROUTES.CUSTOMIZES
-            }
+            fullItem: {route: ROUTES.CUSTOMIZES},
+            show: isSuperAdmin()
         },
         {
             title: t('header.companies'),
             leftIcon: 'building',
             leftIconSolid: true,
             iconSize: 17,
-            fullItem: {
-                route: ROUTES.COMPANIES
-            }
+            fullItem: {route: ROUTES.COMPANIES},
+            show: isSuperAdmin()
         },
         {
             title: t('settings.notification'),
             leftIcon: 'bell',
             leftIconSolid: true,
             iconSize: 20,
-            fullItem: {
-                route: ROUTES.NOTIFICATIONS
-            }
-        }
-    ];
-
-    PermissionService.isAllowToView(ROUTES.TAXES) &&
-        list.push({
+            fullItem: {route: ROUTES.NOTIFICATIONS},
+            show: isSuperAdmin()
+        },
+        {
             title: t('settings.taxes'),
             leftIconSvg: PercentageIcon,
             leftIconSolid: true,
             iconSize: 17,
-            fullItem: {
-                route: ROUTES.TAXES
-            }
-        });
-
-    PermissionService.isAllowToView(ROUTES.CUSTOM_FIELDS) &&
-        list.push({
+            fullItem: {route: ROUTES.TAXES},
+            show: PermissionService.isAllowToView(ROUTES.TAXES)
+        },
+        {
             title: t('header.customFields'),
             leftIcon: 'cube',
             iconSize: 20,
-            fullItem: {
-                route: ROUTES.CUSTOM_FIELDS
-            }
-        });
-
-    PermissionService.isAllowToView(ROUTES.NOTES) &&
-        list.push({
+            fullItem: {route: ROUTES.CUSTOM_FIELDS},
+            show: PermissionService.isAllowToView(ROUTES.CUSTOM_FIELDS)
+        },
+        {
             title: t('settings.notes'),
             leftIcon: 'clipboard-check',
             leftIconSolid: true,
             iconSize: 20,
-            fullItem: {
-                route: ROUTES.NOTES
-            }
-        });
-
-    PermissionService.isAllowToView(ROUTES.CATEGORIES) &&
-        list.push({
+            fullItem: {route: ROUTES.NOTES},
+            show: PermissionService.isAllowToView(ROUTES.NOTES)
+        },
+        {
             title: t('settings.expenseCategory'),
             leftIcon: 'clipboard-list',
             iconSize: 20,
-            fullItem: {
-                route: ROUTES.CATEGORIES
-            }
-        });
-
-    list.push(
+            fullItem: {route: ROUTES.CATEGORIES},
+            show: PermissionService.isAllowToView(ROUTES.CATEGORIES)
+        },
         {
             title: t('settings.touchOrFaceId'),
             leftIcon: 'key',
             leftIconSolid: true,
             iconSize: 20,
-            fullItem: {
-                route: ROUTES.TOUCH_OR_FACE_ID
-            }
+            fullItem: {route: ROUTES.TOUCH_OR_FACE_ID},
+            show: true
         },
         {
             title: t('settings.endpoint'),
             leftIcon: 'link',
             iconSize: 20,
-            fullItem: {
-                route: ROUTES.ENDPOINTS_SETTINGS
-            }
+            fullItem: {route: ROUTES.ENDPOINTS_SETTINGS},
+            show: true
         },
         {
             title: t('header.roles'),
             leftIcon: 'users',
             iconSize: 20,
-            fullItem: {
-                route: ROUTES.ROLES
-            }
+            fullItem: {route: ROUTES.ROLES},
+            show: PermissionService.isAllowToView(ROUTES.ROLES)
         }
-    );
-
-    return list;
-};
+    ]
+}
 
 // Customize Type
 // -----------------------------------------

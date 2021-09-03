@@ -21,6 +21,7 @@ import {
 import {darkTheme} from '@/theme';
 
 const initialState = {
+  user: null,
   customers: [],
   currencies: [],
   locale: 'en',
@@ -65,8 +66,9 @@ export default function commonReducer(state = initialState, action) {
 
     case SET_GLOBAL_BOOTSTRAP:
       const {
-        default_currency,
+        user,
         company,
+        default_currency,
         moment_date_format,
         fiscal_year,
         default_language = 'en',
@@ -76,8 +78,9 @@ export default function commonReducer(state = initialState, action) {
       return {
         ...state,
         ...payload,
-        currency: default_currency,
+        user,
         company,
+        currency: default_currency,
         abilities,
         dateFormat: moment_date_format,
         fiscalYear: fiscal_year,

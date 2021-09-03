@@ -1,5 +1,6 @@
 import {ROUTES} from '@/navigation';
 import {PermissionService} from '@/services';
+import { store } from '..';
 
 export const getActiveMainTab = () => {
   if (PermissionService.isAllowToView(ROUTES.MAIN_INVOICES)) {
@@ -19,4 +20,11 @@ export const getActiveMainTab = () => {
   }
 
   return ROUTES.MAIN_MORE;
+};
+
+export const SUPER_ADMIN = 'super admin';
+
+export const isSuperAdmin = () => {
+  const role = store?.getState?.()?.common?.user?.role;
+  return role === SUPER_ADMIN;
 };

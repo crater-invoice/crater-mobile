@@ -24,66 +24,6 @@ import {APP_VERSION} from '../../../../config';
 import {PermissionService} from '@/services';
 import {getActiveMainTab} from 'stores/common/helpers';
 
-function* login({payload: {params, navigation}}: any) {
-  yield put(authTriggerSpinner({loginLoading: true}));
-
-  try {
-    const options = {
-      path: 'auth/login',
-      body: params,
-      isAuthRequired: false
-    };
-
-    const response = yield call([Request, 'post'], options);
-
-    if (!response?.token) {
-      alertMe({desc: t('login.invalid')});
-      return;
-    }
-
-    yield put(saveIdToken({idToken: response.token, expiresIn: null}));
-
-    yield put(actionCheckOTAUpdate({}));
-
-    const tab = getActiveMainTab();
-    navigateToActiveTab(navigation, tab);
-  } catch (e) {
-    alertMe({desc: t('login.invalid')});
-  } finally {
-    yield put(authTriggerSpinner({loginLoading: false}));
-  }
-}
-
-function* socialLogin({payload: {idToken, navigation}}: any) {
-  try {
-    yield put(authTriggerSpinner({socialLoginLoading: true}));
-
-    if (idToken) {
-      getBootstrap();
-      yield put(saveIdToken({idToken}));
-    }
-  } catch (e) {
-  } finally {
-    yield put(authTriggerSpinner({socialLoginLoading: false}));
-  }
-}
-
-function* biometryAuthLogin({payload}: any) {
-  yield put(authTriggerSpinner({loginLoading: true}));
-
-  try {
-    yield put(getBootstrap());
-
-    yield delay(100);
-
-    const tab = getActiveMainTab();
-    navigateToActiveTab(payload.navigation, tab);
-  } catch (e) {
-  } finally {
-    yield put(authTriggerSpinner({loginLoading: false}));
-  }
-}
-
 function* getBootstrapData(payloadData: any) {
   try {
     const options = {path: 'bootstrap'};
@@ -108,6 +48,55 @@ function* getBootstrapData(payloadData: any) {
 
     yield put({type: FETCH_COMPANIES_SUCCESS, payload: {companies}});
   } catch (e) {}
+}
+
+function* login({payload: {params, navigation}}: any) {
+  yield put(authTriggerSpinner({loginLoading: true}));
+
+  try {
+    const options = {
+      path: 'auth/login',
+      body: params,
+      isAuthRequired: false
+    };
+
+    const response = yield call([Request, 'post'], options);
+
+    if (!response?.token) {
+      alertMe({desc: t('login.invalid')});
+      return;
+    }
+
+    yield put(saveIdToken({idToken: response.token, expiresIn: null}));
+
+    yield call(getBootstrapData);
+    
+    const tab = getActiveMainTab();
+    navigateToActiveTab(navigation, tab);
+  } catch (e) {
+    alertMe({desc: t('login.invalid')});
+  } finally {
+    yield put(authTriggerSpinner({loginLoading: false}));
+  }
+}
+
+function* socialLogin({payload: {idToken, navigation}}: any) {
+}
+
+function* biometryAuthLogin({payload}: any) {
+  yield put(authTriggerSpinner({loginLoading: true}));
+
+  try {
+    yield call(getBootstrapData);
+
+    yield delay(100);
+
+    const tab = getActiveMainTab();
+    navigateToActiveTab(payload.navigation, tab);
+  } catch (e) {
+  } finally {
+    yield put(authTriggerSpinner({loginLoading: false}));
+  }
 }
 
 function* checkOTAUpdate(payloadData) {

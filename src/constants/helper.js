@@ -4,6 +4,7 @@ import Constants from 'expo-constants';
 import NetInfo from '@react-native-community/netinfo';
 import moment from 'moment';
 import {fonts} from '@/styles';
+import {store} from '@/stores';
 
 const model = Constants.deviceName.toLowerCase();
 

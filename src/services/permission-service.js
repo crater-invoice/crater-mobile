@@ -1,12 +1,6 @@
 import {find} from 'lodash';
 import {hasValue, isEmpty, toObject} from '@/constants';
 import {ROUTES as routes} from '@/navigation';
-import {
-  SALES as SALES_REPORT,
-  EXPENSES as EXPENSES_REPORT,
-  PROFIT_AND_LOSS as PROFIT_AND_LOSS_REPORT,
-  TAXES as TAXES_REPORT
-} from '@/features/more/constants';
 import {CUSTOMIZE_TYPE as customize} from '@/features/settings/constants';
 
 const abilities = [
@@ -105,10 +99,10 @@ const abilities = [
   {route: routes.CREATE_ROLE, ability: 'delete-role'},
 
   // Settings
-  {route: SALES_REPORT, ability: 'sales-report'},
-  {route: EXPENSES_REPORT, ability: 'expense-report'},
-  {route: PROFIT_AND_LOSS_REPORT, ability: 'pnl-report'},
-  {route: TAXES_REPORT, ability: 'tax-report'},
+  {route: 'reportType/SALES', ability: 'sales-report'},
+  {route: 'reportType/EXPENSES', ability: 'expense-report'},
+  {route: 'reportType/PROFIT_AND_LOSS', ability: 'pnl-report'},
+  {route: 'reportType/TAXES', ability: 'tax-report'},
   {route: routes.COMPANY_INFO, ability: 'company-settings'}
 ];
 
@@ -131,6 +125,10 @@ class Service {
     }
 
     if (!hasValue(ability)) {
+      return true;
+    }
+
+    if (this.permissions?.[0]?.title === 'All abilities') {
       return true;
     }
 

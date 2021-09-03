@@ -55,6 +55,10 @@ export class More extends React.Component {
 
     render() {
         const { theme } = this.props;
+        const settingList = [];
+        MORE_MENU().map(list => {
+          list?.show && settingList.push(list);
+        });
 
         return (
             <MainLayout
@@ -67,7 +71,7 @@ export class More extends React.Component {
                 hasSearchField={false}
             >
                 <ListView
-                    items={MORE_MENU()}
+                    items={settingList}
                     onPress={this.onSelectMenu}
                     hasAvatar
                     refreshing={false}
