@@ -120,6 +120,7 @@ export class CustomFields extends React.Component<IProps> {
                         leftSubTitleLabelStyle={styles.leftSubTitleText}
                         leftSubTitleContainerStyle={styles.leftTitleContainer}
                         rightTitleStyle={styles.rightTitleText}
+                        navigation={navigation}
                         isAnimated
                     />
                 </InfiniteScroll>

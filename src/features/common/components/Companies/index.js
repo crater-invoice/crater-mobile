@@ -99,6 +99,7 @@ export default class Companies extends React.Component {
                         bottomDivider
                         isEmpty={isEmpty(companies)}
                         emptyContentProps={emptyContentProps}
+                        navigation={navigation}
                     />
                 </InfiniteScroll>
             </MainLayout>

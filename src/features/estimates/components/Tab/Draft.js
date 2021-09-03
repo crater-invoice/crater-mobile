@@ -13,7 +13,7 @@ type IProps = {
 export const Draft = ({ reference, parentProps }: IProps) => {
     let scrollViewReference = useRef(null);
     const { props, state, onSelect, getEmptyContentProps } = parentProps;
-    const { draftEstimates = [], getEstimates } = props;
+    const { draftEstimates = [], getEstimates, navigation } = props;
     const { search } = state;
 
     useEffect(() => {
@@ -45,6 +45,7 @@ export const Draft = ({ reference, parentProps }: IProps) => {
                     emptyContentProps={getEmptyContentProps(
                         ESTIMATES_TABS.DRAFT
                     )}
+                    navigation={navigation}
                     isAnimated
                 />
             </InfiniteScroll>

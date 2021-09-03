@@ -92,6 +92,7 @@ export default class Roles extends Component<IProps, IStates> {
             hasAvatar
             bottomDivider
             isEmpty={isEmpty(roles)}
+            navigation={navigation}
             emptyContentProps={emptyContentProps}
           />
         </InfiniteScroll>

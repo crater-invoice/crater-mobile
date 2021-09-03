@@ -149,6 +149,7 @@ export class Customers extends React.Component<IProps> {
                         bottomDivider
                         hasAvatar
                         emptyContentProps={emptyContentProps}
+                        navigation={navigation}
                         isAnimated
                     />
                 </InfiniteScroll>
