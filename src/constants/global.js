@@ -70,7 +70,7 @@ export const hasValue = field => {
 };
 
 export const hasLength = field => {
-  return field && field.length !== 0;
+  return field && field.length !== 0 && typeof field === 'object';
 };
 
 export const isArray = fields => hasValue(fields) && hasLength(fields);
