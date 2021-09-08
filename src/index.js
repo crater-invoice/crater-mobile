@@ -6,7 +6,7 @@ import {Appearance, AppearanceProvider} from 'react-native-appearance';
 import {ThemeProvider} from 'styled-components/native';
 import {store, persistor} from '@/stores';
 import ApplicationNavigator from './navigation/containers';
-import {checkOTAUpdate} from './features/authentication/actions';
+import {checkOTAUpdate, getBootstrap} from './features/authentication/actions';
 import {loadFonts, switchTheme} from './constants';
 import {Loading} from './components';
 import {colors} from './styles';
@@ -28,7 +28,8 @@ class App extends Component<{}, IState> {
 
   componentDidMount() {
     this.switchCurrentTheme(Appearance.getColorScheme());
-    store?.dispatch?.(checkOTAUpdate());
+    this.initialActions();
+
     AppState?.addEventListener?.('change', this.handleAppStateChange);
 
     store?.subscribe?.(() => {
@@ -41,6 +42,11 @@ class App extends Component<{}, IState> {
   componentWillUnmount() {
     AppState?.removeEventListener?.('change', this.handleAppStateChange);
   }
+
+  initialActions = () => {
+    store?.dispatch?.(checkOTAUpdate());
+    store?.dispatch?.(getBootstrap());
+  };
 
   handleAppStateChange = nextAppState => {
     try {
