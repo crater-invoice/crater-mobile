@@ -4,11 +4,10 @@ import CustomizePayment from './customize-payment';
 import {CUSTOMIZE_PAYMENT_FORM} from 'stores/customize/types';
 import {customizePaymentValidate} from 'stores/customize/validator';
 import {commonSelector} from 'stores/common/selectors';
-import * as customizeAction from 'stores/customize/actions';
 
 const mapStateToProps = (state, {navigation}) => {
   const {
-    settings: {
+    customizes: {
       customizes,
       customFields,
       loading: {getCustomizeLoading, customizeLoading}
@@ -22,7 +21,7 @@ const mapStateToProps = (state, {navigation}) => {
     typeof customizes === 'undefined';
 
   return {
-    modes,
+    paymentModes: modes,
     formValues: getFormValues(CUSTOMIZE_PAYMENT_FORM)(state) || {},
     customizes,
     customFields,
@@ -32,19 +31,12 @@ const mapStateToProps = (state, {navigation}) => {
     initialValues: !isLoading
       ? {
           ...customizes,
-          invoice_auto_generate:
-            customizes.invoice_auto_generate === 'YES' ||
-            customizes.invoice_auto_generate === 1
+          payment_auto_generate:
+            customizes.payment_auto_generate === 'YES' ||
+            customizes.payment_auto_generate === 1
         }
       : null
   };
-};
-
-const mapDispatchToProps = {
-  getCustomizeSettings: customizeAction.getCustomizeSettings,
-  setCustomizeSettings: customizeAction.setCustomizeSettings,
-  editCustomizeSettings: customizeAction.editCustomizeSettings,
-  editSettingItem: customizeAction.editSettingItem
 };
 
 const CustomizePaymentForm = reduxForm({
@@ -52,10 +44,9 @@ const CustomizePaymentForm = reduxForm({
   customizePaymentValidate
 })(CustomizePayment);
 
-export const CustomizePaymentContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CustomizePaymentForm);
+export const CustomizePaymentContainer = connect(mapStateToProps)(
+  CustomizePaymentForm
+);
 
 CustomizePaymentContainer.navigationOptions = () => ({
   header: null

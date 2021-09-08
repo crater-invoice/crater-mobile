@@ -1,9 +1,7 @@
 import * as types from './types';
-import {isEmpty} from '@/constants';
 
 const initialState = {
   loading: {
-    // customize
     getCustomizeLoading: false,
     customizeLoading: false
   },

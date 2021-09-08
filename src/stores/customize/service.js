@@ -1,47 +1,25 @@
 import Request from '@/utils/request';
-import * as queryString from 'query-string';
-/**
- * Fetch users
- * @param q : queryString
- * @returns {*}
- */
-export const fetchUsers = q => {
-  return Request.get({path: `users?${queryString.stringify(q)}`});
-};
+import * as types from './types';
 
 /**
- * Fetch single user
- * @param id : user id
- * @returns {*}
- */
-export const fetchSingleUser = id => {
-  return Request.get({path: `users/${id}`});
-};
-
-/**
- * Add user
+ * get customization
  * @param body : params
  * @returns {*}
  */
-export const addUser = body => {
-  return Request.post({path: `users`, body});
+export const getCustomizeSettings = q => {
+  return Request.get({
+    path: `company/settings`,
+    axiosProps: {
+      params: {settings: types.COMPANY_SETTINGS_TYPE}
+    }
+  });
 };
 
 /**
- * Update user
- * @param id : user id
+ * Update customization
  * @param body : params
  * @returns {*}
  */
-export const updateUser = (id, body) => {
-  return Request.put({path: `users/${id}`, body});
-};
-
-/**
- * Remove user
- * @param id : user id
- * @returns {*}
- */
-export const removeUser = body => {
-  return Request.post({path: `users/delete`, body});
+export const editCustomizeSettings = body => {
+  return Request.post({path: `company/settings`, body});
 };

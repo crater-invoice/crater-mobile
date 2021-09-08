@@ -7,19 +7,19 @@ import { ITEM_FORM } from '../../constants';
 import { getUnitState } from '../../selectors';
 import { commonSelector, permissionSelector } from 'stores/common/selectors';
 import {
-    getItemUnits,
     getSettingInfo,
     getTaxes
 } from '@/features/settings/actions';
+import { getItemUnits } from 'stores/item-units/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         more: { loading, item },
         settings: {
             taxByItems,
-            units,
             loading: { itemUnitsLoading }
         },
+        itemUnits: { units },
         common: { currency, taxTypes }
     } = state;
 

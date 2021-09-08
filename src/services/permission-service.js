@@ -7,7 +7,7 @@ import {
   EXPENSES as EXPENSES_REPORT,
   TAXES as TAXES_REPORT
 } from '@/features/more/constants';
-import {CUSTOMIZE_TYPE} from '@/features/settings/constants';
+import {CUSTOMIZE_TYPE} from 'stores/customize/types';
 
 class Service {
   permissions: any;
@@ -71,10 +71,10 @@ class Service {
       {name: 'tax-types:view', guard_name: '*'},
       {name: 'tax-types:edit', guard_name: '*'},
       {name: 'tax-types:delete', guard_name: '*'},
-      {name: 'payment-methods:create', guard_name: '*'},
-      {name: 'payment-methods:view', guard_name: '*'},
-      {name: 'payment-methods:edit', guard_name: '*'},
-      {name: 'payment-methods:delete', guard_name: '*'},
+      {name: 'payment-modes:create', guard_name: '*'},
+      {name: 'payment-modes:view', guard_name: '*'},
+      {name: 'payment-modes:edit', guard_name: '*'},
+      {name: 'payment-modes:delete', guard_name: '*'},
       {name: 'custom-fields:create', guard_name: '*'},
       {name: 'custom-fields:view', guard_name: '*'},
       {name: 'custom-fields:edit', guard_name: '*'},
@@ -158,11 +158,11 @@ class Service {
       case ROUTES.CATEGORY:
         return 'expense-categories';
 
-      case CUSTOMIZE_TYPE.ITEMS:
+      case ROUTES.ITEM_UNITS:
         return 'units';
 
       case CUSTOMIZE_TYPE.PAYMENTS:
-        return 'payment-methods';
+        return 'payment-modes';
 
       case ROUTES.COMPANIES:
       case ROUTES.COMPANY:

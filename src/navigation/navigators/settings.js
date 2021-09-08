@@ -12,8 +12,6 @@ import TaxesContainer from '../../features/settings/containers/Taxes';
 import TaxContainer from '../../features/settings/containers/Tax';
 import EndpointContainer from '../../features/authentication/containers/Endpoint';
 import UpdateAppVersionContainer from '../../components/UpdateAppVersion';
-import CustomizesContainer from '../../features/settings/containers/Customizes';
-import CustomizeContainer from '../../features/settings/containers/Customize';
 import CurrenciesContainer from '../../features/settings/containers/Currencies';
 import CurrencyContainer from '../../features/settings/containers/Currency';
 import CustomFieldsContainer from '../../features/settings/containers/CustomFields';
@@ -30,7 +28,6 @@ import {
   CustomizePayment
 } from 'screens/customize';
 import {ItemUnits} from 'screens/item-units';
-import {PaymentModes} from 'screens/payment-modes';
 export const SettingNavigator = {
   // Settings
   // -----------------------------------------
@@ -105,11 +102,7 @@ export const SettingNavigator = {
     ROUTES.CUSTOMIZE_PAYMENT,
     CustomizePayment
   ),
-  [ROUTES.PAYMENT_MODES]: generateStackNavigation(
-    ROUTES.PAYMENT_MODES,
-    ItemUnits
-  ),
-  [ROUTES.ITEM_UNITS]: generateStackNavigation(ROUTES.ITEM_UNITS, PaymentModes),
+  [ROUTES.ITEM_UNITS]: generateStackNavigation(ROUTES.ITEM_UNITS, ItemUnits),
 
   // Currencies
   // -----------------------------------------

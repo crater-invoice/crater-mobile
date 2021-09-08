@@ -40,17 +40,19 @@ export interface IProps {
   isLoading: Boolean;
 
   /**
-   * get  customize settings data from api.
-   */
-  getCustomizeSettings: Function;
-
-  /**
    *  customize settings data.
    */
   customizes: Object;
+}
+
+export interface IStates {
+  /**
+   * update auto generate.
+   */
+  isUpdateAutoGenerate: Boolean;
 
   /**
-   * aet customize settings data.
+   * current active tab
    */
-  setCustomizeSettings: Function;
+  activeTab: string;
 }

@@ -1,5 +1,4 @@
 import * as types from './types';
-import {isEmpty} from '@/constants';
 
 const initialState = {
   loading: {
@@ -24,12 +23,12 @@ export default function paymentModesReducer(state = initialState, action) {
       return {...state, modes: payload.modes};
 
     case types.SET_PAYMENT_MODE:
-      const {paymentMethod, isCreated, isUpdated, isRemove} = payload;
+      const {paymentMode, isCreated, isUpdated, isRemove} = payload;
 
       if (isCreated) {
         return {
           ...state,
-          modes: [...paymentMethod, ...state.modes]
+          modes: [...paymentMode, ...state.modes]
         };
       }
       if (isUpdated) {
@@ -37,7 +36,7 @@ export default function paymentModesReducer(state = initialState, action) {
 
         state.modes.map(method => {
           let value = method;
-          method.id === paymentMethod.id && (value = paymentMethod);
+          method.id === paymentMode.id && (value = paymentMode);
           methods.push(value);
         });
 

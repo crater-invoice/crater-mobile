@@ -3,7 +3,7 @@ import { reduxForm, getFormValues } from 'redux-form';
 import * as ItemsAction from '../../actions';
 import { Items } from '../../components/Items';
 import { ITEM_SEARCH } from '../../constants';
-import { getItemUnits } from '@/features/settings/actions';
+import { getItemUnits } from 'stores/item-units/actions';
 import { getUnitState } from '../../selectors';
 import { commonSelector } from 'stores/common/selectors';
 

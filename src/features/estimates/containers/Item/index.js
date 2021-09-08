@@ -4,7 +4,8 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as EstimatesAction from '../../actions';
 import { ITEM_FORM } from '../../constants';
-import { getItemUnits, getTaxes } from '@/features/settings/actions';
+import { getTaxes } from '@/features/settings/actions';
+import { getItemUnits } from 'stores/item-units/actions';
 import { getUnitState } from '@/features/more/selectors';
 import { commonSelector } from 'stores/common/selectors';
 
@@ -12,9 +13,9 @@ const mapStateToProps = (state, { navigation }) => {
     const {
         estimates: { loading },
         settings: {
-            units,
             loading: { itemUnitsLoading }
-        }
+        },
+        itemUnits: { units }
     } = state;
 
     const item = navigation.getParam('item', {});

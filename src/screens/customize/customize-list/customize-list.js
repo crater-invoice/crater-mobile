@@ -6,7 +6,7 @@ import styles from './customize-styles';
 import {ListView, DefaultLayout} from '@/components';
 import t from 'locales/use-translation';
 import {IProps} from './customize-list-type';
-import {CUSTOMIZES_MENU} from 'stores/customize/types';
+import {CUSTOMIZES_MENU} from 'stores/customize/helpers';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
 
 export default class CustomizeList extends Component<IProps> {

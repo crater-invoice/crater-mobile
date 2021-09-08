@@ -1,36 +1,33 @@
 import {connect} from 'react-redux';
 import {getFormValues, reduxForm} from 'redux-form';
 import ItemUnits from './item-units';
-import {CREATE_USER_FORM} from 'stores/item-units/types';
-import {validate} from 'stores/item-units/validator';
-import {commonSelector, permissionSelector} from 'stores/common/selectors';
-
-const mapStateToProps = (state, {navigation}) => {
+import {ITEM_UNITS_FORM} from 'stores/item-units/types';
+import {commonSelector} from 'stores/common/selectors';
+import * as itemUnitAction from 'stores/item-units/actions';
+import {getUnitState} from 'stores/item-units/selectors';
+const mapStateToProps = state => {
   const {
-    users: {loading},
-    roles: {roles}
-  } = state;
-  const user = navigation.getParam('user', {});
-  return {
-    roles,
-    loading: loading?.userLoading,
-    userId: user?.id,
-    ...commonSelector(state),
-    ...permissionSelector(navigation),
-    formValues: getFormValues(CREATE_USER_FORM)(state) || {},
-    initialValues: {
-      name: null,
-      email: null,
-      password: null,
-      phone: null,
-      role: null
+    itemUnits: {
+      units,
+      loading: {itemUnitLoading, itemUnitsLoading}
     }
+  } = state;
+
+  return {
+    formValues: getFormValues(ITEM_UNITS_FORM)(state) || {},
+    units: getUnitState(units),
+    itemUnitLoading,
+    itemUnitsLoading,
+    loading: itemUnitLoading,
+    ...commonSelector(state)
   };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getItemUnits: itemUnitAction.getItemUnits
+};
 
-const ItemUnitsForm = reduxForm({form: CREATE_USER_FORM, validate})(ItemUnits);
+const ItemUnitsForm = reduxForm({form: ITEM_UNITS_FORM})(ItemUnits);
 
 export const ItemUnitsContainer = connect(
   mapStateToProps,

@@ -4,8 +4,14 @@ import {ListView, InputModal, InfiniteScroll} from '@/components';
 import t from 'locales/use-translation';
 import {formatListByName} from '@/utils';
 import {alertMe, isIPhoneX} from '@/constants';
-import {PermissionService} from '@/services';
-import {CUSTOMIZE_PAYMENT} from 'stores/payment-modes/types';
+import {PAYMENT_MODES_FORM} from 'stores/payment-modes/types';
+import {change} from 'redux-form';
+import {
+  createPaymentMode,
+  editPaymentMode,
+  removePaymentMode,
+  getPaymentModes
+} from 'stores/payment-modes/actions';
 
 export class PaymentModes extends Component {
   constructor(props) {
@@ -18,16 +24,21 @@ export class PaymentModes extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.reference?.(this);
+  }
+
+  componentWillUnmount() {
+    this.props.reference?.(undefined);
+  }
+
   onToggle = () => this?.modalReference?.onToggle?.();
 
   onSaveMethod = () => {
     const {isCreateMethod} = this.state;
     const {
-      props: {
-        formValues: {methodName = '', methodId = null},
-        createPaymentMode,
-        editPaymentMode
-      }
+      formValues: {methodName = '', methodId = null},
+      dispatch
     } = this.props;
 
     const params = {
@@ -39,16 +50,19 @@ export class PaymentModes extends Component {
     };
 
     if (methodName) {
-      isCreateMethod ? createPaymentMode(params) : editPaymentMode(params);
+      isCreateMethod
+        ? dispatch(createPaymentMode(params))
+        : dispatch(editPaymentMode(params));
     }
+  };
+  setFormField = (field, value) => {
+    this.props.dispatch(change(PAYMENT_MODES_FORM, field, value));
   };
 
   onRemoveMethod = () => {
     const {
-      props: {
-        removePaymentMode,
-        formValues: {methodId = null}
-      }
+      dispatch,
+      formValues: {methodId = null}
     } = this.props;
 
     alertMe({
@@ -56,10 +70,12 @@ export class PaymentModes extends Component {
       desc: t('payments.alertMode'),
       showCancel: true,
       okPress: () => {
-        removePaymentMode({
-          id: methodId,
-          onSuccess: () => this.onToggle()
-        });
+        dispatch(
+          removePaymentMode({
+            id: methodId,
+            onSuccess: () => this.onToggle()
+          })
+        );
       }
     });
   };
@@ -68,9 +84,7 @@ export class PaymentModes extends Component {
     const {isCreateMethod} = this.state;
     const {paymentModeLoading = false} = this.props;
 
-    const isAllowToEdit = isCreateMethod
-      ? true
-      : PermissionService.isAllowToEdit(CUSTOMIZE_PAYMENT);
+    const isAllowToEdit = true;
     const disabled = !isAllowToEdit;
 
     const getTitle = () => {
@@ -89,10 +103,7 @@ export class PaymentModes extends Component {
         fieldName="methodName"
         onSubmit={() => this.onSaveMethod()}
         onRemove={() => this.onRemoveMethod()}
-        showRemoveButton={
-          !isCreateMethod &&
-          PermissionService.isAllowToDelete(CUSTOMIZE_PAYMENT)
-        }
+        showRemoveButton={!isCreateMethod}
         showSaveButton={isAllowToEdit}
         onSubmitLoading={paymentModeLoading}
         onRemoveLoading={paymentModeLoading}
@@ -101,21 +112,19 @@ export class PaymentModes extends Component {
     );
   };
 
-  onSelectPaymentMethod = ({name, id}) => {
-    this.props.setFormField('methodId', id);
+  onSelectPaymentMode = ({name, id}) => {
+    this.setFormField('methodId', id);
     this.openModal(name);
   };
 
   openModal = (name = '') => {
-    console.log('called');
-
     this.setState({isCreateMethod: name ? false : true});
-    this.props.setFormField('methodName', name);
+    this.setFormField('methodName', name);
     this.onToggle();
   };
 
   render() {
-    const {modes, getPaymentModes} = this.props;
+    const {paymentModes, getPaymentModes} = this.props;
 
     return (
       <View style={{paddingTop: 10, flex: 1}}>
@@ -126,12 +135,12 @@ export class PaymentModes extends Component {
           paginationLimit={isIPhoneX ? 20 : 15}
         >
           <ListView
-            items={formatListByName(modes)}
+            items={formatListByName(paymentModes)}
             getFreshItems={onHide => {
               onHide && onHide();
             }}
-            onPress={this.onSelectPaymentMethod}
-            isEmpty={modes ? modes.length <= 0 : true}
+            onPress={this.onSelectPaymentMode}
+            isEmpty={paymentModes ? paymentModes.length <= 0 : true}
             bottomDivider
             contentContainerStyle={{flex: 3}}
             emptyContentProps={{

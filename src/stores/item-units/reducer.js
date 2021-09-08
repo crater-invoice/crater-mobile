@@ -1,62 +1,56 @@
 import * as types from './types';
-import {isEmpty} from '@/constants';
 
 const initialState = {
   loading: {
-    // Item Unit
     itemUnitsLoading: false,
     itemUnitLoading: false
-  }
+  },
+  units: []
 };
 
 export default function itemUnitReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {
-    case types.SPINNER:
-      return {
-        ...state,
-        loading: {...state.loading, ...payload}
-      };
+    case types.SET_ITEM_UNITS:
+      if (!payload.fresh) {
+        return {
+          ...state,
+          units: [...state.units, ...payload.units]
+        };
+      }
+      return {...state, units: payload.units};
 
-    case types.FETCH_USERS_SUCCESS:
-      if (payload.fresh) {
-        return {...state, users: payload.users};
+    case types.SET_ITEM_UNIT:
+      const {unit} = payload;
+
+      if (payload.isCreated) {
+        return {
+          ...state,
+          units: [...unit, ...state.units]
+        };
+      }
+      if (payload.isUpdated) {
+        const units = [];
+
+        state.units.map(_ => {
+          let value = _;
+          _.id === unit.id && (value = unit);
+          units.push(value);
+        });
+
+        return {
+          ...state,
+          units
+        };
+      }
+      if (payload.isRemove) {
+        const remainUnits = state.units.filter(({id}) => id !== payload.id);
+
+        return {...state, units: remainUnits};
       }
 
-      return {...state, users: [...state.users, ...payload.users]};
-
-    case types.ADD_USER_SUCCESS:
-      return {
-        ...state,
-        users: [...[payload], ...state.users]
-      };
-
-    case types.UPDATE_USER_SUCCESS:
-      const userData = payload;
-      const userList = [];
-
-      if (isEmpty(state.users)) {
-        return state;
-      }
-
-      state.users.map(user => {
-        const {id} = user;
-        let value = user;
-
-        if (id === userData.id) {
-          value = userData;
-        }
-        userList.push(value);
-      });
-
-      return {...state, users: userList};
-
-    case types.REMOVE_USER_SUCCESS:
-      return {
-        ...state,
-        users: state.users.filter(({id}) => id !== payload)
-      };
+      return {...state};
 
     default:
       return state;

@@ -24,7 +24,7 @@ import {
 import { colors } from '@/styles';
 import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
+import { CUSTOMIZE_TYPE } from 'stores/customize/types';
 import {
     alertMe,
     hasValue,

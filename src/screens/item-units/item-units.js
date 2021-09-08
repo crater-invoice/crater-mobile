@@ -1,277 +1,180 @@
 import React, {Component} from 'react';
-import {Field, change, initialize, SubmissionError} from 'redux-form';
+import {View} from 'react-native';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './item-units-type';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
-import {alertMe, KEYBOARD_TYPE} from '@/constants';
-import {CREATE_USER_FORM} from 'stores/item-units/types';
-import {IMAGES} from '@/assets';
 import {
+  ListView,
+  InputModal,
+  InfiniteScroll,
   DefaultLayout,
-  InputField,
-  ActionButton,
-  SelectField
+  ActionButton
 } from '@/components';
+import {ROUTES} from '@/navigation';
+import {alertMe} from '@/constants';
+import {IProps, IStates} from './item-units-type';
+import {ITEM_UNITS_FORM} from '@/stores/item-units/types';
+import {change} from 'redux-form';
 import {
-  addUser,
-  updateUser,
-  removeUser,
-  fetchSingleUser
-} from 'stores/users/actions';
-
-let userRefs = {};
+  createItemUnit,
+  editItemUnit,
+  removeItemUnit
+} from 'stores/item-units/actions';
 
 export default class ItemUnits extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
+    this.scrollViewReference = React.createRef();
+    this.modalReference = React.createRef();
+    this.state = {
+      isCreateMethod: true
+    };
   }
+  onToggle = () => this?.modalReference?.onToggle?.();
 
-  componentDidMount() {
-    const {navigation} = this.props;
-    goBack(MOUNT, navigation);
-    this.loadData();
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
-  }
-
-  loadData = () => {
-    const {isEditScreen, userId, dispatch} = this.props;
-
-    if (isEditScreen) {
-      const onSuccess = user => {
-        this.setInitialData(user);
-      };
-      dispatch(fetchSingleUser({id: userId, onSuccess}));
-      return;
-    }
-  };
-
-  throwError = errors => {
-    let error = {};
-    errors.email && (error.email = 'validation.alreadyTaken');
-    errors.phone && (error.phone = 'validation.alreadyTaken');
-    throw new SubmissionError(error);
-  };
-
-  setInitialData = user => {
-    const {dispatch} = this.props;
-    dispatch(initialize(CREATE_USER_FORM, user));
-  };
-
-  onSave = values => {
+  onSave = () => {
+    const {isCreateMethod} = this.state;
     const {
-      isCreateScreen,
-      navigation,
-      loading,
-      userId,
-      dispatch,
-      handleSubmit
+      formValues: {unitName = '', unitId = null},
+      dispatch
     } = this.props;
 
-    if (loading) {
-      return;
-    }
-
     const params = {
-      params: values,
-      navigation,
-      userId,
-      submissionError: errors => handleSubmit(() => this.throwError(errors))()
+      params: {
+        id: unitId,
+        name: unitName
+      },
+      onSuccess: () => this.onToggle()
     };
 
-    isCreateScreen ? dispatch(addUser(params)) : dispatch(updateUser(params));
+    if (unitName) {
+      isCreateMethod
+        ? dispatch(createItemUnit(params))
+        : dispatch(editItemUnit(params));
+    }
   };
 
-  removeUser = () => {
-    const {navigation, userId, dispatch} = this.props;
-    function alreadyUsedAlert() {
-      alertMe({
-        title: t('users.text_already_used')
-      });
-    }
+  onRemove = () => {
+    const {
+      dispatch,
+      formValues: {unitId = null}
+    } = this.props;
 
-    function confirmationAlert(remove) {
-      alertMe({
-        title: t('alert.title'),
-        desc: t('users.text_alert_description'),
-        showCancel: true,
-        okPress: remove
-      });
-    }
+    alertMe({
+      title: t('alert.title'),
+      desc: t('items.alertUnit'),
+      showCancel: true,
+      okPress: () => {
+        dispatch(
+          removeItemUnit({
+            id: unitId,
+            onSuccess: () => this.onToggle()
+          })
+        );
+      }
+    });
+  };
 
-    confirmationAlert(() =>
-      dispatch(
-        removeUser({
-          id: userId,
-          onSuccess: val =>
-            val ? navigation.navigate(ROUTES.USERS) : alreadyUsedAlert()
-        })
-      )
+  INPUT_MODAL = () => {
+    const {isCreateMethod} = this.state;
+    const {itemUnitLoading} = this.props;
+
+    const isAllowToEdit = isCreateMethod ? true : true;
+
+    const getTitle = () => {
+      let title = 'items.addUnit';
+      if (!isCreateMethod && !isAllowToEdit) title = 'header.viewUnit';
+      if (!isCreateMethod && isAllowToEdit) title = 'items.editUnit';
+
+      return t(title);
+    };
+
+    return (
+      <InputModal
+        reference={ref => (this.modalReference = ref)}
+        headerTitle={getTitle()}
+        hint={t('items.unitHint')}
+        fieldName="unitName"
+        onSubmit={() => this.onSave()}
+        onRemove={() => this.onRemove()}
+        showRemoveButton={!isCreateMethod}
+        showSaveButton={isAllowToEdit}
+        onSubmitLoading={itemUnitLoading}
+        onRemoveLoading={itemUnitLoading}
+      />
     );
   };
 
+  onSelectUnit = ({name, id}) => {
+    this.setFormField('unitId', id);
+    this.openModal(name);
+  };
   setFormField = (field, value) => {
-    const {dispatch} = this.props;
-    dispatch(change(CREATE_USER_FORM, field, value));
+    this.props.dispatch(change(ITEM_UNITS_FORM, field, value));
   };
 
-  navigateToRole = () => {
-    const {navigation} = this.props;
-    navigation.navigate(ROUTES.CREATE_ROLE, {
-      type: 'ADD',
-      onSelect: item => {
-        this.setFormField(`role`, item.name);
-      }
-    });
+  openModal = (name = '') => {
+    this.setState({isCreateMethod: name ? false : true});
+    this.setFormField('unitName', name);
+    this.onToggle();
   };
   render() {
     const {
       navigation,
       handleSubmit,
       loading,
-      isEditScreen,
-      isAllowToEdit,
-      isAllowToDelete,
-      roles,
-      fetchRoles,
-      formValues
+      formValues,
+      dispatch,
+      units,
+      getItemUnits
     } = this.props;
-    const disabled = !isAllowToEdit;
-
-    const getTitle = () => {
-      let title = 'header.addUser';
-
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewUser';
-      if (isEditScreen && isAllowToEdit) title = 'header.editUser';
-
-      return t(title);
-    };
 
     const bottomAction = [
       {
-        label: 'button.save',
-        onPress: handleSubmit(this.onSave),
-        show: isAllowToEdit,
-        loading: loading
-      },
-      {
-        label: 'button.remove',
-        onPress: this.removeUser,
-        bgColor: 'btn-danger',
-        show: isEditScreen && isAllowToDelete,
-        loading: loading
+        label: 'button.add',
+        onPress: () => this.openModal(),
+        loading: this.props.loading
       }
     ];
-
-    const headerProps = {
-      leftIconPress: () => navigation.goBack(null),
-      title: getTitle(),
-      placement: 'center',
-      ...(isAllowToEdit && {
-        rightIcon: 'save',
-        rightIconProps: {solid: true},
-        rightIconPress: handleSubmit(this.onSave)
-      })
-    };
-
     return (
       <DefaultLayout
-        headerProps={headerProps}
+        headerProps={{
+          leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZE_LIST),
+          title: t('header.units'),
+          rightIconPress: null,
+          placement: 'center',
+          leftArrow: 'primary'
+        }}
         bottomAction={<ActionButton buttons={bottomAction} />}
+        loadingProps={{is: loading}}
+        hideScrollView
+        toastProps={{
+          reference: ref => (this.toastReference = ref)
+        }}
       >
-        <Field
-          name="name"
-          component={InputField}
-          isRequired
-          hint={t('users.text_name')}
-          disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => userRefs.email.focus()
-          }}
-        />
-
-        <Field
-          name="email"
-          component={InputField}
-          hint={t('users.email')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.EMAIL,
-            onSubmitEditing: () => userRefs.password.focus()
-          }}
-          isRequired
-          refLinkFn={ref => (userRefs.email = ref)}
-          disabled={disabled}
-        />
-
-        <Field
-          name="password"
-          component={InputField}
-          hint={t('users.password')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => userRefs.phone.focus()
-          }}
-          secureTextEntry
-          secureTextIconContainerStyle={{top: 6}}
-          disabled={disabled}
-          refLinkFn={ref => (userRefs.password = ref)}
-          isRequired={!isEditScreen}
-          minCharacter={8}
-        />
-
-        <Field
-          name="phone"
-          component={InputField}
-          hint={t('users.phone')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.PHONE
-          }}
-          refLinkFn={ref => (userRefs.phone = ref)}
-          disabled={disabled}
-        />
-
-        <Field
-          name="role"
-          items={roles}
-          apiSearch
-          hasPagination
-          isRequired
-          getItems={fetchRoles}
-          selectedItem={formValues?.user?.role}
-          displayName="title"
-          component={SelectField}
-          label={t('users.role')}
-          icon={'align-center'}
-          createActionRouteName={ROUTES.ROLE}
-          rightIconPress={this.navigateToRole}
-          placeholder={formValues?.role ?? t('users.rolePlaceholder')}
-          navigation={navigation}
-          compareField="id"
-          onSelect={item => this.setFormField(`role`, item.name)}
-          headerProps={{
-            title: t('users.roles')
-          }}
-          emptyContentProps={{
-            contentType: 'roles',
-            image: IMAGES.EMPTY_CUSTOMERS
-          }}
-          isEditable={!disabled}
-          fakeInputProps={{disabled}}
-          refLinkFn={ref => (userRefs.role = ref)}
-        />
+        <View style={{paddingTop: 10, flex: 1}}>
+          {this.INPUT_MODAL()}
+          <InfiniteScroll
+            getItems={getItemUnits}
+            reference={ref => (this.scrollViewReference = ref)}
+            paginationLimit={20}
+          >
+            <ListView
+              items={units}
+              onPress={this.onSelectUnit}
+              isEmpty={units ? units.length <= 0 : true}
+              bottomDivider
+              contentContainerStyle={{
+                flex: 3
+              }}
+              emptyContentProps={{
+                title: t('payments.empty.modeTitle')
+              }}
+              itemContainer={{
+                paddingVertical: 14,
+                paddingHorizontal: 22
+              }}
+            />
+          </InfiniteScroll>
+        </View>
       </DefaultLayout>
     );
   }

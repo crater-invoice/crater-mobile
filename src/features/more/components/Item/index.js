@@ -20,7 +20,7 @@ import t from 'locales/use-translation';
 import { goBack, UNMOUNT, MOUNT } from '@/navigation';
 import { isIosPlatform, isIPhoneX } from '@/constants';
 import { alertMe, hasValue, MAX_LENGTH } from '@/constants';
-import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
+import { CUSTOMIZE_TYPE } from 'stores/customize/types';
 
 export class Item extends React.Component {
     constructor(props) {

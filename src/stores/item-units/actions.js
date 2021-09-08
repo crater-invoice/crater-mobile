@@ -1,73 +1,71 @@
-import * as types from './types';
+import * as TYPES from './types';
 
 /**
  * Spinner
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function spinner(payload) {
-  return {
-    type: types.SPINNER,
-    payload: typeof payload === 'object' ? payload : {userLoading: payload}
-  };
-}
+export const settingsTriggerSpinner = payload => ({
+  type: TYPES.SETTINGS_TRIGGER_SPINNER,
+  payload
+});
 
 /**
- * Fetch users
+ * get item-units list
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function fetchUsers(payload = {}) {
-  return {
-    type: types.FETCH_USERS,
-    payload
-  };
-}
+export const getItemUnits = (payload = {}) => ({
+  type: TYPES.GET_ITEM_UNITS,
+  payload
+});
 
 /**
- * Fetch single user
+ * set item-units list
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function fetchSingleUser(payload = {}) {
-  return {
-    type: types.FETCH_SINGLE_USER,
-    payload
-  };
-}
+export const setItemUnits = (payload = {}) => ({
+  type: TYPES.SET_ITEM_UNITS,
+  payload
+});
 
 /**
- * Add user
+ * set single item-unit
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function addUser(payload = {}) {
-  return {
-    type: types.ADD_USER,
-    payload
-  };
-}
+export const setItemUnit = (payload = {}) => ({
+  type: TYPES.SET_ITEM_UNIT,
+  payload
+});
 
 /**
- * Update user
+ * create item-unit
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function updateUser(payload = {}) {
-  return {
-    type: types.UPDATE_USER,
-    payload
-  };
-}
+export const createItemUnit = (payload = {}) => ({
+  type: TYPES.CREATE_ITEM_UNIT,
+  payload
+});
 
 /**
- * Remove user
+ * update item-unit
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function removeUser(payload = {}) {
-  return {
-    type: types.REMOVE_USER,
-    payload
-  };
-}
+export const editItemUnit = (payload = {}) => ({
+  type: TYPES.EDIT_ITEM_UNIT,
+  payload
+});
+
+/**
+ * delete item-unit
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const removeItemUnit = (payload = {}) => ({
+  type: TYPES.REMOVE_ITEM_UNIT,
+  payload
+});

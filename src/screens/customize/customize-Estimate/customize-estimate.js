@@ -14,11 +14,17 @@ import {
 } from '@/components';
 import {CUSTOMIZE_ESTIMATE_FORM} from 'stores/customize/types';
 import t from 'locales/use-translation';
-import {IProps} from './customize-estimate-type';
+import {IProps, IStates} from './customize-estimate-type';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
 import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
+import {
+  getCustomizeSettings,
+  setCustomizeSettings,
+  editSettingItem,
+  editCustomizeSettings
+} from 'stores/customize/actions';
 
-export default class CustomizeEstimate extends Component<IProps> {
+export default class CustomizeEstimate extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,20 +33,18 @@ export default class CustomizeEstimate extends Component<IProps> {
   }
 
   componentDidMount() {
-    const {getCustomizeSettings, customizes, navigation} = this.props;
-    console.log(this.props);
-
+    const {dispatch, customizes, navigation} = this.props;
     let hasCustomizeApiCalled = customizes
       ? typeof customizes === 'undefined' || customizes === null
       : true;
 
-    hasCustomizeApiCalled && getCustomizeSettings();
+    hasCustomizeApiCalled && dispatch(getCustomizeSettings());
     goBack(MOUNT, navigation);
   }
 
   componentWillUnmount() {
     this.state.isUpdateAutoGenerate &&
-      this.props.setCustomizeSettings({customizes: null});
+      this.props.dispatch(setCustomizeSettings({customizes: null}));
     goBack(UNMOUNT);
   }
 
@@ -51,13 +55,10 @@ export default class CustomizeEstimate extends Component<IProps> {
   changeAutoGenerateStatus = (field, status) => {
     this.setFormField(field, status);
 
-    const {editSettingItem} = this.props;
-
     const settings = {
       [field]: status === true ? 'YES' : 'NO'
     };
-
-    editSettingItem({
+    const payload = {
       params: {
         settings
       },
@@ -66,7 +67,8 @@ export default class CustomizeEstimate extends Component<IProps> {
         this.toastReference?.show?.('settings.preferences.settingUpdate');
         this.setState({isUpdateAutoGenerate: true});
       }
-    });
+    };
+    this.dispatch(editSettingItem(payload));
   };
 
   onSave = values => {
@@ -79,8 +81,8 @@ export default class CustomizeEstimate extends Component<IProps> {
       }
     }
 
-    const {editCustomizeSettings, navigation} = this.props;
-    editCustomizeSettings({params, navigation});
+    const {dispatch, navigation} = this.props;
+    dispatch(editCustomizeSettings({params, navigation}));
   };
 
   TOGGLE_FIELD_VIEW = () => {

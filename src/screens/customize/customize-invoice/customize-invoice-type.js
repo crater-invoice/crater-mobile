@@ -19,11 +19,6 @@ export interface IProps {
   handleSubmit: (fun: object) => void;
 
   /**
-   * The loading indicator for the button.
-   */
-  loading: boolean;
-
-  /**
    * An active theme object.
    * @see ITheme
    */
@@ -40,17 +35,19 @@ export interface IProps {
   isLoading: Boolean;
 
   /**
-   * get  customize settings data from api.
-   */
-  getCustomizeSettings: Function;
-
-  /**
    *  customize settings data.
    */
   customizes: Object;
 
   /**
-   * aet customize settings data.
+   * The loading indicator for the button.
    */
-  setCustomizeSettings: Function;
+  loading: boolean;
+}
+
+export interface IStates {
+  /**
+   * update auto generate.
+   */
+  isUpdateAutoGenerate: Boolean;
 }

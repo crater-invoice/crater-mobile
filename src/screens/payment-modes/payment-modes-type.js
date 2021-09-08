@@ -24,34 +24,14 @@ export interface IProps {
   loading: boolean;
 
   /**
-   * Initialize the form data.
+   * The loading indicator for the payment loading.
    */
-  initialValues: any;
+  paymentModeLoading: boolean;
 
   /**
    * Id of the current user.
    */
   userId: string;
-
-  /**
-   * It is a create screen view.
-   */
-  isCreateScreen: boolean;
-
-  /**
-   * It is a update screen view.
-   */
-  isEditScreen: boolean;
-
-  /**
-   * If true the user will be able to update the current role data.
-   */
-  isAllowToEdit: boolean;
-
-  /**
-   * If true the user will be able to remove the current role.
-   */
-  isAllowToDelete: boolean;
 
   /**
    * An active theme object.
@@ -65,17 +45,23 @@ export interface IProps {
   formData: any;
 
   /**
-   * An array of objects with data for each role.
+   * An array of objects with data for each payment-mode.
    */
-  roles: Array<any>;
-
-  /**
-   * An action to return a list of roles.
-   */
-  fetchRoles: () => void;
+  paymentModes: Array<any>;
 
   /**
    * Gets form data.
    */
   formValues: any;
+
+  /**
+   * An action to return a list of payment-modes.
+   */
+  getPaymentModes: () => void;
+}
+export interface IStates {
+  /**
+   * update auto generate.
+   */
+  isCreateMethod: Boolean;
 }

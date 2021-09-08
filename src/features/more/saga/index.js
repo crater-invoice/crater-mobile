@@ -3,7 +3,7 @@ import { ROUTES } from '@/navigation';
 import Request from 'utils/request';
 import { moreTriggerSpinner, setItems, setItem, deleteItem } from '../actions';
 import * as queryStrings from 'query-string';
-import { getItemUnits } from '@/features/settings/saga/units';
+import { getItemUnits } from 'stores/item-units/saga';
 import { getSettingInfo } from '@/features/settings/saga/general';
 import {
     LOGOUT,

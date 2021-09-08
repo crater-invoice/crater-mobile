@@ -14,11 +14,17 @@ import {
 } from '@/components';
 import {CUSTOMIZE_INVOICE_FORM} from 'stores/customize/types';
 import t from 'locales/use-translation';
-import {IProps} from './customize-invoice-type';
+import {IProps, IStates} from './customize-invoice-type';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
 import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
+import {
+  getCustomizeSettings,
+  setCustomizeSettings,
+  editSettingItem,
+  editCustomizeSettings
+} from 'stores/customize/actions';
 
-export default class CustomizeInvoice extends Component<IProps> {
+export default class CustomizeInvoice extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,20 +33,19 @@ export default class CustomizeInvoice extends Component<IProps> {
   }
 
   componentDidMount() {
-    const {getCustomizeSettings, customizes, navigation} = this.props;
-    console.log(this.props);
+    const {customizes, navigation, dispatch} = this.props;
 
     let hasCustomizeApiCalled = customizes
       ? typeof customizes === 'undefined' || customizes === null
       : true;
 
-    hasCustomizeApiCalled && getCustomizeSettings();
+    hasCustomizeApiCalled && dispatch(getCustomizeSettings());
     goBack(MOUNT, navigation);
   }
 
   componentWillUnmount() {
     this.state.isUpdateAutoGenerate &&
-      this.props.setCustomizeSettings({customizes: null});
+      this.props.dispatch(setCustomizeSettings({customizes: null}));
     goBack(UNMOUNT);
   }
 
@@ -51,13 +56,10 @@ export default class CustomizeInvoice extends Component<IProps> {
   changeAutoGenerateStatus = (field, status) => {
     this.setFormField(field, status);
 
-    const {editSettingItem} = this.props;
-
     const settings = {
       [field]: status === true ? 'YES' : 'NO'
     };
-
-    editSettingItem({
+    const payload = {
       params: {
         settings
       },
@@ -66,7 +68,8 @@ export default class CustomizeInvoice extends Component<IProps> {
         this.toastReference?.show?.('settings.preferences.settingUpdate');
         this.setState({isUpdateAutoGenerate: true});
       }
-    });
+    };
+    this.props.dispatch(editSettingItem(payload));
   };
 
   onSave = values => {
@@ -79,8 +82,8 @@ export default class CustomizeInvoice extends Component<IProps> {
       }
     }
 
-    const {editCustomizeSettings, navigation} = this.props;
-    editCustomizeSettings({params, navigation});
+    const {navigation, dispatch} = this.props;
+    dispatch(editCustomizeSettings({params, navigation}));
   };
 
   TOGGLE_FIELD_VIEW = () => {

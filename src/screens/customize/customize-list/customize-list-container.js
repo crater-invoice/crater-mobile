@@ -9,12 +9,7 @@ const mapStateToProps = (state, {navigation}) => {
   };
 };
 
-const mapDispatchToProps = {};
-
-export const CustomizeListContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CustomizeList);
+export const CustomizeListContainer = connect(mapStateToProps)(CustomizeList);
 
 CustomizeListContainer.navigationOptions = () => ({
   header: null

@@ -4,11 +4,10 @@ import CustomizeInvoice from './customize-invoice';
 import {CUSTOMIZE_INVOICE_FORM} from 'stores/customize/types';
 import {customizeInvoiceValidate} from 'stores/customize/validator';
 import {commonSelector} from 'stores/common/selectors';
-import * as customizeAction from 'stores/customize/actions';
 
 const mapStateToProps = (state, {navigation}) => {
   const {
-    settings: {
+    customizes: {
       customizes,
       customFields,
       loading: {getCustomizeLoading, customizeLoading}
@@ -38,22 +37,14 @@ const mapStateToProps = (state, {navigation}) => {
   };
 };
 
-const mapDispatchToProps = {
-  getCustomizeSettings: customizeAction.getCustomizeSettings,
-  setCustomizeSettings: customizeAction.setCustomizeSettings,
-  editCustomizeSettings: customizeAction.editCustomizeSettings,
-  editSettingItem: customizeAction.editSettingItem
-};
-
 const CustomizeInvoiceForm = reduxForm({
   form: CUSTOMIZE_INVOICE_FORM,
   customizeInvoiceValidate
 })(CustomizeInvoice);
 
-export const CustomizeInvoiceContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CustomizeInvoiceForm);
+export const CustomizeInvoiceContainer = connect(mapStateToProps)(
+  CustomizeInvoiceForm
+);
 
 CustomizeInvoiceContainer.navigationOptions = () => ({
   header: null

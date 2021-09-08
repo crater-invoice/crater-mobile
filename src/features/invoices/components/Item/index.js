@@ -31,7 +31,7 @@ import {
     isIPhoneX,
     MAX_LENGTH
 } from '@/constants';
-import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
+import { CUSTOMIZE_TYPE } from 'stores/customize/types';
 
 export class InvoiceItem extends React.Component {
     constructor(props) {

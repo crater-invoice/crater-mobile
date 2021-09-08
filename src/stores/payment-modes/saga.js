@@ -1,7 +1,6 @@
 import {call, put, takeEvery} from 'redux-saga/effects';
-import * as queryStrings from 'query-string';
 import t from 'locales/use-translation';
-import Request from 'utils/request';
+import * as req from './service';
 import {alertMe} from '@/constants';
 import {
   settingsTriggerSpinner as spinner,
@@ -15,40 +14,39 @@ import {
   REMOVE_PAYMENT_MODE
 } from './types';
 
+/**
+ * get payment-methods saga
+ * @returns {IterableIterator<*>}
+ */
 export function* getPaymentModes({payload}) {
   const {fresh = true, onSuccess, queryString} = payload;
 
   try {
-    const options = {
-      path: `payment-methods?${queryStrings.stringify(queryString)}`
-    };
-
-    const response = yield call([Request, 'get'], options);
+    const response = yield call(req.getPaymentModes, queryString);
 
     if (response?.data) {
       const data = response.data;
-      yield put(setPaymentModes({paymentMethods: data, fresh}));
+      yield put(setPaymentModes({modes: data, fresh}));
     }
 
     onSuccess?.(response);
   } catch (e) {}
 }
 
+/**
+ * Add payment-methods saga
+ * @returns {IterableIterator<*>}
+ */
 function* createPaymentMode({payload: {params, onSuccess}}) {
   yield put(spinner({paymentModeLoading: true}));
 
   try {
-    const options = {
-      path: `payment-methods`,
-      body: params
-    };
-
-    const response = yield call([Request, 'post'], options);
+    const response = yield call(req.createPaymentMode, params);
 
     if (response?.data) {
       yield put(
         setPaymentMode({
-          paymentMethod: [response.data],
+          paymentMode: [response.data],
           isCreated: true
         })
       );
@@ -67,21 +65,20 @@ function* createPaymentMode({payload: {params, onSuccess}}) {
   }
 }
 
+/**
+ * Update payment-methods saga
+ * @returns {IterableIterator<*>}
+ */
 function* editPaymentMode({payload: {params, onSuccess}}) {
   yield put(spinner({paymentModeLoading: true}));
 
   try {
-    const options = {
-      path: `payment-methods/${params.id}`,
-      body: params
-    };
-
-    const response = yield call([Request, 'put'], options);
+    const response = yield call(req.editPaymentMode, params);
 
     if (response?.data) {
       yield put(
         setPaymentMode({
-          paymentMethod: response.data,
+          paymentMode: response.data,
           isUpdated: true
         })
       );
@@ -100,15 +97,15 @@ function* editPaymentMode({payload: {params, onSuccess}}) {
   }
 }
 
+/**
+ * Remove payment-methods saga
+ * @returns {IterableIterator<*>}
+ */
 function* removePaymentMode({payload: {id, onSuccess}}) {
   yield put(spinner({paymentModeLoading: true}));
 
   try {
-    const options = {
-      path: `payment-methods/${id}`
-    };
-
-    const response = yield call([Request, 'delete'], options);
+    const response = yield call(req.removePaymentMode, id);
 
     if (response.success) {
       yield put(setPaymentMode({id, isRemove: true}));
@@ -126,7 +123,7 @@ function* removePaymentMode({payload: {id, onSuccess}}) {
   }
 }
 
-export default function* paymentMethodsSaga() {
+export default function* paymentModesSaga() {
   yield takeEvery(GET_PAYMENT_MODES, getPaymentModes);
   yield takeEvery(CREATE_PAYMENT_MODE, createPaymentMode);
   yield takeEvery(EDIT_PAYMENT_MODE, editPaymentMode);

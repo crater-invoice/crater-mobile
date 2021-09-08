@@ -18,8 +18,13 @@ import t from 'locales/use-translation';
 import {IProps} from './customize-payment-type';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
 import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
-import {View} from 'react-native';
 import {PaymentModes} from 'screens/payment-modes';
+import {
+  getCustomizeSettings,
+  setCustomizeSettings,
+  editSettingItem,
+  editCustomizeSettings
+} from 'stores/customize/actions';
 export default class CustomizePayment extends Component<IProps> {
   constructor(props) {
     super(props);
@@ -31,19 +36,19 @@ export default class CustomizePayment extends Component<IProps> {
   }
 
   componentDidMount() {
-    const {getCustomizeSettings, customizes, navigation} = this.props;
+    const {dispatch, customizes, navigation} = this.props;
 
     let hasCustomizeApiCalled = customizes
       ? typeof customizes === 'undefined' || customizes === null
       : true;
 
-    hasCustomizeApiCalled && getCustomizeSettings();
+    hasCustomizeApiCalled && dispatch(getCustomizeSettings());
     goBack(MOUNT, navigation);
   }
 
   componentWillUnmount() {
     this.state.isUpdateAutoGenerate &&
-      this.props.setCustomizeSettings({customizes: null});
+      this.props.dispatch(setCustomizeSettings({customizes: null}));
     goBack(UNMOUNT);
   }
 
@@ -54,13 +59,10 @@ export default class CustomizePayment extends Component<IProps> {
   changeAutoGenerateStatus = (field, status) => {
     this.setFormField(field, status);
 
-    const {editSettingItem} = this.props;
-
     const settings = {
       [field]: status === true ? 'YES' : 'NO'
     };
-
-    editSettingItem({
+    const payload = {
       params: {
         settings
       },
@@ -69,7 +71,8 @@ export default class CustomizePayment extends Component<IProps> {
         this.toastReference?.show?.('settings.preferences.settingUpdate');
         this.setState({isUpdateAutoGenerate: true});
       }
-    });
+    };
+    this.props.dispatch(editSettingItem(payload));
   };
 
   onSave = values => {
@@ -82,8 +85,8 @@ export default class CustomizePayment extends Component<IProps> {
       }
     }
 
-    const {editCustomizeSettings, navigation} = this.props;
-    editCustomizeSettings({params, navigation});
+    const {dispatch, navigation} = this.props;
+    dispatch(editCustomizeSettings({params, navigation}));
   };
 
   TOGGLE_FIELD_VIEW = () => {
@@ -188,7 +191,7 @@ export default class CustomizePayment extends Component<IProps> {
         label,
         onPress: () =>
           isPaymentMode
-            ? this.paymentChild.current.openModal()
+            ? this.paymentChild?.openModal?.()
             : handleSubmit(this.onSave)(),
         loading: this.props.loading
       }
@@ -222,7 +225,7 @@ export default class CustomizePayment extends Component<IProps> {
               tabName: t('payments.modes'),
               render: (
                 <PaymentModes
-                  ref={this.paymentChild}
+                  reference={ref => (this.paymentChild = ref)}
                   setFormField={(field, value) =>
                     this.setFormField(field, value)
                   }

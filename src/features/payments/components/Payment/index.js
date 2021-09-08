@@ -38,7 +38,7 @@ import {
 } from '@/utils';
 import Notes from './notes';
 import PaymentServices from '../../services';
-import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
+import { CUSTOMIZE_TYPE } from 'stores/customize/types';
 
 type IProps = {
     navigation: Object,
@@ -389,7 +389,7 @@ export class Payment extends React.Component<IProps> {
             type,
             getCustomers,
             getPaymentModes,
-            paymentMethods,
+            paymentModes,
             formValues,
             getUnpaidInvoices,
             unPaidInvoices,
@@ -579,7 +579,7 @@ export class Payment extends React.Component<IProps> {
                     apiSearch
                     hasPagination
                     getItems={getPaymentModes}
-                    items={paymentMethods}
+                    items={paymentModes}
                     selectedItem={formValues?.payment?.payment_method}
                     displayName="name"
                     label={t('payments.mode')}
@@ -595,7 +595,7 @@ export class Payment extends React.Component<IProps> {
                     }}
                     emptyContentProps={{ contentType: 'paymentMode' }}
                     inputModalName="PaymentModeModal"
-                    createActionRouteName={CUSTOMIZE_TYPE.PAYMENTS}
+                    createActionRouteName={ROUTES.CUSTOMIZE_PAYMENT}
                     isEditable={!disabled}
                     fakeInputProps={{ disabled }}
                 />

@@ -27,7 +27,7 @@ export function* getPaymentModes({ payload }) {
 
         if (response?.data) {
             const data = response.data;
-            yield put(setPaymentModes({ paymentMethods: data, fresh }));
+            yield put(setPaymentModes({ paymentModes: data, fresh }));
         }
 
         onSuccess?.(response);
@@ -48,7 +48,7 @@ function* createPaymentMode({ payload: { params, onSuccess } }) {
         if (response?.data) {
             yield put(
                 setPaymentMode({
-                    paymentMethod: [response.data],
+                    paymentMode: [response.data],
                     isCreated: true
                 })
             );
@@ -81,7 +81,7 @@ function* editPaymentMode({ payload: { params, onSuccess } }) {
         if (response?.data) {
             yield put(
                 setPaymentMode({
-                    paymentMethod: response.data,
+                    paymentMode: response.data,
                     isUpdated: true
                 })
             );
@@ -126,7 +126,7 @@ function* removePaymentMode({ payload: { id, onSuccess } }) {
     }
 }
 
-export default function* paymentMethodsSaga() {
+export default function* paymentModesSaga() {
     yield takeEvery(GET_PAYMENT_MODES, getPaymentModes);
     yield takeEvery(CREATE_PAYMENT_MODE, createPaymentMode);
     yield takeEvery(EDIT_PAYMENT_MODE, editPaymentMode);

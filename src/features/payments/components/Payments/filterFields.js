@@ -7,7 +7,7 @@ export default paymentsFilterFields = ({ props, setFormField }) => {
         getPaymentModes,
         customers,
         navigation,
-        paymentMethods
+        paymentModes
     } = props;
 
     const selectFields = [
@@ -38,7 +38,7 @@ export default paymentsFilterFields = ({ props, setFormField }) => {
             apiSearch: true,
             hasPagination: true,
             getItems: getPaymentModes,
-            items: paymentMethods,
+            items: paymentModes,
             displayName: 'name',
             label: t('payments.mode'),
             icon: 'align-center',

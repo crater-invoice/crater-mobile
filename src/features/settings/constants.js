@@ -18,8 +18,6 @@ export const TAX_FORM = 'taxForm/TAX_FORM';
 export const CATEGORY_SEARCH = 'categories/CATEGORY_SEARCH';
 export const CATEGORY_FORM = 'categories/CATEGORY_FORM';
 
-export const CUSTOMIZE_FORM = 'customize/CUSTOMIZE_FORM';
-
 export const CURRENCIES_FORM = 'currencies/CURRENCIES_FORM';
 export const CURRENCY_FORM = 'currencies/CURRENCY_FORM';
 
@@ -72,19 +70,6 @@ export const GET_EXPENSE_CATEGORIES = 'categories/GET_EXPENSE_CATEGORIES';
 export const GET_CREATE_EXPENSE_CATEGORY =
     'categories/GET_CREATE_EXPENSE_CATEGORY';
 
-// Customize Settings
-export const GET_CUSTOMIZE_SETTINGS = 'customize/GET_CUSTOMIZE_SETTINGS';
-export const SET_CUSTOMIZE_SETTINGS = 'customize/SET_CUSTOMIZE_SETTINGS';
-export const EDIT_CUSTOMIZE_SETTINGS = 'categories/EDIT_CUSTOMIZE_SETTINGS';
-
-// Payment Methods
-export const GET_PAYMENT_MODES = 'payments/GET_PAYMENT_MODES';
-export const SET_PAYMENT_MODES = 'payments/SET_PAYMENT_MODES';
-export const SET_PAYMENT_MODE = 'payments/SET_PAYMENT_MODE';
-export const CREATE_PAYMENT_MODE = 'payments/CREATE_PAYMENT_MODE';
-export const EDIT_PAYMENT_MODE = 'payments/EDIT_PAYMENT_MODE';
-export const REMOVE_PAYMENT_MODE = 'payments/REMOVE_PAYMENT_MODE';
-
 // Notes
 export const GET_NOTES = 'notes/GET_NOTES';
 export const SET_NOTES = 'notes/SET_NOTES';
@@ -98,14 +83,6 @@ export const SAVE_NOTES = 'notes/SAVE_NOTES';
 export const CREATE_FROM_NOTES = 'notes/CREATE_FROM_NOTES';
 export const REMOVE_FROM_NOTES = 'notes/REMOVE_FROM_NOTES';
 export const UPDATE_FROM_NOTES = 'notes/UPDATE_FROM_NOTES';
-
-// Item Unit
-export const GET_ITEM_UNITS = 'units/GET_ITEM_UNITS';
-export const SET_ITEM_UNITS = 'units/SET_ITEM_UNITS';
-export const SET_ITEM_UNIT = 'units/SET_ITEM_UNIT';
-export const CREATE_ITEM_UNIT = 'units/CREATE_ITEM_UNIT';
-export const EDIT_ITEM_UNIT = 'units/EDIT_ITEM_UNIT';
-export const REMOVE_ITEM_UNIT = 'units/REMOVE_ITEM_UNIT';
 
 // Currencies
 export const SET_CURRENCIES = 'currencies/SET_CURRENCIES';
@@ -384,64 +361,6 @@ export const SETTINGS_MENU = () => {
     );
 
     return list;
-};
-
-// Customize Type
-// -----------------------------------------
-export const CUSTOMIZE_TYPE = {
-    ADDRESSES: 'customize/ADDRESSES',
-    INVOICES: 'customize/Invoices',
-    ESTIMATES: 'customize/ESTIMATES',
-    PAYMENTS: 'customize/PAYMENTS',
-    ITEMS: 'customize/ITEMS',
-    CURRENCIES: 'customize/CURRENCIES'
-};
-
-// Customize Menu
-// -----------------------------------------
-export const CUSTOMIZES_MENU = () => {
-    const list = [
-        {
-            title: t('header.invoices'),
-            fullItem: {
-                route: ROUTES.CUSTOMIZE,
-                type: CUSTOMIZE_TYPE.INVOICES
-            }
-        },
-        {
-            title: t('header.estimates'),
-            fullItem: {
-                route: ROUTES.CUSTOMIZE,
-                type: CUSTOMIZE_TYPE.ESTIMATES
-            }
-        },
-        {
-            title: t('header.payments'),
-            fullItem: {
-                route: ROUTES.CUSTOMIZE,
-                type: CUSTOMIZE_TYPE.PAYMENTS
-            }
-        }
-    ];
-
-    PermissionService.isAllowToView(CUSTOMIZE_TYPE.ITEMS) &&
-        list.push({
-            title: t('header.items'),
-            fullItem: {
-                route: ROUTES.CUSTOMIZE,
-                type: CUSTOMIZE_TYPE.ITEMS
-            }
-        });
-
-    return list;
-};
-
-// Customize Address Fields
-// -----------------------------------------
-
-export const PAYMENT_TABS = {
-    MODE: 'MODE',
-    PREFIX: 'PREFIX'
 };
 
 // Term & Condition Field

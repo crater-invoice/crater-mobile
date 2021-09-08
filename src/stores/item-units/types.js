@@ -1,19 +1,10 @@
-export const SPINNER = 'users/SPINNER';
+export const SETTINGS_TRIGGER_SPINNER = 'itemUnits/SETTINGS_TRIGGER_SPINNER';
 
-export const USERS_FORM = 'users/USERS_FORM';
-export const CREATE_USER_FORM = 'users/CREATE_USER_FORM';
+export const ITEM_UNITS_FORM = 'itemUnits/ITEM_UNITS_FORM';
 
-export const FETCH_USERS = 'users/FETCH_USERS';
-export const FETCH_USERS_SUCCESS = 'users/FETCH_USERS_SUCCESS';
-
-export const FETCH_SINGLE_USER = 'users/FETCH_SINGLE_USER';
-export const FETCH_SINGLE_USER_SUCCESS = 'users/FETCH_SINGLE_USER_SUCCESS';
-
-export const ADD_USER = 'users/ADD_USER';
-export const ADD_USER_SUCCESS = 'users/ADD_USER_SUCCESS';
-
-export const UPDATE_USER = 'users/UPDATE_USER';
-export const UPDATE_USER_SUCCESS = 'users/UPDATE_USER_SUCCESS';
-
-export const REMOVE_USER = 'users/REMOVE_USER';
-export const REMOVE_USER_SUCCESS = 'users/REMOVE_USER_SUCCESS';
+export const GET_ITEM_UNITS = 'itemUnits/GET_ITEM_UNITS';
+export const SET_ITEM_UNITS = 'itemUnits/SET_ITEM_UNITS';
+export const SET_ITEM_UNIT = 'itemUnits/SET_ITEM_UNIT';
+export const CREATE_ITEM_UNIT = 'itemUnits/CREATE_ITEM_UNIT';
+export const EDIT_ITEM_UNIT = 'itemUnits/EDIT_ITEM_UNIT';
+export const REMOVE_ITEM_UNIT = 'itemUnits/REMOVE_ITEM_UNIT';

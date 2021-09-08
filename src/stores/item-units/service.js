@@ -1,47 +1,38 @@
 import Request from '@/utils/request';
 import * as queryString from 'query-string';
 /**
- * Fetch users
+ * Fetch units
  * @param q : queryString
  * @returns {*}
  */
-export const fetchUsers = q => {
-  return Request.get({path: `users?${queryString.stringify(q)}`});
+export const getItemUnits = q => {
+  return Request.get({path: `units?${queryString.stringify(q)}`});
 };
 
 /**
- * Fetch single user
- * @param id : user id
- * @returns {*}
- */
-export const fetchSingleUser = id => {
-  return Request.get({path: `users/${id}`});
-};
-
-/**
- * Add user
+ * Add unit
  * @param body : params
  * @returns {*}
  */
-export const addUser = body => {
-  return Request.post({path: `users`, body});
+export const createItemUnit = body => {
+  return Request.post({path: `units`, body});
 };
 
 /**
- * Update user
- * @param id : user id
+ * Update unit
+ * @param id : unit id
  * @param body : params
  * @returns {*}
  */
-export const updateUser = (id, body) => {
-  return Request.put({path: `users/${id}`, body});
+export const editItemUnit = body => {
+  return Request.put({path: `units/${body.id}`, body});
 };
 
 /**
- * Remove user
- * @param id : user id
+ * Remove unit
+ * @param id : unit id
  * @returns {*}
  */
-export const removeUser = body => {
-  return Request.post({path: `users/delete`, body});
+export const removeItemUnit = id => {
+  return Request.delete({path: `units/${id}`});
 };

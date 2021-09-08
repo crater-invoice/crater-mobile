@@ -7,10 +7,10 @@ import {
 } from './actions';
 import {ROUTES} from '@/navigation';
 import {getCustomFields} from '@/features/settings/saga/custom-fields';
-import Request from '@/utils/request';
 
 /**
- * Customize Settings
+ * get customization saga
+ * @returns {*}
  */
 function* getCustomizeSettings(payloadData) {
   yield put(spinner({getCustomizeLoading: true}));
@@ -21,14 +21,7 @@ function* getCustomizeSettings(payloadData) {
         queryString: {limit: 'all'}
       }
     });
-
-    const options = {
-      path: `company/settings`,
-      axiosProps: {
-        params: {settings: types.COMPANY_SETTINGS_TYPE}
-      }
-    };
-    const response = yield call([Request, 'get'], options);
+    const response = yield call(req.getCustomizeSettings);
 
     yield put(setCustomizeSettings({customizes: response}));
   } catch (e) {
@@ -37,19 +30,16 @@ function* getCustomizeSettings(payloadData) {
   }
 }
 
+/**
+ * Update customization saga
+ * @returns {*}
+ */
 function* editCustomizeSettings({payload: {params, navigation}}) {
   yield put(spinner({customizeLoading: true}));
 
   try {
-    const settings = {
-      settings: params
-    };
-    const options = {
-      path: `company/settings`,
-      body: settings
-    };
-
-    const response = yield call([Request, 'post'], options);
+    const body = {settings: params};
+    const response = yield call(req.editCustomizeSettings, body);
 
     if (response.success) {
       navigation.navigate(ROUTES.CUSTOMIZE_LIST);
@@ -60,9 +50,8 @@ function* editCustomizeSettings({payload: {params, navigation}}) {
     yield put(spinner({customizeLoading: false}));
   }
 }
+
 export default function* customizeSaga() {
-  // Customize
-  // -----------------------------------------
   yield takeEvery(types.GET_CUSTOMIZE_SETTINGS, getCustomizeSettings);
   yield takeEvery(types.EDIT_CUSTOMIZE_SETTINGS, editCustomizeSettings);
 }

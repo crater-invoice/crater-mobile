@@ -3,15 +3,15 @@ import { reduxForm, getFormValues } from 'redux-form';
 import * as PaymentsAction from '../../actions';
 import { Payments } from '../../components/Payments';
 import { PAYMENT_SEARCH } from '../../constants';
-import { getPaymentsState, getPaymentMethodsState } from '../../selectors';
+import { getPaymentsState, getPaymentModesState } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
-import { getPaymentModes } from '@/features/settings/actions';
+import { getPaymentModes } from 'stores/payment-modes/actions';
 import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
     payments: getPaymentsState(state.payments?.payments),
     customers: state.customers?.customers,
-    paymentMethods: getPaymentMethodsState(state.settings?.paymentMethods),
+    paymentModes: getPaymentModesState(state?.paymentModes?.modes),
     formValues: getFormValues(PAYMENT_SEARCH)(state) || {},
     ...commonSelector(state)
 });

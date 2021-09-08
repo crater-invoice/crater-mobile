@@ -1,47 +1,38 @@
 import Request from '@/utils/request';
 import * as queryString from 'query-string';
 /**
- * Fetch users
+ * get payment-modes
  * @param q : queryString
  * @returns {*}
  */
-export const fetchUsers = q => {
-  return Request.get({path: `users?${queryString.stringify(q)}`});
+export const getPaymentModes = q => {
+  return Request.get({path: `payment-methods?${queryString.stringify(q)}`});
 };
 
 /**
- * Fetch single user
- * @param id : user id
- * @returns {*}
- */
-export const fetchSingleUser = id => {
-  return Request.get({path: `users/${id}`});
-};
-
-/**
- * Add user
+ * Add payment-mode
  * @param body : params
  * @returns {*}
  */
-export const addUser = body => {
-  return Request.post({path: `users`, body});
+export const createPaymentMode = body => {
+  return Request.post({path: `payment-methods`, body});
 };
 
 /**
- * Update user
- * @param id : user id
+ * Update payment-mode
+ * @param id : payment-mode id
  * @param body : params
  * @returns {*}
  */
-export const updateUser = (id, body) => {
-  return Request.put({path: `users/${id}`, body});
+export const editPaymentMode = body => {
+  return Request.put({path: `payment-methods/${body.id}`, body});
 };
 
 /**
- * Remove user
- * @param id : user id
+ * Remove payment-mode
+ * @param id : payment-mode id
  * @returns {*}
  */
-export const removeUser = body => {
-  return Request.post({path: `users/delete`, body});
+export const removePaymentMode = id => {
+  return Request.delete({path: `payment-methods/${id}`});
 };
