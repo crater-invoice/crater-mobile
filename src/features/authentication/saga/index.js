@@ -47,6 +47,8 @@ function* getBootstrapData(payloadData: any) {
     yield put(setGlobalBootstrap(response));
 
     yield put({type: FETCH_COMPANIES_SUCCESS, payload: {companies}});
+
+    payloadData?.payload?.onSuccess?.(response);
   } catch (e) {}
 }
 
@@ -70,7 +72,9 @@ function* login({payload: {params, navigation}}: any) {
     yield put(saveIdToken({idToken: response.token, expiresIn: null}));
 
     yield call(getBootstrapData);
-    
+
+    yield put(actionCheckOTAUpdate());
+
     const tab = getActiveMainTab();
     navigateToActiveTab(navigation, tab);
   } catch (e) {
@@ -80,14 +84,15 @@ function* login({payload: {params, navigation}}: any) {
   }
 }
 
-function* socialLogin({payload: {idToken, navigation}}: any) {
-}
+function* socialLogin({payload: {idToken, navigation}}: any) {}
 
 function* biometryAuthLogin({payload}: any) {
   yield put(authTriggerSpinner({loginLoading: true}));
 
   try {
     yield call(getBootstrapData);
+
+    yield put(actionCheckOTAUpdate());
 
     yield delay(100);
 
@@ -104,16 +109,11 @@ function* checkOTAUpdate(payloadData) {
     const state = yield select();
     const lastAutoUpdateDate = state?.common?.lastAutoUpdateDate;
     const endpointApi = state?.common?.endpointApi;
-    const idToken = state?.auth?.idToken;
     const currentDate: string = moment().format('YYYY-MM-DD');
 
     const isSameDate: boolean = hasValue(lastAutoUpdateDate)
       ? moment(currentDate).isSame(lastAutoUpdateDate)
       : false;
-
-    if (idToken) {
-      yield put(getBootstrap());
-    }
 
     if (isSameDate || !endpointApi) {
       return;
