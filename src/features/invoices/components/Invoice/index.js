@@ -11,7 +11,7 @@ import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import t from 'locales/use-translation';
 import { IMAGES } from '@/assets';
 import FinalAmount from '../FinalAmount';
-import { alertMe, isArray } from '@/constants';
+import { alertMe, isEmpty } from '@/constants';
 import {
     InputField,
     DatePickerField,
@@ -319,7 +319,7 @@ export class Invoice extends React.Component<IProps, IStates> {
 
         const { currency } = this.state;
 
-        if (!isArray(invoiceItems)) {
+        if (isEmpty(invoiceItems)) {
             return [];
         }
 
@@ -509,7 +509,7 @@ export class Invoice extends React.Component<IProps, IStates> {
 
         const hasCustomField = isEditScreen
             ? formValues && formValues.hasOwnProperty('fields')
-            : isArray(customFields);
+            : !isEmpty(customFields);
 
         let hasSentStatus =
             markAsStatus === 'SENT' || markAsStatus === 'VIEWED';

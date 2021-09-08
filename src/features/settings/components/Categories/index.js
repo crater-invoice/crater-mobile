@@ -107,6 +107,7 @@ export class Categories extends React.Component<IProps> {
                         isEmpty={isEmpty}
                         bottomDivider
                         emptyContentProps={emptyContentProps}
+                        navigation={navigation}
                         isAnimated
                     />
                 </InfiniteScroll>

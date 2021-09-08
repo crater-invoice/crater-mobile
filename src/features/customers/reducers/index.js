@@ -1,4 +1,4 @@
-import { isArray } from '@/constants';
+import { isEmpty } from '@/constants';
 import {
     CUSTOMERS_TRIGGER_SPINNER,
     SET_CUSTOMERS,
@@ -7,7 +7,7 @@ import {
 } from '../constants';
 
 const formatCustomers = customers => {
-    if (!isArray(customers)) {
+    if (isEmpty(customers)) {
         return [];
     }
 

@@ -92,6 +92,7 @@ export class Taxes extends React.Component {
                         contentContainerStyle={{ flex: 3 }}
                         leftSubTitleStyle={itemsDescriptionStyle(45)}
                         emptyContentProps={emptyContentProps}
+                        navigation={navigation}
                         isAnimated
                     />
                 </InfiniteScroll>

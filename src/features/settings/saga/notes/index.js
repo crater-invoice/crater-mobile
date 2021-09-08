@@ -12,7 +12,7 @@ import {
 } from '../../actions';
 
 function* getNotes({ payload }: any) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
 
     try {
         const options = {
@@ -27,7 +27,9 @@ function* getNotes({ payload }: any) {
         }
 
         onSuccess?.(response);
-    } catch (e) {}
+    } catch (e) {
+        onFail?.();
+    }
 }
 
 function* getCreateNote({ payload: { onSuccess } }: any) {

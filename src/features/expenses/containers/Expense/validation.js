@@ -1,5 +1,5 @@
 import { validateCustomField } from '@/components/CustomField/validation';
-import { getError, isArray } from '@/constants';
+import { getError, isEmpty } from '@/constants';
 import { EXPENSE_FIELDS as FIELDS } from '../../constants';
 
 export const validate = values => {
@@ -22,7 +22,7 @@ export const validate = values => {
         );
 
         const fieldErrors = validateCustomField(values?.customFields);
-        isArray(fieldErrors) && (errors.customFields = fieldErrors);
+        !isEmpty(fieldErrors) && (errors.customFields = fieldErrors);
     }
 
     return errors;

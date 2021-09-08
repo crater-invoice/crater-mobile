@@ -130,3 +130,16 @@ export const resetNavigation = ({navigation, route, index = 0}) => {
   });
   navigation.dispatch(resetAction);
 };
+
+export const navigateToActiveTab = (navigation, tab) => {
+  const resetAction = StackActions.reset({
+    index: 0,
+    actions: [
+      NavigationActions.navigate({
+        routeName: ROUTES.MAIN_TABS,
+        action: navigation.navigate({routeName: tab})
+      })
+    ]
+  });
+  navigation.dispatch(resetAction);
+};

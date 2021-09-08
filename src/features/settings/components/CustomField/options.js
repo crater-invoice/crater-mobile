@@ -10,7 +10,7 @@ import {
     CheckBox,
     DateTimePickerField
 } from '@/components';
-import { KEYBOARD_TYPE, MAX_LENGTH, hasFieldValue } from '@/constants';
+import { KEYBOARD_TYPE, MAX_LENGTH, isEmpty } from '@/constants';
 import t from 'locales/use-translation';
 
 // Custom Field Refs
@@ -134,7 +134,7 @@ const SELECT_FIELD_DEFAULT_VALUE = () => {
 
     const optionsFormat = () => {
         const items = [];
-        if (!hasFieldValue(options)) return [];
+        if (isEmpty(options)) return [];
 
         options.map(option => {
             if (option && option.length !== 0)

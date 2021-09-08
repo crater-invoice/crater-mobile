@@ -111,6 +111,7 @@ export default class Notes extends Component<IProps> {
                         emptyContentProps={emptyContentProps}
                         leftSubTitleStyle={{ textAlign: 'justify' }}
                         rightTitleStyle={{ fontFamily: fonts.regular }}
+                        navigation={navigation}
                         isAnimated
                     />
                 </InfiniteScroll>

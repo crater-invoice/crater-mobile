@@ -21,6 +21,7 @@ import {
 import {darkTheme} from '@/theme';
 
 const initialState = {
+  user: null,
   customers: [],
   currencies: [],
   locale: 'en',
@@ -40,7 +41,8 @@ const initialState = {
   fiscalYear: '2-1',
   biometryAuthType: null,
   lastAutoUpdateDate: null,
-  theme: darkTheme
+  theme: darkTheme,
+  abilities: []
 };
 
 export default function commonReducer(state = initialState, action) {
@@ -64,17 +66,22 @@ export default function commonReducer(state = initialState, action) {
 
     case SET_GLOBAL_BOOTSTRAP:
       const {
-        default_currency,
+        user,
         company,
+        default_currency,
         moment_date_format,
         fiscal_year,
-        default_language = 'en'
+        default_language = 'en',
+        abilities = []
       } = payload;
 
       return {
         ...state,
-        currency: default_currency,
+        ...payload,
+        user,
         company,
+        currency: default_currency,
+        abilities,
         dateFormat: moment_date_format,
         fiscalYear: fiscal_year,
         locale: default_language

@@ -7,6 +7,7 @@ import { goBack, MOUNT, UNMOUNT } from '@/navigation';
 import { customersFilterFields as filterFields } from './filterFields';
 import { IMAGES } from '@/assets';
 import { isFilterApply } from '@/utils';
+import { PermissionService } from '@/services';
 
 type IProps = {
     customers: Object,
@@ -139,6 +140,7 @@ export class Customers extends React.Component<IProps> {
                 <InfiniteScroll
                     getItems={getCustomer}
                     reference={ref => (this.scrollViewReference = ref)}
+                    getItemsInMount={PermissionService.isAllowToView(ROUTES.MAIN_CUSTOMERS)}
                 >
                     <ListView
                         items={customers}
@@ -147,6 +149,7 @@ export class Customers extends React.Component<IProps> {
                         bottomDivider
                         hasAvatar
                         emptyContentProps={emptyContentProps}
+                        navigation={navigation}
                         isAnimated
                     />
                 </InfiniteScroll>

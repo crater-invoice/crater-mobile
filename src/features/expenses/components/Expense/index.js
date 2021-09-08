@@ -7,7 +7,7 @@ import styles from './styles';
 import { goBack, MOUNT, ROUTES, UNMOUNT } from '@/navigation';
 import t from 'locales/use-translation';
 import * as Linking from 'expo-linking';
-import { alertMe, isArray, MAX_LENGTH } from '@/constants';
+import { alertMe, isEmpty, MAX_LENGTH } from '@/constants';
 import { IMAGES } from '@/assets';
 import {
     InputField,
@@ -247,7 +247,7 @@ export class Expense extends React.Component<IProps, IState> {
         const isCreateExpense = isCreateScreen;
         const hasCustomField = isEditScreen
             ? formValues?.expense && formValues.expense.hasOwnProperty('fields')
-            : isArray(customFields);
+            : !isEmpty(customFields);
 
         const drownDownProps =
             !isCreateExpense && !isLoading

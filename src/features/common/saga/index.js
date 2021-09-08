@@ -7,7 +7,7 @@ import { internalSearch } from '@/utils';
 
 function* fetchCompaniesSaga(payloadData) {
     const {
-        payload: { onSuccess, queryString }
+        payload: { onSuccess, onFail, queryString }
     } = payloadData;
 
     try {
@@ -32,7 +32,9 @@ function* fetchCompaniesSaga(payloadData) {
         });
 
         onSuccess?.(response);
-    } catch (e) {}
+    } catch (e) {
+        onFail?.();
+    }
 }
 
 function* uploadCompanyLogo(payloadData) {

@@ -1,5 +1,6 @@
 import {ROUTES} from '@/navigation';
 import {PermissionService} from '@/services';
+import {isSuperAdmin} from '@/stores/common/helpers';
 import t from 'locales/use-translation';
 
 // Forms
@@ -38,118 +39,90 @@ export const PROFIT_AND_LOSS = 'reportType/PROFIT_AND_LOSS';
 export const EXPENSES = 'reportType/EXPENSES';
 export const TAXES = 'reportType/TAXES';
 
-// Menus
-// -----------------------------------------
 export const MORE_MENU = () => {
-  const list1 = [];
-
-  PermissionService.isAllowToView(ROUTES.ESTIMATE_LIST) &&
-    list1.push({
+  return [
+    {
       title: t('more.estimate'),
       leftIcon: 'file-alt',
       leftIconSolid: true,
       iconSize: 19,
-      fullItem: {
-        route: ROUTES.ESTIMATE_LIST
-      }
-    });
-
-  PermissionService.isAllowToView(ROUTES.GLOBAL_ITEMS) &&
-    list1.push({
+      fullItem: {route: ROUTES.ESTIMATE_LIST},
+      show: PermissionService.isAllowToView(ROUTES.ESTIMATE_LIST)
+    },
+    {
       title: t('more.items'),
       leftIcon: 'product-hunt',
       iconSize: 20,
-      fullItem: {
-        route: ROUTES.GLOBAL_ITEMS
-      }
-    });
-
-  (PermissionService.isAllowToView(SALES) ||
-    PermissionService.isAllowToView(PROFIT_AND_LOSS) ||
-    PermissionService.isAllowToView(EXPENSES) ||
-    PermissionService.isAllowToView(TAXES)) &&
-    list1.push({
+      fullItem: {route: ROUTES.GLOBAL_ITEMS},
+      show: PermissionService.isAllowToView(ROUTES.GLOBAL_ITEMS)
+    },
+    {
       title: t('more.reports'),
       leftIcon: 'signal',
       iconSize: 15,
-      fullItem: {
-        route: ROUTES.REPORTS
-      }
-    });
-
-  PermissionService.isAllowToView(ROUTES.USERS) &&
-    list1.push({
+      fullItem: {route: ROUTES.REPORTS},
+      show: isSuperAdmin()
+    },
+    {
       title: t('more.users'),
       leftIcon: 'users',
       iconSize: 20,
-      fullItem: {
-        route: ROUTES.USERS
-      }
-    });
-
-  const list2 = [
+      fullItem: {route: ROUTES.USERS},
+      show: isSuperAdmin()
+    },
     {
       title: t('more.settings'),
       leftIcon: 'cogs',
       iconSize: 17,
-      fullItem: {
-        route: ROUTES.SETTING_LIST
-      }
+      fullItem: {route: ROUTES.SETTING_LIST},
+      show: true
     },
     {
       title: t('more.logout'),
       leftIcon: 'sign-out-alt',
       iconSize: 19,
-      fullItem: {
-        action: 'onLogout'
-      }
+      fullItem: {action: 'onLogout'},
+      show: true
     }
   ];
-
-  return [...list1, ...list2];
 };
 
 export const REPORTS_MENU = () => {
-  const reports = [];
-
-  PermissionService.isAllowToView(SALES) &&
-    reports.push({
+  return [
+    {
       title: t('reports.sales'),
       fullItem: {
         route: ROUTES.GENERATE_REPORT,
         type: SALES
-      }
-    });
-
-  PermissionService.isAllowToView(PROFIT_AND_LOSS) &&
-    reports.push({
+      },
+      show: PermissionService.isAllowToManage(SALES)
+    },
+    {
       title: t('reports.profitAndLoss'),
       leftIcon: 'building',
       fullItem: {
         route: ROUTES.GENERATE_REPORT,
         type: PROFIT_AND_LOSS
-      }
-    });
-
-  PermissionService.isAllowToView(EXPENSES) &&
-    reports.push({
+      },
+      show: PermissionService.isAllowToManage(PROFIT_AND_LOSS)
+    },
+    {
       title: t('reports.expenses'),
       fullItem: {
         route: ROUTES.GENERATE_REPORT,
         type: EXPENSES
-      }
-    });
-
-  PermissionService.isAllowToView(TAXES) &&
-    reports.push({
+      },
+      show: PermissionService.isAllowToManage(EXPENSES)
+    },
+    {
       title: t('reports.taxes'),
       fullItem: {
         route: ROUTES.GENERATE_REPORT,
         type: TAXES
-      }
-    });
-
-  return reports;
+      },
+      show: PermissionService.isAllowToManage(TAXES)
+    }
+  ];
 };
 
 export const REPORT_TYPE_OPTION = () => {

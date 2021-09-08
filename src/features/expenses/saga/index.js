@@ -5,7 +5,6 @@ import * as TYPES from '../constants';
 import {
     expenseTriggerSpinner,
     setExpenses,
-    showImageOnEdit,
     createFromExpense,
     updateFromExpense,
     removeFromExpense
@@ -14,7 +13,6 @@ import { getCustomers } from '@/features/customers/saga';
 import { getExpenseCategories } from '@/features/settings/saga/categories';
 import { getCustomFields } from '@/features/settings/saga/custom-fields';
 import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
-import { isArray } from '@/constants';
 
 function* getCreateExpense({ payload: { onSuccess } }) {
     try {
@@ -29,7 +27,7 @@ function* getCreateExpense({ payload: { onSuccess } }) {
 }
 
 function* getExpenses({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
 
     try {
         const options = {
@@ -44,7 +42,9 @@ function* getExpenses({ payload }) {
         }
 
         onSuccess?.(response);
-    } catch (e) {}
+    } catch (e) {
+        onFail?.();
+    }
 }
 
 function* createExpense({ payload }) {

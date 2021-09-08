@@ -8,13 +8,15 @@ import {spinner} from './actions';
  * @returns {IterableIterator<*>}
  */
 function* fetchUsers({payload}) {
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
-    const {fresh = true, onSuccess, queryString} = payload;
     const response = yield call(req.fetchUsers, queryString);
     const users = response?.data ?? [];
     yield put({type: types.FETCH_USERS_SUCCESS, payload: {users, fresh}});
     onSuccess?.(response);
-  } catch (e) {}
+  } catch (e) {
+    onFail?.();
+  }
 }
 
 /**

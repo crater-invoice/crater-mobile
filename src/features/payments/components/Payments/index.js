@@ -1,8 +1,6 @@
 // @flow
 import React from 'react';
-import { View } from 'react-native';
 import { change } from 'redux-form';
-import styles from './styles';
 import { MainLayout, ListView, InfiniteScroll } from '@/components';
 import { IMAGES } from '@/assets';
 import t from 'locales/use-translation';
@@ -11,6 +9,7 @@ import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import paymentsFilterFields from './filterFields';
 import { isFilterApply } from '@/utils';
 import PaymentServices from '../../services';
+import { PermissionService } from '@/services';
 
 type IProps = {
     navigation: Object,
@@ -169,6 +168,7 @@ export class Payments extends React.Component<IProps> {
                 <InfiniteScroll
                     getItems={getPayments}
                     reference={ref => (this.scrollViewReference = ref)}
+                    getItemsInMount={PermissionService.isAllowToView(ROUTES.MAIN_PAYMENTS)}
                 >
                     <ListView
                         items={payments}
@@ -177,6 +177,7 @@ export class Payments extends React.Component<IProps> {
                         contentContainerStyle={{ flex: 0 }}
                         bottomDivider
                         emptyContentProps={emptyContentProps}
+                        navigation={navigation}
                         isAnimated
                     />
                 </InfiniteScroll>

@@ -18,7 +18,7 @@ import { ROUTES } from '@/navigation';
 import Request from 'utils/request';
 
 export function* getExpenseCategories({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
 
     try {
         const options = {
@@ -33,7 +33,9 @@ export function* getExpenseCategories({ payload }) {
         }
 
         onSuccess?.(response);
-    } catch (e) {}
+    } catch (e) {
+        onFail?.();
+    }
 }
 
 function* createExpenseCategory({ payload: { params, onResult } }) {

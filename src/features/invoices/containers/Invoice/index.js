@@ -8,7 +8,7 @@ import { INVOICE_FORM } from '../../constants';
 import moment from 'moment';
 import { getCustomers } from '@/features/customers/actions';
 import { getTaxes, getNotes } from '@/features/settings/actions';
-import { isArray } from '@/constants';
+import { isEmpty } from '@/constants';
 import { commonSelector, permissionSelector } from 'stores/common/selectors';
 
 const getSelectedTemplate = (templates, form, isEditScreen) => {
@@ -43,7 +43,7 @@ const mapStateToProps = (state, { navigation }) => {
     const isLoading =
         loading?.initInvoiceLoading ||
         (isEditScreen && !invoice) ||
-        !isArray(invoiceTemplates);
+        isEmpty(invoiceTemplates);
 
     return {
         initLoading: isLoading,

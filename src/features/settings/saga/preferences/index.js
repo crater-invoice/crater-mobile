@@ -1,5 +1,4 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { I18nManager } from 'react-native';
 import * as Updates from 'expo-updates';
 import Request from 'utils/request';
 import {
@@ -13,7 +12,7 @@ import {
     PREFERENCES_SETTING_TYPE
 } from '../../constants';
 import { setI18nManagerValue } from '@/utils';
-import { isArray } from '@/constants';
+import { isEmpty } from '@/constants';
 import { getGeneralSetting } from '../general';
 
 function* getPreferences({ payload: { onResult } }) {
@@ -35,7 +34,7 @@ function* getPreferences({ payload: { onResult } }) {
 
         let selectedCurrency = null;
 
-        if (isArray(currencies)) {
+        if (!isEmpty(currencies)) {
             selectedCurrency = currencies.find(
                 currency => currency?.id === Number(response?.currency)
             );
@@ -65,7 +64,7 @@ function* editPreferences({ payload }) {
 
         if (response?.success) {
             let selectedCurrency = null;
-            if (params?.currency && isArray(currencies)) {
+            if (params?.currency && !isEmpty(currencies)) {
                 selectedCurrency = currencies.find(
                     currency =>
                         currency?.fullItem?.id === Number(params?.currency)

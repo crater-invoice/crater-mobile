@@ -9,6 +9,7 @@ import { EXPENSE_SEARCH } from '../../constants';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
 import expenseFilterFields from './filterFields';
 import { isFilterApply } from '@/utils';
+import { PermissionService } from '@/services';
 
 type IProps = {
     navigation: Object,
@@ -154,6 +155,7 @@ export class Expenses extends React.Component<IProps> {
                 <InfiniteScroll
                     getItems={getExpenses}
                     reference={ref => (this.scrollViewReference = ref)}
+                    getItemsInMount={PermissionService.isAllowToView(ROUTES.MAIN_EXPENSES)}
                 >
                     <ListView
                         items={expenses}
@@ -163,6 +165,7 @@ export class Expenses extends React.Component<IProps> {
                         bottomDivider
                         emptyContentProps={emptyContentProps}
                         leftSubTitleStyle={{ textAlign: 'justify' }}
+                        navigation={navigation}
                         isAnimated
                     />
                 </InfiniteScroll>

@@ -1,4 +1,4 @@
-import { getError, isArray } from '@/constants';
+import { getError, isEmpty } from '@/constants';
 import { CUSTOMER_FIELDS as FIELDS } from '../../constants';
 import { validateCustomField } from '@/components/CustomField/validation';
 
@@ -26,7 +26,7 @@ export const validate = values => {
         }
 
         const fieldErrors = validateCustomField(values?.customFields);
-        isArray(fieldErrors) && (errors.customFields = fieldErrors);
+        !isEmpty(fieldErrors) && (errors.customFields = fieldErrors);
     }
 
     return errors;

@@ -29,7 +29,7 @@ import {
   dismissKeyboard,
   hasTextLength,
   hasValue,
-  isArray,
+  isEmpty,
   SCREEN_WIDTH
 } from '@/constants';
 
@@ -177,7 +177,7 @@ class EditorComponent extends Component<IProps, IStates> {
   getFields = () => {
     const {customFields = [], types = []} = this.props;
 
-    if (!isArray(types)) {
+    if (isEmpty(types)) {
       return [];
     }
 
@@ -275,7 +275,7 @@ class EditorComponent extends Component<IProps, IStates> {
   };
 
   getFieldsView = items => {
-    if (!isArray(items)) {
+    if (isEmpty(items)) {
       return [];
     }
 
@@ -351,7 +351,7 @@ class EditorComponent extends Component<IProps, IStates> {
     const {visible, preview, hasError} = this.state;
     const disabled = !isAllowToEdit;
     const items = this.getFields();
-    const hasFields = isArray(items);
+    const hasFields = !isEmpty(items);
     const value = this.getValue();
 
     const label = (

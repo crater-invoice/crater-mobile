@@ -92,6 +92,7 @@ export default class Users extends Component<IProps, IStates> {
             hasAvatar
             bottomDivider
             isEmpty={isEmpty(users)}
+            navigation={navigation}
             emptyContentProps={emptyContentProps}
           />
         </InfiniteScroll>

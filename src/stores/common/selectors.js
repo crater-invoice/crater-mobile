@@ -23,6 +23,7 @@ export const commonSelector = state => {
   const {common} = state;
   return {
     locale: common?.locale,
-    theme: common?.theme
+    theme: common?.theme,
+    abilities: common?.abilities
   };
 };

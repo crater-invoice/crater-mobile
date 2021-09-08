@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { hasLength, isArray } from '@/constants';
 import { formatPaymentModes } from '@/utils';
+=======
+import { isEmpty } from '@/constants';
+import { formatPaymentMethods } from '@/utils';
+>>>>>>> 7d9acb802b0aa688ee04d9002508e9977f18fa2c
 import { createSelector } from 'reselect';
 
 const formatPaymentItems = payments =>
@@ -26,7 +31,7 @@ const formatPaymentItems = payments =>
 
 const getPaymentsState = createSelector(
     payments => payments,
-    payments => (!hasLength(payments) ? [] : formatPaymentItems(payments))
+    payments => (isEmpty(payments) ? [] : formatPaymentItems(payments))
 );
 
 const getPaymentModesState = createSelector(

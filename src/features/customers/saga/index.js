@@ -9,7 +9,7 @@ import {
 } from '../actions';
 import { ROUTES } from '@/navigation';
 import * as TYPES from '../constants';
-import { hasObjectLength, isArray } from '@/constants';
+import { hasObjectLength, isEmpty } from '@/constants';
 import { getGeneralSetting } from '@/features/settings/saga/general';
 import { getCustomFields } from '@/features/settings/saga/custom-fields';
 import { CUSTOM_FIELD_TYPES } from '@/features/settings/constants';
@@ -29,7 +29,7 @@ const addressParams = (address, type) => {
 };
 
 export function* getCustomers({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
 
     try {
         const options = {
@@ -44,7 +44,9 @@ export function* getCustomers({ payload }) {
         }
 
         onSuccess?.(response);
-    } catch (e) {}
+    } catch (e) {
+        onFail?.();
+    }
 }
 
 export function* getCountries({ payload: { onResult = null } }) {
@@ -66,11 +68,11 @@ function* getCreateCustomer({ payload }) {
     const { currencies, countries, onSuccess } = payload;
 
     try {
-        if (!isArray(countries)) {
+        if (isEmpty(countries)) {
             yield call(getCountries, { payload: {} });
         }
 
-        if (!isArray(currencies)) {
+        if (isEmpty(currencies)) {
             yield call(getGeneralSetting, { payload: { url: 'currencies' } });
         }
 
@@ -174,11 +176,11 @@ function* updateCustomer({ payload }) {
 function* getCustomerDetail({ payload }) {
     const { id, onSuccess, currencies, countries } = payload;
     try {
-        if (!isArray(countries)) {
+        if (isEmpty(countries)) {
             yield call(getCountries, { payload: {} });
         }
 
-        if (!isArray(currencies)) {
+        if (isEmpty(currencies)) {
             yield call(getGeneralSetting, { payload: { url: 'currencies' } });
         }
 

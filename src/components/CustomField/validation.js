@@ -1,8 +1,8 @@
-import { getError, isArray } from '@/constants';
+import { getError, isEmpty } from '@/constants';
 import { CUSTOM_FIELD_DATA_TYPES as DATA_TYPES } from '@/features/settings/constants';
 
 export const validateCustomField = fields => {
-    if (!isArray(fields)) {
+    if (isEmpty(fields)) {
         return [];
     }
 

@@ -1,5 +1,5 @@
 // @flow
-import { hasFieldValue } from '@/constants';
+import { isEmpty } from '@/constants';
 
 export const IS_UNDER_PROCESSING = 'IS_UNDER_PROCESSING';
 
@@ -26,7 +26,7 @@ class ImageService {
 
     isUnderProcess = name => {
         try {
-            if (!hasFieldValue(this.images)) {
+            if (isEmpty(this.images)) {
                 return false;
             }
 

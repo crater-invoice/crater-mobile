@@ -16,7 +16,7 @@ import {
 } from '../../constants';
 
 export function* getPaymentModes({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
 
     try {
         const options = {
@@ -31,7 +31,9 @@ export function* getPaymentModes({ payload }) {
         }
 
         onSuccess?.(response);
-    } catch (e) {}
+    } catch (e) {
+        onFail?.();
+    }
 }
 
 function* createPaymentMode({ payload: { params, onSuccess } }) {

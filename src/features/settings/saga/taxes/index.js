@@ -11,7 +11,7 @@ import {
 import { GET_TAXES, REMOVE_TAX, TAX_ADD, TAX_EDIT } from '../../constants';
 
 function* getTaxTypes({ payload }) {
-    const { fresh = true, onSuccess, queryString } = payload;
+    const { fresh = true, onSuccess, onFail, queryString } = payload;
 
     try {
         const options = {
@@ -26,7 +26,9 @@ function* getTaxTypes({ payload }) {
         }
 
         onSuccess?.(response);
-    } catch (e) {}
+    } catch (e) {
+        onFail?.();
+    }
 }
 
 function* addTax({ payload: { tax, onResult } }) {

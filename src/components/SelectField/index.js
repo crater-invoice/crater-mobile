@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import { change } from 'redux-form';
 import t from 'locales/use-translation';
 import { IProps, IStates } from './type';
-import { colors, headerTitle } from '@/styles';
+import { headerTitle } from '@/styles';
 import styles from './styles';
 import { SlideModal } from '../SlideModal';
 import { FakeInput } from '../FakeInput';
 import { CtButton } from '../Button';
-import { hasValue, isArray } from '@/constants';
+import { hasValue, isEmpty } from '@/constants';
 import { internalSearch as searchItem } from '@/utils';
 import { ARROW_ICON } from '@/assets';
 import { PaymentModeModal, UnitModal } from '../Modal';
@@ -133,7 +133,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     changeDisplayValueByUsingCompareField = async val => {
         const { compareField, displayName, items } = this.props;
 
-        if (!isArray(items)) {
+        if (isEmpty(items)) {
             return;
         }
 
@@ -411,7 +411,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
                 reference: ref => (this.scrollViewReference = ref),
                 getItemsInMount: false,
                 onMount: this.getPaginationItems,
-                hideLoader: isArray(items),
+                hideLoader: !isEmpty(items),
                 ...(paginationLimit && { paginationLimit })
             };
         }
@@ -450,7 +450,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         const listProps = {
             items: apiSearch ? items : internalSearchItem,
             onPress: this.onItemSelect,
-            isEmpty: apiSearch ? !isArray(items) : !isArray(internalSearchItem),
+            isEmpty: apiSearch ? isEmpty(items) : isEmpty(internalSearchItem),
             bottomDivider: true,
             emptyContentProps: {
                 ...this.getEmptyTitle(),
@@ -464,7 +464,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         const internalListScrollProps = {
             scrollViewProps: {
                 contentContainerStyle: {
-                    flex: !isArray(internalSearchItem) ? 1 : 0
+                    flex: isEmpty(internalSearchItem) ? 1 : 0
                 }
             }
         };

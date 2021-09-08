@@ -51,8 +51,14 @@ export default function rolesReducer(state = initialState, action) {
         modelName: p?.model ? getModalName(p.model) : 'Common'
       }));
 
-      const checkViewAvailability = (model, ability) =>
-        find(filteredCreatedPermissions, {model, ability})?.allowed;
+      const checkViewAvailability = (model, ability) => {
+        return filteredCreatedPermissions.some(
+          p =>
+            p.model === model &&
+            p.ability.includes(ability) &&
+            p.allowed === true
+        );
+      };
 
       filteredCreatedPermissions.map(p => {
         const {ability, model} = p;
@@ -61,10 +67,9 @@ export default function rolesReducer(state = initialState, action) {
           const isAllowToEdit = checkViewAvailability(model, `edit`);
           const isAllowToDelete = checkViewAvailability(model, `delete`);
           const disabled = isAllowToEdit || isAllowToDelete;
-          const viewAbility = find(filteredCreatedPermissions, {
-            model,
-            ability: 'view'
-          });
+          const viewAbility = filteredCreatedPermissions.filter(
+            p => p.model === model && p.ability.includes('view')
+          )?.[0];
 
           if (!viewAbility) {
             return;
@@ -89,8 +94,14 @@ export default function rolesReducer(state = initialState, action) {
 
       filteredPermissions[pos] = {...ability, allowed};
 
-      const checkAvailability = ability =>
-        find(filteredPermissions, {model, ability})?.allowed;
+      const checkAvailability = ability => {
+        return filteredPermissions.some(
+          p =>
+            p.model === model &&
+            p.ability.includes(ability) &&
+            p.allowed === true
+        );
+      };
 
       if (
         ability.ability.includes('edit') ||
@@ -101,11 +112,12 @@ export default function rolesReducer(state = initialState, action) {
         const disabled = isAllowToEdit || isAllowToDelete;
 
         filteredPermissions = filteredPermissions.map(p =>
-          p.model === model && p.ability === `view`
+          p.model === model && p.ability.includes(`view`)
             ? {...p, allowed: true, disabled}
             : p
         );
       }
+
       return {
         ...state,
         permissions: filteredPermissions
