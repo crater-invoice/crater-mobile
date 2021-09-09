@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, change } from 'redux-form';
 import { InputModal } from '../InputModal';
-import { createPaymentMode } from '@/features/settings/actions';
+import { createPaymentMode } from 'stores/payment-modes/actions';
 import t from 'locales/use-translation';
 import { hasValue } from '@/constants';
 import { commonSelector } from 'stores/common/selectors';

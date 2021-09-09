@@ -119,7 +119,7 @@ export const formatItems = (items, currency) => {
   });
 };
 
-export const formatPaymentMethods = methods => {
+export const formatPaymentModes = methods => {
   if (isEmpty(methods)) {
     return [];
   }

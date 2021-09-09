@@ -38,7 +38,6 @@ import {
 } from '@/utils';
 import Notes from './notes';
 import PaymentServices from '../../services';
-import { CUSTOMIZE_TYPE } from 'stores/customize/types';
 
 type IProps = {
     navigation: Object,
