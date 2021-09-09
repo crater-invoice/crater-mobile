@@ -57,7 +57,7 @@ export interface IProps {
   /**
    * An action to return a list of payment-modes.
    */
-  getPaymentModes: () => void;
+  fetchPaymentModes: () => void;
 }
 export interface IStates {
   /**

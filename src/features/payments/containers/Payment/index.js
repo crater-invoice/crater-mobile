@@ -5,8 +5,8 @@ import * as actions from '../../actions';
 import { PAYMENT_FORM, PAYMENT_FIELDS as FIELDS } from '../../constants';
 import { Payment } from '../../components/Payment';
 import { getCustomers } from '@/features/customers/actions';
-import {  getNotes } from '@/features/settings/actions';
-import { getPaymentModes } from 'stores/payment-modes/actions';
+import { getNotes } from '@/features/settings/actions';
+import { fetchPaymentModes } from 'stores/payment-modes/actions';
 import { getPaymentModesState } from '../../selectors';
 import { commonSelector, permissionSelector } from 'stores/common/selectors';
 
@@ -16,7 +16,7 @@ const mapStateToProps = (state, { navigation }) => {
         common: { currency },
         settings: { notes, customFields },
         payments: { loading, unPaidInvoices },
-        paymentModes :{modes}
+        paymentModes: { modes }
     } = state;
 
     const id = navigation.getParam('paymentId', null);
@@ -52,7 +52,7 @@ const mapStateToProps = (state, { navigation }) => {
 const mapDispatchToProps = {
     ...actions,
     getCustomers,
-    getPaymentModes,
+    fetchPaymentModes,
     getNotes
 };
 

@@ -387,7 +387,7 @@ export class Payment extends React.Component<IProps> {
             customers,
             type,
             getCustomers,
-            getPaymentModes,
+            fetchPaymentModes,
             paymentModes,
             formValues,
             getUnpaidInvoices,
@@ -577,7 +577,7 @@ export class Payment extends React.Component<IProps> {
                     component={SelectField}
                     apiSearch
                     hasPagination
-                    getItems={getPaymentModes}
+                    getItems={fetchPaymentModes}
                     items={paymentModes}
                     selectedItem={formValues?.payment?.payment_method}
                     displayName="name"

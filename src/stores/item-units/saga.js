@@ -1,25 +1,24 @@
 import {call, put, takeEvery} from 'redux-saga/effects';
 import t from 'locales/use-translation';
 import {alertMe} from '@/constants';
-import * as TYPES from './types';
+import * as types from './types';
 import * as req from './service';
-import {
-  settingsTriggerSpinner as spinner,
-  setItemUnits,
-  setItemUnit
-} from './actions';
+import {spinner} from './actions';
 
 /**
- * get item-units saga
+ * fetch item-units saga
  * @returns {IterableIterator<*>}
  */
-export function* getItemUnits({payload}) {
+export function* fetchItemUnits({payload}) {
   const {fresh = true, onSuccess, queryString} = payload;
   try {
-    const response = yield call(req.getItemUnits, queryString);
+    const response = yield call(req.fetchItemUnits, queryString);
     if (response?.data) {
       const data = response.data;
-      yield put(setItemUnits({units: data, fresh}));
+      yield put({
+        type: types.FETCH_ITEM_UNITS_SUCCESS,
+        payload: {units: data, fresh}
+      });
     }
 
     onSuccess?.(response);
@@ -30,14 +29,13 @@ export function* getItemUnits({payload}) {
  * Add item-units saga
  * @returns {IterableIterator<*>}
  */
-function* createItemUnit({payload: {params, onSuccess}}) {
+function* addItemUnit({payload: {params, onSuccess}}) {
   yield put(spinner({itemUnitLoading: true}));
 
   try {
-    const response = yield call(req.createItemUnit, params);
-
+    const response = yield call(req.addItemUnit, params);
     if (response?.data) {
-      yield put(setItemUnit({unit: [response.data], isCreated: true}));
+      yield put({type: types.ADD_ITEM_UNIT_SUCCESS, payload: response?.data});
       onSuccess?.();
       return;
     }
@@ -57,14 +55,14 @@ function* createItemUnit({payload: {params, onSuccess}}) {
  * Update item-units saga
  * @returns {IterableIterator<*>}
  */
-function* editItemUnit({payload: {params, onSuccess}}) {
+function* updateItemUnit({payload: {params, onSuccess}}) {
   yield put(spinner({itemUnitLoading: true}));
 
   try {
-    const response = yield call(req.editItemUnit, params);
+    const response = yield call(req.updateItemUnit, params);
 
     if (response?.data) {
-      yield put(setItemUnit({unit: response.data, isUpdated: true}));
+      yield put({type: types.UPDATE_ITEM_UNIT_SUCCESS, payload: response.data});
       onSuccess?.();
       return;
     }
@@ -91,7 +89,7 @@ function* removeItemUnit({payload: {id, onSuccess}}) {
     const response = yield call(req.removeItemUnit, id);
 
     if (response.success) {
-      yield put(setItemUnit({id, isRemove: true}));
+      yield put({type: types.REMOVE_ITEM_UNIT_SUCCESS, payload});
       onSuccess?.();
       return;
     }
@@ -108,8 +106,8 @@ function* removeItemUnit({payload: {id, onSuccess}}) {
 }
 
 export default function* itemUnitsSaga() {
-  yield takeEvery(TYPES.GET_ITEM_UNITS, getItemUnits);
-  yield takeEvery(TYPES.CREATE_ITEM_UNIT, createItemUnit);
-  yield takeEvery(TYPES.EDIT_ITEM_UNIT, editItemUnit);
-  yield takeEvery(TYPES.REMOVE_ITEM_UNIT, removeItemUnit);
+  yield takeEvery(types.FETCH_ITEM_UNITS, fetchItemUnits);
+  yield takeEvery(types.ADD_ITEM_UNIT, addItemUnit);
+  yield takeEvery(types.UPDATE_ITEM_UNIT, updateItemUnit);
+  yield takeEvery(types.REMOVE_ITEM_UNIT, removeItemUnit);
 }

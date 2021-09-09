@@ -6,7 +6,7 @@ import * as types from './types';
  * @param body : params
  * @returns {*}
  */
-export const getCustomizeSettings = q => {
+export const fetchCustomizeSettings = q => {
   return Request.get({
     path: `company/settings`,
     axiosProps: {
@@ -20,6 +20,6 @@ export const getCustomizeSettings = q => {
  * @param body : params
  * @returns {*}
  */
-export const editCustomizeSettings = body => {
+export const updateCustomizeSettings = body => {
   return Request.post({path: `company/settings`, body});
 };

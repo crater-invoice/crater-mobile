@@ -18,10 +18,10 @@ import {IProps, IStates} from './customize-invoice-type';
 import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
 import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
 import {
-  getCustomizeSettings,
+  fetchCustomizeSettings,
   setCustomizeSettings,
   editSettingItem,
-  editCustomizeSettings
+  updateCustomizeSettings
 } from 'stores/customize/actions';
 
 export default class CustomizeInvoice extends Component<IProps, IStates> {
@@ -39,7 +39,7 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
       ? typeof customizes === 'undefined' || customizes === null
       : true;
 
-    hasCustomizeApiCalled && dispatch(getCustomizeSettings());
+    hasCustomizeApiCalled && dispatch(fetchCustomizeSettings());
     goBack(MOUNT, navigation);
   }
 
@@ -83,7 +83,7 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
     }
 
     const {navigation, dispatch} = this.props;
-    dispatch(editCustomizeSettings({params, navigation}));
+    dispatch(updateCustomizeSettings({params, navigation}));
   };
 
   TOGGLE_FIELD_VIEW = () => {

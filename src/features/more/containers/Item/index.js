@@ -4,13 +4,10 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as MoreAction from '../../actions';
 import { ITEM_FORM } from '../../constants';
-import { getUnitState } from '../../selectors';
+import { unitsSelector } from '../../selectors';
 import { commonSelector, permissionSelector } from 'stores/common/selectors';
-import {
-    getSettingInfo,
-    getTaxes
-} from '@/features/settings/actions';
-import { getItemUnits } from 'stores/item-units/actions';
+import { getSettingInfo, getTaxes } from '@/features/settings/actions';
+import { fetchItemUnits } from 'stores/item-units/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
@@ -37,7 +34,7 @@ const mapStateToProps = (state, { navigation }) => {
         taxTypes,
         taxByItems,
         currency,
-        units: getUnitState(units),
+        units: unitsSelector(units),
         ...permissions,
         ...commonSelector(state),
         initialValues: !isLoading
@@ -55,7 +52,7 @@ const mapDispatchToProps = {
     getEditItem: MoreAction.getEditItem,
     removeItem: MoreAction.removeItem,
     clearItem: MoreAction.clearItem,
-    getItemUnits: getItemUnits,
+    fetchItemUnits: fetchItemUnits,
     getTaxes,
     getSettingInfo
 };

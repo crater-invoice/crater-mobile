@@ -376,7 +376,7 @@ export class InvoiceItem extends React.Component {
             taxTypes,
             taxPerItem,
             units,
-            getItemUnits,
+            fetchItemUnits,
             getTaxes,
             theme
         } = this.props;
@@ -478,7 +478,7 @@ export class InvoiceItem extends React.Component {
                         component={SelectField}
                         apiSearch
                         hasPagination
-                        getItems={getItemUnits}
+                        getItems={fetchItemUnits}
                         items={units}
                         displayName={'name'}
                         label={t('items.unit')}

@@ -1,3 +1,4 @@
+import {isEmpty} from '@/constants';
 import * as types from './types';
 
 const initialState = {
@@ -12,46 +13,50 @@ export default function paymentModesReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {
-    case types.SET_PAYMENT_MODES:
-      if (!payload.fresh) {
-        return {
-          ...state,
-          modes: [...state.modes, ...payload.modes]
-        };
+    case types.SPINNER:
+      return {
+        ...state,
+        loading: {...state.loading, ...payload}
+      };
+
+    case types.FETCH_PAYMENT_MODES_SUCCESS:
+      if (payload.fresh) {
+        return {...state, modes: payload.modes};
       }
 
-      return {...state, modes: payload.modes};
+      return {...state, modes: [...state.modes, ...payload.modes]};
 
-    case types.SET_PAYMENT_MODE:
-      const {paymentMode, isCreated, isUpdated, isRemove} = payload;
+    case types.ADD_PAYMENT_MODE_SUCCESS:
+      return {
+        ...state,
+        modes: [payload, ...state.modes]
+      };
 
-      if (isCreated) {
-        return {
-          ...state,
-          modes: [...paymentMode, ...state.modes]
-        };
-      }
-      if (isUpdated) {
-        const methods = [];
+    case types.UPDATE_PAYMENT_MODE_SUCCESS:
+      const modeData = payload;
+      const modeList = [];
 
-        state.modes.map(method => {
-          let value = method;
-          method.id === paymentMode.id && (value = paymentMode);
-          methods.push(value);
-        });
-
-        return {
-          ...state,
-          modes: methods
-        };
-      }
-      if (isRemove) {
-        const remainMethods = state.modes.filter(({id}) => id !== payload.id);
-
-        return {...state, modes: remainMethods};
+      if (isEmpty(state.modes)) {
+        return state;
       }
 
-      return {...state};
+      state.modes.map(mode => {
+        const {id} = mode;
+        let value = mode;
+
+        if (id === modeData.id) {
+          value = modeData;
+        }
+        modeList.push(value);
+      });
+
+      return {...state, modes: modeList};
+
+    case types.REMOVE_PAYMENT_MODE_SUCCESS:
+      return {
+        ...state,
+        modes: state.modes.filter(({id}) => id !== payload)
+      };
 
     default:
       return state;

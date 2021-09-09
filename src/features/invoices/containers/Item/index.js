@@ -5,8 +5,8 @@ import { validate } from './validation';
 import * as InvoicesAction from '../../actions';
 import { ITEM_FORM } from '../../constants';
 import { getTaxes } from '@/features/settings/actions';
-import { getItemUnits } from 'stores/item-units/actions';
-import { getUnitState } from '@/features/more/selectors';
+import { fetchItemUnits } from 'stores/item-units/actions';
+import { unitsSelector } from '@/features/more/selectors';
 import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
@@ -38,7 +38,7 @@ const mapStateToProps = (state, { navigation }) => {
         discountPerItem,
         taxPerItem,
         type,
-        units: getUnitState(units),
+        units: unitsSelector(units),
         ...commonSelector(state),
         initialValues: {
             price: null,
@@ -55,7 +55,7 @@ const mapDispatchToProps = {
     addItem: InvoicesAction.addItem,
     setInvoiceItems: InvoicesAction.setInvoiceItems,
     removeInvoiceItem: InvoicesAction.removeInvoiceItem,
-    getItemUnits,
+    fetchItemUnits,
     getTaxes
 };
 

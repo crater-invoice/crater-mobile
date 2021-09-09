@@ -1,11 +1,11 @@
 import Request from '@/utils/request';
 import * as queryString from 'query-string';
 /**
- * get payment-modes
+ * fetch payment-modes
  * @param q : queryString
  * @returns {*}
  */
-export const getPaymentModes = q => {
+export const fetchPaymentModes = q => {
   return Request.get({path: `payment-methods?${queryString.stringify(q)}`});
 };
 
@@ -14,7 +14,7 @@ export const getPaymentModes = q => {
  * @param body : params
  * @returns {*}
  */
-export const createPaymentMode = body => {
+export const addPaymentModes = body => {
   return Request.post({path: `payment-methods`, body});
 };
 
@@ -24,7 +24,7 @@ export const createPaymentMode = body => {
  * @param body : params
  * @returns {*}
  */
-export const editPaymentMode = body => {
+export const updatePaymentModes = body => {
   return Request.put({path: `payment-methods/${body.id}`, body});
 };
 

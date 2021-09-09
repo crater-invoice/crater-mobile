@@ -41,7 +41,7 @@ const mapStateToProps = (state, {navigation}) => {
 
 const CustomizePaymentForm = reduxForm({
   form: CUSTOMIZE_PAYMENT_FORM,
-  customizePaymentValidate
+  validate: customizePaymentValidate
 })(CustomizePayment);
 
 export const CustomizePaymentContainer = connect(mapStateToProps)(

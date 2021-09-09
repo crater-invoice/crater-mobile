@@ -4,7 +4,7 @@ import {commonSelector} from 'stores/common/selectors';
 import * as paymentAction from 'stores/payment-modes/actions';
 import {getFormValues, reduxForm} from 'redux-form';
 import {PAYMENT_MODES_FORM} from '@/stores/payment-modes/types';
-import {getPaymentModes} from 'stores/payment-modes/actions';
+import {fetchPaymentModes} from 'stores/payment-modes/actions';
 
 const mapStateToProps = state => {
   const {
@@ -23,7 +23,7 @@ const paymentModesForm = reduxForm({
 })(PaymentModes);
 
 const mapDispatchToProps = {
-  getPaymentModes: getPaymentModes
+  fetchPaymentModes: fetchPaymentModes
 };
 
 export const PaymentModesContainer = connect(

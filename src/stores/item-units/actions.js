@@ -5,48 +5,28 @@ import * as TYPES from './types';
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const settingsTriggerSpinner = payload => ({
-  type: TYPES.SETTINGS_TRIGGER_SPINNER,
+export const spinner = payload => ({
+  type: TYPES.SPINNER,
   payload
 });
 
 /**
- * get item-units list
+ * fetch item-units list
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const getItemUnits = (payload = {}) => ({
-  type: TYPES.GET_ITEM_UNITS,
+export const fetchItemUnits = (payload = {}) => ({
+  type: TYPES.FETCH_ITEM_UNITS,
   payload
 });
 
 /**
- * set item-units list
+ * Add item-unit
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const setItemUnits = (payload = {}) => ({
-  type: TYPES.SET_ITEM_UNITS,
-  payload
-});
-
-/**
- * set single item-unit
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export const setItemUnit = (payload = {}) => ({
-  type: TYPES.SET_ITEM_UNIT,
-  payload
-});
-
-/**
- * create item-unit
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export const createItemUnit = (payload = {}) => ({
-  type: TYPES.CREATE_ITEM_UNIT,
+export const addItemUnit = (payload = {}) => ({
+  type: TYPES.ADD_ITEM_UNIT,
   payload
 });
 
@@ -55,8 +35,8 @@ export const createItemUnit = (payload = {}) => ({
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const editItemUnit = (payload = {}) => ({
-  type: TYPES.EDIT_ITEM_UNIT,
+export const updateItemUnit = (payload = {}) => ({
+  type: TYPES.UPDATE_ITEM_UNIT,
   payload
 });
 

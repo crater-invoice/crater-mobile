@@ -5,8 +5,8 @@ import * as TYPES from './types';
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const settingsTriggerSpinner = payload => ({
-  type: TYPES.SETTINGS_TRIGGER_SPINNER,
+export const spinner = payload => ({
+  type: TYPES.SPINNER,
   payload
 });
 
@@ -15,8 +15,8 @@ export const settingsTriggerSpinner = payload => ({
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const getCustomizeSettings = (payload = {}) => ({
-  type: TYPES.GET_CUSTOMIZE_SETTINGS,
+export const fetchCustomizeSettings = (payload = {}) => ({
+  type: TYPES.FETCH_CUSTOMIZE_SETTINGS,
   payload
 });
 
@@ -35,8 +35,8 @@ export const setCustomizeSettings = (payload = {}) => ({
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const editCustomizeSettings = (payload = {}) => ({
-  type: TYPES.EDIT_CUSTOMIZE_SETTINGS,
+export const updateCustomizeSettings = (payload = {}) => ({
+  type: TYPES.UPDATE_CUSTOMIZE_SETTINGS,
   payload
 });
 

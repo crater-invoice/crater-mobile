@@ -4,7 +4,7 @@ import ItemUnits from './item-units';
 import {ITEM_UNITS_FORM} from 'stores/item-units/types';
 import {commonSelector} from 'stores/common/selectors';
 import * as itemUnitAction from 'stores/item-units/actions';
-import {getUnitState} from 'stores/item-units/selectors';
+import {unitsSelector} from 'stores/item-units/selectors';
 const mapStateToProps = state => {
   const {
     itemUnits: {
@@ -15,7 +15,7 @@ const mapStateToProps = state => {
 
   return {
     formValues: getFormValues(ITEM_UNITS_FORM)(state) || {},
-    units: getUnitState(units),
+    units: unitsSelector(units),
     itemUnitLoading,
     itemUnitsLoading,
     loading: itemUnitLoading,
@@ -24,7 +24,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getItemUnits: itemUnitAction.getItemUnits
+  fetchItemUnits: itemUnitAction.fetchItemUnits
 };
 
 const ItemUnitsForm = reduxForm({form: ITEM_UNITS_FORM})(ItemUnits);

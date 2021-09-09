@@ -39,7 +39,7 @@ const mapStateToProps = (state, {navigation}) => {
 
 const CustomizeInvoiceForm = reduxForm({
   form: CUSTOMIZE_INVOICE_FORM,
-  customizeInvoiceValidate
+  validate: customizeInvoiceValidate
 })(CustomizeInvoice);
 
 export const CustomizeInvoiceContainer = connect(mapStateToProps)(

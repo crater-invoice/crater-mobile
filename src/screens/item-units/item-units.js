@@ -9,15 +9,16 @@ import {
   ActionButton
 } from '@/components';
 import {ROUTES} from '@/navigation';
-import {alertMe} from '@/constants';
+import {alertMe, isEmpty} from '@/constants';
 import {IProps, IStates} from './item-units-type';
 import {ITEM_UNITS_FORM} from '@/stores/item-units/types';
 import {change} from 'redux-form';
 import {
-  createItemUnit,
-  editItemUnit,
+  addItemUnit,
+  updateItemUnit,
   removeItemUnit
 } from 'stores/item-units/actions';
+import styles from './item-units-style';
 
 export default class ItemUnits extends Component<IProps, IStates> {
   constructor(props) {
@@ -47,8 +48,8 @@ export default class ItemUnits extends Component<IProps, IStates> {
 
     if (unitName) {
       isCreateMethod
-        ? dispatch(createItemUnit(params))
-        : dispatch(editItemUnit(params));
+        ? dispatch(addItemUnit(params))
+        : dispatch(updateItemUnit(params));
     }
   };
 
@@ -124,7 +125,7 @@ export default class ItemUnits extends Component<IProps, IStates> {
       formValues,
       dispatch,
       units,
-      getItemUnits
+      fetchItemUnits
     } = this.props;
 
     const bottomAction = [
@@ -150,28 +151,23 @@ export default class ItemUnits extends Component<IProps, IStates> {
           reference: ref => (this.toastReference = ref)
         }}
       >
-        <View style={{paddingTop: 10, flex: 1}}>
+        <View style={styles.childContainer}>
           {this.INPUT_MODAL()}
           <InfiniteScroll
-            getItems={getItemUnits}
+            getItems={fetchItemUnits}
             reference={ref => (this.scrollViewReference = ref)}
             paginationLimit={20}
           >
             <ListView
               items={units}
               onPress={this.onSelectUnit}
-              isEmpty={units ? units.length <= 0 : true}
+              isEmpty={isEmpty(units)}
               bottomDivider
-              contentContainerStyle={{
-                flex: 3
-              }}
+              contentContainerStyle={styles.contentContainerStyle}
               emptyContentProps={{
                 title: t('payments.empty.modeTitle')
               }}
-              itemContainer={{
-                paddingVertical: 14,
-                paddingHorizontal: 22
-              }}
+              itemContainer={styles.itemContainer}
             />
           </InfiniteScroll>
         </View>

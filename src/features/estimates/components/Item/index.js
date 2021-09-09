@@ -382,7 +382,7 @@ export class EstimateItem extends React.Component {
             taxPerItem,
             units,
             getTaxes,
-            getItemUnits,
+            fetchItemUnits,
             theme
         } = this.props;
 
@@ -483,7 +483,7 @@ export class EstimateItem extends React.Component {
                         component={SelectField}
                         apiSearch
                         hasPagination
-                        getItems={getItemUnits}
+                        getItems={fetchItemUnits}
                         items={units}
                         displayName={'name'}
                         label={t('items.unit')}

@@ -5,7 +5,7 @@ import { Payments } from '../../components/Payments';
 import { PAYMENT_SEARCH } from '../../constants';
 import { getPaymentsState, getPaymentModesState } from '../../selectors';
 import { getCustomers } from '@/features/customers/actions';
-import { getPaymentModes } from 'stores/payment-modes/actions';
+import { fetchPaymentModes } from 'stores/payment-modes/actions';
 import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     getPayments: PaymentsAction.getPayments,
     getCustomers,
-    getPaymentModes
+    fetchPaymentModes
 };
 
 const paymentSearchReduxForm = reduxForm({

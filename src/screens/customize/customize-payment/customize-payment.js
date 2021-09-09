@@ -20,10 +20,10 @@ import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
 import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
 import {PaymentModes} from 'screens/payment-modes';
 import {
-  getCustomizeSettings,
+  fetchCustomizeSettings,
   setCustomizeSettings,
   editSettingItem,
-  editCustomizeSettings
+  updateCustomizeSettings
 } from 'stores/customize/actions';
 export default class CustomizePayment extends Component<IProps> {
   constructor(props) {
@@ -42,7 +42,7 @@ export default class CustomizePayment extends Component<IProps> {
       ? typeof customizes === 'undefined' || customizes === null
       : true;
 
-    hasCustomizeApiCalled && dispatch(getCustomizeSettings());
+    hasCustomizeApiCalled && dispatch(fetchCustomizeSettings());
     goBack(MOUNT, navigation);
   }
 
@@ -86,7 +86,7 @@ export default class CustomizePayment extends Component<IProps> {
     }
 
     const {dispatch, navigation} = this.props;
-    dispatch(editCustomizeSettings({params, navigation}));
+    dispatch(updateCustomizeSettings({params, navigation}));
   };
 
   TOGGLE_FIELD_VIEW = () => {

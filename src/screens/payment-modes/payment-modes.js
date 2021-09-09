@@ -7,10 +7,10 @@ import {alertMe, isIPhoneX} from '@/constants';
 import {PAYMENT_MODES_FORM} from 'stores/payment-modes/types';
 import {change} from 'redux-form';
 import {
-  createPaymentMode,
-  editPaymentMode,
+  addPaymentModes,
+  updatePaymentModes,
   removePaymentMode,
-  getPaymentModes
+  fetchPaymentModes
 } from 'stores/payment-modes/actions';
 
 export class PaymentModes extends Component {
@@ -51,8 +51,8 @@ export class PaymentModes extends Component {
 
     if (methodName) {
       isCreateMethod
-        ? dispatch(createPaymentMode(params))
-        : dispatch(editPaymentMode(params));
+        ? dispatch(addPaymentModes(params))
+        : dispatch(updatePaymentModes(params));
     }
   };
   setFormField = (field, value) => {
@@ -124,13 +124,13 @@ export class PaymentModes extends Component {
   };
 
   render() {
-    const {paymentModes, getPaymentModes} = this.props;
+    const {paymentModes, fetchPaymentModes} = this.props;
 
     return (
       <View style={{paddingTop: 10, flex: 1}}>
         {this.INPUT_MODAL()}
         <InfiniteScroll
-          getItems={getPaymentModes}
+          getItems={fetchPaymentModes}
           reference={ref => (this.scrollViewReference = ref)}
           paginationLimit={isIPhoneX ? 20 : 15}
         >

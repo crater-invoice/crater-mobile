@@ -3,7 +3,7 @@ import * as types from './types';
 import * as req from './service';
 import {
   setCustomizeSettings,
-  settingsTriggerSpinner as spinner
+  spinner
 } from './actions';
 import {ROUTES} from '@/navigation';
 import {getCustomFields} from '@/features/settings/saga/custom-fields';
@@ -12,7 +12,7 @@ import {getCustomFields} from '@/features/settings/saga/custom-fields';
  * get customization saga
  * @returns {*}
  */
-function* getCustomizeSettings(payloadData) {
+function* fetchCustomizeSettings(payloadData) {
   yield put(spinner({getCustomizeLoading: true}));
 
   try {
@@ -21,7 +21,7 @@ function* getCustomizeSettings(payloadData) {
         queryString: {limit: 'all'}
       }
     });
-    const response = yield call(req.getCustomizeSettings);
+    const response = yield call(req.fetchCustomizeSettings);
 
     yield put(setCustomizeSettings({customizes: response}));
   } catch (e) {
@@ -34,12 +34,12 @@ function* getCustomizeSettings(payloadData) {
  * Update customization saga
  * @returns {*}
  */
-function* editCustomizeSettings({payload: {params, navigation}}) {
+function* updateCustomizeSettings({payload: {params, navigation}}) {
   yield put(spinner({customizeLoading: true}));
 
   try {
     const body = {settings: params};
-    const response = yield call(req.editCustomizeSettings, body);
+    const response = yield call(req.updateCustomizeSettings, body);
 
     if (response.success) {
       navigation.navigate(ROUTES.CUSTOMIZE_LIST);
@@ -52,6 +52,6 @@ function* editCustomizeSettings({payload: {params, navigation}}) {
 }
 
 export default function* customizeSaga() {
-  yield takeEvery(types.GET_CUSTOMIZE_SETTINGS, getCustomizeSettings);
-  yield takeEvery(types.EDIT_CUSTOMIZE_SETTINGS, editCustomizeSettings);
+  yield takeEvery(types.FETCH_CUSTOMIZE_SETTINGS, fetchCustomizeSettings);
+  yield takeEvery(types.UPDATE_CUSTOMIZE_SETTINGS, updateCustomizeSettings);
 }

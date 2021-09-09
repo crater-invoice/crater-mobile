@@ -5,7 +5,7 @@ import * as queryString from 'query-string';
  * @param q : queryString
  * @returns {*}
  */
-export const getItemUnits = q => {
+export const fetchItemUnits = q => {
   return Request.get({path: `units?${queryString.stringify(q)}`});
 };
 
@@ -14,7 +14,7 @@ export const getItemUnits = q => {
  * @param body : params
  * @returns {*}
  */
-export const createItemUnit = body => {
+export const addItemUnit = body => {
   return Request.post({path: `units`, body});
 };
 
@@ -24,7 +24,7 @@ export const createItemUnit = body => {
  * @param body : params
  * @returns {*}
  */
-export const editItemUnit = body => {
+export const updateItemUnit = body => {
   return Request.put({path: `units/${body.id}`, body});
 };
 

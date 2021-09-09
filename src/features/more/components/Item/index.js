@@ -393,7 +393,7 @@ export class Item extends React.Component {
             navigation,
             handleSubmit,
             units,
-            getItemUnits,
+            fetchItemUnits,
             currency,
             isEditScreen,
             isAllowToEdit,
@@ -485,7 +485,7 @@ export class Item extends React.Component {
                     component={SelectField}
                     apiSearch={true}
                     hasPagination={true}
-                    getItems={getItemUnits}
+                    getItems={fetchItemUnits}
                     items={units}
                     displayName={'name'}
                     label={t('items.unit')}

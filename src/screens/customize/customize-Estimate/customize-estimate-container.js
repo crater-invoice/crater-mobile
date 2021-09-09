@@ -39,7 +39,7 @@ const mapStateToProps = (state, {navigation}) => {
 
 const CustomizeEstimateForm = reduxForm({
   form: CUSTOMIZE_ESTIMATE_FORM,
-  customizeEstimateValidate
+  validate: customizeEstimateValidate
 })(CustomizeEstimate);
 
 export const CustomizeEstimateContainer = connect(mapStateToProps)(
