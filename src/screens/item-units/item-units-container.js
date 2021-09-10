@@ -9,7 +9,7 @@ const mapStateToProps = state => {
   const {
     itemUnits: {
       units,
-      loading: {itemUnitLoading, itemUnitsLoading}
+      loading: {itemUnitLoading}
     }
   } = state;
 
@@ -17,7 +17,6 @@ const mapStateToProps = state => {
     formValues: getFormValues(ITEM_UNITS_FORM)(state) || {},
     units: unitsSelector(units),
     itemUnitLoading,
-    itemUnitsLoading,
     loading: itemUnitLoading,
     ...commonSelector(state)
   };

@@ -12,9 +12,6 @@ import { commonSelector } from 'stores/common/selectors';
 const mapStateToProps = (state, { navigation }) => {
     const {
         estimates: { loading },
-        settings: {
-            loading: { itemUnitsLoading }
-        },
         itemUnits: { units }
     } = state;
 
@@ -26,8 +23,7 @@ const mapStateToProps = (state, { navigation }) => {
 
     const isLoading =
         loading.editItemLoading ||
-        loading.removeItemLoading ||
-        itemUnitsLoading;
+        loading.removeItemLoading;
 
     return {
         loading: isLoading,

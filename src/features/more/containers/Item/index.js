@@ -13,8 +13,7 @@ const mapStateToProps = (state, { navigation }) => {
     const {
         more: { loading, item },
         settings: {
-            taxByItems,
-            loading: { itemUnitsLoading }
+            taxByItems
         },
         itemUnits: { units },
         common: { currency, taxTypes }
@@ -25,7 +24,7 @@ const mapStateToProps = (state, { navigation }) => {
     const isEditScreen = permissions.isEditScreen;
 
     const isLoading =
-        loading?.itemLoading || itemUnitsLoading || (isEditScreen && !item);
+        loading?.itemLoading || (isEditScreen && !item);
 
     return {
         loading: isLoading,

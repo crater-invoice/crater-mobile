@@ -7,7 +7,7 @@ export const SET_CUSTOMIZE_SETTINGS = 'customize/SET_CUSTOMIZE_SETTINGS';
 export const UPDATE_CUSTOMIZE_SETTINGS = 'customize/UPDATE_CUSTOMIZE_SETTINGS';
 
 export const EDIT_SETTING_ITEM = 'settings/EDIT_SETTING_ITEM';
-export const SPINNER = 'settings/SPINNER';
+export const SPINNER = 'customize/SPINNER';
 
 export const PAYMENT_TABS = {
   MODE: 'MODE',

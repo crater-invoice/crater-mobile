@@ -25,7 +25,7 @@ export const fetchPaymentModes = (payload = {}) => ({
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const addPaymentModes = (payload = {}) => ({
+export const addPaymentMode = (payload = {}) => ({
   type: types.ADD_PAYMENT_MODE,
   payload
 });
@@ -35,7 +35,7 @@ export const addPaymentModes = (payload = {}) => ({
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const updatePaymentModes = (payload = {}) => ({
+export const updatePaymentMode = (payload = {}) => ({
   type: types.UPDATE_PAYMENT_MODE,
   payload
 });

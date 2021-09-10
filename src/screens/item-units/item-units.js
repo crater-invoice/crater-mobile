@@ -141,11 +141,10 @@ export default class ItemUnits extends Component<IProps, IStates> {
           leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZE_LIST),
           title: t('header.units'),
           rightIconPress: null,
-          placement: 'center',
+          placement: 'center',  
           leftArrow: 'primary'
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}
-        loadingProps={{is: loading}}
         hideScrollView
         toastProps={{
           reference: ref => (this.toastReference = ref)

@@ -1,4 +1,4 @@
-import * as TYPES from './types';
+import * as types from './types';
 
 /**
  * Spinner
@@ -6,7 +6,7 @@ import * as TYPES from './types';
  * @returns {{type: string, payload: *}}
  */
 export const spinner = payload => ({
-  type: TYPES.SPINNER,
+  type: types.SPINNER,
   payload
 });
 
@@ -16,7 +16,7 @@ export const spinner = payload => ({
  * @returns {{type: string, payload: *}}
  */
 export const fetchItemUnits = (payload = {}) => ({
-  type: TYPES.FETCH_ITEM_UNITS,
+  type: types.FETCH_ITEM_UNITS,
   payload
 });
 
@@ -26,7 +26,7 @@ export const fetchItemUnits = (payload = {}) => ({
  * @returns {{type: string, payload: *}}
  */
 export const addItemUnit = (payload = {}) => ({
-  type: TYPES.ADD_ITEM_UNIT,
+  type: types.ADD_ITEM_UNIT,
   payload
 });
 
@@ -36,7 +36,7 @@ export const addItemUnit = (payload = {}) => ({
  * @returns {{type: string, payload: *}}
  */
 export const updateItemUnit = (payload = {}) => ({
-  type: TYPES.UPDATE_ITEM_UNIT,
+  type: types.UPDATE_ITEM_UNIT,
   payload
 });
 
@@ -46,6 +46,6 @@ export const updateItemUnit = (payload = {}) => ({
  * @returns {{type: string, payload: *}}
  */
 export const removeItemUnit = (payload = {}) => ({
-  type: TYPES.REMOVE_ITEM_UNIT,
+  type: types.REMOVE_ITEM_UNIT,
   payload
 });

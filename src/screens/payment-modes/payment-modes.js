@@ -7,8 +7,8 @@ import {alertMe, isIPhoneX} from '@/constants';
 import {PAYMENT_MODES_FORM} from 'stores/payment-modes/types';
 import {change} from 'redux-form';
 import {
-  addPaymentModes,
-  updatePaymentModes,
+  addPaymentMode,
+  updatePaymentMode,
   removePaymentMode,
   fetchPaymentModes
 } from 'stores/payment-modes/actions';
@@ -51,8 +51,8 @@ export class PaymentModes extends Component {
 
     if (methodName) {
       isCreateMethod
-        ? dispatch(addPaymentModes(params))
-        : dispatch(updatePaymentModes(params));
+        ? dispatch(addPaymentMode(params))
+        : dispatch(updatePaymentMode(params));
     }
   };
   setFormField = (field, value) => {

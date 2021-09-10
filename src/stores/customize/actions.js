@@ -1,4 +1,4 @@
-import * as TYPES from './types';
+import * as types from './types';
 
 /**
  * Spinner
@@ -6,7 +6,7 @@ import * as TYPES from './types';
  * @returns {{type: string, payload: *}}
  */
 export const spinner = payload => ({
-  type: TYPES.SPINNER,
+  type: types.SPINNER,
   payload
 });
 
@@ -16,7 +16,7 @@ export const spinner = payload => ({
  * @returns {{type: string, payload: *}}
  */
 export const fetchCustomizeSettings = (payload = {}) => ({
-  type: TYPES.FETCH_CUSTOMIZE_SETTINGS,
+  type: types.FETCH_CUSTOMIZE_SETTINGS,
   payload
 });
 
@@ -26,7 +26,7 @@ export const fetchCustomizeSettings = (payload = {}) => ({
  * @returns {{type: string, payload: *}}
  */
 export const setCustomizeSettings = (payload = {}) => ({
-  type: TYPES.SET_CUSTOMIZE_SETTINGS,
+  type: types.SET_CUSTOMIZE_SETTINGS,
   payload
 });
 
@@ -36,7 +36,7 @@ export const setCustomizeSettings = (payload = {}) => ({
  * @returns {{type: string, payload: *}}
  */
 export const updateCustomizeSettings = (payload = {}) => ({
-  type: TYPES.UPDATE_CUSTOMIZE_SETTINGS,
+  type: types.UPDATE_CUSTOMIZE_SETTINGS,
   payload
 });
 
@@ -46,6 +46,6 @@ export const updateCustomizeSettings = (payload = {}) => ({
  * @returns {{type: string, payload: *}}
  */
 export const editSettingItem = payload => ({
-  type: TYPES.EDIT_SETTING_ITEM,
+  type: types.EDIT_SETTING_ITEM,
   payload
 });

@@ -3,7 +3,6 @@ import * as types from './types';
 
 const initialState = {
   loading: {
-    paymentModesLoading: false,
     paymentModeLoading: false
   },
   modes: []

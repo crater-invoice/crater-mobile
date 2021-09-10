@@ -14,7 +14,7 @@ export const fetchPaymentModes = q => {
  * @param body : params
  * @returns {*}
  */
-export const addPaymentModes = body => {
+export const addPaymentMode = body => {
   return Request.post({path: `payment-methods`, body});
 };
 
@@ -24,7 +24,7 @@ export const addPaymentModes = body => {
  * @param body : params
  * @returns {*}
  */
-export const updatePaymentModes = body => {
+export const updatePaymentMode = body => {
   return Request.put({path: `payment-methods/${body.id}`, body});
 };
 

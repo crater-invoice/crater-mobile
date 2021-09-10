@@ -3,7 +3,6 @@ import * as types from './types';
 
 const initialState = {
   loading: {
-    itemUnitsLoading: false,
     itemUnitLoading: false
   },
   units: []
