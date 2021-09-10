@@ -4,10 +4,10 @@ import { IMAGES } from '@/assets';
 export default paymentsFilterFields = ({ props, setFormField }) => {
     const {
         getCustomers,
-        getPaymentModes,
+        fetchPaymentModes,
         customers,
         navigation,
-        paymentMethods
+        paymentModes
     } = props;
 
     const selectFields = [
@@ -37,8 +37,8 @@ export default paymentsFilterFields = ({ props, setFormField }) => {
             name: 'payment_method_id',
             apiSearch: true,
             hasPagination: true,
-            getItems: getPaymentModes,
-            items: paymentMethods,
+            getItems: fetchPaymentModes,
+            items: paymentModes,
             displayName: 'name',
             label: t('payments.mode'),
             icon: 'align-center',

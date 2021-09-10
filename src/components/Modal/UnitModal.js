@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, change } from 'redux-form';
 import { InputModal } from '../InputModal';
-import { createItemUnit } from '@/features/settings/actions';
+import { addItemUnit } from 'stores/item-units/actions';
 import t from 'locales/use-translation';
 import { hasValue } from '@/constants';
 import { commonSelector } from 'stores/common/selectors';
@@ -11,7 +11,7 @@ interface IProps {
     loading: boolean;
     reference: any;
     handleSubmit: Function;
-    createItemUnit: Function;
+    addItemUnit: Function;
     dispatch: Function;
 }
 
@@ -40,13 +40,13 @@ class Modal extends Component<IProps> {
     };
 
     onSubmit = ({ name }) => {
-        const { createItemUnit } = this.props;
+        const { addItemUnit } = this.props;
 
         if (!hasValue(name)) {
             return;
         }
 
-        createItemUnit({
+        addItemUnit({
             params: { name },
             onSuccess: () => {
                 this.setFormField('name', null);
@@ -77,7 +77,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    createItemUnit
+    addItemUnit
 };
 
 //  Redux Form

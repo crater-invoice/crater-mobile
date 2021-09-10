@@ -1,5 +1,5 @@
+import { formatPaymentModes } from '@/utils';
 import { isEmpty } from '@/constants';
-import { formatPaymentMethods } from '@/utils';
 import { createSelector } from 'reselect';
 
 const formatPaymentItems = payments =>
@@ -29,9 +29,9 @@ const getPaymentsState = createSelector(
     payments => (isEmpty(payments) ? [] : formatPaymentItems(payments))
 );
 
-const getPaymentMethodsState = createSelector(
+const getPaymentModesState = createSelector(
     methods => methods,
-    methods => formatPaymentMethods(methods)
+    methods => formatPaymentModes(methods)
 );
 
-export { getPaymentsState, getPaymentMethodsState };
+export { getPaymentsState, getPaymentModesState };

@@ -24,7 +24,7 @@ import {
 import { colors } from '@/styles';
 import t from 'locales/use-translation';
 import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
+import { CUSTOMIZE_TYPE } from 'stores/customize/types';
 import {
     alertMe,
     hasValue,
@@ -382,7 +382,7 @@ export class EstimateItem extends React.Component {
             taxPerItem,
             units,
             getTaxes,
-            getItemUnits,
+            fetchItemUnits,
             theme
         } = this.props;
 
@@ -483,7 +483,7 @@ export class EstimateItem extends React.Component {
                         component={SelectField}
                         apiSearch
                         hasPagination
-                        getItems={getItemUnits}
+                        getItems={fetchItemUnits}
                         items={units}
                         displayName={'name'}
                         label={t('items.unit')}

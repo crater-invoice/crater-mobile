@@ -20,7 +20,7 @@ import t from 'locales/use-translation';
 import { goBack, UNMOUNT, MOUNT } from '@/navigation';
 import { isIosPlatform, isIPhoneX } from '@/constants';
 import { alertMe, hasValue, MAX_LENGTH } from '@/constants';
-import { CUSTOMIZE_TYPE } from '@/features/settings/constants';
+import { CUSTOMIZE_TYPE } from 'stores/customize/types';
 
 export class Item extends React.Component {
     constructor(props) {
@@ -393,7 +393,7 @@ export class Item extends React.Component {
             navigation,
             handleSubmit,
             units,
-            getItemUnits,
+            fetchItemUnits,
             currency,
             isEditScreen,
             isAllowToEdit,
@@ -485,7 +485,7 @@ export class Item extends React.Component {
                     component={SelectField}
                     apiSearch={true}
                     hasPagination={true}
-                    getItems={getItemUnits}
+                    getItems={fetchItemUnits}
                     items={units}
                     displayName={'name'}
                     label={t('items.unit')}

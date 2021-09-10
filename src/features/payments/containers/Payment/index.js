@@ -5,16 +5,18 @@ import * as actions from '../../actions';
 import { PAYMENT_FORM, PAYMENT_FIELDS as FIELDS } from '../../constants';
 import { Payment } from '../../components/Payment';
 import { getCustomers } from '@/features/customers/actions';
-import { getPaymentModes, getNotes } from '@/features/settings/actions';
-import { getPaymentMethodsState } from '../../selectors';
+import { getNotes } from '@/features/settings/actions';
+import { fetchPaymentModes } from 'stores/payment-modes/actions';
+import { getPaymentModesState } from '../../selectors';
 import { commonSelector, permissionSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         customers: { customers },
         common: { currency },
-        settings: { paymentMethods, notes, customFields },
-        payments: { loading, unPaidInvoices }
+        settings: { notes, customFields },
+        payments: { loading, unPaidInvoices },
+        paymentModes: { modes }
     } = state;
 
     const id = navigation.getParam('paymentId', null);
@@ -31,7 +33,7 @@ const mapStateToProps = (state, { navigation }) => {
         unPaidInvoices,
         customFields,
         id,
-        paymentMethods: getPaymentMethodsState(paymentMethods),
+        paymentModes: getPaymentModesState(modes),
         formValues: getFormValues(PAYMENT_FORM)(state) || {},
         currency,
         ...permissionSelector(navigation),
@@ -50,7 +52,7 @@ const mapStateToProps = (state, { navigation }) => {
 const mapDispatchToProps = {
     ...actions,
     getCustomers,
-    getPaymentModes,
+    fetchPaymentModes,
     getNotes
 };
 

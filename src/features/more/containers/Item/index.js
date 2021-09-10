@@ -4,22 +4,18 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as MoreAction from '../../actions';
 import { ITEM_FORM } from '../../constants';
-import { getUnitState } from '../../selectors';
+import { unitsSelector } from '../../selectors';
 import { commonSelector, permissionSelector } from 'stores/common/selectors';
-import {
-    getItemUnits,
-    getSettingInfo,
-    getTaxes
-} from '@/features/settings/actions';
+import { getSettingInfo, getTaxes } from '@/features/settings/actions';
+import { fetchItemUnits } from 'stores/item-units/actions';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         more: { loading, item },
         settings: {
-            taxByItems,
-            units,
-            loading: { itemUnitsLoading }
+            taxByItems
         },
+        itemUnits: { units },
         common: { currency, taxTypes }
     } = state;
 
@@ -28,7 +24,7 @@ const mapStateToProps = (state, { navigation }) => {
     const isEditScreen = permissions.isEditScreen;
 
     const isLoading =
-        loading?.itemLoading || itemUnitsLoading || (isEditScreen && !item);
+        loading?.itemLoading || (isEditScreen && !item);
 
     return {
         loading: isLoading,
@@ -37,7 +33,7 @@ const mapStateToProps = (state, { navigation }) => {
         taxTypes,
         taxByItems,
         currency,
-        units: getUnitState(units),
+        units: unitsSelector(units),
         ...permissions,
         ...commonSelector(state),
         initialValues: !isLoading
@@ -55,7 +51,7 @@ const mapDispatchToProps = {
     getEditItem: MoreAction.getEditItem,
     removeItem: MoreAction.removeItem,
     clearItem: MoreAction.clearItem,
-    getItemUnits: getItemUnits,
+    fetchItemUnits: fetchItemUnits,
     getTaxes,
     getSettingInfo
 };

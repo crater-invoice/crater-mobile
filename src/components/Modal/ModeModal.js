@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, change } from 'redux-form';
 import { InputModal } from '../InputModal';
-import { createPaymentMode } from '@/features/settings/actions';
+import { addPaymentMode } from 'stores/payment-modes/actions';
 import t from 'locales/use-translation';
 import { hasValue } from '@/constants';
 import { commonSelector } from 'stores/common/selectors';
@@ -11,7 +11,7 @@ interface IProps {
     loading: boolean;
     reference: any;
     handleSubmit: Function;
-    createPaymentMode: Function;
+    addPaymentMode: Function;
     dispatch: Function;
 }
 
@@ -40,13 +40,13 @@ class Modal extends Component<IProps> {
     };
 
     onSubmit = ({ name }) => {
-        const { createPaymentMode } = this.props;
+        const { addPaymentMode } = this.props;
 
         if (!hasValue(name)) {
             return;
         }
 
-        createPaymentMode({
+        addPaymentMode({
             params: { name },
             onSuccess: () => {
                 this.setFormField('name', null);
@@ -76,7 +76,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    createPaymentMode
+    addPaymentMode
 };
 
 //  Redux Form

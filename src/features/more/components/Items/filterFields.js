@@ -2,7 +2,7 @@ import t from 'locales/use-translation';
 import styles from './styles';
 
 export const itemsFilterFields = ({ props, setFormField }) => {
-    const { units, getItemUnits, navigation } = props;
+    const { units, fetchItemUnits, navigation } = props;
     const filterRefs: any = {};
 
     const inputFields = [
@@ -33,7 +33,7 @@ export const itemsFilterFields = ({ props, setFormField }) => {
             name: 'unit_id',
             apiSearch: true,
             hasPagination: true,
-            getItems: getItemUnits,
+            getItems: fetchItemUnits,
             items: units,
             displayName: 'name',
             label: t('items.unit'),
