@@ -423,6 +423,7 @@
             "dateFormat": "Date Format",
             "dateFormatPlaceholder": "Select Date Format",
             "fiscalYear": "Financial Year",
+            "retrospectiveEdits": "Retrospective Edits",
             "fiscalYearPlaceholder": "Select Financial Year",
             "discountSetting": "Discount Setting",
             "discountPerItem": "Discount Per Item",
@@ -598,6 +599,13 @@
         "empty": {
             "title": "No Financial Years yet!",
             "description": "This section will contain the list of Financial Years."
+        }
+    },
+    "retrospectiveEdits": {
+        "title": "Select Retrospective Edits",
+        "empty": {
+            "title": "No Retrospective Edits!",
+            "description": "This section will contain the list of Retrospective Edits."
         }
     },
     "countries": {

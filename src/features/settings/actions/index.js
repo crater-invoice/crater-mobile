@@ -45,28 +45,6 @@ export const editAccountInformation = payload => ({
     payload
 });
 
-// preferences
-// -------------------------------------------------
-export const getPreferences = payload => ({
-    type: TYPES.GET_PREFERENCES,
-    payload
-});
-
-export const setPreferences = payload => ({
-    type: TYPES.SET_PREFERENCES,
-    payload
-});
-
-export const clearPreferences = payload => ({
-    type: TYPES.CLEAR_PREFERENCES,
-    payload
-});
-
-export const editPreferences = payload => ({
-    type: TYPES.EDIT_PREFERENCES,
-    payload
-});
-
 // Settings
 // -------------------------------------------------
 export const getSettingItem = payload => ({
