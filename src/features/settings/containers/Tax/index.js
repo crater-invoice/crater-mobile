@@ -1,50 +1,50 @@
-import { connect } from 'react-redux';
-import { Tax } from '../../components/Tax';
-import { reduxForm } from 'redux-form';
+import {connect} from 'react-redux';
+import {Tax} from '../../components/Tax';
+import {reduxForm} from 'redux-form';
 import * as TaxAction from '../../actions';
-import { validate } from './validation';
-import { TAX_FORM } from '../../constants';
-import { commonSelector, permissionSelector } from 'stores/common/selectors';
+import {validate} from './validation';
+import {TAX_FORM} from '../../constants';
+import {commonSelector, permissionSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, { navigation }) => {
-    const { settings } = state;
-    const taxType = navigation.getParam('tax', {});
-    const isLoading =
-        settings.loading.editTaxLoading ||
-        settings.loading.addTaxLoading ||
-        settings.loading.removeTaxLoading;
+const mapStateToProps = (state, {navigation, route}) => {
+  const {settings} = state;
+  const taxType = route?.params?.tax;
+  const isLoading =
+    settings.loading.editTaxLoading ||
+    settings.loading.addTaxLoading ||
+    settings.loading.removeTaxLoading;
 
-    return {
-        loading: isLoading,
-        taxId: taxType && taxType.id,
-        ...permissionSelector(navigation),
-        ...commonSelector(state),
-        initialValues: {
-            collective_tax: 0,
-            compound_tax: 0,
-            ...taxType
-        }
-    };
+  return {
+    loading: isLoading,
+    taxId: taxType && taxType.id,
+    ...permissionSelector(navigation),
+    ...commonSelector(state),
+    initialValues: {
+      collective_tax: 0,
+      compound_tax: 0,
+      ...taxType
+    }
+  };
 };
 
 const mapDispatchToProps = {
-    addTax: TaxAction.addTax,
-    editTax: TaxAction.editTax,
-    removeTax: TaxAction.removeTax
+  addTax: TaxAction.addTax,
+  editTax: TaxAction.editTax,
+  removeTax: TaxAction.removeTax
 };
 
 const TaxReduxForm = reduxForm({
-    form: TAX_FORM,
-    validate
+  form: TAX_FORM,
+  validate
 })(Tax);
 
 const TaxContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(TaxReduxForm);
 
 TaxContainer.navigationOptions = () => ({
-    header: null
+  header: null
 });
 
 export default TaxContainer;

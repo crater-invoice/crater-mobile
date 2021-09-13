@@ -15,7 +15,7 @@ import {
 import {CUSTOMIZE_ESTIMATE_FORM} from 'stores/customize/types';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './customize-estimate-type';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
 import {
   fetchCustomizeSettings,
@@ -33,19 +33,17 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
   }
 
   componentDidMount() {
-    const {dispatch, customizes, navigation} = this.props;
+    const {dispatch, customizes} = this.props;
     let hasCustomizeApiCalled = customizes
       ? typeof customizes === 'undefined' || customizes === null
       : true;
 
     hasCustomizeApiCalled && dispatch(fetchCustomizeSettings());
-    goBack(MOUNT, navigation);
   }
 
   componentWillUnmount() {
     this.state.isUpdateAutoGenerate &&
       this.props.dispatch(setCustomizeSettings({customizes: null}));
-    goBack(UNMOUNT);
   }
 
   setFormField = (field, value) => {
@@ -193,7 +191,7 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
     return (
       <DefaultLayout
         headerProps={{
-          leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZE_LIST),
+          leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
           title: t('header.estimates'),
           rightIconPress: null,
           placement: 'center',

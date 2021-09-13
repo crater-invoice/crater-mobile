@@ -3,7 +3,7 @@ import {Field, change} from 'redux-form';
 import {pick, find} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-role-type';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {alertMe, hasValue} from '@/constants';
 import {CREATE_ROLE_FORM} from 'stores/roles/types';
 import {
@@ -33,13 +33,7 @@ export default class CreateRole extends Component<IProps, IStates> {
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
-    goBack(MOUNT, navigation);
     this.loadData();
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
   }
 
   loadData = () => {
@@ -68,7 +62,8 @@ export default class CreateRole extends Component<IProps, IStates> {
       navigation,
       loading,
       permissions,
-      roleId
+      roleId,
+      route
     } = this.props;
 
     if (loading || isFetchingInitialData) {
@@ -93,7 +88,7 @@ export default class CreateRole extends Component<IProps, IStates> {
           addRole({
             params,
             onResult: res => {
-              const onSelect = navigation.getParam('onSelect', null);
+              const onSelect = route?.params?.onSelect;
               onSelect?.(res);
               navigation.goBack(null);
             }
@@ -124,7 +119,7 @@ export default class CreateRole extends Component<IProps, IStates> {
         removeRole({
           id: roleId,
           onSuccess: val =>
-            val ? navigation.navigate(ROUTES.ROLES) : alreadyUsedAlert()
+            val ? navigation.navigate(routes.ROLES) : alreadyUsedAlert()
         })
       )
     );

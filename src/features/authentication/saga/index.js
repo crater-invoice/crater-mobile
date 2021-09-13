@@ -1,5 +1,4 @@
 import {call, put, takeLatest, delay, select} from 'redux-saga/effects';
-import {NavigationActions} from 'react-navigation';
 import * as Updates from 'expo-updates';
 import moment from 'moment';
 import {
@@ -12,7 +11,7 @@ import {
   checkOTAUpdate as actionCheckOTAUpdate
 } from '../actions';
 import * as TYPES from '../constants';
-import {navigateToActiveTab, ROUTES} from '@/navigation';
+import {navigateToActiveTab} from '@/navigation';
 import {setAccountInformation} from '../../settings/actions';
 import {alertMe, hasValue} from '@/constants';
 import {CHECK_OTA_UPDATE} from '@/constants';
@@ -135,11 +134,11 @@ function* checkOTAUpdate(payloadData) {
       parseInt(currentVersion) < parseInt(newVersion)
     ) {
       yield put(setLastAutoUpdateDate(null));
-      yield put(
-        NavigationActions.navigate({
-          routeName: ROUTES.UPDATE_APP_VERSION
-        })
-      );
+      // yield put(
+      //   NavigationActions.navigate({
+      //     routeName: routes.UPDATE_APP_VERSION
+      //   })
+      // );
       return;
     }
 

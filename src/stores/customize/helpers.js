@@ -1,4 +1,4 @@
-import {ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {PermissionService} from '@/services';
 import t from 'locales/use-translation';
 
@@ -9,27 +9,27 @@ export const CUSTOMIZES_MENU = () => {
     {
       title: t('header.invoices'),
       fullItem: {
-        route: ROUTES.CUSTOMIZE_INVOICE
+        route: routes.CUSTOMIZE_INVOICE
       }
     },
     {
       title: t('header.estimates'),
       fullItem: {
-        route: ROUTES.CUSTOMIZE_ESTIMATE
+        route: routes.CUSTOMIZE_ESTIMATE
       }
     },
     {
       title: t('header.payments'),
       fullItem: {
-        route: ROUTES.CUSTOMIZE_PAYMENT
+        route: routes.CUSTOMIZE_PAYMENT
       }
     }
   ];
-  PermissionService.isAllowToView(ROUTES.ITEM_UNITS) &&
+  PermissionService.isAllowToView(routes.ITEM_UNITS) &&
     list.push({
       title: t('header.items'),
       fullItem: {
-        route: ROUTES.ITEM_UNITS
+        route: routes.ITEM_UNITS
       }
     });
   return list;

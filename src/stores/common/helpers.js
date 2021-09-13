@@ -1,25 +1,25 @@
-import {ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {PermissionService} from '@/services';
-import { store } from '..';
+import {store} from '..';
 
 export const getActiveMainTab = () => {
-  if (PermissionService.isAllowToView(ROUTES.MAIN_INVOICES)) {
-    return ROUTES.MAIN_INVOICES;
+  if (PermissionService.isAllowToView(routes.MAIN_INVOICES)) {
+    return routes.MAIN_INVOICES;
   }
 
-  if (PermissionService.isAllowToView(ROUTES.MAIN_CUSTOMERS)) {
-    return ROUTES.MAIN_CUSTOMERS;
+  if (PermissionService.isAllowToView(routes.MAIN_CUSTOMERS)) {
+    return routes.MAIN_CUSTOMERS;
   }
 
-  if (PermissionService.isAllowToView(ROUTES.MAIN_PAYMENTS)) {
-    return ROUTES.MAIN_PAYMENTS;
+  if (PermissionService.isAllowToView(routes.MAIN_PAYMENTS)) {
+    return routes.MAIN_PAYMENTS;
   }
 
-  if (PermissionService.isAllowToView(ROUTES.MAIN_EXPENSES)) {
-    return ROUTES.MAIN_EXPENSES;
+  if (PermissionService.isAllowToView(routes.MAIN_EXPENSES)) {
+    return routes.MAIN_EXPENSES;
   }
 
-  return ROUTES.MAIN_MORE;
+  return routes.MAIN_MORE;
 };
 
 export const SUPER_ADMIN = 'super admin';

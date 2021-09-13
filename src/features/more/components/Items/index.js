@@ -3,11 +3,10 @@
 import React from 'react';
 import {change} from 'redux-form';
 import {MainLayout, ListView, InfiniteScroll} from '@/components';
-import {ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {ARROW_ICON, IMAGES} from '@/assets';
 import t from 'locales/use-translation';
 import {ITEM_SEARCH} from '../../constants';
-import {goBack, MOUNT, UNMOUNT} from '@/navigation';
 import {formatItems, isFilterApply} from '@/utils';
 import {defineSize, hasTextLength} from '@/constants';
 import filterFields from './filterFields';
@@ -27,26 +26,23 @@ export class Items extends React.Component<IProps> {
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
-    goBack(MOUNT, navigation, {route: ROUTES.MAIN_MORE});
     this.onFocus();
   }
 
   componentWillUnmount() {
-    goBack(UNMOUNT);
     this.focusListener?.remove?.();
   }
 
   onFocus = () => {
     const {navigation} = this.props;
-    this.focusListener = navigation.addListener('didFocus', () => {
+    this.focusListener = navigation.addListener('focus', () => {
       this.scrollViewReference?.getItems?.();
     });
   };
 
   onSelect = ({id}) => {
     const {navigation} = this.props;
-    navigation.navigate(ROUTES.GLOBAL_ITEM, {type: 'UPDATE', id});
+    navigation.navigate(routes.GLOBAL_ITEM, {type: 'UPDATE', id});
   };
 
   onResetFilter = () => {
@@ -100,12 +96,12 @@ export class Items extends React.Component<IProps> {
       title: t('header.items'),
       navigation,
       leftIcon: ARROW_ICON,
-      leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
+      leftIconPress: () => navigation.navigate(routes.MAIN_MORE),
       rightIcon: 'plus',
       placement: 'center',
       rightIcon: 'plus',
       rightIconPress: () => {
-        navigation.navigate(ROUTES.GLOBAL_ITEM, {
+        navigation.navigate(routes.GLOBAL_ITEM, {
           type: 'ADD'
         });
       }
@@ -137,7 +133,7 @@ export class Items extends React.Component<IProps> {
         !isFilter && {
           buttonTitle: t('items.empty.buttonTitle'),
           buttonPress: () => {
-            navigation.navigate(ROUTES.GLOBAL_ITEM, {
+            navigation.navigate(routes.GLOBAL_ITEM, {
               type: 'ADD'
             });
           }

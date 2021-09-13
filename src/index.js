@@ -1,29 +1,34 @@
 import React, {Component, useState, useEffect} from 'react';
-import {AppState, View} from 'react-native';
+import {AppState} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Appearance, AppearanceProvider} from 'react-native-appearance';
 import {ThemeProvider} from 'styled-components/native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import NetInfo from '@react-native-community/netinfo';
+
 import {store, persistor} from '@/stores';
-import ApplicationNavigator from './navigation/containers';
+import {ApplicationNavigator} from './navigation';
 import {checkOTAUpdate, getBootstrap} from './features/authentication/actions';
 import {loadFonts, switchTheme} from './constants';
 import {Loading} from './components';
 import {colors} from './styles';
 import {darkTheme, lightTheme} from './theme';
 import {TranslationService} from 'locales/use-translation';
+import LostConnection from '@/components/LostConnection';
 
 console.disableYellowBox = true;
 console.warn = () => {};
 
 interface IState {
   theme: any;
+  isConnected: Boolean;
 }
 
 class App extends Component<{}, IState> {
   constructor(props) {
     super(props);
-    this.state = {theme: null};
+    this.state = {theme: null, isConnected: true};
   }
 
   componentDidMount() {
@@ -37,6 +42,12 @@ class App extends Component<{}, IState> {
       const locale = state?.common?.locale;
       TranslationService.setLocale(locale);
     });
+
+    NetInfo.addEventListener(networkState => {
+      const isConnected =
+        networkState?.isConnected && networkState?.isInternetReachable;
+      isConnected !== this.state.isConnected && this.setState({isConnected});
+    });
   }
 
   componentWillUnmount() {
@@ -44,8 +55,8 @@ class App extends Component<{}, IState> {
   }
 
   initialActions = () => {
-    store?.dispatch?.(checkOTAUpdate());
-    store?.dispatch?.(getBootstrap());
+    // store?.dispatch?.(checkOTAUpdate());
+    // store?.dispatch?.(getBootstrap());
   };
 
   handleAppStateChange = nextAppState => {
@@ -70,7 +81,7 @@ class App extends Component<{}, IState> {
   };
 
   render() {
-    const {theme} = this.state;
+    const {theme, isConnected} = this.state;
 
     if (!theme) {
       return <Loading color={colors.primaryLight} />;
@@ -78,9 +89,15 @@ class App extends Component<{}, IState> {
 
     return (
       <ThemeProvider theme={theme}>
-        <View style={{flex: 1, position: 'relative'}}>
-          <ApplicationNavigator />
-        </View>
+        <SafeAreaProvider>
+          {isConnected ? (
+            <ApplicationNavigator />
+          ) : (
+            <LostConnection
+              clickTry={() => this.setState({isConnected: true})}
+            />
+          )}
+        </SafeAreaProvider>
       </ThemeProvider>
     );
   }

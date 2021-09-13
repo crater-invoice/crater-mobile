@@ -13,7 +13,7 @@ import {
   Text,
   ActionButton
 } from '@/components';
-import {ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {ITEM_FORM} from '../../constants';
 import {colors} from '@/styles/colors';
 import t from 'locales/use-translation';
@@ -105,14 +105,14 @@ export class Item extends React.Component {
       ? addItem({
           item,
           onResult: () => {
-            navigation.navigate(ROUTES.GLOBAL_ITEMS);
+            navigation.navigate(routes.GLOBAL_ITEMS);
           }
         })
       : editItem({
           item: {...item},
           id: itemId,
           onResult: () => {
-            navigation.navigate(ROUTES.GLOBAL_ITEMS);
+            navigation.navigate(routes.GLOBAL_ITEMS);
           }
         });
   };
@@ -133,7 +133,7 @@ export class Item extends React.Component {
           id: itemId,
           onResult: res => {
             if (res.success) {
-              navigation.navigate(ROUTES.GLOBAL_ITEMS);
+              navigation.navigate(routes.GLOBAL_ITEMS);
               return;
             }
 
@@ -348,14 +348,14 @@ export class Item extends React.Component {
           title: t('taxes.title')
         }}
         rightIconPress={() =>
-          navigation.navigate(ROUTES.TAX, {
+          navigation.navigate(routes.TAX, {
             type: 'ADD',
             onSelect: val => {
               this.setFormField('taxes', [...val, ...taxes]);
             }
           })
         }
-        createActionRouteName={ROUTES.TAX}
+        createActionRouteName={routes.TAX}
         emptyContentProps={{
           contentType: 'taxes'
         }}
@@ -408,7 +408,7 @@ export class Item extends React.Component {
     return (
       <DefaultLayout
         headerProps={{
-          leftIconPress: () => navigation.navigate(ROUTES.GLOBAL_ITEMS),
+          leftIconPress: () => navigation.navigate(routes.GLOBAL_ITEMS),
           title: getTitle(),
           placement: 'center',
           ...(isAllowToEdit && {

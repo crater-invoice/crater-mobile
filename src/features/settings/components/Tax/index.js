@@ -1,194 +1,186 @@
 // @flow
 
 import React from 'react';
-import { Field } from 'redux-form';
+import {Field} from 'redux-form';
 import t from 'locales/use-translation';
-import { goBack, MOUNT, UNMOUNT, ROUTES } from '@/navigation';
-import { alertMe, MAX_LENGTH } from '@/constants';
+import {routes} from '@/navigation';
+import {alertMe, MAX_LENGTH} from '@/constants';
 import {
-    DefaultLayout,
-    InputField,
-    ToggleSwitch,
-    ActionButton
+  DefaultLayout,
+  InputField,
+  ToggleSwitch,
+  ActionButton
 } from '@/components';
 
 export class Tax extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            endpointVisible: false
-        };
+    this.state = {
+      endpointVisible: false
+    };
+  }
+
+  onSave = tax => {
+    const {
+      addTax,
+      navigation,
+      isCreateScreen,
+      editTax,
+      loading,
+      route
+    } = this.props;
+
+    if (loading) {
+      return;
     }
 
-    componentDidMount() {
-        const { navigation } = this.props;
-        goBack(MOUNT, navigation);
-    }
+    const onResult = res => {
+      const onSelect = route?.params?.onSelect;
+      onSelect?.([{...res, tax_type_id: res?.id}]);
+      navigation.goBack(null);
+    };
 
-    componentWillUnmount() {
-        goBack(UNMOUNT);
-    }
+    isCreateScreen ? addTax({tax, onResult}) : editTax({tax, onResult});
+  };
 
-    onSave = tax => {
-        const {
-            addTax,
-            navigation,
-            isCreateScreen,
-            editTax,
-            loading
-        } = this.props;
+  removeTax = () => {
+    const {
+      removeTax,
+      taxId,
+      navigation,
+      initialValues: {name}
+    } = this.props;
 
-        if (loading) {
-            return;
+    const remove = () => {
+      removeTax({
+        id: taxId,
+        onResult: val => {
+          val
+            ? navigation.navigate(routes.TAXES)
+            : alertMe({
+                title: `${name} ${t('taxes.alreadyUsed')}`
+              });
         }
-
-        const onResult = res => {
-            const onSelect = navigation.getParam('onSelect', null);
-            onSelect?.([{ ...res, tax_type_id: res?.id }]);
-            navigation.goBack(null);
-        };
-
-        isCreateScreen ? addTax({ tax, onResult }) : editTax({ tax, onResult });
+      });
     };
 
-    removeTax = () => {
-        const {
-            removeTax,
-            taxId,
-            navigation,
-            initialValues: { name }
-        } = this.props;
+    alertMe({
+      title: t('alert.title'),
+      desc: t('taxes.alertDescription'),
+      showCancel: true,
+      okPress: remove
+    });
+  };
 
-        const remove = () => {
-            removeTax({
-                id: taxId,
-                onResult: val => {
-                    val
-                        ? navigation.navigate(ROUTES.TAXES)
-                        : alertMe({
-                              title: `${name} ${t('taxes.alreadyUsed')}`
-                          });
-                }
-            });
-        };
+  render() {
+    const {
+      navigation,
+      handleSubmit,
+      loading,
+      isEditScreen,
+      isAllowToEdit,
+      isAllowToDelete
+    } = this.props;
 
-        alertMe({
-            title: t('alert.title'),
-            desc: t('taxes.alertDescription'),
-            showCancel: true,
-            okPress: remove
-        });
+    let taxRefs = {};
+    const disabled = !isAllowToEdit;
+
+    const getTitle = () => {
+      let title = 'header.addTaxes';
+      if (isEditScreen && !isAllowToEdit) title = 'header.viewTax';
+      if (isEditScreen && isAllowToEdit) title = 'header.editTaxes';
+
+      return t(title);
     };
 
-    render() {
-        const {
-            navigation,
-            handleSubmit,
-            loading,
-            isEditScreen,
-            isAllowToEdit,
-            isAllowToDelete
-        } = this.props;
+    const bottomAction = [
+      {
+        label: 'button.save',
+        onPress: handleSubmit(this.onSave),
+        show: isAllowToEdit,
+        loading
+      },
+      {
+        label: 'button.remove',
+        onPress: this.removeTax,
+        bgColor: 'btn-danger',
+        show: isEditScreen && isAllowToDelete,
+        loading
+      }
+    ];
 
-        let taxRefs = {};
-        const disabled = !isAllowToEdit;
-
-        const getTitle = () => {
-            let title = 'header.addTaxes';
-            if (isEditScreen && !isAllowToEdit) title = 'header.viewTax';
-            if (isEditScreen && isAllowToEdit) title = 'header.editTaxes';
-
-            return t(title);
-        };
-
-        const bottomAction = [
-            {
-                label: 'button.save',
-                onPress: handleSubmit(this.onSave),
-                show: isAllowToEdit,
-                loading
-            },
-            {
-                label: 'button.remove',
-                onPress: this.removeTax,
-                bgColor: 'btn-danger',
-                show: isEditScreen && isAllowToDelete,
-                loading
+    return (
+      <DefaultLayout
+        headerProps={{
+          leftIconPress: () => navigation.goBack(null),
+          title: getTitle(),
+          placement: 'center',
+          ...(isAllowToEdit && {
+            rightIcon: 'save',
+            rightIconProps: {solid: true},
+            rightIconPress: handleSubmit(this.onSave)
+          })
+        }}
+        bottomAction={<ActionButton buttons={bottomAction} />}
+      >
+        <Field
+          name="name"
+          component={InputField}
+          isRequired
+          hint={t('taxes.type')}
+          disabled={disabled}
+          inputProps={{
+            returnKeyType: 'next',
+            autoCapitalize: 'none',
+            autoCorrect: true,
+            onSubmitEditing: () => {
+              taxRefs.percent.focus();
             }
-        ];
+          }}
+        />
 
-        return (
-            <DefaultLayout
-                headerProps={{
-                    leftIconPress: () => navigation.goBack(null),
-                    title: getTitle(),
-                    placement: 'center',
-                    ...(isAllowToEdit && {
-                        rightIcon: 'save',
-                        rightIconProps: { solid: true },
-                        rightIconPress: handleSubmit(this.onSave)
-                    })
-                }}
-                bottomAction={<ActionButton buttons={bottomAction} />}
-            >
-                <Field
-                    name="name"
-                    component={InputField}
-                    isRequired
-                    hint={t('taxes.type')}
-                    disabled={disabled}
-                    inputProps={{
-                        returnKeyType: 'next',
-                        autoCapitalize: 'none',
-                        autoCorrect: true,
-                        onSubmitEditing: () => {
-                            taxRefs.percent.focus();
-                        }
-                    }}
-                />
+        <Field
+          name="percent"
+          isRequired
+          component={InputField}
+          hint={t('taxes.percentage') + ' (%)'}
+          maxNumber={100}
+          refLinkFn={ref => (taxRefs.percent = ref)}
+          disabled={disabled}
+          inputProps={{
+            returnKeyType: 'next',
+            keyboardType: 'decimal-pad',
+            onSubmitEditing: () => {
+              taxRefs.description.focus();
+            }
+          }}
+        />
 
-                <Field
-                    name="percent"
-                    isRequired
-                    component={InputField}
-                    hint={t('taxes.percentage') + ' (%)'}
-                    maxNumber={100}
-                    refLinkFn={ref => (taxRefs.percent = ref)}
-                    disabled={disabled}
-                    inputProps={{
-                        returnKeyType: 'next',
-                        keyboardType: 'decimal-pad',
-                        onSubmitEditing: () => {
-                            taxRefs.description.focus();
-                        }
-                    }}
-                />
+        <Field
+          name="description"
+          component={InputField}
+          hint={t('taxes.description')}
+          refLinkFn={ref => (taxRefs.description = ref)}
+          height={80}
+          disabled={disabled}
+          inputProps={{
+            returnKeyType: 'next',
+            autoCapitalize: 'none',
+            autoCorrect: true,
+            multiline: true,
+            maxLength: MAX_LENGTH
+          }}
+        />
 
-                <Field
-                    name="description"
-                    component={InputField}
-                    hint={t('taxes.description')}
-                    refLinkFn={ref => (taxRefs.description = ref)}
-                    height={80}
-                    disabled={disabled}
-                    inputProps={{
-                        returnKeyType: 'next',
-                        autoCapitalize: 'none',
-                        autoCorrect: true,
-                        multiline: true,
-                        maxLength: MAX_LENGTH
-                    }}
-                />
-
-                <Field
-                    name="compound_tax"
-                    component={ToggleSwitch}
-                    hint={t('taxes.compoundTax')}
-                    title-text-default
-                    disabled={disabled}
-                />
-            </DefaultLayout>
-        );
-    }
+        <Field
+          name="compound_tax"
+          component={ToggleSwitch}
+          hint={t('taxes.compoundTax')}
+          title-text-default
+          disabled={disabled}
+        />
+      </DefaultLayout>
+    );
+  }
 }

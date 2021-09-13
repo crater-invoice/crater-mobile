@@ -7,20 +7,11 @@ import {ListView, DefaultLayout} from '@/components';
 import t from 'locales/use-translation';
 import {IProps} from './customize-list-type';
 import {CUSTOMIZES_MENU} from 'stores/customize/helpers';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 
 export default class CustomizeList extends Component<IProps> {
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-    const {navigation} = this.props;
-    goBack(MOUNT, navigation, {route: ROUTES.MAIN_MORE});
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
   }
 
   onSelectMenu = ({route}) => {
@@ -36,7 +27,7 @@ export default class CustomizeList extends Component<IProps> {
     return (
       <DefaultLayout
         headerProps={{
-          leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
+          leftIconPress: () => navigation.navigate(routes.SETTING_LIST),
           title: t('header.customize'),
           leftArrow: 'primary'
         }}

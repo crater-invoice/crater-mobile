@@ -5,7 +5,7 @@ import styles from './styles';
 import {ListView, DefaultLayout} from '@/components';
 import t from 'locales/use-translation';
 import {SETTINGS_MENU} from '../../constants';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 
 export class Settings extends React.Component {
   constructor(props) {
@@ -16,20 +16,11 @@ export class Settings extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const {navigation} = this.props;
-    goBack(MOUNT, navigation, {route: ROUTES.MAIN_MORE});
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
-  }
-
   onSelectMenu = item => {
     const {navigation} = this.props;
 
     if (item.route) {
-      item.route === ROUTES.ENDPOINTS_SETTINGS
+      item.route === routes.ENDPOINTS_SETTINGS
         ? navigation.navigate(item.route, {skipEndpoint: true})
         : navigation.navigate(item.route);
     } else {
@@ -52,7 +43,7 @@ export class Settings extends React.Component {
     return (
       <DefaultLayout
         headerProps={{
-          leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
+          leftIconPress: () => navigation.navigate(routes.MAIN_MORE),
           title: t('header.settings'),
           leftIconStyle: {color: theme?.header?.primary?.color}
         }}

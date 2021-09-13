@@ -24,7 +24,7 @@ import t from 'locales/use-translation';
 import moment from 'moment';
 import * as Linking from 'expo-linking';
 import QueryString from 'qs';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {DATE_FORMAT} from '@/constants';
 import {store} from '@/stores';
 
@@ -50,14 +50,6 @@ export class Report extends React.Component<IProps> {
   componentWillMount() {
     const {taxTypes} = this.props;
     this.setState({taxTypeList: taxTypes});
-  }
-
-  componentDidMount() {
-    const {navigation} = this.props;
-    goBack(MOUNT, navigation);
-  }
-  componentWillUnmount() {
-    goBack(UNMOUNT);
   }
 
   setFormField = (field, value) => {
@@ -287,7 +279,7 @@ export class Report extends React.Component<IProps> {
     return (
       <DefaultLayout
         headerProps={{
-          leftIconPress: () => navigation.navigate(ROUTES.REPORTS),
+          leftIconPress: () => navigation.navigate(routes.REPORTS),
           title: this.getReport({isTitle: true}),
           placement: 'center',
           leftArrow: 'primary'

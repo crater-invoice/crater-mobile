@@ -6,11 +6,11 @@ import {CREATE_ROLE_FORM} from 'stores/roles/types';
 import {validate} from 'stores/roles/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {navigation}) => {
+const mapStateToProps = (state, {navigation, route}) => {
   const {
     roles: {permissions, loading}
   } = state;
-  const role = navigation.getParam('role', {});
+  const role = route?.params?.role;
 
   return {
     permissions,

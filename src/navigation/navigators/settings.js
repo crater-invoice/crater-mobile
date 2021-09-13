@@ -1,4 +1,4 @@
-import {ROUTES} from '../routes';
+import {routes} from '../routes';
 import SettingsContainer from '../../features/settings/containers/Settings';
 import AccountContainer from '../../features/settings/containers/Account';
 import CompanyContainer from '../../features/settings/containers/Company';
@@ -31,115 +31,115 @@ import {ItemUnits} from 'screens/item-units';
 export const SettingNavigator = {
   // Settings
   // -----------------------------------------
-  [ROUTES.SETTING_LIST]: generateStackNavigation(
-    ROUTES.SETTING_LIST,
+  [routes.SETTING_LIST]: generateStackNavigation(
+    routes.SETTING_LIST,
     SettingsContainer
   ),
-  [ROUTES.LANGUAGE_AND_CURRENCY]: generateStackNavigation(
-    ROUTES.LANGUAGE_AND_CURRENCY,
+  [routes.LANGUAGE_AND_CURRENCY]: generateStackNavigation(
+    routes.LANGUAGE_AND_CURRENCY,
     LanguageAndCurrencyContainer
   ),
-  [ROUTES.NOTIFICATIONS]: generateStackNavigation(
-    ROUTES.NOTIFICATIONS,
+  [routes.NOTIFICATIONS]: generateStackNavigation(
+    routes.NOTIFICATIONS,
     NotificationContainer
   ),
-  [ROUTES.PREFERENCES]: generateStackNavigation(
-    ROUTES.PREFERENCES,
+  [routes.PREFERENCES]: generateStackNavigation(
+    routes.PREFERENCES,
     PreferencesContainer
   ),
 
   // User Information
   // -----------------------------------------
-  [ROUTES.ACCOUNT_INFO]: generateStackNavigation(
-    ROUTES.ACCOUNT_INFO,
+  [routes.ACCOUNT_INFO]: generateStackNavigation(
+    routes.ACCOUNT_INFO,
     AccountContainer
   ),
-  [ROUTES.COMPANY_INFO]: generateStackNavigation(
-    ROUTES.COMPANY_INFO,
+  [routes.COMPANY_INFO]: generateStackNavigation(
+    routes.COMPANY_INFO,
     CompanyContainer
   ),
 
   // Notes
-  [ROUTES.NOTES]: generateStackNavigation(ROUTES.NOTES, NotesContainer),
-  [ROUTES.NOTE]: generateStackNavigation(ROUTES.NOTE, NoteContainer),
+  [routes.NOTES]: generateStackNavigation(routes.NOTES, NotesContainer),
+  [routes.NOTE]: generateStackNavigation(routes.NOTE, NoteContainer),
 
   // Taxes
   // -----------------------------------------
-  [ROUTES.TAXES]: generateStackNavigation(ROUTES.TAXES, TaxesContainer),
-  [ROUTES.TAXES]: generateStackNavigation(ROUTES.TAXES, TaxesContainer),
-  [ROUTES.TAX]: generateStackNavigation(ROUTES.TAX, TaxContainer),
+  [routes.TAXES]: generateStackNavigation(routes.TAXES, TaxesContainer),
+  [routes.TAXES]: generateStackNavigation(routes.TAXES, TaxesContainer),
+  [routes.TAX]: generateStackNavigation(routes.TAX, TaxContainer),
 
   // Categories
   // -----------------------------------------
-  [ROUTES.CATEGORIES]: generateStackNavigation(
-    ROUTES.CATEGORIES,
+  [routes.CATEGORIES]: generateStackNavigation(
+    routes.CATEGORIES,
     CategoriesContainer
   ),
-  [ROUTES.CATEGORY]: generateStackNavigation(
-    ROUTES.CATEGORY,
+  [routes.CATEGORY]: generateStackNavigation(
+    routes.CATEGORY,
     CategoryContainer
   ),
-  [ROUTES.ENDPOINTS_SETTINGS]: generateStackNavigation(
-    ROUTES.ENDPOINTS_SETTINGS,
+  [routes.ENDPOINTS_SETTINGS]: generateStackNavigation(
+    routes.ENDPOINTS_SETTINGS,
     EndpointContainer
   ),
 
   // Customize
   // -----------------------------------------
-  [ROUTES.CUSTOMIZE_LIST]: generateStackNavigation(
-    ROUTES.CUSTOMIZE_LIST,
+  [routes.CUSTOMIZE_LIST]: generateStackNavigation(
+    routes.CUSTOMIZE_LIST,
     CustomizeList
   ),
-  [ROUTES.CUSTOMIZE_INVOICE]: generateStackNavigation(
-    ROUTES.CUSTOMIZE_INVOICE,
+  [routes.CUSTOMIZE_INVOICE]: generateStackNavigation(
+    routes.CUSTOMIZE_INVOICE,
     CustomizeInvoice
   ),
-  [ROUTES.CUSTOMIZE_ESTIMATE]: generateStackNavigation(
-    ROUTES.CUSTOMIZE_ESTIMATE,
+  [routes.CUSTOMIZE_ESTIMATE]: generateStackNavigation(
+    routes.CUSTOMIZE_ESTIMATE,
     CustomizeEstimate
   ),
-  [ROUTES.CUSTOMIZE_PAYMENT]: generateStackNavigation(
-    ROUTES.CUSTOMIZE_PAYMENT,
+  [routes.CUSTOMIZE_PAYMENT]: generateStackNavigation(
+    routes.CUSTOMIZE_PAYMENT,
     CustomizePayment
   ),
-  [ROUTES.ITEM_UNITS]: generateStackNavigation(ROUTES.ITEM_UNITS, ItemUnits),
+  [routes.ITEM_UNITS]: generateStackNavigation(routes.ITEM_UNITS, ItemUnits),
 
   // Currencies
   // -----------------------------------------
-  [ROUTES.CURRENCIES]: generateStackNavigation(
-    ROUTES.CURRENCIES,
+  [routes.CURRENCIES]: generateStackNavigation(
+    routes.CURRENCIES,
     CurrenciesContainer
   ),
-  [ROUTES.CURRENCY]: generateStackNavigation(
-    ROUTES.CURRENCY,
+  [routes.CURRENCY]: generateStackNavigation(
+    routes.CURRENCY,
     CurrencyContainer
   ),
 
   // Custom Fields
   // -----------------------------------------
-  [ROUTES.CUSTOM_FIELDS]: generateStackNavigation(
-    ROUTES.CUSTOM_FIELDS,
+  [routes.CUSTOM_FIELDS]: generateStackNavigation(
+    routes.CUSTOM_FIELDS,
     CustomFieldsContainer
   ),
-  [ROUTES.CUSTOMER_FIELD]: generateStackNavigation(
-    ROUTES.CUSTOMER_FIELD,
+  [routes.CUSTOMER_FIELD]: generateStackNavigation(
+    routes.CUSTOMER_FIELD,
     CustomFieldContainer
   ),
 
   // Touch/Face ID
   // -----------------------------------------
-  [ROUTES.TOUCH_OR_FACE_ID]: generateStackNavigation(
-    ROUTES.TOUCH_OR_FACE_ID,
+  [routes.TOUCH_OR_FACE_ID]: generateStackNavigation(
+    routes.TOUCH_OR_FACE_ID,
     TouchOrFaceIdContainer
   ),
 
   // Update App Version
   // -----------------------------------------
-  [ROUTES.UPDATE_APP_VERSION]: generateStackNavigation(
-    ROUTES.UPDATE_APP_VERSION,
+  [routes.UPDATE_APP_VERSION]: generateStackNavigation(
+    routes.UPDATE_APP_VERSION,
     UpdateAppVersionContainer
   ),
 
-  [ROUTES.ROLES]: generateStackNavigation(ROUTES.ROLES, Roles),
-  [ROUTES.CREATE_ROLE]: generateStackNavigation(ROUTES.CREATE_ROLE, CreateRole)
+  [routes.ROLES]: generateStackNavigation(routes.ROLES, Roles),
+  [routes.CREATE_ROLE]: generateStackNavigation(routes.CREATE_ROLE, CreateRole)
 };

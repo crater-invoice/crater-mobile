@@ -1,9 +1,7 @@
 // @flow
 import axios from 'axios';
-import {NavigationActions} from 'react-navigation';
 import {store} from '@/stores';
-import {ROUTES} from '@/navigation';
-import {checkConnection, hasValue} from '@/constants';
+import {hasValue} from '@/constants';
 
 type IProps = {
   path: string,
@@ -102,19 +100,11 @@ export default class Request {
     }
 
     if (!isPing && !endpointApi) {
-      store.dispatch(NavigationActions.navigate({routeName: ROUTES.ENDPOINTS}));
+      // store.dispatch(NavigationActions.navigate({routeName: routes.ENDPOINTS}));
       return;
     }
 
     const url = `${apiUrl}${path}`;
-    const isConnected = await checkConnection();
-
-    if (!isConnected) {
-      store.dispatch(
-        NavigationActions.navigate({routeName: ROUTES.LOST_CONNECTION})
-      );
-      return;
-    }
 
     const defaultHeaders = {
       Authorization: `Bearer ${idToken}`,
@@ -136,17 +126,13 @@ export default class Request {
       ...axiosProps
     })
       .then(function(response) {
-        const {data, status} = response;
-        if (status === 401) {
-          store.dispatch(NavigationActions.navigate({routeName: ROUTES.AUTH}));
-          throw response;
-        }
+        const {data} = response;
         return data;
       })
       .catch(function({response}) {
         const {status} = response;
         if (status === 401) {
-          store.dispatch(NavigationActions.navigate({routeName: ROUTES.AUTH}));
+          // store.dispatch(NavigationActions.navigate({routeName: routes.AUTH}));
           throw response;
         }
         if (status === 403 || status === 404 || status === 500) {

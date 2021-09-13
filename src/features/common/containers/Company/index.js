@@ -5,9 +5,9 @@ import {validate} from './validation';
 import {COMPANY_FORM} from '../../constants';
 import {permissionSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {navigation}) => {
+const mapStateToProps = (state, {route, navigation}) => {
   const {common} = state;
-  const company = navigation.getParam('company', {});
+  const company = route?.params?.company ?? {};
   const isLoading = state.company?.loading?.companyLoading;
 
   return {

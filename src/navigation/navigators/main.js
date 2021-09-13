@@ -9,7 +9,7 @@ import CustomersContainer from '../../features/customers/containers/Customers';
 import MoreContainer from '../../features/more/containers/More';
 import ExpensesContainer from '../../features/expenses/containers/Expenses';
 import PaymentsContainer from '../../features/payments/containers/Payments';
-import {ROUTES} from '../routes';
+import {routes} from '../routes';
 import {fonts} from '@/styles';
 import {AssetSvg} from '@/components';
 import {defineSize, isEmpty} from '@/constants';
@@ -56,31 +56,31 @@ const Tab = (props: any) => {
 
   const getTab = route => {
     switch (route) {
-      case ROUTES.MAIN_INVOICES:
+      case routes.MAIN_INVOICES:
         return {
           label: 'tabNavigation.invoices',
           icon: INVOICES_ICON
         };
 
-      case ROUTES.MAIN_CUSTOMERS:
+      case routes.MAIN_CUSTOMERS:
         return {
           label: 'tabNavigation.customers',
           icon: CUSTOMERS_ICON
         };
 
-      case ROUTES.MAIN_PAYMENTS:
+      case routes.MAIN_PAYMENTS:
         return {
           label: 'tabNavigation.payments',
           icon: PAYMENTS_ICON
         };
 
-      case ROUTES.MAIN_EXPENSES:
+      case routes.MAIN_EXPENSES:
         return {
           label: 'tabNavigation.expenses',
           icon: EXPENSES_ICON
         };
 
-      case ROUTES.MAIN_MORE:
+      case routes.MAIN_MORE:
         return {
           label: 'tabNavigation.more',
           icon: MORE_ICON
@@ -103,7 +103,7 @@ const Tab = (props: any) => {
       {navigation?.state &&
         navigation?.state.routes.map((route, index) => {
           if (
-            route.routeName !== ROUTES.MAIN_MORE &&
+            route.routeName !== routes.MAIN_MORE &&
             !PermissionService.isAllowToView(route.routeName)
           ) {
             return null;
@@ -163,24 +163,24 @@ const BottomTab = connect(mapStateToProps)(Tab);
 
 export default createBottomTabNavigator(
   {
-    [ROUTES.MAIN_INVOICES]: {
+    [routes.MAIN_INVOICES]: {
       screen: InvoicesContainer
     },
-    [ROUTES.MAIN_CUSTOMERS]: {
+    [routes.MAIN_CUSTOMERS]: {
       screen: CustomersContainer
     },
-    [ROUTES.MAIN_PAYMENTS]: {
+    [routes.MAIN_PAYMENTS]: {
       screen: PaymentsContainer
     },
-    [ROUTES.MAIN_EXPENSES]: {
+    [routes.MAIN_EXPENSES]: {
       screen: ExpensesContainer
     },
-    [ROUTES.MAIN_MORE]: {
+    [routes.MAIN_MORE]: {
       screen: MoreContainer
     }
   },
   {
-    initialRouteName: ROUTES.MAIN_INVOICES,
+    initialRouteName: routes.MAIN_INVOICES,
     lazy: false,
     navigationOptions: {
       header: null,

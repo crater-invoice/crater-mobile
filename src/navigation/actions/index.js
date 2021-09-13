@@ -1,10 +1,5 @@
 import {BackHandler} from 'react-native';
-import {
-  NavigationActions,
-  createStackNavigator,
-  StackActions
-} from 'react-navigation';
-import {ROUTES} from '../routes';
+import {routes} from '../routes';
 import {store} from '@/stores';
 import {alertMe} from '@/constants';
 import t from 'locales/use-translation';
@@ -48,9 +43,9 @@ export const goBack = (type, navigation = {}, params) => {
             params &&
             callback &&
             typeof callback === 'function' &&
-            getCurrentRouteName() !== ROUTES.ESTIMATE_LIST
+            getCurrentRouteName() !== routes.ESTIMATE_LIST
           ) {
-            getCurrentRouteName() !== ROUTES.MAIN_TABS ? callback() : exitApp();
+            getCurrentRouteName() !== routes.MAIN_TABS ? callback() : exitApp();
             return true;
           }
 
@@ -88,9 +83,9 @@ export const navigateToMainTabs = (navigation, route = null) => {
   const resetAction = StackActions.reset({
     index: 1,
     actions: [
-      NavigationActions.navigate({routeName: ROUTES.AUTH}),
+      NavigationActions.navigate({routeName: routes.AUTH}),
       NavigationActions.navigate({
-        routeName: ROUTES.MAIN_TABS,
+        routeName: routes.MAIN_TABS,
         ...action
       })
     ]
@@ -136,7 +131,7 @@ export const navigateToActiveTab = (navigation, tab) => {
     index: 0,
     actions: [
       NavigationActions.navigate({
-        routeName: ROUTES.MAIN_TABS,
+        routeName: routes.MAIN_TABS,
         action: navigation.navigate({routeName: tab})
       })
     ]

@@ -5,7 +5,7 @@ import t from 'locales/use-translation';
 import {Field} from 'redux-form';
 import {formatNotesType} from '@/utils';
 import {PAYMENT_FIELDS as FIELDS} from '../../constants';
-import {ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {NOTES_TYPE_VALUE as NOTES_TYPE} from '@/features/settings/constants';
 import {defineSize} from '@/constants';
 
@@ -30,7 +30,7 @@ export default class Notes extends Component<IProps> {
   navigateToNote = () => {
     const {navigation} = this.props;
 
-    navigation.navigate(ROUTES.NOTE, {
+    navigation.navigate(routes.NOTE, {
       type: 'ADD',
       modalType: NOTES_TYPE.PAYMENT,
       onSelect: item => this.onSelect(item)
@@ -78,7 +78,7 @@ export default class Notes extends Component<IProps> {
                 title: t('notes.select')
               }}
               rightIconPress={this.navigateToNote}
-              createActionRouteName={ROUTES.NOTE}
+              createActionRouteName={routes.NOTE}
               emptyContentProps={{
                 contentType: 'notes'
               }}

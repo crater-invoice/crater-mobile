@@ -23,7 +23,7 @@ import {
 } from '../../constants';
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {
   alertMe,
   definePlatformParam,
@@ -38,16 +38,6 @@ export class InvoiceItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  componentDidMount() {
-    const {navigation} = this.props;
-
-    goBack(MOUNT, navigation);
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
   }
 
   setFormField = (field, value) => {
@@ -225,12 +215,12 @@ export class InvoiceItem extends React.Component {
   FINAL_AMOUNT = () => {
     const {
       formValues: {quantity, price, taxes},
-      navigation,
       discountPerItem,
-      theme
+      theme,
+      route
     } = this.props;
 
-    const currency = navigation.getParam('currency');
+    const currency = route?.params?.currency;
     const color = theme?.listItem?.primary?.color;
 
     return (
@@ -363,10 +353,11 @@ export class InvoiceItem extends React.Component {
       units,
       fetchItemUnits,
       getTaxes,
-      theme
+      theme,
+      route
     } = this.props;
 
-    const currency = navigation.getParam('currency');
+    const currency = route?.params?.currency;
     const isCreateItem = type === ITEM_ADD;
     let itemRefs = {};
     const bottomAction = [
@@ -539,14 +530,14 @@ export class InvoiceItem extends React.Component {
               title: t('taxes.title')
             }}
             rightIconPress={() =>
-              navigation.navigate(ROUTES.TAX, {
+              navigation.navigate(routes.TAX, {
                 type: 'ADD',
                 onSelect: val => {
                   this.setFormField('taxes', [...val, ...taxes]);
                 }
               })
             }
-            createActionRouteName={ROUTES.TAX}
+            createActionRouteName={routes.TAX}
             emptyContentProps={{
               contentType: 'taxes'
             }}

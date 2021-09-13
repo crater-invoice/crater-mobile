@@ -4,7 +4,7 @@ import Styles from './styles';
 import t from 'locales/use-translation';
 import {CloseIcon2} from '@/icons';
 import {colors} from '@/styles';
-import {ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {fetchCompanies} from '../../actions';
 import {
   defineSize,
@@ -40,7 +40,7 @@ export class Modal extends Component {
   addNewCompany = async () => {
     await this.setState({visible: false});
     setTimeout(() => {
-      this.props.navigation.navigate(ROUTES.COMPANY);
+      this.props.navigation.navigate(routes.COMPANY);
     }, 200);
   };
 

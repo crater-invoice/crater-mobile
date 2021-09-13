@@ -1,4 +1,4 @@
-import {ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {PermissionService} from '@/services';
 import {isSuperAdmin} from '@/stores/common/helpers';
 import t from 'locales/use-translation';
@@ -46,35 +46,35 @@ export const MORE_MENU = () => {
       leftIcon: 'file-alt',
       leftIconSolid: true,
       iconSize: 19,
-      fullItem: {route: ROUTES.ESTIMATE_LIST},
-      show: PermissionService.isAllowToView(ROUTES.ESTIMATE_LIST)
+      fullItem: {route: routes.ESTIMATE_LIST},
+      show: PermissionService.isAllowToView(routes.ESTIMATE_LIST)
     },
     {
       title: t('more.items'),
       leftIcon: 'product-hunt',
       iconSize: 20,
-      fullItem: {route: ROUTES.GLOBAL_ITEMS},
-      show: PermissionService.isAllowToView(ROUTES.GLOBAL_ITEMS)
+      fullItem: {route: routes.GLOBAL_ITEMS},
+      show: PermissionService.isAllowToView(routes.GLOBAL_ITEMS)
     },
     {
       title: t('more.reports'),
       leftIcon: 'signal',
       iconSize: 15,
-      fullItem: {route: ROUTES.REPORTS},
+      fullItem: {route: routes.REPORTS},
       show: isSuperAdmin()
     },
     {
       title: t('more.users'),
       leftIcon: 'users',
       iconSize: 20,
-      fullItem: {route: ROUTES.USERS},
+      fullItem: {route: routes.USERS},
       show: isSuperAdmin()
     },
     {
       title: t('more.settings'),
       leftIcon: 'cogs',
       iconSize: 17,
-      fullItem: {route: ROUTES.SETTING_LIST},
+      fullItem: {route: routes.SETTING_LIST},
       show: true
     },
     {
@@ -92,7 +92,7 @@ export const REPORTS_MENU = () => {
     {
       title: t('reports.sales'),
       fullItem: {
-        route: ROUTES.GENERATE_REPORT,
+        route: routes.GENERATE_REPORT,
         type: SALES
       },
       show: PermissionService.isAllowToManage(SALES)
@@ -101,7 +101,7 @@ export const REPORTS_MENU = () => {
       title: t('reports.profitAndLoss'),
       leftIcon: 'building',
       fullItem: {
-        route: ROUTES.GENERATE_REPORT,
+        route: routes.GENERATE_REPORT,
         type: PROFIT_AND_LOSS
       },
       show: PermissionService.isAllowToManage(PROFIT_AND_LOSS)
@@ -109,7 +109,7 @@ export const REPORTS_MENU = () => {
     {
       title: t('reports.expenses'),
       fullItem: {
-        route: ROUTES.GENERATE_REPORT,
+        route: routes.GENERATE_REPORT,
         type: EXPENSES
       },
       show: PermissionService.isAllowToManage(EXPENSES)
@@ -117,7 +117,7 @@ export const REPORTS_MENU = () => {
     {
       title: t('reports.taxes'),
       fullItem: {
-        route: ROUTES.GENERATE_REPORT,
+        route: routes.GENERATE_REPORT,
         type: TAXES
       },
       show: PermissionService.isAllowToManage(TAXES)
