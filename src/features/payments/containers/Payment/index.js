@@ -68,8 +68,4 @@ const PaymentContainer = connect(
   mapDispatchToProps
 )(paymentReduxForm);
 
-PaymentContainer.navigationOptions = () => ({
-  header: null
-});
-
 export default PaymentContainer;

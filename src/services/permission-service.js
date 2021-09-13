@@ -1,6 +1,6 @@
 import {find} from 'lodash';
 import {hasValue, isEmpty, toObject} from '@/constants';
-import {routes} from '@/navigation/routes';
+import {routes} from '@/navigation/navigation-routes';
 
 const abilities = [
   // User

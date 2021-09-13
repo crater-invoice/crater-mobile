@@ -59,8 +59,4 @@ const CustomerContainer = connect(
   mapDispatchToProps
 )(customerReduxForm);
 
-CustomerContainer.navigationOptions = () => ({
-  header: null
-});
-
 export default CustomerContainer;

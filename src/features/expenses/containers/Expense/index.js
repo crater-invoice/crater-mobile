@@ -55,8 +55,4 @@ const ExpenseContainer = connect(
   mapDispatchToProps
 )(addExpenseReduxForm);
 
-ExpenseContainer.navigationOptions = () => ({
-  header: null
-});
-
 export default ExpenseContainer;

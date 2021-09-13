@@ -1,20 +1,13 @@
 import React from 'react';
 import {TouchableOpacity, Text, View} from 'react-native';
-import {createBottomTabNavigator} from 'react-navigation';
-import {connect} from 'react-redux';
 import styled from 'styled-components/native';
 import t from 'locales/use-translation';
-import InvoicesContainer from '../../features/invoices/containers/Invoices';
-import CustomersContainer from '../../features/customers/containers/Customers';
-import MoreContainer from '../../features/more/containers/More';
-import ExpensesContainer from '../../features/expenses/containers/Expenses';
-import PaymentsContainer from '../../features/payments/containers/Payments';
-import {routes} from '../routes';
+
+import {routes} from './navigation-routes';
 import {fonts} from '@/styles';
 import {AssetSvg} from '@/components';
 import {defineSize, isEmpty} from '@/constants';
 import {PermissionService} from '@/services';
-import {commonSelector} from 'stores/common/selectors';
 import {
   CUSTOMERS_ICON,
   EXPENSES_ICON,
@@ -51,8 +44,12 @@ const Label = styled(Text)`
   ${props => props.style};
 `;
 
-const Tab = (props: any) => {
-  const {navigation, theme} = props;
+export default (props: any) => {
+  const {isKeyboardOpen, navigation, state, theme} = props;
+
+  if (isKeyboardOpen) {
+    return <React.Fragment />;
+  }
 
   const getTab = route => {
     switch (route) {
@@ -94,30 +91,35 @@ const Tab = (props: any) => {
     }
   };
 
-  if (isEmpty(PermissionService.permissions)) {
-    return null;
-  }
+  //   if (isEmpty(PermissionService.permissions)) {
+  //     return null;
+  //   }
 
   return (
     <Container backgroundColor={theme?.tabNavigator?.backgroundColor}>
-      {navigation?.state &&
-        navigation?.state.routes.map((route, index) => {
-          if (
-            route.routeName !== routes.MAIN_MORE &&
-            !PermissionService.isAllowToView(route.routeName)
-          ) {
-            return null;
-          }
+      {state &&
+        state.routes.map((route, index) => {
+          //   if (
+          //     route.routeName !== routes.MAIN_MORE &&
+          //     !PermissionService.isAllowToView(route.routeName)
+          //   ) {
+          //     return null;
+          //   }
 
-          const isFocused = navigation?.state.index === index;
+          const isFocused = state.index === index;
 
           const onPress = () => {
-            if (!isFocused) {
-              navigation.navigate(route.routeName);
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key
+            });
+
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name);
             }
           };
 
-          const {label, icon} = getTab(route.routeName);
+          const {label, icon} = getTab(route.name);
 
           const iconColor = isFocused
             ? theme?.tabNavigator?.activeIconColor
@@ -154,38 +156,3 @@ const Tab = (props: any) => {
     </Container>
   );
 };
-
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
-
-const BottomTab = connect(mapStateToProps)(Tab);
-
-export default createBottomTabNavigator(
-  {
-    [routes.MAIN_INVOICES]: {
-      screen: InvoicesContainer
-    },
-    [routes.MAIN_CUSTOMERS]: {
-      screen: CustomersContainer
-    },
-    [routes.MAIN_PAYMENTS]: {
-      screen: PaymentsContainer
-    },
-    [routes.MAIN_EXPENSES]: {
-      screen: ExpensesContainer
-    },
-    [routes.MAIN_MORE]: {
-      screen: MoreContainer
-    }
-  },
-  {
-    initialRouteName: routes.MAIN_INVOICES,
-    lazy: false,
-    navigationOptions: {
-      header: null,
-      headerTitleAllowFontScaling: false
-    },
-    tabBarComponent: BottomTab
-  }
-);

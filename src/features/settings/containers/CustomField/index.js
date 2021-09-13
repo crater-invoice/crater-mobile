@@ -75,8 +75,4 @@ const CustomFieldContainer = connect(
   mapDispatchToProps
 )(customFieldForm);
 
-CustomFieldContainer.navigationOptions = () => ({
-  header: null
-});
-
 export default CustomFieldContainer;

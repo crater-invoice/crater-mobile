@@ -73,8 +73,4 @@ const RecurringInvoiceContainer = connect(
   mapDispatchToProps
 )(recurringInvoiceForm);
 
-RecurringInvoiceContainer.navigationOptions = () => ({
-  header: null
-});
-
 export default RecurringInvoiceContainer;

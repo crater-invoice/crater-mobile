@@ -41,7 +41,3 @@ export const CreateUserContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(CreateUserForm);
-
-CreateUserContainer.navigationOptions = () => ({
-  header: null
-});

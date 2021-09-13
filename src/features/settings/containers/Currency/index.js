@@ -51,8 +51,4 @@ const CurrencyContainer = connect(
   mapDispatchToProps
 )(currencyReduxForm);
 
-CurrencyContainer.navigationOptions = () => ({
-  header: null
-});
-
 export default CurrencyContainer;

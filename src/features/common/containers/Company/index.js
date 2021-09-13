@@ -29,8 +29,4 @@ const CompanyForm = reduxForm({
 
 const CompanyContainer = connect(mapStateToProps)(CompanyForm);
 
-CompanyContainer.navigationOptions = () => ({
-  header: null
-});
-
 export default CompanyContainer;

@@ -63,8 +63,4 @@ const ItemContainer = connect(
   mapDispatchToProps
 )(ItemReduxForm);
 
-ItemContainer.navigationOptions = () => ({
-  header: null
-});
-
 export default ItemContainer;

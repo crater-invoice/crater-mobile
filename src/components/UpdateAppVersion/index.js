@@ -86,8 +86,4 @@ const mapStateToProps = state => ({
 
 const UpdateAppVersionContainer = connect(mapStateToProps)(UpdateAppVersion);
 
-UpdateAppVersionContainer.navigationOptions = () => ({
-  header: null
-});
-
 export default UpdateAppVersionContainer;

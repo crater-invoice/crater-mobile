@@ -32,7 +32,3 @@ export const ItemUnitsContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(ItemUnitsForm);
-
-ItemUnitsContainer.navigationOptions = () => ({
-  header: null
-});

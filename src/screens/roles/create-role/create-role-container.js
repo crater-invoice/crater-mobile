@@ -32,7 +32,3 @@ const CreateRoleForm = reduxForm({form: CREATE_ROLE_FORM, validate})(
 export const CreateRoleContainer: any = connect(mapStateToProps)(
   CreateRoleForm
 );
-
-CreateRoleContainer.navigationOptions = () => ({
-  header: null
-});

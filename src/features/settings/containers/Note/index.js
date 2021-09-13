@@ -45,8 +45,4 @@ const NoteContainer = connect(
   mapDispatchToProps
 )(NoteSearchReduxForm);
 
-NoteContainer.navigationOptions = () => ({
-  header: null
-});
-
 export default NoteContainer;
