@@ -22,14 +22,14 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: {
-        marginBottom: defineSize(30, 40)
+        marginBottom: defineSize(30, 30, 40, 40)
     },
     internetIcon: {
         marginTop: 15,
         marginBottom: 10
     },
     description: {
-        marginTop: defineSize(55, 65),
+        marginTop: defineSize(55, 55, 65, 65),
         fontSize: 14,
         paddingHorizontal: 10
     }

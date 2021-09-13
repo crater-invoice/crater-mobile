@@ -9,7 +9,7 @@ export default styles = StyleSheet.create({
     textAlign: 'left'
   }),
   listViewContainer: {
-    marginTop: defineSize(10, 15)
+    marginTop: defineSize(10, 10, 15, 15)
   },
   listViewIcon: {
     width: 25

@@ -7,7 +7,7 @@ import {Empty} from '../Empty';
 import {colors, fonts} from '@/styles';
 import {CurrencyFormat} from '../CurrencyFormat';
 import {FadeListAnimation, AssetIcon} from '@/components';
-import {isIosPlatform} from '@/constants';
+import {definePlatformParam} from '@/constants';
 import {isRTL} from '@/utils';
 import {Text} from '../Text';
 import AssetSvg from '../AssetSvg';
@@ -186,7 +186,7 @@ class ListViewComponent extends Component<IProps> {
                 rightTitleStyle && rightTitleStyle
               ]}
               currencyStyle={{
-                marginTop: isIosPlatform() ? -1.5 : -6
+                marginTop: definePlatformParam(-1.5, -6)
               }}
             />
           ) : (

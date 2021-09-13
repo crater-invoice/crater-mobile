@@ -3,14 +3,13 @@ import {View} from 'react-native';
 import {ListView, InputModal, InfiniteScroll} from '@/components';
 import t from 'locales/use-translation';
 import {formatListByName} from '@/utils';
-import {alertMe, isIPhoneX} from '@/constants';
+import {alertMe, defineSize} from '@/constants';
 import {PAYMENT_MODES_FORM} from 'stores/payment-modes/types';
 import {change} from 'redux-form';
 import {
   addPaymentMode,
   updatePaymentMode,
-  removePaymentMode,
-  fetchPaymentModes
+  removePaymentMode
 } from 'stores/payment-modes/actions';
 
 export class PaymentModes extends Component {
@@ -132,7 +131,7 @@ export class PaymentModes extends Component {
         <InfiniteScroll
           getItems={fetchPaymentModes}
           reference={ref => (this.scrollViewReference = ref)}
-          paginationLimit={isIPhoneX ? 20 : 15}
+          paginationLimit={defineSize(15, 15, 15, 20)}
         >
           <ListView
             items={formatListByName(paymentModes)}
