@@ -22,7 +22,6 @@ import taxes from './taxes';
 import currencies from './currencies';
 import customFields, { getCustomFields } from './custom-fields';
 import Request from 'utils/request';
-import preferences from './preferences';
 import General from './general';
 import Notes from './notes';
 
@@ -196,7 +195,6 @@ export default function* settingsSaga() {
         taxes(),
         currencies(),
         customFields(),
-        preferences(),
         General(),
         Notes()
     ]);

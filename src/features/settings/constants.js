@@ -9,8 +9,6 @@ import { isSuperAdmin } from '@/stores/common/helpers';
 export const SET_ENDPOINT_API = 'settingsForm/SET_ENDPOINT_API';
 export const EDIT_ACCOUNT = 'accountForm/EDIT_ACCOUNT';
 export const EDIT_COMPANY = 'accountForm/EDIT_COMPANY';
-export const EDIT_LANGUAGE_AND_CURRENCY =
-    'accountForm/EDIT_LANGUAGE_AND_CURRENCY';
 export const NOTIFICATION = 'notification/NOTIFICATION';
 
 export const SEARCH_TAX = 'taxForm/SEARCH_TAX';
@@ -45,12 +43,6 @@ export const GET_NEXT_NUMBER = 'general/GET_NEXT_NUMBER';
 // General Settings
 export const GET_GENERAL_SETTING = 'GET_GENERAL_SETTING';
 export const GET_SETTING_INFO = 'GET_SETTING_INFO';
-
-// Preferences
-export const GET_PREFERENCES = 'preferences/GET_PREFERENCES';
-export const EDIT_PREFERENCES = 'preferences/EDIT_PREFERENCES';
-export const SET_PREFERENCES = 'preferences/SET_PREFERENCES';
-export const CLEAR_PREFERENCES = 'preferences/CLEAR_PREFERENCES';
 
 // Setting
 export const GET_SETTING_ITEM = 'settings/GET_SETTING_ITEM';
@@ -252,13 +244,6 @@ export const SETTINGS_MENU = () => {
             show: isSuperAdmin()
         },
         {
-            title: t('settings.LanguageAndCurrency'),
-            leftIcon: 'language',
-            iconSize: 20,
-            fullItem: {route: ROUTES.LANGUAGE_AND_CURRENCY},
-            show: isSuperAdmin()
-        },
-        {
             title: t('settings.customize'),
             leftIcon: 'pen-square',
             leftIconSolid: true,
@@ -359,17 +344,6 @@ export const COMPANY_SETTINGS_TYPE = [
     'estimate_company_address_format',
     'estimate_billing_address_format',
     'estimate_shipping_address_format'
-];
-
-export const PREFERENCES_SETTING_TYPE = [
-    'currency',
-    'time_zone',
-    'language',
-    'fiscal_year',
-    'carbon_date_format',
-    'moment_date_format',
-    'discount_per_item',
-    'tax_per_item'
 ];
 
 // Notification

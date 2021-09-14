@@ -416,13 +416,14 @@
         "preferences": {
             "currency": "Currency",
             "currencyPlaceholder": "Select Currency",
-            "language": "Language",
+            "language": "Default Language",
             "languagePlaceholder": "Select Language",
             "timeZone": "Time Zone",
             "timeZonePlaceholder": "Select Time Zone",
             "dateFormat": "Date Format",
             "dateFormatPlaceholder": "Select Date Format",
             "fiscalYear": "Financial Year",
+            "retrospectiveEdits": "Disable Retrospective Edits",
             "fiscalYearPlaceholder": "Select Financial Year",
             "discountSetting": "Discount Setting",
             "discountPerItem": "Discount Per Item",
@@ -598,6 +599,13 @@
         "empty": {
             "title": "No Financial Years yet!",
             "description": "This section will contain the list of Financial Years."
+        }
+    },
+    "retrospectiveEdits": {
+        "title": "Select Retrospective Edits",
+        "empty": {
+            "title": "No Retrospective Edits!",
+            "description": "This section will contain the list of Retrospective Edits."
         }
     },
     "countries": {
