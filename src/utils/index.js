@@ -1,5 +1,5 @@
 export * from './compare-version';
-export * from './formatted-items';
+export * from './formatted-Items';
 export * from './common';
 export * from './search';
 export * from './appearance';

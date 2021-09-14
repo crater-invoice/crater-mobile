@@ -2,8 +2,6 @@ import { isEmpty } from '@/constants';
 import {
     SETTINGS_TRIGGER_SPINNER,
     SET_ACCOUNT_INFO,
-    SET_PREFERENCES,
-    CLEAR_PREFERENCES,
     SET_SETTING_ITEM,
     SET_CREATE_EXPENSE_CATEGORIES,
     SET_EDI_EXPENSE_CATEGORIES,
@@ -29,9 +27,6 @@ const initialState = {
         // company
         getCompanyInfoLoading: false,
         editCompanyInfoLoading: false,
-        // preferences
-        getPreferencesLoading: false,
-        editPreferencesLoading: false,
         // item
         getSettingItemLoading: false,
         setSettingItemLoading: false,
@@ -53,7 +48,6 @@ const initialState = {
         // Notes
         getNotesLoading: false
     },
-    preferences: null,
     categories: [],
     currencies: [],
     customFields: [],
@@ -73,12 +67,6 @@ export default function settingReducer(state = initialState, action) {
 
         case SET_ACCOUNT_INFO:
             return { ...state, ...payload };
-
-        case SET_PREFERENCES:
-            return { ...state, ...payload };
-
-        case CLEAR_PREFERENCES:
-            return { ...state, preferences: null };
 
         case SET_SETTING_ITEM:
             const { key, value } = payload;

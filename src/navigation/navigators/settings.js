@@ -2,10 +2,8 @@ import {ROUTES} from '../routes';
 import SettingsContainer from '../../features/settings/containers/Settings';
 import AccountContainer from '../../features/settings/containers/Account';
 import CompanyContainer from '../../features/settings/containers/Company';
-import LanguageAndCurrencyContainer from '../../features/settings/containers/LanguageAndCurrency';
 import {generateStackNavigation} from '../actions';
 import NotificationContainer from '../../features/settings/containers/Notification';
-import PreferencesContainer from '../../features/settings/containers/Preferences';
 import CategoriesContainer from '../../features/settings/containers/Categories';
 import CategoryContainer from '../../features/settings/containers/Category';
 import TaxesContainer from '../../features/settings/containers/Taxes';
@@ -21,6 +19,8 @@ import NoteContainer from '@/features/settings/containers/Note';
 import TouchOrFaceIdContainer from '@/features/settings/containers/Touch-Face-Id';
 
 import {Roles, CreateRole} from 'screens/roles';
+import {Preferences} from 'screens/preferences';
+
 import {
   CustomizeList,
   CustomizeInvoice,
@@ -28,6 +28,7 @@ import {
   CustomizePayment
 } from 'screens/customize';
 import {ItemUnits} from 'screens/item-units';
+
 export const SettingNavigator = {
   // Settings
   // -----------------------------------------
@@ -35,17 +36,13 @@ export const SettingNavigator = {
     ROUTES.SETTING_LIST,
     SettingsContainer
   ),
-  [ROUTES.LANGUAGE_AND_CURRENCY]: generateStackNavigation(
-    ROUTES.LANGUAGE_AND_CURRENCY,
-    LanguageAndCurrencyContainer
-  ),
   [ROUTES.NOTIFICATIONS]: generateStackNavigation(
     ROUTES.NOTIFICATIONS,
     NotificationContainer
   ),
   [ROUTES.PREFERENCES]: generateStackNavigation(
     ROUTES.PREFERENCES,
-    PreferencesContainer
+    Preferences
   ),
 
   // User Information
