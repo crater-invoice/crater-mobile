@@ -64,37 +64,25 @@ export default class extends Component<IProps, IStates> {
       ...this.props
     };
 
-    const navigationState = {
-      ref: navigationRef
-    };
-
     let Navigator: any;
 
-    if (!endpointApi) {
+    if (!endpointApi || hasLogout) {
       Navigator = (
-        <Stack.Navigator headerMode="none" initialRouteName={routes.ENDPOINTS}>
-          <AuthNavigator />
-        </Stack.Navigator>
-      );
-    } else if (hasLogout) {
-      Navigator = (
-        <Stack.Navigator headerMode="none" initialRouteName={routes.LOGIN}>
-          <AuthNavigator />
-        </Stack.Navigator>
+        <AuthNavigator
+          initialRouteName={!endpointApi ? routes.ENDPOINTS : routes.LOGIN}
+        />
       );
     } else {
       Navigator = (
         <Stack.Navigator headerMode="none" initialRouteName={routes.MAIN_TABS}>
-          <TabNavigator {...homeNavigatorData} />
-          <CommonNavigator />
+          {TabNavigator(homeNavigatorData)}
+          {CommonNavigator()}
         </Stack.Navigator>
       );
     }
 
     return (
-      <NavigationContainer {...navigationState}>
-        {Navigator}
-      </NavigationContainer>
+      <NavigationContainer ref={navigationRef}>{Navigator}</NavigationContainer>
     );
   }
 }

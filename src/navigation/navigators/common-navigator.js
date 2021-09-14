@@ -1,3 +1,4 @@
+import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {navigatorOptions as options} from '../navigation-action';
 import {routes} from '..';
