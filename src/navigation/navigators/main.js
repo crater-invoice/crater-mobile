@@ -12,7 +12,7 @@ import PaymentsContainer from '../../features/payments/containers/Payments';
 import {ROUTES} from '../routes';
 import {fonts} from '@/styles';
 import {AssetSvg} from '@/components';
-import {isEmpty, isIPhoneX} from '@/constants';
+import {defineSize, isEmpty} from '@/constants';
 import {PermissionService} from '@/services';
 import {commonSelector} from 'stores/common/selectors';
 import {
@@ -25,7 +25,7 @@ import {
 
 const Container = styled(View)`
   flex-direction: row;
-  padding-bottom: ${isIPhoneX() ? 30 : 0};
+  padding-bottom: ${defineSize(0, 0, 0, 30)};
   background-color: ${props => props.backgroundColor};
 `;
 

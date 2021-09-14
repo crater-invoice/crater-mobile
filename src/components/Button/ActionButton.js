@@ -3,7 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
 import t from 'locales/use-translation';
 import {CtButton} from './Button';
-import {BUTTON_COLOR, BUTTON_TYPE, isEmpty, isIPhoneX} from '@/constants';
+import {BUTTON_COLOR, BUTTON_TYPE, defineSize, isEmpty} from '@/constants';
 
 export const ActionButton = props => {
   const {buttons} = props;
@@ -85,7 +85,7 @@ const Container = styled(View)`
   border-color: ${props => props.theme?.input?.borderColor};
   padding-vertical: 15;
   padding-horizontal: 10;
-  padding-bottom: ${isIPhoneX() ? 35 : 13};
+  padding-bottom: ${defineSize(13, 13, 13, 35)};
   border-top-width: 1;
 `;
 

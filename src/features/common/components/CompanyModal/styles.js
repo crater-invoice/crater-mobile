@@ -30,7 +30,7 @@ const Styles = {
     Modal: styled(View)`
         background-color: ${props => props.theme.secondaryBgColor};
         position: absolute;
-        top: ${defineSize(SCREEN_HEIGHT / 7, SCREEN_HEIGHT / 8)};
+        top: ${defineSize(SCREEN_HEIGHT / 7, SCREEN_HEIGHT / 7, SCREEN_HEIGHT / 8, SCREEN_HEIGHT / 8)};
         left: 0;
         right: 0;
         margin-horizontal: 23;
