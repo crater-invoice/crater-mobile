@@ -3,8 +3,7 @@ import {
     settingsTriggerSpinner as spinner,
     setCompanyInformation,
     setAccountInformation,
-    setSettings,
-    setCustomizeSettings
+    setSettings
 } from '../actions';
 import {
     GET_COMPANY_INFO,
@@ -13,8 +12,6 @@ import {
     EDIT_ACCOUNT_INFO,
     GET_SETTING_ITEM,
     EDIT_SETTING_ITEM,
-    GET_CUSTOMIZE_SETTINGS,
-    EDIT_CUSTOMIZE_SETTINGS,
     COMPANY_SETTINGS_TYPE,
     NOTIFICATION_MAIL_TYPE
 } from '../constants';
@@ -22,8 +19,6 @@ import { ROUTES } from '@/navigation';
 
 import categories from './categories';
 import taxes from './taxes';
-import modes from './modes';
-import units from './units';
 import currencies from './currencies';
 import customFields, { getCustomFields } from './custom-fields';
 import Request from 'utils/request';
@@ -186,56 +181,6 @@ function* editSettingItem({ payload }) {
     }
 }
 
-/**
- * Customize Settings
- */
-function* getCustomizeSettings(payloadData) {
-    yield put(spinner({ getCustomizeLoading: true }));
-
-    try {
-        yield call(getCustomFields, {
-            payload: {
-                queryString: { limit: 'all' }
-            }
-        });
-
-        const options = {
-            path: `company/settings`,
-            axiosProps: {
-                params: { settings: COMPANY_SETTINGS_TYPE }
-            }
-        };
-        const response = yield call([Request, 'get'], options);
-        yield put(setCustomizeSettings({ customizes: response }));
-    } catch (e) {
-    } finally {
-        yield put(spinner({ getCustomizeLoading: false }));
-    }
-}
-
-function* editCustomizeSettings({ payload: { params, navigation } }) {
-    yield put(spinner({ customizeLoading: true }));
-
-    try {
-        const settings = {
-            settings: params
-        };
-        const options = {
-            path: `company/settings`,
-            body: settings
-        };
-
-        const response = yield call([Request, 'post'], options);
-
-        if (response.success) {
-            navigation.navigate(ROUTES.CUSTOMIZES);
-            yield put(setCustomizeSettings({ customizes: null }));
-        }
-    } catch (e) {
-    } finally {
-        yield put(spinner({ customizeLoading: false }));
-    }
-}
 
 export default function* settingsSaga() {
     yield takeEvery(GET_COMPANY_INFO, getCompanyInformation);
@@ -245,16 +190,9 @@ export default function* settingsSaga() {
     yield takeEvery(GET_SETTING_ITEM, getSettingItem);
     yield takeEvery(EDIT_SETTING_ITEM, editSettingItem);
 
-    // Customize
-    // -----------------------------------------
-    yield takeEvery(GET_CUSTOMIZE_SETTINGS, getCustomizeSettings);
-    yield takeEvery(EDIT_CUSTOMIZE_SETTINGS, editCustomizeSettings);
-
     yield all([
         categories(),
         taxes(),
-        modes(),
-        units(),
         currencies(),
         customFields(),
         General(),

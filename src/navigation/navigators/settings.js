@@ -10,8 +10,6 @@ import TaxesContainer from '../../features/settings/containers/Taxes';
 import TaxContainer from '../../features/settings/containers/Tax';
 import EndpointContainer from '../../features/authentication/containers/Endpoint';
 import UpdateAppVersionContainer from '../../components/UpdateAppVersion';
-import CustomizesContainer from '../../features/settings/containers/Customizes';
-import CustomizeContainer from '../../features/settings/containers/Customize';
 import CurrenciesContainer from '../../features/settings/containers/Currencies';
 import CurrencyContainer from '../../features/settings/containers/Currency';
 import CustomFieldsContainer from '../../features/settings/containers/CustomFields';
@@ -22,6 +20,14 @@ import TouchOrFaceIdContainer from '@/features/settings/containers/Touch-Face-Id
 
 import {Roles, CreateRole} from 'screens/roles';
 import {Preferences} from 'screens/preferences';
+
+import {
+  CustomizeList,
+  CustomizeInvoice,
+  CustomizeEstimate,
+  CustomizePayment
+} from 'screens/customize';
+import {ItemUnits} from 'screens/item-units';
 
 export const SettingNavigator = {
   // Settings
@@ -77,14 +83,23 @@ export const SettingNavigator = {
 
   // Customize
   // -----------------------------------------
-  [ROUTES.CUSTOMIZES]: generateStackNavigation(
-    ROUTES.CUSTOMIZES,
-    CustomizesContainer
+  [ROUTES.CUSTOMIZE_LIST]: generateStackNavigation(
+    ROUTES.CUSTOMIZE_LIST,
+    CustomizeList
   ),
-  [ROUTES.CUSTOMIZE]: generateStackNavigation(
-    ROUTES.CUSTOMIZE,
-    CustomizeContainer
+  [ROUTES.CUSTOMIZE_INVOICE]: generateStackNavigation(
+    ROUTES.CUSTOMIZE_INVOICE,
+    CustomizeInvoice
   ),
+  [ROUTES.CUSTOMIZE_ESTIMATE]: generateStackNavigation(
+    ROUTES.CUSTOMIZE_ESTIMATE,
+    CustomizeEstimate
+  ),
+  [ROUTES.CUSTOMIZE_PAYMENT]: generateStackNavigation(
+    ROUTES.CUSTOMIZE_PAYMENT,
+    CustomizePayment
+  ),
+  [ROUTES.ITEM_UNITS]: generateStackNavigation(ROUTES.ITEM_UNITS, ItemUnits),
 
   // Currencies
   // -----------------------------------------

@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {isIPhoneX} from '@/constants';
+import {defineSize} from '@/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -12,6 +12,6 @@ export const styles = StyleSheet.create({
   },
   searchLoader: {
     flex: 0,
-    marginTop: isIPhoneX() ? '25%' : '20%'
+    marginTop: defineSize('20%', '20%', '20%', '25%')
   }
 });

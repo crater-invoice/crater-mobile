@@ -9,3 +9,5 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
+.DS_Store
+.vscode/settings.json

@@ -1,4 +1,4 @@
-import {isIPhoneX, SCREEN_WIDTH} from '@/constants';
+import {defineSize, SCREEN_WIDTH} from '@/constants';
 import {fonts} from './fonts';
 
 export const headerTitle = ({
@@ -7,8 +7,8 @@ export const headerTitle = ({
   theme = null
 }) => {
   return {
-    marginLeft: isIPhoneX() ? 0 : marginLeft,
-    marginRight: isIPhoneX() ? 0 : marginRight,
+    marginLeft: defineSize(marginLeft, marginLeft, marginLeft, 0),
+    marginRight: defineSize(marginRight, marginRight, marginRight, 0),
     textAlign: 'center',
     fontFamily: theme?.mode === 'dark' ? fonts.medium : fonts.regular,
     textAlign: 'left'

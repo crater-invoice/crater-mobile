@@ -34,24 +34,23 @@ export const trim = data => {
   }, {});
 };
 
-export const isIosPlatform = () => Platform.OS === 'ios';
+export const isIosPlatform = Platform.OS === 'ios';
 
-export const isAndroidPlatform = () => Platform.OS === 'android';
+export const isAndroidPlatform = Platform.OS === 'android';
 
 export const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export const definePlatformParam = (ios, android) =>
-  isIosPlatform() ? ios : android;
+  isIosPlatform ? ios : android;
 
 export const defineLargeSizeParam = (large, normal) =>
   isIPhoneX() ? large : normal;
 
-export const isMajorScreenHeight = Dimensions.get('window').height >= 800;
+export const isMajorScreenHeight = SCREEN_HEIGHT >= 800;
 
-export const defineSize = (normal, large) =>
-  !isMajorScreenHeight ? normal : large;
+export const isVerySmallScreen = SCREEN_WIDTH <= 340;
 
 export const scrollToInput = ({scrollView}, {target}) => {
   scrollView.scrollToFocusedInput(findNodeHandle(target));
@@ -161,4 +160,20 @@ export const majorVersionIOS = parseInt(String(Platform.Version), 10);
 
 export const capitalize = word => {
   return word[0].toUpperCase() + word.slice(1).toLowerCase();
+};
+
+export const defineSize = (small, medium, large, extraLarge) => {
+  if (isIPhoneX()) {
+    return extraLarge;
+  }
+
+  if (isMajorScreenHeight) {
+    return large;
+  }
+
+  if (isVerySmallScreen) {
+    return small;
+  }
+
+  return medium;
 };

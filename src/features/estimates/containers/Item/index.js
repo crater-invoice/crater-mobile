@@ -4,17 +4,15 @@ import { reduxForm, getFormValues } from 'redux-form';
 import { validate } from './validation';
 import * as EstimatesAction from '../../actions';
 import { ITEM_FORM } from '../../constants';
-import { getItemUnits, getTaxes } from '@/features/settings/actions';
-import { getUnitState } from '@/features/more/selectors';
+import { getTaxes } from '@/features/settings/actions';
+import { fetchItemUnits } from 'stores/item-units/actions';
+import { unitsSelector } from '@/features/more/selectors';
 import { commonSelector } from 'stores/common/selectors';
 
 const mapStateToProps = (state, { navigation }) => {
     const {
         estimates: { loading },
-        settings: {
-            units,
-            loading: { itemUnitsLoading }
-        }
+        itemUnits: { units }
     } = state;
 
     const item = navigation.getParam('item', {});
@@ -25,8 +23,7 @@ const mapStateToProps = (state, { navigation }) => {
 
     const isLoading =
         loading.editItemLoading ||
-        loading.removeItemLoading ||
-        itemUnitsLoading;
+        loading.removeItemLoading;
 
     return {
         loading: isLoading,
@@ -37,7 +34,7 @@ const mapStateToProps = (state, { navigation }) => {
         discountPerItem,
         taxPerItem,
         type,
-        units: getUnitState(units),
+        units: unitsSelector(units),
         ...commonSelector(state),
         initialValues: {
             price: null,
@@ -54,7 +51,7 @@ const mapDispatchToProps = {
     addItem: EstimatesAction.addItem,
     setEstimateItems: EstimatesAction.setEstimateItems,
     removeEstimateItem: EstimatesAction.removeEstimateItem,
-    getItemUnits,
+    fetchItemUnits,
     getTaxes
 };
 

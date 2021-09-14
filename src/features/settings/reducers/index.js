@@ -7,11 +7,6 @@ import {
     SET_EDI_EXPENSE_CATEGORIES,
     SET_REMOVE_EXPENSE_CATEGORIES,
     SET_EXPENSE_CATEGORIES,
-    SET_CUSTOMIZE_SETTINGS,
-    SET_PAYMENT_MODES,
-    SET_PAYMENT_MODE,
-    SET_ITEM_UNITS,
-    SET_ITEM_UNIT,
     SET_CURRENCIES,
     SET_CUSTOM_FIELDS,
     SET_LANGUAGES,
@@ -43,15 +38,6 @@ const initialState = {
         addTaxLoading: false,
         getTaxLoading: false,
         removeTaxLoading: false,
-        // customize
-        getCustomizeLoading: false,
-        customizeLoading: false,
-        // payment method
-        paymentModesLoading: false,
-        paymentModeLoading: false,
-        // Item Unit
-        itemUnitsLoading: false,
-        itemUnitLoading: false,
         // Currencies
         currenciesLoading: false,
         currencyLoading: false,
@@ -63,11 +49,8 @@ const initialState = {
         getNotesLoading: false
     },
     categories: [],
-    paymentMethods: [],
-    units: [],
     currencies: [],
     customFields: [],
-    customizes: null,
     account: null,
     taxByItems: false,
     taxByInvoice: true,
@@ -140,99 +123,6 @@ export default function settingReducer(state = initialState, action) {
             );
 
             return { ...state, categories: category };
-
-        case SET_CUSTOMIZE_SETTINGS:
-            const { customizes } = payload;
-
-            return { ...state, customizes };
-
-        case SET_PAYMENT_MODES:
-            if (!payload.fresh) {
-                return {
-                    ...state,
-                    paymentMethods: [
-                        ...state.paymentMethods,
-                        ...payload.paymentMethods
-                    ]
-                };
-            }
-
-            return { ...state, paymentMethods: payload.paymentMethods };
-
-        case SET_PAYMENT_MODE:
-            const { paymentMethod, isCreated, isUpdated, isRemove } = payload;
-
-            if (isCreated) {
-                return {
-                    ...state,
-                    paymentMethods: [...paymentMethod, ...state.paymentMethods]
-                };
-            }
-            if (isUpdated) {
-                const methods = [];
-
-                state.paymentMethods.map(method => {
-                    let value = method;
-                    method.id === paymentMethod.id && (value = paymentMethod);
-                    methods.push(value);
-                });
-
-                return {
-                    ...state,
-                    paymentMethods: methods
-                };
-            }
-            if (isRemove) {
-                const remainMethods = state.paymentMethods.filter(
-                    ({ id }) => id !== payload.id
-                );
-
-                return { ...state, paymentMethods: remainMethods };
-            }
-
-            return { ...state };
-
-        case SET_ITEM_UNITS:
-            if (!payload.fresh) {
-                return {
-                    ...state,
-                    units: [...state.units, ...payload.units]
-                };
-            }
-            return { ...state, units: payload.units };
-
-        case SET_ITEM_UNIT:
-            const { unit } = payload;
-
-            if (payload.isCreated) {
-                return {
-                    ...state,
-                    units: [...unit, ...state.units]
-                };
-            }
-            if (payload.isUpdated) {
-                const units = [];
-
-                state.units.map(_ => {
-                    let value = _;
-                    _.id === unit.id && (value = unit);
-                    units.push(value);
-                });
-
-                return {
-                    ...state,
-                    units
-                };
-            }
-            if (payload.isRemove) {
-                const remainUnits = state.units.filter(
-                    ({ id }) => id !== payload.id
-                );
-
-                return { ...state, units: remainUnits };
-            }
-
-            return { ...state };
 
         case SET_CURRENCIES:
             const { currencies } = payload;

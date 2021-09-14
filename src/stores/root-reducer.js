@@ -15,6 +15,9 @@ import common from 'stores/common/reducer';
 import roles from 'stores/roles/reducer';
 import users from 'stores/users/reducer';
 import company from 'stores/company/reducer';
+import customizes from 'stores/customize/reducer';
+import itemUnits from 'stores/item-units/reducer';
+import paymentModes from 'stores/payment-modes/reducer';
 import navigationData from '../navigation/reducers';
 import Navigator from '../navigation/navigators';
 
@@ -34,5 +37,8 @@ export default combineReducers({
   roles,
   users,
   company,
+  customizes,
+  itemUnits,
+  paymentModes,
   nav: createNavigationReducer(Navigator)
 });

@@ -1,7 +1,6 @@
 import {find} from 'lodash';
 import {hasValue, isEmpty, toObject} from '@/constants';
 import {ROUTES as routes} from '@/navigation';
-import {CUSTOMIZE_TYPE as customize} from '@/features/settings/constants';
 
 const abilities = [
   // User
@@ -23,10 +22,10 @@ const abilities = [
   {route: routes.GLOBAL_ITEM, ability: 'delete-item'},
 
   // Unit
-  {route: customize.ITEMS, ability: 'view-unit'},
-  {route: customize.ITEMS, ability: 'create-unit'},
-  {route: customize.ITEMS, ability: 'edit-unit'},
-  {route: customize.ITEMS, ability: 'delete-unit'},
+  {route: "customize.ITEMS", ability: 'view-unit'},
+  {route: "customize.ITEMS", ability: 'create-unit'},
+  {route: "customize.ITEMS", ability: 'edit-unit'},
+  {route: "customize.ITEMS", ability: 'delete-unit'},
 
   // Estimate
   {route: routes.ESTIMATE_LIST, ability: 'view-estimate'},
@@ -81,10 +80,10 @@ const abilities = [
   {route: routes.TAX, ability: 'delete-tax-type'},
 
   // Payment Method
-  {route: customize.PAYMENTS, ability: 'view-payment-method'},
-  {route: customize.PAYMENTS, ability: 'create-payment-method'},
-  {route: customize.PAYMENTS, ability: 'edit-payment-method'},
-  {route: customize.PAYMENTS, ability: 'delete-payment-method'},
+  {route: "customize.PAYMENTS", ability: 'view-payment-method'},
+  {route: "customize.PAYMENTS", ability: 'create-payment-method'},
+  {route: "customize.PAYMENTS", ability: 'edit-payment-method'},
+  {route: "customize.PAYMENTS", ability: 'delete-payment-method'},
 
   // Custom Field
   {route: routes.CUSTOM_FIELDS, ability: 'view-custom-field'},
