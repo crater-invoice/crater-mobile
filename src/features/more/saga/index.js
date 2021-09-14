@@ -1,12 +1,10 @@
 import {call, put, takeEvery} from 'redux-saga/effects';
-import {routes} from '@/navigation';
 import Request from 'utils/request';
 import {moreTriggerSpinner, setItems, setItem, deleteItem} from '../actions';
 import * as queryStrings from 'query-string';
 import {fetchItemUnits} from 'stores/item-units/saga';
 import {getSettingInfo} from '@/features/settings/saga/general';
 import {
-  LOGOUT,
   GET_ITEMS,
   ITEM_ADD,
   GET_EDIT_ITEM,
@@ -14,14 +12,6 @@ import {
   REMOVE_ITEM,
   GET_MAIL_CONFIGURATION
 } from '../constants';
-
-function* logout({payload: {navigation}}) {
-  try {
-    navigation.navigate(routes.AUTH);
-  } catch (e) {
-    alert('something went wrong');
-  }
-}
 
 function* getItems({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -143,8 +133,6 @@ function* getMailConfiguration({payload: {body, onSuccess}}) {
 }
 
 export default function* moreSaga() {
-  yield takeEvery(LOGOUT, logout);
-
   // Items
   yield takeEvery(GET_ITEMS, getItems);
   yield takeEvery(ITEM_ADD, addItem);

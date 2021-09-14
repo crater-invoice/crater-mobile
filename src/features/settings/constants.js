@@ -37,7 +37,6 @@ export const EDIT_CURRENCY_TYPE = 'currencies/EDIT_CURRENCY_TYPE';
 // -----------------------------------------
 export const SETTINGS_SEARCH = 'settings/SETTINGS_SEARCH';
 export const SETTINGS_TRIGGER_SPINNER = 'settings/SETTINGS_TRIGGER_SPINNER';
-export const LOGOUT = 'settings/LOGOUT';
 
 // Next Number
 export const GET_NEXT_NUMBER = 'general/GET_NEXT_NUMBER';

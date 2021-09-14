@@ -17,7 +17,6 @@ export const REPORT_FORM = 'moreForm/REPORT_FORM';
 // -----------------------------------------
 export const MORE_SEARCH = 'more/MORE_SEARCH';
 export const MORE_TRIGGER_SPINNER = 'more/MORE_TRIGGER_SPINNER';
-export const LOGOUT = 'more/LOGOUT';
 export const ITEM_EDIT = 'more/ITEM_EDIT';
 export const ITEM_ADD = 'more/ITEM_ADD';
 export const CLEAR_ITEM = 'more/CLEAR_ITEM';

@@ -28,11 +28,6 @@ export class Settings extends React.Component {
     }
   };
 
-  onLogout = () => {
-    const {navigation, logout} = this.props;
-    logout({navigation});
-  };
-
   render() {
     const {navigation, theme} = this.props;
     const settingList = [];

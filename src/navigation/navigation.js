@@ -11,18 +11,9 @@ import {routes} from './navigation-routes';
 import {isAndroidPlatform} from '@/constants';
 import {navigationRef} from './navigation-action';
 
+import {IProps, IStates} from './navigation-type';
+
 const Stack = createStackNavigator();
-
-type IProps = {
-  idToken: string,
-  locale: string,
-  hasLogout: boolean,
-  endpointApi: string
-};
-
-type IStates = {
-  isKeyboardOpen: boolean
-};
 
 export default class extends Component<IProps, IStates> {
   keyboardDidShowListener: any;
@@ -56,7 +47,7 @@ export default class extends Component<IProps, IStates> {
   };
 
   render() {
-    const {idToken, locale, hasLogout, endpointApi} = this.props;
+    const {isLogin, endpointApi} = this.props;
     const {isKeyboardOpen} = this.state;
 
     const homeNavigatorData = {
@@ -66,19 +57,17 @@ export default class extends Component<IProps, IStates> {
 
     let Navigator: any;
 
-    if (!endpointApi || hasLogout) {
+    if (isLogin) {
       Navigator = (
-        <AuthNavigator
-          initialRouteName={!endpointApi ? routes.ENDPOINTS : routes.LOGIN}
-        />
-      );
-    } else {
-      Navigator = (
-        <Stack.Navigator headerMode="none" initialRouteName={routes.MAIN_TABS}>
+        <Stack.Navigator headerMode="none">
           {TabNavigator(homeNavigatorData)}
           {CommonNavigator()}
         </Stack.Navigator>
       );
+    } else if (!endpointApi) {
+      Navigator = AuthNavigator(routes.ENDPOINTS);
+    } else {
+      Navigator = AuthNavigator(routes.LOGIN);
     }
 
     return (

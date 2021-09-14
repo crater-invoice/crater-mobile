@@ -46,7 +46,9 @@ class App extends Component<{}, IState> {
     NetInfo.addEventListener(networkState => {
       const isConnected =
         networkState?.isConnected && networkState?.isInternetReachable;
-      isConnected !== this.state.isConnected && this.setState({isConnected});
+      if (isConnected !== this.state.isConnected && this.state.theme) {
+        this.setState({isConnected});
+      }
     });
   }
 

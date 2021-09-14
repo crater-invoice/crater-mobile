@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {navigatorOptions as options} from '../navigation-action';
-import {routes} from '..';
+import {routes} from '../navigation-routes';
 
 import Customer from '@/features/customers/containers/Customer';
 import Companies from '@/features/common/containers/Companies';

@@ -1,24 +1,38 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {routes} from '..';
+import {routes} from '../navigation-routes';
 import Login from '@/features/authentication/containers/Login';
 import ForgotPassword from '@/features/authentication/containers/ForgetPassword';
 import {navigatorOptions as options} from '../navigation-action';
-import CommonNavigator from './common-navigator';
+import UpdateApp from '@/components/UpdateAppVersion';
+import Endpoint from '@/features/authentication/containers/Endpoint';
 
-const Stack = createStackNavigator();
+const AuthStack = createStackNavigator();
 
-function AuthNavigator({initialRouteName}) {
+function AuthNavigator(initialRouteName) {
   return (
-    <Stack.Navigator headerMode="none" initialRouteName={initialRouteName}>
-      <Stack.Screen name={routes.LOGIN} component={Login} options={options} />
-      <Stack.Screen
+    <AuthStack.Navigator headerMode="none" initialRouteName={initialRouteName}>
+      <AuthStack.Screen
+        name={routes.LOGIN}
+        component={Login}
+        options={options}
+      />
+      <AuthStack.Screen
         name={routes.FORGOT_PASSWORD}
         component={ForgotPassword}
         options={options}
       />
-      {CommonNavigator()}
-    </Stack.Navigator>
+      {/* Settings Navigator */}
+      <AuthStack.Screen
+        name={routes.UPDATE_APP_VERSION}
+        component={UpdateApp}
+      />
+      <AuthStack.Screen
+        name={routes.ENDPOINTS}
+        component={Endpoint}
+        options={options}
+      />
+    </AuthStack.Navigator>
   );
 }
 

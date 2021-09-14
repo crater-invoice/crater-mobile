@@ -8,6 +8,8 @@ export const SET_ENDPOINT_API = 'auth/SET_ENDPOINT_API';
 // -----------------------------------------
 export const LOGIN = 'auth/LOGIN';
 export const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
+export const LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS';
+export const PING_SUCCESS = 'auth/PING_SUCCESS';
 export const SAVE_ID_TOKEN = 'auth/SAVE_ID_TOKEN';
 export const SOCIAL_LOGIN = 'auth/SOCIAL_LOGIN';
 export const AUTH_TRIGGER_SPINNER = 'auth/AUTH_TRIGGER_SPINNER';

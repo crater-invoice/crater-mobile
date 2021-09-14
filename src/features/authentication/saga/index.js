@@ -8,10 +8,10 @@ import {
   setGlobalBootstrap,
   saveEndpointApi,
   setLastAutoUpdateDate,
-  checkOTAUpdate as actionCheckOTAUpdate
+  checkOTAUpdate as actionCheckOTAUpdate,
+  loginSuccess
 } from '../actions';
 import * as TYPES from '../constants';
-import {navigateToActiveTab} from '@/navigation';
 import {setAccountInformation} from '../../settings/actions';
 import {alertMe, hasValue} from '@/constants';
 import {CHECK_OTA_UPDATE} from '@/constants';
@@ -74,8 +74,7 @@ function* login({payload: {params, navigation}}: any) {
 
     yield put(actionCheckOTAUpdate());
 
-    const tab = getActiveMainTab();
-    navigateToActiveTab(navigation, tab);
+    yield put(loginSuccess());
   } catch (e) {
     alertMe({desc: t('login.invalid')});
   } finally {
@@ -95,8 +94,7 @@ function* biometryAuthLogin({payload}: any) {
 
     yield delay(100);
 
-    const tab = getActiveMainTab();
-    navigateToActiveTab(payload.navigation, tab);
+    yield put(loginSuccess());
   } catch (e) {
   } finally {
     yield put(authTriggerSpinner({loginLoading: false}));
@@ -194,6 +192,7 @@ function* checkEndpointApi({payload: {endpointURL, onResult}}: any) {
     let success = true;
     if (response.success === 'crater-self-hosted') {
       yield put(saveEndpointApi({endpointURL}));
+      yield put({type: TYPES.PING_SUCCESS, payload: null});
     } else {
       success = false;
     }

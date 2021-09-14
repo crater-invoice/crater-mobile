@@ -1,13 +1,13 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {routes} from '..';
+import {routes} from '../navigation-routes';
 import BottomTab from '../navigation-bottom-tab';
-import Invoices from '../../features/invoices/containers/Invoices';
-import Customers from '../../features/customers/containers/Customers';
-import Payments from '../../features/payments/containers/Payments';
-import Expenses from '../../features/expenses/containers/Expenses';
-import More from '../../features/more/containers/More';
+import Invoices from '@/features/invoices/containers/Invoices';
+import Customers from '@/features/customers/containers/Customers';
+import Payments from '@/features/payments/containers/Payments';
+import Expenses from '@/features/expenses/containers/Expenses';
+import More from '@/features/more/containers/More';
 
 const Stack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
@@ -17,7 +17,7 @@ function TabNavigator(props) {
     <Stack.Screen name={routes.MAIN_TABS}>
       {() => (
         <TabStack.Navigator
-          initialRouteName={routes.MAIN_EXPENSES}
+          initialRouteName={routes.MAIN_INVOICES}
           lazy={true}
           backBehavior="history"
           tabBar={options => <BottomTab {...options} {...props} />}

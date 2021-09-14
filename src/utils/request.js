@@ -2,6 +2,7 @@
 import axios from 'axios';
 import {store} from '@/stores';
 import {hasValue} from '@/constants';
+import {logoutSuccess} from '@/features/authentication/actions';
 
 type IProps = {
   path: string,
@@ -99,11 +100,6 @@ export default class Request {
       apiUrl = isPing;
     }
 
-    if (!isPing && !endpointApi) {
-      // store.dispatch(NavigationActions.navigate({routeName: routes.ENDPOINTS}));
-      return;
-    }
-
     const url = `${apiUrl}${path}`;
 
     const defaultHeaders = {
@@ -132,7 +128,7 @@ export default class Request {
       .catch(function({response}) {
         const {status} = response;
         if (status === 401) {
-          // store.dispatch(NavigationActions.navigate({routeName: routes.AUTH}));
+          store?.dispatch?.(logoutSuccess());
           throw response;
         }
         if (status === 403 || status === 404 || status === 500) {
