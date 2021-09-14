@@ -6,6 +6,7 @@ import {MainLayout, ListView} from '@/components';
 import {MORE_MENU} from '../../constants';
 import t from 'locales/use-translation';
 import {alertMe} from '@/constants';
+import {logoutSuccess} from '@/features/authentication/actions';
 
 export class More extends React.Component {
   constructor(props) {
@@ -27,13 +28,13 @@ export class More extends React.Component {
   };
 
   onLogout = () => {
-    const {navigation, logout} = this.props;
+    const {dispatch} = this.props;
 
     alertMe({
       title: t('logout.confirmation'),
       showCancel: true,
       okText: t('logout.title'),
-      okPress: () => logout({navigation})
+      okPress: () => dispatch?.(logoutSuccess())
     });
   };
 

@@ -12,25 +12,21 @@ import More from '@/features/more/containers/More';
 const Stack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
 
-function TabNavigator(props) {
-  return (
-    <Stack.Screen name={routes.MAIN_TABS}>
-      {() => (
-        <TabStack.Navigator
-          initialRouteName={routes.MAIN_INVOICES}
-          lazy={true}
-          backBehavior="history"
-          tabBar={options => <BottomTab {...options} {...props} />}
-        >
-          <TabStack.Screen name={routes.MAIN_INVOICES} component={Invoices} />
-          <TabStack.Screen name={routes.MAIN_CUSTOMERS} component={Customers} />
-          <TabStack.Screen name={routes.MAIN_PAYMENTS} component={Payments} />
-          <TabStack.Screen name={routes.MAIN_EXPENSES} component={Expenses} />
-          <TabStack.Screen name={routes.MAIN_MORE} component={More} />
-        </TabStack.Navigator>
-      )}
-    </Stack.Screen>
-  );
-}
-
-export default TabNavigator;
+export const TabNavigator = props => (
+  <Stack.Screen name={routes.MAIN_TABS}>
+    {() => (
+      <TabStack.Navigator
+        initialRouteName={routes.MAIN_CUSTOMERS}
+        lazy={true}
+        backBehavior="history"
+        tabBar={options => <BottomTab {...options} {...props} />}
+      >
+        <TabStack.Screen name={routes.MAIN_INVOICES} component={Invoices} />
+        <TabStack.Screen name={routes.MAIN_CUSTOMERS} component={Customers} />
+        <TabStack.Screen name={routes.MAIN_PAYMENTS} component={Payments} />
+        <TabStack.Screen name={routes.MAIN_EXPENSES} component={Expenses} />
+        <TabStack.Screen name={routes.MAIN_MORE} component={More} />
+      </TabStack.Navigator>
+    )}
+  </Stack.Screen>
+);

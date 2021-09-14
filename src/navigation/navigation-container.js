@@ -1,11 +1,12 @@
 import {connect} from 'react-redux';
 import Navigation from './navigation';
+import {commonSelector} from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
-  theme: state?.common?.theme,
-  abilities: state?.common?.abilities,
+  ...commonSelector(state),
   endpointApi: state?.common?.endpointApi,
-  isLogin: state?.auth?.isLogin
+  isLogin: state?.auth?.isLogin,
+  idToken: state?.auth?.idToken
 });
 
 export const ApplicationNavigator = connect(mapStateToProps)(Navigation);

@@ -1,77 +1,51 @@
-import React, {Component} from 'react';
+import {isAndroidPlatform} from '@/constants';
+import React, {useState, useEffect} from 'react';
+import {Keyboard} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Keyboard} from 'react-native';
-
-import TabNavigator from './navigators/tab-navigator';
-import AuthNavigator from './navigators/auth-navigator';
-import CommonNavigator from './navigators/common-navigator';
 import {routes} from './navigation-routes';
-
-import {isAndroidPlatform} from '@/constants';
+import {TabNavigator} from './navigators/tab-navigator';
+import {AuthNavigator} from './navigators/auth-navigator';
+import {CommonNavigator} from './navigators/common-navigator';
 import {navigationRef} from './navigation-action';
-
-import {IProps, IStates} from './navigation-type';
 
 const Stack = createStackNavigator();
 
-export default class extends Component<IProps, IStates> {
-  keyboardDidShowListener: any;
-  keyboardDidHideListener: any;
+export default props => {
+  const {isLogin, endpointApi} = props;
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isKeyboardOpen: false
-    };
-  }
-
-  async componentDidMount() {
-    isAndroidPlatform && this.keyboardListener();
-  }
-
-  componentWillUnmount() {
+  useEffect(() => {
     if (isAndroidPlatform) {
-      this.keyboardDidShowListener?.remove?.();
-      this.keyboardDidHideListener?.remove?.();
+      Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
+      Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
     }
-  }
+    return () => {};
+  }, []);
 
-  keyboardListener = () => {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>
-      this.setState({isKeyboardOpen: true})
+  let Navigator: any;
+
+  if (isLogin) {
+    Navigator = (
+      <Stack.Navigator headerMode="none" initialRouteName={routes.MAIN_TABS}>
+        {TabNavigator({...props, isKeyboardVisible})}
+        {CommonNavigator}
+      </Stack.Navigator>
     );
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () =>
-      this.setState({isKeyboardOpen: false})
+  } else if (!endpointApi) {
+    Navigator = (
+      <Stack.Navigator headerMode="none" initialRouteName={routes.ENDPOINTS}>
+        {AuthNavigator}
+      </Stack.Navigator>
     );
-  };
-
-  render() {
-    const {isLogin, endpointApi} = this.props;
-    const {isKeyboardOpen} = this.state;
-
-    const homeNavigatorData = {
-      isKeyboardOpen,
-      ...this.props
-    };
-
-    let Navigator: any;
-
-    if (isLogin) {
-      Navigator = (
-        <Stack.Navigator headerMode="none">
-          {TabNavigator(homeNavigatorData)}
-          {CommonNavigator()}
-        </Stack.Navigator>
-      );
-    } else if (!endpointApi) {
-      Navigator = AuthNavigator(routes.ENDPOINTS);
-    } else {
-      Navigator = AuthNavigator(routes.LOGIN);
-    }
-
-    return (
-      <NavigationContainer ref={navigationRef}>{Navigator}</NavigationContainer>
+  } else {
+    Navigator = (
+      <Stack.Navigator headerMode="none" initialRouteName={routes.LOGIN}>
+        {AuthNavigator}
+      </Stack.Navigator>
     );
   }
-}
+  return (
+    <NavigationContainer ref={navigationRef}>{Navigator}</NavigationContainer>
+  );
+};
