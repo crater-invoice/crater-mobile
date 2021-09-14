@@ -1,8 +1,8 @@
-import {call, put, takeEvery} from 'redux-saga/effects';
+import {call, put, takeEvery, select} from 'redux-saga/effects';
 import * as Updates from 'expo-updates';
-import Request from 'utils/request';
 import {spinner} from './actions';
 import * as types from './types';
+import * as req from './service';
 import {setI18nManagerValue} from '@/utils';
 import {isEmpty} from '@/constants';
 import {SET_SETTINGS} from '@/constants';
@@ -11,14 +11,28 @@ import {SET_SETTINGS} from '@/constants';
  * fetch Languages saga
  * @returns {IterableIterator<*>}
  */
+function* fetchCurrencies() {
+  try {
+    const response = yield call(req.fetchCurrencies);
+
+    yield put({
+      type: types.FETCH_CURRENCIES_SUCCESS,
+      payload: response?.data
+    });
+  } catch (e) {}
+}
+
+/**
+ * fetch Languages saga
+ * @returns {IterableIterator<*>}
+ */
 function* fetchLanguages() {
   try {
-    const options = {path: 'config/languages'};
-    const response = yield call([Request, 'get'], options);
+    const response = yield call(req.fetchLanguages);
 
     yield put({
       type: types.FETCH_LANGUAGES_SUCCESS,
-      payload: response
+      payload: response?.languages
     });
   } catch (e) {}
 }
@@ -29,12 +43,11 @@ function* fetchLanguages() {
  */
 function* fetchTimezones() {
   try {
-    const options = {path: 'timezones'};
-    const response = yield call([Request, 'get'], options);
+    const response = yield call(req.fetchTimezones);
 
     yield put({
       type: types.FETCH_TIMEZONES_SUCCESS,
-      payload: response
+      payload: response?.time_zones
     });
   } catch (e) {}
 }
@@ -45,11 +58,10 @@ function* fetchTimezones() {
  */
 function* fetchDateFormats() {
   try {
-    const options = {path: 'date/formats'};
-    const response = yield call([Request, 'get'], options);
+    const response = yield call(req.fetchDateFormats);
     yield put({
       type: types.FETCH_DATE_FORMATS_SUCCESS,
-      payload: response
+      payload: response?.date_formats
     });
   } catch (e) {}
 }
@@ -60,27 +72,25 @@ function* fetchDateFormats() {
  */
 function* fetchFiscalYears() {
   try {
-    const options = {path: 'config/fiscal/years'};
-    const response = yield call([Request, 'get'], options);
+    const response = yield call(req.fetchFiscalYears);
 
     yield put({
       type: types.FETCH_FISCAL_YEARS_SUCCESS,
-      payload: response
+      payload: response?.fiscal_years
     });
   } catch (e) {}
 }
 
 /**
- * fetch Fiscal-Years saga
+ * fetch Retrospective-edits saga
  * @returns {IterableIterator<*>}
  */
-function* fetchRetrospective() {
+function* fetchRetrospectives() {
   try {
-    const options = {path: 'config/retrospective-edit-options'};
-    const response = yield call([Request, 'get'], options);
+    const response = yield call(req.fetchRetrospectives);
     yield put({
       type: types.FETCH_RETROSPECTIVES_SUCCESS,
-      payload: response
+      payload: response?.retrospective_edits
     });
   } catch (e) {}
 }
@@ -92,19 +102,25 @@ function* fetchRetrospective() {
 function* fetchPreferences({payload: {onSuccess}}) {
   yield put(spinner({fetchPreferencesLoading: true}));
   try {
-    const options = {
-      path: `company/settings`,
-      axiosProps: {
-        params: {settings: types.PREFERENCES_SETTING_TYPE}
-      }
-    };
+    const response = yield call(req.fetchPreferences);
 
-    const response = yield call([Request, 'get'], options);
-    yield call(fetchLanguages);
-    yield call(fetchTimezones);
-    yield call(fetchDateFormats);
-    yield call(fetchFiscalYears);
-    yield call(fetchRetrospective);
+    const store = yield select();
+    const {
+      currencies,
+      languages,
+      timezones,
+      dateFormats,
+      fiscalYears,
+      retrospectiveEdits
+    } = store.company;
+
+    yield isEmpty(currencies) && call(fetchCurrencies);
+    yield isEmpty(languages) && call(fetchLanguages);
+    yield isEmpty(timezones) && call(fetchTimezones);
+    yield isEmpty(dateFormats) && call(fetchDateFormats);
+    yield isEmpty(fiscalYears) && call(fetchFiscalYears);
+    yield isEmpty(retrospectiveEdits) && call(fetchRetrospectives);
+
     onSuccess?.(response);
   } catch (e) {
   } finally {
@@ -117,17 +133,20 @@ function* fetchPreferences({payload: {onSuccess}}) {
  * @returns {IterableIterator<*>}
  */
 function* updatePreferences({payload}) {
-  const {params, navigation, locale = 'en', currencies = null} = payload;
+  const {
+    params,
+    navigation,
+    locale = 'en',
+    currencies = null,
+    onResult
+  } = payload;
 
   yield put(spinner({updatePreferencesLoading: true}));
 
   try {
-    const options = {
-      path: `company/settings`,
-      body: {settings: params}
-    };
+    const body = {settings: params};
+    const response = yield call(req.updatePreferences, body);
 
-    const response = yield call([Request, 'post'], options);
     if (response?.success) {
       let selectedCurrency = null;
       if (params?.currency && !isEmpty(currencies)) {
@@ -141,19 +160,12 @@ function* updatePreferences({payload}) {
         payload: {settings: {...params, selectedCurrency}}
       });
     }
-
+    onResult?.();
     if (params?.language) {
-      const options = {
-        path: `me/settings`,
-        body: {settings: {language: params?.language}}
-      };
-      const res = yield call([Request, 'put'], options);
-      if (res.success) {
-        const isRTL = params.language === 'ar';
-        setI18nManagerValue({isRTL});
-        if (locale === 'ar' || isRTL) {
-          Updates.reloadAsync();
-        }
+      const isRTL = params.language === 'ar';
+      setI18nManagerValue({isRTL});
+      if (locale === 'ar' || isRTL) {
+        Updates.reloadAsync();
       }
     }
 
@@ -163,6 +175,7 @@ function* updatePreferences({payload}) {
     yield put(spinner({updatePreferencesLoading: false}));
   }
 }
+
 export default function* companySaga() {
   yield takeEvery(types.FETCH_PREFERENCES, fetchPreferences);
   yield takeEvery(types.UPDATE_PREFERENCES, updatePreferences);

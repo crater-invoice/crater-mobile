@@ -13,6 +13,18 @@ export function spinner(payload) {
 }
 
 /**
+ * Fetch Currencies
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export function fetchCurrencies(payload = {}) {
+  return {
+    type: types.FETCH_CURRENCIES,
+    payload
+  };
+}
+
+/**
  * Fetch Languages
  * @param payload
  * @returns {{type: string, payload: *}}
@@ -61,6 +73,18 @@ export function fetchFiscalYears(payload = {}) {
 }
 
 /**
+ * Fetch Retrospective-Edits
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export function fetchRetrospectives(payload = {}) {
+  return {
+    type: types.FETCH_RETROSPECTIVES,
+    payload
+  };
+}
+
+/**
  * Fetch preferences
  * @param payload
  * @returns {{type: string, payload: *}}
@@ -73,21 +97,11 @@ export function fetchPreferences(payload = {}) {
 }
 
 /**
- * Clear preferences
+ * Update preferences
  * @param payload
  * @returns {{type: string, payload: *}}
  */
 export const updatePreferences = payload => ({
   type: types.UPDATE_PREFERENCES,
-  payload
-});
-
-/**
- * Clear preferences
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export const clearPreferences = payload => ({
-  type: types.CLEAR_PREFERENCES,
   payload
 });

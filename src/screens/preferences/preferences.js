@@ -9,7 +9,7 @@ import {
 } from '@/components';
 import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
-import {find} from 'lodash';
+import {find, omit} from 'lodash';
 import {IProps, IStates} from './preferences-type';
 import {PREFERENCES_FORM} from 'stores/company/types';
 import {goBack, MOUNT, UNMOUNT} from '@/navigation';
@@ -75,11 +75,11 @@ export default class Preferences extends Component<IProps, IStates> {
     this.props.dispatch(change(PREFERENCES_FORM, field, value));
   };
 
-  onSubmitPreferences = values => {
+  onSubmit = values => {
     if (this.state.isFetchingInitialData) {
       return;
     }
-
+    const params = omit(values, ['discount_per_item', 'tax_per_item']);
     const {
       navigation,
       currencyList,
@@ -90,7 +90,7 @@ export default class Preferences extends Component<IProps, IStates> {
     if (!updatePreferencesLoading) {
       dispatch(
         updatePreferences({
-          params: values,
+          params: params,
           navigation,
           currencies: currencyList
         })
@@ -166,10 +166,10 @@ export default class Preferences extends Component<IProps, IStates> {
   render() {
     const {
       currencyList,
-      languagesList,
+      languageList,
       timezoneList,
       dateFormatList,
-      fiscalYearLst,
+      fiscalYearList,
       retrospectiveEditsList,
       navigation,
       handleSubmit,
@@ -180,7 +180,7 @@ export default class Preferences extends Component<IProps, IStates> {
     const bottomAction = [
       {
         label: 'button.save',
-        onPress: handleSubmit(this.onSubmitPreferences),
+        onPress: handleSubmit(this.onSubmit),
         loading: updatePreferencesLoading
       }
     ];
@@ -194,7 +194,7 @@ export default class Preferences extends Component<IProps, IStates> {
           rightIconProps: {
             solid: true
           },
-          rightIconPress: handleSubmit(this.onSubmitPreferences)
+          rightIconPress: handleSubmit(this.onSubmit)
         }}
         loadingProps={{
           is: this.state.isFetchingInitialData
@@ -247,7 +247,7 @@ export default class Preferences extends Component<IProps, IStates> {
 
         <Field
           name="language"
-          items={languagesList}
+          items={languageList}
           component={SelectField}
           label={t('settings.preferences.language')}
           icon="language"
@@ -255,7 +255,7 @@ export default class Preferences extends Component<IProps, IStates> {
           displayName="name"
           placeholder={
             language
-              ? this.getSelectedField(languagesList, language, 'code')
+              ? this.getSelectedField(languageList, language, 'code')
               : t('settings.preferences.languagePlaceholder')
           }
           navigation={navigation}
@@ -349,7 +349,7 @@ export default class Preferences extends Component<IProps, IStates> {
 
         <Field
           name="fiscal_year"
-          items={fiscalYearLst}
+          items={fiscalYearList}
           displayName="key"
           component={SelectField}
           label={t('settings.preferences.fiscalYear')}

@@ -5,23 +5,24 @@ import {PREFERENCES_FORM} from '@/stores/company/types';
 import {validate} from '@/stores/company/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {
-  getTimeZoneList,
-  getFiscalYearList,
-  getDateFormatList,
-  getRetrospectiveEditsList,
-  getCurrenciesList,
-  getLanguagesList
+  timeZonesSelector,
+  fiscalYearsSelector,
+  dateFormatsSelector,
+  retrospectiveEditsSelector,
+  currenciesSelector,
+  languagesSelector
 } from 'stores/company/selectors';
 import {editSettingItem} from '@/features/settings/actions';
 
 const mapStateToProps = (state, {navigation}) => {
   const {
     company: {
+      currencies,
       languages,
-      time_zones,
-      date_formats,
-      fiscal_years,
-      retrospective_edits,
+      timezones,
+      dateFormats,
+      fiscalYears,
+      retrospectiveEdits,
       loading: {fetchPreferencesLoading, updatePreferencesLoading}
     }
   } = state;
@@ -32,12 +33,12 @@ const mapStateToProps = (state, {navigation}) => {
     isLoading,
     formValues: getFormValues(PREFERENCES_FORM)(state) || {},
     updatePreferencesLoading: updatePreferencesLoading,
-    currencyList: getCurrenciesList(state.common?.currencies),
-    languagesList: getLanguagesList(languages),
-    timezoneList: getTimeZoneList(time_zones),
-    dateFormatList: getDateFormatList(date_formats),
-    fiscalYearLst: getFiscalYearList(fiscal_years),
-    retrospectiveEditsList: getRetrospectiveEditsList(retrospective_edits),
+    currencyList: currenciesSelector(currencies),
+    languageList: languagesSelector(languages),
+    timezoneList: timeZonesSelector(timezones),
+    dateFormatList: dateFormatsSelector(dateFormats),
+    fiscalYearList: fiscalYearsSelector(fiscalYears),
+    retrospectiveEditsList: retrospectiveEditsSelector(retrospectiveEdits),
     initialValues: {
       carbon_date_format: null,
       moment_date_format: null,
