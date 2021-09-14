@@ -56,7 +56,7 @@ export default class CustomizePayment extends Component<IProps> {
     this.props.dispatch(change(CUSTOMIZE_PAYMENT_FORM, field, value));
   };
 
-  changeAutoGenerateStatus = (field, status) => {
+  ChangeToggleStatus = (field, status) => {
     this.setFormField(field, status);
 
     const settings = {
@@ -107,7 +107,16 @@ export default class CustomizePayment extends Component<IProps> {
           hint={t('customizes.autoGenerate.payment')}
           description={t('customizes.autoGenerate.paymentDescription')}
           onChangeCallback={val =>
-            this.changeAutoGenerateStatus('payment_auto_generate', val)
+            this.ChangeToggleStatus('payment_auto_generate', val)
+          }
+        />
+        <Field
+          name={'payment_email_attachment'}
+          component={ToggleSwitch}
+          hint={t('customizes.emailAttachment.payment')}
+          description={t('customizes.emailAttachment.paymentDescription')}
+          onChangeCallback={val =>
+            this.ChangeToggleStatus('payment_auto_generate', val)
           }
         />
       </ScrollView>
@@ -147,6 +156,17 @@ export default class CustomizePayment extends Component<IProps> {
           }}
           fieldName={t('customizes.prefix.title')}
           maxCharacter={5}
+          isRequired
+        />
+        <Field
+          name={'payment_number_length'}
+          component={InputField}
+          hint={t('customizes.numberLength.payment')}
+          inputProps={{
+            returnKeyType: 'next',
+            keyboardType: 'numeric'
+          }}
+          maxCharacter={1}
           isRequired
         />
         <Editor

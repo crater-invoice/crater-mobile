@@ -53,7 +53,7 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
     this.props.dispatch(change(CUSTOMIZE_INVOICE_FORM, field, value));
   };
 
-  changeAutoGenerateStatus = (field, status) => {
+  ChangeToggleStatus = (field, status) => {
     this.setFormField(field, status);
 
     const settings = {
@@ -104,7 +104,16 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
           hint={t('customizes.autoGenerate.invoice')}
           description={t('customizes.autoGenerate.invoiceDescription')}
           onChangeCallback={val =>
-            this.changeAutoGenerateStatus('invoice_auto_generate', val)
+            this.ChangeToggleStatus('invoice_auto_generate', val)
+          }
+        />
+        <Field
+          name={'invoice_email_attachment'}
+          component={ToggleSwitch}
+          hint={t('customizes.emailAttachment.invoice')}
+          description={t('customizes.emailAttachment.invoiceDescription')}
+          onChangeCallback={val =>
+            this.ChangeToggleStatus('invoice_email_attachment', val)
           }
         />
       </ScrollView>
@@ -224,6 +233,18 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
             }}
             fieldName={t('customizes.prefix.title')}
             maxCharacter={5}
+            isRequired
+          />
+
+          <Field
+            name={'invoice_number_length'}
+            component={InputField}
+            hint={t('customizes.numberLength.invoice')}
+            inputProps={{
+              returnKeyType: 'next',
+              keyboardType: 'numeric'
+            }}
+            maxCharacter={1}
             isRequired
           />
           {this.TEXTAREA_FIELDS()}

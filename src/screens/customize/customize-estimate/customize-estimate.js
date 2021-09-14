@@ -52,7 +52,7 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
     this.props.dispatch(change(CUSTOMIZE_ESTIMATE_FORM, field, value));
   };
 
-  changeAutoGenerateStatus = (field, status) => {
+  ChangeToggleStatus = (field, status) => {
     this.setFormField(field, status);
 
     const settings = {
@@ -103,7 +103,16 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
           hint={t('customizes.autoGenerate.estimate')}
           description={t('customizes.autoGenerate.estimateDescription')}
           onChangeCallback={val =>
-            this.changeAutoGenerateStatus('estimate_auto_generate', val)
+            this.ChangeToggleStatus('estimate_auto_generate', val)
+          }
+        />
+        <Field
+          name={'estimate_email_attachment'}
+          component={ToggleSwitch}
+          hint={t('customizes.emailAttachment.estimate')}
+          description={t('customizes.emailAttachment.estimateDescription')}
+          onChangeCallback={val =>
+            this.ChangeToggleStatus('estimate_email_attachment', val)
           }
         />
       </ScrollView>
@@ -223,6 +232,18 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
             }}
             fieldName={t('customizes.prefix.title')}
             maxCharacter={5}
+            isRequired
+          />
+
+          <Field
+            name={'estimate_number_length'}
+            component={InputField}
+            hint={t('customizes.numberLength.estimate')}
+            inputProps={{
+              returnKeyType: 'next',
+              keyboardType: 'numeric'
+            }}
+            maxCharacter={1}
             isRequired
           />
           {this.TEXTAREA_FIELDS()}

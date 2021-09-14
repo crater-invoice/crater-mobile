@@ -653,6 +653,11 @@
             "estimate": "Estimate Prefix",
             "payment": "Payment Prefix"
         },
+        "numberLength" :{
+            "invoice": "Invoice Number Length",
+            "estimate": "Estimate Number Length",
+            "payment": "Payment Number Length"
+        },
         "autoGenerate": {
             "invoice": "Autogenerate Invoice Number",
             "invoiceDescription": "Disable this, If you don't wish to auto-generate invoice numbers when creating a new invoice.",
@@ -660,6 +665,14 @@
             "estimateDescription": "Disable this, If you don't wish to auto-generate estimate numbers when creating a new estimate.",
             "payment": "Autogenerate Payment Number",
             "paymentDescription": "Disable this, If you don't wish to auto-generate payment numbers when creating a new payment."
+        },
+        "emailAttachment": {
+            "invoice": "Send Invoices As Attachments",
+            "invoiceDescription": "Enable this if you want to send invoices as email attachment. Please note that 'View Invoice' button in emails will not be displayed anymore when enabled.",
+            "estimate": "Send Estimates As Attachments",
+            "estimateDescription": "Enable this if you want to send the estimates as an email attachment. Please note that 'View Estimate' button in emails will not be displayed anymore when enabled.",
+            "payment": "Send Payments As Attachments",
+            "paymentDescription": "Enable this if you want to send the payment receipts as an email attachment. Please note that 'View Payment' button in emails will not be displayed anymore when enabled."
         },
         "setting": {
             "invoice": "Invoice Settings",
