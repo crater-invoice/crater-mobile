@@ -2,11 +2,10 @@ import Request from '@/utils/request';
 import * as types from './types';
 
 /**
- * get customization
- * @param body : params
+ * fetch customization
  * @returns {*}
  */
-export const fetchCustomizeSettings = q => {
+export const fetchCustomizeSettings = () => {
   return Request.get({
     path: `company/settings`,
     axiosProps: {
