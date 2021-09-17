@@ -10,32 +10,32 @@ const mapStateToProps = (state, {navigation}) => {
     customizes: {
       customizes,
       customFields,
-      loading: {getCustomizeLoading, customizeLoading}
+      loading: {fetchCustomizeLoading, customizeLoading}
     },
     paymentModes: {modes}
   } = state;
 
   let isLoading =
-    getCustomizeLoading ||
+    fetchCustomizeLoading ||
     customizes === null ||
     typeof customizes === 'undefined';
 
   return {
     paymentModes: modes,
     formValues: getFormValues(CUSTOMIZE_PAYMENT_FORM)(state) || {},
-    customizes,
     customFields,
     isLoading,
     loading: customizeLoading,
     ...commonSelector(state),
-    initialValues: !isLoading
-      ? {
-          ...customizes,
-          payment_auto_generate:
-            customizes.payment_auto_generate === 'YES' ||
-            customizes.payment_auto_generate === 1
-        }
-      : null
+    initialValues: {
+      ...customizes,
+      payment_auto_generate:
+        customizes?.payment_auto_generate === 'YES' ||
+        customizes?.payment_auto_generate == 1,
+      payment_email_attachment:
+        customizes?.payment_email_attachment === 'YES' ||
+        customizes?.payment_email_attachment == 1
+    }
   };
 };
 

@@ -10,30 +10,33 @@ const mapStateToProps = (state, {navigation}) => {
     customizes: {
       customizes,
       customFields,
-      loading: {getCustomizeLoading, customizeLoading}
+      loading: {fetchCustomizeLoading, customizeLoading}
     }
   } = state;
 
   let isLoading =
-    getCustomizeLoading ||
+    fetchCustomizeLoading ||
     customizes === null ||
     typeof customizes === 'undefined';
 
   return {
     formValues: getFormValues(CUSTOMIZE_INVOICE_FORM)(state) || {},
-    customizes,
     customFields,
     isLoading,
     loading: customizeLoading,
     ...commonSelector(state),
-    initialValues: !isLoading
-      ? {
-          ...customizes,
-          invoice_auto_generate:
-            customizes.invoice_auto_generate === 'YES' ||
-            customizes.invoice_auto_generate === 1
-        }
-      : null
+    initialValues: {
+      ...customizes,
+      invoice_auto_generate:
+        customizes?.invoice_auto_generate === 'YES' ||
+        customizes?.invoice_auto_generate == 1,
+      set_due_date_automatically:
+        customizes?.set_due_date_automatically === 'YES' ||
+        customizes?.set_due_date_automatically == 1,
+      invoice_email_attachment:
+        customizes?.invoice_email_attachment === 'YES' ||
+        customizes?.invoice_email_attachment == 1
+    }
   };
 };
 

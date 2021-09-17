@@ -11,7 +11,17 @@ export const spinner = payload => ({
 });
 
 /**
- * get customizes data
+ * fetch Next-Number
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const fetchNextNumber = (payload = {}) => ({
+  type: types.FETCH_NEXT_NUMBER,
+  payload
+});
+
+/**
+ * fetch Customize-Settings
  * @param payload
  * @returns {{type: string, payload: *}}
  */
@@ -21,31 +31,11 @@ export const fetchCustomizeSettings = (payload = {}) => ({
 });
 
 /**
- * set customizes settings
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export const setCustomizeSettings = (payload = {}) => ({
-  type: types.SET_CUSTOMIZE_SETTINGS,
-  payload
-});
-
-/**
- * edit customizes data
+ * update customizes data
  * @param payload
  * @returns {{type: string, payload: *}}
  */
 export const updateCustomizeSettings = (payload = {}) => ({
   type: types.UPDATE_CUSTOMIZE_SETTINGS,
-  payload
-});
-
-/**
- * edit setting data
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export const editSettingItem = payload => ({
-  type: types.EDIT_SETTING_ITEM,
   payload
 });

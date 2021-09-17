@@ -30,24 +30,12 @@ export interface IProps {
   formValues: any;
 
   /**
-   * The isLoading for the loading.
+   * The loading fetching customizes.
    */
   isLoading: Boolean;
-
-  /**
-   *  customize settings data.
-   */
-  customizes: Object;
 
   /**
    * The loading indicator for the button.
    */
   loading: boolean;
-}
-
-export interface IStates {
-  /**
-   * update auto generate.
-   */
-  isUpdateAutoGenerate: Boolean;
 }

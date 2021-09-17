@@ -19,11 +19,6 @@ export interface IProps {
   handleSubmit: (fun: object) => void;
 
   /**
-   * The loading indicator for the button.
-   */
-  loading: boolean;
-
-  /**
    * An active theme object.
    * @see ITheme
    */
@@ -35,22 +30,17 @@ export interface IProps {
   formValues: any;
 
   /**
-   * The isLoading for the loading.
+   * The loading fetching customizes.
    */
   isLoading: Boolean;
 
   /**
-   *  customize settings data.
+   * The loading indicator for the button.
    */
-  customizes: Object;
+  loading: boolean;
 }
 
 export interface IStates {
-  /**
-   * update auto generate.
-   */
-  isUpdateAutoGenerate: Boolean;
-
   /**
    * current active tab
    */

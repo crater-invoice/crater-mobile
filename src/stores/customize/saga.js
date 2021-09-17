@@ -1,32 +1,30 @@
 import {call, put, takeEvery} from 'redux-saga/effects';
 import * as types from './types';
 import * as req from './service';
-import {
-  setCustomizeSettings,
-  spinner
-} from './actions';
+import {spinner} from './actions';
 import {ROUTES} from '@/navigation';
 import {getCustomFields} from '@/features/settings/saga/custom-fields';
 
 /**
- * get customization saga
+ * fetch customization saga
  * @returns {*}
  */
-function* fetchCustomizeSettings(payloadData) {
-  yield put(spinner({getCustomizeLoading: true}));
-
+function* fetchCustomizeSettings({payload}) {
+  yield put(spinner({fetchCustomizeLoading: true}));
   try {
     yield call(getCustomFields, {
       payload: {
         queryString: {limit: 'all'}
       }
     });
-    const response = yield call(req.fetchCustomizeSettings);
-
-    yield put(setCustomizeSettings({customizes: response}));
+    const response = yield call(req.fetchCustomizeSettings, payload);
+    yield put({
+      type: types.FETCH_CUSTOMIZE_SETTINGS_SUCCESS,
+      payload: response
+    });
   } catch (e) {
   } finally {
-    yield put(spinner({getCustomizeLoading: false}));
+    yield put(spinner({fetchCustomizeLoading: false}));
   }
 }
 
@@ -43,7 +41,10 @@ function* updateCustomizeSettings({payload: {params, navigation}}) {
 
     if (response.success) {
       navigation.navigate(ROUTES.CUSTOMIZE_LIST);
-      yield put(setCustomizeSettings({customizes: null}));
+      yield put({
+        type: types.FETCH_CUSTOMIZE_SETTINGS_SUCCESS,
+        payload: null
+      });
     }
   } catch (e) {
   } finally {
@@ -51,7 +52,19 @@ function* updateCustomizeSettings({payload: {params, navigation}}) {
   }
 }
 
+/**
+ * fetch Next-Number saga
+ * @returns {*}
+ */
+export function* fetchNextNumber({payload: {params, onSuccess}}) {
+  try {
+    const response = yield call(req.fetchNextNumber, params);
+    onSuccess?.(response);
+  } catch (e) {}
+}
+
 export default function* customizeSaga() {
   yield takeEvery(types.FETCH_CUSTOMIZE_SETTINGS, fetchCustomizeSettings);
   yield takeEvery(types.UPDATE_CUSTOMIZE_SETTINGS, updateCustomizeSettings);
+  yield takeEvery(types.FETCH_NEXT_NUMBER, fetchNextNumber);
 }

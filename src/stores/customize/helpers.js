@@ -34,3 +34,11 @@ export const CUSTOMIZES_MENU = () => {
     });
   return list;
 };
+
+export const NUMBERING_SCHEME_TYPE = [
+  {
+    label: t('customizes.numberingScheme.customer_level'),
+    value: 'customer_level'
+  },
+  {label: t('customizes.numberingScheme.company_level'), value: 'company_level'}
+];
