@@ -1,3 +1,4 @@
+import React from 'react';
 import {TransitionPresets} from '@react-navigation/stack';
 
 export const navigatorOptions = {
@@ -6,4 +7,8 @@ export const navigatorOptions = {
   ...TransitionPresets.SlideFromRightIOS
 };
 
-export let navigationRef: any = null;
+export let navigationRef: any = React.createRef();
+
+export function navigateTo({route, params = {}}) {
+  navigationRef?.current?.navigate?.(route, params);
+}

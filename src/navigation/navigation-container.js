@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import Navigation from './navigation';
 import {commonSelector} from 'stores/common/selectors';
+import {checkOTAUpdate, getBootstrap} from '@/features/authentication/actions';
 
 const mapStateToProps = state => ({
   ...commonSelector(state),
@@ -9,4 +10,12 @@ const mapStateToProps = state => ({
   idToken: state?.auth?.idToken
 });
 
-export const ApplicationNavigator = connect(mapStateToProps)(Navigation);
+const mapDispatchToProps = {
+  checkOTAUpdate,
+  getBootstrap
+};
+
+export const ApplicationNavigator = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navigation);

@@ -67,9 +67,9 @@ export const sendForgotPasswordMail = payload => ({
   payload
 });
 
-export const getBootstrap = (payload = {}) => ({
+export const getBootstrap = payload => ({
   type: GET_BOOTSTRAP,
-  payload
+  payload: {onSuccess: payload}
 });
 
 export const checkOTAUpdate = (payload = {}) => ({

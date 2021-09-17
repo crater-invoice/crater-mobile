@@ -6,6 +6,7 @@ import ForgotPassword from '@/features/authentication/containers/ForgetPassword'
 import {navigatorOptions as options} from '../navigation-action';
 import UpdateApp from '@/components/UpdateAppVersion';
 import Endpoint from '@/features/authentication/containers/Endpoint';
+import {LostConnection} from '@/components';
 
 const AuthStack = createStackNavigator();
 
@@ -23,6 +24,11 @@ export const AuthNavigator = (
       name={routes.ENDPOINTS}
       component={Endpoint}
       options={options}
+    />
+    <AuthStack.Screen
+      name={routes.LOST_CONNECTION}
+      component={LostConnection}
+      options={{gestureEnabled: false}}
     />
   </>
 );

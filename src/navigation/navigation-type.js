@@ -18,11 +18,24 @@ export interface IProps {
    * Api url of the domain.
    */
   endpointApi: string;
-}
 
-export interface IStates {
   /**
-   * Handle keyboard visible behavior.
+   * dispatch change action.
    */
-  isKeyboardOpen: boolean;
+  dispatch: (fun: object) => void;
+
+  /**
+   * Handle future update.
+   */
+  checkOTAUpdate: (fun: object) => void;
+
+  /**
+   * Get main app data.
+   */
+  getBootstrap: (fun: object) => void;
+
+  /**
+   * An array of objects with data for each ability.
+   */
+  abilities: Array<any>;
 }

@@ -33,6 +33,7 @@ import LanguageAndCurrency from '@/features/settings/containers/LanguageAndCurre
 import Notification from '@/features/settings/containers/Notification';
 import Preferences from '@/features/settings/containers/Preferences';
 import TouchOrFaceId from '@/features/settings/containers/Touch-Face-Id';
+import {LostConnection} from '@/components';
 
 import Categories from '@/features/settings/containers/Categories';
 import Category from '@/features/settings/containers/Category';
@@ -143,7 +144,16 @@ export const CommonNavigator = (
     />
 
     {/* Settings Navigator */}
-    <Stack.Screen name={routes.UPDATE_APP_VERSION} component={UpdateApp} />
+    <Stack.Screen
+      name={routes.UPDATE_APP_VERSION}
+      component={UpdateApp}
+      options={{gestureEnabled: false}}
+    />
+    <Stack.Screen
+      name={routes.LOST_CONNECTION}
+      component={LostConnection}
+      options={{gestureEnabled: false}}
+    />
     <Stack.Screen
       name={routes.ENDPOINTS_SETTINGS}
       component={Endpoint}

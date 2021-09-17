@@ -22,6 +22,8 @@ import {FETCH_COMPANIES_SUCCESS} from '@/features/common/constants';
 import {APP_VERSION} from '../../../../config';
 import {PermissionService} from '@/services';
 import {getActiveMainTab} from 'stores/common/helpers';
+import {navigateTo} from '@/navigation/navigation-action';
+import {routes} from '@/navigation';
 
 function* getBootstrapData(payloadData: any) {
   try {
@@ -72,9 +74,11 @@ function* login({payload: {params, navigation}}: any) {
 
     yield call(getBootstrapData);
 
-    yield put(actionCheckOTAUpdate());
-
     yield put(loginSuccess());
+
+    yield navigateTo({route: getActiveMainTab()});
+
+    yield put(actionCheckOTAUpdate());
   } catch (e) {
     alertMe({desc: t('login.invalid')});
   } finally {
@@ -82,19 +86,19 @@ function* login({payload: {params, navigation}}: any) {
   }
 }
 
-function* socialLogin({payload: {idToken, navigation}}: any) {}
-
 function* biometryAuthLogin({payload}: any) {
   yield put(authTriggerSpinner({loginLoading: true}));
 
   try {
     yield call(getBootstrapData);
 
-    yield put(actionCheckOTAUpdate());
-
     yield delay(100);
 
     yield put(loginSuccess());
+
+    yield navigateTo({route: getActiveMainTab()});
+
+    yield put(actionCheckOTAUpdate());
   } catch (e) {
   } finally {
     yield put(authTriggerSpinner({loginLoading: false}));
@@ -132,11 +136,7 @@ function* checkOTAUpdate(payloadData) {
       parseInt(currentVersion) < parseInt(newVersion)
     ) {
       yield put(setLastAutoUpdateDate(null));
-      // yield put(
-      //   NavigationActions.navigate({
-      //     routeName: routes.UPDATE_APP_VERSION
-      //   })
-      // );
+      yield navigateTo({route: routes.UPDATE_APP_VERSION});
       return;
     }
 
@@ -207,7 +207,6 @@ function* checkEndpointApi({payload: {endpointURL, onResult}}: any) {
 
 export default function* loginSaga() {
   yield takeLatest(TYPES.LOGIN, login);
-  yield takeLatest(TYPES.SOCIAL_LOGIN, socialLogin);
   yield takeLatest(TYPES.BIOMETRY_AUTH_LOGIN, biometryAuthLogin);
   yield takeLatest(TYPES.GET_BOOTSTRAP, getBootstrapData);
   yield takeLatest(TYPES.SEND_FORGOT_PASSWORD_MAIL, sendRecoveryMail);

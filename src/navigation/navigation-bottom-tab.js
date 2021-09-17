@@ -91,20 +91,16 @@ export default (props: any) => {
     }
   };
 
-  //   if (isEmpty(PermissionService.permissions)) {
-  //     return null;
-  //   }
-
   return (
     <Container backgroundColor={theme?.tabNavigator?.backgroundColor}>
       {state &&
         state.routes.map((route, index) => {
-          //   if (
-          //     route.routeName !== routes.MAIN_MORE &&
-          //     !PermissionService.isAllowToView(route.routeName)
-          //   ) {
-          //     return null;
-          //   }
+          if (
+            route.name !== routes.MAIN_MORE &&
+            !PermissionService.isAllowToView(route.name)
+          ) {
+            return null;
+          }
 
           const isFocused = state.index === index;
 

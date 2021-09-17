@@ -1,8 +1,10 @@
 // @flow
 import axios from 'axios';
 import {store} from '@/stores';
-import {hasValue} from '@/constants';
+import {checkConnection, hasValue} from '@/constants';
 import {logoutSuccess} from '@/features/authentication/actions';
+import {navigateTo} from '@/navigation/navigation-action';
+import {routes} from '@/navigation';
 
 type IProps = {
   path: string,
@@ -101,6 +103,13 @@ export default class Request {
     }
 
     const url = `${apiUrl}${path}`;
+
+    const isConnected = await checkConnection();
+
+    if (!isConnected) {
+      navigateTo({route: routes.LOST_CONNECTION});
+      return;
+    }
 
     const defaultHeaders = {
       Authorization: `Bearer ${idToken}`,

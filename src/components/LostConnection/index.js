@@ -35,17 +35,14 @@ export class LostConnection extends Component {
   }
 
   onRetry = async () => {
-    try {
-      const {clickTry} = this.props;
-      await this.setState({loading: true});
-      const isConnected = await checkConnection();
-      if (!isConnected) {
-        setTimeout(() => this.setState({loading: false}), 500);
-        return;
-      }
-      await this.setState({loading: false});
-      clickTry?.();
-    } catch (e) {}
+    this.setState({loading: true});
+    setTimeout(() => this.setState({loading: false}), 1000);
+
+    const {navigation} = this.props;
+    let isConnected = await checkConnection();
+    !isConnected
+      ? navigation.navigate(ROUTES.LOST_CONNECTION)
+      : navigation.pop();
   };
 
   render() {
