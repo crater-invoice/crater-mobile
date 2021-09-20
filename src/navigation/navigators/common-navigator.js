@@ -29,9 +29,8 @@ import Settings from '@/features/settings/containers/Settings';
 import UpdateApp from '@/components/UpdateAppVersion';
 import Endpoint from '@/features/authentication/containers/Endpoint';
 import Account from '@/features/settings/containers/Account';
-import LanguageAndCurrency from '@/features/settings/containers/LanguageAndCurrency';
 import Notification from '@/features/settings/containers/Notification';
-import Preferences from '@/features/settings/containers/Preferences';
+import {Preferences} from 'screens/preferences';
 import TouchOrFaceId from '@/features/settings/containers/Touch-Face-Id';
 import {LostConnection} from '@/components';
 
@@ -162,11 +161,6 @@ export const CommonNavigator = (
     <Stack.Screen
       name={routes.SETTING_LIST}
       component={Settings}
-      options={options}
-    />
-    <Stack.Screen
-      name={routes.LANGUAGE_AND_CURRENCY}
-      component={LanguageAndCurrency}
       options={options}
     />
     <Stack.Screen
