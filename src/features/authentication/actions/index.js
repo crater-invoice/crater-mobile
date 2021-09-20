@@ -1,4 +1,3 @@
-// @flow
 import {ILoginPayload} from './types';
 import {
   LOGIN,

@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import {change} from 'redux-form';
 import {styles} from './styles';

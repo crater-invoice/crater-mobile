@@ -7,7 +7,7 @@ import {getStateCurrencies} from '../../selectors';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {CUSTOMER_FORM, CUSTOMER_FIELDS as FIELDS} from '../../constants';
 
-const mapStateToProps = (state, {navigation, route}) => {
+const mapStateToProps = (state, {route}) => {
   const {
     common: {currencies, currency},
     customers: {countries, loading}
@@ -23,7 +23,7 @@ const mapStateToProps = (state, {navigation, route}) => {
     customFields,
     loading: loading?.customerLoading,
     id,
-    ...permissionSelector(navigation),
+    ...permissionSelector(route),
     ...commonSelector(state),
     initialValues: {
       customer: {
@@ -47,13 +47,11 @@ const mapDispatchToProps = {
   ...actions
 };
 
-//  Redux Form
 const customerReduxForm = reduxForm({
   form: CUSTOMER_FORM,
   validate
 })(Customer);
 
-//  connect
 const CustomerContainer = connect(
   mapStateToProps,
   mapDispatchToProps

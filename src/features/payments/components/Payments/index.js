@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import {change} from 'redux-form';
 import {MainLayout, ListView, InfiniteScroll} from '@/components';

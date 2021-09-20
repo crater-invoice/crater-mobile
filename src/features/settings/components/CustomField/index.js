@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import {View} from 'react-native';
 import {Field, change} from 'redux-form';

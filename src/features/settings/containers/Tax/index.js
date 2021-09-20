@@ -6,7 +6,7 @@ import {validate} from './validation';
 import {TAX_FORM} from '../../constants';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {navigation, route}) => {
+const mapStateToProps = (state, {route}) => {
   const {settings} = state;
   const taxType = route?.params?.tax;
   const isLoading =
@@ -17,7 +17,7 @@ const mapStateToProps = (state, {navigation, route}) => {
   return {
     loading: isLoading,
     taxId: taxType && taxType.id,
-    ...permissionSelector(navigation),
+    ...permissionSelector(route),
     ...commonSelector(state),
     initialValues: {
       collective_tax: 0,

@@ -1,4 +1,3 @@
-// @flow
 import axios from 'axios';
 import {store} from '@/stores';
 import {checkConnection, hasValue} from '@/constants';

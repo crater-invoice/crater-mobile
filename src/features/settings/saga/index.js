@@ -15,26 +15,19 @@ import {
   COMPANY_SETTINGS_TYPE,
   NOTIFICATION_MAIL_TYPE
 } from '../constants';
-import {routes} from '@/navigation';
 
 import categories from './categories';
 import taxes from './taxes';
 import currencies from './currencies';
-import customFields, {getCustomFields} from './custom-fields';
+import customFields from './custom-fields';
 import Request from 'utils/request';
 import preferences from './preferences';
 import General from './general';
 import Notes from './notes';
 
-/**
- * Company Information.
- */
 function* getCompanyInformation({payload: {onResult}}) {
   yield put(spinner({getCompanyInfoLoading: true}));
   try {
-    // const options = { path: `me` };
-
-    // const response = yield call([Request, 'get'], options);
     const options = {path: `current-company`};
 
     const response = yield call([Request, 'get'], options);
@@ -127,10 +120,6 @@ function* editAccountInformation({payload}) {
   }
 }
 
-/**
- * App Settings
- * -----------------------------------------
- */
 function* getSettingItem({payload: {onResult = null}}) {
   yield put(spinner({getSettingItemLoading: true}));
 

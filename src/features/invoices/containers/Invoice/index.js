@@ -23,7 +23,7 @@ const getSelectedTemplate = (templates, form, isEditScreen) => {
   return find(templates, {id: form?.invoice_template_id})?.name;
 };
 
-const mapStateToProps = (state, {navigation, route}) => {
+const mapStateToProps = (state, {route}) => {
   const {
     common: {taxTypes, currency},
     invoices: {loading, invoiceItems, invoiceData, items},
@@ -33,7 +33,7 @@ const mapStateToProps = (state, {navigation, route}) => {
   const {invoice = null, invoiceTemplates, invoice_notes = ''} = invoiceData;
 
   const id = route?.params?.id;
-  const permissions = permissionSelector(navigation);
+  const permissions = permissionSelector(route);
   const isEditScreen = permissions.isEditScreen;
 
   const isLoading =
@@ -56,7 +56,7 @@ const mapStateToProps = (state, {navigation, route}) => {
     currency,
     customFields,
     id,
-    ...permissionSelector(navigation),
+    ...permissions,
     ...commonSelector(state),
     initialValues: !isLoading
       ? {

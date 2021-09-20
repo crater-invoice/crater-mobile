@@ -9,7 +9,7 @@ import {getCustomers} from '@/features/customers/actions';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {EXPENSE_FORM, EXPENSE_FIELDS as FIELDS} from '../../constants';
 
-const mapStateToProps = (state, {navigation, route}) => {
+const mapStateToProps = (state, {route}) => {
   const {
     common: {endpointURL, currency},
     expenses: {loading},
@@ -26,7 +26,7 @@ const mapStateToProps = (state, {navigation, route}) => {
     id,
     currency,
     formValues: getFormValues(EXPENSE_FORM)(state) || {},
-    ...permissionSelector(navigation),
+    ...permissionSelector(route),
     ...commonSelector(state),
     initialValues: {
       expense: {

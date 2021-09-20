@@ -6,7 +6,7 @@ import {validate} from 'stores/users/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {fetchRoles} from 'stores/roles/actions';
 
-const mapStateToProps = (state, {navigation, route}) => {
+const mapStateToProps = (state, {route}) => {
   const {
     users: {loading},
     roles: {roles}
@@ -17,7 +17,7 @@ const mapStateToProps = (state, {navigation, route}) => {
     loading: loading?.userLoading,
     userId: user?.id,
     ...commonSelector(state),
-    ...permissionSelector(navigation),
+    ...permissionSelector(route),
     formValues: getFormValues(CREATE_USER_FORM)(state) || {},
     initialValues: {
       name: null,

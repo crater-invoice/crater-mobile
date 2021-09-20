@@ -5,7 +5,7 @@ import {validate} from './validation';
 import {COMPANY_FORM} from '../../constants';
 import {permissionSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {route, navigation}) => {
+const mapStateToProps = (state, {route}) => {
   const {common} = state;
   const company = route?.params?.company ?? {};
   const isLoading = state.company?.loading?.companyLoading;
@@ -14,7 +14,7 @@ const mapStateToProps = (state, {route, navigation}) => {
     loading: isLoading,
     companyId: company?.id,
     locale: common?.locale,
-    ...permissionSelector(navigation),
+    ...permissionSelector(route),
     initialValues: {
       name: '',
       ...company

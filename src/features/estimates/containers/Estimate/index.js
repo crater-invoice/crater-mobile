@@ -23,7 +23,7 @@ const getSelectedTemplate = (templates, form, isEditScreen) => {
   return find(templates, {id: form?.estimate_template_id})?.name;
 };
 
-const mapStateToProps = (state, {navigation, route}) => {
+const mapStateToProps = (state, {route}) => {
   const {
     common: {taxTypes, currency},
     estimates: {loading, estimateItems, estimateData, items},
@@ -38,7 +38,7 @@ const mapStateToProps = (state, {navigation, route}) => {
   } = estimateData;
 
   const id = route?.params?.id;
-  const permissions = permissionSelector(navigation);
+  const permissions = permissionSelector(route);
   const isEditScreen = permissions.isEditScreen;
 
   const isLoading =

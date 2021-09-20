@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import styles from './styles';
 import {DefaultLayout, InputField, ToggleSwitch, CtDivider} from '@/components';

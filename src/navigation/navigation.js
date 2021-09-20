@@ -14,7 +14,7 @@ import {IProps} from './navigation-type';
 const Stack = createStackNavigator();
 
 export default (props: IProps) => {
-  const {isLogin, endpointApi, checkOTAUpdate, getBootstrap, abilities} = props;
+  const {isLogin, endpointApi, checkOTAUpdate, getBootstrap} = props;
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {

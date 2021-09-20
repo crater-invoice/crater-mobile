@@ -71,7 +71,7 @@ function* login({payload: {params, navigation}}: any) {
 
     yield put(saveIdToken({idToken: response.token, expiresIn: null}));
 
-    yield call(getBootstrapData);
+    yield call(getBootstrapData, null);
 
     yield put(loginSuccess());
 
@@ -87,7 +87,7 @@ function* biometryAuthLogin({payload}: any) {
   yield put(authTriggerSpinner({loginLoading: true}));
 
   try {
-    yield call(getBootstrapData);
+    yield call(getBootstrapData, null);
 
     yield delay(100);
 
@@ -146,7 +146,6 @@ function* checkOTAUpdate(payloadData) {
   } catch (e) {}
 }
 
-// Forget Password
 function* sendRecoveryMail({payload: {email, onResult}}: any) {
   yield put(authTriggerSpinner({forgetPasswordLoading: true}));
 

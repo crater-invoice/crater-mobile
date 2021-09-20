@@ -9,7 +9,7 @@ import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {getSettingInfo, getTaxes} from '@/features/settings/actions';
 import {fetchItemUnits} from 'stores/item-units/actions';
 
-const mapStateToProps = (state, {navigation, route}) => {
+const mapStateToProps = (state, {route}) => {
   const {
     more: {loading, item},
     settings: {taxByItems},
@@ -18,7 +18,7 @@ const mapStateToProps = (state, {navigation, route}) => {
   } = state;
 
   const itemId = route?.params?.id;
-  const permissions = permissionSelector(navigation);
+  const permissions = permissionSelector(route);
   const isEditScreen = permissions.isEditScreen;
 
   const isLoading = loading?.itemLoading || (isEditScreen && !item);

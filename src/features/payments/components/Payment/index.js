@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import {Field, change, SubmissionError} from 'redux-form';
 import moment from 'moment';

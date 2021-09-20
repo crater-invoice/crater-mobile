@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import {Field} from 'redux-form';
 import t from 'locales/use-translation';

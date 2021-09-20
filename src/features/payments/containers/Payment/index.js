@@ -10,7 +10,7 @@ import {fetchPaymentModes} from 'stores/payment-modes/actions';
 import {getPaymentModesState} from '../../selectors';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {navigation, route}) => {
+const mapStateToProps = (state, {route}) => {
   const {
     customers: {customers},
     common: {currency},
@@ -36,7 +36,7 @@ const mapStateToProps = (state, {navigation, route}) => {
     paymentModes: getPaymentModesState(modes),
     formValues: getFormValues(PAYMENT_FORM)(state) || {},
     currency,
-    ...permissionSelector(navigation),
+    ...permissionSelector(route),
     ...commonSelector(state),
     initialValues: {
       payment: {
@@ -56,13 +56,11 @@ const mapDispatchToProps = {
   getNotes
 };
 
-//  Redux Form
 const paymentReduxForm = reduxForm({
   form: PAYMENT_FORM,
   validate
 })(Payment);
 
-//  connect
 const PaymentContainer = connect(
   mapStateToProps,
   mapDispatchToProps

@@ -7,7 +7,7 @@ import {validate} from './validations';
 import {hasValue} from '@/constants';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {navigation, route}) => {
+const mapStateToProps = (state, {route}) => {
   const noteDetail = route?.params?.note ?? {};
   const onSelect = route?.params?.onSelect;
   const selectedModalType = route?.params?.modalType;
@@ -20,7 +20,7 @@ const mapStateToProps = (state, {navigation, route}) => {
     noteDetail,
     onSelect,
     selectedModalType,
-    ...permissionSelector(navigation),
+    ...permissionSelector(route),
     ...commonSelector(state),
     initialValues: {
       type: !hasValue(selectedModalType)

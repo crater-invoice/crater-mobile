@@ -133,13 +133,10 @@ function* getMailConfiguration({payload: {body, onSuccess}}) {
 }
 
 export default function* moreSaga() {
-  // Items
   yield takeEvery(GET_ITEMS, getItems);
   yield takeEvery(ITEM_ADD, addItem);
   yield takeEvery(ITEM_EDIT, editItem);
   yield takeEvery(REMOVE_ITEM, removeItem);
   yield takeEvery(GET_EDIT_ITEM, getEditItem);
-
-  // Mail Configuration
   yield takeEvery(GET_MAIL_CONFIGURATION, getMailConfiguration);
 }

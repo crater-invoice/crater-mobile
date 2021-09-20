@@ -6,7 +6,7 @@ import {CREATE_ROLE_FORM} from 'stores/roles/types';
 import {validate} from 'stores/roles/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {navigation, route}) => {
+const mapStateToProps = (state, {route}) => {
   const {
     roles: {permissions, loading}
   } = state;
@@ -18,7 +18,7 @@ const mapStateToProps = (state, {navigation, route}) => {
     loading: loading?.roleLoading,
     roleId: role?.id,
     ...commonSelector(state),
-    ...permissionSelector(navigation),
+    ...permissionSelector(route),
     initialValues: {
       name: ''
     }

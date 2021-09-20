@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import * as Linking from 'expo-linking';
 import {find} from 'lodash';

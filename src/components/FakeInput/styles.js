@@ -100,7 +100,6 @@ export default StyleSheet.create({
     borderWidth: 1
   },
 
-  // Prefix Auto Generate
   prefixInput: theme => ({
     flex: 1,
     flexDirection: 'row',
@@ -160,7 +159,7 @@ export default StyleSheet.create({
       }
     })
   },
-  // left Symbol
+
   leftSymbol: length => ({
     fontSize: 18,
     fontFamily: fonts.medium,

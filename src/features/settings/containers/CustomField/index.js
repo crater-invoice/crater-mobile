@@ -11,7 +11,7 @@ import {
   CUSTOM_FIELD_DATA_TYPE_LIST as DATA_TYPES
 } from '../../constants';
 
-const mapStateToProps = (state, {navigation, route}) => {
+const mapStateToProps = (state, {route}) => {
   const loading = state.settings?.loading ?? {};
   const {
     customFieldLoading,
@@ -21,7 +21,7 @@ const mapStateToProps = (state, {navigation, route}) => {
 
   const id = field?.id;
   const field = route?.params?.field;
-  const permissions = permissionSelector(navigation);
+  const permissions = permissionSelector(route);
 
   return {
     loading: customFieldLoading,

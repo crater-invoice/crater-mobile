@@ -1,11 +1,7 @@
-//  Forms
-// -----------------------------------------
 export const LOGIN_FORM = 'auth/LOGIN_FORM';
 export const FORGOT_PASSWORD_FORM = 'auth/FORGOT_PASSWORD_FORM';
 export const SET_ENDPOINT_API = 'auth/SET_ENDPOINT_API';
 
-// Types
-// -----------------------------------------
 export const LOGIN = 'auth/LOGIN';
 export const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
 export const LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS';

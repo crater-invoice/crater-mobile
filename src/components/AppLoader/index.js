@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import {connect} from 'react-redux';
 import {ActivityIndicator, View} from 'react-native';

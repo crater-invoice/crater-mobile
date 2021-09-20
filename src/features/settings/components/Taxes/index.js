@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import {InfiniteScroll, ListView, MainLayout} from '@/components';
 import t from 'locales/use-translation';

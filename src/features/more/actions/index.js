@@ -64,13 +64,11 @@ export const getEditItem = (payload = {}) => ({
   payload
 });
 
-// Reports
 export const generateReport = payload => ({
   type: GENERATE_REPORT,
   payload
 });
 
-// Mail Configuration
 export const getMailConfiguration = (payload = {}) => ({
   type: GET_MAIL_CONFIGURATION,
   payload

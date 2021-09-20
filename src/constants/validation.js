@@ -1,4 +1,3 @@
-// @flow
 import {trim} from 'lodash';
 import {EMAIL_REGEX, URL_REGEX, CHARACTER_ONLY_REGEX} from './regex';
 

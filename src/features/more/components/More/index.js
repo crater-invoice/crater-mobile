@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import styles from './styles';
 import {MainLayout, ListView} from '@/components';
