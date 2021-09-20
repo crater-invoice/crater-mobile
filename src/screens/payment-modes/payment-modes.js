@@ -6,6 +6,7 @@ import {formatListByName} from '@/utils';
 import {alertMe, defineSize} from '@/constants';
 import {PAYMENT_MODES_FORM} from 'stores/payment-modes/types';
 import {change} from 'redux-form';
+import styles from './payment-modes-style';
 import {
   addPaymentMode,
   updatePaymentMode,
@@ -126,7 +127,7 @@ export class PaymentModes extends Component {
     const {paymentModes, fetchPaymentModes} = this.props;
 
     return (
-      <View style={{paddingTop: 10, flex: 1}}>
+      <View style={styles.childContainer}>
         {this.INPUT_MODAL()}
         <InfiniteScroll
           getItems={fetchPaymentModes}
@@ -141,13 +142,11 @@ export class PaymentModes extends Component {
             onPress={this.onSelectPaymentMode}
             isEmpty={paymentModes ? paymentModes.length <= 0 : true}
             bottomDivider
-            contentContainerStyle={{flex: 3}}
+            contentContainerStyle={styles.contentContainerStyle}
             emptyContentProps={{
               title: t('payments.empty.modeTitle')
             }}
-            itemContainer={{
-              paddingHorizontal: 35
-            }}
+            itemContainer={styles.itemContainer}
             isAnimated
           />
         </InfiniteScroll>
