@@ -5,14 +5,14 @@ import {
   SelectField,
   ToggleSwitch,
   CtDivider,
-  ActionButton
+  ActionButton,
+  InternalPagination
 } from '@/components';
 import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
 import {find, omit} from 'lodash';
 import {IProps, IStates} from './preferences-type';
 import {PREFERENCES_FORM} from 'stores/company/types';
-import {goBack, MOUNT, UNMOUNT} from '@/navigation';
 import {isEmpty} from '@/constants';
 import {fetchPreferences, updatePreferences} from 'stores/company/actions';
 import {SymbolStyle} from '@/components/CurrencyFormat/styles';
@@ -29,11 +29,6 @@ export default class Preferences extends Component<IProps, IStates> {
 
   componentDidMount() {
     this.loadData();
-    goBack(MOUNT, this.props.navigation);
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
   }
 
   loadData = () => {
@@ -208,7 +203,7 @@ export default class Preferences extends Component<IProps, IStates> {
           name="currency"
           items={currencyList}
           displayName="name"
-          component={SelectField}
+          component={InternalPagination}
           label={t('settings.preferences.currency')}
           rightIcon="angle-right"
           placeholder={
