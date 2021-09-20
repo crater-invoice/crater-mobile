@@ -15,7 +15,7 @@ import {
 import {CUSTOMIZE_INVOICE_FORM} from 'stores/customize/types';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './customize-invoice-type';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
 import {
   fetchCustomizeSettings,
@@ -40,13 +40,11 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
       : true;
 
     hasCustomizeApiCalled && dispatch(fetchCustomizeSettings());
-    goBack(MOUNT, navigation);
   }
 
   componentWillUnmount() {
     this.state.isUpdateAutoGenerate &&
       this.props.dispatch(setCustomizeSettings({customizes: null}));
-    goBack(UNMOUNT);
   }
 
   setFormField = (field, value) => {
@@ -194,7 +192,7 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
     return (
       <DefaultLayout
         headerProps={{
-          leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZE_LIST),
+          leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
           title: t('header.invoices'),
           rightIconPress: null,
           placement: 'center',

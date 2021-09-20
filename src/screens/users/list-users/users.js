@@ -5,7 +5,7 @@ import {isEmpty} from '@/constants';
 import {fetchUsers} from 'stores/users/actions';
 import {IProps, IStates} from './users-type';
 import {InfiniteScroll, ListView, MainLayout} from '@/components';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 
 export default class Users extends Component<IProps, IStates> {
   scrollViewReference: any;
@@ -18,19 +18,16 @@ export default class Users extends Component<IProps, IStates> {
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
-    goBack(MOUNT, navigation);
     this.onFocus();
   }
 
   componentWillUnmount() {
-    goBack(UNMOUNT);
     this.focusListener?.remove?.();
   }
 
   onFocus = () => {
     const {navigation} = this.props;
-    this.focusListener = navigation.addListener('didFocus', () => {
+    this.focusListener = navigation.addListener('focus', () => {
       this.scrollViewReference?.getItems?.();
     });
   };
@@ -45,11 +42,11 @@ export default class Users extends Component<IProps, IStates> {
 
   onSelect = user => {
     const {navigation} = this.props;
-    navigation.navigate(ROUTES.CREATE_USER, {user, type: 'UPDATE'});
+    navigation.navigate(routes.CREATE_USER, {user, type: 'UPDATE'});
   };
 
   addNewUser = () =>
-    this.props.navigation.navigate(ROUTES.CREATE_USER, {type: 'ADD'});
+    this.props.navigation.navigate(routes.CREATE_USER, {type: 'ADD'});
 
   render() {
     const {navigation, dispatch, users} = this.props;

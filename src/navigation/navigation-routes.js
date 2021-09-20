@@ -1,4 +1,4 @@
-export const ROUTES = {
+export const routes = {
   AUTH: 'AUTH',
   LOGIN: 'LOGIN',
   FORGOT_PASSWORD: 'FORGOT_PASSWORD',

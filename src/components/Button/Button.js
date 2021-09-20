@@ -1,5 +1,3 @@
-// @flow
-
 import React, {Component} from 'react';
 import {Animated} from 'react-native';
 import styles from './styles';

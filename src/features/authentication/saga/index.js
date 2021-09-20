@@ -1,5 +1,4 @@
 import {call, put, takeLatest, delay, select} from 'redux-saga/effects';
-import {NavigationActions} from 'react-navigation';
 import * as Updates from 'expo-updates';
 import moment from 'moment';
 import {
@@ -9,10 +8,10 @@ import {
   setGlobalBootstrap,
   saveEndpointApi,
   setLastAutoUpdateDate,
-  checkOTAUpdate as actionCheckOTAUpdate
+  checkOTAUpdate as actionCheckOTAUpdate,
+  loginSuccess
 } from '../actions';
 import * as TYPES from '../constants';
-import {navigateToActiveTab, ROUTES} from '@/navigation';
 import {setAccountInformation} from '../../settings/actions';
 import {alertMe, hasValue} from '@/constants';
 import {CHECK_OTA_UPDATE} from '@/constants';
@@ -22,7 +21,8 @@ import t from 'locales/use-translation';
 import {FETCH_COMPANIES_SUCCESS} from '@/features/common/constants';
 import {APP_VERSION} from '../../../../config';
 import {PermissionService} from '@/services';
-import {getActiveMainTab} from 'stores/common/helpers';
+import {navigateTo} from '@/navigation/navigation-action';
+import {routes} from '@/navigation';
 
 function* getBootstrapData(payloadData: any) {
   try {
@@ -71,12 +71,11 @@ function* login({payload: {params, navigation}}: any) {
 
     yield put(saveIdToken({idToken: response.token, expiresIn: null}));
 
-    yield call(getBootstrapData);
+    yield call(getBootstrapData, null);
+
+    yield put(loginSuccess());
 
     yield put(actionCheckOTAUpdate());
-
-    const tab = getActiveMainTab();
-    navigateToActiveTab(navigation, tab);
   } catch (e) {
     alertMe({desc: t('login.invalid')});
   } finally {
@@ -84,20 +83,17 @@ function* login({payload: {params, navigation}}: any) {
   }
 }
 
-function* socialLogin({payload: {idToken, navigation}}: any) {}
-
 function* biometryAuthLogin({payload}: any) {
   yield put(authTriggerSpinner({loginLoading: true}));
 
   try {
-    yield call(getBootstrapData);
-
-    yield put(actionCheckOTAUpdate());
+    yield call(getBootstrapData, null);
 
     yield delay(100);
 
-    const tab = getActiveMainTab();
-    navigateToActiveTab(payload.navigation, tab);
+    yield put(loginSuccess());
+
+    yield put(actionCheckOTAUpdate());
   } catch (e) {
   } finally {
     yield put(authTriggerSpinner({loginLoading: false}));
@@ -135,11 +131,7 @@ function* checkOTAUpdate(payloadData) {
       parseInt(currentVersion) < parseInt(newVersion)
     ) {
       yield put(setLastAutoUpdateDate(null));
-      yield put(
-        NavigationActions.navigate({
-          routeName: ROUTES.UPDATE_APP_VERSION
-        })
-      );
+      yield navigateTo({route: routes.UPDATE_APP_VERSION});
       return;
     }
 
@@ -154,7 +146,6 @@ function* checkOTAUpdate(payloadData) {
   } catch (e) {}
 }
 
-// Forget Password
 function* sendRecoveryMail({payload: {email, onResult}}: any) {
   yield put(authTriggerSpinner({forgetPasswordLoading: true}));
 
@@ -195,6 +186,7 @@ function* checkEndpointApi({payload: {endpointURL, onResult}}: any) {
     let success = true;
     if (response.success === 'crater-self-hosted') {
       yield put(saveEndpointApi({endpointURL}));
+      yield put({type: TYPES.PING_SUCCESS, payload: null});
     } else {
       success = false;
     }
@@ -209,7 +201,6 @@ function* checkEndpointApi({payload: {endpointURL, onResult}}: any) {
 
 export default function* loginSaga() {
   yield takeLatest(TYPES.LOGIN, login);
-  yield takeLatest(TYPES.SOCIAL_LOGIN, socialLogin);
   yield takeLatest(TYPES.BIOMETRY_AUTH_LOGIN, biometryAuthLogin);
   yield takeLatest(TYPES.GET_BOOTSTRAP, getBootstrapData);
   yield takeLatest(TYPES.SEND_FORGOT_PASSWORD_MAIL, sendRecoveryMail);

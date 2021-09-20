@@ -1,7 +1,4 @@
-// Layouts
 export * from './Layouts';
-
-// Components
 export * from './Divider';
 export * from './Button';
 export * from './AssetImage';
@@ -33,7 +30,7 @@ export * from './AssetSvg';
 export * from './InputModal';
 export * from './TermsAndCondition';
 export * from './SendMail';
-export { CtCheckbox as CheckBox } from './Checkbox';
+export {CtCheckbox as CheckBox} from './Checkbox';
 export * from './TimePickerField';
 export * from './SelectFieldOptions';
 export * from './DateTimePickerField';

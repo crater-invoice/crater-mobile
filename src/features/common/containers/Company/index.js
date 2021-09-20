@@ -5,16 +5,16 @@ import {validate} from './validation';
 import {COMPANY_FORM} from '../../constants';
 import {permissionSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {navigation}) => {
+const mapStateToProps = (state, {route}) => {
   const {common} = state;
-  const company = navigation.getParam('company', {});
+  const company = route?.params?.company ?? {};
   const isLoading = state.company?.loading?.companyLoading;
 
   return {
     loading: isLoading,
     companyId: company?.id,
     locale: common?.locale,
-    ...permissionSelector(navigation),
+    ...permissionSelector(route),
     initialValues: {
       name: '',
       ...company
@@ -28,9 +28,5 @@ const CompanyForm = reduxForm({
 })(Company);
 
 const CompanyContainer = connect(mapStateToProps)(CompanyForm);
-
-CompanyContainer.navigationOptions = () => ({
-  header: null
-});
 
 export default CompanyContainer;

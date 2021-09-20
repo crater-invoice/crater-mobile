@@ -6,18 +6,18 @@ import {validate} from 'stores/users/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {fetchRoles} from 'stores/roles/actions';
 
-const mapStateToProps = (state, {navigation}) => {
+const mapStateToProps = (state, {route}) => {
   const {
     users: {loading},
     roles: {roles}
   } = state;
-  const user = navigation.getParam('user', {});
+  const user = route?.params?.user;
   return {
     roles,
     loading: loading?.userLoading,
     userId: user?.id,
     ...commonSelector(state),
-    ...permissionSelector(navigation),
+    ...permissionSelector(route),
     formValues: getFormValues(CREATE_USER_FORM)(state) || {},
     initialValues: {
       name: null,
@@ -41,7 +41,3 @@ export const CreateUserContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(CreateUserForm);
-
-CreateUserContainer.navigationOptions = () => ({
-  header: null
-});

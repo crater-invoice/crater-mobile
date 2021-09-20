@@ -76,9 +76,7 @@ export default StyleSheet.create({
   activeHint: {
     color: colors.white
   },
-  activeInput: {
-    // borderColor: colors.white,
-  },
+  activeInput: {},
   inputTip: {
     opacity: 0.5,
     top: 38,
@@ -95,9 +93,7 @@ export default StyleSheet.create({
     top: 4,
     left: 0
   },
-  optionsList: {
-    // maxHeight: 180,
-  },
+  optionsList: {},
   disabledInput: theme => ({
     backgroundColor: theme?.input?.disableBackgroundColor,
     opacity: 0.6
@@ -116,7 +112,7 @@ export default StyleSheet.create({
   additionalValue: {
     opacity: 0.7
   },
-  // left Symbol
+
   leftSymbol: {
     fontSize: 20,
     width: '100%',

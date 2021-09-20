@@ -1,13 +1,11 @@
-// @flow
-
 class Services {
-    isEmailSent: boolean;
+  isEmailSent: boolean;
 
-    constructor() {
-        this.isEmailSent = false;
-    }
+  constructor() {
+    this.isEmailSent = false;
+  }
 
-    toggleIsEmailSent = status => (this.isEmailSent = status);
+  toggleIsEmailSent = status => (this.isEmailSent = status);
 }
 
 const PaymentServices = new Services();

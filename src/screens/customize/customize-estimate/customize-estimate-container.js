@@ -45,7 +45,3 @@ const CustomizeEstimateForm = reduxForm({
 export const CustomizeEstimateContainer = connect(mapStateToProps)(
   CustomizeEstimateForm
 );
-
-CustomizeEstimateContainer.navigationOptions = () => ({
-  header: null
-});

@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import {KeyboardAvoidingView, ScrollView, StatusBar} from 'react-native';
 import {connect} from 'react-redux';

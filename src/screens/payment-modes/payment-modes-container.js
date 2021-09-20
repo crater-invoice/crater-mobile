@@ -30,7 +30,3 @@ export const PaymentModesContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(paymentModesForm);
-
-PaymentModesContainer.navigationOptions = () => ({
-  header: null
-});

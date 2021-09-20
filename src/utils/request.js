@@ -1,9 +1,9 @@
-// @flow
 import axios from 'axios';
-import {NavigationActions} from 'react-navigation';
 import {store} from '@/stores';
-import {ROUTES} from '@/navigation';
 import {checkConnection, hasValue} from '@/constants';
+import {logoutSuccess} from '@/features/authentication/actions';
+import {navigateTo} from '@/navigation/navigation-action';
+import {routes} from '@/navigation';
 
 type IProps = {
   path: string,
@@ -101,18 +101,12 @@ export default class Request {
       apiUrl = isPing;
     }
 
-    if (!isPing && !endpointApi) {
-      store.dispatch(NavigationActions.navigate({routeName: ROUTES.ENDPOINTS}));
-      return;
-    }
-
     const url = `${apiUrl}${path}`;
+
     const isConnected = await checkConnection();
 
     if (!isConnected) {
-      store.dispatch(
-        NavigationActions.navigate({routeName: ROUTES.LOST_CONNECTION})
-      );
+      navigateTo({route: routes.LOST_CONNECTION});
       return;
     }
 
@@ -136,17 +130,13 @@ export default class Request {
       ...axiosProps
     })
       .then(function(response) {
-        const {data, status} = response;
-        if (status === 401) {
-          store.dispatch(NavigationActions.navigate({routeName: ROUTES.AUTH}));
-          throw response;
-        }
+        const {data} = response;
         return data;
       })
       .catch(function({response}) {
         const {status} = response;
         if (status === 401) {
-          store.dispatch(NavigationActions.navigate({routeName: ROUTES.AUTH}));
+          store?.dispatch?.(logoutSuccess());
           throw response;
         }
         if (status === 403 || status === 404 || status === 500) {

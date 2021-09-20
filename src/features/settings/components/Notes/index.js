@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {MainLayout, ListView, InfiniteScroll} from '@/components';
 import t from 'locales/use-translation';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {formatNotes} from '@/utils';
 import {ARROW_ICON} from '@/assets';
 import {defineSize} from '@/constants';
@@ -22,21 +22,17 @@ export default class Notes extends Component<IProps> {
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
-
-    goBack(MOUNT, navigation);
     this.onFocus();
   }
 
   componentWillUnmount() {
-    goBack(UNMOUNT);
     this.focusListener?.remove?.();
   }
 
   onFocus = () => {
     const {navigation} = this.props;
 
-    this.focusListener = navigation.addListener('didFocus', () => {
+    this.focusListener = navigation.addListener('focus', () => {
       this.scrollViewReference?.getItems?.();
     });
   };
@@ -44,7 +40,7 @@ export default class Notes extends Component<IProps> {
   onSelect = note => {
     const {navigation} = this.props;
 
-    navigation.navigate(ROUTES.NOTE, {type: 'UPDATE', note});
+    navigation.navigate(routes.NOTE, {type: 'UPDATE', note});
   };
 
   onSearch = search => {
@@ -69,7 +65,7 @@ export default class Notes extends Component<IProps> {
         description: t('notes.empty.description'),
         buttonTitle: t('notes.empty.buttonTitle'),
         buttonPress: () => {
-          navigation.navigate(ROUTES.NOTE, {
+          navigation.navigate(routes.NOTE, {
             type: 'ADD'
           });
         }
@@ -80,11 +76,11 @@ export default class Notes extends Component<IProps> {
       title: t('header.notes'),
       navigation,
       leftIcon: ARROW_ICON,
-      leftIconPress: () => navigation.navigate(ROUTES.SETTING_LIST),
+      leftIconPress: () => navigation.navigate(routes.SETTING_LIST),
       placement: 'center',
       rightIcon: 'plus',
       rightIconPress: () =>
-        navigation.navigate(ROUTES.NOTE, {
+        navigation.navigate(routes.NOTE, {
           type: 'ADD'
         })
     };

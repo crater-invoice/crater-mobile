@@ -1,12 +1,10 @@
-// @flow
-
 import React from 'react';
 import {View} from 'react-native';
 import styles from './styles';
 import {ListView, DefaultLayout} from '@/components';
 import t from 'locales/use-translation';
 import {REPORTS_MENU} from '../../constants';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 
 export class Reports extends React.Component {
   constructor(props) {
@@ -15,15 +13,6 @@ export class Reports extends React.Component {
     this.state = {
       endpointVisible: false
     };
-  }
-
-  componentDidMount() {
-    const {navigation} = this.props;
-    goBack(MOUNT, navigation, {route: ROUTES.MAIN_MORE});
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
   }
 
   onSelectMenu = ({route, type}) => {
@@ -44,7 +33,7 @@ export class Reports extends React.Component {
     return (
       <DefaultLayout
         headerProps={{
-          leftIconPress: () => navigation.navigate(ROUTES.MAIN_MORE),
+          leftIconPress: () => navigation.navigate(routes.MAIN_MORE),
           title: t('header.reports'),
           leftArrow: 'primary'
         }}

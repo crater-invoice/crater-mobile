@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import {View} from 'react-native';
 import styles from './styles';
@@ -23,7 +21,7 @@ import {
 } from '../../constants';
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {CUSTOMIZE_TYPE} from 'stores/customize/types';
 import {
   alertMe,
@@ -38,15 +36,6 @@ export class EstimateItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  componentDidMount() {
-    const {navigation} = this.props;
-    goBack(MOUNT, navigation);
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
   }
 
   setFormField = (field, value) => {
@@ -92,7 +81,7 @@ export class EstimateItem extends React.Component {
       addItem({
         item,
         onResult: () => {
-          navigation.navigate(ROUTES.ESTIMATE);
+          navigation.navigate(routes.ESTIMATE);
         }
       });
     };
@@ -108,7 +97,7 @@ export class EstimateItem extends React.Component {
 
       setEstimateItems({estimateItem});
 
-      navigation.navigate(ROUTES.ESTIMATE);
+      navigation.navigate(routes.ESTIMATE);
     }
   };
 
@@ -119,7 +108,7 @@ export class EstimateItem extends React.Component {
       title: t('alert.title'),
       showCancel: true,
       okPress: () => {
-        navigation.navigate(ROUTES.ESTIMATE);
+        navigation.navigate(routes.ESTIMATE);
         removeEstimateItem({id: itemId});
       }
     });
@@ -227,12 +216,12 @@ export class EstimateItem extends React.Component {
   FINAL_AMOUNT = () => {
     const {
       formValues: {quantity, price, taxes},
-      navigation,
       discountPerItem,
-      theme
+      theme,
+      route
     } = this.props;
 
-    const currency = navigation.getParam('currency');
+    const currency = route?.params?.currency;
     const color = theme?.listItem?.primary?.color;
 
     return (
@@ -368,10 +357,11 @@ export class EstimateItem extends React.Component {
       units,
       getTaxes,
       fetchItemUnits,
-      theme
+      theme,
+      route
     } = this.props;
 
-    const currency = navigation.getParam('currency');
+    const currency = route?.params?.currency;
     const isCreateItem = type === ITEM_ADD;
     let itemRefs = {};
     const bottomAction = [
@@ -392,7 +382,7 @@ export class EstimateItem extends React.Component {
     return (
       <DefaultLayout
         headerProps={{
-          leftIconPress: () => navigation.navigate(ROUTES.ESTIMATE),
+          leftIconPress: () => navigation.navigate(routes.ESTIMATE),
           title: isCreateItem ? t('header.addItem') : t('header.editItem'),
           placement: 'center',
           rightIcon: 'save',
@@ -544,14 +534,14 @@ export class EstimateItem extends React.Component {
               title: t('taxes.title')
             }}
             rightIconPress={() =>
-              navigation.navigate(ROUTES.TAX, {
+              navigation.navigate(routes.TAX, {
                 type: 'ADD',
                 onSelect: val => {
                   this.setFormField('taxes', [...val, ...taxes]);
                 }
               })
             }
-            createActionRouteName={ROUTES.TAX}
+            createActionRouteName={routes.TAX}
             emptyContentProps={{
               contentType: 'taxes'
             }}

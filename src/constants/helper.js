@@ -97,7 +97,6 @@ export const formatMoney = (amount, currency = 0) => {
     ).toString();
     let j = i.length > 3 ? i.length % 3 : 0;
 
-    // return symbol + ' ' + negativeSign + (j ? i.substr(0, j) + thousand_separator : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousand_separator) + (precision ? decimal_separator + Math.abs(amount - i).toFixed(precision).slice(2) : '')
     return {
       symbol,
       money:
@@ -112,9 +111,7 @@ export const formatMoney = (amount, currency = 0) => {
           : ''),
       swap_currency_symbol
     };
-  } catch (e) {
-    // console.log(e)
-  }
+  } catch (e) {}
 };
 
 export const getConditionStyles = (styles: IGetConditionStyles) => {

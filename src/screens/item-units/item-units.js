@@ -8,7 +8,7 @@ import {
   DefaultLayout,
   ActionButton
 } from '@/components';
-import {ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {alertMe, isEmpty} from '@/constants';
 import {IProps, IStates} from './item-units-type';
 import {ITEM_UNITS_FORM} from '@/stores/item-units/types';
@@ -138,10 +138,10 @@ export default class ItemUnits extends Component<IProps, IStates> {
     return (
       <DefaultLayout
         headerProps={{
-          leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZE_LIST),
+          leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
           title: t('header.units'),
           rightIconPress: null,
-          placement: 'center',  
+          placement: 'center',
           leftArrow: 'primary'
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}

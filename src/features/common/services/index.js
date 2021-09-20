@@ -1,7 +1,5 @@
-// @flow
-
 class Services {
-    constructor() {}
+  constructor() {}
 }
 
 const CommonServices = new Services();

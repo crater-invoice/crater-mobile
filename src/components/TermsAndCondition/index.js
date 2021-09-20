@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import {View, KeyboardAvoidingView, ScrollView} from 'react-native';
 import {change} from 'redux-form';

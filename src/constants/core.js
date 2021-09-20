@@ -31,13 +31,9 @@ export const BUTTON_COLOR = {
   WHITE: 'white'
 };
 
-// type
 export const ENDPOINT_SETTINGS = 'common/ENDPOINT_SETTINGS';
 export const ENDPOINT_INITIAL = 'common/ENDPOINT_INITIAL';
 
-/**
- *  Date Time format for sending backend request
- */
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const TIME_FORMAT = 'HH:mm';
 export const TIME_FORMAT_MERIDIEM = 'hh:mm A';

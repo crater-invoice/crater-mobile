@@ -1,215 +1,197 @@
-// @flow
-
 import React from 'react';
 import {
-    View,
-    KeyboardAvoidingView,
-    ScrollView,
-    Platform,
-    Keyboard
+  View,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  Keyboard
 } from 'react-native';
-import { Field } from 'redux-form';
-import { styles, Container } from './styles';
+import {Field} from 'redux-form';
+import {styles, Container} from './styles';
 import {
-    InputField,
-    AssetImage,
-    CtGradientButton,
-    CtHeader,
-    Text
+  InputField,
+  AssetImage,
+  CtGradientButton,
+  CtHeader,
+  Text
 } from '@/components';
-import { IMAGES, LOGO } from '@/assets';
+import {IMAGES, LOGO} from '@/assets';
 import t from 'locales/use-translation';
-import { goBack, MOUNT, UNMOUNT } from '@/navigation';
-import { isIPhoneX } from '@/constants';
+import {isIPhoneX} from '@/constants';
 
 type IProps = {
-    navigation: Object,
-    sendForgotPasswordMail: Function,
-    handleSubmit: Function,
-    loading: Boolean,
-    socialLoading: Boolean,
-    locale: String
+  navigation: Object,
+  sendForgotPasswordMail: Function,
+  handleSubmit: Function,
+  loading: Boolean,
+  socialLoading: Boolean,
+  locale: String
 };
 export class ForgotPassword extends React.Component<IProps> {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            email: '',
-            isMailSended: false,
-            isKeyboardVisible: false
-        };
-    }
+    this.state = {
+      email: '',
+      isMailSended: false,
+      isKeyboardVisible: false
+    };
+  }
 
-    componentDidMount() {
-        const { navigation } = this.props;
-        goBack(MOUNT, navigation);
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>
+      this.setState({isKeyboardVisible: true})
+    );
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () =>
+      this.setState({isKeyboardVisible: false})
+    );
+  }
 
-        this.keyboardDidShowListener = Keyboard.addListener(
-            'keyboardDidShow',
-            () => this.setState({ isKeyboardVisible: true })
-        );
-        this.keyboardDidHideListener = Keyboard.addListener(
-            'keyboardDidHide',
-            () => this.setState({ isKeyboardVisible: false })
-        );
-    }
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
 
-    componentWillUnmount() {
-        goBack(UNMOUNT);
+  onSendMail = ({email}) => {
+    const {sendForgotPasswordMail, navigation} = this.props;
 
-        this.keyboardDidShowListener.remove();
-        this.keyboardDidHideListener.remove();
-    }
-
-    onSendMail = ({ email }) => {
-        const { sendForgotPasswordMail, navigation } = this.props;
-
-        sendForgotPasswordMail({
+    sendForgotPasswordMail({
+      email,
+      navigation,
+      onResult: val => {
+        if (val) {
+          this.setState({
             email,
-            navigation,
-            onResult: val => {
-                if (val) {
-                    this.setState({
-                        email,
-                        isMailSended: true
-                    });
-                }
-            }
-        });
-    };
+            isMailSended: true
+          });
+        }
+      }
+    });
+  };
 
-    resendMail = () => {
-        const { email } = this.state;
-        this.onSendMail({ email });
-    };
+  resendMail = () => {
+    const {email} = this.state;
+    this.onSendMail({email});
+  };
 
-    render() {
-        const { handleSubmit, navigation, loading, theme } = this.props;
-        const { isMailSended, isKeyboardVisible } = this.state;
+  render() {
+    const {handleSubmit, navigation, loading, theme} = this.props;
+    const {isMailSended, isKeyboardVisible} = this.state;
 
-        return (
-            <Container>
-                {!isMailSended ? (
-                    <CtHeader
-                        leftIcon="angle-left"
-                        leftIconPress={() => navigation.goBack(null)}
-                        title={t('header.back')}
-                        titleOnPress={() => navigation.goBack(null)}
-                        titleStyle={{
-                            marginLeft: -10,
-                            marginTop: Platform.OS === 'ios' ? -1 : 2
-                        }}
-                        placement="left"
-                        noBorder
-                        transparent
-                        theme={theme}
-                    />
-                ) : (
-                    <CtHeader
-                        placement="left"
-                        transparent
-                        rightIcon="times"
-                        noBorder
-                        rightIconPress={() => navigation.goBack(null)}
-                        theme={theme}
-                    />
-                )}
+    return (
+      <Container>
+        {!isMailSended ? (
+          <CtHeader
+            leftIcon="angle-left"
+            leftIconPress={() => navigation.goBack(null)}
+            title={t('header.back')}
+            titleOnPress={() => navigation.goBack(null)}
+            titleStyle={{
+              marginLeft: -10,
+              marginTop: Platform.OS === 'ios' ? -1 : 2
+            }}
+            placement="left"
+            noBorder
+            transparent
+            theme={theme}
+          />
+        ) : (
+          <CtHeader
+            placement="left"
+            transparent
+            rightIcon="times"
+            noBorder
+            rightIconPress={() => navigation.goBack(null)}
+            theme={theme}
+          />
+        )}
 
-                <ScrollView
-                    style={{
-                        paddingTop:
-                            isKeyboardVisible && !isIPhoneX()
-                                ? '5%'
-                                : !isMailSended
-                                ? '23%'
-                                : '8%'
+        <ScrollView
+          style={{
+            paddingTop:
+              isKeyboardVisible && !isIPhoneX()
+                ? '5%'
+                : !isMailSended
+                ? '23%'
+                : '8%'
+          }}
+          bounces={true}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          <KeyboardAvoidingView
+            style={{flex: 1}}
+            contentContainerStyle={{flex: 1}}
+            keyboardVerticalOffset={0}
+            behavior="height"
+          >
+            <View style={styles.main}>
+              <View style={styles.logoContainer}>
+                <AssetImage
+                  imageSource={LOGO[(theme?.mode)]}
+                  imageStyle={styles.imgLogo}
+                />
+              </View>
+
+              {!isMailSended ? (
+                <View>
+                  <Field
+                    name="email"
+                    component={InputField}
+                    inputProps={{
+                      returnKeyType: 'go',
+                      autoCapitalize: 'none',
+                      placeholder: t('forgot.emailPlaceholder'),
+                      autoCorrect: true,
+                      keyboardType: 'email-address',
+                      onSubmitEditing: handleSubmit(this.onSendMail)
                     }}
-                    bounces={true}
-                    showsVerticalScrollIndicator={false}
-                    keyboardShouldPersistTaps="handled"
-                >
-                    <KeyboardAvoidingView
-                        style={{ flex: 1 }}
-                        contentContainerStyle={{ flex: 1 }}
-                        keyboardVerticalOffset={0}
-                        behavior="height"
-                    >
-                        <View style={styles.main}>
-                            <View style={styles.logoContainer}>
-                                <AssetImage
-                                    imageSource={LOGO[(theme?.mode)]}
-                                    imageStyle={styles.imgLogo}
-                                />
-                            </View>
-
-                            {!isMailSended ? (
-                                <View>
-                                    <Field
-                                        name="email"
-                                        component={InputField}
-                                        inputProps={{
-                                            returnKeyType: 'go',
-                                            autoCapitalize: 'none',
-                                            placeholder: t(
-                                                'forgot.emailPlaceholder'
-                                            ),
-                                            autoCorrect: true,
-                                            keyboardType: 'email-address',
-                                            onSubmitEditing: handleSubmit(
-                                                this.onSendMail
-                                            )
-                                        }}
-                                        inputContainerStyle={styles.inputField}
-                                    />
-                                    <Text
-                                        h5
-                                        color={theme?.viewLabel?.fourthColor}
-                                        style={styles.forgotTextTitle}
-                                    >
-                                        {t('forgot.emailLabel')}
-                                    </Text>
-                                </View>
-                            ) : (
-                                <View style={styles.SendingMailContainer}>
-                                    <AssetImage
-                                        imageSource={IMAGES.OPEN_ENVELOP}
-                                        imageStyle={styles.imgLogo}
-                                    />
-                                    <Text
-                                        h5
-                                        color={theme?.viewLabel?.fourthColor}
-                                        style={styles.emailSendDescription}
-                                    >
-                                        {t('forgot.emailSendDescription')}
-                                    </Text>
-                                </View>
-                            )}
-                            {!isMailSended ? (
-                                <CtGradientButton
-                                    onPress={handleSubmit(this.onSendMail)}
-                                    btnTitle={t('button.recoveryEmail')}
-                                    loading={loading}
-                                    style={styles.buttonStyle}
-                                    buttonContainerStyle={
-                                        styles.buttonContainer
-                                    }
-                                />
-                            ) : (
-                                <CtGradientButton
-                                    onPress={this.resendMail}
-                                    btnTitle={t('button.recoveryEmailAgain')}
-                                    loading={loading}
-                                    style={styles.buttonStyle}
-                                    buttonContainerStyle={
-                                        styles.buttonContainer
-                                    }
-                                />
-                            )}
-                        </View>
-                    </KeyboardAvoidingView>
-                </ScrollView>
-            </Container>
-        );
-    }
+                    inputContainerStyle={styles.inputField}
+                  />
+                  <Text
+                    h5
+                    color={theme?.viewLabel?.fourthColor}
+                    style={styles.forgotTextTitle}
+                  >
+                    {t('forgot.emailLabel')}
+                  </Text>
+                </View>
+              ) : (
+                <View style={styles.SendingMailContainer}>
+                  <AssetImage
+                    imageSource={IMAGES.OPEN_ENVELOP}
+                    imageStyle={styles.imgLogo}
+                  />
+                  <Text
+                    h5
+                    color={theme?.viewLabel?.fourthColor}
+                    style={styles.emailSendDescription}
+                  >
+                    {t('forgot.emailSendDescription')}
+                  </Text>
+                </View>
+              )}
+              {!isMailSended ? (
+                <CtGradientButton
+                  onPress={handleSubmit(this.onSendMail)}
+                  btnTitle={t('button.recoveryEmail')}
+                  loading={loading}
+                  style={styles.buttonStyle}
+                  buttonContainerStyle={styles.buttonContainer}
+                />
+              ) : (
+                <CtGradientButton
+                  onPress={this.resendMail}
+                  btnTitle={t('button.recoveryEmailAgain')}
+                  loading={loading}
+                  style={styles.buttonStyle}
+                  buttonContainerStyle={styles.buttonContainer}
+                />
+              )}
+            </View>
+          </KeyboardAvoidingView>
+        </ScrollView>
+      </Container>
+    );
+  }
 }

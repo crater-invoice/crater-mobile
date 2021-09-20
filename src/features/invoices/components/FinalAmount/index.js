@@ -10,7 +10,7 @@ import {
   CurrencyFormat,
   Text
 } from '@/components';
-import {ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
 import {INVOICE_DISCOUNT_OPTION} from '../../constants';
@@ -235,14 +235,14 @@ const FinalAmount = ({state, props}) => {
           valueCompareField="tax_type_id"
           headerProps={{title: t('taxes.title')}}
           rightIconPress={() =>
-            navigation.navigate(ROUTES.TAX, {
+            navigation.navigate(routes.TAX, {
               type: 'ADD',
               onSelect: val => {
                 setFormField('taxes', [...val, ...taxes]);
               }
             })
           }
-          createActionRouteName={ROUTES.TAX}
+          createActionRouteName={routes.TAX}
           listViewProps={{contentContainerStyle: {flex: 2}}}
           emptyContentProps={{contentType: 'taxes'}}
           isEditable={!disabled}

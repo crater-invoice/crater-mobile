@@ -1,12 +1,12 @@
 import React, {Component, useState, useEffect} from 'react';
-import {AppState, View} from 'react-native';
+import {AppState} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Appearance, AppearanceProvider} from 'react-native-appearance';
 import {ThemeProvider} from 'styled-components/native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {store, persistor} from '@/stores';
-import ApplicationNavigator from './navigation/containers';
-import {checkOTAUpdate, getBootstrap} from './features/authentication/actions';
+import {ApplicationNavigator} from './navigation';
 import {loadFonts, switchTheme} from './constants';
 import {Loading} from './components';
 import {colors} from './styles';
@@ -28,8 +28,6 @@ class App extends Component<{}, IState> {
 
   componentDidMount() {
     this.switchCurrentTheme(Appearance.getColorScheme());
-    this.initialActions();
-
     AppState?.addEventListener?.('change', this.handleAppStateChange);
 
     store?.subscribe?.(() => {
@@ -42,11 +40,6 @@ class App extends Component<{}, IState> {
   componentWillUnmount() {
     AppState?.removeEventListener?.('change', this.handleAppStateChange);
   }
-
-  initialActions = () => {
-    store?.dispatch?.(checkOTAUpdate());
-    store?.dispatch?.(getBootstrap());
-  };
 
   handleAppStateChange = nextAppState => {
     try {
@@ -78,9 +71,9 @@ class App extends Component<{}, IState> {
 
     return (
       <ThemeProvider theme={theme}>
-        <View style={{flex: 1, position: 'relative'}}>
+        <SafeAreaProvider>
           <ApplicationNavigator />
-        </View>
+        </SafeAreaProvider>
       </ThemeProvider>
     );
   }

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field, change, initialize, SubmissionError} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-user-type';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {alertMe, KEYBOARD_TYPE} from '@/constants';
 import {CREATE_USER_FORM} from 'stores/users/types';
 import {IMAGES} from '@/assets';
@@ -27,13 +27,7 @@ export default class CreateUser extends Component<IProps, IStates> {
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
-    goBack(MOUNT, navigation);
     this.loadData();
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
   }
 
   loadData = () => {
@@ -106,7 +100,7 @@ export default class CreateUser extends Component<IProps, IStates> {
         removeUser({
           id: userId,
           onSuccess: val =>
-            val ? navigation.navigate(ROUTES.USERS) : alreadyUsedAlert()
+            val ? navigation.navigate(routes.USERS) : alreadyUsedAlert()
         })
       )
     );
@@ -119,7 +113,7 @@ export default class CreateUser extends Component<IProps, IStates> {
 
   navigateToRole = () => {
     const {navigation} = this.props;
-    navigation.navigate(ROUTES.CREATE_ROLE, {
+    navigation.navigate(routes.CREATE_ROLE, {
       type: 'ADD',
       onSelect: item => {
         this.setFormField(`role`, item.name);
@@ -255,7 +249,7 @@ export default class CreateUser extends Component<IProps, IStates> {
           component={SelectField}
           label={t('users.role')}
           icon={'align-center'}
-          createActionRouteName={ROUTES.ROLE}
+          createActionRouteName={routes.ROLE}
           rightIconPress={this.navigateToRole}
           placeholder={formValues?.role ?? t('users.rolePlaceholder')}
           navigation={navigation}
