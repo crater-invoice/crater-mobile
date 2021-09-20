@@ -1,0 +1,1 @@
+export const RESET_ENDPOINT_URL = 'common/RESET_ENDPOINT_URL';

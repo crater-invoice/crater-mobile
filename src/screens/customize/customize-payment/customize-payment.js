@@ -21,7 +21,7 @@ import {
 } from 'stores/customize/types';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './customize-payment-type';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
 import {PaymentModes} from 'screens/payment-modes';
 import {NumberScheme} from '../customize-common';
@@ -40,6 +40,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
   }
 
   componentDidMount() {
+<<<<<<< HEAD
     const {dispatch, navigation} = this.props;
 
     dispatch(fetchCustomizeSettings(PAYMENT_SETTINGS_TYPE));
@@ -48,6 +49,20 @@ export default class CustomizePayment extends Component<IProps, IStates> {
 
   componentWillUnmount() {
     goBack(UNMOUNT);
+=======
+    const {dispatch, customizes} = this.props;
+
+    let hasCustomizeApiCalled = customizes
+      ? typeof customizes === 'undefined' || customizes === null
+      : true;
+
+    hasCustomizeApiCalled && dispatch(fetchCustomizeSettings());
+  }
+
+  componentWillUnmount() {
+    this.state.isUpdateAutoGenerate &&
+      this.props.dispatch(setCustomizeSettings({customizes: null}));
+>>>>>>> 5e5ec76aba14b010b1a4b534387ac8cd07add5cc
   }
 
   setFormField = (field, value) => {
@@ -213,7 +228,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
     return (
       <DefaultLayout
         headerProps={{
-          leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZE_LIST),
+          leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
           title: t('header.payments'),
           rightIconPress: null,
           placement: 'center',

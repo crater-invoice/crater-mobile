@@ -3,7 +3,6 @@ import {colors} from '@/styles';
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  // Modal
   modalViewContainer: {
     position: 'absolute',
     bottom: 0,

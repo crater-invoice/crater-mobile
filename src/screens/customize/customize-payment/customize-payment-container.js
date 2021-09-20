@@ -47,7 +47,3 @@ const CustomizePaymentForm = reduxForm({
 export const CustomizePaymentContainer = connect(mapStateToProps)(
   CustomizePaymentForm
 );
-
-CustomizePaymentContainer.navigationOptions = () => ({
-  header: null
-});

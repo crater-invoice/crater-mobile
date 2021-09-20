@@ -1,20 +1,13 @@
 import React from 'react';
 import {TouchableOpacity, Text, View} from 'react-native';
-import {createBottomTabNavigator} from 'react-navigation';
-import {connect} from 'react-redux';
 import styled from 'styled-components/native';
 import t from 'locales/use-translation';
-import InvoicesContainer from '../../features/invoices/containers/Invoices';
-import CustomersContainer from '../../features/customers/containers/Customers';
-import MoreContainer from '../../features/more/containers/More';
-import ExpensesContainer from '../../features/expenses/containers/Expenses';
-import PaymentsContainer from '../../features/payments/containers/Payments';
-import {ROUTES} from '../routes';
+
+import {routes} from './navigation-routes';
 import {fonts} from '@/styles';
 import {AssetSvg} from '@/components';
 import {defineSize, isEmpty} from '@/constants';
 import {PermissionService} from '@/services';
-import {commonSelector} from 'stores/common/selectors';
 import {
   CUSTOMERS_ICON,
   EXPENSES_ICON,
@@ -51,36 +44,40 @@ const Label = styled(Text)`
   ${props => props.style};
 `;
 
-const Tab = (props: any) => {
-  const {navigation, theme} = props;
+export default (props: any) => {
+  const {isKeyboardOpen, navigation, state, theme} = props;
+
+  if (isKeyboardOpen) {
+    return <React.Fragment />;
+  }
 
   const getTab = route => {
     switch (route) {
-      case ROUTES.MAIN_INVOICES:
+      case routes.MAIN_INVOICES:
         return {
           label: 'tabNavigation.invoices',
           icon: INVOICES_ICON
         };
 
-      case ROUTES.MAIN_CUSTOMERS:
+      case routes.MAIN_CUSTOMERS:
         return {
           label: 'tabNavigation.customers',
           icon: CUSTOMERS_ICON
         };
 
-      case ROUTES.MAIN_PAYMENTS:
+      case routes.MAIN_PAYMENTS:
         return {
           label: 'tabNavigation.payments',
           icon: PAYMENTS_ICON
         };
 
-      case ROUTES.MAIN_EXPENSES:
+      case routes.MAIN_EXPENSES:
         return {
           label: 'tabNavigation.expenses',
           icon: EXPENSES_ICON
         };
 
-      case ROUTES.MAIN_MORE:
+      case routes.MAIN_MORE:
         return {
           label: 'tabNavigation.more',
           icon: MORE_ICON
@@ -94,30 +91,31 @@ const Tab = (props: any) => {
     }
   };
 
-  if (isEmpty(PermissionService.permissions)) {
-    return null;
-  }
-
   return (
     <Container backgroundColor={theme?.tabNavigator?.backgroundColor}>
-      {navigation?.state &&
-        navigation?.state.routes.map((route, index) => {
+      {state &&
+        state.routes.map((route, index) => {
           if (
-            route.routeName !== ROUTES.MAIN_MORE &&
-            !PermissionService.isAllowToView(route.routeName)
+            route.name !== routes.MAIN_MORE &&
+            !PermissionService.isAllowToView(route.name)
           ) {
             return null;
           }
 
-          const isFocused = navigation?.state.index === index;
+          const isFocused = state.index === index;
 
           const onPress = () => {
-            if (!isFocused) {
-              navigation.navigate(route.routeName);
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key
+            });
+
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name);
             }
           };
 
-          const {label, icon} = getTab(route.routeName);
+          const {label, icon} = getTab(route.name);
 
           const iconColor = isFocused
             ? theme?.tabNavigator?.activeIconColor
@@ -154,38 +152,3 @@ const Tab = (props: any) => {
     </Container>
   );
 };
-
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
-
-const BottomTab = connect(mapStateToProps)(Tab);
-
-export default createBottomTabNavigator(
-  {
-    [ROUTES.MAIN_INVOICES]: {
-      screen: InvoicesContainer
-    },
-    [ROUTES.MAIN_CUSTOMERS]: {
-      screen: CustomersContainer
-    },
-    [ROUTES.MAIN_PAYMENTS]: {
-      screen: PaymentsContainer
-    },
-    [ROUTES.MAIN_EXPENSES]: {
-      screen: ExpensesContainer
-    },
-    [ROUTES.MAIN_MORE]: {
-      screen: MoreContainer
-    }
-  },
-  {
-    initialRouteName: ROUTES.MAIN_INVOICES,
-    lazy: false,
-    navigationOptions: {
-      header: null,
-      headerTitleAllowFontScaling: false
-    },
-    tabBarComponent: BottomTab
-  }
-);

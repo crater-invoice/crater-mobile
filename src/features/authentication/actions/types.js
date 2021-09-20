@@ -1,6 +1,4 @@
-// @flow
-
 export type ILoginPayload = {
-    email: string,
-    password: string,
+  email: string,
+  password: string
 };

@@ -19,7 +19,7 @@ import {
 } from 'stores/customize/types';
 import t from 'locales/use-translation';
 import {IProps} from './customize-estimate-type';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
 import {NumberScheme, EndDate} from '../customize-common';
 import {
@@ -187,7 +187,7 @@ export default class CustomizeEstimate extends Component<IProps> {
     return (
       <DefaultLayout
         headerProps={{
-          leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZE_LIST),
+          leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
           title: t('header.estimates'),
           rightIconPress: null,
           placement: 'center',

@@ -1,5 +1,4 @@
 import {combineReducers} from 'redux';
-import {createNavigationReducer} from 'react-navigation-redux-helpers';
 import {reducer as formReducer} from 'redux-form';
 
 import auth from '@/features/authentication/reducers';
@@ -18,8 +17,6 @@ import company from 'stores/company/reducer';
 import customizes from 'stores/customize/reducer';
 import itemUnits from 'stores/item-units/reducer';
 import paymentModes from 'stores/payment-modes/reducer';
-import navigationData from '../navigation/reducers';
-import Navigator from '../navigation/navigators';
 
 export default combineReducers({
   auth,
@@ -29,7 +26,6 @@ export default combineReducers({
   more,
   expenses,
   payments,
-  navigationData,
   form: formReducer,
   common,
   settings,
@@ -39,6 +35,5 @@ export default combineReducers({
   company,
   customizes,
   itemUnits,
-  paymentModes,
-  nav: createNavigationReducer(Navigator)
+  paymentModes
 });

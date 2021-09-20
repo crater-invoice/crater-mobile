@@ -48,7 +48,3 @@ const CustomizeInvoiceForm = reduxForm({
 export const CustomizeInvoiceContainer = connect(mapStateToProps)(
   CustomizeInvoiceForm
 );
-
-CustomizeInvoiceContainer.navigationOptions = () => ({
-  header: null
-});

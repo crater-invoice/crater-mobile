@@ -6,10 +6,10 @@ import * as Actions from '../constants';
  * @returns {{type: string, payload: *}}
  */
 export function spinner(payload = {}) {
-    return {
-        type: Actions.SPINNER,
-        payload
-    };
+  return {
+    type: Actions.SPINNER,
+    payload
+  };
 }
 
 /**
@@ -18,10 +18,10 @@ export function spinner(payload = {}) {
  * @returns {{type: string, payload: *}}
  */
 export function fetchCompanies(payload = {}) {
-    return {
-        type: Actions.FETCH_COMPANIES,
-        payload
-    };
+  return {
+    type: Actions.FETCH_COMPANIES,
+    payload
+  };
 }
 
 /**
@@ -30,10 +30,10 @@ export function fetchCompanies(payload = {}) {
  * @returns {{type: string, payload: *}}
  */
 export function addCompany(payload = {}) {
-    return {
-        type: Actions.ADD_COMPANY,
-        payload
-    };
+  return {
+    type: Actions.ADD_COMPANY,
+    payload
+  };
 }
 
 /**
@@ -42,10 +42,10 @@ export function addCompany(payload = {}) {
  * @returns {{type: string, payload: *}}
  */
 export function updateCompany(payload = {}) {
-    return {
-        type: Actions.UPDATE_COMPANY,
-        payload
-    };
+  return {
+    type: Actions.UPDATE_COMPANY,
+    payload
+  };
 }
 
 /**
@@ -54,8 +54,8 @@ export function updateCompany(payload = {}) {
  * @returns {{type: string, payload: *}}
  */
 export function removeCompany(payload = {}) {
-    return {
-        type: Actions.REMOVE_COMPANY,
-        payload
-    };
+  return {
+    type: Actions.REMOVE_COMPANY,
+    payload
+  };
 }

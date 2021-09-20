@@ -18,8 +18,8 @@ import {
   INVOICE_SETTINGS_TYPE
 } from 'stores/customize/types';
 import t from 'locales/use-translation';
-import {IProps} from './customize-invoice-type';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {IProps, IStates} from './customize-invoice-type';
+import {routes} from '@/navigation';
 import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
 import {NumberScheme, EndDate} from '../customize-common';
 import {
@@ -187,7 +187,7 @@ export default class CustomizeInvoice extends Component<IProps> {
     return (
       <DefaultLayout
         headerProps={{
-          leftIconPress: () => navigation.navigate(ROUTES.CUSTOMIZE_LIST),
+          leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
           title: t('header.invoices'),
           rightIconPress: null,
           placement: 'center',

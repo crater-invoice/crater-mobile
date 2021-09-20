@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import {
   StatusBar,
@@ -19,7 +17,7 @@ import {
   AssetSvg
 } from '@/components';
 import Constants from 'expo-constants';
-import {ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {LOGO} from '@/assets';
 import {SettingIcon} from '@/icons';
@@ -118,7 +116,7 @@ export class Login extends React.Component<IProps> {
 
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate(ROUTES.ENDPOINTS, {
+            navigation.navigate(routes.ENDPOINTS, {
               skipEndpoint: true
             })
           }
@@ -194,7 +192,7 @@ export class Login extends React.Component<IProps> {
 
               <View style={styles.forgetPasswordContainer}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)}
+                  onPress={() => navigation.navigate(routes.FORGOT_PASSWORD)}
                 >
                   <Text
                     light

@@ -15,7 +15,3 @@ const UsersForm = reduxForm({
 })(Users);
 
 export const UsersContainer: any = connect(mapStateToProps)(UsersForm);
-
-UsersContainer.navigationOptions = () => ({
-  header: null
-});

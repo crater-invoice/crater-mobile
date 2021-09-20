@@ -16,7 +16,3 @@ const RolesForm = reduxForm({
 })(Roles);
 
 export const RolesContainer = connect(mapStateToProps)(RolesForm);
-
-RolesContainer.navigationOptions = () => ({
-  header: null
-});

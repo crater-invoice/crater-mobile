@@ -1,4 +1,5 @@
 import {formatTaxTypes} from '@/utils';
+import * as types from './types';
 import {
   SET_GLOBAL_BOOTSTRAP,
   SET_SETTINGS,
@@ -59,6 +60,13 @@ export default function commonReducer(state = initialState, action) {
         ...state,
         endpointURL,
         endpointApi: endpointURL ? `${endpointURL}/api/v1/` : null
+      };
+
+    case types.RESET_ENDPOINT_URL:
+      return {
+        ...state,
+        endpointURL: null,
+        endpointApi: null
       };
 
     case SET_COMPANY_INFO:

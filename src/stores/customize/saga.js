@@ -2,7 +2,7 @@ import {call, put, takeEvery} from 'redux-saga/effects';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
-import {ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {getCustomFields} from '@/features/settings/saga/custom-fields';
 
 /**
@@ -40,7 +40,7 @@ function* updateCustomizeSettings({payload: {params, navigation}}) {
     const response = yield call(req.updateCustomizeSettings, body);
 
     if (response.success) {
-      navigation.navigate(ROUTES.CUSTOMIZE_LIST);
+      navigation.navigate(routes.CUSTOMIZE_LIST);
       yield put({
         type: types.FETCH_CUSTOMIZE_SETTINGS_SUCCESS,
         payload: null

@@ -1,8 +1,7 @@
-import { ROUTES } from '@/navigation';
-import { PercentageIcon } from '@/icons';
-import { PermissionService } from '@/services';
+import {routes} from '@/navigation';
+import {PercentageIcon} from '@/icons';
+import {PermissionService} from '@/services';
 import t from 'locales/use-translation';
-import { isSuperAdmin } from '@/stores/common/helpers';
 
 // Forms
 // -----------------------------------------
@@ -35,7 +34,6 @@ export const EDIT_CURRENCY_TYPE = 'currencies/EDIT_CURRENCY_TYPE';
 // -----------------------------------------
 export const SETTINGS_SEARCH = 'settings/SETTINGS_SEARCH';
 export const SETTINGS_TRIGGER_SPINNER = 'settings/SETTINGS_TRIGGER_SPINNER';
-export const LOGOUT = 'settings/LOGOUT';
 
 // Next Number
 export const GET_NEXT_NUMBER = 'general/GET_NEXT_NUMBER';
@@ -61,7 +59,7 @@ export const EDIT_ACCOUNT_INFO = 'accountForm/EDIT_ACCOUNT_INFO';
 // Categories
 export const GET_EXPENSE_CATEGORIES = 'categories/GET_EXPENSE_CATEGORIES';
 export const GET_CREATE_EXPENSE_CATEGORY =
-    'categories/GET_CREATE_EXPENSE_CATEGORY';
+  'categories/GET_CREATE_EXPENSE_CATEGORY';
 
 // Notes
 export const GET_NOTES = 'notes/GET_NOTES';
@@ -96,11 +94,11 @@ export const EDIT_CUSTOM_FIELD = 'custom-field/EDIT_CUSTOM_FIELD';
 export const REMOVE_CUSTOM_FIELD = 'custom-field/REMOVE_CUSTOM_FIELD';
 
 export const CREATE_FROM_CUSTOM_FIELDS =
-    'custom-field/CREATE_FROM_CUSTOM_FIELDS';
+  'custom-field/CREATE_FROM_CUSTOM_FIELDS';
 export const REMOVE_FROM_CUSTOM_FIELDS =
-    'custom-field/REMOVE_FROM_CUSTOM_FIELDS';
+  'custom-field/REMOVE_FROM_CUSTOM_FIELDS';
 export const UPDATE_FROM_CUSTOM_FIELDS =
-    'custom-field/UPDATE_FROM_CUSTOM_FIELDS';
+  'custom-field/UPDATE_FROM_CUSTOM_FIELDS';
 
 // Taxes
 export const GET_TAXES = 'taxes/GET_TAXES';
@@ -121,41 +119,41 @@ export const REMOVE_EXPENSE_CATEGORY = 'categories/REMOVE_EXPENSE_CATEGORY';
 
 export const SET_EXPENSE_CATEGORIES = 'categories/SET_EXPENSE_CATEGORIES';
 export const SET_CREATE_EXPENSE_CATEGORIES =
-    'categories/SET_CREATE_EXPENSE_CATEGORIES';
+  'categories/SET_CREATE_EXPENSE_CATEGORIES';
 export const SET_EDI_EXPENSE_CATEGORIES =
-    'categories/SET_EDI_EXPENSE_CATEGORIES';
+  'categories/SET_EDI_EXPENSE_CATEGORIES';
 export const SET_REMOVE_EXPENSE_CATEGORIES =
-    'categories/SET_REMOVE_EXPENSE_CATEGORIES';
+  'categories/SET_REMOVE_EXPENSE_CATEGORIES';
 
 // CustomField Form Fields
 // -----------------------------------------
 export const CUSTOM_FIELDS = {
-    FIELD: 'field', // root object
+  FIELD: 'field', // root object
 
-    NAME: 'name',
-    MODAL_TYPE: 'model_type',
-    IS_REQUIRED: 'is_required',
-    TYPE: 'type',
-    LABEL: 'label',
-    DEFAULT_VALUE: 'default_answer',
-    PLACEHOLDER: 'placeholder',
-    OPTIONS: 'options',
-    ORDER: 'order'
+  NAME: 'name',
+  MODAL_TYPE: 'model_type',
+  IS_REQUIRED: 'is_required',
+  TYPE: 'type',
+  LABEL: 'label',
+  DEFAULT_VALUE: 'default_answer',
+  PLACEHOLDER: 'placeholder',
+  OPTIONS: 'options',
+  ORDER: 'order'
 };
 
 // Custom Field Data Type Option Values
 // -----------------------------------------
 export const DATA_TYPE_OPTION_VALUE = {
-    INPUT: 'Input',
-    TEXTAREA: 'TextArea',
-    PHONE: 'Phone',
-    URL: 'Url',
-    NUMBER: 'Number',
-    DROPDOWN: 'Dropdown',
-    SWITCH: 'Switch',
-    DATE: 'Date',
-    TIME: 'Time',
-    DATE_TIME: 'DateTime'
+  INPUT: 'Input',
+  TEXTAREA: 'TextArea',
+  PHONE: 'Phone',
+  URL: 'Url',
+  NUMBER: 'Number',
+  DROPDOWN: 'Dropdown',
+  SWITCH: 'Switch',
+  DATE: 'Date',
+  TIME: 'Time',
+  DATE_TIME: 'DateTime'
 };
 
 // Custom Field Data Type Options
@@ -163,26 +161,26 @@ export const DATA_TYPE_OPTION_VALUE = {
 const VALUE = DATA_TYPE_OPTION_VALUE;
 
 export const CUSTOM_FIELD_DATA_TYPE_LIST = [
-    { label: 'Text', value: VALUE.INPUT },
-    { label: 'Textarea', value: VALUE.TEXTAREA },
-    { label: 'Phone', value: VALUE.PHONE },
-    { label: 'URL', value: VALUE.URL },
-    { label: 'Number', value: VALUE.NUMBER },
-    { label: 'Select Field', value: VALUE.DROPDOWN },
-    { label: 'Switch Toggle', value: VALUE.SWITCH },
-    { label: 'Date', value: VALUE.DATE },
-    { label: 'Time', value: VALUE.TIME },
-    { label: 'Date & Time', value: VALUE.DATE_TIME }
+  {label: 'Text', value: VALUE.INPUT},
+  {label: 'Textarea', value: VALUE.TEXTAREA},
+  {label: 'Phone', value: VALUE.PHONE},
+  {label: 'URL', value: VALUE.URL},
+  {label: 'Number', value: VALUE.NUMBER},
+  {label: 'Select Field', value: VALUE.DROPDOWN},
+  {label: 'Switch Toggle', value: VALUE.SWITCH},
+  {label: 'Date', value: VALUE.DATE},
+  {label: 'Time', value: VALUE.TIME},
+  {label: 'Date & Time', value: VALUE.DATE_TIME}
 ];
 
 // Custom Field Modal Type Values
 // -----------------------------------------
 export const MODAL_TYPE_VALUE = {
-    CUSTOMER: 'Customer',
-    INVOICE: 'Invoice',
-    ESTIMATE: 'Estimate',
-    EXPENSE: 'Expense',
-    PAYMENT: 'Payment'
+  CUSTOMER: 'Customer',
+  INVOICE: 'Invoice',
+  ESTIMATE: 'Estimate',
+  EXPENSE: 'Expense',
+  PAYMENT: 'Payment'
 };
 
 // Custom Field Type
@@ -193,162 +191,162 @@ export const CUSTOM_FIELD_DATA_TYPES = DATA_TYPE_OPTION_VALUE;
 // Custom Field Modal
 // -----------------------------------------
 export const CUSTOM_FIELD_MODAL_TYPES = [
-    { label: 'Customer', value: MODAL_TYPE_VALUE.CUSTOMER },
-    { label: 'Invoice', value: MODAL_TYPE_VALUE.INVOICE },
-    { label: 'Estimate', value: MODAL_TYPE_VALUE.ESTIMATE },
-    { label: 'Expense', value: MODAL_TYPE_VALUE.EXPENSE },
-    { label: 'Payment', value: MODAL_TYPE_VALUE.PAYMENT }
+  {label: 'Customer', value: MODAL_TYPE_VALUE.CUSTOMER},
+  {label: 'Invoice', value: MODAL_TYPE_VALUE.INVOICE},
+  {label: 'Estimate', value: MODAL_TYPE_VALUE.ESTIMATE},
+  {label: 'Expense', value: MODAL_TYPE_VALUE.EXPENSE},
+  {label: 'Payment', value: MODAL_TYPE_VALUE.PAYMENT}
 ];
 
 // Notes Field Modal
 // -----------------------------------------
 
 export const NOTES_TYPE_VALUE = {
-    INVOICE: 'Invoice',
-    ESTIMATE: 'Estimate',
-    PAYMENT: 'Payment'
+  INVOICE: 'Invoice',
+  ESTIMATE: 'Estimate',
+  PAYMENT: 'Payment'
 };
 
 export const NOTES_FIELD_MODAL_TYPES = [
-    { label: 'Invoice', value: NOTES_TYPE_VALUE.INVOICE },
-    { label: 'Estimate', value: NOTES_TYPE_VALUE.ESTIMATE },
-    { label: 'Payment', value: NOTES_TYPE_VALUE.PAYMENT }
+  {label: 'Invoice', value: NOTES_TYPE_VALUE.INVOICE},
+  {label: 'Estimate', value: NOTES_TYPE_VALUE.ESTIMATE},
+  {label: 'Payment', value: NOTES_TYPE_VALUE.PAYMENT}
 ];
 
 // Menus
 // -----------------------------------------
 export const SETTINGS_MENU = () => {
-    return [
-        {
-            title: t('settings.accountSettings'),
-            leftIcon: 'user-circle',
-            leftIconSolid: true,
-            iconSize: 20,
-            fullItem: {route: ROUTES.ACCOUNT_INFO},
-            show: true
-        },
-        {
-            title: t('settings.companyInformation'),
-            leftIcon: 'building',
-            leftIconSolid: true,
-            iconSize: 17,
-            fullItem: {route: ROUTES.COMPANY_INFO},
-            show: isSuperAdmin()
-        },
-        {
-            title: t('settings.preference'),
-            leftIcon: 'sun',
-            leftIconSolid: true,
-            iconSize: 21,
-            fullItem: {route: ROUTES.PREFERENCES},
-            show: isSuperAdmin()
-        },
-        {
-            title: t('settings.customize'),
-            leftIcon: 'pen-square',
-            leftIconSolid: true,
-            iconSize: 21,
-            fullItem: {
-                route: ROUTES.CUSTOMIZE_LIST
-            },
-            show: isSuperAdmin()
-        },
-        {
-            title: t('header.companies'),
-            leftIcon: 'building',
-            leftIconSolid: true,
-            iconSize: 17,
-            fullItem: {route: ROUTES.COMPANIES},
-            show: isSuperAdmin()
-        },
-        {
-            title: t('settings.notification'),
-            leftIcon: 'bell',
-            leftIconSolid: true,
-            iconSize: 20,
-            fullItem: {route: ROUTES.NOTIFICATIONS},
-            show: isSuperAdmin()
-        },
-        {
-            title: t('settings.taxes'),
-            leftIconSvg: PercentageIcon,
-            leftIconSolid: true,
-            iconSize: 17,
-            fullItem: {route: ROUTES.TAXES},
-            show: PermissionService.isAllowToView(ROUTES.TAXES)
-        },
-        {
-            title: t('header.customFields'),
-            leftIcon: 'cube',
-            iconSize: 20,
-            fullItem: {route: ROUTES.CUSTOM_FIELDS},
-            show: PermissionService.isAllowToView(ROUTES.CUSTOM_FIELDS)
-        },
-        {
-            title: t('settings.notes'),
-            leftIcon: 'clipboard-check',
-            leftIconSolid: true,
-            iconSize: 20,
-            fullItem: {route: ROUTES.NOTES},
-            show: PermissionService.isAllowToView(ROUTES.NOTES)
-        },
-        {
-            title: t('settings.expenseCategory'),
-            leftIcon: 'clipboard-list',
-            iconSize: 20,
-            fullItem: {route: ROUTES.CATEGORIES},
-            show: PermissionService.isAllowToView(ROUTES.CATEGORIES)
-        },
-        {
-            title: t('settings.touchOrFaceId'),
-            leftIcon: 'key',
-            leftIconSolid: true,
-            iconSize: 20,
-            fullItem: {route: ROUTES.TOUCH_OR_FACE_ID},
-            show: true
-        },
-        {
-            title: t('settings.endpoint'),
-            leftIcon: 'link',
-            iconSize: 20,
-            fullItem: {route: ROUTES.ENDPOINTS_SETTINGS},
-            show: true
-        },
-        {
-            title: t('header.roles'),
-            leftIcon: 'users',
-            iconSize: 20,
-            fullItem: {route: ROUTES.ROLES},
-            show: PermissionService.isAllowToView(ROUTES.ROLES)
-        }
-    ]
-}
+  return [
+    {
+      title: t('settings.accountSettings'),
+      leftIcon: 'user-circle',
+      leftIconSolid: true,
+      iconSize: 20,
+      fullItem: {route: routes.ACCOUNT_INFO},
+      show: true
+    },
+    {
+      title: t('settings.companyInformation'),
+      leftIcon: 'building',
+      leftIconSolid: true,
+      iconSize: 17,
+      fullItem: {route: routes.COMPANY_INFO},
+      show: PermissionService.isSuperAdmin()
+    },
+    {
+      title: t('settings.preference'),
+      leftIcon: 'sun',
+      leftIconSolid: true,
+      iconSize: 21,
+      fullItem: {route: routes.PREFERENCES},
+      show: PermissionService.isSuperAdmin()
+    },
+    {
+      title: t('settings.customize'),
+      leftIcon: 'pen-square',
+      leftIconSolid: true,
+      iconSize: 21,
+      fullItem: {
+        route: routes.CUSTOMIZE_LIST
+      },
+      show: PermissionService.isSuperAdmin()
+    },
+    {
+      title: t('header.companies'),
+      leftIcon: 'building',
+      leftIconSolid: true,
+      iconSize: 17,
+      fullItem: {route: routes.COMPANIES},
+      show: PermissionService.isSuperAdmin()
+    },
+    {
+      title: t('settings.notification'),
+      leftIcon: 'bell',
+      leftIconSolid: true,
+      iconSize: 20,
+      fullItem: {route: routes.NOTIFICATIONS},
+      show: PermissionService.isSuperAdmin()
+    },
+    {
+      title: t('settings.taxes'),
+      leftIconSvg: PercentageIcon,
+      leftIconSolid: true,
+      iconSize: 17,
+      fullItem: {route: routes.TAXES},
+      show: PermissionService.isAllowToView(routes.TAXES)
+    },
+    {
+      title: t('header.customFields'),
+      leftIcon: 'cube',
+      iconSize: 20,
+      fullItem: {route: routes.CUSTOM_FIELDS},
+      show: PermissionService.isAllowToView(routes.CUSTOM_FIELDS)
+    },
+    {
+      title: t('settings.notes'),
+      leftIcon: 'clipboard-check',
+      leftIconSolid: true,
+      iconSize: 20,
+      fullItem: {route: routes.NOTES},
+      show: PermissionService.isAllowToView(routes.NOTES)
+    },
+    {
+      title: t('settings.expenseCategory'),
+      leftIcon: 'clipboard-list',
+      iconSize: 20,
+      fullItem: {route: routes.CATEGORIES},
+      show: PermissionService.isAllowToView(routes.CATEGORIES)
+    },
+    {
+      title: t('settings.touchOrFaceId'),
+      leftIcon: 'key',
+      leftIconSolid: true,
+      iconSize: 20,
+      fullItem: {route: routes.TOUCH_OR_FACE_ID},
+      show: true
+    },
+    {
+      title: t('settings.endpoint'),
+      leftIcon: 'link',
+      iconSize: 20,
+      fullItem: {route: routes.ENDPOINTS_SETTINGS},
+      show: true
+    },
+    {
+      title: t('header.roles'),
+      leftIcon: 'users',
+      iconSize: 20,
+      fullItem: {route: routes.ROLES},
+      show: PermissionService.isAllowToView(routes.ROLES)
+    }
+  ];
+};
 
 // Term & Condition Field
 // -----------------------------------------
 export const COMPANY_SETTINGS_TYPE = [
-    'payment_auto_generate',
-    'payment_prefix',
-    'invoice_auto_generate',
-    'invoice_prefix',
-    'invoice_mail_body',
-    'estimate_auto_generate',
-    'estimate_prefix',
-    'estimate_mail_body',
-    'invoice_billing_address_format',
-    'invoice_shipping_address_format',
-    'invoice_company_address_format',
-    'payment_mail_body',
-    'payment_company_address_format',
-    'payment_from_customer_address_format',
-    'estimate_company_address_format',
-    'estimate_billing_address_format',
-    'estimate_shipping_address_format'
+  'payment_auto_generate',
+  'payment_prefix',
+  'invoice_auto_generate',
+  'invoice_prefix',
+  'invoice_mail_body',
+  'estimate_auto_generate',
+  'estimate_prefix',
+  'estimate_mail_body',
+  'invoice_billing_address_format',
+  'invoice_shipping_address_format',
+  'invoice_company_address_format',
+  'payment_mail_body',
+  'payment_company_address_format',
+  'payment_from_customer_address_format',
+  'estimate_company_address_format',
+  'estimate_billing_address_format',
+  'estimate_shipping_address_format'
 ];
 
 // Notification
 export const NOTIFICATION_MAIL_TYPE = [
-    'notify_invoice_viewed',
-    'notify_estimate_viewed',
-    'notification_email'
+  'notify_invoice_viewed',
+  'notify_estimate_viewed',
+  'notification_email'
 ];

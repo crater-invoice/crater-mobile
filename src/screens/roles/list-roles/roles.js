@@ -5,7 +5,7 @@ import {isEmpty} from '@/constants';
 import {fetchRoles} from 'stores/roles/actions';
 import {IProps, IStates} from './roles-type';
 import {InfiniteScroll, ListView, MainLayout} from '@/components';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 
 export default class Roles extends Component<IProps, IStates> {
   scrollViewReference: any;
@@ -18,19 +18,16 @@ export default class Roles extends Component<IProps, IStates> {
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
-    goBack(MOUNT, navigation);
     this.onFocus();
   }
 
   componentWillUnmount() {
-    goBack(UNMOUNT);
     this.focusListener?.remove?.();
   }
 
   onFocus = () => {
     const {navigation} = this.props;
-    this.focusListener = navigation.addListener('didFocus', () => {
+    this.focusListener = navigation.addListener('focus', () => {
       this.scrollViewReference?.getItems?.();
     });
   };
@@ -45,11 +42,11 @@ export default class Roles extends Component<IProps, IStates> {
 
   onSelect = role => {
     const {navigation} = this.props;
-    navigation.navigate(ROUTES.CREATE_ROLE, {role, type: 'UPDATE'});
+    navigation.navigate(routes.CREATE_ROLE, {role, type: 'UPDATE'});
   };
 
   addNewRole = () =>
-    this.props.navigation.navigate(ROUTES.CREATE_ROLE, {type: 'ADD'});
+    this.props.navigation.navigate(routes.CREATE_ROLE, {type: 'ADD'});
 
   render() {
     const {navigation, dispatch, roles} = this.props;

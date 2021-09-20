@@ -5,7 +5,6 @@ import * as LocalAuthentication from 'expo-local-authentication';
 import t from 'locales/use-translation';
 import {colors} from '@/styles';
 import Styles from './styles';
-import {goBack, MOUNT, UNMOUNT} from '@/navigation';
 import {biometricAuthentication} from '@/utils';
 import {
   DefaultLayout,
@@ -76,9 +75,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
   }
 
   async componentDidMount() {
-    const {biometryAuthType, navigation} = this.props;
-
-    goBack(MOUNT, navigation);
+    const {biometryAuthType} = this.props;
 
     if (hasValue(biometryAuthType)) {
       await this.setState({
@@ -92,10 +89,6 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
     }
 
     this.navigateToSpecificBiometricType();
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
   }
 
   startScanAnimation = () => {

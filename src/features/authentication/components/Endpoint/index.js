@@ -1,5 +1,3 @@
-// @flow
-
 import React, {Component} from 'react';
 import {
   View,
@@ -20,7 +18,7 @@ import {
 } from '@/components';
 import t from 'locales/use-translation';
 import {LOGO} from '@/assets';
-import {goBack, MOUNT, UNMOUNT, ROUTES} from '@/navigation';
+import {routes} from '@/navigation';
 import {alertMe, isIosPlatform, isIPhoneX} from '@/constants';
 import {isRTL, STATUS_BAR_CONTENT} from '@/utils';
 
@@ -53,10 +51,6 @@ export class Endpoint extends Component<IProps> {
   }
 
   componentDidMount() {
-    const {navigation, skipEndpoint} = this.props;
-
-    skipEndpoint && goBack(MOUNT, navigation);
-
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>
       this.setState({isKeyboardVisible: true})
     );
@@ -66,9 +60,6 @@ export class Endpoint extends Component<IProps> {
   }
 
   componentWillUnmount() {
-    const {skipEndpoint} = this.props;
-    skipEndpoint && goBack(UNMOUNT);
-
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }
@@ -88,7 +79,7 @@ export class Endpoint extends Component<IProps> {
           ? alertMe({
               title: t('endpoint.alertInvalidUrl')
             })
-          : navigation.navigate(ROUTES.LOGIN);
+          : navigation.navigate(routes.LOGIN);
       }
     });
   };

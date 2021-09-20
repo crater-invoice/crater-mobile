@@ -1,53 +1,49 @@
-import { connect } from 'react-redux';
-import { Invoices } from '../../components/Invoices';
-import { reduxForm, getFormValues } from 'redux-form';
+import {connect} from 'react-redux';
+import {Invoices} from '../../components/Invoices';
+import {reduxForm, getFormValues} from 'redux-form';
 import * as InvoicesAction from '../../actions';
-import { INVOICE_SEARCH } from '../../constants';
-import { getCustomers } from '../../../customers/actions';
-import { commonSelector } from 'stores/common/selectors';
+import {INVOICE_SEARCH} from '../../constants';
+import {getCustomers} from '../../../customers/actions';
+import {commonSelector} from 'stores/common/selectors';
 import {
-    getDueInvoicesState,
-    getDraftInvoicesState,
-    getAllInvoicesState
+  getDueInvoicesState,
+  getDraftInvoicesState,
+  getAllInvoicesState
 } from '../../selectors';
 
 const mapStateToProps = state => {
-    const {
-        invoices: {
-            invoices,
-            loading: { invoicesLoading }
-        }
-    } = state;
-    const theme = state.common?.theme;
+  const {
+    invoices: {
+      invoices,
+      loading: {invoicesLoading}
+    }
+  } = state;
+  const theme = state.common?.theme;
 
-    return {
-        invoices,
-        dueInvoices: getDueInvoicesState({ invoices, theme }),
-        draftInvoices: getDraftInvoicesState({ invoices, theme }),
-        allInvoices: getAllInvoicesState({ invoices, theme }),
-        loading: invoicesLoading,
-        customers: state.customers?.customers,
-        formValues: getFormValues(INVOICE_SEARCH)(state) || {},
-        ...commonSelector(state)
-    };
+  return {
+    invoices,
+    dueInvoices: getDueInvoicesState({invoices, theme}),
+    draftInvoices: getDraftInvoicesState({invoices, theme}),
+    allInvoices: getAllInvoicesState({invoices, theme}),
+    loading: invoicesLoading,
+    customers: state.customers?.customers,
+    formValues: getFormValues(INVOICE_SEARCH)(state) || {},
+    ...commonSelector(state)
+  };
 };
 
 const mapDispatchToProps = {
-    getInvoices: InvoicesAction.getInvoices,
-    getCustomers: getCustomers
+  getInvoices: InvoicesAction.getInvoices,
+  getCustomers: getCustomers
 };
 
 const invoiceSearchReduxForm = reduxForm({
-    form: INVOICE_SEARCH
+  form: INVOICE_SEARCH
 })(Invoices);
 
 const InvoicesContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(invoiceSearchReduxForm);
-
-InvoicesContainer.navigationOptions = ({ navigation }) => ({
-    gesturesEnabled: false
-});
 
 export default InvoicesContainer;

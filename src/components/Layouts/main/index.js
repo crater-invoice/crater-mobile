@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import {View, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
@@ -180,5 +178,4 @@ const mapStateToProps = state => ({
   ...commonSelector(state)
 });
 
-//  connect
 export const MainLayout = connect(mapStateToProps)(Layout);
