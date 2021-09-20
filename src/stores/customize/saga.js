@@ -10,22 +10,12 @@ import {getCustomFields} from '@/features/settings/saga/custom-fields';
  * @returns {*}
  */
 function* fetchCustomizeSettings({payload}) {
-  yield put(spinner({fetchCustomizeLoading: true}));
   try {
-    yield call(getCustomFields, {
-      payload: {
-        queryString: {limit: 'all'}
-      }
-    });
-    const response = yield call(req.fetchCustomizeSettings, payload);
-    yield put({
-      type: types.FETCH_CUSTOMIZE_SETTINGS_SUCCESS,
-      payload: response
-    });
-  } catch (e) {
-  } finally {
-    yield put(spinner({fetchCustomizeLoading: false}));
-  }
+    const {keys, onSuccess} = payload;
+    yield call(getCustomFields, {payload: {queryString: {limit: 'all'}}});
+    const response = yield call(req.fetchCustomizeSettings, keys);
+    onSuccess?.(response);
+  } catch (e) {}
 }
 
 /**
@@ -41,10 +31,6 @@ function* updateCustomizeSettings({payload: {params, navigation}}) {
 
     if (response.success) {
       navigation.navigate(routes.CUSTOMIZE_LIST);
-      yield put({
-        type: types.FETCH_CUSTOMIZE_SETTINGS_SUCCESS,
-        payload: null
-      });
     }
   } catch (e) {
   } finally {

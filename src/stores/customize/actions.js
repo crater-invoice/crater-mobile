@@ -25,9 +25,9 @@ export const fetchNextNumber = (payload = {}) => ({
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const fetchCustomizeSettings = (payload = {}) => ({
+export const fetchCustomizeSettings = (keys, onSuccess) => ({
   type: types.FETCH_CUSTOMIZE_SETTINGS,
-  payload
+  payload: {keys, onSuccess}
 });
 
 /**

@@ -5,10 +5,7 @@ export const CUSTOMIZE_PAYMENT_FORM = 'customize/CUSTOMIZE_PAYMENT_FORM';
 export const FETCH_NEXT_NUMBER = 'customize/FETCH_NEXT_NUMBER';
 
 export const FETCH_CUSTOMIZE_SETTINGS = 'customize/FETCH_CUSTOMIZE_SETTINGS';
-export const FETCH_CUSTOMIZE_SETTINGS_SUCCESS =
-  'customize/FETCH_CUSTOMIZE_SETTINGS_SUCCESS';
 export const UPDATE_CUSTOMIZE_SETTINGS = 'customize/UPDATE_CUSTOMIZE_SETTINGS';
-
 export const SPINNER = 'customize/SPINNER';
 
 export const PAYMENT_TABS = {

@@ -5,38 +5,19 @@ import {CUSTOMIZE_INVOICE_FORM} from 'stores/customize/types';
 import {customizeInvoiceValidate} from 'stores/customize/validator';
 import {commonSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {navigation}) => {
+const mapStateToProps = (state, {routes}) => {
   const {
     customizes: {
-      customizes,
       customFields,
-      loading: {fetchCustomizeLoading, customizeLoading}
+      loading: {customizeLoading}
     }
   } = state;
-
-  let isLoading =
-    fetchCustomizeLoading ||
-    customizes === null ||
-    typeof customizes === 'undefined';
 
   return {
     formValues: getFormValues(CUSTOMIZE_INVOICE_FORM)(state) || {},
     customFields,
-    isLoading,
     loading: customizeLoading,
-    ...commonSelector(state),
-    initialValues: {
-      ...customizes,
-      invoice_auto_generate:
-        customizes?.invoice_auto_generate === 'YES' ||
-        customizes?.invoice_auto_generate == 1,
-      set_due_date_automatically:
-        customizes?.set_due_date_automatically === 'YES' ||
-        customizes?.set_due_date_automatically == 1,
-      invoice_email_attachment:
-        customizes?.invoice_email_attachment === 'YES' ||
-        customizes?.invoice_email_attachment == 1
-    }
+    ...commonSelector(state)
   };
 };
 

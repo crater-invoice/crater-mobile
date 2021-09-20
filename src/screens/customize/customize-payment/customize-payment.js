@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {ScrollView} from 'react-native';
-import {Field, change} from 'redux-form';
+import {Field, change, initialize} from 'redux-form';
 import {omit} from 'lodash';
 import styles from './customize-payment-style';
 import {
@@ -22,7 +22,7 @@ import {
 import t from 'locales/use-translation';
 import {IProps, IStates} from './customize-payment-type';
 import {routes} from '@/navigation';
-import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
+import {hasTextLength, hasValue, isBooleanTrue} from '@/constants';
 import {PaymentModes} from 'screens/payment-modes';
 import {NumberScheme} from '../customize-common';
 import {
@@ -35,14 +35,30 @@ export default class CustomizePayment extends Component<IProps, IStates> {
     super(props);
     this.paymentChild = React.createRef();
     this.state = {
-      activeTab: PAYMENT_TABS.MODE
+      activeTab: PAYMENT_TABS.MODE,
+      isFetchingInitialData: true
     };
   }
 
   componentDidMount() {
     const {dispatch} = this.props;
-    dispatch(fetchCustomizeSettings(PAYMENT_SETTINGS_TYPE));
+    dispatch(
+      fetchCustomizeSettings(PAYMENT_SETTINGS_TYPE, res => {
+        this.setInitialData(res);
+        this.setState({isFetchingInitialData: false});
+      })
+    );
   }
+
+  setInitialData = res => {
+    const {dispatch} = this.props;
+    const data = {
+      ...res,
+      payment_auto_generate: isBooleanTrue(res?.payment_auto_generate),
+      payment_email_attachment: isBooleanTrue(res?.payment_email_attachment)
+    };
+    dispatch(initialize(CUSTOMIZE_PAYMENT_FORM, data));
+  };
 
   setFormField = (field, value) => {
     this.props.dispatch(change(CUSTOMIZE_PAYMENT_FORM, field, value));
@@ -187,10 +203,9 @@ export default class CustomizePayment extends Component<IProps, IStates> {
   };
 
   render() {
-    const {formValues, navigation, isLoading, theme, handleSubmit} = this.props;
-    const {activeTab} = this.state;
+    const {navigation, loading, theme, handleSubmit} = this.props;
+    const {activeTab, isFetchingInitialData} = this.state;
     let isPaymentMode = activeTab === PAYMENT_TABS.MODE;
-    let loading = isLoading || !hasObjectLength(formValues);
     let label = isPaymentMode ? 'button.add' : 'button.save';
 
     const bottomAction = [
@@ -200,7 +215,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
           isPaymentMode
             ? this.paymentChild?.openModal?.()
             : handleSubmit(this.onSave)(),
-        loading: this.props.loading
+        loading: loading || isFetchingInitialData
       }
     ];
 
@@ -214,7 +229,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
           leftArrow: 'primary'
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}
-        loadingProps={{is: loading}}
+        loadingProps={{is: isFetchingInitialData}}
         hideScrollView
         toastProps={{
           reference: ref => (this.toastReference = ref)

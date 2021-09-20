@@ -1,8 +1,22 @@
 import React, {Component} from 'react';
 import {ScrollView} from 'react-native';
-import {Field, change} from 'redux-form';
+import {Field, change, initialize} from 'redux-form';
 import {omit} from 'lodash';
 import styles from './customize-estimate-style';
+import {
+  CUSTOMIZE_ESTIMATE_FORM,
+  ESTIMATE_SETTINGS_TYPE,
+  ESTIMATE_SWITCH_FIELDS
+} from 'stores/customize/types';
+import t from 'locales/use-translation';
+import {IProps} from './customize-estimate-type';
+import {hasTextLength, hasValue, isBooleanTrue} from '@/constants';
+import {NumberScheme, EndDate} from '../customize-common';
+import {
+  fetchCustomizeSettings,
+  updateCustomizeSettings
+} from 'stores/customize/actions';
+import {routes} from '@/navigation';
 import {
   DefaultLayout,
   ToggleSwitch,
@@ -12,31 +26,36 @@ import {
   Text,
   ActionButton
 } from '@/components';
-import {
-  CUSTOMIZE_ESTIMATE_FORM,
-  ESTIMATE_SETTINGS_TYPE,
-  ESTIMATE_SWITCH_FIELDS
-} from 'stores/customize/types';
-import t from 'locales/use-translation';
-import {IProps} from './customize-estimate-type';
-import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
-import {NumberScheme, EndDate} from '../customize-common';
-import {
-  fetchCustomizeSettings,
-  updateCustomizeSettings
-} from 'stores/customize/actions';
-import {routes} from '@/navigation';
 
 export default class CustomizeEstimate extends Component<IProps> {
   constructor(props) {
     super(props);
+    this.state = {isFetchingInitialData: true};
   }
 
   componentDidMount() {
     const {dispatch} = this.props;
-
-    dispatch(fetchCustomizeSettings(ESTIMATE_SETTINGS_TYPE));
+    dispatch(
+      fetchCustomizeSettings(ESTIMATE_SETTINGS_TYPE, res => {
+        this.setInitialData(res);
+        this.setState({isFetchingInitialData: false});
+      })
+    );
   }
+
+  setInitialData = res => {
+    const {dispatch} = this.props;
+    const data = {
+      ...res,
+      estimate_email_attachment: isBooleanTrue(res?.estimate_email_attachment),
+      estimate_auto_generate: isBooleanTrue(res?.estimate_auto_generate),
+      set_expiry_date_automatically: isBooleanTrue(
+        res?.set_expiry_date_automatically
+      )
+    };
+
+    dispatch(initialize(CUSTOMIZE_ESTIMATE_FORM, data));
+  };
 
   setFormField = (field, value) => {
     this.props.dispatch(change(CUSTOMIZE_ESTIMATE_FORM, field, value));
@@ -159,9 +178,9 @@ export default class CustomizeEstimate extends Component<IProps> {
   render() {
     const {
       navigation,
-      isLoading,
       theme,
       handleSubmit,
+      loading,
       formValues: {
         estimate_number_scheme,
         estimate_prefix,
@@ -170,12 +189,12 @@ export default class CustomizeEstimate extends Component<IProps> {
         set_expiry_date_automatically
       }
     } = this.props;
-    let loading = isLoading || !hasObjectLength(this.props.formValues);
+    const {isFetchingInitialData} = this.state;
     const bottomAction = [
       {
         label: 'button.save',
         onPress: () => handleSubmit(this.onSave)(),
-        loading: this.props.loading
+        loading: loading || isFetchingInitialData
       }
     ];
 
@@ -189,7 +208,7 @@ export default class CustomizeEstimate extends Component<IProps> {
           leftArrow: 'primary'
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}
-        loadingProps={{is: loading}}
+        loadingProps={{is: isFetchingInitialData}}
         hideScrollView
         toastProps={{
           reference: ref => (this.toastReference = ref)

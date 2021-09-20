@@ -1,8 +1,22 @@
 import React, {Component} from 'react';
 import {ScrollView} from 'react-native';
-import {Field, change} from 'redux-form';
+import {Field, change, initialize} from 'redux-form';
 import {omit} from 'lodash';
 import styles from './customize-invoice-style';
+import {
+  CUSTOMIZE_INVOICE_FORM,
+  INVOICE_SWITCH_FIELDS,
+  INVOICE_SETTINGS_TYPE
+} from 'stores/customize/types';
+import t from 'locales/use-translation';
+import {IProps} from './customize-invoice-type';
+import {routes} from '@/navigation';
+import {hasTextLength, hasValue, isBooleanTrue} from '@/constants';
+import {NumberScheme, EndDate} from '../customize-common';
+import {
+  fetchCustomizeSettings,
+  updateCustomizeSettings
+} from 'stores/customize/actions';
 import {
   DefaultLayout,
   ToggleSwitch,
@@ -12,30 +26,33 @@ import {
   Text,
   ActionButton
 } from '@/components';
-import {
-  CUSTOMIZE_INVOICE_FORM,
-  INVOICE_SWITCH_FIELDS,
-  INVOICE_SETTINGS_TYPE
-} from 'stores/customize/types';
-import t from 'locales/use-translation';
-import {IProps, IStates} from './customize-invoice-type';
-import {routes} from '@/navigation';
-import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
-import {NumberScheme, EndDate} from '../customize-common';
-import {
-  fetchCustomizeSettings,
-  updateCustomizeSettings
-} from 'stores/customize/actions';
 
 export default class CustomizeInvoice extends Component<IProps> {
   constructor(props) {
     super(props);
+    this.state = {isFetchingInitialData: true};
   }
 
   componentDidMount() {
     const {dispatch} = this.props;
-    dispatch(fetchCustomizeSettings(INVOICE_SETTINGS_TYPE));
+    dispatch(
+      fetchCustomizeSettings(INVOICE_SETTINGS_TYPE, res => {
+        this.setInitialData(res);
+        this.setState({isFetchingInitialData: false});
+      })
+    );
   }
+
+  setInitialData = res => {
+    const {dispatch} = this.props;
+    const data = {
+      ...res,
+      invoice_auto_generate: isBooleanTrue(res?.invoice_auto_generate),
+      invoice_email_attachment: isBooleanTrue(res?.invoice_email_attachment),
+      set_due_date_automatically: isBooleanTrue(res?.set_due_date_automatically)
+    };
+    dispatch(initialize(CUSTOMIZE_INVOICE_FORM, data));
+  };
 
   setFormField = (field, value) => {
     this.props.dispatch(change(CUSTOMIZE_INVOICE_FORM, field, value));
@@ -158,9 +175,9 @@ export default class CustomizeInvoice extends Component<IProps> {
   render() {
     const {
       navigation,
-      isLoading,
       theme,
       handleSubmit,
+      loading,
       formValues: {
         invoice_number_scheme,
         invoice_prefix,
@@ -169,12 +186,12 @@ export default class CustomizeInvoice extends Component<IProps> {
         set_due_date_automatically
       }
     } = this.props;
-    let loading = isLoading || !hasObjectLength(this.props.formValues);
+    const {isFetchingInitialData} = this.state;
     const bottomAction = [
       {
         label: 'button.save',
         onPress: () => handleSubmit(this.onSave)(),
-        loading: this.props.loading
+        loading: loading || isFetchingInitialData
       }
     ];
 
@@ -188,7 +205,7 @@ export default class CustomizeInvoice extends Component<IProps> {
           leftArrow: 'primary'
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}
-        loadingProps={{is: loading}}
+        loadingProps={{is: isFetchingInitialData}}
         hideScrollView
         toastProps={{
           reference: ref => (this.toastReference = ref)
