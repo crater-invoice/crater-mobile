@@ -1,17 +1,15 @@
 import {routes} from '@/navigation';
 import {PermissionService} from '@/services';
-import {isSuperAdmin} from '@/stores/common/helpers';
 import t from 'locales/use-translation';
 
 // Forms
 // -----------------------------------------
 export const SET_ENDPOINT_API = 'moreForm/SET_ENDPOINT_API';
 
-export const ITEM_FORM = 'moreForm/ITEM_FORM';
-export const ITEM_SEARCH = 'moreForm/ITEM_SEARCH';
+export const ITEM_FORM = 'items/ITEM_FORM';
+export const ITEMS_FORM = 'items/ITEMS_FORM';
 
-export const REPORTS_SEARCH = 'moreForm/REPORTS_SEARCH';
-export const REPORT_FORM = 'moreForm/REPORT_FORM';
+export const REPORT_FORM = 'reports/REPORT_FORM';
 
 // Actions
 // -----------------------------------------
@@ -60,14 +58,14 @@ export const MORE_MENU = () => {
       leftIcon: 'signal',
       iconSize: 15,
       fullItem: {route: routes.REPORTS},
-      show: isSuperAdmin()
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('more.users'),
       leftIcon: 'users',
       iconSize: 20,
       fullItem: {route: routes.USERS},
-      show: isSuperAdmin()
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('more.settings'),

@@ -118,16 +118,24 @@ class Service {
     }
   };
 
-  hasPermission = ability => {
+  isSuperAdmin = () => {
     if (isEmpty(this.permissions)) {
       return true;
     }
 
+    if (this.permissions?.[0]?.title === 'All abilities') {
+      return true;
+    }
+
+    return false;
+  };
+
+  hasPermission = ability => {
     if (!hasValue(ability)) {
       return true;
     }
 
-    if (this.permissions?.[0]?.title === 'All abilities') {
+    if (this.isSuperAdmin()) {
       return true;
     }
 

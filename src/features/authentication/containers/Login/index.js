@@ -14,8 +14,10 @@ const mapStateToProps = state => {
     biometryAuthType: common?.biometryAuthType,
     ...commonSelector(state),
     initialValues: {
-      username: settings?.account?.email ?? '',
-      password: ''
+      // username: settings?.account?.email ?? '',
+      // password: ''
+      username: 'admin@craterapp.com',
+      password: 'crater@123'
     }
   };
 };

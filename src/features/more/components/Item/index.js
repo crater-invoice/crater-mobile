@@ -15,7 +15,6 @@ import {routes} from '@/navigation';
 import {ITEM_FORM} from '../../constants';
 import {colors} from '@/styles/colors';
 import t from 'locales/use-translation';
-import {goBack, UNMOUNT, MOUNT} from '@/navigation';
 import {definePlatformParam, defineSize} from '@/constants';
 import {alertMe, hasValue, MAX_LENGTH} from '@/constants';
 import {CUSTOMIZE_TYPE} from 'stores/customize/types';
@@ -32,12 +31,10 @@ export class Item extends React.Component {
 
   componentDidMount() {
     this.setInitialValues();
-    goBack(MOUNT, this.props.navigation);
   }
 
   componentWillUnmount() {
     this.props.clearItem?.();
-    goBack(UNMOUNT);
   }
 
   setInitialValues = () => {

@@ -4,7 +4,7 @@ import {MainLayout, ListView, InfiniteScroll} from '@/components';
 import {routes} from '@/navigation';
 import {ARROW_ICON, IMAGES} from '@/assets';
 import t from 'locales/use-translation';
-import {ITEM_SEARCH} from '../../constants';
+import {ITEMS_FORM} from '../../constants';
 import {formatItems, isFilterApply} from '@/utils';
 import {defineSize, hasTextLength} from '@/constants';
 import filterFields from './filterFields';
@@ -67,7 +67,7 @@ export class Items extends React.Component<IProps> {
   };
 
   setFormField = (field, value) => {
-    this.props.dispatch(change(ITEM_SEARCH, field, value));
+    this.props.dispatch(change(ITEMS_FORM, field, value));
   };
 
   onSearch = search => {

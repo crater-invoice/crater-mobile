@@ -16,7 +16,8 @@ const mapStateToProps = (state, {route}) => {
     loading: state?.auth?.loading?.pingEndpointLoading,
     ...commonSelector(state),
     initialValues: {
-      endpointURL: CRATER_URL
+      // endpointURL: CRATER_URL
+      endpointURL: 'http://crater-web.test/'
     }
   };
 };

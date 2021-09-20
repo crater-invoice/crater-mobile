@@ -2,7 +2,6 @@ import {routes} from '@/navigation';
 import {PercentageIcon} from '@/icons';
 import {PermissionService} from '@/services';
 import t from 'locales/use-translation';
-import {isSuperAdmin} from '@/stores/common/helpers';
 
 // Forms
 // -----------------------------------------
@@ -240,7 +239,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 17,
       fullItem: {route: routes.COMPANY_INFO},
-      show: isSuperAdmin()
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('settings.preference'),
@@ -248,14 +247,14 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 21,
       fullItem: {route: routes.PREFERENCES},
-      show: isSuperAdmin()
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('settings.LanguageAndCurrency'),
       leftIcon: 'language',
       iconSize: 20,
       fullItem: {route: routes.LANGUAGE_AND_CURRENCY},
-      show: isSuperAdmin()
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('settings.customize'),
@@ -265,7 +264,7 @@ export const SETTINGS_MENU = () => {
       fullItem: {
         route: routes.CUSTOMIZE_LIST
       },
-      show: isSuperAdmin()
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('header.companies'),
@@ -273,7 +272,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 17,
       fullItem: {route: routes.COMPANIES},
-      show: isSuperAdmin()
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('settings.notification'),
@@ -281,7 +280,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 20,
       fullItem: {route: routes.NOTIFICATIONS},
-      show: isSuperAdmin()
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('settings.taxes'),
