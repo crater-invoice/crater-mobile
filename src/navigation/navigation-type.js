@@ -27,7 +27,7 @@ export interface IProps {
   /**
    * Handle future update.
    */
-  checkOTAUpdate: (fun: object) => void;
+  checkOTAUpdate: () => void;
 
   /**
    * Get main app data.

@@ -8,10 +8,8 @@ import {routes} from './navigation-routes';
 import {TabNavigator} from './navigators/tab-navigator';
 import {AuthNavigator} from './navigators/auth-navigator';
 import {CommonNavigator} from './navigators/common-navigator';
-import {navigateTo, navigationRef} from './navigation-action';
+import {getActiveMainTab, navigateTo, navigationRef} from './navigation-action';
 import {IProps} from './navigation-type';
-import {getActiveMainTab} from '@/stores/common/helpers';
-import {PermissionService} from '@/services';
 
 const Stack = createStackNavigator();
 
@@ -39,12 +37,11 @@ export default (props: IProps) => {
       return;
     }
 
-    await PermissionService.setPermissions(abilities);
-    await navigateTo({route: getActiveMainTab()});
+    const oldActiveTab = getActiveMainTab();
 
     getBootstrap(res => {
-      const tab = getActiveMainTab();
-      navigateTo({route: tab});
+      const activeTab = getActiveMainTab();
+      oldActiveTab !== activeTab && navigateTo({route: activeTab});
       checkOTAUpdate();
     });
   };

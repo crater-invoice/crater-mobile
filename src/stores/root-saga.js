@@ -1,4 +1,4 @@
-import {all, takeEvery, select, put} from 'redux-saga/effects';
+import {all, takeEvery, select} from 'redux-saga/effects';
 import {REHYDRATE} from 'redux-persist/src/constants';
 
 import auth from '@/features/authentication/saga';
@@ -15,30 +15,13 @@ import users from 'stores/users/saga';
 import customizes from 'stores/customize/saga';
 import paymentModes from 'stores/payment-modes/saga';
 import itemUnits from 'stores/item-units/saga';
-import {routes} from '@/navigation';
-import {resetAuthLoaders} from '@/features/authentication/actions';
-import {getActiveMainTab} from './common/helpers';
 import {PermissionService} from '@/services';
 
 export default function* rootSaga() {
   yield takeEvery(REHYDRATE, function* boot() {
-    // const reduxStore = yield select();
-    // const routes = reduxStore?.nav?.routes ?? [];
-    // const currentRoteBlock = routes[routes.length - 1];
-    // const currentRouteBlockName = currentRoteBlock.routeName;
-
-    // if (currentRouteBlockName !== routes.AUTH) {
-    //   const abilities = reduxStore?.common?.abilities;
-    //   PermissionService.setPermissions(abilities);
-    //   const tab = getActiveMainTab();
-    //   yield put(NavigationActions.navigate({routeName: tab}));
-    // } else {
-    //   const {endpointApi, endpointURL} = reduxStore.common;
-    //   if (!endpointApi || !endpointURL) {
-    //     yield put(NavigationActions.navigate({routeName: routes.ENDPOINTS}));
-    //   }
-    //   yield put(resetAuthLoaders());
-    // }
+    const reduxStore = yield select();
+    const abilities = reduxStore?.common?.abilities;
+    PermissionService.setPermissions(abilities);
 
     yield all([
       auth(),

@@ -21,7 +21,6 @@ import t from 'locales/use-translation';
 import {FETCH_COMPANIES_SUCCESS} from '@/features/common/constants';
 import {APP_VERSION} from '../../../../config';
 import {PermissionService} from '@/services';
-import {getActiveMainTab} from 'stores/common/helpers';
 import {navigateTo} from '@/navigation/navigation-action';
 import {routes} from '@/navigation';
 
@@ -76,8 +75,6 @@ function* login({payload: {params, navigation}}: any) {
 
     yield put(loginSuccess());
 
-    yield navigateTo({route: getActiveMainTab()});
-
     yield put(actionCheckOTAUpdate());
   } catch (e) {
     alertMe({desc: t('login.invalid')});
@@ -95,8 +92,6 @@ function* biometryAuthLogin({payload}: any) {
     yield delay(100);
 
     yield put(loginSuccess());
-
-    yield navigateTo({route: getActiveMainTab()});
 
     yield put(actionCheckOTAUpdate());
   } catch (e) {

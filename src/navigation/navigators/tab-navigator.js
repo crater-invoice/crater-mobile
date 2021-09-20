@@ -8,6 +8,7 @@ import Customers from '@/features/customers/containers/Customers';
 import Payments from '@/features/payments/containers/Payments';
 import Expenses from '@/features/expenses/containers/Expenses';
 import More from '@/features/more/containers/More';
+import {getActiveMainTab} from '../navigation-action';
 
 const Stack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
@@ -16,7 +17,7 @@ export const TabNavigator = props => (
   <Stack.Screen name={routes.MAIN_TABS}>
     {() => (
       <TabStack.Navigator
-        initialRouteName={routes.MAIN_CUSTOMERS}
+        initialRouteName={getActiveMainTab()}
         lazy={true}
         backBehavior="history"
         tabBar={options => <BottomTab {...options} {...props} />}
