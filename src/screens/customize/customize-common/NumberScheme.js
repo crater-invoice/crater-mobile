@@ -91,7 +91,6 @@ export class NumberScheme extends Component<IProps> {
           onChangeCallback={this.onChangeNumber}
           callbackWhenMount={() => {}}
           isRequired
-          isDebounce
         />
         {numberSchemeField.value === 'company_level' && (
           <Field

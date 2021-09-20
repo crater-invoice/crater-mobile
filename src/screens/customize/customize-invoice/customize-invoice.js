@@ -33,14 +33,8 @@ export default class CustomizeInvoice extends Component<IProps> {
   }
 
   componentDidMount() {
-    const {navigation, dispatch} = this.props;
-
+    const {dispatch} = this.props;
     dispatch(fetchCustomizeSettings(INVOICE_SETTINGS_TYPE));
-    goBack(MOUNT, navigation);
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
   }
 
   setFormField = (field, value) => {

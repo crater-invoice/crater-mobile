@@ -19,13 +19,13 @@ import {
 } from 'stores/customize/types';
 import t from 'locales/use-translation';
 import {IProps} from './customize-estimate-type';
-import {routes} from '@/navigation';
 import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
 import {NumberScheme, EndDate} from '../customize-common';
 import {
   fetchCustomizeSettings,
   updateCustomizeSettings
 } from 'stores/customize/actions';
+import {routes} from '@/navigation';
 
 export default class CustomizeEstimate extends Component<IProps> {
   constructor(props) {
@@ -33,14 +33,9 @@ export default class CustomizeEstimate extends Component<IProps> {
   }
 
   componentDidMount() {
-    const {dispatch, navigation} = this.props;
+    const {dispatch} = this.props;
 
     dispatch(fetchCustomizeSettings(ESTIMATE_SETTINGS_TYPE));
-    goBack(MOUNT, navigation);
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
   }
 
   setFormField = (field, value) => {

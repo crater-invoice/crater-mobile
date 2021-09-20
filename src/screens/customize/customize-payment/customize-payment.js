@@ -40,29 +40,8 @@ export default class CustomizePayment extends Component<IProps, IStates> {
   }
 
   componentDidMount() {
-<<<<<<< HEAD
-    const {dispatch, navigation} = this.props;
-
+    const {dispatch} = this.props;
     dispatch(fetchCustomizeSettings(PAYMENT_SETTINGS_TYPE));
-    goBack(MOUNT, navigation);
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
-=======
-    const {dispatch, customizes} = this.props;
-
-    let hasCustomizeApiCalled = customizes
-      ? typeof customizes === 'undefined' || customizes === null
-      : true;
-
-    hasCustomizeApiCalled && dispatch(fetchCustomizeSettings());
-  }
-
-  componentWillUnmount() {
-    this.state.isUpdateAutoGenerate &&
-      this.props.dispatch(setCustomizeSettings({customizes: null}));
->>>>>>> 5e5ec76aba14b010b1a4b534387ac8cd07add5cc
   }
 
   setFormField = (field, value) => {
