@@ -28,9 +28,14 @@ export class InputFieldComponent extends Component<IInputField> {
   }
 
   componentDidMount() {
-    this.initialValue(this.props.input?.value);
+    const {input, isDebounce} = this.props;
+
+    this.initialValue(input?.value);
     this.setHeight = debounce(this.setHeight, 100);
     this.onErrorCallback = debounce(this.onErrorCallback, 200);
+    if (isDebounce) {
+      this.onChangeValue = debounce(this.onChangeValue, 500);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -102,6 +107,10 @@ export class InputFieldComponent extends Component<IInputField> {
 
   toggleFocus = status => {
     this.setState({active: status});
+  };
+
+  onChangeValue = text => {
+    this.props.onChangeText?.(text);
   };
 
   render() {
@@ -293,7 +302,7 @@ export class InputFieldComponent extends Component<IInputField> {
               {...methods}
               onChangeText={enteredValue => {
                 this.setState({inputVal: enteredValue});
-                onChangeText?.(enteredValue);
+                this.onChangeValue?.(enteredValue);
 
                 isCurrencyInput && this.isNumber(enteredValue)
                   ? onChange(Math.round(enteredValue * 100))

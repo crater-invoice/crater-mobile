@@ -12,7 +12,6 @@ import t from 'locales/use-translation';
 import {find, omit} from 'lodash';
 import {IProps, IStates} from './preferences-type';
 import {PREFERENCES_FORM} from 'stores/company/types';
-import {goBack, MOUNT, UNMOUNT} from '@/navigation';
 import {isEmpty} from '@/constants';
 import {fetchPreferences, updatePreferences} from 'stores/company/actions';
 import {SymbolStyle} from '@/components/CurrencyFormat/styles';
@@ -29,11 +28,6 @@ export default class Preferences extends Component<IProps, IStates> {
 
   componentDidMount() {
     this.loadData();
-    goBack(MOUNT, this.props.navigation);
-  }
-
-  componentWillUnmount() {
-    goBack(UNMOUNT);
   }
 
   loadData = () => {

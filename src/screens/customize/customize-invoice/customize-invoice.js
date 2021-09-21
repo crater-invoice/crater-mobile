@@ -1,112 +1,62 @@
 import React, {Component} from 'react';
 import {ScrollView} from 'react-native';
-import {Field, change} from 'redux-form';
+import {Field, change, initialize} from 'redux-form';
+import {omit} from 'lodash';
 import styles from './customize-invoice-style';
+import {
+  CUSTOMIZE_INVOICE_FORM,
+  INVOICE_SWITCH_FIELDS,
+  INVOICE_SETTINGS_TYPE
+} from 'stores/customize/types';
+import t from 'locales/use-translation';
+import {IProps, IStates} from './customize-invoice-type';
+import {routes} from '@/navigation';
+import {hasTextLength, hasValue, isBooleanTrue} from '@/constants';
+import {NumberScheme, DueDate} from '../customize-common';
+import {
+  fetchCustomizeSettings,
+  updateCustomizeSettings
+} from 'stores/customize/actions';
 import {
   DefaultLayout,
   ToggleSwitch,
-  InputField,
   CtDivider,
   Editor,
   PLACEHOLDER_TYPES as TYPE,
   Text,
   ActionButton
 } from '@/components';
-import {CUSTOMIZE_INVOICE_FORM} from 'stores/customize/types';
-import t from 'locales/use-translation';
-import {IProps, IStates} from './customize-invoice-type';
-import {routes} from '@/navigation';
-import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
-import {
-  fetchCustomizeSettings,
-  setCustomizeSettings,
-  editSettingItem,
-  updateCustomizeSettings
-} from 'stores/customize/actions';
 
 export default class CustomizeInvoice extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
-    this.state = {
-      isUpdateAutoGenerate: false
-    };
+    this.state = {isFetchingInitialData: true};
   }
 
   componentDidMount() {
-    const {customizes, navigation, dispatch} = this.props;
-
-    let hasCustomizeApiCalled = customizes
-      ? typeof customizes === 'undefined' || customizes === null
-      : true;
-
-    hasCustomizeApiCalled && dispatch(fetchCustomizeSettings());
+    const {dispatch} = this.props;
+    dispatch(
+      fetchCustomizeSettings(INVOICE_SETTINGS_TYPE, res => {
+        this.setInitialData(res);
+        this.setState({isFetchingInitialData: false});
+      })
+    );
   }
 
-  componentWillUnmount() {
-    this.state.isUpdateAutoGenerate &&
-      this.props.dispatch(setCustomizeSettings({customizes: null}));
-  }
+  setInitialData = res => {
+    const {dispatch} = this.props;
+    const data = {
+      ...res,
+      invoice_auto_generate: isBooleanTrue(res?.invoice_auto_generate),
+      invoice_email_attachment: isBooleanTrue(res?.invoice_email_attachment),
+      set_due_date_automatically: isBooleanTrue(res?.set_due_date_automatically)
+    };
+
+    dispatch(initialize(CUSTOMIZE_INVOICE_FORM, data));
+  };
 
   setFormField = (field, value) => {
     this.props.dispatch(change(CUSTOMIZE_INVOICE_FORM, field, value));
-  };
-
-  changeAutoGenerateStatus = (field, status) => {
-    this.setFormField(field, status);
-
-    const settings = {
-      [field]: status === true ? 'YES' : 'NO'
-    };
-    const payload = {
-      params: {
-        settings
-      },
-      hasCustomize: true,
-      onResult: () => {
-        this.toastReference?.show?.('settings.preferences.settingUpdate');
-        this.setState({isUpdateAutoGenerate: true});
-      }
-    };
-    this.props.dispatch(editSettingItem(payload));
-  };
-
-  onSave = values => {
-    let params = values;
-    for (const key in params) {
-      if (key.includes('mail_body') || key.includes('address_format')) {
-        if (!hasValue(params[key]) || !hasTextLength(params[key])) {
-          params[key] = `<p></p>`;
-        }
-      }
-    }
-
-    const {navigation, dispatch} = this.props;
-    dispatch(updateCustomizeSettings({params, navigation}));
-  };
-
-  TOGGLE_FIELD_VIEW = () => {
-    const {theme} = this.props;
-    return (
-      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
-        <CtDivider dividerStyle={styles.dividerLine} />
-
-        <Text
-          color={theme.header.primary.color}
-          style={styles.autoGenerateHeader}
-        >
-          {t('customizes.setting.invoice')}
-        </Text>
-        <Field
-          name={'invoice_auto_generate'}
-          component={ToggleSwitch}
-          hint={t('customizes.autoGenerate.invoice')}
-          description={t('customizes.autoGenerate.invoiceDescription')}
-          onChangeCallback={val =>
-            this.changeAutoGenerateStatus('invoice_auto_generate', val)
-          }
-        />
-      </ScrollView>
-    );
   };
 
   getTextAreaPlaceholderTypes = () => {
@@ -131,6 +81,23 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
       shipping,
       billing
     };
+  };
+
+  onSave = values => {
+    const {navigation, dispatch} = this.props;
+    let params = values;
+    for (const key in params) {
+      if (key.includes('mail_body') || key.includes('address_format')) {
+        if (!hasValue(params[key]) || !hasTextLength(params[key])) {
+          params[key] = `<p></p>`;
+        }
+      }
+    }
+    INVOICE_SWITCH_FIELDS.forEach(
+      field => (params[field] = params[field] === true ? 'YES' : 'NO')
+    );
+    params = omit(params, ['next_umber']);
+    dispatch(updateCustomizeSettings({params, navigation}));
   };
 
   TEXTAREA_FIELDS = () => {
@@ -178,14 +145,54 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
     );
   };
 
+  TOGGLE_FIELD_VIEW = () => {
+    const {theme} = this.props;
+    return (
+      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+        <CtDivider dividerStyle={styles.dividerLine} />
+
+        <Text
+          color={theme.header.primary.color}
+          style={styles.autoGenerateHeader}
+        >
+          {t('customizes.setting.invoice')}
+        </Text>
+        <Field
+          name={'invoice_auto_generate'}
+          component={ToggleSwitch}
+          hint={t('customizes.autoGenerate.invoice')}
+          description={t('customizes.autoGenerate.invoiceDescription')}
+        />
+        <Field
+          name={'invoice_email_attachment'}
+          component={ToggleSwitch}
+          hint={t('customizes.emailAttachment.invoice')}
+          description={t('customizes.emailAttachment.invoiceDescription')}
+        />
+      </ScrollView>
+    );
+  };
+
   render() {
-    const {navigation, isLoading, handleSubmit, formValues} = this.props;
-    let loading = isLoading || !hasObjectLength(formValues);
+    const {
+      navigation,
+      theme,
+      handleSubmit,
+      loading,
+      formValues: {
+        invoice_number_scheme,
+        invoice_prefix,
+        invoice_number_separator,
+        invoice_number_length,
+        set_due_date_automatically
+      }
+    } = this.props;
+    const {isFetchingInitialData} = this.state;
     const bottomAction = [
       {
         label: 'button.save',
         onPress: () => handleSubmit(this.onSave)(),
-        loading: this.props.loading
+        loading: loading || isFetchingInitialData
       }
     ];
 
@@ -199,7 +206,7 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
           leftArrow: 'primary'
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}
-        loadingProps={{is: loading}}
+        loadingProps={{is: isFetchingInitialData}}
         hideScrollView
         toastProps={{
           reference: ref => (this.toastReference = ref)
@@ -210,19 +217,44 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={styles.scrollContainer}
         >
-          <Field
-            name={'invoice_prefix'}
-            component={InputField}
-            hint={t('customizes.prefix.invoice')}
-            inputProps={{
-              returnKeyType: 'next',
-              autoCorrect: true,
-              autoCapitalize: 'characters',
-              maxLength: 5
+          <Text
+            color={theme.header.primary.color}
+            style={styles.autoGenerateHeader}
+          >
+            {t('customizes.numberLabel.invoice')}
+          </Text>
+
+          <NumberScheme
+            {...this.props}
+            keyName={`invoice`}
+            numberSchemeField={{
+              name: 'invoice_number_scheme',
+              value: invoice_number_scheme
             }}
-            fieldName={t('customizes.prefix.title')}
-            maxCharacter={5}
-            isRequired
+            prefixField={{
+              name: 'invoice_prefix',
+              value: invoice_prefix
+            }}
+            separatorField={{
+              name: 'invoice_number_separator',
+              value: invoice_number_separator
+            }}
+            numberLengthField={{
+              name: 'invoice_number_length',
+              value: invoice_number_length
+            }}
+          />
+          <DueDate
+            toggleField={{
+              name: 'set_due_date_automatically',
+              hint: t('customizes.dueDate.switchLabel'),
+              description: t('customizes.dueDate.description'),
+              value: set_due_date_automatically
+            }}
+            dueDateField={{
+              name: 'due_date_days',
+              hint: t('customizes.dueDate.inputLabel')
+            }}
           />
           {this.TEXTAREA_FIELDS()}
           {this.TOGGLE_FIELD_VIEW()}
