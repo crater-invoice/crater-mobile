@@ -8,7 +8,7 @@ export interface IProps {
   navigation: INavigation;
 
   /**
-   * dispatch change action.
+   * Dispatch change action.
    */
   dispatch: (fun: object) => void;
 
@@ -30,24 +30,14 @@ export interface IProps {
   formValues: any;
 
   /**
-   * The isLoading for the loading.
-   */
-  isLoading: Boolean;
-
-  /**
-   *  customize settings data.
-   */
-  customizes: Object;
-
-  /**
    * The loading indicator for the button.
    */
-  loading: boolean;
+  loading: Boolean;
 }
 
 export interface IStates {
   /**
-   * update auto generate.
+   * The loading indicator for the screen, displayed until the screen is ready to be displayed.
    */
-  isUpdateAutoGenerate: Boolean;
+  isFetchingInitialData: Boolean;
 }

@@ -1,111 +1,64 @@
 import React, {Component} from 'react';
 import {ScrollView} from 'react-native';
-import {Field, change} from 'redux-form';
+import {Field, change, initialize} from 'redux-form';
+import {omit} from 'lodash';
 import styles from './customize-estimate-style';
+import {
+  CUSTOMIZE_ESTIMATE_FORM,
+  ESTIMATE_SETTINGS_TYPE,
+  ESTIMATE_SWITCH_FIELDS
+} from 'stores/customize/types';
+import t from 'locales/use-translation';
+import {IProps, IStates} from './customize-estimate-type';
+import {hasTextLength, hasValue, isBooleanTrue} from '@/constants';
+import {NumberScheme, DueDate} from '../customize-common';
+import {
+  fetchCustomizeSettings,
+  updateCustomizeSettings
+} from 'stores/customize/actions';
+import {routes} from '@/navigation';
 import {
   DefaultLayout,
   ToggleSwitch,
-  InputField,
   CtDivider,
   Editor,
   PLACEHOLDER_TYPES as TYPE,
   Text,
   ActionButton
 } from '@/components';
-import {CUSTOMIZE_ESTIMATE_FORM} from 'stores/customize/types';
-import t from 'locales/use-translation';
-import {IProps, IStates} from './customize-estimate-type';
-import {routes} from '@/navigation';
-import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
-import {
-  fetchCustomizeSettings,
-  setCustomizeSettings,
-  editSettingItem,
-  updateCustomizeSettings
-} from 'stores/customize/actions';
 
 export default class CustomizeEstimate extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
-    this.state = {
-      isUpdateAutoGenerate: false
-    };
+    this.state = {isFetchingInitialData: true};
   }
 
   componentDidMount() {
-    const {dispatch, customizes} = this.props;
-    let hasCustomizeApiCalled = customizes
-      ? typeof customizes === 'undefined' || customizes === null
-      : true;
-
-    hasCustomizeApiCalled && dispatch(fetchCustomizeSettings());
+    const {dispatch} = this.props;
+    dispatch(
+      fetchCustomizeSettings(ESTIMATE_SETTINGS_TYPE, res => {
+        this.setInitialData(res);
+        this.setState({isFetchingInitialData: false});
+      })
+    );
   }
 
-  componentWillUnmount() {
-    this.state.isUpdateAutoGenerate &&
-      this.props.dispatch(setCustomizeSettings({customizes: null}));
-  }
+  setInitialData = res => {
+    const {dispatch} = this.props;
+    const data = {
+      ...res,
+      estimate_email_attachment: isBooleanTrue(res?.estimate_email_attachment),
+      estimate_auto_generate: isBooleanTrue(res?.estimate_auto_generate),
+      set_expiry_date_automatically: isBooleanTrue(
+        res?.set_expiry_date_automatically
+      )
+    };
+
+    dispatch(initialize(CUSTOMIZE_ESTIMATE_FORM, data));
+  };
 
   setFormField = (field, value) => {
     this.props.dispatch(change(CUSTOMIZE_ESTIMATE_FORM, field, value));
-  };
-
-  changeAutoGenerateStatus = (field, status) => {
-    this.setFormField(field, status);
-
-    const settings = {
-      [field]: status === true ? 'YES' : 'NO'
-    };
-    const payload = {
-      params: {
-        settings
-      },
-      hasCustomize: true,
-      onResult: () => {
-        this.toastReference?.show?.('settings.preferences.settingUpdate');
-        this.setState({isUpdateAutoGenerate: true});
-      }
-    };
-    this.dispatch(editSettingItem(payload));
-  };
-
-  onSave = values => {
-    let params = values;
-    for (const key in params) {
-      if (key.includes('mail_body') || key.includes('address_format')) {
-        if (!hasValue(params[key]) || !hasTextLength(params[key])) {
-          params[key] = `<p></p>`;
-        }
-      }
-    }
-
-    const {dispatch, navigation} = this.props;
-    dispatch(updateCustomizeSettings({params, navigation}));
-  };
-
-  TOGGLE_FIELD_VIEW = () => {
-    const {theme} = this.props;
-    return (
-      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
-        <CtDivider dividerStyle={styles.dividerLine} />
-
-        <Text
-          color={theme.header.primary.color}
-          style={styles.autoGenerateHeader}
-        >
-          {t('customizes.setting.estimate')}
-        </Text>
-        <Field
-          name={'estimate_auto_generate'}
-          component={ToggleSwitch}
-          hint={t('customizes.autoGenerate.estimate')}
-          description={t('customizes.autoGenerate.estimateDescription')}
-          onChangeCallback={val =>
-            this.changeAutoGenerateStatus('estimate_auto_generate', val)
-          }
-        />
-      </ScrollView>
-    );
   };
 
   getTextAreaPlaceholderTypes = () => {
@@ -130,6 +83,23 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
       shipping,
       billing
     };
+  };
+
+  onSave = values => {
+    const {dispatch, navigation} = this.props;
+    let params = values;
+    for (const key in params) {
+      if (key.includes('mail_body') || key.includes('address_format')) {
+        if (!hasValue(params[key]) || !hasTextLength(params[key])) {
+          params[key] = `<p></p>`;
+        }
+      }
+    }
+    ESTIMATE_SWITCH_FIELDS.forEach(
+      field => (params[field] = params[field] === true ? 'YES' : 'NO')
+    );
+    params = omit(params, ['next_umber']);
+    dispatch(updateCustomizeSettings({params, navigation}));
   };
 
   TEXTAREA_FIELDS = () => {
@@ -177,14 +147,54 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
     );
   };
 
+  TOGGLE_FIELD_VIEW = () => {
+    const {theme} = this.props;
+    return (
+      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+        <CtDivider dividerStyle={styles.dividerLine} />
+
+        <Text
+          color={theme.header.primary.color}
+          style={styles.autoGenerateHeader}
+        >
+          {t('customizes.setting.estimate')}
+        </Text>
+        <Field
+          name={'estimate_auto_generate'}
+          component={ToggleSwitch}
+          hint={t('customizes.autoGenerate.estimate')}
+          description={t('customizes.autoGenerate.estimateDescription')}
+        />
+        <Field
+          name={'estimate_email_attachment'}
+          component={ToggleSwitch}
+          hint={t('customizes.emailAttachment.estimate')}
+          description={t('customizes.emailAttachment.estimateDescription')}
+        />
+      </ScrollView>
+    );
+  };
+
   render() {
-    const {navigation, isLoading, handleSubmit, formValues} = this.props;
-    let loading = isLoading || !hasObjectLength(formValues);
+    const {
+      navigation,
+      theme,
+      handleSubmit,
+      loading,
+      formValues: {
+        estimate_number_scheme,
+        estimate_prefix,
+        estimate_number_separator,
+        estimate_number_length,
+        set_expiry_date_automatically
+      }
+    } = this.props;
+    const {isFetchingInitialData} = this.state;
     const bottomAction = [
       {
         label: 'button.save',
         onPress: () => handleSubmit(this.onSave)(),
-        loading: this.props.loading
+        loading: loading || isFetchingInitialData
       }
     ];
 
@@ -198,7 +208,7 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
           leftArrow: 'primary'
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}
-        loadingProps={{is: loading}}
+        loadingProps={{is: isFetchingInitialData}}
         hideScrollView
         toastProps={{
           reference: ref => (this.toastReference = ref)
@@ -209,19 +219,43 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={styles.scrollContainer}
         >
-          <Field
-            name={'estimate_prefix'}
-            component={InputField}
-            hint={t('customizes.prefix.estimate')}
-            inputProps={{
-              returnKeyType: 'next',
-              autoCorrect: true,
-              autoCapitalize: 'characters',
-              maxLength: 5
+          <Text
+            color={theme.header.primary.color}
+            style={styles.autoGenerateHeader}
+          >
+            {t('customizes.numberLabel.estimate')}
+          </Text>
+          <NumberScheme
+            {...this.props}
+            keyName={`estimate`}
+            numberSchemeField={{
+              name: 'estimate_number_scheme',
+              value: estimate_number_scheme
             }}
-            fieldName={t('customizes.prefix.title')}
-            maxCharacter={5}
-            isRequired
+            prefixField={{
+              name: 'estimate_prefix',
+              value: estimate_prefix
+            }}
+            separatorField={{
+              name: 'estimate_number_separator',
+              value: estimate_number_separator
+            }}
+            numberLengthField={{
+              name: 'estimate_number_length',
+              value: estimate_number_length
+            }}
+          />
+          <DueDate
+            toggleField={{
+              name: 'set_expiry_date_automatically',
+              hint: t('customizes.expDate.switchLabel'),
+              description: t('customizes.expDate.description'),
+              value: set_expiry_date_automatically
+            }}
+            dueDateField={{
+              name: 'expiry_date_days',
+              hint: t('customizes.expDate.inputLabel')
+            }}
           />
           {this.TEXTAREA_FIELDS()}
           {this.TOGGLE_FIELD_VIEW()}
