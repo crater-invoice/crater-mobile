@@ -8,6 +8,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 0,
     marginVertical: -2
   },
+  disabledCheckbox: {
+    opacity: 0.6
+  },
   label: theme => ({
     fontWeight: 'normal',
     fontFamily: fonts.regular,

@@ -17,15 +17,8 @@ class CheckBox extends Component<IProps> {
   toggleChecked = () => {
     const {
       input: {onChange, value},
-      onChangeCallback,
-      disabled = false,
-      disabledOnPress
+      onChangeCallback
     } = this.props;
-
-    if (disabled) {
-      disabledOnPress?.(!value);
-      return;
-    }
 
     onChange(!value);
     onChangeCallback && onChangeCallback(!value);
@@ -54,12 +47,17 @@ class CheckBox extends Component<IProps> {
           checked={value || false}
           size={25}
           onPress={this.toggleChecked}
-          containerStyle={[styles.container, containerStyle && containerStyle]}
+          containerStyle={[
+            styles.container,
+            containerStyle && containerStyle,
+            disabled && styles.disabledCheckbox
+          ]}
           textStyle={[styles.label(theme), labelStyle]}
           checkedColor={colors.primaryLight}
           uncheckedColor={theme.viewLabel.secondaryColor}
+          disabled={disabled}
           {...checkBoxProps}
-          activeOpacity={disabled ? 0.8 : 0.4}
+          activeOpacity={0.4}
         />
       </>
     );
