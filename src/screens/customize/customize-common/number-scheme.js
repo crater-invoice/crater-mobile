@@ -9,37 +9,37 @@ import {InputField, Text, SelectPickerField} from '@/components';
 
 interface IProps {
   /**
-   * current key for params.
+   * Current key for params.
    */
   keyName?: String;
 
   /**
-   * an object with data for number-scheme field.
+   * An object with data for number-scheme field.
    */
   numberSchemeField?: object;
 
   /**
-   * an object with data for prefix field.
+   * An object with data for prefix field.
    */
   prefixField?: object;
 
   /**
-   * an object with data for separator field.
+   * An object with data for separator field.
    */
   separatorField?: object;
 
   /**
-   * an object with data for number-length field.
+   * An object with data for number-length field.
    */
   numberLengthField?: any;
 
   /**
-   * dispatch change action.
+   * Dispatch change action.
    */
   dispatch?: (fun: object) => void;
 
   /**
-   * name of current form.
+   * Name of current form.
    */
   form?: String;
 

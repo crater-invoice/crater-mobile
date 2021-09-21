@@ -8,7 +8,7 @@ export interface IProps {
   navigation: INavigation;
 
   /**
-   * dispatch change action.
+   * Dispatch change action.
    */
   dispatch: (fun: object) => void;
 
@@ -37,7 +37,7 @@ export interface IProps {
 
 export interface IStates {
   /**
-   * The loading fetching initial data.
+   * The loading indicator for the screen, displayed until the screen is ready to be displayed.
    */
   isFetchingInitialData: Boolean;
 }

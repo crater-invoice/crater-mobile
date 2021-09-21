@@ -5,12 +5,12 @@ import {isBooleanTrue} from '@/constants';
 
 interface IProps {
   /**
-   * an object with data for due date field.
+   * An object with data for due date field.
    */
   dueDateField?: object;
 
   /**
-   * an object with data for toggle field.
+   * An object with data for toggle field.
    */
   toggleField?: object;
 }
@@ -35,7 +35,7 @@ export const DueDate = (props: IProps) => {
             returnKeyType: 'next',
             keyboardType: 'numeric'
           }}
-          isRequired={isBooleanTrue(toggleField.value === true)}
+          isRequired={isBooleanTrue(toggleField.value)}
         />
       )}
     </>

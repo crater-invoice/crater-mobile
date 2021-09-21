@@ -8,12 +8,12 @@ export interface IProps {
   navigation: INavigation;
 
   /**
-   * dispatch change action.
+   * Dispatch change action.
    */
   dispatch: (fun: object) => void;
 
   /**
-   * onSubmit handler.
+   * OnSubmit handler.
    * It will run validation, both sync and async, and, if the form is valid, it will call this.props.onSubmit(data) with the contents of the form data.
    */
   handleSubmit: (fun: object) => void;
@@ -37,7 +37,7 @@ export interface IProps {
 
 export interface IStates {
   /**
-   * The loading fetching initial data.
+   * The loading indicator for the screen, displayed until the screen is ready to be displayed.
    */
   isFetchingInitialData: Boolean;
 }
