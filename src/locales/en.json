@@ -365,7 +365,7 @@
         "type": "Note Type",
         "select": "Select a Note",
         "insertNote": "+ Insert Note",
-        "insertFields":"+ Insert Fields"
+        "insertFields": "+ Insert Fields"
     },
     "units": {
         "empty": {
@@ -559,7 +559,7 @@
         "defaultValue": "Default Value",
         "displayInPortal": "Display in portal",
         "placeholder": "Placeholder",
-        "order":"Order",
+        "order": "Order",
         "yes": "Yes",
         "no": "No",
         "help": "Help Text",
@@ -767,7 +767,7 @@
         "noResult": "No results for \"{{search}}\"",
         "noSearchResult": "No results for"
     },
-    "toast":{
+    "toast": {
         "send_invoice_successfully": "Invoice sent successfully",
         "send_payment_successfully": "Payment sent successfully",
         "send_estimate_successfully": "Estimate sent successfully"
@@ -810,7 +810,9 @@
             "description": "This section will contain the list of roles."
         },
         "text_name": "Name",
-        "text_permissions": "Permissions"
+        "text_permissions": "Permissions",
+        "select_all": "Select All",
+        "none": "None"
     },
     "users": {
         "text_add_new_user": "Add New User",

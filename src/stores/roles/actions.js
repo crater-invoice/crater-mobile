@@ -95,3 +95,27 @@ export function updatePermission(payload = {}) {
     payload
   };
 }
+
+/**
+ * Select all permissions
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export function selectAllPermissions(payload = {}) {
+  return {
+    type: types.SELECT_ALL_PERMISSIONS,
+    payload
+  };
+}
+
+/**
+ * Reset permissions
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export function resetPermissions(payload = {}) {
+  return {
+    type: types.RESET_PERMISSIONS,
+    payload
+  };
+}

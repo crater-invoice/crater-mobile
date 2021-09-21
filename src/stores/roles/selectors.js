@@ -3,7 +3,7 @@ import {isEmpty} from '@/constants';
 
 const formattedRoles = roles =>
   roles.map(role => ({
-    title: role.title,
+    title: role.name,
     fullItem: role
   }));
 

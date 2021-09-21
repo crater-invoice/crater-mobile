@@ -1,7 +1,7 @@
 import {find} from 'lodash';
 import * as types from './types';
 import {getModalName} from './helpers';
-import {hasValue} from '@/constants';
+import {hasValue, isArray, isEmpty} from '@/constants';
 
 const initialState = {
   roles: [],
@@ -41,86 +41,115 @@ export default function rolesReducer(state = initialState, action) {
       return {...state, permissions};
 
     case types.FETCH_SINGLE_ROLE_SUCCESS:
-      const isAllowed = (entity_type, name) => {
-        return hasValue(find(payload.currentPermissions, {entity_type, name}));
-      };
-      const filteredCreatedPermissions = payload.permissions.map(p => ({
-        ...p,
-        disabled: false,
-        allowed: isAllowed(p?.model, p.ability),
-        modelName: p?.model ? getModalName(p.model) : 'Common'
-      }));
-
-      const checkViewAvailability = (model, ability) => {
-        return filteredCreatedPermissions.some(
-          p =>
-            p.model === model &&
-            p.ability.includes(ability) &&
-            p.allowed === true
-        );
+      const isAllowed = name => {
+        return hasValue(find(payload.currentPermissions, {name}));
       };
 
-      filteredCreatedPermissions.map(p => {
-        const {ability, model} = p;
+      const filteredCreatedPermissions = [];
+      let dependList = [];
 
-        if (ability.includes('edit') || ability.includes('delete')) {
-          const isAllowToEdit = checkViewAvailability(model, `edit`);
-          const isAllowToDelete = checkViewAvailability(model, `delete`);
-          const disabled = isAllowToEdit || isAllowToDelete;
-          const viewAbility = filteredCreatedPermissions.filter(
-            p => p.model === model && p.ability.includes('view')
-          )?.[0];
+      for (const p of payload.permissions) {
+        const allowed = isAllowed(p.ability);
+        filteredCreatedPermissions.push({
+          ...p,
+          disabled: false,
+          allowed,
+          modelName: p?.model ? getModalName(p.model) : 'Common'
+        });
+        p?.depends_on &&
+          allowed &&
+          (dependList = [...dependList, ...p.depends_on]);
+      }
 
-          if (!viewAbility) {
-            return;
-          }
+      filteredCreatedPermissions.map((p, i) => {
+        if (!p.allowed) {
+          return;
+        }
 
-          let pos = filteredCreatedPermissions.findIndex(
-            p => p.name === viewAbility.name
-          );
-          filteredCreatedPermissions[pos] = {
-            ...viewAbility,
-            disabled
-          };
+        const found = dependList.find(d => d === p.ability);
+
+        if (found) {
+          filteredCreatedPermissions[i] = {...p, disabled: true};
         }
       });
+
       return {...state, permissions: filteredCreatedPermissions};
 
     case types.UPDATE_PERMISSION:
       const {allowed, ability} = payload;
-      const {model} = ability;
       let filteredPermissions = state.permissions;
       let pos = filteredPermissions.findIndex(p => p.name === ability.name);
 
       filteredPermissions[pos] = {...ability, allowed};
 
-      const checkAvailability = ability => {
-        return filteredPermissions.some(
-          p =>
-            p.model === model &&
-            p.ability.includes(ability) &&
-            p.allowed === true
+      const shouldDisableDependsOnAbility = _dependAbility => {
+        let disabled = allowed;
+
+        const currentPermissions = filteredPermissions.filter(
+          p => p.allowed && p?.depends_on && p.ability !== ability.ability
         );
+
+        let dependList = [];
+
+        if (!isEmpty(currentPermissions)) {
+          for (const c of currentPermissions) {
+            dependList = [...dependList, ...c.depends_on];
+          }
+
+          const found = dependList.find(d => d === _dependAbility);
+          found && (disabled = true);
+        }
+
+        return disabled;
       };
 
-      if (
-        ability.ability.includes('edit') ||
-        ability.ability.includes('delete')
-      ) {
-        const isAllowToEdit = checkAvailability(`edit`);
-        const isAllowToDelete = checkAvailability(`delete`);
-        const disabled = isAllowToEdit || isAllowToDelete;
+      if (!isEmpty(ability?.depends_on)) {
+        for (const _dependAbility of ability?.depends_on) {
+          let disabled = shouldDisableDependsOnAbility(_dependAbility);
+          let pos = filteredPermissions.findIndex(
+            p => p.ability === _dependAbility
+          );
 
-        filteredPermissions = filteredPermissions.map(p =>
-          p.model === model && p.ability.includes(`view`)
-            ? {...p, allowed: true, disabled}
-            : p
-        );
+          filteredPermissions[pos] = {
+            ...filteredPermissions[pos],
+            allowed: true,
+            disabled
+          };
+        }
       }
 
       return {
         ...state,
         permissions: filteredPermissions
+      };
+
+    case types.SELECT_ALL_PERMISSIONS:
+      dependList = [];
+      for (const p of state.permissions) {
+        p?.depends_on && (dependList = [...dependList, ...p.depends_on]);
+      }
+
+      let filteredAllPermissions = state.permissions.map(p => {
+        const found = dependList.find(d => d === p.ability);
+        return {
+          ...p,
+          allowed: true,
+          disabled: found ? true : false
+        };
+      });
+      return {
+        ...state,
+        permissions: filteredAllPermissions
+      };
+
+    case types.RESET_PERMISSIONS:
+      return {
+        ...state,
+        permissions: state.permissions.map(p => ({
+          ...p,
+          allowed: false,
+          disabled: false
+        }))
       };
 
     case types.ADD_ROLE_SUCCESS:
@@ -130,9 +159,21 @@ export default function rolesReducer(state = initialState, action) {
       };
 
     case types.UPDATE_ROLE_SUCCESS:
-      const filteredUpdatedRoles = state.roles;
-      pos = filteredUpdatedRoles.findIndex(role => role.id === payload.id);
-      filteredUpdatedRoles[pos] = payload;
+      if (isEmpty(state.roles)) {
+        return state;
+      }
+
+      const filteredUpdatedRoles = [];
+      state.roles.map(role => {
+        const {id} = role;
+        let value = role;
+
+        if (id === payload.id) {
+          value = payload;
+        }
+        filteredUpdatedRoles.push(value);
+      });
+
       return {...state, roles: filteredUpdatedRoles};
 
     case types.REMOVE_ROLE_SUCCESS:
