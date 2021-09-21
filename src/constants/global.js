@@ -81,7 +81,8 @@ export const hasObjectLength = field => {
   return field && Object.keys(field).length !== 0;
 };
 
-export const isBooleanTrue = value => value && (value === 'YES' || value === 1);
+export const isBooleanTrue = value =>
+  value && (value === 'YES' || value === 1 || value === true);
 
 export const hasTextLength = string => {
   return hasValue(string) && string.length !== 0;

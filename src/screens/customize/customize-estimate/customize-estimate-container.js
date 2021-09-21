@@ -8,9 +8,9 @@ import {commonSelector} from 'stores/common/selectors';
 const mapStateToProps = (state, {routes}) => {
   const {
     customizes: {
-      customFields,
       loading: {customizeLoading}
-    }
+    },
+    settings: {customFields}
   } = state;
 
   return {

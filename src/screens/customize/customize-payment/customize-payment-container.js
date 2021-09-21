@@ -8,18 +8,16 @@ import {commonSelector} from 'stores/common/selectors';
 const mapStateToProps = (state, {routes}) => {
   const {
     customizes: {
-      customFields,
       loading: {customizeLoading}
     },
-    paymentModes: {modes}
+    settings: {customFields}
   } = state;
 
   return {
-    paymentModes: modes,
+    ...commonSelector(state),
     formValues: getFormValues(CUSTOMIZE_PAYMENT_FORM)(state) || {},
-    customFields,
     loading: customizeLoading,
-    ...commonSelector(state)
+    customFields
   };
 };
 

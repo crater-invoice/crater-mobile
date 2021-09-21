@@ -10,8 +10,9 @@ import {getCustomFields} from '@/features/settings/saga/custom-fields';
  * @returns {*}
  */
 function* fetchCustomizeSettings({payload}) {
+  const {keys, onSuccess} = payload;
+
   try {
-    const {keys, onSuccess} = payload;
     yield call(getCustomFields, {payload: {queryString: {limit: 'all'}}});
     const response = yield call(req.fetchCustomizeSettings, keys);
     onSuccess?.(response);
@@ -22,7 +23,9 @@ function* fetchCustomizeSettings({payload}) {
  * Update customization saga
  * @returns {*}
  */
-function* updateCustomizeSettings({payload: {params, navigation}}) {
+function* updateCustomizeSettings({payload}) {
+  const {params, navigation} = payload;
+
   yield put(spinner({customizeLoading: true}));
 
   try {
@@ -42,7 +45,9 @@ function* updateCustomizeSettings({payload: {params, navigation}}) {
  * fetch Next-Number saga
  * @returns {*}
  */
-export function* fetchNextNumber({payload: {params, onSuccess}}) {
+export function* fetchNextNumber({payload}) {
+  const {params, onSuccess} = payload;
+
   try {
     const response = yield call(req.fetchNextNumber, params);
     onSuccess?.(response);

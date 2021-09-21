@@ -1,2 +1,2 @@
-export * from './EndDate';
-export * from './NumberScheme';
+export * from './due-date';
+export * from './number-scheme';

@@ -1,31 +1,52 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {Field, change} from 'redux-form';
 import debounce from 'lodash/debounce';
 import t from 'locales/use-translation';
-import {commonSelector} from 'stores/common/selectors';
 import {NUMBERING_SCHEME_TYPE} from 'stores/customize/helpers';
 import {fetchNextNumber} from 'stores/customize/actions';
 import {ITheme} from '@/interfaces';
-import {
-  ToggleSwitch,
-  InputField,
-  CtDivider,
-  Editor,
-  PLACEHOLDER_TYPES as TYPE,
-  Text,
-  ActionButton,
-  SelectPickerField
-} from '@/components';
+import {InputField, Text, SelectPickerField} from '@/components';
 
 interface IProps {
+  /**
+   * current key for params.
+   */
   keyName?: String;
+
+  /**
+   * an object with data for number-scheme field.
+   */
   numberSchemeField?: object;
+
+  /**
+   * an object with data for prefix field.
+   */
   prefixField?: object;
+
+  /**
+   * an object with data for separator field.
+   */
   separatorField?: object;
+
+  /**
+   * an object with data for number-length field.
+   */
   numberLengthField?: any;
+
+  /**
+   * dispatch change action.
+   */
   dispatch?: (fun: object) => void;
+
+  /**
+   * name of current form.
+   */
   form?: String;
+
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
   theme?: ITheme;
 }
 
@@ -37,10 +58,11 @@ export class NumberScheme extends Component<IProps> {
     this.onChangeNumber();
   }
 
-  onChangeNumber = () => {
+  onChangeNumber = (
+    numberSchemeField = this.props.numberSchemeField?.value
+  ) => {
     const {
       keyName,
-      numberSchemeField,
       prefixField,
       separatorField,
       numberLengthField,
@@ -61,7 +83,7 @@ export class NumberScheme extends Component<IProps> {
         onSuccess: data => {
           const {prefix, separator, nextNumber} = data;
           const value = [
-            numberSchemeField.value === 'company_level' ? prefix : 'CST',
+            numberSchemeField === 'company_level' ? prefix : 'CST',
             separator,
             nextNumber
           ].join(' ');
@@ -88,7 +110,7 @@ export class NumberScheme extends Component<IProps> {
           component={SelectPickerField}
           fieldIcon="align-center"
           items={NUMBERING_SCHEME_TYPE}
-          onChangeCallback={this.onChangeNumber}
+          onChangeCallback={value => this.onChangeNumber(value)}
           callbackWhenMount={() => {}}
           isRequired
         />

@@ -9,10 +9,10 @@ import {
   INVOICE_SETTINGS_TYPE
 } from 'stores/customize/types';
 import t from 'locales/use-translation';
-import {IProps} from './customize-invoice-type';
+import {IProps, IStates} from './customize-invoice-type';
 import {routes} from '@/navigation';
 import {hasTextLength, hasValue, isBooleanTrue} from '@/constants';
-import {NumberScheme, EndDate} from '../customize-common';
+import {NumberScheme, DueDate} from '../customize-common';
 import {
   fetchCustomizeSettings,
   updateCustomizeSettings
@@ -27,7 +27,7 @@ import {
   ActionButton
 } from '@/components';
 
-export default class CustomizeInvoice extends Component<IProps> {
+export default class CustomizeInvoice extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {isFetchingInitialData: true};
@@ -51,6 +51,7 @@ export default class CustomizeInvoice extends Component<IProps> {
       invoice_email_attachment: isBooleanTrue(res?.invoice_email_attachment),
       set_due_date_automatically: isBooleanTrue(res?.set_due_date_automatically)
     };
+
     dispatch(initialize(CUSTOMIZE_INVOICE_FORM, data));
   };
 
@@ -83,6 +84,7 @@ export default class CustomizeInvoice extends Component<IProps> {
   };
 
   onSave = values => {
+    const {navigation, dispatch} = this.props;
     let params = values;
     for (const key in params) {
       if (key.includes('mail_body') || key.includes('address_format')) {
@@ -95,7 +97,6 @@ export default class CustomizeInvoice extends Component<IProps> {
       field => (params[field] = params[field] === true ? 'YES' : 'NO')
     );
     params = omit(params, ['next_umber']);
-    const {navigation, dispatch} = this.props;
     dispatch(updateCustomizeSettings({params, navigation}));
   };
 
@@ -243,14 +244,14 @@ export default class CustomizeInvoice extends Component<IProps> {
               value: invoice_number_length
             }}
           />
-          <EndDate
+          <DueDate
             toggleField={{
               name: 'set_due_date_automatically',
               hint: t('customizes.dueDate.switchLabel'),
               description: t('customizes.dueDate.description'),
               value: set_due_date_automatically
             }}
-            endDateField={{
+            dueDateField={{
               name: 'due_date_days',
               hint: t('customizes.dueDate.inputLabel')
             }}

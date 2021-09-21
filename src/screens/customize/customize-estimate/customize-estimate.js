@@ -9,9 +9,9 @@ import {
   ESTIMATE_SWITCH_FIELDS
 } from 'stores/customize/types';
 import t from 'locales/use-translation';
-import {IProps} from './customize-estimate-type';
+import {IProps, IStates} from './customize-estimate-type';
 import {hasTextLength, hasValue, isBooleanTrue} from '@/constants';
-import {NumberScheme, EndDate} from '../customize-common';
+import {NumberScheme, DueDate} from '../customize-common';
 import {
   fetchCustomizeSettings,
   updateCustomizeSettings
@@ -27,7 +27,7 @@ import {
   ActionButton
 } from '@/components';
 
-export default class CustomizeEstimate extends Component<IProps> {
+export default class CustomizeEstimate extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {isFetchingInitialData: true};
@@ -86,6 +86,7 @@ export default class CustomizeEstimate extends Component<IProps> {
   };
 
   onSave = values => {
+    const {dispatch, navigation} = this.props;
     let params = values;
     for (const key in params) {
       if (key.includes('mail_body') || key.includes('address_format')) {
@@ -98,7 +99,6 @@ export default class CustomizeEstimate extends Component<IProps> {
       field => (params[field] = params[field] === true ? 'YES' : 'NO')
     );
     params = omit(params, ['next_umber']);
-    const {dispatch, navigation} = this.props;
     dispatch(updateCustomizeSettings({params, navigation}));
   };
 
@@ -245,14 +245,14 @@ export default class CustomizeEstimate extends Component<IProps> {
               value: estimate_number_length
             }}
           />
-          <EndDate
+          <DueDate
             toggleField={{
               name: 'set_expiry_date_automatically',
               hint: t('customizes.expDate.switchLabel'),
               description: t('customizes.expDate.description'),
               value: set_expiry_date_automatically
             }}
-            endDateField={{
+            dueDateField={{
               name: 'expiry_date_days',
               hint: t('customizes.expDate.inputLabel')
             }}

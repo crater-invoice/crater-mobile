@@ -30,17 +30,17 @@ export interface IProps {
   formValues: any;
 
   /**
-   * The loading fetching customizes.
-   */
-  isLoading: Boolean;
-
-  /**
    * The loading indicator for the button.
    */
   loading: boolean;
 }
 
 export interface IStates {
+  /**
+   * The loading fetching initial data.
+   */
+  isFetchingInitialData: Boolean;
+
   /**
    * current active tab
    */

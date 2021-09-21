@@ -679,7 +679,7 @@
             "title": "Expiry Date",
             "switchLabel": "Set Expiry Date Automatically",
             "description": "Enable this if you wish to set expiry date automatically when you create a new estimate.",
-            "inputLabel": "Estimate Expires after days"
+            "inputLabel": "Estimate Expires After Days"
         },
         "autoGenerate": {
             "invoice": "Auto Generate Invoice Number",
