@@ -1,52 +1,52 @@
 import React, {Component} from 'react';
-import {View, Modal} from 'react-native';
+import {View, Modal, ScrollView, ActivityIndicator} from 'react-native';
 import {connect} from 'react-redux';
 import {change} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './type';
-import {headerTitle} from '@/styles';
+import {colors, headerTitle} from '@/styles';
 import styles from './styles';
 import {SlideModal} from '../SlideModal';
 import {FakeInput} from '../FakeInput';
-import {CtButton} from '../Button';
 import {hasValue, isAndroidPlatform, isEmpty} from '@/constants';
-import {internalSearch as searchItem} from '@/utils';
+import {internalSearch} from '@/utils';
 import {ARROW_ICON} from '@/assets';
-import {PaymentModeModal, UnitModal} from '../Modal';
-import {PermissionService} from '@/services';
 import {commonSelector} from 'stores/common/selectors';
+import {MainLayout} from '../Layouts';
+import Empty from '../Empty';
+import {ListView} from '../ListView';
+import {Content} from '../Content';
 
+const ITEMS_PER_PAGE = 15;
+
+const isScrollToEnd = ({layoutMeasurement, contentOffset, contentSize}) => {
+  const paddingToBottom = 65;
+
+  return (
+    layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom
+  );
+};
 export class InternalPaginationComponent extends Component<IProps, IStates> {
-  scrollViewReference: any;
-  inputModelReference: any;
-
   constructor(props) {
     super(props);
-    this.scrollViewReference = React.createRef();
-    this.inputModelReference = React.createRef();
     this.state = this.initialState();
-    this.offset = 0;
   }
 
   componentDidMount() {
-    this.props.reference?.(this);
     this.setInitialState();
-  }
-
-  componentWillUnmount() {
-    this.props.reference?.(undefined);
   }
 
   initialState = () => {
     return {
       search: '',
       visible: false,
-      values: '',
-      selectedItems: [],
-      oldItems: [],
-      defaultItem: [],
       searchItems: [],
-      itemList: []
+      itemList: [],
+      currentPage: 0,
+      loading: this.props?.hideLoader ? false : true,
+      searchLoading: false,
+      bottomLoader: false
     };
   };
 
@@ -55,20 +55,8 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
       input: {value},
       compareField,
       items,
-      selectedItem,
-      displayName,
-      concurrentMultiSelect
+      displayName
     } = this.props;
-
-    if (selectedItem) {
-      await this.setState({
-        values: selectedItem[displayName],
-        defaultItem: items || [],
-        searchItems: items || []
-      });
-      return;
-    }
-
     if (!value) {
       return;
     }
@@ -80,44 +68,28 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
         break;
       }
     }
-
-    concurrentMultiSelect &&
-      (await this.setState({
-        selectedItems: value,
-        oldItems: value
-      }));
-
     await this.setState({
       values: compareField ? newValue : value[displayName],
-      defaultItem: items || [],
       searchItems: items || []
     });
   };
 
   onToggle = () => {
-    const {
-      meta,
-      isEditable = true,
-      input,
-      hasPagination,
-      apiSearch
-    } = this.props;
-    const {visible, defaultItem} = this.state;
+    const {meta, input, items} = this.props;
+    const {visible} = this.state;
 
-    if (isEditable) {
-      if (visible) this.setState({searchItems: defaultItem});
-
-      this.setState(prevState => {
-        return {visible: !prevState.visible};
-      });
-
-      if (!hasPagination || !apiSearch) {
-        meta.dispatch(change(meta.form, `search-${input?.name}`, ''));
-      }
+    if (visible) {
+      this.setState(this.initialState());
+      meta.dispatch(change(meta.form, `search-${input?.name}`, ''));
+    } else {
+      this.setState({visible: true});
+      this.getItems();
     }
   };
 
-  changeDisplayValue = async item => {
+  onItemSelect = item => {
+    const {onSelect} = this.props;
+    onSelect(item);
     if (!hasValue(item)) {
       this.setState({values: null});
       return;
@@ -125,164 +97,20 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
 
     const {displayName} = this.props;
     this.setState({values: item[displayName]});
-  };
-
-  changeDisplayValueByUsingCompareField = async val => {
-    const {compareField, displayName, items} = this.props;
-
-    if (isEmpty(items)) {
-      return;
-    }
-
-    for (const key in items) {
-      if (items[key]['fullItem'][compareField] === val) {
-        this.setState({
-          values: items[key]['fullItem'][displayName]
-        });
-        break;
-      }
-    }
-  };
-
-  onItemSelect = item => {
-    const {concurrentMultiSelect} = this.props;
-    concurrentMultiSelect ? this.toggleItem(item) : this.getAlert(item);
-  };
-
-  toggleItem = async item => {
-    const {compareField, valueCompareField} = this.props;
-
-    const {selectedItems} = this.state;
-
-    const newItem = [{...item, [valueCompareField]: item[compareField]}];
-
-    if (selectedItems) {
-      let hasSameItem = selectedItems.filter(
-        val =>
-          JSON.parse(val[valueCompareField]) === JSON.parse(item[compareField])
-      );
-
-      if (hasSameItem.length > 0) {
-        const removedItems = selectedItems.filter(
-          val =>
-            JSON.parse(val[valueCompareField]) !==
-            JSON.parse(item[compareField])
-        );
-
-        await this.setState({selectedItems: removedItems});
-      } else {
-        await this.setState({
-          selectedItems: [...selectedItems, ...newItem]
-        });
-      }
-    } else {
-      await this.setState({selectedItems: newItem});
-    }
-  };
-
-  getAlert = item => {
-    const {
-      displayName,
-      input: {onChange, value},
-      isMultiSelect,
-      onlyPlaceholder,
-      onSelect,
-      compareField,
-      valueCompareField
-    } = this.props;
-
-    if (isMultiSelect && value) {
-      let hasSameItem = value.filter(
-        val =>
-          JSON.parse(val[valueCompareField]) === JSON.parse(item[compareField])
-      );
-
-      if (hasSameItem.length > 0) {
-        this.onToggle();
-        return;
-      }
-    }
-
-    if (!onlyPlaceholder) {
-      this.setState({values: item[displayName]});
-    }
-
-    if (!onSelect) {
-      isMultiSelect
-        ? onChange([
-            ...value,
-            ...[{...item, [valueCompareField]: item[compareField]}]
-          ])
-        : onChange(item);
-    } else {
-      onSelect(item);
-    }
-
     this.onToggle();
   };
 
-  onSearch = search => {
-    this.setState({search});
-    const {apiSearch, isInternalSearch} = this.props;
-
-    apiSearch && !isInternalSearch
-      ? this.searchPaginateItems(search)
-      : this.internalSearch(search);
-  };
-
-  searchPaginateItems = search => {
-    this.scrollViewReference?.getItems?.({
-      queryString: {search},
-      showLoader: true
-    });
-  };
-
-  internalSearch = async search => {
-    const {items, searchFields, isInternalSearch} = this.props;
-    const {defaultItem} = this.state;
-
-    const searchItems = isInternalSearch ? items : defaultItem;
-
-    const newData = searchItem({
-      items: searchItems,
+  onSearch = async search => {
+    this.setState({searchLoading: true, search});
+    const {items, searchFields} = this.props;
+    const newData = internalSearch({
+      items,
       search,
       searchFields
     });
 
-    await this.setState({searchItems: newData});
-  };
-
-  onSubmit = () => {
-    const {
-      input: {onChange, value}
-    } = this.props;
-
-    const {selectedItems} = this.state;
-
-    onChange(selectedItems);
-
-    this.setState({
-      oldItems: selectedItems
-    });
-
-    this.onToggle();
-  };
-
-  onRightIconPress = () => {
-    const {inputModalName, rightIconPress} = this.props;
-
-    if (inputModalName) {
-      this.toggleInputModal();
-      return;
-    }
-
-    this.onToggle();
-    setTimeout(() => rightIconPress?.(), 300);
-    return;
-  };
-
-  toggleInputModal = () => {
-    this.inputModelReference?.onToggle?.();
+    await this.setState({searchItems: newData, currentPage: 0, itemList: []});
+    this.getItems();
   };
 
   getEmptyTitle = () => {
@@ -298,115 +126,91 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
     let noSearchResult = t('search.noSearchResult');
 
     return {
-      title: search ? `${noSearchResult} "${search}"` : emptyTitle,
+      title: hasValue(search) ? `${noSearchResult} "${search}"` : emptyTitle,
       description: t(`${emptyContentType}.empty.description`)
     };
   };
 
-  getPaginationItems = () => {
-    const {search} = this.state;
+  getItems = async () => {
+    const {
+      search,
+      currentPage,
+      searchItems,
+      itemList,
+      searchLoading,
+      loading,
+      bottomLoader
+    } = this.state;
+    const {items} = this.props;
+    await this.setState({bottomLoader: true});
+    const currentItemsList = hasValue(search) ? searchItems : items;
+    const itemsList = currentItemsList.slice(
+      currentPage * ITEMS_PER_PAGE,
+      (currentPage + 1) * ITEMS_PER_PAGE
+    );
 
-    this.scrollViewReference?.getItems?.({
-      queryString: {search, ...this.props.queryString}
+    this.setState({
+      itemList: [...itemList, ...itemsList],
+      currentPage: currentPage + 1
     });
-  };
-
-  inputModalComponent = name => {
-    switch (name) {
-      case 'PaymentModeModal':
-        return (
-          <PaymentModeModal
-            reference={ref => (this.inputModelReference = ref)}
-          />
-        );
-
-      case 'UnitModal':
-        return (
-          <UnitModal reference={ref => (this.inputModelReference = ref)} />
-        );
-
-      default:
-        return null;
+    if (searchLoading) {
+      this.setState({searchLoading: false});
+    }
+    if (loading) {
+      this.setState({loading: false});
+    }
+    if (bottomLoader) {
+      this.setState({bottomLoader: false});
     }
   };
 
-  BOTTOM_ACTION = () => (
-    <View style={styles.submitButton}>
-      <View style={{flex: 1}}>
-        <CtButton
-          onPress={this.onSubmit}
-          btnTitle={t('button.done')}
-          containerStyle={styles.handleBtn}
-        />
-      </View>
-    </View>
-  );
-  getItems = () => {
-    if (this.offset < Math.ceil(this.props.items.length / 15)) {
-      const itemsListOld = this.props.items;
-      const itemsList = itemsListOld.slice(
-        this.offset * 16,
-        (this.offset + 1) * 16 - 1
-      );
-      const listOld = this.state.itemList;
-      this.setState({itemList: [...listOld, ...itemsList]});
-      this.offset = this.offset + 1;
-    }
-  };
   render() {
     const {
       containerStyle,
+      theme,
       items,
       label,
       icon,
       placeholder,
       meta,
       headerProps,
-      hasPagination,
       fakeInputProps,
       listViewProps,
-      valueCompareField,
-      compareField,
-      concurrentMultiSelect,
       emptyContentProps,
-      apiSearch,
       searchInputProps,
       input,
       input: {value},
       isRequired,
-      isInternalSearch,
-      paginationLimit,
       customView,
-      inputModalName,
-      createActionRouteName
+      scrollViewStyle,
+      contentContainerStyle
     } = this.props;
+
     const {
       visible,
-      search,
       values,
-      selectedItems,
+      itemList,
+      currentPage,
+      loading,
+      searchLoading,
+      bottomLoader,
       searchItems,
-      itemList
+      search
     } = this.state;
-    let multiSelectProps = {};
-    let bottomActionProps = {};
+    const lastPage = Math.ceil(
+      hasValue(search)
+        ? searchItems.length / ITEMS_PER_PAGE
+        : items.length / ITEMS_PER_PAGE
+    );
+    const isMoreItems = currentPage <= lastPage;
+    const loaderColor =
+      theme?.mode === 'light' ? colors.veryDarkGray : colors.white;
 
-    if (concurrentMultiSelect) {
-      multiSelectProps = {
-        hasCheckbox: true,
-        compareField,
-        valueCompareField,
-        checkedItems: selectedItems
-      };
-      bottomActionProps = {
-        bottomAction: this.BOTTOM_ACTION()
-      };
-    }
-
-    let infiniteScrollProps = {
-      getItems: this.getItems(),
-      reference: ref => (this.scrollViewReference = ref),
-      hideLoader: !isEmpty(items)
+    const loadingProps = {
+      is: loading || searchLoading,
+      ...(searchLoading && {
+        style: styles.searchLoader
+      })
     };
 
     let layoutHeaderProps = {
@@ -418,48 +222,16 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
       hasCircle: false,
       noBorder: false,
       transparent: false,
-      rightIconPress: () => this.onRightIconPress(),
       ...headerProps
     };
 
-    if (
-      createActionRouteName &&
-      layoutHeaderProps?.rightIcon &&
-      layoutHeaderProps?.rightIcon === 'plus' &&
-      layoutHeaderProps?.rightIconPress
-    ) {
-      const isAllowToCreate = PermissionService.isAllowToCreate(
-        createActionRouteName
-      );
-
-      if (!isAllowToCreate) {
-        layoutHeaderProps = {
-          ...layoutHeaderProps,
-          rightIconPress: null
-        };
-      }
-    }
-    console.log('itemList', itemList.length);
-    const listProps = {
-      items: itemList,
-      isEmpty: isEmpty(itemList),
-      bottomDivider: true,
-      emptyContentProps: {
-        ...this.getEmptyTitle(),
-        ...emptyContentProps
-      },
-      itemContainer: {paddingVertical: 16},
-      ...listViewProps,
-      ...multiSelectProps
-    };
-
-    const internalListScrollProps = {
-      scrollViewProps: {
-        contentContainerStyle: {
-          flex: isEmpty(itemList) ? 1 : 0
-        }
-      }
-    };
+    const loader = (
+      <ActivityIndicator
+        size={'large'}
+        color={loaderColor}
+        style={styles.loader}
+      />
+    );
 
     let fieldView = !customView ? (
       <FakeInput
@@ -477,7 +249,6 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
     ) : (
       customView
     );
-
     return (
       <View style={styles.container}>
         {fieldView}
@@ -497,8 +268,6 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
                 })
               }}
               onSearch={this.onSearch}
-              bottomDivider
-              bottomAction={this.BOTTOM_ACTION()}
               inputProps={searchInputProps && searchInputProps}
               searchFieldProps={{
                 name: `search-${input?.name}`,
@@ -515,47 +284,37 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
               searchFieldStyle={styles.searchView}
             >
               <ScrollView
-                style={[styles.container, style]}
+                style={[styles.scrollViewContainer, scrollViewStyle]}
                 contentContainerStyle={[{flexGrow: 1}, contentContainerStyle]}
                 scrollEventThrottle={400}
-                refreshControl={refreshControl}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
                 keyboardDismissMode="on-drag"
                 onScroll={({nativeEvent}) => {
-                  if (isScrollToEnd(nativeEvent) && !loading && !refreshing) {
-                    this.getItems({fresh: false});
+                  if (isScrollToEnd(nativeEvent) && isMoreItems) {
+                    this.getItems();
                   }
                 }}
               >
                 <Content loadingProps={loadingProps} theme={theme}>
-                  {!isEmpty ? (
-                    children
-                  ) : (
-                    <Empty {...emptyContentProps} theme={theme} />
-                  )}
-
-                  {!loading && !refreshing && isMore && loader}
+                  <ListView
+                    items={itemList}
+                    onPress={this.onItemSelect}
+                    isEmpty={isEmpty(itemList)}
+                    bottomDivider={true}
+                    emptyContentProps={{
+                      ...this.getEmptyTitle(),
+                      ...emptyContentProps
+                    }}
+                    itemContainer={{paddingVertical: 16}}
+                    {...listViewProps}
+                  />
+                  {!loading && bottomLoader && isMoreItems && loader}
                 </Content>
               </ScrollView>
             </MainLayout>
           </View>
         </Modal>
-        <SlideModal
-          visible={visible}
-          onToggle={this.onToggle}
-          headerProps={layoutHeaderProps}
-          searchInputProps={searchInputProps && searchInputProps}
-          searchFieldProps={{name: `search-${input?.name}`}}
-          onSearch={this.onSearch}
-          bottomDivider
-          {...bottomActionProps}
-          listViewProps={listProps}
-          infiniteScrollProps={infiniteScrollProps}
-          isPagination={apiSearch || hasPagination}
-          {...internalListScrollProps}
-          customView={this.inputModalComponent(inputModalName)}
-        />
       </View>
     );
   }

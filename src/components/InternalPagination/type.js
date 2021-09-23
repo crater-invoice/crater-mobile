@@ -1,62 +1,152 @@
-export type IProps = {
-  loading: Boolean,
-  apiSearch: Boolean,
-  concurrentMultiSelect: Boolean,
-  isRequired: Boolean,
-  pagination: Boolean,
-  isMultiSelect: Boolean,
-  isInternalSearch: Boolean,
-  hasPagination: Boolean,
+import {ITheme} from '@/interfaces';
+export interface IProps {
+  /**
+   * Scroll-View style.
+   */
+  scrollViewStyle: Object;
+  /**
+   * Content-Container style.
+   */
+  contentContainerStyle: Object;
+  /**
+   * Hide the loader indicator.
+   */
+  hideLoader: Boolean;
 
-  onChangeCallback: Function,
-  getItem: Function,
-  onSearch: Function,
-  getItems: Function,
-  rightIconPress: Function,
-  onSelect: Function,
+  /**
+   * Object of Search-Input props.
+   */
+  input: Object;
 
-  label: String,
-  icon: String,
-  placeholder: String,
-  rightIcon: String,
-  leftIcon: String,
-  color: String,
-  value: String,
-  displayName: any,
-  emptyContentImage: String,
-  compareField: any,
-  valueCompareField: any,
+  /**
+   * Compare key of an object for current selected-item placeholder value.
+   */
+  compareField: String;
 
-  containerStyle: any,
-  meta: any,
-  headerProps: any,
-  input: any,
-  fakeInputProps: any,
-  onlyPlaceholder: any,
-  listViewProps: any,
-  searchInputProps: any,
-  hasFirstItem: Boolean,
-  emptyContentProps: any,
+  /**
+   * An array of objects with data for each items.
+   */
+  items: Array;
 
-  items: Array,
-  selectedItem: Object<any>,
-  searchFields: Array,
-  isEditable: Boolean,
-  isCompareField: Boolean,
-  reference: any,
-  queryString: Object,
-  paginationLimit: Number,
-  customView: any,
-  inputModalName: String
-};
+  /**
+   * Display value of an object for current selected-item placeholder value.
+   */
+  displayName: String;
 
-export type IStates = {
-  search: String,
-  visible: Boolean,
-  values: String,
-  selectedItems: Array<any>,
-  oldItems: Array<any>,
-  defaultItem: Array<any>,
-  searchItems: Array<any>,
-  oldValue: String
-};
+  /**
+   * Meta props for Search-Input field.
+   */
+  meta: Object;
+
+  /**
+   * Search Fields for internal search params.
+   */
+  searchFields: Object;
+
+  /**
+   * container style for Fake-input.
+   */
+  containerStyle: Object;
+
+  /**
+   * Label for Fake-input.
+   */
+  label: String;
+
+  /**
+   * Icon for Fake-input.
+   */
+  icon: any;
+
+  /**
+   * Placeholder for Fake-input.
+   */
+  placeholder: String;
+
+  /**
+   * Header props of Main-Layout.
+   */
+  headerProps: Object;
+
+  /**
+   * External Fake-input props.
+   */
+  fakeInputProps: Object;
+
+  /**
+   * External List-View props.
+   */
+  listViewProps: Object;
+
+  /**
+   * External Empty-Container props.
+   */
+  emptyContentProps: Object;
+
+  /**
+   * Search-Input props in Main-Layout.
+   */
+  searchInputProps: any;
+
+  /**
+   * A required value of Internal-Pagination filed.
+   */
+  isRequired: Boolean;
+
+  /**
+   * Custom View field exchange of Fake-input.
+   */
+  customView: any;
+
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
+  theme: ITheme;
+}
+export interface IStates {
+  /**
+   * Is modal visible.
+   */
+  visible: Boolean;
+
+  /**
+   * The bottom loading indicator for load data list.
+   */
+  bottomLoader: Boolean;
+
+  /**
+   * The loading indicator for load data list.
+   */
+  loading: Boolean;
+
+  /**
+   * The loading indicator while search.
+   */
+  searchLoading: Boolean;
+
+  /**
+   * Current searched text.
+   */
+  search: String;
+
+  /**
+   * Current selected-item placeholder for Fake-Input.
+   */
+  values: String;
+
+  /**
+   * Current index of from total pages.
+   */
+  currentPage: Number;
+
+  /**
+   * An array of objects with data for each searched-items.
+   */
+  searchItems: Array;
+
+  /**
+   * An array of objects with data for each items with pagination.
+   */
+  itemList: Array;
+}

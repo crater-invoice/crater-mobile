@@ -6,7 +6,8 @@ import {
   InputField,
   FilePicker,
   SelectField,
-  ActionButton
+  ActionButton,
+  InternalPagination
 } from '@/components';
 import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
@@ -199,11 +200,10 @@ export class Company extends React.Component<IProps> {
           name={'country_id'}
           items={formatCountries(countries)}
           displayName="name"
-          component={SelectField}
+          component={InternalPagination}
           label={t('customers.address.country')}
           placeholder={' '}
           rightIcon="angle-right"
-          navigation={navigation}
           searchFields={['name']}
           isInternalSearch
           compareField="id"
@@ -221,7 +221,6 @@ export class Company extends React.Component<IProps> {
             contentType: 'countries'
           }}
           fakeInputProps={{disabled}}
-          isEditable={!disabled}
           isRequired
         />
 

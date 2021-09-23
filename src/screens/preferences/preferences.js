@@ -211,7 +211,6 @@ export default class Preferences extends Component<IProps, IStates> {
               ? this.getSelectedField(currencyList, currency, 'id')
               : t('settings.preferences.currencyPlaceholder')
           }
-          navigation={navigation}
           searchFields={['name']}
           compareField="id"
           fakeInputProps={{
@@ -237,7 +236,6 @@ export default class Preferences extends Component<IProps, IStates> {
             contentContainerStyle: {flex: 5},
             rightTitleStyle: SymbolStyle
           }}
-          isInternalSearch
         />
 
         <Field
@@ -280,7 +278,7 @@ export default class Preferences extends Component<IProps, IStates> {
           name="time_zone"
           items={timezoneList}
           displayName="key"
-          component={SelectField}
+          component={InternalPagination}
           label={t('settings.preferences.timeZone')}
           icon="clock"
           rightIcon="angle-right"
@@ -293,7 +291,6 @@ export default class Preferences extends Component<IProps, IStates> {
             valueStyle: styles.selectedField,
             placeholderStyle: styles.selectedField
           }}
-          navigation={navigation}
           searchFields={['key']}
           compareField="value"
           onSelect={val => {
@@ -307,7 +304,6 @@ export default class Preferences extends Component<IProps, IStates> {
             contentType: 'timeZones'
           }}
           isRequired
-          isInternalSearch
         />
 
         <Field

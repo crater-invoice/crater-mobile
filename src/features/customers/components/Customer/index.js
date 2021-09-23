@@ -8,7 +8,8 @@ import {
   DefaultLayout,
   SelectField,
   CustomField,
-  ActionButton
+  ActionButton,
+  InternalPagination
 } from '@/components';
 import {
   CUSTOMER_FORM,
@@ -339,10 +340,10 @@ export class Customer extends React.Component<IProps> {
             name={`customer.${FIELDS.CURRENCY}`}
             items={currencies ?? []}
             displayName="name"
-            component={SelectField}
-            isInternalSearch
+            component={InternalPagination}
             placeholder={t('customers.currency')}
-            navigation={navigation}
+            label={t('customers.currency')}
+            rightIcon="angle-right"
             searchFields={['name']}
             compareField="id"
             onSelect={val =>
@@ -357,9 +358,7 @@ export class Customer extends React.Component<IProps> {
               rightTitleStyle: SymbolStyle
             }}
             emptyContentProps={{contentType: 'currencies'}}
-            isEditable={!disabled}
             fakeInputProps={{
-              disabled,
               rightIcon: 'angle-right',
               valueStyle: styles.selectedField,
               placeholderStyle: styles.selectedField,

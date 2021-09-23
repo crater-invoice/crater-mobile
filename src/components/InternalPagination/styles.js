@@ -21,21 +21,19 @@ export default StyleSheet.create({
       marginTop: defineSize(3, 3, 3, 0)
     })
   },
-  listViewContainer: {
-    paddingBottom: defineSize(0, 0, 0, 30),
-    flex: 0.99
+  scrollViewContainer: {
+    position: 'relative',
+    flex: 1,
+    height: '100%'
   },
   container: {
     flex: 1
   },
-  submitButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+  searchLoader: {
+    flex: 0,
+    marginTop: defineSize('20%', '20%', '20%', '25%')
   },
-  handleBtn: {
-    marginHorizontal: 9
-  },
-  btnWhite: {
-    paddingVertical: 6
+  loader: {
+    paddingVertical: 20
   }
 });
