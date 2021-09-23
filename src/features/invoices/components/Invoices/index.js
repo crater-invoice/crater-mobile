@@ -12,7 +12,6 @@ import {isFilterApply} from '@/utils';
 import InvoiceServices from '../../services';
 import {openRatingReviewModal} from '@/utils';
 import {PermissionService} from '@/services';
-import {getBootstrap} from '@/features/authentication/actions';
 
 type IProps = {
   navigation: Object,
@@ -50,7 +49,6 @@ export class Invoices extends React.Component<IProps> {
   onFocus = () => {
     const {navigation} = this.props;
     this.focusListener = navigation.addListener('focus', () => {
-      this.props.dispatch(getBootstrap(null));
       const {ref} = this.getActiveTab();
       ref?.getItems?.();
 
