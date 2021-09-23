@@ -661,7 +661,6 @@ export class Estimate extends React.Component<IProps> {
           placeholder={
             customerName ? customerName : t('estimates.customerPlaceholder')
           }
-          navigation={navigation}
           compareField="id"
           onSelect={item => {
             this.setFormField('customer_id', item.id);
@@ -719,7 +718,6 @@ export class Estimate extends React.Component<IProps> {
           valueCompareField="item_id"
           icon={'percent'}
           placeholder={t('estimates.addItem')}
-          navigation={navigation}
           onlyPlaceholder
           isMultiSelect
           loading={itemsLoading}

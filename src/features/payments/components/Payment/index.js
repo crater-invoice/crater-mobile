@@ -485,7 +485,6 @@ export class Payment extends React.Component<IProps> {
           label={t('payments.customer')}
           icon={'user'}
           placeholder={t('payments.customerPlaceholder')}
-          navigation={navigation}
           compareField="id"
           onSelect={item => this.onSelectCustomer(item)}
           createActionRouteName={routes.CUSTOMER}
@@ -519,7 +518,6 @@ export class Payment extends React.Component<IProps> {
           label={t('payments.invoice')}
           icon="align-center"
           placeholder={t('payments.invoicePlaceholder')}
-          navigation={navigation}
           compareField="id"
           onSelect={item => this.onSelectInvoice(item)}
           headerProps={{
@@ -565,7 +563,6 @@ export class Payment extends React.Component<IProps> {
           label={t('payments.mode')}
           icon="align-center"
           placeholder={t('payments.modePlaceholder')}
-          navigation={navigation}
           compareField="id"
           onSelect={item =>
             this.setFormField(`payment.${FIELDS.METHOD}`, item.id)

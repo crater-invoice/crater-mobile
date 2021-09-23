@@ -21,15 +21,13 @@ export const Empty = ({
   image,
   buttonTitle,
   buttonPress,
-  navigation,
+  route,
   theme
 }: IProps) => {
   let showButton = hasTextLength(buttonTitle);
 
-  if (navigation && hasTextLength(buttonTitle)) {
-    showButton = PermissionService.isAllowToCreate(
-      navigation?.state?.routeName
-    );
+  if (route && hasTextLength(buttonTitle)) {
+    showButton = PermissionService.isAllowToCreate(route?.name);
   }
 
   return (

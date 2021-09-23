@@ -331,7 +331,6 @@ export class Item extends React.Component {
           color: colors.gray,
           disabled
         }}
-        navigation={navigation}
         isMultiSelect
         concurrentMultiSelect
         compareField="id"
@@ -461,7 +460,6 @@ export class Item extends React.Component {
           label={t('items.unit')}
           icon={'balance-scale'}
           placeholder={t('items.unitPlaceholder')}
-          navigation={navigation}
           compareField={'id'}
           emptyContentProps={{contentType: 'units'}}
           headerProps={{

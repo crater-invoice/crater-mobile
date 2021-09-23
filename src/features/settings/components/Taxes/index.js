@@ -41,7 +41,7 @@ export class Taxes extends React.Component {
   };
 
   render() {
-    const {taxTypes, navigation, getTaxes} = this.props;
+    const {taxTypes, navigation, getTaxes, route} = this.props;
     const {search} = this.state;
 
     const isEmpty = taxTypes && taxTypes.length <= 0;
@@ -62,7 +62,7 @@ export class Taxes extends React.Component {
       leftIconPress: () => navigation.navigate(routes.SETTING_LIST),
       title: t('header.taxes'),
       placement: 'center',
-      navigation,
+      route,
       rightIcon: 'plus',
       rightIconPress: () => navigation.navigate(routes.TAX, {type: 'ADD'})
     };
@@ -86,7 +86,7 @@ export class Taxes extends React.Component {
             contentContainerStyle={{flex: 3}}
             leftSubTitleStyle={itemsDescriptionStyle(45)}
             emptyContentProps={emptyContentProps}
-            navigation={navigation}
+            route={route}
             isAnimated
           />
         </InfiniteScroll>

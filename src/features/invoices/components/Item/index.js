@@ -456,7 +456,6 @@ export class InvoiceItem extends React.Component {
             label={t('items.unit')}
             icon={'balance-scale'}
             placeholder={t('items.unitPlaceholder')}
-            navigation={navigation}
             compareField={'id'}
             emptyContentProps={{contentType: 'units'}}
             headerProps={{
@@ -516,7 +515,6 @@ export class InvoiceItem extends React.Component {
               rightIcon: 'angle-right',
               color: colors.gray
             }}
-            navigation={navigation}
             isMultiSelect
             concurrentMultiSelect
             compareField="id"

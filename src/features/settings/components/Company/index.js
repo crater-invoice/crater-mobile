@@ -203,7 +203,6 @@ export class Company extends React.Component<IProps> {
           label={t('customers.address.country')}
           placeholder={' '}
           rightIcon="angle-right"
-          navigation={navigation}
           searchFields={['name']}
           isInternalSearch
           compareField="id"

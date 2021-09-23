@@ -102,7 +102,8 @@ export class Payments extends React.Component<IProps> {
       payments,
       handleSubmit,
       getPayments,
-      formValues
+      formValues,
+      route
     } = this.props;
 
     const {search} = this.state;
@@ -141,7 +142,7 @@ export class Payments extends React.Component<IProps> {
         });
       },
       title: t('header.payments'),
-      navigation
+      route
     };
 
     const filterProps = {
@@ -175,7 +176,7 @@ export class Payments extends React.Component<IProps> {
             contentContainerStyle={{flex: 0}}
             bottomDivider
             emptyContentProps={emptyContentProps}
-            navigation={navigation}
+            route={route}
             isAnimated
           />
         </InfiniteScroll>

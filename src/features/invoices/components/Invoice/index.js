@@ -631,7 +631,6 @@ export class Invoice extends React.Component<IProps, IStates> {
           placeholder={
             customerName ? customerName : t('invoices.customerPlaceholder')
           }
-          navigation={navigation}
           compareField="id"
           onSelect={item => {
             this.setFormField('customer_id', item.id);
@@ -686,7 +685,6 @@ export class Invoice extends React.Component<IProps, IStates> {
           valueCompareField="item_id"
           icon={'percent'}
           placeholder={t('invoices.addItem')}
-          navigation={navigation}
           onlyPlaceholder
           isMultiSelect
           loading={itemsLoading}

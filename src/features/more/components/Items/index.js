@@ -85,14 +85,15 @@ export class Items extends React.Component<IProps> {
       handleSubmit,
       formValues,
       getItems,
-      currency
+      currency,
+      route
     } = this.props;
 
     const {search} = this.state;
 
     const headerProps = {
       title: t('header.items'),
-      navigation,
+      route,
       leftIcon: ARROW_ICON,
       leftIconPress: () => navigation.navigate(routes.MAIN_MORE),
       rightIcon: 'plus',
@@ -159,7 +160,7 @@ export class Items extends React.Component<IProps> {
             bottomDivider
             leftSubTitleStyle={itemsDescriptionStyle()}
             emptyContentProps={emptyContentProps}
-            navigation={navigation}
+            route={route}
             isAnimated
           />
         </InfiniteScroll>

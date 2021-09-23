@@ -11,7 +11,7 @@ type IProps = {
 export const All = ({reference, parentProps}: IProps) => {
   let scrollViewReference = useRef(null);
   const {props, state, onSelect, getEmptyContentProps} = parentProps;
-  const {allInvoices = [], getInvoices, navigation} = props;
+  const {allInvoices = [], getInvoices, route} = props;
   const {search} = state;
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export const All = ({reference, parentProps}: IProps) => {
           isEmpty={isEmpty}
           bottomDivider
           emptyContentProps={getEmptyContentProps()}
-          navigation={navigation}
+          route={route}
           isAnimated
         />
       </InfiniteScroll>

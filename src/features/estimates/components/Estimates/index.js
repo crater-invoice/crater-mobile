@@ -224,7 +224,7 @@ export class Estimates extends React.Component<IProps, IStates> {
   };
 
   render() {
-    const {navigation, handleSubmit, theme} = this.props;
+    const {navigation, handleSubmit, theme, route} = this.props;
 
     const {activeTab} = this.state;
 
@@ -234,7 +234,7 @@ export class Estimates extends React.Component<IProps, IStates> {
       leftIconPress: () => navigation.navigate(routes.MAIN_MORE),
       placement: 'center',
       rightIcon: 'plus',
-      navigation,
+      route,
       rightIconPress: () => {
         this.onAddEstimate();
       }

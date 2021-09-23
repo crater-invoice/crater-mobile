@@ -71,7 +71,6 @@ export default class Notes extends Component<IProps> {
               getItems={getNotes}
               onlyPlaceholder
               component={SelectField}
-              navigation={navigation}
               onSelect={item => this.onSelect(item)}
               headerProps={{
                 title: t('notes.select')

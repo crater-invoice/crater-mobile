@@ -50,7 +50,7 @@ export class Categories extends React.Component<IProps> {
   };
 
   render() {
-    const {navigation, categories, getExpenseCategories} = this.props;
+    const {navigation, categories, getExpenseCategories, route} = this.props;
     const {search} = this.state;
     const isEmpty = categories && categories.length <= 0;
 
@@ -70,7 +70,7 @@ export class Categories extends React.Component<IProps> {
 
     const headerProps = {
       title: t('header.expenseCategory'),
-      navigation,
+      route,
       leftIcon: ARROW_ICON,
       leftIconPress: () => navigation.navigate(routes.SETTING_LIST),
       placement: 'center',
@@ -99,7 +99,7 @@ export class Categories extends React.Component<IProps> {
             isEmpty={isEmpty}
             bottomDivider
             emptyContentProps={emptyContentProps}
-            navigation={navigation}
+            route={route}
             isAnimated
           />
         </InfiniteScroll>

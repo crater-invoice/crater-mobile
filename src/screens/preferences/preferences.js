@@ -210,7 +210,6 @@ export default class Preferences extends Component<IProps, IStates> {
               ? this.getSelectedField(currencyList, currency, 'id')
               : t('settings.preferences.currencyPlaceholder')
           }
-          navigation={navigation}
           searchFields={['name']}
           compareField="id"
           fakeInputProps={{
@@ -252,7 +251,6 @@ export default class Preferences extends Component<IProps, IStates> {
               ? this.getSelectedField(languageList, language, 'code')
               : t('settings.preferences.languagePlaceholder')
           }
-          navigation={navigation}
           fakeInputProps={{
             valueStyle: styles.selectedField,
             placeholderStyle: styles.selectedField
@@ -292,7 +290,6 @@ export default class Preferences extends Component<IProps, IStates> {
             valueStyle: styles.selectedField,
             placeholderStyle: styles.selectedField
           }}
-          navigation={navigation}
           searchFields={['key']}
           compareField="value"
           onSelect={val => {
@@ -322,7 +319,6 @@ export default class Preferences extends Component<IProps, IStates> {
             valueStyle: styles.selectedField,
             placeholderStyle: styles.selectedField
           }}
-          navigation={navigation}
           searchFields={['display_date']}
           compareField="moment_format_value"
           onSelect={val => {
@@ -354,7 +350,6 @@ export default class Preferences extends Component<IProps, IStates> {
             valueStyle: styles.selectedField,
             placeholderStyle: styles.selectedField
           }}
-          navigation={navigation}
           searchFields={['key']}
           compareField="value"
           onSelect={val => {
@@ -384,7 +379,6 @@ export default class Preferences extends Component<IProps, IStates> {
             valueStyle: styles.selectedField,
             placeholderStyle: styles.selectedField
           }}
-          navigation={navigation}
           searchFields={['key']}
           compareField="value"
           onSelect={val => {

@@ -389,7 +389,7 @@ class ListViewComponent extends Component<IProps> {
       hasAvatar = false,
       isEmpty,
       emptyContentProps,
-      navigation,
+      route,
       theme
     } = this.props;
 
@@ -402,7 +402,7 @@ class ListViewComponent extends Component<IProps> {
               : this.itemsWithAvatar(item, index)
           )
         ) : (
-          <Empty {...emptyContentProps} theme={theme} navigation={navigation} />
+          <Empty {...emptyContentProps} theme={theme} route={route} />
         )}
       </>
     );

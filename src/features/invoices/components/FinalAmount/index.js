@@ -228,7 +228,6 @@ const FinalAmount = ({state, props}) => {
               </Text>
             )
           }}
-          navigation={navigation}
           isMultiSelect
           concurrentMultiSelect
           compareField="id"

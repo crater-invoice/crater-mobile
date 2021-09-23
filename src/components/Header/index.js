@@ -50,7 +50,7 @@ export const CtHeader = ({
   containerStyle,
   leftArrow,
   theme,
-  navigation
+  route
 }: IProps) => {
   const leftIconColor =
     leftArrow === 'secondary'
@@ -102,10 +102,8 @@ export const CtHeader = ({
 
     let showHeaderRightElement = true;
 
-    if (navigation && rightIcon && rightIcon === 'plus') {
-      showHeaderRightElement = PermissionService.isAllowToCreate(
-        navigation?.state?.routeName
-      );
+    if (route && rightIcon && rightIcon === 'plus') {
+      showHeaderRightElement = PermissionService.isAllowToCreate(route?.name);
     }
 
     const hitSlop = {

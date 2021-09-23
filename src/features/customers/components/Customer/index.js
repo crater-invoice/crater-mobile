@@ -342,7 +342,6 @@ export class Customer extends React.Component<IProps> {
             component={SelectField}
             isInternalSearch
             placeholder={t('customers.currency')}
-            navigation={navigation}
             searchFields={['name']}
             compareField="id"
             onSelect={val =>

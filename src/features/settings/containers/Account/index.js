@@ -7,7 +7,7 @@ import {validate} from './validation';
 import {PermissionService} from '@/services';
 import {commonSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {navigation}) => {
+const mapStateToProps = (state, {route}) => {
   const {
     settings: {
       loading: {getAccountInfoLoading, editAccountInfoLoading},
@@ -16,9 +16,7 @@ const mapStateToProps = (state, {navigation}) => {
   } = state;
 
   let isLoading = getAccountInfoLoading || !account;
-  const isAllowToEdit = PermissionService.isAllowToManage(
-    navigation?.state?.routeName
-  );
+  const isAllowToEdit = PermissionService.isAllowToManage(route?.name);
 
   return {
     isLoading,

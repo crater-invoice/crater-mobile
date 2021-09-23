@@ -49,7 +49,7 @@ export default class Users extends Component<IProps, IStates> {
     this.props.navigation.navigate(routes.CREATE_USER, {type: 'ADD'});
 
   render() {
-    const {navigation, dispatch, users} = this.props;
+    const {navigation, dispatch, users, route} = this.props;
     const {search} = this.state;
     const emptyTitle = search ? 'search.noResult' : 'users.empty.title';
     const emptyContentProps = {
@@ -66,7 +66,7 @@ export default class Users extends Component<IProps, IStates> {
       leftIconPress: () => navigation.goBack(null),
       title: t('header.users'),
       placement: 'center',
-      navigation,
+      route,
       rightIcon: 'plus',
       rightIconPress: this.addNewUser
     };
@@ -89,7 +89,7 @@ export default class Users extends Component<IProps, IStates> {
             hasAvatar
             bottomDivider
             isEmpty={isEmpty(users)}
-            navigation={navigation}
+            route={route}
             emptyContentProps={emptyContentProps}
           />
         </InfiniteScroll>

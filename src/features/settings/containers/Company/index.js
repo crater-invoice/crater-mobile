@@ -8,7 +8,7 @@ import {getCountries} from '@/features/customers/actions';
 import {PermissionService} from '@/services';
 import {commonSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {navigation}) => {
+const mapStateToProps = (state, {route}) => {
   const {
     settings: {
       loading: {editCompanyInfoLoading, getCompanyInfoLoading}
@@ -18,9 +18,7 @@ const mapStateToProps = (state, {navigation}) => {
       loading: {countriesLoading}
     }
   } = state;
-  const isAllowToEdit = PermissionService.isAllowToManage(
-    navigation?.state?.routeName
-  );
+  const isAllowToEdit = PermissionService.isAllowToManage(route?.name);
 
   return {
     formValues: getFormValues(EDIT_COMPANY)(state) || {},
