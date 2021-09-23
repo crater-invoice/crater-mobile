@@ -627,7 +627,7 @@ export class Invoice extends React.Component<IProps, IStates> {
           component={SelectField}
           label={t('invoices.customer')}
           icon={'user'}
-          createActionRouteName={routes.CUSTOMER}
+          createActionRouteName={routes.MAIN_CUSTOMERS}
           placeholder={
             customerName ? customerName : t('invoices.customerPlaceholder')
           }
@@ -694,7 +694,7 @@ export class Invoice extends React.Component<IProps, IStates> {
             color: colors.primaryLight,
             disabled
           }}
-          createActionRouteName={routes.GLOBAL_ITEM}
+          createActionRouteName={routes.GLOBAL_ITEMS}
           onSelect={item => {
             navigation.navigate(routes.INVOICE_ITEM, {
               item,

@@ -71,14 +71,3 @@ export const PAYMENT_SETTINGS_TYPE = [
   'payment_number_separator',
   'payment_prefix'
 ];
-
-// Customize Type
-// -----------------------------------------
-export const CUSTOMIZE_TYPE = {
-  ADDRESSES: 'customize/ADDRESSES',
-  INVOICES: 'customize/Invoices',
-  ESTIMATES: 'customize/ESTIMATES',
-  PAYMENTS: 'customize/PAYMENTS',
-  ITEMS: 'customize/ITEMS',
-  CURRENCIES: 'customize/CURRENCIES'
-};

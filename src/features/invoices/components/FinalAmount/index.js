@@ -241,7 +241,7 @@ const FinalAmount = ({state, props}) => {
               }
             })
           }
-          createActionRouteName={routes.TAX}
+          createActionRouteName={routes.TAXES}
           listViewProps={{contentContainerStyle: {flex: 2}}}
           emptyContentProps={{contentType: 'taxes'}}
           isEditable={!disabled}

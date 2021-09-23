@@ -249,7 +249,7 @@ export default class CreateUser extends Component<IProps, IStates> {
           component={SelectField}
           label={t('users.role')}
           icon={'align-center'}
-          createActionRouteName={routes.CREATE_ROLE}
+          createActionRouteName={routes.ROLES}
           rightIconPress={this.navigateToRole}
           placeholder={formValues?.role ?? t('users.rolePlaceholder')}
           compareField="id"

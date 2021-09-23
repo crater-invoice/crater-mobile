@@ -487,7 +487,7 @@ export class Payment extends React.Component<IProps> {
           placeholder={t('payments.customerPlaceholder')}
           compareField="id"
           onSelect={item => this.onSelectCustomer(item)}
-          createActionRouteName={routes.CUSTOMER}
+          createActionRouteName={routes.MAIN_CUSTOMERS}
           rightIconPress={this.navigateToCustomer}
           headerProps={{
             title: t('customers.title')
@@ -572,7 +572,7 @@ export class Payment extends React.Component<IProps> {
           }}
           emptyContentProps={{contentType: 'paymentMode'}}
           inputModalName="PaymentModeModal"
-          createActionRouteName={routes.CUSTOMIZE_PAYMENT}
+          createActionRouteName={routes.PAYMENT_MODES}
           isEditable={!disabled}
           fakeInputProps={{disabled}}
         />

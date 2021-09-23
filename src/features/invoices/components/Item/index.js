@@ -30,7 +30,6 @@ import {
   isIosPlatform,
   MAX_LENGTH
 } from '@/constants';
-import {CUSTOMIZE_TYPE} from 'stores/customize/types';
 
 export class InvoiceItem extends React.Component {
   constructor(props) {
@@ -468,7 +467,7 @@ export class InvoiceItem extends React.Component {
             onSelect={item => this.setFormField('unit_id', item.id)}
             paginationLimit={defineSize(15, 15, 15, 20)}
             inputModalName="UnitModal"
-            createActionRouteName={CUSTOMIZE_TYPE.ITEMS}
+            createActionRouteName={routes.ITEM_UNITS}
           />
         )}
 
@@ -533,7 +532,7 @@ export class InvoiceItem extends React.Component {
                 }
               })
             }
-            createActionRouteName={routes.TAX}
+            createActionRouteName={routes.TAXES}
             emptyContentProps={{
               contentType: 'taxes'
             }}

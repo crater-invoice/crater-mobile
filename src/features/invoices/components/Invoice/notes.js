@@ -76,7 +76,7 @@ export default class Notes extends Component<IProps> {
                 title: t('notes.select')
               }}
               rightIconPress={this.navigateToNote}
-              createActionRouteName={routes.NOTE}
+              createActionRouteName={routes.NOTES}
               emptyContentProps={{
                 contentType: 'notes'
               }}
