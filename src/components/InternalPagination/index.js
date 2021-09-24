@@ -6,27 +6,26 @@ import t from 'locales/use-translation';
 import {IProps, IStates} from './type';
 import {colors, headerTitle} from '@/styles';
 import styles from './styles';
-import {SlideModal} from '../SlideModal';
 import {FakeInput} from '../FakeInput';
 import {hasTextLength, hasValue, isAndroidPlatform, isEmpty} from '@/constants';
 import {internalSearch} from '@/utils';
 import {ARROW_ICON} from '@/assets';
 import {commonSelector} from 'stores/common/selectors';
 import {MainLayout} from '../Layouts';
-import Empty from '../Empty';
 import {ListView} from '../ListView';
 import {Content} from '../Content';
 
-const ITEMS_PER_PAGE = 15;
+const ITEMS_PER_PAGE = 20;
 
 const isScrollToEnd = ({layoutMeasurement, contentOffset, contentSize}) => {
-  const paddingToBottom = 65;
+  const paddingToBottom = 150;
 
   return (
     layoutMeasurement.height + contentOffset.y >=
     contentSize.height - paddingToBottom
   );
 };
+
 export class InternalPaginationComponent extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
@@ -71,8 +70,13 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
   };
 
   onToggle = () => {
-    const {meta, input, items} = this.props;
+    const {meta, input, isAllowToSelect = true} = this.props;
     const {visible} = this.state;
+
+    if (!isAllowToSelect) {
+      return;
+    }
+
     if (visible) {
       this.setState(this.initialState());
       meta.dispatch(change(meta.form, `search-${input?.name}`, ''));
@@ -84,11 +88,7 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
   };
 
   onItemSelect = item => {
-    const {onSelect, isAllowToSelect, displayName} = this.props;
-
-    if (!isAllowToSelect) {
-      return;
-    }
+    const {onSelect, displayName} = this.props;
 
     if (!hasValue(item)) {
       this.setState({values: null});

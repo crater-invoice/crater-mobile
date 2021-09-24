@@ -9,8 +9,8 @@ import {
   SlideModal,
   FakeInput,
   InputField,
-  SelectField,
-  ActionButton
+  ActionButton,
+  InternalPagination
 } from '@/components';
 
 type IProps = {
@@ -196,7 +196,7 @@ export class Address extends Component<IProps> {
           name={country}
           items={countries ?? []}
           displayName="name"
-          component={SelectField}
+          component={InternalPagination}
           label={t('customers.address.country')}
           placeholder={' '}
           rightIcon="angle-right"
@@ -216,7 +216,7 @@ export class Address extends Component<IProps> {
           }}
           reference={ref => (this.countryReference = ref)}
           fakeInputProps={{disabled}}
-          isEditable={!disabled}
+          isAllowToSelect={!disabled}
         />
 
         <Field
