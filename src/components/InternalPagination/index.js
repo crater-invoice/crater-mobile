@@ -8,7 +8,7 @@ import {colors, headerTitle} from '@/styles';
 import styles from './styles';
 import {SlideModal} from '../SlideModal';
 import {FakeInput} from '../FakeInput';
-import {hasValue, isAndroidPlatform, isEmpty} from '@/constants';
+import {hasTextLength, hasValue, isAndroidPlatform, isEmpty} from '@/constants';
 import {internalSearch} from '@/utils';
 import {ARROW_ICON} from '@/assets';
 import {commonSelector} from 'stores/common/selectors';
@@ -31,10 +31,6 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = this.initialState();
-  }
-
-  componentDidMount() {
-    this.setInitialState();
   }
 
   initialState = () => {
@@ -77,11 +73,11 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
   onToggle = () => {
     const {meta, input, items} = this.props;
     const {visible} = this.state;
-
     if (visible) {
       this.setState(this.initialState());
       meta.dispatch(change(meta.form, `search-${input?.name}`, ''));
     } else {
+      this.setInitialState();
       this.setState({visible: true});
       this.getItems();
     }
@@ -126,7 +122,9 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
     let noSearchResult = t('search.noSearchResult');
 
     return {
-      title: hasValue(search) ? `${noSearchResult} "${search}"` : emptyTitle,
+      title: hasTextLength(search)
+        ? `${noSearchResult} "${search}"`
+        : emptyTitle,
       description: t(`${emptyContentType}.empty.description`)
     };
   };
@@ -143,7 +141,7 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
     } = this.state;
     const {items} = this.props;
     await this.setState({bottomLoader: true});
-    const currentItemsList = hasValue(search) ? searchItems : items;
+    const currentItemsList = hasTextLength(search) ? searchItems : items;
     const itemsList = currentItemsList.slice(
       currentPage * ITEMS_PER_PAGE,
       (currentPage + 1) * ITEMS_PER_PAGE
@@ -198,7 +196,7 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
       search
     } = this.state;
     const lastPage = Math.ceil(
-      hasValue(search)
+      hasTextLength(search)
         ? searchItems.length / ITEMS_PER_PAGE
         : items.length / ITEMS_PER_PAGE
     );
