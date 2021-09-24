@@ -5,7 +5,8 @@ import {
   SelectField,
   ToggleSwitch,
   CtDivider,
-  ActionButton
+  ActionButton,
+  InternalPagination
 } from '@/components';
 import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
@@ -202,7 +203,7 @@ export default class Preferences extends Component<IProps, IStates> {
           name="currency"
           items={currencyList}
           displayName="name"
-          component={SelectField}
+          component={InternalPagination}
           label={t('settings.preferences.currency')}
           rightIcon="angle-right"
           placeholder={
@@ -235,7 +236,6 @@ export default class Preferences extends Component<IProps, IStates> {
             contentContainerStyle: {flex: 5},
             rightTitleStyle: SymbolStyle
           }}
-          isInternalSearch
         />
 
         <Field
@@ -277,7 +277,7 @@ export default class Preferences extends Component<IProps, IStates> {
           name="time_zone"
           items={timezoneList}
           displayName="key"
-          component={SelectField}
+          component={InternalPagination}
           label={t('settings.preferences.timeZone')}
           icon="clock"
           rightIcon="angle-right"
@@ -303,7 +303,6 @@ export default class Preferences extends Component<IProps, IStates> {
             contentType: 'timeZones'
           }}
           isRequired
-          isInternalSearch
         />
 
         <Field
