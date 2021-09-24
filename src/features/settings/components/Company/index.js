@@ -221,6 +221,7 @@ export class Company extends React.Component<IProps> {
             contentType: 'countries'
           }}
           fakeInputProps={{disabled}}
+          isAllowToSelect={!disabled}
           isRequired
         />
 

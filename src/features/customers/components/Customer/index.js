@@ -356,7 +356,9 @@ export class Customer extends React.Component<IProps> {
               rightTitleStyle: SymbolStyle
             }}
             emptyContentProps={{contentType: 'currencies'}}
+            isAllowToSelect={!disabled}
             fakeInputProps={{
+              disabled,
               rightIcon: 'angle-right',
               valueStyle: styles.selectedField,
               placeholderStyle: styles.selectedField,

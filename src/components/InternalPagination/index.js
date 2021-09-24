@@ -84,14 +84,18 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
   };
 
   onItemSelect = item => {
-    const {onSelect} = this.props;
-    onSelect(item);
+    const {onSelect, isAllowToSelect, displayName} = this.props;
+
+    if (!isAllowToSelect) {
+      return;
+    }
+
     if (!hasValue(item)) {
       this.setState({values: null});
       return;
     }
 
-    const {displayName} = this.props;
+    onSelect(item);
     this.setState({values: item[displayName]});
     this.onToggle();
   };
