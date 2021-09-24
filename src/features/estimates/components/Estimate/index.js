@@ -661,14 +661,13 @@ export class Estimate extends React.Component<IProps> {
           placeholder={
             customerName ? customerName : t('estimates.customerPlaceholder')
           }
-          navigation={navigation}
           compareField="id"
           onSelect={item => {
             this.setFormField('customer_id', item.id);
             this.setState({currency: item.currency});
           }}
           rightIconPress={this.navigateToCustomer}
-          createActionRouteName={routes.CUSTOMER}
+          createActionRouteName={routes.MAIN_CUSTOMERS}
           headerProps={{
             title: t('customers.title')
           }}
@@ -719,7 +718,6 @@ export class Estimate extends React.Component<IProps> {
           valueCompareField="item_id"
           icon={'percent'}
           placeholder={t('estimates.addItem')}
-          navigation={navigation}
           onlyPlaceholder
           isMultiSelect
           loading={itemsLoading}
@@ -746,7 +744,7 @@ export class Estimate extends React.Component<IProps> {
               tax_per_item
             })
           }
-          createActionRouteName={routes.GLOBAL_ITEM}
+          createActionRouteName={routes.GLOBAL_ITEMS}
           headerProps={{
             title: t('items.title')
           }}

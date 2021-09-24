@@ -310,7 +310,7 @@ export const SETTINGS_MENU = () => {
       leftIcon: 'link',
       iconSize: 20,
       fullItem: {route: routes.ENDPOINTS_SETTINGS},
-      show: true
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('header.roles'),

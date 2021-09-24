@@ -57,7 +57,7 @@ export class CustomFields extends React.Component<IProps> {
   };
 
   render() {
-    const {navigation, customFields, getCustomFields} = this.props;
+    const {navigation, customFields, getCustomFields, route} = this.props;
     const {search} = this.state;
     const isEmpty = customFields && customFields.length <= 0;
 
@@ -78,7 +78,7 @@ export class CustomFields extends React.Component<IProps> {
 
     const headerProps = {
       title: t('header.customFields'),
-      navigation,
+      route,
       leftIcon: ARROW_ICON,
       leftIconPress: () => navigation.goBack(null),
       titleSize: 'medium',
@@ -112,7 +112,7 @@ export class CustomFields extends React.Component<IProps> {
             leftSubTitleLabelStyle={styles.leftSubTitleText}
             leftSubTitleContainerStyle={styles.leftTitleContainer}
             rightTitleStyle={styles.rightTitleText}
-            navigation={navigation}
+            route={route}
             isAnimated
           />
         </InfiniteScroll>

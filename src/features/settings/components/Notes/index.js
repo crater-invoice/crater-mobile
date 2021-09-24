@@ -53,7 +53,7 @@ export default class Notes extends Component<IProps> {
   };
 
   render() {
-    const {navigation, notes, getNotes} = this.props;
+    const {navigation, notes, getNotes, route} = this.props;
 
     const {search} = this.state;
     const isEmpty = notes && notes.length <= 0;
@@ -74,7 +74,7 @@ export default class Notes extends Component<IProps> {
 
     const headerProps = {
       title: t('header.notes'),
-      navigation,
+      route,
       leftIcon: ARROW_ICON,
       leftIconPress: () => navigation.navigate(routes.SETTING_LIST),
       placement: 'center',
@@ -107,7 +107,7 @@ export default class Notes extends Component<IProps> {
             emptyContentProps={emptyContentProps}
             leftSubTitleStyle={{textAlign: 'justify'}}
             rightTitleStyle={{fontFamily: fonts.regular}}
-            navigation={navigation}
+            route={route}
             isAnimated
           />
         </InfiniteScroll>

@@ -49,7 +49,7 @@ export default class Roles extends Component<IProps, IStates> {
     this.props.navigation.navigate(routes.CREATE_ROLE, {type: 'ADD'});
 
   render() {
-    const {navigation, dispatch, roles} = this.props;
+    const {navigation, dispatch, roles, route} = this.props;
     const {search} = this.state;
     const emptyTitle = search ? 'search.noResult' : 'roles.empty.title';
     const emptyContentProps = {
@@ -66,7 +66,7 @@ export default class Roles extends Component<IProps, IStates> {
       leftIconPress: () => navigation.goBack(null),
       title: t('header.roles'),
       placement: 'center',
-      navigation,
+      route,
       rightIcon: 'plus',
       rightIconPress: this.addNewRole
     };
@@ -89,7 +89,7 @@ export default class Roles extends Component<IProps, IStates> {
             hasAvatar
             bottomDivider
             isEmpty={isEmpty(roles)}
-            navigation={navigation}
+            route={route}
             emptyContentProps={emptyContentProps}
           />
         </InfiniteScroll>

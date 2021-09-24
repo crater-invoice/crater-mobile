@@ -5,35 +5,19 @@ import {CUSTOMIZE_ESTIMATE_FORM} from 'stores/customize/types';
 import {customizeEstimateValidate} from 'stores/customize/validator';
 import {commonSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {navigation}) => {
+const mapStateToProps = (state, {routes}) => {
   const {
     customizes: {
-      customizes,
-      customFields,
-      loading: {getCustomizeLoading, customizeLoading}
-    }
+      loading: {customizeLoading}
+    },
+    settings: {customFields}
   } = state;
-
-  let isLoading =
-    getCustomizeLoading ||
-    customizes === null ||
-    typeof customizes === 'undefined';
 
   return {
     formValues: getFormValues(CUSTOMIZE_ESTIMATE_FORM)(state) || {},
-    customizes,
     customFields,
-    isLoading,
     loading: customizeLoading,
-    ...commonSelector(state),
-    initialValues: !isLoading
-      ? {
-          ...customizes,
-          estimate_auto_generate:
-            customizes.estimate_auto_generate === 'YES' ||
-            customizes.estimate_auto_generate === 1
-        }
-      : null
+    ...commonSelector(state)
   };
 };
 

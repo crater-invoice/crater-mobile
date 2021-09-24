@@ -48,7 +48,7 @@ export default class Companies extends React.Component {
   };
 
   render() {
-    const {navigation, dispatch, companies} = this.props;
+    const {navigation, dispatch, companies, route} = this.props;
     const {search} = this.state;
 
     const emptyTitle = search ? 'search.noResult' : 'company.empty.title';
@@ -70,7 +70,7 @@ export default class Companies extends React.Component {
       leftIconPress: () => navigation.goBack(null),
       title: t('header.companies'),
       placement: 'center',
-      navigation,
+      route,
       rightIcon: 'plus',
       rightIconPress: () => navigation.navigate(routes.COMPANY, {type: 'ADD'})
     };
@@ -94,7 +94,7 @@ export default class Companies extends React.Component {
             bottomDivider
             isEmpty={isEmpty(companies)}
             emptyContentProps={emptyContentProps}
-            navigation={navigation}
+            route={route}
           />
         </InfiniteScroll>
       </MainLayout>

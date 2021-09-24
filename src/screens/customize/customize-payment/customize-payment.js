@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {ScrollView} from 'react-native';
-import {Field, change} from 'redux-form';
+import {Field, change, initialize} from 'redux-form';
+import {omit} from 'lodash';
 import styles from './customize-payment-style';
 import {
   DefaultLayout,
   ToggleSwitch,
-  InputField,
   CtDivider,
   Tabs,
   Editor,
@@ -13,65 +13,75 @@ import {
   Text,
   ActionButton
 } from '@/components';
-import {CUSTOMIZE_PAYMENT_FORM, PAYMENT_TABS} from 'stores/customize/types';
+import {
+  CUSTOMIZE_PAYMENT_FORM,
+  PAYMENT_SETTINGS_TYPE,
+  PAYMENT_SWITCH_FIELDS,
+  PAYMENT_TABS
+} from 'stores/customize/types';
 import t from 'locales/use-translation';
-import {IProps} from './customize-payment-type';
+import {IProps, IStates} from './customize-payment-type';
 import {routes} from '@/navigation';
-import {hasObjectLength, hasTextLength, hasValue} from '@/constants';
+import {hasTextLength, hasValue, isBooleanTrue} from '@/constants';
 import {PaymentModes} from 'screens/payment-modes';
+import {NumberScheme} from '../customize-common';
 import {
   fetchCustomizeSettings,
-  setCustomizeSettings,
-  editSettingItem,
   updateCustomizeSettings
 } from 'stores/customize/actions';
 
-export default class CustomizePayment extends Component<IProps> {
+export default class CustomizePayment extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.paymentChild = React.createRef();
     this.state = {
-      isUpdateAutoGenerate: false,
-      activeTab: PAYMENT_TABS.MODE
+      activeTab: PAYMENT_TABS.MODE,
+      isFetchingInitialData: true
     };
   }
 
   componentDidMount() {
-    const {dispatch, customizes} = this.props;
-
-    let hasCustomizeApiCalled = customizes
-      ? typeof customizes === 'undefined' || customizes === null
-      : true;
-
-    hasCustomizeApiCalled && dispatch(fetchCustomizeSettings());
+    const {dispatch} = this.props;
+    dispatch(
+      fetchCustomizeSettings(PAYMENT_SETTINGS_TYPE, res => {
+        this.setInitialData(res);
+        this.setState({isFetchingInitialData: false});
+      })
+    );
   }
 
-  componentWillUnmount() {
-    this.state.isUpdateAutoGenerate &&
-      this.props.dispatch(setCustomizeSettings({customizes: null}));
-  }
+  setInitialData = res => {
+    const {dispatch} = this.props;
+    const data = {
+      ...res,
+      payment_auto_generate: isBooleanTrue(res?.payment_auto_generate),
+      payment_email_attachment: isBooleanTrue(res?.payment_email_attachment)
+    };
+    dispatch(initialize(CUSTOMIZE_PAYMENT_FORM, data));
+  };
 
   setFormField = (field, value) => {
     this.props.dispatch(change(CUSTOMIZE_PAYMENT_FORM, field, value));
   };
 
-  changeAutoGenerateStatus = (field, status) => {
-    this.setFormField(field, status);
+  setActiveTab = activeTab => {
+    this.setState({activeTab});
+  };
 
-    const settings = {
-      [field]: status === true ? 'YES' : 'NO'
+  getTextAreaPlaceholderTypes = () => {
+    const company = [TYPE.PREDEFINE_COMPANY, TYPE.PAYMENT];
+    const email = [TYPE.PREDEFINE_CUSTOMER, TYPE.CUSTOMER, TYPE.PAYMENT];
+    const customer = [
+      TYPE.PREDEFINE_BILLING,
+      TYPE.PREDEFINE_CUSTOMER,
+      TYPE.CUSTOMER,
+      TYPE.PAYMENT
+    ];
+    return {
+      email,
+      company,
+      customer
     };
-    const payload = {
-      params: {
-        settings
-      },
-      hasCustomize: true,
-      onResult: () => {
-        this.toastReference?.show?.('settings.preferences.settingUpdate');
-        this.setState({isUpdateAutoGenerate: true});
-      }
-    };
-    this.props.dispatch(editSettingItem(payload));
   };
 
   onSave = values => {
@@ -83,7 +93,10 @@ export default class CustomizePayment extends Component<IProps> {
         }
       }
     }
-
+    PAYMENT_SWITCH_FIELDS.forEach(
+      field => (params[field] = params[field] === true ? 'YES' : 'NO')
+    );
+    params = omit(params, ['next_umber']);
     const {dispatch, navigation} = this.props;
     dispatch(updateCustomizeSettings({params, navigation}));
   };
@@ -105,28 +118,15 @@ export default class CustomizePayment extends Component<IProps> {
           component={ToggleSwitch}
           hint={t('customizes.autoGenerate.payment')}
           description={t('customizes.autoGenerate.paymentDescription')}
-          onChangeCallback={val =>
-            this.changeAutoGenerateStatus('payment_auto_generate', val)
-          }
+        />
+        <Field
+          name={'payment_email_attachment'}
+          component={ToggleSwitch}
+          hint={t('customizes.emailAttachment.payment')}
+          description={t('customizes.emailAttachment.paymentDescription')}
         />
       </ScrollView>
     );
-  };
-
-  getTextAreaPlaceholderTypes = () => {
-    const company = [TYPE.PREDEFINE_COMPANY, TYPE.PAYMENT];
-    const email = [TYPE.PREDEFINE_CUSTOMER, TYPE.CUSTOMER, TYPE.PAYMENT];
-    const customer = [
-      TYPE.PREDEFINE_BILLING,
-      TYPE.PREDEFINE_CUSTOMER,
-      TYPE.CUSTOMER,
-      TYPE.PAYMENT
-    ];
-    return {
-      email,
-      company,
-      customer
-    };
   };
 
   TEXTAREA_FIELDS = () => {
@@ -134,20 +134,6 @@ export default class CustomizePayment extends Component<IProps> {
 
     return (
       <>
-        <Field
-          name={'payment_prefix'}
-          component={InputField}
-          hint={t('customizes.prefix.payment')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            autoCapitalize: 'characters',
-            maxLength: 5
-          }}
-          fieldName={t('customizes.prefix.title')}
-          maxCharacter={5}
-          isRequired
-        />
         <Editor
           {...this.props}
           types={email}
@@ -174,15 +160,52 @@ export default class CustomizePayment extends Component<IProps> {
       </>
     );
   };
-  setActiveTab = activeTab => {
-    this.setState({activeTab});
+
+  PAYMENT_CUSTOMIZE = () => {
+    const {
+      formValues: {
+        payment_number_scheme,
+        payment_prefix,
+        payment_number_separator,
+        payment_number_length
+      }
+    } = this.props;
+    return (
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={styles.scrollContainer}
+      >
+        <NumberScheme
+          {...this.props}
+          keyName={`payment`}
+          numberSchemeField={{
+            name: 'payment_number_scheme',
+            value: payment_number_scheme
+          }}
+          prefixField={{
+            name: 'payment_prefix',
+            value: payment_prefix
+          }}
+          separatorField={{
+            name: 'payment_number_separator',
+            value: payment_number_separator
+          }}
+          numberLengthField={{
+            name: 'payment_number_length',
+            value: payment_number_length
+          }}
+        />
+        {this.TEXTAREA_FIELDS()}
+        {this.TOGGLE_FIELD_VIEW()}
+      </ScrollView>
+    );
   };
 
   render() {
-    const {navigation, theme, isLoading, handleSubmit, formValues} = this.props;
-    const {activeTab} = this.state;
+    const {navigation, loading, theme, handleSubmit} = this.props;
+    const {activeTab, isFetchingInitialData} = this.state;
     let isPaymentMode = activeTab === PAYMENT_TABS.MODE;
-    let loading = isLoading || !hasObjectLength(formValues);
     let label = isPaymentMode ? 'button.add' : 'button.save';
 
     const bottomAction = [
@@ -192,7 +215,7 @@ export default class CustomizePayment extends Component<IProps> {
           isPaymentMode
             ? this.paymentChild?.openModal?.()
             : handleSubmit(this.onSave)(),
-        loading: this.props.loading
+        loading: loading || isFetchingInitialData
       }
     ];
 
@@ -206,7 +229,7 @@ export default class CustomizePayment extends Component<IProps> {
           leftArrow: 'primary'
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}
-        loadingProps={{is: loading}}
+        loadingProps={{is: isFetchingInitialData}}
         hideScrollView
         toastProps={{
           reference: ref => (this.toastReference = ref)
@@ -234,16 +257,7 @@ export default class CustomizePayment extends Component<IProps> {
             {
               Title: PAYMENT_TABS.PREFIX,
               tabName: t('payments.prefix'),
-              render: (
-                <ScrollView
-                  showsVerticalScrollIndicator={false}
-                  keyboardShouldPersistTaps="handled"
-                  contentContainerStyle={styles.scrollContainer}
-                >
-                  {this.TEXTAREA_FIELDS()}
-                  {this.TOGGLE_FIELD_VIEW()}
-                </ScrollView>
-              )
+              render: this.PAYMENT_CUSTOMIZE()
             }
           ]}
         />

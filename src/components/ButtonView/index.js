@@ -1,51 +1,90 @@
-import React from 'react';
-import {View as RNView} from 'react-native';
+import React, {useState} from 'react';
+import {TouchableOpacity, Animated} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {ifProp, prop} from 'styled-tools';
-import {applyDivisionProp, applyProp, getClass, hasProp} from '@/utils';
+import {applyProp, hasProp, getClass} from '@/utils';
 
-const CtView = ({children, ...props}) => <RNView {...props}>{children}</RNView>;
+const Button = ({children, ...props}) => {
+  const [animatedScale] = useState(new Animated.Value(1));
 
-const StyledView = styled(CtView)`
+  const toggleAnimatedScale = toValue => {
+    Animated.timing(animatedScale, {
+      toValue,
+      duration: 100,
+      useNativeDriver: true
+    }).start();
+  };
+
+  const animatedStyle = {
+    transform: [{scale: animatedScale}]
+  };
+
+  let ActionButton = TouchableOpacity;
+  props?.button && (ActionButton = props?.button);
+
+  return (
+    <Animated.View style={[animatedStyle, props.containerStyle]}>
+      <ActionButton
+        activeOpacity={0.7}
+        {...props}
+        onPressIn={() => toggleAnimatedScale(props?.scale ?? 0.98)}
+        onPressOut={() => toggleAnimatedScale(1)}
+        {...(props.withHitSlop && {
+          hitSlop: {top: 20, left: 20, bottom: 20, right: 20}
+        })}
+      >
+        {children}
+      </ActionButton>
+    </Animated.View>
+  );
+};
+
+const StyledButton = styled(Button)`
   ${ifProp(
     'width',
     css`
       width: ${prop('width')};
     `
-  )};
+  )}
 
   ${ifProp(
     'height',
     css`
       height: ${prop('height')};
     `
-  )};
+  )}
+
+  ${ifProp(
+    'marginTop',
+    css`
+      margin-top: ${prop('marginTop')};
+    `
+  )}
+
+  ${ifProp(
+    'marginBottom',
+    css`
+      margin-bottom: ${prop('marginBottom')};
+    `
+  )}
 
   ${ifProp(
     'background-color',
     css`
       background-color: ${prop('background-color')};
     `
-  )};
+  )}
 
-  ${ifProp(
-    'border-width',
-    css`
-      border-width: ${prop('border-width')};
-    `
-  )};
-
-  ${ifProp(
-    'border-color',
-    css`
-      border-color: ${prop('border-color')};
-    `
-  )};
-
-  ${(props) =>
+  ${props =>
     hasProp(props, 'radius') &&
     css`
       border-radius: ${applyProp(props, 'radius')};
+    `};
+
+  ${props =>
+    hasProp(props, 'elevation') &&
+    css`
+      elevation: ${applyProp(props, 'elevation')};
     `};
 
   ${ifProp(
@@ -53,28 +92,14 @@ const StyledView = styled(CtView)`
     css`
       overflow: hidden;
     `
-  )};
+  )}
 
   ${ifProp(
     'justify-center',
     css`
       justify-content: center;
     `
-  )};
-
-  ${ifProp(
-    'justify-end',
-    css`
-      justify-content: flex-end;
-    `
-  )};
-
-  ${ifProp(
-    'justify-between',
-    css`
-      justify-content: space-between;
-    `
-  )};
+  )}
 
   ${ifProp(
     'items-center',
@@ -84,185 +109,200 @@ const StyledView = styled(CtView)`
   )}
 
   ${ifProp(
-    'items-end',
-    css`
-      align-items: flex-end;
-    `
-  )}
-
-  ${ifProp(
     'flex-row',
     css`
       flex-direction: row;
     `
-  )};
+  )}
 
   ${ifProp(
     'flex',
     css`
       flex: ${prop('flex')};
     `
-  )};
+  )}
 
-  ${(props) =>
-    hasProp(props, 'opacity-') &&
+  ${ifProp(
+    'border-width',
     css`
-      opacity: ${applyDivisionProp(props, 'opacity-')};
-    `};
+      border-width: ${prop('border-width')};
+    `
+  )}
+
+  ${ifProp(
+    'border-color',
+    css`
+      border-color: ${prop('border-color')};
+    `
+  )}
+
+  ${ifProp(
+    'opacity',
+    css`
+      opacity: ${prop('opacity')};
+    `
+  )}
+
+  ${ifProp(
+    'paddingVertical',
+    css`
+      padding-vertical: ${prop('paddingVertical')};
+    `
+  )}
 
   ${/* Margin */ ''}
-  ${(props) =>
+  ${props =>
     hasProp(props, 'mx-') &&
     css`
       margin-horizontal: ${applyProp(props, 'mx-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:max-') &&
     css`
       margin-horizontal: ${applyProp(props, 'lg:max-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'my-') &&
     css`
       margin-vertical: ${applyProp(props, 'my-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:my-') &&
     css`
       margin-vertical: ${applyProp(props, 'lg:my-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'mt-') &&
     css`
       margin-top: ${applyProp(props, 'mt-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:mt-') &&
     css`
       margin-top: ${applyProp(props, 'lg:mt-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'mb-') &&
     css`
       margin-bottom: ${applyProp(props, 'mb-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:mb-') &&
     css`
       margin-bottom: ${applyProp(props, 'lg:mb-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'ml-') &&
     css`
       margin-left: ${applyProp(props, 'ml-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:ml-') &&
     css`
       margin-left: ${applyProp(props, 'lg:ml-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'mr-') &&
     css`
       margin-right: ${applyProp(props, 'mr-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:mr-') &&
     css`
       margin-right: ${applyProp(props, 'lg:mr-')};
     `};
 
   ${/* Padding */ ''}
-  ${(props) =>
+  ${props =>
     hasProp(props, 'px-') &&
     css`
       padding-horizontal: ${applyProp(props, 'px-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:px-') &&
     css`
       padding-horizontal: ${applyProp(props, 'lg:px-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'py-') &&
     css`
       padding-vertical: ${applyProp(props, 'py-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:py-') &&
     css`
       padding-vertical: ${applyProp(props, 'lg:py-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'pt-') &&
     css`
       padding-top: ${applyProp(props, 'pt-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:pt-') &&
     css`
       padding-top: ${applyProp(props, 'lg:pt-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'pb-') &&
     css`
       padding-bottom: ${applyProp(props, 'pb-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:pb-') &&
     css`
       padding-bottom: ${applyProp(props, 'lg:pb-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'pl-') &&
     css`
       padding-left: ${applyProp(props, 'pl-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:pl-') &&
     css`
       padding-left: ${applyProp(props, 'lg:pl-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'pr-') &&
     css`
       padding-right: ${applyProp(props, 'pr-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:pr-') &&
     css`
       padding-right: ${applyProp(props, 'lg:pr-')};
     `};
 
-  ${prop('style')};
+  ${prop('style')}
 `;
 
-export const View = (props) => {
+export const ButtonView = (props) => {
   return (
-    <StyledView {...getClass(props?.class)} {...props}>
-      {props.children}
-    </StyledView>
+    <StyledButton {...getClass(props?.class)} {...props}>
+       {props.children}
+    </StyledButton>
   );
 };

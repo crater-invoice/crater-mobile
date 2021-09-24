@@ -1,3 +1,4 @@
+import {hasTextLength, isMajorScreenHeight} from '@/constants';
 import {colors} from '@/styles';
 
 export const applyProp = (props, prop) => {
@@ -14,7 +15,7 @@ export const applyDivisionProp = (props, prop, division = 100) => {
 
   if (!property) return 0;
 
-  const split = property.split('-');
+  const split: any = property.split('-');
   return split[split.length - 1] / division;
 };
 
@@ -26,7 +27,46 @@ export const applyColor = (props, prop) => {
 };
 
 export const hasProp = (props, prop) => {
+  if (prop.includes('lg:') && !isMajorScreenHeight) {
+    return false;
+  }
   return Object.keys(props).some(function(k) {
     return k.includes(prop);
   });
+};
+
+export const getClass = classTexts => {
+  if (!hasTextLength(classTexts)) {
+    return {};
+  }
+
+  let styles = {};
+
+  classTexts.split(' ').map(property => {
+    if (property.includes('=')) {
+      const split = property.split('=');
+      let value = split[1];
+
+      if (value === 'true' || value === 'false') {
+        value = value === 'true';
+      }
+
+      styles = {...styles, [split[0]]: value};
+      return;
+    }
+
+    if (
+      property.includes('flex-') &&
+      !isNaN(parseFloat(property.split('flex-')?.[1]))
+    ) {
+      const split = property.split('-');
+      let value = split[1];
+      styles = {...styles, [split[0]]: parseFloat(value)};
+      return;
+    }
+
+    styles = {...styles, [property]: true};
+  });
+
+  return styles;
 };

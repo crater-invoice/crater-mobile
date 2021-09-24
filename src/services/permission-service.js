@@ -22,10 +22,10 @@ const abilities = [
   {route: routes.GLOBAL_ITEM, ability: 'delete-item'},
 
   // Unit
-  {route: 'customize.ITEMS', ability: 'view-unit'},
-  {route: 'customize.ITEMS', ability: 'create-unit'},
-  {route: 'customize.ITEMS', ability: 'edit-unit'},
-  {route: 'customize.ITEMS', ability: 'delete-unit'},
+  {route: routes.ITEM_UNITS, ability: 'view-unit'},
+  {route: routes.ITEM_UNITS, ability: 'create-unit'},
+  {route: routes.ITEM_UNITS, ability: 'edit-unit'},
+  {route: routes.ITEM_UNITS, ability: 'delete-unit'},
 
   // Estimate
   {route: routes.ESTIMATE_LIST, ability: 'view-estimate'},
@@ -80,10 +80,10 @@ const abilities = [
   {route: routes.TAX, ability: 'delete-tax-type'},
 
   // Payment Method
-  {route: 'customize.PAYMENTS', ability: 'view-payment-method'},
-  {route: 'customize.PAYMENTS', ability: 'create-payment-method'},
-  {route: 'customize.PAYMENTS', ability: 'edit-payment-method'},
-  {route: 'customize.PAYMENTS', ability: 'delete-payment-method'},
+  {route: routes.PAYMENT_MODES, ability: 'view-payment-method'},
+  {route: routes.PAYMENT_MODES, ability: 'create-payment-method'},
+  {route: routes.PAYMENT_MODES, ability: 'edit-payment-method'},
+  {route: routes.PAYMENT_MODES, ability: 'delete-payment-method'},
 
   // Custom Field
   {route: routes.CUSTOM_FIELDS, ability: 'view-custom-field'},

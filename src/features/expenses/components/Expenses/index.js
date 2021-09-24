@@ -87,7 +87,8 @@ export class Expenses extends React.Component<IProps> {
       expenses,
       handleSubmit,
       getExpenses,
-      formValues
+      formValues,
+      route
     } = this.props;
 
     const isEmpty = expenses && expenses.length <= 0;
@@ -124,7 +125,7 @@ export class Expenses extends React.Component<IProps> {
         });
       },
       title: t('header.expenses'),
-      navigation
+      route
     };
 
     const filterProps = {
@@ -156,7 +157,7 @@ export class Expenses extends React.Component<IProps> {
             bottomDivider
             emptyContentProps={emptyContentProps}
             leftSubTitleStyle={{textAlign: 'justify'}}
-            navigation={navigation}
+            route={route}
             isAnimated
           />
         </InfiniteScroll>

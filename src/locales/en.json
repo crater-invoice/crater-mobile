@@ -365,7 +365,7 @@
         "type": "Note Type",
         "select": "Select a Note",
         "insertNote": "+ Insert Note",
-        "insertFields":"+ Insert Fields"
+        "insertFields": "+ Insert Fields"
     },
     "units": {
         "empty": {
@@ -559,7 +559,7 @@
         "defaultValue": "Default Value",
         "displayInPortal": "Display in portal",
         "placeholder": "Placeholder",
-        "order":"Order",
+        "order": "Order",
         "yes": "Yes",
         "no": "No",
         "help": "Help Text",
@@ -655,19 +655,47 @@
         }
     },
     "customizes": {
-        "prefix": {
-            "title": "Prefix",
-            "invoice": "Invoice Prefix",
-            "estimate": "Estimate Prefix",
-            "payment": "Payment Prefix"
+        "numberLabel": {
+            "invoice": "Invoice Number",
+            "estimate": "Estimate Number",
+            "payment": "Payment Number"
+        },
+        "prefix": "Prefix",
+        "separator": "Separator",
+        "numberLength": "Number Length",
+        "nextNumber": "Next Number",
+        "numberingScheme": {
+            "title": "Numbering Scheme",
+            "customer_level": "Sequentially for each customer",
+            "company_level": "Sequentially across each company"
+        },
+        "dueDate": {
+            "title": "Due Date",
+            "switchLabel": "Set Due Date Automatically",
+            "description": "Enable this if you wish to set due date automatically when you create a new invoice.",
+            "inputLabel": "Invoice Due After Days"
+        },
+        "expDate": {
+            "title": "Expiry Date",
+            "switchLabel": "Set Expiry Date Automatically",
+            "description": "Enable this if you wish to set expiry date automatically when you create a new estimate.",
+            "inputLabel": "Estimate Expires After Days"
         },
         "autoGenerate": {
-            "invoice": "Autogenerate Invoice Number",
+            "invoice": "Auto Generate Invoice Number",
             "invoiceDescription": "Disable this, If you don't wish to auto-generate invoice numbers when creating a new invoice.",
-            "estimate": "Autogenerate Estimate Number",
+            "estimate": "Auto Generate Estimate Number",
             "estimateDescription": "Disable this, If you don't wish to auto-generate estimate numbers when creating a new estimate.",
-            "payment": "Autogenerate Payment Number",
+            "payment": "Auto Generate Payment Number",
             "paymentDescription": "Disable this, If you don't wish to auto-generate payment numbers when creating a new payment."
+        },
+        "emailAttachment": {
+            "invoice": "Send Invoices As Attachments",
+            "invoiceDescription": "Enable this if you want to send invoices as email attachment. Please note that 'View Invoice' button in emails will not be displayed anymore when enabled.",
+            "estimate": "Send Estimates As Attachments",
+            "estimateDescription": "Enable this if you want to send the estimates as an email attachment. Please note that 'View Estimate' button in emails will not be displayed anymore when enabled.",
+            "payment": "Send Payments As Attachments",
+            "paymentDescription": "Enable this if you want to send the payment receipts as an email attachment. Please note that 'View Payment' button in emails will not be displayed anymore when enabled."
         },
         "setting": {
             "invoice": "Invoice Settings",
@@ -767,7 +795,7 @@
         "noResult": "No results for \"{{search}}\"",
         "noSearchResult": "No results for"
     },
-    "toast":{
+    "toast": {
         "send_invoice_successfully": "Invoice sent successfully",
         "send_payment_successfully": "Payment sent successfully",
         "send_estimate_successfully": "Estimate sent successfully"
@@ -810,7 +838,9 @@
             "description": "This section will contain the list of roles."
         },
         "text_name": "Name",
-        "text_permissions": "Permissions"
+        "text_permissions": "Permissions",
+        "select_all": "Select All",
+        "none": "None"
     },
     "users": {
         "text_add_new_user": "Add New User",

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Field, change} from 'redux-form';
-import {pick, find} from 'lodash';
+import {find} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-role-type';
 import {routes} from '@/navigation';
@@ -13,7 +13,8 @@ import {
   View,
   Text,
   CheckBox,
-  Label
+  Label,
+  ButtonView
 } from '@/components';
 import {
   fetchPermissions,
@@ -21,15 +22,15 @@ import {
   updateRole,
   removeRole,
   updatePermission,
-  fetchSingleRole
+  fetchSingleRole,
+  selectAllPermissions,
+  resetPermissions
 } from 'stores/roles/actions';
 
 export default class CreateRole extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
-    this.state = {
-      isFetchingInitialData: true
-    };
+    this.state = {isFetchingInitialData: true};
   }
 
   componentDidMount() {
@@ -40,7 +41,7 @@ export default class CreateRole extends Component<IProps, IStates> {
     const {isEditScreen, roleId, dispatch} = this.props;
     if (isEditScreen) {
       const onSuccess = role => {
-        this.setFormField('name', role?.title);
+        this.setFormField('name', role?.name);
         this.setState({isFetchingInitialData: false});
       };
       dispatch(fetchSingleRole({id: roleId, onSuccess}));
@@ -57,7 +58,7 @@ export default class CreateRole extends Component<IProps, IStates> {
   onSave = ({name}) => {
     const {isFetchingInitialData} = this.state;
     const {
-      isCreateScreen,
+      isEditScreen,
       dispatch,
       navigation,
       loading,
@@ -70,31 +71,32 @@ export default class CreateRole extends Component<IProps, IStates> {
       return;
     }
 
-    const abilities = permissions.map(p =>
-      pick(p, ['name', 'ability', 'model', 'allowed'])
-    );
-
-    const hasPermission = hasValue(find(abilities, {allowed: true})?.allowed);
+    const hasPermission = hasValue(find(permissions, {allowed: true})?.allowed);
 
     if (!hasPermission) {
-      alertMe({desc: 'Choose at least one permission'});
+      alertMe({desc: 'Please select atleast one Permission.'});
       return;
     }
 
+    const abilities = permissions.filter(p => p.allowed === true);
+
     const params = {name, abilities};
 
-    isCreateScreen
-      ? dispatch(
-          addRole({
-            params,
-            onResult: res => {
-              const onSelect = route?.params?.onSelect;
-              onSelect?.(res);
-              navigation.goBack(null);
-            }
-          })
-        )
-      : dispatch(updateRole({params, roleId, navigation}));
+    if (isEditScreen) {
+      dispatch(updateRole({params, roleId, navigation}));
+      return;
+    }
+
+    dispatch(
+      addRole({
+        params,
+        onResult: res => {
+          const onSelect = route?.params?.onSelect;
+          onSelect?.(res);
+          navigation.goBack(null);
+        }
+      })
+    );
   };
 
   removeRole = () => {
@@ -129,6 +131,10 @@ export default class CreateRole extends Component<IProps, IStates> {
     const {dispatch} = this.props;
     dispatch(updatePermission({allowed, ability}));
   };
+
+  selectAllPermissions = () => this.props.dispatch(selectAllPermissions());
+
+  resetPermissions = () => this.props.dispatch(resetPermissions());
 
   setFormField = (field, value) => {
     const {dispatch} = this.props;
@@ -174,6 +180,7 @@ export default class CreateRole extends Component<IProps, IStates> {
     ];
 
     const permissionList = [];
+
     for (const permission in permissions) {
       permissionList.push(
         <View key={permission} mb-10>
@@ -229,9 +236,30 @@ export default class CreateRole extends Component<IProps, IStates> {
             autoCorrect: true
           }}
         />
-        <Label h5 mt-8 mb-12 theme={theme}>
-          {t('roles.text_permissions')}
-        </Label>
+        <View class="flex-row items-center">
+          <Label h5 mt-8 mb-12 flex={1} isRequired theme={theme}>
+            {t('roles.text_permissions')}
+          </Label>
+          <View class="flex-row flex-1 justify-end">
+            <ButtonView
+              class="px-5"
+              hitSlop={{top: 10, left: 7, bottom: 10, right: 7}}
+              onPress={this.selectAllPermissions}
+            >
+              <Text primary>{t('roles.select_all')}</Text>
+            </ButtonView>
+            <View class="mx-2">
+              <Text>/</Text>
+            </View>
+            <ButtonView
+              class="px-5"
+              hitSlop={{top: 10, left: 7, bottom: 10, right: 7}}
+              onPress={this.resetPermissions}
+            >
+              <Text primary>{t('roles.none')}</Text>
+            </ButtonView>
+          </View>
+        </View>
         <View pb-10>{permissionList}</View>
       </DefaultLayout>
     );

@@ -346,13 +346,12 @@ export class Expense extends React.Component<IProps, IState> {
           label={t('expenses.category')}
           icon="align-center"
           placeholder={t('expenses.categoryPlaceholder')}
-          navigation={navigation}
           compareField="id"
           onSelect={item =>
             this.setFormField(`expense.${FIELDS.CATEGORY}`, item.id)
           }
           rightIconPress={this.navigateToCategory}
-          createActionRouteName={routes.CATEGORY}
+          createActionRouteName={routes.CATEGORIES}
           headerProps={{
             title: t('expenses.categoryPlaceholder')
           }}
@@ -373,13 +372,12 @@ export class Expense extends React.Component<IProps, IState> {
           label={t('payments.customer')}
           icon="user"
           placeholder={t('customers.placeholder')}
-          navigation={navigation}
           compareField="id"
           onSelect={item =>
             this.setFormField(`expense.${FIELDS.CUSTOMER}`, item.id)
           }
           rightIconPress={this.navigateToCustomer}
-          createActionRouteName={routes.CUSTOMER}
+          createActionRouteName={routes.MAIN_CUSTOMERS}
           headerProps={{
             title: t('customers.title')
           }}

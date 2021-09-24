@@ -342,8 +342,6 @@ export class Customer extends React.Component<IProps> {
             displayName="name"
             component={InternalPagination}
             placeholder={t('customers.currency')}
-            label={t('customers.currency')}
-            rightIcon="angle-right"
             searchFields={['name']}
             compareField="id"
             onSelect={val =>

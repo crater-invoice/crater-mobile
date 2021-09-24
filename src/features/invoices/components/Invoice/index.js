@@ -627,11 +627,10 @@ export class Invoice extends React.Component<IProps, IStates> {
           component={SelectField}
           label={t('invoices.customer')}
           icon={'user'}
-          createActionRouteName={routes.CUSTOMER}
+          createActionRouteName={routes.MAIN_CUSTOMERS}
           placeholder={
             customerName ? customerName : t('invoices.customerPlaceholder')
           }
-          navigation={navigation}
           compareField="id"
           onSelect={item => {
             this.setFormField('customer_id', item.id);
@@ -686,7 +685,6 @@ export class Invoice extends React.Component<IProps, IStates> {
           valueCompareField="item_id"
           icon={'percent'}
           placeholder={t('invoices.addItem')}
-          navigation={navigation}
           onlyPlaceholder
           isMultiSelect
           loading={itemsLoading}
@@ -696,7 +694,7 @@ export class Invoice extends React.Component<IProps, IStates> {
             color: colors.primaryLight,
             disabled
           }}
-          createActionRouteName={routes.GLOBAL_ITEM}
+          createActionRouteName={routes.GLOBAL_ITEMS}
           onSelect={item => {
             navigation.navigate(routes.INVOICE_ITEM, {
               item,

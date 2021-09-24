@@ -17,7 +17,6 @@ import {colors} from '@/styles/colors';
 import t from 'locales/use-translation';
 import {definePlatformParam, defineSize} from '@/constants';
 import {alertMe, hasValue, MAX_LENGTH} from '@/constants';
-import {CUSTOMIZE_TYPE} from 'stores/customize/types';
 
 export class Item extends React.Component {
   constructor(props) {
@@ -331,7 +330,6 @@ export class Item extends React.Component {
           color: colors.gray,
           disabled
         }}
-        navigation={navigation}
         isMultiSelect
         concurrentMultiSelect
         compareField="id"
@@ -350,7 +348,7 @@ export class Item extends React.Component {
             }
           })
         }
-        createActionRouteName={routes.TAX}
+        createActionRouteName={routes.TAXES}
         emptyContentProps={{
           contentType: 'taxes'
         }}
@@ -461,7 +459,6 @@ export class Item extends React.Component {
           label={t('items.unit')}
           icon={'balance-scale'}
           placeholder={t('items.unitPlaceholder')}
-          navigation={navigation}
           compareField={'id'}
           emptyContentProps={{contentType: 'units'}}
           headerProps={{
@@ -475,7 +472,7 @@ export class Item extends React.Component {
           onSelect={item => this.setFormField('unit_id', item.id)}
           paginationLimit={defineSize(15, 15, 15, 20)}
           inputModalName="UnitModal"
-          createActionRouteName={CUSTOMIZE_TYPE.ITEMS}
+          createActionRouteName={routes.ITEM_UNITS}
           isEditable={!disabled}
         />
 

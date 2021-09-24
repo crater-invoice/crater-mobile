@@ -48,3 +48,4 @@ export * from './CacheImage';
 export * from './Label';
 export * from './View';
 export * from './InternalPagination';
+export * from './ButtonView';

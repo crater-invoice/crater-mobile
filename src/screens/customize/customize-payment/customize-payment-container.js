@@ -5,37 +5,19 @@ import {CUSTOMIZE_PAYMENT_FORM} from 'stores/customize/types';
 import {customizePaymentValidate} from 'stores/customize/validator';
 import {commonSelector} from 'stores/common/selectors';
 
-const mapStateToProps = (state, {navigation}) => {
+const mapStateToProps = (state, {routes}) => {
   const {
     customizes: {
-      customizes,
-      customFields,
-      loading: {getCustomizeLoading, customizeLoading}
+      loading: {customizeLoading}
     },
-    paymentModes: {modes}
+    settings: {customFields}
   } = state;
 
-  let isLoading =
-    getCustomizeLoading ||
-    customizes === null ||
-    typeof customizes === 'undefined';
-
   return {
-    paymentModes: modes,
-    formValues: getFormValues(CUSTOMIZE_PAYMENT_FORM)(state) || {},
-    customizes,
-    customFields,
-    isLoading,
-    loading: customizeLoading,
     ...commonSelector(state),
-    initialValues: !isLoading
-      ? {
-          ...customizes,
-          payment_auto_generate:
-            customizes.payment_auto_generate === 'YES' ||
-            customizes.payment_auto_generate === 1
-        }
-      : null
+    formValues: getFormValues(CUSTOMIZE_PAYMENT_FORM)(state) || {},
+    loading: customizeLoading,
+    customFields
   };
 };
 

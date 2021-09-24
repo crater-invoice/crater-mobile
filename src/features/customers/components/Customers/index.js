@@ -78,7 +78,8 @@ export class Customers extends React.Component<IProps> {
       navigation,
       handleSubmit,
       getCustomer,
-      formValues
+      formValues,
+      route
     } = this.props;
 
     const {search} = this.state;
@@ -116,7 +117,7 @@ export class Customers extends React.Component<IProps> {
         });
       },
       title: t('header.customers'),
-      navigation
+      route
     };
 
     const filterProps = {
@@ -147,7 +148,7 @@ export class Customers extends React.Component<IProps> {
             bottomDivider
             hasAvatar
             emptyContentProps={emptyContentProps}
-            navigation={navigation}
+            route={route}
             isAnimated
           />
         </InfiniteScroll>

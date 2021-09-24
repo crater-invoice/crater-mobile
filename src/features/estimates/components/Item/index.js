@@ -22,7 +22,6 @@ import {
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
-import {CUSTOMIZE_TYPE} from 'stores/customize/types';
 import {
   alertMe,
   definePlatformParam,
@@ -462,7 +461,6 @@ export class EstimateItem extends React.Component {
             label={t('items.unit')}
             icon={'balance-scale'}
             placeholder={t('items.unitPlaceholder')}
-            navigation={navigation}
             compareField={'id'}
             emptyContentProps={{contentType: 'units'}}
             headerProps={{
@@ -475,7 +473,7 @@ export class EstimateItem extends React.Component {
             onSelect={item => this.setFormField('unit_id', item.id)}
             paginationLimit={defineSize(15, 15, 15, 20)}
             inputModalName="UnitModal"
-            createActionRouteName={CUSTOMIZE_TYPE.ITEMS}
+            createActionRouteName={routes.ITEM_UNITS}
           />
         )}
 
@@ -522,7 +520,6 @@ export class EstimateItem extends React.Component {
               rightIcon: 'angle-right',
               color: colors.gray
             }}
-            navigation={navigation}
             isMultiSelect
             concurrentMultiSelect
             compareField="id"
@@ -541,7 +538,7 @@ export class EstimateItem extends React.Component {
                 }
               })
             }
-            createActionRouteName={routes.TAX}
+            createActionRouteName={routes.TAXES}
             emptyContentProps={{
               contentType: 'taxes'
             }}
