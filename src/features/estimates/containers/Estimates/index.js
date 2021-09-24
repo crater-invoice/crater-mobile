@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {Estimates} from '../../components/Estimates';
 import {reduxForm, getFormValues} from 'redux-form';
 import * as EstimatesAction from '../../actions';
-import {ESTIMATE_SEARCH} from '../../constants';
+import {ESTIMATES_FORM} from '../../constants';
 import {getCustomers} from '@/features/customers/actions';
 import {commonSelector} from 'stores/common/selectors';
 import {
@@ -20,7 +20,7 @@ const mapStateToProps = state => {
     sentEstimates: getSentEstimatesState({estimates, theme}),
     allEstimates: getAllEstimatesState({estimates, theme}),
     customers: state.customers?.customers,
-    formValues: getFormValues(ESTIMATE_SEARCH)(state) || {},
+    formValues: getFormValues(ESTIMATES_FORM)(state) || {},
     ...commonSelector(state)
   };
 };
@@ -32,7 +32,7 @@ const mapDispatchToProps = {
 };
 
 const estimateSearchReduxForm = reduxForm({
-  form: ESTIMATE_SEARCH
+  form: 'estimate/ESTIMATES_FORM'
 })(Estimates);
 
 const EstimatesContainer = connect(

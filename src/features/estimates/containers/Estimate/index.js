@@ -98,7 +98,7 @@ const mapDispatchToProps = {
 };
 
 const addEstimateReduxForm = reduxForm({
-  form: ESTIMATE_FORM,
+  form: 'estimate/ESTIMATE_FORM',
   validate
 })(Estimate);
 
