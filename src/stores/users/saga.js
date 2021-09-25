@@ -38,7 +38,7 @@ function* fetchSingleUser({payload}) {
 function* addUser({payload}) {
   try {
     const {params, navigation, submissionError} = payload;
-    yield put(spinner(true));
+    yield put(spinner('isSaving', true));
     const response = yield call(req.addUser, params);
     if (response?.data?.errors) {
       submissionError?.(response?.data?.errors);
@@ -53,7 +53,7 @@ function* addUser({payload}) {
     }
   } catch (e) {
   } finally {
-    yield put(spinner(false));
+    yield put(spinner('isSaving', false));
   }
 }
 
@@ -63,9 +63,9 @@ function* addUser({payload}) {
  */
 function* updateUser({payload}) {
   try {
-    const {userId, params, navigation, submissionError} = payload;
-    yield put(spinner(true));
-    const response = yield call(req.updateUser, userId, params);
+    const {id, params, navigation, submissionError} = payload;
+    yield put(spinner('isSaving', true));
+    const response = yield call(req.updateUser, id, params);
     if (response?.data?.errors) {
       submissionError?.(response?.data?.errors);
       return;
@@ -79,7 +79,7 @@ function* updateUser({payload}) {
     }
   } catch (e) {
   } finally {
-    yield put(spinner(false));
+    yield put(spinner('isSaving', false));
   }
 }
 
@@ -88,18 +88,17 @@ function* updateUser({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* removeUser({payload}) {
+  const {id, navigation, onFail} = payload;
   try {
-    const {id, onSuccess} = payload;
+    yield put(spinner('isDeleting', true));
     const body = {users: [id]};
-    yield put(spinner(true));
-    const response = yield call(req.removeUser, body);
-    if (response?.success) {
-      yield put({type: types.REMOVE_USER_SUCCESS, payload: id});
-    }
-    onSuccess?.(response?.success);
+    yield call(req.removeUser, body);
+    yield put({type: types.REMOVE_USER_SUCCESS, payload: id});
+    navigation.goBack(null);
   } catch (e) {
+    onFail?.(e);
   } finally {
-    yield put(spinner(false));
+    yield put(spinner('isDeleting', false));
   }
 }
 

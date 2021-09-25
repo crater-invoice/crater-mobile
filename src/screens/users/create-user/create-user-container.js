@@ -5,29 +5,22 @@ import {CREATE_USER_FORM} from 'stores/users/types';
 import {validate} from 'stores/users/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {fetchRoles} from 'stores/roles/actions';
+import {rolesSelector, loadingSelector} from 'stores/users/selectors';
 
-const mapStateToProps = (state, {route}) => {
-  const {
-    users: {loading},
-    roles: {roles}
-  } = state;
-  const user = route?.params?.user;
-  return {
-    roles,
-    loading: loading?.userLoading,
-    userId: user?.id,
-    ...commonSelector(state),
-    ...permissionSelector(route),
-    formValues: getFormValues(CREATE_USER_FORM)(state) || {},
-    initialValues: {
-      name: null,
-      email: null,
-      password: null,
-      phone: null,
-      role: null
-    }
-  };
-};
+const mapStateToProps = (state, {route}) => ({
+  roles: rolesSelector(state),
+  ...loadingSelector(state),
+  ...commonSelector(state),
+  ...permissionSelector(route),
+  formValues: getFormValues(CREATE_USER_FORM)(state) || {},
+  initialValues: {
+    name: null,
+    email: null,
+    password: null,
+    phone: null,
+    role: null
+  }
+});
 
 const mapDispatchToProps = {
   fetchRoles

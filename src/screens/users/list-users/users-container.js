@@ -3,11 +3,11 @@ import {reduxForm} from 'redux-form';
 import Users from './users';
 import {USERS_FORM} from 'stores/users/types';
 import {usersSelector} from 'stores/users/selectors';
+import {commonSelector} from '@/stores/common/selectors';
 
-const mapStateToProps = ({users, common}) => ({
-  users: usersSelector(users.users),
-  locale: common?.locale,
-  ...users.loading
+const mapStateToProps = state => ({
+  users: usersSelector(state),
+  ...commonSelector(state)
 });
 
 const UsersForm = reduxForm({

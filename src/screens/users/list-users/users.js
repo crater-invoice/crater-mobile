@@ -42,7 +42,7 @@ export default class Users extends Component<IProps, IStates> {
 
   onSelect = user => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CREATE_USER, {user, type: 'UPDATE'});
+    navigation.navigate(routes.CREATE_USER, {id: user.id, type: 'UPDATE'});
   };
 
   addNewUser = () =>

@@ -16,12 +16,17 @@ export interface IProps {
    * onSubmit handler.
    * It will run validation, both sync and async, and, if the form is valid, it will call this.props.onSubmit(data) with the contents of the form data.
    */
-  handleSubmit: (fun: object) => void;
+  handleSubmit: (fun: object) => any;
 
   /**
    * The loading indicator for the button.
    */
-  loading: boolean;
+  isSaving: boolean;
+
+  /**
+   * The loading indicator for the button.
+   */
+  isDeleting: boolean;
 
   /**
    * Initialize the form data.
@@ -31,7 +36,7 @@ export interface IProps {
   /**
    * Id of the current user.
    */
-  userId: string;
+  id: string;
 
   /**
    * It is a create screen view.
@@ -78,4 +83,11 @@ export interface IProps {
    * Gets form data.
    */
   formValues: any;
+}
+
+export interface IStates {
+  /**
+   * The loading indicator for the screen, displayed until the screen is ready to be displayed.
+   */
+  isFetchingInitialData: boolean;
 }

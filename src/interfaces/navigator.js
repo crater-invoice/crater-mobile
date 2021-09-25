@@ -53,9 +53,7 @@ export type INavigation = {
    *
    * @param action Action object or update function.
    */
-  dispatch(
-    action: NavigationAction | ((state: State) => NavigationAction)
-  ): void,
+  dispatch(action: (state: State) => NavigationAction): void,
 
   /**
    * Navigate to a route in current navigation tree.
@@ -63,12 +61,12 @@ export type INavigation = {
    * @param name Name of the route to navigate to.
    * @param [params] Params object for the route.
    */
-  navigate(string): void,
+  navigate(route: string, params?: object): void,
 
   /**
    * Go back to the previous route in history.
    */
-  goBack(): void,
+  goBack(name?: string): void,
 
   /**
    * Check if dispatching back action will be handled by navigation.

@@ -2,13 +2,14 @@ import * as types from './types';
 
 /**
  * Spinner
- * @param payload
+ * @param name
+ * @param value
  * @returns {{type: string, payload: *}}
  */
-export function spinner(payload) {
+export function spinner(name, value) {
   return {
     type: types.SPINNER,
-    payload: typeof payload === 'object' ? payload : {userLoading: payload}
+    payload: {name, value}
   };
 }
 
@@ -26,13 +27,14 @@ export function fetchUsers(payload = {}) {
 
 /**
  * Fetch single user
- * @param payload
+ * @param id
+ * @param onSuccess
  * @returns {{type: string, payload: *}}
  */
-export function fetchSingleUser(payload = {}) {
+export function fetchSingleUser(id, onSuccess) {
   return {
     type: types.FETCH_SINGLE_USER,
-    payload
+    payload: {id, onSuccess}
   };
 }
 
@@ -62,12 +64,14 @@ export function updateUser(payload = {}) {
 
 /**
  * Remove user
- * @param payload
+ * @param id
+ * @param navigation
+ * @param onFail
  * @returns {{type: string, payload: *}}
  */
-export function removeUser(payload = {}) {
+export function removeUser(id, navigation, onFail) {
   return {
     type: types.REMOVE_USER,
-    payload
+    payload: {id, navigation, onFail}
   };
 }
