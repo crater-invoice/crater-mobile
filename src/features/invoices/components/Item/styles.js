@@ -50,9 +50,6 @@ export default styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 8
   },
-  units: {
-    paddingLeft: 48
-  },
   currencySymbol: {
     ...(isAndroidPlatform && {
       marginTop: -5

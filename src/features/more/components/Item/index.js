@@ -17,6 +17,7 @@ import {colors} from '@/styles/colors';
 import t from 'locales/use-translation';
 import {definePlatformParam, defineSize} from '@/constants';
 import {alertMe, hasValue, MAX_LENGTH} from '@/constants';
+import {TaxSelectModal, UnitSelectModal} from '@/select-modal';
 
 export class Item extends React.Component {
   constructor(props) {
@@ -307,39 +308,19 @@ export class Item extends React.Component {
       taxTypes,
       formValues: {taxes},
       getTaxes,
-      isAllowToEdit
+      isAllowToEdit,
+      theme
     } = this.props;
     const disabled = !isAllowToEdit;
 
     return (
       <Field
         name="taxes"
-        items={taxTypes}
-        getItems={getTaxes}
-        apiSearch
-        hasPagination
-        displayName="name"
-        label={t('items.taxes')}
-        component={SelectField}
-        searchFields={['name', 'percent']}
-        placeholder={t('items.selectTax')}
-        onlyPlaceholder
-        fakeInputProps={{
-          icon: 'percent',
-          rightIcon: 'angle-right',
-          color: colors.gray,
-          disabled
-        }}
-        isMultiSelect
-        concurrentMultiSelect
-        compareField="id"
-        valueCompareField="tax_type_id"
-        listViewProps={{
-          contentContainerStyle: {flex: 2}
-        }}
-        headerProps={{
-          title: t('taxes.title')
-        }}
+        taxTypes={taxTypes}
+        getTaxes={getTaxes}
+        component={TaxSelectModal}
+        disabled={disabled}
+        theme={theme}
         rightIconPress={() =>
           navigation.navigate(routes.TAX, {
             type: 'ADD',
@@ -348,11 +329,6 @@ export class Item extends React.Component {
             }
           })
         }
-        createActionRouteName={routes.TAXES}
-        emptyContentProps={{
-          contentType: 'taxes'
-        }}
-        isEditable={!disabled}
       />
     );
   };
@@ -450,30 +426,10 @@ export class Item extends React.Component {
 
         <Field
           name="unit_id"
-          component={SelectField}
-          apiSearch={true}
-          hasPagination={true}
-          getItems={fetchItemUnits}
-          items={units}
-          displayName={'name'}
-          label={t('items.unit')}
-          icon={'balance-scale'}
-          placeholder={t('items.unitPlaceholder')}
-          compareField={'id'}
-          emptyContentProps={{contentType: 'units'}}
-          headerProps={{
-            title: t('items.unitPlaceholder')
-          }}
-          fakeInputProps={{
-            disabled,
-            valueStyle: styles.units,
-            placeholderStyle: styles.units
-          }}
+          component={UnitSelectModal}
+          units={units}
+          fetchItemUnits={fetchItemUnits}
           onSelect={item => this.setFormField('unit_id', item.id)}
-          paginationLimit={defineSize(15, 15, 15, 20)}
-          inputModalName="UnitModal"
-          createActionRouteName={routes.ITEM_UNITS}
-          isEditable={!disabled}
         />
 
         {isTaxPerItem && this.TAX_FIELD_VIEW()}

@@ -6,13 +6,11 @@ import {routes} from '@/navigation';
 import t from 'locales/use-translation';
 import * as Linking from 'expo-linking';
 import {alertMe, isEmpty, MAX_LENGTH} from '@/constants';
-import {IMAGES} from '@/assets';
 import {
   InputField,
   DefaultLayout,
   FilePicker,
   DatePickerField,
-  SelectField,
   CustomField,
   ActionButton
 } from '@/components';
@@ -24,6 +22,7 @@ import {
 } from '../../constants';
 import {getApiFormattedCustomFields} from '@/utils';
 import _ from 'lodash';
+import {CustomerSelectModal, ExpenseCategorySelectModal} from '@/select-modal';
 
 interface IProps {
   navigation: any;
@@ -336,58 +335,27 @@ export class Expense extends React.Component<IProps, IState> {
 
         <Field
           name={`expense.${FIELDS.CATEGORY}`}
-          component={SelectField}
-          isRequired
-          apiSearch
-          hasPagination
-          getItems={getCategories}
-          items={categories}
-          displayName="name"
-          label={t('expenses.category')}
-          icon="align-center"
-          placeholder={t('expenses.categoryPlaceholder')}
-          compareField="id"
+          categories={categories}
+          getCategories={getCategories}
+          component={ExpenseCategorySelectModal}
           onSelect={item =>
             this.setFormField(`expense.${FIELDS.CATEGORY}`, item.id)
           }
           rightIconPress={this.navigateToCategory}
-          createActionRouteName={routes.CATEGORIES}
-          headerProps={{
-            title: t('expenses.categoryPlaceholder')
-          }}
-          emptyContentProps={{contentType: 'categories'}}
           reference={ref => (this.categoryReference = ref)}
-          isEditable={!disabled}
-          fakeInputProps={{disabled}}
         />
 
         <Field
           name={`expense.${FIELDS.CUSTOMER}`}
-          component={SelectField}
-          apiSearch
-          hasPagination
-          getItems={getCustomers}
-          items={customers}
-          displayName="name"
-          label={t('payments.customer')}
-          icon="user"
-          placeholder={t('customers.placeholder')}
-          compareField="id"
+          component={CustomerSelectModal}
+          getCustomers={getCustomers}
+          customers={customers}
+          disabled={disabled}
           onSelect={item =>
             this.setFormField(`expense.${FIELDS.CUSTOMER}`, item.id)
           }
           rightIconPress={this.navigateToCustomer}
-          createActionRouteName={routes.MAIN_CUSTOMERS}
-          headerProps={{
-            title: t('customers.title')
-          }}
-          emptyContentProps={{
-            contentType: 'customers',
-            image: IMAGES.EMPTY_CUSTOMERS
-          }}
           reference={ref => (this.customerReference = ref)}
-          isEditable={!disabled}
-          fakeInputProps={{disabled}}
         />
 
         <Field

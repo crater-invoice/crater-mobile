@@ -6,7 +6,6 @@ import {
   InputField,
   CtDivider,
   DefaultLayout,
-  SelectField,
   CurrencyFormat,
   RadioButtonGroup,
   Text,
@@ -19,17 +18,16 @@ import {
   ITEM_ADD,
   ITEM_FORM
 } from '../../constants';
-import {colors} from '@/styles';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {
   alertMe,
   definePlatformParam,
-  defineSize,
   hasValue,
   isIosPlatform,
   MAX_LENGTH
 } from '@/constants';
+import {TaxSelectModal, UnitSelectModal} from '@/select-modal';
 
 export class EstimateItem extends React.Component {
   constructor(props) {
@@ -452,28 +450,10 @@ export class EstimateItem extends React.Component {
         {(initialValues.unit || !itemId) && (
           <Field
             name="unit_id"
-            component={SelectField}
-            apiSearch
-            hasPagination
-            getItems={fetchItemUnits}
-            items={units}
-            displayName={'name'}
-            label={t('items.unit')}
-            icon={'balance-scale'}
-            placeholder={t('items.unitPlaceholder')}
-            compareField={'id'}
-            emptyContentProps={{contentType: 'units'}}
-            headerProps={{
-              title: t('items.unitPlaceholder')
-            }}
-            fakeInputProps={{
-              valueStyle: styles.units,
-              placeholderStyle: styles.units
-            }}
+            component={UnitSelectModal}
+            units={units}
+            fetchItemUnits={fetchItemUnits}
             onSelect={item => this.setFormField('unit_id', item.id)}
-            paginationLimit={defineSize(15, 15, 15, 20)}
-            inputModalName="UnitModal"
-            createActionRouteName={routes.ITEM_UNITS}
           />
         )}
 
@@ -506,30 +486,10 @@ export class EstimateItem extends React.Component {
         {(taxPerItem === 'YES' || taxPerItem === '1') && (
           <Field
             name="taxes"
-            items={taxTypes}
-            getItems={getTaxes}
-            apiSearch
-            hasPagination
-            displayName="name"
-            label={t('items.taxes')}
-            component={SelectField}
-            placeholder={t('items.selectTax')}
-            onlyPlaceholder
-            fakeInputProps={{
-              icon: 'percent',
-              rightIcon: 'angle-right',
-              color: colors.gray
-            }}
-            isMultiSelect
-            concurrentMultiSelect
-            compareField="id"
-            valueCompareField="tax_type_id"
-            listViewProps={{
-              contentContainerStyle: {flex: 2}
-            }}
-            headerProps={{
-              title: t('taxes.title')
-            }}
+            taxTypes={taxTypes}
+            getTaxes={getTaxes}
+            component={TaxSelectModal}
+            theme={theme}
             rightIconPress={() =>
               navigation.navigate(routes.TAX, {
                 type: 'ADD',
@@ -538,10 +498,6 @@ export class EstimateItem extends React.Component {
                 }
               })
             }
-            createActionRouteName={routes.TAXES}
-            emptyContentProps={{
-              contentType: 'taxes'
-            }}
           />
         )}
 

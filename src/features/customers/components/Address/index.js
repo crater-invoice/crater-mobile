@@ -5,13 +5,8 @@ import {CUSTOMER_ADDRESS} from '../../constants';
 import t from 'locales/use-translation';
 import {MAX_LENGTH} from '@/constants';
 import styles from './styles';
-import {
-  SlideModal,
-  FakeInput,
-  InputField,
-  ActionButton,
-  InternalPagination
-} from '@/components';
+import {SlideModal, FakeInput, InputField, ActionButton} from '@/components';
+import {CountrySelectModal} from '@/select-modal';
 
 type IProps = {
   label: String,
@@ -194,29 +189,11 @@ export class Address extends Component<IProps> {
 
         <Field
           name={country}
-          items={countries ?? []}
-          displayName="name"
-          component={InternalPagination}
-          label={t('customers.address.country')}
-          placeholder={' '}
-          rightIcon="angle-right"
-          searchFields={['name']}
-          compareField="id"
-          isInternalSearch
+          countries={countries}
+          component={CountrySelectModal}
           onSelect={({id}) => this.setFormField(country, id)}
-          headerProps={{
-            title: t('header.country'),
-            rightIconPress: null
-          }}
-          listViewProps={{
-            contentContainerStyle: {flex: 7}
-          }}
-          emptyContentProps={{
-            contentType: 'countries'
-          }}
           reference={ref => (this.countryReference = ref)}
-          fakeInputProps={{disabled}}
-          isAllowToSelect={!disabled}
+          disabled={disabled}
         />
 
         <Field

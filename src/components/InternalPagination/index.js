@@ -32,6 +32,10 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
     this.state = this.initialState();
   }
 
+  componentDidMount() {
+    this.setInitialState();
+  }
+
   initialState = () => {
     return {
       search: '',
@@ -55,10 +59,10 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
     if (!value) {
       return;
     }
-
     let newValue = '';
     for (const key in items) {
-      if (hasValue(key) && items[key]['fullItem'][compareField] === value) {
+      const field = items[key]['fullItem'][compareField];
+      if (hasValue(key) && field && field.toString() === value) {
         newValue = items[key]['fullItem'][displayName];
         break;
       }

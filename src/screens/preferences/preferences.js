@@ -2,20 +2,25 @@ import React, {Component} from 'react';
 import styles from './preferences-style';
 import {
   DefaultLayout,
-  SelectField,
   ToggleSwitch,
   CtDivider,
-  ActionButton,
-  InternalPagination
+  ActionButton
 } from '@/components';
 import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
-import {find, omit} from 'lodash';
+import {omit} from 'lodash';
 import {IProps, IStates} from './preferences-type';
 import {PREFERENCES_FORM} from 'stores/company/types';
 import {isEmpty} from '@/constants';
 import {fetchPreferences, updatePreferences} from 'stores/company/actions';
-import {SymbolStyle} from '@/components/CurrencyFormat/styles';
+import {
+  CurrencySelectModal,
+  DateFormatSelectModal,
+  FiscalYearSelectModal,
+  LanguageSelectModal,
+  RetrospectiveEditSelectModal,
+  TimeZoneSelectModal
+} from '@/select-modal';
 
 export default class Preferences extends Component<IProps, IStates> {
   constructor(props) {
@@ -77,7 +82,7 @@ export default class Preferences extends Component<IProps, IStates> {
     const params = omit(values, ['discount_per_item', 'tax_per_item']);
     const {
       navigation,
-      currencyList,
+      currencies,
       updatePreferencesLoading,
       dispatch
     } = this.props;
@@ -87,7 +92,7 @@ export default class Preferences extends Component<IProps, IStates> {
         updatePreferences({
           params: params,
           navigation,
-          currencies: currencyList
+          currencies
         })
       );
     }
@@ -144,33 +149,16 @@ export default class Preferences extends Component<IProps, IStates> {
     return '  ';
   };
 
-  getSelectedCurrencySymbol = () => {
-    const {currencyList, formValues} = this.props;
-
-    if (isEmpty(currencyList) || !formValues?.currency) {
-      return null;
-    }
-
-    const currency = find(currencyList, {
-      fullItem: {id: Number(formValues.currency)}
-    });
-
-    return currency?.fullItem?.symbol;
-  };
-
   render() {
     const {
-      currencyList,
-      languageList,
-      timezoneList,
-      dateFormatList,
-      fiscalYearList,
+      languages,
+      timezones,
+      dateFormats,
+      fiscalYears,
       retrospectiveEditsList,
       navigation,
       handleSubmit,
-      formValues: {time_zone, currency, language},
-      updatePreferencesLoading,
-      theme
+      updatePreferencesLoading
     } = this.props;
     const bottomAction = [
       {
@@ -201,197 +189,61 @@ export default class Preferences extends Component<IProps, IStates> {
       >
         <Field
           name="currency"
-          items={currencyList}
-          displayName="name"
-          component={InternalPagination}
+          component={CurrencySelectModal}
+          {...this.props}
           label={t('settings.preferences.currency')}
           rightIcon="angle-right"
-          placeholder={
-            currency
-              ? this.getSelectedField(currencyList, currency, 'id')
-              : t('settings.preferences.currencyPlaceholder')
-          }
-          searchFields={['name']}
-          compareField="id"
-          fakeInputProps={{
-            valueStyle: styles.selectedField,
-            placeholderStyle: styles.selectedField,
-            leftSymbol: this.getSelectedCurrencySymbol(),
-            leftSymbolStyle: {
-              color: theme?.icons?.secondaryColor
-            }
-          }}
+          isRequired
           onSelect={val => {
             this.setFormField('currency', val.id);
-          }}
-          headerProps={{
-            title: t('currencies.title'),
-            rightIconPress: null
-          }}
-          emptyContentProps={{
-            contentType: 'currencies'
-          }}
-          isRequired
-          listViewProps={{
-            contentContainerStyle: {flex: 5},
-            rightTitleStyle: SymbolStyle
           }}
         />
 
         <Field
           name="language"
-          items={languageList}
-          component={SelectField}
-          label={t('settings.preferences.language')}
-          icon="language"
-          rightIcon="angle-right"
-          displayName="name"
-          placeholder={
-            language
-              ? this.getSelectedField(languageList, language, 'code')
-              : t('settings.preferences.languagePlaceholder')
-          }
-          fakeInputProps={{
-            valueStyle: styles.selectedField,
-            placeholderStyle: styles.selectedField
-          }}
-          searchFields={['name']}
-          compareField="code"
+          languages={languages}
+          component={LanguageSelectModal}
           onSelect={val => {
             this.setFormField('language', val.code);
           }}
-          headerProps={{
-            title: t('languages.title'),
-            rightIconPress: null
-          }}
-          listViewProps={{
-            hasAvatar: true
-          }}
-          emptyContentProps={{
-            contentType: 'languages'
-          }}
           isRequired
-          isInternalSearch
         />
         <Field
           name="time_zone"
-          items={timezoneList}
-          displayName="key"
-          component={InternalPagination}
-          label={t('settings.preferences.timeZone')}
-          icon="clock"
-          rightIcon="angle-right"
-          placeholder={
-            time_zone
-              ? time_zone
-              : t('settings.preferences.timeZonePlaceholder')
-          }
-          fakeInputProps={{
-            valueStyle: styles.selectedField,
-            placeholderStyle: styles.selectedField
-          }}
-          searchFields={['key']}
-          compareField="value"
+          timezones={timezones}
+          component={TimeZoneSelectModal}
           onSelect={val => {
             this.setFormField('time_zone', val.value);
           }}
-          headerProps={{
-            title: t('timeZones.title'),
-            rightIconPress: null
-          }}
-          emptyContentProps={{
-            contentType: 'timeZones'
-          }}
-          isRequired
         />
 
         <Field
           name="date_format"
-          items={dateFormatList}
-          displayName="display_date"
-          component={SelectField}
-          label={t('settings.preferences.dateFormat')}
-          icon="calendar-alt"
-          rightIcon="angle-right"
-          placeholder={t('settings.preferences.dateFormatPlaceholder')}
-          fakeInputProps={{
-            valueStyle: styles.selectedField,
-            placeholderStyle: styles.selectedField
-          }}
-          searchFields={['display_date']}
-          compareField="moment_format_value"
+          dateFormats={dateFormats}
+          component={DateFormatSelectModal}
           onSelect={val => {
             this.setFormField('carbon_date_format', val.carbon_format_value);
             this.setFormField('moment_date_format', val.moment_format_value);
             this.setFormField('date_format', val.moment_format_value);
           }}
-          headerProps={{
-            title: t('dateFormats.title'),
-            rightIconPress: null
-          }}
-          emptyContentProps={{
-            contentType: 'dateFormats'
-          }}
-          isRequired
-          isInternalSearch
         />
 
         <Field
           name="fiscal_year"
-          items={fiscalYearList}
-          displayName="key"
-          component={SelectField}
-          label={t('settings.preferences.fiscalYear')}
-          icon="calendar-alt"
-          rightIcon="angle-right"
-          placeholder={t('settings.preferences.fiscalYearPlaceholder')}
-          fakeInputProps={{
-            valueStyle: styles.selectedField,
-            placeholderStyle: styles.selectedField
-          }}
-          searchFields={['key']}
-          compareField="value"
+          fiscalYears={fiscalYears}
+          component={FiscalYearSelectModal}
           onSelect={val => {
             this.setFormField('fiscal_year', val.value);
           }}
-          headerProps={{
-            title: t('fiscalYears.title'),
-            rightIconPress: null
-          }}
-          emptyContentProps={{
-            contentType: 'fiscalYears'
-          }}
-          isInternalSearch
-          isRequired
         />
 
         <Field
           name="retrospective_edits"
-          items={retrospectiveEditsList}
-          displayName="key"
-          component={SelectField}
-          label={t('settings.preferences.retrospectiveEdits')}
-          icon="calendar-alt"
-          rightIcon="angle-right"
-          placeholder={t('settings.preferences.retrospectiveEdits')}
-          fakeInputProps={{
-            valueStyle: styles.selectedField,
-            placeholderStyle: styles.selectedField
-          }}
-          searchFields={['key']}
-          compareField="value"
+          retrospectiveEditsList={retrospectiveEditsList}
+          component={RetrospectiveEditSelectModal}
           onSelect={val => {
             this.setFormField('retrospective_edits', val.value);
           }}
-          headerProps={{
-            title: t('retrospectiveEdits.title'),
-            rightIconPress: null
-          }}
-          emptyContentProps={{
-            contentType: 'retrospectiveEdits'
-          }}
-          isInternalSearch
-          isRequired
         />
 
         <CtDivider dividerStyle={styles.dividerLine} />

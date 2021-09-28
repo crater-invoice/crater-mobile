@@ -1,15 +1,12 @@
 import React from 'react';
 import {View} from 'react-native';
-import {find} from 'lodash';
 import styles from './styles';
 import {Field, change, SubmissionError} from 'redux-form';
 import {
   InputField,
   DefaultLayout,
-  SelectField,
   CustomField,
-  ActionButton,
-  InternalPagination
+  ActionButton
 } from '@/components';
 import {
   CUSTOMER_FORM,
@@ -22,8 +19,8 @@ import AddressContainer from '../../containers/Address';
 import {alertMe, KEYBOARD_TYPE, isEmpty} from '@/constants';
 import t from 'locales/use-translation';
 import {colors} from '@/styles/colors';
-import {SymbolStyle} from '@/components/CurrencyFormat/styles';
 import {getApiFormattedCustomFields} from '@/utils';
+import {CurrencySelectModal} from '@/select-modal';
 
 interface IProps {
   navigation: Object;
@@ -167,20 +164,6 @@ export class Customer extends React.Component<IProps> {
 
   onOptionSelect = action => {
     if (action == ACTIONS_VALUE.REMOVE) this.removeCustomer();
-  };
-
-  getSelectedCurrencySymbol = () => {
-    const {formValues, currencies} = this.props;
-
-    if (isEmpty(currencies) || !formValues?.customer?.currency_id) {
-      return null;
-    }
-
-    const currency = find(currencies, {
-      fullItem: {id: Number(formValues?.customer?.currency_id)}
-    });
-
-    return currency?.fullItem?.symbol;
   };
 
   render() {
@@ -338,32 +321,13 @@ export class Customer extends React.Component<IProps> {
         <View style={styles.inputGroup}>
           <Field
             name={`customer.${FIELDS.CURRENCY}`}
-            items={currencies ?? []}
-            displayName="name"
-            component={InternalPagination}
-            placeholder={t('customers.currency')}
-            searchFields={['name']}
-            compareField="id"
+            currencies={currencies}
+            component={CurrencySelectModal}
+            {...this.props}
             onSelect={val =>
               this.setFormField(`customer.${FIELDS.CURRENCY}`, val.id)
             }
-            headerProps={{
-              title: t('currencies.title'),
-              rightIconPress: null
-            }}
-            listViewProps={{
-              contentContainerStyle: {flex: 5},
-              rightTitleStyle: SymbolStyle
-            }}
-            emptyContentProps={{contentType: 'currencies'}}
-            isAllowToSelect={!disabled}
-            fakeInputProps={{
-              disabled,
-              rightIcon: 'angle-right',
-              valueStyle: styles.selectedField,
-              placeholderStyle: styles.selectedField,
-              leftSymbol: this.getSelectedCurrencySymbol()
-            }}
+            disabled={disabled}
           />
 
           <Field
