@@ -10,7 +10,7 @@ interface IProps {
   /**
    * An array of objects with data for each currency.
    */
-  currencies?: Array;
+  currencies?: Array<any>;
 
   /**
    * An Object of Props of input.
@@ -54,20 +54,15 @@ export const CurrencySelectModal = (props: IProps) => {
       {...props}
       items={currencies ?? []}
       displayName="name"
-      placeholder={t('customers.currency')}
       searchFields={['name']}
       compareField="id"
-      headerProps={{
-        title: t('currencies.title'),
-        rightIconPress: null
-      }}
+      headerProps={{title: t('currencies.title'), rightIconPress: null}}
+      placeholder={t('settings.preferences.currencyPlaceholder')}
       emptyContentProps={{contentType: 'currencies'}}
       isAllowToSelect={!disabled}
       fakeInputProps={{
         leftSymbol: getSelectedCurrencySymbol(),
-        leftSymbolStyle: {
-          color: theme?.icons?.secondaryColor
-        },
+        leftSymbolStyle: {color: theme?.icons?.secondaryColor},
         disabled,
         ...fakeInputProps
       }}

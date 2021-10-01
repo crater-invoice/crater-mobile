@@ -9,7 +9,7 @@ interface IProps {
    * An array of objects with data for each unit.
    */
 
-  units?: Array;
+  units?: Array<any>;
 
   /**
    * An action to return a list of unit.
@@ -19,6 +19,7 @@ interface IProps {
 
 export const UnitSelectModal = (props: IProps) => {
   const {units, fetchItemUnits} = props;
+
   return (
     <SelectField
       {...props}
@@ -32,9 +33,7 @@ export const UnitSelectModal = (props: IProps) => {
       placeholder={t('items.unitPlaceholder')}
       compareField={'id'}
       emptyContentProps={{contentType: 'units'}}
-      headerProps={{
-        title: t('items.unitPlaceholder')
-      }}
+      headerProps={{title: t('items.unitPlaceholder')}}
       fakeInputProps={{
         valueStyle: {paddingLeft: 48},
         placeholderStyle: {paddingLeft: 48}

@@ -6,42 +6,27 @@ interface IProps {
   /**
    * An array of objects with data for each language.
    */
-  languages?: Array;
+  languages?: Array<any>;
 }
 
-export const LanguageSelectModal = (props: IProps) => {
-  const {languages} = props;
-
-  return (
-    <SelectField
-      {...props}
-      items={languages ?? []}
-      label={t('settings.preferences.language')}
-      icon="language"
-      rightIcon="angle-right"
-      displayName="name"
-      searchFields={['name']}
-      compareField="code"
-      isInternalSearch
-      placeholder={t('settings.preferences.languagePlaceholder')}
-      headerProps={{
-        title: t('languages.title'),
-        rightIconPress: null
-      }}
-      listViewProps={{
-        hasAvatar: true
-      }}
-      emptyContentProps={{
-        contentType: 'languages'
-      }}
-      fakeInputProps={{
-        valueStyle: {
-          paddingLeft: 47
-        },
-        placeholderStyle: {
-          paddingLeft: 47
-        }
-      }}
-    />
-  );
-};
+export const LanguageSelectModal = (props: IProps) => (
+  <SelectField
+    {...props}
+    items={props?.languages ?? []}
+    label={t('settings.preferences.language')}
+    icon="language"
+    rightIcon="angle-right"
+    displayName="name"
+    searchFields={['name']}
+    compareField="code"
+    isInternalSearch
+    placeholder={t('settings.preferences.languagePlaceholder')}
+    headerProps={{title: t('languages.title'), rightIconPress: null}}
+    listViewProps={{hasAvatar: true}}
+    emptyContentProps={{contentType: 'languages'}}
+    fakeInputProps={{
+      valueStyle: {paddingLeft: 47},
+      placeholderStyle: {paddingLeft: 47}
+    }}
+  />
+);

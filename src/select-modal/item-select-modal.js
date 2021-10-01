@@ -9,7 +9,7 @@ interface IProps {
   /**
    * An array of objects with data for each item.
    */
-  items?: Array;
+  items?: Array<any>;
 
   /**
    * An action to return a list of item.
@@ -24,6 +24,7 @@ interface IProps {
 
 export const ItemSelectModal = (props: IProps) => {
   const {items, getItems, disabled} = props;
+
   return (
     <SelectField
       {...props}
@@ -47,16 +48,9 @@ export const ItemSelectModal = (props: IProps) => {
         color: colors.primaryLight,
         disabled
       }}
-      headerProps={{
-        title: t('items.title')
-      }}
-      emptyContentProps={{
-        contentType: 'items',
-        image: IMAGES.EMPTY_ITEMS
-      }}
-      listViewProps={{
-        leftSubTitleStyle: itemsDescriptionStyle()
-      }}
+      headerProps={{title: t('items.title')}}
+      emptyContentProps={{contentType: 'items', image: IMAGES.EMPTY_ITEMS}}
+      listViewProps={{leftSubTitleStyle: itemsDescriptionStyle()}}
     />
   );
 };

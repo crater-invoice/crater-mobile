@@ -6,7 +6,7 @@ interface IProps {
   /**
    * An array of objects with data for each country.
    */
-  countries?: Array;
+  countries?: Array<any>;
 
   /**
    * Is allowed to edit.
@@ -22,7 +22,7 @@ export const CountrySelectModal = (props: IProps) => {
       {...props}
       items={countries ?? []}
       label={t('customers.address.country')}
-      placeholder={' '}
+      placeholder={t('header.country')}
       displayName="name"
       rightIcon="angle-right"
       searchFields={['name']}
@@ -32,12 +32,8 @@ export const CountrySelectModal = (props: IProps) => {
         title: t('header.country'),
         rightIconPress: null
       }}
-      listViewProps={{
-        contentContainerStyle: {flex: 7}
-      }}
-      emptyContentProps={{
-        contentType: 'countries'
-      }}
+      listViewProps={{contentContainerStyle: {flex: 7}}}
+      emptyContentProps={{contentType: 'countries'}}
       fakeInputProps={{disabled}}
       isAllowToSelect={!disabled}
     />

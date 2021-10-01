@@ -9,7 +9,7 @@ interface IProps {
   /**
    * An array of objects with data for each tax.
    */
-  taxTypes?: Array;
+  taxTypes?: Array<any>;
 
   /**
    * An action to return a list of tax.
@@ -30,6 +30,7 @@ interface IProps {
 
 export const TaxSelectModal = (props: IProps) => {
   const {taxTypes, getTaxes, disabled = false, theme} = props;
+
   return (
     <SelectField
       {...props}

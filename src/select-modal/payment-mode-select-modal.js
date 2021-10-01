@@ -7,7 +7,7 @@ interface IProps {
   /**
    * An array of objects with data for each payment-mode.
    */
-  paymentModes?: Array;
+  paymentModes?: Array<any>;
 
   /**
    * An action to return a list of payment-mode.
@@ -35,9 +35,7 @@ export const PaymentModeSelectModal = (props: IProps) => {
       icon="align-center"
       placeholder={t('payments.modePlaceholder')}
       compareField="id"
-      headerProps={{
-        title: t('payments.modePlaceholder')
-      }}
+      headerProps={{title: t('payments.modePlaceholder')}}
       emptyContentProps={{contentType: 'paymentMode'}}
       inputModalName="PaymentModeModal"
       createActionRouteName={routes.PAYMENT_MODES}

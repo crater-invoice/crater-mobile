@@ -151,11 +151,12 @@ export default class Preferences extends Component<IProps, IStates> {
 
   render() {
     const {
+      currencies,
       languages,
       timezones,
       dateFormats,
       fiscalYears,
-      retrospectiveEditsList,
+      retrospectiveEdits,
       navigation,
       handleSubmit,
       updatePreferencesLoading
@@ -189,8 +190,8 @@ export default class Preferences extends Component<IProps, IStates> {
       >
         <Field
           name="currency"
+          currencies={currencies}
           component={CurrencySelectModal}
-          {...this.props}
           label={t('settings.preferences.currency')}
           rightIcon="angle-right"
           isRequired
@@ -226,6 +227,7 @@ export default class Preferences extends Component<IProps, IStates> {
             this.setFormField('moment_date_format', val.moment_format_value);
             this.setFormField('date_format', val.moment_format_value);
           }}
+          navigation={navigation}
         />
 
         <Field
@@ -239,7 +241,7 @@ export default class Preferences extends Component<IProps, IStates> {
 
         <Field
           name="retrospective_edits"
-          retrospectiveEditsList={retrospectiveEditsList}
+          retrospectiveEdits={retrospectiveEdits}
           component={RetrospectiveEditSelectModal}
           onSelect={val => {
             this.setFormField('retrospective_edits', val.value);

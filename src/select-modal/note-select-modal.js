@@ -6,11 +6,12 @@ import {routes} from '@/navigation';
 import {TouchableOpacity} from 'react-native';
 import {Text} from '@/components';
 import {ITheme} from '@/interfaces';
+
 interface IProps {
   /**
    * An array of objects with data for each note.
    */
-  notes?: Array;
+  notes?: Array<any>;
 
   /**
    * An action to return a list of note.
@@ -39,12 +40,8 @@ export const NoteSelectModal = (props: IProps) => {
       paginationLimit={defineSize(15, 15, 15, 20)}
       createActionRouteName={routes.NOTE}
       reference={ref => (notesReference = ref)}
-      headerProps={{
-        title: t('notes.select')
-      }}
-      emptyContentProps={{
-        contentType: 'notes'
-      }}
+      headerProps={{title: t('notes.select')}}
+      emptyContentProps={{contentType: 'notes'}}
       customView={
         <TouchableOpacity
           onPress={() => {
@@ -57,7 +54,7 @@ export const NoteSelectModal = (props: IProps) => {
             style={{paddingBottom: 6}}
             color={theme?.viewLabel?.thirdColor}
           >
-            {t('notes.insertNote')}
+            {t('notes.insertNote')}{' '}
           </Text>
         </TouchableOpacity>
       }

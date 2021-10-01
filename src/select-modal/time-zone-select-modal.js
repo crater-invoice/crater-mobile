@@ -6,29 +6,22 @@ interface IProps {
   /**
    * An array of objects with data for each time-zone.
    */
-  timezone?: Array;
+  timezones?: Array<any>;
 }
 
-export const TimeZoneSelectModal = (props: IProps) => {
-  const {timezone} = props;
-  return (
-    <InternalPagination
-      {...props}
-      items={timezone ?? []}
-      displayName="key"
-      label={t('settings.preferences.timeZone')}
-      icon="clock"
-      rightIcon="angle-right"
-      searchFields={['key']}
-      compareField="value"
-      headerProps={{
-        title: t('timeZones.title'),
-        rightIconPress: null
-      }}
-      emptyContentProps={{
-        contentType: 'timeZones'
-      }}
-      isRequired
-    />
-  );
-};
+export const TimeZoneSelectModal = (props: IProps) => (
+  <InternalPagination
+    {...props}
+    items={props?.timezones ?? []}
+    displayName="key"
+    label={t('settings.preferences.timeZone')}
+    placeholder={t('settings.preferences.timeZonePlaceholder')}
+    icon="clock"
+    rightIcon="angle-right"
+    searchFields={['key']}
+    compareField="value"
+    headerProps={{title: t('timeZones.title'), rightIconPress: null}}
+    emptyContentProps={{contentType: 'timeZones'}}
+    isRequired
+  />
+);

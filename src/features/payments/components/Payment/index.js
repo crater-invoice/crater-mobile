@@ -50,6 +50,7 @@ type IProps = {
   handleSubmit: Function,
   type: String,
   loading: Boolean,
+  getCustomers: Function,
   notesReference: any
 };
 

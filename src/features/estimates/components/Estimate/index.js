@@ -530,7 +530,6 @@ export class Estimate extends React.Component<IProps> {
       isEditScreen && !initLoading
         ? EDIT_ESTIMATE_ACTIONS(markAsStatus, isAllowToDelete)
         : [];
-    console.log({dropdownOptions});
     let drownDownProps =
       isEditScreen && !initLoading
         ? {

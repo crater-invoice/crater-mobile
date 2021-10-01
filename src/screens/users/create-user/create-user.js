@@ -102,7 +102,7 @@ export default class CreateUser extends Component<IProps, IStates> {
   };
 
   render() {
-    const {roles, isEditScreen, isAllowToEdit, roles, fetchRoles} = this.props;
+    const {roles, isEditScreen, isAllowToEdit, fetchRoles} = this.props;
     const userRefs: any = {};
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;

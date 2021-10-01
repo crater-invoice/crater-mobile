@@ -8,7 +8,7 @@ interface IProps {
   /**
    * An array of objects with data for each customer.
    */
-  customers?: Array;
+  customers?: Array<any>;
 
   /**
    * An action to return a list of customer.
@@ -23,6 +23,7 @@ interface IProps {
 
 export const CustomerSelectModal = (props: IProps) => {
   const {customers, getCustomers, disabled} = props;
+
   return (
     <SelectField
       placeholder={t('estimates.customerPlaceholder')}
@@ -37,9 +38,7 @@ export const CustomerSelectModal = (props: IProps) => {
       icon={'user'}
       compareField="id"
       createActionRouteName={routes.MAIN_CUSTOMERS}
-      headerProps={{
-        title: t('customers.title')
-      }}
+      headerProps={{title: t('customers.title')}}
       listViewProps={{hasAvatar: true}}
       emptyContentProps={{
         contentType: 'customers',

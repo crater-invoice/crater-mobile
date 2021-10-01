@@ -7,7 +7,7 @@ interface IProps {
   /**
    * An array of objects with data for each category.
    */
-  categories?: Array;
+  categories?: Array<any>;
 
   /**
    * An action to return a list of category.
@@ -22,6 +22,7 @@ interface IProps {
 
 export const ExpenseCategorySelectModal = (props: IProps) => {
   const {categories, getCategories, disabled = false} = props;
+
   return (
     <SelectField
       {...props}
@@ -36,9 +37,7 @@ export const ExpenseCategorySelectModal = (props: IProps) => {
       placeholder={t('expenses.categoryPlaceholder')}
       compareField="id"
       createActionRouteName={routes.CATEGORIES}
-      headerProps={{
-        title: t('expenses.categoryPlaceholder')
-      }}
+      headerProps={{title: t('expenses.categoryPlaceholder')}}
       emptyContentProps={{contentType: 'categories'}}
       isEditable={!disabled}
       fakeInputProps={{disabled}}
