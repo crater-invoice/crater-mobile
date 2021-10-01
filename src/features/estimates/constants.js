@@ -1,5 +1,7 @@
 import queryString from 'query-string';
 import t from 'locales/use-translation';
+import {PermissionService} from '@/services';
+import {routes} from '@/navigation';
 
 // Estimate Refs
 // -----------------------------------------
@@ -8,8 +10,8 @@ export const setEstimateRefs = refs => (estimateRefs = refs);
 
 //  Forms
 // -----------------------------------------
-export const ESTIMATE_SEARCH = 'estimateForm/ESTIMATE_SEARCH';
-export const ESTIMATE_FORM = 'estimateForm/ESTIMATE_FORM';
+export const ESTIMATES_FORM = 'estimate/ESTIMATES_FORM';
+export const ESTIMATE_FORM = 'estimate/ESTIMATE_FORM';
 export const ITEM_FORM = 'item/ITEM_FORM';
 
 // Actions
@@ -48,64 +50,64 @@ export const ITEM_ADD = 'estimate/ITEM_ADD';
 export const ITEM_EDIT = 'estimate/ITEM_EDIT';
 
 export const ITEM_DISCOUNT_OPTION = [
-    {
-        key: 'none',
-        label: 'None'
-    },
-    {
-        key: 'fixed',
-        label: 'Fixed'
-    },
-    {
-        key: 'percentage',
-        label: 'Percentage'
-    }
+  {
+    key: 'none',
+    label: 'None'
+  },
+  {
+    key: 'fixed',
+    label: 'Fixed'
+  },
+  {
+    key: 'percentage',
+    label: 'Percentage'
+  }
 ];
 
 export const ESTIMATE_DISCOUNT_OPTION = [
-    {
-        value: 'percentage',
-        displayLabel: '%',
-        label: 'Percentage'
-    }
+  {
+    value: 'percentage',
+    displayLabel: '%',
+    label: 'Percentage'
+  }
 ];
 
 export const TAB_NAME = name => {
-    return t(`estimates.tabs.${name}`);
+  return t(`estimates.tabs.${name}`);
 };
 
 export const ESTIMATES_TABS = {
-    SENT: 'SENT',
-    DRAFT: 'DRAFT',
-    ALL: 'ALL'
+  SENT: 'SENT',
+  DRAFT: 'DRAFT',
+  ALL: 'ALL'
 };
 
 // Filter Estimate Mode
 // -----------------------------------------
 export const FILTER_ESTIMATE_STATUS = [
-    { label: 'DRAFT', value: 'DRAFT' },
-    { label: 'SENT', value: 'SENT' },
-    { label: 'VIEWED', value: 'VIEWED' },
-    { label: 'EXPIRED', value: 'EXPIRED' },
-    { label: 'ACCEPTED', value: 'ACCEPTED' },
-    { label: 'REJECTED', value: 'REJECTED' }
+  {label: 'DRAFT', value: 'DRAFT'},
+  {label: 'SENT', value: 'SENT'},
+  {label: 'VIEWED', value: 'VIEWED'},
+  {label: 'EXPIRED', value: 'EXPIRED'},
+  {label: 'ACCEPTED', value: 'ACCEPTED'},
+  {label: 'REJECTED', value: 'REJECTED'}
 ];
 
 export const ESTIMATES_STATUS = {
-    SENT: 'danger',
-    DRAFT: 'warning',
-    PAID: 'success'
+  SENT: 'danger',
+  DRAFT: 'warning',
+  PAID: 'success'
 };
 
 export const ESTIMATE_ACTIONS = {
-    VIEW: 'download',
-    SEND: 'send',
-    DELETE: 'delete',
-    EDIT: 'edit',
-    CONVERT_TO_INVOICE: 'convertToInvoice',
-    MARK_AS_SENT: 'markAsSent',
-    MARK_AS_ACCEPTED: 'markAsAccepted',
-    MARK_AS_REJECTED: 'markAsRejected'
+  VIEW: 'download',
+  SEND: 'send',
+  DELETE: 'delete',
+  EDIT: 'edit',
+  CONVERT_TO_INVOICE: 'convertToInvoice',
+  MARK_AS_SENT: 'markAsSent',
+  MARK_AS_ACCEPTED: 'markAsAccepted',
+  MARK_AS_REJECTED: 'markAsRejected'
 };
 
 export const MARK_AS_SENT = 'SENT';
@@ -113,62 +115,67 @@ export const MARK_AS_ACCEPT = 'ACCEPTED';
 export const MARK_AS_REJECT = 'REJECTED';
 
 export const EDIT_ESTIMATE_ACTIONS = (markAs = '', isAllowToDelete) => {
-    const markAsSent = [
-        {
-            label: t('estimates.actions.markAsSent'),
-            value: ESTIMATE_ACTIONS.MARK_AS_SENT
-        }
-    ];
-
-    const markAsAccept = [
-        {
-            label: t('estimates.actions.markAsAccepted'),
-            value: ESTIMATE_ACTIONS.MARK_AS_ACCEPTED
-        }
-    ];
-
-    const markAsReject = [
-        {
-            label: t('estimates.actions.markAsRejected'),
-            value: ESTIMATE_ACTIONS.MARK_AS_REJECTED
-        }
-    ];
-
-    const deleteAction = [
-        {
-            label: t('estimates.actions.delete'),
-            value: ESTIMATE_ACTIONS.DELETE
-        }
-    ];
-
-    const actions = [
-        {
-            label: t('estimates.actions.convertToInvoice'),
-            value: ESTIMATE_ACTIONS.CONVERT_TO_INVOICE
-        },
-        {
-            label: t(
-                markAs === MARK_AS_SENT
-                    ? 'estimates.actions.reSendEstimate'
-                    : 'estimates.actions.sendEstimate'
-            ),
-            value: ESTIMATE_ACTIONS.SEND
-        }
-    ];
-
-    let items = [];
-
-    if (markAs === MARK_AS_SENT) {
-        items = [...markAsAccept, ...markAsReject];
-    } else if (markAs === MARK_AS_ACCEPT) {
-        items = [...markAsSent, ...markAsReject];
-    } else if (markAs === MARK_AS_REJECT) {
-        items = [...markAsSent, ...markAsAccept];
-    } else {
-        items = [...markAsSent, ...markAsAccept, ...markAsReject];
+  const markAsSent = [
+    {
+      label: t('estimates.actions.markAsSent'),
+      value: ESTIMATE_ACTIONS.MARK_AS_SENT
     }
+  ];
 
-    return isAllowToDelete
-        ? [...actions, ...items, ...deleteAction]
-        : [...actions, ...items];
+  const markAsAccept = [
+    {
+      label: t('estimates.actions.markAsAccepted'),
+      value: ESTIMATE_ACTIONS.MARK_AS_ACCEPTED
+    }
+  ];
+
+  const markAsReject = [
+    {
+      label: t('estimates.actions.markAsRejected'),
+      value: ESTIMATE_ACTIONS.MARK_AS_REJECTED
+    }
+  ];
+
+  const deleteAction = [
+    {
+      label: t('estimates.actions.delete'),
+      value: ESTIMATE_ACTIONS.DELETE
+    }
+  ];
+
+  const sendEstimate = {
+    label: t(
+      markAs === MARK_AS_SENT
+        ? 'estimates.actions.reSendEstimate'
+        : 'estimates.actions.sendEstimate'
+    ),
+    value: ESTIMATE_ACTIONS.SEND
+  };
+
+  let actions = [
+    {
+      label: t('estimates.actions.convertToInvoice'),
+      value: ESTIMATE_ACTIONS.CONVERT_TO_INVOICE
+    }
+  ];
+
+  if (PermissionService.isAllowToSend(routes.ESTIMATE)) {
+    actions = [...actions, sendEstimate];
+  }
+
+  let items = [];
+
+  if (markAs === MARK_AS_SENT) {
+    items = [...markAsAccept, ...markAsReject];
+  } else if (markAs === MARK_AS_ACCEPT) {
+    items = [...markAsSent, ...markAsReject];
+  } else if (markAs === MARK_AS_REJECT) {
+    items = [...markAsSent, ...markAsAccept];
+  } else {
+    items = [...markAsSent, ...markAsAccept, ...markAsReject];
+  }
+
+  return isAllowToDelete
+    ? [...actions, ...items, ...deleteAction]
+    : [...actions, ...items];
 };

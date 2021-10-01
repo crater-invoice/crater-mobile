@@ -2,6 +2,7 @@ import {PermissionService} from '@/services';
 
 export const permissionSelector = route => {
   const type = route?.params?.type ?? 'ADD';
+  const id = route?.params?.id;
   const isEditScreen = type === 'UPDATE';
   const isAllowToEdit = isEditScreen
     ? PermissionService.isAllowToEdit(route?.name)
@@ -11,6 +12,7 @@ export const permissionSelector = route => {
     : true;
 
   return {
+    id,
     type,
     isCreateScreen: !isEditScreen,
     isEditScreen,

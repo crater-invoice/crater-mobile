@@ -6,6 +6,7 @@ import {routes} from '@/navigation';
 import {alertMe, KEYBOARD_TYPE} from '@/constants';
 import {CREATE_USER_FORM} from 'stores/users/types';
 import {DefaultLayout, InputField, ActionButton} from '@/components';
+import headerTitle from 'utils/header';
 import {
   addUser,
   updateUser,
@@ -14,11 +15,10 @@ import {
 } from 'stores/users/actions';
 import {RoleSelectModal} from '@/select-modal';
 
-let userRefs = {};
-
 export default class CreateUser extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
+    this.state = {isFetchingInitialData: true};
   }
 
   componentDidMount() {
@@ -26,47 +26,40 @@ export default class CreateUser extends Component<IProps, IStates> {
   }
 
   loadData = () => {
-    const {isEditScreen, userId, dispatch} = this.props;
-
+    const {isEditScreen, id, dispatch} = this.props;
     if (isEditScreen) {
-      const onSuccess = user => {
-        this.setInitialData(user);
-      };
-      dispatch(fetchSingleUser({id: userId, onSuccess}));
+      dispatch(fetchSingleUser(id, user => this.setInitialData(user)));
       return;
     }
-  };
 
-  throwError = errors => {
-    let error = {};
-    errors.email && (error.email = 'validation.alreadyTaken');
-    errors.phone && (error.phone = 'validation.alreadyTaken');
-    throw new SubmissionError(error);
+    this.setState({isFetchingInitialData: false});
   };
 
   setInitialData = user => {
     const {dispatch} = this.props;
     dispatch(initialize(CREATE_USER_FORM, user));
+    this.setState({isFetchingInitialData: false});
+  };
+
+  throwError = errors => {
+    let error: any = {};
+    errors.email && (error.email = 'validation.alreadyTaken');
+    errors.phone && (error.phone = 'validation.alreadyTaken');
+    throw new SubmissionError(error);
   };
 
   onSave = values => {
-    const {
-      isCreateScreen,
-      navigation,
-      loading,
-      userId,
-      dispatch,
-      handleSubmit
-    } = this.props;
+    const {id, isCreateScreen, navigation, dispatch, handleSubmit} = this.props;
+    const {isFetchingInitialData} = this.state;
 
-    if (loading) {
+    if (this.props.isSaving || this.props.isDeleting || isFetchingInitialData) {
       return;
     }
 
     const params = {
+      id,
       params: values,
       navigation,
-      userId,
       submissionError: errors => handleSubmit(() => this.throwError(errors))()
     };
 
@@ -74,7 +67,7 @@ export default class CreateUser extends Component<IProps, IStates> {
   };
 
   removeUser = () => {
-    const {navigation, userId, dispatch} = this.props;
+    const {id, navigation, dispatch} = this.props;
     function alreadyUsedAlert() {
       alertMe({
         title: t('users.text_already_used')
@@ -91,13 +84,7 @@ export default class CreateUser extends Component<IProps, IStates> {
     }
 
     confirmationAlert(() =>
-      dispatch(
-        removeUser({
-          id: userId,
-          onSuccess: val =>
-            val ? navigation.navigate(routes.USERS) : alreadyUsedAlert()
-        })
-      )
+      dispatch(removeUser(id, navigation, val => alreadyUsedAlert()))
     );
   };
 
@@ -110,57 +97,42 @@ export default class CreateUser extends Component<IProps, IStates> {
     const {navigation} = this.props;
     navigation.navigate(routes.CREATE_ROLE, {
       type: 'ADD',
-      onSelect: item => {
-        this.setFormField(`role`, item.name);
-      }
+      onSelect: item => this.setFormField(`role`, item.name)
     });
   };
+
   render() {
-    const {
-      navigation,
-      handleSubmit,
-      loading,
-      isEditScreen,
-      isAllowToEdit,
-      isAllowToDelete,
-      roles,
-      fetchRoles
-    } = this.props;
+    const {roles, isEditScreen, isAllowToEdit, roles, fetchRoles} = this.props;
+    const userRefs: any = {};
+    const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
-
-    const getTitle = () => {
-      let title = 'header.addUser';
-
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewUser';
-      if (isEditScreen && isAllowToEdit) title = 'header.editUser';
-
-      return t(title);
-    };
+    const loading =
+      isFetchingInitialData || this.props.isSaving || this.props.isDeleting;
 
     const bottomAction = [
       {
         label: 'button.save',
-        onPress: handleSubmit(this.onSave),
+        onPress: this.props.handleSubmit(this.onSave),
         show: isAllowToEdit,
-        loading: loading
+        loading
       },
       {
         label: 'button.remove',
         onPress: this.removeUser,
         bgColor: 'btn-danger',
-        show: isEditScreen && isAllowToDelete,
-        loading: loading
+        show: isEditScreen && this.props.isAllowToDelete,
+        loading
       }
     ];
 
     const headerProps = {
-      leftIconPress: () => navigation.goBack(null),
-      title: getTitle(),
+      leftIconPress: () => this.props.navigation.goBack(null),
+      title: headerTitle(this.props),
       placement: 'center',
       ...(isAllowToEdit && {
         rightIcon: 'save',
         rightIconProps: {solid: true},
-        rightIconPress: handleSubmit(this.onSave)
+        rightIconPress: this.props.handleSubmit(this.onSave)
       })
     };
 
@@ -168,11 +140,12 @@ export default class CreateUser extends Component<IProps, IStates> {
       <DefaultLayout
         headerProps={headerProps}
         bottomAction={<ActionButton buttons={bottomAction} />}
+        loadingProps={{is: isFetchingInitialData}}
       >
         <Field
           name="name"
-          component={InputField}
           isRequired
+          component={InputField}
           hint={t('users.text_name')}
           disabled={disabled}
           inputProps={{
@@ -185,8 +158,11 @@ export default class CreateUser extends Component<IProps, IStates> {
 
         <Field
           name="email"
+          isRequired
           component={InputField}
+          disabled={disabled}
           hint={t('users.email')}
+          refLinkFn={ref => (userRefs.email = ref)}
           inputProps={{
             returnKeyType: 'next',
             autoCapitalize: 'none',
@@ -194,41 +170,38 @@ export default class CreateUser extends Component<IProps, IStates> {
             keyboardType: KEYBOARD_TYPE.EMAIL,
             onSubmitEditing: () => userRefs.password.focus()
           }}
-          isRequired
-          refLinkFn={ref => (userRefs.email = ref)}
-          disabled={disabled}
         />
 
         <Field
           name="password"
           component={InputField}
           hint={t('users.password')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => userRefs.phone.focus()
-          }}
           secureTextEntry
           secureTextIconContainerStyle={{top: 6}}
           disabled={disabled}
           refLinkFn={ref => (userRefs.password = ref)}
           isRequired={!isEditScreen}
           minCharacter={8}
+          inputProps={{
+            returnKeyType: 'next',
+            autoCapitalize: 'none',
+            autoCorrect: true,
+            onSubmitEditing: () => userRefs.phone.focus()
+          }}
         />
 
         <Field
           name="phone"
           component={InputField}
           hint={t('users.phone')}
+          refLinkFn={ref => (userRefs.phone = ref)}
+          disabled={disabled}
           inputProps={{
             returnKeyType: 'next',
             autoCapitalize: 'none',
             autoCorrect: true,
             keyboardType: KEYBOARD_TYPE.PHONE
           }}
-          refLinkFn={ref => (userRefs.phone = ref)}
-          disabled={disabled}
         />
 
         <Field

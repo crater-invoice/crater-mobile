@@ -526,32 +526,21 @@ export class Estimate extends React.Component<IProps> {
 
     let hasCompleteStatus = markAsStatus === 'COMPLETED';
 
-    let hasMark =
-      markAsStatus === MARK_AS_ACCEPT ||
-      markAsStatus === MARK_AS_REJECT ||
-      markAsStatus === MARK_AS_SENT;
-
+    const dropdownOptions =
+      isEditScreen && !initLoading
+        ? EDIT_ESTIMATE_ACTIONS(markAsStatus, isAllowToDelete)
+        : [];
+    console.log({dropdownOptions});
     let drownDownProps =
       isEditScreen && !initLoading
         ? {
-            options: EDIT_ESTIMATE_ACTIONS(markAsStatus, isAllowToDelete),
+            options: dropdownOptions,
             onSelect: this.onOptionSelect,
-            cancelButtonIndex: 6,
-            destructiveButtonIndex: 5,
-            ...(hasMark && {
-              cancelButtonIndex: 5,
-              destructiveButtonIndex: 4
-            }),
-            ...(!isAllowToDelete &&
-              !hasMark && {
-                cancelButtonIndex: 5,
-                destructiveButtonIndex: 6
-              }),
-            ...(!isAllowToDelete &&
-              hasMark && {
-                cancelButtonIndex: 4,
-                destructiveButtonIndex: 5
-              })
+            cancelButtonIndex: dropdownOptions.length,
+            destructiveButtonIndex: dropdownOptions.length - 1,
+            ...(!isAllowToDelete && {
+              destructiveButtonIndex: dropdownOptions.length + 1
+            })
           }
         : null;
 

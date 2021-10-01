@@ -3,7 +3,8 @@ import {isEmpty} from '@/constants';
 
 const initialState = {
   users: [],
-  loading: {}
+  isSaving: false,
+  isDeleting: false
 };
 
 export default function usersReducer(state = initialState, action) {
@@ -11,10 +12,7 @@ export default function usersReducer(state = initialState, action) {
 
   switch (type) {
     case types.SPINNER:
-      return {
-        ...state,
-        loading: {...state.loading, ...payload}
-      };
+      return {...state, [payload.name]: payload.value};
 
     case types.FETCH_USERS_SUCCESS:
       if (payload.fresh) {

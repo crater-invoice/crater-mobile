@@ -174,6 +174,13 @@ class Service {
     const ability = toObject(abilities.filter(a => a.route === route))?.ability;
     return this.hasPermission(ability);
   };
+
+  isAllowToSend = route => {
+    const ability = toObject(
+      abilities.filter(a => a.route === route && a.ability.includes('send'))
+    )?.ability;
+    return this.hasPermission(ability);
+  };
 }
 
 export const PermissionService = new Service();

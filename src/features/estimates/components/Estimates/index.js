@@ -8,7 +8,7 @@ import {routes} from '@/navigation';
 import estimateFilterFields from './filterFields';
 import {isFilterApply} from '@/utils';
 import {ARROW_ICON, IMAGES} from '@/assets';
-import {ESTIMATES_TABS, ESTIMATE_SEARCH, TAB_NAME} from '../../constants';
+import {ESTIMATES_TABS, ESTIMATES_FORM, TAB_NAME} from '../../constants';
 import EstimateServices from '../../services';
 
 interface IProps {
@@ -120,7 +120,7 @@ export class Estimates extends React.Component<IProps, IStates> {
   };
 
   setFormField = (field, value) => {
-    this.props.dispatch(change(ESTIMATE_SEARCH, field, value));
+    this.props.dispatch(change(ESTIMATES_FORM, field, value));
   };
 
   onResetFilter = () => {
