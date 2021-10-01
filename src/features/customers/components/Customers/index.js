@@ -67,7 +67,7 @@ export class Customers extends React.Component<IProps> {
   onSelect = customer => {
     const {navigation} = this.props;
     navigation.navigate(routes.CUSTOMER, {
-      customerId: customer.id,
+      id: customer.id,
       type: 'UPDATE'
     });
   };

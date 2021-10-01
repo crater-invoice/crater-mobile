@@ -13,8 +13,6 @@ const mapStateToProps = (state, {route}) => {
     customers: {countries, loading}
   } = state;
   const customFields = state.settings?.customFields;
-  const id = route?.params?.customerId;
-
   return {
     formValues: getFormValues(CUSTOMER_FORM)(state) || {},
     currencies: getStateCurrencies(currencies),
@@ -22,7 +20,6 @@ const mapStateToProps = (state, {route}) => {
     currency,
     customFields,
     loading: loading?.customerLoading,
-    id,
     ...permissionSelector(route),
     ...commonSelector(state),
     initialValues: {

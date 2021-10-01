@@ -156,7 +156,7 @@ export class Customer extends React.Component<IProps> {
       showCancel: true,
       okPress: () =>
         removeCustomer({
-          id: route?.params?.customerId,
+          id: route?.params?.id,
           navigation
         })
     });
@@ -323,7 +323,6 @@ export class Customer extends React.Component<IProps> {
             name={`customer.${FIELDS.CURRENCY}`}
             currencies={currencies}
             component={CurrencySelectModal}
-            {...this.props}
             onSelect={val =>
               this.setFormField(`customer.${FIELDS.CURRENCY}`, val.id)
             }
