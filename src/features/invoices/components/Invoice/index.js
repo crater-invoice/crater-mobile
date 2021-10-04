@@ -3,11 +3,9 @@ import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change, SubmissionError} from 'redux-form';
 import styles from './styles';
-import {colors, itemsDescriptionStyle} from '@/styles';
 import {TemplateField} from '../TemplateField';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
-import {IMAGES} from '@/assets';
 import FinalAmount from '../FinalAmount';
 import {alertMe, isEmpty} from '@/constants';
 import {
@@ -15,7 +13,6 @@ import {
   DatePickerField,
   ListView,
   DefaultLayout,
-  SelectField,
   CurrencyFormat,
   FakeInput,
   SendMail,
@@ -45,6 +42,7 @@ import {
 import {getApiFormattedCustomFields} from '@/utils';
 import Notes from './notes';
 import InvoiceServices from '../../services';
+import {ItemSelectModal, CustomerSelectModal} from '@/select-modal';
 
 type IProps = {
   navigation: any,
@@ -389,14 +387,14 @@ export class Invoice extends React.Component<IProps, IStates> {
 
       case INVOICE_ACTIONS.RECORD_PAYMENT:
         const {
-          user,
+          customer_id,
           due_amount,
           sub_total,
           prefix,
           invoice_number
         } = formValues;
         const invoice = {
-          user,
+          customer_id,
           id,
           due: {due_amount, sub_total},
           number: `${prefix}-${invoice_number}`
@@ -617,37 +615,19 @@ export class Invoice extends React.Component<IProps, IStates> {
 
         <Field
           name="customer_id"
-          items={customers}
-          apiSearch
-          hasPagination
-          isRequired
-          getItems={getCustomers}
-          selectedItem={formValues?.user}
-          displayName="name"
-          component={SelectField}
-          label={t('invoices.customer')}
-          icon={'user'}
-          createActionRouteName={routes.MAIN_CUSTOMERS}
+          getCustomers={getCustomers}
+          customers={customers}
+          component={CustomerSelectModal}
           placeholder={
             customerName ? customerName : t('invoices.customerPlaceholder')
           }
-          compareField="id"
           onSelect={item => {
             this.setFormField('customer_id', item.id);
             this.setState({currency: item.currency});
           }}
           rightIconPress={this.navigateToCustomer}
-          headerProps={{
-            title: t('customers.title')
-          }}
-          listViewProps={{hasAvatar: true}}
-          emptyContentProps={{
-            contentType: 'customers',
-            image: IMAGES.EMPTY_CUSTOMERS
-          }}
           reference={ref => (this.customerReference = ref)}
-          isEditable={!disabled}
-          fakeInputProps={{disabled}}
+          disabled={disabled}
         />
 
         <Label isRequired theme={theme} style={styles.label}>
@@ -676,25 +656,10 @@ export class Invoice extends React.Component<IProps, IStates> {
         <Field
           name="items"
           items={getItemList(items)}
-          displayName="name"
-          component={SelectField}
-          hasPagination
-          apiSearch
           getItems={getItems}
-          compareField="id"
-          valueCompareField="item_id"
-          icon={'percent'}
-          placeholder={t('invoices.addItem')}
-          onlyPlaceholder
-          isMultiSelect
+          component={ItemSelectModal}
           loading={itemsLoading}
-          fakeInputProps={{
-            icon: 'shopping-basket',
-            rightIcon: 'angle-right',
-            color: colors.primaryLight,
-            disabled
-          }}
-          createActionRouteName={routes.GLOBAL_ITEMS}
+          disabled={disabled}
           onSelect={item => {
             navigation.navigate(routes.INVOICE_ITEM, {
               item,
@@ -712,18 +677,6 @@ export class Invoice extends React.Component<IProps, IStates> {
               tax_per_item
             })
           }
-          headerProps={{
-            title: t('items.title')
-          }}
-          emptyContentProps={{
-            contentType: 'items',
-            image: IMAGES.EMPTY_ITEMS
-          }}
-          listViewProps={{
-            leftSubTitleStyle: itemsDescriptionStyle()
-          }}
-          paginationLimit={15}
-          isEditable={!disabled}
         />
 
         <FinalAmount state={this.state} props={this.props} />

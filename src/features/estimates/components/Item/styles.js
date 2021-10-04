@@ -53,9 +53,6 @@ export default styles = StyleSheet.create({
   selectPicker: {
     marginTop: 25
   },
-  units: {
-    paddingLeft: 48
-  },
   currencySymbol: {
     ...(isAndroidPlatform && {
       marginTop: -5

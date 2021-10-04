@@ -83,7 +83,7 @@ const mapStateToProps = (state, {route}) => {
           prefix: isEditScreen
             ? estimateData?.estimatePrefix
             : estimateData?.prefix,
-          customer: estimate?.user,
+          customer: estimate?.customer,
           template: estimate?.estimate_template
         }
       : null

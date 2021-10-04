@@ -27,7 +27,8 @@ const mapStateToProps = (state, {route}) => {
   const {
     common: {taxTypes, currency},
     invoices: {loading, invoiceItems, invoiceData, items},
-    settings: {notes, customFields}
+    settings: {notes, customFields},
+    customers: {customers}
   } = state;
 
   const {invoice = null, invoiceTemplates, invoice_notes = ''} = invoiceData;
@@ -49,7 +50,7 @@ const mapStateToProps = (state, {route}) => {
     invoiceData,
     items,
     notes,
-    customers: state.customers?.customers,
+    customers,
     itemsLoading: loading?.itemsLoading,
     formValues: getFormValues(INVOICE_FORM)(state) || {},
     taxTypes,
@@ -78,7 +79,7 @@ const mapStateToProps = (state, {route}) => {
           prefix: isEditScreen
             ? invoiceData?.invoicePrefix
             : invoiceData?.prefix,
-          customer: invoice?.user,
+          customer: invoice?.customer,
           template: invoice?.invoice_template
         }
       : null

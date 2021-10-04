@@ -19,7 +19,6 @@ const mapStateToProps = (state, {route}) => {
     paymentModes: {modes}
   } = state;
 
-  const id = route?.params?.paymentId;
   const invoice = route?.params?.invoice;
   const hasRecordPayment = route?.params?.hasRecordPayment;
 
@@ -32,7 +31,6 @@ const mapStateToProps = (state, {route}) => {
     withLoading: loading?.sendReceiptLoading,
     unPaidInvoices,
     customFields,
-    id,
     paymentModes: getPaymentModesState(modes),
     formValues: getFormValues(PAYMENT_FORM)(state) || {},
     currency,

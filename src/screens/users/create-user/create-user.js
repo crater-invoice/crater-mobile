@@ -5,20 +5,15 @@ import {IProps, IStates} from './create-user-type';
 import {routes} from '@/navigation';
 import {alertMe, KEYBOARD_TYPE} from '@/constants';
 import {CREATE_USER_FORM} from 'stores/users/types';
-import {IMAGES} from '@/assets';
+import {DefaultLayout, InputField, ActionButton} from '@/components';
 import headerTitle from 'utils/header';
-import {
-  DefaultLayout,
-  InputField,
-  ActionButton,
-  SelectField
-} from '@/components';
 import {
   addUser,
   updateUser,
   removeUser,
   fetchSingleUser
 } from 'stores/users/actions';
+import {RoleSelectModal} from '@/select-modal';
 
 export default class CreateUser extends Component<IProps, IStates> {
   constructor(props) {
@@ -111,8 +106,8 @@ export default class CreateUser extends Component<IProps, IStates> {
       roles,
       isEditScreen,
       isAllowToEdit,
-      formValues,
-      fetchRoles
+      fetchRoles,
+      formValues
     } = this.props;
     const userRefs: any = {};
     const {isFetchingInitialData} = this.state;
@@ -217,31 +212,15 @@ export default class CreateUser extends Component<IProps, IStates> {
 
         <Field
           name="role"
-          items={roles}
-          apiSearch
-          hasPagination
-          isRequired
-          getItems={fetchRoles}
-          selectedItem={formValues?.user?.role}
-          displayName="title"
-          component={SelectField}
-          label={t('users.role')}
-          icon={'align-center'}
-          createActionRouteName={routes.ROLES}
+          roles={roles}
+          fetchRoles={fetchRoles}
+          component={RoleSelectModal}
           rightIconPress={this.navigateToRole}
-          placeholder={formValues?.role ?? t('users.rolePlaceholder')}
-          compareField="id"
           onSelect={item => this.setFormField(`role`, item.name)}
-          headerProps={{
-            title: t('users.roles')
-          }}
-          emptyContentProps={{
-            contentType: 'roles',
-            image: IMAGES.EMPTY_CUSTOMERS
-          }}
-          isEditable={!disabled}
-          fakeInputProps={{disabled}}
+          disabled={disabled}
           refLinkFn={ref => (userRefs.role = ref)}
+          placeholder={formValues?.role ?? t('users.rolePlaceholder')}
+          selectedItem={formValues?.role}
         />
       </DefaultLayout>
     );

@@ -5,15 +5,14 @@ import {
   DefaultLayout,
   InputField,
   FilePicker,
-  SelectField,
-  ActionButton,
-  InternalPagination
+  ActionButton
 } from '@/components';
 import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {EDIT_COMPANY} from '../../constants';
 import {formatCountries} from '@/utils';
 import {MAX_LENGTH} from '@/constants';
+import {CountrySelectModal} from '@/select-modal';
 
 type IProps = {
   navigation: Object,
@@ -111,7 +110,8 @@ export class Company extends React.Component<IProps> {
       countriesLoading,
       editCompanyLoading,
       isAllowToEdit,
-      countries
+      countries,
+      theme
     } = this.props;
 
     const {fileLoading} = this.state;
@@ -198,31 +198,15 @@ export class Company extends React.Component<IProps> {
 
         <Field
           name={'country_id'}
-          items={formatCountries(countries)}
-          displayName="name"
-          component={InternalPagination}
-          label={t('customers.address.country')}
-          placeholder={' '}
-          rightIcon="angle-right"
-          searchFields={['name']}
-          isInternalSearch
-          compareField="id"
+          countries={formatCountries(countries)}
+          component={CountrySelectModal}
           onSelect={({id}) => {
             this.setFormField('country_id', id);
           }}
-          headerProps={{
-            title: t('header.country'),
-            rightIconPress: null
-          }}
-          listViewProps={{
-            contentContainerStyle: {flex: 7}
-          }}
-          emptyContentProps={{
-            contentType: 'countries'
-          }}
-          fakeInputProps={{disabled}}
-          isAllowToSelect={!disabled}
+          reference={ref => (this.countryReference = ref)}
           isRequired
+          theme={theme}
+          disabled={disabled}
         />
 
         <Field

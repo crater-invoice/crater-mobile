@@ -5,7 +5,6 @@ import styles from './styles';
 import {
   InputField,
   CtDivider,
-  SelectField,
   SelectPickerField,
   CurrencyFormat,
   Text
@@ -23,6 +22,7 @@ import {
   finalAmount
 } from '../InvoiceCalculation';
 import {definePlatformParam, isIosPlatform} from '@/constants';
+import {TaxSelectModal} from '@/select-modal';
 
 const DISPLAY_ITEM_TAX = ({state, theme}) => {
   const {currency} = state;
@@ -213,26 +213,11 @@ const FinalAmount = ({state, props}) => {
       {!taxPerItem && (
         <Field
           name="taxes"
-          apiSearch
-          hasPagination
-          items={taxTypes}
-          getItems={getTaxes}
-          displayName="name"
-          component={SelectField}
-          onlyPlaceholder
-          fakeInputProps={{
-            disabled,
-            fakeInput: (
-              <Text right medium h4 color={theme?.viewLabel?.thirdColor}>
-                {t('invoices.taxPlaceholder')}
-              </Text>
-            )
-          }}
-          isMultiSelect
-          concurrentMultiSelect
-          compareField="id"
-          valueCompareField="tax_type_id"
-          headerProps={{title: t('taxes.title')}}
+          taxTypes={taxTypes}
+          getTaxes={getTaxes}
+          component={TaxSelectModal}
+          disabled={disabled}
+          theme={theme}
           rightIconPress={() =>
             navigation.navigate(routes.TAX, {
               type: 'ADD',
@@ -241,10 +226,6 @@ const FinalAmount = ({state, props}) => {
               }
             })
           }
-          createActionRouteName={routes.TAXES}
-          listViewProps={{contentContainerStyle: {flex: 2}}}
-          emptyContentProps={{contentType: 'taxes'}}
-          isEditable={!disabled}
         />
       )}
 

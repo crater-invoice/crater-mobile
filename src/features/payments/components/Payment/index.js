@@ -2,14 +2,11 @@ import React from 'react';
 import {Field, change, SubmissionError} from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
-import {routes} from '@/navigation';
 import t from 'locales/use-translation';
-import {IMAGES} from '@/assets';
 import {
   InputField,
   DefaultLayout,
   DatePickerField,
-  SelectField,
   FakeInput,
   SendMail,
   CustomField,
@@ -36,6 +33,11 @@ import {
 } from '@/utils';
 import Notes from './notes';
 import PaymentServices from '../../services';
+import {
+  InvoiceSelectModal,
+  CustomerSelectModal,
+  PaymentModeSelectModal
+} from '@/select-modal';
 
 type IProps = {
   navigation: Object,
@@ -53,13 +55,12 @@ type IProps = {
 };
 
 export class Payment extends React.Component<IProps> {
-  customerReference: any;
   invoiceReference: any;
   sendMailRef: any;
 
   constructor(props) {
     super(props);
-    this.customerReference = React.createRef();
+
     this.invoiceReference = React.createRef();
     this.sendMailRef = React.createRef();
     this.notesReference = React.createRef();
@@ -370,7 +371,6 @@ export class Payment extends React.Component<IProps> {
       navigation,
       handleSubmit,
       customers,
-      type,
       getCustomers,
       fetchPaymentModes,
       paymentModes,
@@ -379,7 +379,6 @@ export class Payment extends React.Component<IProps> {
       unPaidInvoices,
       withLoading,
       customFields,
-      isCreateScreen,
       isEditScreen,
       isAllowToEdit,
       isAllowToDelete,
@@ -475,64 +474,28 @@ export class Payment extends React.Component<IProps> {
 
         <Field
           name={`payment.${FIELDS.CUSTOMER}`}
-          apiSearch
-          hasPagination
-          getItems={getCustomers}
-          items={customers}
+          customers={customers}
+          getCustomers={getCustomers}
+          component={CustomerSelectModal}
+          disabled={disabled}
           selectedItem={formValues?.payment?.customer}
-          displayName="name"
-          component={SelectField}
-          label={t('payments.customer')}
-          icon={'user'}
-          placeholder={t('payments.customerPlaceholder')}
-          compareField="id"
           onSelect={item => this.onSelectCustomer(item)}
-          createActionRouteName={routes.MAIN_CUSTOMERS}
           rightIconPress={this.navigateToCustomer}
-          headerProps={{
-            title: t('customers.title')
-          }}
-          listViewProps={{hasAvatar: true}}
-          emptyContentProps={{
-            contentType: 'customers',
-            image: IMAGES.EMPTY_CUSTOMERS
-          }}
-          isRequired
-          isEditable={isCreateScreen}
-          fakeInputProps={{
-            disabled: isEditScreen
-          }}
           reference={ref => (this.customerReference = ref)}
         />
 
         <Field
           name={`payment.${FIELDS.INVOICE}`}
-          component={SelectField}
-          isRequired
-          apiSearch
-          hasPagination
-          getItems={getUnpaidInvoices}
-          items={this.formatUnpaidInvoices(unPaidInvoices)}
+          invoices={this.formatUnpaidInvoices(unPaidInvoices)}
+          getInvoices={getUnpaidInvoices}
+          component={InvoiceSelectModal}
           selectedItem={formValues?.payment?.invoice}
-          displayName="invoice_number"
-          label={t('payments.invoice')}
-          icon="align-center"
-          placeholder={t('payments.invoicePlaceholder')}
-          compareField="id"
+          disabled={disabled}
           onSelect={item => this.onSelectInvoice(item)}
-          headerProps={{
-            title: t('invoices.title'),
-            rightIconPress: null
-          }}
-          emptyContentProps={{contentType: 'invoices'}}
+          reference={ref => (this.invoiceReference = ref)}
           queryString={{
             customer_id: formValues?.payment?.[FIELDS.CUSTOMER],
             status: 'UNPAID'
-          }}
-          reference={ref => (this.invoiceReference = ref)}
-          isEditable={isCreateScreen}
-          fakeInputProps={{
-            disabled: isEditScreen
           }}
         />
 
@@ -553,28 +516,14 @@ export class Payment extends React.Component<IProps> {
 
         <Field
           name={`payment.${FIELDS.METHOD}`}
-          component={SelectField}
-          apiSearch
-          hasPagination
-          getItems={fetchPaymentModes}
-          items={paymentModes}
+          paymentModes={paymentModes}
+          fetchPaymentModes={fetchPaymentModes}
+          component={PaymentModeSelectModal}
+          disabled={disabled}
           selectedItem={formValues?.payment?.payment_method}
-          displayName="name"
-          label={t('payments.mode')}
-          icon="align-center"
-          placeholder={t('payments.modePlaceholder')}
-          compareField="id"
           onSelect={item =>
             this.setFormField(`payment.${FIELDS.METHOD}`, item.id)
           }
-          headerProps={{
-            title: t('payments.modePlaceholder')
-          }}
-          emptyContentProps={{contentType: 'paymentMode'}}
-          inputModalName="PaymentModeModal"
-          createActionRouteName={routes.PAYMENT_MODES}
-          isEditable={!disabled}
-          fakeInputProps={{disabled}}
         />
 
         <Notes
