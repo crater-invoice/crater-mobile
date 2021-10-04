@@ -38,7 +38,7 @@ const mapStateToProps = (state, {navigation}) => {
     timezones: timeZonesSelector(timezones),
     dateFormats: dateFormatsSelector(dateFormats),
     fiscalYears: fiscalYearsSelector(fiscalYears),
-    retrospectiveEditsList: retrospectiveEditsSelector(retrospectiveEdits),
+    retrospectiveEdits: retrospectiveEditsSelector(retrospectiveEdits),
     initialValues: {
       carbon_date_format: null,
       moment_date_format: null,

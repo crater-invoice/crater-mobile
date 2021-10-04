@@ -50,7 +50,7 @@ export class Payments extends React.Component<IProps> {
   onSelect = payment => {
     const {navigation} = this.props;
     navigation.navigate(routes.PAYMENT, {
-      paymentId: payment.id,
+      id: payment.id,
       type: 'UPDATE'
     });
   };

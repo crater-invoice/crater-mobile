@@ -78,10 +78,10 @@ export default function paymentsReducer(state = initialState, action) {
         }
 
         case REMOVE_FROM_PAYMENTS: {
-            const paymentID = payload.id;
+            const id = payload.id;
 
             const filterPayment = state.payments.filter(
-                payment => payment.id !== paymentID
+                payment => payment.id !== id
             );
 
             return {

@@ -48,6 +48,7 @@ interface IState {
   attachmentReceipt: any;
   isLoading: boolean;
   imageUrl: string;
+  customerName: string;
   fileLoading: boolean;
   fileType: string;
 }
@@ -66,6 +67,7 @@ export class Expense extends React.Component<IProps, IState> {
       isLoading: true,
       imageUrl: null,
       fileLoading: false,
+      customerName: '',
       fileType: null
     };
   }
@@ -101,6 +103,7 @@ export class Expense extends React.Component<IProps, IState> {
           this.setState({
             imageUrl: receipt?.image,
             fileType: receipt?.type,
+            customerName: res?.customer?.name,
             isLoading: false
           });
           return;
@@ -234,7 +237,13 @@ export class Expense extends React.Component<IProps, IState> {
     } = this.props;
     const disabled = !isAllowToEdit;
 
-    const {imageUrl, isLoading, fileLoading, fileType} = this.state;
+    const {
+      imageUrl,
+      isLoading,
+      fileLoading,
+      fileType,
+      customerName
+    } = this.state;
 
     const isCreateExpense = isCreateScreen;
     const hasCustomField = isEditScreen
@@ -349,6 +358,9 @@ export class Expense extends React.Component<IProps, IState> {
           name={`expense.${FIELDS.CUSTOMER}`}
           component={CustomerSelectModal}
           getCustomers={getCustomers}
+          placeholder={
+            customerName ? customerName : t('invoices.customerPlaceholder')
+          }
           customers={customers}
           disabled={disabled}
           onSelect={item =>

@@ -36,7 +36,7 @@ interface IProps {
 
 export const CurrencySelectModal = (props: IProps) => {
   const {currencies, input, fakeInputProps, disabled, theme} = props;
-  const currency = currencies[(input?.value)]?.title;
+
   const getSelectedCurrencySymbol = () => {
     if (isEmpty(currencies) || !input?.value) {
       return null;
@@ -49,9 +49,21 @@ export const CurrencySelectModal = (props: IProps) => {
     return currency?.fullItem?.symbol;
   };
 
+  const getSelectedCurrencyTitle = () => {
+    if (isEmpty(currencies) || !input?.value) {
+      return t('settings.preferences.currencyPlaceholder');
+    }
+
+    const currency = find(currencies, {
+      fullItem: {id: Number(input?.value)}
+    });
+
+    return currency?.title;
+  };
+
   return (
     <InternalPagination
-      placeholder={currency ?? t('settings.preferences.currencyPlaceholder')}
+      placeholder={getSelectedCurrencyTitle()}
       {...props}
       items={currencies ?? []}
       displayName="name"

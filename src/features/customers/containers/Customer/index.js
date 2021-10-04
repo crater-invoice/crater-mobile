@@ -33,8 +33,7 @@ const mapStateToProps = (state, {route}) => {
         [FIELDS.BILLING]: undefined,
         [FIELDS.SHIPPING]: undefined,
         [FIELDS.ENABLE_PORTAL]: null,
-        [FIELDS.CUSTOM_FIELDS]: null,
-        id
+        [FIELDS.CUSTOM_FIELDS]: null
       }
     }
   };

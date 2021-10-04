@@ -193,6 +193,7 @@ export class Address extends Component<IProps> {
           component={CountrySelectModal}
           onSelect={({id}) => this.setFormField(country, id)}
           reference={ref => (this.countryReference = ref)}
+          theme={theme}
           disabled={disabled}
         />
 

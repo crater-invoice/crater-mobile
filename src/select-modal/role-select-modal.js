@@ -19,16 +19,10 @@ interface IProps {
    * Is allowed to edit.
    */
   disabled?: Boolean;
-
-  /**
-   * Gets form data.
-   */
-  formValues: any;
 }
 
 export const RoleSelectModal = (props: IProps) => {
-  const {roles, fetchRoles, formValues, disabled} = props;
-
+  const {roles, fetchRoles, disabled} = props;
   return (
     <SelectField
       {...props}
@@ -37,8 +31,6 @@ export const RoleSelectModal = (props: IProps) => {
       hasPagination
       isRequired
       getItems={fetchRoles}
-      placeholder={formValues?.role ?? t('users.rolePlaceholder')}
-      selectedItem={formValues?.user?.role}
       displayName="title"
       label={t('users.role')}
       icon={'align-center'}

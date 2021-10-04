@@ -110,7 +110,8 @@ export class Company extends React.Component<IProps> {
       countriesLoading,
       editCompanyLoading,
       isAllowToEdit,
-      countries
+      countries,
+      theme
     } = this.props;
 
     const {fileLoading} = this.state;
@@ -204,6 +205,7 @@ export class Company extends React.Component<IProps> {
           }}
           reference={ref => (this.countryReference = ref)}
           isRequired
+          theme={theme}
           disabled={disabled}
         />
 

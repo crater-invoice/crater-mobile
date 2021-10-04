@@ -159,8 +159,10 @@ export default class Preferences extends Component<IProps, IStates> {
       retrospectiveEdits,
       navigation,
       handleSubmit,
-      updatePreferencesLoading
+      updatePreferencesLoading,
+      theme
     } = this.props;
+
     const bottomAction = [
       {
         label: 'button.save',
@@ -195,6 +197,7 @@ export default class Preferences extends Component<IProps, IStates> {
           label={t('settings.preferences.currency')}
           rightIcon="angle-right"
           isRequired
+          theme={theme}
           onSelect={val => {
             this.setFormField('currency', val.id);
           }}

@@ -326,6 +326,7 @@ export class Customer extends React.Component<IProps> {
             onSelect={val =>
               this.setFormField(`customer.${FIELDS.CURRENCY}`, val.id)
             }
+            theme={theme}
             disabled={disabled}
           />
 

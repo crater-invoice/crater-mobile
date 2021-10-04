@@ -102,7 +102,13 @@ export default class CreateUser extends Component<IProps, IStates> {
   };
 
   render() {
-    const {roles, isEditScreen, isAllowToEdit, fetchRoles} = this.props;
+    const {
+      roles,
+      isEditScreen,
+      isAllowToEdit,
+      fetchRoles,
+      formValues
+    } = this.props;
     const userRefs: any = {};
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
@@ -213,6 +219,8 @@ export default class CreateUser extends Component<IProps, IStates> {
           onSelect={item => this.setFormField(`role`, item.name)}
           disabled={disabled}
           refLinkFn={ref => (userRefs.role = ref)}
+          placeholder={formValues?.role ?? t('users.rolePlaceholder')}
+          selectedItem={formValues?.role}
         />
       </DefaultLayout>
     );
