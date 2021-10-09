@@ -20,7 +20,6 @@ import Constants from 'expo-constants';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {LOGO} from '@/assets';
-import {SettingIcon} from '@/icons';
 import {biometricAuthentication, STATUS_BAR_CONTENT} from '@/utils';
 import {INVOICE_SEARCH as INVOICES_FORM} from '@/features/invoices/constants';
 import {
@@ -131,7 +130,7 @@ export class Login extends React.Component<IProps> {
           }}
         >
           <AssetSvg
-            name={SettingIcon}
+            name={AssetSvg.icons.setting}
             width={35}
             height={35}
             fill={theme?.icons?.primaryBgColor}
