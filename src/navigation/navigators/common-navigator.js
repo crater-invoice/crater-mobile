@@ -47,6 +47,10 @@ import Notes from '@/features/settings/containers/Notes';
 import Note from '@/features/settings/containers/Note';
 
 import {Users, CreateUser} from 'screens/users';
+import {
+  RecurringInvoices,
+  CreateRecurringInvoice
+} from 'screens/recurring-invoices';
 
 import {Roles, CreateRole} from 'screens/roles';
 
@@ -97,6 +101,18 @@ export const CommonNavigator = (
     <Stack.Screen
       name={routes.ESTIMATE_ITEM}
       component={EstimateItem}
+      options={options}
+    />
+
+    {/* Recurring Invoice Navigator */}
+    <Stack.Screen
+      name={routes.RECURRING_INVOICES}
+      component={RecurringInvoices}
+      options={options}
+    />
+    <Stack.Screen
+      name={routes.CREATE_RECURRING_INVOICE}
+      component={CreateRecurringInvoice}
       options={options}
     />
 

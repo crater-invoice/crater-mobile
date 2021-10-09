@@ -18,6 +18,13 @@ export default params => {
     case routes.CREATE_USER:
       return getTitle('header.addUser', 'header.editUser', 'header.viewUser');
 
+    case routes.CREATE_RECURRING_INVOICE:
+      return getTitle(
+        'header.add_recurring_invoice',
+        'header.edit_recurring_invoice',
+        'header.view_recurring_invoice'
+      );
+
     default:
       return '';
   }

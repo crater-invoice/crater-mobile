@@ -47,6 +47,14 @@ export const MORE_MENU = () => {
       show: PermissionService.isAllowToView(routes.ESTIMATE_LIST)
     },
     {
+      title: t('more.recurringInvoice'),
+      leftIcon: 'file-audio',
+      leftIconSolid: true,
+      iconSize: 19,
+      fullItem: {route: routes.RECURRING_INVOICES},
+      show: PermissionService.isAllowToView(routes.RECURRING_INVOICES)
+    },
+    {
       title: t('more.items'),
       leftIcon: 'product-hunt',
       iconSize: 20,

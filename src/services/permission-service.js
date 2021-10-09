@@ -44,9 +44,9 @@ const abilities = [
   // Recurring Invoice
   {route: routes.RECURRING_INVOICES, ability: 'view-recurring-invoice'},
   {route: routes.RECURRING_INVOICES, ability: 'create-recurring-invoice'},
-  {route: routes.RECURRING_INVOICE, ability: 'edit-recurring-invoice'},
-  {route: routes.RECURRING_INVOICE, ability: 'delete-recurring-invoice'},
-  {route: routes.RECURRING_INVOICE, ability: 'send-recurring-invoice'},
+  {route: routes.CREATE_RECURRING_INVOICE, ability: 'edit-recurring-invoice'},
+  {route: routes.CREATE_RECURRING_INVOICE, ability: 'delete-recurring-invoice'},
+  {route: routes.CREATE_RECURRING_INVOICE, ability: 'send-recurring-invoice'},
 
   // Payment
   {route: routes.MAIN_PAYMENTS, ability: 'view-payment'},
