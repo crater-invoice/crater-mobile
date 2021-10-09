@@ -1,13 +1,13 @@
 import React from 'react';
 import {change} from 'redux-form';
 import styles from './styles';
-import {Tabs, MainLayout} from '@/components';
+import {Tabs, MainLayout, AssetImage} from '@/components';
 import {Sent, Draft, All} from '../Tab';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import estimateFilterFields from './filterFields';
 import {isFilterApply} from '@/utils';
-import {ARROW_ICON, IMAGES} from '@/assets';
+import {ARROW_ICON} from '@/assets';
 import {ESTIMATES_TABS, ESTIMATES_FORM, TAB_NAME} from '../../constants';
 import EstimateServices from '../../services';
 
@@ -211,7 +211,7 @@ export class Estimates extends React.Component<IProps, IStates> {
 
     return {
       title: t(emptyTitle, {search}),
-      image: IMAGES.EMPTY_ESTIMATES,
+      image: AssetImage.images.empty_estimates,
       ...(!search && {
         description: t(`estimates.empty.${type}.description`)
       }),

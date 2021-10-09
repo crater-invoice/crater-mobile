@@ -17,7 +17,6 @@ import {
   Text
 } from '@/components';
 import t from 'locales/use-translation';
-import {LOGO} from '@/assets';
 import {routes} from '@/navigation';
 import {alertMe, isIosPlatform, isIPhoneX, keyboardType} from '@/constants';
 import {isRTL, STATUS_BAR_CONTENT} from '@/utils';
@@ -157,7 +156,7 @@ export class Endpoint extends Component<IProps> {
             <View style={styles.main}>
               <View style={styles.logoContainer}>
                 <AssetImage
-                  imageSource={LOGO[(theme?.mode)]}
+                  imageSource={AssetImage.images[(theme?.mode)].logo}
                   imageStyle={styles.imgLogo}
                 />
               </View>

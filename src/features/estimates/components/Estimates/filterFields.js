@@ -1,6 +1,6 @@
 import t from 'locales/use-translation';
-import {IMAGES} from '@/assets';
 import {FILTER_ESTIMATE_STATUS} from '../../constants';
+import {AssetImage} from '@/components';
 
 let selectedFromDate = '';
 let selectedFromDateValue = '';
@@ -31,7 +31,7 @@ export default estimateFilterFields = ({props, setFormField}) => {
       listViewProps: {hasAvatar: true},
       emptyContentProps: {
         contentType: 'customers',
-        image: IMAGES.EMPTY_CUSTOMERS
+        image: AssetImage.images.empty_customers
       }
     }
   ];

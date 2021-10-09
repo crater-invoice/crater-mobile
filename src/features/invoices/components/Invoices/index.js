@@ -5,7 +5,7 @@ import {All, Draft, Due} from '../Tab';
 import {invoicesFilterFields as FilterFields} from './filterFields';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
-import {MainLayout, Tabs} from '@/components';
+import {AssetImage, MainLayout, Tabs} from '@/components';
 import {IMAGES} from '@/assets';
 import {INVOICES_TABS, INVOICE_SEARCH, TAB_NAME} from '../../constants';
 import {isFilterApply} from '@/utils';
@@ -207,7 +207,7 @@ export class Invoices extends React.Component<IProps> {
 
     return {
       title: t(emptyTitle, {search}),
-      image: IMAGES[(theme?.mode)]?.EMPTY_INVOICES,
+      image: AssetImage.images[(theme?.mode)].empty_invoices,
       ...(!search && {
         description: t(description)
       }),

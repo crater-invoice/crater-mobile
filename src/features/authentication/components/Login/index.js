@@ -19,7 +19,6 @@ import {
 import Constants from 'expo-constants';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
-import {LOGO} from '@/assets';
 import {biometricAuthentication, STATUS_BAR_CONTENT} from '@/utils';
 import {INVOICE_SEARCH as INVOICES_FORM} from '@/features/invoices/constants';
 import {
@@ -152,7 +151,7 @@ export class Login extends React.Component<IProps> {
             <View style={styles.main}>
               <View style={styles.logoContainer}>
                 <AssetImage
-                  imageSource={LOGO[(theme?.mode)]}
+                  imageSource={AssetImage.images[(theme?.mode)].logo}
                   imageStyle={styles.imgLogo}
                 />
               </View>

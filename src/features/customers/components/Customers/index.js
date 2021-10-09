@@ -1,9 +1,8 @@
 import React from 'react';
 import t from 'locales/use-translation';
-import {ListView, MainLayout, InfiniteScroll} from '@/components';
+import {ListView, MainLayout, InfiniteScroll, AssetImage} from '@/components';
 import {routes} from '@/navigation';
 import {customersFilterFields as filterFields} from './filterFields';
-import {IMAGES} from '@/assets';
 import {isFilterApply} from '@/utils';
 import {PermissionService} from '@/services';
 
@@ -94,7 +93,7 @@ export class Customers extends React.Component<IProps> {
 
     const emptyContentProps = {
       title: t(emptyTitle, {search}),
-      image: IMAGES.EMPTY_CUSTOMERS,
+      image: AssetImage.images.empty_customers,
       ...(!search && {
         description: t('customers.empty.description')
       }),

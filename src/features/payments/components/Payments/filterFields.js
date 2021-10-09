@@ -1,5 +1,5 @@
 import t from 'locales/use-translation';
-import {IMAGES} from '@/assets';
+import {AssetImage} from '@/components';
 
 export default paymentsFilterFields = ({props, setFormField}) => {
   const {
@@ -30,7 +30,7 @@ export default paymentsFilterFields = ({props, setFormField}) => {
       },
       emptyContentProps: {
         contentType: 'customers',
-        image: IMAGES.EMPTY_CUSTOMERS
+        image: AssetImage.images.empty_customers
       }
     },
     {

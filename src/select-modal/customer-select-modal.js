@@ -1,8 +1,7 @@
 import React from 'react';
-import {SelectField} from '@/components';
+import {AssetImage, SelectField} from '@/components';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
-import {IMAGES} from '@/assets';
 
 interface IProps {
   /**
@@ -42,7 +41,7 @@ export const CustomerSelectModal = (props: IProps) => {
       listViewProps={{hasAvatar: true}}
       emptyContentProps={{
         contentType: 'customers',
-        image: IMAGES.EMPTY_CUSTOMERS
+        image: AssetImage.images.empty_customers
       }}
       isEditable={!disabled}
       fakeInputProps={{disabled}}

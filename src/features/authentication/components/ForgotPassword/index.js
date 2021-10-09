@@ -15,7 +15,6 @@ import {
   CtHeader,
   Text
 } from '@/components';
-import {IMAGES, LOGO} from '@/assets';
 import t from 'locales/use-translation';
 import {isIPhoneX, keyboardReturnKeyType, keyboardType} from '@/constants';
 
@@ -128,7 +127,7 @@ export class ForgotPassword extends React.Component<IProps> {
             <View style={styles.main}>
               <View style={styles.logoContainer}>
                 <AssetImage
-                  imageSource={LOGO[(theme?.mode)]}
+                  imageSource={AssetImage.images[(theme?.mode)].logo}
                   imageStyle={styles.imgLogo}
                 />
               </View>
@@ -155,7 +154,7 @@ export class ForgotPassword extends React.Component<IProps> {
               ) : (
                 <View style={styles.SendingMailContainer}>
                   <AssetImage
-                    imageSource={IMAGES.OPEN_ENVELOP}
+                    imageSource={AssetImage.images.envelop}
                     imageStyle={styles.imgLogo}
                   />
                   <Text

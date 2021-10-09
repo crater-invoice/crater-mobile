@@ -1,9 +1,9 @@
 import t from 'locales/use-translation';
-import {IMAGES} from '@/assets';
 import {
   FILTER_INVOICE_STATUS,
   FILTER_INVOICE_PAID_STATUS
 } from '../../constants';
+import {AssetImage} from '@/components';
 
 let selectedFromDate = '';
 let selectedFromDateValue = '';
@@ -41,7 +41,7 @@ export const invoicesFilterFields = ({props, setFormField}) => {
       listViewProps: {hasAvatar: true},
       emptyContentProps: {
         contentType: 'customers',
-        image: IMAGES.EMPTY_CUSTOMERS
+        image: AssetImage.images.empty_customers
       }
     }
   ];

@@ -6,7 +6,6 @@ import {styles, Container} from './styles';
 import {AssetImage} from '../AssetImage';
 import {CtGradientButton} from '../Button';
 import {Text} from '../Text';
-import {LOGO} from '@/assets';
 import t from 'locales/use-translation';
 import {commonSelector} from 'stores/common/selectors';
 
@@ -41,7 +40,7 @@ export class UpdateAppVersion extends Component {
         <View style={styles.main}>
           <View style={styles.logoContainer}>
             <AssetImage
-              imageSource={LOGO[(theme?.mode)]}
+              imageSource={AssetImage.images[(theme?.mode)].logo}
               imageStyle={styles.imgLogo}
             />
           </View>

@@ -1,7 +1,6 @@
 import React from 'react';
 import {change} from 'redux-form';
-import {MainLayout, ListView, InfiniteScroll} from '@/components';
-import {IMAGES} from '@/assets';
+import {MainLayout, ListView, InfiniteScroll, AssetImage} from '@/components';
 import t from 'locales/use-translation';
 import {EXPENSE_SEARCH} from '../../constants';
 import {routes} from '@/navigation';
@@ -102,7 +101,7 @@ export class Expenses extends React.Component<IProps> {
 
     const emptyContentProps = {
       title: t(emptyTitle, {search}),
-      image: IMAGES.EMPTY_EXPENSES,
+      image: AssetImage.images.empty_expenses,
       ...(!search && {
         description: t('expenses.empty.description')
       }),
