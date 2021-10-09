@@ -3,9 +3,9 @@ import {Field, change} from 'redux-form';
 import {find} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-role-type';
-import {routes} from '@/navigation';
 import {alertMe, hasValue} from '@/constants';
 import {CREATE_ROLE_FORM} from 'stores/roles/types';
+import headerTitle from 'utils/header';
 import {
   DefaultLayout,
   InputField,
@@ -40,11 +40,12 @@ export default class CreateRole extends Component<IProps, IStates> {
   loadData = () => {
     const {isEditScreen, id, dispatch} = this.props;
     if (isEditScreen) {
-      const onSuccess = role => {
-        this.setFormField('name', role?.name);
-        this.setState({isFetchingInitialData: false});
-      };
-      dispatch(fetchSingleRole({id, onSuccess}));
+      dispatch(
+        fetchSingleRole(id, role => {
+          this.setFormField('name', role?.name);
+          this.setState({isFetchingInitialData: false});
+        })
+      );
       return;
     }
 
@@ -58,16 +59,15 @@ export default class CreateRole extends Component<IProps, IStates> {
   onSave = ({name}) => {
     const {isFetchingInitialData} = this.state;
     const {
+      id,
+      route,
       isEditScreen,
       dispatch,
       navigation,
-      loading,
-      permissions,
-      id,
-      route
+      permissions
     } = this.props;
 
-    if (loading || isFetchingInitialData) {
+    if (this.props.isSaving || this.props.isDeleting || isFetchingInitialData) {
       return;
     }
 
@@ -80,23 +80,22 @@ export default class CreateRole extends Component<IProps, IStates> {
 
     const abilities = permissions.filter(p => p.allowed === true);
 
-    const params = {name, abilities};
+    const submissionError = errors => console.log(errors);
 
-    if (isEditScreen) {
-      dispatch(updateRole({params, id, navigation}));
-      return;
-    }
+    const onSuccess = res => {
+      const onSelect = route?.params?.onSelect;
+      onSelect?.(res);
+      navigation.goBack(null);
+    };
+    const params = {
+      id,
+      params: {name, abilities},
+      navigation,
+      submissionError,
+      onSuccess
+    };
 
-    dispatch(
-      addRole({
-        params,
-        onResult: res => {
-          const onSelect = route?.params?.onSelect;
-          onSelect?.(res);
-          navigation.goBack(null);
-        }
-      })
-    );
+    isEditScreen ? dispatch(updateRole(params)) : dispatch(addRole(params));
   };
 
   removeRole = () => {
@@ -117,13 +116,7 @@ export default class CreateRole extends Component<IProps, IStates> {
     }
 
     confirmationAlert(() =>
-      dispatch(
-        removeRole({
-          id,
-          onSuccess: val =>
-            val ? navigation.navigate(routes.ROLES) : alreadyUsedAlert()
-        })
-      )
+      dispatch(removeRole(id, navigation, val => alreadyUsedAlert()))
     );
   };
 
@@ -145,41 +138,33 @@ export default class CreateRole extends Component<IProps, IStates> {
     const {
       navigation,
       handleSubmit,
-      loading,
       isEditScreen,
       isAllowToEdit,
       isAllowToDelete,
       formattedPermissions: permissions,
-      theme
+      theme,
+      isSaving,
+      isDeleting
     } = this.props;
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
-
-    const getTitle = () => {
-      let title = 'header.addRole';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewRole';
-      if (isEditScreen && isAllowToEdit) title = 'header.editRole';
-
-      return t(title);
-    };
-
+    const loading = isFetchingInitialData || isSaving || isDeleting;
+    const permissionList = [];
     const bottomAction = [
       {
         label: 'button.save',
         onPress: handleSubmit(this.onSave),
         show: isAllowToEdit,
-        loading: loading || isFetchingInitialData
+        loading
       },
       {
         label: 'button.remove',
         onPress: this.removeRole,
         bgColor: 'btn-danger',
         show: isEditScreen && isAllowToDelete,
-        loading: loading || isFetchingInitialData
+        loading
       }
     ];
-
-    const permissionList = [];
 
     for (const permission in permissions) {
       permissionList.push(
@@ -209,7 +194,7 @@ export default class CreateRole extends Component<IProps, IStates> {
 
     const headerProps = {
       leftIconPress: () => navigation.goBack(null),
-      title: getTitle(),
+      title: headerTitle(this.props),
       placement: 'center',
       ...(isAllowToEdit && {
         rightIcon: 'save',

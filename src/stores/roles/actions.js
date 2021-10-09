@@ -2,13 +2,14 @@ import * as types from './types';
 
 /**
  * Spinner
- * @param payload
+ * @param name
+ * @param value
  * @returns {{type: string, payload: *}}
  */
-export function spinner(payload) {
+export function spinner(name, value) {
   return {
     type: types.SPINNER,
-    payload: typeof payload === 'object' ? payload : {roleLoading: payload}
+    payload: {name, value}
   };
 }
 
@@ -26,13 +27,14 @@ export function fetchRoles(payload = {}) {
 
 /**
  * Fetch single role
- * @param payload
+ * @param id
+ * @param onSuccess
  * @returns {{type: string, payload: *}}
  */
-export function fetchSingleRole(payload = {}) {
+export function fetchSingleRole(id, onSuccess) {
   return {
     type: types.FETCH_SINGLE_ROLE,
-    payload
+    payload: {id, onSuccess}
   };
 }
 
@@ -74,13 +76,15 @@ export function updateRole(payload = {}) {
 
 /**
  * Remove role
- * @param payload
+ * @param id
+ * @param navigation
+ * @param onFail
  * @returns {{type: string, payload: *}}
  */
-export function removeRole(payload = {}) {
+export function removeRole(id, navigation, onFail) {
   return {
     type: types.REMOVE_ROLE,
-    payload
+    payload: {id, navigation, onFail}
   };
 }
 

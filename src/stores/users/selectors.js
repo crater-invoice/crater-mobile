@@ -24,5 +24,5 @@ export const rolesSelector = createSelector(
 
 export const loadingSelector = createSelector(
   usersStore,
-  users => ({isSaving: users?.isSaving, isDeleting: users?.isDeleting})
+  user => ({isSaving: user?.isSaving, isDeleting: user?.isDeleting})
 );

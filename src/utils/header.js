@@ -18,6 +18,9 @@ export default params => {
     case routes.CREATE_USER:
       return getTitle('header.addUser', 'header.editUser', 'header.viewUser');
 
+    case routes.CREATE_ROLE:
+      return getTitle('header.addRole', 'header.editRole', 'header.viewRole');
+
     default:
       return '';
   }
