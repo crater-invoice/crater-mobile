@@ -687,11 +687,6 @@ export class Invoice extends React.Component<IProps, IStates> {
           hint={t('invoices.referenceNumber')}
           leftIcon={'hashtag'}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true
-          }}
         />
 
         <Notes

@@ -11,6 +11,7 @@ import {AssetIcon} from '../AssetIcon';
 import {Text} from '../Text';
 import {Label} from '../Label';
 import {commonSelector} from 'stores/common/selectors';
+import {keyboardType} from '@/constants';
 
 type IProps = {
   label: String,
@@ -137,10 +138,7 @@ export class FakeInputComponent extends Component<IProps> {
               <Field
                 name={prefixProps.fieldName}
                 component={InputField}
-                inputProps={{
-                  returnKeyType: 'next',
-                  keyboardType: 'numeric'
-                }}
+                keyboardType={keyboardType.NUMERIC}
                 fieldStyle={styles.prefixInputFieldStyle}
                 inputContainerStyle={styles.prefixInputContainerStyle}
                 textStyle={styles.prefixInputText}

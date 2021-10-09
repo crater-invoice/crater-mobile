@@ -17,7 +17,7 @@ import {
 } from '@/components';
 import {IMAGES, LOGO} from '@/assets';
 import t from 'locales/use-translation';
-import {isIPhoneX} from '@/constants';
+import {isIPhoneX, keyboardReturnKeyType, keyboardType} from '@/constants';
 
 type IProps = {
   navigation: Object,
@@ -138,14 +138,10 @@ export class ForgotPassword extends React.Component<IProps> {
                   <Field
                     name="email"
                     component={InputField}
-                    inputProps={{
-                      returnKeyType: 'go',
-                      autoCapitalize: 'none',
-                      placeholder: t('forgot.emailPlaceholder'),
-                      autoCorrect: true,
-                      keyboardType: 'email-address',
-                      onSubmitEditing: handleSubmit(this.onSendMail)
-                    }}
+                    returnKeyType={keyboardReturnKeyType.GO}
+                    onSubmitEditing={handleSubmit(this.onSendMail)}
+                    placeholder={t('forgot.emailPlaceholder')}
+                    keyboardType={keyboardType.EMAIL}
                     inputContainerStyle={styles.inputField}
                   />
                   <Text

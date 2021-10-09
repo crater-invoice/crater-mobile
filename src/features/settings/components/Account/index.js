@@ -14,6 +14,7 @@ import {
   Text,
   ActionButton
 } from '@/components';
+import {keyboardType} from '@/constants';
 
 let name = 'name';
 let Email = 'email';
@@ -132,13 +133,7 @@ export class Account extends React.Component<IProps> {
           isRequired
           hint={t('settings.account.name')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            onSubmitEditing: () => {
-              accountRefs.email.focus();
-            }
-          }}
+          onSubmitEditing={() => accountRefs.email.focus()}
         />
 
         <Field
@@ -147,15 +142,8 @@ export class Account extends React.Component<IProps> {
           isRequired
           hint={t('settings.account.email')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: 'email-address',
-            onSubmitEditing: () => {
-              accountRefs.password.focus();
-            }
-          }}
+          onSubmitEditing={() => accountRefs.password.focus()}
+          keyboardType={keyboardType.EMAIL}
           refLinkFn={ref => (accountRefs.email = ref)}
         />
 
@@ -163,14 +151,7 @@ export class Account extends React.Component<IProps> {
           name={password}
           component={InputField}
           hint={t('settings.account.password')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => {
-              accountRefs.confirm.focus();
-            }
-          }}
+          onSubmitEditing={() => accountRefs.confirm.focus()}
           secureTextEntry
           secureTextIconContainerStyle={styles.eyeIcon}
           disabled={disabled}
@@ -184,12 +165,7 @@ export class Account extends React.Component<IProps> {
           name={cpassword}
           component={InputField}
           hint={t('settings.account.confirmPassword')}
-          inputProps={{
-            returnKeyType: 'go',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: handleSubmit(this.onProfileUpdate)
-          }}
+          onSubmitEditing={handleSubmit(this.onProfileUpdate)}
           secureTextEntry
           secureTextIconContainerStyle={styles.eyeIcon}
           disabled={disabled}

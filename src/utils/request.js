@@ -139,7 +139,12 @@ export default class Request {
           store?.dispatch?.(logoutSuccess());
           throw response;
         }
-        if (status === 403 || status === 404 || status === 500) {
+        if (
+          status === 403 ||
+          status === 404 ||
+          status === 500 ||
+          status === 422
+        ) {
           throw response;
         }
         return response;

@@ -6,6 +6,7 @@ import {NUMBERING_SCHEME_TYPE} from 'stores/customize/helpers';
 import {fetchNextNumber} from 'stores/customize/actions';
 import {ITheme} from '@/interfaces';
 import {InputField, Text, SelectPickerField} from '@/components';
+import {keyboardType} from '@/constants';
 
 interface IProps {
   /**
@@ -119,11 +120,7 @@ export class NumberScheme extends Component<IProps> {
             name={prefixField.name}
             component={InputField}
             hint={t('customizes.prefix')}
-            inputProps={{
-              returnKeyType: 'next',
-              autoCorrect: true,
-              autoCapitalize: 'characters'
-            }}
+            inputProps={{autoCapitalize: 'characters'}}
             onChangeText={this.onChangeNumber}
             fieldName={t('customizes.prefix')}
             isRequired
@@ -135,9 +132,6 @@ export class NumberScheme extends Component<IProps> {
           name={separatorField.name}
           component={InputField}
           hint={t('customizes.separator')}
-          inputProps={{
-            returnKeyType: 'next'
-          }}
           onChangeText={this.onChangeNumber}
           fieldName={t('customizes.prefix')}
           isRequired
@@ -149,10 +143,7 @@ export class NumberScheme extends Component<IProps> {
           component={InputField}
           maxNumber={2}
           hint={t('customizes.numberLength')}
-          inputProps={{
-            returnKeyType: 'next',
-            keyboardType: 'numeric'
-          }}
+          keyboardType={keyboardType.NUMERIC}
           onChangeText={this.onChangeNumber}
           isRequired
           isDebounce

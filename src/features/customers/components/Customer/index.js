@@ -16,7 +16,7 @@ import {
   isAddress
 } from '../../constants';
 import AddressContainer from '../../containers/Address';
-import {alertMe, KEYBOARD_TYPE, isEmpty} from '@/constants';
+import {alertMe, keyboardType, isEmpty} from '@/constants';
 import t from 'locales/use-translation';
 import {colors} from '@/styles/colors';
 import {getApiFormattedCustomFields} from '@/utils';
@@ -240,12 +240,8 @@ export class Customer extends React.Component<IProps> {
           isRequired
           hint={t('customers.displayName')}
           inputFieldStyle={styles.inputFieldStyle}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.DEFAULT,
-            onSubmitEditing: () => customerRefs.contactName.focus()
-          }}
+          onSubmitEditing={() => customerRefs.contactName.focus()}
+          keyboardType={keyboardType.DEFAULT}
           validationStyle={styles.inputFieldValidation}
           disabled={disabled}
           withRef
@@ -256,12 +252,8 @@ export class Customer extends React.Component<IProps> {
           component={InputField}
           hint={t('customers.contactName')}
           inputFieldStyle={styles.inputFieldStyle}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.DEFAULT,
-            onSubmitEditing: () => customerRefs.email.focus()
-          }}
+          onSubmitEditing={() => customerRefs.email.focus()}
+          keyboardType={keyboardType.DEFAULT}
           refLinkFn={ref => (customerRefs.contactName = ref)}
           validationStyle={styles.inputFieldValidation}
           disabled={disabled}
@@ -273,13 +265,8 @@ export class Customer extends React.Component<IProps> {
           component={InputField}
           hint={t('customers.email')}
           inputFieldStyle={styles.inputFieldStyle}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.EMAIL,
-            onSubmitEditing: () => customerRefs.phone.focus()
-          }}
+          onSubmitEditing={() => customerRefs.phone.focus()}
+          keyboardType={keyboardType.EMAIL}
           refLinkFn={ref => (customerRefs.email = ref)}
           validationStyle={styles.inputFieldValidation}
           disabled={disabled}
@@ -290,13 +277,8 @@ export class Customer extends React.Component<IProps> {
           component={InputField}
           hint={t('customers.phone')}
           inputFieldStyle={styles.inputFieldStyle}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.PHONE,
-            onSubmitEditing: () => customerRefs.website.focus()
-          }}
+          onSubmitEditing={() => customerRefs.website.focus()}
+          keyboardType={keyboardType.PHONE}
           refLinkFn={ref => (customerRefs.phone = ref)}
           validationStyle={styles.inputFieldValidation}
           disabled={disabled}
@@ -307,12 +289,7 @@ export class Customer extends React.Component<IProps> {
           component={InputField}
           hint={t('customers.website')}
           inputFieldStyle={styles.inputFieldStyle}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.URL
-          }}
+          keyboardType={keyboardType.URL}
           refLinkFn={ref => (customerRefs.website = ref)}
           validationStyle={styles.inputFieldValidation}
           disabled={disabled}

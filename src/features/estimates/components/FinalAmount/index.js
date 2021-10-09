@@ -21,7 +21,7 @@ import {
   getTaxName,
   finalAmount
 } from '../EstimateCalculation';
-import {definePlatformParam, isIosPlatform} from '@/constants';
+import {definePlatformParam, isIosPlatform, keyboardType} from '@/constants';
 import {TaxSelectModal} from '@/select-modal';
 
 const DISPLAY_ITEM_TAX = ({state, theme}) => {
@@ -126,12 +126,7 @@ const FinalAmount = ({state, props}) => {
             <Field
               name="discount"
               component={InputField}
-              inputProps={{
-                returnKeyType: 'next',
-                autoCapitalize: 'none',
-                autoCorrect: true,
-                keyboardType: 'decimal-pad'
-              }}
+              keyboardType={keyboardType.DECIMAL}
               fieldStyle={styles.fieldStyle}
               {...(theme?.mode === 'dark' && {
                 inputContainerStyle: {

@@ -27,7 +27,9 @@ import {
   BIOMETRY_AUTH_TYPES,
   hasValue,
   isIosPlatform,
-  isIPhoneX
+  isIPhoneX,
+  keyboardReturnKeyType,
+  keyboardType
 } from '@/constants';
 
 type IProps = {
@@ -159,29 +161,18 @@ export class Login extends React.Component<IProps> {
               <Field
                 name="username"
                 component={InputField}
-                inputProps={{
-                  returnKeyType: 'next',
-                  autoCapitalize: 'none',
-                  placeholder: t('login.email'),
-                  autoCorrect: true,
-                  keyboardType: 'email-address',
-                  onSubmitEditing: () => {
-                    loginRefs.password.focus();
-                  }
-                }}
+                onSubmitEditing={() => loginRefs.password.focus()}
+                placeholder={t('login.email')}
+                keyboardType={keyboardType.EMAIL}
                 inputContainerStyle={styles.inputField}
               />
 
               <Field
                 name="password"
                 component={InputField}
-                inputProps={{
-                  returnKeyType: 'go',
-                  autoCapitalize: 'none',
-                  placeholder: t('login.password'),
-                  autoCorrect: true,
-                  onSubmitEditing: this.props.handleSubmit(this.onLogin)
-                }}
+                returnKeyType={keyboardReturnKeyType.GO}
+                onSubmitEditing={this.props.handleSubmit(this.onLogin)}
+                placeholder={t('login.password')}
                 inputContainerStyle={styles.inputField}
                 secureTextEntry
                 refLinkFn={ref => {

@@ -67,7 +67,6 @@ export class Filter extends Component<IProps> {
             component={InputField}
             hint={hint}
             inputProps={{
-              returnKeyType: 'next',
               ...inputProps
             }}
             {...field}

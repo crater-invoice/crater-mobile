@@ -18,16 +18,12 @@ export default (props: IProps) => {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
-    try {
-      if (isAndroidPlatform) {
-        Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
-        Keyboard.addListener('keyboardDidHide', () =>
-          setKeyboardVisible(false)
-        );
-      }
+    if (isAndroidPlatform) {
+      Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
+      Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
+    }
 
-      initialActions();
-    } catch (e) {}
+    initialActions();
     return () => {};
   }, []);
 

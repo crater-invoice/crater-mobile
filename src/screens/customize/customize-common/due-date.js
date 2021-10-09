@@ -1,7 +1,7 @@
 import React from 'react';
 import {Field} from 'redux-form';
 import {ToggleSwitch, InputField} from '@/components';
-import {isBooleanTrue} from '@/constants';
+import {isBooleanTrue, keyboardType} from '@/constants';
 
 interface IProps {
   /**
@@ -31,10 +31,7 @@ export const DueDate = (props: IProps) => {
           name={dueDateField.name}
           component={InputField}
           hint={dueDateField.hint}
-          inputProps={{
-            returnKeyType: 'next',
-            keyboardType: 'numeric'
-          }}
+          keyboardType={keyboardType.NUMERIC}
           isRequired={isBooleanTrue(toggleField.value)}
         />
       )}

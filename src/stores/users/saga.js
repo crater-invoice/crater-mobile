@@ -8,7 +8,7 @@ import {spinner} from './actions';
  * @returns {IterableIterator<*>}
  */
 function* fetchUsers({payload}) {
-  const {fresh = true, onSuccess, onFail, queryString} = payload;
+  const {fresh, onSuccess, onFail, queryString} = payload;
   try {
     const response = yield call(req.fetchUsers, queryString);
     const users = response?.data ?? [];
@@ -36,22 +36,14 @@ function* fetchSingleUser({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* addUser({payload}) {
+  const {params, navigation, submissionError} = payload;
   try {
-    const {params, navigation, submissionError} = payload;
     yield put(spinner('isSaving', true));
     const response = yield call(req.addUser, params);
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
-      return;
-    }
-    if (response?.data) {
-      yield put({
-        type: types.ADD_USER_SUCCESS,
-        payload: response?.data
-      });
-      navigation.goBack(null);
-    }
+    yield put({type: types.ADD_USER_SUCCESS, payload: response?.data});
+    navigation.goBack(null);
   } catch (e) {
+    submissionError?.(e?.data?.errors);
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -62,22 +54,14 @@ function* addUser({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* updateUser({payload}) {
+  const {id, params, navigation, submissionError} = payload;
   try {
-    const {id, params, navigation, submissionError} = payload;
     yield put(spinner('isSaving', true));
     const response = yield call(req.updateUser, id, params);
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
-      return;
-    }
-    if (response?.data) {
-      yield put({
-        type: types.UPDATE_USER_SUCCESS,
-        payload: response?.data
-      });
-      navigation.goBack(null);
-    }
+    yield put({type: types.UPDATE_USER_SUCCESS, payload: response?.data});
+    navigation.goBack(null);
   } catch (e) {
+    submissionError?.(e?.data?.errors);
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -91,8 +75,7 @@ function* removeUser({payload}) {
   const {id, navigation, onFail} = payload;
   try {
     yield put(spinner('isDeleting', true));
-    const body = {users: [id]};
-    yield call(req.removeUser, body);
+    yield call(req.removeUser, id);
     yield put({type: types.REMOVE_USER_SUCCESS, payload: id});
     navigation.goBack(null);
   } catch (e) {

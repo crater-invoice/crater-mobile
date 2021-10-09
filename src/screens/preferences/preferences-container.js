@@ -1,8 +1,8 @@
 import {connect} from 'react-redux';
 import {getFormValues, reduxForm} from 'redux-form';
 import Preferences from './preferences';
-import {PREFERENCES_FORM} from '@/stores/company/types';
-import {validate} from '@/stores/company/validator';
+import {PREFERENCES_FORM} from 'stores/company/types';
+import {validate} from 'stores/company/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {
   timeZonesSelector,

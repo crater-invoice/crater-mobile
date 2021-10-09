@@ -3,7 +3,7 @@ import {View, Keyboard, ScrollView} from 'react-native';
 import {Field, change} from 'redux-form';
 import {CUSTOMER_ADDRESS} from '../../constants';
 import t from 'locales/use-translation';
-import {MAX_LENGTH} from '@/constants';
+import {keyboardType, MAX_LENGTH} from '@/constants';
 import styles from './styles';
 import {SlideModal, FakeInput, InputField, ActionButton} from '@/components';
 import {CountrySelectModal} from '@/select-modal';
@@ -179,11 +179,6 @@ export class Address extends Component<IProps> {
           name={'name'}
           component={InputField}
           hint={t('customers.address.name')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true
-          }}
           disabled={disabled}
         />
 
@@ -201,12 +196,7 @@ export class Address extends Component<IProps> {
           name={state}
           component={InputField}
           hint={t('customers.address.state')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => addressRefs.city.focus()
-          }}
+          onSubmitEditing={() => addressRefs.city.focus()}
           disabled={disabled}
         />
 
@@ -214,12 +204,7 @@ export class Address extends Component<IProps> {
           name={city}
           component={InputField}
           hint={t('customers.address.city')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => addressRefs.street1.focus()
-          }}
+          onSubmitEditing={() => addressRefs.street1.focus()}
           refLinkFn={ref => (addressRefs.city = ref)}
           disabled={disabled}
         />
@@ -228,16 +213,12 @@ export class Address extends Component<IProps> {
           name={'address_street_1'}
           component={InputField}
           hint={t('customers.address.address')}
+          placeholder={t('customers.address.street1')}
           inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            placeholder: t('customers.address.street1'),
-            autoCorrect: true,
             multiline: true,
             maxLength: MAX_LENGTH
           }}
           height={60}
-          autoCorrect={true}
           refLinkFn={ref => (addressRefs.street1 = ref)}
           disabled={disabled}
         />
@@ -245,16 +226,12 @@ export class Address extends Component<IProps> {
         <Field
           name={'address_street_2'}
           component={InputField}
+          placeholder={t('customers.address.street2')}
           inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            placeholder: t('customers.address.street2'),
-            autoCorrect: true,
             multiline: true,
             maxLength: MAX_LENGTH
           }}
           height={60}
-          autoCorrect={true}
           containerStyle={styles.addressStreetField}
           disabled={disabled}
         />
@@ -263,13 +240,8 @@ export class Address extends Component<IProps> {
           name={'phone'}
           component={InputField}
           hint={t('customers.address.phone')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: 'phone-pad',
-            onSubmitEditing: () => addressRefs.zip.focus()
-          }}
+          onSubmitEditing={() => addressRefs.zip.focus()}
+          keyboardType={keyboardType.PHONE}
           refLinkFn={ref => (addressRefs.phone = ref)}
           disabled={disabled}
         />
@@ -278,12 +250,7 @@ export class Address extends Component<IProps> {
           name={'zip'}
           component={InputField}
           hint={t('customers.address.zipcode')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: handleSubmit(this.saveAddress)
-          }}
+          onSubmitEditing={handleSubmit(this.saveAddress)}
           refLinkFn={ref => (addressRefs.zip = ref)}
           disabled={disabled}
         />

@@ -124,11 +124,6 @@ export default class Company extends React.Component {
           isRequired
           hint={t('settings.company.name')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true
-          }}
         />
 
         <Field

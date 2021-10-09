@@ -23,7 +23,8 @@ import {
   EMAIL_REGEX,
   hasObjectLength,
   hasTextLength,
-  hasValue
+  hasValue,
+  keyboardType
 } from '@/constants';
 
 type IProps = {
@@ -181,13 +182,8 @@ class SendMailComponent extends Component<IProps> {
           name={emailField.from}
           component={InputField}
           hint={t('sendMail.from')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: 'email-address',
-            onSubmitEditing: () => mailRefs.to.focus()
-          }}
+          onSubmitEditing={() => mailRefs.to.focus()}
+          keyboardType={keyboardType.EMAIL}
           isRequired
         />
 
@@ -195,13 +191,8 @@ class SendMailComponent extends Component<IProps> {
           name={emailField.to}
           component={InputField}
           hint={t('sendMail.to')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: 'email-address',
-            onSubmitEditing: () => mailRefs.subject.focus()
-          }}
+          onSubmitEditing={() => mailRefs.subject.focus()}
+          keyboardType={keyboardType.EMAIL}
           refLinkFn={ref => (mailRefs.to = ref)}
           isRequired
         />
@@ -210,10 +201,6 @@ class SendMailComponent extends Component<IProps> {
           name={emailField.subject}
           component={InputField}
           hint={t('sendMail.subject')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true
-          }}
           refLinkFn={ref => (mailRefs.subject = ref)}
           isRequired
         />

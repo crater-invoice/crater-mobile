@@ -11,7 +11,7 @@ import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {EDIT_COMPANY} from '../../constants';
 import {formatCountries} from '@/utils';
-import {MAX_LENGTH} from '@/constants';
+import {keyboardType, MAX_LENGTH} from '@/constants';
 import {CountrySelectModal} from '@/select-modal';
 
 type IProps = {
@@ -172,14 +172,7 @@ export class Company extends React.Component<IProps> {
           isRequired
           hint={t('settings.company.name')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            onFocus: true,
-            onSubmitEditing: () => {
-              companyRefs.phone.focus();
-            }
-          }}
+          onSubmitEditing={() => companyRefs.phone.focus()}
         />
 
         <Field
@@ -187,22 +180,15 @@ export class Company extends React.Component<IProps> {
           component={InputField}
           hint={t('settings.company.phone')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            keyboardType: 'phone-pad'
-          }}
-          refLinkFn={ref => {
-            companyRefs.phone = ref;
-          }}
+          keyboardType={keyboardType.PHONE}
+          refLinkFn={ref => (companyRefs.phone = ref)}
         />
 
         <Field
           name={'country_id'}
           countries={formatCountries(countries)}
           component={CountrySelectModal}
-          onSelect={({id}) => {
-            this.setFormField('country_id', id);
-          }}
+          onSelect={({id}) => this.setFormField('country_id', id)}
           reference={ref => (this.countryReference = ref)}
           isRequired
           theme={theme}
@@ -214,14 +200,7 @@ export class Company extends React.Component<IProps> {
           component={InputField}
           hint={t('customers.address.state')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => {
-              companyRefs.city.focus();
-            }
-          }}
+          onSubmitEditing={() => companyRefs.city.focus()}
         />
 
         <Field
@@ -229,14 +208,7 @@ export class Company extends React.Component<IProps> {
           component={InputField}
           hint={t('customers.address.city')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => {
-              companyRefs.street1.focus();
-            }
-          }}
+          onSubmitEditing={() => companyRefs.street1.focus()}
           refLinkFn={ref => {
             companyRefs.city = ref;
           }}
@@ -248,14 +220,11 @@ export class Company extends React.Component<IProps> {
           hint={t('settings.company.address')}
           disabled={disabled}
           height={60}
-          autoCorrect={true}
           refLinkFn={ref => {
             companyRefs.street1 = ref;
           }}
+          placeholder={t('settings.company.street1')}
           inputProps={{
-            returnKeyType: 'next',
-            placeholder: t('settings.company.street1'),
-            autoCorrect: true,
             multiline: true,
             maxLength: MAX_LENGTH
           }}
@@ -266,13 +235,9 @@ export class Company extends React.Component<IProps> {
           component={InputField}
           disabled={disabled}
           height={60}
-          autoCorrect={true}
           containerStyle={styles.addressStreetField}
+          placeholder={t('settings.company.street2')}
           inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            placeholder: t('settings.company.street2'),
-            autoCorrect: true,
             multiline: true,
             maxLength: MAX_LENGTH
           }}
@@ -283,11 +248,7 @@ export class Company extends React.Component<IProps> {
           component={InputField}
           hint={t('settings.company.zipcode')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            onSubmitEditing: handleSubmit(this.onCompanyUpdate)
-          }}
+          onSubmitEditing={handleSubmit(this.onCompanyUpdate)}
         />
 
         <View style={{marginBottom: 20}} />

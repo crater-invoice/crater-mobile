@@ -1,4 +1,4 @@
-import Request from '@/utils/request';
+import Request from 'utils/request';
 import * as queryString from 'query-string';
 /**
  * fetch customization

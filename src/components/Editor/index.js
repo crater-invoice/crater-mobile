@@ -444,13 +444,8 @@ class EditorComponent extends Component<IProps, IStates> {
         name={name}
         component={InputField}
         height={150}
-        inputProps={{
-          returnKeyType: 'next',
-          autoCapitalize: 'none',
-          autoCorrect: true,
-          multiline: true,
-          placeholder
-        }}
+        placeholder={placeholder}
+        inputProps={{multiline: true}}
         disabled={disabled}
         {...fieldInputProps}
         {...fieldProps}

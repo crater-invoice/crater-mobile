@@ -25,6 +25,7 @@ import {
   definePlatformParam,
   hasValue,
   isIosPlatform,
+  keyboardType,
   MAX_LENGTH
 } from '@/constants';
 import {TaxSelectModal, UnitSelectModal} from '@/select-modal';
@@ -392,14 +393,7 @@ export class InvoiceItem extends React.Component {
           isRequired
           component={InputField}
           hint={t('items.name')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => {
-              itemRefs.quantity.focus();
-            }
-          }}
+          onSubmitEditing={() => itemRefs.quantity.focus()}
         />
 
         <CtView flex={1} flex-row>
@@ -409,13 +403,8 @@ export class InvoiceItem extends React.Component {
               component={InputField}
               isRequired
               hint={t('items.quantity')}
-              inputProps={{
-                returnKeyType: 'next',
-                keyboardType: 'numeric',
-                onSubmitEditing: () => {
-                  itemRefs.price.focus();
-                }
-              }}
+              onSubmitEditing={() => itemRefs.price.focus()}
+              keyboardType={keyboardType.NUMERIC}
               refLinkFn={ref => {
                 itemRefs.quantity = ref;
               }}
@@ -429,10 +418,7 @@ export class InvoiceItem extends React.Component {
               component={InputField}
               leftSymbol={currency?.symbol}
               hint={t('items.price')}
-              inputProps={{
-                returnKeyType: 'next',
-                keyboardType: 'decimal-pad'
-              }}
+              keyboardType={keyboardType.DECIMAL}
               refLinkFn={ref => {
                 itemRefs.price = ref;
               }}
@@ -466,12 +452,7 @@ export class InvoiceItem extends React.Component {
               name="discount"
               component={InputField}
               hint={t('items.discount')}
-              inputProps={{
-                returnKeyType: 'next',
-                autoCapitalize: 'none',
-                autoCorrect: true,
-                keyboardType: 'decimal-pad'
-              }}
+              keyboardType={keyboardType.DECIMAL}
               disabled={discount_type === 'none'}
             />
           </View>
@@ -502,9 +483,6 @@ export class InvoiceItem extends React.Component {
           component={InputField}
           hint={t('items.description')}
           inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
             multiline: true,
             maxLength: MAX_LENGTH
           }}

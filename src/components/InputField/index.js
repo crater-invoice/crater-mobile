@@ -8,7 +8,12 @@ import {IInputField} from './type';
 import {AssetIcon} from '../AssetIcon';
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
-import {hasTextLength, hasValue} from '@/constants';
+import {
+  hasTextLength,
+  hasValue,
+  keyboardReturnKeyType,
+  keyboardType
+} from '@/constants';
 import {Text} from '../Text';
 import {Label} from '../Label';
 import {commonSelector} from 'stores/common/selectors';
@@ -22,7 +27,6 @@ export class InputFieldComponent extends Component<IInputField> {
       active: false,
       inputHeight: 0,
       isOptionsVisible: false,
-      autoHeight: props?.defaultHeight ? props?.defaultHeight : null,
       inputVal: ''
     };
   }
@@ -31,7 +35,6 @@ export class InputFieldComponent extends Component<IInputField> {
     const {input, isDebounce} = this.props;
 
     this.initialValue(input?.value);
-    this.setHeight = debounce(this.setHeight, 100);
     this.onErrorCallback = debounce(this.onErrorCallback, 200);
     if (isDebounce) {
       this.onChangeValue = debounce(this.onChangeValue, 500);
@@ -85,22 +88,6 @@ export class InputFieldComponent extends Component<IInputField> {
     this.setState({inputHeight: height});
   };
 
-  setHeight = height => {
-    const {defaultHeight} = this.props;
-
-    if (height && defaultHeight && height <= defaultHeight) {
-      this.setState({autoHeight: defaultHeight});
-      return;
-    }
-
-    if (height >= 300) {
-      this.setState({autoHeight: 300});
-      return;
-    }
-
-    this.setState({autoHeight: height});
-  };
-
   onErrorCallback = error => {
     this.props.onError?.(hasValue(error));
   };
@@ -139,7 +126,7 @@ export class InputFieldComponent extends Component<IInputField> {
       leftIconSolid = false,
       textStyle,
       validationStyle,
-      inputProps,
+      inputProps = {},
       rounded,
       isCurrencyInput = false,
       leftIconStyle,
@@ -149,10 +136,12 @@ export class InputFieldComponent extends Component<IInputField> {
       isRequired = false,
       secureTextIconContainerStyle,
       leftSymbol,
-      autoHeight = false,
       onError,
       currency,
-      theme
+      theme,
+      returnKeyType = keyboardReturnKeyType.NEXT,
+      onSubmitEditing,
+      placeholder
     } = this.props;
 
     const {
@@ -222,16 +211,6 @@ export class InputFieldComponent extends Component<IInputField> {
       };
     }
 
-    let autoHeightInputProps = {};
-
-    if (autoHeight) {
-      autoHeightInputProps = {
-        onContentSizeChange: event => {
-          this.setHeight(event?.nativeEvent?.contentSize?.height);
-        }
-      };
-    }
-
     let methods: any = {
       onFocus: event => {
         this.toggleFocus(true);
@@ -279,8 +258,7 @@ export class InputFieldComponent extends Component<IInputField> {
                 textColor && {color: textColor},
                 textStyle && textStyle,
                 height && {height},
-                autoHeight && {height: this.state.autoHeight},
-                inputProps.multiline && styles.multilineField
+                inputProps?.multiline && styles.multilineField
               ]}
               inputContainerStyle={[
                 styles.inputContainerStyle,
@@ -297,8 +275,11 @@ export class InputFieldComponent extends Component<IInputField> {
                     borderColor: theme?.input?.validationBackgroundColor
                   }
               ]}
+              returnKeyType={returnKeyType}
+              onSubmitEditing={e => onSubmitEditing?.(e.nativeEvent.text)}
+              placeholder={placeholder}
+              keyboardType={this.props.keyboardType ?? keyboardType.DEFAULT}
               {...inputProps}
-              {...autoHeightInputProps}
               {...methods}
               onChangeText={enteredValue => {
                 this.setState({inputVal: enteredValue});
@@ -314,7 +295,7 @@ export class InputFieldComponent extends Component<IInputField> {
               placeholderTextColor={theme?.input?.placeholderColor}
               editable={editable && !disabled}
               allowFontScaling={false}
-              textAlignVertical={inputProps && inputProps.multiline && 'top'}
+              textAlignVertical={inputProps && inputProps?.multiline && 'top'}
               {...(theme?.mode === 'dark' && {
                 selectionColor: theme?.text?.primaryColor
               })}

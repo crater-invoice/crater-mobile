@@ -11,7 +11,7 @@ import {
 import {routes} from '@/navigation';
 import {alertMe, isEmpty} from '@/constants';
 import {IProps, IStates} from './item-units-type';
-import {ITEM_UNITS_FORM} from '@/stores/item-units/types';
+import {ITEM_UNITS_FORM} from 'stores/item-units/types';
 import {change} from 'redux-form';
 import {
   addItemUnit,

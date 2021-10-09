@@ -182,10 +182,6 @@ export default class Note extends React.Component<IProps> {
           isRequired
           hint={t('notes.title')}
           inputFieldStyle={styles.inputFieldStyle}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true
-          }}
           validationStyle={styles.inputFieldValidation}
           disabled={disabled}
         />

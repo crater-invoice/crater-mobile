@@ -4,6 +4,7 @@ import {DefaultLayout, InputField, ToggleSwitch, CtDivider} from '@/components';
 import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {NOTIFICATION} from '../../constants';
+import {keyboardType} from '@/constants';
 
 type IProps = {
   navigation: Object,
@@ -138,12 +139,7 @@ export class Notification extends React.Component<IProps> {
           name={'notification_email'}
           component={InputField}
           hint={t('settings.notifications.send')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: 'email-address'
-          }}
+          keyboardType={keyboardType.EMAIL}
           leftIcon={'envelope'}
           leftIconSolid={true}
           isRequired

@@ -230,11 +230,6 @@ export default class CreateRole extends Component<IProps, IStates> {
           isRequired
           hint={t('roles.text_name')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true
-          }}
         />
         <View class="flex-row items-center">
           <Label h5 mt-8 mb-12 flex={1} isRequired theme={theme}>

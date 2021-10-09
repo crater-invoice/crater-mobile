@@ -19,7 +19,7 @@ import {
 import t from 'locales/use-translation';
 import {LOGO} from '@/assets';
 import {routes} from '@/navigation';
-import {alertMe, isIosPlatform, isIPhoneX} from '@/constants';
+import {alertMe, isIosPlatform, isIPhoneX, keyboardType} from '@/constants';
 import {isRTL, STATUS_BAR_CONTENT} from '@/utils';
 
 type IProps = {
@@ -166,13 +166,9 @@ export class Endpoint extends Component<IProps> {
                   name="endpointURL"
                   component={InputField}
                   hint={t('endpoint.endpointURL')}
-                  inputProps={{
-                    autoCapitalize: 'none',
-                    placeholder: t('endpoint.urlPlaceHolder'),
-                    autoCorrect: true,
-                    keyboardType: 'url',
-                    onSubmitEditing: handleSubmit(this.onSetEndpointApi)
-                  }}
+                  onSubmitEditing={handleSubmit(this.onSetEndpointApi)}
+                  placeholder={t('endpoint.urlPlaceHolder')}
+                  keyboardType={keyboardType.URL}
                   onFocus={() => this.toggleFocus()}
                   inputContainerStyle={styles.inputField}
                 />

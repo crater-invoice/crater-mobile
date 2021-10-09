@@ -24,7 +24,8 @@ import {
   capitalize,
   DATE_FORMAT,
   hasObjectLength,
-  isEmpty
+  isEmpty,
+  keyboardType
 } from '@/constants';
 import {
   BADGE_STATUS_BG_COLOR,
@@ -504,11 +505,7 @@ export class Payment extends React.Component<IProps> {
           component={InputField}
           leftSymbol={selectedCustomer?.currency?.symbol ?? currency?.symbol}
           hint={t('payments.amount')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            keyboardType: 'decimal-pad'
-          }}
+          keyboardType={keyboardType.DECIMAL}
           disabled={disabled}
           isCurrencyInput
           isRequired

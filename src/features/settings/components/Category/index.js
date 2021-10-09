@@ -156,13 +156,7 @@ export class Category extends React.Component<IProps> {
           isRequired
           hint={t('categories.title')}
           inputFieldStyle={styles.inputFieldStyle}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            onSubmitEditing: () => {
-              categoryRefs.description.focus();
-            }
-          }}
+          onSubmitEditing={() => categoryRefs.description.focus()}
           validationStyle={styles.inputFieldValidation}
           disabled={disabled}
         />
@@ -172,14 +166,10 @@ export class Category extends React.Component<IProps> {
           component={InputField}
           hint={t('categories.description')}
           inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
             multiline: true,
             maxLength: MAX_LENGTH
           }}
           height={100}
-          autoCorrect={true}
           refLinkFn={ref => (categoryRefs.description = ref)}
           disabled={disabled}
         />

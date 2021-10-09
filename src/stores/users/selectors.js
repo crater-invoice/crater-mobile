@@ -1,25 +1,28 @@
 import {createSelector} from 'reselect';
 import {isEmpty} from '@/constants';
 
-const formattedUsers = users =>
-  users.map(user => ({
-    title: user?.name,
-    fullItem: user,
-    subtitle: {title: user?.email || ''},
-    leftAvatar: user?.name.toUpperCase().charAt(0)
-  }));
+const usersStore = state => state?.users;
+const rolesStore = state => state?.roles;
 
 export const usersSelector = createSelector(
-  state => state?.users?.users,
-  users => (!isEmpty(users) ? formattedUsers(users) : [])
+  usersStore,
+  users => {
+    if (isEmpty(users.users)) return [];
+    return users.users.map(user => ({
+      title: user?.name,
+      subtitle: {title: user?.email || ''},
+      fullItem: user,
+      leftAvatar: user?.name.toUpperCase().charAt(0)
+    }));
+  }
 );
 
 export const rolesSelector = createSelector(
-  state => state?.roles?.roles,
-  roles => roles
+  rolesStore,
+  roles => roles?.roles
 );
 
 export const loadingSelector = createSelector(
-  state => state?.users,
+  usersStore,
   users => ({isSaving: users?.isSaving, isDeleting: users?.isDeleting})
 );

@@ -5,7 +5,7 @@ import styles from './styles';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
 import * as Linking from 'expo-linking';
-import {alertMe, isEmpty, MAX_LENGTH} from '@/constants';
+import {alertMe, isEmpty, keyboardType, MAX_LENGTH} from '@/constants';
 import {
   InputField,
   DefaultLayout,
@@ -335,10 +335,7 @@ export class Expense extends React.Component<IProps, IState> {
           leftSymbol={currency?.symbol}
           hint={t('expenses.amount')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'go',
-            keyboardType: 'decimal-pad'
-          }}
+          keyboardType={keyboardType.DECIMAL}
           isCurrencyInput
         />
 
@@ -374,10 +371,8 @@ export class Expense extends React.Component<IProps, IState> {
           name={`expense.${FIELDS.NOTES}`}
           component={InputField}
           hint={t('expenses.notes')}
+          placeholder={t('expenses.notesPlaceholder')}
           inputProps={{
-            returnKeyType: 'next',
-            placeholder: t('expenses.notesPlaceholder'),
-            autoCorrect: true,
             multiline: true,
             maxLength: MAX_LENGTH
           }}
