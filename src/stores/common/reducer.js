@@ -116,7 +116,7 @@ export default function commonReducer(state = initialState, action) {
     case SET_EDIT_TAX:
       let editTax = formatTaxTypes(payload.taxType);
       const taxTypeList = state.taxTypes.filter(
-        ({fullItem}) => fullItem.id !== payload.taxId
+        ({fullItem}) => fullItem.id !== payload.id
       );
 
       return {
@@ -126,7 +126,7 @@ export default function commonReducer(state = initialState, action) {
 
     case SET_REMOVE_TAX:
       const remainTaxes = state.taxTypes.filter(
-        ({fullItem}) => fullItem.id !== payload.taxId
+        ({fullItem}) => fullItem.id !== payload.id
       );
 
       return {...state, taxTypes: remainTaxes};

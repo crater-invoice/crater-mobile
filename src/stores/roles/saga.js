@@ -77,9 +77,9 @@ function* addRole({payload}) {
  */
 function* updateRole({payload}) {
   try {
-    const {roleId, params, navigation} = payload;
+    const {id, params, navigation} = payload;
     yield put(spinner(true));
-    const response = yield call(req.updateRole, roleId, params);
+    const response = yield call(req.updateRole, id, params);
     yield put({type: types.UPDATE_ROLE_SUCCESS, payload: response?.data});
     navigation.goBack(null);
   } catch (e) {

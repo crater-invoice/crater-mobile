@@ -41,7 +41,7 @@ export default class Company extends React.Component {
 
   removeCompany = () => {
     const {
-      companyId,
+      id,
       navigation,
       initialValues: {name},
       dispatch
@@ -59,7 +59,7 @@ export default class Company extends React.Component {
       okPress: () =>
         dispatch(
           removeCompany({
-            id: companyId,
+            id,
             onSuccess: val =>
               val ? navigation.navigate(routes.COMPANIES) : alreadyUsedAlert()
           })

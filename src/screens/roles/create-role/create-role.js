@@ -38,13 +38,13 @@ export default class CreateRole extends Component<IProps, IStates> {
   }
 
   loadData = () => {
-    const {isEditScreen, roleId, dispatch} = this.props;
+    const {isEditScreen, id, dispatch} = this.props;
     if (isEditScreen) {
       const onSuccess = role => {
         this.setFormField('name', role?.name);
         this.setState({isFetchingInitialData: false});
       };
-      dispatch(fetchSingleRole({id: roleId, onSuccess}));
+      dispatch(fetchSingleRole({id, onSuccess}));
       return;
     }
 
@@ -63,7 +63,7 @@ export default class CreateRole extends Component<IProps, IStates> {
       navigation,
       loading,
       permissions,
-      roleId,
+      id,
       route
     } = this.props;
 
@@ -83,7 +83,7 @@ export default class CreateRole extends Component<IProps, IStates> {
     const params = {name, abilities};
 
     if (isEditScreen) {
-      dispatch(updateRole({params, roleId, navigation}));
+      dispatch(updateRole({params, id, navigation}));
       return;
     }
 
@@ -100,7 +100,7 @@ export default class CreateRole extends Component<IProps, IStates> {
   };
 
   removeRole = () => {
-    const {navigation, roleId, dispatch} = this.props;
+    const {navigation, id, dispatch} = this.props;
     function alreadyUsedAlert() {
       alertMe({
         title: t('roles.text_already_used')
@@ -119,7 +119,7 @@ export default class CreateRole extends Component<IProps, IStates> {
     confirmationAlert(() =>
       dispatch(
         removeRole({
-          id: roleId,
+          id,
           onSuccess: val =>
             val ? navigation.navigate(routes.ROLES) : alreadyUsedAlert()
         })

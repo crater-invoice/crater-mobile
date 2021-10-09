@@ -15,7 +15,6 @@ const mapStateToProps = (state, {route}) => {
   return {
     noteLoading: state.settings?.loading?.getNotesLoading,
     formValues: getFormValues(NOTE_FORM)(state) || {},
-    noteId: noteDetail?.id,
     customFields: state.settings?.customFields,
     noteDetail,
     onSelect,

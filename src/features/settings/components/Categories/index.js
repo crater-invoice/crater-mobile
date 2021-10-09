@@ -45,7 +45,7 @@ export class Categories extends React.Component<IProps> {
     const {navigation} = this.props;
     navigation.navigate(routes.CATEGORY, {
       type: 'UPDATE',
-      categoryId: category.id
+      id: category.id
     });
   };
 

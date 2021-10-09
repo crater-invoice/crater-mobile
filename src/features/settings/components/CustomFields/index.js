@@ -39,6 +39,7 @@ export class CustomFields extends React.Component<IProps> {
   onSelect = field => {
     const {navigation} = this.props;
     navigation.navigate(routes.CUSTOMER_FIELD, {
+      id: field?.id,
       type: 'UPDATE',
       field
     });

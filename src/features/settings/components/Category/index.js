@@ -24,10 +24,9 @@ export class Category extends React.Component<IProps> {
   }
 
   componentDidMount() {
-    const {getEditCategory, isEditScreen, route} = this.props;
+    const {getEditCategory, isEditScreen, id} = this.props;
 
     if (isEditScreen) {
-      let id = route?.params?.categoryId;
       getEditCategory({
         id,
         onResult: val => {
@@ -50,7 +49,8 @@ export class Category extends React.Component<IProps> {
       navigation,
       categoryLoading,
       isCreateScreen,
-      route
+      route,
+      id
     } = this.props;
 
     if (!categoryLoading) {
@@ -64,7 +64,6 @@ export class Category extends React.Component<IProps> {
           }
         });
       else {
-        let id = route?.params?.categoryId;
         editCategory({id, params: values, navigation});
       }
     }
@@ -75,7 +74,7 @@ export class Category extends React.Component<IProps> {
       removeCategory,
       navigation,
       formValues: {name},
-      route
+      id
     } = this.props;
 
     alertMe({
@@ -84,7 +83,7 @@ export class Category extends React.Component<IProps> {
       showCancel: true,
       okPress: () =>
         removeCategory({
-          id: route?.params?.categoryId,
+          id,
           navigation,
           onResult: () => {
             alertMe({

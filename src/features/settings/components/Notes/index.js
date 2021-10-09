@@ -40,7 +40,7 @@ export default class Notes extends Component<IProps> {
   onSelect = note => {
     const {navigation} = this.props;
 
-    navigation.navigate(routes.NOTE, {type: 'UPDATE', note});
+    navigation.navigate(routes.NOTE, {type: 'UPDATE', note, id: note.id});
   };
 
   onSearch = search => {

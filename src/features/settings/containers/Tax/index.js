@@ -16,7 +16,6 @@ const mapStateToProps = (state, {route}) => {
 
   return {
     loading: isLoading,
-    taxId: taxType && taxType.id,
     ...permissionSelector(route),
     ...commonSelector(state),
     initialValues: {

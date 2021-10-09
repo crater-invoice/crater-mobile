@@ -31,7 +31,7 @@ export interface IProps {
   /**
    * Id of the current role.
    */
-  roleId: string;
+  id: string;
 
   /**
    * It is a create screen view.

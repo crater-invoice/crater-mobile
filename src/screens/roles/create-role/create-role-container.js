@@ -10,13 +10,11 @@ const mapStateToProps = (state, {route}) => {
   const {
     roles: {permissions, loading}
   } = state;
-  const role = route?.params?.role;
 
   return {
     permissions,
     formattedPermissions: groupBy(permissions ?? [], 'modelName'),
     loading: loading?.roleLoading,
-    roleId: role?.id,
     ...commonSelector(state),
     ...permissionSelector(route),
     initialValues: {

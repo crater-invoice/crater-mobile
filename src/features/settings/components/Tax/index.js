@@ -44,15 +44,15 @@ export class Tax extends React.Component {
 
   removeTax = () => {
     const {
+      id,
       removeTax,
-      taxId,
       navigation,
       initialValues: {name}
     } = this.props;
 
     const remove = () => {
       removeTax({
-        id: taxId,
+        id,
         onResult: val => {
           val
             ? navigation.navigate(routes.TAXES)
