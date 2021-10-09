@@ -121,8 +121,6 @@
     "items": "Items",
     "unit": "Unit",
     "addItem": "Add Item",
-    "notes": "Notes",
-    "notePlaceholder": "Additional notes visible on Invoice",
     "termsCondition": "Terms and Conditions",
     "taxPlaceholder": "+ Add Tax",
     "subtotal": "SUBTOTAL",
@@ -193,6 +191,21 @@
     }
   },
   "recurring_invoices": {
+    "start_date": "Start Date",
+    "invoice_due_date": "Invoice Due Date",
+    "next_invoice_date": "Next Invoice Date",
+    "ref_number": "Ref Number",
+    "limit_by": "Limit by",
+    "status": {
+      "title": "Status",
+      "empty": {
+        "title": "You have no any status",
+        "description": "This section will contain the list of status."
+      }
+    },
+    "statuses": "Statuses",
+    "select_frequency": "Select Frequency",
+    "display_frequency": "Frequency",
     "tabs": {
       "active": "Active",
       "on_hold": "On Hold",
@@ -213,6 +226,24 @@
       "title": "No recurring invoices yet!",
       "description": "This section will contain the list of recurring invoices.",
       "buttonTitle": "Add New Recurring Invoice"
+    },
+    "limit_types": {
+      "none": "None",
+      "date": "Limit Date",
+      "count": "Count"
+    },
+    "frequencies": {
+      "custom": "Custom",
+      "every_minute": "Every Minute",
+      "every_30_minute": "Every 30 Minute",
+      "every_hour": "Every Hour",
+      "every_2_hour": "Every 2 Hour",
+      "twice_a_day": "Twice A Day",
+      "every_week": "Every Week",
+      "every_15_days": "Every 15 Days",
+      "first_day_of_month": "First Day Of Month",
+      "every_6_month": "Every 6 Month",
+      "every_year": "Every Year"
     }
   },
   "customers": {
@@ -278,7 +309,6 @@
     "modeHint": "Mode Name",
     "modePlaceholder": "Select Payment Mode",
     "amount": "Amount",
-    "notes": "Notes",
     "notesPlaceholder": "Additional notes",
     "invoice": "Invoice",
     "invoicePlaceholder": "Select Invoice",
@@ -378,6 +408,7 @@
     }
   },
   "notes": {
+    "notes": "Notes",
     "title": "Note Name",
     "description": "Description",
     "model": "Model",
@@ -388,6 +419,12 @@
       "title": "No notes yet!",
       "description": "This section will contain the list of notes.",
       "buttonTitle": "Add New Note"
+    },
+    "placeholder": {
+      "Invoice": "Additional notes visible on Invoice",
+      "RecurringInvoices": "Additional notes visible on recurring invoice",
+      "Estimate": "Additional notes visible on estimate",
+      "Payment": "Additional notes visible on payment"
     },
     "type": "Note Type",
     "select": "Select a Note",
@@ -509,8 +546,6 @@
     "unit": "Unit",
     "taxPlaceholder": "+ Add Tax",
     "addItem": "Add Item",
-    "notes": "Notes",
-    "notePlaceholder": "Additional notes visible on estimate",
     "fromDate": "From Date",
     "toDate": "To Date",
     "status": "Status",

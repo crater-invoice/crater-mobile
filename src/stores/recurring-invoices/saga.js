@@ -4,7 +4,25 @@ import * as req from './service';
 import {spinner} from './actions';
 
 /**
- * Fetch recurring-invoices saga
+ * fetch recurring invoice initial details saga.
+ * @returns {IterableIterator<*>}
+ */
+function* fetchRecurringInvoiceInitialDetails() {
+  yield call(fetchStatus);
+}
+
+/**
+ * Fetch status saga.
+ * @returns {IterableIterator<*>}
+ */
+function* fetchStatus() {
+  const response = yield call(req.fetchStatus);
+  const status = response?.status ?? [];
+  yield put({type: types.FETCH_STATUS_SUCCESS, payload: status});
+}
+
+/**
+ * Fetch recurring-invoices saga.
  * @returns {IterableIterator<*>}
  */
 function* fetchRecurringInvoices({payload}) {
@@ -23,19 +41,20 @@ function* fetchRecurringInvoices({payload}) {
 }
 
 /**
- * Fetch single recurring-invoice saga
+ * Fetch single recurring-invoice saga.
  * @returns {IterableIterator<*>}
  */
 function* fetchSingleRecurringInvoice({payload}) {
   try {
     const {id, onSuccess} = payload;
     const response = yield call(req.fetchSingleRecurringInvoice, id);
+    yield call(fetchStatus);
     onSuccess?.(response?.data);
   } catch (e) {}
 }
 
 /**
- * Add recurring-invoice saga
+ * Add recurring-invoice saga.
  * @returns {IterableIterator<*>}
  */
 function* addRecurringInvoice({payload}) {
@@ -61,7 +80,7 @@ function* addRecurringInvoice({payload}) {
 }
 
 /**
- * Update recurring-invoice saga
+ * Update recurring-invoice saga.
  * @returns {IterableIterator<*>}
  */
 function* updateRecurringInvoice({payload}) {
@@ -87,7 +106,7 @@ function* updateRecurringInvoice({payload}) {
 }
 
 /**
- * Remove recurring-invoice saga
+ * Remove recurring-invoice saga.
  * @returns {IterableIterator<*>}
  */
 function* removeRecurringInvoice({payload}) {
@@ -106,6 +125,10 @@ function* removeRecurringInvoice({payload}) {
 }
 
 export default function* recurringInvoicesSaga() {
+  yield takeLatest(
+    types.FETCH_INITIAL_DETAILS,
+    fetchRecurringInvoiceInitialDetails
+  );
   yield takeLatest(types.FETCH_RECURRING_INVOICES, fetchRecurringInvoices);
   yield takeLatest(
     types.FETCH_SINGLE_RECURRING_INVOICE,

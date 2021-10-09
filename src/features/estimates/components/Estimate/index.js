@@ -15,7 +15,9 @@ import {
   CustomField,
   Label,
   ActionButton,
-  View as CtView
+  View as CtView,
+  Notes,
+  ItemField
 } from '@/components';
 import {
   ITEM_ADD,
@@ -45,9 +47,9 @@ import {
 import FinalAmount from '../FinalAmount';
 import {alertMe, isEmpty} from '@/constants';
 import {getApiFormattedCustomFields} from '@/utils';
-import Notes from './notes';
 import EstimateServices from '../../services';
 import {CustomerSelectModal, ItemSelectModal} from '@/select-modal';
+import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
 
 type IProps = {
   navigation: Object,
@@ -515,7 +517,10 @@ export class Estimate extends React.Component<IProps> {
       isAllowToEdit,
       isAllowToDelete,
       loading,
-      theme
+      theme,
+      notes,
+      getNotes,
+      estimateData
     } = this.props;
     const {currency, customerName, markAsStatus, isLoading} = this.state;
     const disabled = !isAllowToEdit;
@@ -645,54 +650,13 @@ export class Estimate extends React.Component<IProps> {
             this.setState({currency: item.currency});
           }}
         />
-
-        <Label isRequired theme={theme} style={styles.label}>
-          {t('estimates.items')}
-        </Label>
-
-        <ListView
-          items={this.getEstimateItemList(estimateItems)}
-          itemContainer={styles.itemContainer(theme, disabled)}
-          leftTitleStyle={styles.itemLeftTitle(theme)}
-          leftSubTitleLabelStyle={[
-            styles.itemLeftSubTitle(theme),
-            styles.itemLeftSubTitleLabel
-          ]}
-          leftSubTitleStyle={styles.itemLeftSubTitle(theme)}
-          rightTitleStyle={styles.itemRightTitle(theme)}
-          backgroundColor={
-            !disabled
-              ? theme.thirdBgColor
-              : theme?.input?.disableBackgroundColor
-          }
-          onPress={this.onEditItem}
-          parentViewStyle={{marginVertical: 4}}
-        />
-
-        <Field
-          name="items"
+        <ItemField
+          {...this.props}
+          selectedItems={estimateItems}
+          itemData={estimateData}
           items={getItemList(items)}
           getItems={getItems}
-          component={ItemSelectModal}
-          loading={itemsLoading}
-          disabled={disabled}
-          onSelect={item => {
-            navigation.navigate(routes.ESTIMATE_ITEM, {
-              item,
-              currency,
-              type: ITEM_ADD,
-              discount_per_item,
-              tax_per_item
-            });
-          }}
-          rightIconPress={() =>
-            navigation.navigate(routes.ESTIMATE_ITEM, {
-              type: ITEM_ADD,
-              currency,
-              discount_per_item,
-              tax_per_item
-            })
-          }
+          setFormField={this.setFormField}
         />
 
         <FinalAmount state={this.state} props={this.props} />
@@ -711,9 +675,12 @@ export class Estimate extends React.Component<IProps> {
         />
 
         <Notes
-          {...this.props}
+          navigation={navigation}
+          notes={notes}
+          getNotes={getNotes}
           isEditScreen={isEditScreen}
-          setFormField={this.setFormField}
+          noteType={NOTES_TYPE_VALUE.ESTIMATE}
+          onSelect={this.setFormField}
         />
 
         <Field

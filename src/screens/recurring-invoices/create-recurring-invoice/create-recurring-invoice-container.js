@@ -12,6 +12,8 @@ const mapStateToProps = (state, {route}) => {
   const {
     common: {taxTypes, currency},
     settings: {notes, customFields},
+    recurringInvoices: {status},
+    invoices: {loading, invoiceItems, invoiceData, items},
     customers: {customers}
   } = state;
   const id = route?.params?.id;
@@ -20,18 +22,27 @@ const mapStateToProps = (state, {route}) => {
     ...commonSelector(state),
     ...permissionSelector(route),
     id,
+    invoiceItems,
+    invoiceData,
+    items,
     notes,
     customers,
     taxTypes,
     currency,
     customFields,
+    statusList: status,
     formValues: getFormValues(CREATE_RECURRING_INVOICE_FORM)(state) || {},
     initialValues: {
-      name: null,
-      email: null,
-      password: null,
-      phone: null,
-      role: null
+      customer_id: null,
+      formated_starts_at: null,
+      limit_by: null,
+      limit_date: null,
+      limit_count: null,
+      status: null,
+      frequency: null,
+      frequency_picker: null,
+      items: null,
+      template_name: null
     }
   };
 };

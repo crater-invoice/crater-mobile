@@ -19,7 +19,9 @@ import {
   CustomField,
   Label,
   View as CtView,
-  ActionButton
+  ActionButton,
+  Notes,
+  ItemField
 } from '@/components';
 import {
   ITEM_ADD,
@@ -40,9 +42,9 @@ import {
   finalAmount
 } from '../InvoiceCalculation';
 import {getApiFormattedCustomFields} from '@/utils';
-import Notes from './notes';
 import InvoiceServices from '../../services';
 import {ItemSelectModal, CustomerSelectModal} from '@/select-modal';
+import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
 
 type IProps = {
   navigation: any,
@@ -153,27 +155,6 @@ export class Invoice extends React.Component<IProps, IStates> {
 
   setFormField = (field, value) => {
     this.props.dispatch(change(INVOICE_FORM, field, value));
-  };
-
-  onEditItem = item => {
-    const {
-      navigation,
-      invoiceData: {discount_per_item, tax_per_item},
-      isAllowToEdit
-    } = this.props;
-    const {currency} = this.state;
-
-    if (!isAllowToEdit) {
-      return;
-    }
-
-    navigation.navigate(routes.INVOICE_ITEM, {
-      item,
-      type: ITEM_EDIT,
-      currency,
-      discount_per_item,
-      tax_per_item
-    });
   };
 
   onDraft = handleSubmit => {
@@ -292,39 +273,6 @@ export class Invoice extends React.Component<IProps, IStates> {
 
     alertMe({
       desc: t('validation.wrong')
-    });
-  };
-
-  getInvoiceItemList = invoiceItems => {
-    this.setFormField('items', invoiceItems);
-
-    const {currency} = this.state;
-
-    if (isEmpty(invoiceItems)) {
-      return [];
-    }
-
-    return invoiceItems.map(item => {
-      let {name, description, price, quantity, total} = item;
-
-      return {
-        title: name,
-        subtitle: {
-          title: description,
-          labelComponent: (
-            <CurrencyFormat
-              amount={price}
-              currency={currency}
-              preText={`${quantity} * `}
-              style={styles.itemLeftSubTitle(this.props.theme)}
-              containerStyle={styles.itemLeftSubTitleLabel}
-            />
-          )
-        },
-        amount: total,
-        currency,
-        fullItem: item
-      };
     });
   };
 
@@ -459,6 +407,7 @@ export class Invoice extends React.Component<IProps, IStates> {
 
   render() {
     const {
+      invoiceData,
       navigation,
       handleSubmit,
       invoiceData: {invoiceTemplates, discount_per_item, tax_per_item} = {},
@@ -476,9 +425,10 @@ export class Invoice extends React.Component<IProps, IStates> {
       isAllowToDelete,
       isEditScreen,
       loading,
-      theme
+      theme,
+      notes,
+      getNotes
     } = this.props;
-
     const {currency, customerName, markAsStatus, isLoading} = this.state;
     const disabled = !isAllowToEdit;
 
@@ -629,54 +579,13 @@ export class Invoice extends React.Component<IProps, IStates> {
           reference={ref => (this.customerReference = ref)}
           disabled={disabled}
         />
-
-        <Label isRequired theme={theme} style={styles.label}>
-          {t('invoices.items')}
-        </Label>
-
-        <ListView
-          items={this.getInvoiceItemList(invoiceItems)}
-          itemContainer={styles.itemContainer(theme, disabled)}
-          leftTitleStyle={styles.itemLeftTitle(theme)}
-          leftSubTitleLabelStyle={[
-            styles.itemLeftSubTitle(theme),
-            styles.itemLeftSubTitleLabel
-          ]}
-          leftSubTitleStyle={styles.itemLeftSubTitle(theme)}
-          rightTitleStyle={styles.itemRightTitle(theme)}
-          backgroundColor={
-            !disabled
-              ? theme.thirdBgColor
-              : theme?.input?.disableBackgroundColor
-          }
-          onPress={this.onEditItem}
-          parentViewStyle={{marginVertical: 4}}
-        />
-
-        <Field
-          name="items"
+        <ItemField
+          {...this.props}
+          selectedItems={invoiceItems}
+          itemData={invoiceData}
           items={getItemList(items)}
           getItems={getItems}
-          component={ItemSelectModal}
-          loading={itemsLoading}
-          disabled={disabled}
-          onSelect={item => {
-            navigation.navigate(routes.INVOICE_ITEM, {
-              item,
-              currency,
-              type: ITEM_ADD,
-              discount_per_item,
-              tax_per_item
-            });
-          }}
-          rightIconPress={() =>
-            navigation.navigate(routes.INVOICE_ITEM, {
-              type: ITEM_ADD,
-              currency,
-              discount_per_item,
-              tax_per_item
-            })
-          }
+          setFormField={this.setFormField}
         />
 
         <FinalAmount state={this.state} props={this.props} />
@@ -695,9 +604,12 @@ export class Invoice extends React.Component<IProps, IStates> {
         />
 
         <Notes
-          {...this.props}
+          navigation={navigation}
+          notes={notes}
+          getNotes={getNotes}
           isEditScreen={isEditScreen}
-          setFormField={this.setFormField}
+          noteType={NOTES_TYPE_VALUE.INVOICE}
+          onSelect={this.setFormField}
         />
 
         <Field

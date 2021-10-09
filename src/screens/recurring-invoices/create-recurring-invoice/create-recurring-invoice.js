@@ -3,22 +3,65 @@ import {Field, change, initialize, SubmissionError} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-recurring-invoice-type';
 import {routes} from '@/navigation';
-import {alertMe, KEYBOARD_TYPE} from '@/constants';
-import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
-import {IMAGES} from '@/assets';
-import headerTitle from 'utils/header';
-import {DefaultLayout, InputField, ActionButton} from '@/components';
+import {alertMe, isEmpty, KEYBOARD_TYPE} from '@/constants';
 import {
+  CREATE_RECURRING_INVOICE_FORM,
+  setRecurringInvoiceRefs
+} from 'stores/recurring-invoices/types';
+import headerTitle from 'utils/header';
+import {
+  DefaultLayout,
+  InputField,
+  ActionButton,
+  View,
+  DatePickerField,
+  FakeInput,
+  CustomField,
+  Label,
+  ListView,
+  Notes
+} from '@/components';
+import {
+  fetchRecurringInvoiceInitialDetails,
   fetchSingleRecurringInvoice,
   addRecurringInvoice,
   updateRecurringInvoice,
   removeRecurringInvoice
 } from 'stores/recurring-invoices/actions';
+import {
+  CustomerSelectModal,
+  FrequencySelectModal,
+  ItemSelectModal,
+  StatusSelectModal
+} from '@/select-modal';
+import {TemplateField} from '@/features/invoices/components/TemplateField';
+import styles from './create-recurring-invoice-styles';
+import {FrequencyField, LimitField} from '../recurring-invoices-common';
+import {frequencies} from 'stores/recurring-invoices/helpers';
+import {
+  itemsSelector,
+  statusSelector
+} from '@/stores/recurring-invoices/selectors';
+import {finalAmount} from '@/features/estimates/components/EstimateCalculation';
+import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
 
 export default class CreateRecurringInvoice extends Component<IProps, IStates> {
+  recurringInvoiceRefs: any;
+  sendMailRef: any;
+  customerReference: any;
   constructor(props) {
     super(props);
-    this.state = {isFetchingInitialData: true};
+    this.recurringInvoiceRefs = setRecurringInvoiceRefs.bind(this);
+    this.sendMailRef = React.createRef();
+    this.customerReference = React.createRef();
+    this.state = {
+      currency: props?.currency,
+      itemList: [],
+      customerName: '',
+      markAsStatus: null,
+      isLoading: true,
+      isFetchingInitialData: true
+    };
   }
 
   componentDidMount() {
@@ -26,8 +69,16 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   }
 
   loadData = () => {
-    console.log('this.props', this.props);
-    const {isEditScreen, id, dispatch} = this.props;
+    const {isCreateScreen, isEditScreen, id, dispatch} = this.props;
+    if (isCreateScreen) {
+      dispatch(
+        fetchRecurringInvoiceInitialDetails(
+          this.setState({isFetchingInitialData: false})
+        )
+      );
+      return;
+    }
+
     if (isEditScreen) {
       dispatch(
         fetchSingleRecurringInvoice(id, invoice => this.setInitialData(invoice))
@@ -108,19 +159,74 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     });
   };
 
+  getInvoiceItemList = invoiceItems => {
+    this.setFormField('items', invoiceItems);
+
+    const {currency} = this.state;
+
+    if (isEmpty(invoiceItems)) {
+      return [];
+    }
+
+    return invoiceItems.map(item => {
+      let {name, description, price, quantity, total} = item;
+
+      return {
+        title: name,
+        subtitle: {
+          title: description,
+          labelComponent: (
+            <CurrencyFormat
+              amount={price}
+              currency={currency}
+              preText={`${quantity} * `}
+              style={styles.itemLeftSubTitle(this.props.theme)}
+              containerStyle={styles.itemLeftSubTitleLabel}
+            />
+          )
+        },
+        amount: total,
+        currency,
+        fullItem: item
+      };
+    });
+  };
+
   render() {
     const {
-      roles,
       isEditScreen,
       isAllowToEdit,
       formValues,
-      fetchRoles
+      customers,
+      fetchStatus,
+      getCustomers,
+      invoiceItems,
+      items,
+      getItems,
+      currency,
+      customFields,
+      navigation,
+      statusList,
+      theme,
+      notes,
+      getNotes,
+      invoiceData: {invoiceTemplates, tax_per_item} = {},
+      formValues: {
+        limit_by,
+        limit_date,
+        limit_count,
+        frequency,
+        frequency_picker,
+        status
+      }
     } = this.props;
+    const hasCustomField = isEditScreen
+      ? formValues && formValues.hasOwnProperty('fields')
+      : !isEmpty(customFields);
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
     const loading =
       isFetchingInitialData || this.props.isSaving || this.props.isDeleting;
-
     const bottomAction = [
       {
         label: 'button.save',
@@ -136,9 +242,9 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
         loading
       }
     ];
-
+    this.recurringInvoiceRefs(this);
     const headerProps = {
-      leftIconPress: () => this.props.navigation.goBack(null),
+      leftIconPress: () => navigation.goBack(null),
       title: headerTitle(this.props),
       placement: 'center',
       ...(isAllowToEdit && {
@@ -153,7 +259,146 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
         headerProps={headerProps}
         bottomAction={<ActionButton buttons={bottomAction} />}
         loadingProps={{is: isFetchingInitialData}}
-      ></DefaultLayout>
+      >
+        <Field
+          name="customer_id"
+          getCustomers={getCustomers}
+          customers={customers}
+          component={CustomerSelectModal}
+          onSelect={item => {
+            this.setFormField('customer_id', item.id);
+            this.setState({currency: item.currency});
+          }}
+          rightIconPress={this.navigateToCustomer}
+          reference={ref => (this.customerReference = ref)}
+          disabled={disabled}
+        />
+
+        <Field
+          name={'formated_starts_at'}
+          isRequired
+          component={DatePickerField}
+          label={t('recurring_invoices.start_date')}
+          icon={'calendar-alt'}
+          onChangeCallback={val => this.setFormField('formated_starts_at', val)}
+          disabled={disabled}
+        />
+
+        <LimitField
+          limitByField={{
+            name: 'limit_by',
+            value: limit_by,
+            onChangeCallback: value => this.setFormField('limit_by', value)
+          }}
+          limitDateField={{
+            name: 'limit_date',
+            value: limit_date
+          }}
+          limitCountField={{
+            name: 'limit_count',
+            value: limit_count
+          }}
+        />
+
+        <Field
+          name="status"
+          statusList={statusSelector(statusList)}
+          fetchStatus={fetchStatus}
+          component={StatusSelectModal}
+          placeholder={status ?? t('recurring_invoices.status.title')}
+          onSelect={item => {
+            this.setFormField('status', item);
+          }}
+          disabled={disabled}
+        />
+        <FrequencyField
+          frequencyField={{
+            name: 'frequency',
+            value: frequency
+          }}
+          frequencyPickerField={{
+            name: 'frequency_picker',
+            value: frequency_picker
+          }}
+          onChangeCallback={val => {
+            if (!val) {
+              return;
+            }
+            this.setFormField('frequency', val);
+          }}
+          callbackWhenMount={() => {
+            this.setFormField('frequency_picker', frequency);
+          }}
+        />
+
+        <Label isRequired theme={theme} style={styles.label}>
+          {t('invoices.items')}
+        </Label>
+
+        <ListView
+          items={this.getInvoiceItemList(invoiceItems)}
+          itemContainer={styles.itemContainer(theme, disabled)}
+          leftTitleStyle={styles.itemLeftTitle(theme)}
+          leftSubTitleLabelStyle={[
+            styles.itemLeftSubTitle(theme),
+            styles.itemLeftSubTitleLabel
+          ]}
+          leftSubTitleStyle={styles.itemLeftSubTitle(theme)}
+          rightTitleStyle={styles.itemRightTitle(theme)}
+          backgroundColor={
+            !disabled
+              ? theme.thirdBgColor
+              : theme?.input?.disableBackgroundColor
+          }
+          onPress={this.onEditItem}
+          parentViewStyle={{marginVertical: 4}}
+        />
+
+        <Field
+          name="items"
+          items={itemsSelector(items)}
+          getItems={getItems}
+          component={ItemSelectModal}
+          // loading={itemsLoading}
+          disabled={disabled}
+          onSelect={item => {
+            navigation.navigate(routes.INVOICE_ITEM, {
+              item,
+              currency,
+              type: ITEM_ADD,
+              tax_per_item
+            });
+          }}
+          rightIconPress={() =>
+            navigation.navigate(routes.INVOICE_ITEM, {
+              type: ITEM_ADD,
+              currency,
+              tax_per_item
+            })
+          }
+        />
+        <Notes
+          navigation={navigation}
+          notes={notes}
+          getNotes={getNotes}
+          isEditScreen={isEditScreen}
+          noteType={NOTES_TYPE_VALUE.RECURRING_INVOICE}
+          onSelect={this.setFormField}
+        />
+
+        <Field
+          name="template_name"
+          templates={invoiceTemplates ?? []}
+          component={TemplateField}
+          label={t('invoices.template')}
+          icon={'file-alt'}
+          placeholder={t('invoices.templatePlaceholder')}
+          navigation={navigation}
+          disabled={disabled}
+        />
+
+        {hasCustomField && <CustomField {...this.props} type={null} />}
+      </DefaultLayout>
     );
   }
 }

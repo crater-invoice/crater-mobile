@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import {Field, change} from 'redux-form';
-import debounce from 'lodash/debounce';
 import t from 'locales/use-translation';
 import {NUMBERING_SCHEME_TYPE} from 'stores/customize/helpers';
 import {fetchNextNumber} from 'stores/customize/actions';
-import {ITheme} from '@/interfaces';
-import {InputField, Text, SelectPickerField} from '@/components';
+import {InputField, SelectPickerField} from '@/components';
 
 interface IProps {
   /**
@@ -42,12 +40,6 @@ interface IProps {
    * Name of current form.
    */
   form?: String;
-
-  /**
-   * An active theme object.
-   * @see ITheme
-   */
-  theme?: ITheme;
 }
 
 export class NumberScheme extends Component<IProps> {
@@ -95,7 +87,6 @@ export class NumberScheme extends Component<IProps> {
 
   render() {
     const {
-      theme,
       numberSchemeField,
       prefixField,
       separatorField,

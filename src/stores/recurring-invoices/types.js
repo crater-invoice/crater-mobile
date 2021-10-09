@@ -3,6 +3,8 @@ import t from 'locales/use-translation';
 
 export const SPINNER = 'recurringInvoices/SPINNER';
 
+export const FETCH_INITIAL_DETAILS = 'recurringInvoices/FETCH_INITIAL_DETAILS';
+
 export const RECURRING_INVOICES_FORM =
   'recurringInvoices/RECURRING_INVOICES_FORM';
 export const CREATE_RECURRING_INVOICE_FORM =
@@ -27,15 +29,20 @@ export const UPDATE_RECURRING_INVOICE =
 export const UPDATE_RECURRING_INVOICE_SUCCESS =
   'recurringInvoices/UPDATE_RECURRING_INVOICE_SUCCESS';
 
+export const FETCH_STATUS = 'recurringInvoices/FETCH_STATUS';
+export const FETCH_STATUS_SUCCESS = 'recurringInvoices/FETCH_STATUS_SUCCESS';
+
 export const REMOVE_RECURRING_INVOICE =
   'recurringInvoices/REMOVE_RECURRING_INVOICE';
 export const REMOVE_RECURRING_INVOICE_SUCCESS =
   'recurringInvoices/REMOVE_RECURRING_INVOICE_SUCCESS';
 
+export const FETCH_ITEMS = 'recurringInvoices/FETCH_ITEMS';
+
 // Invoice Refs
 // -----------------------------------------
-export let invoiceRefs = {};
-export const setInvoiceRefs = refs => (invoiceRefs = refs);
+export let recurringInvoiceRefs = {};
+export const setRecurringInvoiceRefs = refs => (invoiceRefs = refs);
 
 //  Forms
 // -----------------------------------------

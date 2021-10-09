@@ -11,7 +11,8 @@ import {
   SendMail,
   CustomField,
   View as CtView,
-  ActionButton
+  ActionButton,
+  Notes
 } from '@/components';
 import {
   PAYMENT_FORM,
@@ -31,13 +32,13 @@ import {
   BADGE_STATUS_TEXT_COLOR,
   getApiFormattedCustomFields
 } from '@/utils';
-import Notes from './notes';
 import PaymentServices from '../../services';
 import {
   InvoiceSelectModal,
   CustomerSelectModal,
   PaymentModeSelectModal
 } from '@/select-modal';
+import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
 
 type IProps = {
   navigation: Object,
@@ -383,7 +384,9 @@ export class Payment extends React.Component<IProps> {
       isAllowToEdit,
       isAllowToDelete,
       currency,
-      loading
+      loading,
+      notes,
+      getNotes
     } = this.props;
 
     const {isLoading, selectedCustomer} = this.state;
@@ -527,9 +530,12 @@ export class Payment extends React.Component<IProps> {
         />
 
         <Notes
-          {...this.props}
-          isEditPayment={isEditScreen}
-          setFormField={this.setFormField}
+          navigation={navigation}
+          notes={notes}
+          getNotes={getNotes}
+          isEditScreen={isEditScreen}
+          noteType={NOTES_TYPE_VALUE.PAYMENT}
+          onSelect={this.setFormField}
         />
 
         {hasCustomField && <CustomField {...this.props} type="payment" />}

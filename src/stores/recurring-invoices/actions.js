@@ -14,7 +14,29 @@ export function spinner(name, value) {
 }
 
 /**
- * Fetch recurring-invoices
+ * fetch recurring invoice initial details.
+ *
+ */
+export function fetchRecurringInvoiceInitialDetails() {
+  return {
+    type: types.FETCH_INITIAL_DETAILS
+  };
+}
+
+/**
+ * Fetch items.
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export function fetchItems(onSuccess) {
+  return {
+    type: types.FETCH_ITEMS,
+    payload: {onSuccess}
+  };
+}
+
+/**
+ * Fetch recurring-invoices.
  * @param payload
  * @returns {{type: string, payload: *}}
  */
@@ -26,7 +48,7 @@ export function fetchRecurringInvoices(payload = {}) {
 }
 
 /**
- * Fetch single recurring-invoice
+ * Fetch single recurring-invoice.
  * @param id
  * @param onSuccess
  * @returns {{type: string, payload: *}}
@@ -39,7 +61,7 @@ export function fetchSingleRecurringInvoice(id, onSuccess) {
 }
 
 /**
- * Add recurring-invoice
+ * Add recurring-invoice.
  * @param payload
  * @returns {{type: string, payload: *}}
  */
@@ -51,7 +73,7 @@ export function addRecurringInvoice(payload = {}) {
 }
 
 /**
- * Update recurring-invoice
+ * Update recurring-invoice.
  * @param payload
  * @returns {{type: string, payload: *}}
  */
@@ -63,7 +85,7 @@ export function updateRecurringInvoice(payload = {}) {
 }
 
 /**
- * Remove recurring-invoice
+ * Remove recurring-invoice.
  * @param id
  * @param navigation
  * @param onFail

@@ -1,6 +1,7 @@
 import {createSelector} from 'reselect';
 import {capitalize, isEmpty} from '@/constants';
 import {BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR} from '@/utils';
+import {recurringInvoiceRefs} from './types';
 
 const formatItems = (invoices, theme) => {
   if (isEmpty(invoices)) {
@@ -43,3 +44,34 @@ export const invoicesSelector = createSelector(
   [state => state?.recurringInvoices?.invoices, state => state.common?.theme],
   (invoices, theme) => formatItems(invoices, theme)
 );
+
+export const statusSelector = statusList => {
+  if (isEmpty(statusList)) {
+    return [];
+  }
+
+  return statusList.map((status, id) => {
+    return {
+      id,
+      title: status,
+      fullItem: status
+    };
+  });
+};
+
+export const itemsSelector = items => {
+  if (isEmpty(items)) {
+    return [];
+  }
+
+  return items.map(item => {
+    let {name, description, price} = item;
+
+    return {
+      title: name,
+      subtitle: {title: description},
+      amount: price,
+      fullItem: item
+    };
+  });
+};

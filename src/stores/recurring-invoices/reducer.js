@@ -3,6 +3,7 @@ import {isEmpty} from '@/constants';
 
 const initialState = {
   invoices: [],
+  status: [],
   isSaving: false,
   isDeleting: false
 };
@@ -14,6 +15,8 @@ export default function recurringInvoicesReducer(state = initialState, action) {
     case types.SPINNER:
       return {...state, [payload.name]: payload.value};
 
+    case types.FETCH_STATUS_SUCCESS:
+      return {...state, status: payload};
     case types.FETCH_RECURRING_INVOICES_SUCCESS:
       if (payload.fresh) {
         return {...state, invoices: payload.invoices};

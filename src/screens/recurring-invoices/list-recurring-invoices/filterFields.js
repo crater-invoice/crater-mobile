@@ -12,8 +12,6 @@ let selectedToDateValue = '';
 
 export const invoicesFilterFields = ({props, setFormField}) => {
   const filterRefs = {};
-  console.log('props', props);
-
   const {getCustomers, customers, navigation} = props;
 
   const dropdownStyle = {

@@ -1,5 +1,14 @@
 import Request from '@/utils/request';
 import * as queryString from 'query-string';
+
+/**
+ * Fetch status
+ * @returns {*}
+ */
+export const fetchStatus = () => {
+  return Request.get({path: `created-status/recurring-invoices`});
+};
+
 /**
  * Fetch recurring-invoices
  * @param q : queryString

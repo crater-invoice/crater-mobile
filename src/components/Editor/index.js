@@ -86,12 +86,12 @@ class EditorComponent extends Component<IProps, IStates> {
   }
 
   componentDidMount() {
-    this.props?.reference?.(this);
+    this.props.reference();
     this.setHasErrorToTrue = debounce(this.setHasErrorToTrue, 300);
   }
 
   componentWillUnmount() {
-    this.props?.reference?.(undefined);
+    // this.props?.reference?.(undefined);
   }
 
   onToggleModal = () => {

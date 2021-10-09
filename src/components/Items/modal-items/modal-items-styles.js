@@ -15,9 +15,6 @@ export default styles = StyleSheet.create({
     color: theme?.listItem?.fifth?.color,
     textAlign: 'left'
   }),
-  itemLeftSubTitleLabel: {
-    marginLeft: -6
-  },
   itemLeftSubTitle: theme => ({
     color: theme?.listItem?.fourth?.color,
     fontSize: 13
@@ -28,6 +25,9 @@ export default styles = StyleSheet.create({
     color: theme?.listItem?.secondary?.color,
     textAlign: 'left'
   }),
+  itemLeftSubTitleLabel: {
+    marginLeft: -6
+  },
   label: {
     paddingBottom: -1,
     paddingTop: 12
