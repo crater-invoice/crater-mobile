@@ -7,21 +7,15 @@ const initialState = {
   fiscalYears: [],
   currencies: [],
   retrospectiveEdits: [],
-  loading: {
-    fetchPreferencesLoading: false,
-    updatePreferencesLoading: false
-  }
+  isSaving: false
 };
 
-export default function usersReducer(state = initialState, action) {
+export default function companyReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {
     case types.SPINNER:
-      return {
-        ...state,
-        loading: {...state.loading, ...payload}
-      };
+      return {...state, [payload.name]: payload.value};
 
     case types.FETCH_CURRENCIES_SUCCESS:
       return {...state, currencies: payload};

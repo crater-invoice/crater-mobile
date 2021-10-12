@@ -137,17 +137,9 @@ export default class Request {
         const {status} = response;
         if (status === 401) {
           store?.dispatch?.(logoutSuccess());
-          throw response;
         }
-        if (
-          status === 403 ||
-          status === 404 ||
-          status === 500 ||
-          status === 422
-        ) {
-          throw response;
-        }
-        return response;
+
+        throw response;
       });
   }
 }

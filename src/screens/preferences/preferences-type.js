@@ -21,37 +21,12 @@ export interface IProps {
   /**
    * The loading indicator for updating preferences.
    */
-  updatePreferencesLoading: boolean;
+  isSaving: boolean;
 
   /**
    * Initialize the form data.
    */
   initialValues: any;
-
-  /**
-   * Id of the current user.
-   */
-  editSettingItem: string;
-
-  /**
-   * It is a create screen view.
-   */
-  isCreateScreen: boolean;
-
-  /**
-   * It is a update screen view.
-   */
-  isEditScreen: boolean;
-
-  /**
-   * If true the user will be able to update the current role data.
-   */
-  isAllowToEdit: boolean;
-
-  /**
-   * If true the user will be able to remove the current role.
-   */
-  isAllowToDelete: boolean;
 
   /**
    * An active theme object.

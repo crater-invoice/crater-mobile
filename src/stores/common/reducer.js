@@ -132,43 +132,15 @@ export default function commonReducer(state = initialState, action) {
       return {...state, taxTypes: remainTaxes};
 
     case SET_SETTINGS:
-      let {key, value} = payload.settings;
-
-      if (key) {
-        if (key === 'discount_per_item') {
-          return {
-            ...state,
-            discountPerItem: value === 'YES' ? true : false
-          };
-        }
-        if (key === 'tax_per_item') {
-          return {
-            ...state,
-            taxPerItem: value === 'YES' ? true : false
-          };
-        }
-        if (key === 'notify_invoice_viewed') {
-          return {
-            ...state,
-            notifyInvoiceViewed: value === 'YES' ? true : false
-          };
-        }
-        if (key === 'notify_estimate_viewed') {
-          return {
-            ...state,
-            notifyEstimateViewed: value === 'YES' ? true : false
-          };
-        }
-      } else
-        return {
-          ...state,
-          ...(payload?.settings?.language && {
-            locale: payload.settings.language
-          }),
-          ...(payload?.settings?.selectedCurrency && {
-            currency: payload.settings.selectedCurrency
-          })
-        };
+      return {
+        ...state,
+        ...(payload?.settings?.language && {
+          locale: payload.settings.language
+        }),
+        ...(payload?.settings?.selectedCurrency && {
+          currency: payload.settings.selectedCurrency
+        })
+      };
 
     case SET_MAIL_CONFIGURATION:
       return {...state, mailDriver: payload.mailDriver};

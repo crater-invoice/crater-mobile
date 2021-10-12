@@ -2,18 +2,19 @@ import * as types from './types';
 
 /**
  * Spinner
- * @param payload
+ * @param name
+ * @param value
  * @returns {{type: string, payload: *}}
  */
-export function spinner(payload) {
+export function spinner(name, value) {
   return {
     type: types.SPINNER,
-    payload
+    payload: {name, value}
   };
 }
 
 /**
- * Fetch Currencies
+ * Fetch currencies
  * @param payload
  * @returns {{type: string, payload: *}}
  */
@@ -25,7 +26,7 @@ export function fetchCurrencies(payload = {}) {
 }
 
 /**
- * Fetch Languages
+ * Fetch languages
  * @param payload
  * @returns {{type: string, payload: *}}
  */
@@ -37,7 +38,7 @@ export function fetchLanguages(payload = {}) {
 }
 
 /**
- * Fetch Time-zones
+ * Fetch time-zones
  * @param payload
  * @returns {{type: string, payload: *}}
  */
@@ -49,7 +50,7 @@ export function fetchTimezones(payload = {}) {
 }
 
 /**
- * Fetch Date-Formats
+ * Fetch date-formats
  * @param payload
  * @returns {{type: string, payload: *}}
  */
@@ -61,7 +62,7 @@ export function fetchDateFormats(payload = {}) {
 }
 
 /**
- * Fetch Fiscal-Years
+ * Fetch fiscal-years
  * @param payload
  * @returns {{type: string, payload: *}}
  */
@@ -73,7 +74,7 @@ export function fetchFiscalYears(payload = {}) {
 }
 
 /**
- * Fetch Retrospective-Edits
+ * Fetch retrospective-edits
  * @param payload
  * @returns {{type: string, payload: *}}
  */
@@ -86,13 +87,13 @@ export function fetchRetrospectives(payload = {}) {
 
 /**
  * Fetch preferences
- * @param payload
+ * @param onSuccess
  * @returns {{type: string, payload: *}}
  */
-export function fetchPreferences(payload = {}) {
+export function fetchPreferences(onSuccess) {
   return {
     type: types.FETCH_PREFERENCES,
-    payload
+    payload: {onSuccess}
   };
 }
 
