@@ -24,9 +24,14 @@ export interface IProps {
   loading: boolean;
 
   /**
-   * The loading indicator for the payment loading.
+   * The loading indicator for the button.
    */
-  paymentModeLoading: boolean;
+  isSaving: boolean;
+
+  /**
+   * The loading indicator for the button.
+   */
+  isDeleting: boolean;
 
   /**
    * Id of the current user.

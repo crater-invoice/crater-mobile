@@ -2,10 +2,9 @@ import {isEmpty} from '@/constants';
 import * as types from './types';
 
 const initialState = {
-  loading: {
-    paymentModeLoading: false
-  },
-  modes: []
+  modes: [],
+  isSaving: false,
+  isDeleting: false
 };
 
 export default function paymentModesReducer(state = initialState, action) {
@@ -13,10 +12,7 @@ export default function paymentModesReducer(state = initialState, action) {
 
   switch (type) {
     case types.SPINNER:
-      return {
-        ...state,
-        loading: {...state.loading, ...payload}
-      };
+      return {...state, [payload.name]: payload.value};
 
     case types.FETCH_PAYMENT_MODES_SUCCESS:
       if (payload.fresh) {

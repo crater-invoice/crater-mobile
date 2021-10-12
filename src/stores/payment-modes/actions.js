@@ -2,13 +2,16 @@ import * as types from './types';
 
 /**
  * Spinner
- * @param payload
+ * @param name
+ * @param value
  * @returns {{type: string, payload: *}}
  */
-export const spinner = payload => ({
-  type: types.SPINNER,
-  payload
-});
+export function spinner(name, value) {
+  return {
+    type: types.SPINNER,
+    payload: {name, value}
+  };
+}
 
 /**
  * fetch payment-modes list
