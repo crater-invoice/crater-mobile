@@ -12,10 +12,8 @@ type IProps = {
   getAccountLoading: Boolean
 };
 export class Notification extends React.Component<IProps> {
-  toastReference: any;
   constructor(props) {
     super(props);
-    this.toastReference = React.createRef();
 
     this.state = {
       invoiceStatus: null,
@@ -80,11 +78,7 @@ export class Notification extends React.Component<IProps> {
       params: {
         settings
       },
-      onResult: () => {
-        this.toastReference?.show?.(
-          'settings.notifications.invoiceViewedUpdated'
-        );
-      }
+      onResult: () => {}
     });
   };
 
@@ -99,11 +93,7 @@ export class Notification extends React.Component<IProps> {
       params: {
         settings
       },
-      onResult: () => {
-        this.toastReference?.show?.(
-          'settings.notifications.estimateViewedUpdated'
-        );
-      }
+      onResult: () => {}
     });
   };
 
@@ -130,9 +120,6 @@ export class Notification extends React.Component<IProps> {
             invoiceStatus === null ||
             estimateStatus === null ||
             email === null
-        }}
-        toastProps={{
-          reference: ref => (this.toastReference = ref)
         }}
       >
         <Field

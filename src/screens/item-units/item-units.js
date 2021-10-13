@@ -117,7 +117,6 @@ export default class ItemUnits extends Component<IProps, IStates> {
         hideScrollView
         headerProps={headerProps}
         bottomAction={<ActionButton buttons={bottomAction} />}
-        toastProps={{reference: ref => (this.toastReference = ref)}}
       >
         <View style={styles.childContainer}>
           <InfiniteScroll

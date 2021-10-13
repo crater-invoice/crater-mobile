@@ -32,14 +32,12 @@ export class Estimates extends React.Component<IProps, IStates> {
   sentReference: any;
   allReference: any;
   focusListener: any;
-  toastReference: any;
 
   constructor(props) {
     super(props);
     this.draftReference = React.createRef();
     this.sentReference = React.createRef();
     this.allReference = React.createRef();
-    this.toastReference = React.createRef();
 
     this.state = {
       isLoaded: false,
@@ -61,7 +59,6 @@ export class Estimates extends React.Component<IProps, IStates> {
     this.focusListener = navigation.addListener('focus', () => {
       if (EstimateServices.isEmailSent) {
         EstimateServices.toggleIsEmailSent(false);
-        this.toastReference?.show?.('toast.send_estimate_successfully');
       }
 
       if (!this.state.isLoaded) {
@@ -285,10 +282,6 @@ export class Estimates extends React.Component<IProps, IStates> {
         headerProps={headerProps}
         onSearch={this.onSearch}
         filterProps={filterProps}
-        toastProps={{
-          reference: ref => (this.toastReference = ref),
-          containerStyle: {bottom: 50}
-        }}
       >
         <Tabs
           style={styles.tabs(theme)}

@@ -135,11 +135,5 @@ export type ITheme = {
     disable: {
       bgColor: string
     }
-  },
-
-  // Toast
-  toast: {
-    bgColor: string,
-    textColor: string
   }
 };

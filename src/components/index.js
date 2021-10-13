@@ -24,7 +24,6 @@ export * from './AppLoader';
 export * from './LostConnection';
 export * from './UpdateAppVersion';
 export * from './CurrencyFormat';
-export * from './Toast';
 export * from './AnimateModal';
 export * from './AssetSvg';
 export * from './InputModal';
