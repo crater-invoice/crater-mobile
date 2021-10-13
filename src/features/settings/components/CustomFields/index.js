@@ -38,7 +38,7 @@ export class CustomFields extends React.Component<IProps> {
 
   onSelect = field => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CUSTOMER_FIELD, {
+    navigation.navigate(routes.CUSTOM_FIELD, {
       id: field?.id,
       type: 'UPDATE',
       field
@@ -70,7 +70,7 @@ export class CustomFields extends React.Component<IProps> {
         description: t('customFields.empty.description'),
         buttonTitle: t('customFields.empty.buttonTitle'),
         buttonPress: () => {
-          navigation.navigate(routes.CUSTOMER_FIELD, {
+          navigation.navigate(routes.CUSTOM_FIELD, {
             type: 'ADD'
           });
         }
@@ -86,7 +86,7 @@ export class CustomFields extends React.Component<IProps> {
       rightIcon: 'plus',
       placement: 'center',
       rightIconPress: () => {
-        navigation.navigate(routes.CUSTOMER_FIELD, {
+        navigation.navigate(routes.CUSTOM_FIELD, {
           type: 'ADD'
         });
       }

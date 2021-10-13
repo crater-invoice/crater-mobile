@@ -94,7 +94,7 @@ const mapDispatchToProps = {
 };
 
 const addInvoiceReduxForm = reduxForm({
-  form: INVOICE_FORM,
+  form: 'invoiceForm/INVOICE_FORM',
   validate
 })(Invoice);
 

@@ -32,7 +32,6 @@ export const routes = {
   ESTIMATE_ITEM: 'ESTIMATE_ITEM',
 
   // Customer
-  CUSTOMER_FIELD: 'CUSTOMER_FIELD',
   CUSTOMER: 'CUSTOMER',
 
   // More

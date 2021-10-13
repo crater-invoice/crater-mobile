@@ -56,8 +56,8 @@ class CheckBox extends Component<IProps> {
           checkedColor={colors.primaryLight}
           uncheckedColor={theme.viewLabel.secondaryColor}
           disabled={disabled}
-          {...checkBoxProps}
           activeOpacity={0.4}
+          {...checkBoxProps}
         />
       </>
     );

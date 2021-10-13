@@ -277,15 +277,13 @@ export class Invoices extends React.Component<IProps> {
         headerProps={headerProps}
         onSearch={this.onSearch}
         filterProps={filterProps}
-        toastProps={{
-          reference: ref => (this.toastReference = ref)
-        }}
-        with-company
+        toastProps={{reference: ref => (this.toastReference = ref)}}
         with-input-filter
         navigation={navigation}
-        {...(PermissionService.isAllowToView(routes.MAIN_INVOICES) && {
+        {...(PermissionService.isAllowToCreate(routes.MAIN_INVOICES) && {
           plusButtonOnPress: this.onAddInvoice
         })}
+        {...(PermissionService.isSuperAdmin() && {'with-company': true})}
       >
         <Tabs
           style={styles.tabs(theme)}

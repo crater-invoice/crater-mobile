@@ -58,14 +58,14 @@ export const MORE_MENU = () => {
       leftIcon: 'signal',
       iconSize: 15,
       fullItem: {route: routes.REPORTS},
-      show: PermissionService.isSuperAdmin()
+      show: PermissionService.isAllowToView(routes.REPORTS)
     },
     {
       title: t('more.users'),
       leftIcon: 'users',
       iconSize: 20,
       fullItem: {route: routes.USERS},
-      show: PermissionService.isSuperAdmin()
+      show: PermissionService.isAllowToView(routes.USERS)
     },
     {
       title: t('more.settings'),

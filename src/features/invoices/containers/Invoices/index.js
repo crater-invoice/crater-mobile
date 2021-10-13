@@ -38,7 +38,7 @@ const mapDispatchToProps = {
 };
 
 const invoiceSearchReduxForm = reduxForm({
-  form: INVOICE_SEARCH
+  form: 'invoiceForm/INVOICE_SEARCH'
 })(Invoices);
 
 const InvoicesContainer = connect(

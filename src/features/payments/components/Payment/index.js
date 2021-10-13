@@ -394,16 +394,18 @@ export class Payment extends React.Component<IProps> {
       ? formValues?.payment && formValues.payment.hasOwnProperty('fields')
       : !isEmpty(customFields);
 
+    const dropdownOptions =
+      isEditScreen && !isLoading ? PAYMENT_ACTIONS(isAllowToDelete) : [];
+
     const drownDownProps =
       isEditScreen && !isLoading
         ? {
-            options: PAYMENT_ACTIONS(isAllowToDelete),
+            options: dropdownOptions,
             onSelect: this.onOptionSelect,
-            cancelButtonIndex: 2,
-            destructiveButtonIndex: 1,
+            cancelButtonIndex: dropdownOptions.length,
+            destructiveButtonIndex: dropdownOptions.length - 1,
             ...(!isAllowToDelete && {
-              cancelButtonIndex: 1,
-              destructiveButtonIndex: 2
+              destructiveButtonIndex: dropdownOptions.length + 1
             })
           }
         : null;

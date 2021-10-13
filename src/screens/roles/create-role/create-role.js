@@ -174,13 +174,12 @@ export default class CreateRole extends Component<IProps, IStates> {
           </Text>
           {permissions[permission].map(ability => {
             const {name, allowed, disabled} = ability;
-
             return (
               <CheckBox
                 key={name}
                 label={name}
                 labelStyle={{}}
-                disabled={disabled}
+                disabled={disabled || !isAllowToEdit}
                 input={{
                   value: allowed,
                   onChange: allowed => this.toggleAbility(allowed, ability)
@@ -221,23 +220,27 @@ export default class CreateRole extends Component<IProps, IStates> {
             {t('roles.text_permissions')}
           </Label>
           <View class="flex-row flex-1 justify-end">
-            <ButtonView
-              class="px-5"
-              hitSlop={{top: 10, left: 7, bottom: 10, right: 7}}
-              onPress={this.selectAllPermissions}
-            >
-              <Text primary>{t('roles.select_all')}</Text>
-            </ButtonView>
-            <View class="mx-2">
-              <Text>/</Text>
-            </View>
-            <ButtonView
-              class="px-5"
-              hitSlop={{top: 10, left: 7, bottom: 10, right: 7}}
-              onPress={this.resetPermissions}
-            >
-              <Text primary>{t('roles.none')}</Text>
-            </ButtonView>
+            {!disabled && (
+              <>
+                <ButtonView
+                  class="px-5"
+                  hitSlop={{top: 10, left: 7, bottom: 10, right: 7}}
+                  onPress={this.selectAllPermissions}
+                >
+                  <Text primary>{t('roles.select_all')}</Text>
+                </ButtonView>
+                <View class="mx-2">
+                  <Text>/</Text>
+                </View>
+                <ButtonView
+                  class="px-5"
+                  hitSlop={{top: 10, left: 7, bottom: 10, right: 7}}
+                  onPress={this.resetPermissions}
+                >
+                  <Text primary>{t('roles.none')}</Text>
+                </ButtonView>
+              </>
+            )}
           </View>
         </View>
         <View pb-10>{permissionList}</View>

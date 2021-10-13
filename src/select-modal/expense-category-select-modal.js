@@ -36,7 +36,6 @@ export const ExpenseCategorySelectModal = (props: IProps) => {
       icon="align-center"
       placeholder={t('expenses.categoryPlaceholder')}
       compareField="id"
-      createActionRouteName={routes.CATEGORIES}
       headerProps={{title: t('expenses.categoryPlaceholder')}}
       emptyContentProps={{contentType: 'categories'}}
       isEditable={!disabled}

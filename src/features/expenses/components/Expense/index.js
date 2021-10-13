@@ -223,7 +223,6 @@ export class Expense extends React.Component<IProps, IState> {
       handleSubmit,
       categories,
       getCategories,
-      type,
       getCustomers,
       customers,
       customFields,
@@ -250,20 +249,20 @@ export class Expense extends React.Component<IProps, IState> {
       ? formValues?.expense && formValues.expense.hasOwnProperty('fields')
       : !isEmpty(customFields);
 
+    const dropdownOptions =
+      !isCreateExpense && !isLoading
+        ? EXPENSE_ACTIONS(imageUrl, isAllowToDelete)
+        : [];
+
     const drownDownProps =
       !isCreateExpense && !isLoading
         ? {
-            options: EXPENSE_ACTIONS(imageUrl, isAllowToDelete),
+            options: dropdownOptions,
             onSelect: this.onOptionSelect,
-            cancelButtonIndex: 1,
-            destructiveButtonIndex: 2,
-            ...(imageUrl && {
-              cancelButtonIndex: 2,
-              destructiveButtonIndex: 1
-            }),
+            cancelButtonIndex: dropdownOptions.length,
+            destructiveButtonIndex: dropdownOptions.length - 1,
             ...(!isAllowToDelete && {
-              cancelButtonIndex: 1,
-              destructiveButtonIndex: 2
+              destructiveButtonIndex: dropdownOptions.length + 1
             })
           }
         : null;
@@ -349,6 +348,7 @@ export class Expense extends React.Component<IProps, IState> {
           }
           rightIconPress={this.navigateToCategory}
           reference={ref => (this.categoryReference = ref)}
+          disabled={disabled}
         />
 
         <Field

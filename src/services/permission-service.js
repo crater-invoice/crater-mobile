@@ -88,8 +88,8 @@ const abilities = [
   // Custom Field
   {route: routes.CUSTOM_FIELDS, ability: 'view-custom-field'},
   {route: routes.CUSTOM_FIELDS, ability: 'create-custom-field'},
-  {route: routes.CUSTOMER_FIELD, ability: 'edit-custom-field'},
-  {route: routes.CUSTOMER_FIELD, ability: 'delete-custom-field'},
+  {route: routes.CUSTOM_FIELD, ability: 'edit-custom-field'},
+  {route: routes.CUSTOM_FIELD, ability: 'delete-custom-field'},
 
   // Role
   {route: routes.ROLES, ability: 'view-role'},
@@ -98,11 +98,7 @@ const abilities = [
   {route: routes.CREATE_ROLE, ability: 'delete-role'},
 
   // Settings
-  {route: 'reportType/SALES', ability: 'sales-report'},
-  {route: 'reportType/EXPENSES', ability: 'expense-report'},
-  {route: 'reportType/PROFIT_AND_LOSS', ability: 'pnl-report'},
-  {route: 'reportType/TAXES', ability: 'tax-report'},
-  {route: routes.COMPANY_INFO, ability: 'company-settings'}
+  {route: routes.REPORTS, ability: 'view-report'}
 ];
 
 class Service {
