@@ -21,12 +21,12 @@ export interface IProps {
   /**
    * The loading indicator for the button.
    */
-  loading: boolean;
+  isSaving: boolean;
 
   /**
-   * The loading indicator for the unit.
+   * The loading indicator for the button.
    */
-  itemUnitLoading: boolean;
+  isDeleting: boolean;
 
   /**
    * An active theme object.

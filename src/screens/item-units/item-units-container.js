@@ -4,20 +4,17 @@ import ItemUnits from './item-units';
 import {ITEM_UNITS_FORM} from 'stores/item-units/types';
 import {commonSelector} from 'stores/common/selectors';
 import * as itemUnitAction from 'stores/item-units/actions';
-import {unitsSelector} from 'stores/item-units/selectors';
+import {unitsSelector, loadingSelector} from 'stores/item-units/selectors';
+
 const mapStateToProps = state => {
   const {
-    itemUnits: {
-      units,
-      loading: {itemUnitLoading}
-    }
+    itemUnits: {units}
   } = state;
 
   return {
     formValues: getFormValues(ITEM_UNITS_FORM)(state) || {},
     units: unitsSelector(units),
-    itemUnitLoading,
-    loading: itemUnitLoading,
+    ...loadingSelector(state),
     ...commonSelector(state)
   };
 };

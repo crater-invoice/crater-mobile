@@ -21,11 +21,6 @@ export interface IProps {
   /**
    * The loading indicator for the button.
    */
-  loading: boolean;
-
-  /**
-   * The loading indicator for the button.
-   */
   isSaving: boolean;
 
   /**

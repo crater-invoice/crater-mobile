@@ -66,14 +66,8 @@ export class PaymentModes extends Component {
       title: t('alert.title'),
       desc: t('payments.alertMode'),
       showCancel: true,
-      okPress: () => {
-        dispatch(
-          removePaymentMode({
-            id,
-            onSuccess: () => this.onToggle()
-          })
-        );
-      }
+      okPress: () =>
+        dispatch(removePaymentMode({id, onSuccess: () => this.onToggle()}))
     });
   };
 
@@ -133,8 +127,8 @@ export class PaymentModes extends Component {
           headerTitle={getTitle()}
           hint={t('payments.modeHint')}
           fieldName="methodName"
-          onSubmit={() => this.onSave()}
-          onRemove={() => this.onRemoveMethod()}
+          onSubmit={this.onSave}
+          onRemove={this.onRemoveMethod}
           showRemoveButton={!isCreateMethod}
           showSaveButton={isAllowToEdit}
           onSubmitLoading={loading}

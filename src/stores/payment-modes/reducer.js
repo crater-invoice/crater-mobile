@@ -1,4 +1,3 @@
-import {isEmpty} from '@/constants';
 import * as types from './types';
 
 const initialState = {
@@ -18,34 +17,18 @@ export default function paymentModesReducer(state = initialState, action) {
       if (payload.fresh) {
         return {...state, modes: payload.modes};
       }
-
       return {...state, modes: [...state.modes, ...payload.modes]};
 
     case types.ADD_PAYMENT_MODE_SUCCESS:
-      return {
-        ...state,
-        modes: [payload, ...state.modes]
-      };
+      return {...state, modes: [payload, ...state.modes]};
 
     case types.UPDATE_PAYMENT_MODE_SUCCESS:
-      const modeData = payload;
-      const modeList = [];
-
-      if (isEmpty(state.modes)) {
-        return state;
-      }
-
-      state.modes.map(mode => {
-        const {id} = mode;
-        let value = mode;
-
-        if (id === modeData.id) {
-          value = modeData;
-        }
-        modeList.push(value);
-      });
-
-      return {...state, modes: modeList};
+      return {
+        ...state,
+        modes: state.modes.map(mode =>
+          mode.id === payload.id ? payload : mode
+        )
+      };
 
     case types.REMOVE_PAYMENT_MODE_SUCCESS:
       return {

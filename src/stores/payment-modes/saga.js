@@ -35,7 +35,8 @@ function* addPaymentMode({payload}) {
     yield put({type: types.ADD_PAYMENT_MODE_SUCCESS, payload: data});
     onSuccess?.();
   } catch (e) {
-    alertMe({desc: e?.data?.errors.name[0]});
+    const errorMessage = e?.data?.errors?.name;
+    errorMessage && alertMe({desc: errorMessage?.[0]});
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -53,7 +54,8 @@ function* updatePaymentMode({payload}) {
     yield put({type: types.UPDATE_PAYMENT_MODE_SUCCESS, payload: data});
     onSuccess?.();
   } catch (e) {
-    alertMe({desc: e?.data?.errors.name[0]});
+    const errorMessage = e?.data?.errors?.name;
+    errorMessage && alertMe({desc: errorMessage?.[0]});
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -65,8 +67,8 @@ function* updatePaymentMode({payload}) {
  */
 function* removePaymentMode({payload}) {
   try {
-    yield put(spinner('isDeleting', true));
     const {id, onSuccess} = payload;
+    yield put(spinner('isDeleting', true));
     yield call(req.removePaymentMode, id);
     yield put({type: types.REMOVE_PAYMENT_MODE_SUCCESS, payload: id});
     onSuccess?.();
