@@ -61,12 +61,6 @@ const abilities = [
   {route: routes.TAX, ability: 'edit-tax-type'},
   {route: routes.TAX, ability: 'delete-tax-type'},
 
-  // Payment Method
-  {route: routes.PAYMENT_MODES, ability: 'view-payment-method'},
-  {route: routes.PAYMENT_MODES, ability: 'create-payment-method'},
-  {route: routes.PAYMENT_MODES, ability: 'edit-payment-method'},
-  {route: routes.PAYMENT_MODES, ability: 'delete-payment-method'},
-
   // Custom Field
   {route: routes.CUSTOM_FIELDS, ability: 'view-custom-field'},
   {route: routes.CUSTOM_FIELDS, ability: 'create-custom-field'},
