@@ -4,22 +4,17 @@ import CustomizeEstimate from './customize-estimate';
 import {CUSTOMIZE_ESTIMATE_FORM} from 'stores/customize/types';
 import {customizeEstimateValidate} from 'stores/customize/validator';
 import {commonSelector} from 'stores/common/selectors';
+import {
+  loadingSelector,
+  customFieldsSelector
+} from 'stores/customize/selectors';
 
-const mapStateToProps = (state, {routes}) => {
-  const {
-    customizes: {
-      loading: {customizeLoading}
-    },
-    settings: {customFields}
-  } = state;
-
-  return {
-    formValues: getFormValues(CUSTOMIZE_ESTIMATE_FORM)(state) || {},
-    customFields,
-    loading: customizeLoading,
-    ...commonSelector(state)
-  };
-};
+const mapStateToProps = (state, {routes}) => ({
+  formValues: getFormValues(CUSTOMIZE_ESTIMATE_FORM)(state) || {},
+  customFields: customFieldsSelector(state),
+  isSaving: loadingSelector(state),
+  ...commonSelector(state)
+});
 
 const CustomizeEstimateForm = reduxForm({
   form: CUSTOMIZE_ESTIMATE_FORM,

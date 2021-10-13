@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import {Field, change} from 'redux-form';
-import debounce from 'lodash/debounce';
+import {ITheme} from '@/interfaces';
 import t from 'locales/use-translation';
 import {NUMBERING_SCHEME_TYPE} from 'stores/customize/helpers';
 import {fetchNextNumber} from 'stores/customize/actions';
-import {ITheme} from '@/interfaces';
-import {InputField, Text, SelectPickerField} from '@/components';
+import {InputField, SelectPickerField} from '@/components';
 import {keyboardType} from '@/constants';
 
 interface IProps {
@@ -96,7 +95,6 @@ export class NumberScheme extends Component<IProps> {
 
   render() {
     const {
-      theme,
       numberSchemeField,
       prefixField,
       separatorField,
@@ -127,7 +125,6 @@ export class NumberScheme extends Component<IProps> {
             isDebounce
           />
         )}
-
         <Field
           name={separatorField.name}
           component={InputField}
@@ -137,7 +134,6 @@ export class NumberScheme extends Component<IProps> {
           isRequired
           isDebounce
         />
-
         <Field
           name={numberLengthField.name}
           component={InputField}
@@ -148,7 +144,6 @@ export class NumberScheme extends Component<IProps> {
           isRequired
           isDebounce
         />
-
         <Field
           name="next_umber"
           component={InputField}

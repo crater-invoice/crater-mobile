@@ -32,7 +32,7 @@ export interface IProps {
   /**
    * The loading indicator for the button.
    */
-  loading: Boolean;
+  isSaving: Boolean;
 }
 
 export interface IStates {

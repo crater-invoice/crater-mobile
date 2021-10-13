@@ -26,9 +26,7 @@ export class Reports extends React.Component {
   render() {
     const {navigation, theme} = this.props;
     const reportList = [];
-    REPORTS_MENU().map(list => {
-      list?.show && reportList.push(list);
-    });
+    REPORTS_MENU().map(list => list?.show && reportList.push(list));
 
     return (
       <DefaultLayout

@@ -106,24 +106,24 @@ const abilities = [
 ];
 
 class Service {
-  permissions: any;
+  currentAbilities: any;
 
   constructor() {
-    this.permissions = [];
+    this.currentAbilities = [];
   }
 
-  setPermissions = permissions => {
-    if (!isEmpty(permissions)) {
-      this.permissions = permissions;
+  setPermissions = currentAbilities => {
+    if (!isEmpty(currentAbilities)) {
+      this.currentAbilities = currentAbilities;
     }
   };
 
   isSuperAdmin = () => {
-    if (isEmpty(this.permissions)) {
+    if (isEmpty(this.currentAbilities)) {
       return true;
     }
 
-    if (this.permissions?.[0]?.title === 'All abilities') {
+    if (this.currentAbilities?.[0]?.title === 'All abilities') {
       return true;
     }
 
@@ -139,7 +139,7 @@ class Service {
       return true;
     }
 
-    return hasValue(find(this.permissions, {name: ability}));
+    return hasValue(find(this.currentAbilities, {name: ability}));
   };
 
   isAllowToCreate = route => {

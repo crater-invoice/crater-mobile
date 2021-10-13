@@ -30,9 +30,9 @@ export interface IProps {
   formValues: any;
 
   /**
-   * The loading indicator for the button.
+   * The loading indicator for updating preferences.
    */
-  loading: boolean;
+  isSaving: boolean;
 }
 
 export interface IStates {

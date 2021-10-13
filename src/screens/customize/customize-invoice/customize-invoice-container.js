@@ -4,22 +4,17 @@ import CustomizeInvoice from './customize-invoice';
 import {CUSTOMIZE_INVOICE_FORM} from 'stores/customize/types';
 import {customizeInvoiceValidate} from 'stores/customize/validator';
 import {commonSelector} from 'stores/common/selectors';
+import {
+  loadingSelector,
+  customFieldsSelector
+} from 'stores/customize/selectors';
 
-const mapStateToProps = (state, {routes}) => {
-  const {
-    customizes: {
-      loading: {customizeLoading}
-    },
-    settings: {customFields}
-  } = state;
-
-  return {
-    formValues: getFormValues(CUSTOMIZE_INVOICE_FORM)(state) || {},
-    customFields,
-    loading: customizeLoading,
-    ...commonSelector(state)
-  };
-};
+const mapStateToProps = (state, {routes}) => ({
+  formValues: getFormValues(CUSTOMIZE_INVOICE_FORM)(state) || {},
+  customFields: customFieldsSelector(state),
+  isSaving: loadingSelector(state),
+  ...commonSelector(state)
+});
 
 const CustomizeInvoiceForm = reduxForm({
   form: CUSTOMIZE_INVOICE_FORM,

@@ -203,7 +203,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
   };
 
   render() {
-    const {navigation, loading, theme, handleSubmit} = this.props;
+    const {navigation, isSaving, theme, handleSubmit} = this.props;
     const {activeTab, isFetchingInitialData} = this.state;
     let isPaymentMode = activeTab === PAYMENT_TABS.MODE;
     let label = isPaymentMode ? 'button.add' : 'button.save';
@@ -215,7 +215,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
           isPaymentMode
             ? this.paymentChild?.openModal?.()
             : handleSubmit(this.onSave)(),
-        loading: loading || isFetchingInitialData
+        loading: isSaving || isFetchingInitialData
       }
     ];
 
