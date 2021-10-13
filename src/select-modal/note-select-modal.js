@@ -54,7 +54,7 @@ export const NoteSelectModal = (props: IProps) => {
             style={{paddingBottom: 6}}
             color={theme?.viewLabel?.thirdColor}
           >
-            {t('notes.insertNote')}{' '}
+            {t('notes.insertNote')}
           </Text>
         </TouchableOpacity>
       }

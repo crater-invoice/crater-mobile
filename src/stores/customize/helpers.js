@@ -7,22 +7,22 @@ export const CUSTOMIZES_MENU = () => {
     {
       title: t('header.invoices'),
       fullItem: {route: routes.CUSTOMIZE_INVOICE},
-      show: true
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('header.estimates'),
       fullItem: {route: routes.CUSTOMIZE_ESTIMATE},
-      show: true
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('header.payments'),
       fullItem: {route: routes.CUSTOMIZE_PAYMENT},
-      show: true
+      show: PermissionService.isAllowToView(routes.MAIN_PAYMENTS)
     },
     {
       title: t('header.items'),
       fullItem: {route: routes.ITEM_UNITS},
-      show: PermissionService.isAllowToView(routes.ITEM_UNITS)
+      show: PermissionService.isAllowToView(routes.GLOBAL_ITEMS)
     }
   ];
 };

@@ -38,7 +38,6 @@ export const PaymentModeSelectModal = (props: IProps) => {
       headerProps={{title: t('payments.modePlaceholder')}}
       emptyContentProps={{contentType: 'paymentMode'}}
       inputModalName="PaymentModeModal"
-      createActionRouteName={routes.PAYMENT_MODES}
       isEditable={!disabled}
       fakeInputProps={{disabled}}
     />

@@ -21,12 +21,6 @@ const abilities = [
   {route: routes.GLOBAL_ITEM, ability: 'edit-item'},
   {route: routes.GLOBAL_ITEM, ability: 'delete-item'},
 
-  // Unit
-  {route: routes.ITEM_UNITS, ability: 'view-unit'},
-  {route: routes.ITEM_UNITS, ability: 'create-unit'},
-  {route: routes.ITEM_UNITS, ability: 'edit-unit'},
-  {route: routes.ITEM_UNITS, ability: 'delete-unit'},
-
   // Estimate
   {route: routes.ESTIMATE_LIST, ability: 'view-estimate'},
   {route: routes.ESTIMATE_LIST, ability: 'create-estimate'},
@@ -55,23 +49,11 @@ const abilities = [
   {route: routes.PAYMENT, ability: 'delete-payment'},
   {route: routes.PAYMENT, ability: 'send-payment'},
 
-  // Expense Category
-  {route: routes.CATEGORIES, ability: 'view-expense-category'},
-  {route: routes.CATEGORIES, ability: 'create-expense-category'},
-  {route: routes.CATEGORY, ability: 'edit-expense-category'},
-  {route: routes.CATEGORY, ability: 'delete-expense-category'},
-
   // Expense
   {route: routes.MAIN_EXPENSES, ability: 'view-expense'},
   {route: routes.MAIN_EXPENSES, ability: 'create-expense'},
   {route: routes.EXPENSE, ability: 'edit-expense'},
   {route: routes.EXPENSE, ability: 'delete-expense'},
-
-  // Note
-  {route: routes.NOTES, ability: 'view-note'},
-  {route: routes.NOTES, ability: 'create-note'},
-  {route: routes.NOTE, ability: 'edit-note'},
-  {route: routes.NOTE, ability: 'delete-note'},
 
   // Tax Type
   {route: routes.TAXES, ability: 'view-tax-type'},
