@@ -1,5 +1,5 @@
 import {hasObjectLength} from '@/constants';
-import showNotification from 'utils/notification';
+import {showNotification} from './notification';
 
 export const handleError = e => {
   try {

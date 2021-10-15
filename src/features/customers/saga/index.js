@@ -13,9 +13,8 @@ import {isEmpty} from '@/constants';
 import {getGeneralSetting} from '@/features/settings/saga/general';
 import {getCustomFields} from '@/features/settings/saga/custom-fields';
 import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
-import showNotification from 'utils/notification';
 import t from 'locales/use-translation';
-import {handleError} from '@/utils';
+import {showNotification, handleError} from '@/utils';
 
 const addressParams = address => {
   return {

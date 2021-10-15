@@ -2,6 +2,8 @@ import {call, put, takeLatest} from 'redux-saga/effects';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
+import t from 'locales/use-translation';
+import {showNotification, handleError} from '@/utils';
 
 /**
  * Fetch roles saga
@@ -56,14 +58,15 @@ function* fetchPermissions({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* addRole({payload}) {
-  const {params, onSuccess, submissionError} = payload;
   try {
+    const {params, onSuccess} = payload;
     yield put(spinner('isSaving', true));
     const {data} = yield call(req.addRole, params);
     yield put({type: types.ADD_ROLE_SUCCESS, payload: data});
     onSuccess?.(data);
+    showNotification({message: t('notification.role_created')});
   } catch (e) {
-    submissionError?.(e);
+    handleError(e);
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -74,14 +77,15 @@ function* addRole({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* updateRole({payload}) {
-  const {id, params, navigation, submissionError} = payload;
   try {
+    const {id, params, navigation} = payload;
     yield put(spinner('isSaving', true));
     const {data} = yield call(req.updateRole, id, params);
     yield put({type: types.UPDATE_ROLE_SUCCESS, payload: data});
     navigation.goBack(null);
+    showNotification({message: t('notification.role_updated')});
   } catch (e) {
-    submissionError?.(e);
+    handleError(e);
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -98,6 +102,7 @@ function* removeRole({payload}) {
     yield call(req.removeRole, id);
     yield put({type: types.REMOVE_ROLE_SUCCESS, payload: id});
     navigation.goBack(null);
+    showNotification({message: t('notification.role_deleted')});
   } catch (e) {
     onFail?.();
   } finally {

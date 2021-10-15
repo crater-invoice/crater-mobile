@@ -80,8 +80,6 @@ export default class CreateRole extends Component<IProps, IStates> {
 
     const abilities = permissions.filter(p => p.allowed === true);
 
-    const submissionError = errors => console.log(errors);
-
     const onSuccess = res => {
       const onSelect = route?.params?.onSelect;
       onSelect?.(res);
@@ -91,7 +89,6 @@ export default class CreateRole extends Component<IProps, IStates> {
       id,
       params: {name, abilities},
       navigation,
-      submissionError,
       onSuccess
     };
 

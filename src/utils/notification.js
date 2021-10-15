@@ -4,8 +4,6 @@ import {colors} from '@/styles';
 import {fontSizes, fonts} from '@/styles/fonts';
 import {isIosPlatform} from '@/constants';
 
-// import showNotification from 'utils/notification';
-
 type MessageType =
   | 'none'
   | 'default'
@@ -23,7 +21,7 @@ interface IProps {
   icon?: MessageType;
 }
 
-export default ({
+export const showNotification = ({
   title = null,
   message = null,
   type: _type = 'success',

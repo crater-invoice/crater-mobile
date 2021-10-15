@@ -862,6 +862,9 @@
     "notification": {
         "customer_created": "Customer created successfully",
         "customer_updated": "Customer updated successfully",
-        "customer_deleted": "Customer deleted successfully"
+        "customer_deleted": "Customer deleted successfully",
+        "role_created": "Role created successfully",
+        "role_updated": "Role updated successfully",
+        "role_deleted": "Role deleted successfully"
     }
 }
