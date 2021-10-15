@@ -45,9 +45,7 @@ export class More extends React.Component {
   render() {
     const {theme} = this.props;
     const settingList = [];
-    MORE_MENU().map(list => {
-      list?.show && settingList.push(list);
-    });
+    MORE_MENU().map(list => list?.show && settingList.push(list));
 
     return (
       <MainLayout

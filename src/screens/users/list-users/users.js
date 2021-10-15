@@ -84,12 +84,12 @@ export default class Users extends Component<IProps, IStates> {
         >
           <ListView
             items={users}
-            onPress={this.onSelect}
             isAnimated
             hasAvatar
-            bottomDivider
-            isEmpty={isEmpty(users)}
             route={route}
+            bottomDivider
+            onPress={this.onSelect}
+            isEmpty={isEmpty(users)}
             emptyContentProps={emptyContentProps}
           />
         </InfiniteScroll>

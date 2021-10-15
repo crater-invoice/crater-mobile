@@ -1,8 +1,7 @@
 import React from 'react';
-import {SelectField} from '@/components';
+import {AssetImage, SelectField} from '@/components';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
-import {IMAGES} from '@/assets';
 import {colors, itemsDescriptionStyle} from '@/styles';
 
 interface IProps {
@@ -49,7 +48,10 @@ export const ItemSelectModal = (props: IProps) => {
         disabled
       }}
       headerProps={{title: t('items.title')}}
-      emptyContentProps={{contentType: 'items', image: IMAGES.EMPTY_ITEMS}}
+      emptyContentProps={{
+        contentType: 'items',
+        image: AssetImage.images.empty_items
+      }}
       listViewProps={{leftSubTitleStyle: itemsDescriptionStyle()}}
     />
   );

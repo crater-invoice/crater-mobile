@@ -37,7 +37,7 @@ export class Taxes extends React.Component {
 
   onSelect = tax => {
     const {navigation} = this.props;
-    navigation.navigate(routes.TAX, {tax, type: 'UPDATE'});
+    navigation.navigate(routes.TAX, {id: tax.id, tax, type: 'UPDATE'});
   };
 
   render() {

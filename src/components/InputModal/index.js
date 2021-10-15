@@ -92,10 +92,6 @@ class inputModalComponent extends Component<Iprops> {
           component={InputField}
           hint={hint}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true
-          }}
           isRequired
         />
       </View>

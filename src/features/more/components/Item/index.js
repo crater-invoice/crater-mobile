@@ -15,7 +15,7 @@ import {routes} from '@/navigation';
 import {ITEM_FORM} from '../../constants';
 import {colors} from '@/styles/colors';
 import t from 'locales/use-translation';
-import {definePlatformParam, defineSize} from '@/constants';
+import {definePlatformParam, keyboardType} from '@/constants';
 import {alertMe, hasValue, MAX_LENGTH} from '@/constants';
 import {TaxSelectModal, UnitSelectModal} from '@/select-modal';
 
@@ -395,14 +395,7 @@ export class Item extends React.Component {
           isRequired
           hint={t('items.name')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => {
-              itemRefs.price.focus();
-            }
-          }}
+          onSubmitEditing={() => itemRefs.price.focus()}
         />
 
         <Field
@@ -412,12 +405,7 @@ export class Item extends React.Component {
           leftSymbol={currency?.symbol}
           hint={t('items.price')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: 'decimal-pad'
-          }}
+          keyboardType={keyboardType.DECIMAL}
           isCurrencyInput
           refLinkFn={ref => {
             itemRefs.price = ref;
@@ -441,9 +429,6 @@ export class Item extends React.Component {
           component={InputField}
           hint={t('items.description')}
           inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
             multiline: true,
             maxLength: MAX_LENGTH
           }}

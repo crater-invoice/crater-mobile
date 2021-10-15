@@ -15,7 +15,6 @@ import {alertMe, isIosPlatform} from '@/constants';
 import {AssetImage} from '../AssetImage';
 import {Content} from '../Content';
 import Dropdown from '../Dropdown';
-import {IMAGES} from '@/assets';
 import {styles} from './styles';
 import {Text} from '../Text';
 import {CacheImage} from '../CacheImage';
@@ -300,7 +299,7 @@ class Picker extends Component<IProps, IStates> {
 
     const avatarView = (
       <AssetImage
-        imageSource={IMAGES.DEFAULT_AVATAR}
+        imageSource={AssetImage.images.avatar}
         imageStyle={[styles.images, imageStyle]}
         loadingImageStyle={styles.loadImage}
       />

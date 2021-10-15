@@ -19,7 +19,6 @@ const mapStateToProps = (state, {route}) => {
     removeCustomFieldLoading
   } = loading;
 
-  const id = field?.id;
   const field = route?.params?.field;
   const permissions = permissionSelector(route);
 
@@ -28,7 +27,6 @@ const mapStateToProps = (state, {route}) => {
     getCustomFieldLoading,
     removeCustomFieldLoading,
     currency: state.common?.currency,
-    id,
     field,
     formValues: getFormValues(CUSTOM_FIELD_FORM)(state) || {},
     ...permissions,

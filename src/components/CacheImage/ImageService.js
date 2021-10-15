@@ -1,5 +1,4 @@
 import {isEmpty} from '@/constants';
-
 export const IS_UNDER_PROCESSING = 'IS_UNDER_PROCESSING';
 
 class ImageService {
@@ -10,39 +9,31 @@ class ImageService {
   }
 
   addImage = name => {
-    try {
-      const isAlreadyExists = this.images.find(imgName => imgName === name);
+    const isAlreadyExists = this.images.find(imgName => imgName === name);
 
-      if (isAlreadyExists) {
-        return;
-      }
-
-      this.images.push(name);
-    } catch (e) {}
-  };
-
-  isUnderProcess = name => {
-    try {
-      if (isEmpty(this.images)) {
-        return false;
-      }
-
-      for (const imgName of this.images) {
-        if (imgName === name) {
-          return true;
-        }
-      }
-    } catch (e) {
-      return true;
+    if (isAlreadyExists) {
+      return;
     }
 
-    return false;
+    this.images.push(name);
   };
 
   removeImage = name => {
-    try {
-      this.images = this.images.filter(imgName => imgName !== name);
-    } catch (e) {}
+    this.images = this.images.filter(imgName => imgName !== name);
+  };
+
+  isUnderProcess = name => {
+    if (isEmpty(this.images)) {
+      return false;
+    }
+
+    for (const imgName of this.images) {
+      if (imgName === name) {
+        return true;
+      }
+    }
+
+    return false;
   };
 }
 

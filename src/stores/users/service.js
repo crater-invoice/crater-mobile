@@ -1,5 +1,6 @@
-import Request from '@/utils/request';
+import Request from 'utils/request';
 import * as queryString from 'query-string';
+
 /**
  * Fetch users
  * @param q : queryString
@@ -42,6 +43,6 @@ export const updateUser = (id, body) => {
  * @param id : user id
  * @returns {*}
  */
-export const removeUser = body => {
-  return Request.post({path: `users/delete`, body});
+export const removeUser = id => {
+  return Request.post({path: `users/delete`, body: {users: [id]}});
 };

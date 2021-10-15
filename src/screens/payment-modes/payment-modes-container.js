@@ -1,22 +1,19 @@
 import {connect} from 'react-redux';
 import {PaymentModes} from './payment-modes';
-import {commonSelector} from 'stores/common/selectors';
-import * as paymentAction from 'stores/payment-modes/actions';
+import {routes} from '@/navigation';
+import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {getFormValues, reduxForm} from 'redux-form';
-import {PAYMENT_MODES_FORM} from '@/stores/payment-modes/types';
+import {PAYMENT_MODES_FORM} from 'stores/payment-modes/types';
 import {fetchPaymentModes} from 'stores/payment-modes/actions';
+import {loadingSelector, modesSelector} from 'stores/payment-modes/selectors';
 
-const mapStateToProps = state => {
-  const {
-    paymentModes: {modes}
-  } = state;
-
-  return {
-    formValues: getFormValues(PAYMENT_MODES_FORM)(state) || {},
-    paymentModes: modes,
-    ...commonSelector(state)
-  };
-};
+const mapStateToProps = state => ({
+  formValues: getFormValues(PAYMENT_MODES_FORM)(state) || {},
+  paymentModes: modesSelector(state),
+  ...commonSelector(state),
+  ...loadingSelector(state),
+  ...permissionSelector({name: routes.PAYMENT_MODES})
+});
 
 const paymentModesForm = reduxForm({
   form: PAYMENT_MODES_FORM

@@ -6,50 +6,39 @@ import {spinner} from './actions';
 import * as types from './types';
 
 /**
- * fetch payment-methods saga
+ * Fetch payment-methods saga
  * @returns {IterableIterator<*>}
  */
 export function* fetchPaymentModes({payload}) {
-  const {fresh = true, onSuccess, queryString} = payload;
-
+  const {fresh, onSuccess, onFail, queryString} = payload;
   try {
-    const response = yield call(req.fetchPaymentModes, queryString);
-
-    if (response?.data) {
-      yield put({
-        type: types.FETCH_PAYMENT_MODES_SUCCESS,
-        payload: {modes: response.data, fresh}
-      });
-    }
-
+    const {data} = yield call(req.fetchPaymentModes, queryString);
+    yield put({
+      type: types.FETCH_PAYMENT_MODES_SUCCESS,
+      payload: {modes: data, fresh}
+    });
     onSuccess?.(response);
-  } catch (e) {}
+  } catch (e) {
+    onFail?.();
+  }
 }
 
 /**
  * Add payment-methods saga
  * @returns {IterableIterator<*>}
  */
-function* addPaymentMode({payload: {params, onSuccess}}) {
-  yield put(spinner({paymentModeLoading: true}));
-
+function* addPaymentMode({payload}) {
   try {
-    const response = yield call(req.addPaymentMode, params);
-
-    if (response?.data) {
-      yield put({type: types.ADD_PAYMENT_MODE_SUCCESS, payload: response.data});
-      onSuccess?.();
-      return;
-    }
-
-    if (response?.data?.errors?.name) {
-      alertMe({
-        desc: response?.data?.errors.name[0]
-      });
-    }
+    yield put(spinner('isSaving', true));
+    const {params, onSuccess} = payload;
+    const {data} = yield call(req.addPaymentMode, params);
+    yield put({type: types.ADD_PAYMENT_MODE_SUCCESS, payload: data});
+    onSuccess?.();
   } catch (e) {
+    const errorMessage = e?.data?.errors?.name;
+    errorMessage && alertMe({desc: errorMessage?.[0]});
   } finally {
-    yield put(spinner({paymentModeLoading: false}));
+    yield put(spinner('isSaving', false));
   }
 }
 
@@ -57,29 +46,18 @@ function* addPaymentMode({payload: {params, onSuccess}}) {
  * Update payment-methods saga
  * @returns {IterableIterator<*>}
  */
-function* updatePaymentMode({payload: {params, onSuccess}}) {
-  yield put(spinner({paymentModeLoading: true}));
-
+function* updatePaymentMode({payload}) {
   try {
-    const response = yield call(req.updatePaymentMode, params);
-
-    if (response?.data) {
-      yield put({
-        type: types.UPDATE_PAYMENT_MODE_SUCCESS,
-        payload: response.data
-      });
-      onSuccess?.();
-      return;
-    }
-
-    if (response?.data?.errors?.name) {
-      alertMe({
-        desc: response?.data?.errors.name[0]
-      });
-    }
+    yield put(spinner('isSaving', true));
+    const {params, onSuccess} = payload;
+    const {data} = yield call(req.updatePaymentMode, params);
+    yield put({type: types.UPDATE_PAYMENT_MODE_SUCCESS, payload: data});
+    onSuccess?.();
   } catch (e) {
+    const errorMessage = e?.data?.errors?.name;
+    errorMessage && alertMe({desc: errorMessage?.[0]});
   } finally {
-    yield put(spinner({paymentModeLoading: false}));
+    yield put(spinner('isSaving', false));
   }
 }
 
@@ -87,25 +65,18 @@ function* updatePaymentMode({payload: {params, onSuccess}}) {
  * Remove payment-methods saga
  * @returns {IterableIterator<*>}
  */
-function* removePaymentMode({payload: {id, onSuccess}}) {
-  yield put(spinner({paymentModeLoading: true}));
-
+function* removePaymentMode({payload}) {
   try {
-    const response = yield call(req.removePaymentMode, id);
-
-    if (response.success) {
-      yield put({type: types.REMOVE_PAYMENT_MODE_SUCCESS, payload: id});
-      onSuccess?.();
-    }
-
-    if (response.error && response.error === 'payments_attached') {
-      alertMe({
-        title: t('payments.alreadyInUseMode')
-      });
-    }
+    const {id, onSuccess} = payload;
+    yield put(spinner('isDeleting', true));
+    yield call(req.removePaymentMode, id);
+    yield put({type: types.REMOVE_PAYMENT_MODE_SUCCESS, payload: id});
+    onSuccess?.();
   } catch (e) {
+    e?.error === 'payments_attached' &&
+      alertMe({title: t('payments.alreadyInUseMode')});
   } finally {
-    yield put(spinner({paymentModeLoading: false}));
+    yield put(spinner('isDeleting', false));
   }
 }
 

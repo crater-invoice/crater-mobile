@@ -3,17 +3,17 @@ import {Field, change, initialize, SubmissionError} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-user-type';
 import {routes} from '@/navigation';
-import {alertMe, KEYBOARD_TYPE} from '@/constants';
+import {alertMe, keyboardType} from '@/constants';
 import {CREATE_USER_FORM} from 'stores/users/types';
 import {DefaultLayout, InputField, ActionButton} from '@/components';
 import headerTitle from 'utils/header';
+import {RoleSelectModal} from '@/select-modal';
 import {
   addUser,
   updateUser,
   removeUser,
   fetchSingleUser
 } from 'stores/users/actions';
-import {RoleSelectModal} from '@/select-modal';
 
 export default class CreateUser extends Component<IProps, IStates> {
   constructor(props) {
@@ -56,11 +56,14 @@ export default class CreateUser extends Component<IProps, IStates> {
       return;
     }
 
+    const submissionError = errors =>
+      handleSubmit(() => this.throwError(errors))();
+
     const params = {
       id,
       params: values,
       navigation,
-      submissionError: errors => handleSubmit(() => this.throwError(errors))()
+      submissionError
     };
 
     isCreateScreen ? dispatch(addUser(params)) : dispatch(updateUser(params));
@@ -68,6 +71,7 @@ export default class CreateUser extends Component<IProps, IStates> {
 
   removeUser = () => {
     const {id, navigation, dispatch} = this.props;
+
     function alreadyUsedAlert() {
       alertMe({
         title: t('users.text_already_used')
@@ -106,19 +110,23 @@ export default class CreateUser extends Component<IProps, IStates> {
       roles,
       isEditScreen,
       isAllowToEdit,
+      isAllowToDelete,
+      formValues,
+      isSaving,
+      isDeleting,
+      navigation,
       fetchRoles,
-      formValues
+      handleSubmit
     } = this.props;
     const userRefs: any = {};
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
-    const loading =
-      isFetchingInitialData || this.props.isSaving || this.props.isDeleting;
+    const loading = isFetchingInitialData || isSaving || isDeleting;
 
     const bottomAction = [
       {
         label: 'button.save',
-        onPress: this.props.handleSubmit(this.onSave),
+        onPress: handleSubmit(this.onSave),
         show: isAllowToEdit,
         loading
       },
@@ -126,19 +134,19 @@ export default class CreateUser extends Component<IProps, IStates> {
         label: 'button.remove',
         onPress: this.removeUser,
         bgColor: 'btn-danger',
-        show: isEditScreen && this.props.isAllowToDelete,
+        show: isEditScreen && isAllowToDelete,
         loading
       }
     ];
 
     const headerProps = {
-      leftIconPress: () => this.props.navigation.goBack(null),
+      leftIconPress: () => navigation.goBack(null),
       title: headerTitle(this.props),
       placement: 'center',
       ...(isAllowToEdit && {
         rightIcon: 'save',
         rightIconProps: {solid: true},
-        rightIconPress: this.props.handleSubmit(this.onSave)
+        rightIconPress: handleSubmit(this.onSave)
       })
     };
 
@@ -154,12 +162,7 @@ export default class CreateUser extends Component<IProps, IStates> {
           component={InputField}
           hint={t('users.text_name')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => userRefs.email.focus()
-          }}
+          onSubmitEditing={() => userRefs.email.focus()}
         />
 
         <Field
@@ -169,13 +172,8 @@ export default class CreateUser extends Component<IProps, IStates> {
           disabled={disabled}
           hint={t('users.email')}
           refLinkFn={ref => (userRefs.email = ref)}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.EMAIL,
-            onSubmitEditing: () => userRefs.password.focus()
-          }}
+          onSubmitEditing={() => userRefs.password.focus()}
+          keyboardType={keyboardType.EMAIL}
         />
 
         <Field
@@ -188,12 +186,7 @@ export default class CreateUser extends Component<IProps, IStates> {
           refLinkFn={ref => (userRefs.password = ref)}
           isRequired={!isEditScreen}
           minCharacter={8}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => userRefs.phone.focus()
-          }}
+          onSubmitEditing={() => userRefs.phone.focus()}
         />
 
         <Field
@@ -202,12 +195,7 @@ export default class CreateUser extends Component<IProps, IStates> {
           hint={t('users.phone')}
           refLinkFn={ref => (userRefs.phone = ref)}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.PHONE
-          }}
+          keyboardType={keyboardType.PHONE}
         />
 
         <Field

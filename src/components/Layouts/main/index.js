@@ -104,11 +104,8 @@ const Layout = (props: IProps) => {
               <Field
                 name="search"
                 component={InputField}
+                placeholder={t('search.title')}
                 inputProps={{
-                  returnKeyType: 'next',
-                  autoCapitalize: 'none',
-                  placeholder: t('search.title'),
-                  autoCorrect: true,
                   ...(filterProps &&
                     props?.['with-input-filter'] && {
                       rightIcon: (

@@ -24,10 +24,9 @@ export class Category extends React.Component<IProps> {
   }
 
   componentDidMount() {
-    const {getEditCategory, isEditScreen, route} = this.props;
+    const {getEditCategory, isEditScreen, id} = this.props;
 
     if (isEditScreen) {
-      let id = route?.params?.categoryId;
       getEditCategory({
         id,
         onResult: val => {
@@ -50,7 +49,8 @@ export class Category extends React.Component<IProps> {
       navigation,
       categoryLoading,
       isCreateScreen,
-      route
+      route,
+      id
     } = this.props;
 
     if (!categoryLoading) {
@@ -64,7 +64,6 @@ export class Category extends React.Component<IProps> {
           }
         });
       else {
-        let id = route?.params?.categoryId;
         editCategory({id, params: values, navigation});
       }
     }
@@ -75,7 +74,7 @@ export class Category extends React.Component<IProps> {
       removeCategory,
       navigation,
       formValues: {name},
-      route
+      id
     } = this.props;
 
     alertMe({
@@ -84,7 +83,7 @@ export class Category extends React.Component<IProps> {
       showCancel: true,
       okPress: () =>
         removeCategory({
-          id: route?.params?.categoryId,
+          id,
           navigation,
           onResult: () => {
             alertMe({
@@ -156,13 +155,7 @@ export class Category extends React.Component<IProps> {
           isRequired
           hint={t('categories.title')}
           inputFieldStyle={styles.inputFieldStyle}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            onSubmitEditing: () => {
-              categoryRefs.description.focus();
-            }
-          }}
+          onSubmitEditing={() => categoryRefs.description.focus()}
           validationStyle={styles.inputFieldValidation}
           disabled={disabled}
         />
@@ -172,14 +165,10 @@ export class Category extends React.Component<IProps> {
           component={InputField}
           hint={t('categories.description')}
           inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
             multiline: true,
             maxLength: MAX_LENGTH
           }}
           height={100}
-          autoCorrect={true}
           refLinkFn={ref => (categoryRefs.description = ref)}
           disabled={disabled}
         />

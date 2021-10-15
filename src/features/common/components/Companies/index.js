@@ -43,6 +43,7 @@ export default class Companies extends React.Component {
     const {navigation} = this.props;
     navigation.navigate(routes.COMPANY, {
       company,
+      id: company?.id,
       type: 'UPDATE'
     });
   };

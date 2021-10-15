@@ -427,41 +427,25 @@ export class Invoice extends React.Component<IProps, IStates> {
     let hasSentStatus = markAsStatus === 'SENT' || markAsStatus === 'VIEWED';
     let hasCompleteStatus = markAsStatus === 'COMPLETED';
 
+    const dropdownOptions =
+      isEditScreen && !initLoading
+        ? EDIT_INVOICE_ACTIONS(
+            hasSentStatus,
+            hasCompleteStatus,
+            isAllowToDelete
+          )
+        : [];
+
     let drownDownProps =
       isEditScreen && !initLoading
         ? {
-            options: EDIT_INVOICE_ACTIONS(
-              hasSentStatus,
-              hasCompleteStatus,
-              isAllowToDelete
-            ),
+            options: dropdownOptions,
             onSelect: this.onOptionSelect,
-            cancelButtonIndex: 5,
-            destructiveButtonIndex: 4,
-            ...(hasSentStatus && {
-              cancelButtonIndex: 4,
-              destructiveButtonIndex: 3
-            }),
-            ...(hasCompleteStatus && {
-              cancelButtonIndex: 2,
-              destructiveButtonIndex: 1
-            }),
-            ...(!isAllowToDelete &&
-              hasSentStatus && {
-                cancelButtonIndex: 3,
-                destructiveButtonIndex: 4
-              }),
-            ...(!isAllowToDelete &&
-              hasCompleteStatus && {
-                cancelButtonIndex: 1,
-                destructiveButtonIndex: 2
-              }),
-            ...(!isAllowToDelete &&
-              !hasSentStatus &&
-              !hasCompleteStatus && {
-                cancelButtonIndex: 4,
-                destructiveButtonIndex: 5
-              })
+            cancelButtonIndex: dropdownOptions.length,
+            destructiveButtonIndex: dropdownOptions.length - 1,
+            ...(!isAllowToDelete && {
+              destructiveButtonIndex: dropdownOptions.length + 1
+            })
           }
         : null;
 
@@ -591,11 +575,6 @@ export class Invoice extends React.Component<IProps, IStates> {
           hint={t('invoices.referenceNumber')}
           leftIcon={'hashtag'}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true
-          }}
         />
 
         <Notes

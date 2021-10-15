@@ -1,8 +1,8 @@
 import {call, put, takeEvery, select} from 'redux-saga/effects';
 import * as Updates from 'expo-updates';
-import {spinner} from './actions';
 import * as types from './types';
 import * as req from './service';
+import {spinner} from './actions';
 import {setI18nManagerValue} from '@/utils';
 import {isEmpty} from '@/constants';
 import {SET_SETTINGS} from '@/constants';
@@ -13,12 +13,8 @@ import {SET_SETTINGS} from '@/constants';
  */
 function* fetchCurrencies() {
   try {
-    const response = yield call(req.fetchCurrencies);
-
-    yield put({
-      type: types.FETCH_CURRENCIES_SUCCESS,
-      payload: response?.data
-    });
+    const {data} = yield call(req.fetchCurrencies);
+    yield put({type: types.FETCH_CURRENCIES_SUCCESS, payload: data});
   } catch (e) {}
 }
 
@@ -28,12 +24,8 @@ function* fetchCurrencies() {
  */
 function* fetchLanguages() {
   try {
-    const response = yield call(req.fetchLanguages);
-
-    yield put({
-      type: types.FETCH_LANGUAGES_SUCCESS,
-      payload: response?.languages
-    });
+    const {languages} = yield call(req.fetchLanguages);
+    yield put({type: types.FETCH_LANGUAGES_SUCCESS, payload: languages});
   } catch (e) {}
 }
 
@@ -43,12 +35,8 @@ function* fetchLanguages() {
  */
 function* fetchTimezones() {
   try {
-    const response = yield call(req.fetchTimezones);
-
-    yield put({
-      type: types.FETCH_TIMEZONES_SUCCESS,
-      payload: response?.time_zones
-    });
+    const {time_zones} = yield call(req.fetchTimezones);
+    yield put({type: types.FETCH_TIMEZONES_SUCCESS, payload: time_zones});
   } catch (e) {}
 }
 
@@ -58,11 +46,8 @@ function* fetchTimezones() {
  */
 function* fetchDateFormats() {
   try {
-    const response = yield call(req.fetchDateFormats);
-    yield put({
-      type: types.FETCH_DATE_FORMATS_SUCCESS,
-      payload: response?.date_formats
-    });
+    const {date_formats} = yield call(req.fetchDateFormats);
+    yield put({type: types.FETCH_DATE_FORMATS_SUCCESS, payload: date_formats});
   } catch (e) {}
 }
 
@@ -72,12 +57,8 @@ function* fetchDateFormats() {
  */
 function* fetchFiscalYears() {
   try {
-    const response = yield call(req.fetchFiscalYears);
-
-    yield put({
-      type: types.FETCH_FISCAL_YEARS_SUCCESS,
-      payload: response?.fiscal_years
-    });
+    const {fiscal_years} = yield call(req.fetchFiscalYears);
+    yield put({type: types.FETCH_FISCAL_YEARS_SUCCESS, payload: fiscal_years});
   } catch (e) {}
 }
 
@@ -87,10 +68,10 @@ function* fetchFiscalYears() {
  */
 function* fetchRetrospectives() {
   try {
-    const response = yield call(req.fetchRetrospectives);
+    const {retrospective_edits} = yield call(req.fetchRetrospectives);
     yield put({
       type: types.FETCH_RETROSPECTIVES_SUCCESS,
-      payload: response?.retrospective_edits
+      payload: retrospective_edits
     });
   } catch (e) {}
 }
@@ -99,11 +80,9 @@ function* fetchRetrospectives() {
  * fetch Preferences saga
  * @returns {IterableIterator<*>}
  */
-function* fetchPreferences({payload: {onSuccess}}) {
-  yield put(spinner({fetchPreferencesLoading: true}));
+function* fetchPreferences({payload}) {
   try {
     const response = yield call(req.fetchPreferences);
-
     const store = yield select();
     const {
       currencies,
@@ -120,12 +99,8 @@ function* fetchPreferences({payload: {onSuccess}}) {
     yield isEmpty(dateFormats) && call(fetchDateFormats);
     yield isEmpty(fiscalYears) && call(fetchFiscalYears);
     yield isEmpty(retrospectiveEdits) && call(fetchRetrospectives);
-
-    onSuccess?.(response);
-  } catch (e) {
-  } finally {
-    yield put(spinner({fetchPreferencesLoading: false}));
-  }
+    payload?.onSuccess?.(response);
+  } catch (e) {}
 }
 
 /**
@@ -133,34 +108,34 @@ function* fetchPreferences({payload: {onSuccess}}) {
  * @returns {IterableIterator<*>}
  */
 function* updatePreferences({payload}) {
-  const {
-    params,
-    navigation,
-    locale = 'en',
-    currencies = null,
-    onResult
-  } = payload;
-
-  yield put(spinner({updatePreferencesLoading: true}));
-
   try {
-    const body = {settings: params};
-    const response = yield call(req.updatePreferences, body);
+    const {
+      params,
+      navigation,
+      locale = 'en',
+      currencies = null,
+      onResult
+    } = payload;
 
-    if (response?.success) {
-      let selectedCurrency = null;
-      if (params?.currency && !isEmpty(currencies)) {
-        selectedCurrency = currencies.find(
-          currency => currency?.fullItem?.id === Number(params?.currency)
-        );
-        selectedCurrency = selectedCurrency?.fullItem;
-      }
-      yield put({
-        type: SET_SETTINGS,
-        payload: {settings: {...params, selectedCurrency}}
-      });
+    yield put(spinner('isSaving', true));
+
+    const body = {settings: params};
+    yield call(req.updatePreferences, body);
+
+    let selectedCurrency = null;
+    if (params?.currency && !isEmpty(currencies)) {
+      selectedCurrency = currencies.find(
+        currency => currency?.fullItem?.id === Number(params?.currency)
+      );
+      selectedCurrency = selectedCurrency?.fullItem;
     }
+    yield put({
+      type: SET_SETTINGS,
+      payload: {settings: {...params, selectedCurrency}}
+    });
+
     onResult?.();
+
     if (params?.language) {
       const isRTL = params.language === 'ar';
       setI18nManagerValue({isRTL});
@@ -168,11 +143,10 @@ function* updatePreferences({payload}) {
         Updates.reloadAsync();
       }
     }
-
-    navigation.goBack(null);
+    navigation?.goBack?.(null);
   } catch (e) {
   } finally {
-    yield put(spinner({updatePreferencesLoading: false}));
+    yield put(spinner('isSaving', false));
   }
 }
 

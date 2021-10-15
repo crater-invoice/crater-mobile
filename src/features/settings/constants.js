@@ -251,7 +251,9 @@ export const SETTINGS_MENU = () => {
       fullItem: {
         route: routes.CUSTOMIZE_LIST
       },
-      show: PermissionService.isSuperAdmin()
+      show:
+        PermissionService.isAllowToView(routes.MAIN_PAYMENTS) ||
+        PermissionService.isAllowToView(routes.GLOBAL_ITEMS)
     },
     {
       title: t('header.companies'),
@@ -290,14 +292,14 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 20,
       fullItem: {route: routes.NOTES},
-      show: PermissionService.isAllowToView(routes.NOTES)
+      show: true
     },
     {
       title: t('settings.expenseCategory'),
       leftIcon: 'clipboard-list',
       iconSize: 20,
       fullItem: {route: routes.CATEGORIES},
-      show: PermissionService.isAllowToView(routes.CATEGORIES)
+      show: PermissionService.isAllowToView(routes.MAIN_EXPENSES)
     },
     {
       title: t('settings.touchOrFaceId'),

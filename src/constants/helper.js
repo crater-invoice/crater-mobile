@@ -1,10 +1,7 @@
-import React, {Fragment} from 'react';
 import {Platform, findNodeHandle, Dimensions} from 'react-native';
 import Constants from 'expo-constants';
 import NetInfo from '@react-native-community/netinfo';
 import moment from 'moment';
-import {fonts} from '@/styles';
-import {store} from '@/stores';
 
 const model = Constants.deviceName.toLowerCase();
 
@@ -173,4 +170,23 @@ export const defineSize = (small, medium, large, extraLarge) => {
   }
 
   return medium;
+};
+
+export const keyboardType = {
+  DEFAULT: 'default',
+  NUMERIC: 'numeric',
+  DECIMAL: 'decimal-pad',
+  EMAIL: 'email-address',
+  PHONE: 'phone-pad',
+  URL: 'url'
+};
+
+export const keyboardReturnKeyType = {
+  DEFAULT: 'default',
+  GO: 'go',
+  GOOGLE: 'google',
+  NEXT: 'next',
+  SEARCH: 'search',
+  SEND: 'send',
+  DONE: 'done'
 };

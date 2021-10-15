@@ -12,7 +12,6 @@ const mapStateToProps = (state, {route}) => {
 
   return {
     loading: isLoading,
-    companyId: company?.id,
     locale: common?.locale,
     ...permissionSelector(route),
     initialValues: {

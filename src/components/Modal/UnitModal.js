@@ -6,9 +6,10 @@ import {addItemUnit} from 'stores/item-units/actions';
 import t from 'locales/use-translation';
 import {hasValue} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
+import {loadingSelector} from 'stores/item-units/selectors';
 
 interface IProps {
-  loading: boolean;
+  isSaving: boolean;
   reference: any;
   handleSubmit: Function;
   addItemUnit: Function;
@@ -56,7 +57,7 @@ class Modal extends Component<IProps> {
   };
 
   render() {
-    const {handleSubmit, loading} = this.props;
+    const {handleSubmit, isSaving} = this.props;
 
     return (
       <InputModal
@@ -65,7 +66,7 @@ class Modal extends Component<IProps> {
         hint={t('items.unitHint')}
         fieldName="name"
         onSubmit={handleSubmit(this.onSubmit)}
-        onSubmitLoading={loading}
+        onSubmitLoading={isSaving}
       />
     );
   }
@@ -73,7 +74,7 @@ class Modal extends Component<IProps> {
 
 const mapStateToProps = state => ({
   ...commonSelector(state),
-  loading: state.settings?.loading?.itemUnitLoading
+  ...loadingSelector(state)
 });
 
 const mapDispatchToProps = {

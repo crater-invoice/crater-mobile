@@ -25,6 +25,9 @@ export default params => {
         'header.view_recurring_invoice'
       );
 
+    case routes.CREATE_ROLE:
+      return getTitle('header.addRole', 'header.editRole', 'header.viewRole');
+
     default:
       return '';
   }

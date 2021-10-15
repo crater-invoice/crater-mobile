@@ -29,9 +29,7 @@ export class Settings extends React.Component {
   render() {
     const {navigation, theme} = this.props;
     const settingList = [];
-    SETTINGS_MENU().map(list => {
-      list?.show && settingList.push(list);
-    });
+    SETTINGS_MENU().map(list => list?.show && settingList.push(list));
 
     return (
       <DefaultLayout

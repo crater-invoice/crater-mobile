@@ -10,9 +10,8 @@ import {getCustomFields} from '@/features/settings/saga/custom-fields';
  * @returns {*}
  */
 function* fetchCustomizeSettings({payload}) {
-  const {keys, onSuccess} = payload;
-
   try {
+    const {keys, onSuccess} = payload;
     yield call(getCustomFields, {payload: {queryString: {limit: 'all'}}});
     const response = yield call(req.fetchCustomizeSettings, keys);
     onSuccess?.(response);
@@ -24,20 +23,14 @@ function* fetchCustomizeSettings({payload}) {
  * @returns {*}
  */
 function* updateCustomizeSettings({payload}) {
-  const {params, navigation} = payload;
-
-  yield put(spinner({customizeLoading: true}));
-
   try {
-    const body = {settings: params};
-    const response = yield call(req.updateCustomizeSettings, body);
-
-    if (response.success) {
-      navigation.navigate(routes.CUSTOMIZE_LIST);
-    }
+    yield put(spinner('isSaving', true));
+    const {params, navigation} = payload;
+    yield call(req.updateCustomizeSettings, params);
+    navigation.navigate(routes.CUSTOMIZE_LIST);
   } catch (e) {
   } finally {
-    yield put(spinner({customizeLoading: false}));
+    yield put(spinner('isSaving', false));
   }
 }
 
@@ -46,9 +39,8 @@ function* updateCustomizeSettings({payload}) {
  * @returns {*}
  */
 export function* fetchNextNumber({payload}) {
-  const {params, onSuccess} = payload;
-
   try {
+    const {params, onSuccess} = payload;
     const response = yield call(req.fetchNextNumber, params);
     onSuccess?.(response);
   } catch (e) {}

@@ -5,6 +5,5 @@ export * from './search';
 export * from './appearance';
 export * from './biometric-authentication';
 export * from './rating-review';
-export * from './sizes';
 export * from './styled';
 export * from './badge';

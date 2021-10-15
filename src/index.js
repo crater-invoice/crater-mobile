@@ -7,9 +7,9 @@ import {ThemeProvider} from 'styled-components/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {store, persistor} from '@/stores';
 import {ApplicationNavigator} from './navigation';
-import {loadFonts, switchTheme} from './constants';
+import {switchTheme} from './constants';
 import {Loading} from './components';
-import {colors} from './styles';
+import {colors, loadFonts} from './styles';
 import {darkTheme, lightTheme} from './theme';
 import {TranslationService} from 'locales/use-translation';
 
@@ -82,7 +82,7 @@ class App extends Component<{}, IState> {
 export default () => {
   const [fontLoaded, setFontLoaded] = useState(false);
   useEffect(() => {
-    loadFonts({afterLoad: () => setFontLoaded(true)});
+    loadFonts(() => setFontLoaded(true));
     return () => {};
   }, []);
 

@@ -1,77 +1,54 @@
 import {isEmpty} from '@/constants';
 import {createSelector} from 'reselect';
 
-export const currenciesSelector = createSelector(
-  currencies => currencies,
-  currencies =>
-    !isEmpty(currencies)
-      ? currencies.map(currency => ({
-          title: currency.name,
-          subtitle: {
-            title: currency.code
-          },
-          rightTitle: currency.symbol || '-',
-          fullItem: currency
-        }))
-      : []
-);
+const companyStore = state => state?.company;
 
-export const languagesSelector = createSelector(
-  languages => languages,
-  languages =>
-    !isEmpty(languages)
-      ? languages.map(language => {
-          const {name} = language;
-          return {
-            title: name,
-            leftAvatar: name.toUpperCase().charAt(0),
-            fullItem: language
-          };
-        })
-      : []
-);
+const toArray = (state, field) =>
+  isEmpty(companyStore(state)[field]) ? [] : companyStore(state)[field];
 
 export const timeZonesSelector = createSelector(
-  timezones => timezones,
-  timezones =>
-    !isEmpty(timezones)
-      ? timezones.map(timezone => ({title: timezone.key, fullItem: timezone}))
-      : []
+  state => toArray(state, 'timezones'),
+  timezones => timezones.map(_tz => ({title: _tz.key, fullItem: _tz}))
 );
 
 export const dateFormatsSelector = createSelector(
-  dateFormats => dateFormats,
-  dateFormats =>
-    !isEmpty(dateFormats)
-      ? dateFormats.map(dateformat => {
-          let trimDates = {};
-          for (const key in dateformat) {
-            trimDates = {
-              ...trimDates,
-              [key]: dateformat[key].trim()
-            };
-          }
-
-          return {
-            title: dateformat.display_date,
-            fullItem: dateformat
-          };
-        })
-      : []
+  state => toArray(state, 'dateFormats'),
+  dateFormats => dateFormats.map(_d => ({title: _d.display_date, fullItem: _d}))
 );
 
 export const fiscalYearsSelector = createSelector(
-  fiscalYears => fiscalYears,
-  fiscalYears =>
-    !isEmpty(fiscalYears)
-      ? fiscalYears.map(year => ({title: year.key, fullItem: year}))
-      : []
+  state => toArray(state, 'fiscalYears'),
+  fiscalYears => fiscalYears.map(year => ({title: year.key, fullItem: year}))
 );
 
 export const retrospectiveEditsSelector = createSelector(
-  RetrospectiveEdits => RetrospectiveEdits,
-  RetrospectiveEdits =>
-    !isEmpty(RetrospectiveEdits)
-      ? RetrospectiveEdits.map(edit => ({title: edit.key, fullItem: edit}))
-      : []
+  state => toArray(state, 'retrospectiveEdits'),
+  retrospectiveEdits =>
+    retrospectiveEdits.map(edit => ({title: edit.key, fullItem: edit}))
+);
+
+export const loadingSelector = createSelector(
+  companyStore,
+  company => company?.isSaving
+);
+
+export const currenciesSelector = createSelector(
+  state => toArray(state, 'currencies'),
+  currencies =>
+    currencies.map(_c => ({
+      title: _c.name,
+      subtitle: {title: _c.code},
+      rightTitle: _c.symbol || '-',
+      fullItem: _c
+    }))
+);
+
+export const languagesSelector = createSelector(
+  state => toArray(state, 'languages'),
+  languages =>
+    languages.map(_lng => ({
+      title: _lng.name,
+      leftAvatar: _lng.name.toUpperCase().charAt(0),
+      fullItem: _lng
+    }))
 );

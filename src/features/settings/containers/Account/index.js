@@ -4,7 +4,6 @@ import {reduxForm} from 'redux-form';
 import {EDIT_ACCOUNT} from '../../constants';
 import * as AccountAction from '../../actions';
 import {validate} from './validation';
-import {PermissionService} from '@/services';
 import {commonSelector} from 'stores/common/selectors';
 
 const mapStateToProps = (state, {route}) => {
@@ -14,14 +13,11 @@ const mapStateToProps = (state, {route}) => {
       account
     }
   } = state;
-
   let isLoading = getAccountInfoLoading || !account;
-  const isAllowToEdit = PermissionService.isAllowToManage(route?.name);
-
   return {
     isLoading,
     editAccountLoading: editAccountInfoLoading,
-    isAllowToEdit,
+    isAllowToEdit: true,
     ...commonSelector(state),
     initialValues: !isLoading
       ? {

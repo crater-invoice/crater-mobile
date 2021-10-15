@@ -15,7 +15,6 @@ import {
 
 import {commonSelector} from 'stores/common/selectors';
 import styles from './styles';
-import {PENCIL_ICON, EYE_ICON, DOUBLE_RIGHT_ICON} from '@/assets';
 import {colors} from '@/styles';
 import {
   AssetSvg,
@@ -304,7 +303,11 @@ class EditorComponent extends Component<IProps, IStates> {
               style={styles.item}
             >
               <View style={styles.arrowIcon}>
-                <AssetSvg name={DOUBLE_RIGHT_ICON} width={14} height={14} />
+                <AssetSvg
+                  name={AssetSvg.icons.double_right}
+                  width={14}
+                  height={14}
+                />
               </View>
               <Text
                 darkGray2
@@ -376,7 +379,7 @@ class EditorComponent extends Component<IProps, IStates> {
             >
               <View style={styles.pencilIconView}>
                 <AssetSvg
-                  name={PENCIL_ICON}
+                  name={AssetSvg.icons.pencil}
                   width={19}
                   height={19}
                   fill={colors.primaryLight}
@@ -419,7 +422,7 @@ class EditorComponent extends Component<IProps, IStates> {
                   }}
                 >
                   <AssetSvg
-                    name={EYE_ICON}
+                    name={AssetSvg.icons.eye}
                     width={24}
                     height={24}
                     fill={colors.primaryLight}
@@ -444,13 +447,8 @@ class EditorComponent extends Component<IProps, IStates> {
         name={name}
         component={InputField}
         height={150}
-        inputProps={{
-          returnKeyType: 'next',
-          autoCapitalize: 'none',
-          autoCorrect: true,
-          multiline: true,
-          placeholder
-        }}
+        placeholder={placeholder}
+        inputProps={{multiline: true}}
         disabled={disabled}
         {...fieldInputProps}
         {...fieldProps}

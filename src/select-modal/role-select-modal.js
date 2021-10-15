@@ -1,8 +1,7 @@
 import React from 'react';
-import {SelectField} from '@/components';
+import {AssetImage, SelectField} from '@/components';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
-import {IMAGES} from '@/assets';
 
 interface IProps {
   /**
@@ -37,7 +36,10 @@ export const RoleSelectModal = (props: IProps) => {
       createActionRouteName={routes.ROLES}
       compareField="id"
       headerProps={{title: t('users.roles')}}
-      emptyContentProps={{contentType: 'roles', image: IMAGES.EMPTY_CUSTOMERS}}
+      emptyContentProps={{
+        contentType: 'roles',
+        image: AssetImage.images.empty_customers
+      }}
       isEditable={!disabled}
       fakeInputProps={{disabled}}
     />

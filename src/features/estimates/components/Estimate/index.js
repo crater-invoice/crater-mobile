@@ -426,6 +426,7 @@ export class Estimate extends React.Component<IProps, IStates> {
       isEditScreen && !initLoading
         ? EDIT_ESTIMATE_ACTIONS(markAsStatus, isAllowToDelete)
         : [];
+
     let drownDownProps =
       isEditScreen && !initLoading
         ? {
@@ -568,11 +569,6 @@ export class Estimate extends React.Component<IProps, IStates> {
           hint={t('invoices.referenceNumber')}
           leftIcon={'hashtag'}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true
-          }}
         />
 
         <Notes

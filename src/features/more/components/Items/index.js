@@ -1,8 +1,8 @@
 import React from 'react';
 import {change} from 'redux-form';
-import {MainLayout, ListView, InfiniteScroll} from '@/components';
+import {MainLayout, ListView, InfiniteScroll, AssetImage} from '@/components';
 import {routes} from '@/navigation';
-import {ARROW_ICON, IMAGES} from '@/assets';
+import {ARROW_ICON} from '@/assets';
 import t from 'locales/use-translation';
 import {ITEMS_FORM} from '../../constants';
 import {formatItems, isFilterApply} from '@/utils';
@@ -124,7 +124,7 @@ export class Items extends React.Component<IProps> {
 
     const emptyContentProps = {
       title: t(emptyTitle, {search}),
-      image: IMAGES.EMPTY_ITEMS,
+      image: AssetImage.images.empty_items,
       ...(!search && {
         description: t('items.empty.description')
       }),

@@ -29,6 +29,7 @@ import {
   fetchCustomizeSettings,
   updateCustomizeSettings
 } from 'stores/customize/actions';
+import {PermissionService} from '@/services';
 
 export default class CustomizePayment extends Component<IProps, IStates> {
   constructor(props) {
@@ -42,6 +43,12 @@ export default class CustomizePayment extends Component<IProps, IStates> {
 
   componentDidMount() {
     const {dispatch} = this.props;
+
+    if (!PermissionService.isSuperAdmin()) {
+      this.setState({isFetchingInitialData: false});
+      return;
+    }
+
     dispatch(
       fetchCustomizeSettings(PAYMENT_SETTINGS_TYPE, res => {
         this.setInitialData(res);
@@ -203,10 +210,13 @@ export default class CustomizePayment extends Component<IProps, IStates> {
   };
 
   render() {
-    const {navigation, loading, theme, handleSubmit} = this.props;
+    const {navigation, isSaving, theme, handleSubmit} = this.props;
     const {activeTab, isFetchingInitialData} = this.state;
     let isPaymentMode = activeTab === PAYMENT_TABS.MODE;
     let label = isPaymentMode ? 'button.add' : 'button.save';
+
+    const roleBaseView = (superAdmin, user) =>
+      PermissionService.isSuperAdmin() ? superAdmin : user;
 
     const bottomAction = [
       {
@@ -215,52 +225,57 @@ export default class CustomizePayment extends Component<IProps, IStates> {
           isPaymentMode
             ? this.paymentChild?.openModal?.()
             : handleSubmit(this.onSave)(),
-        loading: loading || isFetchingInitialData
+        loading: isSaving || isFetchingInitialData
       }
     ];
 
+    const headerProps = {
+      leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
+      title: roleBaseView(t('header.payments'), t('payments.modes')),
+      rightIconPress: null,
+      placement: 'center',
+      leftArrow: 'primary'
+    };
+
     return (
       <DefaultLayout
-        headerProps={{
-          leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
-          title: t('header.payments'),
-          rightIconPress: null,
-          placement: 'center',
-          leftArrow: 'primary'
-        }}
+        hideScrollView
+        headerProps={headerProps}
         bottomAction={<ActionButton buttons={bottomAction} />}
         loadingProps={{is: isFetchingInitialData}}
-        hideScrollView
-        toastProps={{
-          reference: ref => (this.toastReference = ref)
-        }}
       >
-        <Tabs
-          activeTab={activeTab}
-          style={styles.tabs(theme)}
-          tabStyle={styles.tabView}
-          setActiveTab={this.setActiveTab}
-          theme={theme}
-          tabs={[
-            {
-              Title: PAYMENT_TABS.MODE,
-              tabName: t('payments.modes'),
-              render: (
-                <PaymentModes
-                  reference={ref => (this.paymentChild = ref)}
-                  setFormField={(field, value) =>
-                    this.setFormField(field, value)
-                  }
-                />
-              )
-            },
-            {
-              Title: PAYMENT_TABS.PREFIX,
-              tabName: t('payments.prefix'),
-              render: this.PAYMENT_CUSTOMIZE()
-            }
-          ]}
-        />
+        {roleBaseView(
+          <Tabs
+            activeTab={activeTab}
+            style={styles.tabs(theme)}
+            tabStyle={styles.tabView}
+            setActiveTab={this.setActiveTab}
+            theme={theme}
+            tabs={[
+              {
+                Title: PAYMENT_TABS.MODE,
+                tabName: t('payments.modes'),
+                render: (
+                  <PaymentModes
+                    reference={ref => (this.paymentChild = ref)}
+                    setFormField={(field, value) =>
+                      this.setFormField(field, value)
+                    }
+                  />
+                )
+              },
+              {
+                Title: PAYMENT_TABS.PREFIX,
+                tabName: t('payments.prefix'),
+                render: this.PAYMENT_CUSTOMIZE()
+              }
+            ]}
+          />,
+          <PaymentModes
+            reference={ref => (this.paymentChild = ref)}
+            setFormField={(field, value) => this.setFormField(field, value)}
+          />
+        )}
       </DefaultLayout>
     );
   }

@@ -14,13 +14,6 @@ import {
   AnimatedCircularProgress
 } from '@/components';
 import {
-  FingerprintIcon,
-  FaceIcon,
-  FingerPressIcon,
-  CheckIcon,
-  CancelIcon
-} from '@/icons';
-import {
   BIOMETRY_AUTH_TYPES,
   defineLargeSizeParam,
   hasValue,
@@ -387,7 +380,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                   <AnimatedBounce style={bounceScale}>
                     {isFingerprintType ? (
                       <AssetSvg
-                        name={FingerprintIcon({
+                        name={AssetSvg.icons.finger({
                           stroke: theme.icons.biometric.backgroundColor
                         })}
                         width={135}
@@ -399,7 +392,9 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                       />
                     ) : (
                       <AssetSvg
-                        name={FaceIcon(theme.icons.biometric.backgroundColor)}
+                        name={AssetSvg.icons.face(
+                          theme.icons.biometric.backgroundColor
+                        )}
                         width={135}
                         height={135}
                       />
@@ -417,7 +412,11 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                   opacity: this.animatedFingerFadeIn
                 }}
               >
-                <AssetSvg name={FingerPressIcon} width={130} height={130} />
+                <AssetSvg
+                  name={AssetSvg.icons.finger_press}
+                  width={130}
+                  height={130}
+                />
               </Animated.View>
             </ScanIconView>
           </Center>
@@ -461,7 +460,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
           <EnrolledIconView theme={theme}>
             {isFingerprintType ? (
               <AssetSvg
-                name={FingerprintIcon({
+                name={AssetSvg.icons.finger({
                   stroke: theme.icons.circle.backgroundColor
                 })}
                 width={defineLargeSizeParam(130, 120)}
@@ -471,7 +470,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
               />
             ) : (
               <AssetSvg
-                name={FaceIcon(theme.icons.circle.backgroundColor)}
+                name={AssetSvg.icons.face(theme.icons.circle.backgroundColor)}
                 width={defineLargeSizeParam(125, 120)}
                 height={defineLargeSizeParam(125, 120)}
               />
@@ -483,7 +482,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
               }}
             >
               <AssetSvg
-                name={CheckIcon(theme.icons.circle.backgroundColor)}
+                name={AssetSvg.icons.check(theme.icons.circle.backgroundColor)}
                 width={defineLargeSizeParam(45, 40)}
                 height={defineLargeSizeParam(45, 40)}
               />
@@ -531,7 +530,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
           <NotSupportedIconView>
             {isFingerprintType ? (
               <AssetSvg
-                name={FingerprintIcon({
+                name={AssetSvg.icons.finger({
                   stroke: colors.danger
                 })}
                 width={defineLargeSizeParam(150, 130)}
@@ -541,7 +540,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
               />
             ) : (
               <AssetSvg
-                name={FaceIcon(colors.danger)}
+                name={AssetSvg.icons.face(colors.danger)}
                 width={defineLargeSizeParam(130, 120)}
                 height={defineLargeSizeParam(130, 120)}
               />
@@ -549,7 +548,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
 
             <CancelIconView>
               <AssetSvg
-                name={CancelIcon}
+                name={AssetSvg.icons.cancel}
                 width={defineLargeSizeParam(50, 45)}
                 height={defineLargeSizeParam(50, 45)}
               />

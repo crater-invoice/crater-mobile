@@ -8,7 +8,7 @@ import {spinner} from './actions';
  * @returns {IterableIterator<*>}
  */
 function* fetchRoles({payload}) {
-  const {fresh = true, onSuccess, onFail, queryString} = payload;
+  const {fresh, onSuccess, onFail, queryString} = payload;
   try {
     const response = yield call(req.fetchRoles, queryString);
     const roles = response?.data ?? [];
@@ -30,10 +30,7 @@ function* fetchSingleRole({payload}) {
     const {abilities: permissions} = yield call(req.fetchPermissions);
     yield put({
       type: types.FETCH_SINGLE_ROLE_SUCCESS,
-      payload: {
-        permissions,
-        currentPermissions: data?.abilities ?? []
-      }
+      payload: {permissions, currentPermissions: data?.abilities ?? []}
     });
     onSuccess?.(data);
   } catch (e) {}
@@ -59,15 +56,16 @@ function* fetchPermissions({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* addRole({payload}) {
+  const {params, onSuccess, submissionError} = payload;
   try {
-    const {params, onResult} = payload;
-    yield put(spinner(true));
-    const response = yield call(req.addRole, params);
-    yield put({type: types.ADD_ROLE_SUCCESS, payload: response?.data});
-    onResult?.(response?.data);
+    yield put(spinner('isSaving', true));
+    const {data} = yield call(req.addRole, params);
+    yield put({type: types.ADD_ROLE_SUCCESS, payload: data});
+    onSuccess?.(data);
   } catch (e) {
+    submissionError?.(e);
   } finally {
-    yield put(spinner(false));
+    yield put(spinner('isSaving', false));
   }
 }
 
@@ -76,15 +74,16 @@ function* addRole({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* updateRole({payload}) {
+  const {id, params, navigation, submissionError} = payload;
   try {
-    const {roleId, params, navigation} = payload;
-    yield put(spinner(true));
-    const response = yield call(req.updateRole, roleId, params);
-    yield put({type: types.UPDATE_ROLE_SUCCESS, payload: response?.data});
+    yield put(spinner('isSaving', true));
+    const {data} = yield call(req.updateRole, id, params);
+    yield put({type: types.UPDATE_ROLE_SUCCESS, payload: data});
     navigation.goBack(null);
   } catch (e) {
+    submissionError?.(e);
   } finally {
-    yield put(spinner(false));
+    yield put(spinner('isSaving', false));
   }
 }
 
@@ -93,17 +92,16 @@ function* updateRole({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* removeRole({payload}) {
+  const {id, navigation, onFail} = payload;
   try {
-    const {id, onSuccess} = payload;
-    yield put(spinner(true));
-    const response = yield call(req.removeRole, id);
-    if (response?.success) {
-      yield put({type: types.REMOVE_ROLE_SUCCESS, payload: id});
-    }
-    onSuccess?.(response?.success);
+    yield put(spinner('isDeleting', true));
+    yield call(req.removeRole, id);
+    yield put({type: types.REMOVE_ROLE_SUCCESS, payload: id});
+    navigation.goBack(null);
   } catch (e) {
+    onFail?.();
   } finally {
-    yield put(spinner(false));
+    yield put(spinner('isDeleting', false));
   }
 }
 

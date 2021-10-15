@@ -15,7 +15,12 @@ import {
   CREATE_CURRENCY_TYPE,
   CURRENCY_FORM
 } from '../../constants';
-import {alertMe, BUTTON_COLOR, hasObjectLength} from '@/constants';
+import {
+  alertMe,
+  BUTTON_COLOR,
+  hasObjectLength,
+  keyboardType
+} from '@/constants';
 
 type IProps = {
   navigation: Object,
@@ -158,11 +163,7 @@ export class Currency extends React.Component<IProps> {
           component={InputField}
           isRequired
           hint={t('currencies.name')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            onSubmitEditing: () => currencyRefs.code.focus()
-          }}
+          onSubmitEditing={() => currencyRefs.code.focus()}
         />
 
         <Field
@@ -170,11 +171,7 @@ export class Currency extends React.Component<IProps> {
           component={InputField}
           isRequired
           hint={t('currencies.code')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            onSubmitEditing: () => currencyRefs.symbol.focus()
-          }}
+          onSubmitEditing={() => currencyRefs.symbol.focus()}
           refLinkFn={ref => {
             currencyRefs.code = ref;
           }}
@@ -185,11 +182,7 @@ export class Currency extends React.Component<IProps> {
           component={InputField}
           isRequired
           hint={t('currencies.symbol')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            onSubmitEditing: () => currencyRefs.precision.focus()
-          }}
+          onSubmitEditing={() => currencyRefs.precision.focus()}
           refLinkFn={ref => {
             currencyRefs.symbol = ref;
           }}
@@ -200,12 +193,8 @@ export class Currency extends React.Component<IProps> {
           component={InputField}
           isRequired
           hint={t('currencies.precision')}
-          inputProps={{
-            returnKeyType: 'next',
-            keyboardType: 'decimal-pad',
-            autoCorrect: true,
-            onSubmitEditing: () => currencyRefs.thousSeparator.focus()
-          }}
+          onSubmitEditing={() => currencyRefs.thousSeparator.focus()}
+          keyboardType={keyboardType.DECIMAL}
           refLinkFn={ref => {
             currencyRefs.precision = ref;
           }}
@@ -216,10 +205,7 @@ export class Currency extends React.Component<IProps> {
           component={InputField}
           isRequired
           hint={t('currencies.thousSeparator')}
-          inputProps={{
-            returnKeyType: 'next',
-            onSubmitEditing: () => currencyRefs.decSeparator.focus()
-          }}
+          onSubmitEditing={() => currencyRefs.decSeparator.focus()}
           refLinkFn={ref => {
             currencyRefs.thousSeparator = ref;
           }}
@@ -230,9 +216,6 @@ export class Currency extends React.Component<IProps> {
           component={InputField}
           isRequired
           hint={t('currencies.decSeparator')}
-          inputProps={{
-            returnKeyType: 'next'
-          }}
           refLinkFn={ref => {
             currencyRefs.decSeparator = ref;
           }}

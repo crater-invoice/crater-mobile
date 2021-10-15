@@ -19,15 +19,15 @@ import {
 import Constants from 'expo-constants';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
-import {LOGO} from '@/assets';
-import {SettingIcon} from '@/icons';
 import {biometricAuthentication, STATUS_BAR_CONTENT} from '@/utils';
 import {INVOICE_SEARCH as INVOICES_FORM} from '@/features/invoices/constants';
 import {
   BIOMETRY_AUTH_TYPES,
   hasValue,
   isIosPlatform,
-  isIPhoneX
+  isIPhoneX,
+  keyboardReturnKeyType,
+  keyboardType
 } from '@/constants';
 
 type IProps = {
@@ -129,7 +129,7 @@ export class Login extends React.Component<IProps> {
           }}
         >
           <AssetSvg
-            name={SettingIcon}
+            name={AssetSvg.icons.setting}
             width={35}
             height={35}
             fill={theme?.icons?.primaryBgColor}
@@ -151,7 +151,7 @@ export class Login extends React.Component<IProps> {
             <View style={styles.main}>
               <View style={styles.logoContainer}>
                 <AssetImage
-                  imageSource={LOGO[(theme?.mode)]}
+                  imageSource={AssetImage.images[(theme?.mode)].logo}
                   imageStyle={styles.imgLogo}
                 />
               </View>
@@ -159,29 +159,18 @@ export class Login extends React.Component<IProps> {
               <Field
                 name="username"
                 component={InputField}
-                inputProps={{
-                  returnKeyType: 'next',
-                  autoCapitalize: 'none',
-                  placeholder: t('login.email'),
-                  autoCorrect: true,
-                  keyboardType: 'email-address',
-                  onSubmitEditing: () => {
-                    loginRefs.password.focus();
-                  }
-                }}
+                onSubmitEditing={() => loginRefs.password.focus()}
+                placeholder={t('login.email')}
+                keyboardType={keyboardType.EMAIL}
                 inputContainerStyle={styles.inputField}
               />
 
               <Field
                 name="password"
                 component={InputField}
-                inputProps={{
-                  returnKeyType: 'go',
-                  autoCapitalize: 'none',
-                  placeholder: t('login.password'),
-                  autoCorrect: true,
-                  onSubmitEditing: this.props.handleSubmit(this.onLogin)
-                }}
+                returnKeyType={keyboardReturnKeyType.GO}
+                onSubmitEditing={this.props.handleSubmit(this.onLogin)}
+                placeholder={t('login.password')}
                 inputContainerStyle={styles.inputField}
                 secureTextEntry
                 refLinkFn={ref => {

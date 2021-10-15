@@ -5,7 +5,7 @@ import styles from './styles';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
 import * as Linking from 'expo-linking';
-import {alertMe, isEmpty, MAX_LENGTH} from '@/constants';
+import {alertMe, isEmpty, keyboardType, MAX_LENGTH} from '@/constants';
 import {
   InputField,
   DefaultLayout,
@@ -223,7 +223,6 @@ export class Expense extends React.Component<IProps, IState> {
       handleSubmit,
       categories,
       getCategories,
-      type,
       getCustomers,
       customers,
       customFields,
@@ -250,20 +249,20 @@ export class Expense extends React.Component<IProps, IState> {
       ? formValues?.expense && formValues.expense.hasOwnProperty('fields')
       : !isEmpty(customFields);
 
+    const dropdownOptions =
+      !isCreateExpense && !isLoading
+        ? EXPENSE_ACTIONS(imageUrl, isAllowToDelete)
+        : [];
+
     const drownDownProps =
       !isCreateExpense && !isLoading
         ? {
-            options: EXPENSE_ACTIONS(imageUrl, isAllowToDelete),
+            options: dropdownOptions,
             onSelect: this.onOptionSelect,
-            cancelButtonIndex: 1,
-            destructiveButtonIndex: 2,
-            ...(imageUrl && {
-              cancelButtonIndex: 2,
-              destructiveButtonIndex: 1
-            }),
+            cancelButtonIndex: dropdownOptions.length,
+            destructiveButtonIndex: dropdownOptions.length - 1,
             ...(!isAllowToDelete && {
-              cancelButtonIndex: 1,
-              destructiveButtonIndex: 2
+              destructiveButtonIndex: dropdownOptions.length + 1
             })
           }
         : null;
@@ -335,10 +334,7 @@ export class Expense extends React.Component<IProps, IState> {
           leftSymbol={currency?.symbol}
           hint={t('expenses.amount')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'go',
-            keyboardType: 'decimal-pad'
-          }}
+          keyboardType={keyboardType.DECIMAL}
           isCurrencyInput
         />
 
@@ -352,6 +348,7 @@ export class Expense extends React.Component<IProps, IState> {
           }
           rightIconPress={this.navigateToCategory}
           reference={ref => (this.categoryReference = ref)}
+          disabled={disabled}
         />
 
         <Field
@@ -374,10 +371,8 @@ export class Expense extends React.Component<IProps, IState> {
           name={`expense.${FIELDS.NOTES}`}
           component={InputField}
           hint={t('expenses.notes')}
+          placeholder={t('expenses.notesPlaceholder')}
           inputProps={{
-            returnKeyType: 'next',
-            placeholder: t('expenses.notesPlaceholder'),
-            autoCorrect: true,
             multiline: true,
             maxLength: MAX_LENGTH
           }}

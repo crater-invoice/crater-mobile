@@ -1,9 +1,3 @@
-import {ROUTES} from '@/navigation';
-import {PercentageIcon} from '@/icons';
-import {PermissionService} from '@/services';
-import t from 'locales/use-translation';
-import {isSuperAdmin} from '@/stores/common/helpers';
-
 export const SPINNER = 'preferences/SPINNER';
 
 export const PREFERENCES_FORM = 'preferences/PREFERENCES_FORM';

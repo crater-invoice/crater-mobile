@@ -21,7 +21,12 @@ import {
   getTaxName,
   finalAmount
 } from '@/components/final-amount/final-amount-calculation';
-import {definePlatformParam, isBooleanTrue, isIosPlatform} from '@/constants';
+import {
+  definePlatformParam,
+  isBooleanTrue,
+  isIosPlatform,
+  keyboardType
+} from '@/constants';
 import {TaxSelectModal} from '@/select-modal';
 import {IProps} from './final-amount-types';
 
@@ -119,12 +124,7 @@ export const FinalAmount: FC<IProps> = ({state, props}) => {
             <Field
               name="discount"
               component={InputField}
-              inputProps={{
-                returnKeyType: 'next',
-                autoCapitalize: 'none',
-                autoCorrect: true,
-                keyboardType: 'decimal-pad'
-              }}
+              keyboardType={keyboardType.DECIMAL}
               fieldStyle={styles.fieldStyle}
               {...(theme?.mode === 'dark' && {
                 inputContainerStyle: {

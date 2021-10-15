@@ -2,7 +2,7 @@ import React from 'react';
 import {Field} from 'redux-form';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
-import {alertMe, MAX_LENGTH} from '@/constants';
+import {alertMe, keyboardType, MAX_LENGTH} from '@/constants';
 import {
   DefaultLayout,
   InputField,
@@ -44,15 +44,15 @@ export class Tax extends React.Component {
 
   removeTax = () => {
     const {
+      id,
       removeTax,
-      taxId,
       navigation,
       initialValues: {name}
     } = this.props;
 
     const remove = () => {
       removeTax({
-        id: taxId,
+        id,
         onResult: val => {
           val
             ? navigation.navigate(routes.TAXES)
@@ -128,14 +128,7 @@ export class Tax extends React.Component {
           isRequired
           hint={t('taxes.type')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
-            onSubmitEditing: () => {
-              taxRefs.percent.focus();
-            }
-          }}
+          onSubmitEditing={() => taxRefs.percent.focus()}
         />
 
         <Field
@@ -146,13 +139,8 @@ export class Tax extends React.Component {
           maxNumber={100}
           refLinkFn={ref => (taxRefs.percent = ref)}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            keyboardType: 'decimal-pad',
-            onSubmitEditing: () => {
-              taxRefs.description.focus();
-            }
-          }}
+          onSubmitEditing={() => taxRefs.description.focus()}
+          keyboardType={keyboardType.DECIMAL}
         />
 
         <Field
@@ -163,9 +151,6 @@ export class Tax extends React.Component {
           height={80}
           disabled={disabled}
           inputProps={{
-            returnKeyType: 'next',
-            autoCapitalize: 'none',
-            autoCorrect: true,
             multiline: true,
             maxLength: MAX_LENGTH
           }}

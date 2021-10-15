@@ -25,7 +25,8 @@ import {
   capitalize,
   DATE_FORMAT,
   hasObjectLength,
-  isEmpty
+  isEmpty,
+  keyboardType
 } from '@/constants';
 import {
   BADGE_STATUS_BG_COLOR,
@@ -396,16 +397,18 @@ export class Payment extends React.Component<IProps> {
       ? formValues?.payment && formValues.payment.hasOwnProperty('fields')
       : !isEmpty(customFields);
 
+    const dropdownOptions =
+      isEditScreen && !isLoading ? PAYMENT_ACTIONS(isAllowToDelete) : [];
+
     const drownDownProps =
       isEditScreen && !isLoading
         ? {
-            options: PAYMENT_ACTIONS(isAllowToDelete),
+            options: dropdownOptions,
             onSelect: this.onOptionSelect,
-            cancelButtonIndex: 2,
-            destructiveButtonIndex: 1,
+            cancelButtonIndex: dropdownOptions.length,
+            destructiveButtonIndex: dropdownOptions.length - 1,
             ...(!isAllowToDelete && {
-              cancelButtonIndex: 1,
-              destructiveButtonIndex: 2
+              destructiveButtonIndex: dropdownOptions.length + 1
             })
           }
         : null;
@@ -507,11 +510,7 @@ export class Payment extends React.Component<IProps> {
           component={InputField}
           leftSymbol={selectedCustomer?.currency?.symbol ?? currency?.symbol}
           hint={t('payments.amount')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            keyboardType: 'decimal-pad'
-          }}
+          keyboardType={keyboardType.DECIMAL}
           disabled={disabled}
           isCurrencyInput
           isRequired

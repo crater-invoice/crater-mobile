@@ -1,68 +1,45 @@
 import {connect} from 'react-redux';
 import {getFormValues, reduxForm} from 'redux-form';
 import Preferences from './preferences';
-import {PREFERENCES_FORM} from '@/stores/company/types';
-import {validate} from '@/stores/company/validator';
-import {commonSelector, permissionSelector} from 'stores/common/selectors';
+import {PREFERENCES_FORM} from 'stores/company/types';
+import {validate} from 'stores/company/validator';
+import {commonSelector} from 'stores/common/selectors';
 import {
   timeZonesSelector,
   fiscalYearsSelector,
   dateFormatsSelector,
   retrospectiveEditsSelector,
   currenciesSelector,
-  languagesSelector
+  languagesSelector,
+  loadingSelector
 } from 'stores/company/selectors';
-import {editSettingItem} from '@/features/settings/actions';
 
-const mapStateToProps = (state, {navigation}) => {
-  const {
-    company: {
-      currencies,
-      languages,
-      timezones,
-      dateFormats,
-      fiscalYears,
-      retrospectiveEdits,
-      loading: {fetchPreferencesLoading, updatePreferencesLoading}
-    }
-  } = state;
-  let isLoading = fetchPreferencesLoading || updatePreferencesLoading;
-  return {
-    ...commonSelector(state),
-    ...permissionSelector(navigation),
-    isLoading,
-    formValues: getFormValues(PREFERENCES_FORM)(state) || {},
-    updatePreferencesLoading: updatePreferencesLoading,
-    currencies: currenciesSelector(currencies),
-    languages: languagesSelector(languages),
-    timezones: timeZonesSelector(timezones),
-    dateFormats: dateFormatsSelector(dateFormats),
-    fiscalYears: fiscalYearsSelector(fiscalYears),
-    retrospectiveEdits: retrospectiveEditsSelector(retrospectiveEdits),
-    initialValues: {
-      carbon_date_format: null,
-      moment_date_format: null,
-      date_format: null,
-      time_zone: null,
-      fiscal_year: null,
-      discount_per_item: null,
-      tax_per_item: null
-    }
-  };
-};
-
-const mapDispatchToProps = {
-  editSettingItem
-};
+const mapStateToProps = state => ({
+  ...commonSelector(state),
+  isSaving: loadingSelector(state),
+  formValues: getFormValues(PREFERENCES_FORM)(state) || {},
+  currencies: currenciesSelector(state),
+  languages: languagesSelector(state),
+  timezones: timeZonesSelector(state),
+  dateFormats: dateFormatsSelector(state),
+  fiscalYears: fiscalYearsSelector(state),
+  retrospectiveEdits: retrospectiveEditsSelector(state),
+  initialValues: {
+    carbon_date_format: null,
+    moment_date_format: null,
+    date_format: null,
+    time_zone: null,
+    fiscal_year: null,
+    discount_per_item: null,
+    tax_per_item: null
+  }
+});
 
 const PreferencesForm = reduxForm({form: PREFERENCES_FORM, validate})(
   Preferences
 );
 
-export const PreferencesContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PreferencesForm);
+export const PreferencesContainer = connect(mapStateToProps)(PreferencesForm);
 
 PreferencesContainer.navigationOptions = () => ({
   header: null

@@ -1,4 +1,4 @@
-import Request from '@/utils/request';
+import Request from 'utils/request';
 import * as queryString from 'query-string';
 /**
  * fetch customization
@@ -16,11 +16,11 @@ export const fetchCustomizeSettings = types => {
 
 /**
  * Update customization
- * @param body : params
+ * @param settings : settings
  * @returns {*}
  */
-export const updateCustomizeSettings = body => {
-  return Request.post({path: `company/settings`, body});
+export const updateCustomizeSettings = settings => {
+  return Request.post({path: `company/settings`, body: {settings}});
 };
 
 /**

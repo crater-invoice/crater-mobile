@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
-import {ListView, InputModal, InfiniteScroll} from '@/components';
+import {change} from 'redux-form';
 import t from 'locales/use-translation';
 import {formatListByName} from '@/utils';
-import {alertMe, defineSize} from '@/constants';
-import {PAYMENT_MODES_FORM} from 'stores/payment-modes/types';
-import {change} from 'redux-form';
 import styles from './payment-modes-style';
+import {alertMe, defineSize, isEmpty} from '@/constants';
+import {ListView, InputModal, InfiniteScroll} from '@/components';
+import {PAYMENT_MODES_FORM} from 'stores/payment-modes/types';
 import {
   addPaymentMode,
   updatePaymentMode,
@@ -18,10 +18,7 @@ export class PaymentModes extends Component {
     super(props);
     this.scrollViewReference = React.createRef();
     this.modalReference = React.createRef();
-
-    this.state = {
-      isCreateMethod: true
-    };
+    this.state = {isCreateMethod: true};
   }
 
   componentDidMount() {
@@ -34,27 +31,27 @@ export class PaymentModes extends Component {
 
   onToggle = () => this?.modalReference?.onToggle?.();
 
-  onSaveMethod = () => {
+  onSave = () => {
     const {isCreateMethod} = this.state;
-    const {
-      formValues: {methodName = '', methodId = null},
-      dispatch
-    } = this.props;
+    const {dispatch, formValues: values, isSaving, isDeleting} = this.props;
+
+    if (!values?.methodName || isSaving || isDeleting) {
+      return;
+    }
 
     const params = {
       params: {
-        id: methodId,
-        name: methodName
+        id: values?.methodId,
+        name: values?.methodName
       },
       onSuccess: () => this.onToggle()
     };
 
-    if (methodName) {
-      isCreateMethod
-        ? dispatch(addPaymentMode(params))
-        : dispatch(updatePaymentMode(params));
-    }
+    isCreateMethod
+      ? dispatch(addPaymentMode(params))
+      : dispatch(updatePaymentMode(params));
   };
+
   setFormField = (field, value) => {
     this.props.dispatch(change(PAYMENT_MODES_FORM, field, value));
   };
@@ -62,54 +59,16 @@ export class PaymentModes extends Component {
   onRemoveMethod = () => {
     const {
       dispatch,
-      formValues: {methodId = null}
+      formValues: {methodId: id}
     } = this.props;
 
     alertMe({
       title: t('alert.title'),
       desc: t('payments.alertMode'),
       showCancel: true,
-      okPress: () => {
-        dispatch(
-          removePaymentMode({
-            id: methodId,
-            onSuccess: () => this.onToggle()
-          })
-        );
-      }
+      okPress: () =>
+        dispatch(removePaymentMode({id, onSuccess: () => this.onToggle()}))
     });
-  };
-
-  INPUT_MODAL = () => {
-    const {isCreateMethod} = this.state;
-    const {paymentModeLoading = false} = this.props;
-
-    const isAllowToEdit = true;
-    const disabled = !isAllowToEdit;
-
-    const getTitle = () => {
-      let title = 'payments.addMode';
-      if (!isCreateMethod && !isAllowToEdit) title = 'header.viewPaymentMode';
-      if (!isCreateMethod && isAllowToEdit) title = 'payments.editMode';
-
-      return t(title);
-    };
-
-    return (
-      <InputModal
-        reference={ref => (this.modalReference = ref)}
-        headerTitle={getTitle()}
-        hint={t('payments.modeHint')}
-        fieldName="methodName"
-        onSubmit={() => this.onSaveMethod()}
-        onRemove={() => this.onRemoveMethod()}
-        showRemoveButton={!isCreateMethod}
-        showSaveButton={isAllowToEdit}
-        onSubmitLoading={paymentModeLoading}
-        onRemoveLoading={paymentModeLoading}
-        disabled={disabled}
-      />
-    );
   };
 
   onSelectPaymentMode = ({name, id}) => {
@@ -124,11 +83,27 @@ export class PaymentModes extends Component {
   };
 
   render() {
-    const {paymentModes, fetchPaymentModes} = this.props;
+    const {
+      paymentModes,
+      fetchPaymentModes,
+      isSaving,
+      isDeleting,
+      isAllowToEdit
+    } = this.props;
+    const {isCreateMethod} = this.state;
+    const loading = isSaving || isDeleting;
+    const disabled = !isAllowToEdit;
+
+    const getTitle = () => {
+      let title = 'payments.addMode';
+      if (!isCreateMethod && !isAllowToEdit) title = 'header.viewPaymentMode';
+      if (!isCreateMethod && isAllowToEdit) title = 'payments.editMode';
+
+      return t(title);
+    };
 
     return (
       <View style={styles.childContainer}>
-        {this.INPUT_MODAL()}
         <InfiniteScroll
           getItems={fetchPaymentModes}
           reference={ref => (this.scrollViewReference = ref)}
@@ -136,20 +111,30 @@ export class PaymentModes extends Component {
         >
           <ListView
             items={formatListByName(paymentModes)}
-            getFreshItems={onHide => {
-              onHide && onHide();
-            }}
+            getFreshItems={onHide => onHide?.()}
             onPress={this.onSelectPaymentMode}
-            isEmpty={paymentModes ? paymentModes.length <= 0 : true}
+            isEmpty={isEmpty(paymentModes)}
+            isAnimated
             bottomDivider
             contentContainerStyle={styles.contentContainerStyle}
-            emptyContentProps={{
-              title: t('payments.empty.modeTitle')
-            }}
+            emptyContentProps={{title: t('payments.empty.modeTitle')}}
             itemContainer={styles.itemContainer}
-            isAnimated
           />
         </InfiniteScroll>
+
+        <InputModal
+          reference={ref => (this.modalReference = ref)}
+          headerTitle={getTitle()}
+          hint={t('payments.modeHint')}
+          fieldName="methodName"
+          onSubmit={this.onSave}
+          onRemove={this.onRemoveMethod}
+          showRemoveButton={!isCreateMethod}
+          showSaveButton={isAllowToEdit}
+          onSubmitLoading={loading}
+          onRemoveLoading={loading}
+          // disabled={disabled}
+        />
       </View>
     );
   }

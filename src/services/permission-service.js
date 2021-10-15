@@ -21,12 +21,6 @@ const abilities = [
   {route: routes.GLOBAL_ITEM, ability: 'edit-item'},
   {route: routes.GLOBAL_ITEM, ability: 'delete-item'},
 
-  // Unit
-  {route: routes.ITEM_UNITS, ability: 'view-unit'},
-  {route: routes.ITEM_UNITS, ability: 'create-unit'},
-  {route: routes.ITEM_UNITS, ability: 'edit-unit'},
-  {route: routes.ITEM_UNITS, ability: 'delete-unit'},
-
   // Estimate
   {route: routes.ESTIMATE_LIST, ability: 'view-estimate'},
   {route: routes.ESTIMATE_LIST, ability: 'create-estimate'},
@@ -55,23 +49,11 @@ const abilities = [
   {route: routes.PAYMENT, ability: 'delete-payment'},
   {route: routes.PAYMENT, ability: 'send-payment'},
 
-  // Expense Category
-  {route: routes.CATEGORIES, ability: 'view-expense-category'},
-  {route: routes.CATEGORIES, ability: 'create-expense-category'},
-  {route: routes.CATEGORY, ability: 'edit-expense-category'},
-  {route: routes.CATEGORY, ability: 'delete-expense-category'},
-
   // Expense
   {route: routes.MAIN_EXPENSES, ability: 'view-expense'},
   {route: routes.MAIN_EXPENSES, ability: 'create-expense'},
   {route: routes.EXPENSE, ability: 'edit-expense'},
   {route: routes.EXPENSE, ability: 'delete-expense'},
-
-  // Note
-  {route: routes.NOTES, ability: 'view-note'},
-  {route: routes.NOTES, ability: 'create-note'},
-  {route: routes.NOTE, ability: 'edit-note'},
-  {route: routes.NOTE, ability: 'delete-note'},
 
   // Tax Type
   {route: routes.TAXES, ability: 'view-tax-type'},
@@ -79,17 +61,11 @@ const abilities = [
   {route: routes.TAX, ability: 'edit-tax-type'},
   {route: routes.TAX, ability: 'delete-tax-type'},
 
-  // Payment Method
-  {route: routes.PAYMENT_MODES, ability: 'view-payment-method'},
-  {route: routes.PAYMENT_MODES, ability: 'create-payment-method'},
-  {route: routes.PAYMENT_MODES, ability: 'edit-payment-method'},
-  {route: routes.PAYMENT_MODES, ability: 'delete-payment-method'},
-
   // Custom Field
   {route: routes.CUSTOM_FIELDS, ability: 'view-custom-field'},
   {route: routes.CUSTOM_FIELDS, ability: 'create-custom-field'},
-  {route: routes.CUSTOMER_FIELD, ability: 'edit-custom-field'},
-  {route: routes.CUSTOMER_FIELD, ability: 'delete-custom-field'},
+  {route: routes.CUSTOM_FIELD, ability: 'edit-custom-field'},
+  {route: routes.CUSTOM_FIELD, ability: 'delete-custom-field'},
 
   // Role
   {route: routes.ROLES, ability: 'view-role'},
@@ -98,32 +74,28 @@ const abilities = [
   {route: routes.CREATE_ROLE, ability: 'delete-role'},
 
   // Settings
-  {route: 'reportType/SALES', ability: 'sales-report'},
-  {route: 'reportType/EXPENSES', ability: 'expense-report'},
-  {route: 'reportType/PROFIT_AND_LOSS', ability: 'pnl-report'},
-  {route: 'reportType/TAXES', ability: 'tax-report'},
-  {route: routes.COMPANY_INFO, ability: 'company-settings'}
+  {route: routes.REPORTS, ability: 'view-report'}
 ];
 
 class Service {
-  permissions: any;
+  currentAbilities: any;
 
   constructor() {
-    this.permissions = [];
+    this.currentAbilities = [];
   }
 
-  setPermissions = permissions => {
-    if (!isEmpty(permissions)) {
-      this.permissions = permissions;
+  setPermissions = currentAbilities => {
+    if (!isEmpty(currentAbilities)) {
+      this.currentAbilities = currentAbilities;
     }
   };
 
   isSuperAdmin = () => {
-    if (isEmpty(this.permissions)) {
+    if (isEmpty(this.currentAbilities)) {
       return true;
     }
 
-    if (this.permissions?.[0]?.title === 'All abilities') {
+    if (this.currentAbilities?.[0]?.title === 'All abilities') {
       return true;
     }
 
@@ -139,7 +111,7 @@ class Service {
       return true;
     }
 
-    return hasValue(find(this.permissions, {name: ability}));
+    return hasValue(find(this.currentAbilities, {name: ability}));
   };
 
   isAllowToCreate = route => {

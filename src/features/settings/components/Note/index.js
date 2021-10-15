@@ -20,7 +20,7 @@ interface IProps {
   updateNote: Function;
   getNotesLoading: Boolean;
   removeNote: Function;
-  noteId: Number;
+  id: Number;
   noteLoading: any;
   handleSubmit: Function;
   dispatch: Function;
@@ -89,7 +89,7 @@ export default class Note extends React.Component<IProps> {
   };
 
   removeNote = () => {
-    const {removeNote, navigation, noteId} = this.props;
+    const {removeNote, navigation, id} = this.props;
 
     alertMe({
       title: t('alert.title'),
@@ -97,7 +97,7 @@ export default class Note extends React.Component<IProps> {
       showCancel: true,
       okPress: () =>
         removeNote({
-          id: noteId,
+          id,
           navigation,
           onFail: () => {
             alertMe({
@@ -182,10 +182,6 @@ export default class Note extends React.Component<IProps> {
           isRequired
           hint={t('notes.title')}
           inputFieldStyle={styles.inputFieldStyle}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true
-          }}
           validationStyle={styles.inputFieldValidation}
           disabled={disabled}
         />

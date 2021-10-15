@@ -1,3 +1,5 @@
+import {routes} from '@/navigation';
+import {PermissionService} from '@/services';
 import t from 'locales/use-translation';
 
 // Forms
@@ -25,37 +27,40 @@ export const REMOVE_FROM_PAYMENTS = 'payments/REMOVE_FROM_PAYMENTS';
 export const UPDATE_FROM_PAYMENTS = 'payments/UPDATE_FROM_PAYMENTS';
 
 export const ACTIONS_VALUE = {
-    SEND: 'send',
-    REMOVE: 'remove'
+  SEND: 'send',
+  REMOVE: 'remove'
 };
 
 export const PAYMENT_ACTIONS = isAllowToDelete => {
-    const options = [
-        {
-            label: t('payments.sendReceipt'),
-            value: ACTIONS_VALUE.SEND
-        }
-    ];
+  const options = [];
 
-    isAllowToDelete &&
-        options.push({
-            label: t('payments.removePayment'),
-            value: ACTIONS_VALUE.REMOVE
-        });
+  if (PermissionService.isAllowToSend(routes.PAYMENT)) {
+    options.push({
+      label: t('payments.sendReceipt'),
+      value: ACTIONS_VALUE.SEND
+    });
+  }
 
-    return options;
+  if (isAllowToDelete) {
+    options.push({
+      label: t('payments.removePayment'),
+      value: ACTIONS_VALUE.REMOVE
+    });
+  }
+
+  return options;
 };
 
 // Expense Fields
 // -----------------------------------------
 export const PAYMENT_FIELDS = {
-    DATE: 'payment_date',
-    NUMBER: 'payment_number',
-    PAYMENT_NO: 'payment_no',
-    CUSTOMER: 'customer_id',
-    INVOICE: 'invoice_id',
-    AMOUNT: 'amount',
-    METHOD: 'payment_method_id',
-    NOTES: 'notes',
-    PREFIX: 'prefix'
+  DATE: 'payment_date',
+  NUMBER: 'payment_number',
+  PAYMENT_NO: 'payment_no',
+  CUSTOMER: 'customer_id',
+  INVOICE: 'invoice_id',
+  AMOUNT: 'amount',
+  METHOD: 'payment_method_id',
+  NOTES: 'notes',
+  PREFIX: 'prefix'
 };

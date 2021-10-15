@@ -1,10 +1,7 @@
 import * as types from './types';
 
 const initialState = {
-  loading: {
-    customizeLoading: false
-  },
-  customizes: null
+  isSaving: false
 };
 
 export default function customizeReducer(state = initialState, action) {
@@ -12,7 +9,7 @@ export default function customizeReducer(state = initialState, action) {
 
   switch (type) {
     case types.SPINNER:
-      return {...state, loading: {...payload}};
+      return {...state, [payload.name]: payload.value};
 
     default:
       return state;

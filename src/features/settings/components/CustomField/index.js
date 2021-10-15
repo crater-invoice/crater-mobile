@@ -5,7 +5,7 @@ import {
   alertMe,
   hasObjectLength,
   hasValue,
-  KEYBOARD_TYPE,
+  keyboardType,
   isEmpty
 } from '@/constants';
 import t from 'locales/use-translation';
@@ -317,10 +317,6 @@ export class CustomField extends React.Component<IProps> {
           isRequired
           disabled={disabled}
           hint={t('customFields.name')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true
-          }}
         />
 
         <Field
@@ -361,10 +357,6 @@ export class CustomField extends React.Component<IProps> {
           isRequired
           disabled={disabled}
           hint={t('customFields.label')}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true
-          }}
         />
 
         {this.DATA_TYPE_OPTION_BASE_VIEW()}
@@ -374,11 +366,7 @@ export class CustomField extends React.Component<IProps> {
           component={InputField}
           hint={t('customFields.order')}
           disabled={disabled}
-          inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
-            keyboardType: KEYBOARD_TYPE.NUMERIC
-          }}
+          keyboardType={keyboardType.NUMERIC}
           isRequired
         />
       </DefaultLayout>

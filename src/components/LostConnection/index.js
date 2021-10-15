@@ -5,7 +5,6 @@ import {AssetImage} from '../AssetImage';
 import {CtGradientButton} from '../Button';
 import t from 'locales/use-translation';
 import {checkConnection} from '@/constants';
-import {IMAGES} from '@/assets';
 import {Text} from '../Text';
 import {styles, Container} from './styles';
 import {commonSelector} from 'stores/common/selectors';
@@ -64,7 +63,7 @@ export class LostConnection extends Component {
 
             <View style={styles.logoContainer}>
               <AssetImage
-                imageSource={IMAGES.LOST_CONNECTION}
+                imageSource={AssetImage.images.lost_connection}
                 imageStyle={styles.imgLogo}
               />
             </View>

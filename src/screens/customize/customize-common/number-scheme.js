@@ -4,6 +4,7 @@ import t from 'locales/use-translation';
 import {NUMBERING_SCHEME_TYPE} from 'stores/customize/helpers';
 import {fetchNextNumber} from 'stores/customize/actions';
 import {InputField, SelectPickerField} from '@/components';
+import {keyboardType} from '@/constants';
 
 interface IProps {
   /**
@@ -110,45 +111,32 @@ export class NumberScheme extends Component<IProps> {
             name={prefixField.name}
             component={InputField}
             hint={t('customizes.prefix')}
-            inputProps={{
-              returnKeyType: 'next',
-              autoCorrect: true,
-              autoCapitalize: 'characters'
-            }}
+            inputProps={{autoCapitalize: 'characters'}}
             onChangeText={this.onChangeNumber}
             fieldName={t('customizes.prefix')}
             isRequired
             isDebounce
           />
         )}
-
         <Field
           name={separatorField.name}
           component={InputField}
           hint={t('customizes.separator')}
-          inputProps={{
-            returnKeyType: 'next'
-          }}
           onChangeText={this.onChangeNumber}
           fieldName={t('customizes.prefix')}
           isRequired
           isDebounce
         />
-
         <Field
           name={numberLengthField.name}
           component={InputField}
           maxNumber={2}
           hint={t('customizes.numberLength')}
-          inputProps={{
-            returnKeyType: 'next',
-            keyboardType: 'numeric'
-          }}
+          keyboardType={keyboardType.NUMERIC}
           onChangeText={this.onChangeNumber}
           isRequired
           isDebounce
         />
-
         <Field
           name="next_umber"
           component={InputField}

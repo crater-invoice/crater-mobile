@@ -6,9 +6,10 @@ import {addPaymentMode} from 'stores/payment-modes/actions';
 import t from 'locales/use-translation';
 import {hasValue} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
+import {loadingSelector} from 'stores/payment-modes/selectors';
 
 interface IProps {
-  loading: boolean;
+  isSaving: boolean;
   reference: any;
   handleSubmit: Function;
   addPaymentMode: Function;
@@ -56,7 +57,7 @@ class Modal extends Component<IProps> {
   };
 
   render() {
-    const {handleSubmit, loading} = this.props;
+    const {handleSubmit, isSaving} = this.props;
     return (
       <InputModal
         reference={ref => (this.modalReference = ref)}
@@ -64,7 +65,7 @@ class Modal extends Component<IProps> {
         hint={t('payments.modeHint')}
         fieldName="name"
         onSubmit={handleSubmit(this.onSubmit)}
-        onSubmitLoading={loading}
+        onSubmitLoading={isSaving}
       />
     );
   }
@@ -72,7 +73,7 @@ class Modal extends Component<IProps> {
 
 const mapStateToProps = state => ({
   ...commonSelector(state),
-  loading: state.settings?.loading?.paymentModeLoading
+  ...loadingSelector(state)
 });
 
 const mapDispatchToProps = {

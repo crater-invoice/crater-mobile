@@ -1,8 +1,8 @@
-import Request from '@/utils/request';
+import Request from 'utils/request';
 import * as types from './types';
 
 /**
- * fetch Currencies
+ * Fetch currencies
  * @returns {*}
  */
 export const fetchCurrencies = () => {
@@ -10,7 +10,7 @@ export const fetchCurrencies = () => {
 };
 
 /**
- * fetch Languages
+ * Fetch languages
  * @returns {*}
  */
 export const fetchLanguages = () => {
@@ -18,7 +18,7 @@ export const fetchLanguages = () => {
 };
 
 /**
- * fetch timezones
+ * Fetch timezones
  * @returns {*}
  */
 export const fetchTimezones = q => {
@@ -26,7 +26,7 @@ export const fetchTimezones = q => {
 };
 
 /**
- * fetch Date-Formats
+ * Fetch date-formats
  * @returns {*}
  */
 export const fetchDateFormats = q => {
@@ -34,7 +34,7 @@ export const fetchDateFormats = q => {
 };
 
 /**
- * fetch Fiscal-Years
+ * Fetch fiscal-years
  * @returns {*}
  */
 
@@ -43,7 +43,7 @@ export const fetchFiscalYears = q => {
 };
 
 /**
- * fetch Retrospective-edits
+ * Fetch retrospective-edits
  * @returns {*}
  */
 export const fetchRetrospectives = q => {
@@ -51,7 +51,7 @@ export const fetchRetrospectives = q => {
 };
 
 /**
- * fetch Preferences
+ * Fetch preferences
  * @returns {*}
  */
 export const fetchPreferences = () => {
@@ -64,7 +64,7 @@ export const fetchPreferences = () => {
 };
 
 /**
- * update Preferences
+ * Update preferences
  * @param body : params
  * @returns {*}
  */

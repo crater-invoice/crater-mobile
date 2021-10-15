@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {TouchableHighlight, ScrollView} from 'react-native';
 import Styles from './styles';
 import t from 'locales/use-translation';
-import {CloseIcon2} from '@/icons';
 import {colors} from '@/styles';
 import {routes} from '@/navigation';
 import {fetchCompanies} from '../../actions';
@@ -187,7 +186,7 @@ export class Modal extends Component {
                 withHitSlop
               >
                 <AssetSvg
-                  name={CloseIcon2(theme.viewLabel.fourthColor)}
+                  name={AssetSvg.icons.close2(theme.viewLabel.fourthColor)}
                   width={15}
                   height={15}
                 />

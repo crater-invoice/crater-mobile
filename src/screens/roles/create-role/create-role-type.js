@@ -19,11 +19,6 @@ export interface IProps {
   handleSubmit: (fun: object) => void;
 
   /**
-   * The loading indicator for the button.
-   */
-  loading: boolean;
-
-  /**
    * Initialize the form data.
    */
   initialValues: any;
@@ -31,7 +26,7 @@ export interface IProps {
   /**
    * Id of the current role.
    */
-  roleId: string;
+  id: string;
 
   /**
    * It is a create screen view.
@@ -73,6 +68,16 @@ export interface IProps {
    * The form data to previously initialized values.
    */
   formData: any;
+
+  /**
+   * The loading indicator for the button.
+   */
+  isSaving: boolean;
+
+  /**
+   * The loading indicator for the button.
+   */
+  isDeleting: boolean;
 }
 
 export interface IStates {

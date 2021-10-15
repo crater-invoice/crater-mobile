@@ -6,7 +6,8 @@ import {hasValue, isArray, isEmpty} from '@/constants';
 const initialState = {
   roles: [],
   permissions: [],
-  loading: {}
+  isSaving: false,
+  isDeleting: false
 };
 
 export default function rolesReducer(state = initialState, action) {
@@ -14,10 +15,7 @@ export default function rolesReducer(state = initialState, action) {
 
   switch (type) {
     case types.SPINNER:
-      return {
-        ...state,
-        loading: {...state.loading, ...payload}
-      };
+      return {...state, [payload.name]: payload.value};
 
     case types.FETCH_ROLES_SUCCESS:
       const roleList = payload.roles.map(role => ({
@@ -155,26 +153,16 @@ export default function rolesReducer(state = initialState, action) {
     case types.ADD_ROLE_SUCCESS:
       return {
         ...state,
-        roles: [...state.roles, ...[payload]]
+        roles: [...[payload], ...state.roles]
       };
 
     case types.UPDATE_ROLE_SUCCESS:
-      if (isEmpty(state.roles)) {
-        return state;
-      }
-
-      const filteredUpdatedRoles = [];
-      state.roles.map(role => {
-        const {id} = role;
-        let value = role;
-
-        if (id === payload.id) {
-          value = payload;
-        }
-        filteredUpdatedRoles.push(value);
-      });
-
-      return {...state, roles: filteredUpdatedRoles};
+      return {
+        ...state,
+        roles: state.roles.map(role =>
+          role.id === payload.id ? payload : role
+        )
+      };
 
     case types.REMOVE_ROLE_SUCCESS:
       return {

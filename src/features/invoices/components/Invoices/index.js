@@ -5,7 +5,7 @@ import {All, Draft, Due} from '../Tab';
 import {invoicesFilterFields as FilterFields} from './filterFields';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
-import {MainLayout, Tabs} from '@/components';
+import {AssetImage, MainLayout, Tabs} from '@/components';
 import {IMAGES} from '@/assets';
 import {INVOICES_TABS, INVOICE_SEARCH, TAB_NAME} from '../../constants';
 import {isFilterApply} from '@/utils';
@@ -207,7 +207,7 @@ export class Invoices extends React.Component<IProps> {
 
     return {
       title: t(emptyTitle, {search}),
-      image: IMAGES[(theme?.mode)]?.EMPTY_INVOICES,
+      image: AssetImage.images[(theme?.mode)].empty_invoices,
       ...(!search && {
         description: t(description)
       }),
@@ -277,15 +277,13 @@ export class Invoices extends React.Component<IProps> {
         headerProps={headerProps}
         onSearch={this.onSearch}
         filterProps={filterProps}
-        toastProps={{
-          reference: ref => (this.toastReference = ref)
-        }}
-        with-company
+        toastProps={{reference: ref => (this.toastReference = ref)}}
         with-input-filter
         navigation={navigation}
-        {...(PermissionService.isAllowToView(routes.MAIN_INVOICES) && {
+        {...(PermissionService.isAllowToCreate(routes.MAIN_INVOICES) && {
           plusButtonOnPress: this.onAddInvoice
         })}
+        {...(PermissionService.isSuperAdmin() && {'with-company': true})}
       >
         <Tabs
           style={styles.tabs(theme)}
