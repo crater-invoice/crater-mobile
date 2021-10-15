@@ -27,7 +27,7 @@ export default ({
   title = null,
   message = null,
   type: _type = 'success',
-  duration = 3.5 * 1000,
+  duration = 2.5 * 1000,
   ...rest
 }: IProps) => {
   if (!message) return;

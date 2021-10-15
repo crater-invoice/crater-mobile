@@ -9,40 +9,38 @@ import {
 } from '../actions';
 import {routes} from '@/navigation';
 import * as TYPES from '../constants';
-import {hasObjectLength, isEmpty} from '@/constants';
+import {isEmpty} from '@/constants';
 import {getGeneralSetting} from '@/features/settings/saga/general';
 import {getCustomFields} from '@/features/settings/saga/custom-fields';
 import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
+import showNotification from 'utils/notification';
+import t from 'locales/use-translation';
+import {handleError} from '@/utils';
 
-const addressParams = (address, type) => {
+const addressParams = address => {
   return {
-    name: address?.name,
     address_street_1: address?.address_street_1,
     address_street_2: address?.address_street_2,
     city: address?.city,
-    state: address?.state,
     country_id: address?.country_id,
-    zip: address.zip,
+    name: address?.name,
     phone: address?.phone,
-    type
+    state: address?.state,
+    zip: address?.zip,
+    type: null
   };
 };
 
 export function* getCustomers({payload}) {
-  const {fresh = true, onSuccess, onFail, queryString} = payload;
+  const {fresh, onSuccess, onFail, queryString} = payload;
 
   try {
     const options = {
       path: `customers?${queryStrings.stringify(queryString)}`
     };
 
-    const response = yield call([Request, 'get'], options);
-
-    if (response) {
-      const {data} = response;
-      yield put(setCustomers({customers: data, fresh}));
-    }
-
+    const {data} = yield call([Request, 'get'], options);
+    yield put(setCustomers({customers: data, fresh}));
     onSuccess?.(response);
   } catch (e) {
     onFail?.();
@@ -87,23 +85,14 @@ function* getCreateCustomer({payload}) {
 }
 
 function* createCustomer({payload}) {
-  const {params, onResult, submissionError} = payload;
+  const {params, onResult} = payload;
 
   yield put(customerTriggerSpinner({customerLoading: true}));
 
-  let addresses = [];
-
-  if (hasObjectLength(params?.billingAddress)) {
-    addresses.push(addressParams(params?.billingAddress, 'BILLING'));
-  }
-
-  if (hasObjectLength(params?.shippingAddress)) {
-    addresses.push(addressParams(params?.shippingAddress, 'SHIPPING'));
-  }
   const bodyData = {
     ...params,
-    billing: params.billingAddress,
-    shipping: params.shippingAddress
+    billing: addressParams(params?.billingAddress),
+    shipping: addressParams(params?.shippingAddress)
   };
   try {
     const options = {
@@ -111,42 +100,26 @@ function* createCustomer({payload}) {
       body: bodyData
     };
 
-    const response = yield call([Request, 'post'], options);
-
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
-      return;
-    }
-
-    if (response?.data) {
-      yield put(setCustomers({customers: [response.data], prepend: true}));
-      onResult?.(response.data);
-    }
+    const {data} = yield call([Request, 'post'], options);
+    yield put(setCustomers({customers: [data], prepend: true}));
+    onResult?.(data);
+    showNotification({message: t('notification.customer_created')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(customerTriggerSpinner({customerLoading: false}));
   }
 }
 
 function* updateCustomer({payload}) {
-  const {params, navigation, submissionError} = payload;
+  const {params, navigation} = payload;
 
   yield put(customerTriggerSpinner({customerLoading: true}));
 
-  let addresses = [];
-
-  if (hasObjectLength(params?.billingAddress)) {
-    addresses.push(addressParams(params?.billingAddress, 'BILLING'));
-  }
-
-  if (hasObjectLength(params?.shippingAddress)) {
-    addresses.push(addressParams(params?.shippingAddress, 'SHIPPING'));
-  }
-
   const bodyData = {
     ...params,
-    billing: {...params.billing, ...addresses[0]},
-    shipping: {...params.shipping, ...addresses[1]}
+    billing: addressParams(params?.billingAddress),
+    shipping: addressParams(params?.shippingAddress)
   };
   try {
     const options = {
@@ -154,18 +127,12 @@ function* updateCustomer({payload}) {
       body: bodyData
     };
 
-    const response = yield call([Request, 'put'], options);
-
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
-      return;
-    }
-
-    if (response.data) {
-      yield put(updateFromCustomers({customer: response.data}));
-      yield navigation.navigate(routes.MAIN_CUSTOMERS);
-    }
+    const {data} = yield call([Request, 'put'], options);
+    yield put(updateFromCustomers({customer: data}));
+    yield navigation.navigate(routes.MAIN_CUSTOMERS);
+    showNotification({message: t('notification.customer_updated')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(customerTriggerSpinner({customerLoading: false}));
   }
@@ -204,12 +171,10 @@ function* removeCustomer({payload: {id, navigation}}) {
       body: {ids: [id]}
     };
 
-    const response = yield call([Request, 'post'], options);
-
-    if (response?.success) {
-      yield put(setCustomers({remove: true, id}));
-      navigation.navigate(routes.MAIN_CUSTOMERS);
-    }
+    yield call([Request, 'post'], options);
+    yield put(setCustomers({remove: true, id}));
+    navigation.navigate(routes.MAIN_CUSTOMERS);
+    showNotification({message: t('notification.customer_deleted')});
   } catch (e) {
   } finally {
     yield put(customerTriggerSpinner({customerLoading: false}));
