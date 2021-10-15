@@ -48,3 +48,4 @@ export * from './Label';
 export * from './View';
 export * from './InternalPagination';
 export * from './ButtonView';
+export * from './flash-message/flash-message';

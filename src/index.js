@@ -8,10 +8,10 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {store, persistor} from '@/stores';
 import {ApplicationNavigator} from './navigation';
 import {switchTheme} from './constants';
-import {Loading} from './components';
 import {colors, loadFonts} from './styles';
 import {darkTheme, lightTheme} from './theme';
 import {TranslationService} from 'locales/use-translation';
+import {FlashMessage, Loading} from '@/components';
 
 console.disableYellowBox = true;
 console.warn = () => {};
@@ -72,6 +72,7 @@ class App extends Component<{}, IState> {
     return (
       <ThemeProvider theme={theme}>
         <SafeAreaProvider>
+          <FlashMessage position="top" />
           <ApplicationNavigator />
         </SafeAreaProvider>
       </ThemeProvider>
