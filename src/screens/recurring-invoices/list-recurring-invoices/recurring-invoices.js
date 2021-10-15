@@ -4,8 +4,8 @@ import {styles} from './recurring-invoices-styles';
 import {All, OnHold, Active} from './Tab';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
-import {MainLayout, Tabs} from '@/components';
-import {ARROW_ICON, IMAGES} from '@/assets';
+import {AssetImage, MainLayout, Tabs} from '@/components';
+import {ARROW_ICON} from '@/assets';
 import {
   RECURRING_INVOICES_TABS,
   RECURRING_INVOICE_SEARCH,
@@ -203,7 +203,7 @@ export default class RecurringInvoices extends React.Component<
 
     return {
       title: t(emptyTitle, {search}),
-      image: IMAGES[(theme?.mode)]?.EMPTY_INVOICES,
+      image: AssetImage.images[(theme?.mode)]?.empty_invoices,
       ...(!search && {
         description: t(description)
       }),

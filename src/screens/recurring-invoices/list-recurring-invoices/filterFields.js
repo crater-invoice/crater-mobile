@@ -73,10 +73,6 @@ export const invoicesFilterFields = ({props, setFormField}) => {
       name: 'invoice_number',
       hint: t('invoices.invoiceNumber'),
       leftIcon: 'hashtag',
-      inputProps: {
-        autoCapitalize: 'none',
-        autoCorrect: true
-      },
       refLinkFn: ref => (filterRefs.invNumber = ref)
     }
   ];

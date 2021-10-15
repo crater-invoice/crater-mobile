@@ -18,12 +18,10 @@ const mapStateToProps = (state, {route}) => {
     more: {items},
     customers: {customers}
   } = state;
-  const id = route?.params?.id;
   return {
     ...loadingSelector(state),
     ...commonSelector(state),
     ...permissionSelector(route),
-    id,
     selectedItems,
     invoiceData,
     items,

@@ -55,8 +55,6 @@ export const LimitField = (props: IProps) => {
           hint={t('recurring_invoices.limit_types.count')}
           component={InputField}
           inputProps={{
-            returnKeyType: 'next',
-            autoCorrect: true,
             autoCapitalize: 'characters'
           }}
           isRequired
