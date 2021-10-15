@@ -1,19 +1,17 @@
-export const SPINNER = 'users/SPINNER';
+export const SPINNER = 'items/SPINNER';
 
-export const USERS_FORM = 'users/USERS_FORM';
-export const CREATE_USER_FORM = 'users/CREATE_USER_FORM';
+export const CREATE_ITEM_FORM = 'items/CREATE_ITEM_FORM';
 
-export const FETCH_USERS = 'users/FETCH_USERS';
-export const FETCH_USERS_SUCCESS = 'users/FETCH_USERS_SUCCESS';
+export const FETCH_ITEMS = 'items/FETCH_ITEMS';
+export const FETCH_ITEMS_SUCCESS = 'items/FETCH_ITEMS_SUCCESS';
 
-export const FETCH_SINGLE_USER = 'users/FETCH_SINGLE_USER';
-export const FETCH_SINGLE_USER_SUCCESS = 'users/FETCH_SINGLE_USER_SUCCESS';
+export const FETCH_SINGLE_ITEM = 'items/FETCH_SINGLE_ITEM';
 
-export const ADD_USER = 'users/ADD_USER';
-export const ADD_USER_SUCCESS = 'users/ADD_USER_SUCCESS';
+export const ADD_ITEM = 'items/ADD_ITEM';
+export const ADD_ITEM_SUCCESS = 'items/ADD_ITEM_SUCCESS';
 
-export const UPDATE_USER = 'users/UPDATE_USER';
-export const UPDATE_USER_SUCCESS = 'users/UPDATE_USER_SUCCESS';
+export const UPDATE_ITEM = 'items/UPDATE_ITEM';
+export const UPDATE_ITEM_SUCCESS = 'items/UPDATE_ITEM_SUCCESS';
 
-export const REMOVE_USER = 'users/REMOVE_USER';
-export const REMOVE_USER_SUCCESS = 'users/REMOVE_USER_SUCCESS';
+export const REMOVE_ITEM = 'items/REMOVE_ITEM';
+export const REMOVE_ITEM_SUCCESS = 'items/REMOVE_ITEM_SUCCESS';

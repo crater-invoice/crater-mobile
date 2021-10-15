@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {View} from 'react-native';
 import {Field, change} from 'redux-form';
-import styles from './styles';
+import styles from './final-amount-styles';
 import {
   InputField,
   CtDivider,
@@ -12,21 +12,22 @@ import {
 import {routes} from '@/navigation';
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
-import {INVOICE_DISCOUNT_OPTION} from '../../constants';
+import {DISCOUNT_OPTION} from '@/stores/common/types';
 import {
-  invoiceSubTotal,
+  total,
   getCompoundTaxValue,
-  invoiceItemTotalTaxes,
+  itemTotalTaxes,
   getTaxValue,
   getTaxName,
   finalAmount
-} from '../InvoiceCalculation';
-import {definePlatformParam, isIosPlatform} from '@/constants';
+} from '@/components/final-amount/final-amount-calculation';
+import {definePlatformParam, isBooleanTrue, isIosPlatform} from '@/constants';
 import {TaxSelectModal} from '@/select-modal';
+import {IProps} from './final-amount-types';
 
-const DISPLAY_ITEM_TAX = ({state, theme}) => {
+const DISPLAY_ITEM_TAX: FC<IProps> = ({state, theme}) => {
   const {currency} = state;
-  let taxes = invoiceItemTotalTaxes();
+  let taxes = itemTotalTaxes();
 
   return taxes
     ? taxes.map((val, index) => (
@@ -49,34 +50,26 @@ const DISPLAY_ITEM_TAX = ({state, theme}) => {
     : null;
 };
 
-const FinalAmount = ({state, props}) => {
+export const FinalAmount: FC<IProps> = ({state, props}) => {
   const {currency} = state;
 
   const {
     taxTypes,
     navigation,
-    invoiceData: {discount_per_item, tax_per_item},
+    discount_per_item,
+    tax_per_item,
     formValues,
     getTaxes,
     isAllowToEdit,
     theme
   } = props;
+
   const disabled = !isAllowToEdit;
   let taxes = formValues?.taxes;
 
-  let taxPerItem = !(
-    tax_per_item === 'NO' ||
-    typeof tax_per_item === 'undefined' ||
-    tax_per_item === null ||
-    tax_per_item === '0'
-  );
+  let taxPerItem = isBooleanTrue(tax_per_item);
 
-  let discountPerItem = !(
-    discount_per_item === 'NO' ||
-    typeof discount_per_item === 'undefined' ||
-    discount_per_item === null ||
-    discount_per_item === '0'
-  );
+  let discountPerItem = isBooleanTrue(discount_per_item);
 
   const setFormField = (field, value) => {
     const {dispatch, form} = props;
@@ -100,7 +93,7 @@ const FinalAmount = ({state, props}) => {
         </View>
         <View style={{marginTop: definePlatformParam(6, 4)}}>
           <CurrencyFormat
-            amount={invoiceSubTotal()}
+            amount={total()}
             currency={currency}
             style={styles.subAmount(theme)}
             symbolStyle={styles.currencySymbol}
@@ -144,7 +137,7 @@ const FinalAmount = ({state, props}) => {
             <Field
               name="discount_type"
               component={SelectPickerField}
-              items={INVOICE_DISCOUNT_OPTION}
+              items={DISCOUNT_OPTION}
               onChangeCallback={val => {
                 setFormField('discount_type', val);
               }}
@@ -260,5 +253,3 @@ const FinalAmount = ({state, props}) => {
     </View>
   );
 };
-
-export default FinalAmount;

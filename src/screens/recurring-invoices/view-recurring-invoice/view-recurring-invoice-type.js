@@ -142,6 +142,11 @@ export interface IStates {
   isFetchingInitialData: boolean;
 
   /**
+   * An array of objects with data for selected items.
+   */
+  itemList: Array<any>;
+
+  /**
    * An Object with data of current Currency.
    */
   currency: Object;

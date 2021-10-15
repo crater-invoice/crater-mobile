@@ -14,7 +14,19 @@ export function spinner(name, value) {
 }
 
 /**
- * fetch recurring invoice initial details.
+ * Fetch Next-Invoice-At.
+ * @param id
+ * @param onSuccess
+ */
+export function fetchNextInvoiceAt({params, onSuccess}) {
+  return {
+    type: types.FETCH_NEXT_INVOICE_AT,
+    payload: {params, onSuccess}
+  };
+}
+
+/**
+ * Fetch recurring invoice initial details.
  *
  */
 export function fetchRecurringInvoiceInitialDetails() {
@@ -97,3 +109,52 @@ export function removeRecurringInvoice(id, navigation, onFail) {
     payload: {id, navigation, onFail}
   };
 }
+
+/**
+ * Add recurring-invoice item.
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const addRecurringInvoiceItem = (payload = {}) => ({
+  type: types.ADD_RECURRING_INVOICE_ITEM,
+  payload
+});
+
+/**
+ * Edit recurring-invoice item.
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const updateItem = (payload = {}) => ({
+  type: types.EDIT_ITEM,
+  payload
+});
+
+/**
+ * Set recurring-invoice items.
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const setRecurringInvoiceItems = (payload = {}) => ({
+  type: types.ADD_RECURRING_INVOICE_ITEM_SUCCESS,
+  payload
+});
+
+/**
+ * Remove recurring-invoice item.
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const removeRecurringInvoiceItem = (payload = {}) => ({
+  type: types.REMOVE_RECURRING_INVOICE_ITEM,
+  payload
+});
+
+/**
+ * Remove recurring-invoice items.
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const removeRecurringInvoiceItems = () => ({
+  type: types.REMOVE_RECURRING_INVOICE_ITEMS
+});

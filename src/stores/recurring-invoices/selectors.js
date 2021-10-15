@@ -1,15 +1,14 @@
 import {createSelector} from 'reselect';
 import {capitalize, isEmpty} from '@/constants';
 import {BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR} from '@/utils';
-import {recurringInvoiceRefs} from './types';
 
-const formatItems = (invoices, theme) => {
+export const formatItems = (invoices, theme) => {
   if (isEmpty(invoices)) {
     return [];
   }
 
   return invoices.map(item => {
-    const {status, customer: {name, currency} = {}} = item;
+    const {status, total, customer: {name, currency} = {}} = item;
 
     return {
       title: name,
@@ -25,7 +24,7 @@ const formatItems = (invoices, theme) => {
               labelBgColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
             })
       },
-      amount: '$0',
+      amount: total,
       currency,
       fullItem: item
     };

@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {getFormValues, reduxForm} from 'redux-form';
-import CreateRecurringInvoice from './create-recurring-invoice';
+import ViewRecurringInvoice from './view-recurring-invoice';
 import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
 import {validate} from 'stores/recurring-invoices/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
@@ -58,12 +58,12 @@ const mapDispatchToProps = {
   getItems
 };
 
-const CreateRecurringInvoiceForm = reduxForm({
+const ViewRecurringInvoiceForm = reduxForm({
   form: CREATE_RECURRING_INVOICE_FORM,
   validate
-})(CreateRecurringInvoice);
+})(ViewRecurringInvoice);
 
-export const CreateRecurringInvoiceContainer = connect(
+export const ViewRecurringInvoiceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(CreateRecurringInvoiceForm);
+)(ViewRecurringInvoiceForm);

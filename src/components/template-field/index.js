@@ -1,23 +1,11 @@
 import React, {Component} from 'react';
 import {TouchableWithoutFeedback, View} from 'react-native';
-import styles from './styles';
+import styles from './template-field-styles';
 import {SlideModal, FakeInput, AssetImage, ActionButton} from '@/components';
 import {Icon} from 'react-native-elements';
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
-
-type IProps = {
-  label: String,
-  icon: String,
-  onChangeCallback: Function,
-  placeholder: String,
-  containerStyle: Object,
-  rightIcon: String,
-  leftIcon: String,
-  color: String,
-  value: String,
-  templates: Array
-};
+import {IProps} from './template-field-types';
 
 export class TemplateField extends Component<IProps> {
   constructor(props) {
@@ -96,7 +84,8 @@ export class TemplateField extends Component<IProps> {
       icon,
       placeholder,
       meta,
-      disabled
+      disabled,
+      isRequired = false
     } = this.props;
 
     const {visible, selectedTemplate: {name} = {}} = this.state;
@@ -113,6 +102,7 @@ export class TemplateField extends Component<IProps> {
           label={label}
           icon={icon}
           values={name}
+          isRequired={isRequired}
           placeholder={placeholder}
           onChangeCallback={this.onToggle}
           containerStyle={containerStyle}

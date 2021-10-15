@@ -6,14 +6,39 @@ import {Field} from 'redux-form';
 import {formatNotesType} from '@/utils';
 import {routes} from '@/navigation';
 import {NoteSelectModal} from '@/select-modal';
+import {INavigation} from '@/interfaces';
 
 interface IProps {
+  /**
+   * It is a update screen view.
+   */
   isEditScreen?: boolean;
+
+  /**
+   * An array of objects with data for each notes.
+   */
   notes?: Array<any>;
-  getNotes?: Function;
-  navigation?: any;
+
+  /**
+   * An action to return a list of notes.
+   */
+  getNotes?: () => void;
+
+  /**
+   * A navigator is an object of navigation functions that a view can call.
+   * @see INavigation
+   */
+  navigation?: INavigation;
+
+  /**
+   * Current parent screen.
+   */
   noteType?: String;
-  onSelect?: VoidFunction;
+
+  /**
+   * Return when item select.
+   */
+  onSelect?: (fun: object) => void;
 }
 
 let editorReference = React.createRef();
@@ -29,6 +54,7 @@ export const Notes = (props: IProps) => {
   };
   return (
     <Editor
+      {...props}
       name="notes"
       label="notes.notes"
       placeholder={t(`notes.placeholder.${noteType}`)}

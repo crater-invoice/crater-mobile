@@ -5,7 +5,8 @@ export const LIMIT_TYPES = [
   {label: t('recurring_invoices.limit_types.count'), value: 'COUNT'}
 ];
 
-export const frequencies = [
+export const FREQUENCIES_TYPES = [
+  {label: t('recurring_invoices.frequencies.custom'), value: ''},
   {label: t('recurring_invoices.frequencies.every_minute'), value: '* * * * *'},
   {
     label: t('recurring_invoices.frequencies.every_30_minute'),

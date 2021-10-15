@@ -40,7 +40,6 @@ export class Invoices extends React.Component<IProps> {
 
   componentDidMount() {
     this.onFocus();
-    // this.props.navigation.navigate(routes.RECURRING_INVOICES);
   }
 
   componentWillUnmount() {

@@ -1,32 +1,20 @@
-import React, {useRef} from 'react';
-import {CurrencyFormat, Editor, Label, ListView} from '@/components';
-import {View} from 'react-native';
+import React from 'react';
+import {CurrencyFormat, Label, ListView} from '@/components';
 import t from 'locales/use-translation';
 import styles from './modal-items-styles';
 import {Field} from 'redux-form';
-import {formatNotesType} from '@/utils';
 import {routes} from '@/navigation';
-import {ItemSelectModal, NoteSelectModal} from '@/select-modal';
+import {ItemSelectModal} from '@/select-modal';
 import {isEmpty} from '@/constants';
+import {IProps} from './modal-items-types';
 
-interface IProps {
-  isEditScreen?: boolean;
-  notes?: Array<any>;
-  getNotes?: Function;
-  navigation?: any;
-  noteType?: String;
-  onSelect?: VoidFunction;
-}
-interface IStates {}
-
-export class ItemField extends React.Component<IProps, IStates> {
+export class ItemField extends React.Component<IProps> {
   constructor(props) {
     super(props);
-    this.parentProps = props;
   }
 
   getItemList = selectedItems => {
-    const {setFormField, currency} = this.props;
+    const {setFormField, currency, theme} = this.props;
 
     setFormField('items', selectedItems);
 
@@ -46,7 +34,7 @@ export class ItemField extends React.Component<IProps, IStates> {
               amount={price}
               currency={currency}
               preText={`${quantity} * `}
-              style={styles.itemLeftSubTitle(this.parentProps.theme)}
+              style={styles.itemLeftSubTitle(theme)}
               containerStyle={styles.itemLeftSubTitleLabel}
             />
           )
@@ -63,19 +51,22 @@ export class ItemField extends React.Component<IProps, IStates> {
       navigation,
       isAllowToEdit,
       currency,
-      itemData: {discount_per_item, tax_per_item}
+      screen,
+      discount_per_item,
+      tax_per_item
     } = this.props;
 
     if (!isAllowToEdit) {
       return;
     }
 
-    navigation.navigate(routes.INVOICE_ITEM, {
+    navigation.navigate(routes.CREATE_ITEM, {
       item,
-      type: 'EDIT',
+      screen,
       currency,
-      discount_per_item,
-      tax_per_item
+      tax_per_item,
+      type: 'UPDATE',
+      discount_per_item
     });
   };
 
@@ -89,9 +80,10 @@ export class ItemField extends React.Component<IProps, IStates> {
       itemsLoading,
       navigation,
       disabled,
-      itemData: {discount_per_item, tax_per_item}
+      discount_per_item,
+      tax_per_item,
+      screen
     } = this.props;
-    console.log(this.props);
     return (
       <>
         <Label isRequired theme={theme} style={styles.label}>
@@ -126,7 +118,8 @@ export class ItemField extends React.Component<IProps, IStates> {
           disabled={disabled}
           onSelect={this.onEditItem}
           rightIconPress={() =>
-            navigation.navigate(routes.INVOICE_ITEM, {
+            navigation.navigate(routes.CREATE_ITEM, {
+              screen,
               type: 'ADD',
               currency,
               discount_per_item,

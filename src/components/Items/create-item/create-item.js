@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Field, change} from 'redux-form';
-import styles from './styles';
+import styles from './create-item-styles';
 import {
   InputField,
   CtDivider,
@@ -12,12 +12,6 @@ import {
   ActionButton,
   Text
 } from '@/components';
-import {
-  ITEM_DISCOUNT_OPTION,
-  ITEM_EDIT,
-  ITEM_ADD,
-  ITEM_FORM
-} from '../../constants';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {
@@ -28,27 +22,21 @@ import {
   MAX_LENGTH
 } from '@/constants';
 import {TaxSelectModal, UnitSelectModal} from '@/select-modal';
+import {itemActions} from '@/stores/items/helper';
+import {CREATE_ITEM_FORM, ITEM_DISCOUNT_OPTION} from '@/stores/items/types';
+import {IProps} from './create-item-types';
 
-export class InvoiceItem extends React.Component {
+export class CreateItem extends React.Component<IProps> {
   constructor(props) {
     super(props);
-    this.state = {};
   }
 
   setFormField = (field, value) => {
-    this.props.dispatch(change(ITEM_FORM, field, value));
+    this.props.dispatch(change(CREATE_ITEM_FORM, field, value));
   };
 
   saveItem = values => {
-    const {
-      addItem,
-      removeInvoiceItem,
-      setInvoiceItems,
-      itemId,
-      navigation,
-      type
-    } = this.props;
-
+    const {itemId, navigation, type, screen, dispatch} = this.props;
     if (this.finalAmount() < 0) {
       alert(t('items.lessAmount'));
       return;
@@ -73,38 +61,38 @@ export class InvoiceItem extends React.Component {
     };
 
     const callback = () => {
-      addItem({
-        item,
-        onResult: () => {
-          navigation.goBack(null);
-        }
-      });
+      dispatch(
+        itemActions[screen].addItem({
+          item,
+          onResult: () => {
+            navigation.goBack(null);
+          }
+        })
+      );
     };
 
     if (!itemId) {
       callback();
     } else {
-      const invoiceItem = [{...item, item_id: itemId}];
+      const itemData = [{...item, item_id: itemId}];
 
-      if (type === ITEM_EDIT) {
-        removeInvoiceItem({id: itemId});
+      if (type === 'UPDATE') {
+        dispatch(itemActions[screen].removeItem({id: itemId}));
       }
-
-      setInvoiceItems({invoiceItem});
-
+      dispatch(itemActions[screen].setItems(itemData));
       navigation.goBack(null);
     }
   };
 
   removeItem = () => {
-    const {removeInvoiceItem, itemId, navigation} = this.props;
+    const {dispatch, itemId, navigation, screen} = this.props;
 
     alertMe({
       title: t('alert.title'),
       showCancel: true,
       okPress: () => {
         navigation.goBack(null);
-        removeInvoiceItem({id: itemId});
+        dispatch(itemActions[screen].removeItem({id: itemId}));
       }
     });
   };
@@ -136,7 +124,7 @@ export class InvoiceItem extends React.Component {
       formValues: {quantity, price}
     } = this.props;
 
-    subTotal = price * quantity;
+    let subTotal = price * quantity;
 
     return subTotal;
   };
@@ -353,7 +341,7 @@ export class InvoiceItem extends React.Component {
     } = this.props;
 
     const currency = route?.params?.currency;
-    const isCreateItem = type === ITEM_ADD;
+    const isCreateItem = type === 'ADD';
     let itemRefs = {};
     const bottomAction = [
       {

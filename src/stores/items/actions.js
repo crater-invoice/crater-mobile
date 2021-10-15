@@ -39,16 +39,14 @@ export function fetchSingleUser(id, onSuccess) {
 }
 
 /**
- * Add user
+ * Add item
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function addUser(payload = {}) {
-  return {
-    type: types.ADD_USER,
-    payload
-  };
-}
+export const addItem = (payload = {}) => ({
+  type: types.ADD_ITEM,
+  payload
+});
 
 /**
  * Update user

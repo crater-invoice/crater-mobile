@@ -14,19 +14,12 @@ import {
 import {isFilterApply} from '@/utils';
 import InvoiceServices from '@/features/invoices/services';
 import {openRatingReviewModal} from '@/utils';
-import {PermissionService} from '@/services';
+import {IProps, IStates} from './recurring-invoices-type';
 
-type IProps = {
-  navigation: Object,
-  invoices: Object,
-  customers: Object,
-  loading: Boolean,
-  handleSubmit: Function,
-  getCustomers: Function,
-  formValues: any
-};
-
-export default class RecurringInvoices extends React.Component<IProps> {
+export default class RecurringInvoices extends React.Component<
+  IProps,
+  IStates
+> {
   constructor(props) {
     super(props);
 

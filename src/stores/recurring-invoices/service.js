@@ -2,6 +2,44 @@ import Request from '@/utils/request';
 import * as queryString from 'query-string';
 
 /**
+ * Add recurring-invoices item.
+ * @param body : params
+ * @returns {*}
+ */
+export const addRecurringInvoiceItem = body => {
+  return Request.post({path: `items`, body});
+};
+
+/**
+ * Update recurring-invoices item.
+ * @param id : recurring-invoice item id
+ * @param body : params
+ * @returns {*}
+ */
+export const updateRecurringInvoiceItem = (id, body) => {
+  return Request.put({path: `items/${id}`, body});
+};
+
+/**
+ * Fetch Next-Invoice-At.
+ * @param body : params
+ * @returns {*}
+ */
+export const fetchNextInvoiceAt = body => {
+  return Request.get({
+    path: `recurring-invoice-frequency?${queryString.stringify(body)}`
+  });
+};
+
+/**
+ * Fetch Invoice Templates
+ * @returns {*}
+ */
+export const fetchInvoiceTemplates = () => {
+  return Request.get({path: `invoices/templates`});
+};
+
+/**
  * Fetch status
  * @returns {*}
  */

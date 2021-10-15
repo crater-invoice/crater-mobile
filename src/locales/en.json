@@ -193,9 +193,16 @@
   "recurring_invoices": {
     "start_date": "Start Date",
     "invoice_due_date": "Invoice Due Date",
-    "next_invoice_date": "Next Invoice Date",
+    "next_invoice_at": "Next Invoice At",
     "ref_number": "Ref Number",
     "limit_by": "Limit by",
+    "statuses": "Statuses",
+    "select_frequency": "Select Frequency",
+    "display_frequency": "Frequency",
+    "auto_sent": {
+      "label": "Send Invoice Automatically",
+      "description": "Enable this, if you would like to send the invoice automatically to the customer when its created."
+    },
     "status": {
       "title": "Status",
       "empty": {
@@ -203,9 +210,6 @@
         "description": "This section will contain the list of status."
       }
     },
-    "statuses": "Statuses",
-    "select_frequency": "Select Frequency",
-    "display_frequency": "Frequency",
     "tabs": {
       "active": "Active",
       "on_hold": "On Hold",

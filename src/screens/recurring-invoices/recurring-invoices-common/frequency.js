@@ -1,19 +1,30 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {DatePickerField, InputField, SelectPickerField} from '@/components';
+import {InputField, SelectPickerField} from '@/components';
 import t from 'locales/use-translation';
-import {frequencies} from 'stores/recurring-invoices/helpers';
+import {FREQUENCIES_TYPES} from 'stores/recurring-invoices/helpers';
+import {colors} from '@/styles';
 
 interface IProps {
   /**
-   * An object with data for due date field.
+   * An object with data for frequency-field field.
    */
-  dueDateField?: object;
+  frequencyField?: object;
 
   /**
-   * An object with data for toggle field.
+   * An object with data for frequency-picker-field field.
    */
-  toggleField?: object;
+  frequencyPickerField?: object;
+
+  /**
+   * An function to return when field changed.
+   */
+  onChangeCallback: () => void;
+
+  /**
+   * An function to return when field is mounted.
+   */
+  callbackWhenMount: () => void;
 }
 
 export const FrequencyField = (props: IProps) => {
@@ -31,23 +42,24 @@ export const FrequencyField = (props: IProps) => {
         label={t('recurring_invoices.select_frequency')}
         component={SelectPickerField}
         fieldIcon="sync"
-        items={frequencies}
-        defaultPickerOptions={{
-          label: t('recurring_invoices.frequencies.custom'),
-          value: null
-        }}
+        items={FREQUENCIES_TYPES}
+        placeholderTextColor={colors.secondary}
         onChangeCallback={onChangeCallback}
         callbackWhenMount={callbackWhenMount}
+        isRequired
       />
-      <Field
-        name={frequencyField.name}
-        component={InputField}
-        hint={t('recurring_invoices.display_frequency')}
-        inputProps={{}}
-        meta={{}}
-        callbackWhenMount={callbackWhenMount}
-        disabled={frequencyPickerField.value}
-      />
+      {!frequencyPickerField.value && (
+        <Field
+          name={frequencyField.name}
+          component={InputField}
+          hint={t('recurring_invoices.display_frequency')}
+          callbackWhenMount={callbackWhenMount}
+          disabled={frequencyPickerField.value}
+          inputProps={{}}
+          meta={{}}
+          isDebounce
+        />
+      )}
     </>
   );
 };

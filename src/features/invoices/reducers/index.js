@@ -2,8 +2,6 @@ import {
     SET_INVOICES,
     INVOICES_TRIGGER_SPINNER,
     GET_INVOICES,
-    GET_ITEMS,
-    SET_ITEMS,
     SET_CREATE_INVOICE,
     SET_INVOICE_ITEMS,
     SET_EDIT_INVOICE_ITEMS,
@@ -21,7 +19,6 @@ import {
 const initialState = {
     invoices: [],
     filterInvoices: [],
-    items: [],
     createInvoiceItem: {
         invoiceTemplates: []
     },
@@ -38,7 +35,7 @@ const initialState = {
         invoice: null,
         invoiceTemplates: []
     },
-    invoiceItems: [],
+    selectedItems: [],
     activeTab: 'DUE'
 };
 
@@ -62,8 +59,7 @@ export default function invoicesReducer(state = initialState, action) {
         case CLEAR_INVOICE:
             return {
                 ...state,
-                invoiceItems: [],
-                items: [],
+                selectedItems: [],
                 invoiceData: {
                     invoice: null,
                     invoiceTemplates: []
@@ -79,33 +75,25 @@ export default function invoicesReducer(state = initialState, action) {
         case INVOICES_TRIGGER_SPINNER:
             return { ...state, loading: { ...state.loading, ...payload } };
 
-        case SET_ITEMS:
-            const { items } = payload;
-
-            if (!payload.fresh) {
-                return { ...state, items: [...state.items, ...items] };
-            }
-            return { ...state, items };
-
         case SET_INVOICE_ITEMS:
             const { invoiceItem } = payload;
 
             return {
                 ...state,
-                invoiceItems: [...state.invoiceItems, ...invoiceItem]
+                selectedItems: [...state.selectedItems, ...invoiceItem]
             };
 
         case REMOVE_INVOICE_ITEM:
             const { id } = payload;
 
-            const invoiceItems = state.invoiceItems.filter(
+            const selectedItems = state.selectedItems.filter(
                 val => (val.item_id || val.id) !== id
             );
 
-            return { ...state, invoiceItems };
+            return { ...state, selectedItems };
 
         case REMOVE_INVOICE_ITEMS:
-            return { ...state, invoiceItems: [] };
+            return { ...state, selectedItems: [] };
 
         case REMOVE_FROM_INVOICES:
             const newInvoices = state.invoices.filter(
@@ -130,30 +118,30 @@ export default function invoicesReducer(state = initialState, action) {
             }
 
             return { ...state, invoices: payload.invoices };
-        
-        case UPDATE_FROM_INVOICES: {
-            const invoiceMainData = payload.invoice
 
-            const incoicesList = []
+        case UPDATE_FROM_INVOICES: {
+            const invoiceMainData = payload.invoice;
+
+            const invoicesList = [];
 
             if (state.invoices) {
-                state.invoices.map((invoice) => {
-                    const { id } = invoice
-                    let value = invoice
+                state.invoices.map(invoice => {
+                    const { id } = invoice;
+                    let value = invoice;
 
                     if (id === invoiceMainData.id) {
                         value = {
                             ...invoiceMainData
-                        }
+                        };
                     }
-                    incoicesList.push(value)
-                })
+                    invoicesList.push(value);
+                });
             }
 
             return {
                 ...state,
-                invoices: incoicesList
-            }
+                invoices: invoicesList
+            };
         }
 
         default:

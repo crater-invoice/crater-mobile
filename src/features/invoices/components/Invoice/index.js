@@ -2,54 +2,47 @@ import React from 'react';
 import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change, SubmissionError} from 'redux-form';
-import styles from './styles';
-import {TemplateField} from '../TemplateField';
+import {TemplateField} from '@/components';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
-import FinalAmount from '../FinalAmount';
 import {alertMe, isEmpty} from '@/constants';
 import {
   InputField,
   DatePickerField,
-  ListView,
   DefaultLayout,
-  CurrencyFormat,
   FakeInput,
   SendMail,
   CustomField,
-  Label,
   View as CtView,
   ActionButton,
   Notes,
-  ItemField
+  ItemField,
+  FinalAmount
 } from '@/components';
 import {
-  ITEM_ADD,
-  ITEM_EDIT,
   INVOICE_FORM,
   INVOICE_ACTIONS,
-  EDIT_INVOICE_ACTIONS,
-  setInvoiceRefs
+  EDIT_INVOICE_ACTIONS
 } from '../../constants';
 import {
-  invoiceSubTotal,
-  invoiceTax,
-  invoiceCompoundTax,
+  total,
+  tax,
+  CompoundTax,
   getCompoundTaxValue,
   totalDiscount,
   getTaxValue,
   getItemList,
   finalAmount
-} from '../InvoiceCalculation';
+} from '@/components/final-amount/final-amount-calculation';
 import {getApiFormattedCustomFields} from '@/utils';
 import InvoiceServices from '../../services';
-import {ItemSelectModal, CustomerSelectModal} from '@/select-modal';
+import {CustomerSelectModal} from '@/select-modal';
 import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
+import {setCalculationRef} from 'stores/common/helpers';
 
 type IProps = {
   navigation: any,
-  invoiceItems: any,
-  taxTypes: Object,
+  selectedItems: any,
   customers: Object,
   getCreateInvoice: Function,
   getEditInvoice: Function,
@@ -59,7 +52,6 @@ type IProps = {
   getCustomers: Function,
   getItems: Function,
   editInvoice: Boolean,
-  itemsLoading: Boolean,
   initLoading: Boolean,
   loading: Boolean,
   items: Object,
@@ -87,7 +79,7 @@ export class Invoice extends React.Component<IProps, IStates> {
 
   constructor(props) {
     super(props);
-    this.invoiceRefs = setInvoiceRefs.bind(this);
+    this.invoiceRefs = setCalculationRef.bind(this);
     this.sendMailRef = React.createRef();
     this.customerReference = React.createRef();
 
@@ -142,8 +134,8 @@ export class Invoice extends React.Component<IProps, IStates> {
         id,
         onSuccess: ({customer, status}) => {
           this.setState({
-            currency: customer.currency,
-            customerName: customer.name,
+            currency: customer?.currency,
+            customerName: customer?.name,
             markAsStatus: status,
             isLoading: false
           });
@@ -208,8 +200,8 @@ export class Invoice extends React.Component<IProps, IStates> {
       invoice_number: `${values.prefix}-${values.invoice_number}`,
       invoice_no: values.invoice_number,
       total: finalAmount(),
-      sub_total: invoiceSubTotal(),
-      tax: invoiceTax() + invoiceCompoundTax(),
+      sub_total: total(),
+      tax: tax() + CompoundTax(),
       discount_val: totalDiscount(),
       taxes: values.taxes
         ? values.taxes.map(val => {
@@ -407,13 +399,11 @@ export class Invoice extends React.Component<IProps, IStates> {
 
   render() {
     const {
-      invoiceData,
       navigation,
       handleSubmit,
       invoiceData: {invoiceTemplates, discount_per_item, tax_per_item} = {},
-      invoiceItems,
+      selectedItems,
       getItems,
-      itemsLoading,
       items,
       initLoading,
       getCustomers,
@@ -425,13 +415,11 @@ export class Invoice extends React.Component<IProps, IStates> {
       isAllowToDelete,
       isEditScreen,
       loading,
-      theme,
       notes,
       getNotes
     } = this.props;
-    const {currency, customerName, markAsStatus, isLoading} = this.state;
+    const {customerName, markAsStatus, isLoading} = this.state;
     const disabled = !isAllowToEdit;
-
     const hasCustomField = isEditScreen
       ? formValues && formValues.hasOwnProperty('fields')
       : !isEmpty(customFields);
@@ -581,14 +569,21 @@ export class Invoice extends React.Component<IProps, IStates> {
         />
         <ItemField
           {...this.props}
-          selectedItems={invoiceItems}
-          itemData={invoiceData}
+          selectedItems={selectedItems}
+          discount_per_item={discount_per_item}
+          tax_per_item={tax_per_item}
           items={getItemList(items)}
           getItems={getItems}
           setFormField={this.setFormField}
+          screen="invoice"
         />
 
-        <FinalAmount state={this.state} props={this.props} />
+        <FinalAmount
+          discount_per_item={discount_per_item}
+          tax_per_item={tax_per_item}
+          state={this.state}
+          props={this.props}
+        />
 
         <Field
           name="reference_number"
@@ -604,6 +599,7 @@ export class Invoice extends React.Component<IProps, IStates> {
         />
 
         <Notes
+          {...this.props}
           navigation={navigation}
           notes={notes}
           getNotes={getNotes}

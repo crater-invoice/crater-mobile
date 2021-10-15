@@ -1,37 +1,48 @@
 import {connect} from 'react-redux';
-import {InvoiceItem} from '../../components/Item';
+import {CreateItem} from './create-item';
 import {reduxForm, getFormValues} from 'redux-form';
-import {validate} from './validation';
-import * as InvoicesAction from '../../actions';
-import {ITEM_FORM} from '../../constants';
+import {validate} from 'stores/items/validator';
+import {CREATE_ITEM_FORM} from 'stores/items/types';
 import {getTaxes} from '@/features/settings/actions';
 import {fetchItemUnits} from 'stores/item-units/actions';
 import {unitsSelector} from '@/features/more/selectors';
 import {commonSelector} from 'stores/common/selectors';
-
+import {getItems} from '@/features/more/actions';
 const mapStateToProps = (state, {route}) => {
   const {
-    invoices: {loading},
-    itemUnits: {units}
+    itemUnits: {units},
+    invoices,
+    estimate,
+    recurringInvoice
   } = state;
 
   const item = route?.params?.item ?? {};
 
   const type = route?.params?.type;
+  const screen = route?.params?.screen;
   const discountPerItem = route?.params?.discount_per_item;
   const taxPerItem = route?.params?.tax_per_item;
 
-  const isLoading = loading.editItemLoading || loading.removeItemLoading;
-
+  const isLoading = () => {
+    return (
+      invoices?.loading?.editItemLoading ||
+      invoices?.loading?.removeItemLoading ||
+      estimate?.loading?.editItemLoading ||
+      estimate?.loading?.removeItemLoading ||
+      recurringInvoice?.isSaving ||
+      recurringInvoice?.isDeleting
+    );
+  };
   return {
-    loading: isLoading,
-    formValues: getFormValues(ITEM_FORM)(state) || {},
+    loading: isLoading(),
+    formValues: getFormValues(CREATE_ITEM_FORM)(state) || {},
     itemId: item && (item.item_id || item.id),
     taxTypes: state.common?.taxTypes,
     currency: route?.params?.currency,
     discountPerItem,
     taxPerItem,
     type,
+    screen,
     units: unitsSelector(units),
     ...commonSelector(state),
     initialValues: {
@@ -46,21 +57,17 @@ const mapStateToProps = (state, {route}) => {
 };
 
 const mapDispatchToProps = {
-  addItem: InvoicesAction.addItem,
-  setInvoiceItems: InvoicesAction.setInvoiceItems,
-  removeInvoiceItem: InvoicesAction.removeInvoiceItem,
+  getItems,
   fetchItemUnits,
   getTaxes
 };
 
-const addItemReduxForm = reduxForm({
-  form: ITEM_FORM,
+const createItemReduxForm = reduxForm({
+  form: CREATE_ITEM_FORM,
   validate
-})(InvoiceItem);
+})(CreateItem);
 
-const InvoiceItemContainer = connect(
+export const CreateItemContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(addItemReduxForm);
-
-export default InvoiceItemContainer;
+)(createItemReduxForm);

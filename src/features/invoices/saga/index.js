@@ -1,10 +1,9 @@
-import {all, call, put, takeEvery} from 'redux-saga/effects';
+import {call, put, takeEvery} from 'redux-saga/effects';
 import Request from 'utils/request';
 import * as queryStrings from 'query-string';
 import {
   GET_INVOICES,
   GET_CREATE_INVOICE,
-  GET_ITEMS,
   ADD_ITEM,
   CREATE_INVOICE,
   EDIT_ITEM,
@@ -18,7 +17,6 @@ import {
 import {
   invoiceTriggerSpinner as spinner,
   setInvoices,
-  setItems,
   setInvoiceItems,
   removeInvoiceItem,
   removeInvoiceItems,
@@ -88,7 +86,7 @@ function* getCreateInvoice({payload: {onSuccess}}) {
       ...(!isAuto && {nextNumber: null})
     };
 
-    const {invoiceTemplates} = yield call(geInvoiceTemplates, {});
+    const {invoiceTemplates} = yield call(getInvoiceTemplates, {});
 
     yield put(setInvoice({...response, ...values, invoiceTemplates}));
 
@@ -121,7 +119,7 @@ function* getEditInvoice({payload: {id, onSuccess}}) {
 
     const {invoicePrefix, nextInvoiceNumber} = response?.meta;
     const invoice = response?.data;
-    const {invoiceTemplates} = yield call(geInvoiceTemplates, {});
+    const {invoiceTemplates} = yield call(getInvoiceTemplates, {});
 
     const values = {
       invoice,
@@ -292,31 +290,6 @@ function* editInvoice({payload}) {
   }
 }
 
-function* getItems({payload}) {
-  const {fresh = true, onSuccess, onFail, queryString} = payload;
-
-  yield put(spinner({itemsLoading: true}));
-
-  try {
-    const options = {
-      path: `items?${queryStrings.stringify(queryString)}`
-    };
-
-    const response = yield call([Request, 'get'], options);
-
-    if (response?.data) {
-      const data = response.data;
-      yield put(setItems({items: data, fresh}));
-    }
-
-    onSuccess?.(response);
-  } catch (e) {
-    onFail?.();
-  } finally {
-    yield put(spinner({itemsLoading: false}));
-  }
-}
-
 function* removeItem({payload: {onResult, id}}) {
   yield put(spinner({removeItemLoading: true}));
 
@@ -382,7 +355,7 @@ function* changeInvoiceStatus({payload}) {
   }
 }
 
-export function* geInvoiceTemplates(payloadData) {
+export function* getInvoiceTemplates(payloadData) {
   try {
     const options = {
       path: `invoices/templates`
@@ -397,12 +370,11 @@ export default function* invoicesSaga() {
   yield takeEvery(GET_CREATE_INVOICE, getCreateInvoice);
   yield takeEvery(GET_EDIT_INVOICE, getEditInvoice);
   yield takeEvery(ADD_ITEM, addItem);
-  yield takeEvery(GET_ITEMS, getItems);
   yield takeEvery(CREATE_INVOICE, createInvoice);
   yield takeEvery(EDIT_INVOICE, editInvoice);
   yield takeEvery(EDIT_ITEM, editItem);
   yield takeEvery(REMOVE_ITEM, removeItem);
   yield takeEvery(REMOVE_INVOICE, removeInvoice);
   yield takeEvery(CHANGE_INVOICE_STATUS, changeInvoiceStatus);
-  yield takeEvery(GET_INVOICE_TEMPLATE, geInvoiceTemplates);
+  yield takeEvery(GET_INVOICE_TEMPLATE, getInvoiceTemplates);
 }

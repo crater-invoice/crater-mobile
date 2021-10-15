@@ -4,108 +4,145 @@ import * as req from './service';
 import {spinner} from './actions';
 
 /**
- * Fetch users saga
+ * Fetch items saga
  * @returns {IterableIterator<*>}
  */
-function* fetchUsers({payload}) {
+function* fetchItems({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
+
+  yield put(spinner({itemsLoading: true}));
+
   try {
-    const response = yield call(req.fetchUsers, queryString);
-    const users = response?.data ?? [];
-    yield put({type: types.FETCH_USERS_SUCCESS, payload: {users, fresh}});
+    const options = {
+      path: `items?${queryStrings.stringify(queryString)}`
+    };
+
+    const response = yield call([Request, 'get'], options);
+
+    if (response?.data) {
+      const data = response.data;
+      yield put(setItems({items: data, fresh}));
+    }
+
     onSuccess?.(response);
   } catch (e) {
     onFail?.();
+  } finally {
+    yield put(spinner({itemsLoading: false}));
   }
 }
 
 /**
- * Fetch single user saga
+ * Fetch single item saga
  * @returns {IterableIterator<*>}
  */
-function* fetchSingleUser({payload}) {
+function* fetchSingleItem({payload}) {
   try {
     const {id, onSuccess} = payload;
-    const response = yield call(req.fetchSingleUser, id);
+    const response = yield call(req.fetchSingleitem, id);
     onSuccess?.(response?.data);
   } catch (e) {}
 }
 
 /**
- * Add user saga
+ * Add item saga
  * @returns {IterableIterator<*>}
  */
-function* addUser({payload}) {
+function* addItem({payload: {item, onResult, setItems}}) {
+  yield put(spinner({itemLoading: true}));
+
   try {
-    const {params, navigation, submissionError} = payload;
-    yield put(spinner('isSaving', true));
-    const response = yield call(req.addUser, params);
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
-      return;
-    }
-    if (response?.data) {
-      yield put({
-        type: types.ADD_USER_SUCCESS,
-        payload: response?.data
-      });
-      navigation.goBack(null);
-    }
+    const {price, name, description, taxes, unit_id} = item;
+
+    const options = {
+      path: `items`,
+      body: {
+        name,
+        description,
+        price,
+        unit_id,
+        taxes
+      }
+    };
+
+    const response = yield call([Request, 'post'], options);
+
+    const items = [
+      {
+        ...response.data,
+        item_id: response.data.id,
+        ...item
+      }
+    ];
+
+    yield put(setItems({items}));
+
+    onResult?.();
   } catch (e) {
   } finally {
-    yield put(spinner('isSaving', false));
+    yield put(spinner({createInvoiceItemLoading: false}));
   }
 }
 
 /**
- * Update user saga
+ * Update item saga
  * @returns {IterableIterator<*>}
  */
-function* updateUser({payload}) {
+function* updateItem({payload: {item, onResult}}) {
+  yield put(spinner({createInvoiceItemLoading: true}));
+
   try {
-    const {id, params, navigation, submissionError} = payload;
-    yield put(spinner('isSaving', true));
-    const response = yield call(req.updateUser, id, params);
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
-      return;
-    }
-    if (response?.data) {
-      yield put({
-        type: types.UPDATE_USER_SUCCESS,
-        payload: response?.data
-      });
-      navigation.goBack(null);
-    }
+    const {price, name, description, item_id} = item;
+
+    const options = {
+      path: `items/${item_id}`,
+      body: {
+        name,
+        description,
+        price
+      }
+    };
+
+    const response = yield call([Request, 'put'], options);
+
+    const invoiceItem = [
+      {
+        ...response.item,
+        ...item
+      }
+    ];
+
+    yield put(removeInvoiceItem({id: invoiceItem.id}));
+
+    yield put(setInvoiceItems({invoiceItem}));
+
+    onResult?.();
   } catch (e) {
   } finally {
-    yield put(spinner('isSaving', false));
+    yield put(spinner({createInvoiceItemLoading: false}));
   }
 }
 
 /**
- * Remove user saga
+ * Remove item saga
  * @returns {IterableIterator<*>}
  */
-function* removeUser({payload}) {
-  const {id, navigation, onFail} = payload;
+function* removeItem({payload}) {
+  yield put(spinner({removeItemLoading: true}));
+
   try {
-    yield put(spinner('isDeleting', true));
-    const body = {users: [id]};
-    yield call(req.removeUser, body);
-    yield put({type: types.REMOVE_USER_SUCCESS, payload: id});
-    navigation.goBack(null);
+    yield put(removeInvoiceItem({id}));
+    onResult?.();
   } catch (e) {
-    onFail?.(e);
   } finally {
-    yield put(spinner('isDeleting', false));
+    yield put(spinner({removeItemLoading: false}));
   }
 }
 
-export default function* usersSaga() {
-  yield takeLatest(types.FETCH_USERS, fetchUsers);
-  yield takeLatest(types.FETCH_SINGLE_USER, fetchSingleUser);
-  yield takeLatest(types.ADD_USER, addUser);
-  yield takeLatest(types.UPDATE_USER, updateUser);
-  yield takeLatest(types.REMOVE_USER, removeUser);
+export default function* itemsSaga() {
+  yield takeLatest(types.FETCH_ITEMS, fetchItems);
+  yield takeLatest(types.FETCH_SINGLE_ITEM, fetchSingleItem);
+  yield takeLatest(types.ADD_ITEM, addItem);
+  yield takeLatest(types.UPDATE_ITEM, updateItem);
+  yield takeLatest(types.REMOVE_ITEM, removeItem);
 }

@@ -1,9 +1,15 @@
-import queryString from 'query-string';
 import t from 'locales/use-translation';
 
 export const SPINNER = 'recurringInvoices/SPINNER';
 
 export const FETCH_INITIAL_DETAILS = 'recurringInvoices/FETCH_INITIAL_DETAILS';
+export const FETCH_STATUS_SUCCESS = 'recurringInvoices/FETCH_STATUS_SUCCESS';
+export const FETCH_INVOICE_TEMPLATES_SUCCESS =
+  'recurringInvoices/FETCH_INVOICE_TEMPLATES_SUCCESS';
+export const FETCH_NEXT_INVOICE_AT = 'recurringInvoices/FETCH_NEXT_INVOICE_AT';
+
+export const CLEAR_RECURRING_INVOICE =
+  'recurringInvoices/CLEAR_RECURRING_INVOICE';
 
 export const RECURRING_INVOICES_FORM =
   'recurringInvoices/RECURRING_INVOICES_FORM';
@@ -29,81 +35,40 @@ export const UPDATE_RECURRING_INVOICE =
 export const UPDATE_RECURRING_INVOICE_SUCCESS =
   'recurringInvoices/UPDATE_RECURRING_INVOICE_SUCCESS';
 
-export const FETCH_STATUS = 'recurringInvoices/FETCH_STATUS';
-export const FETCH_STATUS_SUCCESS = 'recurringInvoices/FETCH_STATUS_SUCCESS';
-
 export const REMOVE_RECURRING_INVOICE =
   'recurringInvoices/REMOVE_RECURRING_INVOICE';
 export const REMOVE_RECURRING_INVOICE_SUCCESS =
   'recurringInvoices/REMOVE_RECURRING_INVOICE_SUCCESS';
 
 export const FETCH_ITEMS = 'recurringInvoices/FETCH_ITEMS';
+export const SET_RECURRING_INVOICE_ITEMS =
+  'recurringInvoices/SET_RECURRING_INVOICE_ITEMS';
+
+export const RECURRING_INVOICE_SEARCH =
+  'recurringInvoiceForm/RECURRING_INVOICE_SEARCH';
+
+export const ADD_RECURRING_INVOICE_ITEM =
+  'recurringInvoices/ADD_RECURRING_INVOICE_ITEM';
+export const ADD_RECURRING_INVOICE_ITEM_SUCCESS =
+  'recurringInvoices/ADD_RECURRING_INVOICE_ITEM_SUCCESS';
+
+export const UPDATE_RECURRING_INVOICE_ITEM =
+  'recurringInvoices/UPDATE_RECURRING_INVOICE_ITEM';
+export const UPDATE_RECURRING_INVOICE_ITEM_SUCCESS =
+  'recurringInvoices/UPDATE_RECURRING_INVOICE_ITEM_SUCCESS';
+
+export const REMOVE_RECURRING_INVOICE_ITEM =
+  'recurringInvoices/REMOVE_RECURRING_INVOICE_ITEM';
+export const REMOVE_RECURRING_INVOICE_ITEM_SUCCESS =
+  'recurringInvoices/REMOVE_RECURRING_INVOICE_ITEM_SUCCESS';
 
 // Invoice Refs
 // -----------------------------------------
 export let recurringInvoiceRefs = {};
-export const setRecurringInvoiceRefs = refs => (invoiceRefs = refs);
+export const setRecurringInvoiceRefs = refs => (recurringInvoiceRefs = refs);
 
 //  Forms
 // -----------------------------------------
-export const RECURRING_INVOICE_SEARCH =
-  'recurringInvoiceForm/RECURRING_INVOICE_SEARCH';
-
-// Actions
-// -----------------------------------------
-export const INVOICES_TRIGGER_SPINNER = 'invoice/INVOICES_TRIGGER_SPINNER';
-export const GET_INVOICES = 'invoice/GET_INVOICES';
-export const SET_INVOICES = 'invoice/SET_INVOICES';
-
-export const CLEAR_INVOICE = 'invoice/CLEAR_INVOICE';
-export const GET_CREATE_INVOICE = 'invoice/GET_CREATE_INVOICE';
-export const GET_EDIT_INVOICE = 'invoice/GET_EDIT_INVOICE';
-export const SET_INVOICE = 'invoice/SET_INVOICE';
-export const SET_EDIT_INVOICE = 'invoice/SET_EDIT_INVOICE';
-export const CREATE_INVOICE = 'invoice/CREATE_INVOICE';
-export const EDIT_INVOICE = 'invoice/EDIT_INVOICE';
-export const REMOVE_INVOICE = 'invoice/REMOVE_INVOICE';
-export const REMOVE_FROM_INVOICES = 'invoice/REMOVE_FROM_INVOICES';
-export const CHANGE_INVOICE_STATUS = 'invoice/CHANGE_INVOICE_STATUS';
-export const GET_INVOICE_TEMPLATE = 'invoice/GET_INVOICE_TEMPLATE';
-export const UPDATE_FROM_INVOICES = 'invoices/UPDATE_FROM_INVOICES';
-
-// Items
-// -----------------------------------------
-export const SET_EDIT_INVOICE_ITEMS = 'invoice/SET_EDIT_INVOICE_ITEMS';
-export const REMOVE_INVOICE_ITEM = 'invoice/REMOVE_INVOICE_ITEM';
-export const REMOVE_INVOICE_ITEMS = 'invoice/REMOVE_INVOICE_ITEMS';
-export const ADD_ITEM = 'invoice/ADD_ITEM';
-export const EDIT_ITEM = 'invoice/EDIT_ITEM';
-export const GET_ITEMS = 'invoice/GET_ITEMS';
-export const SET_ITEMS = 'invoice/SET_ITEMS';
-export const SET_INVOICE_ITEMS = 'invoice/SET_INVOICE_ITEMS';
-export const REMOVE_ITEM = 'invoice/REMOVE_ITEM';
-export const ITEM_ADD = 'invoice/ITEM_ADD';
-export const ITEM_EDIT = 'invoice/ITEM_EDIT';
-
-export const ITEM_DISCOUNT_OPTION = [
-  {
-    key: 'none',
-    label: 'None'
-  },
-  {
-    key: 'fixed',
-    label: 'Fixed'
-  },
-  {
-    key: 'percentage',
-    label: 'Percentage'
-  }
-];
-
-export const INVOICE_DISCOUNT_OPTION = [
-  {
-    value: 'percentage',
-    label: 'Percentage',
-    displayLabel: '%'
-  }
-];
 
 export const RECURRING_INVOICES_TABS = {
   ACTIVE: 'ACTIVE',
@@ -131,185 +96,3 @@ export const FILTER_INVOICE_PAID_STATUS = [
   {label: 'PAID', value: 'PAID'},
   {label: 'PARTIALLY PAID', value: 'PARTIALLY_PAID'}
 ];
-
-export const INVOICES_STATUS = {
-  OVERDUE: 'danger',
-  DRAFT: 'warning',
-  PAID: 'success'
-};
-
-// ActionSheet Actions
-// -----------------------------------------
-
-export const INVOICE_ACTIONS = {
-  VIEW: 'download',
-  SEND: 'send',
-  EDIT: 'edit',
-  DELETE: 'delete',
-  RECORD_PAYMENT: 'recordPayment',
-  MARK_AS_SENT: 'markAsSent',
-  CLONE: 'clone'
-};
-
-export const EDIT_INVOICE_ACTIONS = (
-  sentStatus = false,
-  completeStatus = false,
-  isAllowToDelete
-) => {
-  const options = [];
-
-  !sentStatus &&
-    !completeStatus &&
-    options.push(
-      {
-        label: t('invoices.actions.sendInvoice'),
-        value: INVOICE_ACTIONS.SEND
-      },
-      {
-        label: t('invoices.actions.markAsSent'),
-        value: INVOICE_ACTIONS.MARK_AS_SENT
-      }
-    );
-
-  sentStatus &&
-    options.push({
-      label: t('invoices.actions.reSendInvoice'),
-      value: INVOICE_ACTIONS.SEND
-    });
-
-  options.push({
-    label: t('invoices.actions.clone'),
-    value: INVOICE_ACTIONS.CLONE
-  });
-
-  (sentStatus || (!sentStatus && !completeStatus)) &&
-    options.push({
-      label: t('invoices.actions.recordPayment'),
-      value: INVOICE_ACTIONS.RECORD_PAYMENT
-    });
-
-  isAllowToDelete &&
-    options.push({
-      label: t('invoices.actions.delete'),
-      value: INVOICE_ACTIONS.DELETE
-    });
-
-  return options;
-};
-
-export const REPEAT_RECURRING_INVOICE_OPTION_VALUE = {
-  WEEK: 'week',
-  WEEK2: 'week2',
-  MONTH: 'month',
-  MONTH2: 'month2',
-  MONTH3: 'month3',
-  MONTH6: 'month6',
-  YEAR: 'year',
-  YEAR2: 'year2',
-  YEAR3: 'year3',
-  CUSTOM: 'custom'
-};
-
-export const CUSTOM_REPEAT_RECURRING_OPTION_VALUE = {
-  DAYS: 'days',
-  WEEKS: 'weeks',
-  MONTHS: 'months',
-  YEARS: 'years'
-};
-// Custom Repeat Recurring Invoice
-// -----------------------------------------
-export const CUSTOM_REPEAT_RECURRING_OPTION = () => {
-  const VALUE = CUSTOM_REPEAT_RECURRING_OPTION_VALUE;
-
-  return [
-    {
-      label: t('invoices.customRepeatRecurring.days'),
-      value: VALUE.DAYS
-    },
-    {
-      label: t('invoices.customRepeatRecurring.weeks'),
-      value: VALUE.WEEKS
-    },
-    {
-      label: t('invoices.customRepeatRecurring.months'),
-      value: VALUE.MONTHS
-    },
-    {
-      label: t('invoices.customRepeatRecurring.years'),
-      value: VALUE.YEARS
-    }
-  ];
-};
-// Repeat Recurring Invoice
-// -----------------------------------------
-export const REPEAT_RECURRING_INVOICE_OPTION = () => {
-  const VALUE = REPEAT_RECURRING_INVOICE_OPTION_VALUE;
-
-  return [
-    {
-      label: t('invoices.repeatRecurring.week'),
-      value: VALUE.WEEK
-    },
-    {
-      label: t('invoices.repeatRecurring.weeks', {
-        week: 2
-      }),
-      value: VALUE.WEEK2
-    },
-    {
-      label: t('invoices.repeatRecurring.month'),
-      value: VALUE.MONTH
-    },
-    {
-      label: t('invoices.repeatRecurring.months', {
-        month: 2
-      }),
-      value: VALUE.MONTH2
-    },
-    {
-      label: t('invoices.repeatRecurring.months', {
-        month: 3
-      }),
-      value: VALUE.MONTH3
-    },
-    {
-      label: t('invoices.repeatRecurring.months', {
-        month: 6
-      }),
-      value: VALUE.MONTH6
-    },
-
-    {
-      label: t('invoices.repeatRecurring.year'),
-      value: VALUE.YEAR
-    },
-    {
-      label: t('invoices.repeatRecurring.years', {
-        year: 2
-      }),
-      value: VALUE.YEAR2
-    },
-    {
-      label: t('invoices.repeatRecurring.years', {
-        year: 3
-      }),
-      value: VALUE.YEAR3
-    },
-    {
-      label: t('invoices.repeatRecurring.custom', {
-        year: 3
-      }),
-      value: VALUE.CUSTOM
-    }
-  ];
-};
-// Endpoint Api URL
-// -----------------------------------------
-export const GET_RECURRING_INVOICES_URL = (type, param) =>
-  `invoices?status=${type}&${queryString.stringify({
-    ...param,
-    orderByField: 'created_at',
-    orderBy: 'desc'
-  })}`;
-export const CREATE_RECURRING_INVOICE_URL = () => `invoices`;
-export const EDIT_RECURRING_INVOICE_URL = invoice => `invoices/${invoice.id}`;
