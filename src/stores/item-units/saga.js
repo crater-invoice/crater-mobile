@@ -12,10 +12,10 @@ import {spinner} from './actions';
 export function* fetchItemUnits({payload}) {
   const {fresh, onSuccess, onFail, queryString} = payload;
   try {
-    const {data} = yield call(req.fetchItemUnits, queryString);
+    const response = yield call(req.fetchItemUnits, queryString);
     yield put({
       type: types.FETCH_ITEM_UNITS_SUCCESS,
-      payload: {units: data, fresh}
+      payload: {units: response.data, fresh}
     });
     onSuccess?.(response);
   } catch (e) {

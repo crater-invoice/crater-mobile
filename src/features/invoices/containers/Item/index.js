@@ -54,7 +54,7 @@ const mapDispatchToProps = {
 };
 
 const addItemReduxForm = reduxForm({
-  form: ITEM_FORM,
+  form: 'item/ITEM_FORM',
   validate
 })(InvoiceItem);
 

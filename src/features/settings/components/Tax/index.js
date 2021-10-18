@@ -51,16 +51,7 @@ export class Tax extends React.Component {
     } = this.props;
 
     const remove = () => {
-      removeTax({
-        id,
-        onResult: val => {
-          val
-            ? navigation.navigate(routes.TAXES)
-            : alertMe({
-                title: `${name} ${t('taxes.alreadyUsed')}`
-              });
-        }
-      });
+      removeTax({id, onResult: val => navigation.navigate(routes.TAXES)});
     };
 
     alertMe({

@@ -12,10 +12,10 @@ import * as types from './types';
 export function* fetchPaymentModes({payload}) {
   const {fresh, onSuccess, onFail, queryString} = payload;
   try {
-    const {data} = yield call(req.fetchPaymentModes, queryString);
+    const response = yield call(req.fetchPaymentModes, queryString);
     yield put({
       type: types.FETCH_PAYMENT_MODES_SUCCESS,
-      payload: {modes: data, fresh}
+      payload: {modes: response.data, fresh}
     });
     onSuccess?.(response);
   } catch (e) {

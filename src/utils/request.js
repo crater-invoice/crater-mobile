@@ -131,6 +131,11 @@ export default class Request {
     })
       .then(function(response) {
         const {data} = response;
+
+        if (data && data.hasOwnProperty('error')) {
+          throw {response: {data: {...data, status: 422}}};
+        }
+
         return data;
       })
       .catch(function({response}) {

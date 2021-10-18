@@ -105,6 +105,7 @@ function* removeRole({payload}) {
     showNotification({message: t('notification.role_deleted')});
   } catch (e) {
     onFail?.();
+    handleError(e);
   } finally {
     yield put(spinner('isDeleting', false));
   }

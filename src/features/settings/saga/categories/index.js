@@ -16,22 +16,17 @@ import {
 } from '../../constants';
 import {routes} from '@/navigation';
 import Request from 'utils/request';
+import t from 'locales/use-translation';
+import {showNotification, handleError} from '@/utils';
 
 export function* getExpenseCategories({payload}) {
-  const {fresh = true, onSuccess, onFail, queryString} = payload;
-
+  const {fresh, onSuccess, onFail, queryString} = payload;
   try {
     const options = {
       path: `categories?${queryStrings.stringify(queryString)}`
     };
-
     const response = yield call([Request, 'get'], options);
-
-    if (response?.data) {
-      const data = response.data;
-      yield put(setExpenseCategories({categories: data, fresh}));
-    }
-
+    yield put(setExpenseCategories({categories: response.data, fresh}));
     onSuccess?.(response);
   } catch (e) {
     onFail?.();
@@ -39,35 +34,28 @@ export function* getExpenseCategories({payload}) {
 }
 
 function* createExpenseCategory({payload: {params, onResult}}) {
-  yield put(spinner({expenseCategoryLoading: true}));
-
   try {
-    const options = {
-      path: `categories`,
-      body: params
-    };
-
-    const response = yield call([Request, 'post'], options);
-
-    yield put(setCreateExpenseCategories({categories: [response.data]}));
-
-    onResult?.(response?.data);
+    yield put(spinner({expenseCategoryLoading: true}));
+    const options = {path: `categories`, body: params};
+    const {data} = yield call([Request, 'post'], options);
+    yield put(setCreateExpenseCategories({categories: [data]}));
+    onResult?.(data);
+    showNotification({message: t('notification.expense_category_created')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({expenseCategoryLoading: false}));
   }
 }
 
 function* getEditExpenseCategory({payload: {id, onResult}}) {
-  yield put(spinner({initExpenseCategoryLoading: true}));
-
   try {
+    yield put(spinner({initExpenseCategoryLoading: true}));
     const options = {
       path: `categories/${id}`
     };
-
-    const response = yield call([Request, 'get'], options);
-    onResult?.(response.data);
+    const {data} = yield call([Request, 'get'], options);
+    onResult?.(data);
   } catch (e) {
   } finally {
     yield put(spinner({initExpenseCategoryLoading: false}));
@@ -75,40 +63,35 @@ function* getEditExpenseCategory({payload: {id, onResult}}) {
 }
 
 function* editExpenseCategory({payload: {id, params, navigation}}) {
-  yield put(spinner({expenseCategoryLoading: true}));
-
   try {
+    yield put(spinner({expenseCategoryLoading: true}));
     const options = {
       path: `categories/${id}`,
       body: params
     };
-
-    const response = yield call([Request, 'put'], options);
+    const {data} = yield call([Request, 'put'], options);
+    yield put(setEditExpenseCategories({categories: [data], id}));
     navigation.navigate(routes.CATEGORIES);
-    yield put(setEditExpenseCategories({categories: [response.data], id}));
+    showNotification({message: t('notification.expense_category_updated')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({expenseCategoryLoading: false}));
   }
 }
 
 function* removeExpenseCategory({payload: {id, navigation, onResult}}) {
-  yield put(spinner({expenseCategoryLoading: true}));
-
   try {
+    yield put(spinner({expenseCategoryLoading: true}));
     const options = {
       path: `categories/${id}`
     };
-
-    const response = yield call([Request, 'delete'], options);
-
-    if (response.success) {
-      navigation.navigate(routes.CATEGORIES);
-      yield put(setRemoveExpenseCategories({id}));
-    } else {
-      onResult?.();
-    }
-  } catch (error) {
+    yield call([Request, 'delete'], options);
+    navigation.navigate(routes.CATEGORIES);
+    yield put(setRemoveExpenseCategories({id}));
+    showNotification({message: t('notification.expense_category_deleted')});
+  } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({expenseCategoryLoading: false}));
   }

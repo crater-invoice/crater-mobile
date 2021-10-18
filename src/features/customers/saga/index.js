@@ -38,8 +38,8 @@ export function* getCustomers({payload}) {
       path: `customers?${queryStrings.stringify(queryString)}`
     };
 
-    const {data} = yield call([Request, 'get'], options);
-    yield put(setCustomers({customers: data, fresh}));
+    const response = yield call([Request, 'get'], options);
+    yield put(setCustomers({customers: response.data, fresh}));
     onSuccess?.(response);
   } catch (e) {
     onFail?.();

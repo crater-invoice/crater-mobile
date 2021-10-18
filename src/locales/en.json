@@ -865,6 +865,22 @@
         "customer_deleted": "Customer deleted successfully",
         "role_created": "Role created successfully",
         "role_updated": "Role updated successfully",
-        "role_deleted": "Role deleted successfully"
+        "role_deleted": "Role deleted successfully",
+        "expense_category_created": "Expense Category created successfully",
+        "expense_category_updated": "Expense category updated successfully",
+        "expense_category_deleted": "Expense category deleted successfully",
+        "expense_already_in_use": "Expense Category is already in use",
+        "note_created": "Note created successfully",
+        "note_updated": "Note updated successfully",
+        "note_deleted": "Note deleted successfully",
+        "note_already_in_use": "Note is already in use",
+        "custom_field_created": "Custom Field created successfully",
+        "custom_field_updated": "Custom Field updated successfully",
+        "custom_field_deleted": "Custom Field deleted successfully",
+        "custom_field_already_in_use": "Custom Field is already in use",
+        "tax_created": "Tax type created successfully",
+        "tax_updated": "Tax type updated successfully",
+        "tax_deleted": "Tax type deleted successfully",
+        "tax_already_in_use": "Tax is already in use"
     }
 }
