@@ -4,6 +4,8 @@ import {moreTriggerSpinner, setItems, setItem, deleteItem} from '../actions';
 import * as queryStrings from 'query-string';
 import {fetchItemUnits} from 'stores/item-units/saga';
 import {getSettingInfo} from '@/features/settings/saga/general';
+import t from 'locales/use-translation';
+import {showNotification, handleError} from '@/utils';
 import {
   GET_ITEMS,
   ITEM_ADD,
@@ -14,20 +16,11 @@ import {
 } from '../constants';
 
 function* getItems({payload}) {
-  const {fresh = true, onSuccess, onFail, queryString} = payload;
-
+  const {fresh, onSuccess, onFail, queryString} = payload;
   try {
-    const options = {
-      path: `items?${queryStrings.stringify(queryString)}`
-    };
-
+    const options = {path: `items?${queryStrings.stringify(queryString)}`};
     const response = yield call([Request, 'get'], options);
-
-    if (response?.data) {
-      const data = response.data;
-      yield put(setItems({items: data, fresh}));
-    }
-
+    yield put(setItems({items: response.data, fresh}));
     onSuccess?.(response);
   } catch (e) {
     onFail?.();
@@ -36,81 +29,55 @@ function* getItems({payload}) {
 
 function* getEditItem({payload: {id, onResult}}) {
   try {
-    const options = {
-      path: `items/${id}`
-    };
-
-    const response = yield call([Request, 'get'], options);
-
-    yield put(setItem({item: response?.data}));
-
-    yield call(fetchItemUnits, {
-      payload: {queryString: {limit: 'all'}}
-    });
-
-    onResult?.(response?.data);
+    const options = {path: `items/${id}`};
+    const {data} = yield call([Request, 'get'], options);
+    yield put(setItem({item: data}));
+    yield call(fetchItemUnits, {payload: {queryString: {limit: 'all'}}});
+    onResult?.(data);
   } catch (e) {}
 }
 
 function* addItem({payload: {item, onResult}}) {
-  yield put(moreTriggerSpinner({itemLoading: true}));
-
   try {
-    const options = {
-      path: `items`,
-      body: item
-    };
-
-    const res = yield call([Request, 'post'], options);
-
-    yield put(setItems({items: [res.data], prepend: true}));
-
+    yield put(moreTriggerSpinner({itemLoading: true}));
+    const options = {path: `items`, body: item};
+    const {data} = yield call([Request, 'post'], options);
+    yield put(setItems({items: [data], prepend: true}));
     onResult?.();
+    showNotification({message: t('notification.item_created')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(moreTriggerSpinner({itemLoading: false}));
   }
 }
 
 function* editItem({payload: {item, id, onResult}}) {
-  yield put(moreTriggerSpinner({itemLoading: true}));
-
   try {
-    const options = {
-      path: `items/${id}`,
-      body: item
-    };
-
-    const response = yield call([Request, 'put'], options);
-
+    yield put(moreTriggerSpinner({itemLoading: true}));
+    const options = {path: `items/${id}`, body: item};
+    const {data} = yield call([Request, 'put'], options);
     yield put(deleteItem({id}));
-
-    yield put(setItems({items: [response.data], prepend: true}));
-
+    yield put(setItems({items: [data], prepend: true}));
     onResult?.();
+    showNotification({message: t('notification.item_updated')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(moreTriggerSpinner({itemLoading: false}));
   }
 }
 
 function* removeItem({payload: {id, onResult}}) {
-  yield put(moreTriggerSpinner({itemLoading: true}));
-
   try {
-    const options = {
-      path: `items/delete`,
-      body: {ids: [id]}
-    };
-
+    yield put(moreTriggerSpinner({itemLoading: true}));
+    const options = {path: `items/delete`, body: {ids: [id]}};
     const response = yield call([Request, 'post'], options);
-
-    if (response.success) {
-      yield put(deleteItem({id}));
-    }
-
+    yield put(deleteItem({id}));
     onResult?.(response);
+    showNotification({message: t('notification.item_deleted')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(moreTriggerSpinner({itemLoading: false}));
   }
@@ -119,15 +86,8 @@ function* removeItem({payload: {id, onResult}}) {
 function* getMailConfiguration({payload: {body, onSuccess}}) {
   try {
     const options = {path: 'mail/config'};
-
     const emailConfig = yield call([Request, 'get'], options);
-
-    const emailBody = yield call(getSettingInfo, {
-      payload: {
-        key: body
-      }
-    });
-
+    const emailBody = yield call(getSettingInfo, {payload: {key: body}});
     onSuccess?.({...emailConfig, emailBody});
   } catch (e) {}
 }

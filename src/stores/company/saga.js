@@ -3,9 +3,10 @@ import * as Updates from 'expo-updates';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
-import {setI18nManagerValue} from '@/utils';
 import {isEmpty} from '@/constants';
 import {SET_SETTINGS} from '@/constants';
+import t from 'locales/use-translation';
+import {setI18nManagerValue, showNotification, handleError} from '@/utils';
 
 /**
  * fetch Languages saga
@@ -136,6 +137,8 @@ function* updatePreferences({payload}) {
 
     onResult?.();
 
+    showNotification({message: t('notification.preference_updated')});
+
     if (params?.language) {
       const isRTL = params.language === 'ar';
       setI18nManagerValue({isRTL});
@@ -145,6 +148,7 @@ function* updatePreferences({payload}) {
     }
     navigation?.goBack?.(null);
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner('isSaving', false));
   }

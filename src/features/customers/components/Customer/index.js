@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import styles from './styles';
-import {Field, change, SubmissionError} from 'redux-form';
+import {Field, change} from 'redux-form';
 import {
   InputField,
   DefaultLayout,
@@ -93,17 +93,6 @@ export class Customer extends React.Component<IProps> {
     this.props.dispatch(change(CUSTOMER_FORM, field, value));
   };
 
-  throwError = errors => {
-    let error = {};
-
-    errors.email && (error.email = 'validation.alreadyTaken');
-    errors.phone && (error.phone = 'validation.alreadyTaken');
-
-    throw new SubmissionError({
-      customer: {...error}
-    });
-  };
-
   onSubmit = values => {
     const params = {
       ...values?.customer,
@@ -114,7 +103,6 @@ export class Customer extends React.Component<IProps> {
       createCustomer,
       updateCustomer,
       navigation,
-      handleSubmit,
       isEditScreen,
       isCreateScreen,
       route
@@ -131,18 +119,13 @@ export class Customer extends React.Component<IProps> {
           const onSelect = route?.params?.onSelect;
           onSelect?.(res);
           navigation.goBack(null);
-        },
-        submissionError: errors => handleSubmit(() => this.throwError(errors))()
+        }
       });
       return;
     }
 
     if (isEditScreen) {
-      updateCustomer({
-        params,
-        navigation,
-        submissionError: errors => handleSubmit(() => this.throwError(errors))()
-      });
+      updateCustomer({params, navigation});
       return;
     }
   };

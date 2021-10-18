@@ -12,10 +12,8 @@ type IProps = {
   getAccountLoading: Boolean
 };
 export class Notification extends React.Component<IProps> {
-  toastReference: any;
   constructor(props) {
     super(props);
-    this.toastReference = React.createRef();
 
     this.state = {
       invoiceStatus: null,
@@ -56,55 +54,22 @@ export class Notification extends React.Component<IProps> {
 
   onNotificationSubmit = ({notification_email}) => {
     const {editSettingItem, navigation} = this.props;
-
     const settings = {
       notification_email: notification_email
     };
-
-    editSettingItem({
-      params: {
-        settings
-      },
-      navigation
-    });
+    editSettingItem({params: {settings}, navigation});
   };
 
   invoiceStatus = status => {
     const {editSettingItem} = this.props;
-
-    const settings = {
-      notify_invoice_viewed: status === true ? 'YES' : 'NO'
-    };
-
-    editSettingItem({
-      params: {
-        settings
-      },
-      onResult: () => {
-        this.toastReference?.show?.(
-          'settings.notifications.invoiceViewedUpdated'
-        );
-      }
-    });
+    const settings = {notify_invoice_viewed: status === true ? 'YES' : 'NO'};
+    editSettingItem({params: {settings}});
   };
 
   estimateStatus = status => {
     const {editSettingItem} = this.props;
-
-    const settings = {
-      notify_estimate_viewed: status === true ? 'YES' : 'NO'
-    };
-
-    editSettingItem({
-      params: {
-        settings
-      },
-      onResult: () => {
-        this.toastReference?.show?.(
-          'settings.notifications.estimateViewedUpdated'
-        );
-      }
-    });
+    const settings = {notify_estimate_viewed: status === true ? 'YES' : 'NO'};
+    editSettingItem({params: {settings}});
   };
 
   render() {
@@ -130,9 +95,6 @@ export class Notification extends React.Component<IProps> {
             invoiceStatus === null ||
             estimateStatus === null ||
             email === null
-        }}
-        toastProps={{
-          reference: ref => (this.toastReference = ref)
         }}
       >
         <Field

@@ -3,9 +3,12 @@ import Request from 'utils/request';
 import * as queryStrings from 'query-string';
 import * as TYPES from '../constants';
 import {routes} from '@/navigation';
-import {alertMe, hasValue} from '@/constants';
-import t from 'locales/use-translation';
+import {hasValue, isBooleanTrue} from '@/constants';
 import {getCustomFields} from '@/features/settings/saga/custom-fields';
+import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
+import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
+import t from 'locales/use-translation';
+import {showNotification, handleError} from '@/utils';
 import {
   paymentTriggerSpinner as spinner,
   saveUnpaidInvoices,
@@ -14,24 +17,13 @@ import {
   updateFromPayment,
   removeFromPayment
 } from '../actions';
-import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
-import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
 
 function* getPayments({payload}) {
-  const {fresh = true, onSuccess, onFail, queryString} = payload;
-
+  const {fresh, onSuccess, onFail, queryString} = payload;
   try {
-    const options = {
-      path: `payments?${queryStrings.stringify(queryString)}`
-    };
-
+    const options = {path: `payments?${queryStrings.stringify(queryString)}`};
     const response = yield call([Request, 'get'], options);
-
-    if (response?.data) {
-      const data = response.data;
-      yield put(setPayments({payments: data, fresh}));
-    }
-
+    yield put(setPayments({payments: response.data, fresh}));
     onSuccess?.(response);
   } catch (e) {
     onFail?.();
@@ -43,19 +35,11 @@ function* getCreatePayment({payload: {onSuccess}}) {
     const isAutoGenerate = yield call(getSettingInfo, {
       payload: {key: 'payment_auto_generate'}
     });
-
-    const isAuto = isAutoGenerate === 'YES' || isAutoGenerate === 1;
-
-    const response = yield call(getNextNumber, {
-      payload: {key: 'payment'}
-    });
-
+    const isAuto = isBooleanTrue(isAutoGenerate);
+    const response = yield call(getNextNumber, {payload: {key: 'payment'}});
     yield call(getCustomFields, {
-      payload: {
-        queryString: {type: CUSTOM_FIELD_TYPES.PAYMENT, limit: 'all'}
-      }
+      payload: {queryString: {type: CUSTOM_FIELD_TYPES.PAYMENT, limit: 'all'}}
     });
-
     onSuccess?.({
       ...response,
       ...(!isAuto && {nextNumber: null})
@@ -64,62 +48,34 @@ function* getCreatePayment({payload: {onSuccess}}) {
 }
 
 function* createPayment({payload}) {
-  const {params, navigation, hasRecordPayment, submissionError} = payload;
-
+  const {params, navigation, hasRecordPayment} = payload;
   yield put(spinner({paymentLoading: true}));
-
   try {
-    const options = {
-      path: `payments`,
-      body: params
-    };
+    const options = {path: `payments`, body: params};
     const response = yield call([Request, 'post'], options);
-
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
-      return;
-    }
-
-    if (response.data) {
-      yield put(createFromPayment({payment: response.data}));
-    }
-
-    if (!response.data) {
-      alertMe({
-        desc: t('validation.wrong'),
-        okPress: () => navigation.goBack(null)
-      });
-      return;
-    }
-
+    yield put(createFromPayment({payment: response.data}));
     !hasRecordPayment
       ? navigation.goBack(null)
       : navigation.navigate(routes.MAIN_INVOICES);
+    showNotification({message: t('notification.payment_created')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({paymentLoading: false}));
   }
 }
 
 function* getUnpaidInvoices({payload}) {
-  const {fresh = true, onSuccess, onFail, queryString} = payload;
-
+  const {fresh, onSuccess, onFail, queryString} = payload;
   try {
     if (!hasValue(queryString?.customer_id)) {
       yield put(saveUnpaidInvoices({invoices: [], fresh: true}));
       onSuccess?.();
       return;
     }
-
     const path = `invoices?${queryStrings.stringify(queryString)}`;
-
     const response = yield call([Request, 'get'], {path});
-
-    if (response?.data) {
-      const data = response?.data;
-      yield put(saveUnpaidInvoices({invoices: data, fresh}));
-    }
-
+    yield put(saveUnpaidInvoices({invoices: response?.data, fresh}));
     onSuccess?.(response);
   } catch (e) {
     onFail?.();
@@ -129,55 +85,27 @@ function* getUnpaidInvoices({payload}) {
 function* getPaymentDetail({payload: {id, onSuccess}}) {
   try {
     const options = {path: `payments/${id}`};
-
     const response = yield call([Request, 'get'], options);
-
-    if (!response?.data) {
-      return;
-    }
-
     yield call(getCustomFields, {
       payload: {
         queryString: {type: CUSTOM_FIELD_TYPES.PAYMENT, limit: 'all'}
       }
     });
-
     onSuccess?.(response);
   } catch (e) {}
 }
 
 function* updatePayment({payload}) {
-  const {id, params, navigation, submissionError} = payload;
-
+  const {id, params, navigation} = payload;
   yield put(spinner({paymentLoading: true}));
-
   try {
-    const options = {
-      path: `payments/${id}`,
-      body: params
-    };
-
+    const options = {path: `payments/${id}`, body: params};
     const response = yield call([Request, 'put'], options);
-
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
-      return;
-    }
-
-    if (response.data) {
-      yield put(updateFromPayment({payment: response.data}));
-    }
-
-    if (!response.data) {
-      alertMe({
-        desc: t('validation.wrong'),
-        okPress: () => navigation.goBack(null)
-      });
-      return;
-    }
-
+    yield put(updateFromPayment({payment: response.data}));
     navigation.goBack(null);
+    showNotification({message: t('notification.payment_updated')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({paymentLoading: false}));
   }
@@ -185,20 +113,14 @@ function* updatePayment({payload}) {
 
 function* removePayment({payload: {id, navigation}}) {
   yield put(spinner({paymentLoading: true}));
-
   try {
-    const options = {
-      path: `payments/delete`,
-      body: {ids: [id]}
-    };
-
-    const response = yield call([Request, 'post'], options);
-
-    if (response.success) {
-      yield put(removeFromPayment({id}));
-      navigation.goBack(null);
-    }
+    const options = {path: `payments/delete`, body: {ids: [id]}};
+    yield call([Request, 'post'], options);
+    yield put(removeFromPayment({id}));
+    navigation.goBack(null);
+    showNotification({message: t('notification.payment_deleted')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({paymentLoading: false}));
   }
@@ -206,24 +128,12 @@ function* removePayment({payload: {id, navigation}}) {
 
 function* sendPaymentReceipt({payload: {params, navigation, onSuccess}}) {
   yield put(spinner({sendReceiptLoading: true}));
-
   try {
-    const options = {
-      path: `payments/${params.id}/send`,
-      body: params
-    };
-
-    const response = yield call([Request, 'post'], options);
-
-    if (response.success) {
-      onSuccess?.();
-      navigation.navigate(routes.MAIN_PAYMENTS);
-      return;
-    }
-
-    alertMe({
-      desc: t('validation.wrong')
-    });
+    const options = {path: `payments/${params.id}/send`, body: params};
+    yield call([Request, 'post'], options);
+    onSuccess?.();
+    navigation.navigate(routes.MAIN_PAYMENTS);
+    showNotification({message: t('notification.payment_sent')});
   } catch (e) {
   } finally {
     yield put(spinner({sendReceiptLoading: false}));

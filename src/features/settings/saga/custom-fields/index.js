@@ -8,9 +8,8 @@ import {
 } from '../../actions';
 import * as queryStrings from 'query-string';
 import Request from 'utils/request';
-import {alertMe} from '@/constants';
-import {routes} from '@/navigation';
 import t from 'locales/use-translation';
+import {showNotification, handleError} from '@/utils';
 import {
   GET_CUSTOM_FIELDS,
   CREATE_CUSTOM_FIELD,
@@ -21,27 +20,22 @@ import {
 
 export function* getCustomFields({payload}) {
   const {
-    fresh = true,
+    fresh,
     onSuccess,
     onFail,
     queryString,
     returnResponse = false
   } = payload;
-
   try {
     const options = {
       path: `custom-fields?${queryStrings.stringify(queryString)}`
     };
-
     const response = yield call([Request, 'get'], options);
-
     if (response?.data) {
       const data = response.data;
       yield put(setCustomFields({customFields: data, fresh}));
     }
-
     onSuccess?.(response);
-
     if (returnResponse) {
       return response?.customFields?.data ?? [];
     }
@@ -52,20 +46,17 @@ export function* getCustomFields({payload}) {
 
 function* createCustomField({payload: {params, navigation}}) {
   yield put(spinner({customFieldLoading: true}));
-
   try {
     const options = {
       path: `custom-fields`,
       body: params
     };
-
-    const response = yield call([Request, 'post'], options);
-
-    if (response.data) {
-      yield put(createFromCustomFields({customField: response.data}));
-      navigation.goBack(null);
-    }
+    const {data} = yield call([Request, 'post'], options);
+    yield put(createFromCustomFields({customField: data}));
+    navigation.goBack(null);
+    showNotification({message: t('notification.custom_field_created')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({customFieldLoading: false}));
   }
@@ -73,15 +64,10 @@ function* createCustomField({payload: {params, navigation}}) {
 
 function* getCustomField({payload: {id, onResult = null}}) {
   yield put(spinner({getCustomFieldLoading: true}));
-
   try {
     const options = {path: `custom-fields/${id}`};
-
-    const response = yield call([Request, 'get'], options);
-
-    if (response.data) {
-      onResult?.(response.data);
-    }
+    const {data} = yield call([Request, 'get'], options);
+    onResult?.(data);
   } catch (e) {
   } finally {
     yield put(spinner({getCustomFieldLoading: false}));
@@ -89,51 +75,33 @@ function* getCustomField({payload: {id, onResult = null}}) {
 }
 
 function* editCustomField({payload: {id, params, navigation}}) {
-  yield put(spinner({customFieldLoading: true}));
-
   try {
+    yield put(spinner({customFieldLoading: true}));
     const options = {
       path: `custom-fields/${id}`,
       body: params
     };
-
-    const response = yield call([Request, 'put'], options);
-
-    if (response.data) {
-      yield put(updateFromCustomFields({customField: response.data}));
-      navigation.goBack(null);
-    }
-
-    if (response?.error === 'values_attached') {
-      alertMe({
-        desc: t('customFields.alreadyUsed')
-      });
-    }
+    const {data} = yield call([Request, 'put'], options);
+    yield put(updateFromCustomFields({customField: data}));
+    navigation.goBack(null);
+    showNotification({message: t('notification.custom_field_updated')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({customFieldLoading: false}));
   }
 }
 
 function* removeCustomField({payload: {id, navigation}}) {
-  yield put(spinner({removeCustomFieldLoading: true}));
-
   try {
+    yield put(spinner({removeCustomFieldLoading: true}));
     const options = {path: `custom-fields/${id}`};
-
-    const response = yield call([Request, 'delete'], options);
-
-    if (response.success) {
-      yield put(removeFromCustomFields({id}));
-      navigation.goBack(null);
-    }
-
-    if (response?.error === 'values_attached') {
-      alertMe({
-        desc: t('customFields.alreadyUsed')
-      });
-    }
+    yield call([Request, 'delete'], options);
+    yield put(removeFromCustomFields({id}));
+    navigation.goBack(null);
+    showNotification({message: t('notification.custom_field_deleted')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({removeCustomFieldLoading: false}));
   }

@@ -98,7 +98,13 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
       field => (params[field] = params[field] === true ? 'YES' : 'NO')
     );
     params = omit(params, ['next_umber']);
-    dispatch(updateCustomizeSettings({params, navigation}));
+    dispatch(
+      updateCustomizeSettings({
+        successMessage: 'notification.estimate_setting_updated',
+        params,
+        navigation
+      })
+    );
   };
 
   render() {

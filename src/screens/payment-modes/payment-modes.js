@@ -44,7 +44,8 @@ export class PaymentModes extends Component {
         id: values?.methodId,
         name: values?.methodName
       },
-      onSuccess: () => this.onToggle()
+      onSuccess: () => this.onToggle(),
+      onFail: () => this.onToggle()
     };
 
     isCreateMethod
@@ -67,7 +68,13 @@ export class PaymentModes extends Component {
       desc: t('payments.alertMode'),
       showCancel: true,
       okPress: () =>
-        dispatch(removePaymentMode({id, onSuccess: () => this.onToggle()}))
+        dispatch(
+          removePaymentMode({
+            id,
+            onSuccess: () => this.onToggle(),
+            onFail: () => this.onToggle()
+          })
+        )
     });
   };
 

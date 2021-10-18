@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     setting: {
         position: 'absolute',
         right: 20,
-        top: defineLargeSizeParam(55, 35),
+        top: defineLargeSizeParam(55, 30),
         transform: [{ rotate: '-10deg' }],
         zIndex: 10,
         paddingTop: 20

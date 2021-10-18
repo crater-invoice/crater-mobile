@@ -137,11 +137,5 @@ export const lightTheme = {
     disable: {
       bgColor: colors.lightGray
     }
-  },
-
-  // Toast
-  toast: {
-    bgColor: colors.veryDarkGray,
-    textColor: colors.white
   }
 };

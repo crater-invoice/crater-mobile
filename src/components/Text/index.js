@@ -3,7 +3,7 @@ import {Text as RNText} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {ifProp, prop} from 'styled-tools';
 import {applyProp, hasProp} from '../../utils';
-import {fonts, fontSizes, colors} from '../../styles';
+import {fonts, fontSizes, colors, generateSize} from '../../styles';
 
 const CTText = ({children, ...props}) => <RNText {...props}>{children}</RNText>;
 
@@ -13,23 +13,25 @@ export const Text = styled(CTText)`
     text-align: left;
     font-family: ${fonts.regular};
 
-    ${ifProp('h6', fontSizes.h6)}
+    ${ifProp('h6', generateSize(fontSizes.h6))}
 
-    ${ifProp('h5', fontSizes.h5)}
+    ${ifProp('h6', generateSize(fontSizes.h6))}
 
-    ${ifProp('h4', fontSizes.h4)}
+    ${ifProp('h5', generateSize(fontSizes.h5))}
 
-    ${ifProp('mediumSize', fontSizes.mediumSize)}
+    ${ifProp('h4', generateSize(fontSizes.h4))}
 
-    ${ifProp('h3', fontSizes.h3)}
+    ${ifProp('mediumSize', generateSize(fontSizes.mediumSize))}
 
-    ${ifProp('bigMediumSize', fontSizes.bigMediumSize)}
+    ${ifProp('h3', generateSize(fontSizes.h3))}
 
-    ${ifProp('h2', fontSizes.h2)}
+    ${ifProp('bigMediumSize', generateSize(fontSizes.bigMediumSize))}
 
-    ${ifProp('h1', fontSizes.h1)}
+    ${ifProp('h2', generateSize(fontSizes.h2))}
 
-    ${ifProp('biggestSize', fontSizes.biggestSize)}
+    ${ifProp('h1', generateSize(fontSizes.h1))}
+
+    ${ifProp('biggestSize', generateSize(fontSizes.biggestSize))}
 
     ${ifProp(
       'danger',

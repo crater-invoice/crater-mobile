@@ -1,10 +1,9 @@
 import {call, put, takeEvery} from 'redux-saga/effects';
 import t from 'locales/use-translation';
-import {alertMe} from '@/constants';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
-
+import {showNotification, handleError} from '@/utils';
 /**
  * fetch item-units saga
  * @returns {IterableIterator<*>}
@@ -12,10 +11,10 @@ import {spinner} from './actions';
 export function* fetchItemUnits({payload}) {
   const {fresh, onSuccess, onFail, queryString} = payload;
   try {
-    const {data} = yield call(req.fetchItemUnits, queryString);
+    const response = yield call(req.fetchItemUnits, queryString);
     yield put({
       type: types.FETCH_ITEM_UNITS_SUCCESS,
-      payload: {units: data, fresh}
+      payload: {units: response.data, fresh}
     });
     onSuccess?.(response);
   } catch (e) {
@@ -28,16 +27,16 @@ export function* fetchItemUnits({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* addItemUnit({payload}) {
+  const {params, onSuccess, onFail} = payload;
   try {
     yield put(spinner('isSaving', true));
-    const {params, onSuccess} = payload;
     const {data} = yield call(req.addItemUnit, params);
     yield put({type: types.ADD_ITEM_UNIT_SUCCESS, payload: data});
     onSuccess?.();
-    return;
+    showNotification({message: t('notification.item_unit_created')});
   } catch (e) {
-    const errorMessage = e?.data?.errors?.name;
-    errorMessage && alertMe({desc: errorMessage?.[0]});
+    handleError(e);
+    onFail?.();
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -48,15 +47,16 @@ function* addItemUnit({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* updateItemUnit({payload}) {
+  const {params, onSuccess, onFail} = payload;
   try {
     yield put(spinner('isSaving', true));
-    const {params, onSuccess} = payload;
     const {data} = yield call(req.updateItemUnit, params);
     yield put({type: types.UPDATE_ITEM_UNIT_SUCCESS, payload: data});
     onSuccess?.();
+    showNotification({message: t('notification.item_unit_updated')});
   } catch (e) {
-    const errorMessage = e?.data?.errors?.name;
-    errorMessage && alertMe({desc: errorMessage?.[0]});
+    handleError(e);
+    onFail?.();
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -67,15 +67,16 @@ function* updateItemUnit({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* removeItemUnit({payload}) {
+  const {id, onSuccess, onFail} = payload;
   try {
     yield put(spinner('isDeleting', true));
-    const {id, onSuccess} = payload;
     yield call(req.removeItemUnit, id);
     yield put({type: types.REMOVE_ITEM_UNIT_SUCCESS, payload});
     onSuccess?.();
+    showNotification({message: t('notification.item_unit_deleted')});
   } catch (e) {
-    e?.error === 'items_attached' &&
-      alertMe({title: t('items.alreadyInUseUnit')});
+    handleError(e);
+    onFail?.();
   } finally {
     yield put(spinner('isDeleting', false));
   }

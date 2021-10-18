@@ -30,7 +30,6 @@ export class Invoices extends React.Component<IProps> {
     this.dueReference = React.createRef();
     this.draftReference = React.createRef();
     this.allReference = React.createRef();
-    this.toastReference = React.createRef();
 
     this.state = {
       activeTab: INVOICES_TABS.DUE,
@@ -54,7 +53,6 @@ export class Invoices extends React.Component<IProps> {
 
       if (InvoiceServices.isEmailSent) {
         InvoiceServices.toggleIsEmailSent(false);
-        this.toastReference?.show?.('toast.send_invoice_successfully');
       }
 
       if (InvoiceServices.isFirstInvoiceCreated) {
@@ -277,7 +275,6 @@ export class Invoices extends React.Component<IProps> {
         headerProps={headerProps}
         onSearch={this.onSearch}
         filterProps={filterProps}
-        toastProps={{reference: ref => (this.toastReference = ref)}}
         with-input-filter
         navigation={navigation}
         {...(PermissionService.isAllowToCreate(routes.MAIN_INVOICES) && {

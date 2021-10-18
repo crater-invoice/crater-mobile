@@ -1,5 +1,5 @@
 import React from 'react';
-import {Field, SubmissionError} from 'redux-form';
+import {Field} from 'redux-form';
 import styles from './styles';
 import {
   InputField,
@@ -67,14 +67,8 @@ export default class Note extends React.Component<IProps> {
       isCreateScreen
     } = this.props;
 
-    if (this.state.isLoading) {
+    if (this.state.isLoading || !hasTextLength(note?.notes)) {
       return;
-    }
-
-    if (!hasValue(note?.notes) || !hasTextLength(note?.notes)) {
-      throw new SubmissionError({
-        notes: 'validation.required'
-      });
     }
 
     const params = {
@@ -95,19 +89,7 @@ export default class Note extends React.Component<IProps> {
       title: t('alert.title'),
       desc: t('notes.alertDescription'),
       showCancel: true,
-      okPress: () =>
-        removeNote({
-          id,
-          navigation,
-          onFail: () => {
-            alertMe({
-              title: `${name} ${t('notes.alreadyUsed')}`
-            });
-          },
-          onResult: () => {
-            navigation.goBack(null);
-          }
-        })
+      okPress: () => removeNote({id, navigation})
     });
   };
 

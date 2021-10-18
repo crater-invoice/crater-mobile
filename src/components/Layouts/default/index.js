@@ -7,7 +7,6 @@ import {Content} from '../../Content';
 import Dropdown from '../../Dropdown';
 import {ARROW_ICON} from '@/assets';
 import {definePlatformParam} from '@/constants';
-import {Toast} from '@/components';
 import {STATUS_BAR_CONTENT} from '@/utils';
 import {commonSelector} from 'stores/common/selectors';
 
@@ -21,8 +20,7 @@ type IProps = {
   dropdownProps?: Object,
   contentProps?: any,
   hideScrollView?: boolean,
-  keyboardProps?: any,
-  toastProps?: any
+  keyboardProps?: any
 };
 
 const Layout = (props: IProps) => {
@@ -36,7 +34,6 @@ const Layout = (props: IProps) => {
     hideScrollView = false,
     contentProps,
     keyboardProps,
-    toastProps,
     theme
   } = props;
   const keyboardVerticalOffset = definePlatformParam(60, 0);
@@ -94,8 +91,6 @@ const Layout = (props: IProps) => {
       </Content>
 
       {bottomAction}
-
-      {toastProps && <Toast {...toastProps} />}
     </Container>
   );
 };

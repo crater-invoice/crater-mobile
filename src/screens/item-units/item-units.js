@@ -43,7 +43,8 @@ export default class ItemUnits extends Component<IProps, IStates> {
         id: values?.unitId,
         name: values?.unitName
       },
-      onSuccess: () => this.onToggle()
+      onSuccess: () => this.onToggle(),
+      onFail: () => this.onToggle()
     };
 
     isCreateMethod
@@ -62,7 +63,13 @@ export default class ItemUnits extends Component<IProps, IStates> {
       desc: t('items.alertUnit'),
       showCancel: true,
       okPress: () =>
-        dispatch(removeItemUnit({id, onSuccess: () => this.onToggle()}))
+        dispatch(
+          removeItemUnit({
+            id,
+            onSuccess: () => this.onToggle(),
+            onFail: () => this.onToggle()
+          })
+        )
     });
   };
 
@@ -117,7 +124,6 @@ export default class ItemUnits extends Component<IProps, IStates> {
         hideScrollView
         headerProps={headerProps}
         bottomAction={<ActionButton buttons={bottomAction} />}
-        toastProps={{reference: ref => (this.toastReference = ref)}}
       >
         <View style={styles.childContainer}>
           <InfiniteScroll

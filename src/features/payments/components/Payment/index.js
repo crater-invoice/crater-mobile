@@ -1,5 +1,5 @@
 import React from 'react';
-import {Field, change, SubmissionError} from 'redux-form';
+import {Field, change} from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
 import t from 'locales/use-translation';
@@ -175,7 +175,6 @@ export class Payment extends React.Component<IProps> {
 
     const {selectedInvoice, isLoading} = this.state;
     const {
-      handleSubmit,
       createPayment,
       updatePayment,
       navigation,
@@ -224,8 +223,7 @@ export class Payment extends React.Component<IProps> {
       createPayment({
         params,
         navigation,
-        hasRecordPayment,
-        submissionError: errors => handleSubmit(() => this.throwError(errors))()
+        hasRecordPayment
       });
     }
 
@@ -233,22 +231,9 @@ export class Payment extends React.Component<IProps> {
       updatePayment({
         id,
         params,
-        navigation,
-        submissionError: errors => handleSubmit(() => this.throwError(errors))()
+        navigation
       });
     }
-  };
-
-  throwError = errors => {
-    if (errors?.[FIELDS.NUMBER]) {
-      throw new SubmissionError({
-        payment: {[FIELDS.NUMBER]: 'validation.alreadyTaken'}
-      });
-    }
-
-    alertMe({
-      desc: t('validation.wrong')
-    });
   };
 
   formatUnpaidInvoices = items => {
