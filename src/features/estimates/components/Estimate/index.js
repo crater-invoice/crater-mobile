@@ -1,14 +1,13 @@
 import React from 'react';
 import * as Linking from 'expo-linking';
 import {find} from 'lodash';
-import {Field, change, SubmissionError} from 'redux-form';
+import {Field, change} from 'redux-form';
 import styles from './styles';
 import {
   InputField,
   DatePickerField,
   ListView,
   DefaultLayout,
-  SelectField,
   CurrencyFormat,
   FakeInput,
   SendMail,
@@ -46,8 +45,8 @@ import FinalAmount from '../FinalAmount';
 import {alertMe, isEmpty} from '@/constants';
 import {getApiFormattedCustomFields} from '@/utils';
 import Notes from './notes';
-import EstimateServices from '../../services';
 import {CustomerSelectModal, ItemSelectModal} from '@/select-modal';
+import {showNotification} from '@/utils';
 
 type IProps = {
   navigation: Object,
@@ -186,7 +185,6 @@ export class Estimate extends React.Component<IProps> {
       editEstimate,
       initLoading,
       id,
-      handleSubmit,
       withLoading,
       estimateData: {estimateTemplates = []} = {}
     } = this.props;
@@ -241,8 +239,7 @@ export class Estimate extends React.Component<IProps> {
           return;
         }
         navigation.navigate(routes.ESTIMATE_LIST);
-      },
-      submissionError: errors => handleSubmit(() => this.throwError(errors))()
+      }
     };
 
     isCreateScreen ? createEstimate(params) : editEstimate(params);
@@ -258,18 +255,6 @@ export class Estimate extends React.Component<IProps> {
 
   draftEstimate = values => {
     this.onSubmitEstimate(values, 'draft');
-  };
-
-  throwError = errors => {
-    if (errors?.estimate_number) {
-      throw new SubmissionError({
-        estimate_number: 'validation.alreadyTaken'
-      });
-    }
-
-    alertMe({
-      desc: t('validation.wrong')
-    });
   };
 
   estimateItemTotalTaxes = () => {
@@ -388,10 +373,6 @@ export class Estimate extends React.Component<IProps> {
     } = this.props;
 
     switch (action) {
-      case ESTIMATE_ACTIONS.VIEW:
-        handleSubmit(val => this.onSubmitEstimate(val, action))();
-        break;
-
       case ESTIMATE_ACTIONS.SEND:
         this.sendMailRef?.onToggle();
         break;
@@ -406,9 +387,11 @@ export class Estimate extends React.Component<IProps> {
               id,
               action: `${id}/status`,
               navigation,
-              params: {
-                status: MARK_AS_SENT
-              }
+              params: {status: MARK_AS_SENT},
+              onResult: () =>
+                showNotification({
+                  message: t('notification.estimate_mark_as_sent')
+                })
             })
         });
         break;
@@ -423,9 +406,11 @@ export class Estimate extends React.Component<IProps> {
               id,
               action: `${id}/status`,
               navigation,
-              params: {
-                status: MARK_AS_ACCEPT
-              }
+              params: {status: MARK_AS_ACCEPT},
+              onResult: () =>
+                showNotification({
+                  message: t('notification.estimate_marked_as_accepted')
+                })
             })
         });
         break;
@@ -440,9 +425,11 @@ export class Estimate extends React.Component<IProps> {
               id,
               action: `${id}/status`,
               navigation,
-              params: {
-                status: MARK_AS_REJECT
-              }
+              params: {status: MARK_AS_REJECT},
+              onResult: () =>
+                showNotification({
+                  message: t('notification.estimate_marked_as_rejected')
+                })
             })
         });
         break;
@@ -454,9 +441,7 @@ export class Estimate extends React.Component<IProps> {
           okPress: () =>
             convertToInvoice({
               id,
-              onResult: () => {
-                navigation.navigate(routes.MAIN_INVOICES);
-              }
+              onResult: () => navigation.navigate(routes.MAIN_INVOICES)
             })
         });
         break;
@@ -478,7 +463,8 @@ export class Estimate extends React.Component<IProps> {
       action: `${id}/send`,
       navigation,
       params,
-      onResult: () => EstimateServices.toggleIsEmailSent(true)
+      onResult: () =>
+        showNotification({message: t('notification.estimate_sent')})
     });
   };
 

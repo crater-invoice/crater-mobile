@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Field, change, initialize, SubmissionError} from 'redux-form';
+import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-user-type';
 import {routes} from '@/navigation';
@@ -41,29 +41,18 @@ export default class CreateUser extends Component<IProps, IStates> {
     this.setState({isFetchingInitialData: false});
   };
 
-  throwError = errors => {
-    let error: any = {};
-    errors.email && (error.email = 'validation.alreadyTaken');
-    errors.phone && (error.phone = 'validation.alreadyTaken');
-    throw new SubmissionError(error);
-  };
-
   onSave = values => {
-    const {id, isCreateScreen, navigation, dispatch, handleSubmit} = this.props;
+    const {id, isCreateScreen, navigation, dispatch} = this.props;
     const {isFetchingInitialData} = this.state;
 
     if (this.props.isSaving || this.props.isDeleting || isFetchingInitialData) {
       return;
     }
 
-    const submissionError = errors =>
-      handleSubmit(() => this.throwError(errors))();
-
     const params = {
       id,
       params: values,
-      navigation,
-      submissionError
+      navigation
     };
 
     isCreateScreen ? dispatch(addUser(params)) : dispatch(updateUser(params));
@@ -71,12 +60,6 @@ export default class CreateUser extends Component<IProps, IStates> {
 
   removeUser = () => {
     const {id, navigation, dispatch} = this.props;
-
-    function alreadyUsedAlert() {
-      alertMe({
-        title: t('users.text_already_used')
-      });
-    }
 
     function confirmationAlert(remove) {
       alertMe({
@@ -87,9 +70,7 @@ export default class CreateUser extends Component<IProps, IStates> {
       });
     }
 
-    confirmationAlert(() =>
-      dispatch(removeUser(id, navigation, val => alreadyUsedAlert()))
-    );
+    confirmationAlert(() => dispatch(removeUser(id, navigation)));
   };
 
   setFormField = (field, value) => {

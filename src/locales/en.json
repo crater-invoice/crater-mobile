@@ -896,6 +896,20 @@
         "item_unit_already_in_use": "Item unit is already in use",
         "preference_updated": "Preferences updated successfully",
         "company_updated": "Company information updated successfully",
-        "account_updated": "Account Settings updated successfully"
+        "account_updated": "Account Settings updated successfully",
+        "user_created": "User created successfully",
+        "user_updated": "User updated successfully",
+        "user_deleted": "User deleted successfully",
+        "item_created": "Item created successfully",
+        "item_updated": "Item updated successfully",
+        "item_deleted": "Item deleted successfully",
+        "estimate_created": "Estimate created successfully",
+        "estimate_updated": "Estimate updated successfully",
+        "estimate_deleted": "Estimate deleted successfully",
+        "invoice_created": "Invoice created successfully",
+        "estimate_sent": "Estimate sent successfully",
+        "estimate_mark_as_sent": "Estimate marked as sent successfully",
+        "estimate_marked_as_accepted": "Estimate marked as accepted",
+        "estimate_marked_as_rejected": "Estimate marked as rejected",
     }
 }
