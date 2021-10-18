@@ -1,12 +1,6 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
 import Request from 'utils/request';
 import * as queryStrings from 'query-string';
-import {
-  customerTriggerSpinner,
-  setCustomers,
-  setCountries,
-  updateFromCustomers
-} from '../actions';
 import {routes} from '@/navigation';
 import * as TYPES from '../constants';
 import {isEmpty} from '@/constants';
@@ -15,6 +9,12 @@ import {getCustomFields} from '@/features/settings/saga/custom-fields';
 import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
+import {
+  customerTriggerSpinner,
+  setCustomers,
+  setCountries,
+  updateFromCustomers
+} from '../actions';
 
 const addressParams = address => {
   return {
@@ -32,12 +32,8 @@ const addressParams = address => {
 
 export function* getCustomers({payload}) {
   const {fresh, onSuccess, onFail, queryString} = payload;
-
   try {
-    const options = {
-      path: `customers?${queryStrings.stringify(queryString)}`
-    };
-
+    const options = {path: `customers?${queryStrings.stringify(queryString)}`};
     const response = yield call([Request, 'get'], options);
     yield put(setCustomers({customers: response.data, fresh}));
     onSuccess?.(response);
@@ -48,10 +44,8 @@ export function* getCustomers({payload}) {
 
 export function* getCountries({payload: {onResult = null}}) {
   yield put(customerTriggerSpinner({countriesLoading: true}));
-
   try {
     const options = {path: 'countries'};
-
     const response = yield call([Request, 'get'], options);
     onResult?.(response);
     yield put(setCountries({countries: response?.data ?? []}));
@@ -63,42 +57,32 @@ export function* getCountries({payload: {onResult = null}}) {
 
 function* getCreateCustomer({payload}) {
   const {currencies, countries, onSuccess} = payload;
-
   try {
     if (isEmpty(countries)) {
       yield call(getCountries, {payload: {}});
     }
-
     if (isEmpty(currencies)) {
       yield call(getGeneralSetting, {payload: {url: 'currencies'}});
     }
-
     yield call(getCustomFields, {
       payload: {
         queryString: {type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 'all'}
       }
     });
-
     onSuccess?.();
   } catch (e) {}
 }
 
 function* createCustomer({payload}) {
-  const {params, onResult} = payload;
-
-  yield put(customerTriggerSpinner({customerLoading: true}));
-
-  const bodyData = {
-    ...params,
-    billing: addressParams(params?.billingAddress),
-    shipping: addressParams(params?.shippingAddress)
-  };
   try {
-    const options = {
-      path: `customers`,
-      body: bodyData
+    const {params, onResult} = payload;
+    yield put(customerTriggerSpinner({customerLoading: true}));
+    const bodyData = {
+      ...params,
+      billing: addressParams(params?.billingAddress),
+      shipping: addressParams(params?.shippingAddress)
     };
-
+    const options = {path: `customers`, body: bodyData};
     const {data} = yield call([Request, 'post'], options);
     yield put(setCustomers({customers: [data], prepend: true}));
     onResult?.(data);
@@ -111,21 +95,15 @@ function* createCustomer({payload}) {
 }
 
 function* updateCustomer({payload}) {
-  const {params, navigation} = payload;
-
-  yield put(customerTriggerSpinner({customerLoading: true}));
-
-  const bodyData = {
-    ...params,
-    billing: addressParams(params?.billingAddress),
-    shipping: addressParams(params?.shippingAddress)
-  };
   try {
-    const options = {
-      path: `customers/${params.id}`,
-      body: bodyData
+    const {params, navigation} = payload;
+    yield put(customerTriggerSpinner({customerLoading: true}));
+    const bodyData = {
+      ...params,
+      billing: addressParams(params?.billingAddress),
+      shipping: addressParams(params?.shippingAddress)
     };
-
+    const options = {path: `customers/${params.id}`, body: bodyData};
     const {data} = yield call([Request, 'put'], options);
     yield put(updateFromCustomers({customer: data}));
     yield navigation.navigate(routes.MAIN_CUSTOMERS);
@@ -143,33 +121,24 @@ function* getCustomerDetail({payload}) {
     if (isEmpty(countries)) {
       yield call(getCountries, {payload: {}});
     }
-
     if (isEmpty(currencies)) {
       yield call(getGeneralSetting, {payload: {url: 'currencies'}});
     }
-
     yield call(getCustomFields, {
       payload: {
         queryString: {type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 'all'}
       }
     });
-
     const options = {path: `customers/${id}`};
     const response = yield call([Request, 'get'], options);
-
     onSuccess?.(response.data);
   } catch (e) {}
 }
 
 function* removeCustomer({payload: {id, navigation}}) {
   yield put(customerTriggerSpinner({customerLoading: true}));
-
   try {
-    const options = {
-      path: `customers/delete`,
-      body: {ids: [id]}
-    };
-
+    const options = {path: `customers/delete`, body: {ids: [id]}};
     yield call([Request, 'post'], options);
     yield put(setCustomers({remove: true, id}));
     navigation.navigate(routes.MAIN_CUSTOMERS);

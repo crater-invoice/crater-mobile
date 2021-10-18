@@ -906,7 +906,6 @@
         "estimate_created": "Estimate created successfully",
         "estimate_updated": "Estimate updated successfully",
         "estimate_deleted": "Estimate deleted successfully",
-        "invoice_created": "Invoice created successfully",
         "estimate_sent": "Estimate sent successfully",
         "estimate_mark_as_sent": "Estimate marked as sent successfully",
         "estimate_marked_as_accepted": "Estimate marked as accepted",
@@ -917,6 +916,12 @@
         "payment_created": "Payment created successfully",
         "payment_updated": "Payment updated successfully",
         "payment_deleted": "Payment deleted successfully",
-        "payment_sent": "Payment sent successfully"
+        "payment_sent": "Payment sent successfully",
+        "invoice_created": "Invoice created successfully",
+        "invoice_updated": "Invoice updated successfully",
+        "invoice_deleted": "Invoice deleted successfully",
+        "invoice_marked_as_sent": "Invoice marked as sent successfully",
+        "invoice_sent": "Invoice sent successfully",
+        "invoice_cloned": "Invoice cloned successfully"
     }
 }
