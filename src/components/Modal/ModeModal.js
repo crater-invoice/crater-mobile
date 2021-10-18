@@ -52,6 +52,10 @@ class Modal extends Component<IProps> {
       onSuccess: () => {
         this.setFormField('name', null);
         this.onToggle();
+      },
+      onFail: () => {
+        this.setFormField('name', null);
+        this.onToggle();
       }
     });
   };

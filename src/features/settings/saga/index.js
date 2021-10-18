@@ -23,6 +23,8 @@ import customFields from './custom-fields';
 import Request from 'utils/request';
 import General from './general';
 import Notes from './notes';
+import t from 'locales/use-translation';
+import {showNotification, handleError} from '@/utils';
 
 function* getCompanyInformation({payload: {onResult}}) {
   yield put(spinner({getCompanyInfoLoading: true}));
@@ -63,9 +65,10 @@ function* editCompanyInformation({payload}) {
     }
 
     yield put(setCompanyInformation({company: response.company}));
-
     navigation?.goBack?.(null);
+    showNotification({message: t('notification.company_updated')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({editCompanyInfoLoading: false}));
   }
@@ -113,6 +116,7 @@ function* editAccountInformation({payload}) {
     }
 
     navigation?.goBack?.(null);
+    showNotification({message: t('notification.account_updated')});
   } catch (error) {
   } finally {
     yield put(spinner({editAccountInfoLoading: false}));
@@ -164,6 +168,7 @@ function* editSettingItem({payload}) {
     }
 
     if (navigation) navigation.goBack(null);
+    showNotification({message: t('notification.setting_updated')});
   } catch (e) {
   } finally {
     yield put(spinner({editSettingItemLoading: false}));

@@ -866,7 +866,7 @@
         "role_created": "Role created successfully",
         "role_updated": "Role updated successfully",
         "role_deleted": "Role deleted successfully",
-        "expense_category_created": "Expense Category created successfully",
+        "expense_category_created": "Expense category created successfully",
         "expense_category_updated": "Expense category updated successfully",
         "expense_category_deleted": "Expense category deleted successfully",
         "expense_already_in_use": "Expense Category is already in use",
@@ -881,6 +881,21 @@
         "tax_created": "Tax type created successfully",
         "tax_updated": "Tax type updated successfully",
         "tax_deleted": "Tax type deleted successfully",
-        "tax_already_in_use": "Tax is already in use"
+        "tax_already_in_use": "Tax is already in use",
+        "setting_updated": "Setting updated successfully",
+        "invoice_setting_updated": "Invoice Setting updated successfully",
+        "estimate_setting_updated": "Estimate Setting updated successfully",
+        "payment_setting_updated": "Payment Setting updated successfully",
+        "payment_mode_created": "Payment mode created successfully",
+        "payment_mode_updated": "Payment mode updated successfully",
+        "payment_mode_deleted": "Payment mode deleted successfully",
+        "payment_mode_already_in_use": "Payment mode is already in use",
+        "item_unit_created": "Item unit created successfully",
+        "item_unit_updated": "Item unit updated successfully",
+        "item_unit_deleted": "Item unit deleted successfully",
+        "item_unit_already_in_use": "Item unit is already in use",
+        "preference_updated": "Preferences updated successfully",
+        "company_updated": "Company information updated successfully",
+        "account_updated": "Account Settings updated successfully"
     }
 }

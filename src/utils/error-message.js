@@ -34,6 +34,20 @@ const alreadyInUseErrorMessage = error => {
       });
       break;
 
+    case 'payments':
+      showNotification({
+        message: t('notification.payment_mode_already_in_use'),
+        type: 'error'
+      });
+      break;
+
+    case 'items':
+      showNotification({
+        message: t('notification.item_unit_already_in_use'),
+        type: 'error'
+      });
+      break;
+
     default:
       break;
   }

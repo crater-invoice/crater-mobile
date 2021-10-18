@@ -105,7 +105,13 @@ export default class CustomizePayment extends Component<IProps, IStates> {
     );
     params = omit(params, ['next_umber']);
     const {dispatch, navigation} = this.props;
-    dispatch(updateCustomizeSettings({params, navigation}));
+    dispatch(
+      updateCustomizeSettings({
+        successMessage: 'notification.payment_setting_updated',
+        params,
+        navigation
+      })
+    );
   };
 
   TOGGLE_FIELD_VIEW = () => {

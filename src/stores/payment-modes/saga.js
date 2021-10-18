@@ -1,9 +1,9 @@
 import {call, put, takeEvery} from 'redux-saga/effects';
 import t from 'locales/use-translation';
 import * as req from './service';
-import {alertMe} from '@/constants';
 import {spinner} from './actions';
 import * as types from './types';
+import {showNotification, handleError} from '@/utils';
 
 /**
  * Fetch payment-methods saga
@@ -28,15 +28,16 @@ export function* fetchPaymentModes({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* addPaymentMode({payload}) {
+  const {params, onSuccess, onFail} = payload;
   try {
     yield put(spinner('isSaving', true));
-    const {params, onSuccess} = payload;
     const {data} = yield call(req.addPaymentMode, params);
     yield put({type: types.ADD_PAYMENT_MODE_SUCCESS, payload: data});
     onSuccess?.();
+    showNotification({message: t('notification.payment_mode_created')});
   } catch (e) {
-    const errorMessage = e?.data?.errors?.name;
-    errorMessage && alertMe({desc: errorMessage?.[0]});
+    handleError(e);
+    onFail?.();
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -47,15 +48,16 @@ function* addPaymentMode({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* updatePaymentMode({payload}) {
+  const {params, onSuccess, onFail} = payload;
   try {
     yield put(spinner('isSaving', true));
-    const {params, onSuccess} = payload;
     const {data} = yield call(req.updatePaymentMode, params);
     yield put({type: types.UPDATE_PAYMENT_MODE_SUCCESS, payload: data});
     onSuccess?.();
+    showNotification({message: t('notification.payment_mode_updated')});
   } catch (e) {
-    const errorMessage = e?.data?.errors?.name;
-    errorMessage && alertMe({desc: errorMessage?.[0]});
+    handleError(e);
+    onFail?.();
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -66,15 +68,16 @@ function* updatePaymentMode({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* removePaymentMode({payload}) {
+  const {id, onSuccess, onFail} = payload;
   try {
-    const {id, onSuccess} = payload;
     yield put(spinner('isDeleting', true));
     yield call(req.removePaymentMode, id);
     yield put({type: types.REMOVE_PAYMENT_MODE_SUCCESS, payload: id});
     onSuccess?.();
+    showNotification({message: t('notification.payment_mode_deleted')});
   } catch (e) {
-    e?.error === 'payments_attached' &&
-      alertMe({title: t('payments.alreadyInUseMode')});
+    handleError(e);
+    onFail?.();
   } finally {
     yield put(spinner('isDeleting', false));
   }

@@ -54,47 +54,22 @@ export class Notification extends React.Component<IProps> {
 
   onNotificationSubmit = ({notification_email}) => {
     const {editSettingItem, navigation} = this.props;
-
     const settings = {
       notification_email: notification_email
     };
-
-    editSettingItem({
-      params: {
-        settings
-      },
-      navigation
-    });
+    editSettingItem({params: {settings}, navigation});
   };
 
   invoiceStatus = status => {
     const {editSettingItem} = this.props;
-
-    const settings = {
-      notify_invoice_viewed: status === true ? 'YES' : 'NO'
-    };
-
-    editSettingItem({
-      params: {
-        settings
-      },
-      onResult: () => {}
-    });
+    const settings = {notify_invoice_viewed: status === true ? 'YES' : 'NO'};
+    editSettingItem({params: {settings}});
   };
 
   estimateStatus = status => {
     const {editSettingItem} = this.props;
-
-    const settings = {
-      notify_estimate_viewed: status === true ? 'YES' : 'NO'
-    };
-
-    editSettingItem({
-      params: {
-        settings
-      },
-      onResult: () => {}
-    });
+    const settings = {notify_estimate_viewed: status === true ? 'YES' : 'NO'};
+    editSettingItem({params: {settings}});
   };
 
   render() {

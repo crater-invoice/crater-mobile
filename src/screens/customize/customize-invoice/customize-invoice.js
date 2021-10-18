@@ -96,7 +96,13 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
       field => (params[field] = params[field] === true ? 'YES' : 'NO')
     );
     params = omit(params, ['next_umber']);
-    dispatch(updateCustomizeSettings({params, navigation}));
+    dispatch(
+      updateCustomizeSettings({
+        successMessage: 'notification.invoice_setting_updated',
+        params,
+        navigation
+      })
+    );
   };
 
   render() {
