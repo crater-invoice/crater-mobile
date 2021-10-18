@@ -911,5 +911,12 @@
         "estimate_mark_as_sent": "Estimate marked as sent successfully",
         "estimate_marked_as_accepted": "Estimate marked as accepted",
         "estimate_marked_as_rejected": "Estimate marked as rejected",
+        "expense_created": "Expense created successfully",
+        "expense_updated": "Expense updated successfully",
+        "expense_deleted": "Expense deleted successfully",
+        "payment_created": "Payment created successfully",
+        "payment_updated": "Payment updated successfully",
+        "payment_deleted": "Payment deleted successfully",
+        "payment_sent": "Payment sent successfully"
     }
 }

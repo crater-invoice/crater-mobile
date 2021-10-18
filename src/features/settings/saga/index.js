@@ -117,7 +117,7 @@ function* editAccountInformation({payload}) {
 
     navigation?.goBack?.(null);
     showNotification({message: t('notification.account_updated')});
-  } catch (error) {
+  } catch (e) {
   } finally {
     yield put(spinner({editAccountInfoLoading: false}));
   }
