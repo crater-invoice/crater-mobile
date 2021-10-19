@@ -4,6 +4,8 @@ import * as req from './service';
 import {spinner} from './actions';
 import {routes} from '@/navigation';
 import {getCustomFields} from '@/features/settings/saga/custom-fields';
+import t from 'locales/use-translation';
+import {showNotification, handleError} from '@/utils';
 
 /**
  * fetch customization saga
@@ -28,7 +30,10 @@ function* updateCustomizeSettings({payload}) {
     const {params, navigation} = payload;
     yield call(req.updateCustomizeSettings, params);
     navigation.navigate(routes.CUSTOMIZE_LIST);
+    payload?.successMessage &&
+      showNotification({message: t(payload?.successMessage)});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner('isSaving', false));
   }

@@ -53,19 +53,21 @@ export class Category extends React.Component<IProps> {
       id
     } = this.props;
 
-    if (!categoryLoading) {
-      if (isCreateScreen)
-        createCategory({
-          params: values,
-          onResult: res => {
-            const onSelect = route?.params?.onSelect;
-            onSelect?.(res);
-            navigation.goBack(null);
-          }
-        });
-      else {
-        editCategory({id, params: values, navigation});
-      }
+    if (categoryLoading) {
+      return;
+    }
+
+    if (isCreateScreen)
+      createCategory({
+        params: values,
+        onResult: res => {
+          const onSelect = route?.params?.onSelect;
+          onSelect?.(res);
+          navigation.goBack(null);
+        }
+      });
+    else {
+      editCategory({id, params: values, navigation});
     }
   };
 

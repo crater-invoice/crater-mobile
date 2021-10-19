@@ -7,3 +7,5 @@ export * from './biometric-authentication';
 export * from './rating-review';
 export * from './styled';
 export * from './badge';
+export * from './error-message';
+export * from './notification';

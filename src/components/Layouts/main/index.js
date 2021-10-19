@@ -6,7 +6,6 @@ import {styles, Container} from './styles';
 import {InputField, CtHeader, CtDivider} from '../..';
 import {Content} from '../../Content';
 import t from 'locales/use-translation';
-import {Toast} from '@/components';
 import {STATUS_BAR_CONTENT} from '@/utils';
 import {View as CtView, CtDecorativeButton} from '@/components';
 import {AssetIcon} from '@/components/AssetIcon';
@@ -27,7 +26,6 @@ interface IProps {
   dividerStyle?: Object;
   loadingProps?: Object;
   searchFieldProps?: any;
-  toastProps?: any;
 }
 
 const Layout = (props: IProps) => {
@@ -43,7 +41,6 @@ const Layout = (props: IProps) => {
     dividerStyle,
     loadingProps,
     searchFieldProps,
-    toastProps,
     plusButtonOnPress,
     theme
   } = props;
@@ -143,8 +140,6 @@ const Layout = (props: IProps) => {
         {bottomAction && (
           <View style={styles.bottomView(theme)}>{bottomAction}</View>
         )}
-
-        {toastProps && <Toast containerStyle={{bottom: 20}} {...toastProps} />}
       </Container>
       {plusButtonOnPress ? (
         <View style={styles.floatingActionView}>

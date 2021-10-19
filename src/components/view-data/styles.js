@@ -10,8 +10,6 @@ export default StyleSheet.create({
     lineHeight: 21
   },
   textValue: {
-    fontSize: 14,
-    lineHeight: 21,
     fontWeight: '500'
   }
 });

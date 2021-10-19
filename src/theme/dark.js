@@ -138,11 +138,5 @@ export const darkTheme = {
     disable: {
       bgColor: colors.black2
     }
-  },
-
-  // Toast
-  toast: {
-    bgColor: colors.white8,
-    textColor: colors.dark
   }
 };

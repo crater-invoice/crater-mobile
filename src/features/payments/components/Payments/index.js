@@ -20,7 +20,6 @@ export class Payments extends React.Component<IProps> {
   constructor(props) {
     super(props);
     this.scrollViewReference = React.createRef();
-    this.toastReference = React.createRef();
 
     this.state = {search: ''};
   }
@@ -41,7 +40,6 @@ export class Payments extends React.Component<IProps> {
 
       if (PaymentServices.isEmailSent) {
         PaymentServices.toggleIsEmailSent(false);
-        this.toastReference?.show?.('toast.send_payment_successfully');
       }
     });
   };
@@ -157,9 +155,6 @@ export class Payments extends React.Component<IProps> {
         onSearch={this.onSearch}
         bottomDivider
         filterProps={filterProps}
-        toastProps={{
-          reference: ref => (this.toastReference = ref)
-        }}
       >
         <InfiniteScroll
           getItems={getPayments}

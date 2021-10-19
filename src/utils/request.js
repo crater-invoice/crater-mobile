@@ -90,7 +90,8 @@ export default class Request {
     isPing = null,
     type = 'create',
     axiosProps,
-    withMultipartFormData = false
+    withMultipartFormData = false,
+    throw_error = true
   }: IProps) {
     const reduxStore = store.getState();
     const {idToken} = reduxStore.auth;
@@ -131,6 +132,11 @@ export default class Request {
     })
       .then(function(response) {
         const {data} = response;
+
+        if (data && data.hasOwnProperty('error') && throw_error) {
+          throw {response: {data: {...data, status: 422}}};
+        }
+
         return data;
       })
       .catch(function({response}) {

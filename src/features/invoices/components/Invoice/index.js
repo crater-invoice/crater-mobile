@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Linking from 'expo-linking';
 import {find} from 'lodash';
-import {Field, change, SubmissionError} from 'redux-form';
+import {Field, change} from 'redux-form';
 import {TemplateField} from '@/components';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
@@ -34,8 +34,7 @@ import {
   getItemList,
   finalAmount
 } from '@/components/final-amount/final-amount-calculation';
-import {getApiFormattedCustomFields} from '@/utils';
-import InvoiceServices from '../../services';
+import {getApiFormattedCustomFields, showNotification} from '@/utils';
 import {CustomerSelectModal} from '@/select-modal';
 import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
 import {setCalculationRef} from 'stores/common/helpers';
@@ -179,7 +178,6 @@ export class Invoice extends React.Component<IProps, IStates> {
       navigation,
       editInvoice,
       id,
-      handleSubmit,
       initLoading,
       withLoading,
       isCreateScreen,
@@ -237,8 +235,7 @@ export class Invoice extends React.Component<IProps, IStates> {
           return;
         }
         navigation.navigate(routes.MAIN_INVOICES);
-      },
-      submissionError: errors => handleSubmit(() => this.throwError(errors))()
+      }
     };
 
     isCreateScreen ? createInvoice(params) : editInvoice(params);
@@ -254,18 +251,6 @@ export class Invoice extends React.Component<IProps, IStates> {
 
   draftInvoice = values => {
     this.onSubmitInvoice(values, 'draft');
-  };
-
-  throwError = errors => {
-    if (errors?.invoice_number) {
-      throw new SubmissionError({
-        invoice_number: 'validation.alreadyTaken'
-      });
-    }
-
-    alertMe({
-      desc: t('validation.wrong')
-    });
   };
 
   removeInvoice = () => {
@@ -318,9 +303,11 @@ export class Invoice extends React.Component<IProps, IStates> {
               id,
               action: `${id}/status`,
               navigation,
-              params: {
-                status: 'SENT'
-              }
+              params: {status: 'SENT'},
+              onResult: () =>
+                showNotification({
+                  message: t('notification.invoice_marked_as_sent')
+                })
             })
         });
         break;
@@ -356,7 +343,9 @@ export class Invoice extends React.Component<IProps, IStates> {
             changeInvoiceStatus({
               id,
               action: `${id}/clone`,
-              navigation
+              navigation,
+              onResult: () =>
+                showNotification({message: t('notification.invoice_cloned')})
             })
         });
 
@@ -379,7 +368,8 @@ export class Invoice extends React.Component<IProps, IStates> {
       action: `${id}/send`,
       navigation,
       params,
-      onResult: () => InvoiceServices.toggleIsEmailSent(true)
+      onResult: () =>
+        showNotification({message: t('notification.invoice_sent')})
     });
   };
 

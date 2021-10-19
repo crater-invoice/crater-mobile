@@ -85,7 +85,7 @@ class EditorComponent extends Component<IProps, IStates> {
   }
 
   componentDidMount() {
-    this.props.reference();
+    this.props.reference?.();
     this.setHasErrorToTrue = debounce(this.setHasErrorToTrue, 300);
   }
 

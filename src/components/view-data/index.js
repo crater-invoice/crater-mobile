@@ -54,10 +54,11 @@ export const ViewData = (props: IProps) => {
   const Value = ({value}) => {
     return (
       <Text
+        h5
         color={theme?.text?.sixthColor}
         numberOfLines={1}
         medium={theme?.mode === 'dark'}
-        style={styles.textValue}
+        mt-2
       >
         {value}
       </Text>

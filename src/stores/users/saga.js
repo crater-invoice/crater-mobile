@@ -2,6 +2,8 @@ import {call, put, takeLatest} from 'redux-saga/effects';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
+import t from 'locales/use-translation';
+import {showNotification, handleError} from '@/utils';
 
 /**
  * Fetch users saga
@@ -26,8 +28,8 @@ function* fetchUsers({payload}) {
 function* fetchSingleUser({payload}) {
   try {
     const {id, onSuccess} = payload;
-    const response = yield call(req.fetchSingleUser, id);
-    onSuccess?.(response?.data);
+    const {data} = yield call(req.fetchSingleUser, id);
+    onSuccess?.(data);
   } catch (e) {}
 }
 
@@ -36,14 +38,15 @@ function* fetchSingleUser({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* addUser({payload}) {
-  const {params, navigation, submissionError} = payload;
+  const {params, navigation} = payload;
   try {
     yield put(spinner('isSaving', true));
-    const response = yield call(req.addUser, params);
-    yield put({type: types.ADD_USER_SUCCESS, payload: response?.data});
+    const {data} = yield call(req.addUser, params);
+    yield put({type: types.ADD_USER_SUCCESS, payload: data});
     navigation.goBack(null);
+    showNotification({message: t('notification.user_created')});
   } catch (e) {
-    submissionError?.(e?.data?.errors);
+    handleError(e);
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -54,14 +57,15 @@ function* addUser({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* updateUser({payload}) {
-  const {id, params, navigation, submissionError} = payload;
+  const {id, params, navigation} = payload;
   try {
     yield put(spinner('isSaving', true));
-    const response = yield call(req.updateUser, id, params);
-    yield put({type: types.UPDATE_USER_SUCCESS, payload: response?.data});
+    const {data} = yield call(req.updateUser, id, params);
+    yield put({type: types.UPDATE_USER_SUCCESS, payload: data});
     navigation.goBack(null);
+    showNotification({message: t('notification.user_updated')});
   } catch (e) {
-    submissionError?.(e?.data?.errors);
+    handleError(e);
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -72,14 +76,15 @@ function* updateUser({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* removeUser({payload}) {
-  const {id, navigation, onFail} = payload;
+  const {id, navigation} = payload;
   try {
     yield put(spinner('isDeleting', true));
     yield call(req.removeUser, id);
     yield put({type: types.REMOVE_USER_SUCCESS, payload: id});
     navigation.goBack(null);
+    showNotification({message: t('notification.user_deleted')});
   } catch (e) {
-    onFail?.(e);
+    handleError(e);
   } finally {
     yield put(spinner('isDeleting', false));
   }

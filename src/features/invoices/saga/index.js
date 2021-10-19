@@ -1,6 +1,14 @@
 import {call, put, takeEvery} from 'redux-saga/effects';
 import Request from 'utils/request';
 import * as queryStrings from 'query-string';
+import {routes} from '@/navigation';
+import {isBooleanTrue} from '@/constants';
+import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
+import {getCustomFields} from '@/features/settings/saga/custom-fields';
+import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
+import InvoiceServices from '@/features/invoices/services';
+import t from 'locales/use-translation';
+import {showNotification, handleError} from '@/utils';
 import {
   GET_INVOICES,
   GET_CREATE_INVOICE,
@@ -24,30 +32,14 @@ import {
   removeFromInvoices,
   updateFromInvoices
 } from '../actions';
-import {routes} from '@/navigation';
-import {alertMe} from '@/constants';
-import t from 'locales/use-translation';
-import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
-import {getCustomFields} from '@/features/settings/saga/custom-fields';
-import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
-import InvoiceServices from '@/features/invoices/services';
 
 function* getInvoices({payload}) {
-  const {fresh = true, onSuccess, onFail, queryString} = payload;
-
+  const {fresh, onSuccess, onFail, queryString} = payload;
   yield put(spinner({invoicesLoading: true}));
-
   try {
-    const options = {
-      path: `invoices?${queryStrings.stringify(queryString)}`
-    };
-
+    const options = {path: `invoices?${queryStrings.stringify(queryString)}`};
     const response = yield call([Request, 'get'], options);
-
-    if (response?.data) {
-      const data = response.data;
-      yield put(setInvoices({invoices: data, fresh}));
-    }
+    yield put(setInvoices({invoices: response.data, fresh}));
     onSuccess?.(response);
   } catch (e) {
     onFail?.();
@@ -57,39 +49,26 @@ function* getInvoices({payload}) {
 }
 
 function* getCreateInvoice({payload: {onSuccess}}) {
-  yield put(spinner({initInvoiceLoading: true}));
-
   try {
+    yield put(spinner({initInvoiceLoading: true}));
     yield call(getCustomFields, {
       payload: {
         queryString: {type: CUSTOM_FIELD_TYPES.INVOICE, limit: 'all'}
       }
     });
-
     const response = yield call(getSettingInfo, {
       payload: {
         keys: ['invoice_auto_generate', 'tax_per_item', 'discount_per_item']
       }
     });
-
     const {invoice_auto_generate} = response;
-
-    const isAuto =
-      invoice_auto_generate === 'YES' || invoice_auto_generate === 1;
-
+    const isAuto = isBooleanTrue(invoice_auto_generate);
     const nextInvoiceNumber = yield call(getNextNumber, {
       payload: {key: 'invoice'}
     });
-
-    const values = {
-      ...nextInvoiceNumber,
-      ...(!isAuto && {nextNumber: null})
-    };
-
+    const values = {...nextInvoiceNumber, ...(!isAuto && {nextNumber: null})};
     const {invoiceTemplates} = yield call(getInvoiceTemplates, {});
-
     yield put(setInvoice({...response, ...values, invoiceTemplates}));
-
     onSuccess?.(values);
   } catch (e) {
   } finally {
@@ -99,28 +78,17 @@ function* getCreateInvoice({payload: {onSuccess}}) {
 
 function* getEditInvoice({payload: {id, onSuccess}}) {
   yield put(spinner({initInvoiceLoading: true}));
-
   try {
-    const options = {
-      path: `invoices/${id}`
-    };
-
+    const options = {path: `invoices/${id}`};
     yield call(getCustomFields, {
       payload: {
         queryString: {type: CUSTOM_FIELD_TYPES.INVOICE, limit: 'all'}
       }
     });
-
     const response = yield call([Request, 'get'], options);
-
-    if (!response?.data) {
-      return;
-    }
-
     const {invoicePrefix, nextInvoiceNumber} = response?.meta;
     const invoice = response?.data;
     const {invoiceTemplates} = yield call(getInvoiceTemplates, {});
-
     const values = {
       invoice,
       invoicePrefix,
@@ -129,13 +97,9 @@ function* getEditInvoice({payload: {id, onSuccess}}) {
       discount_per_item: invoice?.discount_per_item,
       tax_per_item: invoice?.tax_per_item
     };
-
     yield put(setInvoice(values));
-
     yield put(removeInvoiceItems());
-
     yield put(setInvoiceItems({invoiceItem: invoice?.invoiceItems ?? []}));
-
     onSuccess?.(invoice);
   } catch (e) {
   } finally {
@@ -144,11 +108,9 @@ function* getEditInvoice({payload: {id, onSuccess}}) {
 }
 
 function* addItem({payload: {item, onResult}}) {
-  yield put(spinner({createInvoiceItemLoading: true}));
-
   try {
+    yield put(spinner({createInvoiceItemLoading: true}));
     const {price, name, description, taxes, unit_id} = item;
-
     const options = {
       path: `items`,
       body: {
@@ -159,19 +121,11 @@ function* addItem({payload: {item, onResult}}) {
         taxes
       }
     };
-
     const response = yield call([Request, 'post'], options);
-
     const invoiceItem = [
-      {
-        ...response.data,
-        item_id: response.data.id,
-        ...item
-      }
+      {...response.data, item_id: response.data.id, ...item}
     ];
-
     yield put(setInvoiceItems({invoiceItem}));
-
     onResult?.();
   } catch (e) {
   } finally {
@@ -180,11 +134,9 @@ function* addItem({payload: {item, onResult}}) {
 }
 
 function* editItem({payload: {item, onResult}}) {
-  yield put(spinner({createInvoiceItemLoading: true}));
-
   try {
+    yield put(spinner({createInvoiceItemLoading: true}));
     const {price, name, description, item_id} = item;
-
     const options = {
       path: `items/${item_id}`,
       body: {
@@ -193,20 +145,10 @@ function* editItem({payload: {item, onResult}}) {
         price
       }
     };
-
     const response = yield call([Request, 'put'], options);
-
-    const invoiceItem = [
-      {
-        ...response.item,
-        ...item
-      }
-    ];
-
+    const invoiceItem = [{...response.item, ...item}];
     yield put(removeInvoiceItem({id: invoiceItem.id}));
-
     yield put(setInvoiceItems({invoiceItem}));
-
     onResult?.();
   } catch (e) {
   } finally {
@@ -215,85 +157,43 @@ function* editItem({payload: {item, onResult}}) {
 }
 
 function* createInvoice({payload}) {
-  const {invoice, onSuccess, submissionError, navigation} = payload;
+  const {invoice, onSuccess} = payload;
   yield put(spinner({invoiceLoading: true}));
-
   try {
-    const options = {
-      path: `invoices`,
-      body: invoice
-    };
-
+    const options = {path: `invoices`, body: invoice};
     const response = yield call([Request, 'post'], options);
-
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
-      return;
-    }
-
-    if (!response.data) {
-      alertMe({
-        desc: t('validation.wrong'),
-        okPress: () => navigation.goBack(null)
-      });
-      return;
-    }
-
     InvoiceServices.toggleIsFirstInvoiceCreated(true);
-
     yield put(removeInvoiceItems());
-
     yield put(setInvoices({invoices: [response.data], prepend: true}));
-
     onSuccess?.(response?.data?.invoicePdfUrl);
+    showNotification({message: t('notification.invoice_created')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({invoiceLoading: false}));
   }
 }
 
 function* editInvoice({payload}) {
-  const {invoice, onSuccess, submissionError, navigation, status} = payload;
-
+  const {invoice, onSuccess, navigation, status} = payload;
   yield put(spinner({invoiceLoading: true}));
-
   try {
-    const options = {
-      path: `invoices/${invoice.id}`,
-      body: invoice
-    };
-
+    const options = {path: `invoices/${invoice.id}`, body: invoice};
     const response = yield call([Request, 'put'], options);
-
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
-      return;
-    }
-
-    if (!response.data) {
-      alertMe({
-        desc: t('validation.wrong'),
-        okPress: () => navigation.goBack(null)
-      });
-      return;
-    }
-
-    if (response.data) {
-      yield put(updateFromInvoices({invoice: response.data}));
-      status !== 'download' && navigation.goBack(null);
-    }
-
+    yield put(updateFromInvoices({invoice: response.data}));
+    status !== 'download' && navigation.goBack(null);
     onSuccess?.(response?.data?.invoicePdfUrl);
+    showNotification({message: t('notification.invoice_updated')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({invoiceLoading: false}));
   }
 }
 
 function* removeItem({payload: {onResult, id}}) {
-  yield put(spinner({removeItemLoading: true}));
-
   try {
+    yield put(spinner({removeItemLoading: true}));
     yield put(removeInvoiceItem({id}));
     onResult?.();
   } catch (e) {
@@ -304,21 +204,14 @@ function* removeItem({payload: {onResult, id}}) {
 
 function* removeInvoice({payload: {onResult, id}}) {
   yield put(spinner({removeInvoiceLoading: true}));
-
   try {
-    const options = {
-      path: `invoices/delete`,
-      body: {ids: [id]}
-    };
-
+    const options = {path: `invoices/delete`, body: {ids: [id]}};
     const response = yield call([Request, 'post'], options);
-
-    if (response.success) {
-      yield put(removeFromInvoices({id}));
-    }
-
+    yield put(removeFromInvoices({id}));
     onResult?.(response);
+    showNotification({message: t('notification.invoice_deleted')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner({removeInvoiceLoading: false}));
   }
@@ -326,29 +219,13 @@ function* removeInvoice({payload: {onResult, id}}) {
 
 function* changeInvoiceStatus({payload}) {
   const {onResult = null, params = null, id, action, navigation} = payload;
-
   yield put(spinner({changeStatusLoading: true}));
-
   const param = {id, ...params};
-
   try {
-    const options = {
-      path: `invoices/${action}`,
-      body: {...param}
-    };
-
-    const response = yield call([Request, 'post'], options);
-
-    if (response?.data || response?.success) {
-      onResult?.();
-      navigation.navigate(routes.MAIN_INVOICES);
-    } else {
-      alertMe({
-        desc: t('validation.wrong'),
-        okPress: () => navigation?.goBack?.(null)
-      });
-      return;
-    }
+    const options = {path: `invoices/${action}`, body: {...param}};
+    yield call([Request, 'post'], options);
+    onResult?.();
+    navigation.navigate(routes.MAIN_INVOICES);
   } catch (e) {
   } finally {
     yield put(spinner({changeStatusLoading: false}));
@@ -357,10 +234,7 @@ function* changeInvoiceStatus({payload}) {
 
 export function* getInvoiceTemplates(payloadData) {
   try {
-    const options = {
-      path: `invoices/templates`
-    };
-
+    const options = {path: `invoices/templates`};
     return yield call([Request, 'get'], options);
   } catch (e) {}
 }
