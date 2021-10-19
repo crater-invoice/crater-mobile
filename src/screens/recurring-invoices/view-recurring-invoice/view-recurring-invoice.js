@@ -107,7 +107,6 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
   };
 
   BASIC_INFO = () => {
-    const {theme} = this.props;
     const {
       data: {
         customer,
@@ -135,12 +134,11 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.scrollContainer}
       >
-        <Text color={theme.text.fifthColor} style={styles.bigLabel}>
+        <Text h4 mt-17 color={this.props.theme.text.fifthColor}>
           {t('recurring_invoices.basic_info')}
         </Text>
-        <ViewData theme={theme} label={'Customer'} values={customer?.name} />
+        <ViewData label={'Customer'} values={customer?.name} />
         <ViewData
-          theme={theme}
           inPairs
           first={{
             label: t('recurring_invoices.start_date'),
@@ -152,13 +150,11 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
           }}
         />
         <ViewData
-          theme={theme}
           inPairs
           first={{label: t('recurring_invoices.limit_by'), values: limit_by}}
           second={limit_by === 'DATE' ? limitDate : limitCount}
         />
         <ViewData
-          theme={theme}
           inPairs
           first={{
             label: t('recurring_invoices.status.title'),
@@ -179,8 +175,8 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
       data: {invoices}
     } = this.state;
     return (
-      <View style={{}}>
-        <Text color={theme.text.fifthColor} style={styles.bigLabel}>
+      <View>
+        <Text h4 mt-25 color={theme.text.fifthColor}>
           {t('recurring_invoices.invoices')}
         </Text>
         <ScrollView
@@ -191,7 +187,6 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
           <ListView
             items={formattedInvoices(invoices, theme)}
             onPress={this.onSelectInvoice}
-            contentContainerStyle={{}}
             bottomDivider
             isAnimated
           />

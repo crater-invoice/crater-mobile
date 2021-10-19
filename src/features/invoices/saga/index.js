@@ -99,7 +99,7 @@ function* getEditInvoice({payload: {id, onSuccess}}) {
     };
     yield put(setInvoice(values));
     yield put(removeInvoiceItems());
-    yield put(setInvoiceItems({invoiceItem: invoice?.invoiceItems ?? []}));
+    yield put(setInvoiceItems(invoice?.invoiceItems));
     onSuccess?.(invoice);
   } catch (e) {
   } finally {
@@ -125,7 +125,7 @@ function* addItem({payload: {item, onResult}}) {
     const invoiceItem = [
       {...response.data, item_id: response.data.id, ...item}
     ];
-    yield put(setInvoiceItems({invoiceItem}));
+    yield put(setInvoiceItems(invoiceItem));
     onResult?.();
   } catch (e) {
   } finally {
@@ -148,7 +148,7 @@ function* editItem({payload: {item, onResult}}) {
     const response = yield call([Request, 'put'], options);
     const invoiceItem = [{...response.item, ...item}];
     yield put(removeInvoiceItem({id: invoiceItem.id}));
-    yield put(setInvoiceItems({invoiceItem}));
+    yield put(setInvoiceItems(invoiceItem));
     onResult?.();
   } catch (e) {
   } finally {

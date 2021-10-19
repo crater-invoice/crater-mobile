@@ -40,14 +40,6 @@ export const fetchInvoiceTemplates = () => {
 };
 
 /**
- * Fetch status
- * @returns {*}
- */
-export const fetchStatus = () => {
-  return Request.get({path: `created-status/recurring-invoices`});
-};
-
-/**
  * Fetch recurring-invoices
  * @param q : queryString
  * @returns {*}

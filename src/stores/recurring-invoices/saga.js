@@ -24,7 +24,6 @@ function* fetchRecurringInvoiceInitialDetails({payload}) {
   yield put({
     type: types.CLEAR_RECURRING_INVOICE
   });
-  yield call(fetchStatus);
   yield call(fetchInvoiceTemplates);
   payload?.();
 }
@@ -41,16 +40,6 @@ export function* fetchInvoiceTemplates() {
       payload: response?.invoiceTemplates
     });
   } catch (e) {}
-}
-
-/**
- * Fetch status saga.
- * @returns {IterableIterator<*>}
- */
-function* fetchStatus() {
-  const response = yield call(req.fetchStatus);
-  const status = response?.status ?? [];
-  yield put({type: types.FETCH_STATUS_SUCCESS, payload: status});
 }
 
 /**
@@ -85,7 +74,6 @@ function* fetchSingleRecurringInvoice({payload}) {
     yield put({
       type: types.CLEAR_RECURRING_INVOICE
     });
-    yield call(fetchStatus);
     yield call(fetchInvoiceTemplates);
     yield put({
       type: types.ADD_RECURRING_INVOICE_ITEM_SUCCESS,

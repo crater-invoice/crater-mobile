@@ -3,7 +3,6 @@ import {isEmpty} from '@/constants';
 
 const initialState = {
   invoices: [],
-  status: [],
   items: [],
   selectedItems: [],
   invoiceData: {
@@ -32,9 +31,6 @@ export default function recurringInvoicesReducer(state = initialState, action) {
           invoiceTemplates: payload
         }
       };
-
-    case types.FETCH_STATUS_SUCCESS:
-      return {...state, status: payload};
 
     case types.FETCH_RECURRING_INVOICES_SUCCESS:
       if (payload.fresh) {

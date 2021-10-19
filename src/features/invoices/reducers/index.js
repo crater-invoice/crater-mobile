@@ -76,11 +76,9 @@ export default function invoicesReducer(state = initialState, action) {
             return { ...state, loading: { ...state.loading, ...payload } };
 
         case SET_INVOICE_ITEMS:
-            const { invoiceItem } = payload;
-
             return {
                 ...state,
-                selectedItems: [...state.selectedItems, ...invoiceItem]
+                selectedItems: [...state.selectedItems, ...payload]
             };
 
         case REMOVE_INVOICE_ITEM:

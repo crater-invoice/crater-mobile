@@ -3,7 +3,6 @@ import t from 'locales/use-translation';
 export const SPINNER = 'recurringInvoices/SPINNER';
 
 export const FETCH_INITIAL_DETAILS = 'recurringInvoices/FETCH_INITIAL_DETAILS';
-export const FETCH_STATUS_SUCCESS = 'recurringInvoices/FETCH_STATUS_SUCCESS';
 export const FETCH_INVOICE_TEMPLATES_SUCCESS =
   'recurringInvoices/FETCH_INVOICE_TEMPLATES_SUCCESS';
 export const FETCH_NEXT_INVOICE_AT = 'recurringInvoices/FETCH_NEXT_INVOICE_AT';

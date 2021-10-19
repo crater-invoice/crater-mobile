@@ -12,9 +12,9 @@ import moment from 'moment';
 
 const mapStateToProps = (state, {route}) => {
   const {
-    common: {taxTypes, currency},
+    common: {taxTypes, currency, recurring_invoice_update_status},
     settings: {notes, customFields},
-    recurringInvoices: {status, selectedItems, invoiceData},
+    recurringInvoices: {selectedItems, invoiceData},
     more: {items},
     customers: {customers}
   } = state;
@@ -30,7 +30,7 @@ const mapStateToProps = (state, {route}) => {
     taxTypes,
     currency,
     customFields,
-    statusList: status,
+    statusList: recurring_invoice_update_status,
     formValues: getFormValues(CREATE_RECURRING_INVOICE_FORM)(state) || {},
     initialValues: {
       customer_id: null,

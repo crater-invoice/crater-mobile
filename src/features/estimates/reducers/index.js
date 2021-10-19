@@ -93,11 +93,9 @@ export default function estimatesReducer(state = initialState, action) {
             return { ...state, items };
 
         case SET_ESTIMATE_ITEMS:
-            const { estimateItem } = payload;
-
             return {
                 ...state,
-                selectedItems: [...state.selectedItems, ...estimateItem]
+                selectedItems: [...state.selectedItems, ...payload]
             };
 
         case REMOVE_ESTIMATE_ITEM:

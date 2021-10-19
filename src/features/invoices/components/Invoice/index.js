@@ -78,7 +78,7 @@ export class Invoice extends React.Component<IProps, IStates> {
 
   constructor(props) {
     super(props);
-    this.invoiceRefs = setCalculationRef.bind(this);
+    this.invoiceRefs = setCalculationRef?.bind?.(this);
     this.sendMailRef = React.createRef();
     this.customerReference = React.createRef();
 
