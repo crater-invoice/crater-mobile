@@ -4,8 +4,6 @@ import {
     GET_CREATE_INVOICE,
     INVOICES_TRIGGER_SPINNER,
     ADD_ITEM,
-    GET_ITEMS,
-    SET_ITEMS,
     SET_INVOICE_ITEMS,
     CREATE_INVOICE,
     EDIT_ITEM,
@@ -87,16 +85,6 @@ export const addItem = (payload = {}) => ({
     payload
 });
 
-export const getItems = (payload = {}) => ({
-    type: GET_ITEMS,
-    payload
-});
-
-export const setItems = (payload = {}) => ({
-    type: SET_ITEMS,
-    payload
-});
-
 export const setInvoiceItems = (payload = {}) => ({
     type: SET_INVOICE_ITEMS,
     payload
@@ -141,7 +129,7 @@ export const changeInvoiceStatus = (payload = {}) => ({
     payload
 });
 
-export const geInvoiceTemplates = (payload = {}) => ({
+export const getInvoiceTemplates = (payload = {}) => ({
     type: GET_INVOICE_TEMPLATE,
     payload
 });
@@ -150,7 +138,6 @@ export const updateFromInvoices = (payload = {}) => ({
     type: UPDATE_FROM_INVOICES,
     payload
 });
-
 
 // Recurring Invoice Actions
 // -----------------------------------------

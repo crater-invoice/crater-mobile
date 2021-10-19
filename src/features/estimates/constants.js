@@ -49,21 +49,6 @@ export const REMOVE_ITEM = 'estimate/REMOVE_ITEM';
 export const ITEM_ADD = 'estimate/ITEM_ADD';
 export const ITEM_EDIT = 'estimate/ITEM_EDIT';
 
-export const ITEM_DISCOUNT_OPTION = [
-  {
-    key: 'none',
-    label: 'None'
-  },
-  {
-    key: 'fixed',
-    label: 'Fixed'
-  },
-  {
-    key: 'percentage',
-    label: 'Percentage'
-  }
-];
-
 export const ESTIMATE_DISCOUNT_OPTION = [
   {
     value: 'percentage',

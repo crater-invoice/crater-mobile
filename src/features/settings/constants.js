@@ -203,12 +203,14 @@ export const CUSTOM_FIELD_MODAL_TYPES = [
 
 export const NOTES_TYPE_VALUE = {
   INVOICE: 'Invoice',
+  RECURRING_INVOICE: 'RecurringInvoices',
   ESTIMATE: 'Estimate',
   PAYMENT: 'Payment'
 };
 
 export const NOTES_FIELD_MODAL_TYPES = [
   {label: 'Invoice', value: NOTES_TYPE_VALUE.INVOICE},
+  {label: 'Recurring Invoices', value: NOTES_TYPE_VALUE.RECURRING_INVOICE},
   {label: 'Estimate', value: NOTES_TYPE_VALUE.ESTIMATE},
   {label: 'Payment', value: NOTES_TYPE_VALUE.PAYMENT}
 ];

@@ -53,35 +53,10 @@ export const REMOVE_INVOICE_ITEM = 'invoice/REMOVE_INVOICE_ITEM';
 export const REMOVE_INVOICE_ITEMS = 'invoice/REMOVE_INVOICE_ITEMS';
 export const ADD_ITEM = 'invoice/ADD_ITEM';
 export const EDIT_ITEM = 'invoice/EDIT_ITEM';
-export const GET_ITEMS = 'invoice/GET_ITEMS';
-export const SET_ITEMS = 'invoice/SET_ITEMS';
 export const SET_INVOICE_ITEMS = 'invoice/SET_INVOICE_ITEMS';
 export const REMOVE_ITEM = 'invoice/REMOVE_ITEM';
 export const ITEM_ADD = 'invoice/ITEM_ADD';
 export const ITEM_EDIT = 'invoice/ITEM_EDIT';
-
-export const ITEM_DISCOUNT_OPTION = [
-  {
-    key: 'none',
-    label: 'None'
-  },
-  {
-    key: 'fixed',
-    label: 'Fixed'
-  },
-  {
-    key: 'percentage',
-    label: 'Percentage'
-  }
-];
-
-export const INVOICE_DISCOUNT_OPTION = [
-  {
-    value: 'percentage',
-    label: 'Percentage',
-    displayLabel: '%'
-  }
-];
 
 export const INVOICES_TABS = {
   DUE: 'DUE',

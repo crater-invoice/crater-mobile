@@ -1,4 +1,5 @@
 import {trim} from 'lodash';
+import {CRON_REGEX} from '.';
 import {EMAIL_REGEX, URL_REGEX, CHARACTER_ONLY_REGEX} from './regex';
 
 type IValidationOptions = {
@@ -19,7 +20,8 @@ type ErrorType =
   | 'isNumberFormat'
   | 'passwordCompared'
   | 'moreThanDue'
-  | 'urlFormat';
+  | 'urlFormat'
+  | 'cronFormat';
 
 export function getError(
   value: string,
@@ -82,7 +84,9 @@ export function getError(
 
     moreThanDue: () => 'validation.moreThanDue',
 
-    urlFormat: () => (URL_REGEX.test(value) ? null : 'validation.url')
+    urlFormat: () => (URL_REGEX.test(value) ? null : 'validation.url'),
+
+    cronFormat: () => (CRON_REGEX.test(value) ? null : 'validation.cron')
   };
 
   const errorType = errorTypes.find(

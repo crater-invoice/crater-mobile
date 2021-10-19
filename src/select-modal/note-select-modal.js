@@ -25,10 +25,10 @@ interface IProps {
   theme: ITheme;
 }
 
-export const NoteSelectModal = (props: IProps) => {
-  const {notes, getNotes, theme} = props;
-  let notesReference = useRef(null);
+let notesReference = React.createRef();
 
+export const NoteSelectModal = (props: IProps) => {
+  const {notes, getNotes, theme, onSelect} = props;
   return (
     <SelectField
       {...props}
@@ -42,6 +42,7 @@ export const NoteSelectModal = (props: IProps) => {
       reference={ref => (notesReference = ref)}
       headerProps={{title: t('notes.select')}}
       emptyContentProps={{contentType: 'notes'}}
+      onSelect={onSelect}
       customView={
         <TouchableOpacity
           onPress={() => {

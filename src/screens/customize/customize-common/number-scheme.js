@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Field, change} from 'redux-form';
-import {ITheme} from '@/interfaces';
 import t from 'locales/use-translation';
 import {NUMBERING_SCHEME_TYPE} from 'stores/customize/helpers';
 import {fetchNextNumber} from 'stores/customize/actions';
@@ -42,12 +41,6 @@ interface IProps {
    * Name of current form.
    */
   form?: String;
-
-  /**
-   * An active theme object.
-   * @see ITheme
-   */
-  theme?: ITheme;
 }
 
 export class NumberScheme extends Component<IProps> {

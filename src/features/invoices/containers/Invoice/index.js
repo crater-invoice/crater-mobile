@@ -10,6 +10,7 @@ import {getCustomers} from '@/features/customers/actions';
 import {getTaxes, getNotes} from '@/features/settings/actions';
 import {isEmpty} from '@/constants';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
+import {getItems} from '@/features/more/actions';
 
 const getSelectedTemplate = (templates, form, isEditScreen) => {
   if (!isEditScreen) {
@@ -26,8 +27,9 @@ const getSelectedTemplate = (templates, form, isEditScreen) => {
 const mapStateToProps = (state, {route}) => {
   const {
     common: {taxTypes, currency},
-    invoices: {loading, invoiceItems, invoiceData, items},
+    invoices: {loading, selectedItems, invoiceData},
     settings: {notes, customFields},
+    more: {items},
     customers: {customers}
   } = state;
 
@@ -46,7 +48,7 @@ const mapStateToProps = (state, {route}) => {
     initLoading: isLoading,
     loading: loading?.invoiceLoading,
     withLoading: loading?.changeStatusLoading || loading?.removeInvoiceLoading,
-    invoiceItems,
+    selectedItems,
     invoiceData,
     items,
     notes,
@@ -90,7 +92,8 @@ const mapDispatchToProps = {
   ...actions,
   getCustomers,
   getTaxes,
-  getNotes
+  getNotes,
+  getItems
 };
 
 const addInvoiceReduxForm = reduxForm({

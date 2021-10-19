@@ -33,7 +33,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
   }
 
   componentWillUnmount() {
-    this.props.reference?.(undefined);
+    // this.props.reference?.(undefined);
   }
 
   initialState = () => {

@@ -14,7 +14,8 @@ import {
   CONVERT_TO_INVOICE,
   REMOVE_ESTIMATE,
   CHANGE_ESTIMATE_STATUS,
-  GET_ESTIMATE_TEMPLATE
+  GET_ESTIMATE_TEMPLATE,
+  SET_ESTIMATE_ITEMS
 } from '../constants';
 import {
   estimateTriggerSpinner as spinner,
@@ -106,7 +107,7 @@ function* getEditEstimate({payload: {id, onSuccess}}) {
     };
     yield put(setEstimate(values));
     yield put(removeEstimateItems());
-    yield put(setEstimateItems({estimateItem: estimate?.estimateItems ?? []}));
+    yield put(setEstimateItems(estimate?.estimateItems ?? []));
     onSuccess?.(estimate);
   } catch (e) {
   } finally {
@@ -136,7 +137,7 @@ function* addItem({payload: {item, onResult}}) {
         ...item
       }
     ];
-    yield put(setEstimateItems({estimateItem}));
+    yield put(setEstimateItems(estimateItem));
     onResult?.();
   } catch (e) {
   } finally {
@@ -155,7 +156,7 @@ function* editItem({payload: {item, onResult}}) {
     const response = yield call([Request, 'put'], options);
     const estimateItem = [{...response.data, ...item}];
     yield put(removeEstimateItem({id: estimateItem.id}));
-    yield put(setEstimateItems({estimateItem}));
+    yield put(setEstimateItems(estimateItem));
     onResult?.();
   } catch (e) {
   } finally {

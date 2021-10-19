@@ -14,7 +14,8 @@ export const lightTheme = {
     secondaryColor: colors.secondary,
     thirdColor: colors.veryDarkGray,
     fourthColor: colors.primaryLight,
-    fifthColor: colors.darkGray
+    fifthColor: colors.darkGray,
+    sixthColor: colors.dark
   },
 
   // Component Input
