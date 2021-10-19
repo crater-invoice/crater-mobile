@@ -24,7 +24,8 @@ import {
 } from '@/constants';
 import {TaxSelectModal, UnitSelectModal} from '@/select-modal';
 import {itemActions} from '@/stores/items/helper';
-import {CREATE_ITEM_FORM, ITEM_DISCOUNT_OPTION} from '@/stores/items/types';
+import {CREATE_ITEM_FORM} from '@/stores/items/types';
+import {DISCOUNT_OPTION} from '@/stores/common/types';
 import {IProps} from './create-item-types';
 
 export class CreateItem extends React.Component<IProps> {
@@ -431,7 +432,7 @@ export class CreateItem extends React.Component<IProps> {
               name="discount_type"
               component={RadioButtonGroup}
               hint={t('items.discountType')}
-              options={ITEM_DISCOUNT_OPTION}
+              options={DISCOUNT_OPTION}
               initialValue={initialValues.discount_type}
               theme={theme}
             />

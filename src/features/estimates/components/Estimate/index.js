@@ -544,10 +544,10 @@ export class Estimate extends React.Component<IProps, IStates> {
         />
 
         <FinalAmount
+          {...this.props}
+          state={this.state}
           discount_per_item={discount_per_item}
           tax_per_item={tax_per_item}
-          state={this.state}
-          props={this.props}
         />
 
         <Field

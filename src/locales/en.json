@@ -999,6 +999,9 @@
     "invoice_deleted": "Invoice deleted successfully",
     "invoice_marked_as_sent": "Invoice marked as sent successfully",
     "invoice_sent": "Invoice sent successfully",
-    "invoice_cloned": "Invoice cloned successfully"
+    "invoice_cloned": "Invoice cloned successfully",
+    "recurring_invoice_created": "Recurring Invoice created successfully",
+    "recurring_invoice_updated": "Recurring Invoice updated successfully",
+    "recurring_invoice_deleted": "Recurring Invoice deleted successfully"
   }
 }
