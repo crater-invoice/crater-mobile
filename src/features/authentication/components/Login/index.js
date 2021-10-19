@@ -34,8 +34,6 @@ type IProps = {
   navigation: Object,
   login: Function,
   handleSubmit: Function,
-  loading: Boolean,
-  socialLoading: Boolean,
   biometryAuthType: string,
   biometryAuthLogin: Function
 };
@@ -47,7 +45,8 @@ export class Login extends React.Component<IProps> {
   constructor(props) {
     super(props);
     this.state = {
-      isKeyboardVisible: false
+      isKeyboardVisible: false,
+      isLoading: false
     };
   }
 
@@ -66,26 +65,28 @@ export class Login extends React.Component<IProps> {
     this.keyboardDidHideListener.remove();
   };
 
-  onLogin = values => {
-    const {navigation, login} = this.props;
-    login({
-      params: {...values, device_name: Constants.deviceName},
-      navigation
-    });
+  onSubmit = async values => {
+    const {login} = this.props;
+    await this.setState({isLoading: true});
+    const onResult = () => this.setState({isLoading: false});
+    const params = {...values, device_name: Constants.deviceName};
+    login({params, onResult});
   };
 
   loginViaBiometry = async () => {
-    const {biometryAuthLogin, navigation} = this.props;
-
     try {
+      const {biometryAuthLogin} = this.props;
       biometricAuthentication({
-        onSuccess: () => biometryAuthLogin({navigation})
+        onSuccess: async () => {
+          await this.setState({isLoading: true});
+          biometryAuthLogin(() => this.setState({isLoading: false}));
+        }
       });
     } catch (e) {}
   };
 
   render() {
-    const {loading, navigation, biometryAuthType, theme} = this.props;
+    const {navigation, biometryAuthType, theme} = this.props;
     const {isKeyboardVisible} = this.state;
 
     const BIOMETRY_TYPES_TITLES = {
@@ -169,7 +170,7 @@ export class Login extends React.Component<IProps> {
                 name="password"
                 component={InputField}
                 returnKeyType={keyboardReturnKeyType.GO}
-                onSubmitEditing={this.props.handleSubmit(this.onLogin)}
+                onSubmitEditing={this.props.handleSubmit(this.onSubmit)}
                 placeholder={t('login.password')}
                 inputContainerStyle={styles.inputField}
                 secureTextEntry
@@ -195,10 +196,10 @@ export class Login extends React.Component<IProps> {
 
               <View style={{marginTop: 25}}>
                 <CtGradientButton
-                  onPress={this.props.handleSubmit(this.onLogin)}
+                  onPress={this.props.handleSubmit(this.onSubmit)}
                   btnTitle={t('button.singIn')}
-                  loading={loading}
-                  isLoading={loading}
+                  loading={this.state.isLoading}
+                  isLoading={this.state.isLoading}
                   style={{paddingVertical: 8}}
                 />
               </View>

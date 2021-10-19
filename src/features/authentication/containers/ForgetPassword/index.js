@@ -7,7 +7,6 @@ import {FORGOT_PASSWORD_FORM} from '../../constants';
 import {commonSelector} from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
-  loading: state.auth.loading.forgetPasswordLoading,
   validation: true,
   ...commonSelector(state)
 });
