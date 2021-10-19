@@ -5,11 +5,10 @@ import {Field} from 'redux-form';
 import styles from './styles';
 import {colors} from '@/styles';
 import {Content} from '../Content';
-import t from 'locales/use-translation';
 import {InputField} from '../InputField';
 import {AssetIcon} from '../AssetIcon';
 import {Text} from '../Text';
-import {BaseLabel} from '@/components';
+import {BaseError, BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 import {keyboardType} from '@/constants';
 
@@ -254,13 +253,7 @@ export class FakeInputComponent extends Component<IProps> {
           </Content>
         )}
 
-        {submitFailed && error && (
-          <View style={styles.validation}>
-            <Text white h6 numberOfLines={1} medium={theme?.mode === 'dark'}>
-              {t(error, {hint: label})}
-            </Text>
-          </View>
-        )}
+        <BaseError {...this.props} style={styles.validation} />
       </View>
     );
   }

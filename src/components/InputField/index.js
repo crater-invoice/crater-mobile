@@ -7,16 +7,15 @@ import styles from './styles';
 import {IInputField} from './type';
 import {AssetIcon} from '../AssetIcon';
 import {colors} from '@/styles';
-import t from 'locales/use-translation';
+import {Text} from '../Text';
+import {BaseLabel, BaseError} from '@/components';
+import {commonSelector} from 'stores/common/selectors';
 import {
   hasTextLength,
   hasValue,
   keyboardReturnKeyType,
   keyboardType
 } from '@/constants';
-import {Text} from '../Text';
-import {BaseLabel} from '@/components';
-import {commonSelector} from 'stores/common/selectors';
 
 export class InputFieldComponent extends Component<IInputField> {
   constructor(props) {
@@ -101,9 +100,7 @@ export class InputFieldComponent extends Component<IInputField> {
       meta: {error, submitFailed},
       secureTextEntry,
       refLinkFn,
-      tip,
       inputContainerStyle,
-      onChangeText,
       editable = true,
       hideError,
       autocomplete,
@@ -112,21 +109,15 @@ export class InputFieldComponent extends Component<IInputField> {
       textColor,
       height,
       setActivity,
-      errorNumberOfLines,
       fieldStyle,
-      hintStyle,
       containerStyle,
       leftIcon,
       leftIconSolid = false,
       textStyle,
-      validationStyle,
       inputProps = {},
       rounded,
       isCurrencyInput = false,
       leftIconStyle,
-      maxNumber = 0,
-      maxCharacter = 0,
-      minCharacter = 0,
       isRequired = false,
       secureTextIconContainerStyle,
       leftSymbol,
@@ -304,33 +295,8 @@ export class InputFieldComponent extends Component<IInputField> {
             />
           </TouchableOpacity>
         )}
-        {!hideError && submitFailed && error && (
-          <View style={[styles.validation, validationStyle]}>
-            <Text
-              white
-              h6
-              numberOfLines={errorNumberOfLines || 3}
-              medium={theme?.mode === 'dark'}
-            >
-              {t(error, {
-                hint,
-                maxNumber,
-                maxCharacter,
-                minCharacter
-              })}
-            </Text>
-          </View>
-        )}
-        {!(submitFailed && error) && !isOptions && tip && (
-          <Text
-            white
-            positionAbsolute
-            numberOfLines={3}
-            style={styles.inputTip}
-          >
-            {tip}
-          </Text>
-        )}
+
+        <BaseError {...this.props} />
       </View>
     );
   }

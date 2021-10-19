@@ -9,7 +9,7 @@ import {showNotification, handleError} from '@/utils';
  * @returns {IterableIterator<*>}
  */
 export function* fetchItemUnits({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
     const response = yield call(req.fetchItemUnits, queryString);
     yield put({

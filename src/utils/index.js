@@ -9,3 +9,4 @@ export * from './styled';
 export * from './badge';
 export * from './error-message';
 export * from './notification';
+export * from './custom-field';

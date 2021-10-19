@@ -40,15 +40,6 @@ export default StyleSheet.create({
   inputPassword: {
     paddingRight: 30
   },
-  validation: {
-    paddingVertical: 2,
-    paddingHorizontal: 5,
-    borderRadius: 2,
-    overflow: 'hidden',
-    flex: 1,
-    zIndex: 100,
-    backgroundColor: colors.danger
-  },
   icon: {
     position: 'absolute',
     top: 10,

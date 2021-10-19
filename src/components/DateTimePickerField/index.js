@@ -9,7 +9,7 @@ import {DATE_FORMAT} from '@/constants';
 import t from 'locales/use-translation';
 import styles from './styles';
 import {Text} from '../Text';
-import {BaseLabel} from '@/components';
+import {BaseError, BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 
 const DATE_TIME_PICKER_FORM = 'DATE_TIME_PICKER_FORM';
@@ -122,7 +122,6 @@ class Picker extends Component<Props> {
     if (loading) return null;
 
     const hasError = !hideError && submitFailed && error;
-
     return (
       <View style={styles.container}>
         <BaseLabel isRequired={isRequired} style={labelStyle}>
@@ -156,13 +155,7 @@ class Picker extends Component<Props> {
             />
           </View>
         </View>
-        {hasError && (
-          <View style={styles.validation}>
-            <Text white h6>
-              {t(error, {hint: label})}
-            </Text>
-          </View>
-        )}
+        <BaseError {...this.props} style={styles.validation} />
       </View>
     );
   }

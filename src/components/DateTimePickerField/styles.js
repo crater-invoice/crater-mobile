@@ -17,14 +17,7 @@ const styles = StyleSheet.create({
     marginLeft: theme?.mode === 'light' ? 0 : 1
   }),
   validation: {
-    paddingVertical: 2,
-    paddingHorizontal: 5,
-    borderRadius: 2,
-    overflow: 'hidden',
-    flex: 1,
-    zIndex: 100,
-    backgroundColor: colors.danger,
-    marginTop: -9
+    marginTop: -10
   },
   inputError: {
     borderColor: colors.dangerLight

@@ -20,7 +20,7 @@ export default class CustomizeList extends Component<IProps> {
   render() {
     const {navigation, theme} = this.props;
     const customizeList = [];
-    CUSTOMIZES_MENU().map(list => list?.show && customizeList.push(list));
+    CUSTOMIZES_MENU.map(list => list?.show && customizeList.push(list));
     const headerProps = {
       leftIconPress: () => navigation.navigate(routes.SETTING_LIST),
       title: t('header.customize'),

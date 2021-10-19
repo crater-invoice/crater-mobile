@@ -36,7 +36,7 @@ import {
 } from '../actions';
 
 function* getInvoices({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   yield put(spinner({invoicesLoading: true}));
   try {
     const options = {path: `invoices?${queryStrings.stringify(queryString)}`};
@@ -194,7 +194,7 @@ function* editInvoice({payload}) {
 }
 
 function* getItems({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   yield put(spinner({itemsLoading: true}));
   try {
     const options = {

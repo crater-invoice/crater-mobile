@@ -37,7 +37,7 @@ import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 
 function* getEstimates({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
     const options = {path: `estimates?${queryStrings.stringify(queryString)}`};
     const response = yield call([Request, 'get'], options);
