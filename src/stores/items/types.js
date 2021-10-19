@@ -15,3 +15,11 @@ export const UPDATE_ITEM_SUCCESS = 'items/UPDATE_ITEM_SUCCESS';
 
 export const REMOVE_ITEM = 'items/REMOVE_ITEM';
 export const REMOVE_ITEM_SUCCESS = 'items/REMOVE_ITEM_SUCCESS';
+
+export const ITEM_DISCOUNT_OPTION = [
+  {
+    value: 'percentage',
+    displayLabel: '%',
+    label: 'Percentage'
+  }
+];

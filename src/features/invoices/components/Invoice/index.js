@@ -541,6 +541,7 @@ export class Invoice extends React.Component<IProps, IStates> {
           reference={ref => (this.customerReference = ref)}
           disabled={disabled}
         />
+
         <ItemField
           {...this.props}
           selectedItems={selectedItems}

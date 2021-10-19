@@ -1,5 +1,5 @@
 import React from 'react';
-import {CurrencyFormat, Label, ListView} from '@/components';
+import {BaseLabel, CurrencyFormat, ListView} from '@/components';
 import t from 'locales/use-translation';
 import styles from './modal-items-styles';
 import {Field} from 'redux-form';
@@ -86,9 +86,9 @@ export class ItemField extends React.Component<IProps> {
     } = this.props;
     return (
       <>
-        <Label isRequired theme={theme} style={styles.label}>
+        <BaseLabel isRequired theme={theme} style={styles.label}>
           {t('invoices.items')}
-        </Label>
+        </BaseLabel>
 
         <ListView
           items={this.getItemList(selectedItems)}
