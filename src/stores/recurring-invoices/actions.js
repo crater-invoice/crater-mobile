@@ -29,9 +29,10 @@ export function fetchNextInvoiceAt({params, onSuccess}) {
  * Fetch recurring invoice initial details.
  *
  */
-export function fetchRecurringInvoiceInitialDetails() {
+export function fetchRecurringInvoiceInitialDetails(payload) {
   return {
-    type: types.FETCH_INITIAL_DETAILS
+    type: types.FETCH_INITIAL_DETAILS,
+    payload
   };
 }
 

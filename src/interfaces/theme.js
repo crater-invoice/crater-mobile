@@ -12,7 +12,8 @@ export type ITheme = {
     secondaryColor: string,
     thirdColor: string,
     fourthColor: string,
-    fifthColor: string
+    fifthColor: string,
+    sixthColor: string
   },
 
   // Component Input

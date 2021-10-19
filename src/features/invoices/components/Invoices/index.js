@@ -6,7 +6,6 @@ import {invoicesFilterFields as FilterFields} from './filterFields';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {AssetImage, MainLayout, Tabs} from '@/components';
-import {IMAGES} from '@/assets';
 import {INVOICES_TABS, INVOICE_SEARCH, TAB_NAME} from '../../constants';
 import {isFilterApply} from '@/utils';
 import InvoiceServices from '../../services';

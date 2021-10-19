@@ -14,7 +14,8 @@ export const darkTheme = {
     secondaryColor: colors.white,
     thirdColor: colors.white7,
     fourthColor: colors.white2,
-    fifthColor: colors.white4
+    fifthColor: colors.white4,
+    sixthColor: colors.white2
   },
 
   // Component Input

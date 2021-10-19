@@ -55,9 +55,8 @@ export const FrequencyField = (props: IProps) => {
           hint={t('recurring_invoices.display_frequency')}
           callbackWhenMount={callbackWhenMount}
           disabled={frequencyPickerField.value}
-          inputProps={{}}
-          meta={{}}
           isDebounce
+          isRequired
         />
       )}
     </>

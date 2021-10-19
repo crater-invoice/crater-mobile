@@ -159,7 +159,7 @@ export class Invoice extends React.Component<IProps, IStates> {
     }
 
     if (isEditScreen) {
-      navigation.navigate(routes.MAIN_INVOICES);
+      navigation.goBack(null);
       return;
     }
 

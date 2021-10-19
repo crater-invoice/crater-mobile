@@ -65,29 +65,25 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   }
 
   loadData = () => {
-    const {isCreateScreen, isEditScreen, id, dispatch} = this.props;
+    const {isCreateScreen, id, dispatch} = this.props;
     if (isCreateScreen) {
       dispatch(
-        fetchRecurringInvoiceInitialDetails(
-          this.setState({isFetchingInitialData: false})
-        )
+        fetchRecurringInvoiceInitialDetails(() => this.setInitialData(null))
       );
       return;
     }
 
-    if (isEditScreen) {
-      dispatch(
-        fetchSingleRecurringInvoice(id, invoice => this.setInitialData(invoice))
-      );
-      return;
-    }
-    this.fetchNextInvoice();
-    this.setState({isFetchingInitialData: false});
+    dispatch(
+      fetchSingleRecurringInvoice(id, invoice => this.setInitialData(invoice))
+    );
   };
 
   setInitialData = invoice => {
-    const {dispatch} = this.props;
-    dispatch(initialize(CREATE_RECURRING_INVOICE_FORM, invoice));
+    if (invoice) {
+      const {dispatch} = this.props;
+      dispatch(initialize(CREATE_RECURRING_INVOICE_FORM, invoice));
+    }
+    this.fetchNextInvoice();
     this.setState({isFetchingInitialData: false});
   };
 
@@ -378,13 +374,13 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
         />
 
         <FrequencyField
-          frequencyField={{
-            name: 'frequency',
-            value: frequency
-          }}
           frequencyPickerField={{
             name: 'frequency_picker',
             value: frequency_picker
+          }}
+          frequencyField={{
+            name: 'frequency',
+            value: frequency
           }}
           onChangeCallback={val => {
             if (!val) {

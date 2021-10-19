@@ -20,12 +20,13 @@ export function* fetchNextInvoiceAt({payload}) {
  * Fetch recurring invoice initial details saga.
  * @returns {IterableIterator<*>}
  */
-function* fetchRecurringInvoiceInitialDetails() {
+function* fetchRecurringInvoiceInitialDetails({payload}) {
   yield put({
     type: types.CLEAR_RECURRING_INVOICE
   });
   yield call(fetchStatus);
   yield call(fetchInvoiceTemplates);
+  payload?.();
 }
 
 /**

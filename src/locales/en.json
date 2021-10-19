@@ -4,6 +4,7 @@
     "addInvoice": "Add Invoice",
     "editInvoice": "Edit Invoice",
     "recurring_invoices": "Recurring Invoices",
+    "recurring_invoice": "Recurring Invoice",
     "add_recurring_invoice": "Add Recurring Invoice",
     "edit_recurring_invoice": "Edit Recurring Invoice",
     "view_recurring_invoice": "View Recurring Invoice",
@@ -199,6 +200,11 @@
     "statuses": "Statuses",
     "select_frequency": "Select Frequency",
     "display_frequency": "Frequency",
+    "basic_info": "BASIC INFO",
+    "invoices": "INVOICES",
+    "text_alert_description": "You will not be able to recover this Recurring Invoice",
+    "from_start_at_date": "From Start At Date",
+    "to_start_at_date": "To Start At Date",
     "auto_sent": {
       "label": "Send Invoice Automatically",
       "description": "Enable this, if you would like to send the invoice automatically to the customer when its created."
@@ -248,6 +254,10 @@
       "first_day_of_month": "First Day Of Month",
       "every_6_month": "Every 6 Month",
       "every_year": "Every Year"
+    },
+    "dropdown": {
+      "edit": "Edit",
+      "delete": "Delete"
     }
   },
   "customers": {
@@ -883,7 +893,8 @@
     "url": "Invalid url (eg: https://craterapp.com)",
     "wrong": "Something went wrong. Please, try again.",
     "alreadyTaken": "ALREADY TAKEN",
-    "minCharacter": "Please enter at least {{minCharacter}} characters"
+    "minCharacter": "Please enter at least {{minCharacter}} characters",
+    "cron": "Please enter a valid cron format."
   },
   "company": {
     "text_switch_company": "SWITCH COMPANY",

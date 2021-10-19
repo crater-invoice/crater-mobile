@@ -41,7 +41,7 @@ const mapStateToProps = (state, {route}) => {
       limit_count: null,
       status: null,
       frequency: '0 0 1 * *',
-      frequency_picker: null,
+      frequency_picker: '0 0 1 * *',
       items: null,
       template_name: null,
       send_automatically: null

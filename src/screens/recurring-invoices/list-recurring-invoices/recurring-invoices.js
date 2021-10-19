@@ -15,6 +15,7 @@ import {isFilterApply} from '@/utils';
 import InvoiceServices from '@/features/invoices/services';
 import {openRatingReviewModal} from '@/utils';
 import {IProps, IStates} from './recurring-invoices-type';
+import {recurringInvoicesFilterFields} from './filterFields';
 
 export default class RecurringInvoices extends React.Component<
   IProps,
@@ -71,7 +72,7 @@ export default class RecurringInvoices extends React.Component<
   onSelect = invoice => {
     const {navigation} = this.props;
 
-    navigation.navigate(routes.CREATE_RECURRING_INVOICE, {
+    navigation.navigate(routes.VIEW_RECURRING_INVOICE, {
       id: invoice?.id,
       type: 'UPDATE'
     });
@@ -143,10 +144,9 @@ export default class RecurringInvoices extends React.Component<
   };
 
   onSubmitFilter = ({
-    filterStatus = '',
-    from_date = '',
-    to_date = '',
-    invoice_number = '',
+    status = '',
+    from_start_at_date = '',
+    to_start_at_date = '',
     customer_id = ''
   }) => {
     const {search} = this.state;
@@ -159,12 +159,11 @@ export default class RecurringInvoices extends React.Component<
 
     ref?.getItems?.({
       queryString: {
-        status: filterStatus,
+        status,
         search,
         customer_id,
-        invoice_number,
-        from_date,
-        to_date
+        from_start_at_date,
+        to_start_at_date
       },
       showLoader: true
     });
@@ -235,6 +234,7 @@ export default class RecurringInvoices extends React.Component<
 
     const filterProps = {
       onSubmitFilter: handleSubmit(this.onSubmitFilter),
+      ...recurringInvoicesFilterFields(this),
       clearFilter: this.props,
       onResetFilter: () => this.onResetFilter()
     };
