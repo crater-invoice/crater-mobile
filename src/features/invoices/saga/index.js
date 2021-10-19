@@ -99,7 +99,7 @@ function* getEditInvoice({payload: {id, onSuccess}}) {
     };
     yield put(setInvoice(values));
     yield put(removeInvoiceItems());
-    yield put(setInvoiceItems(invoice?.invoiceItems));
+    yield put(setInvoiceItems(invoice?.invoiceItems ?? []));
     onSuccess?.(invoice);
   } catch (e) {
   } finally {

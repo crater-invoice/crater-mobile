@@ -107,7 +107,7 @@ function* getEditEstimate({payload: {id, onSuccess}}) {
     };
     yield put(setEstimate(values));
     yield put(removeEstimateItems());
-    yield put(setEstimateItems(estimate?.estimateItems));
+    yield put(setEstimateItems(estimate?.estimateItems ?? []));
     onSuccess?.(estimate);
   } catch (e) {
   } finally {
