@@ -3,7 +3,7 @@ import {CheckBox as RNCheckBox} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {styles} from './styles';
 import {colors} from '@/styles';
-import {Label} from '../Label';
+import {BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 
 type IProps = {
@@ -39,9 +39,9 @@ class CheckBox extends Component<IProps> {
 
     return (
       <>
-        <Label theme={theme} h5 numberOfLines={2} mt-15 style={hintStyle}>
+        <BaseLabel numberOfLines={2} mt-10 style={hintStyle}>
           {hint}
-        </Label>
+        </BaseLabel>
         <RNCheckBox
           title={label}
           checked={value || false}

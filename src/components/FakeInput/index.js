@@ -9,7 +9,7 @@ import t from 'locales/use-translation';
 import {InputField} from '../InputField';
 import {AssetIcon} from '../AssetIcon';
 import {Text} from '../Text';
-import {Label} from '../Label';
+import {BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 import {keyboardType} from '@/constants';
 
@@ -68,18 +68,11 @@ export class FakeInputComponent extends Component<IProps> {
     } = this.props;
 
     return (
-      <View style={[styles.container, containerStyle && containerStyle]}>
-        <Label isRequired={isRequired} theme={theme}>
-          {label}
-        </Label>
+      <View style={[styles.container, containerStyle]}>
+        <BaseLabel isRequired={isRequired}>{label}</BaseLabel>
         {fakeInput ? (
-          <TouchableWithoutFeedback
-            onPress={() => onChangeCallback && onChangeCallback()}
-          >
-            <View
-              onLayout={this.saveFakeInputHeight}
-              style={submitFailed && error && styles.pickerError}
-            >
+          <TouchableWithoutFeedback onPress={() => onChangeCallback?.()}>
+            <View style={submitFailed && error && styles.pickerError}>
               {leftIcon && (
                 <AssetIcon
                   name={leftIcon}

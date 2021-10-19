@@ -222,10 +222,8 @@ export class Customer extends React.Component<IProps> {
           component={InputField}
           isRequired
           hint={t('customers.displayName')}
-          inputFieldStyle={styles.inputFieldStyle}
           onSubmitEditing={() => customerRefs.contactName.focus()}
           keyboardType={keyboardType.DEFAULT}
-          validationStyle={styles.inputFieldValidation}
           disabled={disabled}
           withRef
         />
@@ -234,11 +232,9 @@ export class Customer extends React.Component<IProps> {
           name={`customer.${FIELDS.CONTACT_NAME}`}
           component={InputField}
           hint={t('customers.contactName')}
-          inputFieldStyle={styles.inputFieldStyle}
           onSubmitEditing={() => customerRefs.email.focus()}
           keyboardType={keyboardType.DEFAULT}
           refLinkFn={ref => (customerRefs.contactName = ref)}
-          validationStyle={styles.inputFieldValidation}
           disabled={disabled}
           withRef
         />
@@ -247,11 +243,9 @@ export class Customer extends React.Component<IProps> {
           name={`customer.${FIELDS.EMAIL}`}
           component={InputField}
           hint={t('customers.email')}
-          inputFieldStyle={styles.inputFieldStyle}
           onSubmitEditing={() => customerRefs.phone.focus()}
           keyboardType={keyboardType.EMAIL}
           refLinkFn={ref => (customerRefs.email = ref)}
-          validationStyle={styles.inputFieldValidation}
           disabled={disabled}
         />
 
@@ -259,11 +253,9 @@ export class Customer extends React.Component<IProps> {
           name={`customer.${FIELDS.PHONE}`}
           component={InputField}
           hint={t('customers.phone')}
-          inputFieldStyle={styles.inputFieldStyle}
           onSubmitEditing={() => customerRefs.website.focus()}
           keyboardType={keyboardType.PHONE}
           refLinkFn={ref => (customerRefs.phone = ref)}
-          validationStyle={styles.inputFieldValidation}
           disabled={disabled}
         />
 
@@ -271,10 +263,8 @@ export class Customer extends React.Component<IProps> {
           name={`customer.${FIELDS.WEBSITE}`}
           component={InputField}
           hint={t('customers.website')}
-          inputFieldStyle={styles.inputFieldStyle}
           keyboardType={keyboardType.URL}
           refLinkFn={ref => (customerRefs.website = ref)}
-          validationStyle={styles.inputFieldValidation}
           disabled={disabled}
         />
 

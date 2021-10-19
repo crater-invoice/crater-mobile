@@ -9,7 +9,7 @@ import {DATE_FORMAT} from '@/constants';
 import t from 'locales/use-translation';
 import styles from './styles';
 import {Text} from '../Text';
-import {Label} from '../Label';
+import {BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 
 const DATE_TIME_PICKER_FORM = 'DATE_TIME_PICKER_FORM';
@@ -125,14 +125,9 @@ class Picker extends Component<Props> {
 
     return (
       <View style={styles.container}>
-        <Label
-          h5
-          isRequired={isRequired}
-          theme={theme}
-          style={[labelStyle, {marginBottom: -2}]}
-        >
+        <BaseLabel isRequired={isRequired} style={labelStyle}>
           {label}
-        </Label>
+        </BaseLabel>
 
         <View style={styles.row}>
           <View style={styles.dateColumn}>

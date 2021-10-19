@@ -752,7 +752,7 @@
             "saveAsDraft": "Save As Draft",
             "emailNotExist": "User email does not exist"
         },
-        "requiredFields": "Required fields is empty"
+        "requiredFields": "Field is required"
     },
     "termsCondition": {
         "title": "Terms & Conditions",
@@ -803,8 +803,8 @@
     "validation": {
         "Customer": "Customer",
         "Invoice": "Invoice",
-        "required": "Required field is empty",
-        "field": "{{hint}} field is required",
+        "required": "Field is required",
+        "field": "Field is required",
         "choose": "Choose at least one item",
         "email": "Please enter a valid email address",
         "passwordCompare": "Passwords do not match",

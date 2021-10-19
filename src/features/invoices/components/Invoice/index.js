@@ -17,9 +17,9 @@ import {
   FakeInput,
   SendMail,
   CustomField,
-  Label,
   View as CtView,
-  ActionButton
+  ActionButton,
+  BaseLabel
 } from '@/components';
 import {
   ITEM_ADD,
@@ -604,9 +604,9 @@ export class Invoice extends React.Component<IProps, IStates> {
           disabled={disabled}
         />
 
-        <Label isRequired theme={theme} style={styles.label}>
+        <BaseLabel isRequired theme={theme} style={styles.label}>
           {t('invoices.items')}
-        </Label>
+        </BaseLabel>
 
         <ListView
           items={this.getInvoiceItemList(invoiceItems)}

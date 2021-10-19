@@ -63,6 +63,7 @@ const Layout = (props: IProps) => {
         }}
         placement="center"
         leftIcon={ARROW_ICON}
+        leftArrow="primary"
         rightIcon={rightIcon}
         theme={theme}
         containerStyle={styles.header}

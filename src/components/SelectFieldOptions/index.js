@@ -5,7 +5,7 @@ import styles from './styles';
 import {InputField} from '../InputField';
 import {CtButton} from '../Button';
 import {isEmpty} from '@/constants';
-import {Label} from '../Label';
+import {BaseLabel} from '@/components';
 
 const removeItem = (fields, index, removeFirstItemOnPress) => {
   if (fields?.length === 1 && removeFirstItemOnPress) return;
@@ -59,7 +59,7 @@ const OptionList = ({fields, removeFirstItemOnPress, disabled}) => {
 };
 
 export const SelectFieldOptions = props => {
-  const {fields, addFirstItem, theme, disabled} = props;
+  const {fields, addFirstItem, disabled} = props;
 
   useEffect(() => {
     if (addFirstItem) {
@@ -72,9 +72,7 @@ export const SelectFieldOptions = props => {
     <>
       <View style={styles.row}>
         <View style={styles.column2}>
-          <Label h5 theme={theme} {...(disabled && {'mt-8': true})}>
-            Options
-          </Label>
+          <BaseLabel {...(disabled && {'mt-8': true})}>Options</BaseLabel>
         </View>
         {!disabled ? (
           <View style={styles.column}>

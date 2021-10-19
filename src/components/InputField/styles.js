@@ -4,17 +4,9 @@ import {isRTL} from '@/utils';
 import {definePlatformParam, isAndroidPlatform} from '@/constants';
 
 export default StyleSheet.create({
-  hintFocused: {
-    opacity: 1
-  },
   inputFieldWrapper: {
     flexShrink: 0,
     marginVertical: 10
-  },
-  inputWrapper: {
-    flexShrink: 0,
-    position: 'relative',
-    marginTop: 6
   },
   input: theme => ({
     fontSize: 16,
@@ -49,9 +41,6 @@ export default StyleSheet.create({
     paddingRight: 30
   },
   validation: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
     paddingVertical: 2,
     paddingHorizontal: 5,
     borderRadius: 2,

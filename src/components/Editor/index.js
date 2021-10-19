@@ -22,7 +22,7 @@ import {
   AnimateModal,
   HtmlView,
   Text,
-  Label
+  BaseLabel
 } from '@/components';
 import {
   dismissKeyboard,
@@ -360,9 +360,7 @@ class EditorComponent extends Component<IProps, IStates> {
     const label = (
       <View style={[styles.row, labelStyle, preview && previewLabelStyle]}>
         <View style={{flex: 1}}>
-          <Label theme={theme} h5 isRequired={isRequired}>
-            {t(this.props.label)}
-          </Label>
+          <BaseLabel isRequired={isRequired}>{t(this.props.label)}</BaseLabel>
         </View>
         <Animated.View
           style={[styles.rowCenter, {opacity: this.animatedOpacityReverse}]}

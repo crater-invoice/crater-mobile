@@ -15,7 +15,7 @@ import {
   keyboardType
 } from '@/constants';
 import {Text} from '../Text';
-import {Label} from '../Label';
+import {BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 
 export class InputFieldComponent extends Component<IInputField> {
@@ -25,7 +25,6 @@ export class InputFieldComponent extends Component<IInputField> {
     this.state = {
       isSecureTextEntry: this.props.secureTextEntry,
       active: false,
-      inputHeight: 0,
       isOptionsVisible: false,
       inputVal: ''
     };
@@ -81,11 +80,6 @@ export class InputFieldComponent extends Component<IInputField> {
     }
 
     return null;
-  };
-
-  saveInputHeight = event => {
-    const {height} = event.nativeEvent.layout;
-    this.setState({inputHeight: height});
   };
 
   onErrorCallback = error => {
@@ -144,13 +138,7 @@ export class InputFieldComponent extends Component<IInputField> {
       placeholder
     } = this.props;
 
-    const {
-      isSecureTextEntry,
-      active,
-      inputHeight,
-      isOptionsVisible,
-      inputVal
-    } = this.state;
+    const {isSecureTextEntry, active, isOptionsVisible, inputVal} = this.state;
 
     const sign = this.getSign();
     const isOptions = autocomplete && isOptionsVisible && !!options.length;
@@ -231,136 +219,118 @@ export class InputFieldComponent extends Component<IInputField> {
 
     return (
       <View style={[styles.inputFieldWrapper, fieldStyle && {...fieldStyle}]}>
-        <Label
-          h5
-          theme={theme}
-          isRequired={isRequired}
-          medium={theme?.mode === 'dark'}
-        >
-          {hint}
-        </Label>
+        <BaseLabel isRequired={isRequired}>{hint}</BaseLabel>
+        <Input
+          containerStyle={[
+            containerStyle && containerStyle,
+            styles.containerStyle
+          ]}
+          {...leftIconSymbol}
+          inputStyle={[
+            styles.input(theme),
+            {
+              color: theme?.input?.color
+            },
+            leftSymbol && styles.withLeftSymbolText,
+            active && styles.activeInput,
+            textColor && {color: textColor},
+            textStyle && textStyle,
+            height && {height},
+            inputProps?.multiline && styles.multilineField
+          ]}
+          inputContainerStyle={[
+            styles.inputContainerStyle,
+            {
+              backgroundColor: theme?.input?.backgroundColor,
+              borderColor: theme?.input?.borderColor
+            },
+            secureTextEntry && styles.inputPassword,
+            inputContainerStyle && inputContainerStyle,
+            rounded && {borderRadius: 5},
+            disabled && styles.disabledInput(theme),
+            submitFailed &&
+              error && {
+                borderColor: theme?.input?.validationBackgroundColor
+              }
+          ]}
+          returnKeyType={returnKeyType}
+          onSubmitEditing={e => onSubmitEditing?.(e.nativeEvent.text)}
+          placeholder={placeholder}
+          keyboardType={this.props.keyboardType ?? keyboardType.DEFAULT}
+          {...inputProps}
+          {...methods}
+          onChangeText={enteredValue => {
+            this.setState({inputVal: enteredValue});
+            this.onChangeValue?.(enteredValue);
 
-        <View style={styles.inputWrapper}>
-          <View onLayout={this.saveInputHeight}>
-            <Input
-              containerStyle={[
-                containerStyle && containerStyle,
-                styles.containerStyle
-              ]}
-              {...leftIconSymbol}
-              inputStyle={[
-                styles.input(theme),
-                {
-                  color: theme?.input?.color
-                },
-                leftSymbol && styles.withLeftSymbolText,
-                active && styles.activeInput,
-                textColor && {color: textColor},
-                textStyle && textStyle,
-                height && {height},
-                inputProps?.multiline && styles.multilineField
-              ]}
-              inputContainerStyle={[
-                styles.inputContainerStyle,
-                {
-                  backgroundColor: theme?.input?.backgroundColor,
-                  borderColor: theme?.input?.borderColor
-                },
-                secureTextEntry && styles.inputPassword,
-                inputContainerStyle && inputContainerStyle,
-                rounded && {borderRadius: 5},
-                disabled && styles.disabledInput(theme),
-                submitFailed &&
-                  error && {
-                    borderColor: theme?.input?.validationBackgroundColor
-                  }
-              ]}
-              returnKeyType={returnKeyType}
-              onSubmitEditing={e => onSubmitEditing?.(e.nativeEvent.text)}
-              placeholder={placeholder}
-              keyboardType={this.props.keyboardType ?? keyboardType.DEFAULT}
-              {...inputProps}
-              {...methods}
-              onChangeText={enteredValue => {
-                this.setState({inputVal: enteredValue});
-                this.onChangeValue?.(enteredValue);
-
-                isCurrencyInput && this.isNumber(enteredValue)
-                  ? onChange(Math.round(enteredValue * 100))
-                  : onChange(enteredValue);
-              }}
-              defaultValue={`${inputVal}`}
-              secureTextEntry={isSecureTextEntry}
-              ref={ref => refLinkFn?.(ref)}
-              placeholderTextColor={theme?.input?.placeholderColor}
-              editable={editable && !disabled}
-              allowFontScaling={false}
-              textAlignVertical={inputProps && inputProps?.multiline && 'top'}
-              {...(theme?.mode === 'dark' && {
-                selectionColor: theme?.text?.primaryColor
-              })}
+            isCurrencyInput && this.isNumber(enteredValue)
+              ? onChange(Math.round(enteredValue * 100))
+              : onChange(enteredValue);
+          }}
+          defaultValue={`${inputVal}`}
+          secureTextEntry={isSecureTextEntry}
+          ref={ref => refLinkFn?.(ref)}
+          placeholderTextColor={theme?.input?.placeholderColor}
+          editable={editable && !disabled}
+          allowFontScaling={false}
+          textAlignVertical={inputProps && inputProps?.multiline && 'top'}
+          {...(theme?.mode === 'dark' && {
+            selectionColor: theme?.text?.primaryColor
+          })}
+        />
+        {sign && (
+          <Text positionAbsolute style={styles.signField} opacity={0.6}>
+            {sign}
+          </Text>
+        )}
+        {secureTextEntry && (
+          <TouchableOpacity
+            onPress={this.toggleSecureTextEntry}
+            style={[
+              styles.icon,
+              secureTextIconContainerStyle && secureTextIconContainerStyle
+            ]}
+            hitSlop={{
+              top: 13,
+              left: 13,
+              bottom: 13,
+              right: 13
+            }}
+          >
+            <AssetIcon
+              name={isSecureTextEntry ? 'eye' : 'eye-slash'}
+              size={18}
+              color={theme?.icons?.eye?.color}
             />
-          </View>
-          {sign && (
-            <Text positionAbsolute style={styles.signField} opacity={0.6}>
-              {sign}
-            </Text>
-          )}
-          {secureTextEntry && (
-            <TouchableOpacity
-              onPress={this.toggleSecureTextEntry}
-              style={[
-                styles.icon,
-                secureTextIconContainerStyle && secureTextIconContainerStyle
-              ]}
-              hitSlop={{
-                top: 13,
-                left: 13,
-                bottom: 13,
-                right: 13
-              }}
-            >
-              <AssetIcon
-                name={isSecureTextEntry ? 'eye' : 'eye-slash'}
-                size={18}
-                color={theme?.icons?.eye?.color}
-              />
-            </TouchableOpacity>
-          )}
-          {!hideError && submitFailed && error && (
-            <View
-              style={[
-                styles.validation,
-                {top: inputHeight},
-                validationStyle && validationStyle
-              ]}
-            >
-              <Text
-                white
-                h6
-                numberOfLines={errorNumberOfLines || 3}
-                medium={theme?.mode === 'dark'}
-              >
-                {t(error, {
-                  hint,
-                  maxNumber,
-                  maxCharacter,
-                  minCharacter
-                })}
-              </Text>
-            </View>
-          )}
-          {!(submitFailed && error) && !isOptions && tip && (
+          </TouchableOpacity>
+        )}
+        {!hideError && submitFailed && error && (
+          <View style={[styles.validation, validationStyle]}>
             <Text
               white
-              positionAbsolute
-              numberOfLines={3}
-              style={styles.inputTip}
+              h6
+              numberOfLines={errorNumberOfLines || 3}
+              medium={theme?.mode === 'dark'}
             >
-              {tip}
+              {t(error, {
+                hint,
+                maxNumber,
+                maxCharacter,
+                minCharacter
+              })}
             </Text>
-          )}
-        </View>
+          </View>
+        )}
+        {!(submitFailed && error) && !isOptions && tip && (
+          <Text
+            white
+            positionAbsolute
+            numberOfLines={3}
+            style={styles.inputTip}
+          >
+            {tip}
+          </Text>
+        )}
       </View>
     );
   }

@@ -12,9 +12,9 @@ import {
   FakeInput,
   SendMail,
   CustomField,
-  Label,
   ActionButton,
-  View as CtView
+  View as CtView,
+  BaseLabel
 } from '@/components';
 import {
   ITEM_ADD,
@@ -633,9 +633,9 @@ export class Estimate extends React.Component<IProps> {
           }}
         />
 
-        <Label isRequired theme={theme} style={styles.label}>
+        <BaseLabel isRequired theme={theme} style={styles.label}>
           {t('estimates.items')}
-        </Label>
+        </BaseLabel>
 
         <ListView
           items={this.getEstimateItemList(estimateItems)}

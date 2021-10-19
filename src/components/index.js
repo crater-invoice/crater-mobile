@@ -44,7 +44,7 @@ export * from './CircularProgress';
 export * from './AssetIcon';
 export * from './Text';
 export * from './CacheImage';
-export * from './Label';
+export * from './base/base-label';
 export * from './View';
 export * from './InternalPagination';
 export * from './ButtonView';

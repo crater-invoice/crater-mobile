@@ -131,7 +131,7 @@ export default StyleSheet.create({
     paddingLeft: 0
   },
   prefixInputFieldStyle: {
-    marginTop: -15,
+    marginTop: -8,
     marginBottom: -10,
     ...(isAndroidPlatform && {
       marginTop: -16
