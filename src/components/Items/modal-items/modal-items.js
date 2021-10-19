@@ -77,7 +77,6 @@ export class ItemField extends React.Component<IProps> {
       getItems,
       theme,
       currency,
-      itemsLoading,
       navigation,
       disabled,
       discount_per_item,
@@ -114,7 +113,6 @@ export class ItemField extends React.Component<IProps> {
           items={items}
           getItems={getItems}
           component={ItemSelectModal}
-          loading={itemsLoading}
           disabled={disabled}
           onSelect={this.onEditItem}
           rightIconPress={() =>

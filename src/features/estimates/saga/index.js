@@ -202,7 +202,6 @@ function* editEstimate({payload}) {
 
 function* getItems({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
-  yield put(spinner({itemsLoading: true}));
   try {
     const options = {
       path: `items?${queryStrings.stringify(queryString)}`
@@ -213,20 +212,14 @@ function* getItems({payload}) {
     onSuccess?.(response);
   } catch (e) {
     onFail?.();
-  } finally {
-    yield put(spinner({itemsLoading: false}));
   }
 }
 
 function* removeItem({payload: {onResult, id}}) {
-  yield put(spinner({removeItemLoading: true}));
   try {
     yield put(removeEstimateItem({id}));
     onResult?.();
-  } catch (e) {
-  } finally {
-    yield put(spinner({removeItemLoading: false}));
-  }
+  } catch (e) {}
 }
 
 function* convertToInvoice({payload: {onResult, id}}) {
@@ -266,7 +259,7 @@ function* removeEstimate({payload: {onResult, id}}) {
 
 function* changeEstimateStatus({payload}) {
   const {onResult = null, params = null, id, action, navigation} = payload;
-  yield put(spinner({changeStatusLoading: true}));
+  yield put(spinner('isLoading', true));
   const param = {id, ...params};
   try {
     const options = {path: `estimates/${action}`, body: {...param}};
@@ -275,7 +268,7 @@ function* changeEstimateStatus({payload}) {
     navigation.navigate(routes.ESTIMATE_LIST);
   } catch (e) {
   } finally {
-    yield put(spinner({changeStatusLoading: false}));
+    yield put(spinner('isLoading', false));
   }
 }
 

@@ -16,7 +16,6 @@ type IProps = {
   navigation: Object,
   invoices: Object,
   customers: Object,
-  loading: Boolean,
   handleSubmit: Function,
   getCustomers: Function,
   formValues: any
