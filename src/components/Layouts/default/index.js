@@ -1,7 +1,7 @@
 import React from 'react';
 import {KeyboardAvoidingView, ScrollView, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
-import {styles, Container} from './styles';
+import {styles, Container, Row} from './styles';
 import {CtHeader, View} from '../..';
 import {Content} from '../../Content';
 import Dropdown from '../../Dropdown';
@@ -92,6 +92,9 @@ const Layout = (props: IProps) => {
       </Content>
 
       {bottomAction}
+      {/* {bottomAction && (
+        <View style={styles.bottomView(theme)}>{bottomAction}</View>
+      )} */}
     </Container>
   );
 };

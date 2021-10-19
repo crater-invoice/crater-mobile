@@ -46,6 +46,7 @@ export * from './Text';
 export * from './CacheImage';
 export * from './base/base-label';
 export * from './base/base-error';
+export * from './base/base-button';
 export * from './View';
 export * from './InternalPagination';
 export * from './ButtonView';
