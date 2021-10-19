@@ -32,7 +32,7 @@ const initialState = {
         estimateTemplates: [],
         nextEstimateNumber: ''
     },
-    estimateItems: []
+    selectedItems: []
 };
 
 export default function estimatesReducer(state = initialState, action) {
@@ -64,7 +64,7 @@ export default function estimatesReducer(state = initialState, action) {
         case CLEAR_ESTIMATE:
             return {
                 ...state,
-                estimateItems: [],
+                selectedItems: [],
                 items: [],
                 estimateData: {
                     estimate: null,
@@ -93,24 +93,22 @@ export default function estimatesReducer(state = initialState, action) {
             return { ...state, items };
 
         case SET_ESTIMATE_ITEMS:
-            const { estimateItem } = payload;
-
             return {
                 ...state,
-                estimateItems: [...state.estimateItems, ...estimateItem]
+                selectedItems: [...state.selectedItems, ...payload]
             };
 
         case REMOVE_ESTIMATE_ITEM:
             const { id } = payload;
 
-            const estimateItems = state.estimateItems.filter(
+            const selectedItems = state.selectedItems.filter(
                 val => (val.item_id || val.id) !== id
             );
 
-            return { ...state, estimateItems };
+            return { ...state, selectedItems };
 
         case REMOVE_ESTIMATE_ITEMS:
-            return { ...state, estimateItems: [] };
+            return { ...state, selectedItems: [] };
 
         case REMOVE_FROM_ESTIMATES:
             const newEstimates = state.estimates.filter(

@@ -4,10 +4,12 @@ export interface IProps {
    * Scroll-View style.
    */
   scrollViewStyle: Object;
+
   /**
    * Content-Container style.
    */
   contentContainerStyle: Object;
+
   /**
    * Hide the loader indicator.
    */
@@ -104,6 +106,7 @@ export interface IProps {
    */
   theme: ITheme;
 }
+
 export interface IStates {
   /**
    * Is modal visible.

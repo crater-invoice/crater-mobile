@@ -1,4 +1,9 @@
 import {isEmpty} from '@/constants';
+import {
+  NOTES_FIELD_MODAL_TYPES,
+  NOTES_TYPE_VALUE
+} from '@/features/settings/constants';
+import {find} from 'lodash-es';
 
 export const formatCurrencies = currencies => {
   if (isEmpty(currencies)) {
@@ -82,9 +87,11 @@ export const formatNotes = notes => {
   }
   return notes.map(note => {
     const {name, type} = note;
+    const label = find(NOTES_FIELD_MODAL_TYPES, {value: type})?.label;
+
     return {
       title: name,
-      rightTitle: type,
+      rightTitle: label,
       fullItem: note
     };
   });

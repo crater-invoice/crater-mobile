@@ -2,56 +2,51 @@ import React from 'react';
 import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change} from 'redux-form';
-import styles from './styles';
 import {
   InputField,
   DatePickerField,
-  ListView,
   DefaultLayout,
-  CurrencyFormat,
   FakeInput,
   SendMail,
   CustomField,
   ActionButton,
   View as CtView,
-  BaseLabel
+  Notes,
+  ItemField,
+  FinalAmount
 } from '@/components';
 import {
-  ITEM_ADD,
-  ITEM_EDIT,
   ESTIMATE_FORM,
   ESTIMATE_ACTIONS,
   EDIT_ESTIMATE_ACTIONS,
   MARK_AS_ACCEPT,
   MARK_AS_REJECT,
-  MARK_AS_SENT,
-  setEstimateRefs
+  MARK_AS_SENT
 } from '../../constants';
 import {headerTitle} from '@/styles';
-import {TemplateField} from '../TemplateField';
+import {TemplateField} from '@/components';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {
-  estimateSubTotal,
-  estimateTax,
+  total,
+  tax,
   getTaxValue,
   totalDiscount,
   getCompoundTaxValue,
   finalAmount,
   getItemList,
-  estimateCompoundTax
-} from '../EstimateCalculation';
-import FinalAmount from '../FinalAmount';
+  CompoundTax
+} from '@/components/final-amount/final-amount-calculation';
 import {alertMe, isEmpty} from '@/constants';
 import {getApiFormattedCustomFields} from '@/utils';
-import Notes from './notes';
-import {CustomerSelectModal, ItemSelectModal} from '@/select-modal';
+import {CustomerSelectModal} from '@/select-modal';
+import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
+import {setCalculationRef} from '@/stores/common/helpers';
 import {showNotification} from '@/utils';
 
 type IProps = {
   navigation: Object,
-  estimateItems: any,
-  taxTypes: Object,
+  selectedItems: any,
   customers: Object,
   getCreateEstimate: Function,
   getEditEstimate: Function,
@@ -61,7 +56,6 @@ type IProps = {
   getCustomers: Function,
   getItems: Function,
   editEstimate: Boolean,
-  itemsLoading: Boolean,
   initLoading: Boolean,
   loading: Boolean,
   estimateData: Object,
@@ -70,14 +64,20 @@ type IProps = {
   notesReference: any
 };
 
-export class Estimate extends React.Component<IProps> {
+type IStates = {
+  currency: any,
+  customerName: string,
+  markAsStatus: string,
+  isLoading: boolean
+};
+export class Estimate extends React.Component<IProps, IStates> {
   estimateRefs: any;
   sendMailRef: any;
   customerReference: any;
 
   constructor(props) {
     super(props);
-    this.estimateRefs = setEstimateRefs.bind(this);
+    this.estimateRefs = setCalculationRef.bind(this);
     this.sendMailRef = React.createRef();
     this.customerReference = React.createRef();
     this.notesReference = React.createRef();
@@ -132,27 +132,6 @@ export class Estimate extends React.Component<IProps> {
     this.props.dispatch(change(ESTIMATE_FORM, field, value));
   };
 
-  onEditItem = item => {
-    const {
-      navigation,
-      estimateData: {discount_per_item, tax_per_item},
-      isAllowToEdit
-    } = this.props;
-    const {currency} = this.state;
-
-    if (!isAllowToEdit) {
-      return;
-    }
-
-    navigation.navigate(routes.ESTIMATE_ITEM, {
-      item,
-      type: ITEM_EDIT,
-      currency,
-      discount_per_item,
-      tax_per_item
-    });
-  };
-
   onDraft = handleSubmit => {
     const {navigation, isEditScreen} = this.props;
     const {isLoading} = this.state;
@@ -203,8 +182,8 @@ export class Estimate extends React.Component<IProps> {
       estimate_number: `${values.prefix}-${values.estimate_number}`,
       estimate_no: values.estimate_number,
       total: finalAmount(),
-      sub_total: estimateSubTotal(),
-      tax: estimateTax() + estimateCompoundTax(),
+      sub_total: total(),
+      tax: tax() + CompoundTax(),
       discount_val: totalDiscount(),
       taxes: values.taxes
         ? values.taxes.map(val => {
@@ -255,88 +234,6 @@ export class Estimate extends React.Component<IProps> {
 
   draftEstimate = values => {
     this.onSubmitEstimate(values, 'draft');
-  };
-
-  estimateItemTotalTaxes = () => {
-    const {estimateItems} = this.props;
-    let taxes = [];
-
-    if (isEmpty(estimateItems)) {
-      return [];
-    }
-
-    estimateItems.map(val => {
-      val.taxes &&
-        val.taxes.filter(tax => {
-          let hasSame = false;
-          const {tax_type_id, id, amount} = tax;
-
-          taxes = taxes.map(tax2 => {
-            if ((tax_type_id || id) === tax2.tax_type_id) {
-              hasSame = true;
-              return {
-                ...tax2,
-                amount: amount + tax2.amount,
-                tax_type_id: tax2.tax_type_id
-              };
-            }
-            return tax2;
-          });
-
-          if (!hasSame) {
-            taxes.push({...tax, tax_type_id: tax_type_id || id});
-          }
-        });
-    });
-    return taxes;
-  };
-
-  navigateToCustomer = () => {
-    const {navigation} = this.props;
-    const {currency} = this.state;
-
-    navigation.navigate(routes.CUSTOMER, {
-      type: 'ADD',
-      currency,
-      onSelect: item => {
-        this.customerReference?.changeDisplayValue?.(item);
-        this.setFormField('customer_id', item.id);
-        this.setState({currency: item.currency});
-      }
-    });
-  };
-
-  getEstimateItemList = estimateItems => {
-    this.setFormField('items', estimateItems);
-
-    const {currency} = this.state;
-
-    if (isEmpty(estimateItems)) {
-      return [];
-    }
-
-    return estimateItems.map(item => {
-      let {name, description, price, quantity, total} = item;
-
-      return {
-        title: name,
-        subtitle: {
-          title: description,
-          labelComponent: (
-            <CurrencyFormat
-              amount={price}
-              currency={currency}
-              preText={`${quantity} * `}
-              style={styles.itemLeftSubTitle(this.props.theme)}
-              containerStyle={styles.itemLeftSubTitleLabel}
-            />
-          )
-        },
-        amount: total,
-        currency,
-        fullItem: item
-      };
-    });
   };
 
   removeEstimate = () => {
@@ -487,9 +384,8 @@ export class Estimate extends React.Component<IProps> {
       navigation,
       handleSubmit,
       estimateData: {estimateTemplates, discount_per_item, tax_per_item} = {},
-      estimateItems,
+      selectedItems,
       getItems,
-      itemsLoading,
       items,
       initLoading,
       withLoading,
@@ -501,9 +397,10 @@ export class Estimate extends React.Component<IProps> {
       isAllowToEdit,
       isAllowToDelete,
       loading,
-      theme
+      notes,
+      getNotes
     } = this.props;
-    const {currency, customerName, markAsStatus, isLoading} = this.state;
+    const {customerName, markAsStatus, isLoading} = this.state;
     const disabled = !isAllowToEdit;
 
     const hasCustomField = isEditScreen
@@ -626,63 +523,32 @@ export class Estimate extends React.Component<IProps> {
           customers={customers}
           getCustomers={getCustomers}
           disabled={disabled}
+          placeholder={
+            customerName ? customerName : t('invoices.customerPlaceholder')
+          }
           selectedItem={formValues?.customer}
           onSelect={item => {
             this.setFormField('customer_id', item.id);
             this.setState({currency: item.currency});
           }}
         />
-
-        <BaseLabel isRequired theme={theme} style={styles.label}>
-          {t('estimates.items')}
-        </BaseLabel>
-
-        <ListView
-          items={this.getEstimateItemList(estimateItems)}
-          itemContainer={styles.itemContainer(theme, disabled)}
-          leftTitleStyle={styles.itemLeftTitle(theme)}
-          leftSubTitleLabelStyle={[
-            styles.itemLeftSubTitle(theme),
-            styles.itemLeftSubTitleLabel
-          ]}
-          leftSubTitleStyle={styles.itemLeftSubTitle(theme)}
-          rightTitleStyle={styles.itemRightTitle(theme)}
-          backgroundColor={
-            !disabled
-              ? theme.thirdBgColor
-              : theme?.input?.disableBackgroundColor
-          }
-          onPress={this.onEditItem}
-          parentViewStyle={{marginVertical: 4}}
-        />
-
-        <Field
-          name="items"
+        <ItemField
+          {...this.props}
+          selectedItems={selectedItems}
+          discount_per_item={discount_per_item}
+          tax_per_item={tax_per_item}
           items={getItemList(items)}
           getItems={getItems}
-          component={ItemSelectModal}
-          loading={itemsLoading}
-          disabled={disabled}
-          onSelect={item => {
-            navigation.navigate(routes.ESTIMATE_ITEM, {
-              item,
-              currency,
-              type: ITEM_ADD,
-              discount_per_item,
-              tax_per_item
-            });
-          }}
-          rightIconPress={() =>
-            navigation.navigate(routes.ESTIMATE_ITEM, {
-              type: ITEM_ADD,
-              currency,
-              discount_per_item,
-              tax_per_item
-            })
-          }
+          screen="estimate"
+          setFormField={this.setFormField}
         />
 
-        <FinalAmount state={this.state} props={this.props} />
+        <FinalAmount
+          discount_per_item={discount_per_item}
+          tax_per_item={tax_per_item}
+          state={this.state}
+          props={this.props}
+        />
 
         <Field
           name="reference_number"
@@ -694,8 +560,12 @@ export class Estimate extends React.Component<IProps> {
 
         <Notes
           {...this.props}
+          navigation={navigation}
+          notes={notes}
+          getNotes={getNotes}
           isEditScreen={isEditScreen}
-          setFormField={this.setFormField}
+          noteType={NOTES_TYPE_VALUE.ESTIMATE}
+          onSelect={this.setFormField}
         />
 
         <Field

@@ -12,7 +12,6 @@ import {showNotification, handleError} from '@/utils';
 import {
   GET_INVOICES,
   GET_CREATE_INVOICE,
-  GET_ITEMS,
   ADD_ITEM,
   CREATE_INVOICE,
   EDIT_ITEM,
@@ -26,7 +25,6 @@ import {
 import {
   invoiceTriggerSpinner as spinner,
   setInvoices,
-  setItems,
   setInvoiceItems,
   removeInvoiceItem,
   removeInvoiceItems,
@@ -69,7 +67,7 @@ function* getCreateInvoice({payload: {onSuccess}}) {
       payload: {key: 'invoice'}
     });
     const values = {...nextInvoiceNumber, ...(!isAuto && {nextNumber: null})};
-    const {invoiceTemplates} = yield call(geInvoiceTemplates, {});
+    const {invoiceTemplates} = yield call(getInvoiceTemplates, {});
     yield put(setInvoice({...response, ...values, invoiceTemplates}));
     onSuccess?.(values);
   } catch (e) {
@@ -90,7 +88,7 @@ function* getEditInvoice({payload: {id, onSuccess}}) {
     const response = yield call([Request, 'get'], options);
     const {invoicePrefix, nextInvoiceNumber} = response?.meta;
     const invoice = response?.data;
-    const {invoiceTemplates} = yield call(geInvoiceTemplates, {});
+    const {invoiceTemplates} = yield call(getInvoiceTemplates, {});
     const values = {
       invoice,
       invoicePrefix,
@@ -101,7 +99,7 @@ function* getEditInvoice({payload: {id, onSuccess}}) {
     };
     yield put(setInvoice(values));
     yield put(removeInvoiceItems());
-    yield put(setInvoiceItems({invoiceItem: invoice?.invoiceItems ?? []}));
+    yield put(setInvoiceItems(invoice?.invoiceItems ?? []));
     onSuccess?.(invoice);
   } catch (e) {
   } finally {
@@ -127,7 +125,7 @@ function* addItem({payload: {item, onResult}}) {
     const invoiceItem = [
       {...response.data, item_id: response.data.id, ...item}
     ];
-    yield put(setInvoiceItems({invoiceItem}));
+    yield put(setInvoiceItems(invoiceItem));
     onResult?.();
   } catch (e) {
   } finally {
@@ -150,7 +148,7 @@ function* editItem({payload: {item, onResult}}) {
     const response = yield call([Request, 'put'], options);
     const invoiceItem = [{...response.item, ...item}];
     yield put(removeInvoiceItem({id: invoiceItem.id}));
-    yield put(setInvoiceItems({invoiceItem}));
+    yield put(setInvoiceItems(invoiceItem));
     onResult?.();
   } catch (e) {
   } finally {
@@ -190,23 +188,6 @@ function* editInvoice({payload}) {
     handleError(e);
   } finally {
     yield put(spinner({invoiceLoading: false}));
-  }
-}
-
-function* getItems({payload}) {
-  const {fresh = true, onSuccess, onFail, queryString} = payload;
-  yield put(spinner({itemsLoading: true}));
-  try {
-    const options = {
-      path: `items?${queryStrings.stringify(queryString)}`
-    };
-    const response = yield call([Request, 'get'], options);
-    yield put(setItems({items: response.data, fresh}));
-    onSuccess?.(response);
-  } catch (e) {
-    onFail?.();
-  } finally {
-    yield put(spinner({itemsLoading: false}));
   }
 }
 
@@ -251,7 +232,7 @@ function* changeInvoiceStatus({payload}) {
   }
 }
 
-export function* geInvoiceTemplates(payloadData) {
+export function* getInvoiceTemplates(payloadData) {
   try {
     const options = {path: `invoices/templates`};
     return yield call([Request, 'get'], options);
@@ -263,12 +244,11 @@ export default function* invoicesSaga() {
   yield takeEvery(GET_CREATE_INVOICE, getCreateInvoice);
   yield takeEvery(GET_EDIT_INVOICE, getEditInvoice);
   yield takeEvery(ADD_ITEM, addItem);
-  yield takeEvery(GET_ITEMS, getItems);
   yield takeEvery(CREATE_INVOICE, createInvoice);
   yield takeEvery(EDIT_INVOICE, editInvoice);
   yield takeEvery(EDIT_ITEM, editItem);
   yield takeEvery(REMOVE_ITEM, removeItem);
   yield takeEvery(REMOVE_INVOICE, removeInvoice);
   yield takeEvery(CHANGE_INVOICE_STATUS, changeInvoiceStatus);
-  yield takeEvery(GET_INVOICE_TEMPLATE, geInvoiceTemplates);
+  yield takeEvery(GET_INVOICE_TEMPLATE, getInvoiceTemplates);
 }

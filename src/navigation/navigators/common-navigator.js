@@ -11,12 +11,11 @@ import CompanyInfo from '@/features/settings/containers/Company';
 
 import Estimates from '@/features/estimates/containers/Estimates';
 import Estimate from '@/features/estimates/containers/Estimate';
-import EstimateItem from '@/features/estimates/containers/Item';
 
 import Expense from '@/features/expenses/containers/Expense';
 
 import Invoice from '@/features/invoices/containers/Invoice';
-import InvoiceItem from '@/features/invoices/containers/Item';
+
 import Payment from '@/features/payments/containers/Payment';
 
 import Items from '@/features/more/containers/Items';
@@ -47,11 +46,14 @@ import Notes from '@/features/settings/containers/Notes';
 import Note from '@/features/settings/containers/Note';
 
 import {Users, CreateUser} from 'screens/users';
-
+import {
+  RecurringInvoices,
+  ViewRecurringInvoice,
+  CreateRecurringInvoice
+} from 'screens/recurring-invoices';
 import {Roles, CreateRole} from 'screens/roles';
-
 import {ItemUnits} from 'screens/item-units';
-
+import {CreateItem} from '@/components/Items/create-item';
 import {
   CustomizeList,
   CustomizeInvoice,
@@ -94,9 +96,21 @@ export const CommonNavigator = (
       component={Estimate}
       options={options}
     />
+
+    {/* Recurring Invoice Navigator */}
     <Stack.Screen
-      name={routes.ESTIMATE_ITEM}
-      component={EstimateItem}
+      name={routes.RECURRING_INVOICES}
+      component={RecurringInvoices}
+      options={options}
+    />
+    <Stack.Screen
+      name={routes.VIEW_RECURRING_INVOICE}
+      component={ViewRecurringInvoice}
+      options={options}
+    />
+    <Stack.Screen
+      name={routes.CREATE_RECURRING_INVOICE}
+      component={CreateRecurringInvoice}
       options={options}
     />
 
@@ -105,11 +119,6 @@ export const CommonNavigator = (
 
     {/* Invoice Navigator */}
     <Stack.Screen name={routes.INVOICE} component={Invoice} options={options} />
-    <Stack.Screen
-      name={routes.INVOICE_ITEM}
-      component={InvoiceItem}
-      options={options}
-    />
 
     {/* Payment Navigator */}
     <Stack.Screen name={routes.PAYMENT} component={Payment} options={options} />
@@ -123,6 +132,13 @@ export const CommonNavigator = (
     <Stack.Screen
       name={routes.GLOBAL_ITEM}
       component={Item}
+      options={options}
+    />
+
+    {/* Create Item Navigator */}
+    <Stack.Screen
+      name={routes.CREATE_ITEM}
+      component={CreateItem}
       options={options}
     />
 

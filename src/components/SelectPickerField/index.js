@@ -33,7 +33,8 @@ type IProps = {
   fakeInputValueStyle: Object,
   label: String,
   isRequired: Boolean,
-  isFakeInput: Boolean
+  isFakeInput: Boolean,
+  placeholderTextColor: String
 };
 
 class Picker extends Component<IProps> {
@@ -104,7 +105,8 @@ class Picker extends Component<IProps> {
       isFakeInput,
       fakeInputValueStyle,
       findValueByForm = true,
-      theme
+      theme,
+      placeholderTextColor = colors.darkGray
     } = this.props;
 
     const {icon, selectedItemValue} = this.state;
@@ -155,7 +157,7 @@ class Picker extends Component<IProps> {
         onOpen={() => this.toggleIcon()}
         onClose={() => this.toggleIcon()}
         value={typeof selectedValue !== 'undefined' && selectedValue}
-        placeholderTextColor={colors.darkGray}
+        placeholderTextColor={placeholderTextColor}
         ref={(dropdownRef = {}) => {
           refLinkFn &&
             refLinkFn({

@@ -1,6 +1,14 @@
 import {colors} from '@/styles';
 
 export const BADGE_STATUS_BG_COLOR = {
+  ON_HOLD: {
+    light: colors.dangerLight,
+    dark: colors.danger
+  },
+  ACTIVE: {
+    light: colors.warningLight,
+    dark: colors.warning
+  },
   DRAFT: {
     light: colors.warningLight,
     dark: colors.warning
