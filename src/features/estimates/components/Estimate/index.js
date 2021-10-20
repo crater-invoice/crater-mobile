@@ -380,7 +380,7 @@ export class Estimate extends React.Component<IProps, IStates> {
     const {
       navigation,
       handleSubmit,
-      estimateData: {estimateTemplates, discount_per_item, tax_per_item} = {},
+      estimateData: {estimateTemplates} = {},
       selectedItems,
       getItems,
       items,
@@ -528,20 +528,13 @@ export class Estimate extends React.Component<IProps, IStates> {
         <ItemField
           {...this.props}
           selectedItems={selectedItems}
-          discount_per_item={discount_per_item}
-          tax_per_item={tax_per_item}
           items={getItemList(items)}
           getItems={getItems}
           screen="estimate"
           setFormField={this.setFormField}
         />
 
-        <FinalAmount
-          discount_per_item={discount_per_item}
-          tax_per_item={tax_per_item}
-          state={this.state}
-          props={this.props}
-        />
+        <FinalAmount {...this.props} {...this.state} />
 
         <Field
           name="reference_number"

@@ -24,7 +24,7 @@ export default styles = StyleSheet.create({
   fieldStyle: {
     display: 'flex',
     minWidth: 80,
-    marginTop: -6
+    marginTop: 0
   },
   discountField: {
     display: 'flex',

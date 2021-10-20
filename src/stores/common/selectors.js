@@ -29,3 +29,13 @@ export const commonSelector = state => {
     abilities: common?.abilities
   };
 };
+
+export const settingsSelector = state => {
+  const {
+    common: {discount_per_item, tax_per_item}
+  } = state;
+  return {
+    discount_per_item,
+    tax_per_item
+  };
+};

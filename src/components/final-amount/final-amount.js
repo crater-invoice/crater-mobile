@@ -30,8 +30,8 @@ import {
 import {TaxSelectModal} from '@/select-modal';
 import {IProps} from './final-amount-types';
 
-const DISPLAY_ITEM_TAX: FC<IProps> = ({state, theme}) => {
-  const {currency} = state;
+const DISPLAY_ITEM_TAX: FC<IProps> = props => {
+  const {currency, theme} = props;
   let taxes = itemTotalTaxes();
 
   return taxes
@@ -55,9 +55,7 @@ const DISPLAY_ITEM_TAX: FC<IProps> = ({state, theme}) => {
     : null;
 };
 
-export const FinalAmount: FC<IProps> = ({state, props}) => {
-  const {currency} = state;
-
+export const FinalAmount: FC<IProps> = props => {
   const {
     taxTypes,
     navigation,
@@ -66,19 +64,17 @@ export const FinalAmount: FC<IProps> = ({state, props}) => {
     formValues,
     getTaxes,
     isAllowToEdit,
-    theme
+    theme,
+    currency,
+    dispatch,
+    form
   } = props;
 
   const disabled = !isAllowToEdit;
   let taxes = formValues?.taxes;
-
   let taxPerItem = isBooleanTrue(tax_per_item);
-
   let discountPerItem = isBooleanTrue(discount_per_item);
-
   const setFormField = (field, value) => {
-    const {dispatch, form} = props;
-
     dispatch(change(form, field, value));
   };
 
@@ -201,7 +197,7 @@ export const FinalAmount: FC<IProps> = ({state, props}) => {
           ) : null
         )}
 
-      {DISPLAY_ITEM_TAX({state, theme})}
+      {DISPLAY_ITEM_TAX(props)}
 
       {!taxPerItem && (
         <Field

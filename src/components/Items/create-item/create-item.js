@@ -18,6 +18,7 @@ import {
   alertMe,
   definePlatformParam,
   hasValue,
+  isBooleanTrue,
   isIosPlatform,
   keyboardType,
   MAX_LENGTH
@@ -233,7 +234,7 @@ export class CreateItem extends React.Component<IProps> {
           </View>
         </View>
 
-        {(discountPerItem === 'YES' || discountPerItem === '1') && (
+        {isBooleanTrue(discountPerItem) && (
           <View style={styles.subContainer}>
             <View>
               <Text gray medium style={{marginTop: 6}}>
@@ -415,7 +416,7 @@ export class CreateItem extends React.Component<IProps> {
           </CtView>
         </CtView>
 
-        {(initialValues.unit || !itemId) && (
+        {(initialValues?.unit || !itemId) && (
           <Field
             name="unit_id"
             component={UnitSelectModal}
@@ -425,14 +426,14 @@ export class CreateItem extends React.Component<IProps> {
           />
         )}
 
-        {(discountPerItem == 'YES' || discountPerItem == '1') && (
+        {isBooleanTrue(discountPerItem) && (
           <View>
             <Field
               name="discount_type"
               component={RadioButtonGroup}
               hint={t('items.discountType')}
               options={ITEM_DISCOUNT_OPTION}
-              initialValue={initialValues.discount_type}
+              initialValue={initialValues?.discount_type}
               theme={theme}
             />
 
@@ -446,7 +447,7 @@ export class CreateItem extends React.Component<IProps> {
           </View>
         )}
 
-        {(taxPerItem === 'YES' || taxPerItem === '1') && (
+        {isBooleanTrue(taxPerItem) && (
           <Field
             name="taxes"
             taxTypes={taxTypes}

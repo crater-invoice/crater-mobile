@@ -87,18 +87,10 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     this.setState({isFetchingInitialData: false});
   };
 
-  throwError = errors => {
-    let error: any = {};
-    errors.email && (error.email = 'validation.alreadyTaken');
-    errors.phone && (error.phone = 'validation.alreadyTaken');
-    throw new SubmissionError(error);
-  };
-
   onSave = values => {
     const {
       navigation,
       id,
-      handleSubmit,
       isCreateScreen,
       dispatch,
       isSaving,
@@ -141,8 +133,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       navigation,
       onSuccess: () => {
         navigation.navigate(routes.RECURRING_INVOICES);
-      },
-      submissionError: errors => handleSubmit(() => this.throwError(errors))()
+      }
     };
 
     isCreateScreen
@@ -152,11 +143,6 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
 
   removeRecurringInvoice = () => {
     const {id, navigation, dispatch} = this.props;
-    function alreadyUsedAlert() {
-      alertMe({
-        title: t('users.text_already_used')
-      });
-    }
 
     function confirmationAlert(remove) {
       alertMe({
@@ -167,11 +153,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       });
     }
 
-    confirmationAlert(() =>
-      dispatch(
-        removeRecurringInvoice(id, navigation, val => alreadyUsedAlert())
-      )
-    );
+    confirmationAlert(() => dispatch(removeRecurringInvoice(id, navigation)));
   };
 
   setFormField = (field, value) => {
@@ -258,7 +240,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       statusList,
       notes,
       getNotes,
-      invoiceData: {invoiceTemplates, discount_per_item, tax_per_item} = {},
+      invoiceData: {invoiceTemplates} = {},
       formValues: {
         limit_by,
         limit_date,
@@ -397,20 +379,13 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
         <ItemField
           {...this.props}
           selectedItems={selectedItems}
-          discount_per_item={discount_per_item}
-          tax_per_item={tax_per_item}
           items={getItemList(items)}
           getItems={getItems}
           screen="recurring_invoice"
           setFormField={this.setFormField}
         />
 
-        <FinalAmount
-          discount_per_item={discount_per_item}
-          tax_per_item={tax_per_item}
-          state={this.state}
-          props={this.props}
-        />
+        <FinalAmount {...this.props} {...this.state} />
 
         <Notes
           {...this.props}
