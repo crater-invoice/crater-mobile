@@ -73,7 +73,7 @@ export interface IProps {
   /**
    * External Fake-input props.
    */
-  fakeInputProps: Object;
+  baseSelectProps: Object;
 
   /**
    * External List-View props.

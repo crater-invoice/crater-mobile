@@ -78,7 +78,7 @@ export default styles = StyleSheet.create({
   SelectPickerContainer: {
     marginTop: 0
   },
-  fakeInputValueStyle: {
+  baseSelectValueStyle: {
     fontSize: 18,
     ...Platform.select({
       android: {

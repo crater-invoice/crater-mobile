@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
 import {TouchableWithoutFeedback, View} from 'react-native';
 import styles from './template-field-styles';
-import {SlideModal, FakeInput, AssetImage, ActionButton} from '@/components';
+import {
+  SlideModal,
+  AssetImage,
+  ActionButton,
+  BaseSelect
+} from '@/components';
 import {Icon} from 'react-native-elements';
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
@@ -98,7 +103,7 @@ export class TemplateField extends Component<IProps> {
 
     return (
       <View style={styles.container}>
-        <FakeInput
+        <BaseSelect
           label={label}
           icon={icon}
           values={name}

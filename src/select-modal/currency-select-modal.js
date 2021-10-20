@@ -20,7 +20,7 @@ interface IProps {
   /**
    * Props of Fake-Input.
    */
-  fakeInputProps?: any;
+  baseSelectProps?: any;
 
   /**
    * Is allowed to edit.
@@ -35,7 +35,7 @@ interface IProps {
 }
 
 export const CurrencySelectModal = (props: IProps) => {
-  const {currencies, input, fakeInputProps, disabled, theme} = props;
+  const {currencies, input, baseSelectProps, disabled, theme} = props;
 
   const getSelectedCurrencySymbol = () => {
     if (isEmpty(currencies) || !input?.value) {
@@ -72,11 +72,11 @@ export const CurrencySelectModal = (props: IProps) => {
       headerProps={{title: t('currencies.title'), rightIconPress: null}}
       emptyContentProps={{contentType: 'currencies'}}
       isAllowToSelect={!disabled}
-      fakeInputProps={{
+      baseSelectProps={{
         leftSymbol: getSelectedCurrencySymbol(),
         leftSymbolStyle: {color: theme?.icons?.secondaryColor},
         disabled,
-        ...fakeInputProps
+        ...baseSelectProps
       }}
       listViewProps={{
         contentContainerStyle: {flex: 5},

@@ -24,7 +24,7 @@ export const LanguageSelectModal = (props: IProps) => (
     headerProps={{title: t('languages.title'), rightIconPress: null}}
     listViewProps={{hasAvatar: true}}
     emptyContentProps={{contentType: 'languages'}}
-    fakeInputProps={{
+    baseSelectProps={{
       valueStyle: {paddingLeft: 47},
       placeholderStyle: {paddingLeft: 47}
     }}

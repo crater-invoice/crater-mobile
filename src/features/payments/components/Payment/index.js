@@ -451,8 +451,8 @@ export class Payment extends React.Component<IProps> {
                 this.setFormField('payment_date', val);
               }}
               isRequired
-              fakeInputProps={{
-                fakeInputContainerStyle: styles.date
+              baseSelectProps={{
+                baseSelectContainerStyle: styles.date
               }}
               disabled={disabled}
             />

@@ -3,10 +3,10 @@ import {View} from 'react-native';
 import styles from './styles';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import {FakeInput} from '../FakeInput';
 import {connect} from 'react-redux';
 import {DATE_FORMAT, isIosPlatform, majorVersionIOS} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
+import {BaseSelect} from '@/components';
 
 type IProps = {
   label: String,
@@ -23,7 +23,7 @@ type IProps = {
   selectedDateValue: string,
   meta: any,
   placeholder: string,
-  fakeInputProps: any,
+  baseSelectProps: any,
   filter: any
 };
 
@@ -171,7 +171,7 @@ export class DatePickerComponent extends Component<IProps, IStates> {
       meta,
       isRequired = false,
       placeholder = ' ',
-      fakeInputProps,
+      baseSelectProps,
       disabled,
       theme
     } = this.props;
@@ -186,7 +186,7 @@ export class DatePickerComponent extends Component<IProps, IStates> {
 
     return (
       <View style={styles.container}>
-        <FakeInput
+        <BaseSelect
           label={label}
           icon={'calendar-alt'}
           values={this.getDisplayValue()}
@@ -196,7 +196,7 @@ export class DatePickerComponent extends Component<IProps, IStates> {
           isRequired={isRequired}
           containerStyle={containerStyle}
           disabled={disabled}
-          {...fakeInputProps}
+          {...baseSelectProps}
         />
 
         <DateTimePicker

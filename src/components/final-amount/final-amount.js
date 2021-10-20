@@ -148,8 +148,8 @@ export const FinalAmount: FC<IProps> = ({state, props}) => {
                 color: colors.secondary,
                 displayLabel: currency ? currency.symbol : '$'
               }}
-              fakeInputValueStyle={styles.fakeInputValueStyle}
-              fakeInputContainerStyle={styles.selectPickerField(theme)}
+              baseSelectValueStyle={styles.baseSelectValueStyle}
+              baseSelectContainerStyle={styles.selectPickerField(theme)}
               containerStyle={styles.SelectPickerContainer}
               disabled={disabled}
             />

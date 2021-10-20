@@ -6,7 +6,6 @@ import t from 'locales/use-translation';
 import {IProps, IStates} from './type';
 import {colors, headerTitle} from '@/styles';
 import styles from './styles';
-import {FakeInput} from '../FakeInput';
 import {hasTextLength, hasValue, isAndroidPlatform, isEmpty} from '@/constants';
 import {internalSearch} from '@/utils';
 import {ARROW_ICON} from '@/assets';
@@ -14,6 +13,7 @@ import {commonSelector} from 'stores/common/selectors';
 import {MainLayout} from '../Layouts';
 import {ListView} from '../ListView';
 import {Content} from '../Content';
+import {BaseSelect} from '@/components';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -180,7 +180,7 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
       placeholder,
       meta,
       headerProps,
-      fakeInputProps,
+      baseSelectProps,
       listViewProps,
       emptyContentProps,
       searchInputProps,
@@ -240,7 +240,7 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
     );
 
     let fieldView = !customView ? (
-      <FakeInput
+      <BaseSelect
         label={label}
         icon={icon}
         isRequired={isRequired}
@@ -250,7 +250,7 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
         containerStyle={containerStyle}
         meta={meta}
         rightIcon={'angle-down'}
-        {...fakeInputProps}
+        {...baseSelectProps}
       />
     ) : (
       customView

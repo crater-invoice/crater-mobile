@@ -296,7 +296,7 @@ export class Customer extends React.Component<IProps> {
             }
             containerStyle={styles.addressField}
             type={type}
-            fakeInputProps={{
+            baseSelectProps={{
               valueStyle: styles.selectedField,
               placeholderStyle: styles.selectedField,
               color: isAddress(billingAddress) ? colors.primaryLight : null
@@ -320,7 +320,7 @@ export class Customer extends React.Component<IProps> {
             }
             containerStyle={styles.addressField}
             type={type}
-            fakeInputProps={{
+            baseSelectProps={{
               valueStyle: styles.selectedField,
               placeholderStyle: styles.selectedField,
               color: isAddress(shippingAddress) ? colors.primaryLight : null

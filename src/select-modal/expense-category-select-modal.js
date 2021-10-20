@@ -39,7 +39,7 @@ export const ExpenseCategorySelectModal = (props: IProps) => {
       headerProps={{title: t('expenses.categoryPlaceholder')}}
       emptyContentProps={{contentType: 'categories'}}
       isEditable={!disabled}
-      fakeInputProps={{disabled}}
+      baseSelectProps={{disabled}}
     />
   );
 };

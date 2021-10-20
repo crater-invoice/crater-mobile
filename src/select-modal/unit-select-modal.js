@@ -34,7 +34,7 @@ export const UnitSelectModal = (props: IProps) => {
       compareField={'id'}
       emptyContentProps={{contentType: 'units'}}
       headerProps={{title: t('items.unitPlaceholder')}}
-      fakeInputProps={{
+      baseSelectProps={{
         valueStyle: {paddingLeft: 48},
         placeholderStyle: {paddingLeft: 48}
       }}

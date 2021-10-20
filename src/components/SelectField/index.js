@@ -15,6 +15,7 @@ import {ARROW_ICON} from '@/assets';
 import {PaymentModeModal, UnitModal} from '../Modal';
 import {PermissionService} from '@/services';
 import {commonSelector} from 'stores/common/selectors';
+import {BaseSelect} from '@/components';
 
 export class SelectFieldComponent extends Component<IProps, IStates> {
   scrollViewReference: any;
@@ -350,7 +351,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
       meta,
       headerProps,
       hasPagination,
-      fakeInputProps,
+      baseSelectProps,
       listViewProps,
       valueCompareField,
       compareField,
@@ -454,7 +455,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     };
 
     let fieldView = !customView ? (
-      <FakeInput
+      <BaseSelect
         label={label}
         icon={icon}
         isRequired={isRequired}
@@ -464,7 +465,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         containerStyle={containerStyle}
         meta={meta}
         rightIcon={'angle-down'}
-        {...fakeInputProps}
+        {...baseSelectProps}
       />
     ) : (
       customView

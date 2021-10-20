@@ -136,8 +136,8 @@ class Picker extends Component<Props> {
               onChangeCallback={val => this.onChange({date: val})}
               placeholder={this.getDefaultDateValue(value)}
               formDateFormat="YYYY-MM-DD"
-              fakeInputProps={{
-                fakeInputContainerStyle: hasError && styles.inputError
+              baseSelectProps={{
+                baseSelectContainerStyle: hasError && styles.inputError
               }}
               disabled={disabled}
             />
@@ -148,8 +148,8 @@ class Picker extends Component<Props> {
               component={TimePickerField}
               placeholder={this.getDefaultTimeValue(value)}
               onChangeCallback={val => this.onChange({time: val})}
-              fakeInputProps={{
-                fakeInputContainerStyle: hasError && styles.inputError
+              baseSelectProps={{
+                baseSelectContainerStyle: hasError && styles.inputError
               }}
               disabled={disabled}
             />

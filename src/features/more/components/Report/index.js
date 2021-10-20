@@ -293,7 +293,7 @@ export class Report extends React.Component<IProps> {
           fieldIcon="calendar-week"
           items={DATE_RANGE_OPTION()}
           onChangeCallback={this.onDateRangeChange}
-          fakeInputContainerStyle={styles.selectPickerField}
+          baseSelectContainerStyle={styles.selectPickerField}
         />
 
         <CtView flex={1} flex-row>
@@ -338,7 +338,7 @@ export class Report extends React.Component<IProps> {
             onChangeCallback={val => {
               this.setFormField('report_type', val);
             }}
-            fakeInputContainerStyle={styles.selectPickerField}
+            baseSelectContainerStyle={styles.selectPickerField}
           />
         )}
       </DefaultLayout>

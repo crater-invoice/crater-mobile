@@ -23,7 +23,7 @@ type IProps = {
   color: String,
   value: string,
   fakeInput: any,
-  fakeInputContainerStyle: Object,
+  baseSelectContainerStyle: Object,
   valueStyle: Object,
   prefixProps: Object,
   loading: Boolean,
@@ -46,7 +46,7 @@ export class FakeInputComponent extends Component<IProps> {
       onChangeCallback,
       placeholder,
       containerStyle,
-      fakeInputContainerStyle,
+      baseSelectContainerStyle,
       rightIcon,
       leftIcon,
       fakeInput,
@@ -155,7 +155,7 @@ export class FakeInputComponent extends Component<IProps> {
               <View
                 style={[
                   styles.fakeInput(theme),
-                  fakeInputContainerStyle && fakeInputContainerStyle,
+                  baseSelectContainerStyle && baseSelectContainerStyle,
                   submitFailed && error && styles.inputError,
                   disabled && styles.disabledSelectedValue(theme)
                 ]}

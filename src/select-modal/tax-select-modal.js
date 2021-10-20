@@ -49,7 +49,7 @@ export const TaxSelectModal = (props: IProps) => {
       listViewProps={{contentContainerStyle: {flex: 2}}}
       emptyContentProps={{contentType: 'taxes'}}
       isEditable={!disabled}
-      fakeInputProps={{
+      baseSelectProps={{
         disabled,
         fakeInput: (
           <Text right medium h4 color={theme?.viewLabel?.thirdColor}>

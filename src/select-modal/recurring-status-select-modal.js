@@ -30,7 +30,7 @@ export const StatusSelectModal = (props: IProps) => {
         contentType: 'recurring_invoices.status'
       }}
       isEditable={!disabled}
-      fakeInputProps={{disabled}}
+      baseSelectProps={{disabled}}
       isInternalSearch
     />
   );

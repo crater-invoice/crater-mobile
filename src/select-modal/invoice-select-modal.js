@@ -39,7 +39,7 @@ export const InvoiceSelectModal = (props: IProps) => {
       headerProps={{title: t('invoices.title'), rightIconPress: null}}
       emptyContentProps={{contentType: 'invoices'}}
       isEditable={!disabled}
-      fakeInputProps={{disabled}}
+      baseSelectProps={{disabled}}
     />
   );
 };

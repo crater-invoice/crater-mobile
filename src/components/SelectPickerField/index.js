@@ -19,7 +19,7 @@ type IProps = {
     value: string
   },
   meta: Object,
-  fakeInputContainerStyle: Object,
+  baseSelectContainerStyle: Object,
   defaultPickerOptions: Object,
   items: Array<Object>,
   ref: Function,
@@ -30,7 +30,7 @@ type IProps = {
   doneText: string,
   fieldIcon: string,
   containerStyle: Object,
-  fakeInputValueStyle: Object,
+  baseSelectValueStyle: Object,
   label: String,
   isRequired: Boolean,
   isFakeInput: Boolean,
@@ -99,11 +99,11 @@ class Picker extends Component<IProps> {
       doneText,
       fieldIcon,
       defaultPickerOptions,
-      fakeInputContainerStyle,
+      baseSelectContainerStyle,
       containerStyle,
       label,
       isFakeInput,
-      fakeInputValueStyle,
+      baseSelectValueStyle,
       findValueByForm = true,
       theme,
       placeholderTextColor = colors.darkGray
@@ -140,7 +140,7 @@ class Picker extends Component<IProps> {
           inputIOS: {
             ...styles.inputIOS(theme),
             ...(disabled ? styles.disabledSelectedValue(theme) : {}),
-            ...(fakeInputContainerStyle && fakeInputContainerStyle),
+            ...(baseSelectContainerStyle && baseSelectContainerStyle),
             ...(!isFakeInput && {paddingLeft: 41})
           },
           inputIOSContainer: {
@@ -182,7 +182,7 @@ class Picker extends Component<IProps> {
           <View
             style={[
               styles.fakeInput(theme),
-              fakeInputContainerStyle && fakeInputContainerStyle
+              baseSelectContainerStyle && baseSelectContainerStyle
             ]}
           >
             <Text
@@ -191,7 +191,7 @@ class Picker extends Component<IProps> {
               style={[
                 FakeInputStyle.textValue,
                 styles.androidText(theme),
-                fakeInputValueStyle && fakeInputValueStyle,
+                baseSelectValueStyle && baseSelectValueStyle,
                 !isFakeInput && {paddingLeft: 39},
                 {
                   color: !selectedValue
@@ -235,16 +235,16 @@ class Picker extends Component<IProps> {
               : typeof selectedValue !== 'undefined' && selectedValue
           }
           fakeInput={!isFakeDisplay && pickerField}
-          fakeInputContainerStyle={
+          baseSelectContainerStyle={
             isFakeDisplay && {
               ...styles.inputIOS(theme),
               ...(disabled ? styles.disabledSelectedValue(theme) : {}),
-              ...(fakeInputContainerStyle && fakeInputContainerStyle)
+              ...(baseSelectContainerStyle && baseSelectContainerStyle)
             }
           }
           leftIcon={fieldIcon}
           disabled={disabled}
-          valueStyle={fakeInputValueStyle}
+          valueStyle={baseSelectValueStyle}
           rightIcon={isFakeDisplay && icon}
           onChangeCallback={() => isFakeDisplay && selectRef.togglePicker()}
           containerStyle={containerStyle}
