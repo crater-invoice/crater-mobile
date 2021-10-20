@@ -7,7 +7,9 @@ import {
   CtDivider,
   SelectPickerField,
   CurrencyFormat,
-  Text
+  Text,
+  View as BaseView,
+  AssetIcon
 } from '@/components';
 import {routes} from '@/navigation';
 import {colors} from '@/styles';
@@ -105,48 +107,60 @@ export const FinalAmount: FC<IProps> = props => {
 
       {!discountPerItem && (
         <View style={[styles.subContainer, styles.discount]}>
-          <View>
-            <Text
-              darkGray
-              h5
-              medium={theme?.mode === 'light'}
-              bold2={theme?.mode === 'dark'}
-              style={{marginTop: 6}}
-            >
-              {t('invoices.discount')}
-            </Text>
-          </View>
-          <View style={[styles.subAmount(theme), styles.discountField]}>
+          <Text
+            darkGray
+            h5
+            medium={theme?.mode === 'light'}
+            bold2={theme?.mode === 'dark'}
+            style={{marginTop: 6}}
+          >
+            {t('invoices.discount')}
+          </Text>
+          <View style={styles.discountField(theme)}>
             <Field
               name="discount"
               component={InputField}
               keyboardType={keyboardType.DECIMAL}
-              fieldStyle={styles.fieldStyle}
-              {...(theme?.mode === 'dark' && {
-                inputContainerStyle: {
-                  borderColor: colors.gray5,
-                  backgroundColor: colors.gray7
-                }
-              })}
+              fieldStyle={styles.discountInput}
+              inputContainerStyle={styles.discountInputContainer}
               disabled={disabled}
+              inputProps={{selectTextOnFocus: true}}
             />
             <Field
               name="discount_type"
               component={SelectPickerField}
               items={DISCOUNT_OPTION}
-              onChangeCallback={val => {
-                setFormField('discount_type', val);
-              }}
+              onChangeCallback={val => setFormField('discount_type', val)}
               defaultPickerOptions={{
                 label: 'Fixed',
                 value: 'fixed',
                 color: colors.secondary,
-                displayLabel: currency ? currency.symbol : '$'
+                displayLabel: currency?.symbol ?? '$'
               }}
-              baseSelectValueStyle={styles.baseSelectValueStyle}
-              baseSelectContainerStyle={styles.selectPickerField(theme)}
-              containerStyle={styles.SelectPickerContainer}
               disabled={disabled}
+              customView={({placeholderText, valuesText}) => (
+                <BaseView
+                  class="height=48 justify-center"
+                  background-color={theme.backgroundColor}
+                  style={styles.discountTypeContainer(theme)}
+                >
+                  <BaseView class="flex-row justify-center items-center">
+                    <Text
+                      h4
+                      color={theme.text.darkGray}
+                      style={styles.discountType}
+                    >
+                      {valuesText ?? placeholderText}
+                    </Text>
+                    <AssetIcon
+                      name="caret-down"
+                      size={15}
+                      color={colors.darkGray}
+                      style={{paddingRight: 10}}
+                    />
+                  </BaseView>
+                </BaseView>
+              )}
             />
           </View>
         </View>

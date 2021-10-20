@@ -1,5 +1,6 @@
 import React from 'react';
-import {SelectField} from '@/components';
+import {TouchableOpacity} from 'react-native';
+import {SelectField, View} from '@/components';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {Text} from '@/components';
@@ -51,10 +52,19 @@ export const TaxSelectModal = (props: IProps) => {
       isEditable={!disabled}
       baseSelectProps={{
         disabled,
-        fakeInput: (
-          <Text right medium h4 color={theme?.viewLabel?.thirdColor}>
-            {t('estimates.taxPlaceholder')}
-          </Text>
+        customView: ({props}) => (
+          <View class="flex-row">
+            <View class="flex=0.9" />
+            <TouchableOpacity
+              onPress={() => props?.onChangeCallback?.()}
+              activeOpacity={0.5}
+              style={{flex: 0.5}}
+            >
+              <Text right medium h4 color={theme?.viewLabel?.thirdColor}>
+                {t('estimates.taxPlaceholder')}
+              </Text>
+            </TouchableOpacity>
+          </View>
         )
       }}
     />

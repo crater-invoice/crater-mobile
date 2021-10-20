@@ -74,7 +74,9 @@ class Picker extends Component<IProps> {
       defaultPickerOptions,
       label,
       findValueByForm = true,
-      placeholderTextColor = colors.darkGray
+      placeholderTextColor = colors.darkGray,
+      baseSelectProps,
+      customView
     } = this.props;
 
     const {selectedItemValue} = this.state;
@@ -92,6 +94,12 @@ class Picker extends Component<IProps> {
       ...{color: colors.darkGray},
       ...defaultPickerOptions
     };
+
+    const placeholderText =
+      defaultPickerOptions?.displayLabel ||
+      defaultPickerOptions?.label ||
+      label;
+    const valuesText = hasTextLength(selectedLabel) ? selectedLabel : null;
 
     return (
       <RNPickerSelect
@@ -111,21 +119,22 @@ class Picker extends Component<IProps> {
         onDonePress={() => this.onDonePress()}
         doneText={doneText}
       >
-        <BaseSelect
-          meta={meta}
-          label={label}
-          isRequired={isRequired}
-          icon={fieldIcon}
-          disabled={disabled}
-          rightIcon={'angle-down'}
-          disabled={disabled}
-          placeholder={
-            defaultPickerOptions?.displayLabel ||
-            defaultPickerOptions?.label ||
-            label
-          }
-          values={hasTextLength(selectedLabel) ? selectedLabel : null}
-        />
+        {customView ? (
+          customView({placeholderText, valuesText})
+        ) : (
+          <BaseSelect
+            meta={meta}
+            label={label}
+            isRequired={isRequired}
+            icon={fieldIcon}
+            disabled={disabled}
+            rightIcon={'angle-down'}
+            disabled={disabled}
+            placeholder={placeholderText}
+            values={valuesText}
+            {...baseSelectProps}
+          />
+        )}
       </RNPickerSelect>
     );
   }

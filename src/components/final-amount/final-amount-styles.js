@@ -21,14 +21,34 @@ export default styles = StyleSheet.create({
       borderColor: colors.gray5
     })
   }),
-  fieldStyle: {
-    display: 'flex',
-    minWidth: 80,
-    marginTop: 0
+  discountInputContainer: {
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+    borderBottomWidth: 0,
+    borderTopWidth: 0
   },
-  discountField: {
+  discountInput: {
     display: 'flex',
-    flexDirection: 'row'
+    minWidth: 65,
+    marginTop: 0,
+    marginBottom: 0,
+    justifyContent: 'center'
+  },
+  discountField: theme => ({
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderRadius: 4,
+    overflow: 'hidden',
+    borderColor: theme.input.borderColor,
+    marginBottom: 10
+  }),
+  discountTypeContainer: theme => ({
+    borderLeftWidth: 1,
+    borderColor: theme.input.borderColor
+  }),
+  discountType: {
+    paddingLeft: 15,
+    paddingRight: 10
   },
   amountContainer: theme => ({
     borderWidth: 0.8,

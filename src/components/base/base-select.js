@@ -25,7 +25,8 @@ const SelectView = props => {
     leftIconSolid = true,
     disabled = false,
     leftSymbol,
-    theme
+    theme,
+    customView
   } = props;
 
   const leftIconColor = color
@@ -51,6 +52,10 @@ const SelectView = props => {
     values && valueStyle,
     !values && placeholderStyle
   ];
+
+  if (customView) {
+    return customView({props});
+  }
 
   return (
     <Container style={containerStyle}>
