@@ -385,7 +385,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           setFormField={this.setFormField}
         />
 
-        <FinalAmount state={this.state} props={this.props} />
+        <FinalAmount {...this.props} {...this.state} />
 
         <Notes
           {...this.props}

@@ -549,12 +549,7 @@ export class Invoice extends React.Component<IProps, IStates> {
           screen="invoice"
         />
 
-        <FinalAmount
-          {...this.props}
-          state={this.state}
-          discount_per_item={discount_per_item}
-          tax_per_item={tax_per_item}
-        />
+        <FinalAmount {...this.props} state={this.state} />
 
         <Field
           name="reference_number"

@@ -538,7 +538,7 @@ export class Estimate extends React.Component<IProps, IStates> {
           setFormField={this.setFormField}
         />
 
-        <FinalAmount state={this.state} props={this.props} />
+        <FinalAmount {...this.props} {...this.state} />
 
         <Field
           name="reference_number"

@@ -4,11 +4,12 @@ import {calculationRefs} from 'stores/common/helpers';
 function total() {
   let selectedItems = calculationRefs?.props?.selectedItems;
   let subTotal = 0;
+
   if (isEmpty(selectedItems)) {
-    return JSON.parse(subTotal);
+    return subTotal;
   }
 
-  selectedItems.map(val => (subTotal += JSON.parse(val.total)));
+  selectedItems.map(val => (subTotal += JSON.parse(val?.total ?? 0)));
 
   return JSON.parse(subTotal);
 }
@@ -20,18 +21,21 @@ function tax() {
 
   let totalTax = 0;
 
-  taxes &&
-    taxes.map(val => {
-      if (!val.compound_tax) {
-        totalTax += getTaxValue(val.percent);
-      }
-    });
+  if (isEmpty(taxes)) {
+    return totalTax;
+  }
+
+  taxes.map(val => {
+    if (!val.compound_tax) {
+      totalTax += getTaxValue(val?.percent ?? 0);
+    }
+  });
 
   return totalTax;
 }
 
-function getCompoundTaxValue(tax) {
-  return (tax * JSON.parse(totalAmount())) / 100;
+function getCompoundTaxValue(tax = 0) {
+  return (tax * JSON.parse(totalAmount() ?? 0)) / 100;
 }
 
 function CompoundTax() {
@@ -41,19 +45,22 @@ function CompoundTax() {
 
   let totalTax = 0;
 
-  taxes &&
-    taxes.map(val => {
-      if (val.compound_tax) {
-        totalTax += getCompoundTaxValue(val.percent);
-      }
-    });
+  if (isEmpty(taxes)) {
+    return totalTax;
+  }
+
+  taxes.map(val => {
+    if (val?.compound_tax) {
+      totalTax += getCompoundTaxValue(val?.percent ?? 0);
+    }
+  });
 
   return totalTax;
 }
 
 function totalDiscount() {
   const {
-    formValues: {discount, discount_type}
+    formValues: {discount = 0, discount_type = null}
   } = calculationRefs?.props;
 
   let discountPrice = 0;
@@ -98,14 +105,13 @@ function itemTotalTaxes() {
         }
       });
   });
+
   return taxes;
 }
 
 function subTotal() {
   let tax = 0;
-  itemTotalTaxes().filter(val => {
-    tax += val.amount;
-  });
+  itemTotalTaxes().filter(val => (tax += val?.amount ?? 0));
   return total() + tax - totalDiscount();
 }
 
@@ -144,7 +150,9 @@ function getItemList(items) {
   });
 }
 
-const getTaxValue = tax => (tax * JSON.parse(subTotal())) / 100;
+const getTaxValue = (tax = 0) => {
+  return (tax * JSON.parse(subTotal())) / 100;
+};
 
 const totalAmount = () => subTotal() + tax();
 
