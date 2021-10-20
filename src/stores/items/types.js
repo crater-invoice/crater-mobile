@@ -18,8 +18,15 @@ export const REMOVE_ITEM_SUCCESS = 'items/REMOVE_ITEM_SUCCESS';
 
 export const ITEM_DISCOUNT_OPTION = [
   {
-    value: 'percentage',
-    displayLabel: '%',
+    key: 'none',
+    label: 'None'
+  },
+  {
+    key: 'fixed',
+    label: 'Fixed'
+  },
+  {
+    key: 'percentage',
     label: 'Percentage'
   }
 ];

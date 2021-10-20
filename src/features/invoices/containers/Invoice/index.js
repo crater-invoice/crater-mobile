@@ -9,7 +9,11 @@ import moment from 'moment';
 import {getCustomers} from '@/features/customers/actions';
 import {getTaxes, getNotes} from '@/features/settings/actions';
 import {isEmpty} from '@/constants';
-import {commonSelector, permissionSelector} from 'stores/common/selectors';
+import {
+  commonSelector,
+  permissionSelector,
+  settingsSelector
+} from 'stores/common/selectors';
 import {getItems} from '@/features/more/actions';
 
 const getSelectedTemplate = (templates, form, isEditScreen) => {
@@ -67,6 +71,7 @@ const mapStateToProps = (state, {route}) => {
     id,
     ...permissions,
     ...commonSelector(state),
+    ...settingsSelector(state),
     initialValues: !isLoading
       ? {
           due_date: moment().add(7, 'days'),

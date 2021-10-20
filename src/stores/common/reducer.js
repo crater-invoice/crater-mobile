@@ -27,8 +27,8 @@ const initialState = {
   currencies: [],
   locale: 'en',
   timeZone: null,
-  discountPerItem: false,
-  taxPerItem: false,
+  discount_per_item: false,
+  tax_per_item: false,
   notifyInvoiceViewed: false,
   notifyEstimateViewed: false,
   currency: null,
@@ -68,6 +68,10 @@ export default function commonReducer(state = initialState, action) {
         endpointURL: null,
         endpointApi: null
       };
+
+    case types.FETCH_TAX_AND_DISCOUNT_PER_ITEM_SUCCESS:
+      const {tax_per_item, discount_per_item} = payload;
+      return {...state, tax_per_item, discount_per_item};
 
     case SET_COMPANY_INFO:
       return {...state, company: payload.company};

@@ -65,7 +65,9 @@ export const FinalAmount: FC<IProps> = props => {
     getTaxes,
     isAllowToEdit,
     theme,
-    currency
+    currency,
+    dispatch,
+    form
   } = props;
 
   const disabled = !isAllowToEdit;
@@ -73,7 +75,6 @@ export const FinalAmount: FC<IProps> = props => {
   let taxPerItem = isBooleanTrue(tax_per_item);
   let discountPerItem = isBooleanTrue(discount_per_item);
   const setFormField = (field, value) => {
-    const {dispatch, form} = props;
     dispatch(change(form, field, value));
   };
 

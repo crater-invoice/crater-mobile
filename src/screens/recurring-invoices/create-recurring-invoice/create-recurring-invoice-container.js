@@ -3,7 +3,11 @@ import {getFormValues, reduxForm} from 'redux-form';
 import CreateRecurringInvoice from './create-recurring-invoice';
 import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
 import {validate} from 'stores/recurring-invoices/validator';
-import {commonSelector, permissionSelector} from 'stores/common/selectors';
+import {
+  commonSelector,
+  permissionSelector,
+  settingsSelector
+} from 'stores/common/selectors';
 import {loadingSelector} from 'stores/recurring-invoices/selectors';
 import {getCustomers} from '@/features/customers/actions';
 import {getTaxes, getNotes} from '@/features/settings/actions';
@@ -21,6 +25,7 @@ const mapStateToProps = (state, {route}) => {
   return {
     ...loadingSelector(state),
     ...commonSelector(state),
+    ...settingsSelector(state),
     ...permissionSelector(route),
     selectedItems,
     invoiceData,

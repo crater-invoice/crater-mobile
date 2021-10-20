@@ -2,6 +2,7 @@ import {call, put, takeLatest} from 'redux-saga/effects';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
+import {fetchTaxAndDiscountPerItem} from '../common/actions';
 import {showNotification, handleError} from '@/utils';
 
 /**
@@ -25,6 +26,7 @@ function* fetchRecurringInvoiceInitialDetails({payload}) {
     type: types.CLEAR_RECURRING_INVOICE
   });
   yield call(fetchInvoiceTemplates);
+  yield put(fetchTaxAndDiscountPerItem());
   payload?.();
 }
 
