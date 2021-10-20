@@ -46,7 +46,7 @@ export const recurringInvoicesFilterFields = ({props, setFormField}) => {
       }
     },
     {
-      name: 'status',
+      name: 'filterStatus',
       label: t('recurring_invoices.status.title'),
       icon: 'tag',
       fieldIcon: 'align-center',
@@ -58,7 +58,7 @@ export const recurringInvoicesFilterFields = ({props, setFormField}) => {
       placeholder: status ?? t('recurring_invoices.status.title'),
       isInternalSearch: true,
       onSelect: val => {
-        setFormField('status', val);
+        setFormField('filterStatus', val);
       },
       containerStyle: dropdownStyle
     }
