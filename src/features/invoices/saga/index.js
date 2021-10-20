@@ -34,8 +34,7 @@ import {
 } from '../actions';
 
 function* getInvoices({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
-  yield put(spinner({invoicesLoading: true}));
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
     const options = {path: `invoices?${queryStrings.stringify(queryString)}`};
     const response = yield call([Request, 'get'], options);
@@ -43,14 +42,12 @@ function* getInvoices({payload}) {
     onSuccess?.(response);
   } catch (e) {
     onFail?.();
-  } finally {
-    yield put(spinner({invoicesLoading: false}));
   }
 }
 
 function* getCreateInvoice({payload: {onSuccess}}) {
   try {
-    yield put(spinner({initInvoiceLoading: true}));
+    yield put(spinner('isFetchingInitialData', true));
     yield call(getCustomFields, {
       payload: {
         queryString: {type: CUSTOM_FIELD_TYPES.INVOICE, limit: 'all'}
@@ -72,12 +69,12 @@ function* getCreateInvoice({payload: {onSuccess}}) {
     onSuccess?.(values);
   } catch (e) {
   } finally {
-    yield put(spinner({initInvoiceLoading: false}));
+    yield put(spinner('isFetchingInitialData', false));
   }
 }
 
 function* getEditInvoice({payload: {id, onSuccess}}) {
-  yield put(spinner({initInvoiceLoading: true}));
+  yield put(spinner('isFetchingInitialData', true));
   try {
     const options = {path: `invoices/${id}`};
     yield call(getCustomFields, {
@@ -103,13 +100,12 @@ function* getEditInvoice({payload: {id, onSuccess}}) {
     onSuccess?.(invoice);
   } catch (e) {
   } finally {
-    yield put(spinner({initInvoiceLoading: false}));
+    yield put(spinner('isFetchingInitialData', false));
   }
 }
 
 function* addItem({payload: {item, onResult}}) {
   try {
-    yield put(spinner({createInvoiceItemLoading: true}));
     const {price, name, description, taxes, unit_id} = item;
     const options = {
       path: `items`,
@@ -127,15 +123,11 @@ function* addItem({payload: {item, onResult}}) {
     ];
     yield put(setInvoiceItems(invoiceItem));
     onResult?.();
-  } catch (e) {
-  } finally {
-    yield put(spinner({createInvoiceItemLoading: false}));
-  }
+  } catch (e) {}
 }
 
 function* editItem({payload: {item, onResult}}) {
   try {
-    yield put(spinner({createInvoiceItemLoading: true}));
     const {price, name, description, item_id} = item;
     const options = {
       path: `items/${item_id}`,
@@ -150,15 +142,12 @@ function* editItem({payload: {item, onResult}}) {
     yield put(removeInvoiceItem({id: invoiceItem.id}));
     yield put(setInvoiceItems(invoiceItem));
     onResult?.();
-  } catch (e) {
-  } finally {
-    yield put(spinner({createInvoiceItemLoading: false}));
-  }
+  } catch (e) {}
 }
 
 function* createInvoice({payload}) {
   const {invoice, onSuccess} = payload;
-  yield put(spinner({invoiceLoading: true}));
+  yield put(spinner('isSaving', true));
   try {
     const options = {path: `invoices`, body: invoice};
     const response = yield call([Request, 'post'], options);
@@ -170,13 +159,13 @@ function* createInvoice({payload}) {
   } catch (e) {
     handleError(e);
   } finally {
-    yield put(spinner({invoiceLoading: false}));
+    yield put(spinner('isSaving', false));
   }
 }
 
 function* editInvoice({payload}) {
   const {invoice, onSuccess, navigation, status} = payload;
-  yield put(spinner({invoiceLoading: true}));
+  yield put(spinner('isSaving', true));
   try {
     const options = {path: `invoices/${invoice.id}`, body: invoice};
     const response = yield call([Request, 'put'], options);
@@ -187,23 +176,19 @@ function* editInvoice({payload}) {
   } catch (e) {
     handleError(e);
   } finally {
-    yield put(spinner({invoiceLoading: false}));
+    yield put(spinner('isSaving', false));
   }
 }
 
 function* removeItem({payload: {onResult, id}}) {
   try {
-    yield put(spinner({removeItemLoading: true}));
     yield put(removeInvoiceItem({id}));
     onResult?.();
-  } catch (e) {
-  } finally {
-    yield put(spinner({removeItemLoading: false}));
-  }
+  } catch (e) {}
 }
 
 function* removeInvoice({payload: {onResult, id}}) {
-  yield put(spinner({removeInvoiceLoading: true}));
+  yield put(spinner('isDeleting', true));
   try {
     const options = {path: `invoices/delete`, body: {ids: [id]}};
     const response = yield call([Request, 'post'], options);
@@ -213,13 +198,13 @@ function* removeInvoice({payload: {onResult, id}}) {
   } catch (e) {
     handleError(e);
   } finally {
-    yield put(spinner({removeInvoiceLoading: false}));
+    yield put(spinner('isDeleting', false));
   }
 }
 
 function* changeInvoiceStatus({payload}) {
   const {onResult = null, params = null, id, action, navigation} = payload;
-  yield put(spinner({changeStatusLoading: true}));
+  yield put(spinner('isLoading', true));
   const param = {id, ...params};
   try {
     const options = {path: `invoices/${action}`, body: {...param}};
@@ -228,7 +213,7 @@ function* changeInvoiceStatus({payload}) {
     navigation.navigate(routes.MAIN_INVOICES);
   } catch (e) {
   } finally {
-    yield put(spinner({changeStatusLoading: false}));
+    yield put(spinner('isLoading', false));
   }
 }
 

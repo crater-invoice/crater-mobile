@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     borderColor: theme?.input?.borderColor,
     paddingVertical: 15,
     paddingHorizontal: 10,
-    paddingBottom: defineSize(13, 13, 13, 35),
+    paddingBottom: defineSize(14, 14, 14, 35),
     borderTopWidth: 1
   }),
   header: {
@@ -53,4 +53,9 @@ const Container = styled(View)`
   background-color: ${props => props.theme?.backgroundColor};
 `;
 
-export {styles, Container};
+const Row = styled(View)`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+export {styles, Container, Row};

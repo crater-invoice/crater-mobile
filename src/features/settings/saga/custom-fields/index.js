@@ -20,7 +20,7 @@ import {
 
 export function* getCustomFields({payload}) {
   const {
-    fresh,
+    fresh = true,
     onSuccess,
     onFail,
     queryString,
@@ -31,13 +31,10 @@ export function* getCustomFields({payload}) {
       path: `custom-fields?${queryStrings.stringify(queryString)}`
     };
     const response = yield call([Request, 'get'], options);
-    if (response?.data) {
-      const data = response.data;
-      yield put(setCustomFields({customFields: data, fresh}));
-    }
+    yield put(setCustomFields({customFields: response?.data ?? [], fresh}));
     onSuccess?.(response);
     if (returnResponse) {
-      return response?.customFields?.data ?? [];
+      return response?.data ?? [];
     }
   } catch (e) {
     onFail?.();

@@ -26,7 +26,7 @@ function* getCreateExpense({payload: {onSuccess}}) {
 }
 
 function* getExpenses({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
     const options = {path: `expenses?${queryStrings.stringify(queryString)}`};
     const response = yield call([Request, 'get'], options);

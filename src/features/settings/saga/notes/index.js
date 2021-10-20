@@ -14,7 +14,7 @@ import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 
 function* getNotes({payload}: any) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
     const options = {
       path: `notes?${queryStrings.stringify(queryString)}`

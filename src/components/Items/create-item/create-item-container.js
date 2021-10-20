@@ -26,9 +26,7 @@ const mapStateToProps = (state, {route}) => {
   const isLoading = () => {
     return (
       invoices?.loading?.editItemLoading ||
-      invoices?.loading?.removeItemLoading ||
       estimate?.loading?.editItemLoading ||
-      estimate?.loading?.removeItemLoading ||
       recurringInvoice?.isSaving ||
       recurringInvoice?.isDeleting
     );

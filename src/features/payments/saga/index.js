@@ -19,7 +19,7 @@ import {
 } from '../actions';
 
 function* getPayments({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
     const options = {path: `payments?${queryStrings.stringify(queryString)}`};
     const response = yield call([Request, 'get'], options);
@@ -66,7 +66,7 @@ function* createPayment({payload}) {
 }
 
 function* getUnpaidInvoices({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
     if (!hasValue(queryString?.customer_id)) {
       yield put(saveUnpaidInvoices({invoices: [], fresh: true}));

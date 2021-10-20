@@ -9,8 +9,6 @@ import {commonSelector} from 'stores/common/selectors';
 const mapStateToProps = state => {
   const {auth, common, settings} = state;
   return {
-    loading: auth?.loading?.loginLoading,
-    socialLoading: auth?.loading?.socialLoginLoading,
     biometryAuthType: common?.biometryAuthType,
     ...commonSelector(state),
     initialValues: {

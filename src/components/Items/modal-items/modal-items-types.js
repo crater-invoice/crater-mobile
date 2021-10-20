@@ -43,11 +43,6 @@ export interface IProps {
   currency: Object;
 
   /**
-   * The loading indicator for load data list.
-   */
-  itemsLoading: Boolean;
-
-  /**
    * A navigator is an object of navigation functions that a view can call.
    * @see INavigation
    */

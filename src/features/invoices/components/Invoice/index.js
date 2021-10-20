@@ -51,8 +51,8 @@ type IProps = {
   getCustomers: Function,
   getItems: Function,
   editInvoice: Boolean,
-  initLoading: Boolean,
-  loading: Boolean,
+  isFetchingInitialData: Boolean,
+  isSaving: Boolean,
   items: Object,
   type: String,
   changeInvoiceStatus: Function,
@@ -121,9 +121,7 @@ export class Invoice extends React.Component<IProps, IStates> {
 
     if (!isEditScreen) {
       getCreateInvoice({
-        onSuccess: () => {
-          this.setState({isLoading: false});
-        }
+        onSuccess: () => this.setState({isLoading: false})
       });
       return;
     }
@@ -178,13 +176,13 @@ export class Invoice extends React.Component<IProps, IStates> {
       navigation,
       editInvoice,
       id,
-      initLoading,
+      isFetchingInitialData,
       withLoading,
       isCreateScreen,
       invoiceData: {invoiceTemplates = []} = {}
     } = this.props;
 
-    if (this.state.isLoading || initLoading || withLoading) {
+    if (this.state.isLoading || isFetchingInitialData || withLoading) {
       return;
     }
 
@@ -395,7 +393,7 @@ export class Invoice extends React.Component<IProps, IStates> {
       selectedItems,
       getItems,
       items,
-      initLoading,
+      isFetchingInitialData,
       getCustomers,
       customers,
       formValues,
@@ -404,7 +402,7 @@ export class Invoice extends React.Component<IProps, IStates> {
       isAllowToEdit,
       isAllowToDelete,
       isEditScreen,
-      loading,
+      isSaving,
       notes,
       getNotes
     } = this.props;
@@ -418,7 +416,7 @@ export class Invoice extends React.Component<IProps, IStates> {
     let hasCompleteStatus = markAsStatus === 'COMPLETED';
 
     const dropdownOptions =
-      isEditScreen && !initLoading
+      isEditScreen && !isFetchingInitialData
         ? EDIT_INVOICE_ACTIONS(
             hasSentStatus,
             hasCompleteStatus,
@@ -427,7 +425,7 @@ export class Invoice extends React.Component<IProps, IStates> {
         : [];
 
     let drownDownProps =
-      isEditScreen && !initLoading
+      isEditScreen && !isFetchingInitialData
         ? {
             options: dropdownOptions,
             onSelect: this.onOptionSelect,
@@ -455,13 +453,13 @@ export class Invoice extends React.Component<IProps, IStates> {
         onPress: handleSubmit(this.downloadInvoice),
         type: 'btn-outline',
         show: isAllowToEdit,
-        loading: loading || isLoading
+        loading: isSaving || isLoading
       },
       {
         label: 'button.save',
         onPress: handleSubmit(this.saveInvoice),
         show: isAllowToEdit,
-        loading: loading || isLoading
+        loading: isSaving || isLoading
       }
     ];
 
@@ -478,7 +476,7 @@ export class Invoice extends React.Component<IProps, IStates> {
           })
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}
-        loadingProps={{is: isLoading || initLoading || withLoading}}
+        loadingProps={{is: isLoading || isFetchingInitialData || withLoading}}
         contentProps={{withLoading}}
         dropdownProps={drownDownProps}
         bodyStyle={`px-22 pt-10 pb-15 opacity-${withLoading ? 80 : 100}`}
@@ -541,6 +539,7 @@ export class Invoice extends React.Component<IProps, IStates> {
           reference={ref => (this.customerReference = ref)}
           disabled={disabled}
         />
+
         <ItemField
           {...this.props}
           selectedItems={selectedItems}

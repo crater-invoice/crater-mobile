@@ -14,8 +14,7 @@ import {
   CONVERT_TO_INVOICE,
   REMOVE_ESTIMATE,
   CHANGE_ESTIMATE_STATUS,
-  GET_ESTIMATE_TEMPLATE,
-  SET_ESTIMATE_ITEMS
+  GET_ESTIMATE_TEMPLATE
 } from '../constants';
 import {
   estimateTriggerSpinner as spinner,
@@ -38,7 +37,7 @@ import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 
 function* getEstimates({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
     const options = {path: `estimates?${queryStrings.stringify(queryString)}`};
     const response = yield call([Request, 'get'], options);
@@ -51,7 +50,7 @@ function* getEstimates({payload}) {
 
 function* getCreateEstimate({payload: {onSuccess}}) {
   try {
-    yield put(spinner({initEstimateLoading: true}));
+    yield put(spinner('isFetchingInitialData', true));
     yield call(getCustomFields, {
       payload: {queryString: {type: CUSTOM_FIELD_TYPES.ESTIMATE, limit: 'all'}}
     });
@@ -80,13 +79,13 @@ function* getCreateEstimate({payload: {onSuccess}}) {
     onSuccess?.(values);
   } catch (e) {
   } finally {
-    yield put(spinner({initEstimateLoading: false}));
+    yield put(spinner('isFetchingInitialData', false));
   }
 }
 
 function* getEditEstimate({payload: {id, onSuccess}}) {
   try {
-    yield put(spinner({initEstimateLoading: true}));
+    yield put(spinner('isFetchingInitialData', true));
     const options = {path: `estimates/${id}`};
     yield call(getCustomFields, {
       payload: {
@@ -111,13 +110,12 @@ function* getEditEstimate({payload: {id, onSuccess}}) {
     onSuccess?.(estimate);
   } catch (e) {
   } finally {
-    yield put(spinner({initEstimateLoading: false}));
+    yield put(spinner('isFetchingInitialData', false));
   }
 }
 
 function* addItem({payload: {item, onResult}}) {
   try {
-    yield put(spinner({createEstimateItemLoading: true}));
     const {price, name, description, taxes, unit_id} = item;
     const options = {
       path: `items`,
@@ -139,15 +137,11 @@ function* addItem({payload: {item, onResult}}) {
     ];
     yield put(setEstimateItems(estimateItem));
     onResult?.();
-  } catch (e) {
-  } finally {
-    yield put(spinner({createEstimateItemLoading: false}));
-  }
+  } catch (e) {}
 }
 
 function* editItem({payload: {item, onResult}}) {
   try {
-    yield put(spinner({estimateLoading: true}));
     const {price, name, description, item_id} = item;
     const options = {
       path: `items/${item_id}`,
@@ -158,16 +152,13 @@ function* editItem({payload: {item, onResult}}) {
     yield put(removeEstimateItem({id: estimateItem.id}));
     yield put(setEstimateItems(estimateItem));
     onResult?.();
-  } catch (e) {
-  } finally {
-    yield put(spinner({estimateLoading: false}));
-  }
+  } catch (e) {}
 }
 
 function* createEstimate({payload}) {
   const {estimate, onSuccess} = payload;
   try {
-    yield put(spinner({estimateLoading: true}));
+    yield put(spinner('isSaving', true));
     const options = {path: `estimates`, body: estimate};
     const response = yield call([Request, 'post'], options);
     yield put(removeEstimateItems());
@@ -177,13 +168,13 @@ function* createEstimate({payload}) {
   } catch (e) {
     handleError(e);
   } finally {
-    yield put(spinner({estimateLoading: false}));
+    yield put(spinner('isSaving', false));
   }
 }
 
 function* editEstimate({payload}) {
-  const {estimate, onSuccess, navigation} = payload;
-  yield put(spinner({estimateLoading: true}));
+  const {estimate, onSuccess} = payload;
+  yield put(spinner('isSaving', true));
   try {
     const options = {
       path: `estimates/${estimate.id}`,
@@ -196,13 +187,12 @@ function* editEstimate({payload}) {
   } catch (e) {
     handleError(e);
   } finally {
-    yield put(spinner({estimateLoading: false}));
+    yield put(spinner('isSaving', false));
   }
 }
 
 function* getItems({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
-  yield put(spinner({itemsLoading: true}));
   try {
     const options = {
       path: `items?${queryStrings.stringify(queryString)}`
@@ -213,24 +203,17 @@ function* getItems({payload}) {
     onSuccess?.(response);
   } catch (e) {
     onFail?.();
-  } finally {
-    yield put(spinner({itemsLoading: false}));
   }
 }
 
 function* removeItem({payload: {onResult, id}}) {
-  yield put(spinner({removeItemLoading: true}));
   try {
     yield put(removeEstimateItem({id}));
     onResult?.();
-  } catch (e) {
-  } finally {
-    yield put(spinner({removeItemLoading: false}));
-  }
+  } catch (e) {}
 }
 
 function* convertToInvoice({payload: {onResult, id}}) {
-  yield put(spinner({estimateLoading: true}));
   try {
     const options = {
       path: `estimates/${id}/convert-to-invoice`
@@ -240,14 +223,11 @@ function* convertToInvoice({payload: {onResult, id}}) {
     yield put(setInvoices({invoices: [response.data], prepend: true}));
     onResult?.();
     showNotification({message: t('notification.invoice_created')});
-  } catch (e) {
-  } finally {
-    yield put(spinner({estimateLoading: false}));
-  }
+  } catch (e) {}
 }
 
 function* removeEstimate({payload: {onResult, id}}) {
-  yield put(spinner({removeEstimateLoading: true}));
+  yield put(spinner('isDeleting', true));
   try {
     const options = {
       path: `estimates/delete`,
@@ -260,13 +240,13 @@ function* removeEstimate({payload: {onResult, id}}) {
   } catch (e) {
     handleError(e);
   } finally {
-    yield put(spinner({removeEstimateLoading: false}));
+    yield put(spinner('isDeleting', false));
   }
 }
 
 function* changeEstimateStatus({payload}) {
   const {onResult = null, params = null, id, action, navigation} = payload;
-  yield put(spinner({changeStatusLoading: true}));
+  yield put(spinner('isLoading', true));
   const param = {id, ...params};
   try {
     const options = {path: `estimates/${action}`, body: {...param}};
@@ -275,7 +255,7 @@ function* changeEstimateStatus({payload}) {
     navigation.navigate(routes.ESTIMATE_LIST);
   } catch (e) {
   } finally {
-    yield put(spinner({changeStatusLoading: false}));
+    yield put(spinner('isLoading', false));
   }
 }
 

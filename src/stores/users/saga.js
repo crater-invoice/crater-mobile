@@ -10,7 +10,7 @@ import {showNotification, handleError} from '@/utils';
  * @returns {IterableIterator<*>}
  */
 function* fetchUsers({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
     const response = yield call(req.fetchUsers, queryString);
     const users = response?.data ?? [];
