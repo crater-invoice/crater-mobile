@@ -6,14 +6,14 @@ import {
   InputField,
   DatePickerField,
   DefaultLayout,
-  FakeInput,
   SendMail,
   CustomField,
   ActionButton,
   View as CtView,
   Notes,
   ItemField,
-  FinalAmount
+  FinalAmount,
+  BaseInputPrefix
 } from '@/components';
 import {
   ESTIMATE_FORM,
@@ -502,15 +502,11 @@ export class Estimate extends React.Component<IProps, IStates> {
 
         <Field
           name="estimate_number"
-          component={FakeInput}
-          label={t('estimates.estimateNumber')}
+          component={BaseInputPrefix}
           isRequired
-          prefixProps={{
-            prefix: formValues?.prefix,
-            fieldName: 'estimate_number',
-            icon: 'hashtag',
-            iconSolid: false
-          }}
+          label={t('estimates.estimateNumber')}
+          prefix={formValues?.prefix}
+          fieldName="estimate_number"
           disabled={disabled}
         />
 

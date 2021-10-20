@@ -12,7 +12,8 @@ import {
   CustomField,
   View as CtView,
   ActionButton,
-  Notes
+  Notes,
+  BaseInputPrefix
 } from '@/components';
 import {
   PAYMENT_FORM,
@@ -318,13 +319,11 @@ export class Payment extends React.Component<IProps> {
     return (
       <Field
         name={`payment.${FIELDS.NUMBER}`}
-        component={FakeInput}
+        component={BaseInputPrefix}
         label={t('payments.number')}
         isRequired
-        prefixProps={{
-          fieldName: `payment.${FIELDS.NUMBER}`,
-          prefix: formValues?.payment?.[FIELDS.PREFIX]
-        }}
+        fieldName={`payment.${FIELDS.NUMBER}`}
+        prefix={formValues?.payment?.[FIELDS.PREFIX]}
         disabled={!isAllowToEdit}
       />
     );

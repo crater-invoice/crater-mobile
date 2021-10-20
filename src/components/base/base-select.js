@@ -8,7 +8,7 @@ import {commonSelector} from 'stores/common/selectors';
 import t from 'locales/use-translation';
 import {isAndroidPlatform, isIosPlatform} from '@/constants';
 
-export const SelectView = props => {
+const SelectView = props => {
   const {
     label,
     icon,
@@ -21,7 +21,7 @@ export const SelectView = props => {
     fakeInput,
     color,
     values,
-    meta: {error, submitFailed} = '',
+    meta,
     valueStyle,
     loading = false,
     placeholderStyle,
@@ -55,7 +55,7 @@ export const SelectView = props => {
         style={[
           styles.container(theme),
           baseSelectContainerStyle,
-          submitFailed && error && styles.error,
+          meta?.submitFailed && meta?.error && styles.error,
           disabled && styles.disableView(theme)
         ]}
       >

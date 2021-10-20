@@ -2,7 +2,7 @@ import React from 'react';
 import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change} from 'redux-form';
-import {TemplateField} from '@/components';
+import {BaseInputPrefix, TemplateField} from '@/components';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {alertMe, isEmpty} from '@/constants';
@@ -10,7 +10,6 @@ import {
   InputField,
   DatePickerField,
   DefaultLayout,
-  FakeInput,
   SendMail,
   CustomField,
   View as CtView,
@@ -511,15 +510,11 @@ export class Invoice extends React.Component<IProps, IStates> {
 
         <Field
           name="invoice_number"
-          component={FakeInput}
+          component={BaseInputPrefix}
           label={t('invoices.invoiceNumber')}
           isRequired
-          prefixProps={{
-            fieldName: 'invoice_number',
-            prefix: formValues?.prefix,
-            icon: 'hashtag',
-            iconSolid: false
-          }}
+          fieldName="invoice_number"
+          prefix={formValues?.prefix}
           disabled={disabled}
         />
 
