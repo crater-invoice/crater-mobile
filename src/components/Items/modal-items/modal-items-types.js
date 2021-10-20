@@ -61,7 +61,7 @@ export interface IProps {
   /**
    * Discount per item.
    */
-  discountPerItem: Boolean;
+  discount_per_item: Boolean;
 
   /**
    *  Tax per item.

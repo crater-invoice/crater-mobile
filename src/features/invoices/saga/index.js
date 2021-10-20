@@ -32,6 +32,7 @@ import {
   removeFromInvoices,
   updateFromInvoices
 } from '../actions';
+import {fetchTaxAndDiscountPerItem} from '@/stores/common/actions';
 
 function* getInvoices({payload}) {
   const {fresh, onSuccess, onFail, queryString} = payload;
@@ -58,7 +59,7 @@ function* getCreateInvoice({payload: {onSuccess}}) {
     });
     const response = yield call(getSettingInfo, {
       payload: {
-        keys: ['invoice_auto_generate', 'tax_per_item', 'discount_per_item']
+        keys: ['invoice_auto_generate']
       }
     });
     const {invoice_auto_generate} = response;
@@ -69,6 +70,7 @@ function* getCreateInvoice({payload: {onSuccess}}) {
     const values = {...nextInvoiceNumber, ...(!isAuto && {nextNumber: null})};
     const {invoiceTemplates} = yield call(getInvoiceTemplates, {});
     yield put(setInvoice({...response, ...values, invoiceTemplates}));
+    yield put(fetchTaxAndDiscountPerItem());
     onSuccess?.(values);
   } catch (e) {
   } finally {

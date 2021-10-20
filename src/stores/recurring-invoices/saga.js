@@ -3,6 +3,7 @@ import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
 import {alertMe} from '@/constants';
+import {fetchTaxAndDiscountPerItem} from '../common/actions';
 
 /**
  * Fetch Next-Invoice-At saga.
@@ -25,6 +26,7 @@ function* fetchRecurringInvoiceInitialDetails({payload}) {
     type: types.CLEAR_RECURRING_INVOICE
   });
   yield call(fetchInvoiceTemplates);
+  yield put(fetchTaxAndDiscountPerItem());
   payload?.();
 }
 

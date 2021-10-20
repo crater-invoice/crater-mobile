@@ -100,16 +100,6 @@ export interface IProps {
   invoiceTemplates: Array<any>;
 
   /**
-   * Discount per item.
-   */
-  discountPerItem: Boolean;
-
-  /**
-   *  Tax per item.
-   */
-  tax_per_item: Boolean;
-
-  /**
    * Gets form data.
    */
   formValues: any;

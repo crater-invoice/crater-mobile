@@ -391,7 +391,7 @@ export class Invoice extends React.Component<IProps, IStates> {
     const {
       navigation,
       handleSubmit,
-      invoiceData: {invoiceTemplates, discount_per_item, tax_per_item} = {},
+      invoiceData: {invoiceTemplates} = {},
       selectedItems,
       getItems,
       items,
@@ -544,20 +544,13 @@ export class Invoice extends React.Component<IProps, IStates> {
         <ItemField
           {...this.props}
           selectedItems={selectedItems}
-          discount_per_item={discount_per_item}
-          tax_per_item={tax_per_item}
           items={getItemList(items)}
           getItems={getItems}
           setFormField={this.setFormField}
           screen="invoice"
         />
 
-        <FinalAmount
-          discount_per_item={discount_per_item}
-          tax_per_item={tax_per_item}
-          state={this.state}
-          props={this.props}
-        />
+        <FinalAmount state={this.state} props={this.props} />
 
         <Field
           name="reference_number"
