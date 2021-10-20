@@ -6,7 +6,6 @@ import styles from './styles';
 import {DefaultLayout} from '../Layouts';
 import {InputField} from '../InputField';
 import {SelectField} from '../SelectField';
-import {SelectPickerField} from '../SelectPickerField';
 import {DatePickerField} from '../DatePickerField';
 import {ActionButton, CtDecorativeButton} from '../Button';
 import t from 'locales/use-translation';
@@ -14,6 +13,7 @@ import {isIosPlatform, isAndroidPlatform} from '@/constants';
 import {Text} from '../Text';
 import {View as CtView} from '../View';
 import {colors} from '@/styles';
+import {BaseDropdownPicker} from '@/components';
 
 type IProps = {
   visible: Boolean,
@@ -105,7 +105,7 @@ export class Filter extends Component<IProps> {
         <View key={index}>
           <Field
             name={name}
-            component={SelectPickerField}
+            component={BaseDropdownPicker}
             items={items}
             {...field}
           />

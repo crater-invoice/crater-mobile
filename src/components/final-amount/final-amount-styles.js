@@ -7,20 +7,6 @@ export default styles = StyleSheet.create({
   discount: {
     marginTop: 10
   },
-  selectPickerField: theme => ({
-    backgroundColor: theme?.card?.primary?.bgColor,
-    paddingRight: 15,
-    paddingLeft: 5,
-    ...Platform.select({
-      ios: {
-        paddingRight: 30
-      }
-    }),
-    borderLeftWidth: 0,
-    ...(theme?.mode === 'dark' && {
-      borderColor: colors.gray5
-    })
-  }),
   discountInputContainer: {
     borderRightWidth: 0,
     borderLeftWidth: 0,

@@ -34,10 +34,6 @@ export const UnitSelectModal = (props: IProps) => {
       compareField={'id'}
       emptyContentProps={{contentType: 'units'}}
       headerProps={{title: t('items.unitPlaceholder')}}
-      baseSelectProps={{
-        valueStyle: {paddingLeft: 48},
-        placeholderStyle: {paddingLeft: 48}
-      }}
       paginationLimit={defineSize(15, 15, 15, 20)}
       inputModalName="UnitModal"
       createActionRouteName={routes.ITEM_UNITS}

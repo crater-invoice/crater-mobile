@@ -3,7 +3,7 @@ import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {NUMBERING_SCHEME_TYPE} from 'stores/customize/helpers';
 import {fetchNextNumber} from 'stores/customize/actions';
-import {InputField, SelectPickerField} from '@/components';
+import {BaseDropdownPicker, InputField} from '@/components';
 import {keyboardType} from '@/constants';
 
 interface IProps {
@@ -99,7 +99,7 @@ export class NumberScheme extends Component<IProps> {
         <Field
           name={numberSchemeField.name}
           label={t('customizes.numberingScheme.title')}
-          component={SelectPickerField}
+          component={BaseDropdownPicker}
           fieldIcon="align-center"
           items={NUMBERING_SCHEME_TYPE}
           onChangeCallback={value => this.onChangeNumber(value)}

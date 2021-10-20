@@ -2,34 +2,14 @@ import React, {Component} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import {connect} from 'react-redux';
 import {colors} from '@/styles';
-import {hasTextLength, hasValue} from '@/constants';
+import {hasTextLength} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseSelect} from '@/components';
 
-type IProps = {
-  disabled: boolean,
-  input: any,
-  meta: Object,
-  defaultPickerOptions: Object,
-  items: Array<Object>,
-  onChangeCallback: Function,
-  callbackWhenMount: Function,
-  refLinkFn: Function,
-  onDonePress: Function,
-  doneText: string,
-  fieldIcon: string,
-  containerStyle: Object,
-  label: String,
-  isRequired: Boolean,
-  placeholderTextColor: String
-};
-
-class Picker extends Component<IProps> {
+class DropdownPicker extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedItemValue: ''
-    };
+    this.state = {selectedItemValue: ''};
   }
 
   componentDidMount() {
@@ -140,8 +120,6 @@ class Picker extends Component<IProps> {
   }
 }
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
-export const SelectPickerField = connect(mapStateToProps)(Picker);
+export const BaseDropdownPicker = connect(mapStateToProps)(DropdownPicker);

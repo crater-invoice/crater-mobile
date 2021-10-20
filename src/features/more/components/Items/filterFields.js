@@ -43,10 +43,7 @@ export const itemsFilterFields = ({props, setFormField}) => {
       emptyContentProps: {
         contentType: 'units'
       },
-      baseSelectProps: {
-        valueStyle: styles.units,
-        placeholderStyle: styles.units
-      }
+      baseSelectProps: {}
     }
   ];
 

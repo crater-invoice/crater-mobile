@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {InputField, SelectPickerField} from '@/components';
+import {BaseDropdownPicker, InputField} from '@/components';
 import t from 'locales/use-translation';
 import {FREQUENCIES_TYPES} from 'stores/recurring-invoices/helpers';
 import {colors} from '@/styles';
@@ -40,7 +40,7 @@ export const FrequencyField = (props: IProps) => {
       <Field
         name={frequencyPickerField.name}
         label={t('recurring_invoices.select_frequency')}
-        component={SelectPickerField}
+        component={BaseDropdownPicker}
         fieldIcon="sync"
         items={FREQUENCIES_TYPES}
         placeholderTextColor={colors.secondary}

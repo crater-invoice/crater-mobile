@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {DatePickerField, InputField, SelectPickerField} from '@/components';
+import {BaseDropdownPicker, DatePickerField, InputField} from '@/components';
 import t from 'locales/use-translation';
 import {LIMIT_TYPES} from 'stores/recurring-invoices/helpers';
 
@@ -29,7 +29,7 @@ export const LimitField = (props: IProps) => {
       <Field
         name={limitByField.name}
         label={t('recurring_invoices.limit_by')}
-        component={SelectPickerField}
+        component={BaseDropdownPicker}
         fieldIcon="pause-circle"
         items={LIMIT_TYPES}
         defaultPickerOptions={{

@@ -5,11 +5,11 @@ import styles from './final-amount-styles';
 import {
   InputField,
   CtDivider,
-  SelectPickerField,
   CurrencyFormat,
   Text,
   View as BaseView,
-  AssetIcon
+  AssetIcon,
+  BaseDropdownPicker
 } from '@/components';
 import {routes} from '@/navigation';
 import {colors} from '@/styles';
@@ -128,7 +128,7 @@ export const FinalAmount: FC<IProps> = props => {
             />
             <Field
               name="discount_type"
-              component={SelectPickerField}
+              component={BaseDropdownPicker}
               items={DISCOUNT_OPTION}
               onChangeCallback={val => setFormField('discount_type', val)}
               defaultPickerOptions={{
@@ -140,7 +140,7 @@ export const FinalAmount: FC<IProps> = props => {
               disabled={disabled}
               customView={({placeholderText, valuesText}) => (
                 <BaseView
-                  class="height=48 justify-center"
+                  class="height=44 justify-center"
                   background-color={theme.backgroundColor}
                   style={styles.discountTypeContainer(theme)}
                 >

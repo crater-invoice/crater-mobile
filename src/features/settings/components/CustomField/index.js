@@ -13,9 +13,9 @@ import {
   InputField,
   DefaultLayout,
   ToggleSwitch,
-  SelectPickerField,
   Text,
-  ActionButton
+  ActionButton,
+  BaseDropdownPicker
 } from '@/components';
 import {
   setCustomFieldRefs,
@@ -321,7 +321,7 @@ export class CustomField extends React.Component<IProps> {
 
         <Field
           name={`${FIELDS.FIELD}.${FIELDS.MODAL_TYPE}`}
-          component={SelectPickerField}
+          component={BaseDropdownPicker}
           label={t('customFields.model')}
           fieldIcon="align-center"
           items={MODAL_TYPES}
@@ -338,7 +338,7 @@ export class CustomField extends React.Component<IProps> {
         <Field
           name={`${FIELDS.FIELD}.${FIELDS.TYPE}`}
           label={t('customFields.type')}
-          component={SelectPickerField}
+          component={BaseDropdownPicker}
           isRequired
           fieldIcon="align-center"
           items={DATA_TYPES}
