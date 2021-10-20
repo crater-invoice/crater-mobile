@@ -71,7 +71,9 @@ function* biometryAuthLogin({payload}) {
     yield put(loginSuccess());
     yield put(actionCheckOTAUpdate());
     payload?.();
-  } catch (e) {}
+  } catch (e) {
+    payload?.();
+  }
 }
 
 function* checkOTAUpdate(payloadData) {
