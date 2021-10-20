@@ -2,6 +2,21 @@ import {ITheme, INavigation} from '@/interfaces';
 
 export type IProps = {
   /**
+   * An Object with data of current Currency.
+   */
+  currency: Object,
+
+  /**
+   * If true the user will be able to update the current role data.
+   */
+  isAllowToEdit: boolean,
+
+  /**
+   * Gets form data.
+   */
+  formValues: any,
+
+  /**
    * An array of objects with data for each tax.
    */
   taxTypes?: Array<any>,

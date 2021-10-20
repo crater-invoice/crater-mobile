@@ -2,7 +2,7 @@ import {call, put, takeLatest} from 'redux-saga/effects';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
-import {alertMe} from '@/constants';
+import {showNotification, handleError} from '@/utils';
 
 /**
  * Fetch Next-Invoice-At saga.
@@ -89,31 +89,17 @@ function* fetchSingleRecurringInvoice({payload}) {
  */
 function* addRecurringInvoice({payload}) {
   try {
-    const {invoice, onSuccess, navigation, submissionError} = payload;
+    const {invoice, onSuccess} = payload;
     yield put(spinner('isSaving', true));
-
     const response = yield call(req.addRecurringInvoice, invoice);
-
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
-      return;
-    }
-
-    if (!response.data) {
-      alertMe({
-        desc: t('validation.wrong'),
-        okPress: () => navigation.goBack(null)
-      });
-      return;
-    }
-
     yield put({
       type: types.ADD_RECURRING_INVOICE_SUCCESS,
       payload: response?.data
     });
-
     onSuccess?.(response?.data);
+    showNotification({message: t('notification.recurring_invoice_created')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -125,30 +111,21 @@ function* addRecurringInvoice({payload}) {
  */
 function* updateRecurringInvoice({payload}) {
   try {
-    const {invoice, onSuccess, submissionError, navigation} = payload;
+    const {invoice, onSuccess} = payload;
     yield put(spinner('isSaving', true));
     const response = yield call(
       req.updateRecurringInvoice,
       invoice.id,
       invoice
     );
-    if (response?.data?.errors) {
-      submissionError?.(response?.data?.errors);
-      return;
-    }
-    if (!response.data) {
-      alertMe({
-        desc: t('validation.wrong'),
-        okPress: () => navigation.goBack(null)
-      });
-      return;
-    }
     yield put({
       type: types.UPDATE_RECURRING_INVOICE_SUCCESS,
       payload: response?.data
     });
     onSuccess?.(response?.data);
+    showNotification({message: t('notification.recurring_invoice_updated')});
   } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner('isSaving', false));
   }
@@ -159,15 +136,16 @@ function* updateRecurringInvoice({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* removeRecurringInvoice({payload}) {
-  const {id, navigation, onFail} = payload;
+  const {id, navigation} = payload;
   try {
     yield put(spinner('isDeleting', true));
     const body = {ids: [id]};
     yield call(req.removeRecurringInvoice, body);
     yield put({type: types.REMOVE_RECURRING_INVOICE_SUCCESS, payload: id});
     navigation.goBack(null);
+    showNotification({message: t('notification.recurring_invoice_deleted')});
   } catch (e) {
-    onFail?.(e);
+    handleError(e);
   } finally {
     yield put(spinner('isDeleting', false));
   }
