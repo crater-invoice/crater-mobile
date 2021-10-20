@@ -20,12 +20,9 @@ const initialState = {
   items: [],
   errors: null,
   isLoading: false,
-  loading: {
-    estimatesLoading: false,
-    estimateLoading: false,
-    initEstimateLoading: false,
-    removeEstimateLoading: false
-  },
+  isDeleting: false,
+  isSaving: false,
+  isFetchingInitialData: false,
   estimateData: {
     estimate: null,
     estimateTemplates: [],
@@ -81,7 +78,7 @@ export default function estimatesReducer(state = initialState, action) {
       return {...state, ...payload};
 
     case ESTIMATES_TRIGGER_SPINNER:
-      return {...state, loading: {...state.loading, ...payload}};
+      return {...state, [payload.name]: payload.value};
 
     case SET_ITEMS:
       const {items} = payload;

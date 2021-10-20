@@ -56,8 +56,6 @@ type IProps = {
   getCustomers: Function,
   getItems: Function,
   editEstimate: Boolean,
-  initLoading: Boolean,
-  loading: Boolean,
   estimateData: Object,
   items: Object,
   type: String,
@@ -70,6 +68,7 @@ type IStates = {
   markAsStatus: string,
   isLoading: boolean
 };
+
 export class Estimate extends React.Component<IProps, IStates> {
   estimateRefs: any;
   sendMailRef: any;
@@ -105,9 +104,7 @@ export class Estimate extends React.Component<IProps, IStates> {
 
     if (!isEditScreen) {
       getCreateEstimate({
-        onSuccess: () => {
-          this.setState({isLoading: false});
-        }
+        onSuccess: () => this.setState({isLoading: false})
       });
       return;
     }
@@ -162,13 +159,13 @@ export class Estimate extends React.Component<IProps, IStates> {
       createEstimate,
       navigation,
       editEstimate,
-      initLoading,
+      isFetchingInitialData,
       id,
       withLoading,
       estimateData: {estimateTemplates = []} = {}
     } = this.props;
 
-    if (this.state.isLoading || initLoading || withLoading) {
+    if (this.state.isLoading || isFetchingInitialData || withLoading) {
       return;
     }
 
@@ -387,7 +384,7 @@ export class Estimate extends React.Component<IProps, IStates> {
       selectedItems,
       getItems,
       items,
-      initLoading,
+      isFetchingInitialData,
       withLoading,
       getCustomers,
       customers,
@@ -396,7 +393,7 @@ export class Estimate extends React.Component<IProps, IStates> {
       isEditScreen,
       isAllowToEdit,
       isAllowToDelete,
-      loading,
+      isSaving,
       notes,
       getNotes
     } = this.props;
@@ -410,12 +407,12 @@ export class Estimate extends React.Component<IProps, IStates> {
     let hasCompleteStatus = markAsStatus === 'COMPLETED';
 
     const dropdownOptions =
-      isEditScreen && !initLoading
+      isEditScreen && !isFetchingInitialData
         ? EDIT_ESTIMATE_ACTIONS(markAsStatus, isAllowToDelete)
         : [];
 
     let drownDownProps =
-      isEditScreen && !initLoading
+      isEditScreen && !isFetchingInitialData
         ? {
             options: dropdownOptions,
             onSelect: this.onOptionSelect,
@@ -443,13 +440,13 @@ export class Estimate extends React.Component<IProps, IStates> {
         onPress: handleSubmit(this.downloadEstimate),
         type: 'btn-outline',
         show: isAllowToEdit,
-        loading: loading || isLoading
+        loading: isSaving || isLoading
       },
       {
         label: 'button.save',
         onPress: handleSubmit(this.saveEstimate),
         show: isAllowToEdit,
-        loading: loading || isLoading
+        loading: isSaving || isLoading
       }
     ];
 
@@ -470,7 +467,7 @@ export class Estimate extends React.Component<IProps, IStates> {
           })
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}
-        loadingProps={{is: isLoading || initLoading || withLoading}}
+        loadingProps={{is: isLoading || isFetchingInitialData || withLoading}}
         contentProps={{withLoading}}
         dropdownProps={drownDownProps}
         bodyStyle={`px-22 pt-10 pb-15 opacity-${withLoading ? 80 : 100}`}

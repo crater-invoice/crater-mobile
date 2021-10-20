@@ -52,8 +52,8 @@ const mapStateToProps = (state, {route}) => {
     isEmpty(invoiceTemplates);
 
   return {
-    initLoading: isLoading,
-    loading: isSaving,
+    isFetchingInitialData: isLoading,
+    isSaving,
     withLoading: invoices.isLoading || isDeleting,
     selectedItems,
     invoiceData,

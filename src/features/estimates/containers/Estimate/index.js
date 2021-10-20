@@ -28,7 +28,13 @@ const mapStateToProps = (state, {route}) => {
   const {
     common: {taxTypes, currency},
     estimates,
-    estimates: {loading, selectedItems, estimateData},
+    estimates: {
+      isFetchingInitialData,
+      isSaving,
+      isDeleting,
+      selectedItems,
+      estimateData
+    },
     more: {items},
     customers: {customers},
     settings: {notes, customFields}
@@ -45,14 +51,14 @@ const mapStateToProps = (state, {route}) => {
   const isEditScreen = permissions.isEditScreen;
 
   const isLoading =
-    loading?.initEstimateLoading ||
+    isFetchingInitialData ||
     (isEditScreen && !estimate) ||
     isEmpty(estimateTemplates);
 
   return {
-    initLoading: isLoading,
-    loading: loading?.estimateLoading,
-    withLoading: estimates.isLoading || loading?.removeEstimateLoading,
+    isFetchingInitialData: isLoading,
+    isSaving,
+    withLoading: estimates.isLoading || isDeleting,
     selectedItems,
     estimateData,
     items,
