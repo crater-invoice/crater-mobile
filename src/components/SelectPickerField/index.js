@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import {connect} from 'react-redux';
 import {colors} from '@/styles';
-import {hasValue} from '@/constants';
+import {hasTextLength, hasValue} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseSelect} from '@/components';
 
@@ -119,11 +119,12 @@ class Picker extends Component<IProps> {
           disabled={disabled}
           rightIcon={'angle-down'}
           disabled={disabled}
-          values={
-            hasValue(selectedLabel)
-              ? selectedLabel
-              : defaultPickerOptions.displayLabel || defaultPickerOptions.label
+          placeholder={
+            defaultPickerOptions?.displayLabel ||
+            defaultPickerOptions?.label ||
+            label
           }
+          values={hasTextLength(selectedLabel) ? selectedLabel : null}
         />
       </RNPickerSelect>
     );
