@@ -31,7 +31,7 @@ const addressParams = address => {
 };
 
 export function* getCustomers({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
     const options = {path: `customers?${queryStrings.stringify(queryString)}`};
     const response = yield call([Request, 'get'], options);

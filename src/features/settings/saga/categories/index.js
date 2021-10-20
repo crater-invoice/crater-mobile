@@ -20,7 +20,7 @@ import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 
 export function* getExpenseCategories({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
     const options = {
       path: `categories?${queryStrings.stringify(queryString)}`

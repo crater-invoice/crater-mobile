@@ -85,7 +85,7 @@ const Layout = (props: IProps) => {
             noBorder
             hasCircle
             {...((headerProps?.leftIcon || headerProps?.leftIconPress) && {
-              leftArrow: 'secondary'
+              leftArrow: 'primary'
             })}
             containerStyle={styles.header}
             {...headerProps}

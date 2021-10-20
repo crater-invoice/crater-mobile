@@ -18,7 +18,7 @@ import Dropdown from '../Dropdown';
 import {styles} from './styles';
 import {Text} from '../Text';
 import {CacheImage} from '../CacheImage';
-import {Label} from '../Label';
+import {BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 
 interface IProps {
@@ -394,9 +394,7 @@ class Picker extends Component<IProps, IStates> {
 
     return (
       <View style={[styles.mainContainer, containerStyle]}>
-        <Label theme={theme} style={styles.label}>
-          {label}
-        </Label>
+        <BaseLabel style={styles.label}>{label}</BaseLabel>
 
         <Dropdown
           ref={this.actionSheet}

@@ -75,18 +75,7 @@ export default StyleSheet.create({
     })
   },
   validation: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    marginBottom: -6,
-    paddingVertical: 2,
-    paddingHorizontal: 5,
-    borderRadius: 2,
-    overflow: 'hidden',
-    flex: 1,
-    zIndex: 100,
-    backgroundColor: colors.danger
+    marginTop: -10
   },
   inputError: {
     borderColor: colors.dangerLight
@@ -131,7 +120,7 @@ export default StyleSheet.create({
     paddingLeft: 0
   },
   prefixInputFieldStyle: {
-    marginTop: -15,
+    marginTop: -8,
     marginBottom: -10,
     ...(isAndroidPlatform && {
       marginTop: -16

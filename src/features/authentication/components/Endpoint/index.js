@@ -31,7 +31,6 @@ type IProps = {
   value: String,
   items: Object,
   rightIcon: String,
-  loading: Boolean,
   checkEndpointApi: Function,
   navigation: any,
   skipEndpoint: boolean,
@@ -44,8 +43,8 @@ export class Endpoint extends Component<IProps> {
   constructor(props) {
     super(props);
     this.state = {
-      isFocus: false,
-      isKeyboardVisible: false
+      isKeyboardVisible: false,
+      isLoading: false
     };
   }
 
@@ -63,23 +62,18 @@ export class Endpoint extends Component<IProps> {
     this.keyboardDidHideListener.remove();
   }
 
-  onSetEndpointApi = ({endpointURL}) => {
-    this.setState({isFocus: false});
+  onSetEndpointApi = async ({endpointURL}) => {
+    await this.setState({isLoading: true});
 
     const {checkEndpointApi, navigation} = this.props;
-    let URL = endpointURL;
+    const URL = endpointURL;
 
     checkEndpointApi({
       endpointURL: !(URL.charAt(URL.length - 1) === '/')
         ? URL
         : URL.slice(0, -1),
-      onResult: val => {
-        !val
-          ? alertMe({
-              title: t('endpoint.alertInvalidUrl')
-            })
-          : navigation.navigate(routes.LOGIN);
-      }
+      navigation,
+      onResult: () => this.setState({isLoading: false})
     });
   };
 
@@ -87,14 +81,8 @@ export class Endpoint extends Component<IProps> {
     this.props.navigation.goBack(null);
   };
 
-  toggleFocus = () => {
-    this.setState(prevState => {
-      return {isFocus: !prevState.isFocus};
-    });
-  };
-
   render() {
-    const {handleSubmit, skipEndpoint = false, loading, theme} = this.props;
+    const {handleSubmit, skipEndpoint = false, theme} = this.props;
 
     const {isKeyboardVisible} = this.state;
     const isIPhone = isIPhoneX();
@@ -168,7 +156,6 @@ export class Endpoint extends Component<IProps> {
                   onSubmitEditing={handleSubmit(this.onSetEndpointApi)}
                   placeholder={t('endpoint.urlPlaceHolder')}
                   keyboardType={keyboardType.URL}
-                  onFocus={() => this.toggleFocus()}
                   inputContainerStyle={styles.inputField}
                 />
                 <Text
@@ -183,7 +170,7 @@ export class Endpoint extends Component<IProps> {
               <CtGradientButton
                 onPress={handleSubmit(this.onSetEndpointApi)}
                 btnTitle={t('button.save')}
-                loading={this.state.isFocus ? false : loading}
+                loading={this.state.isLoading}
                 style={styles.buttonStyle}
                 buttonContainerStyle={styles.buttonContainer}
               />

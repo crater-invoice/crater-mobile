@@ -10,8 +10,6 @@ import {spinner} from './actions';
 function* fetchItems({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
 
-  yield put(spinner({itemsLoading: true}));
-
   try {
     const options = {
       path: `items?${queryStrings.stringify(queryString)}`
@@ -27,8 +25,6 @@ function* fetchItems({payload}) {
     onSuccess?.(response);
   } catch (e) {
     onFail?.();
-  } finally {
-    yield put(spinner({itemsLoading: false}));
   }
 }
 
@@ -78,10 +74,7 @@ function* addItem({payload: {item, onResult, setItems}}) {
     yield put(setItems({items}));
 
     onResult?.();
-  } catch (e) {
-  } finally {
-    yield put(spinner({createInvoiceItemLoading: false}));
-  }
+  } catch (e) {}
 }
 
 /**
@@ -89,8 +82,6 @@ function* addItem({payload: {item, onResult, setItems}}) {
  * @returns {IterableIterator<*>}
  */
 function* updateItem({payload: {item, onResult}}) {
-  yield put(spinner({createInvoiceItemLoading: true}));
-
   try {
     const {price, name, description, item_id} = item;
 
@@ -117,10 +108,7 @@ function* updateItem({payload: {item, onResult}}) {
     yield put(setInvoiceItems({invoiceItem}));
 
     onResult?.();
-  } catch (e) {
-  } finally {
-    yield put(spinner({createInvoiceItemLoading: false}));
-  }
+  } catch (e) {}
 }
 
 /**
@@ -128,15 +116,10 @@ function* updateItem({payload: {item, onResult}}) {
  * @returns {IterableIterator<*>}
  */
 function* removeItem({payload}) {
-  yield put(spinner({removeItemLoading: true}));
-
   try {
     yield put(removeInvoiceItem({id}));
     onResult?.();
-  } catch (e) {
-  } finally {
-    yield put(spinner({removeItemLoading: false}));
-  }
+  } catch (e) {}
 }
 
 export default function* itemsSaga() {

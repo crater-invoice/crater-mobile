@@ -6,7 +6,7 @@ import t from 'locales/use-translation';
 import {routes} from './navigation-routes';
 import {fonts} from '@/styles';
 import {AssetSvg} from '@/components';
-import {defineSize, isEmpty} from '@/constants';
+import {defineSize} from '@/constants';
 import {PermissionService} from '@/services';
 import {
   CUSTOMERS_ICON,

@@ -13,10 +13,7 @@ import {
 
 const mapStateToProps = state => {
   const {
-    invoices: {
-      invoices,
-      loading: {invoicesLoading}
-    }
+    invoices: {invoices}
   } = state;
   const theme = state.common?.theme;
 
@@ -25,7 +22,6 @@ const mapStateToProps = state => {
     dueInvoices: getDueInvoicesState({invoices, theme}),
     draftInvoices: getDraftInvoicesState({invoices, theme}),
     allInvoices: getAllInvoicesState({invoices, theme}),
-    loading: invoicesLoading,
     customers: state.customers?.customers,
     formValues: getFormValues(INVOICE_SEARCH)(state) || {},
     ...commonSelector(state)

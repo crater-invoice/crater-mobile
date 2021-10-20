@@ -4,13 +4,11 @@ import {
   LOGIN_SUCCESS,
   SOCIAL_LOGIN,
   SAVE_ID_TOKEN,
-  AUTH_TRIGGER_SPINNER,
   SEND_FORGOT_PASSWORD_MAIL,
   GET_BOOTSTRAP,
   SET_BOOTSTRAP,
   RESET_ID_TOKEN,
   CHECK_ENDPOINT_API,
-  RESET_AUTH_LOADERS,
   BIOMETRY_AUTH_LOGIN,
   LOGOUT_SUCCESS
 } from '../constants';
@@ -49,16 +47,6 @@ export const saveIdToken = (payload = {}) => ({
 
 export const resetIdToken = () => ({
   type: RESET_ID_TOKEN
-});
-
-export const authTriggerSpinner = payload => ({
-  type: AUTH_TRIGGER_SPINNER,
-  payload
-});
-
-export const resetAuthLoaders = (payload = {}) => ({
-  type: RESET_AUTH_LOADERS,
-  payload
 });
 
 export const sendForgotPasswordMail = payload => ({

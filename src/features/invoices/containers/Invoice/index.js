@@ -31,7 +31,14 @@ const getSelectedTemplate = (templates, form, isEditScreen) => {
 const mapStateToProps = (state, {route}) => {
   const {
     common: {taxTypes, currency},
-    invoices: {loading, selectedItems, invoiceData},
+    invoices,
+    invoices: {
+      isFetchingInitialData,
+      isDeleting,
+      isSaving,
+      selectedItems,
+      invoiceData
+    },
     settings: {notes, customFields},
     more: {items},
     customers: {customers}
@@ -44,20 +51,19 @@ const mapStateToProps = (state, {route}) => {
   const isEditScreen = permissions.isEditScreen;
 
   const isLoading =
-    loading?.initInvoiceLoading ||
+    isFetchingInitialData ||
     (isEditScreen && !invoice) ||
     isEmpty(invoiceTemplates);
 
   return {
-    initLoading: isLoading,
-    loading: loading?.invoiceLoading,
-    withLoading: loading?.changeStatusLoading || loading?.removeInvoiceLoading,
+    isFetchingInitialData: isLoading,
+    isSaving,
+    withLoading: invoices.isLoading || isDeleting,
     selectedItems,
     invoiceData,
     items,
     notes,
     customers,
-    itemsLoading: loading?.itemsLoading,
     formValues: getFormValues(INVOICE_FORM)(state) || {},
     taxTypes,
     currency,

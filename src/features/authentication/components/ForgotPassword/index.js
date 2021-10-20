@@ -22,8 +22,6 @@ type IProps = {
   navigation: Object,
   sendForgotPasswordMail: Function,
   handleSubmit: Function,
-  loading: Boolean,
-  socialLoading: Boolean,
   locale: String
 };
 export class ForgotPassword extends React.Component<IProps> {
@@ -33,7 +31,8 @@ export class ForgotPassword extends React.Component<IProps> {
     this.state = {
       email: '',
       isMailSended: false,
-      isKeyboardVisible: false
+      isKeyboardVisible: false,
+      isLoading: false
     };
   }
 
@@ -51,20 +50,16 @@ export class ForgotPassword extends React.Component<IProps> {
     this.keyboardDidHideListener.remove();
   }
 
-  onSendMail = ({email}) => {
-    const {sendForgotPasswordMail, navigation} = this.props;
+  onSendMail = async ({email}) => {
+    const {sendForgotPasswordMail} = this.props;
+
+    await this.setState({isLoading: true});
 
     sendForgotPasswordMail({
       email,
-      navigation,
-      onResult: val => {
-        if (val) {
-          this.setState({
-            email,
-            isMailSended: true
-          });
-        }
-      }
+      onSuccess: () =>
+        this.setState({email, isMailSended: true, isLoading: false}),
+      onFail: () => this.setState({isLoading: false})
     });
   };
 
@@ -74,7 +69,7 @@ export class ForgotPassword extends React.Component<IProps> {
   };
 
   render() {
-    const {handleSubmit, navigation, loading, theme} = this.props;
+    const {handleSubmit, navigation, theme} = this.props;
     const {isMailSended, isKeyboardVisible} = this.state;
 
     return (
@@ -170,7 +165,7 @@ export class ForgotPassword extends React.Component<IProps> {
                 <CtGradientButton
                   onPress={handleSubmit(this.onSendMail)}
                   btnTitle={t('button.recoveryEmail')}
-                  loading={loading}
+                  loading={this.state.isLoading}
                   style={styles.buttonStyle}
                   buttonContainerStyle={styles.buttonContainer}
                 />
@@ -178,7 +173,7 @@ export class ForgotPassword extends React.Component<IProps> {
                 <CtGradientButton
                   onPress={this.resendMail}
                   btnTitle={t('button.recoveryEmailAgain')}
-                  loading={loading}
+                  loading={this.state.isLoading}
                   style={styles.buttonStyle}
                   buttonContainerStyle={styles.buttonContainer}
                 />

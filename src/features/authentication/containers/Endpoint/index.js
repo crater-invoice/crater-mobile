@@ -13,7 +13,6 @@ const mapStateToProps = (state, {route}) => {
   return {
     skipEndpoint,
     CRATER_URL,
-    loading: state?.auth?.loading?.pingEndpointLoading,
     ...commonSelector(state),
     initialValues: {
       // endpointURL: CRATER_URL

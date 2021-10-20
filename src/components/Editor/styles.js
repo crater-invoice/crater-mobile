@@ -56,18 +56,21 @@ const styles = StyleSheet.create({
     paddingLeft: 4
   },
   insertFields: {
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
+    paddingBottom: 4
   },
   pencilIconView: {
     justifyContent: 'center',
-    paddingRight: 5
+    paddingRight: 5,
+    paddingBottom: 4
   },
   eyeIconView: {
     paddingLeft: 10,
-    paddingRight: 5
+    paddingRight: 5,
+    paddingBottom: 2
   },
   htmlView: theme => ({
-    marginTop: 17,
+    marginTop: 10,
     marginHorizontal: 0,
     minHeight: 152,
     borderWidth: 0.5,

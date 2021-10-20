@@ -16,7 +16,7 @@ import {
 } from '../constants';
 
 function* getItems({payload}) {
-  const {fresh, onSuccess, onFail, queryString} = payload;
+  const {fresh = true, onSuccess, onFail, queryString} = payload;
   try {
     const options = {path: `items?${queryStrings.stringify(queryString)}`};
     const response = yield call([Request, 'get'], options);

@@ -49,14 +49,6 @@ export const REMOVE_ITEM = 'estimate/REMOVE_ITEM';
 export const ITEM_ADD = 'estimate/ITEM_ADD';
 export const ITEM_EDIT = 'estimate/ITEM_EDIT';
 
-export const ESTIMATE_DISCOUNT_OPTION = [
-  {
-    value: 'percentage',
-    displayLabel: '%',
-    label: 'Percentage'
-  }
-];
-
 export const TAB_NAME = name => {
   return t(`estimates.tabs.${name}`);
 };
