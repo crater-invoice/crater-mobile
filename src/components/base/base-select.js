@@ -5,8 +5,6 @@ import {connect} from 'react-redux';
 import {AssetIcon, BaseError, BaseLabel, ButtonView, Text} from '@/components';
 import {colors} from '@/styles';
 import {commonSelector} from 'stores/common/selectors';
-import t from 'locales/use-translation';
-import {isAndroidPlatform, isIosPlatform} from '@/constants';
 
 const SelectView = props => {
   const {
@@ -17,21 +15,16 @@ const SelectView = props => {
     containerStyle,
     baseSelectContainerStyle,
     rightIcon,
-    leftIcon,
-    fakeInput,
     color,
     values,
     meta,
     valueStyle,
-    loading = false,
     placeholderStyle,
     leftIconStyle,
     isRequired = false,
     leftIconSolid = true,
     disabled = false,
-    prefixProps = null,
     leftSymbol,
-    leftSymbolStyle,
     theme
   } = props;
 
@@ -46,18 +39,26 @@ const SelectView = props => {
     ? theme?.text?.secondaryColor
     : theme?.text?.fifthColor;
 
+  const buttonStyle = [
+    styles.container(theme),
+    baseSelectContainerStyle,
+    meta?.submitFailed && meta?.error && styles.error,
+    disabled && styles.disableView(theme)
+  ];
+
+  const textStyle = [
+    styles.text,
+    values && valueStyle,
+    !values && placeholderStyle
+  ];
+
   return (
     <Container style={containerStyle}>
       <BaseLabel isRequired={isRequired}>{label}</BaseLabel>
       <ButtonView
         onPress={() => onChangeCallback?.()}
         scale={1}
-        style={[
-          styles.container(theme),
-          baseSelectContainerStyle,
-          meta?.submitFailed && meta?.error && styles.error,
-          disabled && styles.disableView(theme)
-        ]}
+        style={buttonStyle}
       >
         {icon && (
           <AssetIcon
@@ -77,11 +78,7 @@ const SelectView = props => {
 
         <Text
           color={textColor}
-          style={[
-            styles.text,
-            values && valueStyle,
-            !values && placeholderStyle
-          ]}
+          style={textStyle}
           numberOfLines={1}
           medium={theme?.mode === 'dark'}
         >

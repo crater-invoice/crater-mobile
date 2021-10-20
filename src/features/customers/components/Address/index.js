@@ -5,13 +5,7 @@ import {CUSTOMER_ADDRESS} from '../../constants';
 import t from 'locales/use-translation';
 import {keyboardType, MAX_LENGTH} from '@/constants';
 import styles from './styles';
-import {
-  SlideModal,
-  FakeInput,
-  InputField,
-  ActionButton,
-  BaseSelect
-} from '@/components';
+import {SlideModal, InputField, ActionButton, BaseSelect} from '@/components';
 import {CountrySelectModal} from '@/select-modal';
 
 type IProps = {

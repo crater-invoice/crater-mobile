@@ -137,7 +137,6 @@ export const FinalAmount: FC<IProps> = props => {
               onChangeCallback={val => {
                 setFormField('discount_type', val);
               }}
-              isFakeInput
               defaultPickerOptions={{
                 label: 'Fixed',
                 value: 'fixed',

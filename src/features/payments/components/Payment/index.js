@@ -7,7 +7,6 @@ import {
   InputField,
   DefaultLayout,
   DatePickerField,
-  FakeInput,
   SendMail,
   CustomField,
   View as CtView,

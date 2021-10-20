@@ -1,28 +1,17 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import {connect} from 'react-redux';
-import styles from './styles';
-import {FakeInput} from '../FakeInput';
-import FakeInputStyle from '../FakeInput/styles';
-import {AssetIcon} from '../AssetIcon';
 import {colors} from '@/styles';
-import {isAndroidPlatform, isIosPlatform} from '@/constants';
+import {hasValue} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
+import {BaseSelect} from '@/components';
 
 type IProps = {
-  hint: string,
-  lightTheme: boolean,
   disabled: boolean,
-  input: {
-    onChange: Function,
-    value: string
-  },
+  input: any,
   meta: Object,
-  baseSelectContainerStyle: Object,
   defaultPickerOptions: Object,
   items: Array<Object>,
-  ref: Function,
   onChangeCallback: Function,
   callbackWhenMount: Function,
   refLinkFn: Function,
@@ -30,10 +19,8 @@ type IProps = {
   doneText: string,
   fieldIcon: string,
   containerStyle: Object,
-  baseSelectValueStyle: Object,
   label: String,
   isRequired: Boolean,
-  isFakeInput: Boolean,
   placeholderTextColor: String
 };
 
@@ -41,7 +28,6 @@ class Picker extends Component<IProps> {
   constructor(props) {
     super(props);
     this.state = {
-      icon: 'angle-down',
       selectedItemValue: ''
     };
   }
@@ -58,16 +44,6 @@ class Picker extends Component<IProps> {
     callbackWhenMount ? callbackWhenMount?.() : onChangeCallback?.(value);
   }
 
-  toggleIcon = () => {
-    if (isAndroidPlatform) {
-      return;
-    }
-    const {icon} = this.state;
-    this.setState({
-      icon: icon === 'angle-down' ? 'angle-up' : 'angle-down'
-    });
-  };
-
   onChange = v => {
     const {
       onChangeCallback,
@@ -80,37 +56,28 @@ class Picker extends Component<IProps> {
     onChangeCallback && onChangeCallback(v);
   };
 
-  onDonePress = selectRef => {
-    const {onDonePress, isFakeInput} = this.props;
-
-    onDonePress && onDonePress();
+  onDonePress = () => {
+    const {onDonePress} = this.props;
+    onDonePress?.();
   };
 
   render() {
     const {
       input: {value},
       meta,
-      hint,
       items,
-      ref,
       disabled,
       isRequired,
       refLinkFn,
       doneText,
       fieldIcon,
       defaultPickerOptions,
-      baseSelectContainerStyle,
-      containerStyle,
       label,
-      isFakeInput,
-      baseSelectValueStyle,
       findValueByForm = true,
-      theme,
       placeholderTextColor = colors.darkGray
     } = this.props;
 
-    const {icon, selectedItemValue} = this.state;
-    let selectRef = null;
+    const {selectedItemValue} = this.state;
     let selected = [];
 
     if (findValueByForm)
@@ -126,132 +93,39 @@ class Picker extends Component<IProps> {
       ...defaultPickerOptions
     };
 
-    const pickerField = (
+    return (
       <RNPickerSelect
         placeholder={defaultPickerOptions && placeHolder}
-        items={items.map(item => ({
-          ...item,
-          color: colors.secondary
-        }))}
-        onValueChange={v => {
-          this.onChange(v);
-        }}
-        style={{
-          inputIOS: {
-            ...styles.inputIOS(theme),
-            ...(disabled ? styles.disabledSelectedValue(theme) : {}),
-            ...(baseSelectContainerStyle && baseSelectContainerStyle),
-            ...(!isFakeInput && {paddingLeft: 41})
-          },
-          inputIOSContainer: {
-            ...(isFakeInput && {display: 'none'})
-          },
-          iconContainer: {
-            top: 13,
-            right: 11
-          },
-          placeholder: {
-            fontSize: 15
-          }
-        }}
-        onOpen={() => this.toggleIcon()}
-        onClose={() => this.toggleIcon()}
+        items={items.map(item => ({...item, color: colors.secondary}))}
+        onValueChange={v => this.onChange(v)}
         value={typeof selectedValue !== 'undefined' && selectedValue}
         placeholderTextColor={placeholderTextColor}
         ref={(dropdownRef = {}) => {
-          refLinkFn &&
-            refLinkFn({
-              ...dropdownRef,
-              focus: () => dropdownRef && dropdownRef.togglePicker()
-            });
-          selectRef = dropdownRef && dropdownRef;
+          refLinkFn?.({
+            ...dropdownRef,
+            focus: () => dropdownRef?.togglePicker?.()
+          });
         }}
-        Icon={() => (
-          <View>
-            <AssetIcon name={icon} size={18} color={colors.darkGray} />
-          </View>
-        )}
-        modalProps={{
-          animationType: 'slide'
-        }}
+        modalProps={{animationType: 'slide'}}
         disabled={disabled}
-        onDonePress={() => this.onDonePress(selectRef)}
+        onDonePress={() => this.onDonePress()}
         doneText={doneText}
       >
-        {!isIosPlatform && (
-          <View
-            style={[
-              styles.fakeInput(theme),
-              baseSelectContainerStyle && baseSelectContainerStyle
-            ]}
-          >
-            <Text
-              darkGray
-              numberOfLines={1}
-              style={[
-                FakeInputStyle.textValue,
-                styles.androidText(theme),
-                baseSelectValueStyle && baseSelectValueStyle,
-                !isFakeInput && {paddingLeft: 39},
-                {
-                  color: !selectedValue
-                    ? colors.darkGray
-                    : theme?.text?.secondaryColor
-                }
-              ]}
-            >
-              {!selectedLabel
-                ? defaultPickerOptions &&
-                  (defaultPickerOptions.displayLabel ||
-                    defaultPickerOptions.label)
-                : selectedLabel}
-            </Text>
-            <AssetIcon
-              name={icon}
-              size={18}
-              color={colors.darkGray}
-              style={styles.rightIcon}
-            />
-          </View>
-        )}
-      </RNPickerSelect>
-    );
-
-    const isFakeDisplay = isIosPlatform && isFakeInput;
-
-    return (
-      <View>
-        <FakeInput
+        <BaseSelect
           meta={meta}
           label={label}
           isRequired={isRequired}
+          icon={fieldIcon}
+          disabled={disabled}
+          rightIcon={'angle-down'}
+          disabled={disabled}
           values={
-            isFakeDisplay
-              ? !selectedLabel
-                ? defaultPickerOptions &&
-                  (defaultPickerOptions.displayLabel ||
-                    defaultPickerOptions.label)
-                : selectedLabel
-              : typeof selectedValue !== 'undefined' && selectedValue
+            hasValue(selectedLabel)
+              ? selectedLabel
+              : defaultPickerOptions.displayLabel || defaultPickerOptions.label
           }
-          fakeInput={!isFakeDisplay && pickerField}
-          baseSelectContainerStyle={
-            isFakeDisplay && {
-              ...styles.inputIOS(theme),
-              ...(disabled ? styles.disabledSelectedValue(theme) : {}),
-              ...(baseSelectContainerStyle && baseSelectContainerStyle)
-            }
-          }
-          leftIcon={fieldIcon}
-          disabled={disabled}
-          valueStyle={baseSelectValueStyle}
-          rightIcon={isFakeDisplay && icon}
-          onChangeCallback={() => isFakeDisplay && selectRef.togglePicker()}
-          containerStyle={containerStyle}
-          disabled={disabled}
         />
-        {isFakeDisplay && pickerField}
-      </View>
+      </RNPickerSelect>
     );
   }
 }

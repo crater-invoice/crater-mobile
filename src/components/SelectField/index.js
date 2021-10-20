@@ -7,7 +7,6 @@ import {IProps, IStates} from './type';
 import {headerTitle} from '@/styles';
 import styles from './styles';
 import {SlideModal} from '../SlideModal';
-import {FakeInput} from '../FakeInput';
 import {CtButton} from '../Button';
 import {hasValue, isEmpty} from '@/constants';
 import {internalSearch as searchItem} from '@/utils';
