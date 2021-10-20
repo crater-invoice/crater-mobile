@@ -74,18 +74,6 @@ export function fetchFiscalYears(payload = {}) {
 }
 
 /**
- * Fetch retrospective-edits
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export function fetchRetrospectives(payload = {}) {
-  return {
-    type: types.FETCH_RETROSPECTIVES,
-    payload
-  };
-}
-
-/**
  * Fetch preferences
  * @param onSuccess
  * @returns {{type: string, payload: *}}

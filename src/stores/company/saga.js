@@ -64,20 +64,6 @@ function* fetchFiscalYears() {
 }
 
 /**
- * fetch Retrospective-edits saga
- * @returns {IterableIterator<*>}
- */
-function* fetchRetrospectives() {
-  try {
-    const {retrospective_edits} = yield call(req.fetchRetrospectives);
-    yield put({
-      type: types.FETCH_RETROSPECTIVES_SUCCESS,
-      payload: retrospective_edits
-    });
-  } catch (e) {}
-}
-
-/**
  * fetch Preferences saga
  * @returns {IterableIterator<*>}
  */
@@ -90,8 +76,7 @@ function* fetchPreferences({payload}) {
       languages,
       timezones,
       dateFormats,
-      fiscalYears,
-      retrospectiveEdits
+      fiscalYears
     } = store.company;
 
     yield isEmpty(currencies) && call(fetchCurrencies);
@@ -99,7 +84,6 @@ function* fetchPreferences({payload}) {
     yield isEmpty(timezones) && call(fetchTimezones);
     yield isEmpty(dateFormats) && call(fetchDateFormats);
     yield isEmpty(fiscalYears) && call(fetchFiscalYears);
-    yield isEmpty(retrospectiveEdits) && call(fetchRetrospectives);
     payload?.onSuccess?.(response);
   } catch (e) {}
 }

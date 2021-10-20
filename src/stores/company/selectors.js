@@ -22,9 +22,11 @@ export const fiscalYearsSelector = createSelector(
 );
 
 export const retrospectiveEditsSelector = createSelector(
-  state => toArray(state, 'retrospectiveEdits'),
+  state => state?.common?.config?.retrospective_edits,
   retrospectiveEdits =>
-    retrospectiveEdits.map(edit => ({title: edit.key, fullItem: edit}))
+    isEmpty(retrospectiveEdits)
+      ? []
+      : retrospectiveEdits.map(edit => ({title: edit.key, fullItem: edit}))
 );
 
 export const loadingSelector = createSelector(
