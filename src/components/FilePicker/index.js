@@ -3,7 +3,6 @@ import {View, TouchableOpacity} from 'react-native';
 import * as Linking from 'expo-linking';
 import * as IntentLauncher from 'expo-intent-launcher';
 import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
 import {connect} from 'react-redux';
 import {AssetIcon} from '../AssetIcon';
@@ -118,9 +117,9 @@ class Picker extends Component<IProps, IStates> {
   };
 
   askGalleryPermission = async () => {
-    const {status} = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+    const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (status !== 'granted') {
+    if (status === 'denied') {
       this.requestToGrantPermission();
       return false;
     }
@@ -129,9 +128,9 @@ class Picker extends Component<IProps, IStates> {
   };
 
   askCameraPermission = async () => {
-    const {status} = await Permissions.askAsync(Permissions.CAMERA);
+    const {status} = await ImagePicker.requestCameraRollPermissionsAsync();
 
-    if (status !== 'granted') {
+    if (status === 'denied') {
       this.requestToGrantPermission();
       return false;
     }
