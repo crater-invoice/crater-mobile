@@ -121,7 +121,7 @@ export const FinalAmount: FC<IProps> = props => {
               name="discount"
               component={InputField}
               keyboardType={keyboardType.DECIMAL}
-              fieldStyle={styles.discountInput}
+              fieldStyle={styles.discountInput(disabled, theme)}
               inputContainerStyle={styles.discountInputContainer}
               disabled={disabled}
               inputProps={{selectTextOnFocus: true}}
@@ -148,16 +148,18 @@ export const FinalAmount: FC<IProps> = props => {
                     <Text
                       h4
                       color={theme.text.darkGray}
-                      style={styles.discountType}
+                      style={styles.discountType(disabled)}
                     >
                       {valuesText ?? placeholderText}
                     </Text>
-                    <AssetIcon
-                      name="caret-down"
-                      size={15}
-                      color={colors.darkGray}
-                      style={{paddingRight: 10}}
-                    />
+                    {!disabled && (
+                      <AssetIcon
+                        name="caret-down"
+                        size={15}
+                        color={colors.darkGray}
+                        style={{paddingRight: 10}}
+                      />
+                    )}
                   </BaseView>
                 </BaseView>
               )}
