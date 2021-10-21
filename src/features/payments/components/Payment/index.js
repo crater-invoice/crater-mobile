@@ -509,6 +509,7 @@ export class Payment extends React.Component<IProps> {
         />
 
         <Notes
+          {...this.props}
           navigation={navigation}
           notes={notes}
           getNotes={getNotes}

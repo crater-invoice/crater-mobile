@@ -418,6 +418,7 @@ export class Item extends React.Component {
           units={units}
           fetchItemUnits={fetchItemUnits}
           onSelect={item => this.setFormField('unit_id', item.id)}
+          disabled={disabled}
         />
 
         {isTaxPerItem && this.TAX_FIELD_VIEW()}

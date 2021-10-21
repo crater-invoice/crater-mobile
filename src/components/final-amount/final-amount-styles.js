@@ -13,13 +13,16 @@ export default styles = StyleSheet.create({
     borderBottomWidth: 0,
     borderTopWidth: 0
   },
-  discountInput: {
+  discountInput: (disabled, theme) => ({
     display: 'flex',
     minWidth: 65,
     marginTop: 0,
     marginBottom: 0,
-    justifyContent: 'center'
-  },
+    justifyContent: 'center',
+    ...(disabled && {
+      backgroundColor: theme?.input?.disableBackgroundColor
+    })
+  }),
   discountField: theme => ({
     flexDirection: 'row',
     borderWidth: 1,
@@ -32,10 +35,10 @@ export default styles = StyleSheet.create({
     borderLeftWidth: 1,
     borderColor: theme.input.borderColor
   }),
-  discountType: {
+  discountType: disabled => ({
     paddingLeft: 15,
-    paddingRight: 10
-  },
+    paddingRight: !disabled ? 10 : 20
+  }),
   amountContainer: theme => ({
     borderWidth: 0.8,
     borderColor: theme?.input?.borderColor,

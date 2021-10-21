@@ -62,6 +62,7 @@ const SelectView = props => {
       <BaseLabel isRequired={isRequired}>{label}</BaseLabel>
       <ButtonView
         onPress={() => onChangeCallback?.()}
+        disabled={disabled}
         scale={1}
         style={buttonStyle}
       >

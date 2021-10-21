@@ -97,14 +97,16 @@ export class ItemField extends React.Component<IProps> {
       theme,
       currency,
       navigation,
-      disabled,
       discount_per_item,
       tax_per_item,
+      isAllowToEdit,
       screen
     } = this.props;
+    const disabled = !isAllowToEdit;
+
     return (
       <>
-        <BaseLabel isRequired theme={theme} style={styles.label}>
+        <BaseLabel isRequired style={styles.label}>
           {t('invoices.items')}
         </BaseLabel>
 

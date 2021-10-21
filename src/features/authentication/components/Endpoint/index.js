@@ -17,8 +17,12 @@ import {
   Text
 } from '@/components';
 import t from 'locales/use-translation';
-import {routes} from '@/navigation';
-import {alertMe, isIosPlatform, isIPhoneX, keyboardType} from '@/constants';
+import {
+  hasTextLength,
+  isIosPlatform,
+  isIPhoneX,
+  keyboardType
+} from '@/constants';
 import {isRTL, STATUS_BAR_CONTENT} from '@/utils';
 
 type IProps = {
@@ -63,6 +67,10 @@ export class Endpoint extends Component<IProps> {
   }
 
   onSetEndpointApi = async ({endpointURL}) => {
+    if (!hasTextLength(endpointURL)) {
+      return;
+    }
+
     await this.setState({isLoading: true});
 
     const {checkEndpointApi, navigation} = this.props;

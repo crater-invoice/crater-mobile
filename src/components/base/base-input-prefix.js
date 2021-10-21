@@ -37,7 +37,7 @@ const InputPrefix = props => {
         />
         <Text
           color={theme?.input?.color}
-          style={styles.text}
+          style={styles.text(props)}
           numberOfLines={1}
           medium={theme?.mode === 'dark'}
         >
@@ -80,10 +80,13 @@ const styles = StyleSheet.create({
   leftIcon: {
     paddingLeft: 15
   },
-  text: {
+  text: props => ({
     paddingLeft: 13,
-    fontSize: 15
-  },
+    fontSize: 15,
+    ...(props.disabled && {
+      opacity: props.theme?.mode === 'dark' ? 0.9 : 0.6
+    })
+  }),
   validation: {
     marginTop: -10
   },

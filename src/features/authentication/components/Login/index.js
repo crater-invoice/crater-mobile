@@ -23,6 +23,7 @@ import {biometricAuthentication, STATUS_BAR_CONTENT} from '@/utils';
 import {INVOICE_SEARCH as INVOICES_FORM} from '@/features/invoices/constants';
 import {
   BIOMETRY_AUTH_TYPES,
+  hasObjectLength,
   hasValue,
   isIosPlatform,
   isIPhoneX,
@@ -66,6 +67,10 @@ export class Login extends React.Component<IProps> {
   };
 
   onSubmit = async values => {
+    if (!hasObjectLength(values)) {
+      return;
+    }
+
     const {login} = this.props;
     await this.setState({isLoading: true});
     const onResult = () => this.setState({isLoading: false});
