@@ -16,7 +16,12 @@ import {
   Text
 } from '@/components';
 import t from 'locales/use-translation';
-import {isIPhoneX, keyboardReturnKeyType, keyboardType} from '@/constants';
+import {
+  hasTextLength,
+  isIPhoneX,
+  keyboardReturnKeyType,
+  keyboardType
+} from '@/constants';
 
 type IProps = {
   navigation: Object,
@@ -51,6 +56,10 @@ export class ForgotPassword extends React.Component<IProps> {
   }
 
   onSendMail = async ({email}) => {
+    if (!hasTextLength(email)) {
+      return;
+    }
+
     const {sendForgotPasswordMail} = this.props;
 
     await this.setState({isLoading: true});

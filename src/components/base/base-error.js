@@ -5,6 +5,7 @@ import {Text} from '@/components';
 import {colors} from '@/styles';
 import {commonSelector} from 'stores/common/selectors';
 import t from 'locales/use-translation';
+import {isAndroidPlatform} from '@/constants';
 
 export const Error = props => {
   const {
@@ -36,11 +37,15 @@ const styles = StyleSheet.create({
   validation: {
     paddingVertical: 2,
     paddingHorizontal: 5,
-    borderRadius: 2,
+    borderRadius: 3,
     overflow: 'hidden',
     flex: 1,
     zIndex: 100,
-    backgroundColor: colors.danger
+    backgroundColor: colors.danger,
+    justifyContent: 'center',
+    ...(isAndroidPlatform && {
+      paddingBottom: 1
+    })
   }
 });
 

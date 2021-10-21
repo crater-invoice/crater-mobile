@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import {showMessage} from '@/components';
 import {colors} from '@/styles';
 import {fontSizes, fonts} from '@/styles/fonts';
-import {isIosPlatform} from '@/constants';
+import {isAndroidPlatform, isIosPlatform} from '@/constants';
 
 type MessageType =
   | 'none'
@@ -49,6 +49,7 @@ export const showNotification = ({
     titleStyle: styles.title(_type),
     descriptionStyle: styles.message(_type),
     floating: true,
+    style: styles.notification,
     ...additionalParams,
     ...rest
   });
@@ -63,6 +64,11 @@ const styles = StyleSheet.create({
   bgColor: type => ({
     backgroundColor: bgColor[type]
   }),
+  notification: {
+    ...(isAndroidPlatform && {
+      marginTop: 30
+    })
+  },
   title: type => ({
     fontFamily: fonts.medium,
     fontSize: fontSizes.h5,
