@@ -31,7 +31,7 @@ export type IProps = {
   meta: any,
   headerProps: any,
   input: any,
-  fakeInputProps: any,
+  baseSelectProps: any,
   onlyPlaceholder: any,
   listViewProps: any,
   searchInputProps: any,

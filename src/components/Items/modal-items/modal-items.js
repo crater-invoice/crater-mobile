@@ -70,6 +70,25 @@ export class ItemField extends React.Component<IProps> {
     });
   };
 
+  onSelect = item => {
+    const {
+      navigation,
+      currency,
+      screen,
+      discount_per_item,
+      tax_per_item
+    } = this.props;
+
+    navigation.navigate(routes.CREATE_ITEM, {
+      item,
+      screen,
+      currency,
+      type: 'ADD',
+      tax_per_item,
+      discount_per_item
+    });
+  };
+
   render() {
     const {
       selectedItems,
@@ -78,14 +97,16 @@ export class ItemField extends React.Component<IProps> {
       theme,
       currency,
       navigation,
-      disabled,
       discount_per_item,
       tax_per_item,
+      isAllowToEdit,
       screen
     } = this.props;
+    const disabled = !isAllowToEdit;
+
     return (
       <>
-        <BaseLabel isRequired theme={theme} style={styles.label}>
+        <BaseLabel isRequired style={styles.label}>
           {t('invoices.items')}
         </BaseLabel>
 
@@ -114,7 +135,7 @@ export class ItemField extends React.Component<IProps> {
           getItems={getItems}
           component={ItemSelectModal}
           disabled={disabled}
-          onSelect={this.onEditItem}
+          onSelect={this.onSelect}
           rightIconPress={() =>
             navigation.navigate(routes.CREATE_ITEM, {
               screen,

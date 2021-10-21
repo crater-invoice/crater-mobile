@@ -4,9 +4,9 @@ import styles from './styles';
 import {
   DefaultLayout,
   DatePickerField,
-  SelectPickerField,
   View as CtView,
-  ActionButton
+  ActionButton,
+  BaseDropdownPicker
 } from '@/components';
 import {
   REPORT_FORM,
@@ -288,12 +288,11 @@ export class Report extends React.Component<IProps> {
         <Field
           name="date_range"
           label={t('reports.dateRange')}
-          component={SelectPickerField}
+          component={BaseDropdownPicker}
           isRequired
           fieldIcon="calendar-week"
           items={DATE_RANGE_OPTION()}
           onChangeCallback={this.onDateRangeChange}
-          fakeInputContainerStyle={styles.selectPickerField}
         />
 
         <CtView flex={1} flex-row>
@@ -332,13 +331,12 @@ export class Report extends React.Component<IProps> {
           <Field
             name="report_type"
             label={t('reports.reportType')}
-            component={SelectPickerField}
+            component={BaseDropdownPicker}
             fieldIcon="vial"
             items={REPORT_TYPE_OPTION()}
             onChangeCallback={val => {
               this.setFormField('report_type', val);
             }}
-            fakeInputContainerStyle={styles.selectPickerField}
           />
         )}
       </DefaultLayout>

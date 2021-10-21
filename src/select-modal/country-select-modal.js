@@ -72,8 +72,7 @@ export const CountrySelectModal = (props: IProps) => {
       }}
       listViewProps={{contentContainerStyle: {flex: 7}}}
       emptyContentProps={{contentType: 'countries'}}
-      fakeInputProps={{disabled}}
-      fakeInputProps={{
+      baseSelectProps={{
         leftSymbol: getSelectedCountrySymbol(),
         leftSymbolStyle: {color: theme?.icons?.secondaryColor},
         disabled

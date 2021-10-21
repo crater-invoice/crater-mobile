@@ -6,7 +6,6 @@ const initialState = {
   dateFormats: [],
   fiscalYears: [],
   currencies: [],
-  retrospectiveEdits: [],
   isSaving: false
 };
 
@@ -31,9 +30,6 @@ export default function companyReducer(state = initialState, action) {
 
     case types.FETCH_FISCAL_YEARS_SUCCESS:
       return {...state, fiscalYears: payload};
-
-    case types.FETCH_RETROSPECTIVES_SUCCESS:
-      return {...state, retrospectiveEdits: payload};
 
     default:
       return state;

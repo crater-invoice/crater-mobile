@@ -28,6 +28,7 @@ import {
   dismissKeyboard,
   hasTextLength,
   hasValue,
+  hitSlop,
   isEmpty,
   SCREEN_WIDTH
 } from '@/constants';
@@ -362,74 +363,61 @@ class EditorComponent extends Component<IProps, IStates> {
         <View style={{flex: 1}}>
           <BaseLabel isRequired={isRequired}>{t(this.props.label)}</BaseLabel>
         </View>
-        <Animated.View
-          style={[styles.rowCenter, {opacity: this.animatedOpacityReverse}]}
-        >
-          {preview ? (
-            <TouchableOpacity
-              onPress={this.togglePreview}
-              hitSlop={{
-                top: 20,
-                left: 25,
-                bottom: 20,
-                right: 20
-              }}
-            >
-              <View style={styles.pencilIconView}>
-                <AssetSvg
-                  name={AssetSvg.icons.pencil}
-                  width={19}
-                  height={19}
-                  fill={colors.primaryLight}
-                />
-              </View>
-            </TouchableOpacity>
-          ) : (
-            <>
-              {customRightLabelComponent && customRightLabelComponent}
-              {hasFields && (
-                <TouchableOpacity
-                  onPress={this.onToggleModal}
-                  hitSlop={{
-                    top: 10,
-                    left: 5,
-                    bottom: 10,
-                    right: 5
-                  }}
-                >
-                  <Text
-                    h5
-                    medium={theme?.mode === 'dark'}
-                    style={styles.insertFields}
-                    color={theme?.viewLabel?.thirdColor}
-                  >
-                    {t('notes.insertFields')}
-                  </Text>
-                </TouchableOpacity>
-              )}
-
-              {hasValue(value) && hasTextLength(value) && (
-                <TouchableOpacity
-                  onPress={this.togglePreview}
-                  style={styles.eyeIconView}
-                  hitSlop={{
-                    top: 20,
-                    left: 10,
-                    bottom: 30,
-                    right: 10
-                  }}
-                >
+        {!disabled && (
+          <Animated.View
+            style={[styles.rowCenter, {opacity: this.animatedOpacityReverse}]}
+          >
+            {preview ? (
+              <TouchableOpacity
+                onPress={this.togglePreview}
+                hitSlop={hitSlop(20, 25, 20, 20)}
+              >
+                <View style={styles.pencilIconView}>
                   <AssetSvg
-                    name={AssetSvg.icons.eye}
-                    width={24}
-                    height={24}
+                    name={AssetSvg.icons.pencil}
+                    width={19}
+                    height={19}
                     fill={colors.primaryLight}
                   />
-                </TouchableOpacity>
-              )}
-            </>
-          )}
-        </Animated.View>
+                </View>
+              </TouchableOpacity>
+            ) : (
+              <>
+                {customRightLabelComponent && customRightLabelComponent}
+                {hasFields && (
+                  <TouchableOpacity
+                    onPress={this.onToggleModal}
+                    hitSlop={hitSlop(10, 5, 10, 5)}
+                  >
+                    <Text
+                      h5
+                      medium={theme?.mode === 'dark'}
+                      style={styles.insertFields}
+                      color={theme?.viewLabel?.thirdColor}
+                    >
+                      {t('notes.insertFields')}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+
+                {hasValue(value) && hasTextLength(value) && (
+                  <TouchableOpacity
+                    onPress={this.togglePreview}
+                    style={styles.eyeIconView}
+                    hitSlop={hitSlop(20, 10, 30, 10)}
+                  >
+                    <AssetSvg
+                      name={AssetSvg.icons.eye}
+                      width={24}
+                      height={24}
+                      fill={colors.primaryLight}
+                    />
+                  </TouchableOpacity>
+                )}
+              </>
+            )}
+          </Animated.View>
+        )}
       </View>
     );
 

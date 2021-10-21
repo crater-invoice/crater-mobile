@@ -75,3 +75,10 @@ export function toObject(arr) {
 
   return output;
 }
+
+export const hitSlop = (top, left, bottom, right) => ({
+  top,
+  left,
+  bottom,
+  right
+});

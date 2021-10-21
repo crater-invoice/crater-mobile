@@ -7,29 +7,38 @@ export default styles = StyleSheet.create({
   discount: {
     marginTop: 10
   },
-  selectPickerField: theme => ({
-    backgroundColor: theme?.card?.primary?.bgColor,
-    paddingRight: 15,
-    paddingLeft: 5,
-    ...Platform.select({
-      ios: {
-        paddingRight: 30
-      }
-    }),
+  discountInputContainer: {
+    borderRightWidth: 0,
     borderLeftWidth: 0,
-    ...(theme?.mode === 'dark' && {
-      borderColor: colors.gray5
+    borderBottomWidth: 0,
+    borderTopWidth: 0
+  },
+  discountInput: (disabled, theme) => ({
+    display: 'flex',
+    minWidth: 65,
+    marginTop: 0,
+    marginBottom: 0,
+    justifyContent: 'center',
+    ...(disabled && {
+      backgroundColor: theme?.input?.disableBackgroundColor
     })
   }),
-  fieldStyle: {
-    display: 'flex',
-    minWidth: 80,
-    marginTop: -6
-  },
-  discountField: {
-    display: 'flex',
-    flexDirection: 'row'
-  },
+  discountField: theme => ({
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderRadius: 4,
+    overflow: 'hidden',
+    borderColor: theme.input.borderColor,
+    marginBottom: 10
+  }),
+  discountTypeContainer: theme => ({
+    borderLeftWidth: 1,
+    borderColor: theme.input.borderColor
+  }),
+  discountType: disabled => ({
+    paddingLeft: 15,
+    paddingRight: !disabled ? 10 : 20
+  }),
   amountContainer: theme => ({
     borderWidth: 0.8,
     borderColor: theme?.input?.borderColor,
@@ -78,7 +87,7 @@ export default styles = StyleSheet.create({
   SelectPickerContainer: {
     marginTop: 0
   },
-  fakeInputValueStyle: {
+  baseSelectValueStyle: {
     fontSize: 18,
     ...Platform.select({
       android: {

@@ -2,7 +2,6 @@ import React, {Component, Fragment} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {AnimateModal} from '../AnimateModal';
 import moment from 'moment';
-import {FakeInput} from '../FakeInput';
 import t from 'locales/use-translation';
 import {CtButton} from '../Button';
 import {
@@ -14,6 +13,7 @@ import {
 import {colors} from '@/styles';
 import styles from './styles';
 import {isDarkMode} from '@/utils';
+import {BaseSelect} from '@/components';
 
 export class TimePickerField extends Component {
   constructor(props) {
@@ -161,7 +161,7 @@ export class TimePickerField extends Component {
     const {
       label,
       placeholder = TIME_FORMAT,
-      fakeInputProps,
+      baseSelectProps,
       isRequired,
       meta,
       disabled
@@ -174,7 +174,7 @@ export class TimePickerField extends Component {
 
     return (
       <>
-        <FakeInput
+        <BaseSelect
           label={label}
           icon={'clock'}
           isRequired={true}
@@ -184,7 +184,7 @@ export class TimePickerField extends Component {
           isRequired={isRequired}
           meta={meta}
           disabled={disabled}
-          {...fakeInputProps}
+          {...baseSelectProps}
         />
         {this.renderPicker()}
       </>

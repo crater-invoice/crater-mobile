@@ -240,7 +240,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       statusList,
       notes,
       getNotes,
-      invoiceData: {invoiceTemplates, discount_per_item, tax_per_item} = {},
+      invoiceData: {invoiceTemplates} = {},
       formValues: {
         limit_by,
         limit_date,
@@ -379,20 +379,13 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
         <ItemField
           {...this.props}
           selectedItems={selectedItems}
-          discount_per_item={discount_per_item}
-          tax_per_item={tax_per_item}
           items={getItemList(items)}
           getItems={getItems}
           screen="recurring_invoice"
           setFormField={this.setFormField}
         />
 
-        <FinalAmount
-          {...this.props}
-          state={this.state}
-          discount_per_item={discount_per_item}
-          tax_per_item={tax_per_item}
-        />
+        <FinalAmount {...this.props} {...this.state} />
 
         <Notes
           {...this.props}

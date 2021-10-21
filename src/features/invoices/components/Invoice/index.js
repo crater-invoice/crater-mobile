@@ -2,7 +2,7 @@ import React from 'react';
 import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change} from 'redux-form';
-import {TemplateField} from '@/components';
+import {BaseInputPrefix, TemplateField} from '@/components';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {alertMe, isEmpty} from '@/constants';
@@ -10,7 +10,6 @@ import {
   InputField,
   DatePickerField,
   DefaultLayout,
-  FakeInput,
   SendMail,
   CustomField,
   View as CtView,
@@ -389,7 +388,7 @@ export class Invoice extends React.Component<IProps, IStates> {
     const {
       navigation,
       handleSubmit,
-      invoiceData: {invoiceTemplates, discount_per_item, tax_per_item} = {},
+      invoiceData: {invoiceTemplates} = {},
       selectedItems,
       getItems,
       items,
@@ -511,15 +510,11 @@ export class Invoice extends React.Component<IProps, IStates> {
 
         <Field
           name="invoice_number"
-          component={FakeInput}
+          component={BaseInputPrefix}
           label={t('invoices.invoiceNumber')}
           isRequired
-          prefixProps={{
-            fieldName: 'invoice_number',
-            prefix: formValues?.prefix,
-            icon: 'hashtag',
-            iconSolid: false
-          }}
+          fieldName="invoice_number"
+          prefix={formValues?.prefix}
           disabled={disabled}
         />
 
@@ -543,20 +538,13 @@ export class Invoice extends React.Component<IProps, IStates> {
         <ItemField
           {...this.props}
           selectedItems={selectedItems}
-          discount_per_item={discount_per_item}
-          tax_per_item={tax_per_item}
           items={getItemList(items)}
           getItems={getItems}
           setFormField={this.setFormField}
           screen="invoice"
         />
 
-        <FinalAmount
-          {...this.props}
-          state={this.state}
-          discount_per_item={discount_per_item}
-          tax_per_item={tax_per_item}
-        />
+        <FinalAmount {...this.props} state={this.state} />
 
         <Field
           name="reference_number"

@@ -46,7 +46,7 @@ export interface IProps {
   /**
    * Discount per item.
    */
-  discountPerItem: Boolean;
+  discount_per_item: Boolean;
 
   /**
    * Id of the current Item.

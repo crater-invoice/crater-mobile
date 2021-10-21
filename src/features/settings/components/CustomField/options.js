@@ -6,9 +6,9 @@ import {
   DatePickerField,
   TimePickerField,
   SelectFieldOptions,
-  SelectPickerField,
   CheckBox,
-  DateTimePickerField
+  DateTimePickerField,
+  BaseDropdownPicker
 } from '@/components';
 import {keyboardType, MAX_LENGTH, isEmpty} from '@/constants';
 import t from 'locales/use-translation';
@@ -135,7 +135,7 @@ const SELECT_FIELD_DEFAULT_VALUE = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={SelectPickerField}
+      component={BaseDropdownPicker}
       label={t('customFields.defaultValue')}
       fieldIcon="align-center"
       items={optionsFormat()}

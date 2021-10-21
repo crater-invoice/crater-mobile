@@ -35,6 +35,7 @@ import {getCustomFields} from '@/features/settings/saga/custom-fields';
 import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
+import {fetchTaxAndDiscountPerItem} from '@/stores/common/actions';
 
 function* getEstimates({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
@@ -56,7 +57,7 @@ function* getCreateEstimate({payload: {onSuccess}}) {
     });
     const response = yield call(getSettingInfo, {
       payload: {
-        keys: ['estimate_auto_generate', 'tax_per_item', 'discount_per_item']
+        keys: ['estimate_auto_generate']
       }
     });
     const {estimate_auto_generate} = response;
@@ -76,6 +77,7 @@ function* getCreateEstimate({payload: {onSuccess}}) {
         estimateTemplates: templates
       })
     );
+    yield put(fetchTaxAndDiscountPerItem());
     onSuccess?.(values);
   } catch (e) {
   } finally {

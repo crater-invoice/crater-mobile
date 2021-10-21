@@ -4,10 +4,10 @@ import styles from './styles';
 import {
   InputField,
   DefaultLayout,
-  SelectPickerField,
   Editor,
   PLACEHOLDER_TYPES as TYPES,
-  ActionButton
+  ActionButton,
+  BaseDropdownPicker
 } from '@/components';
 import t from 'locales/use-translation';
 import {alertMe, hasTextLength, hasValue} from '@/constants';
@@ -170,7 +170,7 @@ export default class Note extends React.Component<IProps> {
 
         <Field
           name="type"
-          component={SelectPickerField}
+          component={BaseDropdownPicker}
           label={t('notes.type')}
           fieldIcon="align-center"
           items={MODAL_TYPES}

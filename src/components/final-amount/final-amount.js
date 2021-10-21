@@ -5,9 +5,11 @@ import styles from './final-amount-styles';
 import {
   InputField,
   CtDivider,
-  SelectPickerField,
   CurrencyFormat,
-  Text
+  Text,
+  View as BaseView,
+  AssetIcon,
+  BaseDropdownPicker
 } from '@/components';
 import {routes} from '@/navigation';
 import {colors} from '@/styles';
@@ -65,7 +67,9 @@ export const FinalAmount: FC<IProps> = props => {
     getTaxes,
     isAllowToEdit,
     theme,
-    currency
+    currency,
+    dispatch,
+    form
   } = props;
 
   const disabled = !isAllowToEdit;
@@ -73,7 +77,6 @@ export const FinalAmount: FC<IProps> = props => {
   let taxPerItem = isBooleanTrue(tax_per_item);
   let discountPerItem = isBooleanTrue(discount_per_item);
   const setFormField = (field, value) => {
-    const {dispatch, form} = props;
     dispatch(change(form, field, value));
   };
 
@@ -104,49 +107,62 @@ export const FinalAmount: FC<IProps> = props => {
 
       {!discountPerItem && (
         <View style={[styles.subContainer, styles.discount]}>
-          <View>
-            <Text
-              darkGray
-              h5
-              medium={theme?.mode === 'light'}
-              bold2={theme?.mode === 'dark'}
-              style={{marginTop: 6}}
-            >
-              {t('invoices.discount')}
-            </Text>
-          </View>
-          <View style={[styles.subAmount(theme), styles.discountField]}>
+          <Text
+            darkGray
+            h5
+            medium={theme?.mode === 'light'}
+            bold2={theme?.mode === 'dark'}
+            style={{marginTop: 6}}
+          >
+            {t('invoices.discount')}
+          </Text>
+          <View style={styles.discountField(theme)}>
             <Field
               name="discount"
               component={InputField}
               keyboardType={keyboardType.DECIMAL}
-              fieldStyle={styles.fieldStyle}
-              {...(theme?.mode === 'dark' && {
-                inputContainerStyle: {
-                  borderColor: colors.gray5,
-                  backgroundColor: colors.gray7
-                }
-              })}
+              fieldStyle={styles.discountInput(disabled, theme)}
+              inputContainerStyle={styles.discountInputContainer}
               disabled={disabled}
+              inputProps={{selectTextOnFocus: true}}
             />
             <Field
               name="discount_type"
-              component={SelectPickerField}
+              component={BaseDropdownPicker}
               items={DISCOUNT_OPTION}
-              onChangeCallback={val => {
-                setFormField('discount_type', val);
-              }}
-              isFakeInput
+              onChangeCallback={val => setFormField('discount_type', val)}
               defaultPickerOptions={{
                 label: 'Fixed',
                 value: 'fixed',
                 color: colors.secondary,
-                displayLabel: currency ? currency.symbol : '$'
+                displayLabel: currency?.symbol ?? '$'
               }}
-              fakeInputValueStyle={styles.fakeInputValueStyle}
-              fakeInputContainerStyle={styles.selectPickerField(theme)}
-              containerStyle={styles.SelectPickerContainer}
               disabled={disabled}
+              customView={({placeholderText, valuesText}) => (
+                <BaseView
+                  class="height=44 justify-center"
+                  background-color={theme.backgroundColor}
+                  style={styles.discountTypeContainer(theme)}
+                >
+                  <BaseView class="flex-row justify-center items-center">
+                    <Text
+                      h4
+                      color={theme.text.darkGray}
+                      style={styles.discountType(disabled)}
+                    >
+                      {valuesText ?? placeholderText}
+                    </Text>
+                    {!disabled && (
+                      <AssetIcon
+                        name="caret-down"
+                        size={15}
+                        color={colors.darkGray}
+                        style={{paddingRight: 10}}
+                      />
+                    )}
+                  </BaseView>
+                </BaseView>
+              )}
             />
           </View>
         </View>

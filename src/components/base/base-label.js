@@ -42,8 +42,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
 export const BaseLabel = connect(mapStateToProps)(Label);

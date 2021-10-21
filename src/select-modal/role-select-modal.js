@@ -41,7 +41,7 @@ export const RoleSelectModal = (props: IProps) => {
         image: AssetImage.images.empty_customers
       }}
       isEditable={!disabled}
-      fakeInputProps={{disabled}}
+      baseSelectProps={{disabled}}
     />
   );
 };

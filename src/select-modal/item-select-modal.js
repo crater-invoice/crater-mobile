@@ -41,7 +41,7 @@ export const ItemSelectModal = (props: IProps) => {
       createActionRouteName={routes.GLOBAL_ITEMS}
       paginationLimit={15}
       isEditable={!disabled}
-      fakeInputProps={{
+      baseSelectProps={{
         icon: 'shopping-basket',
         rightIcon: 'angle-right',
         color: colors.primaryLight,

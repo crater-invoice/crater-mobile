@@ -39,7 +39,7 @@ export const PaymentModeSelectModal = (props: IProps) => {
       emptyContentProps={{contentType: 'paymentMode'}}
       inputModalName="PaymentModeModal"
       isEditable={!disabled}
-      fakeInputProps={{disabled}}
+      baseSelectProps={{disabled}}
     />
   );
 };

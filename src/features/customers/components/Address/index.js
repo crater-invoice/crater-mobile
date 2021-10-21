@@ -5,7 +5,7 @@ import {CUSTOMER_ADDRESS} from '../../constants';
 import t from 'locales/use-translation';
 import {keyboardType, MAX_LENGTH} from '@/constants';
 import styles from './styles';
-import {SlideModal, FakeInput, InputField, ActionButton} from '@/components';
+import {SlideModal, InputField, ActionButton, BaseSelect} from '@/components';
 import {CountrySelectModal} from '@/select-modal';
 
 type IProps = {
@@ -165,7 +165,7 @@ export class Address extends Component<IProps> {
         keyboardShouldPersistTaps="handled"
       >
         {!hasBillingAddress && !disabled && (
-          <FakeInput
+          <BaseSelect
             icon={'copy'}
             color={theme?.text?.fourthColor}
             leftIconSolid={false}
@@ -268,7 +268,7 @@ export class Address extends Component<IProps> {
       rightIcon,
       hasBillingAddress,
       handleSubmit,
-      fakeInputProps,
+      baseSelectProps,
       theme,
       mainContainerStyle,
       disabled
@@ -285,7 +285,7 @@ export class Address extends Component<IProps> {
 
     return (
       <View style={[styles.container(theme), mainContainerStyle]}>
-        <FakeInput
+        <BaseSelect
           label={label}
           icon={icon}
           rightIcon={rightIcon}
@@ -294,7 +294,7 @@ export class Address extends Component<IProps> {
           onChangeCallback={this.onToggle}
           containerStyle={containerStyle}
           meta={meta}
-          {...fakeInputProps}
+          {...baseSelectProps}
         />
 
         <SlideModal
