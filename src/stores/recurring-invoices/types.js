@@ -12,8 +12,8 @@ export const CLEAR_RECURRING_INVOICE =
 
 export const CREATE_RECURRING_INVOICE_FORM =
   'recurringInvoices/CREATE_RECURRING_INVOICE_FORM';
-export const RECURRING_INVOICE_SEARCH =
-  'recurringInvoiceForm/RECURRING_INVOICE_SEARCH';
+export const RECURRING_INVOICES_FORM =
+  'recurringInvoices/RECURRING_INVOICES_FORM';
 
 export const FETCH_RECURRING_INVOICES =
   'recurringInvoices/FETCH_RECURRING_INVOICES';

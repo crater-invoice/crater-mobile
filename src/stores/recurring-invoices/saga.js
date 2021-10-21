@@ -2,17 +2,33 @@ import {call, put, takeLatest} from 'redux-saga/effects';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
+import {fetchTaxAndDiscountPerItem} from '../common/actions';
 import {showNotification, handleError} from '@/utils';
+import t from 'locales/use-translation';
 
 /**
  * Fetch Next-Invoice-At saga.
  * @returns {*}
  */
-export function* fetchNextInvoiceAt({payload}) {
+function* fetchNextInvoiceAt({payload}) {
   const {params, onSuccess} = payload;
   try {
     const response = yield call(req.fetchNextInvoiceAt, params);
     onSuccess?.(response);
+  } catch (e) {}
+}
+
+/**
+ * Fetch invoice templates saga.
+ * @returns {IterableIterator<*>}
+ */
+function* fetchInvoiceTemplates() {
+  try {
+    const response = yield call(req.fetchInvoiceTemplates);
+    yield put({
+      type: types.FETCH_INVOICE_TEMPLATES_SUCCESS,
+      payload: response?.invoiceTemplates
+    });
   } catch (e) {}
 }
 
@@ -25,21 +41,8 @@ function* fetchRecurringInvoiceInitialDetails({payload}) {
     type: types.CLEAR_RECURRING_INVOICE
   });
   yield call(fetchInvoiceTemplates);
+  yield put(fetchTaxAndDiscountPerItem());
   payload?.();
-}
-
-/**
- * Fetch Invoice Templates saga.
- * @returns {IterableIterator<*>}
- */
-export function* fetchInvoiceTemplates() {
-  try {
-    const response = yield call(req.fetchInvoiceTemplates);
-    yield put({
-      type: types.FETCH_INVOICE_TEMPLATES_SUCCESS,
-      payload: response?.invoiceTemplates
-    });
-  } catch (e) {}
 }
 
 /**
