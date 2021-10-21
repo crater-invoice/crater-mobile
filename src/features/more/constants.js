@@ -48,7 +48,7 @@ export const MORE_MENU = () => {
     },
     {
       title: t('more.recurringInvoice'),
-      leftIcon: 'file-audio',
+      leftIcon: 'file',
       leftIconSolid: true,
       iconSize: 19,
       fullItem: {route: routes.RECURRING_INVOICES},

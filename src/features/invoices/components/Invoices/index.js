@@ -175,8 +175,6 @@ export class Invoices extends React.Component<IProps> {
     navigation.navigate(routes.INVOICE, {type: 'ADD'});
   };
 
-  onChangeState = (field, value) => this.setState({[field]: value});
-
   getEmptyContentProps = activeTab => {
     const {navigation, formValues, theme} = this.props;
     const {search} = this.state;
