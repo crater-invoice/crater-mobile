@@ -43,14 +43,6 @@ export const fetchFiscalYears = q => {
 };
 
 /**
- * Fetch retrospective-edits
- * @returns {*}
- */
-export const fetchRetrospectives = q => {
-  return Request.get({path: `config/retrospective-edit-options`});
-};
-
-/**
  * Fetch preferences
  * @returns {*}
  */
