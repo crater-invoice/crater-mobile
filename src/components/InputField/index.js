@@ -175,14 +175,7 @@ export class InputFieldComponent extends Component<IInputField> {
       icons = {
         leftIcon: (
           <View style={styles.leftSymbolView}>
-            <Text
-              color={
-                active || hasTextLength(inputVal)
-                  ? theme?.text?.secondaryColor
-                  : theme?.text?.fifthColor
-              }
-              style={styles.leftSymbol}
-            >
+            <Text color={theme?.text?.fifthColor} style={styles.leftSymbol}>
               {leftSymbol}
             </Text>
           </View>

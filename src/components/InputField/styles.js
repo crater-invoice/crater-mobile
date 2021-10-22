@@ -88,6 +88,7 @@ export default StyleSheet.create({
     fontSize: 20,
     width: '100%',
     fontWeight: '500',
+    paddingRight: 8,
     ...(isAndroidPlatform && {marginTop: 5})
   },
   leftSymbolView: {
