@@ -26,7 +26,8 @@ const SelectView = props => {
     disabled = false,
     leftSymbol,
     theme,
-    customView
+    customView,
+    leftIconProps
   } = props;
 
   const leftIconColor = color
@@ -73,6 +74,7 @@ const SelectView = props => {
             color={leftIconColor}
             solid={leftIconSolid}
             style={[styles.leftIcon, leftIconStyle]}
+            {...leftIconProps}
           />
         )}
 

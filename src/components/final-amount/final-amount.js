@@ -220,6 +220,7 @@ export const FinalAmount: FC<IProps> = props => {
           taxTypes={taxTypes}
           getTaxes={getTaxes}
           component={TaxSelectModal}
+          custom-view
           disabled={disabled}
           theme={theme}
           rightIconPress={() =>

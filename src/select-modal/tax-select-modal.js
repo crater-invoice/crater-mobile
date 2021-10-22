@@ -50,22 +50,35 @@ export const TaxSelectModal = (props: IProps) => {
       listViewProps={{contentContainerStyle: {flex: 2}}}
       emptyContentProps={{contentType: 'taxes'}}
       isEditable={!disabled}
+      input={{value: null}}
       baseSelectProps={{
         disabled,
-        customView: ({props}) => (
-          <View class="flex-row">
-            <View class="flex=0.9" />
-            <TouchableOpacity
-              onPress={() => props?.onChangeCallback?.()}
-              activeOpacity={0.5}
-              style={{flex: 0.5}}
-            >
-              <Text right medium h4 color={theme?.viewLabel?.thirdColor}>
-                {t('estimates.taxPlaceholder')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        )
+        ...(props['custom-view']
+          ? {
+              customView: ({props}) => (
+                <View class="flex-row">
+                  <View class="flex=0.9" />
+                  <TouchableOpacity
+                    onPress={() => props?.onChangeCallback?.()}
+                    activeOpacity={0.5}
+                    style={{flex: 0.5}}
+                  >
+                    <Text right medium h4 color={theme?.viewLabel?.thirdColor}>
+                      {t('estimates.taxPlaceholder')}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )
+            }
+          : {
+              label: t('items.taxes'),
+              placeholder: t('items.selectTax'),
+              icon: 'percent',
+              leftIconProps: {
+                size: 14,
+                style: {paddingLeft: 19}
+              }
+            })
       }}
     />
   );

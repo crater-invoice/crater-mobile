@@ -153,7 +153,6 @@ export class Account extends React.Component<IProps> {
           hint={t('settings.account.password')}
           onSubmitEditing={() => accountRefs.confirm.focus()}
           secureTextEntry
-          secureTextIconContainerStyle={styles.eyeIcon}
           disabled={disabled}
           refLinkFn={ref => {
             accountRefs.password = ref;
@@ -167,7 +166,6 @@ export class Account extends React.Component<IProps> {
           hint={t('settings.account.confirmPassword')}
           onSubmitEditing={handleSubmit(this.onProfileUpdate)}
           secureTextEntry
-          secureTextIconContainerStyle={styles.eyeIcon}
           disabled={disabled}
           refLinkFn={ref => {
             accountRefs.confirm = ref;

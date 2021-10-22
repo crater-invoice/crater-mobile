@@ -8,11 +8,12 @@ import {IInputField} from './type';
 import {AssetIcon} from '../AssetIcon';
 import {colors} from '@/styles';
 import {Text} from '../Text';
-import {BaseLabel, BaseError} from '@/components';
+import {BaseLabel, BaseError, ButtonView} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 import {
   hasTextLength,
   hasValue,
+  hitSlop,
   keyboardReturnKeyType,
   keyboardType
 } from '@/constants';
@@ -119,7 +120,6 @@ export class InputFieldComponent extends Component<IInputField> {
       isCurrencyInput = false,
       leftIconStyle,
       isRequired = false,
-      secureTextIconContainerStyle,
       leftSymbol,
       onError,
       currency,
@@ -136,9 +136,9 @@ export class InputFieldComponent extends Component<IInputField> {
 
     !hideError && onError && this.onErrorCallback(error);
 
-    let leftIconSymbol = {};
+    let icons = {};
     if (leftIcon) {
-      leftIconSymbol = {
+      icons = {
         leftIcon: (
           <AssetIcon
             name={leftIcon}
@@ -154,7 +154,7 @@ export class InputFieldComponent extends Component<IInputField> {
       };
     }
     if (isCurrencyInput && currency?.symbol) {
-      leftIconSymbol = {
+      icons = {
         leftIcon: (
           <View style={styles.leftSymbolView}>
             <Text
@@ -172,7 +172,7 @@ export class InputFieldComponent extends Component<IInputField> {
       };
     }
     if (leftSymbol) {
-      leftIconSymbol = {
+      icons = {
         leftIcon: (
           <View style={styles.leftSymbolView}>
             <Text
@@ -186,6 +186,25 @@ export class InputFieldComponent extends Component<IInputField> {
               {leftSymbol}
             </Text>
           </View>
+        )
+      };
+    }
+
+    if (secureTextEntry) {
+      icons = {
+        rightIcon: (
+          <ButtonView
+            scale={0.9}
+            onPress={this.toggleSecureTextEntry}
+            hitSlop={hitSlop(13, 13, 13, 13)}
+            class="justify-center items-center pt-2 px-15"
+          >
+            <AssetIcon
+              name={isSecureTextEntry ? 'eye' : 'eye-slash'}
+              size={17}
+              color={theme?.icons?.eye?.color}
+            />
+          </ButtonView>
         )
       };
     }
@@ -216,7 +235,7 @@ export class InputFieldComponent extends Component<IInputField> {
             containerStyle && containerStyle,
             styles.containerStyle
           ]}
-          {...leftIconSymbol}
+          {...icons}
           inputStyle={[
             styles.input(theme),
             {
@@ -235,7 +254,6 @@ export class InputFieldComponent extends Component<IInputField> {
               backgroundColor: theme?.input?.backgroundColor,
               borderColor: theme?.input?.borderColor
             },
-            secureTextEntry && styles.inputPassword,
             inputContainerStyle && inputContainerStyle,
             rounded && {borderRadius: 5},
             disabled && styles.disabledInput(theme),
@@ -273,27 +291,6 @@ export class InputFieldComponent extends Component<IInputField> {
           <Text positionAbsolute style={styles.signField} opacity={0.6}>
             {sign}
           </Text>
-        )}
-        {secureTextEntry && (
-          <TouchableOpacity
-            onPress={this.toggleSecureTextEntry}
-            style={[
-              styles.icon,
-              secureTextIconContainerStyle && secureTextIconContainerStyle
-            ]}
-            hitSlop={{
-              top: 13,
-              left: 13,
-              bottom: 13,
-              right: 13
-            }}
-          >
-            <AssetIcon
-              name={isSecureTextEntry ? 'eye' : 'eye-slash'}
-              size={18}
-              color={theme?.icons?.eye?.color}
-            />
-          </TouchableOpacity>
         )}
 
         <BaseError {...this.props} />

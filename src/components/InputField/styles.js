@@ -40,15 +40,6 @@ export default StyleSheet.create({
   inputPassword: {
     paddingRight: 30
   },
-  icon: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    width: 33,
-    height: 33,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   leftIcon: {
     marginLeft: 5,
     marginRight: 10
