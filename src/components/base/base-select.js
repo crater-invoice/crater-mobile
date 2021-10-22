@@ -28,7 +28,8 @@ const SelectView = props => {
     leftSymbol,
     theme,
     customView,
-    leftIconProps
+    leftIconProps,
+    leftSymbolStyle
   } = props;
 
   if (customView) {
@@ -80,7 +81,12 @@ const SelectView = props => {
         )}
 
         {leftSymbol && (
-          <Text h4 medium color={textColor} style={styles.leftSymbol}>
+          <Text
+            h4
+            medium
+            color={textColor}
+            style={[styles.leftSymbol, leftSymbolStyle]}
+          >
             {leftSymbol}
           </Text>
         )}
