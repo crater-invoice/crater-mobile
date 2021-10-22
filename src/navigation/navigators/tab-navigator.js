@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {routes} from '../navigation-routes';
 import BottomTab from '../navigation-bottom-tab';
-import Invoices from '@/features/invoices/containers/Invoices';
+import {Invoices} from 'screens/invoices/list-invoices';
 import Customers from '@/features/customers/containers/Customers';
 import Payments from '@/features/payments/containers/Payments';
 import Expenses from '@/features/expenses/containers/Expenses';

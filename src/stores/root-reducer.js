@@ -1,8 +1,7 @@
 import {combineReducers} from 'redux';
 import {reducer as formReducer} from 'redux-form';
-
 import auth from '@/features/authentication/reducers';
-import invoices from '@/features/invoices/reducers';
+import invoices from 'stores/invoices/reducer';
 import estimates from '@/features/estimates/reducers';
 import customers from '@/features/customers/reducers';
 import payments from '@/features/payments/reducers';
@@ -17,7 +16,7 @@ import company from 'stores/company/reducer';
 import customizes from 'stores/customize/reducer';
 import itemUnits from 'stores/item-units/reducer';
 import paymentModes from 'stores/payment-modes/reducer';
-import recurringInvoices from './recurring-invoices/reducer';
+import recurringInvoices from 'stores/recurring-invoices/reducer';
 
 export default combineReducers({
   auth,

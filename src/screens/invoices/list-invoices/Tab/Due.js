@@ -2,7 +2,8 @@ import React, {useRef, useEffect} from 'react';
 import {View} from 'react-native';
 import {styles} from './styles';
 import {ListView, InfiniteScroll} from '@/components';
-import {INVOICES_TABS} from '../../constants';
+import {INVOICES_TABS} from '@/stores/invoices/types';
+import {fetchInvoices} from '@/stores/invoices/actions';
 
 type IProps = {
   reference: any,
@@ -12,7 +13,8 @@ type IProps = {
 export const Due = ({reference, parentProps}: IProps) => {
   let scrollViewReference = useRef(null);
   const {props, state, onSelect, getEmptyContentProps} = parentProps;
-  const {dueInvoices = [], getInvoices, route} = props;
+  const {invoices = [], route, dispatch} = props;
+s  dispatch(fetchInvoices());
   const {search} = state;
 
   useEffect(() => {
@@ -30,12 +32,14 @@ export const Due = ({reference, parentProps}: IProps) => {
     return () => {};
   }, []);
 
-  const isEmpty = dueInvoices && dueInvoices.length <= 0;
+  const isEmpty = invoices && invoices.length <= 0;
 
   return (
     <View style={styles.content}>
       <InfiniteScroll
-        getItems={getInvoices}
+        getItems={q => {
+          dispatch(fetchInvoices(q));
+        }}
         getItemsInMount={false}
         reference={ref => {
           scrollViewReference = ref;
@@ -43,7 +47,7 @@ export const Due = ({reference, parentProps}: IProps) => {
         }}
       >
         <ListView
-          items={dueInvoices}
+          items={invoices}
           onPress={onSelect}
           isEmpty={isEmpty}
           bottomDivider

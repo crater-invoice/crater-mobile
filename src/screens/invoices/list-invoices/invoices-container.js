@@ -1,37 +1,31 @@
 import {connect} from 'react-redux';
+import Invoices from './invoices';
 import {reduxForm, getFormValues} from 'redux-form';
-import RecurringInvoices from './recurring-invoices';
-import {RECURRING_INVOICES_FORM} from 'stores/recurring-invoices/types';
-import {
-  invoicesSelector,
-  loadingSelector
-} from 'stores/recurring-invoices/selectors';
-import {commonSelector} from '@/stores/common/selectors';
-import {getCustomers} from '@/features/customers/actions';
+import {INVOICES_FORM} from 'stores/invoices/types';
+import {getCustomers} from '@/features/customers/saga';
+import {commonSelector} from 'stores/common/selectors';
+import {invoicesSelector, loadingSelector} from 'stores/invoices/selectors';
 
 const mapStateToProps = state => {
   const {
-    common: {recurring_invoice_update_status},
     customers: {customers}
   } = state;
   return {
     customers,
-    statusList: recurring_invoice_update_status,
     invoices: invoicesSelector(state),
-    formValues: getFormValues(RECURRING_INVOICES_FORM)(state) || {},
+    formValues: getFormValues(INVOICES_FORM)(state) || {},
     ...loadingSelector(state),
     ...commonSelector(state)
   };
 };
+
 const mapDispatchToProps = {
   getCustomers: getCustomers
 };
 
-const RecurringInvoicesForm = reduxForm({
-  form: RECURRING_INVOICES_FORM
-})(RecurringInvoices);
+const invoiceSearchReduxForm = reduxForm({form: INVOICES_FORM})(Invoices);
 
-export const RecurringInvoicesContainer: any = connect(
+export const InvoicesContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RecurringInvoicesForm);
+)(invoiceSearchReduxForm);

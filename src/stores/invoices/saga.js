@@ -1,4 +1,4 @@
-import {call, put, takeEvery} from 'redux-saga/effects';
+import {call, put, takeLatest, takeEvery} from 'redux-saga/effects';
 import {routes} from '@/navigation';
 import {getCustomFields} from '@/features/settings/saga/custom-fields';
 import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';

@@ -2,7 +2,7 @@ import t from 'locales/use-translation';
 import {
   FILTER_INVOICE_STATUS,
   FILTER_INVOICE_PAID_STATUS
-} from '../../constants';
+} from 'stores/invoices/types';
 import {AssetImage} from '@/components';
 
 let selectedFromDate = '';

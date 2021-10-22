@@ -2,7 +2,7 @@ import {createSelector} from 'reselect';
 import {capitalize, isEmpty} from '@/constants';
 import {BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR} from '@/utils';
 
-const formatItems = (invoices, theme) => {
+export const formatItems = (invoices, theme) => {
   if (isEmpty(invoices)) {
     return [];
   }
@@ -39,19 +39,15 @@ const formatItems = (invoices, theme) => {
   });
 };
 
-const getDueInvoicesState = createSelector(
-  [state => state.invoices, state => state.theme],
+export const invoicesSelector = createSelector(
+  [state => state.invoices?.invoices, state => state.common?.theme],
   (invoices, theme) => formatItems(invoices, theme)
 );
 
-const getDraftInvoicesState = createSelector(
-  [state => state.invoices, state => state.theme],
-  (invoices, theme) => formatItems(invoices, theme)
+export const loadingSelector = createSelector(
+  state => state?.invoices,
+  invoices => ({
+    isSaving: invoices?.isSaving,
+    isDeleting: invoices?.isDeleting
+  })
 );
-
-const getAllInvoicesState = createSelector(
-  [state => state.invoices, state => state.theme],
-  (invoices, theme) => formatItems(invoices, theme)
-);
-
-export {getDueInvoicesState, getDraftInvoicesState, getAllInvoicesState};
