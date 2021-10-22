@@ -1,4 +1,5 @@
 import {ITheme} from '@/interfaces';
+
 export interface IProps {
   /**
    * Scroll-View style.
