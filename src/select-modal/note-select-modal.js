@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {SelectField} from '@/components';
 import t from 'locales/use-translation';
 import {defineSize} from '@/constants';
@@ -44,15 +44,11 @@ export const NoteSelectModal = (props: IProps) => {
       emptyContentProps={{contentType: 'notes'}}
       onSelect={onSelect}
       customView={
-        <TouchableOpacity
-          onPress={() => {
-            notesReference?.onToggle?.();
-          }}
-        >
+        <TouchableOpacity onPress={() => notesReference?.onToggle?.()}>
           <Text
             primary
             h4
-            style={{paddingBottom: 6}}
+            style={{paddingBottom: 10}}
             color={theme?.viewLabel?.thirdColor}
           >
             {t('notes.insertNote')}
