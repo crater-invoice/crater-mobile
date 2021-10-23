@@ -5,7 +5,7 @@ import {ifProp, prop} from 'styled-tools';
 import {applyProp, getClass, hasProp} from '@/utils';
 import {fonts, fontSizes, colors, generateSize} from '../../styles';
 
-const CTText = ({children, ...props}) => <RNText {...props}>{children}</RNText>;
+const CTText = ({children, ...props}) => <RNText {...props} allowFontScaling={false} selectable>{children}</RNText>;
 
 const StyledText = styled(CTText)`
 
