@@ -12,3 +12,16 @@ export const fetchTaxAndDiscountPerItem = () => {
     }
   });
 };
+
+/**
+ * Ping url.
+ * @param url
+ * @returns {*}
+ */
+export const pingUrl = url => {
+  return Request.get({
+    path: `ping`,
+    isAuthRequired: false,
+    isPing: `${url}/api/`
+  });
+};

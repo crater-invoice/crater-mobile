@@ -9,13 +9,15 @@ export function fetchTaxAndDiscountPerItem() {
 }
 
 /**
- * Reset endpoint url.
- * @param payload
+ * Save endpoint url
+ * @param url
+ * @param navigation
+ * @param onResult
  * @returns {{type: string, payload: *}}
  */
-export function resetEndpointUrl(payload = {}) {
+export function saveEndpointURL(url, navigation, onResult) {
   return {
-    type: types.RESET_ENDPOINT_URL,
-    payload
+    type: types.SAVE_ENDPOINT_URL,
+    payload: {url, navigation, onResult}
   };
 }

@@ -53,20 +53,11 @@ export default function commonReducer(state = initialState, action) {
     case GLOBAL_TRIGGER_SPINNER:
       return {...state, loading: false};
 
-    case SAVE_ENDPOINT_API:
-      const {endpointURL = ''} = payload;
-
+    case types.SAVE_ENDPOINT_URL_SUCCESS:
       return {
         ...state,
-        endpointURL,
-        endpointApi: endpointURL ? `${endpointURL}/api/v1/` : null
-      };
-
-    case types.RESET_ENDPOINT_URL:
-      return {
-        ...state,
-        endpointURL: null,
-        endpointApi: null
+        endpointURL: payload,
+        endpointApi: payload ? `${payload}/api/v1/` : null
       };
 
     case types.FETCH_TAX_AND_DISCOUNT_PER_ITEM_SUCCESS:

@@ -1,0 +1,37 @@
+import {StyleSheet, View} from 'react-native';
+import styled from 'styled-components/native';
+import {isIosPlatform, SCREEN_WIDTH} from '@/constants';
+
+const styles = StyleSheet.create({
+  logoContainer: {
+    paddingBottom: 40,
+    alignItems: 'center',
+    marginTop: -30
+  },
+  logo: {
+    width: SCREEN_WIDTH - 150,
+    height: 120,
+    resizeMode: 'contain'
+  },
+  buttonContainer: {
+    marginHorizontal: -5,
+    marginTop: 55
+  },
+  buttonStyle: {
+    paddingVertical: 10
+  },
+  title: {
+    marginLeft: -10,
+    marginTop: isIosPlatform ? -1 : 2
+  }
+});
+
+const Container = styled(View)`
+  flex: 1;
+  justify-content: flex-start;
+  display: flex;
+  padding-horizontal: 5;
+  background-color: ${props => props.theme?.backgroundColor};
+`;
+
+export {styles, Container};

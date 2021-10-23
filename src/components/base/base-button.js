@@ -94,7 +94,7 @@ export const BaseButtonGroup = props => {
   const buttons = button => {
     if (button?.props && button.props.hasOwnProperty('show')) {
       button.props.show &&
-        baseButtons.push(<View class="flex=1 mx-15">{button}</View>);
+        baseButtons.push(<View class="flex-1 mx-15">{button}</View>);
     }
   };
 

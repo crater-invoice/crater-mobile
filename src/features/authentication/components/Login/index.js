@@ -123,7 +123,7 @@ export class Login extends React.Component<IProps> {
         <TouchableOpacity
           onPress={() =>
             navigation.navigate(routes.ENDPOINTS, {
-              skipEndpoint: true
+              showBackButton: true
             })
           }
           style={styles.setting}

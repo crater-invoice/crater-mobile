@@ -130,30 +130,10 @@ function* sendRecoveryMail({payload}) {
   }
 }
 
-function* checkEndpointApi({payload}: any) {
-  const {endpointURL, navigation, onResult} = payload;
-  try {
-    const options = {
-      path: `ping`,
-      isAuthRequired: false,
-      isPing: `${endpointURL}/api/`
-    };
-    yield call([Request, 'get'], options);
-    yield put(saveEndpointApi({endpointURL}));
-    yield put({type: TYPES.PING_SUCCESS, payload: null});
-    navigation.navigate(routes.LOGIN);
-    onResult?.();
-  } catch (e) {
-    showNotification({message: t('endpoint.alertInvalidUrl'), type: 'error'});
-    onResult?.();
-  }
-}
-
 export default function* loginSaga() {
   yield takeLatest(TYPES.LOGIN, login);
   yield takeLatest(TYPES.BIOMETRY_AUTH_LOGIN, biometryAuthLogin);
   yield takeLatest(TYPES.GET_BOOTSTRAP, getBootstrapData);
   yield takeLatest(TYPES.SEND_FORGOT_PASSWORD_MAIL, sendRecoveryMail);
-  yield takeLatest(TYPES.CHECK_ENDPOINT_API, checkEndpointApi);
   yield takeLatest(CHECK_OTA_UPDATE, checkOTAUpdate);
 }

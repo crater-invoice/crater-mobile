@@ -10,23 +10,24 @@ import {PermissionService} from '@/services';
 import {dismissKeyboard} from '@/constants';
 
 type IProps = {
-  leftIcon: String,
-  leftIconPress: Function,
-  title: String,
-  rightIcon: String,
-  rightIconPress: Function,
-  placement: String,
-  transparent: Boolean,
-  rightIconHint: String,
-  titleStyle: Object,
-  leftIconStyle: Object,
-  noBorder: Boolean,
-  hasCircle: Boolean,
-  rightIconProps: Object,
-  rightComponent: any,
-  rightIconHintStyle: Object,
-  titleOnPress: Object,
-  containerStyle: any
+  leftIcon?: String,
+  leftIconPress?: Function,
+  title?: String,
+  rightIcon?: String,
+  rightIconPress?: Function,
+  placement?: String,
+  transparent?: Boolean,
+  rightIconHint?: String,
+  titleStyle?: Object,
+  leftIconStyle?: Object,
+  noBorder?: Boolean,
+  hasCircle?: Boolean,
+  rightIconProps?: Object,
+  rightComponent?: any,
+  rightIconHintStyle?: Object,
+  titleOnPress?: Object,
+  containerStyle?: any,
+  theme?: any
 };
 
 export const CtHeader = ({

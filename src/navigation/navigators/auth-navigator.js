@@ -5,7 +5,7 @@ import Login from '@/features/authentication/containers/Login';
 import ForgotPassword from '@/features/authentication/containers/ForgetPassword';
 import {navigatorOptions as options} from '../navigation-action';
 import UpdateApp from '@/components/UpdateAppVersion';
-import Endpoint from '@/features/authentication/containers/Endpoint';
+import {Endpoint} from 'screens/endpoint';
 import {LostConnection} from '@/components';
 
 const AuthStack = createStackNavigator();

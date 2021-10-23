@@ -16,12 +16,13 @@ import DefaultAvatar from '../../assets/default-avatar.jpg';
 import EmptyInvoicesDark from '../../assets/empty-invoices-icon-dark.png';
 
 interface IProps {
-  imageStyle: Object;
-  imageName: String;
-  uri: Boolean;
-  imageProps: Object;
-  loadingImageStyle: Object;
-  loaderSize: 'large' | 'small';
+  imageStyle?: Object;
+  imageName?: String;
+  uri?: Boolean;
+  imageProps?: Object;
+  loadingImageStyle?: Object;
+  loaderSize?: 'large' | 'small';
+  imageSource: String;
 }
 
 export class AssetImage extends Component<IProps> {
