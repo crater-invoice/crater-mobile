@@ -13,13 +13,6 @@ const styles = StyleSheet.create({
     height: 120,
     resizeMode: 'contain'
   },
-  buttonContainer: {
-    marginHorizontal: -5,
-    marginTop: 55
-  },
-  buttonStyle: {
-    paddingVertical: 10
-  },
   title: {
     marginLeft: -10,
     marginTop: isIosPlatform ? -1 : 2

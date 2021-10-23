@@ -1,6 +1,7 @@
 import React from 'react';
-import {View as RNView} from 'react-native';
+import {View as RNView, StyleProp, ViewStyle, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
+import {LinearGradient} from 'expo-linear-gradient';
 import styled from 'styled-components/native';
 import {View, Text, ButtonView, Loading} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
@@ -38,16 +39,45 @@ interface IProps {
   /**
    * Type of button.
    */
-  type?: 'primary' | 'danger';
+  type?: 'primary' | 'danger' | 'gradient';
 
   /**
    * If true, show base button.
    */
   show?: boolean;
+
+  /**
+   * The style of the content container(Button).
+   */
+  class?: string;
+
+  /**
+   * The style of the parent content container(Button).
+   */
+  baseClass?: string;
+
+  /**
+   * The style of the content container(Button).
+   */
+  style?: StyleProp<ViewStyle> | undefined;
+
+  /**
+   * The height of button.
+   */
+  height?: string;
 }
 
 export const Button = (props: IProps) => {
-  const {onPress, theme, loading, disabled, children, type = 'primary'} = props;
+  const {
+    onPress,
+    theme,
+    loading,
+    disabled,
+    baseClass,
+    type = 'primary',
+    style,
+    height
+  } = props;
 
   const bgColor = {
     primary: {
@@ -60,25 +90,40 @@ export const Button = (props: IProps) => {
     }
   };
 
+  const label = (
+    <Text white h5 medium>
+      {props.children}
+    </Text>
+  );
+  const spinner = <Loading size="small" color={colors.white} />;
+  const children = !loading ? label : spinner;
+  const gradientStyle = {
+    colors: [colors.primary, colors.primaryLight],
+    start: {x: 0, y: 0.5},
+    end: {x: 1, y: 0.5},
+    style: styles.gradient
+  };
+
   return (
-    <ButtonView
-      onPress={onPress}
-      background-color={bgColor?.[type]?.[theme?.mode]}
-      radius-5
-      class="justify-center items-center"
-      width="100%"
-      height="39"
-      disabled={disabled || loading}
-      opacity={disabled ? 0.7 : 1}
-    >
-      {!loading ? (
-        <Text white h5 medium>
-          {children}
-        </Text>
-      ) : (
-        <Loading size="small" color={colors.white} />
-      )}
-    </ButtonView>
+    <View class={baseClass}>
+      <ButtonView
+        onPress={onPress}
+        background-color={bgColor?.[type]?.[theme?.mode]}
+        radius-5
+        width="100%"
+        height={height ? height : '39'}
+        class={`justify-center items-center overflow-hidden ${props.class}`}
+        style={style}
+        disabled={disabled || loading}
+        opacity={disabled ? 0.7 : 1}
+      >
+        {type === 'gradient' ? (
+          <LinearGradient {...gradientStyle}>{children}</LinearGradient>
+        ) : (
+          children
+        )}
+      </ButtonView>
+    </View>
   );
 };
 
@@ -92,9 +137,13 @@ export const BaseButtonGroup = props => {
   const baseButtons = [];
 
   const buttons = button => {
-    if (button?.props && button.props.hasOwnProperty('show')) {
+    const canCheckVisibility =
+      button?.props && button.props.hasOwnProperty('show');
+    if (canCheckVisibility) {
       button.props.show &&
         baseButtons.push(<View class="flex-1 mx-15">{button}</View>);
+    } else {
+      baseButtons.push(<View class="flex-1 mx-15">{button}</View>);
     }
   };
 
@@ -126,3 +175,12 @@ const Row = styled(RNView)`
   flex-direction: row;
   justify-content: space-between;
 `;
+
+const styles = StyleSheet.create({
+  gradient: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});

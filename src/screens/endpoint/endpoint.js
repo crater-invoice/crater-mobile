@@ -10,8 +10,8 @@ import {hasTextLength, keyboardType} from '@/constants';
 import {
   InputField,
   AssetImage,
-  CtGradientButton,
   CtHeader,
+  BaseButton,
   View,
   Text
 } from '@/components';
@@ -23,18 +23,15 @@ export default class Endpoint extends Component<IProps, IStates> {
   }
 
   onSubmit = async ({url: baseUrl}) => {
-    const {dispatch, navigation} = this.props;
-
     if (!hasTextLength(baseUrl)) {
       return;
     }
 
+    const {dispatch, navigation} = this.props;
     await this.setState({isLoading: true});
-
     const url = !(baseUrl.charAt(baseUrl.length - 1) === '/')
       ? baseUrl
       : baseUrl.slice(0, -1);
-
     dispatch(
       saveEndpointURL(url, navigation, () => this.setState({isLoading: false}))
     );
@@ -46,7 +43,6 @@ export default class Endpoint extends Component<IProps, IStates> {
 
   render() {
     const {handleSubmit, showBackButton = false, theme} = this.props;
-
     return (
       <Container>
         {showBackButton ? (
@@ -100,13 +96,15 @@ export default class Endpoint extends Component<IProps, IStates> {
                 </Text>
               </View>
 
-              <CtGradientButton
-                onPress={handleSubmit(this.onSubmit)}
-                btnTitle={t('button.save')}
+              <BaseButton
+                type="gradient"
                 loading={this.state.isLoading}
-                style={styles.buttonStyle}
-                buttonContainerStyle={styles.buttonContainer}
-              />
+                onPress={handleSubmit(this.onSubmit)}
+                baseClass="mt-55 mx-3"
+                height={42}
+              >
+                {t('button.save')}
+              </BaseButton>
             </View>
           </KeyboardAvoidingView>
         </ScrollView>

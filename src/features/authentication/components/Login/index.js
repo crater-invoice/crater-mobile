@@ -14,7 +14,8 @@ import {
   AssetImage,
   CtGradientButton,
   Text,
-  AssetSvg
+  AssetSvg,
+  BaseButton
 } from '@/components';
 import Constants from 'expo-constants';
 import {routes} from '@/navigation';
@@ -199,15 +200,15 @@ export class Login extends React.Component<IProps> {
                 </TouchableOpacity>
               </View>
 
-              <View style={{marginTop: 25}}>
-                <CtGradientButton
-                  onPress={this.props.handleSubmit(this.onSubmit)}
-                  btnTitle={t('button.singIn')}
-                  loading={this.state.isLoading}
-                  isLoading={this.state.isLoading}
-                  style={{paddingVertical: 8}}
-                />
-              </View>
+              <BaseButton
+                baseClass="mx-5"
+                class="mt-25"
+                type="gradient"
+                onPress={this.props.handleSubmit(this.onSubmit)}
+                loading={this.state.isLoading}
+              >
+                {t('button.singIn')}
+              </BaseButton>
             </View>
           </KeyboardAvoidingView>
         </ScrollView>
