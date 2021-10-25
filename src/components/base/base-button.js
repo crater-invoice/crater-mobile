@@ -7,7 +7,12 @@ import {View, Text, ButtonView, Loading} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 import {colors} from '@/styles';
 import {ITheme} from '@/interfaces';
-import {defineLargeSizeParam, defineSize, isEmpty} from '@/constants';
+import {
+  defineLargeSizeParam,
+  defineSize,
+  isAndroidPlatform,
+  isEmpty
+} from '@/constants';
 
 interface IProps {
   /**
@@ -96,7 +101,12 @@ export const Button = (props: IProps) => {
   } = props;
   const isOutline = type.includes('outline');
   const label = (
-    <Text h5 white medium style={isOutline && styles.outlineText(props)}>
+    <Text
+      h5
+      white
+      medium
+      style={[styles.text, isOutline && styles.outlineText(props)]}
+    >
       {props.children}
     </Text>
   );
@@ -195,6 +205,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: bgColor?.[outlineType(type)]?.[theme?.mode]
   }),
+  text: {
+    ...(isAndroidPlatform && {
+      paddingTop: 2
+    })
+  },
   outlineText: ({type, theme}) => ({
     color: bgColor?.[outlineType(type)]?.[theme?.mode]
   })

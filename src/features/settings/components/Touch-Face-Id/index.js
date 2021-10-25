@@ -348,9 +348,11 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
         <ScanContainer>
           <Center>
             <HeadingView>
-              <Title>{type}</Title>
-              <SubTitle>{t('touchFaceId.subTitle1')}</SubTitle>
-              <SubTitle2>
+              <Title allowFontScaling={false}>{type}</Title>
+              <SubTitle allowFontScaling={false}>
+                {t('touchFaceId.subTitle1')}
+              </SubTitle>
+              <SubTitle2 allowFontScaling={false}>
                 {t('touchFaceId.subTitle2', {
                   type
                 })}
@@ -436,7 +438,9 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
             </BaseButton>
 
             <GobBackButton onPress={() => navigation.goBack(null)}>
-              <GobBackButtonText>{t('button.later')}</GobBackButtonText>
+              <GobBackButtonText allowFontScaling={false}>
+                {t('button.later')}
+              </GobBackButtonText>
             </GobBackButton>
           </AnimatedButton>
         </ScanContainer>
@@ -491,7 +495,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
             </AnimatedCheckIconView>
           </EnrolledIconView>
           <EnrolledBody>
-            <EnrolledTitle theme={theme}>
+            <EnrolledTitle theme={theme} allowFontScaling={false}>
               {t('touchFaceId.activated', {type})}
             </EnrolledTitle>
 
@@ -557,10 +561,10 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
             </CancelIconView>
           </NotSupportedIconView>
           <NotSupportedTextView>
-            <NotSupportedTitle>
+            <NotSupportedTitle allowFontScaling={false}>
               {t('touchFaceId.notCompatible')}
             </NotSupportedTitle>
-            <NotSupportedSubTitle>
+            <NotSupportedSubTitle allowFontScaling={false}>
               {t('touchFaceId.hardwareNotAvailable', {
                 type: t(typeIdText)
               })}

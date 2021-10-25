@@ -254,6 +254,7 @@ export const DefaultFlash = React.forwardRef(
                 ]}
                 {...textProps}
                 {...titleProps}
+                allowFontScaling={false}
               >
                 {message.message}
               </Text>
@@ -267,6 +268,7 @@ export const DefaultFlash = React.forwardRef(
                     descriptionStyle
                   ]}
                   {...textProps}
+                  allowFontScaling={false}
                 >
                   {message.description}
                 </Text>

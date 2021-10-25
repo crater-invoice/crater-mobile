@@ -1,31 +1,32 @@
-import React, { FC } from 'react';
+import React, {FC} from 'react';
 import HTML from 'react-native-render-html';
-import { Text, View } from 'react-native';
-import { colors, fonts } from '@/styles';
+import {Text} from 'react-native';
+import {fonts, fontSizes} from '@/styles';
 
 interface IProps {
-    content?: any;
-    theme?: any;
+  content?: any;
+  theme?: any;
 }
 
-export const HtmlView: FC<IProps> = ({ content, theme }) => {
-    return (
-        <HTML
-            html={content}
-            tagsStyles={{
-                p: () => <Text />,
-                h1: () => <Text />,
-                h2: () => <Text />,
-                h3: () => <Text />,
-                h4: () => <Text />,
-                h5: () => <Text />,
-                h6: () => <Text />
-            }}
-            baseFontStyle={{
-                fontSize: 16,
-                color: theme?.input?.color,
-                textAlign: 'left'
-            }}
-        />
-    );
+export const HtmlView: FC<IProps> = ({content, theme}) => {
+  return (
+    <HTML
+      html={content}
+      tagsStyles={{
+        p: () => <Text allowFontScaling={false} />,
+        h1: () => <Text allowFontScaling={false} />,
+        h2: () => <Text allowFontScaling={false} />,
+        h3: () => <Text allowFontScaling={false} />,
+        h4: () => <Text allowFontScaling={false} />,
+        h5: () => <Text allowFontScaling={false} />,
+        h6: () => <Text allowFontScaling={false} />
+      }}
+      baseFontStyle={{
+        fontSize: fontSizes.h6,
+        color: theme?.input?.color,
+        textAlign: 'left',
+        fontFamily: fonts.regular
+      }}
+    />
+  );
 };

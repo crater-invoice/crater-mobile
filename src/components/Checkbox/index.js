@@ -44,6 +44,7 @@ class CheckBox extends Component<IProps> {
         </BaseLabel>
         <RNCheckBox
           title={label}
+          titleProps={{allowFontScaling: false}}
           checked={value || false}
           size={25}
           onPress={this.toggleChecked}

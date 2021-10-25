@@ -23,11 +23,6 @@ export interface IProps {
    * @see ITheme
    */
   theme: ITheme;
-
-  /**
-   * The type of biometry authentication.
-   */
-  biometryAuthType: 'FINGERPRINT' | 'FACE';
 }
 
 export interface IStates {

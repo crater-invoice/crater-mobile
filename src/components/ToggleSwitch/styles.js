@@ -1,15 +1,14 @@
-import {isIosPlatform} from '@/constants';
+import {isAndroidPlatform, isIosPlatform} from '@/constants';
 import {StyleSheet} from 'react-native';
-import {colors, fonts} from '@/styles';
 
 export const styles = StyleSheet.create({
-  mainContainer: {},
   container: {
     display: 'flex',
     justifyContent: 'space-between',
     flexWrap: 'nowrap',
     flexDirection: 'row',
-    marginVertical: 15
+    marginVertical: 15,
+    alignItems: 'center'
   },
   hint: {
     marginTop: 4,
@@ -26,6 +25,9 @@ export const styles = StyleSheet.create({
   descriptionContainer: {
     flex: 1,
     paddingRight: 8,
-    marginTop: -5
+    marginTop: -5,
+    ...(isAndroidPlatform && {
+      marginTop: -10
+    })
   }
 });

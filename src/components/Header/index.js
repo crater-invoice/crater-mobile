@@ -63,6 +63,7 @@ export const CtHeader = ({
   const hederTitle = {
     text: title,
     onPress: () => dismissKeyboard(),
+    allowFontScaling: false,
     style: [
       {
         color: transparent ? colors.dark2 : colors.white
