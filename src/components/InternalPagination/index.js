@@ -275,6 +275,7 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
               }}
               onSearch={this.onSearch}
               inputProps={searchInputProps && searchInputProps}
+              bottomDivider
               searchFieldProps={{
                 name: `search-${input?.name}`,
                 ...(theme?.mode === 'dark' && {
@@ -285,9 +286,9 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
                     marginTop: 10,
                     marginBottom: 14
                   }
-                })
+                }),
+                containerStyle: {marginTop: 10}
               }}
-              searchFieldStyle={styles.searchView}
             >
               <ScrollView
                 style={[styles.scrollViewContainer, scrollViewStyle]}

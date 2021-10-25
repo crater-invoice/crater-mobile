@@ -98,9 +98,9 @@ class Screen extends Component<IProps> {
                     marginTop: 10,
                     marginBottom: 14
                   }
-                })
+                }),
+                containerStyle: {marginTop: 10}
               }}
-              searchFieldStyle={styles.searchView}
             >
               {listViewChildren}
             </MainLayout>
