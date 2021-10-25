@@ -6,7 +6,7 @@ import {Field} from 'redux-form';
 import {isRTL, STATUS_BAR_CONTENT} from '@/utils';
 import {IProps, IStates} from './endpoint-type';
 import {saveEndpointURL} from 'stores/common/actions';
-import {hasTextLength, keyboardType} from '@/constants';
+import {defineLargeSizeParam, hasTextLength, keyboardType} from '@/constants';
 import {
   InputField,
   AssetImage,
@@ -43,6 +43,10 @@ export default class Endpoint extends Component<IProps, IStates> {
 
   render() {
     const {handleSubmit, showBackButton = false, theme} = this.props;
+    const layoutStyle = showBackButton
+      ? defineLargeSizeParam('25%', '15%')
+      : defineLargeSizeParam('48%', '32%');
+
     return (
       <Container>
         {showBackButton ? (
@@ -67,12 +71,14 @@ export default class Endpoint extends Component<IProps, IStates> {
         )}
 
         <ScrollView
-          contentContainerStyle={{paddingTop: showBackButton ? '15%' : '32%'}}
+          contentContainerStyle={{paddingTop: layoutStyle}}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
           <KeyboardAvoidingView
-            keyboardVerticalOffset={showBackButton ? 80 : 0}
+            keyboardVerticalOffset={
+              showBackButton ? defineLargeSizeParam(90, 80) : 0
+            }
             behavior="position"
           >
             <View class="flex-1 px-25 justify-center">
@@ -101,7 +107,7 @@ export default class Endpoint extends Component<IProps, IStates> {
                 loading={this.state.isLoading}
                 onPress={handleSubmit(this.onSubmit)}
                 baseClass="mt-55 mx-3"
-                height={42}
+                size="lg"
               >
                 {t('button.save')}
               </BaseButton>

@@ -1,37 +1,39 @@
-import React, { Component } from 'react';
-import { Animated } from 'react-native';
+import React, {Component} from 'react';
+import {Animated} from 'react-native';
 
 interface IState {
-    opacityAnimate: any;
+  opacityAnimate: any;
 }
 
-export class FadeAnimation extends Component<{}, IState> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            opacityAnimate: new Animated.Value(0)
-        };
-    }
+interface IProps {
+  duration?: Number;
+}
 
-    componentDidMount() {
-        this.fadeIn();
-    }
-
-    fadeIn = () => {
-        Animated.timing(this.state.opacityAnimate, {
-            toValue: 1,
-            duration: 200,
-            useNativeDriver: true
-        }).start(() => {});
+export class FadeAnimation extends Component<IProps, IState> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      opacityAnimate: new Animated.Value(0)
     };
+  }
 
-    render() {
-        return (
-            <Animated.View
-                style={{ flex: 1, opacity: this.state.opacityAnimate }}
-            >
-                {this.props.children}
-            </Animated.View>
-        );
-    }
+  componentDidMount() {
+    this.fadeIn();
+  }
+
+  fadeIn = () => {
+    Animated.timing(this.state.opacityAnimate, {
+      toValue: 1,
+      duration: this.props.duration ?? 250,
+      useNativeDriver: true
+    }).start(() => {});
+  };
+
+  render() {
+    return (
+      <Animated.View style={{flex: 1, opacity: this.state.opacityAnimate}}>
+        {this.props.children}
+      </Animated.View>
+    );
+  }
 }

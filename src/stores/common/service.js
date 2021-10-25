@@ -1,7 +1,7 @@
 import Request from '@/utils/request';
 
 /**
- * Fetch Tax And Discount Per item.
+ * Fetch Tax And Discount Per item
  * @returns {*}
  */
 export const fetchTaxAndDiscountPerItem = () => {
@@ -14,7 +14,7 @@ export const fetchTaxAndDiscountPerItem = () => {
 };
 
 /**
- * Ping url.
+ * Ping endpoint url
  * @param url
  * @returns {*}
  */
@@ -24,4 +24,20 @@ export const pingUrl = url => {
     isAuthRequired: false,
     isPing: `${url}/api/`
   });
+};
+
+/**
+ * Check app version
+ * @returns {*}
+ */
+export const checkAppVersion = () => {
+  return Request.get({path: 'app/version', isAuthRequired: false});
+};
+
+/**
+ * Fetch bootstrap
+ * @returns {*}
+ */
+export const fetchBootstrap = () => {
+  return Request.get({path: 'bootstrap'});
 };

@@ -7,7 +7,7 @@ import {View, Text, ButtonView, Loading} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 import {colors} from '@/styles';
 import {ITheme} from '@/interfaces';
-import {defineSize, isEmpty} from '@/constants';
+import {defineLargeSizeParam, defineSize, isEmpty} from '@/constants';
 
 interface IProps {
   /**
@@ -42,6 +42,11 @@ interface IProps {
   type?: 'primary' | 'danger' | 'gradient';
 
   /**
+   * Size of button.
+   */
+  size?: 'sm' | 'md' | 'lg';
+
+  /**
    * If true, show base button.
    */
   show?: boolean;
@@ -60,11 +65,6 @@ interface IProps {
    * The style of the content container(Button).
    */
   style?: StyleProp<ViewStyle> | undefined;
-
-  /**
-   * The height of button.
-   */
-  height?: string;
 }
 
 export const Button = (props: IProps) => {
@@ -75,8 +75,8 @@ export const Button = (props: IProps) => {
     disabled,
     baseClass,
     type = 'primary',
-    style,
-    height
+    size = 'md',
+    style
   } = props;
 
   const bgColor = {
@@ -88,6 +88,11 @@ export const Button = (props: IProps) => {
       light: colors.danger,
       dark: colors.danger
     }
+  };
+  const height = {
+    sm: defineLargeSizeParam(33, 30),
+    md: defineLargeSizeParam(41, 39),
+    lg: defineLargeSizeParam(44, 42)
   };
 
   const label = (
@@ -111,7 +116,7 @@ export const Button = (props: IProps) => {
         background-color={bgColor?.[type]?.[theme?.mode]}
         radius-5
         width="100%"
-        height={height ? height : '39'}
+        height={height[size]}
         class={`justify-center items-center overflow-hidden ${props.class}`}
         style={style}
         disabled={disabled || loading}

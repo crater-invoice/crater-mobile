@@ -29,7 +29,7 @@ import {CustomerSelectModal, StatusSelectModal} from '@/select-modal';
 import {TemplateField} from '@/components';
 import styles from './create-recurring-invoice-styles';
 import {FrequencyField, LimitField} from '../recurring-invoices-common';
-import {statusSelector} from '@/stores/recurring-invoices/selectors';
+import {statusSelector} from 'stores/recurring-invoices/selectors';
 import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
 import {
   total,
@@ -41,7 +41,7 @@ import {
   getItemList,
   finalAmount
 } from '@/components/final-amount/final-amount-calculation';
-import {setCalculationRef} from '@/stores/common/helpers';
+import {setCalculationRef} from 'stores/common/helpers';
 import {getApiFormattedCustomFields} from '@/utils';
 
 export default class CreateRecurringInvoice extends Component<IProps, IStates> {

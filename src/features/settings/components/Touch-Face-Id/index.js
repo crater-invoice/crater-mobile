@@ -9,9 +9,9 @@ import {biometricAuthentication} from '@/utils';
 import {
   DefaultLayout,
   AssetSvg,
-  CtGradientButton,
   ToggleSwitch,
-  AnimatedCircularProgress
+  AnimatedCircularProgress,
+  BaseButton
 } from '@/components';
 import {
   BIOMETRY_AUTH_TYPES,
@@ -426,12 +426,14 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
               opacity: this.animatedButtonSetUpNowFadeOut
             }}
           >
-            <CtGradientButton
+            <BaseButton
+              type="gradient"
+              baseClass="width=72%"
+              size="lg"
               onPress={() => !isAllowToScan && this.setUpNow()}
-              btnTitle={t('button.setUpNow')}
-              loading={false}
-              buttonContainerStyle={{width: '75%'}}
-            />
+            >
+              {t('button.setUpNow')}
+            </BaseButton>
 
             <GobBackButton onPress={() => navigation.goBack(null)}>
               <GobBackButtonText>{t('button.later')}</GobBackButtonText>

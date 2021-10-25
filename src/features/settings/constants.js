@@ -5,7 +5,6 @@ import t from 'locales/use-translation';
 
 // Forms
 // -----------------------------------------
-export const SET_ENDPOINT_API = 'settingsForm/SET_ENDPOINT_API';
 export const EDIT_ACCOUNT = 'accountForm/EDIT_ACCOUNT';
 export const EDIT_COMPANY = 'accountForm/EDIT_COMPANY';
 export const NOTIFICATION = 'notification/NOTIFICATION';

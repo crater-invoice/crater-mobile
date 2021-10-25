@@ -35,7 +35,7 @@ import {getCustomFields} from '@/features/settings/saga/custom-fields';
 import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
-import {fetchTaxAndDiscountPerItem} from '@/stores/common/actions';
+import {fetchTaxAndDiscountPerItem} from 'stores/common/actions';
 
 function* getEstimates({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;

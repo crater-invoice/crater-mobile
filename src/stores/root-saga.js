@@ -1,7 +1,7 @@
 import {all, takeEvery, select} from 'redux-saga/effects';
 import {REHYDRATE} from 'redux-persist/src/constants';
 
-import auth from '@/features/authentication/saga';
+import auth from 'stores/auth/saga';
 import invoices from '@/features/invoices/saga';
 import estimates from '@/features/estimates/saga';
 import customers from '@/features/customers/saga';

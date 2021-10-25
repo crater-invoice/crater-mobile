@@ -1,13 +1,9 @@
 import {formatTaxTypes} from '@/utils';
 import * as types from './types';
 import {
-  SET_GLOBAL_BOOTSTRAP,
   SET_SETTINGS,
-  GLOBAL_TRIGGER_SPINNER,
   DATE_FORMAT,
-  SAVE_ENDPOINT_API,
   SET_MAIL_CONFIGURATION,
-  SET_LAST_AUTO_UPDATE_DATE,
   SWITCH_THEME
 } from '@/constants';
 import {
@@ -41,7 +37,7 @@ const initialState = {
   mailDriver: null,
   fiscalYear: '2-1',
   biometryAuthType: null,
-  lastAutoUpdateDate: null,
+  lastOTACheckDate: null,
   theme: darkTheme,
   abilities: []
 };
@@ -50,9 +46,6 @@ export default function commonReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {
-    case GLOBAL_TRIGGER_SPINNER:
-      return {...state, loading: false};
-
     case types.SAVE_ENDPOINT_URL_SUCCESS:
       return {
         ...state,
@@ -67,7 +60,7 @@ export default function commonReducer(state = initialState, action) {
     case SET_COMPANY_INFO:
       return {...state, company: payload.company};
 
-    case SET_GLOBAL_BOOTSTRAP:
+    case types.FETCH_BOOTSTRAP_SUCCESS:
       const {
         user,
         company,
@@ -146,8 +139,8 @@ export default function commonReducer(state = initialState, action) {
     case SET_BIOMETRY_AUTH_TYPE:
       return {...state, biometryAuthType: payload};
 
-    case SET_LAST_AUTO_UPDATE_DATE:
-      return {...state, lastAutoUpdateDate: payload};
+    case types.SET_LAST_OTA_CHECK_DATE:
+      return {...state, lastOTACheckDate: payload};
 
     case SWITCH_THEME:
       return {...state, theme: payload};
