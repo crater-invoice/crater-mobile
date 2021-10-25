@@ -39,7 +39,7 @@ interface IProps {
   /**
    * Type of button.
    */
-  type?: 'primary' | 'danger' | 'gradient';
+  type?: 'primary' | 'danger' | 'primary-gradient';
 
   /**
    * Size of button.
@@ -57,11 +57,6 @@ interface IProps {
   class?: string;
 
   /**
-   * The style of the parent content container(Button).
-   */
-  baseClass?: string;
-
-  /**
    * The style of the content container(Button).
    */
   style?: StyleProp<ViewStyle> | undefined;
@@ -73,7 +68,6 @@ export const Button = (props: IProps) => {
     theme,
     loading,
     disabled,
-    baseClass,
     type = 'primary',
     size = 'md',
     style
@@ -110,7 +104,7 @@ export const Button = (props: IProps) => {
   };
 
   return (
-    <View class={baseClass}>
+    <View class={props['base-class']}>
       <ButtonView
         onPress={onPress}
         background-color={bgColor?.[type]?.[theme?.mode]}
@@ -122,7 +116,7 @@ export const Button = (props: IProps) => {
         disabled={disabled || loading}
         opacity={disabled ? 0.7 : 1}
       >
-        {type === 'gradient' ? (
+        {type === 'primary-gradient' ? (
           <LinearGradient {...gradientStyle}>{children}</LinearGradient>
         ) : (
           children

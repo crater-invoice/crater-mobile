@@ -137,9 +137,9 @@ export default class Login extends React.Component<IProps, IStates> {
               </View>
 
               <BaseButton
-                baseClass="mx-5"
+                base-class="mx-5"
                 class={`mt-${defineLargeSizeParam(40, 25)}`}
-                type="gradient"
+                type="primary-gradient"
                 size="lg"
                 onPress={this.props.handleSubmit(this.onSubmit)}
                 loading={this.state.isLoading}

@@ -427,8 +427,8 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
             }}
           >
             <BaseButton
-              type="gradient"
-              baseClass="width=72%"
+              type="primary-gradient"
+              base-class="width=72%"
               size="lg"
               onPress={() => !isAllowToScan && this.setUpNow()}
             >

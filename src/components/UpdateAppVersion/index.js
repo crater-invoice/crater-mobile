@@ -1,39 +1,56 @@
 import React, {Component} from 'react';
-import {View, Platform} from 'react-native';
+import {View, BackHandler} from 'react-native';
 import * as Linking from 'expo-linking';
 import {connect} from 'react-redux';
 import {styles, Container} from './styles';
-import {AssetImage} from '../AssetImage';
-import {CtGradientButton} from '../Button';
 import {Text} from '../Text';
+import {AssetImage} from '../AssetImage';
+import {BaseButton} from '../base/base-button';
 import t from 'locales/use-translation';
 import {commonSelector} from 'stores/common/selectors';
+import {isAndroidPlatform} from '@/constants';
 
 export class UpdateAppVersion extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loading: false
-    };
+    this.state = {loading: false};
   }
 
-  onUpdateApp = () => {
-    this.setState({loading: true});
+  componentDidMount() {
+    BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick
+    );
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick
+    );
+  }
+
+  handleBackButtonClick() {
+    return true;
+  }
+
+  onUpdateApp = async () => {
+    await this.setState({loading: true});
+
+    const url = {
+      ios: 'http://itunes.apple.com/app/id1489169767',
+      android: 'https://play.google.com/store/apps/details?id=com.craterapp.app'
+    };
+
+    isAndroidPlatform ? Linking.openURL(url.android) : Linking.openURL(url.ios);
 
     setTimeout(() => {
       this.setState({loading: false});
     }, 1000);
-
-    Platform.OS === 'android'
-      ? Linking.openURL(
-          'https://play.google.com/store/apps/details?id=com.craterapp.app'
-        )
-      : Linking.openURL('http://itunes.apple.com/app/id1489169767');
   };
 
   render() {
     const {theme} = this.props;
-    const {loading} = this.state;
 
     return (
       <Container>
@@ -66,22 +83,21 @@ export class UpdateAppVersion extends Component {
             </Text>
           </View>
 
-          <View style={{marginTop: 25}}>
-            <CtGradientButton
-              onPress={() => this.onUpdateApp()}
-              btnTitle={t('button.updateCapital')}
-              loading={loading}
-            />
-          </View>
+          <BaseButton
+            type="primary-gradient"
+            base-class="mt-30 mx-5"
+            onPress={this.onUpdateApp}
+            loading={this.state.loading}
+          >
+            {t('button.updateCapital')}
+          </BaseButton>
         </View>
       </Container>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
 const UpdateAppVersionContainer = connect(mapStateToProps)(UpdateAppVersion);
 

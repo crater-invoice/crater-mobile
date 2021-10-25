@@ -103,10 +103,10 @@ export default class Endpoint extends Component<IProps, IStates> {
               </View>
 
               <BaseButton
-                type="gradient"
+                type="primary-gradient"
                 loading={this.state.isLoading}
                 onPress={handleSubmit(this.onSubmit)}
-                baseClass="mt-55 mx-3"
+                base-class="mt-55 mx-3"
                 size="lg"
               >
                 {t('button.save')}

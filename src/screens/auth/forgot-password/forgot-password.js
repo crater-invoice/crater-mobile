@@ -111,10 +111,10 @@ export default class ForgotPassword extends React.Component<IProps, IStates> {
                     {t('forgot.emailLabel')}
                   </Text>
                   <BaseButton
-                    type="gradient"
+                    type="primary-gradient"
                     loading={this.state.isLoading}
                     onPress={handleSubmit(this.onSendMail)}
-                    baseClass="mt-55 mx-3"
+                    base-class="mt-55 mx-3"
                     size="lg"
                   >
                     {t('button.recoveryEmail')}
@@ -136,10 +136,10 @@ export default class ForgotPassword extends React.Component<IProps, IStates> {
                     </Text>
                   </View>
                   <BaseButton
-                    type="gradient"
+                    type="primary-gradient"
                     loading={this.state.isLoading}
                     onPress={this.resendMail}
-                    baseClass="mt-55 mx-5"
+                    base-class="mt-55 mx-5"
                     size="lg"
                   >
                     {t('button.recoveryEmailAgain')}
