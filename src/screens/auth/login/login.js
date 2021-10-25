@@ -4,111 +4,59 @@ import {
   ScrollView,
   View,
   KeyboardAvoidingView,
-  TouchableOpacity,
-  Keyboard
+  TouchableOpacity
 } from 'react-native';
-import {Field, reset} from 'redux-form';
-import {styles, Container} from './styles';
-import {
-  InputField,
-  AssetImage,
-  CtGradientButton,
-  Text,
-  AssetSvg
-} from '@/components';
-import Constants from 'expo-constants';
+import {Field} from 'redux-form';
+import {styles, Container} from './login-style';
 import {routes} from '@/navigation';
+import {IProps, IStates} from './login-type';
 import t from 'locales/use-translation';
 import {biometricAuthentication, STATUS_BAR_CONTENT} from '@/utils';
-import {INVOICE_SEARCH as INVOICES_FORM} from '@/features/invoices/constants';
+import {InputField, AssetImage, Text, AssetSvg, BaseButton} from '@/components';
+import {login, biometryAuthLogin} from 'stores/auth/actions';
 import {
   BIOMETRY_AUTH_TYPES,
+  defineLargeSizeParam,
   hasObjectLength,
   hasValue,
-  isIosPlatform,
-  isIPhoneX,
+  hitSlop,
   keyboardReturnKeyType,
   keyboardType
 } from '@/constants';
 
-type IProps = {
-  navigation: Object,
-  login: Function,
-  handleSubmit: Function,
-  biometryAuthType: string,
-  biometryAuthLogin: Function
-};
-
-export class Login extends React.Component<IProps> {
-  keyboardDidShowListener: any;
-  keyboardDidHideListener: any;
-
+export default class Login extends React.Component<IProps, IStates> {
   constructor(props) {
     super(props);
-    this.state = {
-      isKeyboardVisible: false,
-      isLoading: false
-    };
+    this.state = {isLoading: false};
   }
-
-  componentDidMount = () => {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () =>
-      this.setState({isKeyboardVisible: true})
-    );
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () =>
-      this.setState({isKeyboardVisible: false})
-    );
-    this.props.dispatch?.(reset?.(INVOICES_FORM));
-  };
-
-  componentWillUnmount = () => {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-  };
 
   onSubmit = async values => {
     if (!hasObjectLength(values)) {
       return;
     }
-
-    const {login} = this.props;
     await this.setState({isLoading: true});
-    const onResult = () => this.setState({isLoading: false});
-    const params = {...values, device_name: Constants.deviceName};
-    login({params, onResult});
+    this.props.dispatch(login(values, () => this.setState({isLoading: false})));
   };
 
   loginViaBiometry = async () => {
     try {
-      const {biometryAuthLogin} = this.props;
       biometricAuthentication({
         onSuccess: async () => {
           await this.setState({isLoading: true});
-          biometryAuthLogin(() => this.setState({isLoading: false}));
+          this.props.dispatch(
+            biometryAuthLogin(() => this.setState({isLoading: false}))
+          );
         }
       });
     } catch (e) {}
   };
 
   render() {
+    const loginRefs: any = {};
     const {navigation, biometryAuthType, theme} = this.props;
-    const {isKeyboardVisible} = this.state;
-
     const BIOMETRY_TYPES_TITLES = {
       [BIOMETRY_AUTH_TYPES.FINGERPRINT]: t('touchFaceId.touchId'),
       [BIOMETRY_AUTH_TYPES.FACE]: t('touchFaceId.faceId')
-    };
-
-    let loginRefs: any = {};
-    let scrollViewStyle = {
-      paddingTop:
-        isKeyboardVisible && !isIPhoneX()
-          ? isIosPlatform
-            ? '18%'
-            : '10%'
-          : isIPhoneX()
-          ? '50%'
-          : '34%'
     };
 
     return (
@@ -122,17 +70,10 @@ export class Login extends React.Component<IProps> {
 
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate(routes.ENDPOINTS, {
-              skipEndpoint: true
-            })
+            navigation.navigate(routes.ENDPOINTS, {showBackButton: true})
           }
           style={styles.setting}
-          hitSlop={{
-            top: 15,
-            left: 15,
-            bottom: 15,
-            right: 15
-          }}
+          hitSlop={hitSlop(15, 15, 15, 15)}
         >
           <AssetSvg
             name={AssetSvg.icons.setting}
@@ -143,22 +84,18 @@ export class Login extends React.Component<IProps> {
         </TouchableOpacity>
 
         <ScrollView
-          style={scrollViewStyle}
-          bounces={isKeyboardVisible}
+          contentContainerStyle={{
+            paddingTop: defineLargeSizeParam('55%', '38%')
+          }}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
-          <KeyboardAvoidingView
-            style={{flex: 1}}
-            contentContainerStyle={{flex: 1}}
-            keyboardVerticalOffset={0}
-            behavior="height"
-          >
+          <KeyboardAvoidingView keyboardVerticalOffset={0} behavior="position">
             <View style={styles.main}>
               <View style={styles.logoContainer}>
                 <AssetImage
                   imageSource={AssetImage.images[(theme?.mode)].logo}
-                  imageStyle={styles.imgLogo}
+                  imageStyle={styles.logo}
                 />
               </View>
 
@@ -199,15 +136,16 @@ export class Login extends React.Component<IProps> {
                 </TouchableOpacity>
               </View>
 
-              <View style={{marginTop: 25}}>
-                <CtGradientButton
-                  onPress={this.props.handleSubmit(this.onSubmit)}
-                  btnTitle={t('button.singIn')}
-                  loading={this.state.isLoading}
-                  isLoading={this.state.isLoading}
-                  style={{paddingVertical: 8}}
-                />
-              </View>
+              <BaseButton
+                base-class="mx-5"
+                class={`mt-${defineLargeSizeParam(40, 25)}`}
+                type="primary-gradient"
+                size="lg"
+                onPress={this.props.handleSubmit(this.onSubmit)}
+                loading={this.state.isLoading}
+              >
+                {t('button.singIn')}
+              </BaseButton>
             </View>
           </KeyboardAvoidingView>
         </ScrollView>

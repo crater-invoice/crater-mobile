@@ -136,7 +136,10 @@ const styles = StyleSheet.create({
     paddingLeft: 15
   },
   leftSymbol: {
-    paddingLeft: 15
+    paddingLeft: 15,
+    ...(isAndroidPlatform && {
+      marginTop: 4
+    })
   },
   rightIcon: {
     paddingRight: 15

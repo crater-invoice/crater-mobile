@@ -24,8 +24,8 @@ import {
   MAX_LENGTH
 } from '@/constants';
 import {TaxSelectModal, UnitSelectModal} from '@/select-modal';
-import {itemActions} from '@/stores/items/helper';
-import {CREATE_ITEM_FORM, ITEM_DISCOUNT_OPTION} from '@/stores/items/types';
+import {itemActions} from 'stores/items/helper';
+import {CREATE_ITEM_FORM, ITEM_DISCOUNT_OPTION} from 'stores/items/types';
 import {IProps} from './create-item-types';
 
 export class CreateItem extends React.Component<IProps> {

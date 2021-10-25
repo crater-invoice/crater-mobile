@@ -19,7 +19,7 @@ export class Settings extends React.Component {
 
     if (item.route) {
       item.route === routes.ENDPOINTS_SETTINGS
-        ? navigation.navigate(item.route, {skipEndpoint: true})
+        ? navigation.navigate(item.route, {showBackButton: true})
         : navigation.navigate(item.route);
     } else {
       this[item.action]();

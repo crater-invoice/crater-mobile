@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {Field} from 'redux-form';
 import {colors} from '@/styles';
 import {commonSelector} from 'stores/common/selectors';
-import {keyboardType} from '@/constants';
+import {isAndroidPlatform, keyboardType} from '@/constants';
 import {
   AssetIcon,
   BaseError,
@@ -78,7 +78,10 @@ const styles = StyleSheet.create({
     borderColor: colors.dangerLight
   },
   leftIcon: {
-    paddingLeft: 15
+    paddingLeft: 15,
+    ...(isAndroidPlatform && {
+      marginTop: -2
+    })
   },
   text: props => ({
     paddingLeft: 13,

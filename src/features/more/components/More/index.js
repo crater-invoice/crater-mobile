@@ -4,7 +4,7 @@ import {MainLayout, ListView} from '@/components';
 import {MORE_MENU} from '../../constants';
 import t from 'locales/use-translation';
 import {alertMe} from '@/constants';
-import {logoutSuccess} from '@/features/authentication/actions';
+import {logoutSuccess} from 'stores/auth/actions';
 
 export class More extends React.Component {
   constructor(props) {

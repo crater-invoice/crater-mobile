@@ -32,7 +32,7 @@ export interface IProps {
   /**
    * Get main app data.
    */
-  getBootstrap: (fun: object) => void;
+  fetchBootstrap: (fun: object) => void;
 
   /**
    * An array of objects with data for each ability.

@@ -20,7 +20,7 @@ import {
   removeRecurringInvoice
 } from 'stores/recurring-invoices/actions';
 import styles from './view-recurring-invoice-styles';
-import {formattedInvoices} from '@/stores/recurring-invoices/selectors';
+import {formattedInvoices} from 'stores/recurring-invoices/selectors';
 import {ARROW_ICON} from '@/assets';
 
 export default class ViewRecurringInvoice extends Component<IProps, IStates> {

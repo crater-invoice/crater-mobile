@@ -1,11 +1,10 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {routes} from '../navigation-routes';
-import Login from '@/features/authentication/containers/Login';
-import ForgotPassword from '@/features/authentication/containers/ForgetPassword';
 import {navigatorOptions as options} from '../navigation-action';
 import UpdateApp from '@/components/UpdateAppVersion';
-import Endpoint from '@/features/authentication/containers/Endpoint';
+import {Login, ForgotPassword} from 'screens/auth';
+import {Endpoint} from 'screens/endpoint';
 import {LostConnection} from '@/components';
 
 const AuthStack = createStackNavigator();

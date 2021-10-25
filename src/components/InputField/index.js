@@ -187,7 +187,7 @@ export class InputFieldComponent extends Component<IInputField> {
       icons = {
         rightIcon: (
           <ButtonView
-            scale={0.9}
+            scale={0.8}
             onPress={this.toggleSecureTextEntry}
             hitSlop={hitSlop(13, 13, 13, 13)}
             class="justify-center items-center pt-2 px-15"

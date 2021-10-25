@@ -14,7 +14,7 @@ import {IProps} from './navigation-type';
 const Stack = createStackNavigator();
 
 export default (props: IProps) => {
-  const {isLogin, endpointApi, checkOTAUpdate, getBootstrap} = props;
+  const {isLogin, endpointApi, checkOTAUpdate, fetchBootstrap} = props;
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
@@ -34,8 +34,7 @@ export default (props: IProps) => {
     }
 
     const oldActiveTab = getActiveMainTab();
-
-    getBootstrap(res => {
+    fetchBootstrap(res => {
       const activeTab = getActiveMainTab();
       oldActiveTab !== activeTab && navigateTo({route: activeTab});
       checkOTAUpdate();

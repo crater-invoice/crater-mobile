@@ -41,7 +41,7 @@ import {alertMe, isEmpty} from '@/constants';
 import {getApiFormattedCustomFields} from '@/utils';
 import {CustomerSelectModal} from '@/select-modal';
 import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
-import {setCalculationRef} from '@/stores/common/helpers';
+import {setCalculationRef} from 'stores/common/helpers';
 import {showNotification} from '@/utils';
 
 type IProps = {

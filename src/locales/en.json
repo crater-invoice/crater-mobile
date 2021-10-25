@@ -525,7 +525,7 @@
     "emailLabel": "Enter your email and we will send you reset password link",
     "emailPlaceholder": "Enter Your Email",
     "emailSendTitle": "Check Your Email",
-    "emailSendDescription": " A Password reset link has been sent to your email, Please follow the instructions on the email to create a new password",
+    "emailSendDescription": "A Password reset link has been sent to your email, Please follow the instructions on the email to create a new password.",
     "emailSendError": "Email could not be sent to this email address."
   },
   "lostInternet": {
@@ -1002,6 +1002,7 @@
     "invoice_cloned": "Invoice cloned successfully",
     "recurring_invoice_created": "Recurring Invoice created successfully",
     "recurring_invoice_updated": "Recurring Invoice updated successfully",
-    "recurring_invoice_deleted": "Recurring Invoice deleted successfully"
+    "recurring_invoice_deleted": "Recurring Invoice deleted successfully",
+    "password_reset_link": "The password reset link was sent successfully."
   }
 }

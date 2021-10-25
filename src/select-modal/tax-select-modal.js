@@ -57,7 +57,7 @@ export const TaxSelectModal = (props: IProps) => {
           ? {
               customView: ({props}) => (
                 <View class="flex-row">
-                  <View class="flex=0.9" />
+                  <View style={{flex: 0.9}} />
                   <TouchableOpacity
                     onPress={() => props?.onChangeCallback?.()}
                     activeOpacity={0.5}

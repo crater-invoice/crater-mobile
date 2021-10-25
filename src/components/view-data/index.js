@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from '@/components';
 import {ITheme} from '@/interfaces';
-import {commonSelector} from '@/stores/common/selectors';
+import {commonSelector} from 'stores/common/selectors';
 import {connect} from 'react-redux';
 
 type IProps = {
