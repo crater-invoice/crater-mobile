@@ -4,10 +4,15 @@ import t from 'locales/use-translation';
 import {IProps, IStates} from './create-user-type';
 import {routes} from '@/navigation';
 import {alertMe, keyboardType} from '@/constants';
-import {CREATE_USER_FORM} from 'stores/users/types';
-import {DefaultLayout, InputField, ActionButton} from '@/components';
-import headerTitle from 'utils/header';
+import {secondaryHeader} from 'utils/header';
 import {RoleSelectModal} from '@/select-modal';
+import {CREATE_USER_FORM} from 'stores/users/types';
+import {
+  DefaultLayout,
+  InputField,
+  BaseButtonGroup,
+  BaseButton
+} from '@/components';
 import {
   addUser,
   updateUser,
@@ -31,7 +36,6 @@ export default class CreateUser extends Component<IProps, IStates> {
       dispatch(fetchSingleUser(id, user => this.setInitialData(user)));
       return;
     }
-
     this.setState({isFetchingInitialData: false});
   };
 
@@ -41,25 +45,21 @@ export default class CreateUser extends Component<IProps, IStates> {
     this.setState({isFetchingInitialData: false});
   };
 
-  onSave = values => {
-    const {id, isCreateScreen, navigation, dispatch} = this.props;
+  onSave = params => {
+    const {id, isCreateScreen, dispatch} = this.props;
     const {isFetchingInitialData} = this.state;
 
     if (this.props.isSaving || this.props.isDeleting || isFetchingInitialData) {
       return;
     }
 
-    const params = {
-      id,
-      params: values,
-      navigation
-    };
-
-    isCreateScreen ? dispatch(addUser(params)) : dispatch(updateUser(params));
+    isCreateScreen
+      ? dispatch(addUser({params}))
+      : dispatch(updateUser({id, params}));
   };
 
   removeUser = () => {
-    const {id, navigation, dispatch} = this.props;
+    const {id, dispatch} = this.props;
 
     function confirmationAlert(remove) {
       alertMe({
@@ -70,7 +70,7 @@ export default class CreateUser extends Component<IProps, IStates> {
       });
     }
 
-    confirmationAlert(() => dispatch(removeUser(id, navigation)));
+    confirmationAlert(() => dispatch(removeUser(id)));
   };
 
   setFormField = (field, value) => {
@@ -81,8 +81,8 @@ export default class CreateUser extends Component<IProps, IStates> {
   navigateToRole = () => {
     const {navigation} = this.props;
     navigation.navigate(routes.CREATE_ROLE, {
-      type: 'ADD',
-      onSelect: item => this.setFormField(`role`, item.name)
+      onSelect: item => this.setFormField(`role`, item.name),
+      type: 'ADD'
     });
   };
 
@@ -95,46 +95,43 @@ export default class CreateUser extends Component<IProps, IStates> {
       formValues,
       isSaving,
       isDeleting,
-      navigation,
       fetchRoles,
       handleSubmit
     } = this.props;
     const userRefs: any = {};
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
-    const loading = isFetchingInitialData || isSaving || isDeleting;
+    const headerProps = secondaryHeader({
+      ...this.props,
+      rightIconPress: handleSubmit(this.onSave)
+    });
 
-    const bottomAction = [
-      {
-        label: 'button.save',
-        onPress: handleSubmit(this.onSave),
-        show: isAllowToEdit,
-        loading
-      },
-      {
-        label: 'button.remove',
-        onPress: this.removeUser,
-        bgColor: 'btn-danger',
-        show: isEditScreen && isAllowToDelete,
-        loading
-      }
-    ];
-
-    const headerProps = {
-      leftIconPress: () => navigation.goBack(null),
-      title: headerTitle(this.props),
-      placement: 'center',
-      ...(isAllowToEdit && {
-        rightIcon: 'save',
-        rightIconProps: {solid: true},
-        rightIconPress: handleSubmit(this.onSave)
-      })
-    };
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          show={isAllowToEdit}
+          loading={isSaving}
+          disabled={isFetchingInitialData || isDeleting}
+          onPress={handleSubmit(this.onSave)}
+        >
+          {t('button.save')}
+        </BaseButton>
+        <BaseButton
+          type="danger"
+          show={isEditScreen && isAllowToDelete}
+          loading={isDeleting}
+          disabled={isFetchingInitialData || isSaving}
+          onPress={this.removeUser}
+        >
+          {t('button.remove')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <DefaultLayout
         headerProps={headerProps}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData}}
       >
         <Field

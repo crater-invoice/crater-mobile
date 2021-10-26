@@ -9,6 +9,11 @@ const layoutProps = route => {
         title: t('header.expenseCategory'),
         navigateToRoute: routes.CREATE_CATEGORY
       };
+    case routes.USERS:
+      return {
+        title: t('header.users'),
+        navigateToRoute: routes.CREATE_USER
+      };
     default:
       return {title: '', navigateToRoute: null};
   }

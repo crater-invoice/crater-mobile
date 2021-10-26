@@ -6,9 +6,8 @@ import {AssetImage, Text} from '@/components';
 import {BaseButton} from './base-button';
 import {commonSelector} from 'stores/common/selectors';
 import {hasTextLength} from '@/constants';
-import t from 'locales/use-translation';
+import {emptyContentPlaceholder} from '@/utils';
 import {PermissionService} from '@/services';
-import {routes} from '@/navigation';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -65,9 +64,14 @@ interface IProps {
 
 export const EmptyPlaceholder = (props: IProps) => {
   const {route, theme} = props;
-  const {title, description, image, buttonTitle, buttonPress} = contentProps(
-    props
-  );
+  const {
+    title,
+    description,
+    image,
+    buttonTitle,
+    buttonPress
+  } = emptyContentPlaceholder(props);
+
   let showButton = hasTextLength(buttonTitle);
 
   if (route && hasTextLength(buttonTitle)) {
@@ -141,32 +145,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 40
   }
 });
-
-const contentProps = props => {
-  const {route, search, navigation} = props;
-  switch (route?.name) {
-    case routes.CATEGORIES:
-      const title = search ? 'search.noResult' : 'categories.empty.title';
-      return {
-        title: t(title, {search}),
-        ...(!search && {
-          description: t('categories.empty.description'),
-          buttonTitle: t('categories.empty.buttonTitle'),
-          buttonPress: () =>
-            navigation.navigate(routes.CREATE_CATEGORY, {type: 'ADD'})
-        })
-      };
-
-    default:
-      return {
-        title: props?.title,
-        description: props?.description,
-        image: props?.image,
-        buttonTitle: props?.buttonTitle,
-        buttonPress: props?.buttonPress
-      };
-  }
-};
 
 const mapStateToProps = state => commonSelector(state);
 

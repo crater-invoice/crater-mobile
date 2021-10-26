@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
-import t from 'locales/use-translation';
-import {ARROW_ICON} from '@/assets';
 import {isEmpty} from '@/constants';
 import {fetchUsers} from 'stores/users/actions';
 import {IProps, IStates} from './users-type';
-import {InfiniteScroll, ListView, MainLayout} from '@/components';
 import {routes} from '@/navigation';
+import {primaryHeader} from '@/utils';
+import {
+  BaseEmptyPlaceholder,
+  InfiniteScroll,
+  ListView,
+  MainLayout
+} from '@/components';
 
 export default class Users extends Component<IProps, IStates> {
   scrollViewReference: any;
@@ -49,31 +53,12 @@ export default class Users extends Component<IProps, IStates> {
     this.props.navigation.navigate(routes.CREATE_USER, {type: 'ADD'});
 
   render() {
-    const {navigation, dispatch, users, route} = this.props;
+    const {dispatch, users, route} = this.props;
     const {search} = this.state;
-    const emptyTitle = search ? 'search.noResult' : 'users.empty.title';
-    const emptyContentProps = {
-      title: t(emptyTitle, {search}),
-      ...(!search && {
-        description: t('users.empty.description'),
-        buttonTitle: t('users.text_add_new_user'),
-        buttonPress: this.addNewUser
-      })
-    };
-
-    const headerProps = {
-      leftIcon: ARROW_ICON,
-      leftIconPress: () => navigation.goBack(null),
-      title: t('header.users'),
-      placement: 'center',
-      route,
-      rightIcon: 'plus',
-      rightIconPress: this.addNewUser
-    };
 
     return (
       <MainLayout
-        headerProps={headerProps}
+        headerProps={primaryHeader({route})}
         onSearch={this.onSearch}
         bottomDivider
       >
@@ -86,11 +71,12 @@ export default class Users extends Component<IProps, IStates> {
             items={users}
             isAnimated
             hasAvatar
-            route={route}
             bottomDivider
             onPress={this.onSelect}
             isEmpty={isEmpty(users)}
-            emptyContentProps={emptyContentProps}
+            emptyPlaceholder={
+              <BaseEmptyPlaceholder {...this.props} search={search} />
+            }
           />
         </InfiniteScroll>
       </MainLayout>

@@ -4,6 +4,7 @@ import * as req from './service';
 import {spinner} from './actions';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
+import {navigation} from '@/navigation';
 
 /**
  * Fetch users saga
@@ -38,12 +39,11 @@ function* fetchSingleUser({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* addUser({payload}) {
-  const {params, navigation} = payload;
   try {
     yield put(spinner('isSaving', true));
-    const {data} = yield call(req.addUser, params);
+    const {data} = yield call(req.addUser, payload.params);
     yield put({type: types.ADD_USER_SUCCESS, payload: data});
-    navigation.goBack(null);
+    navigation.goBack();
     showNotification({message: t('notification.user_created')});
   } catch (e) {
     handleError(e);
@@ -57,12 +57,12 @@ function* addUser({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* updateUser({payload}) {
-  const {id, params, navigation} = payload;
   try {
     yield put(spinner('isSaving', true));
+    const {id, params} = payload;
     const {data} = yield call(req.updateUser, id, params);
     yield put({type: types.UPDATE_USER_SUCCESS, payload: data});
-    navigation.goBack(null);
+    navigation.goBack();
     showNotification({message: t('notification.user_updated')});
   } catch (e) {
     handleError(e);
@@ -76,12 +76,12 @@ function* updateUser({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* removeUser({payload}) {
-  const {id, navigation} = payload;
   try {
     yield put(spinner('isDeleting', true));
+    const {id} = payload;
     yield call(req.removeUser, id);
     yield put({type: types.REMOVE_USER_SUCCESS, payload: id});
-    navigation.goBack(null);
+    navigation.goBack();
     showNotification({message: t('notification.user_deleted')});
   } catch (e) {
     handleError(e);

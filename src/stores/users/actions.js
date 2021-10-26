@@ -65,13 +65,11 @@ export function updateUser(payload = {}) {
 /**
  * Remove user
  * @param id
- * @param navigation
- * @param onFail
  * @returns {{type: string, payload: *}}
  */
-export function removeUser(id, navigation, onFail) {
+export function removeUser(id) {
   return {
     type: types.REMOVE_USER,
-    payload: {id, navigation, onFail}
+    payload: {id}
   };
 }

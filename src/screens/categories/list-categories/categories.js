@@ -52,9 +52,6 @@ export default class Categories extends React.Component<IProps, IStates> {
     });
   };
 
-  addNewCategory = () =>
-    this.props.navigation.navigate(routes.CREATE_CATEGORY, {type: 'ADD'});
-
   render() {
     const {categories, dispatch, route} = this.props;
     const {search} = this.state;
@@ -74,7 +71,6 @@ export default class Categories extends React.Component<IProps, IStates> {
           <ListView
             isAnimated
             bottomDivider
-            route={route}
             items={categories}
             onPress={this.onSelect}
             isEmpty={isEmpty(categories)}
