@@ -14,6 +14,11 @@ const layoutProps = route => {
         title: t('header.users'),
         navigateToRoute: routes.CREATE_USER
       };
+    case routes.ROLES:
+      return {
+        title: t('header.roles'),
+        navigateToRoute: routes.CREATE_ROLE
+      };
     default:
       return {title: '', navigateToRoute: null};
   }

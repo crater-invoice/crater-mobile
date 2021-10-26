@@ -26,6 +26,17 @@ export const emptyContentPlaceholder = props => {
             navigation.navigate(routes.CREATE_USER, {type: 'ADD'})
         })
       };
+    case routes.ROLES:
+      return {
+        title: t('search.noResult', {search}),
+        ...(!search && {
+          title: t('roles.empty.title'),
+          description: t('roles.empty.description'),
+          buttonTitle: t('roles.text_add_new_role'),
+          buttonPress: () =>
+            navigation.navigate(routes.CREATE_ROLE, {type: 'ADD'})
+        })
+      };
 
     default:
       return {

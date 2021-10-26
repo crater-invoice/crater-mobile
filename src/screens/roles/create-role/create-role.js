@@ -5,7 +5,8 @@ import t from 'locales/use-translation';
 import {IProps, IStates} from './create-role-type';
 import {alertMe, hasValue} from '@/constants';
 import {CREATE_ROLE_FORM} from 'stores/roles/types';
-import headerTitle from 'utils/header';
+import {secondaryHeader} from 'utils/header';
+import {showNotification} from '@/utils';
 import {
   DefaultLayout,
   InputField,
@@ -75,7 +76,10 @@ export default class CreateRole extends Component<IProps, IStates> {
     const hasPermission = hasValue(find(permissions, {allowed: true})?.allowed);
 
     if (!hasPermission) {
-      alertMe({desc: 'Please select atleast one Permission.'});
+      showNotification({
+        message: 'Please select atleast one Permission.',
+        type: 'error'
+      });
       return;
     }
 
@@ -86,23 +90,13 @@ export default class CreateRole extends Component<IProps, IStates> {
       onSelect?.(res);
       navigation.goBack(null);
     };
-    const params = {
-      id,
-      params: {name, abilities},
-      navigation,
-      onSuccess
-    };
+    const params = {id, params: {name, abilities}, onSuccess};
 
     isEditScreen ? dispatch(updateRole(params)) : dispatch(addRole(params));
   };
 
   removeRole = () => {
-    const {navigation, id, dispatch} = this.props;
-    function alreadyUsedAlert() {
-      alertMe({
-        title: t('roles.text_already_used')
-      });
-    }
+    const {id, dispatch} = this.props;
 
     function confirmationAlert(remove) {
       alertMe({
@@ -113,9 +107,7 @@ export default class CreateRole extends Component<IProps, IStates> {
       });
     }
 
-    confirmationAlert(() =>
-      dispatch(removeRole(id, navigation, val => alreadyUsedAlert()))
-    );
+    confirmationAlert(() => dispatch(removeRole(id)));
   };
 
   toggleAbility = (allowed, ability) => {
@@ -134,30 +126,21 @@ export default class CreateRole extends Component<IProps, IStates> {
 
   render() {
     const {
-      navigation,
       handleSubmit,
       isEditScreen,
       isAllowToEdit,
       isAllowToDelete,
       formattedPermissions: permissions,
-      theme,
       isSaving,
       isDeleting
     } = this.props;
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
     const permissionList = [];
-
-    const headerProps = {
-      leftIconPress: () => navigation.goBack(null),
-      title: headerTitle(this.props),
-      placement: 'center',
-      ...(isAllowToEdit && {
-        rightIcon: 'save',
-        rightIconProps: {solid: true},
-        rightIconPress: handleSubmit(this.onSave)
-      })
-    };
+    const headerProps = secondaryHeader({
+      ...this.props,
+      rightIconPress: handleSubmit(this.onSave)
+    });
 
     const bottomAction = (
       <BaseButtonGroup>

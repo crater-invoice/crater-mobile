@@ -6,6 +6,7 @@ import {colors} from '@/styles';
 import {commonSelector} from 'stores/common/selectors';
 import t from 'locales/use-translation';
 import {isAndroidPlatform} from '@/constants';
+import {FadeAnimation} from '../Animations';
 
 export const Error = props => {
   const {
@@ -25,11 +26,13 @@ export const Error = props => {
   }
 
   return (
-    <View style={[styles.validation, style]}>
-      <Text white h6 medium={theme?.mode === 'dark'}>
-        {t(meta?.error, {maxNumber, maxCharacter, minCharacter})}
-      </Text>
-    </View>
+    <FadeAnimation>
+      <View style={[styles.validation, style]}>
+        <Text white h6 medium={theme?.mode === 'dark'}>
+          {t(meta?.error, {maxNumber, maxCharacter, minCharacter})}
+        </Text>
+      </View>
+    </FadeAnimation>
   );
 };
 
