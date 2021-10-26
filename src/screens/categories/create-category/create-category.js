@@ -4,7 +4,7 @@ import t from 'locales/use-translation';
 import {IProps, IStates} from './create-category-type';
 import {alertMe} from '@/constants';
 import {CREATE_CATEGORY_FORM} from 'stores/categories/types';
-import headerTitle from 'utils/header';
+import {secondaryHeader} from 'utils/header';
 import {
   DefaultLayout,
   InputField,
@@ -89,12 +89,15 @@ export default class CreateCategory extends Component<IProps, IStates> {
       isAllowToDelete,
       isSaving,
       isDeleting,
-      navigation,
       handleSubmit
     } = this.props;
     const categoryRefs: any = {};
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
+    const headerProps = secondaryHeader({
+      ...this.props,
+      rightIconPress: handleSubmit(this.onSave)
+    });
 
     const bottomAction = (
       <BaseButtonGroup>
@@ -117,17 +120,6 @@ export default class CreateCategory extends Component<IProps, IStates> {
         </BaseButton>
       </BaseButtonGroup>
     );
-
-    const headerProps = {
-      leftIconPress: () => navigation.goBack(null),
-      title: headerTitle(this.props),
-      placement: 'center',
-      ...(isAllowToEdit && {
-        rightIcon: 'save',
-        rightIconProps: {solid: true},
-        rightIconPress: handleSubmit(this.onSave)
-      })
-    };
 
     return (
       <DefaultLayout
