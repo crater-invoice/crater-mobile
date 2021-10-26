@@ -6,9 +6,9 @@ const rolesStore = state => state?.roles;
 
 export const rolesSelector = createSelector(
   rolesStore,
-  roles => {
-    if (isEmpty(roles?.roles)) return [];
-    return roles?.roles.map(role => ({title: role.name, fullItem: role}));
+  store => {
+    if (isEmpty(store?.roles)) return [];
+    return store?.roles.map(role => ({title: role.name, fullItem: role}));
   }
 );
 
@@ -19,5 +19,5 @@ export const formattedPermissionsSelector = state =>
 
 export const loadingSelector = createSelector(
   rolesStore,
-  role => ({isSaving: role?.isSaving, isDeleting: role?.isDeleting})
+  store => ({isSaving: store?.isSaving, isDeleting: store?.isDeleting})
 );

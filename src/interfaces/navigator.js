@@ -72,5 +72,10 @@ export type INavigation = {
    * Check if dispatching back action will be handled by navigation.
    * Note that this method doesn't re-render screen when the result changes. So don't use it in `render`.
    */
-  canGoBack(): boolean
+  canGoBack(): boolean,
+
+  /**
+   * The listener of current navigation.
+   */
+  addListener(name?: string, fun: Function): void
 };

@@ -10,7 +10,7 @@ import {
   RECURRING_INVOICES_TABS,
   TAB_NAME
 } from 'stores/recurring-invoices/types';
-import {isFilterApply} from '@/utils';
+import {isFilterApply, primaryHeader} from '@/utils';
 import {IProps, IStates} from './recurring-invoices-type';
 import {recurringInvoicesFilterFields} from './filterFields';
 
@@ -24,7 +24,6 @@ export default class RecurringInvoices extends React.Component<
     this.activeReference = React.createRef();
     this.onHoldReference = React.createRef();
     this.allReference = React.createRef();
-    this.toastReference = React.createRef();
 
     this.state = {
       activeTab: RECURRING_INVOICES_TABS.ACTIVE,
@@ -200,18 +199,7 @@ export default class RecurringInvoices extends React.Component<
 
   render() {
     const {navigation, handleSubmit, theme, route} = this.props;
-
     const {activeTab} = this.state;
-
-    const headerProps = {
-      title: t('header.recurring_invoices'),
-      leftIcon: ARROW_ICON,
-      leftIconPress: () => navigation.navigate(routes.MAIN_MORE),
-      placement: 'center',
-      route,
-      rightIcon: 'plus',
-      rightIconPress: this.onAddInvoice
-    };
 
     const filterProps = {
       onSubmitFilter: handleSubmit(this.onSubmitFilter),
@@ -255,12 +243,9 @@ export default class RecurringInvoices extends React.Component<
 
     return (
       <MainLayout
-        headerProps={headerProps}
+        headerProps={primaryHeader({route})}
         onSearch={this.onSearch}
         filterProps={filterProps}
-        toastProps={{
-          reference: ref => (this.toastReference = ref)
-        }}
         navigation={navigation}
       >
         <Tabs

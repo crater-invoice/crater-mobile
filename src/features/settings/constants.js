@@ -12,9 +12,6 @@ export const NOTIFICATION = 'notification/NOTIFICATION';
 export const SEARCH_TAX = 'taxForm/SEARCH_TAX';
 export const TAX_FORM = 'taxForm/TAX_FORM';
 
-export const CATEGORY_SEARCH = 'categories/CATEGORY_SEARCH';
-export const CATEGORY_FORM = 'categories/CATEGORY_FORM';
-
 export const CURRENCIES_FORM = 'currencies/CURRENCIES_FORM';
 export const CURRENCY_FORM = 'currencies/CURRENCY_FORM';
 
@@ -54,11 +51,6 @@ export const EDIT_COMPANY_INFO = 'accountForm/EDIT_COMPANY_INFO';
 export const GET_ACCOUNT_INFO = 'accountForm/GET_ACCOUNT_INFO';
 export const SET_ACCOUNT_INFO = 'accountForm/SET_ACCOUNT_INFO';
 export const EDIT_ACCOUNT_INFO = 'accountForm/EDIT_ACCOUNT_INFO';
-
-// Categories
-export const GET_EXPENSE_CATEGORIES = 'categories/GET_EXPENSE_CATEGORIES';
-export const GET_CREATE_EXPENSE_CATEGORY =
-  'categories/GET_CREATE_EXPENSE_CATEGORY';
 
 // Notes
 export const GET_NOTES = 'notes/GET_NOTES';
@@ -115,14 +107,6 @@ export const SET_BIOMETRY_AUTH_TYPE = 'authType/SET_BIOMETRY_AUTH_TYPE';
 export const CREATE_EXPENSE_CATEGORY = 'categories/CREATE_EXPENSE_CATEGORY';
 export const EDIT_EXPENSE_CATEGORY = 'categories/EDIT_EXPENSE_CATEGORY';
 export const REMOVE_EXPENSE_CATEGORY = 'categories/REMOVE_EXPENSE_CATEGORY';
-
-export const SET_EXPENSE_CATEGORIES = 'categories/SET_EXPENSE_CATEGORIES';
-export const SET_CREATE_EXPENSE_CATEGORIES =
-  'categories/SET_CREATE_EXPENSE_CATEGORIES';
-export const SET_EDI_EXPENSE_CATEGORIES =
-  'categories/SET_EDI_EXPENSE_CATEGORIES';
-export const SET_REMOVE_EXPENSE_CATEGORIES =
-  'categories/SET_REMOVE_EXPENSE_CATEGORIES';
 
 // CustomField Form Fields
 // -----------------------------------------

@@ -6,9 +6,9 @@ const rolesStore = state => state?.roles;
 
 export const usersSelector = createSelector(
   usersStore,
-  users => {
-    if (isEmpty(users.users)) return [];
-    return users.users.map(user => ({
+  store => {
+    if (isEmpty(store.users)) return [];
+    return store.users.map(user => ({
       title: user?.name,
       subtitle: {title: user?.email || ''},
       fullItem: user,
@@ -19,10 +19,10 @@ export const usersSelector = createSelector(
 
 export const rolesSelector = createSelector(
   rolesStore,
-  roles => roles?.roles
+  store => store?.roles
 );
 
 export const loadingSelector = createSelector(
   usersStore,
-  user => ({isSaving: user?.isSaving, isDeleting: user?.isDeleting})
+  store => ({isSaving: store?.isSaving, isDeleting: store?.isDeleting})
 );
