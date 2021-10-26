@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import {reducer as formReducer} from 'redux-form';
 import auth from '@/features/authentication/reducers';
 import invoices from 'stores/invoices/reducer';
-import estimates from '@/features/estimates/reducers';
+import estimates from 'stores/estimates/reducer';
 import customers from '@/features/customers/reducers';
 import payments from '@/features/payments/reducers';
 import more from '@/features/more/reducers';

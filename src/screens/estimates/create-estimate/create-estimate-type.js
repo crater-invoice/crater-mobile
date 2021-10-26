@@ -97,7 +97,7 @@ export interface IProps {
   /**
    * An array of objects with data for each template.
    */
-  invoiceTemplates: Array<any>;
+  estimateTemplates: Array<any>;
 
   /**
    * Gets form data.
@@ -124,6 +124,11 @@ export interface IProps {
    * It will run validation, both sync and async, and, if the form is valid, it will call this.props.onSubmit(data) with the contents of the form data.
    */
   handleSubmit: (fun: object) => any;
+
+  /**
+   * The loading indicator content loading.
+   */
+  withLoading: boolean;
 }
 export interface IStates {
   /**

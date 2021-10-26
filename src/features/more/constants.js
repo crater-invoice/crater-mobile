@@ -43,8 +43,8 @@ export const MORE_MENU = () => {
       leftIcon: 'file-alt',
       leftIconSolid: true,
       iconSize: 19,
-      fullItem: {route: routes.ESTIMATE_LIST},
-      show: PermissionService.isAllowToView(routes.ESTIMATE_LIST)
+      fullItem: {route: routes.ESTIMATES},
+      show: PermissionService.isAllowToView(routes.ESTIMATES)
     },
     {
       title: t('more.recurringInvoice'),

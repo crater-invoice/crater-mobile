@@ -9,8 +9,7 @@ export const CREATE_INVOICE_FORM = 'invoices/CREATE_INVOICE_FORM';
 // -----------------------------------------
 
 export const FETCH_INITIAL_DETAILS = 'invoices/FETCH_INITIAL_DETAILS';
-export const FETCH_INVOICE_TEMPLATES_SUCCESS =
-  'invoices/FETCH_INVOICE_TEMPLATES_SUCCESS';
+export const FETCH_INVOICE_DATA_SUCCESS = 'invoices/FETCH_INVOICE_DATA_SUCCESS';
 
 export const SPINNER = 'invoices/SPINNER';
 
@@ -28,20 +27,14 @@ export const UPDATE_INVOICE_SUCCESS = 'invoices/UPDATE_INVOICE_SUCCESS';
 export const REMOVE_INVOICE = 'invoices/REMOVE_INVOICE';
 export const REMOVE_INVOICE_SUCCESS = 'invoices/REMOVE_INVOICE_SUCCESS';
 
-export const FETCH_ITEMS = 'invoices/FETCH_ITEMS';
-
 export const ADD_INVOICE_ITEM = 'invoices/ADD_INVOICE_ITEM';
 export const ADD_INVOICE_ITEM_SUCCESS = 'invoices/ADD_INVOICE_ITEM_SUCCESS';
-
-export const UPDATE_INVOICE_ITEM = 'invoices/UPDATE_INVOICE_ITEM';
-export const UPDATE_INVOICE_ITEM_SUCCESS =
-  'invoices/UPDATE_INVOICE_ITEM_SUCCESS';
 
 export const REMOVE_INVOICE_ITEM = 'invoices/REMOVE_INVOICE_ITEM';
 export const REMOVE_INVOICE_ITEM_SUCCESS =
   'invoices/REMOVE_INVOICE_ITEM_SUCCESS';
 
-export const UPDATE_INVOICE_STATUS = 'invoices/UPDATE_INVOICE_STATUS';
+export const CHANGE_INVOICE_STATUS = 'invoices/CHANGE_INVOICE_STATUS';
 
 export const CLEAR_INVOICE = 'invoices/CLEAR_INVOICE';
 
@@ -73,17 +66,10 @@ export const FILTER_INVOICE_PAID_STATUS = [
   {label: 'PARTIALLY PAID', value: 'PARTIALLY_PAID'}
 ];
 
-export const INVOICES_STATUS = {
-  OVERDUE: 'danger',
-  DRAFT: 'warning',
-  PAID: 'success'
-};
-
 // ActionSheet Actions
 // -----------------------------------------
 
 export const INVOICE_ACTIONS = {
-  VIEW: 'download',
   SEND: 'send',
   EDIT: 'edit',
   DELETE: 'delete',

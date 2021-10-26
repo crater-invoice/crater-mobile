@@ -544,9 +544,9 @@
   },
   "estimates": {
     "tabs": {
-      "SENT": "Sent",
-      "DRAFT": "Draft",
-      "ALL": "All"
+      "sent": "Sent",
+      "draft": "Draft",
+      "all": "All"
     },
     "estimateDate": "Estimate Date",
     "expiryDate": "Expiry Date",

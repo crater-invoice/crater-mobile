@@ -2,57 +2,70 @@ import React from 'react';
 import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change, initialize} from 'redux-form';
-import {BaseInputPrefix, TemplateField} from '@/components';
-import {routes} from '@/navigation';
-import t from 'locales/use-translation';
-import {alertMe, isEmpty} from '@/constants';
 import {
   InputField,
   DatePickerField,
   DefaultLayout,
   SendMail,
   CustomField,
-  View as CtView,
   ActionButton,
+  View as CtView,
   Notes,
   ItemField,
-  FinalAmount
+  FinalAmount,
+  BaseInputPrefix
 } from '@/components';
-import {CREATE_INVOICE_FORM, INVOICE_ACTIONS} from 'stores/invoices/types';
-import {EDIT_INVOICE_ACTIONS, initialValues} from 'stores/invoices/helpers';
+import {
+  CREATE_ESTIMATE_FORM,
+  ESTIMATE_ACTIONS,
+  MARK_AS_ACCEPT,
+  MARK_AS_REJECT,
+  MARK_AS_SENT
+} from 'stores/estimates/types';
+import {EDIT_ESTIMATE_ACTIONS} from 'stores/estimates/helpers';
+import {headerTitle} from '@/styles';
+import {TemplateField} from '@/components';
+import {routes} from '@/navigation';
+import t from 'locales/use-translation';
 import {
   total,
   tax,
-  CompoundTax,
-  getCompoundTaxValue,
-  totalDiscount,
   getTaxValue,
+  totalDiscount,
+  getCompoundTaxValue,
+  finalAmount,
   getItemList,
-  finalAmount
+  CompoundTax
 } from '@/components/final-amount/final-amount-calculation';
-import {getApiFormattedCustomFields, showNotification} from '@/utils';
+import {alertMe, isEmpty} from '@/constants';
+import {getApiFormattedCustomFields} from '@/utils';
 import {CustomerSelectModal} from '@/select-modal';
 import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
-import {setCalculationRef} from 'stores/common/helpers';
-import {IProps, IStates} from './create-invoice-type';
+import {setCalculationRef} from '@/stores/common/helpers';
+import {showNotification} from '@/utils';
+import {IProps, IStates} from './create-estimate-type';
 import {
-  addInvoice,
-  fetchInvoiceInitialDetails,
-  fetchSingleInvoice,
-  updateInvoice,
-  changeInvoiceStatus,
-  removeInvoice
-} from 'stores/invoices/actions';
-export default class CreateInvoice extends React.Component<IProps, IStates> {
-  invoiceRefs: any;
+  fetchEstimateInitialDetails,
+  fetchSingleEstimate,
+  convertToInvoice,
+  changeEstimateStatus,
+  removeEstimate,
+  addEstimate,
+  updateEstimate
+} from 'stores/estimates/actions';
+import {initialValues} from '@/stores/estimates/helpers';
+
+export default class Estimate extends React.Component<IProps, IStates> {
+  estimateRefs: any;
   sendMailRef: any;
   customerReference: any;
 
   constructor(props) {
     super(props);
-    this.invoiceRefs = setCalculationRef?.bind?.(this);
+    this.estimateRefs = setCalculationRef.bind(this);
     this.sendMailRef = React.createRef();
     this.customerReference = React.createRef();
+    this.notesReference = React.createRef();
 
     this.state = {
       currency: props?.currency,
@@ -70,36 +83,36 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     const {isEditScreen, id, dispatch} = this.props;
 
     if (isEditScreen) {
-      dispatch(fetchSingleInvoice(id, res => this.setInitialData(res)));
+      dispatch(fetchSingleEstimate(id, res => this.setInitialData(res)));
       return;
     }
-    dispatch(fetchInvoiceInitialDetails(() => this.setInitialData(null)));
+    dispatch(fetchEstimateInitialDetails(() => this.setInitialData(null)));
     return;
   };
 
   setInitialData = res => {
-    const {dispatch, invoiceData} = this.props;
+    const {dispatch, estimateData} = this.props;
     let values = {
       ...initialValues,
-      ...invoiceData,
-      invoice_number: invoiceData?.nextNumber
+      ...estimateData,
+      estimate_number: estimateData?.nextNumber
     };
     if (res) {
       const {data, meta} = res;
       values = {
         ...values,
         ...data,
-        invoice_number: data.invoice_no ?? invoiceData?.nextNumber,
-        prefix: meta.invoicePrefix ?? invoiceData?.prefix
+        estimate_number: data.estimate_no ?? estimateData?.nextNumber,
+        prefix: meta.estimatePrefix ?? estimateData?.prefix
       };
     }
 
-    dispatch(initialize(CREATE_INVOICE_FORM, values));
+    dispatch(initialize(CREATE_ESTIMATE_FORM, values));
     this.setState({isFetchingInitialData: false});
   };
 
   setFormField = (field, value) => {
-    this.props.dispatch(change(CREATE_INVOICE_FORM, field, value));
+    this.props.dispatch(change(CREATE_ESTIMATE_FORM, field, value));
   };
 
   onDraft = handleSubmit => {
@@ -107,49 +120,53 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     const {isFetchingInitialData} = this.state;
 
     if (isFetchingInitialData) {
-      navigation.navigate(routes.MAIN_INVOICES);
+      navigation.navigate(routes.ESTIMATES);
       return;
     }
 
     if (isEditScreen) {
-      navigation.goBack(null);
+      navigation.navigate(routes.ESTIMATES);
       return;
     }
 
     alertMe({
-      title: t('invoices.alert.draftTitle'),
+      title: t('estimates.alert.draftTitle'),
       showCancel: true,
       cancelText: t('alert.action.discard'),
-      cancelPress: () => navigation.navigate(routes.MAIN_INVOICES),
+      cancelPress: () => navigation.navigate(routes.ESTIMATES),
       okText: t('alert.action.saveAsDraft'),
-      okPress: handleSubmit(this.draftInvoice)
+      okPress: handleSubmit(this.draftEstimate)
     });
   };
 
-  onSubmitInvoice = (values, status) => {
+  onSubmitEstimate = (values, status = 'draft') => {
     const {
-      navigation,
-      id,
-      isSaving,
-      isDeleting,
       isCreateScreen,
+      navigation,
+      isFetchingInitialData,
+      id,
+      withLoading,
       dispatch,
-      invoiceData: {invoiceTemplates = []} = {}
+      estimateData: {estimateTemplates = []} = {}
     } = this.props;
-    console.log(isSaving, isDeleting, this.state.isFetchingInitialData);
-    if (isSaving || isDeleting || this.state.isFetchingInitialData) {
+
+    if (
+      this.state.isFetchingInitialData ||
+      isFetchingInitialData ||
+      withLoading
+    ) {
       return;
     }
 
     if (finalAmount() < 0) {
-      alert(t('invoices.alert.lessAmount'));
+      alert(t('estimates.alert.lessAmount'));
       return;
     }
 
-    let invoice = {
+    let estimate = {
       ...values,
-      invoice_number: `${values.prefix}-${values.invoice_number}`,
-      invoice_no: values.invoice_number,
+      estimate_number: `${values.prefix}-${values.estimate_number}`,
+      estimate_no: values.estimate_number,
       total: finalAmount(),
       sub_total: total(),
       tax: tax() + CompoundTax(),
@@ -167,129 +184,139 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     };
 
     if (status === 'send') {
-      invoice.invoiceSend = true;
+      estimate.estimateSend = true;
     }
 
-    invoice.invoice_template_id = find(invoiceTemplates, {
-      name: invoice?.template_name
+    estimate.estimate_template_id = find(estimateTemplates, {
+      name: estimate?.template_name
     })?.id;
 
     const params = {
-      invoice: {
-        ...invoice,
+      estimate: {
+        ...estimate,
         id,
         customFields: getApiFormattedCustomFields(values?.customFields)
       },
       navigation,
-      status,
       onSuccess: () => {
-        console.log('called');
-        navigation.navigate(routes.MAIN_INVOICES);
+        navigation.navigate(routes.ESTIMATES);
       }
     };
-    console.log('params', params);
     isCreateScreen
-      ? dispatch(addInvoice(params))
-      : dispatch(updateInvoice(params));
+      ? dispatch(addEstimate(params))
+      : dispatch(updateEstimate(params));
   };
 
-  downloadInvoice = values => {
-    const url = values?.invoicePdfUrl;
+  downloadEstimate = values => {
+    const url = values?.estimatePdfUrl;
     Linking.openURL(url);
-    return;
   };
 
-  saveInvoice = values => {
-    this.onSubmitInvoice(values, 'save');
+  saveEstimate = values => {
+    this.onSubmitEstimate(values, 'save');
   };
 
-  draftInvoice = values => {
-    this.onSubmitInvoice(values, 'draft');
+  draftEstimate = values => {
+    this.onSubmitEstimate(values, 'draft');
   };
 
-  removeInvoice = () => {
-    const {dispatch, navigation, id} = this.props;
+  removeEstimate = () => {
+    const {navigation, id, dispatch} = this.props;
 
     alertMe({
       title: t('alert.title'),
-      desc: t('invoices.alert.removeDescription'),
+      desc: t('estimates.alert.removeDescription'),
       showCancel: true,
-      okPress: () => dispatch(removeInvoice(id, navigation))
+      okPress: () => dispatch(removeEstimate(id, navigation))
     });
   };
 
   onOptionSelect = action => {
-    const {navigation, formValues, dispatch, id} = this.props;
+    const {navigation, id, dispatch} = this.props;
 
     switch (action) {
-      case INVOICE_ACTIONS.SEND:
+      case ESTIMATE_ACTIONS.SEND:
         this.sendMailRef?.onToggle();
         break;
 
-      case INVOICE_ACTIONS.MARK_AS_SENT:
+      case ESTIMATE_ACTIONS.MARK_AS_SENT:
         alertMe({
           title: t('alert.title'),
-          desc: t('invoices.alert.markAsSent'),
+          desc: t('estimates.alert.markAsSent'),
           showCancel: true,
           okPress: () =>
             dispatch(
-              changeInvoiceStatus({
+              changeEstimateStatus({
                 id,
                 action: `${id}/status`,
                 navigation,
-                params: {status: 'SENT'},
-                onResult: () =>
+                params: {status: MARK_AS_SENT},
+                onSuccess: () =>
                   showNotification({
-                    message: t('notification.invoice_marked_as_sent')
+                    message: t('notification.estimate_mark_as_sent')
                   })
               })
             )
         });
         break;
 
-      case INVOICE_ACTIONS.RECORD_PAYMENT:
-        const {
-          customer_id,
-          due_amount,
-          sub_total,
-          prefix,
-          invoice_number
-        } = formValues;
-        const invoice = {
-          customer_id,
-          id,
-          due: {due_amount, sub_total},
-          number: `${prefix}-${invoice_number}`
-        };
-        console.log('invoice', invoice);
-        navigation.navigate(routes.PAYMENT, {
-          type: 'ADD',
-          invoice,
-          hasRecordPayment: true
-        });
-        break;
-
-      case INVOICE_ACTIONS.CLONE:
+      case ESTIMATE_ACTIONS.MARK_AS_ACCEPTED:
         alertMe({
           title: t('alert.title'),
-          desc: t('invoices.alert.clone'),
+          desc: t('estimates.alert.markAsAccept'),
           showCancel: true,
           okPress: () =>
             dispatch(
-              changeInvoiceStatus({
+              changeEstimateStatus({
                 id,
-                action: `${id}/clone`,
+                action: `${id}/status`,
                 navigation,
-                onResult: () =>
-                  showNotification({message: t('notification.invoice_cloned')})
+                params: {status: MARK_AS_ACCEPT},
+                onSuccess: () =>
+                  showNotification({
+                    message: t('notification.estimate_marked_as_accepted')
+                  })
               })
             )
         });
-
         break;
 
-      case INVOICE_ACTIONS.DELETE:
-        this.removeInvoice();
+      case ESTIMATE_ACTIONS.MARK_AS_REJECTED:
+        alertMe({
+          title: t('alert.title'),
+          desc: t('estimates.alert.markAsReject'),
+          showCancel: true,
+          okPress: () =>
+            dispatch(
+              changeEstimateStatus({
+                id,
+                action: `${id}/status`,
+                navigation,
+                params: {status: MARK_AS_REJECT},
+                onSuccess: () =>
+                  showNotification({
+                    message: t('notification.estimate_marked_as_rejected')
+                  })
+              })
+            )
+        });
+        break;
+
+      case ESTIMATE_ACTIONS.CONVERT_TO_INVOICE:
+        alertMe({
+          desc: t('estimates.alert.convertToInvoiceDescription'),
+          showCancel: true,
+          okPress: () =>
+            dispatch(
+              convertToInvoice(id, () =>
+                navigation.navigate(routes.MAIN_INVOICES)
+              )
+            )
+        });
+        break;
+
+      case ESTIMATE_ACTIONS.DELETE:
+        this.removeEstimate();
         break;
 
       default:
@@ -301,13 +328,13 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     const {navigation, dispatch, id} = this.props;
 
     dispatch(
-      changeInvoiceStatus({
+      changeEstimateStatus({
         id,
         action: `${id}/send`,
         navigation,
         params,
-        onResult: () =>
-          showNotification({message: t('notification.invoice_sent')})
+        onSuccess: () =>
+          showNotification({message: t('notification.estimate_sent')})
       })
     );
   };
@@ -316,66 +343,48 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     return (
       <SendMail
         mailReference={ref => (this.sendMailRef = ref)}
-        headerTitle={'header.sendMailInvoice'}
-        alertDesc={'invoices.alert.sendInvoice'}
-        user={this.props.formValues?.customer}
-        subject="New Invoice"
-        body="invoice_mail_body"
+        headerTitle={'header.sendMailEstimate'}
+        alertDesc={'estimates.alert.sendEstimate'}
+        user={this.props?.formValues?.customer}
+        subject="New Estimate"
+        body="estimate_mail_body"
         onSendMail={params => this.sendEmail(params)}
       />
     );
-  };
-
-  navigateToCustomer = () => {
-    const {navigation} = this.props;
-    const {currency} = this.state;
-
-    navigation.navigate(routes.CUSTOMER, {
-      type: 'ADD',
-      currency,
-      onSelect: item => {
-        this.customerReference?.changeDisplayValue?.(item);
-        this.setFormField('customer_id', item.id);
-        this.setState({currency: item.currency});
-      }
-    });
   };
 
   render() {
     const {
       navigation,
       handleSubmit,
-      invoiceData: {invoiceTemplates} = {},
+      estimateData: {estimateTemplates} = {},
       selectedItems,
       getItems,
       items,
+      withLoading,
       getCustomers,
       customers,
       formValues,
-      withLoading,
       customFields,
+      isEditScreen,
       isAllowToEdit,
       isAllowToDelete,
-      isEditScreen,
       isSaving,
       notes,
       getNotes
     } = this.props;
     const {markAsStatus, isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
+
     const hasCustomField = isEditScreen
       ? formValues && formValues.hasOwnProperty('fields')
       : !isEmpty(customFields);
-    let hasSentStatus = markAsStatus === 'SENT' || markAsStatus === 'VIEWED';
+
     let hasCompleteStatus = markAsStatus === 'COMPLETED';
 
     const dropdownOptions =
       isEditScreen && !isFetchingInitialData
-        ? EDIT_INVOICE_ACTIONS(
-            hasSentStatus,
-            hasCompleteStatus,
-            isAllowToDelete
-          )
+        ? EDIT_ESTIMATE_ACTIONS(markAsStatus, isAllowToDelete)
         : [];
 
     let drownDownProps =
@@ -392,26 +401,26 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         : null;
 
     const getTitle = () => {
-      let title = 'header.addInvoice';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewInvoice';
-      if (isEditScreen && isAllowToEdit) title = 'header.editInvoice';
+      let title = 'header.addEstimate';
+      if (isEditScreen && !isAllowToEdit) title = 'header.viewEstimate';
+      if (isEditScreen && isAllowToEdit) title = 'header.editEstimate';
 
       return t(title);
     };
 
-    this.invoiceRefs(this);
+    this.estimateRefs(this);
 
     const bottomAction = [
       {
         label: 'button.viewPdf',
-        onPress: handleSubmit(this.downloadInvoice),
+        onPress: handleSubmit(this.downloadEstimate),
         type: 'btn-outline',
         show: isEditScreen && isAllowToEdit,
         loading: isSaving || isFetchingInitialData
       },
       {
         label: 'button.save',
-        onPress: handleSubmit(this.saveInvoice),
+        onPress: handleSubmit(this.saveEstimate),
         show: isAllowToEdit,
         loading: isSaving || isFetchingInitialData
       }
@@ -423,10 +432,14 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           leftIconPress: () => this.onDraft(handleSubmit),
           title: getTitle(),
           placement: 'center',
+          withTitleStyle: headerTitle({
+            marginLeft: -15,
+            marginRight: -15
+          }),
           ...(!isEditScreen && {
             rightIcon: 'save',
             rightIconProps: {solid: true},
-            rightIconPress: handleSubmit(this.downloadInvoice)
+            rightIconPress: handleSubmit(this.saveEstimate)
           })
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}
@@ -440,64 +453,62 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         <CtView flex={1} flex-row>
           <CtView flex={1} justify-between>
             <Field
-              name="invoice_date"
+              name={'estimate_date'}
               isRequired
               component={DatePickerField}
-              label={t('invoices.invoiceDate')}
+              label={t('estimates.estimateDate')}
               icon={'calendar-alt'}
-              onChangeCallback={val => this.setFormField('invoice_date', val)}
+              onChangeCallback={val => this.setFormField('estimate_date', val)}
               disabled={disabled}
             />
           </CtView>
           <CtView flex={0.07} />
           <CtView flex={1} justify-between>
             <Field
-              name="due_date"
+              name="expiry_date"
               isRequired
               component={DatePickerField}
-              label={t('invoices.dueDate')}
+              label={t('estimates.expiryDate')}
               icon={'calendar-alt'}
-              onChangeCallback={val => this.setFormField('due_date', val)}
+              onChangeCallback={val => this.setFormField('expiry_date', val)}
               disabled={disabled}
             />
           </CtView>
         </CtView>
 
         <Field
-          name="invoice_number"
+          name="estimate_number"
           component={BaseInputPrefix}
-          label={t('invoices.invoiceNumber')}
           isRequired
-          fieldName="invoice_number"
+          label={t('estimates.estimateNumber')}
           prefix={formValues?.prefix}
+          fieldName="estimate_number"
           disabled={disabled}
         />
 
         <Field
           name="customer_id"
-          getCustomers={getCustomers}
-          customers={customers}
           component={CustomerSelectModal}
+          customers={customers}
+          getCustomers={getCustomers}
+          disabled={disabled}
+          placeholder={t('invoices.customerPlaceholder')}
           selectedItem={formValues?.customer}
           onSelect={item => {
             this.setFormField('customer_id', item.id);
             this.setState({currency: item.currency});
           }}
-          rightIconPress={this.navigateToCustomer}
-          reference={ref => (this.customerReference = ref)}
-          disabled={disabled}
         />
-
         <ItemField
           {...this.props}
           selectedItems={selectedItems}
           items={getItemList(items)}
           getItems={getItems}
+          screen="estimate"
           setFormField={this.setFormField}
-          screen="invoice"
         />
 
-        <FinalAmount {...this.props} state={this.state} />
+        <FinalAmount {...this.props} {...this.state} />
 
         <Field
           name="reference_number"
@@ -513,17 +524,17 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           notes={notes}
           getNotes={getNotes}
           isEditScreen={isEditScreen}
-          noteType={NOTES_TYPE_VALUE.INVOICE}
+          noteType={NOTES_TYPE_VALUE.ESTIMATE}
           onSelect={this.setFormField}
         />
 
         <Field
           name="template_name"
-          templates={invoiceTemplates ?? []}
+          templates={estimateTemplates}
           component={TemplateField}
-          label={t('invoices.template')}
+          label={t('estimates.template')}
           icon={'file-alt'}
-          placeholder={t('invoices.templatePlaceholder')}
+          placeholder={t('estimates.templatePlaceholder')}
           navigation={navigation}
           disabled={disabled}
         />

@@ -3,7 +3,7 @@ import {REHYDRATE} from 'redux-persist/src/constants';
 
 import auth from '@/features/authentication/saga';
 import invoices from 'stores/invoices/saga';
-import estimates from '@/features/estimates/saga';
+import estimates from 'stores/estimates/saga';
 import customers from '@/features/customers/saga';
 import expenses from '@/features/expenses/saga';
 import payments from '@/features/payments/saga';

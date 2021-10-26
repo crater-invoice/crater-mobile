@@ -1,28 +1,31 @@
 import React from 'react';
 import {change} from 'redux-form';
-import {styles} from './invoices-styles';
-import {All, Draft, Due} from './Tab';
+import styles from './estimates-styles';
+import {Tabs, MainLayout, AssetImage} from '@/components';
+import {Sent, Draft, All} from './Tab';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
-import {AssetImage, MainLayout, Tabs} from '@/components';
-import {INVOICES_TABS, INVOICES_FORM, TAB_NAME} from '@/stores/invoices/types';
+import estimateFilterFields from './filterFields';
 import {isFilterApply} from '@/utils';
-import {InvoiceServices} from '@/stores/invoices/service';
-import {openRatingReviewModal} from '@/utils';
-import {PermissionService} from '@/services';
-import {IProps, IStates} from './invoices-type';
-import {invoicesFilterFields} from './filterFields';
+import {ARROW_ICON} from '@/assets';
+import {ESTIMATES_TABS, ESTIMATES_FORM, TAB_NAME} from 'stores/estimates/types';
+import {EstimateServices} from 'stores/estimates/service';
+import {IProps, IStates} from './estimates-type';
 
-export default class Invoices extends React.Component<IProps, IStates> {
+export default class Estimates extends React.Component<IProps, IStates> {
+  draftReference: any;
+  sentReference: any;
+  allReference: any;
+  focusListener: any;
+
   constructor(props) {
     super(props);
-
-    this.dueReference = React.createRef();
     this.draftReference = React.createRef();
+    this.sentReference = React.createRef();
     this.allReference = React.createRef();
 
     this.state = {
-      activeTab: INVOICES_TABS.DUE,
+      activeTab: ESTIMATES_TABS.DRAFT,
       search: ''
     };
   }
@@ -38,17 +41,17 @@ export default class Invoices extends React.Component<IProps, IStates> {
   onFocus = () => {
     const {navigation} = this.props;
     this.focusListener = navigation.addListener('focus', () => {
+      if (EstimateServices.isEmailSent) {
+        EstimateServices.toggleIsEmailSent(false);
+      }
+
+      if (!this.state.isLoaded) {
+        this.setState({isLoaded: true});
+        return;
+      }
+
       const {ref} = this.getActiveTab();
       ref?.getItems?.();
-
-      if (InvoiceServices.isEmailSent) {
-        InvoiceServices.toggleIsEmailSent(false);
-      }
-
-      if (InvoiceServices.isFirstInvoiceCreated) {
-        InvoiceServices.toggleIsFirstInvoiceCreated(false);
-        openRatingReviewModal();
-      }
     });
   };
 
@@ -56,15 +59,11 @@ export default class Invoices extends React.Component<IProps, IStates> {
     this.setState({activeTab});
   };
 
-  setFormField = (field, value) => {
-    this.props.dispatch(change(INVOICES_FORM, field, value));
-  };
-
-  onSelect = invoice => {
+  onSelect = estimate => {
     const {navigation} = this.props;
 
-    navigation.navigate(routes.CREATE_INVOICE, {
-      id: invoice?.id,
+    navigation.navigate(routes.CREATE_ESTIMATE, {
+      id: estimate.id,
       type: 'UPDATE'
     });
   };
@@ -81,16 +80,16 @@ export default class Invoices extends React.Component<IProps, IStates> {
   };
 
   getActiveTab = (activeTab = this.state.activeTab) => {
-    if (activeTab == INVOICES_TABS.DUE) {
+    if (activeTab == ESTIMATES_TABS.SENT) {
       return {
-        status: INVOICES_TABS.DUE,
-        ref: this.dueReference
+        status: ESTIMATES_TABS.SENT,
+        ref: this.sentReference
       };
     }
 
-    if (activeTab == INVOICES_TABS.DRAFT) {
+    if (activeTab == ESTIMATES_TABS.DRAFT) {
       return {
-        status: INVOICES_TABS.DRAFT,
+        status: ESTIMATES_TABS.DRAFT,
         ref: this.draftReference
       };
     }
@@ -99,6 +98,10 @@ export default class Invoices extends React.Component<IProps, IStates> {
       status: '',
       ref: this.allReference
     };
+  };
+
+  setFormField = (field, value) => {
+    this.props.dispatch(change(ESTIMATES_FORM, field, value));
   };
 
   onResetFilter = () => {
@@ -114,22 +117,22 @@ export default class Invoices extends React.Component<IProps, IStates> {
   };
 
   changeTabBasedOnFilterStatusSelection = status => {
-    if (status === INVOICES_TABS.DUE) {
+    if (status === ESTIMATES_TABS.SENT) {
       return {
-        activeTab: INVOICES_TABS.DUE,
-        ref: this.dueReference
+        activeTab: ESTIMATES_TABS.SENT,
+        ref: this.sentReference
       };
     }
 
-    if (status === INVOICES_TABS.DRAFT) {
+    if (status === ESTIMATES_TABS.DRAFT) {
       return {
-        activeTab: INVOICES_TABS.DRAFT,
+        activeTab: ESTIMATES_TABS.DRAFT,
         ref: this.draftReference
       };
     }
 
     return {
-      activeTab: INVOICES_TABS.ALL,
+      activeTab: ESTIMATES_TABS.ALL,
       ref: this.allReference
     };
   };
@@ -138,7 +141,7 @@ export default class Invoices extends React.Component<IProps, IStates> {
     filterStatus = '',
     from_date = '',
     to_date = '',
-    invoice_number = '',
+    estimate_number = '',
     customer_id = ''
   }) => {
     const {search} = this.state;
@@ -154,7 +157,7 @@ export default class Invoices extends React.Component<IProps, IStates> {
         status: filterStatus,
         search,
         customer_id,
-        invoice_number,
+        estimate_number,
         from_date,
         to_date
       },
@@ -162,83 +165,73 @@ export default class Invoices extends React.Component<IProps, IStates> {
     });
   };
 
-  onAddInvoice = () => {
+  onAddEstimate = () => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CREATE_INVOICE, {type: 'ADD'});
+    navigation.navigate(routes.CREATE_ESTIMATE, {type: 'ADD'});
   };
 
   getEmptyContentProps = activeTab => {
-    const {navigation, formValues, theme} = this.props;
+    const {formValues} = this.props;
     const {search} = this.state;
     const isFilter = isFilterApply(formValues);
-    let title = '';
-    let description = '';
+    let type = '';
 
-    if (activeTab === INVOICES_TABS.DUE) {
-      title = 'invoices.empty.due.title';
-      description = 'invoices.empty.due.description';
-    } else if (activeTab === INVOICES_TABS.DRAFT) {
-      title = 'invoices.empty.draft.title';
-      description = 'invoices.empty.draft.description';
+    if (activeTab === ESTIMATES_TABS.DRAFT) {
+      type = 'draft';
+    } else if (activeTab === ESTIMATES_TABS.SENT) {
+      type = 'sent';
     } else {
-      title = 'invoices.empty.all.title';
-      description = 'invoices.empty.description';
+      type = 'all';
     }
 
     const emptyTitle = search
       ? 'search.noResult'
       : isFilter
       ? 'filter.empty.filterTitle'
-      : title;
+      : `estimates.empty.${type}.title`;
 
     return {
       title: t(emptyTitle, {search}),
-      image: AssetImage.images[(theme?.mode)].empty_invoices,
+      image: AssetImage.images.empty_estimates,
       ...(!search && {
-        description: t(description)
+        description: t(`estimates.empty.${type}.description`)
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('invoices.empty.buttonTitle'),
-          buttonPress: () =>
-            navigation.navigate(routes.CREATE_INVOICE, {
-              type: 'ADD'
-            })
+          buttonTitle: t('estimates.empty.buttonTitle'),
+          buttonPress: () => this.onAddEstimate()
         })
     };
   };
 
   render() {
-    const {navigation, handleSubmit, theme} = this.props;
+    const {navigation, handleSubmit, theme, route} = this.props;
 
     const {activeTab} = this.state;
 
     const headerProps = {
-      hasCircle: false,
-      title: t('header.invoices')
+      title: t('header.estimates'),
+      leftIcon: ARROW_ICON,
+      leftIconPress: () => navigation.navigate(routes.MAIN_MORE),
+      placement: 'center',
+      rightIcon: 'plus',
+      route,
+      rightIconPress: () => {
+        this.onAddEstimate();
+      }
     };
 
     const filterProps = {
       onSubmitFilter: handleSubmit(this.onSubmitFilter),
-      ...invoicesFilterFields(this),
+      ...estimateFilterFields(this),
       clearFilter: this.props,
       onResetFilter: () => this.onResetFilter()
     };
 
     const tabs = [
       {
-        Title: INVOICES_TABS.DUE,
-        tabName: TAB_NAME.due,
-        render: (
-          <Due
-            parentProps={this}
-            reference={ref => (this.dueReference = ref)}
-          />
-        )
-      },
-      {
-        Title: INVOICES_TABS.DRAFT,
-        tabName: TAB_NAME.draft,
+        Title: ESTIMATES_TABS.DRAFT,
+        tabName: TAB_NAME.DRAFT,
         render: (
           <Draft
             parentProps={this}
@@ -247,8 +240,18 @@ export default class Invoices extends React.Component<IProps, IStates> {
         )
       },
       {
-        Title: INVOICES_TABS.ALL,
-        tabName: TAB_NAME.all,
+        Title: ESTIMATES_TABS.SENT,
+        tabName: TAB_NAME.SENT,
+        render: (
+          <Sent
+            parentProps={this}
+            reference={ref => (this.sentReference = ref)}
+          />
+        )
+      },
+      {
+        Title: ESTIMATES_TABS.ALL,
+        tabName: TAB_NAME.ALL,
         render: (
           <All
             parentProps={this}
@@ -263,12 +266,6 @@ export default class Invoices extends React.Component<IProps, IStates> {
         headerProps={headerProps}
         onSearch={this.onSearch}
         filterProps={filterProps}
-        with-input-filter
-        navigation={navigation}
-        {...(PermissionService.isAllowToCreate(routes.MAIN_INVOICES) && {
-          plusButtonOnPress: this.onAddInvoice
-        })}
-        {...(PermissionService.isSuperAdmin() && {'with-company': true})}
       >
         <Tabs
           style={styles.tabs(theme)}

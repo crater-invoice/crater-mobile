@@ -1,3 +1,3 @@
 export {
-  CreateRecurringInvoiceContainer as CreateRecurringInvoice
-} from './create-recurring-invoice-container';
+  CreateInvoiceContainer as CreateInvoice
+} from './create-invoice-container';

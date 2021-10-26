@@ -1,5 +1,5 @@
 import React from 'react';
-import {Field, change} from 'redux-form';
+import {Field, change, initialize} from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
 import t from 'locales/use-translation';
@@ -138,14 +138,15 @@ export class Payment extends React.Component<IProps> {
     const {invoice} = this.props;
     const val = {
       ...values,
-      [FIELDS.CUSTOMER]: invoice?.customer?.id,
+      [FIELDS.CUSTOMER]: invoice?.customer_id,
       [FIELDS.INVOICE]: invoice?.id,
       [FIELDS.AMOUNT]: invoice?.due?.due_amount,
-      user: invoice?.customer,
+      customer: invoice?.customer,
       invoice: {invoice_number: invoice?.number}
     };
 
     this.setFormField(`payment`, val);
+    console.log('val', val, invoice, values);
 
     this.setState({
       selectedCustomer: invoice?.customer,
