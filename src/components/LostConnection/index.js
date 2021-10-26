@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import {View, BackHandler} from 'react-native';
+import {BackHandler} from 'react-native';
 import {connect} from 'react-redux';
-import {AssetImage} from '../AssetImage';
-import {CtGradientButton} from '../Button';
 import t from 'locales/use-translation';
 import {checkConnection} from '@/constants';
 import {Text} from '../Text';
-import {styles, Container} from './styles';
+import {BaseButton} from '../base/base-button';
 import {commonSelector} from 'stores/common/selectors';
+import {AssetSvg} from '../AssetSvg';
+import {LostConnectionIcon} from '@/icons';
+import {styles, Container, Center} from './styles';
 
 export class LostConnection extends Component {
   constructor(props) {
@@ -16,29 +17,22 @@ export class LostConnection extends Component {
   }
 
   componentDidMount() {
-    BackHandler.addEventListener(
-      'hardwareBackPress',
-      this.handleBackButtonClick
-    );
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackClick);
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener(
-      'hardwareBackPress',
-      this.handleBackButtonClick
-    );
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackClick);
   }
 
-  handleBackButtonClick() {
+  handleBackClick() {
     return true;
   }
 
   onRetry = async () => {
-    this.setState({loading: true});
+    await this.setState({loading: true});
     setTimeout(() => this.setState({loading: false}), 1000);
-
     const {navigation} = this.props;
-    let isConnected = await checkConnection();
+    const isConnected = await checkConnection();
     !isConnected
       ? navigation.navigate(ROUTES.LOST_CONNECTION)
       : navigation.pop();
@@ -50,50 +44,39 @@ export class LostConnection extends Component {
 
     return (
       <Container>
-        <View style={styles.main}>
-          <View style={styles.bodyContainer}>
-            <Text
-              bold2
-              h3
-              style={styles.title}
-              color={theme?.text?.secondaryColor}
-            >
-              {t('lostInternet.title')}
-            </Text>
-
-            <View style={styles.logoContainer}>
-              <AssetImage
-                imageSource={AssetImage.images.lost_connection}
-                imageStyle={styles.imgLogo}
-              />
-            </View>
-
-            <Text
-              light
-              center
-              style={styles.description}
-              color={theme?.text?.thirdColor}
-            >
-              {t('lostInternet.description')}
-            </Text>
-          </View>
-
-          <View style={{marginTop: 25}}>
-            <CtGradientButton
-              onPress={() => this.onRetry()}
-              btnTitle={t('button.retry')}
-              loading={loading}
-              style={{paddingVertical: 8}}
-            />
-          </View>
-        </View>
+        <Center>
+          <Text
+            h3
+            bold2
+            style={styles.title}
+            color={theme?.text?.secondaryColor}
+          >
+            {t('lostInternet.title')}
+          </Text>
+          <AssetSvg name={LostConnectionIcon} width={`100%`} height={`25%`} />
+          <Text
+            light
+            center
+            style={styles.description}
+            color={theme?.text?.thirdColor}
+          >
+            {t('lostInternet.description')}
+          </Text>
+          <BaseButton
+            type="primary-gradient"
+            size="lg"
+            base-class="width=80% mt-30"
+            onPress={this.onRetry}
+            loading={loading}
+          >
+            {t('button.retry')}
+          </BaseButton>
+        </Center>
       </Container>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
 export default connect(mapStateToProps)(LostConnection);

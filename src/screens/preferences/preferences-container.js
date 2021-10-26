@@ -40,7 +40,3 @@ const PreferencesForm = reduxForm({form: PREFERENCES_FORM, validate})(
 );
 
 export const PreferencesContainer = connect(mapStateToProps)(PreferencesForm);
-
-PreferencesContainer.navigationOptions = () => ({
-  header: null
-});

@@ -302,37 +302,6 @@ export class Item extends React.Component {
     );
   };
 
-  TAX_FIELD_VIEW = () => {
-    const {
-      navigation,
-      taxTypes,
-      formValues: {taxes},
-      getTaxes,
-      isAllowToEdit,
-      theme
-    } = this.props;
-    const disabled = !isAllowToEdit;
-
-    return (
-      <Field
-        name="taxes"
-        taxTypes={taxTypes}
-        getTaxes={getTaxes}
-        component={TaxSelectModal}
-        disabled={disabled}
-        theme={theme}
-        rightIconPress={() =>
-          navigation.navigate(routes.TAX, {
-            type: 'ADD',
-            onSelect: val => {
-              this.setFormField('taxes', [...val, ...taxes]);
-            }
-          })
-        }
-      />
-    );
-  };
-
   render() {
     const {
       navigation,
@@ -343,7 +312,11 @@ export class Item extends React.Component {
       isEditScreen,
       isAllowToEdit,
       isAllowToDelete,
-      loading
+      loading,
+      taxTypes,
+      formValues: {taxes},
+      getTaxes,
+      theme
     } = this.props;
 
     const {isTaxPerItem, isLoading} = this.state;
@@ -421,7 +394,24 @@ export class Item extends React.Component {
           disabled={disabled}
         />
 
-        {isTaxPerItem && this.TAX_FIELD_VIEW()}
+        {isTaxPerItem && (
+          <Field
+            name="taxes"
+            taxTypes={taxTypes}
+            getTaxes={getTaxes}
+            component={TaxSelectModal}
+            disabled={disabled}
+            theme={theme}
+            rightIconPress={() =>
+              navigation.navigate(routes.TAX, {
+                type: 'ADD',
+                onSelect: val => {
+                  this.setFormField('taxes', [...val, ...taxes]);
+                }
+              })
+            }
+          />
+        )}
 
         {this.FINAL_AMOUNT()}
 

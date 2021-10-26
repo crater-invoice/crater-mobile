@@ -1,9 +1,6 @@
 import {Platform, findNodeHandle, Dimensions} from 'react-native';
 import Constants from 'expo-constants';
 import NetInfo from '@react-native-community/netinfo';
-import moment from 'moment';
-
-const model = Constants.deviceName.toLowerCase();
 
 export function isIPhoneX() {
   const {height, width} = Dimensions.get('window');
@@ -131,23 +128,9 @@ export const getConditionStyles = (styles: IGetConditionStyles) => {
   return commonStyles;
 };
 
-export const checkConnection = async callback => {
-  let state = await NetInfo.fetch();
-
-  let {isConnected} = state;
-
-  if (callback && typeof callback === 'function') {
-    callback(isConnected);
-  }
-
-  return isConnected;
-};
-
-export const checkExpiredToken = expiresIn => {
-  if (expiresIn) {
-    return !moment().isBefore(moment(expiresIn));
-  }
-  return true;
+export const checkConnection = async () => {
+  const state = await NetInfo.fetch();
+  return state.isConnected;
 };
 
 export const majorVersionIOS = parseInt(String(Platform.Version), 10);

@@ -77,9 +77,7 @@ class Switch extends Component<IProps> {
     } = this.props;
 
     return (
-      <View
-        style={[styles.mainContainer, mainContainerStyle && mainContainerStyle]}
-      >
+      <View style={[mainContainerStyle && mainContainerStyle]}>
         <View style={[styles.container, containerStyle && containerStyle]}>
           {hint && (
             <Text
@@ -123,8 +121,6 @@ class Switch extends Component<IProps> {
   }
 }
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
 export const ToggleSwitch = connect(mapStateToProps)(Switch);

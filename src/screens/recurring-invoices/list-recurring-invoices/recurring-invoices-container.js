@@ -6,7 +6,7 @@ import {
   invoicesSelector,
   loadingSelector
 } from 'stores/recurring-invoices/selectors';
-import {commonSelector} from '@/stores/common/selectors';
+import {commonSelector} from 'stores/common/selectors';
 import {getCustomers} from '@/features/customers/actions';
 
 const mapStateToProps = state => {

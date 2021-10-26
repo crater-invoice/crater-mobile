@@ -14,7 +14,7 @@ import {
 import {routes} from '@/navigation';
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
-import {DISCOUNT_OPTION} from '@/stores/common/types';
+import {DISCOUNT_OPTION} from 'stores/common/types';
 import {
   total,
   getCompoundTaxValue,
@@ -220,6 +220,7 @@ export const FinalAmount: FC<IProps> = props => {
           taxTypes={taxTypes}
           getTaxes={getTaxes}
           component={TaxSelectModal}
+          custom-view
           disabled={disabled}
           theme={theme}
           rightIconPress={() =>

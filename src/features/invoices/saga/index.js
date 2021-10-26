@@ -32,7 +32,7 @@ import {
   removeFromInvoices,
   updateFromInvoices
 } from '../actions';
-import {fetchTaxAndDiscountPerItem} from '@/stores/common/actions';
+import {fetchTaxAndDiscountPerItem} from 'stores/common/actions';
 
 function* getInvoices({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;

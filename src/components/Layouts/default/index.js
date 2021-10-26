@@ -92,9 +92,6 @@ const Layout = (props: IProps) => {
       </Content>
 
       {bottomAction}
-      {/* {bottomAction && (
-        <View style={styles.bottomView(theme)}>{bottomAction}</View>
-      )} */}
     </Container>
   );
 };

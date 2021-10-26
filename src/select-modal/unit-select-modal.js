@@ -35,7 +35,7 @@ export const UnitSelectModal = (props: IProps) => {
       headerProps={{title: t('items.unitPlaceholder')}}
       paginationLimit={defineSize(15, 15, 15, 20)}
       inputModalName="UnitModal"
-      baseSelectProps={{disabled}}
+      baseSelectProps={{disabled, leftIconProps: {size: 14}}}
     />
   );
 };

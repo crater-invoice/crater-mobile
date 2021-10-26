@@ -143,7 +143,11 @@ export default (props: any) => {
               backgroundColor={theme?.tabNavigator?.backgroundColor}
             >
               <AssetSvg name={icon} fill={iconColor} />
-              <Label color={labelColor} style={labelStyle}>
+              <Label
+                color={labelColor}
+                style={labelStyle}
+                allowFontScaling={false}
+              >
                 {t(label)}
               </Label>
             </Button>

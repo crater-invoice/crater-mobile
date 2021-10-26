@@ -45,7 +45,6 @@ export type IInputField = {
   containerStyle: Object,
   inputContainerStyle: Object,
   inputStyle: Object,
-  secureTextIconContainerStyle: Object,
 
   keyboardType: string,
   textContentType: string,

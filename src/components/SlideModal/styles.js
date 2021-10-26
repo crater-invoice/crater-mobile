@@ -1,4 +1,4 @@
-import {defineSize, isIosPlatform} from '@/constants';
+import {defineSize} from '@/constants';
 import {Platform, StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
@@ -19,10 +19,5 @@ export default StyleSheet.create({
   header: {
     paddingTop: 60,
     height: 110
-  },
-  searchView: {
-    ...(isIosPlatform && {
-      marginTop: defineSize(3, 3, 3, 0)
-    })
   }
 });

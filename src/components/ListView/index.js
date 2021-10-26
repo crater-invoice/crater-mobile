@@ -199,6 +199,10 @@ class ListViewComponent extends Component<IProps> {
           rightTitleStyle && rightTitleStyle
         ]}
         rightSubtitleStyle={styles.rightSubTitle(theme)}
+        titleProps={{allowFontScaling: false}}
+        subtitleProps={{allowFontScaling: false}}
+        rightTitleProps={{allowFontScaling: false}}
+        rightSubtitleProps={{allowFontScaling: false}}
         contentContainerStyle={[styles.contentContainer, contentContainerStyle]}
         rightContentContainerStyle={styles.rightContentContainer}
         containerStyle={[
@@ -210,8 +214,7 @@ class ListViewComponent extends Component<IProps> {
           itemContainer && itemContainer,
           bottomDivider
             ? {
-                borderBottomWidth: StyleSheet.hairlineWidth,
-                margin: StyleSheet.hairlineWidth
+                borderBottomWidth: StyleSheet.hairlineWidth
               }
             : {}
         ]}
@@ -241,16 +244,12 @@ class ListViewComponent extends Component<IProps> {
     if (isAnimated) {
       return (
         <FadeListAnimation key={index} delay={this.getAnimatedItemDelay(index)}>
-          {children}
+          <View
+            style={[{marginBottom: StyleSheet.hairlineWidth}, parentViewStyle]}
+          >
+            {children}
+          </View>
         </FadeListAnimation>
-      );
-    }
-
-    if (parentViewStyle) {
-      return (
-        <View key={index} style={parentViewStyle}>
-          {children}
-        </View>
       );
     }
 
@@ -267,7 +266,8 @@ class ListViewComponent extends Component<IProps> {
       isAnimated,
       rightArrowIcon = false,
       rightArrowIconStyle,
-      theme
+      theme,
+      parentViewStyle
     } = this.props;
     const {
       title,
@@ -356,8 +356,7 @@ class ListViewComponent extends Component<IProps> {
           itemContainer && itemContainer,
           bottomDivider
             ? {
-                borderBottomWidth: StyleSheet.hairlineWidth,
-                margin: StyleSheet.hairlineWidth
+                borderBottomWidth: StyleSheet.hairlineWidth
               }
             : {}
         ]}
@@ -367,6 +366,10 @@ class ListViewComponent extends Component<IProps> {
           underlayColor: colors.gray
         })}
         leftAvatar={leftIconView}
+        titleProps={{allowFontScaling: false}}
+        subtitleProps={{allowFontScaling: false}}
+        rightTitleProps={{allowFontScaling: false}}
+        rightSubtitleProps={{allowFontScaling: false}}
         {...listItemProps}
         {...otherProps}
       />
@@ -375,7 +378,11 @@ class ListViewComponent extends Component<IProps> {
     if (isAnimated) {
       return (
         <FadeListAnimation key={index} delay={this.getAnimatedItemDelay(index)}>
-          {children}
+          <View
+            style={[{marginBottom: StyleSheet.hairlineWidth}, parentViewStyle]}
+          >
+            {children}
+          </View>
         </FadeListAnimation>
       );
     }
@@ -409,8 +416,6 @@ class ListViewComponent extends Component<IProps> {
   }
 }
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
 export const ListView = connect(mapStateToProps)(ListViewComponent);
