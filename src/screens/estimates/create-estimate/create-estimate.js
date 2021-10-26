@@ -501,6 +501,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
         />
         <ItemField
           {...this.props}
+          currency={this.state.currency}
           selectedItems={selectedItems}
           items={getItemList(items)}
           getItems={getItems}
@@ -508,7 +509,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
           setFormField={this.setFormField}
         />
 
-        <FinalAmount {...this.props} {...this.state} />
+        <FinalAmount {...this.props} currency={this.state.currency} />
 
         <Field
           name="reference_number"

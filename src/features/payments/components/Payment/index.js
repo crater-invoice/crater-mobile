@@ -146,8 +146,6 @@ export class Payment extends React.Component<IProps> {
     };
 
     this.setFormField(`payment`, val);
-    console.log('val', val, invoice, values);
-
     this.setState({
       selectedCustomer: invoice?.customer,
       selectedInvoice: invoice?.due,

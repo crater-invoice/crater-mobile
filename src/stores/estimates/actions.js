@@ -16,9 +16,9 @@ export const spinner = (name, value) => ({
  * @param onSuccess
  * @returns {{type: string, payload: *}}
  */
-export const fetchEstimateInitialDetails = onSuccess => ({
+export const fetchEstimateInitialDetails = payload => ({
   type: types.FETCH_INITIAL_DETAILS,
-  payload: {onSuccess}
+  payload
 });
 
 /**

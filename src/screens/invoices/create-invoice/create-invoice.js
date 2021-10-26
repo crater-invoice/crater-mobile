@@ -136,7 +136,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       dispatch,
       invoiceData: {invoiceTemplates = []} = {}
     } = this.props;
-    console.log(isSaving, isDeleting, this.state.isFetchingInitialData);
     if (isSaving || isDeleting || this.state.isFetchingInitialData) {
       return;
     }
@@ -183,11 +182,9 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       navigation,
       status,
       onSuccess: () => {
-        console.log('called');
         navigation.navigate(routes.MAIN_INVOICES);
       }
     };
-    console.log('params', params);
     isCreateScreen
       ? dispatch(addInvoice(params))
       : dispatch(updateInvoice(params));
@@ -261,7 +258,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           due: {due_amount, sub_total},
           number: `${prefix}-${invoice_number}`
         };
-        console.log('invoice', invoice);
         navigation.navigate(routes.PAYMENT, {
           type: 'ADD',
           invoice,
@@ -490,6 +486,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
 
         <ItemField
           {...this.props}
+          currency={this.state.currency}
           selectedItems={selectedItems}
           items={getItemList(items)}
           getItems={getItems}
@@ -497,7 +494,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           screen="invoice"
         />
 
-        <FinalAmount {...this.props} state={this.state} />
+        <FinalAmount {...this.props} currency={this.state.currency} />
 
         <Field
           name="reference_number"
