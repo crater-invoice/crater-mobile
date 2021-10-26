@@ -155,6 +155,19 @@ export default class CreateUser extends Component<IProps, IStates> {
         />
 
         <Field
+          name="role"
+          roles={roles}
+          fetchRoles={fetchRoles}
+          component={RoleSelectModal}
+          rightIconPress={this.navigateToRole}
+          onSelect={item => this.setFormField(`role`, item.name)}
+          disabled={disabled}
+          refLinkFn={ref => (userRefs.role = ref)}
+          placeholder={formValues?.role ?? t('users.rolePlaceholder')}
+          selectedItem={formValues?.role}
+        />
+
+        <Field
           name="password"
           component={InputField}
           hint={t('users.password')}
@@ -173,19 +186,6 @@ export default class CreateUser extends Component<IProps, IStates> {
           refLinkFn={ref => (userRefs.phone = ref)}
           disabled={disabled}
           keyboardType={keyboardType.PHONE}
-        />
-
-        <Field
-          name="role"
-          roles={roles}
-          fetchRoles={fetchRoles}
-          component={RoleSelectModal}
-          rightIconPress={this.navigateToRole}
-          onSelect={item => this.setFormField(`role`, item.name)}
-          disabled={disabled}
-          refLinkFn={ref => (userRefs.role = ref)}
-          placeholder={formValues?.role ?? t('users.rolePlaceholder')}
-          selectedItem={formValues?.role}
         />
       </DefaultLayout>
     );
