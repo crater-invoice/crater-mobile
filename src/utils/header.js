@@ -19,6 +19,11 @@ const layoutProps = route => {
         title: t('header.roles'),
         navigateToRoute: routes.CREATE_ROLE
       };
+    case routes.RECURRING_INVOICES:
+      return {
+        title: t('header.recurring_invoices'),
+        navigateToRoute: routes.CREATE_RECURRING_INVOICE
+      };
     default:
       return {title: '', navigateToRoute: null};
   }

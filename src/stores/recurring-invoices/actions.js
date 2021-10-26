@@ -100,14 +100,12 @@ export function updateRecurringInvoice(payload = {}) {
 /**
  * Remove recurring-invoice.
  * @param id
- * @param navigation
- * @param onFail
  * @returns {{type: string, payload: *}}
  */
-export function removeRecurringInvoice(id, navigation, onFail) {
+export function removeRecurringInvoice(id) {
   return {
     type: types.REMOVE_RECURRING_INVOICE,
-    payload: {id, navigation, onFail}
+    payload: {id}
   };
 }
 

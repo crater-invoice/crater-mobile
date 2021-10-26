@@ -4,6 +4,7 @@ import * as req from './service';
 import {spinner} from './actions';
 import {fetchTaxAndDiscountPerItem} from '../common/actions';
 import {showNotification, handleError} from '@/utils';
+import {navigation} from '@/navigation';
 
 /**
  * Fetch Next-Invoice-At saga.
@@ -138,13 +139,13 @@ function* updateRecurringInvoice({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* removeRecurringInvoice({payload}) {
-  const {id, navigation} = payload;
+  const {id} = payload;
   try {
     yield put(spinner('isDeleting', true));
     const body = {ids: [id]};
     yield call(req.removeRecurringInvoice, body);
     yield put({type: types.REMOVE_RECURRING_INVOICE_SUCCESS, payload: id});
-    navigation.goBack(null);
+    navigation.goBack();
     showNotification({message: t('notification.recurring_invoice_deleted')});
   } catch (e) {
     handleError(e);
