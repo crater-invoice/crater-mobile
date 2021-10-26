@@ -16,7 +16,6 @@ import {
   NOTIFICATION_MAIL_TYPE
 } from '../constants';
 
-import categories from './categories';
 import taxes from './taxes';
 import currencies from './currencies';
 import customFields from './custom-fields';
@@ -183,12 +182,5 @@ export default function* settingsSaga() {
   yield takeEvery(GET_SETTING_ITEM, getSettingItem);
   yield takeEvery(EDIT_SETTING_ITEM, editSettingItem);
 
-  yield all([
-    categories(),
-    taxes(),
-    currencies(),
-    customFields(),
-    General(),
-    Notes()
-  ]);
+  yield all([taxes(), currencies(), customFields(), General(), Notes()]);
 }

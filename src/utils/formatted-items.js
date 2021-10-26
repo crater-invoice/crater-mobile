@@ -67,20 +67,6 @@ export const formatTaxTypes = taxes => {
   });
 };
 
-export const formatCategories = categories => {
-  if (isEmpty(categories)) {
-    return [];
-  }
-  return categories.map(category => {
-    const {name, description} = category;
-    return {
-      title: name || '',
-      subtitle: {title: description},
-      fullItem: category
-    };
-  });
-};
-
 export const formatNotes = notes => {
   if (isEmpty(notes)) {
     return [];

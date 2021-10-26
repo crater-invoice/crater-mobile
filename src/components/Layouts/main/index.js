@@ -26,6 +26,7 @@ interface IProps {
   dividerStyle?: Object;
   loadingProps?: Object;
   searchFieldProps?: any;
+  bodyStyle?: any;
 }
 
 const Layout = (props: IProps) => {

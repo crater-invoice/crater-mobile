@@ -15,6 +15,15 @@ export function navigateTo({route, params = {}}) {
   navigationRef?.current?.navigate?.(route, params);
 }
 
+export function goBack() {
+  navigationRef?.current?.goBack?.(null);
+}
+
+export const navigation = {
+  navigateTo,
+  goBack
+};
+
 export const getActiveMainTab = () => {
   if (PermissionService.isAllowToView(routes.MAIN_INVOICES)) {
     return routes.MAIN_INVOICES;

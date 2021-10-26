@@ -28,6 +28,13 @@ export default params => {
     case routes.CREATE_ROLE:
       return getTitle('header.addRole', 'header.editRole', 'header.viewRole');
 
+    case routes.CREATE_CATEGORY:
+      return getTitle(
+        'header.addCategory',
+        'header.editCategory',
+        'header.viewCategory'
+      );
+
     default:
       return '';
   }

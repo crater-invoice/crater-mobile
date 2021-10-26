@@ -3,8 +3,8 @@ import Request from 'utils/request';
 import * as queryStrings from 'query-string';
 import * as TYPES from '../constants';
 import {getCustomers} from '@/features/customers/saga';
-import {getExpenseCategories} from '@/features/settings/saga/categories';
 import {getCustomFields} from '@/features/settings/saga/custom-fields';
+import {fetchCategories} from 'stores/categories/saga';
 import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
@@ -102,7 +102,7 @@ function* getExpenseDetail({payload: {id, onSuccess}}) {
     const options2 = {path: `expenses/${id}/show/receipt`, throw_error: false};
     const response2 = yield call([Request, 'get'], options2);
     yield call(getCustomers, {payload: {queryString: {limit: 'all'}}});
-    yield call(getExpenseCategories, {payload: {queryString: {limit: 'all'}}});
+    yield call(fetchCategories, {payload: {queryString: {limit: 'all'}}});
     yield call(getCustomFields, {
       payload: {
         queryString: {type: CUSTOM_FIELD_TYPES.EXPENSE, limit: 'all'}

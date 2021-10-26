@@ -2,16 +2,15 @@ import React from 'react';
 import {MainLayout, ListView, InfiniteScroll} from '@/components';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
-import {formatCategories} from '@/utils';
 import {ARROW_ICON} from '@/assets';
+import {IProps, IStates} from './categories-type';
+import {isEmpty} from '@/constants';
+import {fetchCategories} from 'stores/categories/actions';
 
-type IProps = {
-  navigation: Object,
-  getPayments: Function,
-  payments: Object
-};
+export default class Categories extends React.Component<IProps, IStates> {
+  scrollViewReference: any;
+  focusListener: any;
 
-export class Categories extends React.Component<IProps> {
   constructor(props) {
     super(props);
     this.scrollViewReference = React.createRef();
@@ -43,16 +42,18 @@ export class Categories extends React.Component<IProps> {
 
   onSelect = category => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CATEGORY, {
+    navigation.navigate(routes.CREATE_CATEGORY, {
       type: 'UPDATE',
       id: category.id
     });
   };
 
+  addNewCategory = () =>
+    this.props.navigation.navigate(routes.CREATE_CATEGORY, {type: 'ADD'});
+
   render() {
-    const {navigation, categories, getExpenseCategories, route} = this.props;
+    const {navigation, categories, dispatch, route} = this.props;
     const {search} = this.state;
-    const isEmpty = categories && categories.length <= 0;
 
     const emptyTitle = search ? 'search.noResult' : 'categories.empty.title';
     const emptyContentProps = {
@@ -60,11 +61,7 @@ export class Categories extends React.Component<IProps> {
       ...(!search && {
         description: t('categories.empty.description'),
         buttonTitle: t('categories.empty.buttonTitle'),
-        buttonPress: () => {
-          navigation.navigate(routes.CATEGORY, {
-            type: 'ADD'
-          });
-        }
+        buttonPress: this.addNewCategory
       })
     };
 
@@ -72,13 +69,10 @@ export class Categories extends React.Component<IProps> {
       title: t('header.expenseCategory'),
       route,
       leftIcon: ARROW_ICON,
-      leftIconPress: () => navigation.navigate(routes.SETTING_LIST),
+      leftIconPress: () => navigation.goBack(null),
       placement: 'center',
       rightIcon: 'plus',
-      rightIconPress: () =>
-        navigation.navigate(routes.CATEGORY, {
-          type: 'ADD'
-        })
+      rightIconPress: this.addNewCategory
     };
 
     return (
@@ -89,18 +83,18 @@ export class Categories extends React.Component<IProps> {
         bodyStyle="is-full-listView"
       >
         <InfiniteScroll
-          getItems={getExpenseCategories}
+          getItems={q => dispatch(fetchCategories(q))}
           reference={ref => (this.scrollViewReference = ref)}
           getItemsInMount={false}
         >
           <ListView
-            items={formatCategories(categories)}
-            onPress={this.onSelect}
-            isEmpty={isEmpty}
-            bottomDivider
-            emptyContentProps={emptyContentProps}
-            route={route}
             isAnimated
+            bottomDivider
+            route={route}
+            items={categories}
+            onPress={this.onSelect}
+            isEmpty={isEmpty(categories)}
+            emptyContentProps={emptyContentProps}
           />
         </InfiniteScroll>
       </MainLayout>

@@ -9,7 +9,7 @@ let selectedToDateValue = '';
 export default expenseFilterFields = ({props, setFormField}) => {
   const {
     categories,
-    getCategories,
+    fetchCategories,
     navigation,
     getCustomers,
     customers
@@ -42,7 +42,7 @@ export default expenseFilterFields = ({props, setFormField}) => {
       name: 'expense_category_id',
       apiSearch: true,
       hasPagination: true,
-      getItems: getCategories,
+      getItems: fetchCategories,
       items: categories,
       displayName: 'name',
       label: t('expenses.category'),

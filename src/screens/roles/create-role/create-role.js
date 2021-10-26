@@ -9,12 +9,13 @@ import headerTitle from 'utils/header';
 import {
   DefaultLayout,
   InputField,
-  ActionButton,
   View,
   Text,
   CheckBox,
   ButtonView,
-  BaseLabel
+  BaseLabel,
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {
   fetchPermissions,
@@ -145,23 +146,40 @@ export default class CreateRole extends Component<IProps, IStates> {
     } = this.props;
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
-    const loading = isFetchingInitialData || isSaving || isDeleting;
     const permissionList = [];
-    const bottomAction = [
-      {
-        label: 'button.save',
-        onPress: handleSubmit(this.onSave),
-        show: isAllowToEdit,
-        loading
-      },
-      {
-        label: 'button.remove',
-        onPress: this.removeRole,
-        bgColor: 'btn-danger',
-        show: isEditScreen && isAllowToDelete,
-        loading
-      }
-    ];
+
+    const headerProps = {
+      leftIconPress: () => navigation.goBack(null),
+      title: headerTitle(this.props),
+      placement: 'center',
+      ...(isAllowToEdit && {
+        rightIcon: 'save',
+        rightIconProps: {solid: true},
+        rightIconPress: handleSubmit(this.onSave)
+      })
+    };
+
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          show={isAllowToEdit}
+          loading={isSaving}
+          disabled={isFetchingInitialData || isDeleting}
+          onPress={handleSubmit(this.onSave)}
+        >
+          {t('button.save')}
+        </BaseButton>
+        <BaseButton
+          type="danger"
+          show={isEditScreen && isAllowToDelete}
+          loading={isDeleting}
+          disabled={isFetchingInitialData || isSaving}
+          onPress={this.removeRole}
+        >
+          {t('button.remove')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     for (const permission in permissions) {
       permissionList.push(
@@ -188,21 +206,10 @@ export default class CreateRole extends Component<IProps, IStates> {
       );
     }
 
-    const headerProps = {
-      leftIconPress: () => navigation.goBack(null),
-      title: headerTitle(this.props),
-      placement: 'center',
-      ...(isAllowToEdit && {
-        rightIcon: 'save',
-        rightIconProps: {solid: true},
-        rightIconPress: handleSubmit(this.onSave)
-      })
-    };
-
     return (
       <DefaultLayout
         headerProps={headerProps}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData}}
       >
         <Field
