@@ -4,10 +4,10 @@ const modeStore = state => state?.paymentModes;
 
 export const modesSelector = createSelector(
   modeStore,
-  paymentModes => paymentModes?.modes ?? []
+  store => store?.modes ?? []
 );
 
 export const loadingSelector = createSelector(
   modeStore,
-  mode => ({isSaving: mode?.isSaving, isDeleting: mode?.isDeleting})
+  store => ({isSaving: store?.isSaving, isDeleting: store?.isDeleting})
 );

@@ -128,7 +128,7 @@ class inputModalComponent extends Component<Iprops> {
           animationOutTiming: 1,
           onSwipeComplete: this.onToggle,
           ...(!onSubmitLoading &&
-            !onRemoveLoading && {swipeDirection: 'right'}),
+            !onRemoveLoading && {swipeDirection: ['left', 'right']}),
           ...modalProps
         }}
       >
