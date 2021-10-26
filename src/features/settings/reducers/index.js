@@ -2,8 +2,6 @@ import {isEmpty} from '@/constants';
 import {
   SETTINGS_TRIGGER_SPINNER,
   SET_ACCOUNT_INFO,
-  SET_SETTING_ITEM,
-  SET_CURRENCIES,
   SET_CUSTOM_FIELDS,
   SET_LANGUAGES,
   SET_NOTES,
@@ -31,9 +29,6 @@ const initialState = {
     addTaxLoading: false,
     getTaxLoading: false,
     removeTaxLoading: false,
-    // Currencies
-    currenciesLoading: false,
-    currencyLoading: false,
     // Custom Fields
     customFieldLoading: false,
     getCustomFieldLoading: false,
@@ -41,12 +36,8 @@ const initialState = {
     // Notes
     getNotesLoading: false
   },
-  currencies: [],
   customFields: [],
   account: null,
-  taxByItems: false,
-  taxByInvoice: true,
-  taxByEstimate: false,
   notes: []
 };
 
@@ -60,15 +51,6 @@ export default function settingReducer(state = initialState, action) {
     case SET_ACCOUNT_INFO:
       return {...state, ...payload};
 
-    case SET_SETTING_ITEM:
-      const {key, value} = payload;
-      if (key === 'discount_per_item') {
-        return {...state, discountPerItem: value};
-      }
-
-      if (key === 'tax_per_item') return {...state, taxPerItem: value};
-      else return {...state, ...payload};
-
     case SET_NOTES:
       if (!payload.fresh) {
         return {
@@ -78,11 +60,6 @@ export default function settingReducer(state = initialState, action) {
       }
 
       return {...state, notes: payload.notes};
-
-    case SET_CURRENCIES:
-      const {currencies} = payload;
-
-      return {...state, currencies};
 
     case SET_LANGUAGES:
       const {languages} = payload;

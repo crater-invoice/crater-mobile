@@ -12,20 +12,12 @@ export const NOTIFICATION = 'notification/NOTIFICATION';
 export const SEARCH_TAX = 'taxForm/SEARCH_TAX';
 export const TAX_FORM = 'taxForm/TAX_FORM';
 
-export const CURRENCIES_FORM = 'currencies/CURRENCIES_FORM';
-export const CURRENCY_FORM = 'currencies/CURRENCY_FORM';
-
 export const CUSTOM_FIELDS_FORM = 'custom-field/CUSTOM_FIELDS_FORM';
 export const CUSTOM_FIELD_FORM = 'custom-field/CUSTOM_FIELD_FORM';
 
 export const NOTES_SEARCH = 'notes/NOTES_SEARCH';
 export const NOTE_FORM = 'notes/NOTE_FORM';
 export const TOUCH_FACE_ID_FORM = 'biometry/TOUCH_FACE_ID_FORM';
-
-// Types
-// -----------------------------------------
-export const CREATE_CURRENCY_TYPE = 'currencies/CREATE_CURRENCY_TYPE';
-export const EDIT_CURRENCY_TYPE = 'currencies/EDIT_CURRENCY_TYPE';
 
 // -----------------------------------------
 export const SETTINGS_SEARCH = 'settings/SETTINGS_SEARCH';
@@ -67,11 +59,7 @@ export const REMOVE_FROM_NOTES = 'notes/REMOVE_FROM_NOTES';
 export const UPDATE_FROM_NOTES = 'notes/UPDATE_FROM_NOTES';
 
 // Currencies
-export const SET_CURRENCIES = 'currencies/SET_CURRENCIES';
 export const SET_GLOBAL_CURRENCIES = 'currencies/SET_GLOBAL_CURRENCIES';
-export const CREATE_CURRENCY = 'currencies/CREATE_CURRENCY';
-export const EDIT_CURRENCY = 'currencies/EDIT_CURRENCY';
-export const REMOVE_CURRENCY = 'currencies/REMOVE_CURRENCY';
 
 // Languages
 export const SET_LANGUAGES = 'languages/SET_LANGUAGES';
