@@ -4,7 +4,6 @@ import t from 'locales/use-translation';
 
 // Forms
 // -----------------------------------------
-export const SET_ENDPOINT_API = 'moreForm/SET_ENDPOINT_API';
 
 export const ITEM_FORM = 'items/ITEM_FORM';
 export const ITEMS_FORM = 'items/ITEMS_FORM';

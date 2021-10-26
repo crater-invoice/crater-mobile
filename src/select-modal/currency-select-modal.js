@@ -74,7 +74,7 @@ export const CurrencySelectModal = (props: IProps) => {
       isAllowToSelect={!disabled}
       baseSelectProps={{
         leftSymbol: getSelectedCurrencySymbol(),
-        leftSymbolStyle: {color: theme?.icons?.secondaryColor},
+        leftSymbolStyle: {color: theme?.icons?.primaryColor},
         disabled,
         ...baseSelectProps
       }}

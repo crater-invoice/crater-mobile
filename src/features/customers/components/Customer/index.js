@@ -280,6 +280,7 @@ export class Customer extends React.Component<IProps> {
             }
             theme={theme}
             disabled={disabled}
+            baseSelectProps={{rightIcon: 'angle-right'}}
           />
 
           <Field

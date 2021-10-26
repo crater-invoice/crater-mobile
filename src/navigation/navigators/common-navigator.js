@@ -21,7 +21,7 @@ import Report from '@/features/more/containers/Report';
 
 import Settings from '@/features/settings/containers/Settings';
 import UpdateApp from '@/components/UpdateAppVersion';
-import Endpoint from '@/features/authentication/containers/Endpoint';
+import {Endpoint} from 'screens/endpoint';
 import Account from '@/features/settings/containers/Account';
 import Notification from '@/features/settings/containers/Notification';
 import {Preferences} from 'screens/preferences';

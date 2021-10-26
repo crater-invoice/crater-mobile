@@ -1,6 +1,6 @@
 import t from 'locales/use-translation';
 import {AssetImage} from '@/components';
-import {statusSelector} from '@/stores/recurring-invoices/selectors';
+import {statusSelector} from 'stores/recurring-invoices/selectors';
 
 let selectedFromDate = '';
 let selectedFromDateValue = '';

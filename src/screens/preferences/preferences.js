@@ -114,7 +114,6 @@ export default class Preferences extends Component<IProps, IStates> {
           currencies={currencies}
           component={CurrencySelectModal}
           label={t('settings.preferences.currency')}
-          rightIcon="angle-right"
           isRequired
           theme={theme}
           onSelect={val => this.setFormField('currency', val.id)}

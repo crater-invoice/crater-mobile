@@ -1,9 +1,9 @@
 import axios from 'axios';
 import {store} from '@/stores';
-import {checkConnection, hasValue} from '@/constants';
-import {logoutSuccess} from '@/features/authentication/actions';
-import {navigateTo} from '@/navigation/navigation-action';
 import {routes} from '@/navigation';
+import {checkConnection, hasValue} from '@/constants';
+import {navigateTo} from '@/navigation/navigation-action';
+import {logoutSuccess} from 'stores/auth/actions';
 
 type IProps = {
   path: string,

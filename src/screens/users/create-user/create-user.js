@@ -162,7 +162,6 @@ export default class CreateUser extends Component<IProps, IStates> {
           component={InputField}
           hint={t('users.password')}
           secureTextEntry
-          secureTextIconContainerStyle={{top: 6}}
           disabled={disabled}
           refLinkFn={ref => (userRefs.password = ref)}
           isRequired={!isEditScreen}

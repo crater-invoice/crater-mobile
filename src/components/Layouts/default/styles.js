@@ -1,12 +1,12 @@
 import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
+import {headerTitle} from '@/styles';
 import {
   definePlatformParam,
   defineSize,
   isAndroidPlatform,
   isIPhoneX
 } from '@/constants';
-import {headerTitle} from '@/styles';
 
 const styles = StyleSheet.create({
   content: {
@@ -53,9 +53,4 @@ const Container = styled(View)`
   background-color: ${props => props.theme?.backgroundColor};
 `;
 
-const Row = styled(View)`
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-export {styles, Container, Row};
+export {styles, Container};

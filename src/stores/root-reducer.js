@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import {reducer as formReducer} from 'redux-form';
-import auth from '@/features/authentication/reducers';
+import auth from 'stores/auth/reducer';
 import invoices from 'stores/invoices/reducer';
 import estimates from 'stores/estimates/reducer';
 import customers from '@/features/customers/reducers';

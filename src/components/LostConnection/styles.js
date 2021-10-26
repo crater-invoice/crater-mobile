@@ -1,45 +1,27 @@
-import { StyleSheet, Dimensions, View } from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
-import { defineSize } from '@/constants';
-
-const { width } = Dimensions.get('window');
+import {defineSize} from '@/constants';
 
 const styles = StyleSheet.create({
-    main: {
-        flex: 1,
-        flexDirection: 'column',
-        paddingHorizontal: 25,
-        justifyContent: 'center'
-    },
-    logoContainer: {},
-    imgLogo: {
-        width: width,
-        height: 140,
-        resizeMode: 'cover'
-    },
-    bodyContainer: {
-        textAlign: 'center',
-        alignItems: 'center'
-    },
-    title: {
-        marginBottom: defineSize(30, 30, 40, 40)
-    },
-    internetIcon: {
-        marginTop: 15,
-        marginBottom: 10
-    },
-    description: {
-        marginTop: defineSize(55, 55, 65, 65),
-        fontSize: 14,
-        paddingHorizontal: 10
-    }
+  title: {
+    marginBottom: defineSize(30, 30, 40, 40)
+  },
+  description: {
+    marginTop: defineSize(55, 55, 65, 65),
+    fontSize: 14,
+    paddingHorizontal: 35
+  }
 });
 
 const Container = styled(View)`
-    flex: 1;
-    justify-content: flex-start;
-    display: flex;
-    background-color: ${props => props.theme?.backgroundColor};
+  flex: 1;
+  background-color: ${props => props.theme?.backgroundColor};
 `;
 
-export { styles, Container };
+const Center = styled(View)`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export {styles, Container, Center};

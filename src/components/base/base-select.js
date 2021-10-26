@@ -3,8 +3,9 @@ import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
 import {connect} from 'react-redux';
 import {AssetIcon, BaseError, BaseLabel, ButtonView, Text} from '@/components';
-import {colors} from '@/styles';
+import {colors, fontSizes} from '@/styles';
 import {commonSelector} from 'stores/common/selectors';
+import {isAndroidPlatform} from '@/constants';
 
 const SelectView = props => {
   const {
@@ -26,8 +27,14 @@ const SelectView = props => {
     disabled = false,
     leftSymbol,
     theme,
-    customView
+    customView,
+    leftIconProps,
+    leftSymbolStyle
   } = props;
+
+  if (customView) {
+    return customView({props});
+  }
 
   const leftIconColor = color
     ? color
@@ -53,10 +60,6 @@ const SelectView = props => {
     !values && placeholderStyle
   ];
 
-  if (customView) {
-    return customView({props});
-  }
-
   return (
     <Container style={containerStyle}>
       <BaseLabel isRequired={isRequired}>{label}</BaseLabel>
@@ -69,15 +72,21 @@ const SelectView = props => {
         {icon && (
           <AssetIcon
             name={icon}
-            size={16}
+            size={leftIconSize(icon)}
             color={leftIconColor}
             solid={leftIconSolid}
             style={[styles.leftIcon, leftIconStyle]}
+            {...leftIconProps}
           />
         )}
 
         {leftSymbol && (
-          <Text h4 medium color={textColor} style={styles.leftSymbol}>
+          <Text
+            h4
+            medium
+            color={textColor}
+            style={[styles.leftSymbol, leftSymbolStyle]}
+          >
             {leftSymbol}
           </Text>
         )}
@@ -127,7 +136,10 @@ const styles = StyleSheet.create({
     paddingLeft: 15
   },
   leftSymbol: {
-    paddingLeft: 15
+    paddingLeft: 15,
+    ...(isAndroidPlatform && {
+      marginTop: 4
+    })
   },
   rightIcon: {
     paddingRight: 15
@@ -135,7 +147,10 @@ const styles = StyleSheet.create({
   text: {
     paddingHorizontal: 13,
     flex: 1,
-    fontSize: 15
+    fontSize: fontSizes.h5,
+    ...(isAndroidPlatform && {
+      paddingTop: 4
+    })
   },
   validation: {
     marginTop: -10
@@ -145,6 +160,8 @@ const styles = StyleSheet.create({
 const Container = styled(View)`
   margin-top: 10;
 `;
+
+const leftIconSize = name => (name === 'align-center' ? 14 : 16);
 
 const mapStateToProps = state => commonSelector(state);
 

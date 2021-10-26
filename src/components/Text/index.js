@@ -2,12 +2,12 @@ import React from 'react';
 import {Text as RNText} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {ifProp, prop} from 'styled-tools';
-import {applyProp, hasProp} from '../../utils';
+import {applyProp, getClass, hasProp} from '@/utils';
 import {fonts, fontSizes, colors, generateSize} from '../../styles';
 
-const CTText = ({children, ...props}) => <RNText {...props}>{children}</RNText>;
+const CTText = ({children, ...props}) => <RNText {...props} allowFontScaling={false}>{children}</RNText>;
 
-export const Text = styled(CTText)`
+const StyledText = styled(CTText)`
 
     color: ${colors.secondary};
     text-align: left;
@@ -367,3 +367,11 @@ export const Text = styled(CTText)`
 
     ${prop('style')}
 `;
+
+export const Text = (props) => {
+  return (
+    <StyledText {...getClass(props?.class)} {...props}>
+      {props.children}
+    </StyledText>
+  );
+};
