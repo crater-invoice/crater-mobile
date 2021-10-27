@@ -40,7 +40,7 @@ export const routes = {
 
   // Categories
   CATEGORIES: 'CATEGORIES',
-  CATEGORY: 'CATEGORY',
+  CREATE_CATEGORY: 'CREATE_CATEGORY',
 
   // Taxes
   TAX: 'TAX',

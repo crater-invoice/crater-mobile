@@ -38,7 +38,7 @@ interface IProps {
   handleSubmit: Function;
   categories: Array<any>;
   customers: Array<any>;
-  getCategories: Function;
+  fetchCategories: Function;
   getCustomers: Function;
   customFields: Array<any>;
   formValues: any;
@@ -208,7 +208,7 @@ export class Expense extends React.Component<IProps, IState> {
 
   navigateToCategory = () => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CATEGORY, {
+    navigation.navigate(routes.CREATE_CATEGORY, {
       type: 'ADD',
       onSelect: item => {
         this.setFormField(`expense.${FIELDS.CATEGORY}`, item.id);
@@ -222,7 +222,7 @@ export class Expense extends React.Component<IProps, IState> {
       navigation,
       handleSubmit,
       categories,
-      getCategories,
+      fetchCategories,
       getCustomers,
       customers,
       customFields,
@@ -341,7 +341,7 @@ export class Expense extends React.Component<IProps, IState> {
         <Field
           name={`expense.${FIELDS.CATEGORY}`}
           categories={categories}
-          getCategories={getCategories}
+          fetchCategories={fetchCategories}
           component={ExpenseCategorySelectModal}
           onSelect={item =>
             this.setFormField(`expense.${FIELDS.CATEGORY}`, item.id)

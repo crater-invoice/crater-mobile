@@ -38,6 +38,7 @@ export const formattedInvoices = (invoices, theme) => {
     };
   });
 };
+
 export const formatItems = (invoices, theme) => {
   if (isEmpty(invoices)) {
     return [];
@@ -69,9 +70,9 @@ export const formatItems = (invoices, theme) => {
 
 export const loadingSelector = createSelector(
   state => state?.recurringInvoices,
-  recurringInvoices => ({
-    isSaving: recurringInvoices?.isSaving,
-    isDeleting: recurringInvoices?.isDeleting
+  store => ({
+    isSaving: store?.isSaving,
+    isDeleting: store?.isDeleting
   })
 );
 

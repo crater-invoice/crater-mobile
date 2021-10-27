@@ -16,6 +16,11 @@ export interface IProps {
    * dispatch change action.
    */
   dispatch: (fun: object) => void;
+
+  /**
+   * Current navigation object values.
+   */
+  route: any;
 }
 
 export interface IStates {

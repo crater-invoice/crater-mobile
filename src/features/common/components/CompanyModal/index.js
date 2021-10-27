@@ -164,7 +164,7 @@ export class Modal extends Component {
             backdropTransitionInTiming: 1,
             backdropTransitionOutTiming: 1,
             ...(!isMore && {
-              swipeDirection: 'right',
+              swipeDirection: ['left', 'right'],
               onSwipeComplete: this.onToggle
             })
           }}

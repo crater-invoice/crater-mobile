@@ -3,22 +3,22 @@ import {reduxForm, getFormValues} from 'redux-form';
 import {Expense} from '../../components/Expense';
 import {validate} from './validation';
 import * as actions from '../../actions';
-import {getExpenseCategories} from '@/features/settings/actions';
-import {getCategoriesState} from '../../selectors';
 import {getCustomers} from '@/features/customers/actions';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {EXPENSE_FORM, EXPENSE_FIELDS as FIELDS} from '../../constants';
+import {fetchCategories} from 'stores/categories/actions';
+import {categoriesSelector} from '@/stores/categories/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
     common: {endpointURL, currency},
     expenses: {loading},
-    settings: {categories, customFields}
+    settings: {customFields}
   } = state;
   const id = route?.params?.id;
 
   return {
-    categories: getCategoriesState(categories),
+    categories: categoriesSelector(state),
     customers: state.customers?.customers,
     endpointURL,
     customFields,
@@ -41,7 +41,7 @@ const mapStateToProps = (state, {route}) => {
 
 const mapDispatchToProps = {
   ...actions,
-  getCategories: getExpenseCategories,
+  fetchCategories,
   getCustomers
 };
 

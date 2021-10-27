@@ -140,8 +140,9 @@ function* removeInvoice({payload}) {
  * Add invoice item saga
  * @returns {IterableIterator<*>}
  */
-function* addInvoiceItem({payload: {item, onResult}}) {
+function* addInvoiceItem({payload}) {
   try {
+    const {item, onResult} = payload;
     const {data} = yield call(req.addInvoiceItem, item);
     const items = [{...data, item_id: data.id, ...item}];
     yield put({type: types.ADD_INVOICE_ITEM_SUCCESS, payload: items ?? []});
@@ -153,9 +154,10 @@ function* addInvoiceItem({payload: {item, onResult}}) {
  * Remove invoice item saga
  * @returns {IterableIterator<*>}
  */
-function* removeInvoiceItem({payload: {id}}) {
+function* removeInvoiceItem({payload}) {
   try {
     yield put(spinner({isDeleting: true}));
+    const {id} = payload;
     yield put({type: types.REMOVE_INVOICE_ITEM_SUCCESS, payload: id});
   } catch (e) {
   } finally {

@@ -148,8 +148,9 @@ function* removeEstimate({payload}) {
  * Add estimate item saga
  * @returns {IterableIterator<*>}
  */
-function* addEstimateItem({payload: {item, onSuccess}}) {
+function* addEstimateItem({payload}) {
   try {
+    const {item, onSuccess} = payload;
     const {data} = yield call(req.addEstimateItem, item);
     const items = [{...data, item_id: data.id, ...item}];
     yield put({type: types.ADD_ESTIMATE_ITEM_SUCCESS, payload: items ?? []});
@@ -161,8 +162,9 @@ function* addEstimateItem({payload: {item, onSuccess}}) {
  * Remove estimate item saga
  * @returns {IterableIterator<*>}
  */
-function* removeEstimateItem({payload: {id}}) {
+function* removeEstimateItem({payload}) {
   try {
+    const {id} = payload;
     yield put(spinner({isDeleting: true}));
     yield put({type: types.REMOVE_ESTIMATE_ITEM_SUCCESS, payload: id});
   } catch (e) {

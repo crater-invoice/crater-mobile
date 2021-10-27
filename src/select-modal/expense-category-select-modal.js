@@ -12,7 +12,7 @@ interface IProps {
   /**
    * An action to return a list of category.
    */
-  getCategories?: () => void;
+  fetchCategories?: () => void;
 
   /**
    * Is allowed to edit.
@@ -21,13 +21,13 @@ interface IProps {
 }
 
 export const ExpenseCategorySelectModal = (props: IProps) => {
-  const {categories, getCategories, disabled = false} = props;
+  const {categories, fetchCategories, disabled = false} = props;
 
   return (
     <SelectField
       {...props}
       items={categories ?? []}
-      getItems={getCategories}
+      getItems={fetchCategories}
       isRequired
       apiSearch
       hasPagination

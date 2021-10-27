@@ -17,6 +17,7 @@ import customizes from 'stores/customize/reducer';
 import itemUnits from 'stores/item-units/reducer';
 import paymentModes from 'stores/payment-modes/reducer';
 import recurringInvoices from 'stores/recurring-invoices/reducer';
+import categories from 'stores/categories/reducer';
 
 export default combineReducers({
   auth,
@@ -36,5 +37,6 @@ export default combineReducers({
   customizes,
   itemUnits,
   paymentModes,
-  recurringInvoices
+  recurringInvoices,
+  categories
 });
