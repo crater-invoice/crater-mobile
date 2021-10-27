@@ -2,26 +2,18 @@ import Request from '@/utils/request';
 import * as queryString from 'query-string';
 
 /**
- * Add recurring-invoices item.
+ * Add recurring-invoices item
  * @param body : params
  * @returns {*}
  */
-export const addRecurringInvoiceItem = body => {
+export const addRecurringInvoiceItem = item => {
+  const {price, name, description, taxes, unit_id} = item;
+  const body = {name, description, price, unit_id, taxes};
   return Request.post({path: `items`, body});
 };
 
 /**
- * Update recurring-invoices item.
- * @param id : recurring-invoice item id
- * @param body : params
- * @returns {*}
- */
-export const updateRecurringInvoiceItem = (id, body) => {
-  return Request.put({path: `items/${id}`, body});
-};
-
-/**
- * Fetch Next-Invoice-At.
+ * Fetch Next-Invoice-At
  * @param body : params
  * @returns {*}
  */
@@ -81,6 +73,6 @@ export const updateRecurringInvoice = (id, body) => {
  * @param id : recurring-invoice id
  * @returns {*}
  */
-export const removeRecurringInvoice = body => {
-  return Request.post({path: `recurring-invoices/delete`, body});
+export const removeRecurringInvoice = id => {
+  return Request.post({path: `recurring-invoices/delete`, body: {ids: [id]}});
 };

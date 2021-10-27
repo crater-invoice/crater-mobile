@@ -24,7 +24,7 @@ const mapStateToProps = state => {
   };
 };
 const mapDispatchToProps = {
-  getCustomers: getCustomers
+  getCustomers
 };
 
 const RecurringInvoicesForm = reduxForm({

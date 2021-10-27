@@ -1,4 +1,5 @@
 import t from 'locales/use-translation';
+import moment from 'moment';
 
 export const LIMIT_TYPES = [
   {label: t('recurring_invoices.limit_types.date'), value: 'DATE'},
@@ -36,3 +37,21 @@ export const FREQUENCIES_TYPES = [
   },
   {label: t('recurring_invoices.frequencies.every_year'), value: '0 0 1 1 *'}
 ];
+
+export const initialValues = {
+  customer_id: null,
+  starts_at: moment(),
+  next_invoice_at: null,
+  limit_by: null,
+  limit_date: moment().add(7, 'days'),
+  limit_count: null,
+  status: null,
+  frequency: '0 0 1 * *',
+  frequency_picker: '0 0 1 * *',
+  items: null,
+  template_name: null,
+  send_automatically: false,
+  discount_type: 'fixed',
+  discount: 0,
+  taxes: []
+};
