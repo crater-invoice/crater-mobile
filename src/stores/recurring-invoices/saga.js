@@ -4,17 +4,32 @@ import * as req from './service';
 import {spinner} from './actions';
 import {fetchTaxAndDiscountPerItem} from '../common/actions';
 import {showNotification, handleError} from '@/utils';
+import t from 'locales/use-translation';
 import {navigation} from '@/navigation';
 
 /**
  * Fetch Next-Invoice-At saga.
  * @returns {*}
  */
-export function* fetchNextInvoiceAt({payload}) {
+function* fetchNextInvoiceAt({payload}) {
   const {params, onSuccess} = payload;
   try {
     const response = yield call(req.fetchNextInvoiceAt, params);
     onSuccess?.(response);
+  } catch (e) {}
+}
+
+/**
+ * Fetch invoice templates saga.
+ * @returns {IterableIterator<*>}
+ */
+function* fetchInvoiceTemplates() {
+  try {
+    const response = yield call(req.fetchInvoiceTemplates);
+    yield put({
+      type: types.FETCH_INVOICE_TEMPLATES_SUCCESS,
+      payload: response?.invoiceTemplates
+    });
   } catch (e) {}
 }
 
@@ -29,20 +44,6 @@ function* fetchRecurringInvoiceInitialDetails({payload}) {
   yield call(fetchInvoiceTemplates);
   yield put(fetchTaxAndDiscountPerItem());
   payload?.();
-}
-
-/**
- * Fetch Invoice Templates saga.
- * @returns {IterableIterator<*>}
- */
-export function* fetchInvoiceTemplates() {
-  try {
-    const response = yield call(req.fetchInvoiceTemplates);
-    yield put({
-      type: types.FETCH_INVOICE_TEMPLATES_SUCCESS,
-      payload: response?.invoiceTemplates
-    });
-  } catch (e) {}
 }
 
 /**
@@ -139,9 +140,9 @@ function* updateRecurringInvoice({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* removeRecurringInvoice({payload}) {
-  const {id} = payload;
   try {
     yield put(spinner('isDeleting', true));
+    const {id} = payload;
     const body = {ids: [id]};
     yield call(req.removeRecurringInvoice, body);
     yield put({type: types.REMOVE_RECURRING_INVOICE_SUCCESS, payload: id});

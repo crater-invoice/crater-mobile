@@ -9,12 +9,7 @@ import Companies from '@/features/common/containers/Companies';
 import Company from '@/features/common/containers/Company';
 import CompanyInfo from '@/features/settings/containers/Company';
 
-import Estimates from '@/features/estimates/containers/Estimates';
-import Estimate from '@/features/estimates/containers/Estimate';
-
 import Expense from '@/features/expenses/containers/Expense';
-
-import Invoice from '@/features/invoices/containers/Invoice';
 
 import Payment from '@/features/payments/containers/Payment';
 
@@ -59,6 +54,8 @@ import {
   CustomizeEstimate,
   CustomizePayment
 } from 'screens/customize';
+import {CreateInvoice} from 'screens/invoices/create-invoice';
+import {Estimates, CreateEstimate} from 'screens/estimates';
 
 const Stack = createStackNavigator();
 
@@ -86,13 +83,13 @@ export const CommonNavigator = (
 
     {/* Estimate Navigator */}
     <Stack.Screen
-      name={routes.ESTIMATE_LIST}
+      name={routes.ESTIMATES}
       component={Estimates}
       options={options}
     />
     <Stack.Screen
-      name={routes.ESTIMATE}
-      component={Estimate}
+      name={routes.CREATE_ESTIMATE}
+      component={CreateEstimate}
       options={options}
     />
 
@@ -117,7 +114,11 @@ export const CommonNavigator = (
     <Stack.Screen name={routes.EXPENSE} component={Expense} options={options} />
 
     {/* Invoice Navigator */}
-    <Stack.Screen name={routes.INVOICE} component={Invoice} options={options} />
+    <Stack.Screen
+      name={routes.CREATE_INVOICE}
+      component={CreateInvoice}
+      options={options}
+    />
 
     {/* Payment Navigator */}
     <Stack.Screen name={routes.PAYMENT} component={Payment} options={options} />

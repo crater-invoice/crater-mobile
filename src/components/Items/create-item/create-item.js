@@ -393,7 +393,7 @@ export class CreateItem extends React.Component<IProps> {
               isRequired
               hint={t('items.quantity')}
               onSubmitEditing={() => itemRefs.price.focus()}
-              keyboardType={keyboardType.NUMERIC}
+              keyboardType={keyboardType.DECIMAL}
               refLinkFn={ref => {
                 itemRefs.quantity = ref;
               }}

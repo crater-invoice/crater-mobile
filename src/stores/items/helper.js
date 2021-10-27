@@ -1,15 +1,15 @@
-import * as InvoicesAction from '@/features/invoices/actions';
-import * as EstimatesAction from '@/features/estimates/actions';
+import * as InvoicesAction from 'stores/invoices/actions';
+import * as EstimatesAction from 'stores/estimates/actions';
 import * as RecurringInvoicesAction from 'stores/recurring-invoices/actions';
 
 export const itemActions = {
   invoice: {
-    addItem: InvoicesAction.addItem,
+    addItem: InvoicesAction.addInvoiceItem,
     setItems: InvoicesAction.setInvoiceItems,
     removeItem: InvoicesAction.removeInvoiceItem
   },
   estimate: {
-    addItem: EstimatesAction.addItem,
+    addItem: EstimatesAction.addEstimateItem,
     setItems: EstimatesAction.setEstimateItems,
     removeItem: EstimatesAction.removeEstimateItem
   },

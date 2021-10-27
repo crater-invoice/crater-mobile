@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import {reduxForm, getFormValues} from 'redux-form';
 import RecurringInvoices from './recurring-invoices';
-import {RECURRING_INVOICE_SEARCH} from 'stores/recurring-invoices/types';
+import {RECURRING_INVOICES_FORM} from 'stores/recurring-invoices/types';
 import {
   invoicesSelector,
   loadingSelector
@@ -18,7 +18,7 @@ const mapStateToProps = state => {
     customers,
     statusList: recurring_invoice_update_status,
     invoices: invoicesSelector(state),
-    formValues: getFormValues(RECURRING_INVOICE_SEARCH)(state) || {},
+    formValues: getFormValues(RECURRING_INVOICES_FORM)(state) || {},
     ...loadingSelector(state),
     ...commonSelector(state)
   };
@@ -28,7 +28,7 @@ const mapDispatchToProps = {
 };
 
 const RecurringInvoicesForm = reduxForm({
-  form: RECURRING_INVOICE_SEARCH
+  form: RECURRING_INVOICES_FORM
 })(RecurringInvoices);
 
 export const RecurringInvoicesContainer: any = connect(
