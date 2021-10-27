@@ -153,28 +153,8 @@ export const updateFromNotes = payload => ({
 
 // Currencies
 
-export const setCurrencies = (payload = {}) => ({
-  type: TYPES.SET_CURRENCIES,
-  payload
-});
-
 export const setGlobalCurrencies = (payload = {}) => ({
   type: TYPES.SET_GLOBAL_CURRENCIES,
-  payload
-});
-
-export const createCurrency = (payload = {}) => ({
-  type: TYPES.CREATE_CURRENCY,
-  payload
-});
-
-export const editCurrency = (payload = {}) => ({
-  type: TYPES.EDIT_CURRENCY,
-  payload
-});
-
-export const removeCurrency = (payload = {}) => ({
-  type: TYPES.REMOVE_CURRENCY,
   payload
 });
 
