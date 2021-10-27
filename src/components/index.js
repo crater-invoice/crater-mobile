@@ -48,6 +48,7 @@ export * from './base/base-button';
 export * from './base/base-select';
 export * from './base/base-input-prefix';
 export * from './base/base-dropdown-picker';
+export * from './base/base-empty-placeholder';
 export * from './View';
 export * from './InternalPagination';
 export * from './ButtonView';

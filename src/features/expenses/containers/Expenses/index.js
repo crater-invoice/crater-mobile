@@ -1,12 +1,13 @@
 import {connect} from 'react-redux';
 import {reduxForm, getFormValues} from 'redux-form';
 import * as ExpensesAction from '../../actions';
-import * as CategoriesAction from '../../../settings/actions';
 import {Expenses} from '../../components/Expenses';
 import {EXPENSE_SEARCH} from '../../constants';
-import {getExpensesState, getCategoriesState} from '../../selectors';
+import {getExpensesState} from '../../selectors';
 import {getCustomers} from '@/features/customers/actions';
 import {commonSelector} from 'stores/common/selectors';
+import {fetchCategories} from 'stores/categories/actions';
+import {categoriesSelector} from '@/stores/categories/selectors';
 
 const mapStateToProps = state => {
   const {
@@ -18,7 +19,7 @@ const mapStateToProps = state => {
     expenses: getExpensesState({expenses, currency}),
     currency,
     customers: state.customers?.customers,
-    categories: getCategoriesState(state.settings?.categories),
+    categories: categoriesSelector(state),
     formValues: getFormValues(EXPENSE_SEARCH)(state) || {},
     ...commonSelector(state)
   };
@@ -26,7 +27,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   getExpenses: ExpensesAction.getExpenses,
-  getCategories: CategoriesAction.getExpenseCategories,
+  fetchCategories,
   getCustomers
 };
 

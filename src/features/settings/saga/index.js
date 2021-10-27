@@ -12,13 +12,10 @@ import {
   EDIT_ACCOUNT_INFO,
   GET_SETTING_ITEM,
   EDIT_SETTING_ITEM,
-  COMPANY_SETTINGS_TYPE,
   NOTIFICATION_MAIL_TYPE
 } from '../constants';
 
-import categories from './categories';
 import taxes from './taxes';
-import currencies from './currencies';
 import customFields from './custom-fields';
 import Request from 'utils/request';
 import General from './general';
@@ -183,12 +180,5 @@ export default function* settingsSaga() {
   yield takeEvery(GET_SETTING_ITEM, getSettingItem);
   yield takeEvery(EDIT_SETTING_ITEM, editSettingItem);
 
-  yield all([
-    categories(),
-    taxes(),
-    currencies(),
-    customFields(),
-    General(),
-    Notes()
-  ]);
+  yield all([taxes(), customFields(), General(), Notes()]);
 }

@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
-import t from 'locales/use-translation';
-import {ARROW_ICON} from '@/assets';
 import {isEmpty} from '@/constants';
 import {fetchRoles} from 'stores/roles/actions';
 import {IProps, IStates} from './roles-type';
-import {InfiniteScroll, ListView, MainLayout} from '@/components';
 import {routes} from '@/navigation';
+import {primaryHeader} from '@/utils';
+import {
+  BaseEmptyPlaceholder,
+  InfiniteScroll,
+  ListView,
+  MainLayout
+} from '@/components';
 
 export default class Roles extends Component<IProps, IStates> {
   scrollViewReference: any;
@@ -45,35 +49,13 @@ export default class Roles extends Component<IProps, IStates> {
     navigation.navigate(routes.CREATE_ROLE, {id: role.id, type: 'UPDATE'});
   };
 
-  addNewRole = () =>
-    this.props.navigation.navigate(routes.CREATE_ROLE, {type: 'ADD'});
-
   render() {
-    const {navigation, dispatch, roles, route} = this.props;
+    const {dispatch, roles, route} = this.props;
     const {search} = this.state;
-    const emptyTitle = search ? 'search.noResult' : 'roles.empty.title';
-    const emptyContentProps = {
-      title: t(emptyTitle, {search}),
-      ...(!search && {
-        description: t('roles.empty.description'),
-        buttonTitle: t('roles.text_add_new_role'),
-        buttonPress: this.addNewRole
-      })
-    };
-
-    const headerProps = {
-      leftIcon: ARROW_ICON,
-      leftIconPress: () => navigation.goBack(null),
-      title: t('header.roles'),
-      placement: 'center',
-      route,
-      rightIcon: 'plus',
-      rightIconPress: this.addNewRole
-    };
 
     return (
       <MainLayout
-        headerProps={headerProps}
+        headerProps={primaryHeader({route})}
         onSearch={this.onSearch}
         bottomDivider
       >
@@ -84,13 +66,14 @@ export default class Roles extends Component<IProps, IStates> {
         >
           <ListView
             items={roles}
-            onPress={this.onSelect}
             isAnimated
             hasAvatar
             bottomDivider
+            onPress={this.onSelect}
             isEmpty={isEmpty(roles)}
-            route={route}
-            emptyContentProps={emptyContentProps}
+            emptyPlaceholder={
+              <BaseEmptyPlaceholder {...this.props} search={search} />
+            }
           />
         </InfiniteScroll>
       </MainLayout>

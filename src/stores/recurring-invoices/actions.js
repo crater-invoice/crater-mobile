@@ -74,13 +74,11 @@ export const updateRecurringInvoice = (payload = {}) => ({
 /**
  * Remove recurring-invoice
  * @param id
- * @param navigation
- * @param onFail
  * @returns {{type: string, payload: *}}
  */
-export const removeRecurringInvoice = (id, navigation, onFail) => ({
+export const removeRecurringInvoice = id => ({
   type: types.REMOVE_RECURRING_INVOICE,
-  payload: {id, navigation, onFail}
+  payload: {id}
 });
 
 /**

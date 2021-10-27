@@ -4,6 +4,7 @@ import * as req from './service';
 import {spinner} from './actions';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
+import {navigation} from '@/navigation';
 
 /**
  * Fetch roles saga
@@ -78,11 +79,11 @@ function* addRole({payload}) {
  */
 function* updateRole({payload}) {
   try {
-    const {id, params, navigation} = payload;
+    const {id, params} = payload;
     yield put(spinner('isSaving', true));
     const {data} = yield call(req.updateRole, id, params);
     yield put({type: types.UPDATE_ROLE_SUCCESS, payload: data});
-    navigation.goBack(null);
+    navigation.goBack();
     showNotification({message: t('notification.role_updated')});
   } catch (e) {
     handleError(e);
@@ -96,15 +97,14 @@ function* updateRole({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* removeRole({payload}) {
-  const {id, navigation, onFail} = payload;
+  const {id} = payload;
   try {
     yield put(spinner('isDeleting', true));
     yield call(req.removeRole, id);
     yield put({type: types.REMOVE_ROLE_SUCCESS, payload: id});
-    navigation.goBack(null);
+    navigation.goBack();
     showNotification({message: t('notification.role_deleted')});
   } catch (e) {
-    onFail?.();
     handleError(e);
   } finally {
     yield put(spinner('isDeleting', false));

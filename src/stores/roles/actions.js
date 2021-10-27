@@ -77,14 +77,12 @@ export function updateRole(payload = {}) {
 /**
  * Remove role
  * @param id
- * @param navigation
- * @param onFail
  * @returns {{type: string, payload: *}}
  */
-export function removeRole(id, navigation, onFail) {
+export function removeRole(id) {
   return {
     type: types.REMOVE_ROLE,
-    payload: {id, navigation, onFail}
+    payload: {id}
   };
 }
 

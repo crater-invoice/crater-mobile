@@ -33,8 +33,7 @@ import {Preferences} from 'screens/preferences';
 import TouchOrFaceId from '@/features/settings/containers/Touch-Face-Id';
 import {LostConnection} from '@/components';
 
-import Categories from '@/features/settings/containers/Categories';
-import Category from '@/features/settings/containers/Category';
+import {Categories, CreateCategory} from 'screens/categories';
 
 import Taxes from '@/features/settings/containers/Taxes';
 import Tax from '@/features/settings/containers/Tax';
@@ -217,8 +216,8 @@ export const CommonNavigator = (
       options={options}
     />
     <Stack.Screen
-      name={routes.CATEGORY}
-      component={Category}
+      name={routes.CREATE_CATEGORY}
+      component={CreateCategory}
       options={options}
     />
 

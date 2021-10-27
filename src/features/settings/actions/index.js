@@ -57,53 +57,6 @@ export const setSettings = payload => ({
   payload
 });
 
-// Expense Categories
-// -------------------------------------------------
-export const getExpenseCategories = payload => ({
-  type: TYPES.GET_EXPENSE_CATEGORIES,
-  payload
-});
-
-export const setExpenseCategories = payload => ({
-  type: TYPES.SET_EXPENSE_CATEGORIES,
-  payload
-});
-
-export const setCreateExpenseCategories = payload => ({
-  type: TYPES.SET_CREATE_EXPENSE_CATEGORIES,
-  payload
-});
-
-export const setEditExpenseCategories = payload => ({
-  type: TYPES.SET_EDI_EXPENSE_CATEGORIES,
-  payload
-});
-
-export const setRemoveExpenseCategories = payload => ({
-  type: TYPES.SET_REMOVE_EXPENSE_CATEGORIES,
-  payload
-});
-
-export const createExpenseCategory = (payload = {}) => ({
-  type: TYPES.CREATE_EXPENSE_CATEGORY,
-  payload
-});
-
-export const getEditExpenseCategory = (payload = {}) => ({
-  type: TYPES.GET_CREATE_EXPENSE_CATEGORY,
-  payload
-});
-
-export const removeExpenseCategory = (payload = {}) => ({
-  type: TYPES.REMOVE_EXPENSE_CATEGORY,
-  payload
-});
-
-export const editExpenseCategory = (payload = {}) => ({
-  type: TYPES.EDIT_EXPENSE_CATEGORY,
-  payload
-});
-
 //  Taxes
 // -------------------------------------------------
 export const getTaxes = payload => ({
@@ -200,28 +153,8 @@ export const updateFromNotes = payload => ({
 
 // Currencies
 
-export const setCurrencies = (payload = {}) => ({
-  type: TYPES.SET_CURRENCIES,
-  payload
-});
-
 export const setGlobalCurrencies = (payload = {}) => ({
   type: TYPES.SET_GLOBAL_CURRENCIES,
-  payload
-});
-
-export const createCurrency = (payload = {}) => ({
-  type: TYPES.CREATE_CURRENCY,
-  payload
-});
-
-export const editCurrency = (payload = {}) => ({
-  type: TYPES.EDIT_CURRENCY,
-  payload
-});
-
-export const removeCurrency = (payload = {}) => ({
-  type: TYPES.REMOVE_CURRENCY,
   payload
 });
 

@@ -396,23 +396,23 @@ class ListViewComponent extends Component<IProps> {
       hasAvatar = false,
       isEmpty,
       emptyContentProps,
+      emptyPlaceholder,
       route,
       theme
     } = this.props;
 
-    return (
-      <>
-        {!isEmpty ? (
-          items.map((item, index) =>
-            !hasAvatar
-              ? this.itemsList(item, index)
-              : this.itemsWithAvatar(item, index)
-          )
-        ) : (
-          <Empty {...emptyContentProps} theme={theme} route={route} />
-        )}
-      </>
-    );
+    if (isEmpty) {
+      if (emptyPlaceholder) {
+        return emptyPlaceholder;
+      }
+      return <Empty {...emptyContentProps} theme={theme} route={route} />;
+    }
+
+    if (hasAvatar) {
+      return items.map((item, index) => this.itemsWithAvatar(item, index));
+    }
+
+    return items.map((item, index) => this.itemsList(item, index));
   }
 }
 

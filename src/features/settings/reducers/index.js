@@ -2,12 +2,6 @@ import {isEmpty} from '@/constants';
 import {
   SETTINGS_TRIGGER_SPINNER,
   SET_ACCOUNT_INFO,
-  SET_SETTING_ITEM,
-  SET_CREATE_EXPENSE_CATEGORIES,
-  SET_EDI_EXPENSE_CATEGORIES,
-  SET_REMOVE_EXPENSE_CATEGORIES,
-  SET_EXPENSE_CATEGORIES,
-  SET_CURRENCIES,
   SET_CUSTOM_FIELDS,
   SET_LANGUAGES,
   SET_NOTES,
@@ -31,16 +25,10 @@ const initialState = {
     getSettingItemLoading: false,
     setSettingItemLoading: false,
     editSettingItemLoading: false,
-    // categories
-    expenseCategoryLoading: false,
-    initExpenseCategoryLoading: false,
     // taxes
     addTaxLoading: false,
     getTaxLoading: false,
     removeTaxLoading: false,
-    // Currencies
-    currenciesLoading: false,
-    currencyLoading: false,
     // Custom Fields
     customFieldLoading: false,
     getCustomFieldLoading: false,
@@ -48,13 +36,8 @@ const initialState = {
     // Notes
     getNotesLoading: false
   },
-  categories: [],
-  currencies: [],
   customFields: [],
   account: null,
-  taxByItems: false,
-  taxByInvoice: true,
-  taxByEstimate: false,
   notes: []
 };
 
@@ -68,25 +51,6 @@ export default function settingReducer(state = initialState, action) {
     case SET_ACCOUNT_INFO:
       return {...state, ...payload};
 
-    case SET_SETTING_ITEM:
-      const {key, value} = payload;
-      if (key === 'discount_per_item') {
-        return {...state, discountPerItem: value};
-      }
-
-      if (key === 'tax_per_item') return {...state, taxPerItem: value};
-      else return {...state, ...payload};
-
-    case SET_EXPENSE_CATEGORIES:
-      if (!payload.fresh) {
-        return {
-          ...state,
-          categories: [...state.categories, ...payload.categories]
-        };
-      }
-
-      return {...state, categories: payload.categories};
-
     case SET_NOTES:
       if (!payload.fresh) {
         return {
@@ -96,36 +60,6 @@ export default function settingReducer(state = initialState, action) {
       }
 
       return {...state, notes: payload.notes};
-
-    case SET_CREATE_EXPENSE_CATEGORIES:
-      return {
-        ...state,
-        categories: [...payload.categories, ...state.categories]
-      };
-
-    case SET_EDI_EXPENSE_CATEGORIES:
-      let itemIndex = 0;
-
-      state.categories.map((val, index) => {
-        if (val.id === payload.id) itemIndex = index;
-      });
-
-      state.categories.splice(itemIndex, 1);
-
-      return {
-        ...state,
-        categories: [...payload.categories, ...state.categories]
-      };
-
-    case SET_REMOVE_EXPENSE_CATEGORIES:
-      const category = state.categories.filter(val => val.id !== payload.id);
-
-      return {...state, categories: category};
-
-    case SET_CURRENCIES:
-      const {currencies} = payload;
-
-      return {...state, currencies};
 
     case SET_LANGUAGES:
       const {languages} = payload;

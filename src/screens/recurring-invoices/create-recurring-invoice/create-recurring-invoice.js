@@ -5,17 +5,17 @@ import {IProps, IStates} from './create-recurring-invoice-type';
 import {routes} from '@/navigation';
 import {alertMe, isEmpty} from '@/constants';
 import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
-import headerTitle from 'utils/header';
 import {
   DefaultLayout,
-  ActionButton,
   DatePickerField,
   CustomField,
   Notes,
   ItemField,
   ToggleSwitch,
   FinalAmount,
-  InputField
+  InputField,
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {
   fetchRecurringInvoiceInitialDetails,
@@ -42,7 +42,7 @@ import {
   finalAmount
 } from '@/components/final-amount/final-amount-calculation';
 import {setCalculationRef} from 'stores/common/helpers';
-import {getApiFormattedCustomFields} from '@/utils';
+import {getApiFormattedCustomFields, secondaryHeader} from '@/utils';
 
 export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   recurringInvoiceRefs: any;
@@ -142,7 +142,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   };
 
   removeRecurringInvoice = () => {
-    const {id, navigation, dispatch} = this.props;
+    const {id, dispatch} = this.props;
 
     function confirmationAlert(remove) {
       alertMe({
@@ -153,7 +153,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       });
     }
 
-    confirmationAlert(() => dispatch(removeRecurringInvoice(id, navigation)));
+    confirmationAlert(() => dispatch(removeRecurringInvoice(id)));
   };
 
   setFormField = (field, value) => {
@@ -255,39 +255,39 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       : !isEmpty(customFields);
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
-    const loading =
-      isFetchingInitialData || this.props.isSaving || this.props.isDeleting;
-    const bottomAction = [
-      {
-        label: 'button.save',
-        onPress: this.props.handleSubmit(this.onSave),
-        show: isAllowToEdit,
-        loading
-      },
-      {
-        label: 'button.remove',
-        onPress: this.removeRecurringInvoice,
-        bgColor: 'btn-danger',
-        show: isEditScreen && isAllowToDelete,
-        loading
-      }
-    ];
     this.recurringInvoiceRefs(this);
-    const headerProps = {
-      leftIconPress: () => navigation.goBack(null),
-      title: headerTitle(this.props),
-      placement: 'center',
-      ...(isAllowToEdit && {
-        rightIcon: 'save',
-        rightIconProps: {solid: true},
-        rightIconPress: this.props.handleSubmit(this.onSave)
-      })
-    };
+
+    const headerProps = secondaryHeader({
+      ...this.props,
+      rightIconPress: this.props.handleSubmit(this.onSave)
+    });
+
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          show={isAllowToEdit}
+          loading={isSaving}
+          disabled={isFetchingInitialData || isDeleting}
+          onPress={this.props.handleSubmit(this.onSave)}
+        >
+          {t('button.save')}
+        </BaseButton>
+        <BaseButton
+          type="danger"
+          show={isEditScreen && isAllowToDelete}
+          loading={isDeleting}
+          disabled={isFetchingInitialData || isSaving}
+          onPress={this.removeRecurringInvoice}
+        >
+          {t('button.remove')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <DefaultLayout
         headerProps={headerProps}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData}}
       >
         <Field

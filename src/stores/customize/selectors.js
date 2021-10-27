@@ -5,10 +5,10 @@ const settingsStore = state => state?.settings;
 
 export const loadingSelector = createSelector(
   customizeStore,
-  customize => customize?.isSaving
+  store => store?.isSaving
 );
 
 export const customFieldsSelector = createSelector(
   settingsStore,
-  settings => settings?.customFields
+  store => store?.customFields
 );

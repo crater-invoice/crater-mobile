@@ -153,7 +153,8 @@ const styles = StyleSheet.create({
     })
   },
   validation: {
-    marginTop: -10
+    marginTop: -10,
+    marginBottom: 10
   }
 });
 
