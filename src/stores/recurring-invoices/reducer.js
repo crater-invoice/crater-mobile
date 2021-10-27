@@ -5,13 +5,7 @@ const initialState = {
   invoices: [],
   items: [],
   selectedItems: [],
-  invoiceData: {
-    invoice: null,
-    invoiceTemplates: []
-  },
-  createInvoiceItem: {
-    invoiceTemplates: []
-  },
+  invoiceTemplates: [],
   isSaving: false,
   isDeleting: false
 };
@@ -26,10 +20,7 @@ export default function recurringInvoicesReducer(state = initialState, action) {
     case types.FETCH_INVOICE_TEMPLATES_SUCCESS:
       return {
         ...state,
-        invoiceData: {
-          ...invoiceData,
-          invoiceTemplates: payload
-        }
+        invoiceTemplates: payload
       };
 
     case types.FETCH_RECURRING_INVOICES_SUCCESS:
@@ -80,26 +71,6 @@ export default function recurringInvoicesReducer(state = initialState, action) {
         selectedItems: [...state.selectedItems, ...payload]
       };
 
-    case types.UPDATE_RECURRING_INVOICE_ITEM_SUCCESS:
-      const recurringInvoiceItemData = payload;
-      const recurringInvoiceItemsList = [];
-
-      if (isEmpty(state.selectedItems)) {
-        return state;
-      }
-
-      state.selectedItems.map(invoice => {
-        const {id} = invoice;
-        let value = invoice;
-
-        if (id === recurringInvoiceItemData.id) {
-          value = recurringInvoiceItemData;
-        }
-        recurringInvoiceItemsList.push(value);
-      });
-
-      return {...state, selectedItems: recurringInvoiceItemsList};
-
     case types.REMOVE_RECURRING_INVOICE_ITEM_SUCCESS:
       return {
         ...state,
@@ -109,11 +80,10 @@ export default function recurringInvoicesReducer(state = initialState, action) {
     case types.CLEAR_RECURRING_INVOICE:
       return {
         ...state,
+        isSaving: false,
+        isDeleting: false,
         selectedItems: [],
-        invoiceData: {
-          invoice: null,
-          invoiceTemplates: []
-        }
+        invoiceTemplates: []
       };
 
     default:
