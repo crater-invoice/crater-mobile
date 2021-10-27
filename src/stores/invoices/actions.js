@@ -6,112 +6,85 @@ import * as types from './types';
  * @param value
  * @returns {{type: string, payload: *}}
  */
-export function spinner(name, value) {
-  return {
-    type: types.SPINNER,
-    payload: {name, value}
-  };
-}
+export const spinner = (name, value) => ({
+  type: types.SPINNER,
+  payload: {name, value}
+});
 
 /**
- * Fetch invoice initial details.
+ * Fetch invoice initial details
+ * @param onSuccess
+ * @returns {{type: string, payload: *}}
  */
-export function fetchInvoiceInitialDetails(payload) {
-  return {
-    type: types.FETCH_INITIAL_DETAILS,
-    payload
-  };
-}
+export const fetchInvoiceInitialDetails = payload => ({
+  type: types.FETCH_INITIAL_DETAILS,
+  payload
+});
 
 /**
- * Fetch items.
+ * Fetch invoices
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function fetchItems(onSuccess) {
-  return {
-    type: types.FETCH_ITEMS,
-    payload: {onSuccess}
-  };
-}
+export const fetchInvoices = (payload = {}) => ({
+  type: types.FETCH_INVOICES,
+  payload
+});
 
 /**
- * Fetch invoices.
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export function fetchInvoices(payload = {}) {
-  return {
-    type: types.FETCH_INVOICES,
-    payload
-  };
-}
-
-/**
- * Fetch single invoice.
+ * Fetch single invoice
  * @param id
  * @param onSuccess
  * @returns {{type: string, payload: *}}
  */
-export function fetchSingleInvoice(id, onSuccess) {
-  return {
-    type: types.FETCH_SINGLE_INVOICE,
-    payload: {id, onSuccess}
-  };
-}
+export const fetchSingleInvoice = (id, onSuccess) => ({
+  type: types.FETCH_SINGLE_INVOICE,
+  payload: {id, onSuccess}
+});
 
 /**
- * Add invoice.
+ * Add invoice
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function addInvoice(payload = {}) {
-  return {
-    type: types.ADD_INVOICE,
-    payload
-  };
-}
+export const addInvoice = (payload = {}) => ({
+  type: types.ADD_INVOICE,
+  payload
+});
 
 /**
- * Update invoice.
+ * Update invoice
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function updateInvoice(payload = {}) {
-  return {
-    type: types.UPDATE_INVOICE,
-    payload
-  };
-}
+export const updateInvoice = (payload = {}) => ({
+  type: types.UPDATE_INVOICE,
+  payload
+});
 
 /**
- * Update invoice status.
+ * Update invoice status
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function updateInvoiceStatus(payload = {}) {
-  return {
-    type: types.UPDATE_INVOICE_STATUS,
-    payload
-  };
-}
+export const changeInvoiceStatus = (payload = {}) => ({
+  type: types.CHANGE_INVOICE_STATUS,
+  payload
+});
 
 /**
- * Remove invoice.
+ * Remove invoice
  * @param id
  * @param navigation
- * @param onFail
  * @returns {{type: string, payload: *}}
  */
-export function removeInvoice(id, navigation, onFail) {
-  return {
-    type: types.REMOVE_INVOICE,
-    payload: {id, navigation, onFail}
-  };
-}
+export const removeInvoice = (id, navigation) => ({
+  type: types.REMOVE_INVOICE,
+  payload: {id, navigation}
+});
 
 /**
- * Add invoice item.
+ * Add invoice item
  * @param payload
  * @returns {{type: string, payload: *}}
  */
@@ -121,17 +94,7 @@ export const addInvoiceItem = (payload = {}) => ({
 });
 
 /**
- * Edit invoice item.
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export const updateItem = (payload = {}) => ({
-  type: types.EDIT_ITEM,
-  payload
-});
-
-/**
- * Set invoice items.
+ * Set invoice items
  * @param payload
  * @returns {{type: string, payload: *}}
  */
@@ -141,7 +104,7 @@ export const setInvoiceItems = (payload = {}) => ({
 });
 
 /**
- * Remove invoice item.
+ * Remove invoice item
  * @param payload
  * @returns {{type: string, payload: *}}
  */

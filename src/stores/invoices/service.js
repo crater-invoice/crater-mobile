@@ -2,26 +2,24 @@ import Request from '@/utils/request';
 import * as queryString from 'query-string';
 
 /**
- * Add invoices item.
- * @param body : params
+ * Add invoice item
+ * @param item : item data
  * @returns {*}
  */
-export const addInvoiceItem = body => {
+export const addInvoiceItem = item => {
+  const {price, name, description, taxes, unit_id} = item;
+  const body = {
+    name,
+    description,
+    price,
+    unit_id,
+    taxes
+  };
   return Request.post({path: `items`, body});
 };
 
 /**
- * Update invoices item.
- * @param id : invoice item id
- * @param body : params
- * @returns {*}
- */
-export const updateInvoiceItem = (id, body) => {
-  return Request.put({path: `items/${id}`, body});
-};
-
-/**
- * Fetch Invoice Templates.
+ * Fetch Invoice Templates
  * @returns {*}
  */
 export const fetchInvoiceTemplates = () => {
@@ -29,7 +27,7 @@ export const fetchInvoiceTemplates = () => {
 };
 
 /**
- * Fetch invoices.
+ * Fetch invoices
  * @param q : queryString
  * @returns {*}
  */
@@ -38,7 +36,7 @@ export const fetchInvoices = q => {
 };
 
 /**
- * Fetch single invoice.
+ * Fetch single invoice
  * @param id : invoice id
  * @returns {*}
  */
@@ -47,7 +45,7 @@ export const fetchSingleInvoice = id => {
 };
 
 /**
- * Add invoice.
+ * Add invoice
  * @param body : params
  * @returns {*}
  */
@@ -56,7 +54,7 @@ export const addInvoice = body => {
 };
 
 /**
- * Update invoice.
+ * Update invoice
  * @param id : invoice id
  * @param body : params
  * @returns {*}
@@ -66,22 +64,22 @@ export const updateInvoice = (id, body) => {
 };
 
 /**
- * Update invoice status.
+ * Update invoice status
  * @param action : update action
  * @param body : params
  * @returns {*}
  */
-export const updateInvoiceStatus = (action, body) => {
-  return Request.put({path: `invoices/${action}`, body});
+export const changeInvoiceStatus = (action, body) => {
+  return Request.post({path: `invoices/${action}`, body});
 };
 
 /**
- * Remove invoice.
+ * Remove invoice
  * @param id : invoice id
  * @returns {*}
  */
-export const removeInvoice = body => {
-  return Request.post({path: `invoices/delete`, body});
+export const removeInvoice = id => {
+  return Request.post({path: `invoices/delete`, body: {ids: [id]}});
 };
 
 class Services {

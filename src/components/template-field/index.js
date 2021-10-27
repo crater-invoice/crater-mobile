@@ -1,12 +1,7 @@
 import React, {Component} from 'react';
 import {TouchableWithoutFeedback, View} from 'react-native';
 import styles from './template-field-styles';
-import {
-  SlideModal,
-  AssetImage,
-  ActionButton,
-  BaseSelect
-} from '@/components';
+import {SlideModal, AssetImage, ActionButton, BaseSelect} from '@/components';
 import {Icon} from 'react-native-elements';
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
@@ -26,9 +21,8 @@ export class TemplateField extends Component<IProps> {
   componentDidMount() {
     const {templates, input} = this.props;
 
-    const selectedTemplate = templates.filter(
-      val => val.name === input?.value
-    )?.[0];
+    const selectedTemplate =
+      templates && templates.filter(val => val.name === input?.value)?.[0];
 
     this.setState({selectedTemplate});
   }
@@ -131,32 +125,33 @@ export class TemplateField extends Component<IProps> {
           bottomAction={<ActionButton buttons={bottomAction} />}
         >
           <View style={styles.imageList}>
-            {templates.map((val, index) => (
-              <TouchableWithoutFeedback
-                onPress={() => this.onTemplateSelect(val)}
-                key={index}
-              >
-                <View style={styles.imageContainer}>
-                  <AssetImage
-                    uri
-                    imageSource={val.path}
-                    imageStyle={[
-                      styles.image,
-                      name === val.name && styles.active
-                    ]}
-                  />
-                  {name === val.name && (
-                    <Icon
-                      name="check"
-                      size={18}
-                      iconStyle={styles.iconStyle}
-                      color={colors.white}
-                      containerStyle={styles.iconContainer}
+            {templates &&
+              templates.map((val, index) => (
+                <TouchableWithoutFeedback
+                  onPress={() => this.onTemplateSelect(val)}
+                  key={index}
+                >
+                  <View style={styles.imageContainer}>
+                    <AssetImage
+                      uri
+                      imageSource={val.path}
+                      imageStyle={[
+                        styles.image,
+                        name === val.name && styles.active
+                      ]}
                     />
-                  )}
-                </View>
-              </TouchableWithoutFeedback>
-            ))}
+                    {name === val.name && (
+                      <Icon
+                        name="check"
+                        size={18}
+                        iconStyle={styles.iconStyle}
+                        color={colors.white}
+                        containerStyle={styles.iconContainer}
+                      />
+                    )}
+                  </View>
+                </TouchableWithoutFeedback>
+              ))}
           </View>
         </SlideModal>
       </View>

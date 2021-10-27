@@ -1,10 +1,10 @@
 import {connect} from 'react-redux';
-import Invoices from './invoices';
+import Estimates from './estimates';
 import {reduxForm, getFormValues} from 'redux-form';
-import {INVOICES_FORM} from 'stores/invoices/types';
+import {ESTIMATES_FORM} from 'stores/estimates/types';
 import {getCustomers} from '@/features/customers/actions';
 import {commonSelector} from 'stores/common/selectors';
-import {invoicesSelector, loadingSelector} from 'stores/invoices/selectors';
+import {estimateSelector, loadingSelector} from 'stores/estimates/selectors';
 
 const mapStateToProps = state => {
   const {
@@ -12,8 +12,8 @@ const mapStateToProps = state => {
   } = state;
   return {
     customers,
-    invoices: invoicesSelector(state),
-    formValues: getFormValues(INVOICES_FORM)(state) || {},
+    estimates: estimateSelector(state),
+    formValues: getFormValues(ESTIMATES_FORM)(state) || {},
     ...loadingSelector(state),
     ...commonSelector(state)
   };
@@ -23,9 +23,9 @@ const mapDispatchToProps = {
   getCustomers
 };
 
-const InvoicesForm = reduxForm({form: INVOICES_FORM})(Invoices);
+const EstimatesForm = reduxForm({form: ESTIMATES_FORM})(Estimates);
 
-export const InvoicesContainer = connect(
+export const EstimatesContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(InvoicesForm);
+)(EstimatesForm);

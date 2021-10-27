@@ -1,8 +1,5 @@
 import t from 'locales/use-translation';
-import {
-  FILTER_INVOICE_STATUS,
-  FILTER_INVOICE_PAID_STATUS
-} from 'stores/invoices/types';
+import {FILTER_ESTIMATE_STATUS} from 'stores/estimates/types';
 import {AssetImage} from '@/components';
 
 let selectedFromDate = '';
@@ -10,15 +7,8 @@ let selectedFromDateValue = '';
 let selectedToDate = '';
 let selectedToDateValue = '';
 
-export const invoicesFilterFields = ({props, setFormField}) => {
-  const filterRefs = {};
-
+export default estimateFilterFields = ({props, setFormField}) => {
   const {getCustomers, customers, navigation} = props;
-
-  const dropdownStyle = {
-    marginTop: 12,
-    marginBottom: 2
-  };
 
   const selectFields = [
     {
@@ -28,7 +18,7 @@ export const invoicesFilterFields = ({props, setFormField}) => {
       getItems: getCustomers,
       items: customers,
       displayName: 'name',
-      label: t('invoices.customer'),
+      label: t('estimates.customer'),
       icon: 'user',
       placeholder: t('customers.placeholder'),
       navigation: navigation,
@@ -49,20 +39,18 @@ export const invoicesFilterFields = ({props, setFormField}) => {
   const datePickerFields = [
     {
       name: 'from_date',
-      label: t('invoices.fromDate'),
+      label: t('estimates.fromDate'),
       onChangeCallback: (formDate, displayDate) => {
-        selectedFromDate = displayDate;
-        selectedFromDateValue = formDate;
+        (selectedFromDate = displayDate), (selectedFromDateValue = formDate);
       },
       selectedDate: selectedFromDate,
       selectedDateValue: selectedFromDateValue
     },
     {
       name: 'to_date',
-      label: t('invoices.toDate'),
+      label: t('estimates.toDate'),
       onChangeCallback: (formDate, displayDate) => {
-        selectedToDate = displayDate;
-        selectedToDateValue = formDate;
+        (selectedToDate = displayDate), (selectedToDateValue = formDate);
       },
       selectedDate: selectedToDate,
       selectedDateValue: selectedToDateValue
@@ -71,25 +59,23 @@ export const invoicesFilterFields = ({props, setFormField}) => {
 
   const inputFields = [
     {
-      name: 'invoice_number',
-      hint: t('invoices.invoiceNumber'),
-      leftIcon: 'hashtag',
-      refLinkFn: ref => (filterRefs.invNumber = ref)
+      name: 'estimate_number',
+      hint: t('estimates.estimateNumber')
     }
   ];
 
   const dropdownFields = [
     {
       name: 'filterStatus',
-      label: t('invoices.status'),
+      label: t('estimates.status'),
       fieldIcon: 'align-center',
-      items: [...FILTER_INVOICE_STATUS, ...FILTER_INVOICE_PAID_STATUS],
+      items: FILTER_ESTIMATE_STATUS,
       onChangeCallback: val => setFormField('filterStatus', val),
       defaultPickerOptions: {
-        label: t('invoices.statusPlaceholder'),
+        label: t('estimates.statusPlaceholder'),
         value: ''
       },
-      containerStyle: dropdownStyle
+      containerStyle: {marginTop: 15}
     }
   ];
 

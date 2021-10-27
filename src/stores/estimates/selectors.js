@@ -1,25 +1,24 @@
 import {createSelector} from 'reselect';
-import {capitalize, isEmpty} from '@/constants';
 import {BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR} from '@/utils';
+import {capitalize, isEmpty} from '@/constants';
 
-export const formatItems = (invoices, theme) => {
-  if (isEmpty(invoices)) {
+export const formatEstimateItems = (estimates, theme) => {
+  if (isEmpty(estimates)) {
     return [];
   }
-
-  return invoices.map(item => {
+  return estimates.map(item => {
     const {
-      invoice_number,
-      user: {name, currency} = {},
+      estimate_number,
+      customer: {name, currency} = {},
       status,
-      formattedInvoiceDate,
+      formattedEstimateDate,
       total
     } = item;
 
     return {
       title: name,
       subtitle: {
-        title: invoice_number,
+        title: estimate_number,
         labelTextColor: BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode],
         ...(theme.mode === 'dark'
           ? {
@@ -33,21 +32,21 @@ export const formatItems = (invoices, theme) => {
       },
       amount: total,
       currency,
-      rightSubtitle: formattedInvoiceDate,
+      rightSubtitle: formattedEstimateDate,
       fullItem: item
     };
   });
 };
 
-export const invoicesSelector = createSelector(
-  [state => state.invoices?.invoices, state => state.common?.theme],
-  (invoices, theme) => formatItems(invoices, theme)
+export const estimateSelector = createSelector(
+  [state => state.estimates.estimates, state => state.common?.theme],
+  (estimates, theme) => formatEstimateItems(estimates, theme)
 );
 
 export const loadingSelector = createSelector(
-  state => state?.invoices,
-  invoices => ({
-    isSaving: invoices?.isSaving,
-    isDeleting: invoices?.isDeleting
+  state => state?.estimates,
+  estimates => ({
+    isSaving: estimates?.isSaving,
+    isDeleting: estimates?.isDeleting
   })
 );
