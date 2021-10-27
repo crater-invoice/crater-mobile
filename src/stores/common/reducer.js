@@ -62,25 +62,25 @@ export default function commonReducer(state = initialState, action) {
 
     case types.FETCH_BOOTSTRAP_SUCCESS:
       const {
-        user,
-        company,
-        default_currency,
+        current_user,
+        current_company,
+        current_company_currency,
         moment_date_format,
         fiscal_year,
-        default_language = 'en',
-        abilities = []
+        current_user_settings,
+        current_user_abilities = []
       } = payload;
 
       return {
         ...state,
         ...payload,
-        user,
-        company,
-        currency: default_currency,
-        abilities,
+        user: current_user,
+        company: current_company,
+        currency: current_company_currency,
+        abilities: current_user_abilities,
         dateFormat: moment_date_format,
         fiscalYear: fiscal_year,
-        locale: default_language
+        locale: current_user_settings?.language ?? 'en'
       };
 
     case SET_TAXES:

@@ -3,10 +3,39 @@ import * as Updates from 'expo-updates';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
-import {isEmpty} from '@/constants';
+import {hasTextLength, isEmpty} from '@/constants';
 import {SET_SETTINGS} from '@/constants';
 import t from 'locales/use-translation';
-import {setI18nManagerValue, showNotification, handleError} from '@/utils';
+import {
+  setI18nManagerValue,
+  showNotification,
+  handleError,
+  internalSearch
+} from '@/utils';
+
+/**
+ * fetch companies saga
+ * @returns {IterableIterator<*>}
+ */
+function* fetchCompanies({payload}) {
+  const {onSuccess, onFail, queryString} = payload;
+  try {
+    const response = yield call(req.fetchCompanies);
+    let companies = response?.data ?? [];
+    if (hasTextLength(queryString?.search)) {
+      const {search} = queryString;
+      companies = internalSearch({
+        items: companies,
+        search,
+        searchFields: ['name']
+      });
+    }
+    yield put({type: types.FETCH_COMPANIES_SUCCESS, payload: companies});
+    onSuccess?.(response);
+  } catch (e) {
+    onFail?.();
+  }
+}
 
 /**
  * fetch Languages saga
@@ -141,4 +170,5 @@ function* updatePreferences({payload}) {
 export default function* companySaga() {
   yield takeEvery(types.FETCH_PREFERENCES, fetchPreferences);
   yield takeEvery(types.UPDATE_PREFERENCES, updatePreferences);
+  yield takeEvery(types.FETCH_COMPANIES, fetchCompanies);
 }

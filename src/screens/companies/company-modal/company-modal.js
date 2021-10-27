@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {TouchableHighlight, ScrollView} from 'react-native';
-import Styles from './styles';
+import Styles from './company-modal-style';
 import t from 'locales/use-translation';
 import {colors} from '@/styles';
-import {routes} from '@/navigation';
-import {fetchCompanies} from '../../actions';
+import {navigateTo, routes} from '@/navigation';
+import {fetchCompanies} from 'stores/company/actions';
+import {IProps, IStates} from './company-modal-type';
 import {
   defineSize,
   hasTextLength as hasValue,
@@ -19,7 +20,7 @@ import {
   View
 } from '@/components';
 
-export class Modal extends Component {
+export default class CompanyModal extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {visible: false};
@@ -39,14 +40,13 @@ export class Modal extends Component {
   addNewCompany = async () => {
     await this.setState({visible: false});
     setTimeout(() => {
-      this.props.navigation.navigate(routes.COMPANY);
+      navigateTo({route: routes.CREATE_COMPANY});
     }, 200);
   };
 
   render() {
     const {theme, company, companies} = this.props;
     const {visible} = this.state;
-
     const {Modal} = Styles;
 
     const companyLogo = (company, type) => {

@@ -1,6 +1,5 @@
 import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
-import {colors} from '@/styles';
 import {defineSize, SCREEN_HEIGHT} from '@/constants';
 
 const customStyleSheet = StyleSheet.create({

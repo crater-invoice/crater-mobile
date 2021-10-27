@@ -54,3 +54,10 @@ export const languagesSelector = createSelector(
       fullItem: _lng
     }))
 );
+
+export const companiesSelector = createSelector(
+  companyStore,
+  store => (isEmpty(store?.companies) ? [] : store?.companies)
+);
+
+export const currentCompanySelector = state => state.common?.company;

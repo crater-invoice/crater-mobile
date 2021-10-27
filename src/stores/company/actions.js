@@ -14,62 +14,63 @@ export function spinner(name, value) {
 }
 
 /**
- * Fetch currencies
+ * Fetch companies
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function fetchCurrencies(payload = {}) {
+export function fetchCompanies(payload = {}) {
   return {
-    type: types.FETCH_CURRENCIES,
+    type: types.FETCH_COMPANIES,
     payload
   };
 }
 
 /**
- * Fetch languages
+ * Fetch single company
+ * @param id
+ * @param onSuccess
+ * @returns {{type: string, payload: *}}
+ */
+export function fetchSingleCompany(id, onSuccess) {
+  return {
+    type: types.FETCH_SINGLE_COMPANY,
+    payload: {id, onSuccess}
+  };
+}
+
+/**
+ * Add company
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function fetchLanguages(payload = {}) {
+export function addCompany(payload = {}) {
   return {
-    type: types.FETCH_LANGUAGES,
+    type: types.ADD_COMPANY,
     payload
   };
 }
 
 /**
- * Fetch time-zones
+ * Update company
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function fetchTimezones(payload = {}) {
+export function updateCompany(payload = {}) {
   return {
-    type: types.FETCH_TIMEZONES,
+    type: types.UPDATE_COMPANY,
     payload
   };
 }
 
 /**
- * Fetch date-formats
- * @param payload
+ * Remove company
+ * @param id
  * @returns {{type: string, payload: *}}
  */
-export function fetchDateFormats(payload = {}) {
+export function removeCompany(id) {
   return {
-    type: types.FETCH_DATE_FORMATS,
-    payload
-  };
-}
-
-/**
- * Fetch fiscal-years
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export function fetchFiscalYears(payload = {}) {
-  return {
-    type: types.FETCH_FISCAL_YEARS,
-    payload
+    type: types.REMOVE_COMPANY,
+    payload: {id}
   };
 }
 
