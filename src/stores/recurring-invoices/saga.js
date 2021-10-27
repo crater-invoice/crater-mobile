@@ -7,19 +7,19 @@ import {showNotification, handleError} from '@/utils';
 import t from 'locales/use-translation';
 
 /**
- * Fetch Next-Invoice-At saga.
+ * Fetch Next-Invoice-At saga
  * @returns {*}
  */
 function* fetchNextInvoiceAt({payload}) {
-  const {params, onSuccess} = payload;
   try {
+    const {params, onSuccess} = payload;
     const response = yield call(req.fetchNextInvoiceAt, params);
     onSuccess?.(response);
   } catch (e) {}
 }
 
 /**
- * Fetch invoice templates saga.
+ * Fetch invoice templates saga
  * @returns {IterableIterator<*>}
  */
 function* fetchInvoiceTemplates() {
@@ -33,20 +33,18 @@ function* fetchInvoiceTemplates() {
 }
 
 /**
- * Fetch recurring invoice initial details saga.
+ * Fetch recurring invoice initial details saga
  * @returns {IterableIterator<*>}
  */
 function* fetchRecurringInvoiceInitialDetails({payload}) {
-  yield put({
-    type: types.CLEAR_RECURRING_INVOICE
-  });
+  yield put({type: types.CLEAR_RECURRING_INVOICE});
   yield call(fetchInvoiceTemplates);
   yield put(fetchTaxAndDiscountPerItem());
   payload?.();
 }
 
 /**
- * Fetch recurring-invoices saga.
+ * Fetch recurring-invoices saga
  * @returns {IterableIterator<*>}
  */
 function* fetchRecurringInvoices({payload}) {
@@ -65,7 +63,7 @@ function* fetchRecurringInvoices({payload}) {
 }
 
 /**
- * Fetch single recurring-invoice saga.
+ * Fetch single recurring-invoice saga
  * @returns {IterableIterator<*>}
  */
 function* fetchSingleRecurringInvoice({payload}) {
@@ -73,10 +71,7 @@ function* fetchSingleRecurringInvoice({payload}) {
     const {id, onSuccess} = payload;
     const response = yield call(req.fetchSingleRecurringInvoice, id);
     const recurringInvoice = response?.data;
-
-    yield put({
-      type: types.CLEAR_RECURRING_INVOICE
-    });
+    yield put({type: types.CLEAR_RECURRING_INVOICE});
     yield call(fetchInvoiceTemplates);
     yield put({
       type: types.ADD_RECURRING_INVOICE_ITEM_SUCCESS,
@@ -87,13 +82,13 @@ function* fetchSingleRecurringInvoice({payload}) {
 }
 
 /**
- * Add recurring-invoice saga.
+ * Add recurring-invoice saga
  * @returns {IterableIterator<*>}
  */
 function* addRecurringInvoice({payload}) {
   try {
-    const {invoice, onSuccess} = payload;
     yield put(spinner('isSaving', true));
+    const {invoice, onSuccess} = payload;
     const response = yield call(req.addRecurringInvoice, invoice);
     yield put({
       type: types.ADD_RECURRING_INVOICE_SUCCESS,
@@ -109,13 +104,13 @@ function* addRecurringInvoice({payload}) {
 }
 
 /**
- * Update recurring-invoice saga.
+ * Update recurring-invoice saga
  * @returns {IterableIterator<*>}
  */
 function* updateRecurringInvoice({payload}) {
   try {
-    const {invoice, onSuccess} = payload;
     yield put(spinner('isSaving', true));
+    const {invoice, onSuccess} = payload;
     const response = yield call(
       req.updateRecurringInvoice,
       invoice.id,
@@ -135,15 +130,14 @@ function* updateRecurringInvoice({payload}) {
 }
 
 /**
- * Remove recurring-invoice saga.
+ * Remove recurring-invoice saga
  * @returns {IterableIterator<*>}
  */
 function* removeRecurringInvoice({payload}) {
-  const {id, navigation} = payload;
   try {
     yield put(spinner('isDeleting', true));
-    const body = {ids: [id]};
-    yield call(req.removeRecurringInvoice, body);
+    const {id, navigation} = payload;
+    yield call(req.removeRecurringInvoice, id);
     yield put({type: types.REMOVE_RECURRING_INVOICE_SUCCESS, payload: id});
     navigation.goBack(null);
     showNotification({message: t('notification.recurring_invoice_deleted')});
@@ -155,30 +149,14 @@ function* removeRecurringInvoice({payload}) {
 }
 
 /**
- * Add recurring-invoice item saga.
+ * Add recurring-invoice item saga
  * @returns {IterableIterator<*>}
  */
-function* addRecurringInvoiceItem({payload: {item, onResult}}) {
+function* addRecurringInvoiceItem({payload}) {
   try {
-    const {price, name, description, taxes, unit_id} = item;
-
-    const body = {
-      name,
-      description,
-      price,
-      unit_id,
-      taxes
-    };
-
-    const response = yield call(req.addRecurringInvoiceItem, body);
-    const items = [
-      {
-        ...response.data,
-        item_id: response.data.id,
-        ...item
-      }
-    ];
-
+    const {item, onResult} = payload;
+    const {data} = yield call(req.addRecurringInvoiceItem, item);
+    const items = [{...data, item_id: data.id, ...item}];
     yield put({
       type: types.ADD_RECURRING_INVOICE_ITEM_SUCCESS,
       payload: items ?? []
@@ -188,52 +166,14 @@ function* addRecurringInvoiceItem({payload: {item, onResult}}) {
 }
 
 /**
- * Edit recurring-invoice item saga.
+ * Remove recurring-invoice item saga
  * @returns {IterableIterator<*>}
  */
-function* updateRecurringInvoiceItem({payload: {item, onResult}}) {
-  yield put(spinner({isSaving: true}));
+function* removeRecurringInvoiceItem({payload}) {
   try {
-    const {price, name, description, item_id} = item;
-
-    const body = {
-      name,
-      description,
-      price
-    };
-
-    const response = yield call(req.updateRecurringInvoiceItem, item_id, body);
-
-    const itemData = [
-      {
-        ...response.item,
-        ...item
-      }
-    ];
-    yield put({
-      type: types.UPDATE_RECURRING_INVOICE_ITEM_SUCCESS,
-      payload: itemData
-    });
-
-    onResult?.();
-  } catch (e) {
-  } finally {
-    yield put(spinner({isSaving: false}));
-  }
-}
-
-/**
- * Remove recurring-invoice item saga.
- * @returns {IterableIterator<*>}
- */
-function* removeRecurringInvoiceItem({payload: {onResult, id}}) {
-  yield put(spinner({isDeleting: true}));
-
-  try {
-    yield put({
-      type: types.REMOVE_RECURRING_INVOICE_ITEM_SUCCESS,
-      payload: id
-    });
+    yield put(spinner({isDeleting: true}));
+    const {onResult, id} = payload;
+    yield put({type: types.REMOVE_RECURRING_INVOICE_ITEM_SUCCESS, payload: id});
     onResult?.();
   } catch (e) {
   } finally {
@@ -256,10 +196,6 @@ export default function* recurringInvoicesSaga() {
   yield takeLatest(types.UPDATE_RECURRING_INVOICE, updateRecurringInvoice);
   yield takeLatest(types.REMOVE_RECURRING_INVOICE, removeRecurringInvoice);
   yield takeLatest(types.ADD_RECURRING_INVOICE_ITEM, addRecurringInvoiceItem);
-  yield takeLatest(
-    types.UPDATE_RECURRING_INVOICE_ITEM,
-    updateRecurringInvoiceItem
-  );
   yield takeLatest(
     types.REMOVE_RECURRING_INVOICE_ITEM,
     removeRecurringInvoiceItem

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Field, change, initialize, SubmissionError} from 'redux-form';
+import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-recurring-invoice-type';
 import {routes} from '@/navigation';
@@ -240,7 +240,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       statusList,
       notes,
       getNotes,
-      invoiceData: {invoiceTemplates} = {},
+      invoiceTemplates = [],
       formValues: {
         limit_by,
         limit_date,
@@ -378,6 +378,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
 
         <ItemField
           {...this.props}
+          currency={this.state.currency}
           selectedItems={selectedItems}
           items={getItemList(items)}
           getItems={getItems}
@@ -385,7 +386,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           setFormField={this.setFormField}
         />
 
-        <FinalAmount {...this.props} {...this.state} />
+        <FinalAmount {...this.props} currency={this.state.currency} />
 
         <Notes
           {...this.props}
