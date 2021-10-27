@@ -1,12 +1,14 @@
 import {connect} from 'react-redux';
-import {reduxForm} from 'redux-form';
+import {reduxForm, getFormValues} from 'redux-form';
 import Users from './users';
 import {USERS_FORM} from 'stores/users/types';
-import {usersSelector} from 'stores/users/selectors';
+import {rolesSelector, usersSelector} from 'stores/users/selectors';
 import {commonSelector} from 'stores/common/selectors';
 
 const mapStateToProps = state => ({
+  roles: rolesSelector(state),
   users: usersSelector(state),
+  formValues: getFormValues(USERS_FORM)(state) || {},
   ...commonSelector(state)
 });
 
