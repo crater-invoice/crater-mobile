@@ -1,18 +1,19 @@
 import React from 'react';
-import {change} from 'redux-form';
 import {styles} from './recurring-invoices-styles';
-import {All, OnHold, Active} from './Tab';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {AssetImage, MainLayout, Tabs} from '@/components';
-import {ARROW_ICON} from '@/assets';
 import {
+  RECURRING_INVOICES_FORM,
   RECURRING_INVOICES_TABS,
   TAB_NAME
 } from 'stores/recurring-invoices/types';
 import {isFilterApply, primaryHeader} from '@/utils';
 import {IProps, IStates} from './recurring-invoices-type';
-import {recurringInvoicesFilterFields} from './filterFields';
+import {recurringInvoicesFilterFields} from './list-recurring-invoices-filters';
+import {Tab} from './recurring-invoices-tab';
+import {change} from 'redux-form';
+import {tabRefs} from 'stores/common/helpers';
 
 export default class RecurringInvoices extends React.Component<
   IProps,
@@ -20,11 +21,6 @@ export default class RecurringInvoices extends React.Component<
 > {
   constructor(props) {
     super(props);
-
-    this.activeReference = React.createRef();
-    this.onHoldReference = React.createRef();
-    this.allReference = React.createRef();
-
     this.state = {
       activeTab: RECURRING_INVOICES_TABS.ACTIVE,
       search: ''
@@ -42,13 +38,25 @@ export default class RecurringInvoices extends React.Component<
   onFocus = () => {
     const {navigation} = this.props;
     this.focusListener = navigation.addListener('focus', () => {
-      const {ref} = this.getActiveTab();
-      ref?.getItems?.();
+      tabRefs?.getItems?.();
     });
+    this.setActiveTab();
   };
 
-  setActiveTab = activeTab => {
+  setActiveTab = (activeTab = RECURRING_INVOICES_TABS.ACTIVE) => {
     this.setState({activeTab});
+    const {search} = this.state;
+    const {formValues} = this.props;
+    const queryString = {
+      status: activeTab !== 'ALL' ? activeTab : '',
+      search,
+      ...formValues
+    };
+
+    tabRefs?.getItems?.({
+      queryString,
+      showLoader: true
+    });
   };
 
   onSelect = invoice => {
@@ -61,68 +69,28 @@ export default class RecurringInvoices extends React.Component<
   };
 
   onSearch = search => {
-    const {status, ref} = this.getActiveTab();
-
+    const {activeTab} = this.state;
     this.setState({search});
-
-    ref?.getItems?.({
-      queryString: {status, search},
+    tabRefs?.getItems?.({
+      queryString: {status: activeTab !== 'ALL' ? activeTab : '', search},
       showLoader: true
     });
   };
 
-  getActiveTab = (activeTab = this.state.activeTab) => {
-    if (activeTab == RECURRING_INVOICES_TABS.ACTIVE) {
-      return {
-        status: RECURRING_INVOICES_TABS.ACTIVE,
-        ref: this.activeReference
-      };
-    }
-
-    if (activeTab == RECURRING_INVOICES_TABS.ON_HOLD) {
-      return {
-        status: RECURRING_INVOICES_TABS.ON_HOLD,
-        ref: this.onHoldReference
-      };
-    }
-
-    return {
-      status: '',
-      ref: this.allReference
-    };
+  setFormField = (field, value) => {
+    const {dispatch} = this.props;
+    dispatch(change(RECURRING_INVOICES_FORM, field, value));
   };
 
   onResetFilter = () => {
-    const {search} = this.state;
-    const {status, ref} = this.getActiveTab();
+    const {search, activeTab} = this.state;
 
-    ref?.getItems?.({
-      queryString: {status, search},
+    tabRefs?.getItems?.({
+      queryString: {status: activeTab !== 'ALL' ? activeTab : '', search},
       resetQueryString: true,
       resetParams: true,
       showLoader: true
     });
-  };
-
-  changeTabBasedOnFilterStatusSelection = status => {
-    if (status === RECURRING_INVOICES_TABS.ACTIVE) {
-      return {
-        activeTab: RECURRING_INVOICES_TABS.ACTIVE,
-        ref: this.activeReference
-      };
-    }
-
-    if (status === RECURRING_INVOICES_TABS.ON_HOLD) {
-      return {
-        activeTab: RECURRING_INVOICES_TABS.ON_HOLD,
-        ref: this.onHoldReference
-      };
-    }
-
-    return {
-      activeTab: RECURRING_INVOICES_TABS.ALL,
-      ref: this.allReference
-    };
   };
 
   onSubmitFilter = ({
@@ -132,16 +100,10 @@ export default class RecurringInvoices extends React.Component<
     customer_id = ''
   }) => {
     const {search} = this.state;
-
-    const {activeTab, ref} = this.changeTabBasedOnFilterStatusSelection(
-      filterStatus
-    );
-
-    this.setState({activeTab});
-
-    ref?.getItems?.({
+    this.setState({activeTab: filterStatus});
+    tabRefs?.getItems?.({
       queryString: {
-        filterStatus,
+        status: filterStatus !== 'ALL' ? filterStatus : '',
         search,
         customer_id,
         from_date,
@@ -212,32 +174,17 @@ export default class RecurringInvoices extends React.Component<
       {
         Title: RECURRING_INVOICES_TABS.ACTIVE,
         tabName: TAB_NAME.active,
-        render: (
-          <Active
-            parentProps={this}
-            reference={ref => (this.activeReference = ref)}
-          />
-        )
+        render: <Tab parentProps={this} />
       },
       {
         Title: RECURRING_INVOICES_TABS.ON_HOLD,
         tabName: TAB_NAME.on_hold,
-        render: (
-          <OnHold
-            parentProps={this}
-            reference={ref => (this.onHoldReference = ref)}
-          />
-        )
+        render: <Tab parentProps={this} />
       },
       {
         Title: RECURRING_INVOICES_TABS.ALL,
         tabName: TAB_NAME.all,
-        render: (
-          <All
-            parentProps={this}
-            reference={ref => (this.allReference = ref)}
-          />
-        )
+        render: <Tab parentProps={this} />
       }
     ];
 

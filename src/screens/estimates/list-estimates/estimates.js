@@ -2,27 +2,21 @@ import React from 'react';
 import {change} from 'redux-form';
 import styles from './estimates-styles';
 import {Tabs, MainLayout, AssetImage} from '@/components';
-import {Sent, Draft, All} from './Tab';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
-import estimateFilterFields from './filterFields';
+import estimateFilterFields from './list-estimates-filters';
 import {isFilterApply} from '@/utils';
 import {ARROW_ICON} from '@/assets';
 import {ESTIMATES_TABS, ESTIMATES_FORM, TAB_NAME} from 'stores/estimates/types';
 import {IProps, IStates} from './estimates-type';
+import {Tab} from './estimates-tab';
+import {tabRefs} from 'stores/common/helpers';
 
 export default class Estimates extends React.Component<IProps, IStates> {
-  draftReference: any;
-  sentReference: any;
-  allReference: any;
   focusListener: any;
 
   constructor(props) {
     super(props);
-    this.draftReference = React.createRef();
-    this.sentReference = React.createRef();
-    this.allReference = React.createRef();
-
     this.state = {
       activeTab: ESTIMATES_TABS.DRAFT,
       search: ''
@@ -39,24 +33,29 @@ export default class Estimates extends React.Component<IProps, IStates> {
 
   onFocus = () => {
     const {navigation} = this.props;
+    this.setActiveTab();
     this.focusListener = navigation.addListener('focus', () => {
       if (!this.state.isLoaded) {
         this.setState({isLoaded: true});
         return;
       }
-
-      const {ref} = this.getActiveTab();
-      ref?.getItems?.();
     });
   };
 
-  setActiveTab = activeTab => {
+  setActiveTab = (activeTab = ESTIMATES_TABS.DRAFT) => {
     this.setState({activeTab});
+    const {search} = this.state;
+    const {formValues} = this.props;
+    const queryString = {
+      status: activeTab !== 'ALL' ? activeTab : '',
+      search,
+      ...formValues
+    };
+    tabRefs?.getItems?.({queryString, showLoader: true});
   };
 
   onSelect = estimate => {
     const {navigation} = this.props;
-
     navigation.navigate(routes.CREATE_ESTIMATE, {
       id: estimate.id,
       type: 'UPDATE'
@@ -64,35 +63,12 @@ export default class Estimates extends React.Component<IProps, IStates> {
   };
 
   onSearch = search => {
-    const {status, ref} = this.getActiveTab();
-
+    const {activeTab} = this.state;
     this.setState({search});
-
-    ref?.getItems?.({
-      queryString: {status, search},
+    tabRefs?.getItems?.({
+      queryString: {status: activeTab !== 'ALL' ? activeTab : '', search},
       showLoader: true
     });
-  };
-
-  getActiveTab = (activeTab = this.state.activeTab) => {
-    if (activeTab == ESTIMATES_TABS.SENT) {
-      return {
-        status: ESTIMATES_TABS.SENT,
-        ref: this.sentReference
-      };
-    }
-
-    if (activeTab == ESTIMATES_TABS.DRAFT) {
-      return {
-        status: ESTIMATES_TABS.DRAFT,
-        ref: this.draftReference
-      };
-    }
-
-    return {
-      status: '',
-      ref: this.allReference
-    };
   };
 
   setFormField = (field, value) => {
@@ -100,36 +76,13 @@ export default class Estimates extends React.Component<IProps, IStates> {
   };
 
   onResetFilter = () => {
-    const {search} = this.state;
-    const {status, ref} = this.getActiveTab();
-
-    ref?.getItems?.({
-      queryString: {status, search},
+    const {search, activeTab} = this.state;
+    tabRefs?.getItems?.({
+      queryString: {status: activeTab !== 'ALL' ? activeTab : '', search},
       resetQueryString: true,
       resetParams: true,
       showLoader: true
     });
-  };
-
-  changeTabBasedOnFilterStatusSelection = status => {
-    if (status === ESTIMATES_TABS.SENT) {
-      return {
-        activeTab: ESTIMATES_TABS.SENT,
-        ref: this.sentReference
-      };
-    }
-
-    if (status === ESTIMATES_TABS.DRAFT) {
-      return {
-        activeTab: ESTIMATES_TABS.DRAFT,
-        ref: this.draftReference
-      };
-    }
-
-    return {
-      activeTab: ESTIMATES_TABS.ALL,
-      ref: this.allReference
-    };
   };
 
   onSubmitFilter = ({
@@ -140,16 +93,10 @@ export default class Estimates extends React.Component<IProps, IStates> {
     customer_id = ''
   }) => {
     const {search} = this.state;
-
-    const {activeTab, ref} = this.changeTabBasedOnFilterStatusSelection(
-      filterStatus
-    );
-
-    this.setState({activeTab});
-
-    ref?.getItems?.({
+    this.setState({activeTab: filterStatus});
+    tabRefs?.getItems?.({
       queryString: {
-        status: filterStatus,
+        status: filterStatus !== 'ALL' ? filterStatus : '',
         search,
         customer_id,
         estimate_number,
@@ -201,7 +148,6 @@ export default class Estimates extends React.Component<IProps, IStates> {
 
   render() {
     const {navigation, handleSubmit, theme, route} = this.props;
-
     const {activeTab} = this.state;
 
     const headerProps = {
@@ -227,32 +173,17 @@ export default class Estimates extends React.Component<IProps, IStates> {
       {
         Title: ESTIMATES_TABS.DRAFT,
         tabName: TAB_NAME.DRAFT,
-        render: (
-          <Draft
-            parentProps={this}
-            reference={ref => (this.draftReference = ref)}
-          />
-        )
+        render: <Tab parentProps={this} />
       },
       {
         Title: ESTIMATES_TABS.SENT,
         tabName: TAB_NAME.SENT,
-        render: (
-          <Sent
-            parentProps={this}
-            reference={ref => (this.sentReference = ref)}
-          />
-        )
+        render: <Tab parentProps={this} />
       },
       {
         Title: ESTIMATES_TABS.ALL,
         tabName: TAB_NAME.ALL,
-        render: (
-          <All
-            parentProps={this}
-            reference={ref => (this.allReference = ref)}
-          />
-        )
+        render: <Tab parentProps={this} />
       }
     ];
 

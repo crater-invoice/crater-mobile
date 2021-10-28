@@ -8,13 +8,12 @@ let selectedToDate = '';
 let selectedToDateValue = '';
 
 export const recurringInvoicesFilterFields = ({props, setFormField}) => {
-  const filterRefs = {};
   const {
     getCustomers,
     customers,
     navigation,
     statusList = [],
-    formValues: {status}
+    formValues: {filterStatus}
   } = props;
   const dropdownStyle = {
     marginTop: 12,
@@ -55,7 +54,7 @@ export const recurringInvoicesFilterFields = ({props, setFormField}) => {
       emptyContentProps: {
         contentType: 'recurring_invoices.status'
       },
-      placeholder: status ?? t('recurring_invoices.status.title'),
+      placeholder: filterStatus ?? t('recurring_invoices.status.title'),
       isInternalSearch: true,
       onSelect: val => {
         setFormField('filterStatus', val);
