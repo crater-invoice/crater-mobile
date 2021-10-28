@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
-import {isEmpty} from '@/constants';
+import {hasTextLength, isEmpty} from '@/constants';
 import {fetchUsers} from 'stores/users/actions';
 import {IProps, IStates} from './users-type';
 import {routes} from '@/navigation';
 import {primaryHeader} from '@/utils';
+import usersFilter from './list-users-filter';
 import {
   BaseEmptyPlaceholder,
   InfiniteScroll,
   ListView,
   MainLayout
 } from '@/components';
+import {USERS_FORM} from '@/stores/users/types';
+import {change} from 'redux-form';
 
 export default class Users extends Component<IProps, IStates> {
   scrollViewReference: any;
@@ -49,18 +52,53 @@ export default class Users extends Component<IProps, IStates> {
     navigation.navigate(routes.CREATE_USER, {id: user.id, type: 'UPDATE'});
   };
 
+  setFormField = (field, value) => {
+    this.props.dispatch(change(USERS_FORM, field, value));
+  };
+
   addNewUser = () =>
     this.props.navigation.navigate(routes.CREATE_USER, {type: 'ADD'});
 
-  render() {
-    const {dispatch, users, route} = this.props;
+  onSubmitFilter = data => {
+    const {role_name = '', filterName = '', email = '', phone = ''} = data;
     const {search} = this.state;
 
+    this.scrollViewReference?.getItems?.({
+      queryString: {
+        role_name,
+        email,
+        phone,
+        search: hasTextLength(filterName) ? filterName : search
+      },
+      showLoader: true
+    });
+  };
+
+  onResetFilter = () => {
+    const {search} = this.state;
+    this.scrollViewReference?.getItems?.({
+      queryString: {search},
+      resetQueryString: true,
+      resetParams: true,
+      showLoader: true
+    });
+  };
+  render() {
+    const {dispatch, users, route, handleSubmit} = this.props;
+    const {search} = this.state;
+    const filterProps = {
+      onSubmitFilter: handleSubmit(this.onSubmitFilter),
+      ...usersFilter(this),
+      clearFilter: this.props,
+      onResetFilter: () => this.onResetFilter
+    };
     return (
       <MainLayout
         headerProps={primaryHeader({route})}
         onSearch={this.onSearch}
         bottomDivider
+        filterProps={filterProps}
+        bodyStyle="is-full-listView"
       >
         <InfiniteScroll
           getItems={q => dispatch(fetchUsers(q))}
