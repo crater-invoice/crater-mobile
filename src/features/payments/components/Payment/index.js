@@ -33,7 +33,6 @@ import {
   BADGE_STATUS_TEXT_COLOR,
   getApiFormattedCustomFields
 } from '@/utils';
-import PaymentServices from '../../services';
 import {
   InvoiceSelectModal,
   CustomerSelectModal,
@@ -333,7 +332,7 @@ export class Payment extends React.Component<IProps> {
     sendPaymentReceipt({
       params: {...params, id},
       navigation,
-      onSuccess: () => PaymentServices.toggleIsEmailSent(true)
+      onSuccess: () => {}
     });
   };
 

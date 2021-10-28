@@ -3,22 +3,22 @@ import {getFormValues, reduxForm} from 'redux-form';
 import CreateRecurringInvoice from './create-recurring-invoice';
 import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
 import {validate} from 'stores/recurring-invoices/validator';
+import {loadingSelector} from 'stores/recurring-invoices/selectors';
+import {getCustomers} from '@/features/customers/actions';
+import {getTaxes, getNotes} from '@/features/settings/actions';
+import {getItems} from '@/features/more/actions';
+import {currentCurrencySelector} from 'stores/company/selectors';
+import {initialValues} from 'stores/recurring-invoices/helpers';
 import {
   commonSelector,
   permissionSelector,
   settingsSelector
 } from 'stores/common/selectors';
-import {loadingSelector} from 'stores/recurring-invoices/selectors';
-import {getCustomers} from '@/features/customers/actions';
-import {getTaxes, getNotes} from '@/features/settings/actions';
-import {getItems} from '@/features/more/actions';
-import {initialValues} from '@/stores/recurring-invoices/helpers';
 
 const mapStateToProps = (state, {route}) => {
   const {
     common: {
       taxTypes,
-      currency,
       config: {
         recurring_invoice_status: {update_status}
       }
@@ -39,7 +39,7 @@ const mapStateToProps = (state, {route}) => {
     notes,
     customers,
     taxTypes,
-    currency,
+    currency: currentCurrencySelector(state),
     customFields,
     statusList: update_status,
     formValues: getFormValues(CREATE_RECURRING_INVOICE_FORM)(state) || {},

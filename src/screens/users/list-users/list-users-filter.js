@@ -1,5 +1,5 @@
 import t from 'locales/use-translation';
-import {fetchRoles} from '@/stores/roles/actions';
+import {fetchRoles} from 'stores/roles/actions';
 import {PermissionService} from '@/services';
 import {routes} from '@/navigation';
 

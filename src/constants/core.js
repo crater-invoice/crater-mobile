@@ -33,7 +33,6 @@ export const DATE_FORMAT = 'YYYY-MM-DD';
 export const TIME_FORMAT = 'HH:mm';
 export const TIME_FORMAT_MERIDIEM = 'hh:mm A';
 
-export const SET_SETTINGS = 'SET_SETTINGS';
 export const SET_MAIL_CONFIGURATION = 'SET_MAIL_CONFIGURATION';
 export const SWITCH_THEME = 'SWITCH_THEME';
 export const BIOMETRY_AUTH_TYPES = {

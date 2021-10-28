@@ -4,9 +4,9 @@ import {styles} from './invoices-styles';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {AssetImage, MainLayout, Tabs} from '@/components';
-import {INVOICES_TABS, INVOICES_FORM, TAB_NAME} from '@/stores/invoices/types';
+import {INVOICES_TABS, INVOICES_FORM, TAB_NAME} from 'stores/invoices/types';
 import {isFilterApply} from '@/utils';
-import {InvoiceServices} from '@/stores/invoices/service';
+import {InvoiceServices} from 'stores/invoices/service';
 import {openRatingReviewModal} from '@/utils';
 import {PermissionService} from '@/services';
 import {IProps, IStates} from './invoices-type';
@@ -35,10 +35,6 @@ export default class Invoices extends React.Component<IProps, IStates> {
     const {navigation} = this.props;
     this.setActiveTab();
     this.focusListener = navigation.addListener('focus', () => {
-      if (InvoiceServices.isEmailSent) {
-        InvoiceServices.toggleIsEmailSent(false);
-      }
-
       if (InvoiceServices.isFirstInvoiceCreated) {
         InvoiceServices.toggleIsFirstInvoiceCreated(false);
         openRatingReviewModal();

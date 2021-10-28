@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
+import {change} from 'redux-form';
 import {hasTextLength, isEmpty} from '@/constants';
 import {fetchUsers} from 'stores/users/actions';
 import {IProps, IStates} from './users-type';
 import {routes} from '@/navigation';
 import {primaryHeader} from '@/utils';
 import usersFilter from './list-users-filter';
+import {USERS_FORM} from 'stores/users/types';
 import {
   BaseEmptyPlaceholder,
   InfiniteScroll,
   ListView,
   MainLayout
 } from '@/components';
-import {USERS_FORM} from '@/stores/users/types';
-import {change} from 'redux-form';
 
 export default class Users extends Component<IProps, IStates> {
   scrollViewReference: any;

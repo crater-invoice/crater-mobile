@@ -8,7 +8,6 @@ import estimateFilterFields from './list-estimates-filters';
 import {isFilterApply} from '@/utils';
 import {ARROW_ICON} from '@/assets';
 import {ESTIMATES_TABS, ESTIMATES_FORM, TAB_NAME} from 'stores/estimates/types';
-import {EstimateServices} from 'stores/estimates/service';
 import {IProps, IStates} from './estimates-type';
 import {Tab} from './estimates-tab';
 import {tabRefs} from 'stores/common/helpers';
@@ -36,9 +35,6 @@ export default class Estimates extends React.Component<IProps, IStates> {
     const {navigation} = this.props;
     this.setActiveTab();
     this.focusListener = navigation.addListener('focus', () => {
-      if (EstimateServices.isEmailSent) {
-        EstimateServices.toggleIsEmailSent(false);
-      }
       if (!this.state.isLoaded) {
         this.setState({isLoaded: true});
         return;

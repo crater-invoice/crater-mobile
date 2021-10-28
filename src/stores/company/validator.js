@@ -28,3 +28,12 @@ export const validate = values => {
 
   return errors;
 };
+
+export const validateCompany = values => {
+  const errors = {};
+  errors.name = getError(values.name, ['required']);
+  errors.country_id = getError(values.country_id, ['required']);
+  errors.currency = getError(values.currency, ['required']);
+
+  return errors;
+};

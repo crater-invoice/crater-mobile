@@ -14,62 +14,40 @@ export function spinner(name, value) {
 }
 
 /**
- * Fetch currencies
+ * Fetch companies
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function fetchCurrencies(payload = {}) {
+export function fetchCompanies(payload = {}) {
   return {
-    type: types.FETCH_CURRENCIES,
+    type: types.FETCH_COMPANIES,
     payload
   };
 }
 
 /**
- * Fetch languages
- * @param payload
+ * Add company
+ * @param params
+ * @param logo
  * @returns {{type: string, payload: *}}
  */
-export function fetchLanguages(payload = {}) {
+export function addCompany(params, logo) {
   return {
-    type: types.FETCH_LANGUAGES,
-    payload
+    type: types.ADD_COMPANY,
+    payload: {params, logo}
   };
 }
 
 /**
- * Fetch time-zones
- * @param payload
+ * Update company
+ * @param params
+ * @param logo
  * @returns {{type: string, payload: *}}
  */
-export function fetchTimezones(payload = {}) {
+export function updateCompany(params, logo) {
   return {
-    type: types.FETCH_TIMEZONES,
-    payload
-  };
-}
-
-/**
- * Fetch date-formats
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export function fetchDateFormats(payload = {}) {
-  return {
-    type: types.FETCH_DATE_FORMATS,
-    payload
-  };
-}
-
-/**
- * Fetch fiscal-years
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export function fetchFiscalYears(payload = {}) {
-  return {
-    type: types.FETCH_FISCAL_YEARS,
-    payload
+    type: types.UPDATE_COMPANY,
+    payload: {params, logo}
   };
 }
 
@@ -92,5 +70,36 @@ export function fetchPreferences(onSuccess) {
  */
 export const updatePreferences = payload => ({
   type: types.UPDATE_PREFERENCES,
+  payload
+});
+
+/**
+ * Fetch company initial details
+ * @param isCreateScreen
+ * @param onSuccess
+ * @returns {{type: string, payload: *}}
+ */
+export const fetchCompanyInitialDetails = (isCreateScreen, onSuccess) => ({
+  type: types.FETCH_COMPANY_INITIAL_DETAILS,
+  payload: {isCreateScreen, onSuccess}
+});
+
+/**
+ * Set selected company
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const setSelectedCompany = payload => ({
+  type: types.SET_SELECTED_COMPANY,
+  payload
+});
+
+/**
+ * Set company setting
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const setCompanySetting = (payload = {}) => ({
+  type: types.SET_COMPANY_SETTING,
   payload
 });

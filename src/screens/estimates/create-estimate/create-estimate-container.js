@@ -12,11 +12,12 @@ import {
   settingsSelector
 } from 'stores/common/selectors';
 import {loadingSelector} from 'stores/estimates/selectors';
-import {initialValues} from '@/stores/estimates/helpers';
+import {initialValues} from 'stores/estimates/helpers';
+import {currentCurrencySelector} from 'stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
-    common: {taxTypes, currency},
+    common: {taxTypes},
     settings: {notes, customFields},
     estimates: {selectedItems, estimateData},
     more: {items},
@@ -34,7 +35,7 @@ const mapStateToProps = (state, {route}) => {
     notes,
     customers,
     taxTypes,
-    currency,
+    currency: currentCurrencySelector(state),
     customFields,
     formValues: getFormValues(CREATE_ESTIMATE_FORM)(state) || {},
     initialValues

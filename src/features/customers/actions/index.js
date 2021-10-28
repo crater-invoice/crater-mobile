@@ -2,8 +2,6 @@ import {
   GET_CUSTOMERS,
   SET_CUSTOMERS,
   CUSTOMERS_TRIGGER_SPINNER,
-  GET_COUNTRIES,
-  SET_COUNTRIES,
   CREATE_CUSTOMER,
   UPDATE_CUSTOMER,
   GET_CUSTOMER_DETAIL,
@@ -54,15 +52,5 @@ export const removeCustomer = (payload = {}) => ({
 
 export const updateFromCustomers = (payload = {}) => ({
   type: UPDATE_FROM_CUSTOMERS,
-  payload
-});
-
-export const getCountries = (payload = {}) => ({
-  type: GET_COUNTRIES,
-  payload
-});
-
-export const setCountries = (payload = {}) => ({
-  type: SET_COUNTRIES,
   payload
 });

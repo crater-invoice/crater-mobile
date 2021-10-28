@@ -41,9 +41,10 @@ import {alertMe, isEmpty} from '@/constants';
 import {getApiFormattedCustomFields} from '@/utils';
 import {CustomerSelectModal} from '@/select-modal';
 import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
-import {setCalculationRef} from '@/stores/common/helpers';
+import {setCalculationRef} from 'stores/common/helpers';
 import {showNotification} from '@/utils';
 import {IProps, IStates} from './create-estimate-type';
+import {initialValues} from 'stores/estimates/helpers';
 import {
   fetchEstimateInitialDetails,
   fetchSingleEstimate,
@@ -53,7 +54,6 @@ import {
   addEstimate,
   updateEstimate
 } from 'stores/estimates/actions';
-import {initialValues} from '@/stores/estimates/helpers';
 
 export default class Estimate extends React.Component<IProps, IStates> {
   estimateRefs: any;

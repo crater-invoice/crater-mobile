@@ -7,14 +7,14 @@ import {getExpensesState} from '../../selectors';
 import {getCustomers} from '@/features/customers/actions';
 import {commonSelector} from 'stores/common/selectors';
 import {fetchCategories} from 'stores/categories/actions';
-import {categoriesSelector} from '@/stores/categories/selectors';
+import {categoriesSelector} from 'stores/categories/selectors';
+import {currentCurrencySelector} from 'stores/company/selectors';
 
 const mapStateToProps = state => {
   const {
-    common: {currency},
     expenses: {expenses}
   } = state;
-
+  const currency = currentCurrencySelector(state);
   return {
     expenses: getExpensesState({expenses, currency}),
     currency,

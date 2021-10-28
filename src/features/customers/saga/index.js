@@ -12,9 +12,10 @@ import {showNotification, handleError} from '@/utils';
 import {
   customerTriggerSpinner,
   setCustomers,
-  setCountries,
   updateFromCustomers
 } from '../actions';
+import {fetchCurrencies} from 'stores/company/saga';
+import {fetchCountries} from 'stores/common/saga';
 
 const addressParams = address => {
   return {
@@ -42,32 +43,14 @@ export function* getCustomers({payload}) {
   }
 }
 
-export function* getCountries({payload: {onResult = null}}) {
-  yield put(customerTriggerSpinner({countriesLoading: true}));
-  try {
-    const options = {path: 'countries'};
-    const response = yield call([Request, 'get'], options);
-    onResult?.(response);
-    yield put(setCountries({countries: response?.data ?? []}));
-  } catch (e) {
-  } finally {
-    yield put(customerTriggerSpinner({countriesLoading: false}));
-  }
-}
-
 function* getCreateCustomer({payload}) {
-  const {currencies, countries, onSuccess} = payload;
+  const {onSuccess} = payload;
   try {
-    if (isEmpty(countries)) {
-      yield call(getCountries, {payload: {}});
-    }
-    if (isEmpty(currencies)) {
-      yield call(getGeneralSetting, {payload: {url: 'currencies'}});
-    }
+    yield call(fetchCountries);
+    yield call(fetchCurrencies);
+
     yield call(getCustomFields, {
-      payload: {
-        queryString: {type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 'all'}
-      }
+      payload: {queryString: {type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 'all'}}
     });
     onSuccess?.();
   } catch (e) {}
@@ -116,14 +99,10 @@ function* updateCustomer({payload}) {
 }
 
 function* getCustomerDetail({payload}) {
-  const {id, onSuccess, currencies, countries} = payload;
+  const {id, onSuccess} = payload;
   try {
-    if (isEmpty(countries)) {
-      yield call(getCountries, {payload: {}});
-    }
-    if (isEmpty(currencies)) {
-      yield call(getGeneralSetting, {payload: {url: 'currencies'}});
-    }
+    yield call(fetchCountries);
+    yield call(fetchCurrencies);
     yield call(getCustomFields, {
       payload: {
         queryString: {type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 'all'}
@@ -151,7 +130,6 @@ function* removeCustomer({payload: {id, navigation}}) {
 
 export default function* customersSaga() {
   yield takeLatest(TYPES.GET_CUSTOMERS, getCustomers);
-  yield takeLatest(TYPES.GET_COUNTRIES, getCountries);
   yield takeLatest(TYPES.GET_CREATE_CUSTOMER, getCreateCustomer);
   yield takeLatest(TYPES.CREATE_CUSTOMER, createCustomer);
   yield takeLatest(TYPES.UPDATE_CUSTOMER, updateCustomer);

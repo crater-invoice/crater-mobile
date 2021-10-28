@@ -2,6 +2,40 @@ import Request from 'utils/request';
 import * as types from './types';
 
 /**
+ * Fetch companies
+ * @returns {*}
+ */
+export const fetchCompanies = () => {
+  return Request.get({path: `companies/get`});
+};
+
+/**
+ * Fetch company
+ * @returns {*}
+ */
+export const fetchCompany = () => {
+  return Request.get({path: `current-company`});
+};
+
+/**
+ * Add company
+ * @param body : params
+ * @returns {*}
+ */
+export const addCompany = body => {
+  return Request.post({path: `companies`, body});
+};
+
+/**
+ * Update company
+ * @param body : params
+ * @returns {*}
+ */
+export const updateCompany = body => {
+  return Request.put({path: `company`, body});
+};
+
+/**
  * Fetch currencies
  * @returns {*}
  */
@@ -63,3 +97,30 @@ export const fetchPreferences = () => {
 export const updatePreferences = body => {
   return Request.post({path: `company/settings`, body});
 };
+
+/**
+ * Upload company logo
+ * @param logo
+ * @param id : company id
+ * @returns {*}
+ */
+export const uploadCompanyLogo = (logo, id) => {
+  return Request.post({
+    path: `company/upload-logo`,
+    image: logo,
+    imageName: 'company_logo',
+    headers: {company: id}
+  });
+};
+
+class Services {
+  isPreferencesItemLoaded: boolean;
+
+  constructor() {
+    this.isPreferencesItemLoaded = false;
+  }
+
+  setIsPreferencesItemLoaded = () => (this.isPreferencesItemLoaded = true);
+}
+
+export const CompanyServices = new Services();

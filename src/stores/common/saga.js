@@ -13,6 +13,8 @@ import {setLastOTACheckDate} from './actions';
 import {PermissionService} from '@/services';
 import {setAccountInformation} from '@/features/settings/actions';
 import {PING_SUCCESS} from '../auth/types';
+import {FETCH_COMPANIES_SUCCESS} from '../company/types';
+import {setCompanySetting, setSelectedCompany} from '../company/actions';
 
 /**
  * Fetch Tax And Discount Per item saga.
@@ -95,19 +97,36 @@ export function* fetchBootstrap(payloadData) {
   try {
     const response = yield call(req.fetchBootstrap);
     const {
-      user,
-      default_language = 'en',
-      abilities = [],
+      current_user,
+      current_company,
+      current_company_currency,
+      current_user_settings,
+      current_user_abilities = [],
       companies = []
     } = response;
-
-    PermissionService.setPermissions(abilities);
+    const default_language = current_user_settings?.language ?? 'en';
+    PermissionService.setPermissions(current_user_abilities);
     const isRTL = default_language === 'ar';
     setI18nManagerValue({isRTL});
-    yield put(setAccountInformation({account: user}));
+    yield put(setAccountInformation({account: current_user}));
     yield put({type: types.FETCH_BOOTSTRAP_SUCCESS, payload: response});
-    // yield put({type: FETCH_COMPANIES_SUCCESS, payload: {companies}});
+    yield put({type: FETCH_COMPANIES_SUCCESS, payload: companies});
+    yield put(setSelectedCompany(current_company));
+    yield put(
+      setCompanySetting({selectedCompanyCurrency: current_company_currency})
+    );
     payloadData?.payload?.onSuccess?.(response);
+  } catch (e) {}
+}
+
+/**
+ * Fetch countries saga
+ * @returns {IterableIterator<*>}
+ */
+export function* fetchCountries() {
+  try {
+    const {data} = yield call(req.fetchCountries);
+    yield put({type: types.FETCH_COUNTRIES_SUCCESS, payload: data});
   } catch (e) {}
 }
 
@@ -115,6 +134,7 @@ export default function* commonSaga() {
   yield takeEvery(types.SAVE_ENDPOINT_URL, saveEndpointURL);
   yield takeEvery(types.CHECK_OTA_UPDATE, checkOTAUpdate);
   yield takeEvery(types.FETCH_BOOTSTRAP, fetchBootstrap);
+  yield takeEvery(types.FETCH_COUNTRIES, fetchCountries);
   yield takeEvery(
     types.FETCH_TAX_AND_DISCOUNT_PER_ITEM,
     fetchTaxAndDiscountPerItem
