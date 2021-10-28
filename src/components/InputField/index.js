@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
 import {connect} from 'react-redux';
 import {Input} from 'react-native-elements';
 import debounce from 'lodash/debounce';
@@ -10,6 +10,7 @@ import {colors} from '@/styles';
 import {Text} from '../Text';
 import {BaseLabel, BaseError, ButtonView} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
+import {currentCurrencySelector} from 'stores/company/selectors';
 import {
   hasTextLength,
   hasValue,
@@ -293,7 +294,7 @@ export class InputFieldComponent extends Component<IInputField> {
 }
 
 const mapStateToProps = state => ({
-  currency: state.common?.currency,
+  currency: currentCurrencySelector(state),
   ...commonSelector(state)
 });
 

@@ -60,7 +60,7 @@ export default class Preferences extends Component<IProps, IStates> {
   };
 
   onSubmit = values => {
-    const {navigation, currencies, isSaving, dispatch} = this.props;
+    const {navigation, isSaving, dispatch} = this.props;
 
     if (this.state.isFetchingInitialData || isSaving) {
       return;
@@ -71,7 +71,7 @@ export default class Preferences extends Component<IProps, IStates> {
       tax_per_item: isBooleanTrue(values?.tax_per_item) ? 'YES' : 'NO',
       discount_per_item: isBooleanTrue(values?.discount_per_item) ? 'YES' : 'NO'
     };
-    dispatch(updatePreferences({params, navigation, currencies}));
+    dispatch(updatePreferences({params, navigation}));
   };
 
   render() {

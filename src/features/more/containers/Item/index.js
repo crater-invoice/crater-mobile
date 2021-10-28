@@ -8,13 +8,14 @@ import {unitsSelector} from '../../selectors';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {getSettingInfo, getTaxes} from '@/features/settings/actions';
 import {fetchItemUnits} from 'stores/item-units/actions';
+import {currentCurrencySelector} from 'stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
     more: {loading, item},
     settings: {taxByItems},
     itemUnits: {units},
-    common: {currency, taxTypes}
+    common: {taxTypes}
   } = state;
 
   const itemId = route?.params?.id;
@@ -29,7 +30,7 @@ const mapStateToProps = (state, {route}) => {
     itemId,
     taxTypes,
     taxByItems,
-    currency,
+    currency: currentCurrencySelector(state),
     units: unitsSelector(units),
     ...permissions,
     ...commonSelector(state),

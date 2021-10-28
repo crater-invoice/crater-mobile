@@ -9,11 +9,11 @@ import {getNotes} from '@/features/settings/actions';
 import {fetchPaymentModes} from 'stores/payment-modes/actions';
 import {getPaymentModesState} from '../../selectors';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
+import {currentCurrencySelector} from 'stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
     customers: {customers},
-    common: {currency},
     settings: {notes, customFields},
     payments: {loading, unPaidInvoices},
     paymentModes: {modes}
@@ -33,7 +33,7 @@ const mapStateToProps = (state, {route}) => {
     customFields,
     paymentModes: getPaymentModesState(modes),
     formValues: getFormValues(PAYMENT_FORM)(state) || {},
-    currency,
+    currency: currentCurrencySelector(state),
     ...permissionSelector(route),
     ...commonSelector(state),
     initialValues: {

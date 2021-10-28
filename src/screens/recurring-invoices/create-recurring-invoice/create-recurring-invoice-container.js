@@ -13,12 +13,12 @@ import {getCustomers} from '@/features/customers/actions';
 import {getTaxes, getNotes} from '@/features/settings/actions';
 import {getItems} from '@/features/more/actions';
 import moment from 'moment';
+import {currentCurrencySelector} from 'stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
     common: {
       taxTypes,
-      currency,
       config: {
         recurring_invoice_status: {update_status}
       }
@@ -39,7 +39,7 @@ const mapStateToProps = (state, {route}) => {
     notes,
     customers,
     taxTypes,
-    currency,
+    currency: currentCurrencySelector(state),
     customFields,
     statusList: update_status,
     formValues: getFormValues(CREATE_RECURRING_INVOICE_FORM)(state) || {},

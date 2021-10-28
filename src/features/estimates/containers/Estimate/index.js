@@ -15,6 +15,7 @@ import {
   settingsSelector
 } from 'stores/common/selectors';
 import {getItems} from '@/features/more/actions';
+import {currentCurrencySelector} from 'stores/company/selectors';
 
 const getSelectedTemplate = (templates, form, isEditScreen) => {
   if (!isEditScreen) {
@@ -30,7 +31,7 @@ const getSelectedTemplate = (templates, form, isEditScreen) => {
 
 const mapStateToProps = (state, {route}) => {
   const {
-    common: {taxTypes, currency},
+    common: {taxTypes},
     estimates,
     estimates: {
       isFetchingInitialData,
@@ -72,7 +73,7 @@ const mapStateToProps = (state, {route}) => {
     taxTypes,
     customFields,
     id,
-    currency,
+    currency: currentCurrencySelector(state),
     ...permissions,
     ...commonSelector(state),
     ...settingsSelector(state),

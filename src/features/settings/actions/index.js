@@ -151,13 +151,6 @@ export const updateFromNotes = payload => ({
   payload
 });
 
-// Currencies
-
-export const setGlobalCurrencies = (payload = {}) => ({
-  type: TYPES.SET_GLOBAL_CURRENCIES,
-  payload
-});
-
 // Custom Fields
 // -------------------------------------------------
 export const getCustomFields = (payload = {}) => ({

@@ -59,3 +59,6 @@ export const companiesSelector = state =>
   isEmpty(state?.company?.companies) ? [] : state?.company?.companies;
 
 export const currentCompanySelector = state => state.company?.selectedCompany;
+
+export const currentCurrencySelector = state =>
+  state.company?.selectedCompanyCurrency;

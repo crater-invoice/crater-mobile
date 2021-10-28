@@ -8,6 +8,7 @@ const initialState = {
   currencies: [],
   companies: [],
   selectedCompany: null,
+  selectedCompanyCurrency: null,
   isSaving: false
 };
 
@@ -38,6 +39,9 @@ export default function companyReducer(state = initialState, action) {
 
     case types.FETCH_LANGUAGES_SUCCESS:
       return {...state, languages: payload};
+
+    case types.SET_COMPANY_SETTING:
+      return {...state, ...payload};
 
     default:
       return state;

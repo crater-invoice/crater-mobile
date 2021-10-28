@@ -58,9 +58,6 @@ export const CREATE_FROM_NOTES = 'notes/CREATE_FROM_NOTES';
 export const REMOVE_FROM_NOTES = 'notes/REMOVE_FROM_NOTES';
 export const UPDATE_FROM_NOTES = 'notes/UPDATE_FROM_NOTES';
 
-// Currencies
-export const SET_GLOBAL_CURRENCIES = 'currencies/SET_GLOBAL_CURRENCIES';
-
 // Languages
 export const SET_LANGUAGES = 'languages/SET_LANGUAGES';
 

@@ -79,3 +79,13 @@ export const setSelectedCompany = payload => ({
   type: types.SET_SELECTED_COMPANY,
   payload
 });
+
+/**
+ * Set company setting
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const setCompanySetting = (payload = {}) => ({
+  type: types.SET_COMPANY_SETTING,
+  payload
+});

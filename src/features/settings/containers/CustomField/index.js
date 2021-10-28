@@ -10,6 +10,7 @@ import {
   CUSTOM_FIELD_MODAL_TYPES as MODAL_TYPES,
   CUSTOM_FIELD_DATA_TYPE_LIST as DATA_TYPES
 } from '../../constants';
+import {currentCurrencySelector} from 'stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const loading = state.settings?.loading ?? {};
@@ -26,7 +27,7 @@ const mapStateToProps = (state, {route}) => {
     loading: customFieldLoading,
     getCustomFieldLoading,
     removeCustomFieldLoading,
-    currency: state.common?.currency,
+    currency: currentCurrencySelector(state),
     field,
     formValues: getFormValues(CUSTOM_FIELD_FORM)(state) || {},
     ...permissions,

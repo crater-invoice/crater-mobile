@@ -53,7 +53,6 @@ export class Customer extends React.Component<IProps> {
       getCustomerDetail,
       countries,
       currency,
-      currencies,
       getCreateCustomer,
       isEditScreen,
       isCreateScreen,
@@ -62,7 +61,6 @@ export class Customer extends React.Component<IProps> {
 
     if (isCreateScreen) {
       getCreateCustomer({
-        currencies,
         countries,
         onSuccess: () => {
           this.setFormField(`customer.${FIELDS.CURRENCY}`, currency?.id);
@@ -75,7 +73,6 @@ export class Customer extends React.Component<IProps> {
     if (isEditScreen) {
       getCustomerDetail({
         id,
-        currencies,
         countries,
         onSuccess: customer => {
           const values = {

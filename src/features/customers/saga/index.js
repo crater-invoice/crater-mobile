@@ -15,6 +15,7 @@ import {
   setCountries,
   updateFromCustomers
 } from '../actions';
+import {fetchCurrencies} from 'stores/company/saga';
 
 const addressParams = address => {
   return {
@@ -56,14 +57,13 @@ export function* getCountries({payload: {onResult = null}}) {
 }
 
 function* getCreateCustomer({payload}) {
-  const {currencies, countries, onSuccess} = payload;
+  const {countries, onSuccess} = payload;
   try {
     if (isEmpty(countries)) {
       yield call(getCountries, {payload: {}});
     }
-    if (isEmpty(currencies)) {
-      yield call(getGeneralSetting, {payload: {url: 'currencies'}});
-    }
+    yield call(fetchCurrencies);
+
     yield call(getCustomFields, {
       payload: {
         queryString: {type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 'all'}
@@ -116,14 +116,12 @@ function* updateCustomer({payload}) {
 }
 
 function* getCustomerDetail({payload}) {
-  const {id, onSuccess, currencies, countries} = payload;
+  const {id, onSuccess, countries} = payload;
   try {
     if (isEmpty(countries)) {
       yield call(getCountries, {payload: {}});
     }
-    if (isEmpty(currencies)) {
-      yield call(getGeneralSetting, {payload: {url: 'currencies'}});
-    }
+    yield call(fetchCurrencies);
     yield call(getCustomFields, {
       payload: {
         queryString: {type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 'all'}

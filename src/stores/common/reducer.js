@@ -12,21 +12,18 @@ import {
   SET_REMOVE_TAX,
   SET_TAXES,
   SET_COMPANY_INFO,
-  SET_GLOBAL_CURRENCIES,
   SET_BIOMETRY_AUTH_TYPE
 } from '@/features/settings/constants';
 import {lightTheme} from '@/theme';
 
 const initialState = {
   user: null,
-  currencies: [],
   locale: 'en',
   timeZone: null,
   discount_per_item: false,
   tax_per_item: false,
   notifyInvoiceViewed: false,
   notifyEstimateViewed: false,
-  currency: null,
   taxTypes: [],
   loading: false,
   dateFormat: DATE_FORMAT,
@@ -62,7 +59,6 @@ export default function commonReducer(state = initialState, action) {
     case types.FETCH_BOOTSTRAP_SUCCESS:
       const {
         current_user,
-        current_company_currency,
         moment_date_format,
         fiscal_year,
         current_user_settings,
@@ -73,7 +69,6 @@ export default function commonReducer(state = initialState, action) {
         ...state,
         ...payload,
         user: current_user,
-        currency: current_company_currency,
         abilities: current_user_abilities,
         dateFormat: moment_date_format,
         fiscalYear: fiscal_year,
@@ -117,21 +112,10 @@ export default function commonReducer(state = initialState, action) {
       return {...state, taxTypes: remainTaxes};
 
     case SET_SETTINGS:
-      return {
-        ...state,
-        ...(payload?.settings?.language && {
-          locale: payload.settings.language
-        }),
-        ...(payload?.settings?.selectedCurrency && {
-          currency: payload.settings.selectedCurrency
-        })
-      };
+      return {...state};
 
     case SET_MAIL_CONFIGURATION:
       return {...state, mailDriver: payload.mailDriver};
-
-    case SET_GLOBAL_CURRENCIES:
-      return {...state, currencies: payload?.currencies};
 
     case SET_BIOMETRY_AUTH_TYPE:
       return {...state, biometryAuthType: payload};

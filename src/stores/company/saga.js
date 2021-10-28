@@ -27,7 +27,7 @@ function* fetchCompanies(payload) {
  * Fetch Languages saga
  * @returns {IterableIterator<*>}
  */
-function* fetchCurrencies() {
+export function* fetchCurrencies() {
   try {
     const {data} = yield call(req.fetchCurrencies);
     yield put({type: types.FETCH_CURRENCIES_SUCCESS, payload: data});
@@ -106,29 +106,27 @@ function* fetchPreferences({payload}) {
  */
 function* updatePreferences({payload}) {
   try {
-    const {
-      params,
-      navigation,
-      locale = 'en',
-      currencies = null,
-      onResult
-    } = payload;
+    const {params, navigation, locale = 'en', onResult} = payload;
 
     yield put(spinner('isSaving', true));
 
     const body = {settings: params};
     yield call(req.updatePreferences, body);
 
-    let selectedCurrency = null;
-    if (params?.currency && !isEmpty(currencies)) {
-      selectedCurrency = currencies.find(
-        currency => currency?.fullItem?.id === Number(params?.currency)
-      );
-      selectedCurrency = selectedCurrency?.fullItem;
-    }
+    // let selectedCurrency = null;
+    // if (params?.currency && !isEmpty(currencies)) {
+    //   selectedCurrency = currencies.find(
+    //     currency => currency?.fullItem?.id === Number(params?.currency)
+    //   );
+    //   selectedCurrency = selectedCurrency?.fullItem;
+    // }
+    // yield put({
+    //   type: SET_SETTINGS,
+    //   payload: {settings: {...params, selectedCurrency}}
+    // });
     yield put({
       type: SET_SETTINGS,
-      payload: {settings: {...params, selectedCurrency}}
+      payload: {settings: {...params}}
     });
 
     onResult?.();
