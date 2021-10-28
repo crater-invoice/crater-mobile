@@ -90,15 +90,3 @@ export const removeEstimate = id => {
 export const convertToInvoice = id => {
   return Request.post({path: `estimates/${id}/convert-to-invoice`});
 };
-
-class Services {
-  isEmailSent: boolean;
-
-  constructor() {
-    this.isEmailSent = false;
-  }
-
-  toggleIsEmailSent = status => (this.isEmailSent = status);
-}
-
-export const EstimateServices = new Services();

@@ -12,7 +12,7 @@ import {
   settingsSelector
 } from 'stores/common/selectors';
 import {loadingSelector} from 'stores/estimates/selectors';
-import {initialValues} from '@/stores/estimates/helpers';
+import {initialValues} from 'stores/estimates/helpers';
 import {currentCurrencySelector} from 'stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => {

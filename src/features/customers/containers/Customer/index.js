@@ -3,7 +3,11 @@ import {reduxForm, getFormValues} from 'redux-form';
 import {validate} from './validation';
 import * as actions from '../../actions';
 import {Customer} from '../../components/Customer';
-import {commonSelector, permissionSelector} from 'stores/common/selectors';
+import {
+  commonSelector,
+  countriesSelector,
+  permissionSelector
+} from 'stores/common/selectors';
 import {CUSTOMER_FORM, CUSTOMER_FIELDS as FIELDS} from '../../constants';
 import {
   currenciesSelector,
@@ -12,13 +16,13 @@ import {
 
 const mapStateToProps = (state, {route}) => {
   const {
-    customers: {countries, loading}
+    customers: {loading}
   } = state;
   const customFields = state.settings?.customFields;
   return {
     formValues: getFormValues(CUSTOMER_FORM)(state) || {},
     currencies: currenciesSelector(state),
-    countries,
+    countries: countriesSelector(state),
     currency: currentCurrencySelector(state),
     customFields,
     loading: loading?.customerLoading,

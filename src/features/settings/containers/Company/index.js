@@ -4,18 +4,13 @@ import {reduxForm, getFormValues} from 'redux-form';
 import {EDIT_COMPANY} from '../../constants';
 import * as CompanyAction from '../../actions';
 import {validate} from './validation';
-import {getCountries} from '@/features/customers/actions';
 import {PermissionService} from '@/services';
-import {commonSelector} from 'stores/common/selectors';
+import {commonSelector, countriesSelector} from 'stores/common/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
     settings: {
       loading: {editCompanyInfoLoading, getCompanyInfoLoading}
-    },
-    customers: {
-      countries,
-      loading: {countriesLoading}
     }
   } = state;
   const isAllowToEdit = PermissionService.isAllowToManage(route?.name);
@@ -24,8 +19,7 @@ const mapStateToProps = (state, {route}) => {
     formValues: getFormValues(EDIT_COMPANY)(state) || {},
     editCompanyLoading: editCompanyInfoLoading,
     getCompanyInfoLoading,
-    countries,
-    countriesLoading,
+    countries: countriesSelector(state),
     isAllowToEdit,
     ...commonSelector(state),
     initialValues: {
@@ -43,8 +37,7 @@ const mapStateToProps = (state, {route}) => {
 
 const mapDispatchToProps = {
   editCompanyInformation: CompanyAction.editCompanyInformation,
-  getCompanyInformation: CompanyAction.getCompanyInformation,
-  getCountries
+  getCompanyInformation: CompanyAction.getCompanyInformation
 };
 
 const CompanyReduxForm = reduxForm({

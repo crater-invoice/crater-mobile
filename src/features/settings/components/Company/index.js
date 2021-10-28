@@ -10,19 +10,16 @@ import {
 import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {EDIT_COMPANY} from '../../constants';
-import {formatCountries} from '@/utils';
 import {keyboardType, MAX_LENGTH} from '@/constants';
 import {CountrySelectModal} from '@/select-modal';
 
 type IProps = {
   navigation: Object,
   getCompanyInformation: Function,
-  getCountries: Function,
   editCompanyInformation: Function,
   handleSubmit: Function,
   editCompanyLoading: Boolean,
-  getCompanyInfoLoading: Boolean,
-  countriesLoading: Boolean
+  getCompanyInfoLoading: Boolean
 };
 
 let companyField = [
@@ -48,13 +45,7 @@ export class Company extends React.Component<IProps> {
   }
 
   componentDidMount() {
-    const {getCompanyInformation, getCountries, countries} = this.props;
-
-    let hasCountryApiCalled = countries
-      ? typeof countries === 'undefined' || countries.length === 0
-      : true;
-
-    hasCountryApiCalled && getCountries();
+    const {getCompanyInformation} = this.props;
 
     getCompanyInformation({
       onResult: user => {
@@ -81,17 +72,11 @@ export class Company extends React.Component<IProps> {
       navigation,
       editCompanyInformation,
       editCompanyLoading,
-      getCompanyInfoLoading,
-      countriesLoading
+      getCompanyInfoLoading
     } = this.props;
     const {logo, fileLoading} = this.state;
 
-    if (
-      getCompanyInfoLoading ||
-      countriesLoading ||
-      fileLoading ||
-      editCompanyLoading
-    ) {
+    if (getCompanyInfoLoading || fileLoading || editCompanyLoading) {
       return;
     }
 
@@ -107,7 +92,6 @@ export class Company extends React.Component<IProps> {
       navigation,
       handleSubmit,
       getCompanyInfoLoading,
-      countriesLoading,
       editCompanyLoading,
       isAllowToEdit,
       countries,
@@ -123,11 +107,7 @@ export class Company extends React.Component<IProps> {
         label: 'button.save',
         onPress: handleSubmit(this.onCompanyUpdate),
         show: isAllowToEdit,
-        loading:
-          editCompanyLoading ||
-          fileLoading ||
-          getCompanyInfoLoading ||
-          countriesLoading
+        loading: editCompanyLoading || fileLoading || getCompanyInfoLoading
       }
     ];
 
@@ -146,7 +126,7 @@ export class Company extends React.Component<IProps> {
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}
         loadingProps={{
-          is: getCompanyInfoLoading || countriesLoading
+          is: getCompanyInfoLoading
         }}
         bodyStyle="px-22 py-5"
       >
@@ -186,7 +166,7 @@ export class Company extends React.Component<IProps> {
 
         <Field
           name={'country_id'}
-          countries={formatCountries(countries)}
+          countries={countries}
           component={CountrySelectModal}
           onSelect={({id}) => this.setFormField('country_id', id)}
           reference={ref => (this.countryReference = ref)}

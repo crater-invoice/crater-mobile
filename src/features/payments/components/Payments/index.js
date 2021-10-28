@@ -6,7 +6,6 @@ import {PAYMENT_SEARCH} from '../../constants';
 import {routes} from '@/navigation';
 import paymentsFilterFields from './filterFields';
 import {isFilterApply} from '@/utils';
-import PaymentServices from '../../services';
 import {PermissionService} from '@/services';
 
 type IProps = {
@@ -37,10 +36,6 @@ export class Payments extends React.Component<IProps> {
 
     this.focusListener = navigation.addListener('focus', () => {
       this.scrollViewReference?.getItems?.();
-
-      if (PaymentServices.isEmailSent) {
-        PaymentServices.toggleIsEmailSent(false);
-      }
     });
   };
 

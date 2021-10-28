@@ -9,7 +9,6 @@ import estimateFilterFields from './filterFields';
 import {isFilterApply} from '@/utils';
 import {ARROW_ICON} from '@/assets';
 import {ESTIMATES_TABS, ESTIMATES_FORM, TAB_NAME} from 'stores/estimates/types';
-import {EstimateServices} from 'stores/estimates/service';
 import {IProps, IStates} from './estimates-type';
 
 export default class Estimates extends React.Component<IProps, IStates> {
@@ -41,10 +40,6 @@ export default class Estimates extends React.Component<IProps, IStates> {
   onFocus = () => {
     const {navigation} = this.props;
     this.focusListener = navigation.addListener('focus', () => {
-      if (EstimateServices.isEmailSent) {
-        EstimateServices.toggleIsEmailSent(false);
-      }
-
       if (!this.state.isLoaded) {
         this.setState({isLoaded: true});
         return;

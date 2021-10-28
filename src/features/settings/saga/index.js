@@ -22,12 +22,13 @@ import General from './general';
 import Notes from './notes';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
+import {fetchCountries} from 'stores/common/saga';
 
 function* getCompanyInformation({payload: {onResult}}) {
   yield put(spinner({getCompanyInfoLoading: true}));
   try {
     const options = {path: `current-company`};
-
+    yield call(fetchCountries);
     const response = yield call([Request, 'get'], options);
     yield put(setCompanyInformation({company: response.data}));
 

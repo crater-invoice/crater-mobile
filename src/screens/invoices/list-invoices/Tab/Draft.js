@@ -2,8 +2,8 @@ import React, {useRef, useEffect} from 'react';
 import {View} from 'react-native';
 import {styles} from './styles';
 import {ListView, InfiniteScroll} from '@/components';
-import {INVOICES_TABS} from '@/stores/invoices/types';
-import {fetchInvoices} from '@/stores/invoices/actions';
+import {INVOICES_TABS} from 'stores/invoices/types';
+import {fetchInvoices} from 'stores/invoices/actions';
 
 type IProps = {
   reference: any,

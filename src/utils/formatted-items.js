@@ -2,20 +2,6 @@ import {isEmpty} from '@/constants';
 import {NOTES_FIELD_MODAL_TYPES} from '@/features/settings/constants';
 import {find} from 'lodash-es';
 
-export const formatCountries = countries => {
-  if (isEmpty(countries)) {
-    return [];
-  }
-  return countries.map(country => {
-    const {name, code} = country;
-    return {
-      title: name,
-      rightTitle: code,
-      fullItem: country
-    };
-  });
-};
-
 export const formatSelectPickerName = items => {
   if (isEmpty(items)) {
     return [];
