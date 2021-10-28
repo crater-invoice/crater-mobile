@@ -75,7 +75,6 @@ export default class Users extends Component<IProps, IStates> {
   };
 
   onResetFilter = () => {
-    console.log('called');
     const {search} = this.state;
     this.scrollViewReference?.getItems?.({
       queryString: {search},

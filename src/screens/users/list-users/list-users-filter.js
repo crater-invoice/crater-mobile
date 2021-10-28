@@ -1,5 +1,7 @@
 import t from 'locales/use-translation';
 import {fetchRoles} from '@/stores/roles/actions';
+import {PermissionService} from '@/services';
+import {routes} from '@/navigation';
 
 export const itemsFilterFields = ({props, setFormField}) => {
   const {roles = [], navigation, dispatch} = props;
@@ -50,7 +52,11 @@ export const itemsFilterFields = ({props, setFormField}) => {
     }
   ];
 
-  return {inputFields, selectFields};
+  if (PermissionService.isAllowToView(routes.ROLES)) {
+    return {inputFields, selectFields};
+  } else {
+    return {inputFields};
+  }
 };
 
 export default itemsFilterFields;
