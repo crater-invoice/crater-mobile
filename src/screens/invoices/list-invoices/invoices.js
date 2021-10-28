@@ -1,7 +1,6 @@
 import React from 'react';
 import {change} from 'redux-form';
 import {styles} from './invoices-styles';
-import {All, Draft, Due} from './Tab';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {AssetImage, MainLayout, Tabs} from '@/components';
@@ -11,16 +10,13 @@ import {InvoiceServices} from '@/stores/invoices/service';
 import {openRatingReviewModal} from '@/utils';
 import {PermissionService} from '@/services';
 import {IProps, IStates} from './invoices-type';
-import {invoicesFilterFields} from './filterFields';
+import {invoicesFilterFields} from './list-invoices-filters';
+import {Tab} from './invoices-tab';
+import {tabRefs} from 'stores/common/helpers';
 
 export default class Invoices extends React.Component<IProps, IStates> {
   constructor(props) {
     super(props);
-
-    this.dueReference = React.createRef();
-    this.draftReference = React.createRef();
-    this.allReference = React.createRef();
-
     this.state = {
       activeTab: INVOICES_TABS.DUE,
       search: ''
@@ -37,10 +33,8 @@ export default class Invoices extends React.Component<IProps, IStates> {
 
   onFocus = () => {
     const {navigation} = this.props;
+    this.setActiveTab();
     this.focusListener = navigation.addListener('focus', () => {
-      const {ref} = this.getActiveTab();
-      ref?.getItems?.();
-
       if (InvoiceServices.isEmailSent) {
         InvoiceServices.toggleIsEmailSent(false);
       }
@@ -52,8 +46,20 @@ export default class Invoices extends React.Component<IProps, IStates> {
     });
   };
 
-  setActiveTab = activeTab => {
+  setActiveTab = (activeTab = INVOICES_TABS.DUE) => {
     this.setState({activeTab});
+    const {search} = this.state;
+    const {formValues} = this.props;
+    const queryString = {
+      status: activeTab !== 'ALL' ? activeTab : '',
+      search,
+      ...formValues
+    };
+
+    tabRefs?.getItems?.({
+      queryString,
+      showLoader: true
+    });
   };
 
   setFormField = (field, value) => {
@@ -62,7 +68,6 @@ export default class Invoices extends React.Component<IProps, IStates> {
 
   onSelect = invoice => {
     const {navigation} = this.props;
-
     navigation.navigate(routes.CREATE_INVOICE, {
       id: invoice?.id,
       type: 'UPDATE'
@@ -70,68 +75,23 @@ export default class Invoices extends React.Component<IProps, IStates> {
   };
 
   onSearch = search => {
-    const {status, ref} = this.getActiveTab();
-
+    const {activeTab} = this.state;
     this.setState({search});
-
-    ref?.getItems?.({
-      queryString: {status, search},
+    tabRefs?.getItems?.({
+      queryString: {status: activeTab !== 'ALL' ? activeTab : '', search},
       showLoader: true
     });
   };
 
-  getActiveTab = (activeTab = this.state.activeTab) => {
-    if (activeTab == INVOICES_TABS.DUE) {
-      return {
-        status: INVOICES_TABS.DUE,
-        ref: this.dueReference
-      };
-    }
-
-    if (activeTab == INVOICES_TABS.DRAFT) {
-      return {
-        status: INVOICES_TABS.DRAFT,
-        ref: this.draftReference
-      };
-    }
-
-    return {
-      status: '',
-      ref: this.allReference
-    };
-  };
-
   onResetFilter = () => {
-    const {search} = this.state;
-    const {status, ref} = this.getActiveTab();
+    const {search, activeTab} = this.state;
 
-    ref?.getItems?.({
-      queryString: {status, search},
+    tabRefs?.getItems?.({
+      queryString: {status: activeTab !== 'ALL' ? activeTab : '', search},
       resetQueryString: true,
       resetParams: true,
       showLoader: true
     });
-  };
-
-  changeTabBasedOnFilterStatusSelection = status => {
-    if (status === INVOICES_TABS.DUE) {
-      return {
-        activeTab: INVOICES_TABS.DUE,
-        ref: this.dueReference
-      };
-    }
-
-    if (status === INVOICES_TABS.DRAFT) {
-      return {
-        activeTab: INVOICES_TABS.DRAFT,
-        ref: this.draftReference
-      };
-    }
-
-    return {
-      activeTab: INVOICES_TABS.ALL,
-      ref: this.allReference
-    };
   };
 
   onSubmitFilter = ({
@@ -142,16 +102,10 @@ export default class Invoices extends React.Component<IProps, IStates> {
     customer_id = ''
   }) => {
     const {search} = this.state;
-
-    const {activeTab, ref} = this.changeTabBasedOnFilterStatusSelection(
-      filterStatus
-    );
-
-    this.setState({activeTab});
-
-    ref?.getItems?.({
+    this.setState({activeTab: filterStatus});
+    tabRefs?.getItems?.({
       queryString: {
-        status: filterStatus,
+        status: filterStatus !== 'ALL' ? filterStatus : '',
         search,
         customer_id,
         invoice_number,
@@ -210,7 +164,6 @@ export default class Invoices extends React.Component<IProps, IStates> {
 
   render() {
     const {navigation, handleSubmit, theme} = this.props;
-
     const {activeTab} = this.state;
 
     const headerProps = {
@@ -229,32 +182,17 @@ export default class Invoices extends React.Component<IProps, IStates> {
       {
         Title: INVOICES_TABS.DUE,
         tabName: TAB_NAME.due,
-        render: (
-          <Due
-            parentProps={this}
-            reference={ref => (this.dueReference = ref)}
-          />
-        )
+        render: <Tab parentProps={this} />
       },
       {
         Title: INVOICES_TABS.DRAFT,
         tabName: TAB_NAME.draft,
-        render: (
-          <Draft
-            parentProps={this}
-            reference={ref => (this.draftReference = ref)}
-          />
-        )
+        render: <Tab parentProps={this} />
       },
       {
         Title: INVOICES_TABS.ALL,
         tabName: TAB_NAME.all,
-        render: (
-          <All
-            parentProps={this}
-            reference={ref => (this.allReference = ref)}
-          />
-        )
+        render: <Tab parentProps={this} />
       }
     ];
 
