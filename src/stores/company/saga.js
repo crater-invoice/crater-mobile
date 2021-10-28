@@ -3,13 +3,12 @@ import * as Updates from 'expo-updates';
 import * as types from './types';
 import * as req from './service';
 import {CompanyServices} from './service';
-import {spinner} from './actions';
-import {isEmpty} from '@/constants';
-import {SET_SETTINGS} from '@/constants';
+import {setSelectedCompany, spinner} from './actions';
 import t from 'locales/use-translation';
 import {setI18nManagerValue, showNotification, handleError} from '@/utils';
 import {fetchCountries} from '../common/saga';
 import {navigation} from '@/navigation';
+import {fetchBootstrap} from '../common/actions';
 
 /**
  * Fetch companies saga
@@ -97,6 +96,7 @@ function* fetchPreferences({payload}) {
 
     yield put(spinner('isSaving', false));
     payload?.onSuccess?.(response);
+    yield put(fetchBootstrap());
   } catch (e) {}
 }
 
@@ -113,21 +113,7 @@ function* updatePreferences({payload}) {
     const body = {settings: params};
     yield call(req.updatePreferences, body);
 
-    // let selectedCurrency = null;
-    // if (params?.currency && !isEmpty(currencies)) {
-    //   selectedCurrency = currencies.find(
-    //     currency => currency?.fullItem?.id === Number(params?.currency)
-    //   );
-    //   selectedCurrency = selectedCurrency?.fullItem;
-    // }
-    // yield put({
-    //   type: SET_SETTINGS,
-    //   payload: {settings: {...params, selectedCurrency}}
-    // });
-    yield put({
-      type: SET_SETTINGS,
-      payload: {settings: {...params}}
-    });
+    yield put(fetchBootstrap());
 
     onResult?.();
 
@@ -154,10 +140,17 @@ function* updatePreferences({payload}) {
  */
 function* fetchCompanyInitialDetails({payload}) {
   try {
+    const {isCreateScreen, onSuccess} = payload;
     yield call(fetchCurrencies);
     yield call(fetchCountries);
+    let data = null;
+    if (!isCreateScreen) {
+      const response = yield call(req.fetchCompany);
+      data = response.data;
+      yield put(setSelectedCompany(data));
+    }
     yield put(spinner('isSaving', false));
-    payload?.();
+    onSuccess?.(data);
   } catch (e) {}
 }
 
@@ -182,11 +175,34 @@ function* addCompany({payload}) {
   }
 }
 
+/**
+ * Update company saga
+ * @returns {IterableIterator<*>}
+ */
+function* updateCompany({payload}) {
+  try {
+    yield put(spinner('isSaving', true));
+    const {params, logo} = payload;
+    const {data} = yield call(req.updateCompany, params);
+    yield put(setSelectedCompany(data));
+    if (logo) {
+      yield call(req.uploadCompanyLogo, logo, data?.id);
+    }
+    navigation.goBack();
+    showNotification({message: t('notification.company_updated')});
+  } catch (e) {
+    handleError(e);
+  } finally {
+    yield put(spinner('isSaving', false));
+  }
+}
+
 export default function* companySaga() {
   yield takeEvery(types.FETCH_PREFERENCES, fetchPreferences);
   yield takeEvery(types.UPDATE_PREFERENCES, updatePreferences);
   yield takeEvery(types.FETCH_COMPANIES, fetchCompanies);
   yield takeLatest(types.ADD_COMPANY, addCompany);
+  yield takeLatest(types.UPDATE_COMPANY, updateCompany);
   yield takeEvery(
     types.FETCH_COMPANY_INITIAL_DETAILS,
     fetchCompanyInitialDetails

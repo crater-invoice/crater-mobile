@@ -41,7 +41,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
   addNewCompany = async () => {
     await this.setState({visible: false});
     setTimeout(() => {
-      navigateTo({route: routes.CREATE_COMPANY});
+      navigateTo({route: routes.CREATE_COMPANY, params: {type: 'ADD'}});
     }, 200);
   };
 
@@ -107,7 +107,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
 
     const COMPANIES_LIST = com => {
       const {id, name} = com;
-      const isSelected = id === 1;
+      const isSelected = id === selectedCompany?.id;
       return (
         <CtDecorativeButton
           key={id}

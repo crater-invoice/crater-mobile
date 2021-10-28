@@ -1,17 +1,11 @@
 import {formatTaxTypes} from '@/utils';
 import * as types from './types';
-import {
-  SET_SETTINGS,
-  DATE_FORMAT,
-  SET_MAIL_CONFIGURATION,
-  SWITCH_THEME
-} from '@/constants';
+import {DATE_FORMAT, SET_MAIL_CONFIGURATION, SWITCH_THEME} from '@/constants';
 import {
   SET_TAX,
   SET_EDIT_TAX,
   SET_REMOVE_TAX,
   SET_TAXES,
-  SET_COMPANY_INFO,
   SET_BIOMETRY_AUTH_TYPE
 } from '@/features/settings/constants';
 import {lightTheme} from '@/theme';
@@ -52,9 +46,6 @@ export default function commonReducer(state = initialState, action) {
     case types.FETCH_TAX_AND_DISCOUNT_PER_ITEM_SUCCESS:
       const {tax_per_item, discount_per_item} = payload;
       return {...state, tax_per_item, discount_per_item};
-
-    case SET_COMPANY_INFO:
-      return {...state, company: payload.company};
 
     case types.FETCH_BOOTSTRAP_SUCCESS:
       const {
@@ -110,9 +101,6 @@ export default function commonReducer(state = initialState, action) {
       );
 
       return {...state, taxTypes: remainTaxes};
-
-    case SET_SETTINGS:
-      return {...state};
 
     case SET_MAIL_CONFIGURATION:
       return {...state, mailDriver: payload.mailDriver};

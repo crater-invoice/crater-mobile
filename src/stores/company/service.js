@@ -10,12 +10,29 @@ export const fetchCompanies = () => {
 };
 
 /**
+ * Fetch company
+ * @returns {*}
+ */
+export const fetchCompany = () => {
+  return Request.get({path: `current-company`});
+};
+
+/**
  * Add company
  * @param body : params
  * @returns {*}
  */
 export const addCompany = body => {
   return Request.post({path: `companies`, body});
+};
+
+/**
+ * Update company
+ * @param body : params
+ * @returns {*}
+ */
+export const updateCompany = body => {
+  return Request.put({path: `company`, body});
 };
 
 /**

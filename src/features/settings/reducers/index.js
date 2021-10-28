@@ -18,9 +18,6 @@ const initialState = {
     // account
     getAccountInfoLoading: false,
     editAccountInfoLoading: false,
-    // company
-    getCompanyInfoLoading: false,
-    editCompanyInfoLoading: false,
     // item
     getSettingItemLoading: false,
     setSettingItemLoading: false,

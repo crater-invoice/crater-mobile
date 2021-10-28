@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
-import {Field, change} from 'redux-form';
+import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-company-type';
 import {secondaryHeader} from 'utils/header';
-import {fetchCompanyInitialDetails, addCompany} from 'stores/company/actions';
 import {CountrySelectModal, CurrencySelectModal} from '@/select-modal';
 import {CREATE_COMPANY_FORM} from 'stores/company/types';
+import {
+  fetchCompanyInitialDetails,
+  addCompany,
+  updateCompany
+} from 'stores/company/actions';
 import {
   DefaultLayout,
   InputField,
@@ -13,6 +17,7 @@ import {
   BaseButton,
   FilePicker
 } from '@/components';
+import {keyboardType} from '@/constants';
 
 export default class CreateCompany extends Component<IProps, IStates> {
   constructor(props) {
@@ -20,6 +25,7 @@ export default class CreateCompany extends Component<IProps, IStates> {
     this.state = {
       isFetchingInitialData: true,
       logo: null,
+      uploadedLogo: null,
       fileLoading: false
     };
   }
@@ -29,17 +35,32 @@ export default class CreateCompany extends Component<IProps, IStates> {
   }
 
   loadData = () => {
-    const {dispatch} = this.props;
+    const {dispatch, isCreateScreen} = this.props;
 
     dispatch(
-      fetchCompanyInitialDetails(() =>
-        this.setState({isFetchingInitialData: false})
-      )
+      fetchCompanyInitialDetails(isCreateScreen, data => {
+        if (data) {
+          this.setInitialData(data);
+          return;
+        }
+        this.setState({isFetchingInitialData: false});
+      })
     );
   };
 
+  setInitialData = data => {
+    const {dispatch, currency} = this.props;
+    const company = {
+      ...data?.address,
+      name: data.name,
+      currency: currency.id.toString()
+    };
+    dispatch(initialize(CREATE_COMPANY_FORM, company));
+    this.setState({uploadedLogo: data?.logo, isFetchingInitialData: false});
+  };
+
   onSave = values => {
-    const {dispatch} = this.props;
+    const {dispatch, isCreateScreen} = this.props;
     const {isFetchingInitialData, fileLoading, logo} = this.state;
 
     if (this.props.isSaving || isFetchingInitialData) {
@@ -50,7 +71,9 @@ export default class CreateCompany extends Component<IProps, IStates> {
       return;
     }
 
-    dispatch(addCompany(values, logo));
+    isCreateScreen
+      ? dispatch(addCompany(values, logo))
+      : dispatch(updateCompany(values, logo));
   };
 
   setFormField = (field, value) => {
@@ -61,17 +84,19 @@ export default class CreateCompany extends Component<IProps, IStates> {
     const {
       isSaving,
       handleSubmit,
-      initialValues,
       theme,
       countries,
-      currencies
+      currencies,
+      isCreateScreen
     } = this.props;
-    const {isFetchingInitialData, fileLoading} = this.state;
+    const {isFetchingInitialData, uploadedLogo, fileLoading} = this.state;
+    const companyRefs = {};
     const headerProps = secondaryHeader({
       ...this.props,
       rightIconPress: handleSubmit(this.onSave),
       isAllowToEdit: true
     });
+
     const bottomAction = (
       <BaseButtonGroup>
         <BaseButton
@@ -95,13 +120,11 @@ export default class CreateCompany extends Component<IProps, IStates> {
           component={FilePicker}
           label={t('settings.company.logo')}
           onChangeCallback={logo => this.setState({logo})}
-          uploadedFileUrl={initialValues?.logo}
+          uploadedFileUrl={uploadedLogo}
           fileLoading={fileLoading => this.setState({fileLoading})}
-          containerStyle={{
-            marginBottom: 10,
-            marginTop: 4
-          }}
+          containerStyle={{marginBottom: 10, marginTop: 4}}
         />
+
         <Field
           name="name"
           component={InputField}
@@ -127,7 +150,62 @@ export default class CreateCompany extends Component<IProps, IStates> {
           placeholder=""
           isRequired
           theme={theme}
+          disabled={!isCreateScreen}
         />
+
+        {!isCreateScreen && (
+          <>
+            <Field
+              name={'phone'}
+              component={InputField}
+              hint={t('settings.company.phone')}
+              keyboardType={keyboardType.PHONE}
+              refLinkFn={ref => (companyRefs.phone = ref)}
+              onSubmitEditing={() => companyRefs.state.focus()}
+            />
+
+            <Field
+              name={'state'}
+              component={InputField}
+              hint={t('customers.address.state')}
+              refLinkFn={ref => (companyRefs.state = ref)}
+              onSubmitEditing={() => companyRefs.city.focus()}
+            />
+
+            <Field
+              name={'city'}
+              component={InputField}
+              hint={t('customers.address.city')}
+              onSubmitEditing={() => companyRefs.street1.focus()}
+              refLinkFn={ref => (companyRefs.city = ref)}
+            />
+
+            <Field
+              name={'address_street_1'}
+              component={InputField}
+              hint={t('settings.company.address')}
+              height={60}
+              refLinkFn={ref => (companyRefs.street1 = ref)}
+              placeholder={t('settings.company.street1')}
+              inputProps={{multiline: true}}
+            />
+
+            <Field
+              name={'address_street_2'}
+              component={InputField}
+              height={60}
+              containerStyle={styles.addressStreetField}
+              placeholder={t('settings.company.street2')}
+              inputProps={{multiline: true}}
+            />
+
+            <Field
+              name={'zip'}
+              component={InputField}
+              hint={t('settings.company.zipcode')}
+            />
+          </>
+        )}
       </DefaultLayout>
     );
   }

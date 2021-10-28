@@ -39,6 +39,19 @@ export function addCompany(params, logo) {
 }
 
 /**
+ * Update company
+ * @param params
+ * @param logo
+ * @returns {{type: string, payload: *}}
+ */
+export function updateCompany(params, logo) {
+  return {
+    type: types.UPDATE_COMPANY,
+    payload: {params, logo}
+  };
+}
+
+/**
  * Fetch preferences
  * @param onSuccess
  * @returns {{type: string, payload: *}}
@@ -62,12 +75,13 @@ export const updatePreferences = payload => ({
 
 /**
  * Fetch company initial details
+ * @param isCreateScreen
  * @param onSuccess
  * @returns {{type: string, payload: *}}
  */
-export const fetchCompanyInitialDetails = payload => ({
+export const fetchCompanyInitialDetails = (isCreateScreen, onSuccess) => ({
   type: types.FETCH_COMPANY_INITIAL_DETAILS,
-  payload
+  payload: {isCreateScreen, onSuccess}
 });
 
 /**

@@ -6,7 +6,6 @@ import t from 'locales/use-translation';
 // Forms
 // -----------------------------------------
 export const EDIT_ACCOUNT = 'accountForm/EDIT_ACCOUNT';
-export const EDIT_COMPANY = 'accountForm/EDIT_COMPANY';
 export const NOTIFICATION = 'notification/NOTIFICATION';
 
 export const SEARCH_TAX = 'taxForm/SEARCH_TAX';
@@ -33,11 +32,6 @@ export const GET_SETTING_INFO = 'GET_SETTING_INFO';
 // Setting
 export const GET_SETTING_ITEM = 'settings/GET_SETTING_ITEM';
 export const EDIT_SETTING_ITEM = 'settings/EDIT_SETTING_ITEM';
-
-// Company
-export const GET_COMPANY_INFO = 'accountForm/GET_COMPANY_INFO';
-export const SET_COMPANY_INFO = 'accountForm/SET_COMPANY_INFO';
-export const EDIT_COMPANY_INFO = 'accountForm/EDIT_COMPANY_INFO';
 
 // Account
 export const GET_ACCOUNT_INFO = 'accountForm/GET_ACCOUNT_INFO';
@@ -200,7 +194,7 @@ export const SETTINGS_MENU = () => {
       leftIcon: 'building',
       leftIconSolid: true,
       iconSize: 17,
-      fullItem: {route: routes.COMPANY_INFO},
+      fullItem: {route: routes.CREATE_COMPANY},
       show: PermissionService.isSuperAdmin()
     },
     {

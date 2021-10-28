@@ -66,8 +66,8 @@ const secondaryHeaderTitle = params => {
     case routes.CREATE_COMPANY:
       return getTitle(
         'header.addCompany',
-        'header.addCompany',
-        'header.addCompany'
+        'header.setting.company',
+        'header.setting.company'
       );
 
     default:

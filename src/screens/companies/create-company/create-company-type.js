@@ -63,6 +63,11 @@ export interface IProps {
    * An array of objects with data for each currency.
    */
   currencies: Array<any>;
+
+  /**
+   * It is a create screen view.
+   */
+  isCreateScreen: boolean;
 }
 
 export interface IStates {
@@ -80,4 +85,9 @@ export interface IStates {
    * Url of company logo.
    */
   logo: string | null;
+
+  /**
+   * Url of uploaded company logo.
+   */
+  uploadedLogo: string | null;
 }

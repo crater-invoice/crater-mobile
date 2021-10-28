@@ -1,25 +1,7 @@
-import {SET_SETTINGS} from '@/constants';
 import * as TYPES from '../constants';
 
 export const settingsTriggerSpinner = payload => ({
   type: TYPES.SETTINGS_TRIGGER_SPINNER,
-  payload
-});
-
-// company
-// -------------------------------------------------
-export const getCompanyInformation = payload => ({
-  type: TYPES.GET_COMPANY_INFO,
-  payload
-});
-
-export const setCompanyInformation = payload => ({
-  type: TYPES.SET_COMPANY_INFO,
-  payload
-});
-
-export const editCompanyInformation = payload => ({
-  type: TYPES.EDIT_COMPANY_INFO,
   payload
 });
 
@@ -49,11 +31,6 @@ export const getSettingItem = payload => ({
 
 export const editSettingItem = payload => ({
   type: TYPES.EDIT_SETTING_ITEM,
-  payload
-});
-
-export const setSettings = payload => ({
-  type: SET_SETTINGS,
   payload
 });
 
