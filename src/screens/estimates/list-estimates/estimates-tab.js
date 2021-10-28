@@ -1,43 +1,31 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef} from 'react';
 import {View} from 'react-native';
-import {styles} from './styles';
 import {ListView, InfiniteScroll} from '@/components';
 import {fetchEstimates} from 'stores/estimates/actions';
+import {setTabRef} from 'stores/common/helpers';
 
 type IProps = {
-  reference: any,
   parentProps: any
 };
 
-export const All = ({reference, parentProps}: IProps) => {
+export const Tab = ({parentProps}: IProps) => {
   let scrollViewReference = useRef(null);
-  const {props, state, onSelect, getEmptyContentProps} = parentProps;
+  const {
+    props = {},
+    state: {activeTab},
+    getEmptyContentProps,
+    onSelect
+  } = parentProps;
   const {estimates = [], dispatch, route} = props;
-  const {search} = state;
-
-  useEffect(() => {
-    const values = parentProps?.props?.formValues;
-
-    const queryString = {
-      status: values?.filterStatus ?? '',
-      search,
-      ...values
-    };
-
-    scrollViewReference?.getItems?.({queryString});
-    return () => {};
-  }, []);
-
   const isEmpty = estimates && estimates.length <= 0;
-
   return (
-    <View style={styles.content}>
+    <View style={{flex: 1}}>
       <InfiniteScroll
         getItems={q => dispatch(fetchEstimates(q))}
         getItemsInMount={false}
         reference={ref => {
           scrollViewReference = ref;
-          reference?.(ref);
+          setTabRef?.(ref);
         }}
       >
         <ListView
@@ -45,7 +33,7 @@ export const All = ({reference, parentProps}: IProps) => {
           onPress={onSelect}
           isEmpty={isEmpty}
           bottomDivider
-          emptyContentProps={getEmptyContentProps()}
+          emptyContentProps={getEmptyContentProps(activeTab)}
           route={route}
           isAnimated
         />

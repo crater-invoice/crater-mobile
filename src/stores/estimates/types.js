@@ -50,7 +50,7 @@ export const ESTIMATES_TABS = {
 
 export const TAB_NAME = {
   DRAFT: t(`estimates.tabs.draft`),
-  SENT: t(`estimates.tabs.draft`),
+  SENT: t(`estimates.tabs.sent`),
   ALL: t(`estimates.tabs.all`)
 };
 
