@@ -62,6 +62,9 @@ export class Invoices extends React.Component<IProps> {
 
   setActiveTab = activeTab => {
     this.setState({activeTab});
+    tabReference?.getItems?.({
+      queryString
+    });
   };
 
   setFormField = (field, value) => {

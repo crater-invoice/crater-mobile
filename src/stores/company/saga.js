@@ -1,40 +1,24 @@
-import {call, put, takeEvery, select} from 'redux-saga/effects';
+import {call, put, takeEvery, takeLatest, select} from 'redux-saga/effects';
 import * as Updates from 'expo-updates';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
-import {hasTextLength, isEmpty} from '@/constants';
+import {isEmpty} from '@/constants';
 import {SET_SETTINGS} from '@/constants';
 import t from 'locales/use-translation';
-import {
-  setI18nManagerValue,
-  showNotification,
-  handleError,
-  internalSearch
-} from '@/utils';
+import {setI18nManagerValue, showNotification, handleError} from '@/utils';
+import {fetchCountries} from '../common/saga';
+import {navigation} from '@/navigation';
 
 /**
  * fetch companies saga
  * @returns {IterableIterator<*>}
  */
-function* fetchCompanies({payload}) {
-  const {onSuccess, onFail, queryString} = payload;
+function* fetchCompanies(payload) {
   try {
-    const response = yield call(req.fetchCompanies);
-    let companies = response?.data ?? [];
-    if (hasTextLength(queryString?.search)) {
-      const {search} = queryString;
-      companies = internalSearch({
-        items: companies,
-        search,
-        searchFields: ['name']
-      });
-    }
-    yield put({type: types.FETCH_COMPANIES_SUCCESS, payload: companies});
-    onSuccess?.(response);
-  } catch (e) {
-    onFail?.();
-  }
+    const {data} = yield call(req.fetchCompanies);
+    yield put({type: types.FETCH_COMPANIES_SUCCESS, payload: data});
+  } catch (e) {}
 }
 
 /**
@@ -167,8 +151,47 @@ function* updatePreferences({payload}) {
   }
 }
 
+/**
+ * Fetch company initial details saga
+ * @returns {IterableIterator<*>}
+ */
+function* fetchCompanyInitialDetails({payload}) {
+  try {
+    const store = yield select();
+    yield isEmpty(store?.company?.currencies) && call(fetchCurrencies);
+    yield isEmpty(store.common?.countries) && call(fetchCountries);
+    payload?.();
+  } catch (e) {}
+}
+
+/**
+ * Add company saga
+ * @returns {IterableIterator<*>}
+ */
+function* addCompany({payload}) {
+  try {
+    yield put(spinner('isSaving', true));
+    const {params, logo} = payload;
+    const {data} = yield call(req.addCompany, params);
+    if (logo) {
+      yield call(req.uploadCompanyLogo, logo, data?.id);
+    }
+    navigation.goBack();
+    showNotification({message: t('notification.company_created')});
+  } catch (e) {
+    handleError(e);
+  } finally {
+    yield put(spinner('isSaving', false));
+  }
+}
+
 export default function* companySaga() {
   yield takeEvery(types.FETCH_PREFERENCES, fetchPreferences);
   yield takeEvery(types.UPDATE_PREFERENCES, updatePreferences);
   yield takeEvery(types.FETCH_COMPANIES, fetchCompanies);
+  yield takeLatest(types.ADD_COMPANY, addCompany);
+  yield takeEvery(
+    types.FETCH_COMPANY_INITIAL_DETAILS,
+    fetchCompanyInitialDetails
+  );
 }

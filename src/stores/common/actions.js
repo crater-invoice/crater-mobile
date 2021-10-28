@@ -57,3 +57,15 @@ export function setLastOTACheckDate(payload = {}) {
     payload
   };
 }
+
+/**
+ * Fetch countries
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export function fetchCountries() {
+  return {
+    type: types.FETCH_COUNTRIES,
+    payload: {}
+  };
+}

@@ -1,27 +1,27 @@
 import React, {Component} from 'react';
-import {Field, initialize} from 'redux-form';
+import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-company-type';
-import {alertMe} from '@/constants';
-import {CREATE_CATEGORY_FORM} from 'stores/categories/types';
 import {secondaryHeader} from 'utils/header';
+import {fetchCompanyInitialDetails, addCompany} from '@/stores/company/actions';
+import {CountrySelectModal, CurrencySelectModal} from '@/select-modal';
+import {CREATE_COMPANY_FORM} from '@/stores/company/types';
 import {
   DefaultLayout,
   InputField,
   BaseButtonGroup,
-  BaseButton
+  BaseButton,
+  FilePicker
 } from '@/components';
-import {
-  addCategory,
-  updateCategory,
-  removeCategory,
-  fetchSingleCategory
-} from 'stores/categories/actions';
 
-export default class CreateCategory extends Component<IProps, IStates> {
+export default class CreateCompany extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
-    this.state = {isFetchingInitialData: true};
+    this.state = {
+      isFetchingInitialData: true,
+      logo: null,
+      fileLoading: false
+    };
   }
 
   componentDidMount() {
@@ -29,94 +29,57 @@ export default class CreateCategory extends Component<IProps, IStates> {
   }
 
   loadData = () => {
-    const {isEditScreen, id, dispatch} = this.props;
-    if (isEditScreen) {
-      dispatch(
-        fetchSingleCategory(id, category => this.setInitialData(category))
-      );
-      return;
-    }
-
-    this.setState({isFetchingInitialData: false});
-  };
-
-  setInitialData = ({name, description}) => {
     const {dispatch} = this.props;
-    const data = {name, description};
-    dispatch(initialize(CREATE_CATEGORY_FORM, data));
-    this.setState({isFetchingInitialData: false});
+
+    dispatch(
+      fetchCompanyInitialDetails(() =>
+        this.setState({isFetchingInitialData: false})
+      )
+    );
   };
 
   onSave = values => {
-    const {id, isCreateScreen, navigation, dispatch, route} = this.props;
-    const {isFetchingInitialData} = this.state;
+    const {dispatch} = this.props;
+    const {isFetchingInitialData, fileLoading, logo} = this.state;
 
-    if (this.props.isSaving || this.props.isDeleting || isFetchingInitialData) {
+    if (this.props.isSaving || isFetchingInitialData) {
       return;
     }
 
-    const onSuccess = res => {
-      const onSelect = route?.params?.onSelect;
-      onSelect?.(res);
-      navigation.goBack(null);
-    };
-    const params = {id, params: values, onSuccess};
-
-    isCreateScreen
-      ? dispatch(addCategory(params))
-      : dispatch(updateCategory(params));
-  };
-
-  removeCategory = () => {
-    const {id, dispatch} = this.props;
-
-    function confirmationAlert(remove) {
-      alertMe({
-        title: t('alert.title'),
-        desc: t('categories.alertDescription'),
-        showCancel: true,
-        okPress: remove
-      });
+    if (fileLoading) {
+      return;
     }
 
-    confirmationAlert(() => dispatch(removeCategory(id)));
+    dispatch(addCompany(values, logo));
+  };
+
+  setFormField = (field, value) => {
+    this.props.dispatch(change(CREATE_COMPANY_FORM, field, value));
   };
 
   render() {
     const {
-      isEditScreen,
-      isAllowToEdit,
-      isAllowToDelete,
       isSaving,
-      isDeleting,
-      handleSubmit
+      handleSubmit,
+      initialValues,
+      theme,
+      countries,
+      currencies
     } = this.props;
-    const categoryRefs: any = {};
-    const {isFetchingInitialData} = this.state;
-    const disabled = !isAllowToEdit;
+    const {isFetchingInitialData, fileLoading} = this.state;
     const headerProps = secondaryHeader({
       ...this.props,
-      rightIconPress: handleSubmit(this.onSave)
+      rightIconPress: handleSubmit(this.onSave),
+      isAllowToEdit: true
     });
-
     const bottomAction = (
       <BaseButtonGroup>
         <BaseButton
-          show={isAllowToEdit}
           loading={isSaving}
-          disabled={isFetchingInitialData || isDeleting}
+          disabled={isFetchingInitialData || fileLoading}
           onPress={handleSubmit(this.onSave)}
         >
           {t('button.save')}
-        </BaseButton>
-        <BaseButton
-          type="danger"
-          show={isEditScreen && isAllowToDelete}
-          loading={isDeleting}
-          disabled={isFetchingInitialData || isSaving}
-          onPress={this.removeCategory}
-        >
-          {t('button.remove')}
         </BaseButton>
       </BaseButtonGroup>
     );
@@ -128,22 +91,42 @@ export default class CreateCategory extends Component<IProps, IStates> {
         loadingProps={{is: isFetchingInitialData}}
       >
         <Field
+          name={'logo'}
+          component={FilePicker}
+          label={t('settings.company.logo')}
+          onChangeCallback={logo => this.setState({logo})}
+          uploadedFileUrl={initialValues?.logo}
+          fileLoading={fileLoading => this.setState({fileLoading})}
+          containerStyle={{
+            marginBottom: 10,
+            marginTop: 4
+          }}
+        />
+        <Field
           name="name"
           component={InputField}
           isRequired
-          hint={t('categories.title')}
-          onSubmitEditing={() => categoryRefs.description.focus()}
-          disabled={disabled}
+          hint={t('settings.company.name')}
         />
 
         <Field
-          name="description"
-          component={InputField}
-          hint={t('categories.description')}
-          inputProps={{multiline: true}}
-          height={100}
-          refLinkFn={ref => (categoryRefs.description = ref)}
-          disabled={disabled}
+          name={'country_id'}
+          countries={countries}
+          component={CountrySelectModal}
+          onSelect={({id}) => this.setFormField('country_id', id)}
+          isRequired
+          theme={theme}
+        />
+
+        <Field
+          name="currency"
+          currencies={currencies}
+          component={CurrencySelectModal}
+          label={t('settings.preferences.currency')}
+          onSelect={val => this.setFormField('currency', val.id)}
+          placeholder=""
+          isRequired
+          theme={theme}
         />
       </DefaultLayout>
     );

@@ -7,8 +7,7 @@ const initialState = {
   fiscalYears: [],
   currencies: [],
   companies: [],
-  isSaving: false,
-  isDeleting: false
+  isSaving: false
 };
 
 export default function companyReducer(state = initialState, action) {
@@ -35,26 +34,6 @@ export default function companyReducer(state = initialState, action) {
 
     case types.FETCH_COMPANIES_SUCCESS:
       return {...state, companies: payload};
-
-    case types.ADD_COMPANY_SUCCESS:
-      return {
-        ...state,
-        companies: [...[payload], ...state.companies]
-      };
-
-    case types.UPDATE_COMPANY_SUCCESS:
-      return {
-        ...state,
-        companies: state.companies.map(company =>
-          company.id === payload.id ? payload : company
-        )
-      };
-
-    case types.REMOVE_COMPANY_SUCCESS:
-      return {
-        ...state,
-        companies: state.companies.filter(({id}) => id !== payload)
-      };
 
     default:
       return state;

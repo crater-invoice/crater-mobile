@@ -227,14 +227,6 @@ export const SETTINGS_MENU = () => {
         PermissionService.isAllowToView(routes.GLOBAL_ITEMS)
     },
     {
-      title: t('header.companies'),
-      leftIcon: 'building',
-      leftIconSolid: true,
-      iconSize: 17,
-      fullItem: {route: routes.COMPANIES},
-      show: PermissionService.isSuperAdmin()
-    },
-    {
       title: t('settings.notification'),
       leftIcon: 'bell',
       leftIconSolid: true,

@@ -34,26 +34,6 @@ export interface IProps {
   id: string;
 
   /**
-   * It is a create screen view.
-   */
-  isCreateScreen: boolean;
-
-  /**
-   * It is a update screen view.
-   */
-  isEditScreen: boolean;
-
-  /**
-   * If true the user will be able to update the current category data.
-   */
-  isAllowToEdit: boolean;
-
-  /**
-   * If true the user will be able to remove the current category.
-   */
-  isAllowToDelete: boolean;
-
-  /**
    * An active theme object.
    * @see ITheme
    */
@@ -68,6 +48,21 @@ export interface IProps {
    * Current navigation object values.
    */
   route: any;
+
+  /**
+   * Initialize the form data.
+   */
+  initialValues: any;
+
+  /**
+   * An array of objects with data for each country.
+   */
+  countries: Array<any>;
+
+  /**
+   * An array of objects with data for each currency.
+   */
+  currencies: Array<any>;
 }
 
 export interface IStates {
@@ -75,4 +70,14 @@ export interface IStates {
    * The loading indicator for the screen, displayed until the screen is ready to be displayed.
    */
   isFetchingInitialData: boolean;
+
+  /**
+   * The loading indicator for the button, displayed until the lgo is ready to be displayed.
+   */
+  fileLoading: boolean;
+
+  /**
+   * Url of company logo.
+   */
+  logo: string | null;
 }

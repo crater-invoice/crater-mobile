@@ -112,10 +112,22 @@ export function* fetchBootstrap(payloadData) {
   } catch (e) {}
 }
 
+/**
+ * Fetch countries saga
+ * @returns {IterableIterator<*>}
+ */
+export function* fetchCountries() {
+  try {
+    const {data} = yield call(req.fetchCountries);
+    yield put({type: types.FETCH_COUNTRIES_SUCCESS, payload: data});
+  } catch (e) {}
+}
+
 export default function* commonSaga() {
   yield takeEvery(types.SAVE_ENDPOINT_URL, saveEndpointURL);
   yield takeEvery(types.CHECK_OTA_UPDATE, checkOTAUpdate);
   yield takeEvery(types.FETCH_BOOTSTRAP, fetchBootstrap);
+  yield takeEvery(types.FETCH_COUNTRIES, fetchCountries);
   yield takeEvery(
     types.FETCH_TAX_AND_DISCOUNT_PER_ITEM,
     fetchTaxAndDiscountPerItem

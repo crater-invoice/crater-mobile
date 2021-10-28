@@ -63,6 +63,13 @@ const secondaryHeaderTitle = params => {
         'header.viewCategory'
       );
 
+    case routes.CREATE_COMPANY:
+      return getTitle(
+        'header.addCompany',
+        'header.addCompany',
+        'header.addCompany'
+      );
+
     default:
       return '';
   }

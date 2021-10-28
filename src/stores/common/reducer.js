@@ -15,11 +15,10 @@ import {
   SET_GLOBAL_CURRENCIES,
   SET_BIOMETRY_AUTH_TYPE
 } from '@/features/settings/constants';
-import {darkTheme} from '@/theme';
+import {lightTheme} from '@/theme';
 
 const initialState = {
   user: null,
-  customers: [],
   currencies: [],
   locale: 'en',
   timeZone: null,
@@ -38,8 +37,9 @@ const initialState = {
   fiscalYear: '2-1',
   biometryAuthType: null,
   lastOTACheckDate: null,
-  theme: darkTheme,
-  abilities: []
+  theme: lightTheme,
+  abilities: [],
+  countries: []
 };
 
 export default function commonReducer(state = initialState, action) {
@@ -144,6 +144,9 @@ export default function commonReducer(state = initialState, action) {
 
     case SWITCH_THEME:
       return {...state, theme: payload};
+
+    case types.FETCH_COUNTRIES_SUCCESS:
+      return {...state, countries: payload};
 
     default:
       return state;

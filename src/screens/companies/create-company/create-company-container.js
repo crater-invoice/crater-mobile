@@ -1,25 +1,28 @@
 import {connect} from 'react-redux';
-import {reduxForm} from 'redux-form';
-import CreateCategory from './create-company';
-import {validate} from 'stores/categories/validator';
-import {commonSelector, permissionSelector} from 'stores/common/selectors';
-import {loadingSelector} from 'stores/categories/selectors';
-import {CREATE_CATEGORY_FORM} from 'stores/categories/types';
+import {getFormValues, reduxForm} from 'redux-form';
+import CreateCompany from './create-company';
+import {validateCompany as validate} from 'stores/company/validator';
+import {commonSelector, countriesSelector} from 'stores/common/selectors';
+import {currenciesSelector, loadingSelector} from 'stores/company/selectors';
+import {CREATE_COMPANY_FORM} from 'stores/company/types';
 
-const mapStateToProps = (state, {route}) => ({
+const mapStateToProps = state => ({
   ...loadingSelector(state),
   ...commonSelector(state),
-  ...permissionSelector(route),
+  countries: countriesSelector(state),
+  currencies: currenciesSelector(state),
+  formValues: getFormValues(CREATE_COMPANY_FORM)(state) || {},
   initialValues: {
     name: null,
-    description: null
+    country_id: null,
+    currency: null
   }
 });
 
-const CreateCategoryForm = reduxForm({form: CREATE_CATEGORY_FORM, validate})(
-  CreateCategory
+const CreateCompanyForm = reduxForm({form: CREATE_COMPANY_FORM, validate})(
+  CreateCompany
 );
 
-export const CreateCategoryContainer = connect(mapStateToProps)(
-  CreateCategoryForm
+export const CreateCompanyContainer = connect(mapStateToProps)(
+  CreateCompanyForm
 );

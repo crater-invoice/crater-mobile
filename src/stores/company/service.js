@@ -10,40 +10,12 @@ export const fetchCompanies = () => {
 };
 
 /**
- * Fetch single company
- * @param id : company id
- * @returns {*}
- */
-export const fetchSingleCompany = id => {
-  return Request.get({path: `companies/${id}`});
-};
-
-/**
  * Add company
  * @param body : params
  * @returns {*}
  */
 export const addCompany = body => {
   return Request.post({path: `companies`, body});
-};
-
-/**
- * Update company
- * @param id : company id
- * @param body : params
- * @returns {*}
- */
-export const updateCompany = (id, body) => {
-  return Request.put({path: `companies/${id}`, body});
-};
-
-/**
- * Remove company
- * @param id : company id
- * @returns {*}
- */
-export const removeCompany = id => {
-  return Request.post({path: `companies/delete`, body: {companies: [id]}});
 };
 
 /**
@@ -107,4 +79,19 @@ export const fetchPreferences = () => {
  */
 export const updatePreferences = body => {
   return Request.post({path: `company/settings`, body});
+};
+
+/**
+ * Upload company logo
+ * @param logo
+ * @param id : company id
+ * @returns {*}
+ */
+export const uploadCompanyLogo = (logo, id) => {
+  return Request.post({
+    path: `company/upload-logo`,
+    image: logo,
+    imageName: 'company_logo',
+    headers: {company: id}
+  });
 };

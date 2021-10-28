@@ -26,51 +26,15 @@ export function fetchCompanies(payload = {}) {
 }
 
 /**
- * Fetch single company
- * @param id
- * @param onSuccess
- * @returns {{type: string, payload: *}}
- */
-export function fetchSingleCompany(id, onSuccess) {
-  return {
-    type: types.FETCH_SINGLE_COMPANY,
-    payload: {id, onSuccess}
-  };
-}
-
-/**
  * Add company
- * @param payload
+ * @param params
+ * @param logo
  * @returns {{type: string, payload: *}}
  */
-export function addCompany(payload = {}) {
+export function addCompany(params, logo) {
   return {
     type: types.ADD_COMPANY,
-    payload
-  };
-}
-
-/**
- * Update company
- * @param payload
- * @returns {{type: string, payload: *}}
- */
-export function updateCompany(payload = {}) {
-  return {
-    type: types.UPDATE_COMPANY,
-    payload
-  };
-}
-
-/**
- * Remove company
- * @param id
- * @returns {{type: string, payload: *}}
- */
-export function removeCompany(id) {
-  return {
-    type: types.REMOVE_COMPANY,
-    payload: {id}
+    payload: {params, logo}
   };
 }
 
@@ -93,5 +57,15 @@ export function fetchPreferences(onSuccess) {
  */
 export const updatePreferences = payload => ({
   type: types.UPDATE_PREFERENCES,
+  payload
+});
+
+/**
+ * Fetch company initial details
+ * @param onSuccess
+ * @returns {{type: string, payload: *}}
+ */
+export const fetchCompanyInitialDetails = payload => ({
+  type: types.FETCH_COMPANY_INITIAL_DETAILS,
   payload
 });

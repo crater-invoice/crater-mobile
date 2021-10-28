@@ -1,3 +1,3 @@
 export {
-  CreateCategoryContainer as CreateCategory
+  CreateCompanyContainer as CreateCompany
 } from './create-company-container';
