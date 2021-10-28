@@ -95,3 +95,15 @@ export const uploadCompanyLogo = (logo, id) => {
     headers: {company: id}
   });
 };
+
+class Services {
+  isPreferencesItemLoaded: boolean;
+
+  constructor() {
+    this.isPreferencesItemLoaded = false;
+  }
+
+  setIsPreferencesItemLoaded = () => (this.isPreferencesItemLoaded = true);
+}
+
+export const CompanyServices = new Services();

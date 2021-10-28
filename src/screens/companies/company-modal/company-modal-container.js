@@ -8,7 +8,7 @@ import {
 
 const mapStateToProps = state => ({
   companies: companiesSelector(state),
-  company: currentCompanySelector(state),
+  selectedCompany: currentCompanySelector(state),
   ...commonSelector(state)
 });
 

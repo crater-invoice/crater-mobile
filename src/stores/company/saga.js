@@ -1,7 +1,8 @@
-import {call, put, takeEvery, takeLatest, select} from 'redux-saga/effects';
+import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
 import * as Updates from 'expo-updates';
 import * as types from './types';
 import * as req from './service';
+import {CompanyServices} from './service';
 import {spinner} from './actions';
 import {isEmpty} from '@/constants';
 import {SET_SETTINGS} from '@/constants';
@@ -11,18 +12,19 @@ import {fetchCountries} from '../common/saga';
 import {navigation} from '@/navigation';
 
 /**
- * fetch companies saga
+ * Fetch companies saga
  * @returns {IterableIterator<*>}
  */
 function* fetchCompanies(payload) {
   try {
     const {data} = yield call(req.fetchCompanies);
     yield put({type: types.FETCH_COMPANIES_SUCCESS, payload: data});
+    yield put(spinner('isSaving', false));
   } catch (e) {}
 }
 
 /**
- * fetch Languages saga
+ * Fetch Languages saga
  * @returns {IterableIterator<*>}
  */
 function* fetchCurrencies() {
@@ -33,7 +35,7 @@ function* fetchCurrencies() {
 }
 
 /**
- * fetch Languages saga
+ * Fetch Languages saga
  * @returns {IterableIterator<*>}
  */
 function* fetchLanguages() {
@@ -44,7 +46,7 @@ function* fetchLanguages() {
 }
 
 /**
- * fetch timezones saga
+ * Fetch timezones saga
  * @returns {IterableIterator<*>}
  */
 function* fetchTimezones() {
@@ -55,7 +57,7 @@ function* fetchTimezones() {
 }
 
 /**
- * fetch Date-Formats saga
+ * Fetch Date-Formats saga
  * @returns {IterableIterator<*>}
  */
 function* fetchDateFormats() {
@@ -66,7 +68,7 @@ function* fetchDateFormats() {
 }
 
 /**
- * fetch Fiscal-Years saga
+ * Fetch Fiscal-Years saga
  * @returns {IterableIterator<*>}
  */
 function* fetchFiscalYears() {
@@ -77,32 +79,29 @@ function* fetchFiscalYears() {
 }
 
 /**
- * fetch Preferences saga
+ * Fetch Preferences saga
  * @returns {IterableIterator<*>}
  */
 function* fetchPreferences({payload}) {
   try {
     const response = yield call(req.fetchPreferences);
-    const store = yield select();
-    const {
-      currencies,
-      languages,
-      timezones,
-      dateFormats,
-      fiscalYears
-    } = store.company;
 
-    yield isEmpty(currencies) && call(fetchCurrencies);
-    yield isEmpty(languages) && call(fetchLanguages);
-    yield isEmpty(timezones) && call(fetchTimezones);
-    yield isEmpty(dateFormats) && call(fetchDateFormats);
-    yield isEmpty(fiscalYears) && call(fetchFiscalYears);
+    if (!CompanyServices.isPreferencesItemLoaded) {
+      yield call(fetchCurrencies);
+      yield call(fetchTimezones);
+      yield call(fetchDateFormats);
+      yield call(fetchFiscalYears);
+      yield call(fetchLanguages);
+      CompanyServices.setIsPreferencesItemLoaded();
+    }
+
+    yield put(spinner('isSaving', false));
     payload?.onSuccess?.(response);
   } catch (e) {}
 }
 
 /**
- * update Preferences saga
+ * Update Preferences saga
  * @returns {IterableIterator<*>}
  */
 function* updatePreferences({payload}) {
@@ -157,9 +156,9 @@ function* updatePreferences({payload}) {
  */
 function* fetchCompanyInitialDetails({payload}) {
   try {
-    const store = yield select();
-    yield isEmpty(store?.company?.currencies) && call(fetchCurrencies);
-    yield isEmpty(store.common?.countries) && call(fetchCountries);
+    yield call(fetchCurrencies);
+    yield call(fetchCountries);
+    yield put(spinner('isSaving', false));
     payload?.();
   } catch (e) {}
 }

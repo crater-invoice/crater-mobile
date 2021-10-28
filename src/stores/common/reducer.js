@@ -27,7 +27,6 @@ const initialState = {
   notifyInvoiceViewed: false,
   notifyEstimateViewed: false,
   currency: null,
-  company: null,
   taxTypes: [],
   loading: false,
   dateFormat: DATE_FORMAT,
@@ -63,7 +62,6 @@ export default function commonReducer(state = initialState, action) {
     case types.FETCH_BOOTSTRAP_SUCCESS:
       const {
         current_user,
-        current_company,
         current_company_currency,
         moment_date_format,
         fiscal_year,
@@ -75,7 +73,6 @@ export default function commonReducer(state = initialState, action) {
         ...state,
         ...payload,
         user: current_user,
-        company: current_company,
         currency: current_company_currency,
         abilities: current_user_abilities,
         dateFormat: moment_date_format,

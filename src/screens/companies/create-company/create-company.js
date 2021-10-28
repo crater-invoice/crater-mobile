@@ -3,9 +3,9 @@ import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-company-type';
 import {secondaryHeader} from 'utils/header';
-import {fetchCompanyInitialDetails, addCompany} from '@/stores/company/actions';
+import {fetchCompanyInitialDetails, addCompany} from 'stores/company/actions';
 import {CountrySelectModal, CurrencySelectModal} from '@/select-modal';
-import {CREATE_COMPANY_FORM} from '@/stores/company/types';
+import {CREATE_COMPANY_FORM} from 'stores/company/types';
 import {
   DefaultLayout,
   InputField,

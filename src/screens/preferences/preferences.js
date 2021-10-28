@@ -88,6 +88,7 @@ export default class Preferences extends Component<IProps, IStates> {
       theme
     } = this.props;
     const {isFetchingInitialData} = this.state;
+
     const bottomAction = [
       {
         label: 'button.save',

@@ -16,7 +16,7 @@ import {
 
 const mapStateToProps = state => ({
   ...commonSelector(state),
-  isSaving: loadingSelector(state),
+  ...loadingSelector(state),
   formValues: getFormValues(PREFERENCES_FORM)(state) || {},
   currencies: currenciesSelector(state),
   languages: languagesSelector(state),

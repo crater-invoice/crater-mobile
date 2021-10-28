@@ -7,7 +7,7 @@ import {getExpensesState} from '../../selectors';
 import {getCustomers} from '@/features/customers/actions';
 import {commonSelector} from 'stores/common/selectors';
 import {fetchCategories} from 'stores/categories/actions';
-import {categoriesSelector} from '@/stores/categories/selectors';
+import {categoriesSelector} from 'stores/categories/selectors';
 
 const mapStateToProps = state => {
   const {

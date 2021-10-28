@@ -3,9 +3,10 @@ import {TouchableHighlight, ScrollView} from 'react-native';
 import Styles from './company-modal-style';
 import t from 'locales/use-translation';
 import {colors} from '@/styles';
-import {navigateTo, routes} from '@/navigation';
-import {fetchCompanies} from 'stores/company/actions';
+import {navigateTo, resetNavigation, routes} from '@/navigation';
+import {fetchCompanies, setSelectedCompany} from 'stores/company/actions';
 import {IProps, IStates} from './company-modal-type';
+import {fetchBootstrap} from 'stores/common/actions';
 import {
   defineSize,
   hasTextLength as hasValue,
@@ -44,8 +45,24 @@ export default class CompanyModal extends Component<IProps, IStates> {
     }, 200);
   };
 
+  onSelectCompany = async company => {
+    const {selectedCompany, dispatch} = this.props;
+
+    await this.setState({visible: false});
+
+    if (selectedCompany?.id === company?.id) {
+      return;
+    }
+
+    dispatch(setSelectedCompany(company));
+
+    setTimeout(() => {
+      dispatch(fetchBootstrap(() => resetNavigation()));
+    }, 100);
+  };
+
   render() {
-    const {theme, company, companies} = this.props;
+    const {theme, selectedCompany, companies} = this.props;
     const {visible} = this.state;
     const {Modal} = Styles;
 
@@ -101,6 +118,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
           py-10
           justify-center
           background-color={isSelected && theme.card.secondary.bgColor}
+          onPress={() => this.onSelectCompany(com)}
         >
           <View flex-row items-center>
             {companyLogo(com, 'large')}
@@ -150,7 +168,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
     return (
       <View>
         <CtDecorativeButton withHitSlop mr-11 onPress={this.openModal}>
-          {companyLogo(company, 'medium')}
+          {companyLogo(selectedCompany, 'medium')}
         </CtDecorativeButton>
 
         <AnimateModal

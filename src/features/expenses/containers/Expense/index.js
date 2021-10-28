@@ -7,7 +7,7 @@ import {getCustomers} from '@/features/customers/actions';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {EXPENSE_FORM, EXPENSE_FIELDS as FIELDS} from '../../constants';
 import {fetchCategories} from 'stores/categories/actions';
-import {categoriesSelector} from '@/stores/categories/selectors';
+import {categoriesSelector} from 'stores/categories/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {

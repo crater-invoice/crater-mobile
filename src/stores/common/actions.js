@@ -27,7 +27,7 @@ export function saveEndpointURL(url, navigation, onResult) {
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function fetchBootstrap(payload = {}) {
+export function fetchBootstrap(payload) {
   return {
     type: types.FETCH_BOOTSTRAP,
     payload: {onSuccess: payload}

@@ -31,7 +31,7 @@ export interface IProps {
   /**
    * Current selected company.
    */
-  company: any;
+  selectedCompany: any;
 }
 
 export interface IStates {

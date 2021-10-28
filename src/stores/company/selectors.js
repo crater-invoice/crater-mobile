@@ -58,4 +58,4 @@ export const languagesSelector = createSelector(
 export const companiesSelector = state =>
   isEmpty(state?.company?.companies) ? [] : state?.company?.companies;
 
-export const currentCompanySelector = state => state.common?.company;
+export const currentCompanySelector = state => state.company?.selectedCompany;

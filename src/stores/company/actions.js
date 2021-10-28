@@ -69,3 +69,13 @@ export const fetchCompanyInitialDetails = payload => ({
   type: types.FETCH_COMPANY_INITIAL_DETAILS,
   payload
 });
+
+/**
+ * Set selected company
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const setSelectedCompany = payload => ({
+  type: types.SET_SELECTED_COMPANY,
+  payload
+});

@@ -95,7 +95,8 @@ export default class Request {
   }: IProps) {
     const reduxStore = store.getState();
     const {idToken} = reduxStore.auth;
-    const {endpointApi, company} = reduxStore.common;
+    const {endpointApi} = reduxStore.common;
+    const {selectedCompany} = reduxStore.company;
     let apiUrl = endpointApi;
 
     if (isPing) {
@@ -115,7 +116,7 @@ export default class Request {
       Authorization: `Bearer ${idToken}`,
       Accept: 'application/json',
       'Content-Type': image ? 'multipart/form-data' : 'application/json',
-      company: company ? company.id : 1,
+      company: selectedCompany?.id ?? 1,
       ...headers
     };
 

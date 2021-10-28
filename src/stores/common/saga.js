@@ -14,6 +14,7 @@ import {PermissionService} from '@/services';
 import {setAccountInformation} from '@/features/settings/actions';
 import {PING_SUCCESS} from '../auth/types';
 import {FETCH_COMPANIES_SUCCESS} from '../company/types';
+import {setSelectedCompany} from '../company/actions';
 
 /**
  * Fetch Tax And Discount Per item saga.
@@ -97,6 +98,8 @@ export function* fetchBootstrap(payloadData) {
     const response = yield call(req.fetchBootstrap);
     const {
       current_user,
+      current_company,
+      current_company_currency,
       current_user_settings,
       current_user_abilities = [],
       companies = []
@@ -108,6 +111,7 @@ export function* fetchBootstrap(payloadData) {
     yield put(setAccountInformation({account: current_user}));
     yield put({type: types.FETCH_BOOTSTRAP_SUCCESS, payload: response});
     yield put({type: FETCH_COMPANIES_SUCCESS, payload: companies});
+    yield put(setSelectedCompany(current_company));
     payloadData?.payload?.onSuccess?.(response);
   } catch (e) {}
 }
