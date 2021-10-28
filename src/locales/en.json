@@ -103,9 +103,9 @@
   "invoices": {
     "title": "Select Invoice",
     "tabs": {
-      "DUE": "Due",
-      "DRAFT": "Draft",
-      "ALL": "ALL"
+      "due": "Due",
+      "draft": "Draft",
+      "all": "ALL"
     },
     "invoiceDate": "Invoice Date",
     "dueDate": "Due Date",
@@ -541,9 +541,9 @@
   },
   "estimates": {
     "tabs": {
-      "SENT": "Sent",
-      "DRAFT": "Draft",
-      "ALL": "All"
+      "sent": "Sent",
+      "draft": "Draft",
+      "all": "All"
     },
     "estimateDate": "Estimate Date",
     "expiryDate": "Expiry Date",

@@ -22,18 +22,18 @@ const abilities = [
   {route: routes.GLOBAL_ITEM, ability: 'delete-item'},
 
   // Estimate
-  {route: routes.ESTIMATE_LIST, ability: 'view-estimate'},
-  {route: routes.ESTIMATE_LIST, ability: 'create-estimate'},
-  {route: routes.ESTIMATE, ability: 'edit-estimate'},
-  {route: routes.ESTIMATE, ability: 'delete-estimate'},
-  {route: routes.ESTIMATE, ability: 'send-estimate'},
+  {route: routes.ESTIMATES, ability: 'view-estimate'},
+  {route: routes.ESTIMATES, ability: 'create-estimate'},
+  {route: routes.CREATE_ESTIMATE, ability: 'edit-estimate'},
+  {route: routes.CREATE_ESTIMATE, ability: 'delete-estimate'},
+  {route: routes.CREATE_ESTIMATE, ability: 'send-estimate'},
 
   // Invoice
   {route: routes.MAIN_INVOICES, ability: 'view-invoice'},
   {route: routes.MAIN_INVOICES, ability: 'create-invoice'},
-  {route: routes.INVOICE, ability: 'edit-invoice'},
-  {route: routes.INVOICE, ability: 'delete-invoice'},
-  {route: routes.INVOICE, ability: 'send-invoice'},
+  {route: routes.CREATE_INVOICE, ability: 'edit-invoice'},
+  {route: routes.CREATE_INVOICE, ability: 'delete-invoice'},
+  {route: routes.CREATE_INVOICE, ability: 'send-invoice'},
 
   // Recurring Invoice
   {route: routes.RECURRING_INVOICES, ability: 'view-recurring-invoice'},

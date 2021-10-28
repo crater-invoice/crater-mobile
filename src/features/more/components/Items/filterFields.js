@@ -1,6 +1,5 @@
 import t from 'locales/use-translation';
 import {keyboardType} from '@/constants';
-import styles from './styles';
 
 export const itemsFilterFields = ({props, setFormField}) => {
   const {units, fetchItemUnits, navigation} = props;

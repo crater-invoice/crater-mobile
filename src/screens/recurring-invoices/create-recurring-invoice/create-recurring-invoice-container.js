@@ -3,17 +3,17 @@ import {getFormValues, reduxForm} from 'redux-form';
 import CreateRecurringInvoice from './create-recurring-invoice';
 import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
 import {validate} from 'stores/recurring-invoices/validator';
+import {loadingSelector} from 'stores/recurring-invoices/selectors';
+import {getCustomers} from '@/features/customers/actions';
+import {getTaxes, getNotes} from '@/features/settings/actions';
+import {getItems} from '@/features/more/actions';
+import {currentCurrencySelector} from 'stores/company/selectors';
+import {initialValues} from 'stores/recurring-invoices/helpers';
 import {
   commonSelector,
   permissionSelector,
   settingsSelector
 } from 'stores/common/selectors';
-import {loadingSelector} from 'stores/recurring-invoices/selectors';
-import {getCustomers} from '@/features/customers/actions';
-import {getTaxes, getNotes} from '@/features/settings/actions';
-import {getItems} from '@/features/more/actions';
-import moment from 'moment';
-import {currentCurrencySelector} from 'stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
@@ -24,7 +24,7 @@ const mapStateToProps = (state, {route}) => {
       }
     },
     settings: {notes, customFields},
-    recurringInvoices: {selectedItems, invoiceData},
+    recurringInvoices: {selectedItems, invoiceTemplates},
     more: {items},
     customers: {customers}
   } = state;
@@ -34,7 +34,7 @@ const mapStateToProps = (state, {route}) => {
     ...settingsSelector(state),
     ...permissionSelector(route),
     selectedItems,
-    invoiceData,
+    invoiceTemplates,
     items,
     notes,
     customers,
@@ -43,20 +43,7 @@ const mapStateToProps = (state, {route}) => {
     customFields,
     statusList: update_status,
     formValues: getFormValues(CREATE_RECURRING_INVOICE_FORM)(state) || {},
-    initialValues: {
-      customer_id: null,
-      starts_at: moment(),
-      next_invoice_at: null,
-      limit_by: null,
-      limit_date: moment().add(7, 'days'),
-      limit_count: null,
-      status: null,
-      frequency: '0 0 1 * *',
-      frequency_picker: '0 0 1 * *',
-      items: null,
-      template_name: null,
-      send_automatically: null
-    }
+    initialValues
   };
 };
 
