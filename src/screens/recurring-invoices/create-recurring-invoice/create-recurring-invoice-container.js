@@ -43,7 +43,7 @@ const mapStateToProps = (state, {route}) => {
     customFields,
     statusList: update_status,
     formValues: getFormValues(CREATE_RECURRING_INVOICE_FORM)(state) || {},
-    initialValues
+    initialValues: initialValues(invoiceTemplates)
   };
 };
 

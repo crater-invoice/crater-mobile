@@ -78,9 +78,13 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
   };
 
   setInitialData = res => {
-    const {dispatch, invoiceData} = this.props;
+    const {
+      dispatch,
+      invoiceData: {invoiceTemplates} = {},
+      invoiceData
+    } = this.props;
     let values = {
-      ...initialValues,
+      ...initialValues(invoiceTemplates),
       ...invoiceData,
       invoice_number: invoiceData?.nextNumber
     };

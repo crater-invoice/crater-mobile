@@ -91,9 +91,13 @@ export default class Estimate extends React.Component<IProps, IStates> {
   };
 
   setInitialData = res => {
-    const {dispatch, estimateData} = this.props;
+    const {
+      dispatch,
+      estimateData: {estimateTemplates} = {},
+      estimateData
+    } = this.props;
     let values = {
-      ...initialValues,
+      ...initialValues(estimateTemplates),
       ...estimateData,
       estimate_number: estimateData?.nextNumber
     };
