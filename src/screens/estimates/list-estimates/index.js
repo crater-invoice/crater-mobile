@@ -1,1 +1,1 @@
-export {EstimatesContainer as Estimates} from './estimates-container';
+export {EstimatesContainer as Estimates} from './list-estimates-container';

@@ -240,6 +240,8 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       statusList,
       notes,
       getNotes,
+      isSaving,
+      isDeleting,
       invoiceTemplates = [],
       isSaving,
       isDeleting,

@@ -1,24 +1,28 @@
 import React from 'react';
-import {change} from 'redux-form';
-import styles from './estimates-styles';
-import {Tabs, MainLayout, AssetImage} from '@/components';
+import {styles} from './list-recurring-invoices-styles';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
-import estimateFilterFields from './list-estimates-filters';
-import {isFilterApply} from '@/utils';
-import {ARROW_ICON} from '@/assets';
-import {ESTIMATES_TABS, ESTIMATES_FORM, TAB_NAME} from 'stores/estimates/types';
-import {IProps, IStates} from './estimates-type';
-import {Tab} from './estimates-tab';
+import {AssetImage, MainLayout, Tabs} from '@/components';
+import {
+  RECURRING_INVOICES_FORM,
+  RECURRING_INVOICES_TABS,
+  TAB_NAME
+} from 'stores/recurring-invoices/types';
+import {isFilterApply, primaryHeader} from '@/utils';
+import {IProps, IStates} from './list-recurring-invoices-type';
+import {recurringInvoicesFilterFields} from './list-recurring-invoices-filters';
+import {Tab} from './list-recurring-invoices-tab';
+import {change} from 'redux-form';
 import {tabRefs} from 'stores/common/helpers';
 
-export default class Estimates extends React.Component<IProps, IStates> {
-  focusListener: any;
-
+export default class RecurringInvoices extends React.Component<
+  IProps,
+  IStates
+> {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: ESTIMATES_TABS.DRAFT,
+      activeTab: RECURRING_INVOICES_TABS.ACTIVE,
       search: ''
     };
   }
@@ -33,16 +37,13 @@ export default class Estimates extends React.Component<IProps, IStates> {
 
   onFocus = () => {
     const {navigation} = this.props;
-    this.setActiveTab();
     this.focusListener = navigation.addListener('focus', () => {
-      if (!this.state.isLoaded) {
-        this.setState({isLoaded: true});
-        return;
-      }
+      tabRefs?.getItems?.();
     });
+    this.setActiveTab();
   };
 
-  setActiveTab = (activeTab = ESTIMATES_TABS.DRAFT) => {
+  setActiveTab = (activeTab = RECURRING_INVOICES_TABS.ACTIVE) => {
     this.setState({activeTab});
     const {search} = this.state;
     const {formValues} = this.props;
@@ -51,13 +52,18 @@ export default class Estimates extends React.Component<IProps, IStates> {
       search,
       ...formValues
     };
-    tabRefs?.getItems?.({queryString, showLoader: true});
+
+    tabRefs?.getItems?.({
+      queryString,
+      showLoader: true
+    });
   };
 
-  onSelect = estimate => {
+  onSelect = invoice => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CREATE_ESTIMATE, {
-      id: estimate.id,
+
+    navigation.navigate(routes.VIEW_RECURRING_INVOICE, {
+      id: invoice?.id,
       type: 'UPDATE'
     });
   };
@@ -72,11 +78,13 @@ export default class Estimates extends React.Component<IProps, IStates> {
   };
 
   setFormField = (field, value) => {
-    this.props.dispatch(change(ESTIMATES_FORM, field, value));
+    const {dispatch} = this.props;
+    dispatch(change(RECURRING_INVOICES_FORM, field, value));
   };
 
   onResetFilter = () => {
     const {search, activeTab} = this.state;
+
     tabRefs?.getItems?.({
       queryString: {status: activeTab !== 'ALL' ? activeTab : '', search},
       resetQueryString: true,
@@ -89,7 +97,6 @@ export default class Estimates extends React.Component<IProps, IStates> {
     filterStatus = '',
     from_date = '',
     to_date = '',
-    estimate_number = '',
     customer_id = ''
   }) => {
     const {search} = this.state;
@@ -99,7 +106,6 @@ export default class Estimates extends React.Component<IProps, IStates> {
         status: filterStatus !== 'ALL' ? filterStatus : '',
         search,
         customer_id,
-        estimate_number,
         from_date,
         to_date
       },
@@ -107,41 +113,48 @@ export default class Estimates extends React.Component<IProps, IStates> {
     });
   };
 
-  onAddEstimate = () => {
+  onAddInvoice = () => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CREATE_ESTIMATE, {type: 'ADD'});
+    navigation.navigate(routes.CREATE_RECURRING_INVOICE, {type: 'ADD'});
   };
 
   getEmptyContentProps = activeTab => {
-    const {formValues} = this.props;
+    const {navigation, formValues, theme} = this.props;
     const {search} = this.state;
     const isFilter = isFilterApply(formValues);
-    let type = '';
+    let title = '';
+    let description = '';
 
-    if (activeTab === ESTIMATES_TABS.DRAFT) {
-      type = 'draft';
-    } else if (activeTab === ESTIMATES_TABS.SENT) {
-      type = 'sent';
+    if (activeTab === RECURRING_INVOICES_TABS.ACTIVE) {
+      title = 'recurring_invoices.empty.active.title';
+      description = 'recurring_invoices.empty.active.description';
+    } else if (activeTab === RECURRING_INVOICES_TABS.ON_HOLD) {
+      title = 'recurring_invoices.empty.on_hold.title';
+      description = 'recurring_invoices.empty.on_hold.description';
     } else {
-      type = 'all';
+      title = 'recurring_invoices.empty.all.title';
+      description = 'recurring_invoices.empty.description';
     }
 
     const emptyTitle = search
       ? 'search.noResult'
       : isFilter
       ? 'filter.empty.filterTitle'
-      : `estimates.empty.${type}.title`;
+      : title;
 
     return {
       title: t(emptyTitle, {search}),
-      image: AssetImage.images.empty_estimates,
+      image: AssetImage.images[(theme?.mode)]?.empty_invoices,
       ...(!search && {
-        description: t(`estimates.empty.${type}.description`)
+        description: t(description)
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('estimates.empty.buttonTitle'),
-          buttonPress: () => this.onAddEstimate()
+          buttonTitle: t('recurring_invoices.empty.buttonTitle'),
+          buttonPress: () =>
+            navigation.navigate(routes.CREATE_RECURRING_INVOICE, {
+              type: 'ADD'
+            })
         })
     };
   };
@@ -150,48 +163,37 @@ export default class Estimates extends React.Component<IProps, IStates> {
     const {navigation, handleSubmit, theme, route} = this.props;
     const {activeTab} = this.state;
 
-    const headerProps = {
-      title: t('header.estimates'),
-      leftIcon: ARROW_ICON,
-      leftIconPress: () => navigation.navigate(routes.MAIN_MORE),
-      placement: 'center',
-      rightIcon: 'plus',
-      route,
-      rightIconPress: () => {
-        this.onAddEstimate();
-      }
-    };
-
     const filterProps = {
       onSubmitFilter: handleSubmit(this.onSubmitFilter),
-      ...estimateFilterFields(this),
+      ...recurringInvoicesFilterFields(this),
       clearFilter: this.props,
       onResetFilter: () => this.onResetFilter()
     };
 
     const tabs = [
       {
-        Title: ESTIMATES_TABS.DRAFT,
-        tabName: TAB_NAME.DRAFT,
+        Title: RECURRING_INVOICES_TABS.ACTIVE,
+        tabName: TAB_NAME.active,
         render: <Tab parentProps={this} />
       },
       {
-        Title: ESTIMATES_TABS.SENT,
-        tabName: TAB_NAME.SENT,
+        Title: RECURRING_INVOICES_TABS.ON_HOLD,
+        tabName: TAB_NAME.on_hold,
         render: <Tab parentProps={this} />
       },
       {
-        Title: ESTIMATES_TABS.ALL,
-        tabName: TAB_NAME.ALL,
+        Title: RECURRING_INVOICES_TABS.ALL,
+        tabName: TAB_NAME.all,
         render: <Tab parentProps={this} />
       }
     ];
 
     return (
       <MainLayout
-        headerProps={headerProps}
+        headerProps={primaryHeader({route})}
         onSearch={this.onSearch}
         filterProps={filterProps}
+        navigation={navigation}
       >
         <Tabs
           style={styles.tabs(theme)}

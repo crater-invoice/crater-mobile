@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import Invoices from './invoices';
+import Invoices from './list-invoices';
 import {reduxForm, getFormValues} from 'redux-form';
 import {INVOICES_FORM} from 'stores/invoices/types';
 import {getCustomers} from '@/features/customers/actions';

@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {reduxForm, getFormValues} from 'redux-form';
-import RecurringInvoices from './recurring-invoices';
+import RecurringInvoices from './list-recurring-invoices';
 import {RECURRING_INVOICES_FORM} from 'stores/recurring-invoices/types';
 import {
   invoicesSelector,

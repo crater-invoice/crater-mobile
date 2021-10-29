@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {reduxForm, getFormValues} from 'redux-form';
-import Users from './users';
+import Users from './list-users';
 import {USERS_FORM} from 'stores/users/types';
 import {rolesSelector, usersSelector} from 'stores/users/selectors';
 import {commonSelector} from 'stores/common/selectors';

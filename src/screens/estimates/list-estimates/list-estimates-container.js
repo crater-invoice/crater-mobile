@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import Estimates from './estimates';
+import Estimates from './list-estimates';
 import {reduxForm, getFormValues} from 'redux-form';
 import {ESTIMATES_FORM} from 'stores/estimates/types';
 import {getCustomers} from '@/features/customers/actions';

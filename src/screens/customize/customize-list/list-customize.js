@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
-import styles from './customize-styles';
+import styles from './list-customize-styles';
 import {ListView, DefaultLayout} from '@/components';
 import t from 'locales/use-translation';
-import {IProps} from './customize-list-type';
+import {IProps} from './list-customize-type';
 import {CUSTOMIZES_MENU} from 'stores/customize/helpers';
 import {routes} from '@/navigation';
 

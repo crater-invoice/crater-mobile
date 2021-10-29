@@ -1,1 +1,1 @@
-export {RolesContainer as Roles} from './roles-container';
+export {RolesContainer as Roles} from './list-roles-container';
