@@ -142,12 +142,16 @@ function* removeInvoice({payload}) {
  */
 function* addInvoiceItem({payload}) {
   try {
-    const {item, onResult} = payload;
+    yield put(spinner('isSaving', true));
+    const {item, onSuccess} = payload;
     const {data} = yield call(req.addInvoiceItem, item);
     const items = [{...data, item_id: data.id, ...item}];
     yield put({type: types.ADD_INVOICE_ITEM_SUCCESS, payload: items ?? []});
-    onResult?.();
-  } catch (e) {}
+    onSuccess?.();
+  } catch (e) {
+  } finally {
+    yield put(spinner('isSaving', false));
+  }
 }
 
 /**

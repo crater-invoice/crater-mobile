@@ -150,12 +150,16 @@ function* removeEstimate({payload}) {
  */
 function* addEstimateItem({payload}) {
   try {
+    yield put(spinner('isSaving', true));
     const {item, onSuccess} = payload;
     const {data} = yield call(req.addEstimateItem, item);
     const items = [{...data, item_id: data.id, ...item}];
     yield put({type: types.ADD_ESTIMATE_ITEM_SUCCESS, payload: items ?? []});
     onSuccess?.();
-  } catch (e) {}
+  } catch (e) {
+  } finally {
+    yield put(spinner('isSaving', false));
+  }
 }
 
 /**

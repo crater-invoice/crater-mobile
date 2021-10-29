@@ -66,7 +66,7 @@ export class CreateItem extends React.Component<IProps> {
       dispatch(
         itemActions[screen].addItem({
           item,
-          onResult: () => {
+          onSuccess: () => {
             navigation.goBack(null);
           }
         })
@@ -371,9 +371,6 @@ export class CreateItem extends React.Component<IProps> {
             solid: true
           },
           rightIconPress: handleSubmit(this.saveItem)
-        }}
-        loadingProps={{
-          is: loading
         }}
         bottomAction={<ActionButton buttons={bottomAction} />}
       >
