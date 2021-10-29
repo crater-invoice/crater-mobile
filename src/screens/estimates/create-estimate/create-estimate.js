@@ -353,6 +353,21 @@ export default class Estimate extends React.Component<IProps, IStates> {
     );
   };
 
+  navigateToCustomer = () => {
+    const {navigation} = this.props;
+    const {currency} = this.state;
+
+    navigation.navigate(routes.CUSTOMER, {
+      type: 'ADD',
+      currency,
+      onSelect: item => {
+        this.customerReference?.changeDisplayValue?.(item);
+        this.setFormField('customer_id', item.id);
+        this.setState({currency: item.currency});
+      }
+    });
+  };
+
   render() {
     const {
       navigation,
@@ -488,16 +503,17 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
         <Field
           name="customer_id"
-          component={CustomerSelectModal}
-          customers={customers}
           getCustomers={getCustomers}
-          disabled={disabled}
-          placeholder={t('invoices.customerPlaceholder')}
+          customers={customers}
+          component={CustomerSelectModal}
           selectedItem={formValues?.customer}
           onSelect={item => {
             this.setFormField('customer_id', item.id);
             this.setState({currency: item.currency});
           }}
+          rightIconPress={this.navigateToCustomer}
+          reference={ref => (this.customerReference = ref)}
+          disabled={disabled}
         />
         <ItemField
           {...this.props}

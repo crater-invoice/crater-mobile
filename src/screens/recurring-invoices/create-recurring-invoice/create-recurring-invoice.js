@@ -223,6 +223,20 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     );
   };
 
+  navigateToCustomer = () => {
+    const {navigation} = this.props;
+    const {currency} = this.state;
+
+    navigation.navigate(routes.CUSTOMER, {
+      type: 'ADD',
+      currency,
+      onSelect: item => {
+        this.customerReference?.changeDisplayValue?.(item);
+        this.setFormField('customer_id', item.id);
+        this.setState({currency: item.currency});
+      }
+    });
+  };
   render() {
     const {
       isEditScreen,

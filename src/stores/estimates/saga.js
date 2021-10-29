@@ -165,11 +165,11 @@ function* addEstimateItem({payload}) {
 function* removeEstimateItem({payload}) {
   try {
     const {id} = payload;
-    yield put(spinner({isDeleting: true}));
+    yield put(spinner('isDeleting', true));
     yield put({type: types.REMOVE_ESTIMATE_ITEM_SUCCESS, payload: id});
   } catch (e) {
   } finally {
-    yield put(spinner({isDeleting: false}));
+    yield put(spinner('isDeleting', false));
   }
 }
 

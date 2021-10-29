@@ -172,13 +172,13 @@ function* addRecurringInvoiceItem({payload}) {
  */
 function* removeRecurringInvoiceItem({payload}) {
   try {
-    yield put(spinner({isDeleting: true}));
+    yield put(spinner('isDeleting', true));
     const {onResult, id} = payload;
     yield put({type: types.REMOVE_RECURRING_INVOICE_ITEM_SUCCESS, payload: id});
     onResult?.();
   } catch (e) {
   } finally {
-    yield put(spinner({isDeleting: false}));
+    yield put(spinner('isDeleting', false));
   }
 }
 
