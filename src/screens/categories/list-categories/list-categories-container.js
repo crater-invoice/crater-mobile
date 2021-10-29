@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
-import Categories from './categories';
+import Categories from './list-categories';
 import {commonSelector} from 'stores/common/selectors';
 import {CATEGORIES_FORM} from 'stores/categories/types';
 import {categoriesSelector} from 'stores/categories/selectors';

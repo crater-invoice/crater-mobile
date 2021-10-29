@@ -12,7 +12,7 @@ import {loadingSelector} from 'stores/recurring-invoices/selectors';
 import {getCustomers} from '@/features/customers/actions';
 import {getTaxes, getNotes} from '@/features/settings/actions';
 import {getItems} from '@/features/more/actions';
-import {initialValues} from '@/stores/recurring-invoices/helpers';
+import {initialValues} from 'stores/recurring-invoices/helpers';
 
 const mapStateToProps = (state, {route}) => {
   const {

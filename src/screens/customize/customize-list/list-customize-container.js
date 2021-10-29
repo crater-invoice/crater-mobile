@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import CustomizeList from './customize-list';
+import CustomizeList from './list-customize';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 
 const mapStateToProps = (state, {route}) => ({

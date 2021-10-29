@@ -1,3 +1,3 @@
 export {
   RecurringInvoicesContainer as RecurringInvoices
-} from './recurring-invoices-container';
+} from './list-recurring-invoices-container';

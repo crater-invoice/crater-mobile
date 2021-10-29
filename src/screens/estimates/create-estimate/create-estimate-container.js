@@ -12,7 +12,7 @@ import {
   settingsSelector
 } from 'stores/common/selectors';
 import {loadingSelector} from 'stores/estimates/selectors';
-import {initialValues} from '@/stores/estimates/helpers';
+import {initialValues} from 'stores/estimates/helpers';
 
 const mapStateToProps = (state, {route}) => {
   const {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {styles} from './recurring-invoices-styles';
+import {styles} from './list-recurring-invoices-styles';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {AssetImage, MainLayout, Tabs} from '@/components';
@@ -9,9 +9,9 @@ import {
   TAB_NAME
 } from 'stores/recurring-invoices/types';
 import {isFilterApply, primaryHeader} from '@/utils';
-import {IProps, IStates} from './recurring-invoices-type';
+import {IProps, IStates} from './list-recurring-invoices-type';
 import {recurringInvoicesFilterFields} from './list-recurring-invoices-filters';
-import {Tab} from './recurring-invoices-tab';
+import {Tab} from './list-recurring-invoices-tab';
 import {change} from 'redux-form';
 import {tabRefs} from 'stores/common/helpers';
 

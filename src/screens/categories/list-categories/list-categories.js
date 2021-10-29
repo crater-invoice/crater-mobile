@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import {isEmpty} from '@/constants';
-import {fetchRoles} from 'stores/roles/actions';
-import {IProps, IStates} from './roles-type';
+import React from 'react';
 import {routes} from '@/navigation';
+import {IProps, IStates} from './list-categories-type';
+import {isEmpty} from '@/constants';
+import {fetchCategories} from 'stores/categories/actions';
 import {primaryHeader} from '@/utils';
 import {
-  BaseEmptyPlaceholder,
-  InfiniteScroll,
+  MainLayout,
   ListView,
-  MainLayout
+  InfiniteScroll,
+  BaseEmptyPlaceholder
 } from '@/components';
 
-export default class Roles extends Component<IProps, IStates> {
+export default class Categories extends React.Component<IProps, IStates> {
   scrollViewReference: any;
   focusListener: any;
 
@@ -44,13 +44,16 @@ export default class Roles extends Component<IProps, IStates> {
     });
   };
 
-  onSelect = role => {
+  onSelect = category => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CREATE_ROLE, {id: role.id, type: 'UPDATE'});
+    navigation.navigate(routes.CREATE_CATEGORY, {
+      type: 'UPDATE',
+      id: category.id
+    });
   };
 
   render() {
-    const {dispatch, roles, route} = this.props;
+    const {categories, dispatch, route} = this.props;
     const {search} = this.state;
 
     return (
@@ -58,19 +61,19 @@ export default class Roles extends Component<IProps, IStates> {
         headerProps={primaryHeader({route})}
         onSearch={this.onSearch}
         bottomDivider
+        bodyStyle="is-full-listView"
       >
         <InfiniteScroll
-          getItems={q => dispatch(fetchRoles(q))}
+          getItems={q => dispatch(fetchCategories(q))}
           reference={ref => (this.scrollViewReference = ref)}
           getItemsInMount={false}
         >
           <ListView
-            items={roles}
             isAnimated
-            hasAvatar
             bottomDivider
+            items={categories}
             onPress={this.onSelect}
-            isEmpty={isEmpty(roles)}
+            isEmpty={isEmpty(categories)}
             emptyPlaceholder={
               <BaseEmptyPlaceholder {...this.props} search={search} />
             }

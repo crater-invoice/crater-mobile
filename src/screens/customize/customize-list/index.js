@@ -1,3 +1,3 @@
 export {
   CustomizeListContainer as CustomizeList
-} from './customize-list-container';
+} from './list-customize-container';

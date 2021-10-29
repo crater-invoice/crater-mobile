@@ -1,6 +1,5 @@
 import React from 'react';
 import {Field, change} from 'redux-form';
-import styles from './styles';
 import {
   DefaultLayout,
   DatePickerField,

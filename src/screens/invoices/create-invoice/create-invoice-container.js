@@ -11,8 +11,8 @@ import {
   permissionSelector,
   settingsSelector
 } from 'stores/common/selectors';
-import {loadingSelector} from '@/stores/invoices/selectors';
-import {initialValues} from '@/stores/invoices/helpers';
+import {loadingSelector} from 'stores/invoices/selectors';
+import {initialValues} from 'stores/invoices/helpers';
 
 const mapStateToProps = (state, {route}) => {
   const {

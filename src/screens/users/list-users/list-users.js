@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {hasTextLength, isEmpty} from '@/constants';
 import {fetchUsers} from 'stores/users/actions';
-import {IProps, IStates} from './users-type';
+import {IProps, IStates} from './list-users-type';
 import {routes} from '@/navigation';
 import {primaryHeader} from '@/utils';
 import usersFilter from './list-users-filter';
@@ -11,7 +11,7 @@ import {
   ListView,
   MainLayout
 } from '@/components';
-import {USERS_FORM} from '@/stores/users/types';
+import {USERS_FORM} from 'stores/users/types';
 import {change} from 'redux-form';
 
 export default class Users extends Component<IProps, IStates> {

@@ -1,17 +1,17 @@
 import React from 'react';
 import {change} from 'redux-form';
-import {styles} from './invoices-styles';
+import {styles} from './list-invoices-styles';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {AssetImage, MainLayout, Tabs} from '@/components';
-import {INVOICES_TABS, INVOICES_FORM, TAB_NAME} from '@/stores/invoices/types';
+import {INVOICES_TABS, INVOICES_FORM, TAB_NAME} from 'stores/invoices/types';
 import {isFilterApply} from '@/utils';
-import {InvoiceServices} from '@/stores/invoices/service';
+import {InvoiceServices} from 'stores/invoices/service';
 import {openRatingReviewModal} from '@/utils';
 import {PermissionService} from '@/services';
-import {IProps, IStates} from './invoices-type';
+import {IProps, IStates} from './list-invoices-type';
 import {invoicesFilterFields} from './list-invoices-filters';
-import {Tab} from './invoices-tab';
+import {Tab} from './list-invoices-tab';
 import {tabRefs} from 'stores/common/helpers';
 
 export default class Invoices extends React.Component<IProps, IStates> {

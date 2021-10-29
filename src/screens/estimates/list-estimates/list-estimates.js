@@ -1,6 +1,6 @@
 import React from 'react';
 import {change} from 'redux-form';
-import styles from './estimates-styles';
+import styles from './list-estimates-styles';
 import {Tabs, MainLayout, AssetImage} from '@/components';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
@@ -9,8 +9,8 @@ import {isFilterApply} from '@/utils';
 import {ARROW_ICON} from '@/assets';
 import {ESTIMATES_TABS, ESTIMATES_FORM, TAB_NAME} from 'stores/estimates/types';
 import {EstimateServices} from 'stores/estimates/service';
-import {IProps, IStates} from './estimates-type';
-import {Tab} from './estimates-tab';
+import {IProps, IStates} from './list-estimates-type';
+import {Tab} from './list-estimates-tab';
 import {tabRefs} from 'stores/common/helpers';
 
 export default class Estimates extends React.Component<IProps, IStates> {

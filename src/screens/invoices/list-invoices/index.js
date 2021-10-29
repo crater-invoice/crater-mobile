@@ -1,1 +1,1 @@
-export {InvoicesContainer as Invoices} from './invoices-container';
+export {InvoicesContainer as Invoices} from './list-invoices-container';

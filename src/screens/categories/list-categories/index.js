@@ -1,1 +1,1 @@
-export {CategoriesContainer as Categories} from './categories-container';
+export {CategoriesContainer as Categories} from './list-categories-container';
