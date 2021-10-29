@@ -50,8 +50,7 @@ export default function commonReducer(state = initialState, action) {
     case types.FETCH_BOOTSTRAP_SUCCESS:
       const {
         current_user,
-        moment_date_format,
-        fiscal_year,
+        current_company_settings,
         current_user_settings,
         current_user_abilities = []
       } = payload;
@@ -61,8 +60,8 @@ export default function commonReducer(state = initialState, action) {
         ...payload,
         user: current_user,
         abilities: current_user_abilities,
-        dateFormat: moment_date_format,
-        fiscalYear: fiscal_year,
+        dateFormat: current_company_settings.moment_date_format,
+        fiscalYear: current_company_settings.fiscal_year,
         locale: current_user_settings?.language ?? 'en'
       };
 
