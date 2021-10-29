@@ -29,7 +29,7 @@ export const itemsFilterFields = ({props, setFormField}) => {
 
   const selectFields = [
     {
-      name: 'role_name',
+      name: 'role',
       apiSearch: true,
       hasPagination: true,
       getItems: q => dispatch(fetchRoles(q)),
@@ -40,7 +40,7 @@ export const itemsFilterFields = ({props, setFormField}) => {
       placeholder: t('users.rolePlaceholder'),
       navigation: navigation,
       compareField: 'name',
-      onSelect: item => setFormField('role_name', item.name),
+      onSelect: item => setFormField('role', item.name),
       headerProps: {
         title: t('users.rolePlaceholder'),
         rightIconPress: null
