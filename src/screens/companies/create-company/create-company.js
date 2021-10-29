@@ -141,17 +141,18 @@ export default class CreateCompany extends Component<IProps, IStates> {
           theme={theme}
         />
 
-        <Field
-          name="currency"
-          component={CurrencySelectModal}
-          currencies={currencies}
-          label={t('settings.preferences.currency')}
-          onSelect={val => this.setFormField('currency', val.id)}
-          placeholder=""
-          isRequired
-          theme={theme}
-          disabled={!isCreateScreen}
-        />
+        {isCreateScreen && (
+          <Field
+            name="currency"
+            component={CurrencySelectModal}
+            currencies={currencies}
+            label={t('settings.preferences.currency')}
+            onSelect={val => this.setFormField('currency', val.id)}
+            placeholder=""
+            isRequired
+            theme={theme}
+          />
+        )}
 
         {!isCreateScreen && (
           <>

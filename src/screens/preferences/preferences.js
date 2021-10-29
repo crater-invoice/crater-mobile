@@ -118,6 +118,7 @@ export default class Preferences extends Component<IProps, IStates> {
           isRequired
           theme={theme}
           onSelect={val => this.setFormField('currency', val.id)}
+          disabled
         />
 
         <Field
