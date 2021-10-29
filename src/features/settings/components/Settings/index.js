@@ -4,6 +4,7 @@ import {ListView, DefaultLayout} from '@/components';
 import t from 'locales/use-translation';
 import {SETTINGS_MENU} from '../../constants';
 import {routes} from '@/navigation';
+import {fetchBootstrap} from 'stores/common/actions';
 
 export class Settings extends React.Component {
   constructor(props) {
@@ -12,6 +13,14 @@ export class Settings extends React.Component {
     this.state = {
       endpointVisible: false
     };
+  }
+
+  componentDidMount() {
+    const {navigation, dispatch} = this.props;
+
+    navigation.addListener('focus', () => {
+      dispatch(fetchBootstrap());
+    });
   }
 
   onSelectMenu = item => {

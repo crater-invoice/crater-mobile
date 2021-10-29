@@ -9,7 +9,7 @@ import saga from 'stores/root-saga';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['auth', 'settings', 'common', 'more', 'company'],
+  whitelist: ['auth', 'settings', 'common', 'more', 'company', 'user'],
   blackList: ['form']
 };
 

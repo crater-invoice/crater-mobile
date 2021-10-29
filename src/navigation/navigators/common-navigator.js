@@ -20,7 +20,7 @@ import Report from '@/features/more/containers/Report';
 import Settings from '@/features/settings/containers/Settings';
 import UpdateApp from '@/components/UpdateAppVersion';
 import {Endpoint} from 'screens/endpoint';
-import Account from '@/features/settings/containers/Account';
+import {Account} from 'screens/account';
 import Notification from '@/features/settings/containers/Notification';
 import {Preferences} from 'screens/preferences';
 import TouchOrFaceId from '@/features/settings/containers/Touch-Face-Id';

@@ -20,7 +20,8 @@ type IProps = {
   dropdownProps?: Object,
   contentProps?: any,
   hideScrollView?: boolean,
-  keyboardProps?: any
+  keyboardProps?: any,
+  bodyStyle?: any
 };
 
 const Layout = (props: IProps) => {

@@ -12,6 +12,7 @@ import more from '@/features/more/saga';
 import company from 'stores/company/saga';
 import roles from 'stores/roles/saga';
 import users from 'stores/users/saga';
+import user from 'stores/user/saga';
 import customizes from 'stores/customize/saga';
 import paymentModes from 'stores/payment-modes/saga';
 import itemUnits from 'stores/item-units/saga';
@@ -23,7 +24,7 @@ import {PermissionService} from '@/services';
 export default function* rootSaga() {
   yield takeEvery(REHYDRATE, function* boot() {
     const reduxStore = yield select();
-    const abilities = reduxStore?.common?.abilities;
+    const abilities = reduxStore?.user?.currentAbilities;
     PermissionService.setPermissions(abilities);
 
     yield all([
@@ -38,6 +39,7 @@ export default function* rootSaga() {
       company(),
       roles(),
       users(),
+      user(),
       categories(),
       customizes(),
       paymentModes(),

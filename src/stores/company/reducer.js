@@ -23,7 +23,7 @@ export default function companyReducer(state = initialState, action) {
       return {...state, companies: payload};
 
     case types.SET_SELECTED_COMPANY:
-      return {...state, selectedCompany: payload};
+      return {...state, selectedCompany: payload, isSaving: false};
 
     case types.FETCH_CURRENCIES_SUCCESS:
       return {...state, currencies: payload};

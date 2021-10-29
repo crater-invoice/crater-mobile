@@ -11,6 +11,7 @@ import expenses from '@/features/expenses/reducers';
 import common from 'stores/common/reducer';
 import roles from 'stores/roles/reducer';
 import users from 'stores/users/reducer';
+import user from 'stores/user/reducer';
 import company from 'stores/company/reducer';
 import customizes from 'stores/customize/reducer';
 import itemUnits from 'stores/item-units/reducer';
@@ -31,6 +32,7 @@ export default combineReducers({
   settings,
   roles,
   users,
+  user,
   company,
   customizes,
   itemUnits,

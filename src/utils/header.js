@@ -70,6 +70,13 @@ const secondaryHeaderTitle = params => {
         'header.setting.company'
       );
 
+    case routes.ACCOUNT_INFO:
+      return getTitle(
+        'header.setting.account',
+        'header.setting.account',
+        'header.setting.account'
+      );
+
     default:
       return '';
   }

@@ -60,14 +60,10 @@ export default class CreateCompany extends Component<IProps, IStates> {
   };
 
   onSave = values => {
-    const {dispatch, isCreateScreen} = this.props;
+    const {dispatch, isCreateScreen, isSaving} = this.props;
     const {isFetchingInitialData, fileLoading, logo} = this.state;
 
-    if (this.props.isSaving || isFetchingInitialData) {
-      return;
-    }
-
-    if (fileLoading) {
+    if (isSaving || isFetchingInitialData || fileLoading) {
       return;
     }
 

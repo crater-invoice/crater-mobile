@@ -26,11 +26,11 @@ export const permissionSelector = route => {
 };
 
 export const commonSelector = state => {
-  const {common} = state;
+  const {common, user} = state;
   return {
     locale: common?.locale,
     theme: common?.theme,
-    abilities: common?.abilities
+    abilities: user?.currentAbilities
   };
 };
 

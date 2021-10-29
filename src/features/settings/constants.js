@@ -5,7 +5,6 @@ import t from 'locales/use-translation';
 
 // Forms
 // -----------------------------------------
-export const EDIT_ACCOUNT = 'accountForm/EDIT_ACCOUNT';
 export const NOTIFICATION = 'notification/NOTIFICATION';
 
 export const SEARCH_TAX = 'taxForm/SEARCH_TAX';
@@ -33,11 +32,6 @@ export const GET_SETTING_INFO = 'GET_SETTING_INFO';
 export const GET_SETTING_ITEM = 'settings/GET_SETTING_ITEM';
 export const EDIT_SETTING_ITEM = 'settings/EDIT_SETTING_ITEM';
 
-// Account
-export const GET_ACCOUNT_INFO = 'accountForm/GET_ACCOUNT_INFO';
-export const SET_ACCOUNT_INFO = 'accountForm/SET_ACCOUNT_INFO';
-export const EDIT_ACCOUNT_INFO = 'accountForm/EDIT_ACCOUNT_INFO';
-
 // Notes
 export const GET_NOTES = 'notes/GET_NOTES';
 export const SET_NOTES = 'notes/SET_NOTES';
@@ -51,9 +45,6 @@ export const SAVE_NOTES = 'notes/SAVE_NOTES';
 export const CREATE_FROM_NOTES = 'notes/CREATE_FROM_NOTES';
 export const REMOVE_FROM_NOTES = 'notes/REMOVE_FROM_NOTES';
 export const UPDATE_FROM_NOTES = 'notes/UPDATE_FROM_NOTES';
-
-// Languages
-export const SET_LANGUAGES = 'languages/SET_LANGUAGES';
 
 // Custom Fields
 export const GET_CUSTOM_FIELDS = 'custom-field/GET_CUSTOM_FIELDS';

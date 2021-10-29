@@ -8,9 +8,6 @@ export default styles = StyleSheet.create({
     borderColor: colors.lightGray,
     borderWidth: 0.2
   },
-  versionContainer: {
-    marginVertical: 17
-  },
   avatarContainer: {
     marginTop: 25,
     marginBottom: 5,
