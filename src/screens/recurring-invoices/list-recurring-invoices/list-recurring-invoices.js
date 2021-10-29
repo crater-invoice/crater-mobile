@@ -93,6 +93,16 @@ export default class RecurringInvoices extends React.Component<
     });
   };
 
+  changeTabOnFilter = (activeTab = this.state.activeTab) => {
+    if (activeTab === RECURRING_INVOICES_TABS.ACTIVE) {
+      this.setActiveTab(RECURRING_INVOICES_TABS.ACTIVE);
+    } else if (activeTab === RECURRING_INVOICES_TABS.ON_HOLD) {
+      this.setActiveTab(RECURRING_INVOICES_TABS.ON_HOLD);
+    } else {
+      this.setActiveTab(RECURRING_INVOICES_TABS.ALL);
+    }
+  };
+
   onSubmitFilter = ({
     filterStatus = '',
     from_date = '',
@@ -100,10 +110,10 @@ export default class RecurringInvoices extends React.Component<
     customer_id = ''
   }) => {
     const {search} = this.state;
-    this.setState({activeTab: filterStatus});
+    this.changeTabOnFilter(filterStatus);
     tabRefs?.getItems?.({
       queryString: {
-        status: filterStatus !== 'ALL' ? filterStatus : '',
+        status: filterStatus,
         search,
         customer_id,
         from_date,
