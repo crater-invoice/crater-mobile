@@ -43,7 +43,6 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
         this.setState({data, isFetchingInitialData: false})
       )
     );
-    return;
   };
 
   onAddInvoice = () => {
@@ -196,7 +195,7 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
   };
 
   render() {
-    const {navigation, route} = this.props;
+    const {navigation, route, isAllowToDelete, isAllowToEdit} = this.props;
     const {isFetchingInitialData, data} = this.state;
 
     const headerProps = {
@@ -209,11 +208,15 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
       rightIconPress: this.onAddInvoice
     };
 
-    let drownDownProps = {
-      options: RECURRING_INVOICE_DROPDOWN,
+    const options = RECURRING_INVOICE_DROPDOWN(isAllowToEdit, isAllowToDelete);
+    const drownDownProps = {
+      options,
       onSelect: this.onOptionSelect,
-      cancelButtonIndex: RECURRING_INVOICE_DROPDOWN.length,
-      destructiveButtonIndex: RECURRING_INVOICE_DROPDOWN.length - 1
+      cancelButtonIndex: options.length,
+      destructiveButtonIndex: options.length - 1,
+      ...((!isAllowToDelete || !isAllowToEdit) && {
+        destructiveButtonIndex: options.length + 1
+      })
     };
 
     return (

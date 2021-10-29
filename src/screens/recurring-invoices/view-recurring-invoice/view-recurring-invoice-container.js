@@ -10,6 +10,7 @@ import {getTaxes, getNotes} from '@/features/settings/actions';
 import {getItems} from '@/features/more/actions';
 import {currentCurrencySelector} from 'stores/company/selectors';
 import moment from 'moment';
+import {routes} from '@/navigation';
 
 const mapStateToProps = (state, {route}) => {
   const {
@@ -23,7 +24,7 @@ const mapStateToProps = (state, {route}) => {
   return {
     ...loadingSelector(state),
     ...commonSelector(state),
-    ...permissionSelector(route),
+    ...permissionSelector({...route, name: routes.CREATE_RECURRING_INVOICE}),
     id,
     selectedItems,
     invoiceData,

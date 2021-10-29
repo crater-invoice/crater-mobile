@@ -35,11 +35,15 @@ export const EDIT_INVOICE_ACTIONS = (
     value: INVOICE_ACTIONS.CLONE
   });
 
-  (sentStatus || (!sentStatus && !completeStatus)) &&
+  if (
+    PermissionService.isAllowToCreate(routes.MAIN_PAYMENTS) &&
+    (sentStatus || (!sentStatus && !completeStatus))
+  ) {
     options.push({
       label: t('invoices.actions.recordPayment'),
       value: INVOICE_ACTIONS.RECORD_PAYMENT
     });
+  }
 
   isAllowToDelete &&
     options.push({
