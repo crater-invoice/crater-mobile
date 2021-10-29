@@ -6,10 +6,11 @@ import {ITEMS_FORM} from '../../constants';
 import {fetchItemUnits} from 'stores/item-units/actions';
 import {unitsSelector} from '../../selectors';
 import {commonSelector} from 'stores/common/selectors';
+import {currentCurrencySelector} from 'stores/company/selectors';
 
 const mapStateToProps = state => ({
   items: state.more?.items,
-  currency: state.common?.currency,
+  currency: currentCurrencySelector(state),
   units: unitsSelector(state.settings.units),
   formValues: getFormValues(ITEMS_FORM)(state) || {},
   ...commonSelector(state)

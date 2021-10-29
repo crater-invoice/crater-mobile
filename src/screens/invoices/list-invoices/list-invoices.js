@@ -35,10 +35,6 @@ export default class Invoices extends React.Component<IProps, IStates> {
     const {navigation} = this.props;
     this.setActiveTab();
     this.focusListener = navigation.addListener('focus', () => {
-      if (InvoiceServices.isEmailSent) {
-        InvoiceServices.toggleIsEmailSent(false);
-      }
-
       if (InvoiceServices.isFirstInvoiceCreated) {
         InvoiceServices.toggleIsFirstInvoiceCreated(false);
         openRatingReviewModal();

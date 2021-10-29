@@ -1,38 +1,6 @@
 import {isEmpty} from '@/constants';
-import {
-  NOTES_FIELD_MODAL_TYPES,
-  NOTES_TYPE_VALUE
-} from '@/features/settings/constants';
+import {NOTES_FIELD_MODAL_TYPES} from '@/features/settings/constants';
 import {find} from 'lodash-es';
-
-export const formatCurrencies = currencies => {
-  if (isEmpty(currencies)) {
-    return [];
-  }
-  return currencies.map(currency => {
-    const {name, code, symbol} = currency;
-    return {
-      title: name,
-      subtitle: {title: code},
-      rightTitle: symbol || '-',
-      fullItem: currency
-    };
-  });
-};
-
-export const formatCountries = countries => {
-  if (isEmpty(countries)) {
-    return [];
-  }
-  return countries.map(country => {
-    const {name, code} = country;
-    return {
-      title: name,
-      rightTitle: code,
-      fullItem: country
-    };
-  });
-};
 
 export const formatSelectPickerName = items => {
   if (isEmpty(items)) {

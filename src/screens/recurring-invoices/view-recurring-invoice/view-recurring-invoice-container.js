@@ -8,11 +8,12 @@ import {loadingSelector} from 'stores/recurring-invoices/selectors';
 import {getCustomers} from '@/features/customers/actions';
 import {getTaxes, getNotes} from '@/features/settings/actions';
 import {getItems} from '@/features/more/actions';
+import {currentCurrencySelector} from 'stores/company/selectors';
 import moment from 'moment';
 
 const mapStateToProps = (state, {route}) => {
   const {
-    common: {taxTypes, currency},
+    common: {taxTypes},
     settings: {notes, customFields},
     recurringInvoices: {status, selectedItems, invoiceData},
     more: {items},
@@ -30,7 +31,7 @@ const mapStateToProps = (state, {route}) => {
     notes,
     customers,
     taxTypes,
-    currency,
+    currency: currentCurrencySelector(state),
     customFields,
     statusList: status,
     formValues: getFormValues(CREATE_RECURRING_INVOICE_FORM)(state) || {},

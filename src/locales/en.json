@@ -83,10 +83,7 @@
     "viewCategory": "View Category",
     "viewUnit": "View Item Unit",
     "viewPaymentMode": "View Payment Mode",
-    "companies": "Companies",
     "addCompany": "Add Company",
-    "editCompany": "Edit Company",
-    "viewCompany": "View Company",
     "roles": "Roles and Permission",
     "addRole": "Add Role",
     "editRole": "Edit Role",
@@ -901,10 +898,6 @@
     "text_add_new_company": "Add New Company",
     "text_already_used": "Company already in use",
     "text_alert_description": "You will not be able to recover this Company",
-    "empty": {
-      "title": "No companies yet!",
-      "description": "This section will contain the list of companies."
-    }
   },
   "roles": {
     "text_add_new_role": "Add New Role",
@@ -1003,6 +996,7 @@
     "recurring_invoice_created": "Recurring Invoice created successfully",
     "recurring_invoice_updated": "Recurring Invoice updated successfully",
     "recurring_invoice_deleted": "Recurring Invoice deleted successfully",
-    "password_reset_link": "The password reset link was sent successfully."
+    "password_reset_link": "The password reset link was sent successfully.",
+    "company_created": "Company created successfully"
   }
 }

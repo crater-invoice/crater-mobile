@@ -27,7 +27,7 @@ export function saveEndpointURL(url, navigation, onResult) {
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function fetchBootstrap(payload = {}) {
+export function fetchBootstrap(payload) {
   return {
     type: types.FETCH_BOOTSTRAP,
     payload: {onSuccess: payload}
@@ -55,5 +55,17 @@ export function setLastOTACheckDate(payload = {}) {
   return {
     type: types.SET_LAST_OTA_CHECK_DATE,
     payload
+  };
+}
+
+/**
+ * Fetch countries
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export function fetchCountries() {
+  return {
+    type: types.FETCH_COUNTRIES,
+    payload: {}
   };
 }

@@ -8,10 +8,11 @@ import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {EXPENSE_FORM, EXPENSE_FIELDS as FIELDS} from '../../constants';
 import {fetchCategories} from 'stores/categories/actions';
 import {categoriesSelector} from 'stores/categories/selectors';
+import {currentCurrencySelector} from 'stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
-    common: {endpointURL, currency},
+    common: {endpointURL},
     expenses: {loading},
     settings: {customFields}
   } = state;
@@ -24,7 +25,7 @@ const mapStateToProps = (state, {route}) => {
     customFields,
     loading: loading?.expenseLoading,
     id,
-    currency,
+    currency: currentCurrencySelector(state),
     formValues: getFormValues(EXPENSE_FORM)(state) || {},
     ...permissionSelector(route),
     ...commonSelector(state),

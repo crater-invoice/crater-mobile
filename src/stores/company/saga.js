@@ -1,18 +1,32 @@
-import {call, put, takeEvery, select} from 'redux-saga/effects';
+import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
 import * as Updates from 'expo-updates';
 import * as types from './types';
 import * as req from './service';
-import {spinner} from './actions';
-import {isEmpty} from '@/constants';
-import {SET_SETTINGS} from '@/constants';
+import {CompanyServices} from './service';
+import {setSelectedCompany, spinner} from './actions';
 import t from 'locales/use-translation';
 import {setI18nManagerValue, showNotification, handleError} from '@/utils';
+import {fetchCountries} from '../common/saga';
+import {navigation} from '@/navigation';
+import {fetchBootstrap} from '../common/actions';
 
 /**
- * fetch Languages saga
+ * Fetch companies saga
  * @returns {IterableIterator<*>}
  */
-function* fetchCurrencies() {
+function* fetchCompanies(payload) {
+  try {
+    const {data} = yield call(req.fetchCompanies);
+    yield put({type: types.FETCH_COMPANIES_SUCCESS, payload: data});
+    yield put(spinner('isSaving', false));
+  } catch (e) {}
+}
+
+/**
+ * Fetch Languages saga
+ * @returns {IterableIterator<*>}
+ */
+export function* fetchCurrencies() {
   try {
     const {data} = yield call(req.fetchCurrencies);
     yield put({type: types.FETCH_CURRENCIES_SUCCESS, payload: data});
@@ -20,7 +34,7 @@ function* fetchCurrencies() {
 }
 
 /**
- * fetch Languages saga
+ * Fetch Languages saga
  * @returns {IterableIterator<*>}
  */
 function* fetchLanguages() {
@@ -31,7 +45,7 @@ function* fetchLanguages() {
 }
 
 /**
- * fetch timezones saga
+ * Fetch timezones saga
  * @returns {IterableIterator<*>}
  */
 function* fetchTimezones() {
@@ -42,7 +56,7 @@ function* fetchTimezones() {
 }
 
 /**
- * fetch Date-Formats saga
+ * Fetch Date-Formats saga
  * @returns {IterableIterator<*>}
  */
 function* fetchDateFormats() {
@@ -53,7 +67,7 @@ function* fetchDateFormats() {
 }
 
 /**
- * fetch Fiscal-Years saga
+ * Fetch Fiscal-Years saga
  * @returns {IterableIterator<*>}
  */
 function* fetchFiscalYears() {
@@ -64,60 +78,42 @@ function* fetchFiscalYears() {
 }
 
 /**
- * fetch Preferences saga
+ * Fetch Preferences saga
  * @returns {IterableIterator<*>}
  */
 function* fetchPreferences({payload}) {
   try {
     const response = yield call(req.fetchPreferences);
-    const store = yield select();
-    const {
-      currencies,
-      languages,
-      timezones,
-      dateFormats,
-      fiscalYears
-    } = store.company;
 
-    yield isEmpty(currencies) && call(fetchCurrencies);
-    yield isEmpty(languages) && call(fetchLanguages);
-    yield isEmpty(timezones) && call(fetchTimezones);
-    yield isEmpty(dateFormats) && call(fetchDateFormats);
-    yield isEmpty(fiscalYears) && call(fetchFiscalYears);
+    if (!CompanyServices.isPreferencesItemLoaded) {
+      yield call(fetchCurrencies);
+      yield call(fetchTimezones);
+      yield call(fetchDateFormats);
+      yield call(fetchFiscalYears);
+      yield call(fetchLanguages);
+      CompanyServices.setIsPreferencesItemLoaded();
+    }
+
+    yield put(spinner('isSaving', false));
     payload?.onSuccess?.(response);
+    yield put(fetchBootstrap());
   } catch (e) {}
 }
 
 /**
- * update Preferences saga
+ * Update Preferences saga
  * @returns {IterableIterator<*>}
  */
 function* updatePreferences({payload}) {
   try {
-    const {
-      params,
-      navigation,
-      locale = 'en',
-      currencies = null,
-      onResult
-    } = payload;
+    const {params, navigation, locale = 'en', onResult} = payload;
 
     yield put(spinner('isSaving', true));
 
     const body = {settings: params};
     yield call(req.updatePreferences, body);
 
-    let selectedCurrency = null;
-    if (params?.currency && !isEmpty(currencies)) {
-      selectedCurrency = currencies.find(
-        currency => currency?.fullItem?.id === Number(params?.currency)
-      );
-      selectedCurrency = selectedCurrency?.fullItem;
-    }
-    yield put({
-      type: SET_SETTINGS,
-      payload: {settings: {...params, selectedCurrency}}
-    });
+    yield put(fetchBootstrap());
 
     onResult?.();
 
@@ -138,7 +134,77 @@ function* updatePreferences({payload}) {
   }
 }
 
+/**
+ * Fetch company initial details saga
+ * @returns {IterableIterator<*>}
+ */
+function* fetchCompanyInitialDetails({payload}) {
+  try {
+    const {isCreateScreen, onSuccess} = payload;
+    yield call(fetchCurrencies);
+    yield call(fetchCountries);
+    let data = null;
+    if (!isCreateScreen) {
+      const response = yield call(req.fetchCompany);
+      data = response.data;
+      yield put(setSelectedCompany(data));
+    }
+    yield put(spinner('isSaving', false));
+    onSuccess?.(data);
+  } catch (e) {}
+}
+
+/**
+ * Add company saga
+ * @returns {IterableIterator<*>}
+ */
+function* addCompany({payload}) {
+  try {
+    yield put(spinner('isSaving', true));
+    const {params, logo} = payload;
+    const {data} = yield call(req.addCompany, params);
+    if (logo) {
+      yield call(req.uploadCompanyLogo, logo, data?.id);
+    }
+    navigation.goBack();
+    showNotification({message: t('notification.company_created')});
+  } catch (e) {
+    handleError(e);
+  } finally {
+    yield put(spinner('isSaving', false));
+  }
+}
+
+/**
+ * Update company saga
+ * @returns {IterableIterator<*>}
+ */
+function* updateCompany({payload}) {
+  try {
+    yield put(spinner('isSaving', true));
+    const {params, logo} = payload;
+    const {data} = yield call(req.updateCompany, params);
+    yield put(setSelectedCompany(data));
+    if (logo) {
+      yield call(req.uploadCompanyLogo, logo, data?.id);
+    }
+    navigation.goBack();
+    showNotification({message: t('notification.company_updated')});
+  } catch (e) {
+    handleError(e);
+  } finally {
+    yield put(spinner('isSaving', false));
+  }
+}
+
 export default function* companySaga() {
   yield takeEvery(types.FETCH_PREFERENCES, fetchPreferences);
   yield takeEvery(types.UPDATE_PREFERENCES, updatePreferences);
+  yield takeEvery(types.FETCH_COMPANIES, fetchCompanies);
+  yield takeLatest(types.ADD_COMPANY, addCompany);
+  yield takeLatest(types.UPDATE_COMPANY, updateCompany);
+  yield takeEvery(
+    types.FETCH_COMPANY_INITIAL_DETAILS,
+    fetchCompanyInitialDetails
+  );
 }

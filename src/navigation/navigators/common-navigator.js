@@ -5,9 +5,7 @@ import {routes} from '../navigation-routes';
 
 import Customer from '@/features/customers/containers/Customer';
 
-import Companies from '@/features/common/containers/Companies';
-import Company from '@/features/common/containers/Company';
-import CompanyInfo from '@/features/settings/containers/Company';
+import {CreateCompany} from 'screens/companies';
 
 import Expense from '@/features/expenses/containers/Expense';
 
@@ -70,14 +68,8 @@ export const CommonNavigator = (
 
     {/* Company Navigator */}
     <Stack.Screen
-      name={routes.COMPANIES}
-      component={Companies}
-      options={options}
-    />
-    <Stack.Screen name={routes.COMPANY} component={Company} options={options} />
-    <Stack.Screen
-      name={routes.COMPANY_INFO}
-      component={CompanyInfo}
+      name={routes.CREATE_COMPANY}
+      component={CreateCompany}
       options={options}
     />
 

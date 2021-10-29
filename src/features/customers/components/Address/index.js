@@ -149,7 +149,6 @@ export class Address extends Component<IProps> {
     const {
       handleSubmit,
       hasBillingAddress,
-      navigation,
       countries,
       theme,
       disabled

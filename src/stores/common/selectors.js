@@ -1,4 +1,8 @@
+import {createSelector} from 'reselect';
 import {PermissionService} from '@/services';
+import {isEmpty} from '@/constants';
+
+const commonStore = state => state?.common;
 
 export const permissionSelector = route => {
   const type = route?.params?.type ?? 'ADD';
@@ -39,3 +43,15 @@ export const settingsSelector = state => {
     tax_per_item
   };
 };
+
+export const countriesSelector = createSelector(
+  commonStore,
+  store => {
+    if (isEmpty(store?.countries)) return [];
+    return store.countries.map(country => ({
+      title: country.name,
+      rightTitle: country.code,
+      fullItem: country
+    }));
+  }
+);

@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {TouchableHighlight, ScrollView} from 'react-native';
-import Styles from './styles';
+import Styles from './company-modal-style';
 import t from 'locales/use-translation';
 import {colors} from '@/styles';
-import {routes} from '@/navigation';
-import {fetchCompanies} from '../../actions';
+import {navigateTo, resetNavigation, routes} from '@/navigation';
+import {fetchCompanies, setSelectedCompany} from 'stores/company/actions';
+import {IProps, IStates} from './company-modal-type';
+import {fetchBootstrap} from 'stores/common/actions';
 import {
   defineSize,
   hasTextLength as hasValue,
@@ -19,7 +21,7 @@ import {
   View
 } from '@/components';
 
-export class Modal extends Component {
+export default class CompanyModal extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {visible: false};
@@ -39,14 +41,29 @@ export class Modal extends Component {
   addNewCompany = async () => {
     await this.setState({visible: false});
     setTimeout(() => {
-      this.props.navigation.navigate(routes.COMPANY);
+      navigateTo({route: routes.CREATE_COMPANY, params: {type: 'ADD'}});
     }, 200);
   };
 
-  render() {
-    const {theme, company, companies} = this.props;
-    const {visible} = this.state;
+  onSelectCompany = async company => {
+    const {selectedCompany, dispatch} = this.props;
 
+    await this.setState({visible: false});
+
+    if (selectedCompany?.id === company?.id) {
+      return;
+    }
+
+    dispatch(setSelectedCompany(company));
+
+    setTimeout(() => {
+      dispatch(fetchBootstrap(() => resetNavigation()));
+    }, 100);
+  };
+
+  render() {
+    const {theme, selectedCompany, companies} = this.props;
+    const {visible} = this.state;
     const {Modal} = Styles;
 
     const companyLogo = (company, type) => {
@@ -90,7 +107,7 @@ export class Modal extends Component {
 
     const COMPANIES_LIST = com => {
       const {id, name} = com;
-      const isSelected = id === 1;
+      const isSelected = id === selectedCompany?.id;
       return (
         <CtDecorativeButton
           key={id}
@@ -101,6 +118,7 @@ export class Modal extends Component {
           py-10
           justify-center
           background-color={isSelected && theme.card.secondary.bgColor}
+          onPress={() => this.onSelectCompany(com)}
         >
           <View flex-row items-center>
             {companyLogo(com, 'large')}
@@ -150,7 +168,7 @@ export class Modal extends Component {
     return (
       <View>
         <CtDecorativeButton withHitSlop mr-11 onPress={this.openModal}>
-          {companyLogo(company, 'medium')}
+          {companyLogo(selectedCompany, 'medium')}
         </CtDecorativeButton>
 
         <AnimateModal

@@ -41,3 +41,11 @@ export const checkAppVersion = () => {
 export const fetchBootstrap = () => {
   return Request.get({path: 'bootstrap'});
 };
+
+/**
+ * Fetch countries
+ * @returns {*}
+ */
+export const fetchCountries = () => {
+  return Request.get({path: 'countries'});
+};

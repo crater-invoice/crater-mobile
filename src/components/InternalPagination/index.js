@@ -99,7 +99,7 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
       return;
     }
 
-    onSelect(item);
+    onSelect?.(item);
     this.setState({values: item[displayName]});
     this.onToggle();
   };

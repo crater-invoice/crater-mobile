@@ -1,34 +1,23 @@
 import {formatTaxTypes} from '@/utils';
 import * as types from './types';
-import {
-  SET_SETTINGS,
-  DATE_FORMAT,
-  SET_MAIL_CONFIGURATION,
-  SWITCH_THEME
-} from '@/constants';
+import {DATE_FORMAT, SET_MAIL_CONFIGURATION, SWITCH_THEME} from '@/constants';
 import {
   SET_TAX,
   SET_EDIT_TAX,
   SET_REMOVE_TAX,
   SET_TAXES,
-  SET_COMPANY_INFO,
-  SET_GLOBAL_CURRENCIES,
   SET_BIOMETRY_AUTH_TYPE
 } from '@/features/settings/constants';
-import {darkTheme} from '@/theme';
+import {lightTheme} from '@/theme';
 
 const initialState = {
   user: null,
-  customers: [],
-  currencies: [],
   locale: 'en',
   timeZone: null,
   discount_per_item: false,
   tax_per_item: false,
   notifyInvoiceViewed: false,
   notifyEstimateViewed: false,
-  currency: null,
-  company: null,
   taxTypes: [],
   loading: false,
   dateFormat: DATE_FORMAT,
@@ -38,8 +27,9 @@ const initialState = {
   fiscalYear: '2-1',
   biometryAuthType: null,
   lastOTACheckDate: null,
-  theme: darkTheme,
-  abilities: []
+  theme: lightTheme,
+  abilities: [],
+  countries: []
 };
 
 export default function commonReducer(state = initialState, action) {
@@ -57,30 +47,22 @@ export default function commonReducer(state = initialState, action) {
       const {tax_per_item, discount_per_item} = payload;
       return {...state, tax_per_item, discount_per_item};
 
-    case SET_COMPANY_INFO:
-      return {...state, company: payload.company};
-
     case types.FETCH_BOOTSTRAP_SUCCESS:
       const {
-        user,
-        company,
-        default_currency,
-        moment_date_format,
-        fiscal_year,
-        default_language = 'en',
-        abilities = []
+        current_user,
+        current_company_settings,
+        current_user_settings,
+        current_user_abilities = []
       } = payload;
 
       return {
         ...state,
         ...payload,
-        user,
-        company,
-        currency: default_currency,
-        abilities,
-        dateFormat: moment_date_format,
-        fiscalYear: fiscal_year,
-        locale: default_language
+        user: current_user,
+        abilities: current_user_abilities,
+        dateFormat: current_company_settings.moment_date_format,
+        fiscalYear: current_company_settings.fiscal_year,
+        locale: current_user_settings?.language ?? 'en'
       };
 
     case SET_TAXES:
@@ -119,22 +101,8 @@ export default function commonReducer(state = initialState, action) {
 
       return {...state, taxTypes: remainTaxes};
 
-    case SET_SETTINGS:
-      return {
-        ...state,
-        ...(payload?.settings?.language && {
-          locale: payload.settings.language
-        }),
-        ...(payload?.settings?.selectedCurrency && {
-          currency: payload.settings.selectedCurrency
-        })
-      };
-
     case SET_MAIL_CONFIGURATION:
       return {...state, mailDriver: payload.mailDriver};
-
-    case SET_GLOBAL_CURRENCIES:
-      return {...state, currencies: payload?.currencies};
 
     case SET_BIOMETRY_AUTH_TYPE:
       return {...state, biometryAuthType: payload};
@@ -144,6 +112,9 @@ export default function commonReducer(state = initialState, action) {
 
     case SWITCH_THEME:
       return {...state, theme: payload};
+
+    case types.FETCH_COUNTRIES_SUCCESS:
+      return {...state, countries: payload};
 
     default:
       return state;

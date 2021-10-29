@@ -31,7 +31,7 @@ export const retrospectiveEditsSelector = createSelector(
 
 export const loadingSelector = createSelector(
   companyStore,
-  company => company?.isSaving
+  store => ({isSaving: store?.isSaving})
 );
 
 export const currenciesSelector = createSelector(
@@ -54,3 +54,11 @@ export const languagesSelector = createSelector(
       fullItem: _lng
     }))
 );
+
+export const companiesSelector = state =>
+  isEmpty(state?.company?.companies) ? [] : state?.company?.companies;
+
+export const currentCompanySelector = state => state.company?.selectedCompany;
+
+export const currentCurrencySelector = state =>
+  state.company?.selectedCompanyCurrency;

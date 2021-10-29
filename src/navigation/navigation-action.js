@@ -1,4 +1,5 @@
 import React from 'react';
+import {StackActions} from '@react-navigation/native';
 import {TransitionPresets} from '@react-navigation/stack';
 import {PermissionService} from '@/services';
 import {routes} from './navigation-routes';
@@ -13,6 +14,10 @@ export let navigationRef: any = React.createRef();
 
 export function navigateTo({route, params = {}}) {
   navigationRef?.current?.navigate?.(route, params);
+}
+
+export function resetNavigation() {
+  navigationRef?.current?.dispatch?.(StackActions.replace(routes.MAIN_TABS));
 }
 
 export function goBack() {

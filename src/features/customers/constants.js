@@ -20,46 +20,41 @@ export const REMOVE_CUSTOMER = 'customers/REMOVE_CUSTOMER';
 
 export const UPDATE_FROM_CUSTOMERS = 'customers/UPDATE_FROM_CUSTOMERS';
 
-// Address Country
-// -----------------------------------------
-export const GET_COUNTRIES = 'address/GET_COUNTRIES';
-export const SET_COUNTRIES = 'address/SET_COUNTRIES';
-
 export const ACTIONS_VALUE = {
-    REMOVE: 'remove'
+  REMOVE: 'remove'
 };
 
 export const CUSTOMER_ACTIONS = () => {
-    return [
-        {
-            label: t('customers.removeCustomer'),
-            value: ACTIONS_VALUE.REMOVE
-        }
-    ];
+  return [
+    {
+      label: t('customers.removeCustomer'),
+      value: ACTIONS_VALUE.REMOVE
+    }
+  ];
 };
 export const isAddress = object => {
-    return object?.address_street_1 ||
-        object?.address_street_2 ||
-        object?.city ||
-        object?.country_id ||
-        object?.name ||
-        object?.phone ||
-        object?.state ||
-        object?.zip
-        ? true
-        : false;
+  return object?.address_street_1 ||
+    object?.address_street_2 ||
+    object?.city ||
+    object?.country_id ||
+    object?.name ||
+    object?.phone ||
+    object?.state ||
+    object?.zip
+    ? true
+    : false;
 };
 // Customer Fields
 // -----------------------------------------
 export const CUSTOMER_FIELDS = {
-    NAME: 'name',
-    CONTACT_NAME: 'contact_name',
-    EMAIL: 'email',
-    PHONE: 'phone',
-    WEBSITE: 'website',
-    CURRENCY: 'currency_id',
-    BILLING: 'billingAddress',
-    SHIPPING: 'shippingAddress',
-    ENABLE_PORTAL: 'enable_portal',
-    CUSTOM_FIELDS: 'customFields'
+  NAME: 'name',
+  CONTACT_NAME: 'contact_name',
+  EMAIL: 'email',
+  PHONE: 'phone',
+  WEBSITE: 'website',
+  CURRENCY: 'currency_id',
+  BILLING: 'billingAddress',
+  SHIPPING: 'shippingAddress',
+  ENABLE_PORTAL: 'enable_portal',
+  CUSTOM_FIELDS: 'customFields'
 };
