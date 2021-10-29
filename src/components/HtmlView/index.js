@@ -22,7 +22,7 @@ export const HtmlView: FC<IProps> = ({content, theme}) => {
         h6: () => <Text allowFontScaling={false} />
       }}
       baseFontStyle={{
-        fontSize: fontSizes.h6,
+        fontSize: fontSizes.h4,
         color: theme?.input?.color,
         textAlign: 'left',
         fontFamily: fonts.regular

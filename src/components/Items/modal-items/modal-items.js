@@ -103,15 +103,16 @@ export class ItemField extends React.Component<IProps> {
       screen
     } = this.props;
     const disabled = !isAllowToEdit;
+    const itemList = this.getItemList(selectedItems);
 
     return (
       <>
-        <BaseLabel isRequired style={styles.label}>
+        <BaseLabel isRequired style={styles.label(itemList.length >= 1)}>
           {t('invoices.items')}
         </BaseLabel>
 
         <ListView
-          items={this.getItemList(selectedItems)}
+          items={itemList}
           itemContainer={styles.itemContainer(theme, disabled)}
           leftTitleStyle={styles.itemLeftTitle(theme)}
           leftSubTitleLabelStyle={[
@@ -126,7 +127,8 @@ export class ItemField extends React.Component<IProps> {
               : theme?.input?.disableBackgroundColor
           }
           onPress={this.onEditItem}
-          parentViewStyle={{marginVertical: 4}}
+          parentViewStyle={{marginBottom: 10}}
+          isAnimated
         />
 
         <Field

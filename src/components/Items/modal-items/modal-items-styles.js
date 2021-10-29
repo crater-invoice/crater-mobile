@@ -28,8 +28,11 @@ export default styles = StyleSheet.create({
   itemLeftSubTitleLabel: {
     marginLeft: -6
   },
-  label: {
+  label: hasItem => ({
     paddingBottom: -1,
-    paddingTop: 12
-  }
+    paddingTop: 12,
+    ...(hasItem && {
+      paddingBottom: 7
+    })
+  })
 });
