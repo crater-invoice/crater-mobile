@@ -243,8 +243,6 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       isSaving,
       isDeleting,
       invoiceTemplates = [],
-      isSaving,
-      isDeleting,
       formValues: {
         limit_by,
         limit_date,
