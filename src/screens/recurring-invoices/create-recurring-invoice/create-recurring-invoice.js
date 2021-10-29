@@ -43,6 +43,7 @@ import {
 } from '@/components/final-amount/final-amount-calculation';
 import {setCalculationRef} from 'stores/common/helpers';
 import {getApiFormattedCustomFields, secondaryHeader} from '@/utils';
+import moment from 'moment';
 
 export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   recurringInvoiceRefs: any;
@@ -205,19 +206,21 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   fetchNextInvoice = () => {
     const {
       formValues: {starts_at, frequency},
-      dispatch
+      dispatch,
+      dateFormat
     } = this.props;
     const params = {
       starts_at,
       frequency
     };
-
     dispatch(
       fetchNextInvoiceAt({
         params,
         onSuccess: data => {
-          if (data?.success)
-            this.setFormField('next_invoice_at', data?.next_invoice_at);
+          if (data?.success) {
+            let nextInvDate = moment(data?.next_invoice_at).format(dateFormat);
+            this.setFormField('next_invoice_at', nextInvDate);
+          }
         }
       })
     );
@@ -237,6 +240,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       }
     });
   };
+
   render() {
     const {
       isEditScreen,
