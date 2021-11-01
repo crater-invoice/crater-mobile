@@ -41,7 +41,7 @@ export class CreateItem extends React.Component<IProps> {
   saveItem = values => {
     const {itemId, navigation, type, screen, dispatch} = this.props;
     if (this.finalAmount() < 0) {
-      alert(t('items.lessAmount'));
+      alert(t('items.less_amount'));
       return;
     }
 

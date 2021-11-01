@@ -99,7 +99,7 @@ export class Customers extends React.Component<IProps> {
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('customers.empty.buttonTitle'),
+          buttonTitle: t('customers.empty.button_title'),
           buttonPress: () => {
             navigation.navigate(routes.CUSTOMER, {
               type: 'ADD'

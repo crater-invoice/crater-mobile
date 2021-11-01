@@ -159,7 +159,7 @@ export default class Invoices extends React.Component<IProps, IStates> {
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('invoices.empty.buttonTitle'),
+          buttonTitle: t('invoices.empty.button_title'),
           buttonPress: () =>
             navigation.navigate(routes.CREATE_INVOICE, {
               type: 'ADD'

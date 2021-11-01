@@ -122,7 +122,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     }
 
     alertMe({
-      title: t('invoices.alert.draftTitle'),
+      title: t('invoices.alert.draft_title'),
       showCancel: true,
       cancelText: t('alert.action.discard'),
       cancelPress: () => navigation.navigate(routes.MAIN_INVOICES),
@@ -146,7 +146,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     }
 
     if (finalAmount() < 0) {
-      alert(t('invoices.alert.lessAmount'));
+      alert(t('invoices.alert.less_amount'));
       return;
     }
 
@@ -214,7 +214,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('invoices.alert.removeDescription'),
+      desc: t('invoices.alert.remove_description'),
       showCancel: true,
       okPress: () => dispatch(removeInvoice(id, navigation))
     });
@@ -231,7 +231,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       case INVOICE_ACTIONS.MARK_AS_SENT:
         alertMe({
           title: t('alert.title'),
-          desc: t('invoices.alert.markAsSent'),
+          desc: t('invoices.alert.mark_as_sent'),
           showCancel: true,
           okPress: () =>
             dispatch(
@@ -318,7 +318,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       <SendMail
         mailReference={ref => (this.sendMailRef = ref)}
         headerTitle={'header.send_mail_invoice'}
-        alertDesc={'invoices.alert.sendInvoice'}
+        alertDesc={'invoices.alert.send_invoice'}
         user={this.props.formValues?.customer}
         subject="New Invoice"
         body="invoice_mail_body"
@@ -450,7 +450,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
               name="invoice_date"
               isRequired
               component={DatePickerField}
-              label={t('invoices.invoiceDate')}
+              label={t('invoices.invoice_date')}
               icon={'calendar-alt'}
               onChangeCallback={val => this.setFormField('invoice_date', val)}
               disabled={disabled}
@@ -462,7 +462,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
               name="due_date"
               isRequired
               component={DatePickerField}
-              label={t('invoices.dueDate')}
+              label={t('invoices.due_date')}
               icon={'calendar-alt'}
               onChangeCallback={val => this.setFormField('due_date', val)}
               disabled={disabled}
@@ -473,7 +473,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         <Field
           name="invoice_number"
           component={BaseInputPrefix}
-          label={t('invoices.invoiceNumber')}
+          label={t('invoices.invoice_number')}
           isRequired
           fieldName="invoice_number"
           prefix={formValues?.prefix}
@@ -510,7 +510,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         <Field
           name="reference_number"
           component={InputField}
-          hint={t('invoices.referenceNumber')}
+          hint={t('invoices.reference_number')}
           leftIcon={'hashtag'}
           disabled={disabled}
         />
@@ -531,7 +531,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           component={TemplateField}
           label={t('invoices.template')}
           icon={'file-alt'}
-          placeholder={t('invoices.templatePlaceholder')}
+          placeholder={t('invoices.template_placeholder')}
           navigation={navigation}
           disabled={disabled}
         />

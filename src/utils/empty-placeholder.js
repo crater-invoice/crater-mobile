@@ -10,7 +10,7 @@ export const emptyContentPlaceholder = props => {
         ...(!search && {
           title: t('categories.empty.title'),
           description: t('categories.empty.description'),
-          buttonTitle: t('categories.empty.buttonTitle'),
+          buttonTitle: t('categories.empty.button_title'),
           buttonPress: () =>
             navigation.navigate(routes.CREATE_CATEGORY, {type: 'ADD'})
         })

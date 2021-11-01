@@ -50,7 +50,7 @@ export class Taxes extends React.Component {
       title: t(emptyTitle, {search}),
       ...(!search && {
         description: t('taxes.empty.description'),
-        buttonTitle: t('taxes.empty.buttonTitle'),
+        buttonTitle: t('taxes.empty.button_title'),
         buttonPress: () => {
           navigation.navigate(routes.TAX, {type: 'ADD'});
         }

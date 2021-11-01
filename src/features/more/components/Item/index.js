@@ -76,7 +76,7 @@ export class Item extends React.Component {
     }
 
     if (this.finalAmount() < 0) {
-      alert(t('items.lessAmount'));
+      alert(t('items.less_amount'));
       return;
     }
 

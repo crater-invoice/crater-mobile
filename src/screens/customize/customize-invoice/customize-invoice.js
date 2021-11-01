@@ -198,7 +198,7 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
             {...this.props}
             types={email}
             name={'invoice_mail_body'}
-            label={'customizes.addresses.sendInvoiceEmailBody'}
+            label={'customizes.addresses.send_invoiceEmailBody'}
             showPreview
           />
 

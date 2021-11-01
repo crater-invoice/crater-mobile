@@ -103,7 +103,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     }
 
     if (finalAmount() < 0) {
-      alertMe(t('invoices.alert.lessAmount'));
+      alertMe(t('invoices.alert.less_amount'));
       return;
     }
 
@@ -424,7 +424,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           component={TemplateField}
           label={t('invoices.template')}
           icon={'file-alt'}
-          placeholder={t('invoices.templatePlaceholder')}
+          placeholder={t('invoices.template_placeholder')}
           navigation={navigation}
           disabled={disabled}
           isRequired

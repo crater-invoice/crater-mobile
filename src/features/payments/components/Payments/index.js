@@ -117,7 +117,7 @@ export class Payments extends React.Component<IProps> {
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('payments.empty.buttonTitle'),
+          buttonTitle: t('payments.empty.button_title'),
           buttonPress: () => {
             navigation.navigate(routes.PAYMENT, {
               type: 'ADD'

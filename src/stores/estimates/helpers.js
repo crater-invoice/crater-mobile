@@ -12,7 +12,7 @@ import moment from 'moment';
 export const EDIT_ESTIMATE_ACTIONS = (markAs = '', isAllowToDelete) => {
   const markAsSent = [
     {
-      label: t('estimates.actions.markAsSent'),
+      label: t('estimates.actions.mark_as_sent'),
       value: ESTIMATE_ACTIONS.MARK_AS_SENT
     }
   ];

@@ -130,7 +130,7 @@ export class Items extends React.Component<IProps> {
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('items.empty.buttonTitle'),
+          buttonTitle: t('items.empty.button_title'),
           buttonPress: () => {
             navigation.navigate(routes.GLOBAL_ITEM, {
               type: 'ADD'

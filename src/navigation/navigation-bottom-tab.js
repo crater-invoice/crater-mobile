@@ -55,37 +55,37 @@ export default (props: any) => {
     switch (route) {
       case routes.MAIN_INVOICES:
         return {
-          label: 'tabNavigation.invoices',
+          label: 'tab_navigation.invoices',
           icon: INVOICES_ICON
         };
 
       case routes.MAIN_CUSTOMERS:
         return {
-          label: 'tabNavigation.customers',
+          label: 'tab_navigation.customers',
           icon: CUSTOMERS_ICON
         };
 
       case routes.MAIN_PAYMENTS:
         return {
-          label: 'tabNavigation.payments',
+          label: 'tab_navigation.payments',
           icon: PAYMENTS_ICON
         };
 
       case routes.MAIN_EXPENSES:
         return {
-          label: 'tabNavigation.expenses',
+          label: 'tab_navigation.expenses',
           icon: EXPENSES_ICON
         };
 
       case routes.MAIN_MORE:
         return {
-          label: 'tabNavigation.more',
+          label: 'tab_navigation.more',
           icon: MORE_ICON
         };
 
       default:
         return {
-          label: 'tabNavigation.invoices',
+          label: 'tab_navigation.invoices',
           icon: INVOICES_ICON
         };
     }

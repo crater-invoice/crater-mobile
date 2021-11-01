@@ -301,7 +301,7 @@ export class Report extends React.Component<IProps> {
               component={DatePickerField}
               isRequired
               displayValue={displayFromDate}
-              label={t('reports.fromDate')}
+              label={t('reports.from_date')}
               formDateFormat={DATE_FORMAT}
               onChangeCallback={val => {
                 this.setFormField('date_range', 'custom');
@@ -316,7 +316,7 @@ export class Report extends React.Component<IProps> {
               component={DatePickerField}
               isRequired
               displayValue={displayToDate}
-              label={t('reports.toDate')}
+              label={t('reports.to_date')}
               formDateFormat={DATE_FORMAT}
               onChangeCallback={val => {
                 this.setFormField('date_range', 'custom');

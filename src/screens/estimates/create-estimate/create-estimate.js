@@ -135,7 +135,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
     }
 
     alertMe({
-      title: t('estimates.alert.draftTitle'),
+      title: t('estimates.alert.draft_title'),
       showCancel: true,
       cancelText: t('alert.action.discard'),
       cancelPress: () => navigation.navigate(routes.ESTIMATES),
@@ -164,7 +164,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
     }
 
     if (finalAmount() < 0) {
-      alert(t('estimates.alert.lessAmount'));
+      alert(t('estimates.alert.less_amount'));
       return;
     }
 
@@ -230,7 +230,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('estimates.alert.removeDescription'),
+      desc: t('estimates.alert.remove_description'),
       showCancel: true,
       okPress: () => dispatch(removeEstimate(id, navigation))
     });
@@ -247,7 +247,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       case ESTIMATE_ACTIONS.MARK_AS_SENT:
         alertMe({
           title: t('alert.title'),
-          desc: t('estimates.alert.markAsSent'),
+          desc: t('estimates.alert.mark_as_sent'),
           showCancel: true,
           okPress: () =>
             dispatch(
@@ -541,7 +541,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
         <Field
           name="reference_number"
           component={InputField}
-          hint={t('invoices.referenceNumber')}
+          hint={t('invoices.reference_number')}
           leftIcon={'hashtag'}
           disabled={disabled}
         />
@@ -562,7 +562,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
           component={TemplateField}
           label={t('estimates.template')}
           icon={'file-alt'}
-          placeholder={t('estimates.templatePlaceholder')}
+          placeholder={t('estimates.template_placeholder')}
           navigation={navigation}
           disabled={disabled}
         />

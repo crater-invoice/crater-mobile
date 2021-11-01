@@ -107,7 +107,7 @@ export class Expenses extends React.Component<IProps> {
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('expenses.empty.buttonTitle'),
+          buttonTitle: t('expenses.empty.button_title'),
           buttonPress: () => {
             navigation.navigate(routes.EXPENSE, {
               type: 'ADD'

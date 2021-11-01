@@ -150,7 +150,7 @@ export default class Estimates extends React.Component<IProps, IStates> {
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('estimates.empty.buttonTitle'),
+          buttonTitle: t('estimates.empty.button_title'),
           buttonPress: () => this.onAddEstimate()
         })
     };

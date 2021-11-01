@@ -68,7 +68,7 @@ export class CustomFields extends React.Component<IProps> {
       title: t(emptyTitle, {search}),
       ...(!search && {
         description: t('customFields.empty.description'),
-        buttonTitle: t('customFields.empty.buttonTitle'),
+        buttonTitle: t('customFields.empty.button_title'),
         buttonPress: () => {
           navigation.navigate(routes.CUSTOM_FIELD, {
             type: 'ADD'

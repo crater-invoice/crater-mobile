@@ -41,7 +41,7 @@ export default estimateFilterFields = ({props, setFormField}) => {
   const datePickerFields = [
     {
       name: 'from_date',
-      label: t('estimates.fromDate'),
+      label: t('estimates.from_date'),
       onChangeCallback: (formDate, displayDate) => {
         (selectedFromDate = displayDate), (selectedFromDateValue = formDate);
       },
@@ -50,7 +50,7 @@ export default estimateFilterFields = ({props, setFormField}) => {
     },
     {
       name: 'to_date',
-      label: t('estimates.toDate'),
+      label: t('estimates.to_date'),
       onChangeCallback: (formDate, displayDate) => {
         (selectedToDate = displayDate), (selectedToDateValue = formDate);
       },
@@ -74,7 +74,7 @@ export default estimateFilterFields = ({props, setFormField}) => {
       items: FILTER_ESTIMATE_STATUS,
       onChangeCallback: val => setFormField('filterStatus', val),
       defaultPickerOptions: {
-        label: t('estimates.statusPlaceholder'),
+        label: t('estimates.status_placeholder'),
         value: ''
       },
       containerStyle: {marginTop: 15}

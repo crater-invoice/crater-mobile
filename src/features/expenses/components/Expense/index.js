@@ -356,7 +356,7 @@ export class Expense extends React.Component<IProps, IState> {
           component={CustomerSelectModal}
           getCustomers={getCustomers}
           placeholder={
-            customerName ? customerName : t('invoices.customerPlaceholder')
+            customerName ? customerName : t('invoices.customer_placeholder')
           }
           customers={customers}
           disabled={disabled}

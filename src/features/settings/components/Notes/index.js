@@ -63,7 +63,7 @@ export default class Notes extends Component<IProps> {
       title: t(emptyTitle, {search}),
       ...(!search && {
         description: t('notes.empty.description'),
-        buttonTitle: t('notes.empty.buttonTitle'),
+        buttonTitle: t('notes.empty.button_title'),
         buttonPress: () => {
           navigation.navigate(routes.NOTE, {
             type: 'ADD'

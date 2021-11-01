@@ -15,18 +15,18 @@ export const EDIT_INVOICE_ACTIONS = (
     !completeStatus &&
     options.push(
       {
-        label: t('invoices.actions.sendInvoice'),
+        label: t('invoices.actions.send_invoice'),
         value: INVOICE_ACTIONS.SEND
       },
       {
-        label: t('invoices.actions.markAsSent'),
+        label: t('invoices.actions.mark_as_sent'),
         value: INVOICE_ACTIONS.MARK_AS_SENT
       }
     );
 
   sentStatus &&
     options.push({
-      label: t('invoices.actions.reSendInvoice'),
+      label: t('invoices.actions.resend_invoice'),
       value: INVOICE_ACTIONS.SEND
     });
 
@@ -40,7 +40,7 @@ export const EDIT_INVOICE_ACTIONS = (
     (sentStatus || (!sentStatus && !completeStatus))
   ) {
     options.push({
-      label: t('invoices.actions.recordPayment'),
+      label: t('invoices.actions.record_payment'),
       value: INVOICE_ACTIONS.RECORD_PAYMENT
     });
   }
