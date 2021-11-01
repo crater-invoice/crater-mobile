@@ -6,7 +6,7 @@ import {Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {AssetImage} from '../AssetImage';
 import {BUTTON_COLOR, BUTTON_TYPE, isAndroidPlatform} from '@/constants';
-import {AssetIcon} from '../AssetIcon';
+import {AssetIcon} from '../asset-icon';
 import {commonSelector} from 'stores/common/selectors';
 
 type IProps = {

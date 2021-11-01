@@ -39,7 +39,7 @@ export * from './HtmlView';
 export * from './Animations';
 export * from './Modal';
 export * from './CircularProgress';
-export * from './AssetIcon';
+export * from './asset-icon';
 export * from './Text';
 export * from './CacheImage';
 export * from './base/base-label';

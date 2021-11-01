@@ -7,7 +7,8 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "prettier-fix": "prettier --config .prettierlc.js --write 'src/**/*.js'",
-    "lints": "yarn prettier-fix"
+    "lints": "yarn prettier-fix",
+    "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.15.0",

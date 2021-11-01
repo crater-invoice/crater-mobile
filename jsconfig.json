@@ -1,32 +1,19 @@
 {
-    "compilerOptions": {
-        "allowSyntheticDefaultImports": true,
-        "jsx": "react-native",
-        "lib": [
-            "dom",
-            "esnext"
-        ],
-        "moduleResolution": "node",
-        "noEmit": true,
-        "skipLibCheck": true,
-        "resolveJsonModule": true,
-        "baseUrl": ".",
-        "paths": {
-            "@/*": [
-                "src/*"
-            ],
-            "stores/*": [
-                "src/stores/*"
-            ],
-            "screens/*": [
-                "src/screens/*"
-            ],
-            "locales/*": [
-                "src/locales/*"
-            ],
-            "utils/*": [
-                "src/utils/*"
-            ]
-        }
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-native",
+    "lib": ["dom", "esnext"],
+    "moduleResolution": "node",
+    "noEmit": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "stores/*": ["src/stores/*"],
+      "screens/*": ["src/screens/*"],
+      "locales/*": ["src/locales/*"],
+      "utils/*": ["src/utils/*"]
     }
+  }
 }

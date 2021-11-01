@@ -897,7 +897,7 @@
     "text_switch_company": "SWITCH COMPANY",
     "text_add_new_company": "Add New Company",
     "text_already_used": "Company already in use",
-    "text_alert_description": "You will not be able to recover this Company",
+    "text_alert_description": "You will not be able to recover this Company"
   },
   "roles": {
     "text_add_new_role": "Add New Role",

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {Header} from 'react-native-elements';
-import {AssetIcon} from '../AssetIcon';
+import {AssetIcon} from '../asset-icon';
 import styles from './styles';
 import {colors} from '@/styles';
 import {Filter} from '../Filter';
