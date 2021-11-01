@@ -6,7 +6,7 @@ import {checkConnection} from '@/constants';
 import {Text} from '../Text';
 import {BaseButton} from '../base/base-button';
 import {commonSelector} from 'stores/common/selectors';
-import {AssetSvg} from '../AssetSvg';
+import {AssetSvg} from '../asset-svg';
 import {LostConnectionIcon} from '@/icons';
 import {styles, Container, Center} from './styles';
 

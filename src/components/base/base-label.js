@@ -1,16 +1,9 @@
 import React, {FC} from 'react';
 import {StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
-import {colors} from '@/styles';
 import {Text} from '../Text';
 import {commonSelector} from 'stores/common/selectors';
-
-interface IProps {
-  children?: any;
-  theme?: any;
-  isRequired?: boolean;
-  style?: any;
-}
+import {ITheme} from '@/interfaces';
 
 const Label: FC<IProps> = props => {
   const {children, theme, isRequired, style, ...rest} = props;
@@ -45,3 +38,27 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => commonSelector(state);
 
 export const BaseLabel = connect(mapStateToProps)(Label);
+
+interface IProps {
+  /**
+   * Either children or a render prop that receives a boolean reflecting whether
+   * the component is currently pressed.
+   */
+  children?: React.ReactNode | any;
+
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
+  theme?: ITheme;
+
+  /**
+   * If true, required validation message shows.
+   */
+  isRequired?: boolean;
+
+  /**
+   * The style of the content container(Icon).
+   */
+  style?: any;
+}

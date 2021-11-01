@@ -10,7 +10,7 @@ import {FadeListAnimation, AssetIcon} from '@/components';
 import {definePlatformParam} from '@/constants';
 import {isRTL} from '@/utils';
 import {Text} from '../Text';
-import AssetSvg from '../AssetSvg';
+import {AssetSvg} from '../asset-svg';
 import {AssetImage} from '../asset-image';
 import {commonSelector} from 'stores/common/selectors';
 

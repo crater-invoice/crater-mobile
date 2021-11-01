@@ -15,14 +15,6 @@ import {
   SettingIcon
 } from '@/icons';
 
-interface IProps {
-  name: String;
-  fill?: String;
-  width?: Number | String;
-  height?: Number | String;
-  style?: StyleProp<ViewStyle> | any;
-}
-
 export class AssetSvg extends Component<IProps> {
   static icons = {
     cancel: CancelIcon,
@@ -54,4 +46,29 @@ export class AssetSvg extends Component<IProps> {
   }
 }
 
-export default AssetSvg;
+interface IProps {
+  /**
+   * Name of SVG icon.
+   */
+  name: string;
+
+  /**
+   * Color of fillable SVG icon.
+   */
+  fill?: string;
+
+  /**
+   * Width of SVG icon.
+   */
+  width?: number | string;
+
+  /**
+   * Height of SVG icon.
+   */
+  height?: number | string;
+
+  /**
+   * The style of the content container(Icon).
+   */
+  style?: StyleProp<ViewStyle> | any;
+}

@@ -16,7 +16,7 @@ import {Content} from '../Content';
 import Dropdown from '../Dropdown';
 import {styles} from './styles';
 import {Text} from '../Text';
-import {CacheImage} from '../CacheImage';
+import {CacheImage} from '../cache-image';
 import {BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 

@@ -8,45 +8,18 @@ import {
   TouchableOpacity,
   StyleProp,
   ViewStyle,
-  Animated
+  Animated,
+  ImageResizeMode
 } from 'react-native';
-import CacheManager, {BASE_DIR, isImageChange} from './CacheManager';
+import {BASE_DIR, getPath} from './cache-manager';
 import {hasValue} from '@/constants';
 import {SCREEN_WIDTH} from '@/constants';
-import styles from './styles';
-import {CacheImageService, IS_UNDER_PROCESSING} from './ImageService';
+import styles from './cache-image-style';
+import {CacheImageService, IS_UNDER_PROCESSING} from './image-service';
 import {colors} from '@/styles';
 import {AssetImage} from '../asset-image';
 
-interface IProps {
-  style?: any;
-  uri?: string;
-  id?: string | number;
-  imageName?: string;
-  imageProps?: Omit<ImageProps, 'source'>;
-  loadingProps?: any;
-  showLoader?: boolean;
-  onPress?: Function;
-  findImageHeight?: boolean;
-  imageHeight?: number | string;
-  temporaryHeight?: number;
-  maxHeight?: number;
-  minHeight?: number;
-  buttonStyle?: StyleProp<ViewStyle> | any;
-  loaderStyle?: StyleProp<ViewStyle> | any;
-  minHeightStyle?: StyleProp<ViewStyle> | any;
-  resizeMode?: 'cover' | 'contain' | 'stretch' | 'repeat' | 'center';
-}
-
-interface ImageState {
-  uri: string | undefined;
-  downloadFail: boolean;
-  height: number | string;
-  isLoaded: boolean;
-  opacityAnimate: any;
-}
-
-export default class CacheImage extends React.Component<IProps, ImageState> {
+export class CacheImage extends React.Component<IProps, IStates> {
   timer: any;
   processInterval: any;
   underProcessingCounter: number;
@@ -66,7 +39,6 @@ export default class CacheImage extends React.Component<IProps, ImageState> {
   }
 
   static defaultProps = {
-    showLoader: true,
     findImageHeight: false,
     resizeMode: 'cover'
   };
@@ -75,6 +47,10 @@ export default class CacheImage extends React.Component<IProps, ImageState> {
     this._isMounted = true;
     this.load(this.props);
     this.calculateImageSize();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.checkIsImageUriChange(nextProps);
   }
 
   componentWillUnmount() {
@@ -86,6 +62,15 @@ export default class CacheImage extends React.Component<IProps, ImageState> {
       return;
     };
   }
+
+  checkIsImageUriChange = async nextProps => {
+    const {imageName, uri} = nextProps;
+
+    if (imageName !== this.props.imageName) {
+      const path = await getPath(uri, imageName, this._isMounted);
+      this.setFileUri(path, uri);
+    }
+  };
 
   initialAnimation = () => {
     Animated.timing(this.state.opacityAnimate, {
@@ -123,10 +108,7 @@ export default class CacheImage extends React.Component<IProps, ImageState> {
     if (!uri) return;
 
     try {
-      const path = await CacheManager.get(uri).getPath(
-        imageName,
-        this._isMounted
-      );
+      const path = await getPath(uri, imageName, this._isMounted);
       this._isMounted && this.setFileUri(path, uri);
     } catch (e) {}
   }
@@ -187,7 +169,6 @@ export default class CacheImage extends React.Component<IProps, ImageState> {
       style,
       imageProps,
       onPress,
-      showLoader,
       findImageHeight,
       buttonStyle,
       minHeight,
@@ -201,10 +182,6 @@ export default class CacheImage extends React.Component<IProps, ImageState> {
     } = this.props;
 
     const {uri, downloadFail, height, isLoaded, opacityAnimate} = this.state;
-
-    if (uri && this.props.uri && isImageChange(uri, imageName)) {
-      this.load(this.props);
-    }
 
     const imageStyle: any = [
       styles.image(theme),
@@ -292,4 +269,129 @@ export default class CacheImage extends React.Component<IProps, ImageState> {
 
     return children;
   }
+}
+
+interface IProps {
+  /**
+   * The style of the content container(Icon).
+   */
+  style?: any;
+
+  /**
+   * The image source (either a remote URL or a local file resource).
+   */
+  uri?: string;
+
+  /**
+   * Name of the image.
+   */
+  imageName?: string;
+
+  /**
+   * An additional image accessibility.
+   */
+  imageProps?: Omit<ImageProps, 'source'>;
+
+  /**
+   * An additional image loader accessibility.
+   */
+  loadingProps?: any;
+
+  /**
+   * Called when the touch is released,
+   * but not if cancelled (e.g. by a scroll that steals the responder lock).
+   */
+  onPress?: Function;
+
+  /**
+   * If true, find image proper dimension width and height.
+   */
+  findImageHeight?: boolean;
+
+  /**
+   * Height of default image size.
+   */
+  imageHeight?: number | string;
+
+  /**
+   * Height of temporary image size.
+   */
+  temporaryHeight?: number;
+
+  /**
+   * Maximum height of image size.
+   */
+  maxHeight?: number;
+
+  /**
+   * Minimum height of image size.
+   */
+  minHeight?: number;
+
+  /**
+   * The style of the content container(Button).
+   */
+  buttonStyle?: StyleProp<ViewStyle> | any;
+
+  /**
+   * The style of the content container(Loader).
+   */
+  loaderStyle?: StyleProp<ViewStyle> | any;
+
+  /**
+   * Styles of minimum image size.
+   */
+  minHeightStyle?: StyleProp<ViewStyle> | any;
+
+  /**
+   * Determines how to resize the image when the frame doesn't match the raw
+   * image dimensions.
+   *
+   * 'cover': Scale the image uniformly (maintain the image's aspect ratio)
+   * so that both dimensions (width and height) of the image will be equal
+   * to or larger than the corresponding dimension of the view (minus padding).
+   *
+   * 'contain': Scale the image uniformly (maintain the image's aspect ratio)
+   * so that both dimensions (width and height) of the image will be equal to
+   * or less than the corresponding dimension of the view (minus padding).
+   *
+   * 'stretch': Scale width and height independently, This may change the
+   * aspect ratio of the src.
+   *
+   * 'repeat': Repeat the image to cover the frame of the view.
+   * The image will keep it's size and aspect ratio. (iOS only)
+   *
+   * 'center': Scale the image down so that it is completely visible,
+   * if bigger than the area of the view.
+   * The image will not be scaled up.
+   */
+  resizeMode?: ImageResizeMode;
+}
+
+interface IStates {
+  /**
+   * The image source (either a remote URL or a local file resource).
+   */
+  uri: string | undefined;
+
+  /**
+   * If true, cache image download fail.
+   */
+  downloadFail: boolean;
+
+  /**
+   * Height of image size.
+   */
+  height: number | string;
+
+  /**
+   * Whether to check that is image loaded or not.
+   */
+  isLoaded: boolean;
+
+  /**
+   * Animate the touchable to a new opacity.
+   * Defaults to 0
+   */
+  opacityAnimate: any;
 }
