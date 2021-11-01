@@ -239,7 +239,7 @@ export class CreateItem extends React.Component<IProps> {
           <View style={styles.subContainer}>
             <View>
               <Text gray medium style={{marginTop: 6}}>
-                {t('items.finalDiscount')}
+                {t('items.final_discount')}
               </Text>
             </View>
             <View>
@@ -303,7 +303,7 @@ export class CreateItem extends React.Component<IProps> {
         <View style={styles.subContainer}>
           <View>
             <Text color={color} medium style={{marginTop: 6}}>
-              {t('items.finalAmount')}
+              {t('items.final_amount')}
             </Text>
           </View>
           <View>
@@ -431,7 +431,7 @@ export class CreateItem extends React.Component<IProps> {
             <Field
               name="discount_type"
               component={RadioButtonGroup}
-              hint={t('items.discountType')}
+              hint={t('items.discount_type')}
               options={ITEM_DISCOUNT_OPTION}
               initialValue={initialValues?.discount_type}
               theme={theme}

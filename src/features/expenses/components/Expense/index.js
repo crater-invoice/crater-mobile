@@ -170,7 +170,7 @@ export class Expense extends React.Component<IProps, IState> {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('expenses.alertDescription'),
+      desc: t('expenses.alert_description'),
       showCancel: true,
       okPress: () =>
         removeExpense({
@@ -371,7 +371,7 @@ export class Expense extends React.Component<IProps, IState> {
           name={`expense.${FIELDS.NOTES}`}
           component={InputField}
           hint={t('expenses.notes')}
-          placeholder={t('expenses.notesPlaceholder')}
+          placeholder={t('expenses.notes_placeholder')}
           inputProps={{
             multiline: true,
             maxLength: MAX_LENGTH

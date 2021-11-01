@@ -155,10 +155,9 @@ export const CUSTOM_FIELD_MODAL_TYPES = [
 // -----------------------------------------
 
 export const NOTES_TYPE_VALUE = {
-  INVOICE: 'Invoice',
-  RECURRING_INVOICE: 'RecurringInvoices',
-  ESTIMATE: 'Estimate',
-  PAYMENT: 'Payment'
+  INVOICE: 'invoice',
+  ESTIMATE: 'estimate',
+  PAYMENT: 'payment'
 };
 
 export const NOTES_FIELD_MODAL_TYPES = [
@@ -173,7 +172,7 @@ export const NOTES_FIELD_MODAL_TYPES = [
 export const SETTINGS_MENU = () => {
   return [
     {
-      title: t('settings.accountSettings'),
+      title: t('settings.account_settings'),
       leftIcon: 'user-circle',
       leftIconSolid: true,
       iconSize: 20,
@@ -181,7 +180,7 @@ export const SETTINGS_MENU = () => {
       show: true
     },
     {
-      title: t('settings.companyInformation'),
+      title: t('settings.company_information'),
       leftIcon: 'building',
       leftIconSolid: true,
       iconSize: 17,
@@ -240,7 +239,7 @@ export const SETTINGS_MENU = () => {
       show: PermissionService.isAllowToView(routes.ROLES)
     },
     {
-      title: t('settings.touchOrFaceId'),
+      title: t('settings.touch_or_Face_id'),
       leftIcon: 'key',
       leftIconSolid: true,
       iconSize: 20,

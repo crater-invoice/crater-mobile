@@ -280,7 +280,7 @@ export class Payment extends React.Component<IProps> {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('payments.alertDescription'),
+      desc: t('payments.alert_description'),
       showCancel: true,
       okPress: () => removePayment({id, navigation})
     });
@@ -341,7 +341,7 @@ export class Payment extends React.Component<IProps> {
       <SendMail
         mailReference={ref => (this.sendMailRef = ref)}
         headerTitle={'header.send_mail_payment'}
-        alertDesc={'payments.alert.sendPayment'}
+        alertDesc={'payments.alert.send_payment'}
         user={this.props.formValues?.payment?.user}
         body="payment_mail_body"
         onSendMail={params => this.sendEmail(params)}

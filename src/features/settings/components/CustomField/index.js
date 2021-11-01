@@ -327,7 +327,7 @@ export class CustomField extends React.Component<IProps> {
           items={MODAL_TYPES}
           disabled={disabled}
           defaultPickerOptions={{
-            label: t('customFields.modelPlaceholder'),
+            label: t('customFields.model_placeholder'),
             value: ''
           }}
           isRequired

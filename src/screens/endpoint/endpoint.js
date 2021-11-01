@@ -92,13 +92,13 @@ export default class Endpoint extends Component<IProps, IStates> {
                 <Field
                   name="url"
                   component={InputField}
-                  hint={t('endpoint.endpointURL')}
+                  hint={t('endpoint.endpoint_url')}
                   onSubmitEditing={handleSubmit(this.onSubmit)}
-                  placeholder={t('endpoint.urlPlaceHolder')}
+                  placeholder={t('endpoint.url_placeholder')}
                   keyboardType={keyboardType.URL}
                 />
                 <Text h5 color={theme?.viewLabel?.fourthColor} class="mt-15">
-                  {t('endpoint.endpointDesc')}
+                  {t('endpoint.endpoint_desc')}
                 </Text>
               </View>
 

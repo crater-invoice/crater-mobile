@@ -38,7 +38,7 @@ export const TAXES = 'reportType/TAXES';
 export const MORE_MENU = () => {
   return [
     {
-      title: t('more.recurringInvoice'),
+      title: t('more.recurring_invoice'),
       leftIcon: 'file',
       leftIconSolid: true,
       iconSize: 19,
@@ -82,7 +82,7 @@ export const MORE_MENU = () => {
       show: PermissionService.isAllowToView(routes.CUSTOM_FIELDS)
     },
     {
-      title: t('settings.expenseCategory'),
+      title: t('settings.expense_category'),
       leftIcon: 'clipboard-list',
       iconSize: 20,
       fullItem: {route: routes.CATEGORIES},

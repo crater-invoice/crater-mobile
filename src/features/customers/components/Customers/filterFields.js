@@ -7,12 +7,12 @@ export const customersFilterFields = () => {
   return [
     {
       name: 'name',
-      hint: t('customers.filterDisplayName'),
+      hint: t('customers.filter_display_name'),
       onSubmitEditing: () => filterRefs.contactName.focus()
     },
     {
       name: 'contact_name',
-      hint: t('customers.filterContactName'),
+      hint: t('customers.filter_contact_name'),
       onSubmitEditing: () => filterRefs.phone.focus(),
       refLinkFn: ref => (filterRefs.contactName = ref)
     },

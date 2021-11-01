@@ -14,14 +14,14 @@ export const RetrospectiveEditSelectModal = (props: IProps) => (
     {...props}
     items={props?.retrospectiveEdits ?? []}
     displayName="key"
-    label={t('settings.preferences.retrospectiveEdits')}
+    label={t('settings.preferences.retrospective_edits')}
     icon="calendar-alt"
     rightIcon="angle-right"
-    placeholder={t('settings.preferences.retrospectiveEdits')}
+    placeholder={t('settings.preferences.retrospective_edits')}
     searchFields={['key']}
     compareField="value"
-    headerProps={{title: t('retrospectiveEdits.title'), rightIconPress: null}}
-    emptyContentProps={{contentType: 'retrospectiveEdits'}}
+    headerProps={{title: t('retrospective_edits.title'), rightIconPress: null}}
+    emptyContentProps={{contentType: 'retrospective_edits'}}
     isInternalSearch
     isRequired
   />

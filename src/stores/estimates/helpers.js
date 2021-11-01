@@ -19,14 +19,14 @@ export const EDIT_ESTIMATE_ACTIONS = (markAs = '', isAllowToDelete) => {
 
   const markAsAccept = [
     {
-      label: t('estimates.actions.markAsAccepted'),
+      label: t('estimates.actions.mark_as_accepted'),
       value: ESTIMATE_ACTIONS.MARK_AS_ACCEPTED
     }
   ];
 
   const markAsReject = [
     {
-      label: t('estimates.actions.markAsRejected'),
+      label: t('estimates.actions.mark_as_rejected'),
       value: ESTIMATE_ACTIONS.MARK_AS_REJECTED
     }
   ];
@@ -41,8 +41,8 @@ export const EDIT_ESTIMATE_ACTIONS = (markAs = '', isAllowToDelete) => {
   const sendEstimate = {
     label: t(
       markAs === MARK_AS_SENT
-        ? 'estimates.actions.reSendEstimate'
-        : 'estimates.actions.sendEstimate'
+        ? 'estimates.actions.resend_estimate'
+        : 'estimates.actions.send_estimate'
     ),
     value: ESTIMATE_ACTIONS.SEND
   };
@@ -51,7 +51,7 @@ export const EDIT_ESTIMATE_ACTIONS = (markAs = '', isAllowToDelete) => {
 
   if (PermissionService.isAllowToView(routes.MAIN_INVOICES)) {
     actions.push({
-      label: t('estimates.actions.convertToInvoice'),
+      label: t('estimates.actions.convert_to_invoice'),
       value: ESTIMATE_ACTIONS.CONVERT_TO_INVOICE
     });
   }

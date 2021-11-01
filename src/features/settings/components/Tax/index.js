@@ -56,7 +56,7 @@ export class Tax extends React.Component {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('taxes.alertDescription'),
+      desc: t('taxes.alert_description'),
       showCancel: true,
       okPress: remove
     });

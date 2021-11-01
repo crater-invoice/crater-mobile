@@ -27,7 +27,7 @@ export const ACTIONS_VALUE = {
 export const CUSTOMER_ACTIONS = () => {
   return [
     {
-      label: t('customers.removeCustomer'),
+      label: t('customers.remove_customer'),
       value: ACTIONS_VALUE.REMOVE
     }
   ];

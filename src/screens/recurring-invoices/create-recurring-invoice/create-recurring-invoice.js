@@ -414,7 +414,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           notes={notes}
           getNotes={getNotes}
           isEditScreen={isEditScreen}
-          noteType={NOTES_TYPE_VALUE.RECURRING_INVOICE}
+          noteType={NOTES_TYPE_VALUE.INVOICE}
           onSelect={this.setFormField}
         />
 

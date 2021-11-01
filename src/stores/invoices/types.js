@@ -73,7 +73,7 @@ export const INVOICE_ACTIONS = {
   SEND: 'send',
   EDIT: 'edit',
   DELETE: 'delete',
-  RECORD_PAYMENT: 'recordPayment',
-  MARK_AS_SENT: 'markAsSent',
+  RECORD_PAYMENT: 'record_payment',
+  MARK_AS_SENT: 'mark_as_sent',
   CLONE: 'clone'
 };

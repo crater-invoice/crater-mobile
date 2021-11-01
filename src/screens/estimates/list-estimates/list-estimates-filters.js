@@ -62,7 +62,7 @@ export default estimateFilterFields = ({props, setFormField}) => {
   const inputFields = [
     {
       name: 'estimate_number',
-      hint: t('estimates.estimateNumber')
+      hint: t('estimates.estimate_number')
     }
   ];
 

@@ -49,12 +49,12 @@ export default expenseFilterFields = ({props, setFormField}) => {
       displayName: 'name',
       label: t('expenses.category'),
       icon: 'align-center',
-      placeholder: t('expenses.categoryPlaceholder'),
+      placeholder: t('expenses.category_placeholder'),
       navigation: navigation,
       compareField: 'id',
       onSelect: item => setFormField('expense_category_id', item.id),
       headerProps: {
-        title: t('expenses.categoryPlaceholder'),
+        title: t('expenses.category_placeholder'),
         rightIconPress: null
       },
       emptyContentProps: {

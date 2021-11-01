@@ -53,7 +53,7 @@ function* sendRecoveryMail({payload}) {
     showNotification({message: t('notification.password_reset_link')});
     onSuccess?.();
   } catch (e) {
-    showNotification({message: t('forgot.emailSendError'), type: 'error'});
+    showNotification({message: t('forgot.email_send_error'), type: 'error'});
     onFail?.();
   }
 }

@@ -51,7 +51,7 @@ export const CurrencySelectModal = (props: IProps) => {
 
   const getSelectedCurrencyTitle = () => {
     if (isEmpty(currencies) || !input?.value) {
-      return t('settings.preferences.currencyPlaceholder');
+      return t('settings.preferences.currency_placeholder');
     }
 
     const currency = find(currencies, {

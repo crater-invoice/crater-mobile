@@ -14,10 +14,10 @@ export const DateFormatSelectModal = (props: IProps) => (
     {...props}
     items={props?.dateFormats ?? []}
     displayName="display_date"
-    label={t('settings.preferences.dateFormat')}
+    label={t('settings.preferences.date_format')}
     icon="calendar-alt"
     rightIcon="angle-right"
-    placeholder={t('settings.preferences.dateFormatPlaceholder')}
+    placeholder={t('settings.preferences.date_format_placeholder')}
     searchFields={['display_date']}
     compareField="moment_format_value"
     headerProps={{title: t('dateFormats.title'), rightIconPress: null}}

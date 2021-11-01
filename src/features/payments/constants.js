@@ -36,14 +36,14 @@ export const PAYMENT_ACTIONS = isAllowToDelete => {
 
   if (PermissionService.isAllowToSend(routes.PAYMENT)) {
     options.push({
-      label: t('payments.sendReceipt'),
+      label: t('payments.send_receipt'),
       value: ACTIONS_VALUE.SEND
     });
   }
 
   if (isAllowToDelete) {
     options.push({
-      label: t('payments.removePayment'),
+      label: t('payments.remove_payment'),
       value: ACTIONS_VALUE.REMOVE
     });
   }

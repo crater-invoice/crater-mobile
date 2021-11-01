@@ -268,7 +268,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       case ESTIMATE_ACTIONS.MARK_AS_ACCEPTED:
         alertMe({
           title: t('alert.title'),
-          desc: t('estimates.alert.markAsAccept'),
+          desc: t('estimates.alert.mark_as_accept'),
           showCancel: true,
           okPress: () =>
             dispatch(
@@ -289,7 +289,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       case ESTIMATE_ACTIONS.MARK_AS_REJECTED:
         alertMe({
           title: t('alert.title'),
-          desc: t('estimates.alert.markAsReject'),
+          desc: t('estimates.alert.mark_as_reject'),
           showCancel: true,
           okPress: () =>
             dispatch(
@@ -309,7 +309,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
       case ESTIMATE_ACTIONS.CONVERT_TO_INVOICE:
         alertMe({
-          desc: t('estimates.alert.convertToInvoiceDescription'),
+          desc: t('estimates.alert.convert_to_invoice_description'),
           showCancel: true,
           okPress: () =>
             dispatch(
@@ -349,7 +349,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       <SendMail
         mailReference={ref => (this.sendMailRef = ref)}
         headerTitle={'header.send_mail_estimate'}
-        alertDesc={'estimates.alert.sendEstimate'}
+        alertDesc={'estimates.alert.send_estimate'}
         user={this.props?.formValues?.customer}
         subject="New Estimate"
         body="estimate_mail_body"
@@ -482,7 +482,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
               name={'estimate_date'}
               isRequired
               component={DatePickerField}
-              label={t('estimates.estimateDate')}
+              label={t('estimates.estimate_date')}
               icon={'calendar-alt'}
               onChangeCallback={val => this.setFormField('estimate_date', val)}
               disabled={disabled}
@@ -494,7 +494,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
               name="expiry_date"
               isRequired
               component={DatePickerField}
-              label={t('estimates.expiryDate')}
+              label={t('estimates.expiry_date')}
               icon={'calendar-alt'}
               onChangeCallback={val => this.setFormField('expiry_date', val)}
               disabled={disabled}
@@ -506,7 +506,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
           name="estimate_number"
           component={BaseInputPrefix}
           isRequired
-          label={t('estimates.estimateNumber')}
+          label={t('estimates.estimate_number')}
           prefix={formValues?.prefix}
           fieldName="estimate_number"
           disabled={disabled}

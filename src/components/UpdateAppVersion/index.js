@@ -69,7 +69,7 @@ export class UpdateAppVersion extends Component {
               bold2={theme?.mode === 'dark'}
               color={theme?.text?.primaryColor}
             >
-              {t('updateApp.title')}
+              {t('update_app.title')}
             </Text>
 
             <Text
@@ -79,7 +79,7 @@ export class UpdateAppVersion extends Component {
               medium={theme?.mode === 'dark'}
               color={theme?.text?.fourthColor}
             >
-              {t('updateApp.description')}
+              {t('update_app.description')}
             </Text>
           </View>
 

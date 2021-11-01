@@ -31,13 +31,13 @@ export const EXPENSE_ACTIONS = (imageUrl = '', isAllowToDelete) => {
 
     imageUrl &&
         options.push({
-            label: t('expenses.viewReceipt'),
+            label: t('expenses.view_receipt'),
             value: ACTIONS_VALUE.DOWNLOAD
         });
 
     isAllowToDelete &&
         options.push({
-            label: t('expenses.removeExpense'),
+            label: t('expenses.remove_expense'),
             value: ACTIONS_VALUE.REMOVE
         });
 

@@ -99,7 +99,7 @@ export default class ForgotPassword extends React.Component<IProps, IStates> {
                     component={InputField}
                     returnKeyType={keyboardReturnKeyType.GO}
                     onSubmitEditing={handleSubmit(this.onSendMail)}
-                    placeholder={t('forgot.emailPlaceholder')}
+                    placeholder={t('forgot.email_placeholder')}
                     keyboardType={keyboardType.EMAIL}
                     inputContainerStyle={styles.inputField}
                   />
@@ -108,7 +108,7 @@ export default class ForgotPassword extends React.Component<IProps, IStates> {
                     color={theme?.viewLabel?.fourthColor}
                     style={styles.forgotTextTitle}
                   >
-                    {t('forgot.emailLabel')}
+                    {t('forgot.email_label')}
                   </Text>
                   <BaseButton
                     type="primary-gradient"
@@ -132,7 +132,7 @@ export default class ForgotPassword extends React.Component<IProps, IStates> {
                       color={theme?.viewLabel?.fourthColor}
                       style={styles.emailSendDescription}
                     >
-                      {t('forgot.emailSendDescription')}
+                      {t('forgot.email_send_description')}
                     </Text>
                   </View>
                   <BaseButton

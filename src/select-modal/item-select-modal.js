@@ -37,7 +37,7 @@ export const ItemSelectModal = (props: IProps) => {
       compareField="id"
       valueCompareField="item_id"
       icon={'percent'}
-      placeholder={t('estimates.addItem')}
+      placeholder={t('estimates.add_item')}
       createActionRouteName={routes.GLOBAL_ITEMS}
       paginationLimit={15}
       isEditable={!disabled}
