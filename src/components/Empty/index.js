@@ -2,7 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {AssetImage} from '../asset-image';
 import {styles} from './styles';
-import {CtButton} from '../Button';
+import {CtButton} from '../button';
 import {BUTTON_TYPE, hasTextLength} from '@/constants';
 import {Text} from '../Text';
 import {PermissionService} from '@/services';

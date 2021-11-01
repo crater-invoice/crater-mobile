@@ -1,6 +1,6 @@
 import {StyleSheet, Platform} from 'react-native';
 import {colors, fonts} from '@/styles';
-import {SymbolStyle} from '@/components/CurrencyFormat/styles';
+import {SymbolStyle} from '@/components/currency-format';
 import {isAndroidPlatform, isIosPlatform} from '@/constants';
 
 export default styles = StyleSheet.create({

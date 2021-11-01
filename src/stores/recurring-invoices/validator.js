@@ -1,5 +1,5 @@
 import {getError, isEmpty} from '@/constants';
-import {validateCustomField} from '@/components/CustomField/validation';
+import {validateCustomField} from '@/components/custom-field';
 
 export const validate = (values, {type}) => {
   const errors: any = {};

@@ -7,7 +7,7 @@ import {DefaultLayout} from '../Layouts';
 import {InputField} from '../InputField';
 import {SelectField} from '../SelectField';
 import {DatePickerField} from '../DatePickerField';
-import {ActionButton, CtDecorativeButton} from '../Button';
+import {ActionButton, CtDecorativeButton} from '../button';
 import t from 'locales/use-translation';
 import {
   isIosPlatform,

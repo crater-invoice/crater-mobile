@@ -1,18 +1,7 @@
-import {formatMoney} from '@/constants';
 import React, {Component} from 'react';
-import {View} from 'react-native';
 import {Text} from '../Text';
-import {styles, SymbolStyle} from './styles';
-
-type IProps = {
-  style: Object,
-  amount: String,
-  currency: Object,
-  preText: String,
-  containerStyle: Object,
-  currencyStyle: Object,
-  symbolStyle: Object
-};
+import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
+import {formatMoney, definePlatformParam, isIosPlatform} from '@/constants';
 
 export class CurrencyFormat extends Component<IProps> {
   constructor(props) {
@@ -68,4 +57,67 @@ export class CurrencyFormat extends Component<IProps> {
       </View>
     );
   }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
+  symbol: {
+    ...(isIosPlatform && {marginBottom: -2})
+  }
+});
+
+export const SymbolStyle = {
+  fontFamily: definePlatformParam('Arial', 'sans-serif')
+};
+
+interface IProps {
+  /**
+   * The style of the content container(View).
+   */
+  style?: StyleProp<ViewStyle> | any;
+
+  /**
+   * The price of an active item.
+   */
+  amount: number;
+
+  /**
+   * Selected company currency.
+   */
+  currency: any;
+
+  /**
+   * The text to shown on the left side of the currency.
+   */
+  preText: String;
+
+  /**
+   * The style of the content container(View).
+   */
+  containerStyle?: StyleProp<ViewStyle> | any;
+
+  /**
+   * The style of the content container(Currency).
+   */
+  currencyStyle?: StyleProp<ViewStyle> | any;
+
+  /**
+   * The style of the content container(Currency-View-Symbol).
+   */
+  currencySymbolStyle?: StyleProp<ViewStyle> | any;
+
+  /**
+   * The style of the content container(Amount-View).
+   */
+  moneyStyle?: StyleProp<ViewStyle> | any;
+
+  /**
+   * The style of the content container(Symbol-View).
+   */
+  symbolStyle?: StyleProp<ViewStyle> | any;
 }

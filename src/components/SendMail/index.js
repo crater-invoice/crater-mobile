@@ -12,7 +12,7 @@ import styles from './styles';
 import {validate} from './validation';
 import {SlideModal} from '../SlideModal';
 import {InputField} from '../InputField';
-import {ActionButton} from '../Button';
+import {ActionButton} from '../button';
 import t from 'locales/use-translation';
 import {Content} from '../content';
 import {Editor} from '../Editor';

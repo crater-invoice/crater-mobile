@@ -3,7 +3,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {AnimateModal} from '../animate-modal';
 import moment from 'moment';
 import t from 'locales/use-translation';
-import {CtButton} from '../Button';
+import {CtButton} from '../button';
 import {
   isIosPlatform,
   majorVersionIOS,

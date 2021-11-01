@@ -5,7 +5,7 @@ import {ListItem, Avatar, CheckBox} from 'react-native-elements';
 import {styles} from './styles';
 import {Empty} from '../Empty';
 import {colors, fonts} from '@/styles';
-import {CurrencyFormat} from '../CurrencyFormat';
+import {CurrencyFormat} from '../currency-format';
 import {FadeListAnimation, AssetIcon} from '@/components';
 import {definePlatformParam} from '@/constants';
 import {isRTL} from '@/utils';

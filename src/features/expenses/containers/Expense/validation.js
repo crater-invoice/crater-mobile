@@ -1,4 +1,4 @@
-import {validateCustomField} from '@/components/CustomField/validation';
+import {validateCustomField} from '@/components/custom-field';
 import {getError, isEmpty} from '@/constants';
 import {EXPENSE_FIELDS as FIELDS} from '../../constants';
 

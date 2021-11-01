@@ -3,7 +3,7 @@ import {Field} from 'redux-form';
 import {View, TouchableOpacity, ScrollView} from 'react-native';
 import styles from './styles';
 import {InputField} from '../InputField';
-import {CtButton} from '../Button';
+import {CtButton} from '../button';
 import {isEmpty} from '@/constants';
 import {BaseLabel} from '@/components';
 
