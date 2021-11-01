@@ -11,7 +11,6 @@ import {
 import {lightTheme} from '@/theme';
 
 const initialState = {
-  user: null,
   locale: 'en',
   timeZone: null,
   discount_per_item: false,
@@ -28,7 +27,6 @@ const initialState = {
   biometryAuthType: null,
   lastOTACheckDate: null,
   theme: lightTheme,
-  abilities: [],
   countries: []
 };
 
@@ -48,18 +46,11 @@ export default function commonReducer(state = initialState, action) {
       return {...state, tax_per_item, discount_per_item};
 
     case types.FETCH_BOOTSTRAP_SUCCESS:
-      const {
-        current_user,
-        current_company_settings,
-        current_user_settings,
-        current_user_abilities = []
-      } = payload;
+      const {current_company_settings, current_user_settings} = payload;
 
       return {
         ...state,
         ...payload,
-        user: current_user,
-        abilities: current_user_abilities,
         dateFormat: current_company_settings.moment_date_format,
         fiscalYear: current_company_settings.fiscal_year,
         locale: current_user_settings?.language ?? 'en'
