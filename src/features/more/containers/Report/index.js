@@ -5,11 +5,12 @@ import {validate} from './validation';
 import * as MoreAction from '../../actions';
 import {REPORT_FORM, DATE_RANGE} from '../../constants';
 import {commonSelector} from 'stores/common/selectors';
+import {currentCompanySelector} from 'stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
     more: {loading},
-    common: {company, fiscalYear = '2-1'}
+    common: {fiscalYear = '2-1'}
   } = state;
 
   const type = route?.params?.type;
@@ -20,8 +21,8 @@ const mapStateToProps = (state, {route}) => {
     loading: isLoading,
     formValues: getFormValues(REPORT_FORM)(state) || {},
     type,
-    company,
     fiscalYear,
+    selectedCompany: currentCompanySelector(state),
     ...commonSelector(state),
     initialValues: !isLoading && {
       date_range: DATE_RANGE.THIS_MONTH,
