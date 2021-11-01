@@ -3,7 +3,7 @@ import {KeyboardAvoidingView, ScrollView, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {styles, Container, Row} from './styles';
 import {CtHeader, View} from '../..';
-import {Content} from '../../Content';
+import {Content} from '../../content';
 import Dropdown from '../../Dropdown';
 import {ARROW_ICON} from '@/assets';
 import {definePlatformParam} from '@/constants';

@@ -16,7 +16,7 @@ import {
   hasObjectLength
 } from '@/constants';
 import {Text} from '../Text';
-import {View as CtView} from '../View';
+import {View as CtView} from '../view';
 import {colors} from '@/styles';
 import {BaseDropdownPicker} from '@/components';
 

@@ -49,7 +49,7 @@ export interface IProps {
   navigation: INavigation;
 
   /**
-   * Is field is  disabled.
+   * Is field is disabled.
    */
   disabled: Boolean;
 

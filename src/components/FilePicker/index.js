@@ -12,7 +12,7 @@ import t from 'locales/use-translation';
 import {colors} from '@/styles';
 import {alertMe, isIosPlatform} from '@/constants';
 import {AssetImage} from '../asset-image';
-import {Content} from '../Content';
+import {Content} from '../content';
 import Dropdown from '../Dropdown';
 import {styles} from './styles';
 import {Text} from '../Text';

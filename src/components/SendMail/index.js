@@ -14,7 +14,7 @@ import {SlideModal} from '../SlideModal';
 import {InputField} from '../InputField';
 import {ActionButton} from '../Button';
 import t from 'locales/use-translation';
-import {Content} from '../Content';
+import {Content} from '../content';
 import {Editor} from '../Editor';
 import {getMailConfiguration} from '../../features/more/actions';
 import {commonSelector} from 'stores/common/selectors';

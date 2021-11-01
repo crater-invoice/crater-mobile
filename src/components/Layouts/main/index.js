@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Field} from 'redux-form';
 import {styles, Container} from './styles';
 import {InputField, CtHeader, CtDivider} from '../..';
-import {Content} from '../../Content';
+import {Content} from '../../content';
 import t from 'locales/use-translation';
 import {STATUS_BAR_CONTENT} from '@/utils';
 import {View as CtView, CtDecorativeButton} from '@/components';

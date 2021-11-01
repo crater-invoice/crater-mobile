@@ -12,7 +12,7 @@ import {ARROW_ICON} from '@/assets';
 import {commonSelector} from 'stores/common/selectors';
 import {MainLayout} from '../Layouts';
 import {ListView} from '../ListView';
-import {Content} from '../Content';
+import {Content} from '../content';
 import {BaseSelect} from '@/components';
 
 const ITEMS_PER_PAGE = 20;
