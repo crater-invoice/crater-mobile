@@ -1,5 +1,5 @@
-import {routes} from '@/navigation';
 import {PercentageIcon} from '@/icons';
+import {routes} from '@/navigation';
 import {PermissionService} from '@/services';
 import t from 'locales/use-translation';
 
@@ -209,14 +209,6 @@ export const SETTINGS_MENU = () => {
         PermissionService.isAllowToView(routes.GLOBAL_ITEMS)
     },
     {
-      title: t('settings.notification'),
-      leftIcon: 'bell',
-      leftIconSolid: true,
-      iconSize: 20,
-      fullItem: {route: routes.NOTIFICATIONS},
-      show: PermissionService.isSuperAdmin()
-    },
-    {
       title: t('settings.taxes'),
       leftIconSvg: PercentageIcon,
       leftIconSolid: true,
@@ -225,11 +217,12 @@ export const SETTINGS_MENU = () => {
       show: PermissionService.isAllowToView(routes.TAXES)
     },
     {
-      title: t('header.customFields'),
-      leftIcon: 'cube',
+      title: t('settings.notification'),
+      leftIcon: 'bell',
+      leftIconSolid: true,
       iconSize: 20,
-      fullItem: {route: routes.CUSTOM_FIELDS},
-      show: PermissionService.isAllowToView(routes.CUSTOM_FIELDS)
+      fullItem: {route: routes.NOTIFICATIONS},
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('settings.notes'),
@@ -240,11 +233,11 @@ export const SETTINGS_MENU = () => {
       show: true
     },
     {
-      title: t('settings.expenseCategory'),
-      leftIcon: 'clipboard-list',
+      title: t('header.roles'),
+      leftIcon: 'users',
       iconSize: 20,
-      fullItem: {route: routes.CATEGORIES},
-      show: PermissionService.isAllowToView(routes.MAIN_EXPENSES)
+      fullItem: {route: routes.ROLES},
+      show: PermissionService.isAllowToView(routes.ROLES)
     },
     {
       title: t('settings.touchOrFaceId'),
@@ -260,13 +253,6 @@ export const SETTINGS_MENU = () => {
       iconSize: 20,
       fullItem: {route: routes.ENDPOINTS_SETTINGS},
       show: PermissionService.isSuperAdmin()
-    },
-    {
-      title: t('header.roles'),
-      leftIcon: 'users',
-      iconSize: 20,
-      fullItem: {route: routes.ROLES},
-      show: PermissionService.isAllowToView(routes.ROLES)
     }
   ];
 };

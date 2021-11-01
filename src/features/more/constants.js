@@ -38,20 +38,20 @@ export const TAXES = 'reportType/TAXES';
 export const MORE_MENU = () => {
   return [
     {
-      title: t('more.estimate'),
-      leftIcon: 'file-alt',
-      leftIconSolid: true,
-      iconSize: 19,
-      fullItem: {route: routes.ESTIMATES},
-      show: PermissionService.isAllowToView(routes.ESTIMATES)
-    },
-    {
       title: t('more.recurringInvoice'),
       leftIcon: 'file',
       leftIconSolid: true,
       iconSize: 19,
       fullItem: {route: routes.RECURRING_INVOICES},
       show: PermissionService.isAllowToView(routes.RECURRING_INVOICES)
+    },
+    {
+      title: t('more.estimate'),
+      leftIcon: 'file-alt',
+      leftIconSolid: true,
+      iconSize: 19,
+      fullItem: {route: routes.ESTIMATES},
+      show: PermissionService.isAllowToView(routes.ESTIMATES)
     },
     {
       title: t('more.items'),
@@ -61,6 +61,13 @@ export const MORE_MENU = () => {
       show: PermissionService.isAllowToView(routes.GLOBAL_ITEMS)
     },
     {
+      title: t('more.users'),
+      leftIcon: 'users',
+      iconSize: 20,
+      fullItem: {route: routes.USERS},
+      show: PermissionService.isAllowToView(routes.USERS)
+    },
+    {
       title: t('more.reports'),
       leftIcon: 'signal',
       iconSize: 15,
@@ -68,11 +75,18 @@ export const MORE_MENU = () => {
       show: PermissionService.isAllowToView(routes.REPORTS)
     },
     {
-      title: t('more.users'),
-      leftIcon: 'users',
+      title: t('header.customFields'),
+      leftIcon: 'cube',
       iconSize: 20,
-      fullItem: {route: routes.USERS},
-      show: PermissionService.isAllowToView(routes.USERS)
+      fullItem: {route: routes.CUSTOM_FIELDS},
+      show: PermissionService.isAllowToView(routes.CUSTOM_FIELDS)
+    },
+    {
+      title: t('settings.expenseCategory'),
+      leftIcon: 'clipboard-list',
+      iconSize: 20,
+      fullItem: {route: routes.CATEGORIES},
+      show: PermissionService.isAllowToView(routes.MAIN_EXPENSES)
     },
     {
       title: t('more.settings'),

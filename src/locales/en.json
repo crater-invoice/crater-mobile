@@ -512,7 +512,7 @@
   "login": {
     "email": "Enter your email",
     "password": "Enter your password",
-    "invalid": "Invalid Credentials"
+    "invalid": "These credentials do not match our records."
   },
   "logout": {
     "confirmation": "Are you sure you want to logout?",
@@ -930,6 +930,9 @@
     "text_permissions": "Permissions"
   },
   "notification": {
+    "success": "Success!",
+    "error": "Error!",
+    "login_success": "Logged in successfully",
     "customer_created": "Customer created successfully",
     "customer_updated": "Customer updated successfully",
     "customer_deleted": "Customer deleted successfully",

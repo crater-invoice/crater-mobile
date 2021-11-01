@@ -3,6 +3,7 @@ import {showMessage} from '@/components';
 import {colors} from '@/styles';
 import {fontSizes, fonts} from '@/styles/fonts';
 import {isAndroidPlatform, isIosPlatform, isIPhoneX} from '@/constants';
+import t from 'locales/use-translation';
 
 type MessageType =
   | 'none'
@@ -32,8 +33,8 @@ export const showNotification = ({
 
   const getTitle = () => {
     if (title) return title;
-    if (_type === 'success') return 'Success!';
-    if (_type === 'error') return 'Error!';
+    if (_type === 'success') return t('notification.success');
+    if (_type === 'error') return t('notification.error');
   };
 
   const type = _type === 'error' ? 'danger' : _type;
