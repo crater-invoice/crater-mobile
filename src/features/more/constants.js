@@ -72,7 +72,7 @@ export const MORE_MENU = () => {
       leftIcon: 'signal',
       iconSize: 15,
       fullItem: {route: routes.REPORTS},
-      show: PermissionService.isAllowToView(routes.REPORTS)
+      show: PermissionService.isAllowToManage(routes.REPORTS)
     },
     {
       title: t('header.customFields'),
@@ -113,7 +113,7 @@ export const REPORTS_MENU = () => {
         route: routes.GENERATE_REPORT,
         type: SALES
       },
-      show: PermissionService.isAllowToManage(SALES)
+      show: true
     },
     {
       title: t('reports.profitAndLoss'),
@@ -122,7 +122,7 @@ export const REPORTS_MENU = () => {
         route: routes.GENERATE_REPORT,
         type: PROFIT_AND_LOSS
       },
-      show: PermissionService.isAllowToManage(PROFIT_AND_LOSS)
+      show: true
     },
     {
       title: t('reports.expenses'),
@@ -130,7 +130,7 @@ export const REPORTS_MENU = () => {
         route: routes.GENERATE_REPORT,
         type: EXPENSES
       },
-      show: PermissionService.isAllowToManage(EXPENSES)
+      show: true
     },
     {
       title: t('reports.taxes'),
@@ -138,7 +138,7 @@ export const REPORTS_MENU = () => {
         route: routes.GENERATE_REPORT,
         type: TAXES
       },
-      show: PermissionService.isAllowToManage(TAXES)
+      show: true
     }
   ];
 };

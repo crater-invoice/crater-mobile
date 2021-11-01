@@ -1,5 +1,7 @@
 import t from 'locales/use-translation';
 import {AssetImage} from '@/components';
+import {PermissionService} from '@/services';
+import {routes} from '@/navigation';
 
 let selectedFromDate = '';
 let selectedFromDateValue = '';
@@ -16,7 +18,7 @@ export default expenseFilterFields = ({props, setFormField}) => {
   } = props;
 
   const selectFields = [
-    {
+    PermissionService.isAllowToView(routes.MAIN_CUSTOMERS) && {
       name: 'customer_id',
       apiSearch: true,
       hasPagination: true,

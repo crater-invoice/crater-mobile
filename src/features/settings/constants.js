@@ -186,7 +186,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 17,
       fullItem: {route: routes.CREATE_COMPANY},
-      show: PermissionService.isSuperAdmin()
+      show: PermissionService.isAllowToManage(routes.CREATE_COMPANY)
     },
     {
       title: t('settings.preference'),
@@ -230,7 +230,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 20,
       fullItem: {route: routes.NOTES},
-      show: true
+      show: PermissionService.isAllowToManage(routes.NOTES)
     },
     {
       title: t('header.roles'),

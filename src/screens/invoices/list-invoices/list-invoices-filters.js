@@ -4,6 +4,8 @@ import {
   FILTER_INVOICE_PAID_STATUS
 } from 'stores/invoices/types';
 import {AssetImage} from '@/components';
+import {PermissionService} from '@/services';
+import {routes} from '@/navigation';
 
 let selectedFromDate = '';
 let selectedFromDateValue = '';
@@ -15,13 +17,8 @@ export const invoicesFilterFields = ({props, setFormField}) => {
 
   const {getCustomers, customers, navigation} = props;
 
-  const dropdownStyle = {
-    marginTop: 12,
-    marginBottom: 2
-  };
-
   const selectFields = [
-    {
+    PermissionService.isAllowToView(routes.MAIN_CUSTOMERS) && {
       name: 'customer_id',
       apiSearch: true,
       hasPagination: true,
@@ -88,8 +85,7 @@ export const invoicesFilterFields = ({props, setFormField}) => {
       defaultPickerOptions: {
         label: t('invoices.statusPlaceholder'),
         value: ''
-      },
-      containerStyle: dropdownStyle
+      }
     }
   ];
 

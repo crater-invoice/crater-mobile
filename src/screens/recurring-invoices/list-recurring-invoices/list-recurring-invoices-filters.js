@@ -1,6 +1,8 @@
 import t from 'locales/use-translation';
 import {AssetImage} from '@/components';
 import {statusSelector} from 'stores/recurring-invoices/selectors';
+import {PermissionService} from '@/services';
+import {routes} from '@/navigation';
 
 let selectedFromDate = '';
 let selectedFromDateValue = '';
@@ -15,13 +17,9 @@ export const recurringInvoicesFilterFields = ({props, setFormField}) => {
     statusList = [],
     formValues: {filterStatus}
   } = props;
-  const dropdownStyle = {
-    marginTop: 12,
-    marginBottom: 2
-  };
 
   const selectFields = [
-    {
+    PermissionService.isAllowToView(routes.MAIN_CUSTOMERS) && {
       name: 'customer_id',
       apiSearch: true,
       hasPagination: true,
@@ -58,8 +56,7 @@ export const recurringInvoicesFilterFields = ({props, setFormField}) => {
       isInternalSearch: true,
       onSelect: val => {
         setFormField('filterStatus', val);
-      },
-      containerStyle: dropdownStyle
+      }
     }
   ];
 

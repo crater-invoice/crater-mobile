@@ -1,6 +1,8 @@
 import t from 'locales/use-translation';
 import {FILTER_ESTIMATE_STATUS} from 'stores/estimates/types';
 import {AssetImage} from '@/components';
+import {PermissionService} from '@/services';
+import {routes} from '@/navigation';
 
 let selectedFromDate = '';
 let selectedFromDateValue = '';
@@ -11,7 +13,7 @@ export default estimateFilterFields = ({props, setFormField}) => {
   const {getCustomers, customers, navigation} = props;
 
   const selectFields = [
-    {
+    PermissionService.isAllowToView(routes.MAIN_CUSTOMERS) && {
       name: 'customer_id',
       apiSearch: true,
       hasPagination: true,

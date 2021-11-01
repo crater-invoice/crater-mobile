@@ -30,8 +30,6 @@ export const itemsFilterFields = ({props, setFormField}) => {
       items: units,
       displayName: 'name',
       label: t('items.unit'),
-      icon: 'balance-scale',
-      placeholder: t('items.unitPlaceholder'),
       navigation: navigation,
       compareField: 'id',
       onSelect: item => setFormField('unit_id', item.id),

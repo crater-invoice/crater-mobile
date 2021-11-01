@@ -74,7 +74,9 @@ const abilities = [
   {route: routes.CREATE_ROLE, ability: 'delete-role'},
 
   // Settings
-  {route: routes.REPORTS, ability: 'view-report'}
+  {route: routes.REPORTS, ability: 'view-report'},
+  {route: routes.NOTES, ability: 'note-settings'},
+  {route: routes.CREATE_COMPANY, ability: 'company-settings'}
 ];
 
 class Service {

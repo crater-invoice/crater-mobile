@@ -13,6 +13,8 @@ import {Filter} from '@/components/Filter';
 import {CompanyModal} from 'screens/companies';
 import {defineSize} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
+import {PermissionService} from '@/services';
+import {routes} from '@/navigation';
 
 interface IProps {
   children: any;
@@ -92,9 +94,10 @@ const Layout = (props: IProps) => {
             {...headerProps}
             theme={theme}
             filterProps={!props?.['with-input-filter'] && filterProps}
-            {...(props?.['with-company'] && {
-              rightComponent: <CompanyModal />
-            })}
+            {...(props?.['with-company'] &&
+              PermissionService.isAllowToManage(routes.CREATE_COMPANY) && {
+                rightComponent: <CompanyModal />
+              })}
           />
 
           {hasSearchField && (

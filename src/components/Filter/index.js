@@ -9,7 +9,12 @@ import {SelectField} from '../SelectField';
 import {DatePickerField} from '../DatePickerField';
 import {ActionButton, CtDecorativeButton} from '../Button';
 import t from 'locales/use-translation';
-import {isIosPlatform, isAndroidPlatform} from '@/constants';
+import {
+  isIosPlatform,
+  isAndroidPlatform,
+  isEmpty,
+  hasObjectLength
+} from '@/constants';
 import {Text} from '../Text';
 import {View as CtView} from '../View';
 import {colors} from '@/styles';
@@ -82,7 +87,9 @@ export class Filter extends Component<IProps> {
 
     return fields.map((field, index) => {
       const {name, items} = field;
-
+      if (!hasObjectLength(field)) {
+        return null;
+      }
       return (
         <View key={index}>
           <Field
@@ -267,7 +274,7 @@ export class Filter extends Component<IProps> {
                 keyboardVerticalOffset: isIosPlatform ? 60 : 100
               }}
             >
-              {selectFields && this.selectField(selectFields)}
+              {!isEmpty(selectFields) && this.selectField(selectFields)}
 
               <CtView flex={1} flex-row mt-5>
                 {datePickerFields && this.datePickerField(datePickerFields)}

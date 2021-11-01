@@ -36,7 +36,6 @@ export const itemsFilterFields = ({props, setFormField}) => {
       items: roles,
       displayName: 'name',
       label: t('users.role'),
-      icon: 'balance-scale',
       placeholder: t('users.rolePlaceholder'),
       navigation: navigation,
       compareField: 'name',
