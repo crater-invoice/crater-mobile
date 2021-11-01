@@ -22,7 +22,7 @@ export * from './AppLoader';
 export * from './LostConnection';
 export * from './UpdateAppVersion';
 export * from './CurrencyFormat';
-export * from './AnimateModal';
+export * from './animate-modal';
 export * from './AssetSvg';
 export * from './InputModal';
 export * from './TermsAndCondition';

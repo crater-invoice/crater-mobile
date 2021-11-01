@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, KeyboardAvoidingView, ScrollView} from 'react-native';
 import {connect} from 'react-redux';
 import {styles} from './styles';
-import {AnimateModal} from '../AnimateModal';
+import {AnimateModal} from '../animate-modal';
 import {Field} from 'redux-form';
 import {InputField} from '../InputField';
 import {ActionButton, CtDecorativeButton} from '../Button';

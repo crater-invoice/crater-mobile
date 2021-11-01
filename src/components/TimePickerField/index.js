@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {AnimateModal} from '../AnimateModal';
+import {AnimateModal} from '../animate-modal';
 import moment from 'moment';
 import t from 'locales/use-translation';
 import {CtButton} from '../Button';
