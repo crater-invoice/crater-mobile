@@ -99,7 +99,7 @@ export default class Account extends React.Component<IProps, IStates> {
           uploadedFileUrl={avatarUrl}
           containerStyle={styles.avatarContainer}
           imageContainerStyle={styles.imageContainerStyle}
-          imageStyle={styles.imageStyle}
+          style={styles.imageStyle}
           loadingContainerStyle={styles.loadingContainerStyle}
           fileLoading={val => this.setState({fileLoading: val})}
         />

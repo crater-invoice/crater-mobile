@@ -1,14 +1,6 @@
 import React, {Component} from 'react';
 import {Animated} from 'react-native';
 
-interface IProps {
-  delay: number;
-}
-
-interface IStates {
-  opacity: any;
-}
-
 export class FadeListAnimation extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
@@ -52,4 +44,20 @@ export class FadeListAnimation extends Component<IProps, IStates> {
       </Animated.View>
     );
   }
+}
+
+interface IProps {
+  /**
+   * Delay of fade in animation in ms.
+   * Defaults to 0
+   */
+  delay: number;
+}
+
+interface IStates {
+  /**
+   * Animate the touchable list to a new opacity.
+   * Defaults to 0
+   */
+  opacity: any;
 }

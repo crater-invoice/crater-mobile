@@ -11,7 +11,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import t from 'locales/use-translation';
 import {colors} from '@/styles';
 import {alertMe, isIosPlatform} from '@/constants';
-import {AssetImage} from '../AssetImage';
+import {AssetImage} from '../asset-image';
 import {Content} from '../Content';
 import Dropdown from '../Dropdown';
 import {styles} from './styles';
@@ -24,7 +24,7 @@ interface IProps {
   label: String;
   containerStyle: Object;
   onChangeCallback: Function;
-  imageStyle: Object;
+  style: Object;
   imageContainerStyle: Object;
   hasAvatar: Boolean;
   loadingContainerStyle: Object;
@@ -258,7 +258,7 @@ class Picker extends Component<IProps, IStates> {
     const {
       uploadedFileUrl,
       imageContainerStyle,
-      imageStyle,
+      style,
       uploadedFileType,
       hasAvatar,
       showUploadedImageAsCache = true,
@@ -298,20 +298,14 @@ class Picker extends Component<IProps, IStates> {
 
     const avatarView = (
       <AssetImage
-        imageSource={AssetImage.images.avatar}
-        imageStyle={[styles.images, imageStyle]}
-        loadingImageStyle={styles.loadImage}
+        source={AssetImage.images.avatar}
+        style={[styles.images, style]}
       />
     );
 
     const imageView = image => (
       <View style={[styles.imageContainer, imageContainerStyle]}>
-        <AssetImage
-          imageSource={image}
-          imageStyle={[styles.images, imageStyle]}
-          uri
-          loadingImageStyle={styles.loadImage}
-        />
+        <AssetImage source={image} style={[styles.images, style]} uri />
       </View>
     );
 

@@ -134,11 +134,8 @@ export class TemplateField extends Component<IProps> {
                   <View style={styles.imageContainer}>
                     <AssetImage
                       uri
-                      imageSource={val.path}
-                      imageStyle={[
-                        styles.image,
-                        name === val.name && styles.active
-                      ]}
+                      source={val.path}
+                      style={[styles.image, name === val.name && styles.active]}
                     />
                     {name === val.name && (
                       <Icon

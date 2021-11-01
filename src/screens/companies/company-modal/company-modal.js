@@ -73,9 +73,8 @@ export default class CompanyModal extends Component<IProps, IStates> {
         return (
           <AssetImage
             uri
-            imageSource={company.logo}
-            imageStyle={Styles.logo(theme, isMedium)}
-            loaderSize="small"
+            source={company.logo}
+            style={Styles.logo(theme, isMedium)}
           />
         );
       }

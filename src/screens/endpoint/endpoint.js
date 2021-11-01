@@ -84,8 +84,8 @@ export default class Endpoint extends Component<IProps, IStates> {
             <View class="flex-1 px-25 justify-center">
               <View style={styles.logoContainer}>
                 <AssetImage
-                  imageSource={AssetImage.images[(theme?.mode)].logo}
-                  imageStyle={styles.logo}
+                  source={AssetImage.images[(theme?.mode)].logo}
+                  style={styles.logo}
                 />
               </View>
               <View>

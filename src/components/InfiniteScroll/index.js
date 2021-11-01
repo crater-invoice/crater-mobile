@@ -16,8 +16,8 @@ import {hasValue} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
 
 interface IProps {
-  style?: StyleProp<ViewStyle>;
-  contentContainerStyle?: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle> | any;
+  contentContainerStyle?: StyleProp<ViewStyle> | any;
   isEmpty?: boolean;
   refreshControlColor?: string;
   emptyContentProps?: any;

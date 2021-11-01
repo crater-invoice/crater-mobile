@@ -11,7 +11,7 @@ import {definePlatformParam} from '@/constants';
 import {isRTL} from '@/utils';
 import {Text} from '../Text';
 import AssetSvg from '../AssetSvg';
-import {AssetImage} from '../AssetImage';
+import {AssetImage} from '../asset-image';
 import {commonSelector} from 'stores/common/selectors';
 
 type IProps = {
@@ -330,12 +330,7 @@ class ListViewComponent extends Component<IProps> {
     );
 
     const assetImageView = () => (
-      <AssetImage
-        uri
-        imageSource={leftImage}
-        imageStyle={styles.leftImage(theme)}
-        loaderSize="small"
-      />
+      <AssetImage uri source={leftImage} style={styles.leftImage(theme)} />
     );
 
     let leftIconView = null;

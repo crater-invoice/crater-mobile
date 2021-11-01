@@ -1,7 +1,7 @@
 export * from './Layouts';
 export * from './Divider';
 export * from './Button';
-export * from './AssetImage';
+export * from './asset-image';
 export * from './Header';
 export * from './InputField';
 export * from './Tabs';
@@ -18,7 +18,6 @@ export * from './FilePicker';
 export * from './SelectField';
 export * from './Dropdown';
 export * from './Filter';
-export * from './AppLoader';
 export * from './LostConnection';
 export * from './UpdateAppVersion';
 export * from './CurrencyFormat';

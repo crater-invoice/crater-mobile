@@ -4,7 +4,7 @@ import styles from './styles';
 import {colors} from '@/styles';
 import {Button} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {AssetImage} from '../AssetImage';
+import {AssetImage} from '../asset-image';
 import {BUTTON_COLOR, BUTTON_TYPE, isAndroidPlatform} from '@/constants';
 import {AssetIcon} from '../asset-icon';
 import {commonSelector} from 'stores/common/selectors';
@@ -24,7 +24,7 @@ type IProps = {
   imageIcon?: Boolean,
   isGradient?: Boolean,
   raised?: Boolean,
-  imageSource?: String | any,
+  source?: String | any,
   buttonType?: String,
   containerStyle?: Object,
   buttonContainerStyle?: any
@@ -74,7 +74,7 @@ class ActionButton extends Component<IProps> {
       btnTitle,
       iconName,
       imageIcon = false,
-      imageSource,
+      source,
       raised,
       containerStyle,
       buttonContainerStyle,
@@ -101,10 +101,7 @@ class ActionButton extends Component<IProps> {
         <Button
           icon={
             imageIcon ? (
-              <AssetImage
-                imageSource={imageSource}
-                imageStyle={styles.imageIcon}
-              />
+              <AssetImage source={source} style={styles.imageIcon} />
             ) : (
               <AssetIcon name={iconName} size={15} color={colors.white} />
             )

@@ -94,8 +94,8 @@ export default class Login extends React.Component<IProps, IStates> {
             <View style={styles.main}>
               <View style={styles.logoContainer}>
                 <AssetImage
-                  imageSource={AssetImage.images[(theme?.mode)].logo}
-                  imageStyle={styles.logo}
+                  source={AssetImage.images[(theme?.mode)].logo}
+                  style={styles.logo}
                 />
               </View>
 

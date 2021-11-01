@@ -87,8 +87,8 @@ export default class ForgotPassword extends React.Component<IProps, IStates> {
             <View style={styles.main}>
               <View style={styles.logoContainer}>
                 <AssetImage
-                  imageSource={AssetImage.images[(theme?.mode)].logo}
-                  imageStyle={styles.logo}
+                  source={AssetImage.images[(theme?.mode)].logo}
+                  style={styles.logo}
                 />
               </View>
 
@@ -124,8 +124,8 @@ export default class ForgotPassword extends React.Component<IProps, IStates> {
                 <>
                   <View style={styles.SendingMailContainer}>
                     <AssetImage
-                      imageSource={AssetImage.images.envelop}
-                      imageStyle={styles.envelop}
+                      source={AssetImage.images.envelop}
+                      style={styles.envelop}
                     />
                     <Text
                       h5

@@ -80,9 +80,7 @@ export const EmptyPlaceholder = (props: IProps) => {
 
   return (
     <View style={styles.emptyContainer}>
-      {image && (
-        <AssetImage imageSource={image} imageStyle={styles.emptyImage} />
-      )}
+      {image && <AssetImage source={image} style={styles.emptyImage} />}
 
       <Text
         mediumSize

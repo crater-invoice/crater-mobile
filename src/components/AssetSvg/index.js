@@ -20,7 +20,7 @@ interface IProps {
   fill?: String;
   width?: Number | String;
   height?: Number | String;
-  style?: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle> | any;
 }
 
 export class AssetSvg extends Component<IProps> {

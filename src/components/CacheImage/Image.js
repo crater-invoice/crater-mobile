@@ -16,7 +16,7 @@ import {SCREEN_WIDTH} from '@/constants';
 import styles from './styles';
 import {CacheImageService, IS_UNDER_PROCESSING} from './ImageService';
 import {colors} from '@/styles';
-import {AssetImage} from '../AssetImage';
+import {AssetImage} from '../asset-image';
 
 interface IProps {
   style?: any;
@@ -32,9 +32,9 @@ interface IProps {
   temporaryHeight?: number;
   maxHeight?: number;
   minHeight?: number;
-  buttonStyle?: StyleProp<ViewStyle>;
-  loaderStyle?: StyleProp<ViewStyle>;
-  minHeightStyle?: StyleProp<ViewStyle>;
+  buttonStyle?: StyleProp<ViewStyle> | any;
+  loaderStyle?: StyleProp<ViewStyle> | any;
+  minHeightStyle?: StyleProp<ViewStyle> | any;
   resizeMode?: 'cover' | 'contain' | 'stretch' | 'repeat' | 'center';
 }
 

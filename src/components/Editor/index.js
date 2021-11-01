@@ -59,11 +59,11 @@ interface IProps {
   customRightLabelComponent?: any;
   fieldInputProps?: any;
   placeholder?: String;
-  htmlViewStyle?: StyleProp<ViewStyle>;
-  containerStyle: StyleProp<ViewStyle>;
-  labelStyle: StyleProp<ViewStyle>;
-  previewLabelStyle: StyleProp<ViewStyle>;
-  previewContainerStyle: StyleProp<ViewStyle>;
+  htmlViewStyle?: StyleProp<ViewStyle> | any;
+  containerStyle: StyleProp<ViewStyle> | any;
+  labelStyle: StyleProp<ViewStyle> | any;
+  previewLabelStyle: StyleProp<ViewStyle> | any;
+  previewContainerStyle: StyleProp<ViewStyle> | any;
 }
 
 interface IStates {

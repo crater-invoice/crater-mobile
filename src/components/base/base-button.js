@@ -69,7 +69,7 @@ interface IProps {
   /**
    * The style of the content container(Button).
    */
-  style?: StyleProp<ViewStyle> | undefined;
+  style?: StyleProp<ViewStyle> | any;
 }
 
 const bgColor = {

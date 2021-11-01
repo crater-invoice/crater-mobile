@@ -4,7 +4,7 @@ import * as Linking from 'expo-linking';
 import {connect} from 'react-redux';
 import {styles, Container} from './styles';
 import {Text} from '../Text';
-import {AssetImage} from '../AssetImage';
+import {AssetImage} from '../asset-image';
 import {BaseButton} from '../base/base-button';
 import t from 'locales/use-translation';
 import {commonSelector} from 'stores/common/selectors';
@@ -57,8 +57,8 @@ export class UpdateAppVersion extends Component {
         <View style={styles.main}>
           <View style={styles.logoContainer}>
             <AssetImage
-              imageSource={AssetImage.images[(theme?.mode)].logo}
-              imageStyle={styles.imgLogo}
+              source={AssetImage.images[(theme?.mode)].logo}
+              style={styles.imgLogo}
             />
           </View>
 

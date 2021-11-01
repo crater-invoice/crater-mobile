@@ -1,6 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
-import {AssetImage} from '../AssetImage';
+import {AssetImage} from '../asset-image';
 import {styles} from './styles';
 import {CtButton} from '../Button';
 import {BUTTON_TYPE, hasTextLength} from '@/constants';
@@ -32,9 +32,7 @@ export const Empty = ({
 
   return (
     <View style={styles.emptyContainer}>
-      {image && (
-        <AssetImage imageSource={image} imageStyle={styles.emptyImage} />
-      )}
+      {image && <AssetImage source={image} style={styles.emptyImage} />}
 
       <Text
         mediumSize
