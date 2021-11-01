@@ -8,12 +8,13 @@ import {
   DefaultLayout,
   SendMail,
   CustomField,
-  ActionButton,
   View as CtView,
   Notes,
   ItemField,
   FinalAmount,
-  BaseInputPrefix
+  BaseInputPrefix,
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {
   CREATE_ESTIMATE_FORM,
@@ -429,21 +430,27 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
     this.estimateRefs(this);
 
-    const bottomAction = [
-      {
-        label: 'button.viewPdf',
-        onPress: handleSubmit(this.downloadEstimate),
-        type: 'btn-outline',
-        show: isEditScreen && isAllowToEdit,
-        loading: isSaving || isFetchingInitialData
-      },
-      {
-        label: 'button.save',
-        onPress: handleSubmit(this.saveEstimate),
-        show: isAllowToEdit,
-        loading: isSaving || isFetchingInitialData
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          show={isEditScreen && isAllowToEdit}
+          type="primary-btn-outline"
+          loading={isSaving || isFetchingInitialData}
+          disabled={isFetchingInitialData}
+          onPress={handleSubmit(this.downloadEstimate)}
+        >
+          {t('button.viewPdf')}
+        </BaseButton>
+        <BaseButton
+          show={isAllowToEdit}
+          loading={isSaving || isFetchingInitialData}
+          disabled={isFetchingInitialData || isSaving}
+          onPress={handleSubmit(this.saveEstimate)}
+        >
+          {t('button.save')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <DefaultLayout
@@ -461,7 +468,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
             rightIconPress: handleSubmit(this.saveEstimate)
           })
         }}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData || withLoading}}
         contentProps={{withLoading}}
         dropdownProps={drownDownProps}
