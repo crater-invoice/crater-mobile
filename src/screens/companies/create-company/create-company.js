@@ -5,6 +5,7 @@ import {IProps, IStates} from './create-company-type';
 import {secondaryHeader} from 'utils/header';
 import {CountrySelectModal, CurrencySelectModal} from '@/select-modal';
 import {CREATE_COMPANY_FORM} from 'stores/company/types';
+import {keyboardType} from '@/constants';
 import {
   fetchCompanyInitialDetails,
   addCompany,
@@ -17,7 +18,6 @@ import {
   BaseButton,
   FilePicker
 } from '@/components';
-import {keyboardType} from '@/constants';
 
 export default class CreateCompany extends Component<IProps, IStates> {
   constructor(props) {

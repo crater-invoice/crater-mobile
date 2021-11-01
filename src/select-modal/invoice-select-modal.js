@@ -28,7 +28,6 @@ export const InvoiceSelectModal = (props: IProps) => {
       {...props}
       items={invoices ?? []}
       getItems={getInvoices}
-      isRequired
       apiSearch
       hasPagination
       displayName="invoice_number"
