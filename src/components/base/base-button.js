@@ -110,7 +110,14 @@ export const Button = (props: IProps) => {
       {props.children}
     </Text>
   );
-  const spinner = <Loading size="small" color={colors.white} />;
+  const spinner = (
+    <Loading
+      size="small"
+      color={
+        !isOutline ? colors.white : bgColor?.[outlineType(type)]?.[theme?.mode]
+      }
+    />
+  );
   const children = !loading ? label : spinner;
   const gradientStyle = {
     colors: [colors.primary, colors.primaryLight],
