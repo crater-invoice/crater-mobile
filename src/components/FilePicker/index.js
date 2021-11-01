@@ -5,7 +5,7 @@ import * as IntentLauncher from 'expo-intent-launcher';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import {connect} from 'react-redux';
-import {AssetIcon} from '../AssetIcon';
+import {AssetIcon} from '../asset-icon';
 import Constants from 'expo-constants';
 import * as DocumentPicker from 'expo-document-picker';
 import t from 'locales/use-translation';

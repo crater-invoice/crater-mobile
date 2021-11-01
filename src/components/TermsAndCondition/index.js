@@ -3,7 +3,7 @@ import {View, KeyboardAvoidingView, ScrollView} from 'react-native';
 import {change} from 'redux-form';
 import styles from './styles';
 import {CtButton} from '../Button';
-import {AnimateModal} from '../AnimateModal';
+import {AnimateModal} from '../animate-modal';
 import t from 'locales/use-translation';
 import {BUTTON_TYPE, defineSize} from '@/constants';
 

@@ -365,6 +365,7 @@ export class Expense extends React.Component<IProps, IState> {
           }
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
+          isRequired={false}
         />
 
         <Field

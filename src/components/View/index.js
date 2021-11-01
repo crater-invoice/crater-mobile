@@ -42,7 +42,7 @@ const StyledView = styled(CtView)`
     `
   )};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'radius') &&
     css`
       border-radius: ${applyProp(props, 'radius')};
@@ -104,153 +104,153 @@ const StyledView = styled(CtView)`
     `
   )};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'opacity-') &&
     css`
       opacity: ${applyDivisionProp(props, 'opacity-')};
     `};
 
   ${/* Margin */ ''}
-  ${(props) =>
+  ${props =>
     hasProp(props, 'mx-') &&
     css`
       margin-horizontal: ${applyProp(props, 'mx-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:max-') &&
     css`
       margin-horizontal: ${applyProp(props, 'lg:max-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'my-') &&
     css`
       margin-vertical: ${applyProp(props, 'my-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:my-') &&
     css`
       margin-vertical: ${applyProp(props, 'lg:my-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'mt-') &&
     css`
       margin-top: ${applyProp(props, 'mt-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:mt-') &&
     css`
       margin-top: ${applyProp(props, 'lg:mt-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'mb-') &&
     css`
       margin-bottom: ${applyProp(props, 'mb-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:mb-') &&
     css`
       margin-bottom: ${applyProp(props, 'lg:mb-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'ml-') &&
     css`
       margin-left: ${applyProp(props, 'ml-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:ml-') &&
     css`
       margin-left: ${applyProp(props, 'lg:ml-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'mr-') &&
     css`
       margin-right: ${applyProp(props, 'mr-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:mr-') &&
     css`
       margin-right: ${applyProp(props, 'lg:mr-')};
     `};
 
   ${/* Padding */ ''}
-  ${(props) =>
+  ${props =>
     hasProp(props, 'px-') &&
     css`
       padding-horizontal: ${applyProp(props, 'px-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:px-') &&
     css`
       padding-horizontal: ${applyProp(props, 'lg:px-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'py-') &&
     css`
       padding-vertical: ${applyProp(props, 'py-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:py-') &&
     css`
       padding-vertical: ${applyProp(props, 'lg:py-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'pt-') &&
     css`
       padding-top: ${applyProp(props, 'pt-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:pt-') &&
     css`
       padding-top: ${applyProp(props, 'lg:pt-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'pb-') &&
     css`
       padding-bottom: ${applyProp(props, 'pb-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:pb-') &&
     css`
       padding-bottom: ${applyProp(props, 'lg:pb-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'pl-') &&
     css`
       padding-left: ${applyProp(props, 'pl-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:pl-') &&
     css`
       padding-left: ${applyProp(props, 'lg:pl-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'pr-') &&
     css`
       padding-right: ${applyProp(props, 'pr-')};
     `};
 
-  ${(props) =>
+  ${props =>
     hasProp(props, 'lg:pr-') &&
     css`
       padding-right: ${applyProp(props, 'lg:pr-')};
@@ -259,9 +259,9 @@ const StyledView = styled(CtView)`
   ${prop('style')};
 `;
 
-export const View = (props) => {
+export const View = props => {
   return (
-    <StyledView {...getClass(props?.class)} {...props}>
+    <StyledView {...getClass(props.class)} {...props}>
       {props.children}
     </StyledView>
   );

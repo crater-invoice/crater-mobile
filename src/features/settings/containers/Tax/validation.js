@@ -1,15 +1,20 @@
-import { getError } from "@/constants";
+import {getError} from '@/constants';
 
-export const validate = (values) => {
-    const errors = {};
-    const { name, percent } = values;
+export const validate = values => {
+  const errors = {};
+  const {name, percent} = values;
 
-    errors.name = getError(name, ['requiredField']);
-    errors.percent = getError(
-        percent,
-        ['requiredField', 'isNumberFormat', 'maxNumberRequired', 'minNumberRequired'],
-        options = { fieldName: 'Tax Percent', maxNumber: 100, minNumber: -1 }
-    );
+  errors.name = getError(name, ['requiredField']);
+  errors.percent = getError(
+    percent,
+    [
+      'requiredField',
+      'isNumberFormat',
+      'maxNumberRequired',
+      'minNumberRequired'
+    ],
+    (options = {fieldName: 'Tax Percent', maxNumber: 100, minNumber: -1})
+  );
 
-    return errors;
+  return errors;
 };

@@ -56,7 +56,7 @@ export class Report extends React.Component<IProps> {
   saveReport = ({to_date, from_date, report_type}) => {
     const {endpointURL} = store.getState().common;
 
-    const {company} = this.props;
+    const {selectedCompany} = this.props;
 
     const params = {from_date, to_date};
 
@@ -64,7 +64,7 @@ export class Report extends React.Component<IProps> {
 
     Linking.openURL(
       `${endpointURL}/reports/${report}${
-        company.unique_hash
+        selectedCompany.unique_hash
       }?${QueryString.stringify(params)}`
     );
   };

@@ -212,7 +212,7 @@ export default class Invoices extends React.Component<IProps, IStates> {
         {...(PermissionService.isAllowToCreate(routes.MAIN_INVOICES) && {
           plusButtonOnPress: this.onAddInvoice
         })}
-        {...(PermissionService.isSuperAdmin() && {'with-company': true})}
+        with-company
       >
         <Tabs
           style={styles.tabs(theme)}

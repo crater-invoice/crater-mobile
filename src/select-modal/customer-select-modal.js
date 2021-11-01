@@ -21,7 +21,7 @@ interface IProps {
 }
 
 export const CustomerSelectModal = (props: IProps) => {
-  const {customers, getCustomers, disabled} = props;
+  const {customers, getCustomers, disabled, isRequired = true} = props;
 
   return (
     <SelectField
@@ -29,7 +29,7 @@ export const CustomerSelectModal = (props: IProps) => {
       {...props}
       items={customers ?? []}
       getItems={getCustomers}
-      isRequired
+      isRequired={isRequired}
       apiSearch
       hasPagination
       displayName="name"

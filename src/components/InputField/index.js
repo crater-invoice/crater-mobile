@@ -5,7 +5,7 @@ import {Input} from 'react-native-elements';
 import debounce from 'lodash/debounce';
 import styles from './styles';
 import {IInputField} from './type';
-import {AssetIcon} from '../AssetIcon';
+import {AssetIcon} from '../asset-icon';
 import {colors} from '@/styles';
 import {Text} from '../Text';
 import {BaseLabel, BaseError, ButtonView} from '@/components';

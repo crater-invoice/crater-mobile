@@ -1,11 +1,12 @@
 import React from 'react';
-import {SelectField} from '@/components';
+import {SelectField, View} from '@/components';
 import t from 'locales/use-translation';
 import {defineSize} from '@/constants';
-import {routes} from '@/navigation';
 import {TouchableOpacity} from 'react-native';
 import {Text} from '@/components';
 import {ITheme} from '@/interfaces';
+import {PermissionService} from '@/services';
+import {routes} from '@/navigation';
 
 interface IProps {
   /**
@@ -38,22 +39,25 @@ export const NoteSelectModal = (props: IProps) => {
       hasPagination
       onlyPlaceholder
       paginationLimit={defineSize(15, 15, 15, 20)}
-      createActionRouteName={routes.NOTE}
       reference={ref => (notesReference = ref)}
       headerProps={{title: t('notes.select')}}
       emptyContentProps={{contentType: 'notes'}}
       onSelect={onSelect}
       customView={
-        <TouchableOpacity onPress={() => notesReference?.onToggle?.()}>
-          <Text
-            primary
-            h4
-            style={{paddingBottom: 10}}
-            color={theme?.viewLabel?.thirdColor}
-          >
-            {t('notes.insert_note')}
-          </Text>
-        </TouchableOpacity>
+        PermissionService.isAllowToManage(routes.NOTES) ? (
+          <TouchableOpacity onPress={() => notesReference?.onToggle?.()}>
+            <Text
+              primary
+              h4
+              style={{paddingBottom: 10}}
+              color={theme?.viewLabel?.thirdColor}
+            >
+              {t('notes.insertNote')}
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <View class="mt-32"></View>
+        )
       }
     />
   );

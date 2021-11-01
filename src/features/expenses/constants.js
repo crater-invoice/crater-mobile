@@ -22,36 +22,36 @@ export const REMOVE_FROM_EXPENSE = 'expenses/REMOVE_FROM_EXPENSE';
 export const UPDATE_FROM_EXPENSE = 'expenses/UPDATE_FROM_EXPENSE';
 
 export const ACTIONS_VALUE = {
-    REMOVE: 'remove',
-    DOWNLOAD: 'download'
+  REMOVE: 'remove',
+  DOWNLOAD: 'download'
 };
 
 export const EXPENSE_ACTIONS = (imageUrl = '', isAllowToDelete) => {
-    const options = [];
+  const options = [];
 
-    imageUrl &&
-        options.push({
-            label: t('expenses.view_receipt'),
-            value: ACTIONS_VALUE.DOWNLOAD
-        });
+  imageUrl &&
+    options.push({
+      label: t('expenses.viewReceipt'),
+      value: ACTIONS_VALUE.DOWNLOAD
+    });
 
-    isAllowToDelete &&
-        options.push({
-            label: t('expenses.remove_expense'),
-            value: ACTIONS_VALUE.REMOVE
-        });
+  isAllowToDelete &&
+    options.push({
+      label: t('expenses.removeExpense'),
+      value: ACTIONS_VALUE.REMOVE
+    });
 
-    return options;
+  return options;
 };
 
 // Expense Fields
 // -----------------------------------------
 export const EXPENSE_FIELDS = {
-    RECEIPT: 'attachment_receipt',
-    DATE: 'expense_date',
-    AMOUNT: 'amount',
-    CATEGORY: 'expense_category_id',
-    NOTES: 'notes',
-    CUSTOMER: 'customer_id',
-    CUSTOM_FIELDS: 'customFields'
+  RECEIPT: 'attachment_receipt',
+  DATE: 'expense_date',
+  AMOUNT: 'amount',
+  CATEGORY: 'expense_category_id',
+  NOTES: 'notes',
+  CUSTOMER: 'customer_id',
+  CUSTOM_FIELDS: 'customFields'
 };
