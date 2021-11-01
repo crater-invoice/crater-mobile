@@ -5,10 +5,10 @@ import {Text} from '../Text';
 import {styles} from './styles';
 
 type IProps = {
-  title: String,
-  dividerStyle: Object,
-  titleStyle: Object,
-  theme: any
+  title?: String,
+  dividerStyle?: Object,
+  titleStyle?: Object,
+  theme?: any
 };
 
 export const CtDivider = ({title, dividerStyle, titleStyle, theme}: IProps) => {

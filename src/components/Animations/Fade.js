@@ -24,7 +24,7 @@ export class FadeAnimation extends Component<IProps, IState> {
   fadeIn = () => {
     Animated.timing(this.state.opacityAnimate, {
       toValue: 1,
-      duration: this.props.duration ?? 250,
+      duration: this.props.duration ?? 200,
       useNativeDriver: true
     }).start(() => {});
   };

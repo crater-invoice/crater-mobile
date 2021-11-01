@@ -64,13 +64,20 @@ export const RECURRING_INVOICES_ACTIONS = {
   DELETE: 'DELETE'
 };
 
-export const RECURRING_INVOICE_DROPDOWN = [
-  {
-    label: t('recurring_invoices.dropdown.edit'),
-    value: RECURRING_INVOICES_ACTIONS.EDIT
-  },
-  {
-    label: t('recurring_invoices.dropdown.delete'),
-    value: RECURRING_INVOICES_ACTIONS.DELETE
+export const RECURRING_INVOICE_DROPDOWN = (isAllowToEdit, isAllowToDelete) => {
+  const options = [];
+  if (isAllowToEdit) {
+    options.push({
+      label: t('recurring_invoices.dropdown.edit'),
+      value: RECURRING_INVOICES_ACTIONS.EDIT
+    });
   }
-];
+
+  if (isAllowToDelete) {
+    options.push({
+      label: t('recurring_invoices.dropdown.delete'),
+      value: RECURRING_INVOICES_ACTIONS.DELETE
+    });
+  }
+  return options;
+};

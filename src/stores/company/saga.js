@@ -8,7 +8,6 @@ import t from 'locales/use-translation';
 import {setI18nManagerValue, showNotification, handleError} from '@/utils';
 import {fetchCountries} from '../common/saga';
 import {navigation} from '@/navigation';
-import {fetchBootstrap} from '../common/actions';
 
 /**
  * Fetch companies saga
@@ -37,7 +36,7 @@ export function* fetchCurrencies() {
  * Fetch Languages saga
  * @returns {IterableIterator<*>}
  */
-function* fetchLanguages() {
+export function* fetchLanguages() {
   try {
     const {languages} = yield call(req.fetchLanguages);
     yield put({type: types.FETCH_LANGUAGES_SUCCESS, payload: languages});
@@ -96,7 +95,6 @@ function* fetchPreferences({payload}) {
 
     yield put(spinner('isSaving', false));
     payload?.onSuccess?.(response);
-    yield put(fetchBootstrap());
   } catch (e) {}
 }
 
@@ -112,8 +110,6 @@ function* updatePreferences({payload}) {
 
     const body = {settings: params};
     yield call(req.updatePreferences, body);
-
-    yield put(fetchBootstrap());
 
     onResult?.();
 

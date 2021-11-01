@@ -47,12 +47,14 @@ export const EDIT_ESTIMATE_ACTIONS = (markAs = '', isAllowToDelete) => {
     value: ESTIMATE_ACTIONS.SEND
   };
 
-  let actions = [
-    {
+  let actions = [];
+
+  if (PermissionService.isAllowToView(routes.MAIN_INVOICES)) {
+    actions.push({
       label: t('estimates.actions.convertToInvoice'),
       value: ESTIMATE_ACTIONS.CONVERT_TO_INVOICE
-    }
-  ];
+    });
+  }
 
   if (PermissionService.isAllowToSend(routes.CREATE_ESTIMATE)) {
     actions = [...actions, sendEstimate];

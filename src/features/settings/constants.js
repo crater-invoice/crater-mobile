@@ -1,11 +1,10 @@
-import {routes} from '@/navigation';
 import {PercentageIcon} from '@/icons';
+import {routes} from '@/navigation';
 import {PermissionService} from '@/services';
 import t from 'locales/use-translation';
 
 // Forms
 // -----------------------------------------
-export const EDIT_ACCOUNT = 'accountForm/EDIT_ACCOUNT';
 export const NOTIFICATION = 'notification/NOTIFICATION';
 
 export const SEARCH_TAX = 'taxForm/SEARCH_TAX';
@@ -33,11 +32,6 @@ export const GET_SETTING_INFO = 'GET_SETTING_INFO';
 export const GET_SETTING_ITEM = 'settings/GET_SETTING_ITEM';
 export const EDIT_SETTING_ITEM = 'settings/EDIT_SETTING_ITEM';
 
-// Account
-export const GET_ACCOUNT_INFO = 'accountForm/GET_ACCOUNT_INFO';
-export const SET_ACCOUNT_INFO = 'accountForm/SET_ACCOUNT_INFO';
-export const EDIT_ACCOUNT_INFO = 'accountForm/EDIT_ACCOUNT_INFO';
-
 // Notes
 export const GET_NOTES = 'notes/GET_NOTES';
 export const SET_NOTES = 'notes/SET_NOTES';
@@ -51,9 +45,6 @@ export const SAVE_NOTES = 'notes/SAVE_NOTES';
 export const CREATE_FROM_NOTES = 'notes/CREATE_FROM_NOTES';
 export const REMOVE_FROM_NOTES = 'notes/REMOVE_FROM_NOTES';
 export const UPDATE_FROM_NOTES = 'notes/UPDATE_FROM_NOTES';
-
-// Languages
-export const SET_LANGUAGES = 'languages/SET_LANGUAGES';
 
 // Custom Fields
 export const GET_CUSTOM_FIELDS = 'custom-field/GET_CUSTOM_FIELDS';
@@ -218,14 +209,6 @@ export const SETTINGS_MENU = () => {
         PermissionService.isAllowToView(routes.GLOBAL_ITEMS)
     },
     {
-      title: t('settings.notification'),
-      leftIcon: 'bell',
-      leftIconSolid: true,
-      iconSize: 20,
-      fullItem: {route: routes.NOTIFICATIONS},
-      show: PermissionService.isSuperAdmin()
-    },
-    {
       title: t('settings.taxes'),
       leftIconSvg: PercentageIcon,
       leftIconSolid: true,
@@ -234,11 +217,12 @@ export const SETTINGS_MENU = () => {
       show: PermissionService.isAllowToView(routes.TAXES)
     },
     {
-      title: t('header.customFields'),
-      leftIcon: 'cube',
+      title: t('settings.notification'),
+      leftIcon: 'bell',
+      leftIconSolid: true,
       iconSize: 20,
-      fullItem: {route: routes.CUSTOM_FIELDS},
-      show: PermissionService.isAllowToView(routes.CUSTOM_FIELDS)
+      fullItem: {route: routes.NOTIFICATIONS},
+      show: PermissionService.isSuperAdmin()
     },
     {
       title: t('settings.notes'),
@@ -249,11 +233,11 @@ export const SETTINGS_MENU = () => {
       show: true
     },
     {
-      title: t('settings.expenseCategory'),
-      leftIcon: 'clipboard-list',
+      title: t('header.roles'),
+      leftIcon: 'users',
       iconSize: 20,
-      fullItem: {route: routes.CATEGORIES},
-      show: PermissionService.isAllowToView(routes.MAIN_EXPENSES)
+      fullItem: {route: routes.ROLES},
+      show: PermissionService.isAllowToView(routes.ROLES)
     },
     {
       title: t('settings.touchOrFaceId'),
@@ -269,13 +253,6 @@ export const SETTINGS_MENU = () => {
       iconSize: 20,
       fullItem: {route: routes.ENDPOINTS_SETTINGS},
       show: PermissionService.isSuperAdmin()
-    },
-    {
-      title: t('header.roles'),
-      leftIcon: 'users',
-      iconSize: 20,
-      fullItem: {route: routes.ROLES},
-      show: PermissionService.isAllowToView(routes.ROLES)
     }
   ];
 };

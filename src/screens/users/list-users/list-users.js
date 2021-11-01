@@ -60,12 +60,12 @@ export default class Users extends Component<IProps, IStates> {
     this.props.navigation.navigate(routes.CREATE_USER, {type: 'ADD'});
 
   onSubmitFilter = data => {
-    const {role_name = '', filterName = '', email = '', phone = ''} = data;
+    const {role = '', filterName = '', email = '', phone = ''} = data;
     const {search} = this.state;
 
     this.scrollViewReference?.getItems?.({
       queryString: {
-        role_name,
+        role,
         email,
         phone,
         search: hasTextLength(filterName) ? filterName : search

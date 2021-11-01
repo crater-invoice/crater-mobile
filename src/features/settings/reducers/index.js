@@ -1,9 +1,7 @@
 import {isEmpty} from '@/constants';
 import {
   SETTINGS_TRIGGER_SPINNER,
-  SET_ACCOUNT_INFO,
   SET_CUSTOM_FIELDS,
-  SET_LANGUAGES,
   SET_NOTES,
   CREATE_FROM_NOTES,
   REMOVE_FROM_NOTES,
@@ -15,9 +13,6 @@ import {
 
 const initialState = {
   loading: {
-    // account
-    getAccountInfoLoading: false,
-    editAccountInfoLoading: false,
     // item
     getSettingItemLoading: false,
     setSettingItemLoading: false,
@@ -34,7 +29,6 @@ const initialState = {
     getNotesLoading: false
   },
   customFields: [],
-  account: null,
   notes: []
 };
 
@@ -45,9 +39,6 @@ export default function settingReducer(state = initialState, action) {
     case SETTINGS_TRIGGER_SPINNER:
       return {...state, loading: {...payload}};
 
-    case SET_ACCOUNT_INFO:
-      return {...state, ...payload};
-
     case SET_NOTES:
       if (!payload.fresh) {
         return {
@@ -57,11 +48,6 @@ export default function settingReducer(state = initialState, action) {
       }
 
       return {...state, notes: payload.notes};
-
-    case SET_LANGUAGES:
-      const {languages} = payload;
-
-      return {...state, languages};
 
     case SET_CUSTOM_FIELDS:
       if (!payload.fresh) {

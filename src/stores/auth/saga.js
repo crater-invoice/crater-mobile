@@ -16,6 +16,7 @@ function* login({payload}) {
   try {
     const {token} = yield call(req.login, params);
     yield put(saveIdToken(token));
+    showNotification({message: t('notification.login_success')});
     yield call(fetchBootstrap, null);
     yield put(loginSuccess());
     yield put(checkOTAUpdate());

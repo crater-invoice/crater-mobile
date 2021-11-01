@@ -5,23 +5,6 @@ export const settingsTriggerSpinner = payload => ({
   payload
 });
 
-// account
-// -------------------------------------------------
-export const getAccountInformation = payload => ({
-  type: TYPES.GET_ACCOUNT_INFO,
-  payload
-});
-
-export const setAccountInformation = payload => ({
-  type: TYPES.SET_ACCOUNT_INFO,
-  payload
-});
-
-export const editAccountInformation = payload => ({
-  type: TYPES.EDIT_ACCOUNT_INFO,
-  payload
-});
-
 // Settings
 // -------------------------------------------------
 export const getSettingItem = payload => ({
