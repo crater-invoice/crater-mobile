@@ -58,15 +58,17 @@ export const EDIT_INVOICE_ACTIONS = (
   return options;
 };
 
-export const initialValues = {
-  due_date: moment().add(7, 'days'),
-  invoice_date: moment(),
-  discount_type: 'fixed',
-  discount: 0,
-  taxes: [],
-  template_name: null,
-  notes: null,
-  invoice_number: null,
-  prefix: null,
-  customer_id: null
+export const initialValues = templates => {
+  return {
+    due_date: moment().add(7, 'days'),
+    invoice_date: moment(),
+    discount_type: 'fixed',
+    discount: 0,
+    taxes: [],
+    template_name: templates ? templates?.[0]?.name : null,
+    notes: null,
+    invoice_number: null,
+    prefix: null,
+    customer_id: null
+  };
 };

@@ -8,12 +8,13 @@ import {
   DefaultLayout,
   SendMail,
   CustomField,
-  ActionButton,
   View as CtView,
   Notes,
   ItemField,
   FinalAmount,
-  BaseInputPrefix
+  BaseInputPrefix,
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {
   CREATE_ESTIMATE_FORM,
@@ -91,9 +92,13 @@ export default class Estimate extends React.Component<IProps, IStates> {
   };
 
   setInitialData = res => {
-    const {dispatch, estimateData} = this.props;
+    const {
+      dispatch,
+      estimateData: {estimateTemplates} = {},
+      estimateData
+    } = this.props;
     let values = {
-      ...initialValues,
+      ...initialValues(estimateTemplates),
       ...estimateData,
       estimate_number: estimateData?.nextNumber
     };
@@ -353,6 +358,21 @@ export default class Estimate extends React.Component<IProps, IStates> {
     );
   };
 
+  navigateToCustomer = () => {
+    const {navigation} = this.props;
+    const {currency} = this.state;
+
+    navigation.navigate(routes.CUSTOMER, {
+      type: 'ADD',
+      currency,
+      onSelect: item => {
+        this.customerReference?.changeDisplayValue?.(item);
+        this.setFormField('customer_id', item.id);
+        this.setState({currency: item.currency});
+      }
+    });
+  };
+
   render() {
     const {
       navigation,
@@ -410,21 +430,27 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
     this.estimateRefs(this);
 
-    const bottomAction = [
-      {
-        label: 'button.viewPdf',
-        onPress: handleSubmit(this.downloadEstimate),
-        type: 'btn-outline',
-        show: isEditScreen && isAllowToEdit,
-        loading: isSaving || isFetchingInitialData
-      },
-      {
-        label: 'button.save',
-        onPress: handleSubmit(this.saveEstimate),
-        show: isAllowToEdit,
-        loading: isSaving || isFetchingInitialData
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          show={isEditScreen && isAllowToEdit}
+          type="primary-btn-outline"
+          loading={isSaving || isFetchingInitialData}
+          disabled={isFetchingInitialData}
+          onPress={handleSubmit(this.downloadEstimate)}
+        >
+          {t('button.viewPdf')}
+        </BaseButton>
+        <BaseButton
+          show={isAllowToEdit}
+          loading={isSaving || isFetchingInitialData}
+          disabled={isFetchingInitialData || isSaving}
+          onPress={handleSubmit(this.saveEstimate)}
+        >
+          {t('button.save')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <DefaultLayout
@@ -442,7 +468,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
             rightIconPress: handleSubmit(this.saveEstimate)
           })
         }}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData || withLoading}}
         contentProps={{withLoading}}
         dropdownProps={drownDownProps}
@@ -488,16 +514,17 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
         <Field
           name="customer_id"
-          component={CustomerSelectModal}
-          customers={customers}
           getCustomers={getCustomers}
-          disabled={disabled}
-          placeholder={t('invoices.customerPlaceholder')}
+          customers={customers}
+          component={CustomerSelectModal}
           selectedItem={formValues?.customer}
           onSelect={item => {
             this.setFormField('customer_id', item.id);
             this.setState({currency: item.currency});
           }}
+          rightIconPress={this.navigateToCustomer}
+          reference={ref => (this.customerReference = ref)}
+          disabled={disabled}
         />
         <ItemField
           {...this.props}

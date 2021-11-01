@@ -9,8 +9,9 @@ import {
   CurrencyFormat,
   RadioButtonGroup,
   View as CtView,
-  ActionButton,
-  Text
+  Text,
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
@@ -66,7 +67,7 @@ export class CreateItem extends React.Component<IProps> {
       dispatch(
         itemActions[screen].addItem({
           item,
-          onResult: () => {
+          onSuccess: () => {
             navigation.goBack(null);
           }
         })
@@ -345,20 +346,22 @@ export class CreateItem extends React.Component<IProps> {
     const currency = route?.params?.currency;
     const isCreateItem = type === 'ADD';
     let itemRefs = {};
-    const bottomAction = [
-      {
-        label: 'button.save',
-        onPress: handleSubmit(this.saveItem),
-        loading
-      },
-      {
-        label: 'button.remove',
-        onPress: this.removeItem,
-        loading,
-        bgColor: 'btn-danger',
-        show: !isCreateItem
-      }
-    ];
+
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton loading={loading} onPress={handleSubmit(this.saveItem)}>
+          {t('button.save')}
+        </BaseButton>
+        <BaseButton
+          show={!isCreateItem}
+          loading={loading}
+          onPress={this.removeItem}
+          type="danger"
+        >
+          {t('button.remove')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <DefaultLayout
@@ -372,10 +375,7 @@ export class CreateItem extends React.Component<IProps> {
           },
           rightIconPress: handleSubmit(this.saveItem)
         }}
-        loadingProps={{
-          is: loading
-        }}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
       >
         <Field
           name="name"

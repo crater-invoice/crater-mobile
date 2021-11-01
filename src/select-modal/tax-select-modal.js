@@ -34,6 +34,7 @@ export const TaxSelectModal = (props: IProps) => {
 
   return (
     <SelectField
+      input={{value: null}}
       {...props}
       items={taxTypes ?? []}
       getItems={getTaxes}
@@ -50,7 +51,6 @@ export const TaxSelectModal = (props: IProps) => {
       listViewProps={{contentContainerStyle: {flex: 2}}}
       emptyContentProps={{contentType: 'taxes'}}
       isEditable={!disabled}
-      input={{value: null}}
       baseSelectProps={{
         disabled,
         ...(props['custom-view']

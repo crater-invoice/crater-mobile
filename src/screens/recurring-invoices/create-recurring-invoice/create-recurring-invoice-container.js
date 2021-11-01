@@ -18,6 +18,7 @@ import {initialValues} from 'stores/recurring-invoices/helpers';
 const mapStateToProps = (state, {route}) => {
   const {
     common: {
+      dateFormat,
       taxTypes,
       config: {
         recurring_invoice_status: {update_status}
@@ -39,11 +40,12 @@ const mapStateToProps = (state, {route}) => {
     notes,
     customers,
     taxTypes,
+    dateFormat,
     currency: currentCurrencySelector(state),
     customFields,
     statusList: update_status,
     formValues: getFormValues(CREATE_RECURRING_INVOICE_FORM)(state) || {},
-    initialValues
+    initialValues: initialValues(invoiceTemplates)
   };
 };
 

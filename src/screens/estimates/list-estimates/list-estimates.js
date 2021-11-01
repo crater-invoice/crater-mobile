@@ -85,6 +85,16 @@ export default class Estimates extends React.Component<IProps, IStates> {
     });
   };
 
+  changeTabOnFilter = (activeTab = this.state.activeTab) => {
+    if (activeTab === ESTIMATES_TABS.DRAFT) {
+      this.setActiveTab(ESTIMATES_TABS.DRAFT);
+    } else if (activeTab === ESTIMATES_TABS.SENT) {
+      this.setActiveTab(ESTIMATES_TABS.SENT);
+    } else {
+      this.setActiveTab(ESTIMATES_TABS.ALL);
+    }
+  };
+
   onSubmitFilter = ({
     filterStatus = '',
     from_date = '',
@@ -93,10 +103,10 @@ export default class Estimates extends React.Component<IProps, IStates> {
     customer_id = ''
   }) => {
     const {search} = this.state;
-    this.setState({activeTab: filterStatus});
+    this.changeTabOnFilter(filterStatus);
     tabRefs?.getItems?.({
       queryString: {
-        status: filterStatus !== 'ALL' ? filterStatus : '',
+        status: filterStatus,
         search,
         customer_id,
         estimate_number,

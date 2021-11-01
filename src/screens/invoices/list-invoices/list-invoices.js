@@ -90,6 +90,16 @@ export default class Invoices extends React.Component<IProps, IStates> {
     });
   };
 
+  changeTabOnFilter = (activeTab = this.state.activeTab) => {
+    if (activeTab === INVOICES_TABS.DUE) {
+      this.setActiveTab(INVOICES_TABS.DUE);
+    } else if (activeTab === INVOICES_TABS.DRAFT) {
+      this.setActiveTab(INVOICES_TABS.DRAFT);
+    } else {
+      this.setActiveTab(INVOICES_TABS.ALL);
+    }
+  };
+
   onSubmitFilter = ({
     filterStatus = '',
     from_date = '',
@@ -98,10 +108,10 @@ export default class Invoices extends React.Component<IProps, IStates> {
     customer_id = ''
   }) => {
     const {search} = this.state;
-    this.setState({activeTab: filterStatus});
+    this.changeTabOnFilter(filterStatus);
     tabRefs?.getItems?.({
       queryString: {
-        status: filterStatus !== 'ALL' ? filterStatus : '',
+        status: filterStatus,
         search,
         customer_id,
         invoice_number,

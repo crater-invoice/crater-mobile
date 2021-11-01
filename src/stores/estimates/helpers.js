@@ -77,15 +77,17 @@ export const EDIT_ESTIMATE_ACTIONS = (markAs = '', isAllowToDelete) => {
     : [...actions, ...items];
 };
 
-export const initialValues = {
-  expiry_date: moment().add(7, 'days'),
-  estimate_date: moment(),
-  discount_type: 'fixed',
-  discount: 0,
-  taxes: [],
-  template_name: null,
-  notes: null,
-  estimate_number: null,
-  prefix: null,
-  customer_id: null
+export const initialValues = templates => {
+  return {
+    expiry_date: moment().add(7, 'days'),
+    estimate_date: moment(),
+    discount_type: 'fixed',
+    discount: 0,
+    taxes: [],
+    template_name: templates ? templates?.[0]?.name : null,
+    notes: null,
+    estimate_number: null,
+    prefix: null,
+    customer_id: null
+  };
 };

@@ -13,10 +13,11 @@ import {
   SendMail,
   CustomField,
   View as CtView,
-  ActionButton,
   Notes,
   ItemField,
-  FinalAmount
+  FinalAmount,
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {CREATE_INVOICE_FORM, INVOICE_ACTIONS} from 'stores/invoices/types';
 import {EDIT_INVOICE_ACTIONS, initialValues} from 'stores/invoices/helpers';
@@ -78,9 +79,13 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
   };
 
   setInitialData = res => {
-    const {dispatch, invoiceData} = this.props;
+    const {
+      dispatch,
+      invoiceData: {invoiceTemplates} = {},
+      invoiceData
+    } = this.props;
     let values = {
-      ...initialValues,
+      ...initialValues(invoiceTemplates),
       ...invoiceData,
       invoice_number: invoiceData?.nextNumber
     };
@@ -397,21 +402,27 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
 
     this.invoiceRefs(this);
 
-    const bottomAction = [
-      {
-        label: 'button.viewPdf',
-        onPress: handleSubmit(this.downloadInvoice),
-        type: 'btn-outline',
-        show: isEditScreen && isAllowToEdit,
-        loading: isSaving || isFetchingInitialData
-      },
-      {
-        label: 'button.save',
-        onPress: handleSubmit(this.saveInvoice),
-        show: isAllowToEdit,
-        loading: isSaving || isFetchingInitialData
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          show={isEditScreen && isAllowToEdit}
+          type="primary-btn-outline"
+          loading={isSaving || isFetchingInitialData}
+          disabled={isFetchingInitialData}
+          onPress={handleSubmit(this.downloadInvoice)}
+        >
+          {t('button.viewPdf')}
+        </BaseButton>
+        <BaseButton
+          show={isAllowToEdit}
+          loading={isSaving || isFetchingInitialData}
+          disabled={isFetchingInitialData || isSaving}
+          onPress={handleSubmit(this.downloadInvoice)}
+        >
+          {t('button.save')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <DefaultLayout
@@ -425,7 +436,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
             rightIconPress: handleSubmit(this.downloadInvoice)
           })
         }}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData || withLoading}}
         contentProps={{withLoading}}
         dropdownProps={drownDownProps}

@@ -12,8 +12,8 @@ const mapStateToProps = (state, {route}) => {
   const {
     itemUnits: {units},
     invoices,
-    estimate,
-    recurringInvoice
+    estimates,
+    recurringInvoices
   } = state;
 
   const item = route?.params?.item ?? {};
@@ -22,13 +22,14 @@ const mapStateToProps = (state, {route}) => {
   const screen = route?.params?.screen;
   const discountPerItem = route?.params?.discount_per_item;
   const taxPerItem = route?.params?.tax_per_item;
-
   const isLoading = () => {
     return (
-      invoices?.loading?.editItemLoading ||
-      estimate?.loading?.editItemLoading ||
-      recurringInvoice?.isSaving ||
-      recurringInvoice?.isDeleting
+      invoices?.isSaving ||
+      invoices?.isDeleting ||
+      estimates?.isSaving ||
+      estimates?.isDeleting ||
+      recurringInvoices?.isSaving ||
+      recurringInvoices?.isDeleting
     );
   };
   return {

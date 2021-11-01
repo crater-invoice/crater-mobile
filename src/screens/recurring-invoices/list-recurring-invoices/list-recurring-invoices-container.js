@@ -11,12 +11,16 @@ import {getCustomers} from '@/features/customers/actions';
 
 const mapStateToProps = state => {
   const {
-    common: {recurring_invoice_update_status},
+    common: {
+      config: {
+        recurring_invoice_status: {update_status}
+      }
+    },
     customers: {customers}
   } = state;
   return {
     customers,
-    statusList: recurring_invoice_update_status,
+    statusList: update_status,
     invoices: invoicesSelector(state),
     formValues: getFormValues(RECURRING_INVOICES_FORM)(state) || {},
     ...loadingSelector(state),

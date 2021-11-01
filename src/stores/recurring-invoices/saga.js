@@ -155,15 +155,19 @@ function* removeRecurringInvoice({payload}) {
  */
 function* addRecurringInvoiceItem({payload}) {
   try {
-    const {item, onResult} = payload;
+    yield put(spinner('isSaving', true));
+    const {item, onSuccess} = payload;
     const {data} = yield call(req.addRecurringInvoiceItem, item);
     const items = [{...data, item_id: data.id, ...item}];
     yield put({
       type: types.ADD_RECURRING_INVOICE_ITEM_SUCCESS,
       payload: items ?? []
     });
-    onResult?.();
-  } catch (e) {}
+    onSuccess?.();
+  } catch (e) {
+  } finally {
+    yield put(spinner('isSaving', false));
+  }
 }
 
 /**
@@ -172,13 +176,13 @@ function* addRecurringInvoiceItem({payload}) {
  */
 function* removeRecurringInvoiceItem({payload}) {
   try {
-    yield put(spinner({isDeleting: true}));
+    yield put(spinner('isDeleting', true));
     const {onResult, id} = payload;
     yield put({type: types.REMOVE_RECURRING_INVOICE_ITEM_SUCCESS, payload: id});
     onResult?.();
   } catch (e) {
   } finally {
-    yield put(spinner({isDeleting: false}));
+    yield put(spinner('isDeleting', false));
   }
 }
 
