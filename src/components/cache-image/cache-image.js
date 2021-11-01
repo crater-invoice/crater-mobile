@@ -46,7 +46,6 @@ export class CacheImage extends React.Component<IProps, IStates> {
   componentDidMount() {
     this._isMounted = true;
     this.load(this.props);
-    this.calculateImageSize();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,10 +56,6 @@ export class CacheImage extends React.Component<IProps, IStates> {
     this._isMounted = false;
     this.timer && clearTimeout(this.timer);
     this.processInterval && clearInterval(this.processInterval);
-
-    this.setState = (state, callback) => {
-      return;
-    };
   }
 
   checkIsImageUriChange = async nextProps => {
@@ -78,30 +73,6 @@ export class CacheImage extends React.Component<IProps, IStates> {
       duration: 200,
       useNativeDriver: true
     }).start(() => {});
-  };
-
-  calculateImageSize = () => {
-    const {uri, findImageHeight, maxHeight, minHeight} = this.props;
-
-    if (!(findImageHeight && uri)) {
-      return;
-    }
-
-    try {
-      Image.getSize(
-        uri,
-        (width, height) => {
-          const ratio = SCREEN_WIDTH / width;
-          let imgHeight = height * ratio;
-
-          if (imgHeight >= maxHeight) imgHeight = maxHeight;
-          else if (imgHeight <= minHeight) imgHeight = minHeight;
-
-          this.setState({height: imgHeight});
-        },
-        () => this.setState({height: minHeight})
-      );
-    } catch (e) {}
   };
 
   async load({uri, imageName}: IProps): Promise<void> {
@@ -174,7 +145,6 @@ export class CacheImage extends React.Component<IProps, IStates> {
       minHeight,
       minHeightStyle,
       temporaryHeight,
-      imageName,
       loadingProps,
       loaderStyle,
       resizeMode = 'cover',
