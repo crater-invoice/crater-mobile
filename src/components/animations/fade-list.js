@@ -12,9 +12,7 @@ interface IStates {
 export class FadeListAnimation extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
-    this.state = {
-      opacity: new Animated.Value(0)
-    };
+    this.state = {opacity: new Animated.Value(0)};
   }
 
   componentDidMount() {
@@ -23,14 +21,15 @@ export class FadeListAnimation extends Component<IProps, IStates> {
 
   fadeIn = () => {
     const {delay = 0} = this.props;
+    const timeout = callback => setTimeout(() => callback(), delay);
 
-    setTimeout(() => {
+    timeout(() => {
       Animated.timing(this.state.opacity, {
         toValue: 1,
         duration: 200,
         useNativeDriver: true
       }).start(() => {});
-    }, delay);
+    });
   };
 
   render() {

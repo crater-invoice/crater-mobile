@@ -6,7 +6,7 @@ import {colors} from '@/styles';
 import {commonSelector} from 'stores/common/selectors';
 import t from 'locales/use-translation';
 import {isAndroidPlatform} from '@/constants';
-import {FadeAnimation} from '../Animations';
+import {FadeAnimation} from '../animations';
 
 export const Error = props => {
   const {

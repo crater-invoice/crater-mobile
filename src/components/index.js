@@ -36,7 +36,7 @@ export * from './InfiniteScroll';
 export * from './ScrollView';
 export * from './Editor';
 export * from './HtmlView';
-export * from './Animations';
+export * from './animations';
 export * from './Modal';
 export * from './CircularProgress';
 export * from './asset-icon';
