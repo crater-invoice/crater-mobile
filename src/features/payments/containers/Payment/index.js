@@ -55,7 +55,7 @@ const mapDispatchToProps = {
 };
 
 const paymentReduxForm = reduxForm({
-  form: PAYMENT_FORM,
+  form: 'payments/PAYMENT_FORM',
   validate
 })(Payment);
 

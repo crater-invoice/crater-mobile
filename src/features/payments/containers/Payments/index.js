@@ -23,7 +23,7 @@ const mapDispatchToProps = {
 };
 
 const paymentSearchReduxForm = reduxForm({
-  form: PAYMENT_SEARCH
+  form: 'payments/PAYMENT_SEARCH'
 })(Payments);
 
 const PaymentsContainer = connect(
