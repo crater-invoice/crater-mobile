@@ -103,7 +103,7 @@ export class PaymentModes extends Component {
 
     const getTitle = () => {
       let title = 'payments.addMode';
-      if (!isCreateMethod && !isAllowToEdit) title = 'header.viewPaymentMode';
+      if (!isCreateMethod && !isAllowToEdit) title = 'header.view_payment_mode';
       if (!isCreateMethod && isAllowToEdit) title = 'payments.editMode';
 
       return t(title);

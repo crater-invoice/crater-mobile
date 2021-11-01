@@ -324,9 +324,9 @@ export class Item extends React.Component {
     let itemRefs = {};
 
     const getTitle = () => {
-      let title = 'header.addItem';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewItem';
-      if (isEditScreen && isAllowToEdit) title = 'header.editItem';
+      let title = 'header.add_item';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_item';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_item';
 
       return t(title);
     };

@@ -6,7 +6,7 @@ const layoutProps = route => {
   switch (route?.name) {
     case routes.CATEGORIES:
       return {
-        title: t('header.expenseCategory'),
+        title: t('header.expense_category'),
         navigateToRoute: routes.CREATE_CATEGORY
       };
     case routes.USERS:
@@ -44,7 +44,11 @@ const secondaryHeaderTitle = params => {
 
   switch (params?.route?.name) {
     case routes.CREATE_USER:
-      return getTitle('header.addUser', 'header.editUser', 'header.viewUser');
+      return getTitle(
+        'header.add_user',
+        'header.edit_user',
+        'header.view_user'
+      );
 
     case routes.CREATE_RECURRING_INVOICE:
       return getTitle(
@@ -54,18 +58,22 @@ const secondaryHeaderTitle = params => {
       );
 
     case routes.CREATE_ROLE:
-      return getTitle('header.addRole', 'header.editRole', 'header.viewRole');
+      return getTitle(
+        'header.add_role',
+        'header.edit_role',
+        'header.view_role'
+      );
 
     case routes.CREATE_CATEGORY:
       return getTitle(
-        'header.addCategory',
-        'header.editCategory',
-        'header.viewCategory'
+        'header.add_category',
+        'header.edit_category',
+        'header.view_category'
       );
 
     case routes.CREATE_COMPANY:
       return getTitle(
-        'header.addCompany',
+        'header.add_company',
         'header.setting.company',
         'header.setting.company'
       );

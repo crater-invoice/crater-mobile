@@ -348,7 +348,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
     return (
       <SendMail
         mailReference={ref => (this.sendMailRef = ref)}
-        headerTitle={'header.sendMailEstimate'}
+        headerTitle={'header.send_mail_estimate'}
         alertDesc={'estimates.alert.sendEstimate'}
         user={this.props?.formValues?.customer}
         subject="New Estimate"
@@ -421,9 +421,9 @@ export default class Estimate extends React.Component<IProps, IStates> {
         : null;
 
     const getTitle = () => {
-      let title = 'header.addEstimate';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewEstimate';
-      if (isEditScreen && isAllowToEdit) title = 'header.editEstimate';
+      let title = 'header.add_estimate';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_estimate';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_estimate';
 
       return t(title);
     };

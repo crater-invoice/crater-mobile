@@ -75,7 +75,7 @@ export const MORE_MENU = () => {
       show: PermissionService.isAllowToManage(routes.REPORTS)
     },
     {
-      title: t('header.customFields'),
+      title: t('header.custom_fields'),
       leftIcon: 'cube',
       iconSize: 20,
       fullItem: {route: routes.CUSTOM_FIELDS},

@@ -181,9 +181,9 @@ export class Customer extends React.Component<IProps> {
     const disabled = !isAllowToEdit;
 
     const getTitle = () => {
-      let title = 'header.addCustomer';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewCustomer';
-      if (isEditScreen && isAllowToEdit) title = 'header.editCustomer';
+      let title = 'header.add_customer';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_customer';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_customer';
 
       return t(title);
     };

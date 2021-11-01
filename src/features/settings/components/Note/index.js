@@ -120,9 +120,9 @@ export default class Note extends React.Component<IProps> {
     const types = this.getCustomFieldTypes();
 
     const getTitle = () => {
-      let title = 'header.addNote';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewNote';
-      if (isEditScreen && isAllowToEdit) title = 'header.editNote';
+      let title = 'header.add_note';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_note';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_note';
 
       return t(title);
     };

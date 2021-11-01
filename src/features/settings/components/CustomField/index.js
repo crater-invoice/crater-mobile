@@ -269,9 +269,9 @@ export class CustomField extends React.Component<IProps> {
     const disabled = !isAllowToEdit;
 
     const getTitle = () => {
-      let title = 'header.addCustomField';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewCustomField';
-      if (isEditScreen && isAllowToEdit) title = 'header.editCustomField';
+      let title = 'header.add_custom_field';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_custom_field';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_custom_field';
 
       return t(title);
     };

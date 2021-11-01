@@ -317,7 +317,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     return (
       <SendMail
         mailReference={ref => (this.sendMailRef = ref)}
-        headerTitle={'header.sendMailInvoice'}
+        headerTitle={'header.send_mail_invoice'}
         alertDesc={'invoices.alert.sendInvoice'}
         user={this.props.formValues?.customer}
         subject="New Invoice"
@@ -393,9 +393,9 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         : null;
 
     const getTitle = () => {
-      let title = 'header.addInvoice';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewInvoice';
-      if (isEditScreen && isAllowToEdit) title = 'header.editInvoice';
+      let title = 'header.add_invoice';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_invoice';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_invoice';
 
       return t(title);
     };

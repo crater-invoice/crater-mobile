@@ -105,7 +105,7 @@ export default class ItemUnits extends Component<IProps, IStates> {
 
     const getTitle = () => {
       let title = 'items.addUnit';
-      if (!isCreateMethod && !isAllowToEdit) title = 'header.viewUnit';
+      if (!isCreateMethod && !isAllowToEdit) title = 'header.view_unit';
       if (!isCreateMethod && isAllowToEdit) title = 'items.editUnit';
 
       return t(title);

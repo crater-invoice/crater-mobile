@@ -237,22 +237,22 @@ export class Report extends React.Component<IProps> {
         const tp = reportType === 'byCustomer';
 
         data = isTitle
-          ? t('header.salesReport')
+          ? t('header.sales_report')
           : tp
           ? 'sales/customers/'
           : 'sales/items/';
         break;
 
       case PROFIT_AND_LOSS:
-        data = isTitle ? t('header.profitAndLossReport') : 'profit-loss/';
+        data = isTitle ? t('header.profit_and_lossReport') : 'profit-loss/';
         break;
 
       case EXPENSES:
-        data = isTitle ? t('header.expensesReport') : 'expenses/';
+        data = isTitle ? t('header.expenses_report') : 'expenses/';
         break;
 
       case TAXES:
-        data = isTitle ? t('header.taxesReport') : 'tax-summary/';
+        data = isTitle ? t('header.taxes_report') : 'tax-summary/';
         break;
 
       default:

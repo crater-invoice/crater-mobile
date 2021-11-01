@@ -78,7 +78,7 @@ export class CustomFields extends React.Component<IProps> {
     };
 
     const headerProps = {
-      title: t('header.customFields'),
+      title: t('header.custom_fields'),
       route,
       leftIcon: ARROW_ICON,
       leftIconPress: () => navigation.goBack(null),

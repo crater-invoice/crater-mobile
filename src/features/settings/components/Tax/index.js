@@ -76,9 +76,9 @@ export class Tax extends React.Component {
     const disabled = !isAllowToEdit;
 
     const getTitle = () => {
-      let title = 'header.addTaxes';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewTax';
-      if (isEditScreen && isAllowToEdit) title = 'header.editTaxes';
+      let title = 'header.add_taxes';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_tax';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_taxes';
 
       return t(title);
     };

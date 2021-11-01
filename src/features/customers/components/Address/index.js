@@ -303,8 +303,8 @@ export class Address extends Component<IProps> {
           headerProps={{
             leftIconPress: () => this.onToggle(),
             title: hasBillingAddress
-              ? t('header.billingAddress')
-              : t('header.shippingAddress'),
+              ? t('header.billing_address')
+              : t('header.shipping_address'),
             placement: 'center',
             hasCircle: false,
             noBorder: false,

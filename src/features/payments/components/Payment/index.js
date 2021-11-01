@@ -340,7 +340,7 @@ export class Payment extends React.Component<IProps> {
     return (
       <SendMail
         mailReference={ref => (this.sendMailRef = ref)}
-        headerTitle={'header.sendMailPayment'}
+        headerTitle={'header.send_mail_payment'}
         alertDesc={'payments.alert.sendPayment'}
         user={this.props.formValues?.payment?.user}
         body="payment_mail_body"
@@ -395,9 +395,9 @@ export class Payment extends React.Component<IProps> {
         : null;
 
     const getTitle = () => {
-      let title = 'header.addPayment';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewPayment';
-      if (isEditScreen && isAllowToEdit) title = 'header.editPayment';
+      let title = 'header.add_payment';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_payment';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_payment';
 
       return t(title);
     };

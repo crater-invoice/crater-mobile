@@ -268,9 +268,9 @@ export class Expense extends React.Component<IProps, IState> {
         : null;
 
     const getTitle = () => {
-      let title = 'header.addExpense';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewExpense';
-      if (isEditScreen && isAllowToEdit) title = 'header.editExpense';
+      let title = 'header.add_expense';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_expense';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_expense';
 
       return t(title);
     };
