@@ -62,13 +62,13 @@ export class CustomFields extends React.Component<IProps> {
     const {search} = this.state;
     const isEmpty = customFields && customFields.length <= 0;
 
-    const emptyTitle = search ? 'search.noResult' : 'customFields.empty.title';
+    const emptyTitle = search ? 'search.noResult' : 'custom_fields.empty.title';
 
     const emptyContentProps = {
       title: t(emptyTitle, {search}),
       ...(!search && {
-        description: t('customFields.empty.description'),
-        buttonTitle: t('customFields.empty.button_title'),
+        description: t('custom_fields.empty.description'),
+        buttonTitle: t('custom_fields.empty.button_title'),
         buttonPress: () => {
           navigation.navigate(routes.CUSTOM_FIELD, {
             type: 'ADD'

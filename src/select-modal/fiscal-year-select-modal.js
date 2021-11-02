@@ -20,8 +20,8 @@ export const FiscalYearSelectModal = (props: IProps) => (
     placeholder={t('settings.preferences.fiscal_year_placeholder')}
     searchFields={['key']}
     compareField="value"
-    headerProps={{title: t('fiscalYears.title'), rightIconPress: null}}
-    emptyContentProps={{contentType: 'fiscalYears'}}
+    headerProps={{title: t('fiscal_years.title'), rightIconPress: null}}
+    emptyContentProps={{contentType: 'fiscal_years'}}
     isInternalSearch
     isRequired
   />

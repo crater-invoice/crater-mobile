@@ -157,7 +157,7 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
             color={theme.header.primary.color}
             style={styles.autoGenerateHeader}
           >
-            {t('customizes.numberLabel.invoice')}
+            {t('customizes.number_label.invoice')}
           </Text>
 
           <NumberScheme
@@ -184,13 +184,13 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
           <DueDate
             toggleField={{
               name: 'set_due_date_automatically',
-              hint: t('customizes.dueDate.switchLabel'),
-              description: t('customizes.dueDate.description'),
+              hint: t('customizes.due_date.switch_label'),
+              description: t('customizes.due_date.description'),
               value: set_due_date_automatically
             }}
             dueDateField={{
               name: 'due_date_days',
-              hint: t('customizes.dueDate.inputLabel')
+              hint: t('customizes.due_date.input_label')
             }}
           />
 
@@ -198,7 +198,7 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
             {...this.props}
             types={email}
             name={'invoice_mail_body'}
-            label={'customizes.addresses.send_invoiceEmailBody'}
+            label={'customizes.addresses.send_invoice_email_body'}
             showPreview
           />
 
@@ -238,14 +238,14 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
             <Field
               name={'invoice_auto_generate'}
               component={ToggleSwitch}
-              hint={t('customizes.autoGenerate.invoice')}
-              description={t('customizes.autoGenerate.invoiceDescription')}
+              hint={t('customizes.auto_generate.invoice')}
+              description={t('customizes.auto_generate.invoice_description')}
             />
             <Field
               name={'invoice_email_attachment'}
               component={ToggleSwitch}
-              hint={t('customizes.emailAttachment.invoice')}
-              description={t('customizes.emailAttachment.invoiceDescription')}
+              hint={t('customizes.email_attachment.invoice')}
+              description={t('customizes.email_attachment.invoice_description')}
             />
           </ScrollView>
         </ScrollView>

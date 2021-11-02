@@ -116,7 +116,7 @@ export const REPORTS_MENU = () => {
       show: true
     },
     {
-      title: t('reports.profitAndLoss'),
+      title: t('reports.profit_and_loss'),
       leftIcon: 'building',
       fullItem: {
         route: routes.GENERATE_REPORT,
@@ -146,30 +146,30 @@ export const REPORTS_MENU = () => {
 export const REPORT_TYPE_OPTION = () => {
   return [
     {
-      label: t('reports.byCustomer'),
-      value: 'byCustomer'
+      label: t('reports.by_customer'),
+      value: 'by_customer'
     },
     {
-      label: t('reports.byItem'),
-      value: 'byItem'
+      label: t('reports.by_item'),
+      value: 'by_item'
     }
   ];
 };
 
 export const DATE_RANGE = {
   TODAY: 'today',
-  THIS_WEEK: 'thisWeek',
-  THIS_MONTH: 'thisMonth',
-  THIS_QUARTER: 'thisQuarter',
-  THIS_YEAR: 'thisYear',
-  CURRENT_FISCAL_QUARTER: 'currentFiscalQuarter',
-  CURRENT_FISCAL_YEAR: 'currentFiscalYear',
-  PREVIOUS_WEEK: 'previousWeek',
-  PREVIOUS_MONTH: 'previousMonth',
-  PREVIOUS_QUARTER: 'previousQuarter',
-  PREVIOUS_YEAR: 'previousYear',
-  PREVIOUS_FISCAL_QUARTER: 'previousFiscalQuarter',
-  PREVIOUS_FISCAL_YEAR: 'previousFiscalYear',
+  THIS_WEEK: 'this_week',
+  THIS_MONTH: 'this_month',
+  THIS_QUARTER: 'this_quarter',
+  THIS_YEAR: 'this_year',
+  CURRENT_FISCAL_QUARTER: 'current_fiscal_quarter',
+  CURRENT_FISCAL_YEAR: 'current_fiscal_year',
+  PREVIOUS_WEEK: 'previous_week',
+  PREVIOUS_MONTH: 'previous_month',
+  PREVIOUS_QUARTER: 'previous_quarter',
+  PREVIOUS_YEAR: 'previous_year',
+  PREVIOUS_FISCAL_QUARTER: 'previous_fiscal_quarter',
+  PREVIOUS_FISCAL_YEAR: 'previous_fiscal_year',
   CUSTOM: 'custom'
 };
 
@@ -180,51 +180,51 @@ export const DATE_RANGE_OPTION = () => {
       value: DATE_RANGE.TODAY
     },
     {
-      label: t('reports.thisWeek'),
+      label: t('reports.this_week'),
       value: DATE_RANGE.THIS_WEEK
     },
     {
-      label: t('reports.thisMonth'),
+      label: t('reports.this_month'),
       value: DATE_RANGE.THIS_MONTH
     },
     {
-      label: t('reports.thisQuarter'),
+      label: t('reports.this_quarter'),
       value: DATE_RANGE.THIS_QUARTER
     },
     {
-      label: t('reports.thisYear'),
+      label: t('reports.this_year'),
       value: DATE_RANGE.THIS_YEAR
     },
     // {
-    //     label: t("reports.currentFiscalQuarter", ),
+    //     label: t("reports.current_fiscal_quarter", ),
     //     value: DATE_RANGE.CURRENT_FISCAL_QUARTER
     // },
     {
-      label: t('reports.currentFiscalYear'),
+      label: t('reports.current_fiscal_year'),
       value: DATE_RANGE.CURRENT_FISCAL_YEAR
     },
     {
-      label: t('reports.previousWeek'),
+      label: t('reports.previous_week'),
       value: DATE_RANGE.PREVIOUS_WEEK
     },
     {
-      label: t('reports.previousMonth'),
+      label: t('reports.previous_month'),
       value: DATE_RANGE.PREVIOUS_MONTH
     },
     {
-      label: t('reports.previousQuarter'),
+      label: t('reports.previous_quarter'),
       value: DATE_RANGE.PREVIOUS_QUARTER
     },
     {
-      label: t('reports.previousYear'),
+      label: t('reports.previous_year'),
       value: DATE_RANGE.PREVIOUS_YEAR
     },
     // {
-    //     label: t("reports.previousFiscalQuarter", ),
+    //     label: t("reports.previous_fiscal_quarter", ),
     //     value: DATE_RANGE.PREVIOUS_FISCAL_QUARTER
     // },
     {
-      label: t('reports.previousFiscalYear'),
+      label: t('reports.previous_fiscal_year'),
       value: DATE_RANGE.PREVIOUS_FISCAL_YEAR
     },
     {

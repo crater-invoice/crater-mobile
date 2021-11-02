@@ -160,7 +160,7 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
             color={theme.header.primary.color}
             style={styles.autoGenerateHeader}
           >
-            {t('customizes.numberLabel.estimate')}
+            {t('customizes.number_label.estimate')}
           </Text>
 
           <NumberScheme
@@ -187,13 +187,13 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
           <DueDate
             toggleField={{
               name: 'set_expiry_date_automatically',
-              hint: t('customizes.expDate.switchLabel'),
-              description: t('customizes.expDate.description'),
+              hint: t('customizes.exp_date.switch_label'),
+              description: t('customizes.exp_date.description'),
               value: set_expiry_date_automatically
             }}
             dueDateField={{
               name: 'expiry_date_days',
-              hint: t('customizes.expDate.inputLabel')
+              hint: t('customizes.exp_date.input_label')
             }}
           />
 
@@ -201,7 +201,7 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
             {...this.props}
             types={email}
             name={'estimate_mail_body'}
-            label={'customizes.addresses.sendEstimateEmailBody'}
+            label={'customizes.addresses.send_estimate_email_body'}
             showPreview
           />
 
@@ -240,14 +240,16 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
             <Field
               name={'estimate_auto_generate'}
               component={ToggleSwitch}
-              hint={t('customizes.autoGenerate.estimate')}
-              description={t('customizes.autoGenerate.estimateDescription')}
+              hint={t('customizes.auto_generate.estimate')}
+              description={t('customizes.auto_generate.estimate_description')}
             />
             <Field
               name={'estimate_email_attachment'}
               component={ToggleSwitch}
-              hint={t('customizes.emailAttachment.estimate')}
-              description={t('customizes.emailAttachment.estimateDescription')}
+              hint={t('customizes.email_attachment.estimate')}
+              description={t(
+                'customizes.email_attachment.estimate_description'
+              )}
             />
           </ScrollView>
         </ScrollView>

@@ -234,7 +234,7 @@ export class Report extends React.Component<IProps> {
 
     switch (type) {
       case SALES:
-        const tp = reportType === 'byCustomer';
+        const tp = reportType === 'by_customer';
 
         data = isTitle
           ? t('header.sales_report')
@@ -286,7 +286,7 @@ export class Report extends React.Component<IProps> {
       >
         <Field
           name="date_range"
-          label={t('reports.dateRange')}
+          label={t('reports.date_range')}
           component={BaseDropdownPicker}
           isRequired
           fieldIcon="calendar-week"
@@ -329,7 +329,7 @@ export class Report extends React.Component<IProps> {
         {type === SALES && (
           <Field
             name="report_type"
-            label={t('reports.reportType')}
+            label={t('reports.report_type')}
             component={BaseDropdownPicker}
             fieldIcon="vial"
             items={REPORT_TYPE_OPTION()}

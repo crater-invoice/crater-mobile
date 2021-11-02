@@ -26,7 +26,7 @@ const mapStateToProps = (state, {route}) => {
     ...commonSelector(state),
     initialValues: !isLoading && {
       date_range: DATE_RANGE.THIS_MONTH,
-      report_type: 'byCustomer'
+      report_type: 'by_customer'
     }
   };
 };

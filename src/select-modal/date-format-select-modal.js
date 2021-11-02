@@ -20,8 +20,8 @@ export const DateFormatSelectModal = (props: IProps) => (
     placeholder={t('settings.preferences.date_format_placeholder')}
     searchFields={['display_date']}
     compareField="moment_format_value"
-    headerProps={{title: t('dateFormats.title'), rightIconPress: null}}
-    emptyContentProps={{contentType: 'dateFormats'}}
+    headerProps={{title: t('date_formats.title'), rightIconPress: null}}
+    emptyContentProps={{contentType: 'date_formats'}}
     isRequired
     isInternalSearch
   />

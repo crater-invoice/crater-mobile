@@ -150,7 +150,7 @@ export class Tax extends React.Component {
         <Field
           name="compound_tax"
           component={ToggleSwitch}
-          hint={t('taxes.compoundTax')}
+          hint={t('taxes.compound_tax')}
           title-text-default
           disabled={disabled}
         />
