@@ -4,7 +4,7 @@ import {Field, change} from 'redux-form';
 import styles from './create-item-styles';
 import {
   InputField,
-  CtDivider,
+  BaseDivider,
   DefaultLayout,
   CurrencyFormat,
   RadioButtonGroup,
@@ -298,7 +298,7 @@ export class CreateItem extends React.Component<IProps> {
             ) : null
           )}
 
-        <CtDivider dividerStyle={styles.divider} />
+        <BaseDivider dividerStyle={styles.divider} />
 
         <View style={styles.subContainer}>
           <View>

@@ -6,7 +6,7 @@ import styles from './customize-payment-style';
 import {
   DefaultLayout,
   ToggleSwitch,
-  CtDivider,
+  BaseDivider,
   Tabs,
   Editor,
   PLACEHOLDER_TYPES as TYPE,
@@ -118,7 +118,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
     const {theme} = this.props;
     return (
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
-        <CtDivider dividerStyle={styles.dividerLine} />
+        <BaseDivider dividerStyle={styles.dividerLine} />
 
         <Text
           color={theme.header.primary.color}

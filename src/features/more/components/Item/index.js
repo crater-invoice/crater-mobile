@@ -4,16 +4,14 @@ import styles from './styles';
 import {Field, change} from 'redux-form';
 import {
   InputField,
-  CtDivider,
+  BaseDivider,
   DefaultLayout,
-  SelectField,
   CurrencyFormat,
   Text,
   ActionButton
 } from '@/components';
 import {routes} from '@/navigation';
 import {ITEM_FORM} from '../../constants';
-import {colors} from '@/styles/colors';
 import t from 'locales/use-translation';
 import {definePlatformParam, keyboardType} from '@/constants';
 import {alertMe, hasValue, MAX_LENGTH} from '@/constants';
@@ -279,7 +277,7 @@ export class Item extends React.Component {
             ) : null
           )}
 
-        <CtDivider dividerStyle={styles.divider} />
+        <BaseDivider dividerStyle={styles.divider} />
 
         <View style={styles.subContainer}>
           <View>

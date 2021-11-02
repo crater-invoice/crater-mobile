@@ -16,7 +16,7 @@ import {
 import {
   DefaultLayout,
   ToggleSwitch,
-  CtDivider,
+  BaseDivider,
   Editor,
   PLACEHOLDER_TYPES as TYPE,
   Text,
@@ -227,7 +227,7 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
           />
 
           <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
-            <CtDivider dividerStyle={styles.dividerLine} />
+            <BaseDivider dividerStyle={styles.dividerLine} />
 
             <Text
               color={theme.header.primary.color}

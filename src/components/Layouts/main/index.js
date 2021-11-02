@@ -3,7 +3,7 @@ import {View, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Field} from 'redux-form';
 import {styles, Container} from './styles';
-import {InputField, CtHeader, CtDivider} from '../..';
+import {InputField, CtHeader} from '../..';
 import {Content} from '../../content';
 import t from 'locales/use-translation';
 import {STATUS_BAR_CONTENT} from '@/utils';
@@ -15,6 +15,7 @@ import {defineSize} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
 import {PermissionService} from '@/services';
 import {routes} from '@/navigation';
+import {BaseDivider} from '@/components';
 
 interface IProps {
   children: any;
@@ -128,7 +129,7 @@ const Layout = (props: IProps) => {
           )}
 
           {bottomDivider && (
-            <CtDivider
+            <BaseDivider
               dividerStyle={dividerStyle && dividerStyle}
               theme={theme}
             />

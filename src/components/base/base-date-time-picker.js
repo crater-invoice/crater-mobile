@@ -1,28 +1,16 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 import {reduxForm, Field, change} from 'redux-form';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import {BaseDatePicker, BaseTimePicker} from '../base';
 import {DATE_FORMAT} from '@/constants';
-import t from 'locales/use-translation';
-import styles from './styles';
-import {Text} from '../Text';
+import {colors} from '@/styles';
 import {BaseError, BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
+import {ITheme} from '@/interfaces';
 
-const DATE_TIME_PICKER_FORM = 'DATE_TIME_PICKER_FORM';
-
-type Props = {
-  dateFieldName: string,
-  timeFieldName: string,
-  input: any,
-  onChangeCallback: () => void,
-  hideError: boolean,
-  meta: any
-};
-
-class Picker extends Component<Props> {
+class DateTimePicker extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {loading: true};
@@ -88,7 +76,7 @@ class Picker extends Component<Props> {
   };
 
   setFormField = (field, value) => {
-    this.props.dispatch(change(DATE_TIME_PICKER_FORM, field, value));
+    this.props.dispatch(change('DATE_TIME_PICKER_FORM', field, value));
   };
 
   getDefaultDateValue = value => {
@@ -160,12 +148,113 @@ class Picker extends Component<Props> {
   }
 }
 
-const dateTimePickerForm = reduxForm({
-  form: DATE_TIME_PICKER_FORM
-})(Picker);
+const dateTimePickerForm = reduxForm({form: 'DATE_TIME_PICKER_FORM'})(
+  DateTimePicker
+);
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
+const mapStateToProps = state => commonSelector(state);
+
+export const BaseDateTimePicker = connect(mapStateToProps)(dateTimePickerForm);
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 10
+  },
+  row: {
+    flexDirection: 'row',
+    marginTop: -8
+  },
+  dateColumn: {
+    flex: 1.2
+  },
+  timeColumn: theme => ({
+    flex: 1,
+    marginLeft: theme?.mode === 'light' ? 0 : 1
+  }),
+  validation: {
+    marginTop: -10
+  },
+  inputError: {
+    borderColor: colors.dangerLight
+  }
 });
 
-export const DateTimePickerField = connect(mapStateToProps)(dateTimePickerForm);
+interface IProps {
+  /**
+   * Name of the date picker field to access current date value.
+   */
+  dateFieldName: string;
+
+  /**
+   * Name of the time picker field to access current time value.
+   */
+  timeFieldName: string;
+
+  /**
+   * Redux form built-in input events.
+   */
+  input?: any;
+
+  /**
+   * An action to return the current time value.
+   */
+  onChangeCallback?: (callback: any) => void;
+
+  /**
+   * If true, the validation message not showing.
+   */
+  hideError: boolean;
+
+  /**
+   * Redux form built-in meta validation events.
+   */
+  meta?: any;
+
+  /**
+   * If true, update the date-time value instantly.
+   */
+  callOnChangeInMount?: boolean;
+
+  /**
+   * If true, ignore seconds from the current time value.
+   */
+  removeSecond?: boolean;
+
+  /**
+   * dispatch change action.
+   */
+  dispatch: (fun: object) => void;
+
+  /**
+   * Label of date time picker view.
+   */
+  label?: string;
+
+  /**
+   * The style of the content container(Heading).
+   */
+  labelStyle?: StyleProp<ViewStyle> | any;
+
+  /**
+   * If true, required validation message shows.
+   */
+  isRequired?: boolean;
+
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
+  theme: ITheme;
+
+  /**
+   * If true, disable press event.
+   */
+  disabled?: boolean;
+}
+
+interface IStates {
+  /**
+   * The loading indicator for the screen, displayed until the screen is ready to be displayed.
+   */
+  loading?: boolean;
+}

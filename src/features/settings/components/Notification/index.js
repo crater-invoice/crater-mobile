@@ -1,6 +1,11 @@
 import React from 'react';
 import styles from './styles';
-import {DefaultLayout, InputField, ToggleSwitch, CtDivider} from '@/components';
+import {
+  DefaultLayout,
+  InputField,
+  ToggleSwitch,
+  BaseDivider
+} from '@/components';
 import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {NOTIFICATION} from '../../constants';
@@ -107,7 +112,7 @@ export class Notification extends React.Component<IProps> {
           isRequired
         />
 
-        <CtDivider dividerStyle={styles.dividerLine} />
+        <BaseDivider dividerStyle={styles.dividerLine} />
 
         <Field
           name="notify_invoice_viewed"

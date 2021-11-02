@@ -7,7 +7,7 @@ import {
   BaseTimePicker,
   SelectFieldOptions,
   CheckBox,
-  DateTimePickerField,
+  BaseDateTimePicker,
   BaseDropdownPicker
 } from '@/components';
 import {keyboardType, MAX_LENGTH, isEmpty} from '@/constants';
@@ -162,7 +162,7 @@ const DEFAULT_DATE_TIME_FIELD = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={DateTimePickerField}
+      component={BaseDateTimePicker}
       label={t('customFields.defaultValue')}
       disabled={!isAllowToEdit}
       callOnChangeInMount

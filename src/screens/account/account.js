@@ -13,7 +13,7 @@ import {
   Text,
   DefaultLayout,
   InputField,
-  CtDivider,
+  BaseDivider,
   FilePicker,
   BaseButtonGroup,
   BaseButton,
@@ -148,7 +148,7 @@ export default class Account extends React.Component<IProps, IStates> {
           isRequired
         />
 
-        <CtDivider dividerStyle={styles.dividerLine} />
+        <BaseDivider dividerStyle={styles.dividerLine} />
 
         <View class="my-17">
           <Text color={theme.viewLabel.secondaryColor} h4>

@@ -4,7 +4,7 @@ import {Field, change} from 'redux-form';
 import styles from './final-amount-styles';
 import {
   InputField,
-  CtDivider,
+  BaseDivider,
   CurrencyFormat,
   Text,
   View as BaseView,
@@ -234,7 +234,7 @@ export const FinalAmount: FC<IProps> = props => {
         />
       )}
 
-      <CtDivider dividerStyle={styles.divider(theme)} />
+      <BaseDivider dividerStyle={styles.divider(theme)} />
 
       <View style={[styles.subContainer]}>
         <View>
