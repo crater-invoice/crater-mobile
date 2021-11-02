@@ -139,7 +139,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       showCancel: true,
       cancelText: t('alert.action.discard'),
       cancelPress: () => navigation.navigate(routes.ESTIMATES),
-      okText: t('alert.action.saveAsDraft'),
+      okText: t('alert.action.save_as_draft'),
       okPress: handleSubmit(this.draftEstimate)
     });
   };
@@ -439,7 +439,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
           disabled={isFetchingInitialData}
           onPress={handleSubmit(this.downloadEstimate)}
         >
-          {t('button.viewPdf')}
+          {t('button.view_pdf')}
         </BaseButton>
         <BaseButton
           show={isAllowToEdit}

@@ -104,9 +104,9 @@ export class Payments extends React.Component<IProps> {
     const isFilter = isFilterApply(formValues);
 
     const emptyTitle = search
-      ? 'search.noResult'
+      ? 'search.no_result'
       : isFilter
-      ? 'filter.empty.filterTitle'
+      ? 'filter.empty.filter_title'
       : 'payments.empty.title';
 
     const emptyContentProps = {

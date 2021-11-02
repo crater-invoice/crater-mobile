@@ -62,7 +62,9 @@ export class CustomFields extends React.Component<IProps> {
     const {search} = this.state;
     const isEmpty = customFields && customFields.length <= 0;
 
-    const emptyTitle = search ? 'search.noResult' : 'custom_fields.empty.title';
+    const emptyTitle = search
+      ? 'search.no_result'
+      : 'custom_fields.empty.title';
 
     const emptyContentProps = {
       title: t(emptyTitle, {search}),

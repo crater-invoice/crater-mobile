@@ -6,7 +6,7 @@ export const emptyContentPlaceholder = props => {
   switch (route?.name) {
     case routes.CATEGORIES:
       return {
-        title: t('search.noResult', {search}),
+        title: t('search.no_result', {search}),
         ...(!search && {
           title: t('categories.empty.title'),
           description: t('categories.empty.description'),
@@ -17,22 +17,22 @@ export const emptyContentPlaceholder = props => {
       };
     case routes.USERS:
       return {
-        title: t('search.noResult', {search}),
+        title: t('search.no_result', {search}),
         ...(!search && {
           title: t('users.empty.title'),
           description: t('users.empty.description'),
-          buttonTitle: t('users.text_add_new_user'),
+          buttonTitle: t('users.add_new_user'),
           buttonPress: () =>
             navigation.navigate(routes.CREATE_USER, {type: 'ADD'})
         })
       };
     case routes.ROLES:
       return {
-        title: t('search.noResult', {search}),
+        title: t('search.no_result', {search}),
         ...(!search && {
           title: t('roles.empty.title'),
           description: t('roles.empty.description'),
-          buttonTitle: t('roles.text_add_new_role'),
+          buttonTitle: t('roles.add_new_role'),
           buttonPress: () =>
             navigation.navigate(routes.CREATE_ROLE, {type: 'ADD'})
         })

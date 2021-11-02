@@ -101,7 +101,7 @@ export default class CreateRole extends Component<IProps, IStates> {
     function confirmationAlert(remove) {
       alertMe({
         title: t('alert.title'),
-        desc: t('roles.text_alert_description'),
+        desc: t('roles.alert_description'),
         showCancel: true,
         okPress: remove
       });
@@ -199,12 +199,12 @@ export default class CreateRole extends Component<IProps, IStates> {
           name="name"
           component={InputField}
           isRequired
-          hint={t('roles.text_name')}
+          hint={t('roles.name')}
           disabled={disabled}
         />
         <View class="flex-row items-center">
           <BaseLabel mt-8 mb-12 flex={1} isRequired>
-            {t('roles.text_permissions')}
+            {t('roles.permissions')}
           </BaseLabel>
           <View class="flex-row flex-1 justify-end">
             {!disabled && (

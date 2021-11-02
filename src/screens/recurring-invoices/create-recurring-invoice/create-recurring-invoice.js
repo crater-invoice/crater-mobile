@@ -148,7 +148,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     function confirmationAlert(remove) {
       alertMe({
         title: t('alert.title'),
-        desc: t('users.text_alert_description'),
+        desc: t('users.alert_description'),
         showCancel: true,
         okPress: remove
       });

@@ -146,9 +146,9 @@ export default class Invoices extends React.Component<IProps, IStates> {
     }
 
     const emptyTitle = search
-      ? 'search.noResult'
+      ? 'search.no_result'
       : isFilter
-      ? 'filter.empty.filterTitle'
+      ? 'filter.empty.filter_title'
       : title;
 
     return {

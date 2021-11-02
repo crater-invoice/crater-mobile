@@ -86,9 +86,9 @@ export class Customers extends React.Component<IProps> {
     const isFilter = isFilterApply(formValues);
 
     const emptyTitle = search
-      ? 'search.noResult'
+      ? 'search.no_result'
       : isFilter
-      ? 'filter.empty.filterTitle'
+      ? 'filter.empty.filter_title'
       : 'customers.empty.title';
 
     const emptyContentProps = {

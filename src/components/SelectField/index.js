@@ -293,7 +293,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
       emptyTitle = t(`${emptyContentType}.empty.title`);
     }
 
-    let noSearchResult = t('search.noSearchResult');
+    let noSearchResult = t('search.no_search_result');
 
     return {
       title: search ? `${noSearchResult} "${search}"` : emptyTitle,

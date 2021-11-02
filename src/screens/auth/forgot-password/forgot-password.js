@@ -117,7 +117,7 @@ export default class ForgotPassword extends React.Component<IProps, IStates> {
                     base-class="mt-55 mx-3"
                     size="lg"
                   >
-                    {t('button.recoveryEmail')}
+                    {t('button.recovery_email')}
                   </BaseButton>
                 </>
               ) : (
@@ -142,7 +142,7 @@ export default class ForgotPassword extends React.Component<IProps, IStates> {
                     base-class="mt-55 mx-5"
                     size="lg"
                   >
-                    {t('button.recoveryEmailAgain')}
+                    {t('button.recovery_email_again')}
                   </BaseButton>
                 </>
               )}

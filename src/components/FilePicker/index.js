@@ -73,18 +73,18 @@ class Picker extends Component<IProps, IStates> {
 
     const options = [
       {
-        label: label('filePicker.gallery'),
+        label: label('file_picker.gallery'),
         value: ACTIONS.GALLERY
       },
       {
-        label: label('filePicker.camera'),
+        label: label('file_picker.camera'),
         value: ACTIONS.CAMERA
       }
     ];
 
     if (withDocument) {
       options.unshift({
-        label: label('filePicker.document'),
+        label: label('file_picker.document'),
         value: ACTIONS.DOCUMENT
       });
     }
@@ -109,7 +109,7 @@ class Picker extends Component<IProps, IStates> {
     };
 
     alertMe({
-      desc: t('filePicker.permission'),
+      desc: t('file_picker.permission'),
       showCancel: true,
       okText: 'Allow',
       okPress: redirectToSetting
@@ -291,7 +291,7 @@ class Picker extends Component<IProps, IStates> {
           center
           style={styles.title}
         >
-          {t('filePicker.file')}
+          {t('file_picker.file')}
         </Text>
       </View>
     );

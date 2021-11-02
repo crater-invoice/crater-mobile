@@ -196,7 +196,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
                 color={theme.text.fifthColor}
                 letter-spacing={0.3}
               >
-                {t('company.text_switch_company')}
+                {t('company.switch_company')}
               </Text>
               <CtDecorativeButton
                 style={Styles.closeButton}
@@ -233,7 +233,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
                 +
               </Text>
               <Text h5 ml-10 color={colors.primaryLight}>
-                {t('company.text_add_new_company')}
+                {t('company.add_new_company')}
               </Text>
             </CtDecorativeButton>
           </Modal>

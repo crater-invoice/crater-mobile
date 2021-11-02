@@ -89,7 +89,7 @@ export class UpdateAppVersion extends Component {
             onPress={this.onUpdateApp}
             loading={this.state.loading}
           >
-            {t('button.updateCapital')}
+            {t('button.update_capital')}
           </BaseButton>
         </View>
       </Container>

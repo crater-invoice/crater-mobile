@@ -267,7 +267,7 @@ export class Report extends React.Component<IProps> {
     const {displayFromDate, displayToDate} = this.state;
     const bottomAction = [
       {
-        label: 'button.generateReport',
+        label: 'button.generate_report',
         onPress: handleSubmit(this.saveReport),
         loading
       }

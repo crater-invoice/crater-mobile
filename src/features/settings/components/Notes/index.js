@@ -58,7 +58,7 @@ export default class Notes extends Component<IProps> {
     const {search} = this.state;
     const isEmpty = notes && notes.length <= 0;
 
-    const emptyTitle = search ? 'search.noResult' : 'notes.empty.title';
+    const emptyTitle = search ? 'search.no_result' : 'notes.empty.title';
     const emptyContentProps = {
       title: t(emptyTitle, {search}),
       ...(!search && {

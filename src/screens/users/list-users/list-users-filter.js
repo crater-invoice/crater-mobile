@@ -10,7 +10,7 @@ export const itemsFilterFields = ({props, setFormField}) => {
   const inputFields = [
     {
       name: 'filterName',
-      hint: t('users.text_name'),
+      hint: t('users.name'),
       refLinkFn: ref => (filterRefs.filterName = ref),
       onSubmitEditing: () => filterRefs.email.focus()
     },
@@ -36,12 +36,12 @@ export const itemsFilterFields = ({props, setFormField}) => {
       items: roles,
       displayName: 'name',
       label: t('users.role'),
-      placeholder: t('users.rolePlaceholder'),
+      placeholder: t('users.role_placeholder'),
       navigation: navigation,
       compareField: 'name',
       onSelect: item => setFormField('role', item.name),
       headerProps: {
-        title: t('users.rolePlaceholder'),
+        title: t('users.role_placeholder'),
         rightIconPress: null
       },
       emptyContentProps: {

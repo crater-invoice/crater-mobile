@@ -64,7 +64,7 @@ export default class CreateUser extends Component<IProps, IStates> {
     function confirmationAlert(remove) {
       alertMe({
         title: t('alert.title'),
-        desc: t('users.text_alert_description'),
+        desc: t('users.alert_description'),
         showCancel: true,
         okPress: remove
       });
@@ -138,7 +138,7 @@ export default class CreateUser extends Component<IProps, IStates> {
           name="name"
           isRequired
           component={InputField}
-          hint={t('users.text_name')}
+          hint={t('users.name')}
           disabled={disabled}
           onSubmitEditing={() => userRefs.email.focus()}
         />
@@ -163,7 +163,7 @@ export default class CreateUser extends Component<IProps, IStates> {
           onSelect={item => this.setFormField(`role`, item.name)}
           disabled={disabled}
           refLinkFn={ref => (userRefs.role = ref)}
-          placeholder={formValues?.role ?? t('users.rolePlaceholder')}
+          placeholder={formValues?.role ?? t('users.role_placeholder')}
           selectedItem={formValues?.role}
         />
 

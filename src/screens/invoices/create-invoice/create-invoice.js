@@ -126,7 +126,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       showCancel: true,
       cancelText: t('alert.action.discard'),
       cancelPress: () => navigation.navigate(routes.MAIN_INVOICES),
-      okText: t('alert.action.saveAsDraft'),
+      okText: t('alert.action.save_as_draft'),
       okPress: handleSubmit(this.draftInvoice)
     });
   };
@@ -411,13 +411,13 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           disabled={isFetchingInitialData}
           onPress={handleSubmit(this.downloadInvoice)}
         >
-          {t('button.viewPdf')}
+          {t('button.view_pdf')}
         </BaseButton>
         <BaseButton
           show={isAllowToEdit}
           loading={isSaving || isFetchingInitialData}
           disabled={isFetchingInitialData || isSaving}
-          onPress={handleSubmit(this.downloadInvoice)}
+          onPress={handleSubmit(this.saveInvoice)}
         >
           {t('button.save')}
         </BaseButton>

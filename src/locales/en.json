@@ -152,7 +152,7 @@
     "display_frequency": "Frequency",
     "basic_info": "BASIC INFO",
     "invoices": "INVOICES",
-    "text_alert_description": "You will not be able to recover this Recurring Invoice",
+    "alert_description": "You will not be able to recover this Recurring Invoice",
     "from_start_at_date": "From Start At Date",
     "to_start_at_date": "To Start At Date",
     "auto_sent": {
@@ -684,146 +684,119 @@
       "customer_address": "From Customer Address Format"
     }
   },
-  "touchFaceId": {
-    "touchId": "Touch ID",
-    "faceId": "Face ID",
+  "touch_face_id": {
+    "touch_id": "Touch ID",
+    "face_id": "Face ID",
     "finger": "Fingerprint",
     "face": "Face",
-    "notCompatible": "Your device is not compatible.",
-    "hardwareNotAvailable": "{{type}} HardWare not Available.",
+    "not_compatible": "Your device is not compatible.",
+    "hardware_not_available": "{{type}} HardWare not Available.",
     "activated": "{{type}} activated",
-    "enableLogin": "{{type}} Login",
-    "enableLoginHint": "You can now use {{type}} to access your account faster and easier.",
-    "subTitle1": "Authenticate using app's",
-    "subTitle2": "{{type}} instead of entering your password.",
+    "enable_login": "{{type}} Login",
+    "enable_login_hint": "You can now use {{type}} to access your account faster and easier.",
+    "subtitle_1": "Authenticate using app's",
+    "subtitle_2": "{{type}} instead of entering your password.",
     "login": "Log in with {{type}}"
   },
-  "filePicker": {
+  "file_picker": {
     "file": "Click here to choose a file",
     "permission": "Sorry, we need camera roll permissions to make this work!",
     "camera": "Camera",
     "gallery": "Gallery",
     "document": "Document"
   },
-  "sendMail": {
+  "send_mail": {
     "from": "From",
     "to": "To",
     "subject": "Subject",
-    "body": "Body",
-    "sendEmailToast": "Email Send Successfully"
+    "body": "Body"
   },
   "alert": {
     "title": "Are you sure?",
-    "exit": "Are you sure want to exit?",
-    "alreadyInUse": "{{field}} already in use",
     "action": {
       "discard": "Discard",
-      "saveAsDraft": "Save As Draft",
-      "emailNotExist": "User email does not exist"
-    },
-    "requiredFields": "Required fields is empty"
-  },
-  "termsCondition": {
-    "title": "Terms & Conditions",
-    "show": "Show terms and conditions on PDF?",
-    "edit": "Edit Terms and Conditions",
-    "description": "Check if you wanted to show Terms and Conditions on the PDF."
+      "save_as_draft": "Save As Draft"
+    }
   },
   "button": {
     "remove": "Remove",
     "save": "Save",
     "add": "Add",
-    "edit": "Edit",
     "retry": "Retry",
     "done": "Done",
-    "skip": "Skip",
     "clear": "Clear",
-    "viewPdf": "View PDF",
-    "singIn": "Sign in",
-    "singInGoogle": "Sign in with google",
+    "view_pdf": "View PDF",
+    "sing_in": "Sign in",
     "forget": "Forgot Password?",
     "update": "Update",
-    "updateCapital": "UPDATE",
-    "chooseTemplate": "Choose Template",
-    "generateReport": " Generate Report",
-    "recoveryEmail": "Send reset link",
-    "recoveryEmailAgain": "Send Again",
+    "update_capital": "UPDATE",
+    "choose_template": "Choose Template",
+    "generate_report": " Generate Report",
+    "recovery_email": "Send reset link",
+    "recovery_email_again": "Send Again",
     "cancel": "Cancel",
     "send": "Send",
     "change": "Change",
-    "setUpNow": "Set up now",
+    "set_up_now": "Set up now",
     "later": "Will do it later"
   },
   "filter": {
     "empty": {
-      "filterTitle": "No Results found"
+      "filter_title": "No Results found"
     }
   },
   "search": {
     "title": "Search",
-    "noResult": "No results for \"{{search}}\"",
-    "noSearchResult": "No results for"
-  },
-  "toast": {
-    "send_invoice_successfully": "Invoice sent successfully",
-    "send_payment_successfully": "Payment sent successfully",
-    "send_estimate_successfully": "Estimate sent successfully"
+    "no_result": "No results for \"{{search}}\"",
+    "no_search_result": "No results for"
   },
   "validation": {
-    "Customer": "Customer",
-    "Invoice": "Invoice",
     "required": "Required field is empty",
     "field": "Required field is empty",
     "choose": "Choose at least one item",
     "email": "Please enter a valid email address",
-    "passwordCompare": "Passwords do not match",
-    "minimumNumber": "must be greater than 0",
-    "maximumNumber": "must be less than {{maxNumber}}",
-    "maximumCharacter": "{{fieldName}} must be less than {{maxCharacter}} characters.",
+    "password_compare": "Passwords do not match",
+    "minimum_number": "must be greater than 0",
+    "maximum_number": "must be less than {{maxNumber}}",
+    "maximum_character": "{{fieldName}} must be less than {{maxCharacter}} characters.",
     "character": "Characters Only",
     "numeric": "must be numeric",
-    "moreThanDue": "{{hint}} Should not be more than Due Amount.",
+    "more_than_due": "{{hint}} Should not be more than Due Amount.",
     "url": "Invalid url (eg: https://craterapp.com)",
     "wrong": "Something went wrong. Please, try again.",
-    "alreadyTaken": "ALREADY TAKEN",
-    "minCharacter": "Please enter at least {{minCharacter}} characters",
+    "min_character": "Please enter at least {{minCharacter}} characters",
     "cron": "Please enter a valid cron format."
   },
   "company": {
-    "text_switch_company": "SWITCH COMPANY",
-    "text_add_new_company": "Add New Company",
-    "text_already_used": "Company already in use",
-    "text_alert_description": "You will not be able to recover this Company"
+    "switch_company": "SWITCH COMPANY",
+    "add_new_company": "Add New Company"
   },
   "roles": {
-    "text_add_new_role": "Add New Role",
-    "text_already_used": "Role already in use",
-    "text_alert_description": "You will not be able to recover this Role",
+    "add_new_role": "Add New Role",
+    "alert_description": "You will not be able to recover this Role",
     "empty": {
       "title": "No roles yet!",
       "description": "This section will contain the list of roles."
     },
-    "text_name": "Name",
-    "text_permissions": "Permissions",
+    "name": "Name",
+    "permissions": "Permissions",
     "select_all": "Select All",
     "none": "None"
   },
   "users": {
-    "text_add_new_user": "Add New User",
-    "text_already_used": "User already in use",
-    "text_alert_description": "You will not be able to recover this User",
+    "add_new_user": "Add New User",
+    "alert_description": "You will not be able to recover this User",
     "empty": {
       "title": "No users yet!",
       "description": "This section will contain the list of users."
     },
-    "text_name": "Name",
+    "name": "Name",
     "email": "Email",
     "phone": "Phone",
     "password": "Password",
     "role": "Role",
     "roles": "Roles",
-    "rolePlaceholder": "Select Role",
-    "text_permissions": "Permissions"
+    "role_placeholder": "Select Role"
   },
   "notification": {
     "success": "Success!",

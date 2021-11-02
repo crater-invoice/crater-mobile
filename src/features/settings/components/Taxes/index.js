@@ -45,7 +45,7 @@ export class Taxes extends React.Component {
     const {search} = this.state;
 
     const isEmpty = taxTypes && taxTypes.length <= 0;
-    const emptyTitle = search ? 'search.noResult' : 'taxes.empty.title';
+    const emptyTitle = search ? 'search.no_result' : 'taxes.empty.title';
     const emptyContentProps = {
       title: t(emptyTitle, {search}),
       ...(!search && {

@@ -55,8 +55,8 @@ export default class Login extends React.Component<IProps, IStates> {
     const loginRefs: any = {};
     const {navigation, biometryAuthType, theme} = this.props;
     const BIOMETRY_TYPES_TITLES = {
-      [BIOMETRY_AUTH_TYPES.FINGERPRINT]: t('touchFaceId.touchId'),
-      [BIOMETRY_AUTH_TYPES.FACE]: t('touchFaceId.faceId')
+      [BIOMETRY_AUTH_TYPES.FINGERPRINT]: t('touch_face_id.touch_id'),
+      [BIOMETRY_AUTH_TYPES.FACE]: t('touch_face_id.face_id')
     };
 
     return (
@@ -144,7 +144,7 @@ export default class Login extends React.Component<IProps, IStates> {
                 onPress={this.props.handleSubmit(this.onSubmit)}
                 loading={this.state.isLoading}
               >
-                {t('button.singIn')}
+                {t('button.sing_in')}
               </BaseButton>
             </View>
           </KeyboardAvoidingView>
@@ -159,7 +159,7 @@ export default class Login extends React.Component<IProps, IStates> {
               style={styles.biometryText}
               color={theme?.text?.primaryColor}
             >
-              {t('touchFaceId.login', {
+              {t('touch_face_id.login', {
                 type: BIOMETRY_TYPES_TITLES[biometryAuthType]
               })}
             </Text>
