@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import {
-  Image,
   View,
   ActivityIndicator,
   ImageProps,
@@ -13,11 +12,11 @@ import {
 } from 'react-native';
 import {BASE_DIR, getPath} from './cache-manager';
 import {hasValue} from '@/constants';
-import {SCREEN_WIDTH} from '@/constants';
 import styles from './cache-image-style';
 import {CacheImageService, IS_UNDER_PROCESSING} from './image-service';
 import {colors} from '@/styles';
 import {AssetImage} from '../asset-image';
+import {ITheme} from '@/interfaces';
 
 export class CacheImage extends React.Component<IProps, IStates> {
   timer: any;
@@ -336,6 +335,12 @@ interface IProps {
    * The image will not be scaled up.
    */
   resizeMode?: ImageResizeMode;
+
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
+  theme?: ITheme;
 }
 
 interface IStates {

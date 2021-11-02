@@ -10,7 +10,7 @@ import {connect} from 'react-redux';
 import debounce from 'lodash/debounce';
 import {styles} from './styles';
 import {colors} from '@/styles/colors';
-import Empty from '../Empty';
+import Empty from '../empty';
 import {Content} from '../content';
 import {hasValue} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';

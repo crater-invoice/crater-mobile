@@ -3,7 +3,7 @@ import {View, Modal, ScrollView, ActivityIndicator} from 'react-native';
 import {connect} from 'react-redux';
 import {change} from 'redux-form';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './type';
+import {IProps, IStates} from './type.d';
 import {colors, headerTitle} from '@/styles';
 import styles from './styles';
 import {hasTextLength, hasValue, isAndroidPlatform, isEmpty} from '@/constants';

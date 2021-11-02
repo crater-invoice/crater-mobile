@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Input} from 'react-native-elements';
 import debounce from 'lodash/debounce';
 import styles from './styles';
-import {IInputField} from './type';
+import {IInputField} from './type.d';
 import {AssetIcon} from '../asset-icon';
 import {colors} from '@/styles';
 import {Text} from '../Text';

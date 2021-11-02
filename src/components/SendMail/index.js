@@ -15,7 +15,7 @@ import {InputField} from '../InputField';
 import {ActionButton} from '../button';
 import t from 'locales/use-translation';
 import {Content} from '../content';
-import {Editor} from '../Editor';
+import {Editor} from '../editor';
 import {getMailConfiguration} from '../../features/more/actions';
 import {commonSelector} from 'stores/common/selectors';
 import {

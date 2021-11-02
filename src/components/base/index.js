@@ -9,3 +9,4 @@ export * from './base-date-picker';
 export * from './base-time-picker';
 export * from './base-date-time-picker';
 export * from './base-divider';
+export * from './base-action-sheet';

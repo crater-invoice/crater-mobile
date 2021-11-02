@@ -4,11 +4,11 @@ import {connect} from 'react-redux';
 import {styles, Container, Row} from './styles';
 import {CtHeader, View} from '../..';
 import {Content} from '../../content';
-import Dropdown from '../../Dropdown';
 import {ARROW_ICON} from '@/assets';
 import {definePlatformParam} from '@/constants';
 import {STATUS_BAR_CONTENT} from '@/utils';
 import {commonSelector} from 'stores/common/selectors';
+import {BaseActionSheet} from '@/components';
 
 type IProps = {
   children?: Object,
@@ -70,7 +70,7 @@ const Layout = (props: IProps) => {
         containerStyle={styles.header}
         {...headerProps}
         rightComponent={
-          dropdownProps && <Dropdown {...dropdownProps} theme={theme} />
+          dropdownProps && <BaseActionSheet {...dropdownProps} theme={theme} />
         }
       />
 

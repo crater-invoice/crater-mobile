@@ -1,9 +1,6 @@
 import {StyleSheet} from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
-import {colors, fonts} from '@/styles';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {colors} from '@/styles';
 
 const container = {
   borderWidth: 1,

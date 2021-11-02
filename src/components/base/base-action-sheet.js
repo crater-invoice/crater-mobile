@@ -1,19 +1,13 @@
 import React, {Component, Fragment} from 'react';
-import {TouchableOpacity, View, StatusBar} from 'react-native';
+import {TouchableOpacity, View, StatusBar, StyleSheet} from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
-import {styles} from './styles';
 import {AssetIcon} from '../asset-icon';
 import {colors} from '@/styles';
 import {definePlatformParam, isEmpty, isIosPlatform} from '@/constants';
+import {ITheme} from '@/interfaces';
 
-type IProps = {
-  options: Array,
-  onPress: () => void,
-  cancelButtonIndex: Number,
-  destructiveButtonIndex: Number
-};
-
-export default class Dropdown extends Component<IProps> {
+export class BaseActionSheet extends Component<IProps, IStates> {
+  actionSheet: any;
   constructor(props) {
     super(props);
     this.state = {
@@ -39,7 +33,7 @@ export default class Dropdown extends Component<IProps> {
 
   showActionSheet = () => {
     this.onToggleStatus();
-    this.ActionSheet.show();
+    this.actionSheet?.show?.();
   };
 
   onSelect = index => {
@@ -51,10 +45,10 @@ export default class Dropdown extends Component<IProps> {
       ({value}) => value
     );
 
-    onSelect && onSelect(valueOptions[index]);
+    onSelect?.(valueOptions[index]);
   };
 
-  BUTTON_VIEW = () => {
+  buttonView = () => {
     const {hasIcon = true, theme} = this.props;
     return !hasIcon ? (
       <Fragment />
@@ -70,7 +64,7 @@ export default class Dropdown extends Component<IProps> {
         }}
       >
         <AssetIcon
-          name={'ellipsis-h'}
+          name="ellipsis-h"
           size={18}
           style={styles.iconStyle(theme)}
         />
@@ -105,12 +99,11 @@ export default class Dropdown extends Component<IProps> {
           />
         )}
 
-        {this.BUTTON_VIEW()}
+        {this.buttonView()}
 
         {labelOptions && (
           <ActionSheet
-            ref={o => (this.ActionSheet = o)}
-            tintColor={colors.primary}
+            ref={o => (this.actionSheet = o)}
             tintColor={
               theme?.mode === 'dark' && isIosPlatform
                 ? colors.gray2
@@ -125,4 +118,64 @@ export default class Dropdown extends Component<IProps> {
       </View>
     );
   }
+}
+
+const styles = StyleSheet.create({
+  button: {
+    flexDirection: 'row',
+    marginRight: 10
+  },
+  iconStyle: theme => ({
+    color: theme?.icons?.primaryBgColor
+  })
+});
+
+interface IProps {
+  /**
+   * An array of objects with data for each dropdown option.
+   */
+  options: Array<any>;
+
+  /**
+   * Called when selecting one of any options.
+   */
+  onPress?: () => void;
+
+  /**
+   * The index of a cancel button option
+   */
+  cancelButtonIndex?: number;
+
+  /**
+   * The index of a destructive button option
+   */
+  destructiveButtonIndex?: number;
+
+  /**
+   * An action to return the current option value.
+   */
+  onSelect?: (callback: any) => void;
+
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
+  theme?: ITheme;
+
+  /**
+   * If true, hide the default icon view.
+   */
+  hasIcon?: boolean;
+}
+
+interface IStates {
+  /**
+   * If true the dropdown is showing.
+   */
+  visible?: boolean;
+
+  /**
+   * An array of objects with data for each dropdown option.
+   */
+  labelOptions: Array<any>;
 }

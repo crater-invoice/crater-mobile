@@ -13,34 +13,12 @@ import {colors} from '@/styles';
 import {alertMe, isIosPlatform} from '@/constants';
 import {AssetImage} from '../asset-image';
 import {Content} from '../content';
-import Dropdown from '../Dropdown';
 import {styles} from './styles';
 import {Text} from '../Text';
 import {CacheImage} from '../cache-image';
-import {BaseLabel} from '@/components';
+import {BaseActionSheet, BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
-
-interface IProps {
-  label: string;
-  containerStyle: Object;
-  onChangeCallback: () => void;
-  style: Object;
-  imageContainerStyle: Object;
-  hasAvatar: boolean;
-  loadingContainerStyle: Object;
-  withDocument: boolean;
-  fileLoading: () => void;
-  uploadedFileUrl: string;
-  uploadedFileType: string;
-  showUploadedImageAsCache: boolean;
-}
-
-interface IStates {
-  image: string;
-  loading: boolean;
-  action: string;
-  options: Array<any>;
-}
+import {IProps, IStates} from './type.d';
 
 const ACTIONS = {
   DOCUMENT: 'DOCUMENT',
@@ -377,7 +355,7 @@ class Picker extends Component<IProps, IStates> {
 
     const File = this.selectedFile();
 
-    const loadingProps = {
+    const loadingProps: any = {
       is: loading,
       style: {
         ...styles.loadingContainer,
@@ -389,7 +367,7 @@ class Picker extends Component<IProps, IStates> {
       <View style={[styles.mainContainer, containerStyle]}>
         <BaseLabel style={styles.label}>{label}</BaseLabel>
 
-        <Dropdown
+        <BaseActionSheet
           ref={this.actionSheet}
           options={options}
           onSelect={this.onOptionSelect}
@@ -422,8 +400,6 @@ class Picker extends Component<IProps, IStates> {
   }
 }
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
 export const FilePicker = connect(mapStateToProps)(Picker);

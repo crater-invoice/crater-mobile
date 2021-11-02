@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import {connect} from 'react-redux';
 import {ListItem, Avatar, CheckBox} from 'react-native-elements';
 import {styles} from './styles';
-import {Empty} from '../Empty';
+import {Empty} from '../empty';
 import {colors, fonts} from '@/styles';
 import {CurrencyFormat} from '../currency-format';
 import {FadeListAnimation, AssetIcon} from '@/components';
