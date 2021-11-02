@@ -43,7 +43,7 @@ function* saveEndpointURL({payload}) {
     navigation.navigate(routes.LOGIN);
     onResult?.();
   } catch (e) {
-    showNotification({message: t('endpoint.alertInvalidUrl'), type: 'error'});
+    showNotification({message: t('endpoint.alert_invalid_url'), type: 'error'});
     onResult?.();
   }
 }

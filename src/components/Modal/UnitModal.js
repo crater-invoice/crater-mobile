@@ -66,8 +66,8 @@ class Modal extends Component<IProps> {
     return (
       <InputModal
         reference={ref => (this.modalReference = ref)}
-        headerTitle={t('items.addUnit')}
-        hint={t('items.unitHint')}
+        headerTitle={t('items.add_hint')}
+        hint={t('items.unit_hint')}
         fieldName="name"
         onSubmit={handleSubmit(this.onSubmit)}
         onSubmitLoading={isSaving}

@@ -131,7 +131,7 @@ export class Customer extends React.Component<IProps> {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('customers.alertDescription'),
+      desc: t('customers.alert_description'),
       showCancel: true,
       okPress: () =>
         removeCustomer({
@@ -181,9 +181,9 @@ export class Customer extends React.Component<IProps> {
     const disabled = !isAllowToEdit;
 
     const getTitle = () => {
-      let title = 'header.addCustomer';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewCustomer';
-      if (isEditScreen && isAllowToEdit) title = 'header.editCustomer';
+      let title = 'header.add_customer';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_customer';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_customer';
 
       return t(title);
     };
@@ -217,7 +217,7 @@ export class Customer extends React.Component<IProps> {
           name={`customer.${FIELDS.NAME}`}
           component={InputField}
           isRequired
-          hint={t('customers.displayName')}
+          hint={t('customers.display_name')}
           onSubmitEditing={() => customerRefs.contactName.focus()}
           keyboardType={keyboardType.DEFAULT}
           disabled={disabled}
@@ -227,7 +227,7 @@ export class Customer extends React.Component<IProps> {
         <Field
           name={`customer.${FIELDS.CONTACT_NAME}`}
           component={InputField}
-          hint={t('customers.contactName')}
+          hint={t('customers.contact_name')}
           onSubmitEditing={() => customerRefs.email.focus()}
           keyboardType={keyboardType.DEFAULT}
           refLinkFn={ref => (customerRefs.contactName = ref)}
@@ -284,7 +284,7 @@ export class Customer extends React.Component<IProps> {
             addressValue={billingAddress}
             icon="map-marker-alt"
             rightIcon="angle-right"
-            placeholder={t('customers.billingAddress')}
+            placeholder={t('customers.billing_address')}
             navigation={navigation}
             onChangeCallback={val =>
               this.setFormField(`customer.${FIELDS.BILLING}`, val)
@@ -306,7 +306,7 @@ export class Customer extends React.Component<IProps> {
             autoFillValue={billingAddress}
             icon="map-marker-alt"
             rightIcon="angle-right"
-            placeholder={t('customers.shippingAddress')}
+            placeholder={t('customers.shipping_address')}
             navigation={navigation}
             onChangeCallback={val =>
               this.setFormField(`customer.${FIELDS.SHIPPING}`, val)

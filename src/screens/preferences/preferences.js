@@ -166,15 +166,15 @@ export default class Preferences extends Component<IProps, IStates> {
         <Field
           name="discount_per_item"
           component={ToggleSwitch}
-          hint={t('settings.preferences.discountPerItem')}
-          description={t('settings.preferences.discountPerItemPlaceholder')}
+          hint={t('settings.preferences.discount_per_item')}
+          description={t('settings.preferences.discount_per_item_placeholder')}
         />
 
         <Field
           name="tax_per_item"
           component={ToggleSwitch}
-          hint={t('settings.preferences.taxPerItem')}
-          description={t('settings.preferences.taxPerItemPlaceholder')}
+          hint={t('settings.preferences.tax_per_item')}
+          description={t('settings.preferences.tax_per_item_placeholder')}
           mainContainerStyle={{marginVertical: 12}}
         />
       </DefaultLayout>

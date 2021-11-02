@@ -45,12 +45,12 @@ export class Taxes extends React.Component {
     const {search} = this.state;
 
     const isEmpty = taxTypes && taxTypes.length <= 0;
-    const emptyTitle = search ? 'search.noResult' : 'taxes.empty.title';
+    const emptyTitle = search ? 'search.no_result' : 'taxes.empty.title';
     const emptyContentProps = {
       title: t(emptyTitle, {search}),
       ...(!search && {
         description: t('taxes.empty.description'),
-        buttonTitle: t('taxes.empty.buttonTitle'),
+        buttonTitle: t('taxes.empty.button_title'),
         buttonPress: () => {
           navigation.navigate(routes.TAX, {type: 'ADD'});
         }

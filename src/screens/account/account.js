@@ -135,7 +135,7 @@ export default class Account extends React.Component<IProps, IStates> {
         <Field
           name={'confirmPassword'}
           component={InputField}
-          hint={t('settings.account.confirmPassword')}
+          hint={t('settings.account.confirm_password')}
           secureTextEntry
           refLinkFn={ref => (accountRefs.confirm = ref)}
         />

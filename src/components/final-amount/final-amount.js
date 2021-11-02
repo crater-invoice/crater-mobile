@@ -245,7 +245,7 @@ export const FinalAmount: FC<IProps> = props => {
             bold2={theme?.mode === 'dark'}
             style={{marginTop: 6}}
           >
-            {t('invoices.totalAmount')}:
+            {t('invoices.total_amount')}:
           </Text>
         </View>
         <View style={{marginTop: definePlatformParam(4, 3)}}>

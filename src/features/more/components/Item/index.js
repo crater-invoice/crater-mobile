@@ -74,7 +74,7 @@ export class Item extends React.Component {
     }
 
     if (this.finalAmount() < 0) {
-      alert(t('items.lessAmount'));
+      alert(t('items.less_amount'));
       return;
     }
 
@@ -119,7 +119,7 @@ export class Item extends React.Component {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('items.alertDescription'),
+      desc: t('items.alert_description'),
       showCancel: true,
       okPress: () =>
         removeItem({
@@ -131,8 +131,8 @@ export class Item extends React.Component {
             }
 
             alertMe({
-              title: t('items.alreadyAttachTitle'),
-              desc: t('items.alreadyAttachDescription')
+              title: t('items.already_attach_title'),
+              desc: t('items.already_attach_description')
             });
           }
         })
@@ -222,7 +222,7 @@ export class Item extends React.Component {
         <View style={styles.subContainer}>
           <View>
             <Text gray h5 medium style={{marginTop: 6}}>
-              {t('items.subTotal')}
+              {t('items.subtotal')}
             </Text>
           </View>
           <View style={{marginTop: definePlatformParam(6, 4)}}>
@@ -282,7 +282,7 @@ export class Item extends React.Component {
         <View style={styles.subContainer}>
           <View>
             <Text gray h5 medium style={{marginTop: 6}}>
-              {t('items.finalAmount')}
+              {t('items.final_amount')}
             </Text>
           </View>
           <View style={{marginTop: definePlatformParam(4, 3)}}>
@@ -322,9 +322,9 @@ export class Item extends React.Component {
     let itemRefs = {};
 
     const getTitle = () => {
-      let title = 'header.addItem';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewItem';
-      if (isEditScreen && isAllowToEdit) title = 'header.editItem';
+      let title = 'header.add_item';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_item';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_item';
 
       return t(title);
     };

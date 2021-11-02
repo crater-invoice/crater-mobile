@@ -98,7 +98,7 @@ export class NumberScheme extends Component<IProps> {
       <>
         <Field
           name={numberSchemeField.name}
-          label={t('customizes.numberingScheme.title')}
+          label={t('customizes.numbering_scheme.title')}
           component={BaseDropdownPicker}
           fieldIcon="align-center"
           items={NUMBERING_SCHEME_TYPE}
@@ -131,7 +131,7 @@ export class NumberScheme extends Component<IProps> {
           name={numberLengthField.name}
           component={InputField}
           maxNumber={2}
-          hint={t('customizes.numberLength')}
+          hint={t('customizes.number_length')}
           keyboardType={keyboardType.NUMERIC}
           onChangeText={this.onChangeNumber}
           isRequired
@@ -140,7 +140,7 @@ export class NumberScheme extends Component<IProps> {
         <Field
           name="next_umber"
           component={InputField}
-          hint={t('customizes.nextNumber')}
+          hint={t('customizes.next_number')}
           inputProps={{}}
           meta={{}}
           disabled

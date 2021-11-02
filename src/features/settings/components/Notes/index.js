@@ -58,12 +58,12 @@ export default class Notes extends Component<IProps> {
     const {search} = this.state;
     const isEmpty = notes && notes.length <= 0;
 
-    const emptyTitle = search ? 'search.noResult' : 'notes.empty.title';
+    const emptyTitle = search ? 'search.no_result' : 'notes.empty.title';
     const emptyContentProps = {
       title: t(emptyTitle, {search}),
       ...(!search && {
         description: t('notes.empty.description'),
-        buttonTitle: t('notes.empty.buttonTitle'),
+        buttonTitle: t('notes.empty.button_title'),
         buttonPress: () => {
           navigation.navigate(routes.NOTE, {
             type: 'ADD'

@@ -181,7 +181,7 @@ class SendMailComponent extends Component<IProps> {
         <Field
           name={emailField.from}
           component={InputField}
-          hint={t('sendMail.from')}
+          hint={t('send_mail.from')}
           onSubmitEditing={() => mailRefs.to.focus()}
           keyboardType={keyboardType.EMAIL}
           isRequired
@@ -190,7 +190,7 @@ class SendMailComponent extends Component<IProps> {
         <Field
           name={emailField.to}
           component={InputField}
-          hint={t('sendMail.to')}
+          hint={t('send_mail.to')}
           onSubmitEditing={() => mailRefs.subject.focus()}
           keyboardType={keyboardType.EMAIL}
           refLinkFn={ref => (mailRefs.to = ref)}
@@ -200,7 +200,7 @@ class SendMailComponent extends Component<IProps> {
         <Field
           name={emailField.subject}
           component={InputField}
-          hint={t('sendMail.subject')}
+          hint={t('send_mail.subject')}
           refLinkFn={ref => (mailRefs.subject = ref)}
           isRequired
         />
@@ -208,7 +208,7 @@ class SendMailComponent extends Component<IProps> {
         <Editor
           {...this.props}
           name={emailField.msg}
-          label={'sendMail.body'}
+          label={'send_mail.body'}
           isRequired
           showPreview
         />

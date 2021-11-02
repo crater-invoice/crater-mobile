@@ -280,7 +280,7 @@ export class Payment extends React.Component<IProps> {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('payments.alertDescription'),
+      desc: t('payments.alert_description'),
       showCancel: true,
       okPress: () => removePayment({id, navigation})
     });
@@ -340,8 +340,8 @@ export class Payment extends React.Component<IProps> {
     return (
       <SendMail
         mailReference={ref => (this.sendMailRef = ref)}
-        headerTitle={'header.sendMailPayment'}
-        alertDesc={'payments.alert.sendPayment'}
+        headerTitle={'header.send_mail_payment'}
+        alertDesc={'payments.alert.send_payment'}
         user={this.props.formValues?.payment?.user}
         body="payment_mail_body"
         onSendMail={params => this.sendEmail(params)}
@@ -395,9 +395,9 @@ export class Payment extends React.Component<IProps> {
         : null;
 
     const getTitle = () => {
-      let title = 'header.addPayment';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewPayment';
-      if (isEditScreen && isAllowToEdit) title = 'header.editPayment';
+      let title = 'header.add_payment';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_payment';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_payment';
 
       return t(title);
     };

@@ -1,99 +1,87 @@
 {
   "header": {
     "invoices": "Invoices",
-    "addInvoice": "Add Invoice",
-    "editInvoice": "Edit Invoice",
+    "add_invoice": "Add Invoice",
+    "edit_invoice": "Edit Invoice",
     "recurring_invoices": "Recurring Invoices",
     "recurring_invoice": "Recurring Invoice",
     "add_recurring_invoice": "Add Recurring Invoice",
     "edit_recurring_invoice": "Edit Recurring Invoice",
     "view_recurring_invoice": "View Recurring Invoice",
     "estimates": "Estimates",
-    "addEstimate": "Add Estimate",
-    "editEstimate": "Edit Estimate",
+    "add_estimate": "Add Estimate",
+    "edit_estimate": "Edit Estimate",
     "template": "Select a Template",
     "customers": "Customers",
-    "addCustomer": "Add Customer",
-    "editCustomer": "Edit Customer",
-    "selectCurrency": "Select Currency",
-    "billingAddress": "Billing Address",
-    "shippingAddress": "Shipping Address",
+    "add_customer": "Add Customer",
+    "edit_customer": "Edit Customer",
+    "billing_address": "Billing Address",
+    "shipping_address": "Shipping Address",
     "country": "Select Country",
-    "state": "Select State",
-    "city": "Select City",
     "payments": "Payments",
-    "addPayment": "Add Payment",
-    "editPayment": "Edit Payment",
+    "add_payment": "Add Payment",
+    "edit_payment": "Edit Payment",
     "expenses": "Expenses",
-    "addExpense": "Add Expense",
-    "editExpense": "Edit Expense",
+    "add_expense": "Add Expense",
+    "edit_expense": "Edit Expense",
     "more": "More",
-    "expenseCategory": "Expense Categories",
-    "addCategory": "Add Category",
-    "editCategory": "Edit Category",
-    "addNote": "Add Note",
-    "editNote": "Edit Note",
+    "expense_category": "Expense Categories",
+    "add_category": "Add Category",
+    "edit_category": "Edit Category",
+    "add_note": "Add Note",
+    "edit_note": "Edit Note",
     "settings": "Settings",
     "notifications": "Notification",
     "setting": {
       "company": "Company Information",
       "account": "Account Settings",
-      "preferences": "Preferences",
-      "LanguageAndCurrency": "Language & Currency",
-      "endpoint": "API Endpoint"
+      "preferences": "Preferences"
     },
     "taxes": "Tax Types",
-    "addTaxes": "Add Tax",
-    "editTaxes": "Edit Tax",
-    "addItem": "Add Item",
-    "editItem": "Edit Item",
+    "add_taxes": "Add Tax",
+    "edit_taxes": "Edit Tax",
+    "add_item": "Add Item",
+    "edit_item": "Edit Item",
     "items": "Items",
     "units": "Units",
     "reports": "Reports",
-    "salesReport": "Sales Report",
-    "profitAndLossReport": "Profit & Loss Report",
-    "expensesReport": "Expenses Report",
-    "taxesReport": "Taxes Report",
+    "sales_report": "Sales Report",
+    "profit_and_lossReport": "Profit & Loss Report",
+    "expenses_report": "Expenses Report",
+    "taxes_report": "Taxes Report",
     "customize": "Customization",
     "filter": "Filters",
     "back": "Back",
-    "addresses": "Addresses",
-    "currencies": "Currencies",
-    "addCurrency": "Add Currency",
-    "editCurrency": "Edit Currency",
-    "sendMailInvoice": "Send Invoice",
-    "sendMailEstimate": "Send Estimate",
-    "sendMailPayment": "Send Payment",
-    "recurringInvoice": "Recurring Invoices",
-    "addRecurring": "Add Recurring Invoice",
-    "editRecurring": "Edit Recurring Invoice",
-    "customFields": "Custom Fields",
-    "addCustomField": "Add Custom Field",
-    "editCustomField": "Edit Custom Field",
+    "send_mail_invoice": "Send Invoice",
+    "send_mail_estimate": "Send Estimate",
+    "send_mail_payment": "Send Payment",
+    "custom_fields": "Custom Fields",
+    "add_custom_field": "Add Custom Field",
+    "edit_custom_field": "Edit Custom Field",
     "notes": "Notes",
-    "viewCustomer": "View Customer",
-    "viewPayment": "View Payment",
-    "viewExpense": "View Expense",
-    "viewInvoice": "View Invoice",
-    "viewEstimate": "View Estimate",
-    "viewItem": "View Item",
-    "viewTax": "View Tax",
-    "viewCustomField": "View Custom Field",
-    "viewNote": "View Note",
-    "viewCategory": "View Category",
-    "viewUnit": "View Item Unit",
-    "viewPaymentMode": "View Payment Mode",
-    "addCompany": "Add Company",
+    "view_customer": "View Customer",
+    "view_payment": "View Payment",
+    "view_expense": "View Expense",
+    "view_invoice": "View Invoice",
+    "view_estimate": "View Estimate",
+    "view_item": "View Item",
+    "view_tax": "View Tax",
+    "view_custom_field": "View Custom Field",
+    "view_note": "View Note",
+    "view_category": "View Category",
+    "view_unit": "View Item Unit",
+    "view_payment_mode": "View Payment Mode",
+    "add_company": "Add Company",
     "roles": "Roles and Permission",
-    "addRole": "Add Role",
-    "editRole": "Edit Role",
-    "viewRole": "View Role",
+    "add_role": "Add Role",
+    "edit_role": "Edit Role",
+    "view_role": "View Role",
     "users": "Users",
-    "addUser": "Add User",
-    "editUser": "Edit User",
-    "viewUser": "View User"
+    "add_user": "Add User",
+    "edit_user": "Edit User",
+    "view_user": "View User"
   },
-  "tabNavigation": {
+  "tab_navigation": {
     "invoices": "Invoices",
     "customers": "Customers",
     "payments": "Payments",
@@ -107,59 +95,29 @@
       "draft": "Draft",
       "all": "ALL"
     },
-    "invoiceDate": "Invoice Date",
-    "dueDate": "Due Date",
+    "invoice_date": "Invoice Date",
+    "due_date": "Due Date",
     "discount": "DISCOUNT",
-    "invoiceNumber": "Invoice Number",
-    "referenceNumber": "Reference Number",
+    "invoice_number": "Invoice Number",
+    "reference_number": "Reference Number",
     "template": "Template",
-    "templatePlaceholder": "Select or Add a new Template",
+    "template_placeholder": "Select or Add a new Template",
     "customer": "Customer",
-    "customerPlaceholder": "Select or Add new Customer",
+    "customer_placeholder": "Select or Add new Customer",
     "items": "Items",
-    "unit": "Unit",
-    "addItem": "Add Item",
-    "termsCondition": "Terms and Conditions",
-    "taxPlaceholder": "+ Add Tax",
     "subtotal": "SUBTOTAL",
-    "totalAmount": "TOTAL AMOUNT",
+    "total_amount": "TOTAL AMOUNT",
     "status": "Status",
-    "statusPlaceholder": "Select a Status",
-    "paidStatus": "Paid Status",
-    "paidStatusPlaceholder": "Select a Paid Status",
-    "fromDate": "From Date",
-    "toDate": "To Date",
-    "profileName": "Profile Name",
-    "repeatEvery": "Repeat Every",
-    "repeatRecurring": {
-      "week": "Week",
-      "weeks": "{{week}} Week",
-      "month": "Month",
-      "months": "{{month}} Month",
-      "year": "Year",
-      "years": "{{year}} Year",
-      "custom": "Custom"
-    },
-    "customRepeatRecurring": {
-      "days": "Day(s)",
-      "weeks": "Week(s)",
-      "months": "Month(s)",
-      "years": "Year(s)"
-    },
-    "startOn": "Start On",
-    "endsOn": "Ends On",
-    "neverExpire": "Never Expires",
+    "status_placeholder": "Select a Status",
+    "from_date": "From Date",
+    "to_date": "To Date",
     "alert": {
-      "lessAmount": "Total Amount shouldn't less than 0",
-      "removeDescription": "You will not be able to recover this Invoice",
-      "paymentAttachedTitle": "Action Failed",
-      "paymentAttachedDescription": "Cannot delete an invoice with an existing payment.",
-      "draftTitle": "Save changes?",
-      "alreadyInUseNumber": "The invoice number has already been taken.",
-      "sendEmail": "This invoice will be sent via email to the customer",
+      "less_amount": "Total Amount shouldn't less than 0",
+      "remove_description": "You will not be able to recover this Invoice",
+      "draft_title": "Save changes?",
       "clone": "This invoice will be cloned into a new Invoice",
-      "sendInvoice": "This invoice will be sent via email to the customer",
-      "markAsSent": "This invoice will be marked as sent"
+      "send_invoice": "This invoice will be sent via email to the customer",
+      "mark_as_sent": "This invoice will be marked as sent"
     },
     "empty": {
       "due": {
@@ -175,31 +133,26 @@
       },
       "title": "No invoices yet!",
       "description": "This section will contain the list of invoices.",
-      "buttonTitle": "Add New Invoice"
+      "button_title": "Add New Invoice"
     },
     "actions": {
-      "downloadPdf": "Download PDF",
-      "sendInvoice": "Send Invoice",
-      "reSendInvoice": "Resend Invoice",
-      "editInvoice": "Edit Invoice",
+      "send_invoice": "Send Invoice",
+      "resend_invoice": "Resend Invoice",
       "delete": "Delete",
-      "recordPayment": "Record Payment",
-      "markAsSent": "Mark As Sent",
+      "record_payment": "Record Payment",
+      "mark_as_sent": "Mark As Sent",
       "clone": "Clone Invoice"
     }
   },
   "recurring_invoices": {
     "start_date": "Start Date",
-    "invoice_due_date": "Invoice Due Date",
     "next_invoice_at": "Next Invoice At",
-    "ref_number": "Ref Number",
     "limit_by": "Limit by",
-    "statuses": "Statuses",
     "select_frequency": "Select Frequency",
     "display_frequency": "Frequency",
     "basic_info": "BASIC INFO",
     "invoices": "INVOICES",
-    "text_alert_description": "You will not be able to recover this Recurring Invoice",
+    "alert_description": "You will not be able to recover this Recurring Invoice",
     "from_start_at_date": "From Start At Date",
     "to_start_at_date": "To Start At Date",
     "auto_sent": {
@@ -232,7 +185,7 @@
       },
       "title": "No recurring invoices yet!",
       "description": "This section will contain the list of recurring invoices.",
-      "buttonTitle": "Add New Recurring Invoice"
+      "button_title": "Add New Recurring Invoice"
     },
     "limit_types": {
       "none": "None",
@@ -258,42 +211,34 @@
     }
   },
   "customers": {
-    "displayName": "Display name",
-    "contactName": "Primary Contact Name",
+    "display_name": "Display name",
+    "contact_name": "Primary Contact Name",
     "email": "Email",
-    "name": "Name",
     "phone": "Phone",
     "website": "Website",
-    "currency": "Currency",
-    "billingAddress": "Billing Address",
-    "shippingAddress": "Shipping Address",
+    "billing_address": "Billing Address",
+    "shipping_address": "Shipping Address",
     "customer": "Customer",
-    "company": "Company",
-    "enablePortal": "Enable Portal",
-    "password": "Password",
-    "filterDisplayName": "Display Name",
-    "filterContactName": "Contact Name",
-    "alertEmailAlreadyInUse": "Email already in use",
-    "alertDescription": "You will not be able to recover this Customer",
+    "filter_display_name": "Display Name",
+    "filter_contact_name": "Contact Name",
+    "alert_description": "You will not be able to recover this Customer",
     "address": {
       "name": "Name",
       "country": "Country",
       "state": "State",
       "city": "City",
       "address": "Address",
-      "street1": "Street1",
-      "street2": "Street2",
-      "addressStreet1": "Address Street 1",
-      "addressStreet2": "Address Street 2",
+      "street_1": "Street1",
+      "street_2": "Street2",
       "phone": "Phone",
-      "zipcode": "Zip Code",
-      "sameAs": "Copy from Billing Address"
+      "zip_code": "Zip Code",
+      "same_as": "Copy from Billing Address"
     },
-    "removeCustomer": "Delete",
+    "remove_customer": "Delete",
     "empty": {
       "title": "No customers yet!",
       "description": "This section will contain the list of customers.",
-      "buttonTitle": "Add New Customer",
+      "button_title": "Add New Customer",
       "country": {
         "title": "No Country Available"
       },
@@ -311,61 +256,55 @@
     "date": "Payment Date",
     "number": "Payment Number",
     "customer": "Customer",
-    "customerPlaceholder": "Select or Add new Customer",
     "mode": "Payment Mode",
     "modes": "Payment Modes",
     "prefix": "Payment Prefix",
-    "addMode": "Add Payment Mode",
-    "editMode": "Edit Payment Mode",
-    "modeHint": "Mode Name",
-    "modePlaceholder": "Select Payment Mode",
+    "add_mode": "Add Payment Mode",
+    "edit_mode": "Edit Payment Mode",
+    "mode_hint": "Mode Name",
+    "mode_placeholder": "Select Payment Mode",
     "amount": "Amount",
-    "notesPlaceholder": "Additional notes",
     "invoice": "Invoice",
-    "invoicePlaceholder": "Select Invoice",
-    "sendReceipt": "Send Payment Receipt",
+    "invoice_placeholder": "Select Invoice",
+    "send_receipt": "Send Payment Receipt",
     "alertAmount": "Entered Payment is more than due amount of this invoice.",
-    "alertDescription": "You will not be able to recover this Payment",
-    "alertMode": "You will not be able to recover this Payment Mode",
-    "alreadyInUseMode": "Payment Mode is already in use",
-    "alreadyInUseNumber": "The payment number has already been taken.",
-    "alertSendDescription": "This payment will be sent via email to the customer",
-    "removePayment": "Delete",
+    "alert_description": "You will not be able to recover this Payment",
+    "alert_mode": "You will not be able to recover this Payment Mode",
+    "remove_payment": "Delete",
     "empty": {
       "title": "No payments yet!",
-      "modeTitle": "No payment modes yet!",
+      "mode_title": "No payment modes yet!",
       "description": "This section will contain the list of payments.",
-      "buttonTitle": "Add New Payment"
+      "button_title": "Add New Payment"
     },
     "alert": {
-      "sendPayment": "This payment receipt will be sent via email to the given address"
+      "send_payment": "This payment receipt will be sent via email to the given address"
     }
   },
-  "paymentMode": {
+  "payment_mode": {
     "empty": {
       "title": "No payment modes yet!",
       "description": "This section will contain the list of payment modes.",
-      "buttonTitle": "Add New Payment Mode"
+      "button_title": "Add New Payment Mode"
     }
   },
   "expenses": {
     "receipt": "Receipt",
     "date": "Expense Date",
-    "fromDate": "From Date",
-    "toDate": "To Date",
+    "from_date": "From Date",
+    "to_date": "To Date",
     "amount": "Amount",
     "category": "Category",
-    "categoryPlaceholder": "Select Category",
+    "category_placeholder": "Select Category",
     "notes": "Notes",
-    "notesPlaceholder": "Additional notes",
-    "viewReceipt": "View Receipt",
-    "alertDescription": "You will not be able to recover this Expense",
-    "removeExpense": "Delete",
-    "noCategories": "No categories yet!",
+    "notes_placeholder": "Additional notes",
+    "view_receipt": "View Receipt",
+    "alert_description": "You will not be able to recover this Expense",
+    "remove_expense": "Delete",
     "empty": {
       "title": "No expenses yet!",
       "description": "This section will contain the list of expenses.",
-      "buttonTitle": "Add New Expense"
+      "button_title": "Add New Expense"
     }
   },
   "items": {
@@ -374,33 +313,32 @@
     "description": "Description (optional)",
     "quantity": "Quantity",
     "price": "Price",
-    "subTotal": "SUBTOTAL",
-    "discountType": "Discount Type",
+    "subtotal": "SUBTOTAL",
+    "discount_type": "Discount Type",
     "discount": "Discount",
-    "finalDiscount": "DISCOUNT",
-    "finalAmount": "AMOUNT",
+    "final_discount": "DISCOUNT",
+    "final_amount": "AMOUNT",
     "taxes": "Taxes",
-    "selectTax": "Select or Add New Taxes",
+    "select_tax": "Select or Add New Taxes",
     "unit": "Unit",
-    "unitHint": "Unit Name",
-    "addUnit": "Add Item Unit",
-    "editUnit": "Edit Item Unit",
-    "unitPlaceholder": "Select unit",
-    "alertDescription": "You will not be able to recover this Item",
-    "alertUnit": "You will not be able to recover this Item unit",
-    "alreadyInUseUnit": "Item Unit is already in use",
-    "lessAmount": "Total Amount should't less than 0",
-    "alreadyAttachTitle": "Action Failed",
-    "alreadyAttachDescription": "Cannot delete an item which is already in use",
+    "unit_hint": "Unit Name",
+    "add_hint": "Add Item Unit",
+    "edit_hint": "Edit Item Unit",
+    "unit_placeholder": "Select unit",
+    "alert_description": "You will not be able to recover this Item",
+    "alert_unit": "You will not be able to recover this Item unit",
+    "less_amount": "Total Amount should't less than 0",
+    "already_attach_title": "Action Failed",
+    "already_attach_description": "Cannot delete an item which is already in use",
     "empty": {
       "title": "No items yet!",
       "description": "This section will contain the list of items.",
-      "buttonTitle": "Add New Items"
+      "button_title": "Add New Items"
     }
   },
   "more": {
     "estimate": "Estimates",
-    "recurringInvoice": "Recurring Invoices",
+    "recurring_invoice": "Recurring Invoices",
     "items": "Items",
     "reports": "Reports",
     "settings": "Settings",
@@ -410,102 +348,90 @@
   "categories": {
     "title": "Category Name",
     "description": "Description",
-    "alertDescription": "You will not be able to recover this Category",
-    "alreadyUsed": "Category already in use",
+    "alert_description": "You will not be able to recover this Category",
     "empty": {
       "title": "No categories yet!",
       "description": "This section will contain the list of categories.",
-      "buttonTitle": "Add New Category"
+      "button_title": "Add New Category"
     }
   },
   "notes": {
     "notes": "Notes",
     "title": "Note Name",
     "description": "Description",
-    "model": "Model",
-    "modelPlaceholder": "Select a Type",
-    "alertDescription": "You will not be able to recover this Note",
-    "alreadyUsed": "Note already in use",
+    "model_placeholder": "Select a Type",
+    "alert_description": "You will not be able to recover this Note",
     "empty": {
       "title": "No notes yet!",
       "description": "This section will contain the list of notes.",
-      "buttonTitle": "Add New Note"
+      "button_title": "Add New Note"
     },
     "placeholder": {
-      "Invoice": "Additional notes visible on Invoice",
-      "RecurringInvoices": "Additional notes visible on recurring invoice",
-      "Estimate": "Additional notes visible on estimate",
-      "Payment": "Additional notes visible on payment"
+      "invoice": "Additional notes visible on Invoice",
+      "estimate": "Additional notes visible on estimate",
+      "payment": "Additional notes visible on payment"
     },
     "type": "Note Type",
     "select": "Select a Note",
-    "insertNote": "+ Insert Note",
-    "insertFields": "+ Insert Fields"
+    "insert_note": "+ Insert Note",
+    "insert_fields": "+ Insert Fields"
   },
   "units": {
     "empty": {
       "title": "No units yet!",
       "description": "This section will contain the list of item units.",
-      "buttonTitle": "Add New Item Unit"
+      "button_title": "Add New Item Unit"
     }
   },
   "settings": {
-    "accountSettings": "Account settings",
-    "companyInformation": "Company Info",
+    "account_settings": "Account settings",
+    "company_information": "Company Info",
     "preference": "Preferences",
-    "LanguageAndCurrency": "Language & Currency",
     "notification": "Notifications",
     "taxes": "Tax Types",
-    "expenseCategory": "Expense Categories",
+    "expense_category": "Expense Categories",
     "customize": "Customization",
-    "touchOrFaceId": "Touch / Face ID",
+    "touch_or_Face_id": "Touch / Face ID",
     "endpoint": "API Endpoint",
     "company": {
       "name": "Company Name",
-      "email": "Email",
       "phone": "Phone",
       "address": "Address",
-      "street1": "Street1",
-      "street2": "Street2",
-      "zipcode": "Zip Code",
-      "website": "Website",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "zip_code": "Zip Code",
       "logo": "Company Logo"
     },
     "account": {
       "name": "Name",
       "email": "Email",
       "password": "Password",
-      "confirmPassword": "Confirm Password",
-      "version": "Version",
-      "avatar": "Profile Picture"
+      "confirm_password": "Confirm Password",
+      "version": "Version"
     },
     "notifications": {
       "send": "Send Notifications To",
-      "invoiceViewed": "Invoice Viewed",
-      "invoiceViewedUpdated": "Notification setting updated successfully",
-      "invoiceViewedDescription": "When your customer views the invoice link sent via email.",
-      "estimateViewed": "Estimate Viewed",
-      "estimateViewedDescription": "When your customer views the estimate link sent via email.",
-      "estimateViewedUpdated": "Notification setting updated successfully"
+      "invoice_viewed": "Invoice Viewed",
+      "invoice_viewed_description": "When your customer views the invoice link sent via email.",
+      "estimate_viewed": "Estimate Viewed",
+      "estimate_viewed_description": "When your customer views the estimate link sent via email."
     },
     "preferences": {
       "currency": "Currency",
-      "currencyPlaceholder": "Select Currency",
+      "currency_placeholder": "Select Currency",
       "language": "Default Language",
-      "languagePlaceholder": "Select Language",
-      "timeZone": "Time Zone",
-      "timeZonePlaceholder": "Select Time Zone",
-      "dateFormat": "Date Format",
-      "dateFormatPlaceholder": "Select Date Format",
-      "fiscalYear": "Financial Year",
-      "retrospectiveEdits": "Disable Retrospective Edits",
-      "fiscalYearPlaceholder": "Select Financial Year",
-      "discountSetting": "Discount Setting",
-      "discountPerItem": "Discount Per Item",
-      "discountPerItemPlaceholder": "Enable this if you want to add Discount to individual invoice items. By default, Discount are added directly to the invoice.",
-      "taxPerItem": "Tax Per Item",
-      "taxPerItemPlaceholder": "Enable this if you want to add Tax to individual invoice items. By default, Tax are added directly to the invoice.",
-      "settingUpdate": "Setting updated successfully"
+      "language_placeholder": "Select Language",
+      "time_zone": "Time Zone",
+      "time_zone_placeholder": "Select Time Zone",
+      "date_format": "Date Format",
+      "date_format_placeholder": "Select Date Format",
+      "fiscal_year": "Financial Year",
+      "fiscal_year_placeholder": "Select Financial Year",
+      "discount_per_item": "Discount Per Item",
+      "discount_per_item_placeholder": "Enable this if you want to add Discount to individual invoice items. By default, Discount are added directly to the invoice.",
+      "tax_per_item": "Tax Per Item",
+      "tax_per_item_placeholder": "Enable this if you want to add Tax to individual invoice items. By default, Tax are added directly to the invoice.",
+      "retrospective_edits": "Disable Retrospective Edits"
     },
     "notes": "Notes"
   },
@@ -519,25 +445,24 @@
     "title": "Logout"
   },
   "forgot": {
-    "emailLabel": "Enter your email and we will send you reset password link",
-    "emailPlaceholder": "Enter Your Email",
-    "emailSendTitle": "Check Your Email",
-    "emailSendDescription": "A Password reset link has been sent to your email, Please follow the instructions on the email to create a new password.",
-    "emailSendError": "Email could not be sent to this email address."
+    "email_label": "Enter your email and we will send you reset password link",
+    "email_placeholder": "Enter Your Email",
+    "email_send_description": "A Password reset link has been sent to your email, Please follow the instructions on the email to create a new password.",
+    "email_send_error": "Email could not be sent to this email address."
   },
-  "lostInternet": {
+  "lost_internet": {
     "title": "Connection Lost",
     "description": "Please check your mobile or Wifi settings to verify your internet connectivity and then try again."
   },
-  "updateApp": {
+  "update_app": {
     "title": "App Version Expired!",
     "description": "This version of the app is out of date. Please install the latest update to keep using Crater."
   },
   "endpoint": {
-    "endpointURL": "Endpoint URL",
-    "endpointDesc": "Above URL will be used to connect with your self-hosted installation of crater.",
-    "urlPlaceHolder": "Eg: https://craterapp.com",
-    "alertInvalidUrl": "Invalid URL"
+    "endpoint_url": "Endpoint URL",
+    "endpoint_desc": "Above URL will be used to connect with your self-hosted installation of crater.",
+    "url_placeholder": "Eg: https://craterapp.com",
+    "alert_invalid_url": "Invalid URL"
   },
   "estimates": {
     "tabs": {
@@ -545,35 +470,29 @@
       "draft": "Draft",
       "all": "All"
     },
-    "estimateDate": "Estimate Date",
-    "expiryDate": "Expiry Date",
-    "discount": "DISCOUNT",
-    "estimateNumber": "Estimate Number",
+    "estimate_date": "Estimate Date",
+    "expiry_date": "Expiry Date",
+    "estimate_number": "Estimate Number",
     "template": "Template",
-    "templatePlaceholder": "Select or Add a new Template",
+    "template_placeholder": "Select or Add a new Template",
     "customer": "Customer",
-    "customerPlaceholder": "Select or Add new Customer",
-    "items": "Items",
-    "unit": "Unit",
-    "taxPlaceholder": "+ Add Tax",
-    "addItem": "Add Item",
-    "fromDate": "From Date",
-    "toDate": "To Date",
+    "customer_placeholder": "Select or Add new Customer",
+    "tax_placeholder": "+ Add Tax",
+    "add_item": "Add Item",
+    "from_date": "From Date",
+    "to_date": "To Date",
     "status": "Status",
-    "statusPlaceholder": "Select a Status",
-    "subtotal": "SUBTOTAL",
-    "tax": "TAX",
-    "totalAmount": "TOTAL AMOUNT",
+    "status_placeholder": "Select a Status",
+    "total_amount": "TOTAL AMOUNT",
     "alert": {
-      "convertToInvoiceDescription": "Are you sure you want to convert this Estimate into an Invoice?",
-      "removeDescription": "You will not be able to recover this Estimate",
-      "lessAmount": "Total Amount should't less than 0",
-      "draftTitle": "Save changes?",
-      "alreadyInUseNumber": "The estimate number has already been taken.",
-      "sendEstimate": "This estimate will be sent via email to the customer",
-      "markAsSent": "This estimate will be marked as sent",
-      "markAsAccept": "This estimate will be marked as Accepted",
-      "markAsReject": "This estimate will be marked as Rejected"
+      "convert_to_invoice_description": "Are you sure you want to convert this Estimate into an Invoice?",
+      "remove_description": "You will not be able to recover this Estimate",
+      "less_amount": "Total Amount should't less than 0",
+      "draft_title": "Save changes?",
+      "send_estimate": "This estimate will be sent via email to the customer",
+      "mark_as_sent": "This estimate will be marked as sent",
+      "mark_as_accept": "This estimate will be marked as Accepted",
+      "mark_as_reject": "This estimate will be marked as Rejected"
     },
     "empty": {
       "sent": {
@@ -588,62 +507,46 @@
         "title": "You haven't created any estimates",
         "description": "This section will contain the list of estimates."
       },
-      "buttonTitle": "Add New Estimate"
+      "button_title": "Add New Estimate"
     },
     "actions": {
-      "downloadPdf": "Download PDF",
-      "sendEstimate": "Send Estimate",
-      "reSendEstimate": "Resend Estimate",
-      "editEstimate": "Edit Estimate",
+      "send_estimate": "Send Estimate",
+      "resend_estimate": "Resend Estimate",
       "delete": "Delete",
-      "convertToInvoice": "Convert To Invoice",
-      "markAsSent": "Mark As Sent",
-      "markAsAccepted": "Mark As Accepted",
-      "markAsRejected": "Mark As Rejected"
+      "convert_to_invoice": "Convert To Invoice",
+      "mark_as_sent": "Mark As Sent",
+      "mark_as_accepted": "Mark As Accepted",
+      "mark_as_rejected": "Mark As Rejected"
     }
   },
   "currencies": {
     "name": "Name",
-    "code": "Code",
-    "symbol": "Symbol",
-    "precision": "Precision",
-    "thousSeparator": "Thousand Separator",
-    "decSeparator": "Decimal Separator",
-    "position": "Position",
-    "left": "Left",
-    "right": "Right",
-    "title": "Select Currency",
-    "alertDescription": "You will not be able to recover this Currency",
     "empty": {
       "title": "No currencies yet!",
       "description": "This section will contain the list of currencies.",
-      "buttonTitle": "Add New Currency"
+      "button_title": "Add New Currency"
     }
   },
-  "customFields": {
+  "custom_fields": {
     "name": "Name",
     "model": "Model",
-    "modelPlaceholder": "Select an Model",
+    "model_placeholder": "Select an Model",
     "type": "Type",
-    "typePlaceholder": "Select an Type",
-    "select": "Select Option",
+    "type_placeholder": "Select an Type",
     "required": "Required",
     "label": "Label",
-    "defaultValue": "Default Value",
-    "displayInPortal": "Display in portal",
+    "default_value": "Default Value",
+    "display_in_Portal": "Display in portal",
     "placeholder": "Placeholder",
     "order": "Order",
     "yes": "Yes",
     "no": "No",
-    "help": "Help Text",
-    "helpText": "Enter some text to help users understand the purpose of this custom field.",
     "check": "Ticked by default",
-    "removeAlertDescription": "You will not be able to recover this Custom Field",
-    "alreadyUsed": "Custom Field is already in use",
+    "remove_alert_description": "You will not be able to recover this Custom Field",
     "empty": {
       "title": "No custom fields yet!",
       "description": "This section will contain the list of custom fields.",
-      "buttonTitle": "Add New Custom Field"
+      "button_title": "Add New Custom Field"
     }
   },
   "languages": {
@@ -653,28 +556,28 @@
       "description": "This section will contain the list of Languages."
     }
   },
-  "timeZones": {
+  "time_zones": {
     "title": "Select TimeZone",
     "empty": {
       "title": "No TimeZones yet!",
       "description": "This section will contain the list of Timezones."
     }
   },
-  "dateFormats": {
+  "date_formats": {
     "title": "Select Date Format",
     "empty": {
       "title": "No date formats yet!",
       "description": "This section will contain the list of Date Formats."
     }
   },
-  "fiscalYears": {
+  "fiscal_years": {
     "title": "Select financial year",
     "empty": {
       "title": "No Financial Years yet!",
       "description": "This section will contain the list of Financial Years."
     }
   },
-  "retrospectiveEdits": {
+  "retrospective_edits": {
     "title": "Select Retrospective Edits",
     "empty": {
       "title": "No Retrospective Edits!",
@@ -689,28 +592,28 @@
   },
   "reports": {
     "sales": "Sales",
-    "profitAndLoss": "Profit & Loss",
+    "profit_and_loss": "Profit & Loss",
     "expenses": "Expenses",
     "taxes": "Taxes",
-    "dateRange": "Select Date Range",
-    "fromDate": "From Date",
-    "toDate": "To Date",
-    "reportType": "Report Type",
-    "byCustomer": "By Customer",
-    "byItem": "By Item",
+    "date_range": "Select Date Range",
+    "from_date": "From Date",
+    "to_date": "To Date",
+    "report_type": "Report Type",
+    "by_customer": "By Customer",
+    "by_item": "By Item",
     "today": "Today",
-    "thisWeek": "This Week",
-    "thisMonth": "This Month",
-    "thisQuarter": "This Quarter",
-    "thisYear": "This Year",
-    "currentFiscalQuarter": "Current Fiscal Quarter",
-    "currentFiscalYear": "Current Fiscal Year",
-    "previousWeek": "Previous Week",
-    "previousMonth": "Previous Month",
-    "previousQuarter": "Previous Quarter",
-    "previousYear": "Previous Year",
-    "previousFiscalQuarter": "Previous Fiscal Quarter",
-    "previousFiscalYear": "Previous Fiscal Year",
+    "this_week": "This Week",
+    "this_month": "This Month",
+    "this_quarter": "This Quarter",
+    "this_year": "This Year",
+    "current_fiscal_quarter": "Current Fiscal Quarter",
+    "current_fiscal_year": "Current Fiscal Year",
+    "previous_week": "Previous Week",
+    "previous_month": "Previous Month",
+    "previous_quarter": "Previous Quarter",
+    "previous_year": "Previous Year",
+    "previous_fiscal_quarter": "Previous Fiscal Quarter",
+    "previous_fiscal_year": "Previous Fiscal Year",
     "custom": "Custom"
   },
   "taxes": {
@@ -718,57 +621,53 @@
     "type": "Tax Name",
     "description": "Description",
     "percentage": "Tax Percentage",
-    "compoundTax": "Compound Tax",
-    "alertDescription": "You will not be able to recover this Tax",
-    "alreadyUsed": "Tax already in use",
+    "compound_tax": "Compound Tax",
+    "alert_description": "You will not be able to recover this Tax",
     "empty": {
       "title": "No Tax Types yet!",
       "description": "This section will contain the list of Tax Types.",
-      "buttonTitle": "Add Tax Type"
+      "button_title": "Add Tax Type"
     }
   },
   "customizes": {
-    "numberLabel": {
+    "number_label": {
       "invoice": "Invoice Number",
-      "estimate": "Estimate Number",
-      "payment": "Payment Number"
+      "estimate": "Estimate Number"
     },
     "prefix": "Prefix",
     "separator": "Separator",
-    "numberLength": "Number Length",
-    "nextNumber": "Next Number",
-    "numberingScheme": {
+    "number_length": "Number Length",
+    "next_number": "Next Number",
+    "numbering_scheme": {
       "title": "Numbering Scheme",
       "customer_level": "Sequentially for each customer",
       "company_level": "Sequentially across each company"
     },
-    "dueDate": {
-      "title": "Due Date",
-      "switchLabel": "Set Due Date Automatically",
+    "due_date": {
+      "switch_label": "Set Due Date Automatically",
       "description": "Enable this if you wish to set due date automatically when you create a new invoice.",
-      "inputLabel": "Invoice Due After Days"
+      "input_label": "Invoice Due After Days"
     },
-    "expDate": {
-      "title": "Expiry Date",
-      "switchLabel": "Set Expiry Date Automatically",
+    "exp_date": {
+      "switch_label": "Set Expiry Date Automatically",
       "description": "Enable this if you wish to set expiry date automatically when you create a new estimate.",
-      "inputLabel": "Estimate Expires After Days"
+      "input_label": "Estimate Expires After Days"
     },
-    "autoGenerate": {
+    "auto_generate": {
       "invoice": "Auto Generate Invoice Number",
-      "invoiceDescription": "Disable this, If you don't wish to auto-generate invoice numbers when creating a new invoice.",
+      "invoice_description": "Disable this, If you don't wish to auto-generate invoice numbers when creating a new invoice.",
       "estimate": "Auto Generate Estimate Number",
-      "estimateDescription": "Disable this, If you don't wish to auto-generate estimate numbers when creating a new estimate.",
+      "estimate_description": "Disable this, If you don't wish to auto-generate estimate numbers when creating a new estimate.",
       "payment": "Auto Generate Payment Number",
-      "paymentDescription": "Disable this, If you don't wish to auto-generate payment numbers when creating a new payment."
+      "payment_description": "Disable this, If you don't wish to auto-generate payment numbers when creating a new payment."
     },
-    "emailAttachment": {
+    "email_attachment": {
       "invoice": "Send Invoices As Attachments",
-      "invoiceDescription": "Enable this if you want to send invoices as email attachment. Please note that 'View Invoice' button in emails will not be displayed anymore when enabled.",
+      "invoice_description": "Enable this if you want to send invoices as email attachment. Please note that 'View Invoice' button in emails will not be displayed anymore when enabled.",
       "estimate": "Send Estimates As Attachments",
-      "estimateDescription": "Enable this if you want to send the estimates as an email attachment. Please note that 'View Estimate' button in emails will not be displayed anymore when enabled.",
+      "estimate_description": "Enable this if you want to send the estimates as an email attachment. Please note that 'View Estimate' button in emails will not be displayed anymore when enabled.",
       "payment": "Send Payments As Attachments",
-      "paymentDescription": "Enable this if you want to send the payment receipts as an email attachment. Please note that 'View Payment' button in emails will not be displayed anymore when enabled."
+      "payment_description": "Enable this if you want to send the payment receipts as an email attachment. Please note that 'View Payment' button in emails will not be displayed anymore when enabled."
     },
     "setting": {
       "invoice": "Invoice Settings",
@@ -779,155 +678,125 @@
       "billing": "Billing Address Format",
       "shipping": "Shipping Address Format",
       "company": "Company Address Format",
-      "insertFields": "Insert Fields",
-      "contact": "CONTACT",
-      "address": "ADDRESS",
-      "sendInvoiceEmailBody": "Send Invoice Email Body",
-      "sendEstimateEmailBody": "Send Estimate Email Body",
-      "sendPaymentEmailBody": "Send Payment Email Body",
-      "customerAddress": "From Customer Address Format"
+      "send_invoice_email_body": "Send Invoice Email Body",
+      "send_estimate_email_body": "Send Estimate Email Body",
+      "send_payment_email_body": "Send Payment Email Body",
+      "customer_address": "From Customer Address Format"
     }
   },
-  "touchFaceId": {
-    "touchId": "Touch ID",
-    "faceId": "Face ID",
+  "touch_face_id": {
+    "touch_id": "Touch ID",
+    "face_id": "Face ID",
     "finger": "Fingerprint",
     "face": "Face",
-    "notCompatible": "Your device is not compatible.",
-    "hardwareNotAvailable": "{{type}} HardWare not Available.",
+    "not_compatible": "Your device is not compatible.",
+    "hardware_not_available": "{{type}} HardWare not Available.",
     "activated": "{{type}} activated",
-    "enableLogin": "{{type}} Login",
-    "enableLoginHint": "You can now use {{type}} to access your account faster and easier.",
-    "subTitle1": "Authenticate using app's",
-    "subTitle2": "{{type}} instead of entering your password.",
+    "enable_login": "{{type}} Login",
+    "enable_login_hint": "You can now use {{type}} to access your account faster and easier.",
+    "subtitle_1": "Authenticate using app's",
+    "subtitle_2": "{{type}} instead of entering your password.",
     "login": "Log in with {{type}}"
   },
-  "filePicker": {
+  "file_picker": {
     "file": "Click here to choose a file",
     "permission": "Sorry, we need camera roll permissions to make this work!",
     "camera": "Camera",
     "gallery": "Gallery",
     "document": "Document"
   },
-  "sendMail": {
+  "send_mail": {
     "from": "From",
     "to": "To",
     "subject": "Subject",
-    "body": "Body",
-    "sendEmailToast": "Email Send Successfully"
+    "body": "Body"
   },
   "alert": {
     "title": "Are you sure?",
-    "exit": "Are you sure want to exit?",
-    "alreadyInUse": "{{field}} already in use",
     "action": {
       "discard": "Discard",
-      "saveAsDraft": "Save As Draft",
-      "emailNotExist": "User email does not exist"
-    },
-    "requiredFields": "Required fields is empty"
-  },
-  "termsCondition": {
-    "title": "Terms & Conditions",
-    "show": "Show terms and conditions on PDF?",
-    "edit": "Edit Terms and Conditions",
-    "description": "Check if you wanted to show Terms and Conditions on the PDF."
+      "save_as_draft": "Save As Draft"
+    }
   },
   "button": {
     "remove": "Remove",
     "save": "Save",
     "add": "Add",
-    "edit": "Edit",
     "retry": "Retry",
     "done": "Done",
-    "skip": "Skip",
     "clear": "Clear",
-    "viewPdf": "View PDF",
-    "singIn": "Sign in",
-    "singInGoogle": "Sign in with google",
+    "view_pdf": "View PDF",
+    "sing_in": "Sign in",
     "forget": "Forgot Password?",
     "update": "Update",
-    "updateCapital": "UPDATE",
-    "chooseTemplate": "Choose Template",
-    "generateReport": " Generate Report",
-    "recoveryEmail": "Send reset link",
-    "recoveryEmailAgain": "Send Again",
+    "update_capital": "UPDATE",
+    "choose_template": "Choose Template",
+    "generate_report": " Generate Report",
+    "recovery_email": "Send reset link",
+    "recovery_email_again": "Send Again",
     "cancel": "Cancel",
     "send": "Send",
     "change": "Change",
-    "setUpNow": "Set up now",
+    "set_up_now": "Set up now",
     "later": "Will do it later"
   },
   "filter": {
     "empty": {
-      "filterTitle": "No Results found"
+      "filter_title": "No Results found"
     }
   },
   "search": {
     "title": "Search",
-    "noResult": "No results for \"{{search}}\"",
-    "noSearchResult": "No results for"
-  },
-  "toast": {
-    "send_invoice_successfully": "Invoice sent successfully",
-    "send_payment_successfully": "Payment sent successfully",
-    "send_estimate_successfully": "Estimate sent successfully"
+    "no_result": "No results for \"{{search}}\"",
+    "no_search_result": "No results for"
   },
   "validation": {
-    "Customer": "Customer",
-    "Invoice": "Invoice",
     "required": "Required field is empty",
     "field": "Required field is empty",
     "choose": "Choose at least one item",
     "email": "Please enter a valid email address",
-    "passwordCompare": "Passwords do not match",
-    "minimumNumber": "must be greater than 0",
-    "maximumNumber": "must be less than {{maxNumber}}",
-    "maximumCharacter": "{{fieldName}} must be less than {{maxCharacter}} characters.",
+    "password_compare": "Passwords do not match",
+    "minimum_number": "must be greater than 0",
+    "maximum_number": "must be less than {{maxNumber}}",
+    "maximum_character": "{{fieldName}} must be less than {{maxCharacter}} characters.",
     "character": "Characters Only",
     "numeric": "must be numeric",
-    "moreThanDue": "{{hint}} Should not be more than Due Amount.",
+    "more_than_due": "{{hint}} Should not be more than Due Amount.",
     "url": "Invalid url (eg: https://craterapp.com)",
     "wrong": "Something went wrong. Please, try again.",
-    "alreadyTaken": "ALREADY TAKEN",
-    "minCharacter": "Please enter at least {{minCharacter}} characters",
+    "min_character": "Please enter at least {{minCharacter}} characters",
     "cron": "Please enter a valid cron format."
   },
   "company": {
-    "text_switch_company": "SWITCH COMPANY",
-    "text_add_new_company": "Add New Company",
-    "text_already_used": "Company already in use",
-    "text_alert_description": "You will not be able to recover this Company"
+    "switch_company": "SWITCH COMPANY",
+    "add_new_company": "Add New Company"
   },
   "roles": {
-    "text_add_new_role": "Add New Role",
-    "text_already_used": "Role already in use",
-    "text_alert_description": "You will not be able to recover this Role",
+    "add_new_role": "Add New Role",
+    "alert_description": "You will not be able to recover this Role",
     "empty": {
       "title": "No roles yet!",
       "description": "This section will contain the list of roles."
     },
-    "text_name": "Name",
-    "text_permissions": "Permissions",
+    "name": "Name",
+    "permissions": "Permissions",
     "select_all": "Select All",
     "none": "None"
   },
   "users": {
-    "text_add_new_user": "Add New User",
-    "text_already_used": "User already in use",
-    "text_alert_description": "You will not be able to recover this User",
+    "add_new_user": "Add New User",
+    "alert_description": "You will not be able to recover this User",
     "empty": {
       "title": "No users yet!",
       "description": "This section will contain the list of users."
     },
-    "text_name": "Name",
+    "name": "Name",
     "email": "Email",
     "phone": "Phone",
     "password": "Password",
     "role": "Role",
     "roles": "Roles",
-    "rolePlaceholder": "Select Role",
-    "text_permissions": "Permissions"
+    "role_placeholder": "Select Role"
   },
   "notification": {
     "success": "Success!",

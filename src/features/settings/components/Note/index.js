@@ -87,7 +87,7 @@ export default class Note extends React.Component<IProps> {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('notes.alertDescription'),
+      desc: t('notes.alert_description'),
       showCancel: true,
       okPress: () => removeNote({id, navigation})
     });
@@ -120,9 +120,9 @@ export default class Note extends React.Component<IProps> {
     const types = this.getCustomFieldTypes();
 
     const getTitle = () => {
-      let title = 'header.addNote';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewNote';
-      if (isEditScreen && isAllowToEdit) title = 'header.editNote';
+      let title = 'header.add_note';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_note';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_note';
 
       return t(title);
     };
@@ -175,7 +175,7 @@ export default class Note extends React.Component<IProps> {
           fieldIcon="align-center"
           items={MODAL_TYPES}
           defaultPickerOptions={{
-            label: t('notes.modelPlaceholder'),
+            label: t('notes.model_placeholder'),
             value: ''
           }}
           isRequired

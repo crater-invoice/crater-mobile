@@ -51,7 +51,7 @@ export class LostConnection extends Component {
             style={styles.title}
             color={theme?.text?.secondaryColor}
           >
-            {t('lostInternet.title')}
+            {t('lost_internet.title')}
           </Text>
           <AssetSvg name={LostConnectionIcon} width={`100%`} height={`25%`} />
           <Text
@@ -60,7 +60,7 @@ export class LostConnection extends Component {
             style={styles.description}
             color={theme?.text?.thirdColor}
           >
-            {t('lostInternet.description')}
+            {t('lost_internet.description')}
           </Text>
           <BaseButton
             type="primary-gradient"

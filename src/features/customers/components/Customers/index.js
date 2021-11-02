@@ -86,9 +86,9 @@ export class Customers extends React.Component<IProps> {
     const isFilter = isFilterApply(formValues);
 
     const emptyTitle = search
-      ? 'search.noResult'
+      ? 'search.no_result'
       : isFilter
-      ? 'filter.empty.filterTitle'
+      ? 'filter.empty.filter_title'
       : 'customers.empty.title';
 
     const emptyContentProps = {
@@ -99,7 +99,7 @@ export class Customers extends React.Component<IProps> {
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('customers.empty.buttonTitle'),
+          buttonTitle: t('customers.empty.button_title'),
           buttonPress: () => {
             navigation.navigate(routes.CUSTOMER, {
               type: 'ADD'

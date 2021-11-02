@@ -129,14 +129,14 @@ export default class CustomizePayment extends Component<IProps, IStates> {
         <Field
           name={'payment_auto_generate'}
           component={ToggleSwitch}
-          hint={t('customizes.autoGenerate.payment')}
-          description={t('customizes.autoGenerate.paymentDescription')}
+          hint={t('customizes.auto_generate.payment')}
+          description={t('customizes.auto_generate.payment_description')}
         />
         <Field
           name={'payment_email_attachment'}
           component={ToggleSwitch}
-          hint={t('customizes.emailAttachment.payment')}
-          description={t('customizes.emailAttachment.paymentDescription')}
+          hint={t('customizes.email_attachment.payment')}
+          description={t('customizes.email_attachment.payment_description')}
         />
       </ScrollView>
     );
@@ -151,7 +151,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
           {...this.props}
           types={email}
           name={'payment_mail_body'}
-          label={'customizes.addresses.sendPaymentEmailBody'}
+          label={'customizes.addresses.send_payment_email_body'}
           showPreview
         />
 
@@ -167,7 +167,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
           {...this.props}
           types={customer}
           name={'payment_from_customer_address_format'}
-          label={'customizes.addresses.customerAddress'}
+          label={'customizes.addresses.customer_address'}
           showPreview
         />
       </>

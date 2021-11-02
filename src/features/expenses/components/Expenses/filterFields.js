@@ -49,12 +49,12 @@ export default expenseFilterFields = ({props, setFormField}) => {
       displayName: 'name',
       label: t('expenses.category'),
       icon: 'align-center',
-      placeholder: t('expenses.categoryPlaceholder'),
+      placeholder: t('expenses.category_placeholder'),
       navigation: navigation,
       compareField: 'id',
       onSelect: item => setFormField('expense_category_id', item.id),
       headerProps: {
-        title: t('expenses.categoryPlaceholder'),
+        title: t('expenses.category_placeholder'),
         rightIconPress: null
       },
       emptyContentProps: {
@@ -66,7 +66,7 @@ export default expenseFilterFields = ({props, setFormField}) => {
   const datePickerFields = [
     {
       name: 'from_date',
-      label: t('expenses.fromDate'),
+      label: t('expenses.from_date'),
       onChangeCallback: (formDate, displayDate) => {
         (selectedFromDate = displayDate), (selectedFromDateValue = formDate);
       },
@@ -75,7 +75,7 @@ export default expenseFilterFields = ({props, setFormField}) => {
     },
     {
       name: 'to_date',
-      label: t('expenses.toDate'),
+      label: t('expenses.to_date'),
       onChangeCallback: (formDate, displayDate) => {
         (selectedToDate = displayDate), (selectedToDateValue = formDate);
       },

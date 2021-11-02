@@ -64,7 +64,7 @@ export const TaxSelectModal = (props: IProps) => {
                     style={{flex: 0.5}}
                   >
                     <Text right medium h4 color={theme?.viewLabel?.thirdColor}>
-                      {t('estimates.taxPlaceholder')}
+                      {t('estimates.tax_placeholder')}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -72,7 +72,7 @@ export const TaxSelectModal = (props: IProps) => {
             }
           : {
               label: t('items.taxes'),
-              placeholder: t('items.selectTax'),
+              placeholder: t('items.select_tax'),
               icon: 'percent',
               leftIconProps: {
                 size: 14,

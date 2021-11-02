@@ -118,8 +118,8 @@ export class Notification extends React.Component<IProps> {
           name="notify_invoice_viewed"
           component={ToggleSwitch}
           status={invoiceStatus === 'YES' ? true : false}
-          hint={t('settings.notifications.invoiceViewed')}
-          description={t('settings.notifications.invoiceViewedDescription')}
+          hint={t('settings.notifications.invoice_viewed')}
+          description={t('settings.notifications.invoice_viewed_description')}
           onChangeCallback={val => this.invoiceStatus(val)}
         />
 
@@ -127,8 +127,8 @@ export class Notification extends React.Component<IProps> {
           name="notify_estimate_viewed"
           component={ToggleSwitch}
           status={estimateStatus === 'YES' ? true : false}
-          hint={t('settings.notifications.estimateViewed')}
-          description={t('settings.notifications.estimateViewedDescription')}
+          hint={t('settings.notifications.estimate_viewed')}
+          description={t('settings.notifications.estimate_viewed_description')}
           onChangeCallback={val => this.estimateStatus(val)}
           mainContainerStyle={{marginTop: 12}}
         />

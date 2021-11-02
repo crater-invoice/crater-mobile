@@ -137,9 +137,9 @@ export default class Estimates extends React.Component<IProps, IStates> {
     }
 
     const emptyTitle = search
-      ? 'search.noResult'
+      ? 'search.no_result'
       : isFilter
-      ? 'filter.empty.filterTitle'
+      ? 'filter.empty.filter_title'
       : `estimates.empty.${type}.title`;
 
     return {
@@ -150,7 +150,7 @@ export default class Estimates extends React.Component<IProps, IStates> {
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('estimates.empty.buttonTitle'),
+          buttonTitle: t('estimates.empty.button_title'),
           buttonPress: () => this.onAddEstimate()
         })
     };

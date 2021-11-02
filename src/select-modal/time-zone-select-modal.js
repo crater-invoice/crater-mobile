@@ -14,14 +14,14 @@ export const TimeZoneSelectModal = (props: IProps) => (
     {...props}
     items={props?.timezones ?? []}
     displayName="key"
-    label={t('settings.preferences.timeZone')}
-    placeholder={t('settings.preferences.timeZonePlaceholder')}
+    label={t('settings.preferences.time_zone')}
+    placeholder={t('settings.preferences.time_zone_placeholder')}
     icon="clock"
     rightIcon="angle-right"
     searchFields={['key']}
     compareField="value"
-    headerProps={{title: t('timeZones.title'), rightIconPress: null}}
-    emptyContentProps={{contentType: 'timeZones'}}
+    headerProps={{title: t('time_zones.title'), rightIconPress: null}}
+    emptyContentProps={{contentType: 'time_zones'}}
     isRequired
   />
 );

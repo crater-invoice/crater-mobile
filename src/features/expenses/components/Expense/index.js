@@ -170,7 +170,7 @@ export class Expense extends React.Component<IProps, IState> {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('expenses.alertDescription'),
+      desc: t('expenses.alert_description'),
       showCancel: true,
       okPress: () =>
         removeExpense({
@@ -268,9 +268,9 @@ export class Expense extends React.Component<IProps, IState> {
         : null;
 
     const getTitle = () => {
-      let title = 'header.addExpense';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewExpense';
-      if (isEditScreen && isAllowToEdit) title = 'header.editExpense';
+      let title = 'header.add_expense';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_expense';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_expense';
 
       return t(title);
     };
@@ -356,7 +356,7 @@ export class Expense extends React.Component<IProps, IState> {
           component={CustomerSelectModal}
           getCustomers={getCustomers}
           placeholder={
-            customerName ? customerName : t('invoices.customerPlaceholder')
+            customerName ? customerName : t('invoices.customer_placeholder')
           }
           customers={customers}
           disabled={disabled}
@@ -372,7 +372,7 @@ export class Expense extends React.Component<IProps, IState> {
           name={`expense.${FIELDS.NOTES}`}
           component={InputField}
           hint={t('expenses.notes')}
-          placeholder={t('expenses.notesPlaceholder')}
+          placeholder={t('expenses.notes_placeholder')}
           inputProps={{
             multiline: true,
             maxLength: MAX_LENGTH

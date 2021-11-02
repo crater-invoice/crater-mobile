@@ -60,7 +60,7 @@ export default class ItemUnits extends Component<IProps, IStates> {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('items.alertUnit'),
+      desc: t('items.alert_unit'),
       showCancel: true,
       okPress: () =>
         dispatch(
@@ -104,9 +104,9 @@ export default class ItemUnits extends Component<IProps, IStates> {
     ];
 
     const getTitle = () => {
-      let title = 'items.addUnit';
-      if (!isCreateMethod && !isAllowToEdit) title = 'header.viewUnit';
-      if (!isCreateMethod && isAllowToEdit) title = 'items.editUnit';
+      let title = 'items.add_hint';
+      if (!isCreateMethod && !isAllowToEdit) title = 'header.view_unit';
+      if (!isCreateMethod && isAllowToEdit) title = 'items.edit_hint';
 
       return t(title);
     };
@@ -137,14 +137,14 @@ export default class ItemUnits extends Component<IProps, IStates> {
               isEmpty={isEmpty(units)}
               bottomDivider
               contentContainerStyle={styles.contentContainerStyle}
-              emptyContentProps={{title: t('payments.empty.modeTitle')}}
+              emptyContentProps={{title: t('payments.empty.mode_title')}}
               itemContainer={styles.itemContainer}
             />
           </InfiniteScroll>
           <InputModal
             reference={ref => (this.modalReference = ref)}
             headerTitle={getTitle()}
-            hint={t('items.unitHint')}
+            hint={t('items.unit_hint')}
             fieldName="unitName"
             onSubmit={this.onSave}
             onRemove={this.onRemove}

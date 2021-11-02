@@ -25,7 +25,7 @@ export const CustomerSelectModal = (props: IProps) => {
 
   return (
     <SelectField
-      placeholder={t('estimates.customerPlaceholder')}
+      placeholder={t('estimates.customer_placeholder')}
       {...props}
       items={customers ?? []}
       getItems={getCustomers}

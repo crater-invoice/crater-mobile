@@ -135,11 +135,11 @@ export default class Estimate extends React.Component<IProps, IStates> {
     }
 
     alertMe({
-      title: t('estimates.alert.draftTitle'),
+      title: t('estimates.alert.draft_title'),
       showCancel: true,
       cancelText: t('alert.action.discard'),
       cancelPress: () => navigation.navigate(routes.ESTIMATES),
-      okText: t('alert.action.saveAsDraft'),
+      okText: t('alert.action.save_as_draft'),
       okPress: handleSubmit(this.draftEstimate)
     });
   };
@@ -164,7 +164,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
     }
 
     if (finalAmount() < 0) {
-      alert(t('estimates.alert.lessAmount'));
+      alert(t('estimates.alert.less_amount'));
       return;
     }
 
@@ -230,7 +230,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('estimates.alert.removeDescription'),
+      desc: t('estimates.alert.remove_description'),
       showCancel: true,
       okPress: () => dispatch(removeEstimate(id, navigation))
     });
@@ -247,7 +247,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       case ESTIMATE_ACTIONS.MARK_AS_SENT:
         alertMe({
           title: t('alert.title'),
-          desc: t('estimates.alert.markAsSent'),
+          desc: t('estimates.alert.mark_as_sent'),
           showCancel: true,
           okPress: () =>
             dispatch(
@@ -268,7 +268,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       case ESTIMATE_ACTIONS.MARK_AS_ACCEPTED:
         alertMe({
           title: t('alert.title'),
-          desc: t('estimates.alert.markAsAccept'),
+          desc: t('estimates.alert.mark_as_accept'),
           showCancel: true,
           okPress: () =>
             dispatch(
@@ -289,7 +289,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       case ESTIMATE_ACTIONS.MARK_AS_REJECTED:
         alertMe({
           title: t('alert.title'),
-          desc: t('estimates.alert.markAsReject'),
+          desc: t('estimates.alert.mark_as_reject'),
           showCancel: true,
           okPress: () =>
             dispatch(
@@ -309,7 +309,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
       case ESTIMATE_ACTIONS.CONVERT_TO_INVOICE:
         alertMe({
-          desc: t('estimates.alert.convertToInvoiceDescription'),
+          desc: t('estimates.alert.convert_to_invoice_description'),
           showCancel: true,
           okPress: () =>
             dispatch(
@@ -348,8 +348,8 @@ export default class Estimate extends React.Component<IProps, IStates> {
     return (
       <SendMail
         mailReference={ref => (this.sendMailRef = ref)}
-        headerTitle={'header.sendMailEstimate'}
-        alertDesc={'estimates.alert.sendEstimate'}
+        headerTitle={'header.send_mail_estimate'}
+        alertDesc={'estimates.alert.send_estimate'}
         user={this.props?.formValues?.customer}
         subject="New Estimate"
         body="estimate_mail_body"
@@ -421,9 +421,9 @@ export default class Estimate extends React.Component<IProps, IStates> {
         : null;
 
     const getTitle = () => {
-      let title = 'header.addEstimate';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewEstimate';
-      if (isEditScreen && isAllowToEdit) title = 'header.editEstimate';
+      let title = 'header.add_estimate';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_estimate';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_estimate';
 
       return t(title);
     };
@@ -439,7 +439,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
           disabled={isFetchingInitialData}
           onPress={handleSubmit(this.downloadEstimate)}
         >
-          {t('button.viewPdf')}
+          {t('button.view_pdf')}
         </BaseButton>
         <BaseButton
           show={isAllowToEdit}
@@ -482,7 +482,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
               name={'estimate_date'}
               isRequired
               component={BaseDatePicker}
-              label={t('estimates.estimateDate')}
+              label={t('estimates.estimate_date')}
               icon={'calendar-alt'}
               onChangeCallback={val => this.setFormField('estimate_date', val)}
               disabled={disabled}
@@ -494,7 +494,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
               name="expiry_date"
               isRequired
               component={BaseDatePicker}
-              label={t('estimates.expiryDate')}
+              label={t('estimates.expiry_date')}
               icon={'calendar-alt'}
               onChangeCallback={val => this.setFormField('expiry_date', val)}
               disabled={disabled}
@@ -506,7 +506,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
           name="estimate_number"
           component={BaseInputPrefix}
           isRequired
-          label={t('estimates.estimateNumber')}
+          label={t('estimates.estimate_number')}
           prefix={formValues?.prefix}
           fieldName="estimate_number"
           disabled={disabled}
@@ -541,7 +541,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
         <Field
           name="reference_number"
           component={InputField}
-          hint={t('invoices.referenceNumber')}
+          hint={t('invoices.reference_number')}
           leftIcon={'hashtag'}
           disabled={disabled}
         />
@@ -562,7 +562,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
           component={TemplateField}
           label={t('estimates.template')}
           icon={'file-alt'}
-          placeholder={t('estimates.templatePlaceholder')}
+          placeholder={t('estimates.template_placeholder')}
           navigation={navigation}
           disabled={disabled}
         />

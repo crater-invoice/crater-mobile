@@ -14,14 +14,14 @@ export const FiscalYearSelectModal = (props: IProps) => (
     {...props}
     items={props?.fiscalYears ?? []}
     displayName="key"
-    label={t('settings.preferences.fiscalYear')}
+    label={t('settings.preferences.fiscal_year')}
     icon="calendar-alt"
     rightIcon="angle-right"
-    placeholder={t('settings.preferences.fiscalYearPlaceholder')}
+    placeholder={t('settings.preferences.fiscal_year_placeholder')}
     searchFields={['key']}
     compareField="value"
-    headerProps={{title: t('fiscalYears.title'), rightIconPress: null}}
-    emptyContentProps={{contentType: 'fiscalYears'}}
+    headerProps={{title: t('fiscal_years.title'), rightIconPress: null}}
+    emptyContentProps={{contentType: 'fiscal_years'}}
     isInternalSearch
     isRequired
   />
