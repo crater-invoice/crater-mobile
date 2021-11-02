@@ -11,7 +11,7 @@ import {CtButton} from '../button';
 import {hasValue, isEmpty} from '@/constants';
 import {internalSearch as searchItem} from '@/utils';
 import {ARROW_ICON} from '@/assets';
-import {PaymentModeModal, UnitModal} from '../Modal';
+import {PaymentModeModal, UnitModal} from '../modal';
 import {PermissionService} from '@/services';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseSelect} from '@/components';
@@ -493,8 +493,6 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
   }
 }
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
 export const SelectField = connect(mapStateToProps)(SelectFieldComponent);

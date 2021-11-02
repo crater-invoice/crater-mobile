@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {ListView} from '../ListView';
 import {MainLayout, DefaultLayout} from '../Layouts';
 import {InfiniteScroll} from '../infinite-scroll';
-import {ScrollView} from '../ScrollView';
+import {ScrollView} from '../scroll-view';
 import {isAndroidPlatform, defineSize} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
 import {IProps} from './type.d';

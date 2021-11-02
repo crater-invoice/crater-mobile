@@ -4,7 +4,7 @@ import {Field, reset, change} from 'redux-form';
 import {AssetIcon} from '../asset-icon';
 import {DefaultLayout} from '../Layouts';
 import {InputField} from '../InputField';
-import {SelectField} from '../SelectField';
+import {SelectField} from '../select-field';
 import {BaseDatePicker} from '../base';
 import {ActionButton, CtDecorativeButton} from '../button';
 import t from 'locales/use-translation';

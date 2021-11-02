@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {reduxForm, change} from 'redux-form';
-import {InputModal} from '../InputModal';
+import {InputModal} from '../input-modal';
 import {addItemUnit} from 'stores/item-units/actions';
 import t from 'locales/use-translation';
 import {hasValue} from '@/constants';

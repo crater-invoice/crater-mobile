@@ -2,23 +2,12 @@ import React, {Component} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Text} from '../text';
 import {styles} from './styles';
+import {IProps, IStates} from './type.d';
 
-type IProps = {
-  input: Object,
-  disabled: boolean,
-  baseSelectContainerStyle: Object,
-  hint: string,
-  initialValue: string,
-  onChangeCallback: () => void,
-  theme: any
-};
-
-export class RadioButtonGroup extends Component<IProps> {
+export class RadioButtonGroup extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
-    this.state = {
-      selected: false
-    };
+    this.state = {selected: false};
   }
 
   componentWillMount() {
@@ -37,7 +26,7 @@ export class RadioButtonGroup extends Component<IProps> {
     } = this.props;
 
     onChange(val);
-    onChangeCallback && onChangeCallback(val);
+    onChangeCallback?.(val);
     this.setState({selected: val});
   };
 

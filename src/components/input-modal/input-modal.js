@@ -10,18 +10,6 @@ import {Icon} from 'react-native-elements';
 import {Text} from '../text';
 import {commonSelector} from 'stores/common/selectors';
 
-type Iprops = {
-  modalProps?: Object,
-  headerTitle?: string,
-  hint?: string,
-  fieldName?: string,
-  onRemove?: () => void,
-  onSubmit?: () => void,
-  showRemoveButton?: boolean,
-  reference?: any,
-  onSubmitLoading?: boolean
-};
-
 class inputModalComponent extends Component<Iprops> {
   constructor(props) {
     super(props);
@@ -152,8 +140,6 @@ class inputModalComponent extends Component<Iprops> {
   }
 }
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
 export const InputModal = connect(mapStateToProps)(inputModalComponent);
