@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
 import {View, BackHandler} from 'react-native';
 import * as Linking from 'expo-linking';
-import {connect} from 'react-redux';
 import {styles, Container} from './styles';
 import {Text} from '../Text';
 import {AssetImage} from '../asset-image';
 import {BaseButton} from '../base';
 import t from 'locales/use-translation';
-import {commonSelector} from 'stores/common/selectors';
 import {isAndroidPlatform} from '@/constants';
+import {ITheme} from '@/interfaces';
 
-export class UpdateAppVersion extends Component {
+export default class UpdateAppVersion extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {loading: false};
@@ -97,8 +96,17 @@ export class UpdateAppVersion extends Component {
   }
 }
 
-const mapStateToProps = state => commonSelector(state);
+type IProps = {
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
+  theme: ITheme
+};
 
-const UpdateAppVersionContainer = connect(mapStateToProps)(UpdateAppVersion);
-
-export default UpdateAppVersionContainer;
+type IStates = {
+  /**
+   * The loading indicator for the button.
+   */
+  loading?: Boolean
+};

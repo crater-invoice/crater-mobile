@@ -14,8 +14,6 @@ export * from './SlideModal';
 export * from './file-picker';
 export * from './SelectField';
 export * from './filter';
-export * from './LostConnection';
-export * from './UpdateAppVersion';
 export * from './currency-format';
 export * from './animate-modal';
 export * from './asset-svg';
