@@ -60,7 +60,7 @@ interface IProps {
   title?: string;
 
   /**
-   * Styling for main container.
+   * Styling for divider container.
    */
   dividerStyle?: StyleProp<ViewStyle> | any;
 

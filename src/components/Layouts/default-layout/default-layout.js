@@ -9,20 +9,7 @@ import {definePlatformParam} from '@/constants';
 import {STATUS_BAR_CONTENT} from '@/utils';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseActionSheet} from '@/components';
-
-type IProps = {
-  children?: Object,
-  headerProps?: Object,
-  hasRightButton?: boolean,
-  rightIcon?: string,
-  bottomAction?: any,
-  loadingProps?: Object,
-  dropdownProps?: Object,
-  contentProps?: any,
-  hideScrollView?: boolean,
-  keyboardProps?: any,
-  bodyStyle?: any
-};
+import {IProps} from './type.d';
 
 const Layout = (props: IProps) => {
   const {
@@ -97,8 +84,6 @@ const Layout = (props: IProps) => {
   );
 };
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
 export const DefaultLayout = connect(mapStateToProps)(Layout);

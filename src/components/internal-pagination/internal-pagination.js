@@ -10,8 +10,8 @@ import {hasTextLength, hasValue, isAndroidPlatform, isEmpty} from '@/constants';
 import {internalSearch} from '@/utils';
 import {ARROW_ICON} from '@/assets';
 import {commonSelector} from 'stores/common/selectors';
-import {MainLayout} from '../Layouts';
-import {ListView} from '../ListView';
+import {MainLayout} from '../layouts';
+import {ListView} from '../list-view';
 import {Content} from '../content';
 import {BaseSelect} from '@/components';
 

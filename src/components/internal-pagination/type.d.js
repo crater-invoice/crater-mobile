@@ -4,12 +4,12 @@ export interface IProps {
   /**
    * Scroll-View style.
    */
-  scrollViewStyle: Object;
+  scrollViewStyle: any;
 
   /**
    * Content-Container style.
    */
-  contentContainerStyle: Object;
+  contentContainerStyle: any;
 
   /**
    * Hide the loader indicator.
@@ -17,9 +17,9 @@ export interface IProps {
   hideLoader: boolean;
 
   /**
-   * Object of Search-Input props.
+   * Redux form built-in input events.
    */
-  input: Object;
+  input?: any;
 
   /**
    * Compare key of an object for current selected-item placeholder value.
@@ -37,19 +37,19 @@ export interface IProps {
   displayName: string;
 
   /**
-   * Meta props for Search-Input field.
+   * Redux form built-in meta validation events.
    */
-  meta: Object;
+  meta?: any;
 
   /**
    * Search Fields for internal search params.
    */
-  searchFields: Object;
+  searchFields: any;
 
   /**
    * container style for Fake-input.
    */
-  containerStyle: Object;
+  containerStyle: any;
 
   /**
    * Label for Fake-input.
@@ -69,22 +69,22 @@ export interface IProps {
   /**
    * Header props of Main-Layout.
    */
-  headerProps: Object;
+  headerProps: any;
 
   /**
    * External Fake-input props.
    */
-  baseSelectProps: Object;
+  baseSelectProps: any;
 
   /**
    * External List-View props.
    */
-  listViewProps: Object;
+  listViewProps: any;
 
   /**
    * External Empty-Container props.
    */
-  emptyContentProps: Object;
+  emptyContentProps: any;
 
   /**
    * Search-Input props in Main-Layout.

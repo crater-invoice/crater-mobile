@@ -45,7 +45,7 @@ import {
 } from 'screens/recurring-invoices';
 import {Roles, CreateRole} from 'screens/roles';
 import {ItemUnits} from 'screens/item-units';
-import {CreateItem} from '@/components/Items/create-item';
+import {CreateItem} from '@/components/items/create-item';
 import {
   CustomizeList,
   CustomizeInvoice,

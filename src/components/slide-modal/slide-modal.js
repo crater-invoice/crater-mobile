@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {View, Modal, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
-import {ListView} from '../ListView';
-import {MainLayout, DefaultLayout} from '../Layouts';
+import {ListView} from '../list-view';
+import {MainLayout, DefaultLayout} from '../layouts';
 import {InfiniteScroll} from '../infinite-scroll';
 import {ScrollView} from '../scroll-view';
 import {isAndroidPlatform, defineSize} from '@/constants';

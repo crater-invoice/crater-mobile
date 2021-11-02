@@ -15,7 +15,7 @@ export interface IProps {
   /**
    * An additional header accessibility.
    */
-  headerProps?: Object;
+  headerProps?: any;
 
   /**
    * Invoked with the the change event as an argument when the search value changes.

@@ -16,21 +16,7 @@ import {commonSelector} from 'stores/common/selectors';
 import {PermissionService} from '@/services';
 import {routes} from '@/navigation';
 import {BaseDivider} from '@/components';
-
-interface IProps {
-  children: any;
-  headerProps?: any;
-  onSearch?: () => void;
-  bottomDivider?: boolean;
-  hasSearchField?: boolean;
-  onToggleFilter?: () => void;
-  filterProps?: Object;
-  inputProps?: Object;
-  dividerStyle?: Object;
-  loadingProps?: Object;
-  searchFieldProps?: any;
-  bodyStyle?: any;
-}
+import {IProps} from '../default-layout/type.d';
 
 const Layout = (props: IProps) => {
   const {
@@ -171,8 +157,6 @@ const Layout = (props: IProps) => {
   );
 };
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
 export const MainLayout = connect(mapStateToProps)(Layout);

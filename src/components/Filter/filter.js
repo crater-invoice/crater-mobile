@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {View, Modal, Keyboard, StyleSheet} from 'react-native';
 import {Field, reset, change} from 'redux-form';
 import {AssetIcon} from '../asset-icon';
-import {DefaultLayout} from '../Layouts';
+import {DefaultLayout} from '../layouts';
 import {InputField} from '../InputField';
 import {SelectField} from '../select-field';
 import {BaseDatePicker} from '../base';
