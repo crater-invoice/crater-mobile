@@ -182,7 +182,8 @@ interface IProps {
   loading?: boolean;
 
   /**
-   * If true, disable press event.
+   * If true the user won't be able to press.
+   * @default false
    */
   disabled?: boolean;
 

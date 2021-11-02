@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {ToggleSwitch, InputField} from '@/components';
+import {BaseSwitch, InputField} from '@/components';
 import {isBooleanTrue, keyboardType} from '@/constants';
 
 interface IProps {
@@ -22,7 +22,7 @@ export const DueDate = (props: IProps) => {
     <>
       <Field
         name={toggleField.name}
-        component={ToggleSwitch}
+        component={BaseSwitch}
         hint={toggleField.hint}
         description={toggleField.description}
       />

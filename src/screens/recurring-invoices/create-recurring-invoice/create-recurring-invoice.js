@@ -11,7 +11,7 @@ import {
   CustomField,
   Notes,
   ItemField,
-  ToggleSwitch,
+  BaseSwitch,
   FinalAmount,
   InputField,
   BaseButtonGroup,
@@ -432,7 +432,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
 
         <Field
           name={'send_automatically'}
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('recurring_invoices.auto_sent.label')}
           description={t('recurring_invoices.auto_sent.description')}
         />

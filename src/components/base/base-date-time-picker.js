@@ -196,7 +196,7 @@ interface IProps {
   input?: any;
 
   /**
-   * An action to return the current time value.
+   * Invoked with the the change event as an argument when the value changes.
    */
   onChangeCallback?: (callback: any) => void;
 
@@ -247,7 +247,8 @@ interface IProps {
   theme: ITheme;
 
   /**
-   * If true, disable press event.
+   * If true the user won't be able to press.
+   * @default false
    */
   disabled?: boolean;
 }

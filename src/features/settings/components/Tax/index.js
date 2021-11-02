@@ -6,7 +6,7 @@ import {alertMe, keyboardType, MAX_LENGTH} from '@/constants';
 import {
   DefaultLayout,
   InputField,
-  ToggleSwitch,
+  BaseSwitch,
   ActionButton
 } from '@/components';
 
@@ -149,7 +149,7 @@ export class Tax extends React.Component {
 
         <Field
           name="compound_tax"
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('taxes.compound_tax')}
           title-text-default
           disabled={disabled}

@@ -5,7 +5,7 @@ import {omit} from 'lodash';
 import styles from './customize-payment-style';
 import {
   DefaultLayout,
-  ToggleSwitch,
+  BaseSwitch,
   BaseDivider,
   Tabs,
   Editor,
@@ -128,13 +128,13 @@ export default class CustomizePayment extends Component<IProps, IStates> {
         </Text>
         <Field
           name={'payment_auto_generate'}
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('customizes.auto_generate.payment')}
           description={t('customizes.auto_generate.payment_description')}
         />
         <Field
           name={'payment_email_attachment'}
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('customizes.email_attachment.payment')}
           description={t('customizes.email_attachment.payment_description')}
         />

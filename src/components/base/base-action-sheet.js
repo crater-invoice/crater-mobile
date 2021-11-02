@@ -152,7 +152,7 @@ interface IProps {
   destructiveButtonIndex?: number;
 
   /**
-   * An action to return the current option value.
+   * Invoked with the the change event as an argument when the value changes.
    */
   onSelect?: (callback: any) => void;
 

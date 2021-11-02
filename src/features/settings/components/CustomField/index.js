@@ -12,7 +12,7 @@ import t from 'locales/use-translation';
 import {
   InputField,
   DefaultLayout,
-  ToggleSwitch,
+  BaseSwitch,
   Text,
   ActionButton,
   BaseDropdownPicker
@@ -158,7 +158,7 @@ export class CustomField extends React.Component<IProps> {
         <View style={styles.column}>
           <Field
             name={`${FIELDS.FIELD}.${FIELDS.IS_REQUIRED}`}
-            component={ToggleSwitch}
+            component={BaseSwitch}
             switchStyle={{marginRight: 100}}
             hintStyle={styles.leftText}
             disabled={!isAllowToEdit}
@@ -180,7 +180,7 @@ export class CustomField extends React.Component<IProps> {
         <View style={styles.column}>
           <Field
             name={`${FIELDS.FIELD}.${FIELDS.DISPLAY_PORTAL}`}
-            component={ToggleSwitch}
+            component={BaseSwitch}
             hint={t('custom_fields.no')}
             hintStyle={styles.leftText}
           />

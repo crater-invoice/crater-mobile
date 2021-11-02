@@ -332,7 +332,7 @@ interface IProps {
   onToggle?: () => any;
 
   /**
-   * An action to return the current form values.
+   * Invoked with the the change event as an argument when the value changes.
    */
   onSubmitFilter: () => void;
 

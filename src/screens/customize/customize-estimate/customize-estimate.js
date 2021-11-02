@@ -15,7 +15,7 @@ import {
 } from 'stores/customize/types';
 import {
   DefaultLayout,
-  ToggleSwitch,
+  BaseSwitch,
   BaseDivider,
   Editor,
   PLACEHOLDER_TYPES as TYPE,
@@ -239,13 +239,13 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
             </Text>
             <Field
               name={'estimate_auto_generate'}
-              component={ToggleSwitch}
+              component={BaseSwitch}
               hint={t('customizes.auto_generate.estimate')}
               description={t('customizes.auto_generate.estimate_description')}
             />
             <Field
               name={'estimate_email_attachment'}
-              component={ToggleSwitch}
+              component={BaseSwitch}
               hint={t('customizes.email_attachment.estimate')}
               description={t(
                 'customizes.email_attachment.estimate_description'

@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import {View, BackHandler} from 'react-native';
 import * as Linking from 'expo-linking';
-import {styles, Container} from './styles';
-import {Text} from '../Text';
-import {AssetImage} from '../asset-image';
-import {BaseButton} from '../base';
+import {styles, Container} from './update-app-version-styles';
+import {Text, AssetImage, BaseButton} from '@/components';
 import t from 'locales/use-translation';
 import {isAndroidPlatform} from '@/constants';
 import {ITheme} from '@/interfaces';
@@ -96,17 +94,17 @@ export default class UpdateAppVersion extends Component<IProps, IStates> {
   }
 }
 
-type IProps = {
+interface IProps {
   /**
    * An active theme object.
    * @see ITheme
    */
-  theme: ITheme
-};
+  theme: ITheme;
+}
 
-type IStates = {
+interface IStates {
   /**
    * The loading indicator for the button.
    */
-  loading?: Boolean
-};
+  loading?: Boolean;
+}

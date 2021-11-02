@@ -8,7 +8,7 @@ import {isBooleanTrue} from '@/constants';
 import {fetchPreferences, updatePreferences} from 'stores/company/actions';
 import {
   DefaultLayout,
-  ToggleSwitch,
+  BaseSwitch,
   BaseDivider,
   ActionButton
 } from '@/components';
@@ -165,14 +165,14 @@ export default class Preferences extends Component<IProps, IStates> {
 
         <Field
           name="discount_per_item"
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('settings.preferences.discount_per_item')}
           description={t('settings.preferences.discount_per_item_placeholder')}
         />
 
         <Field
           name="tax_per_item"
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('settings.preferences.tax_per_item')}
           description={t('settings.preferences.tax_per_item_placeholder')}
           mainContainerStyle={{marginVertical: 12}}

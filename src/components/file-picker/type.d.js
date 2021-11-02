@@ -13,7 +13,7 @@ export interface IProps {
   containerStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * An action to return the base64 file.
+   * Invoked with the the change event as an argument when the value changes.
    */
   onChangeCallback?: (callback: any) => void;
 
@@ -63,7 +63,8 @@ export interface IProps {
   showUploadedImageAsCache?: boolean;
 
   /**
-   * If true, disable press event.
+   * If true the user won't be able to press.
+   * @default false
    */
   disabled?: boolean;
 

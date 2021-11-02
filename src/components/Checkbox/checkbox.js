@@ -115,7 +115,7 @@ interface IProps {
   input?: any;
 
   /**
-   * Called when the touch is released.
+   * Invoked with the the change event as an argument when the value changes.
    */
   onChangeCallback?: () => void;
 

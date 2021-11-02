@@ -1,11 +1,6 @@
 import React from 'react';
 import styles from './styles';
-import {
-  DefaultLayout,
-  InputField,
-  ToggleSwitch,
-  BaseDivider
-} from '@/components';
+import {DefaultLayout, InputField, BaseSwitch, BaseDivider} from '@/components';
 import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {NOTIFICATION} from '../../constants';
@@ -116,7 +111,7 @@ export class Notification extends React.Component<IProps> {
 
         <Field
           name="notify_invoice_viewed"
-          component={ToggleSwitch}
+          component={BaseSwitch}
           status={invoiceStatus === 'YES' ? true : false}
           hint={t('settings.notifications.invoice_viewed')}
           description={t('settings.notifications.invoice_viewed_description')}
@@ -125,7 +120,7 @@ export class Notification extends React.Component<IProps> {
 
         <Field
           name="notify_estimate_viewed"
-          component={ToggleSwitch}
+          component={BaseSwitch}
           status={estimateStatus === 'YES' ? true : false}
           hint={t('settings.notifications.estimate_viewed')}
           description={t('settings.notifications.estimate_viewed_description')}
