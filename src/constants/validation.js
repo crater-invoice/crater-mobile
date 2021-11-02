@@ -53,17 +53,19 @@ export function getError(
       value <= minNumber ? getMinNumberError(fieldName, minNumber) : null,
 
     maxNumberRequired: () => {
-      return value > maxNumber ? 'validation.maximumNumber' : null;
+      return value > maxNumber ? 'validation.maximum_number' : null;
     },
 
     maxCharacterRequired: () => {
-      return value.length > maxCharacter ? 'validation.maximumCharacter' : null;
+      return value.length > maxCharacter
+        ? 'validation.maximum_character'
+        : null;
     },
 
     minCharacterRequired: () => {
       if (value) {
         return value.length < minCharacter
-          ? message || 'validation.minCharacter'
+          ? message || 'validation.min_character'
           : null;
       }
     },
@@ -75,14 +77,14 @@ export function getError(
       value
         ? value === fieldName
           ? null
-          : 'validation.passwordCompare'
+          : 'validation.password_compare'
         : fieldName
         ? value === fieldName
           ? null
-          : 'validation.passwordCompare'
+          : 'validation.password_compare'
         : null,
 
-    moreThanDue: () => 'validation.moreThanDue',
+    moreThanDue: () => 'validation.more_than_due',
 
     urlFormat: () => (URL_REGEX.test(value) ? null : 'validation.url'),
 
@@ -97,4 +99,4 @@ export function getError(
 }
 
 export const getMinNumberError = (fieldName, minNumber) =>
-  `validation.minimumNumber`;
+  `validation.minimum_number`;

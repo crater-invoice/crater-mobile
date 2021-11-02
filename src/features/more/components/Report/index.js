@@ -234,25 +234,25 @@ export class Report extends React.Component<IProps> {
 
     switch (type) {
       case SALES:
-        const tp = reportType === 'byCustomer';
+        const tp = reportType === 'by_customer';
 
         data = isTitle
-          ? t('header.salesReport')
+          ? t('header.sales_report')
           : tp
           ? 'sales/customers/'
           : 'sales/items/';
         break;
 
       case PROFIT_AND_LOSS:
-        data = isTitle ? t('header.profitAndLossReport') : 'profit-loss/';
+        data = isTitle ? t('header.profit_and_lossReport') : 'profit-loss/';
         break;
 
       case EXPENSES:
-        data = isTitle ? t('header.expensesReport') : 'expenses/';
+        data = isTitle ? t('header.expenses_report') : 'expenses/';
         break;
 
       case TAXES:
-        data = isTitle ? t('header.taxesReport') : 'tax-summary/';
+        data = isTitle ? t('header.taxes_report') : 'tax-summary/';
         break;
 
       default:
@@ -267,7 +267,7 @@ export class Report extends React.Component<IProps> {
     const {displayFromDate, displayToDate} = this.state;
     const bottomAction = [
       {
-        label: 'button.generateReport',
+        label: 'button.generate_report',
         onPress: handleSubmit(this.saveReport),
         loading
       }
@@ -286,7 +286,7 @@ export class Report extends React.Component<IProps> {
       >
         <Field
           name="date_range"
-          label={t('reports.dateRange')}
+          label={t('reports.date_range')}
           component={BaseDropdownPicker}
           isRequired
           fieldIcon="calendar-week"
@@ -301,7 +301,7 @@ export class Report extends React.Component<IProps> {
               component={DatePickerField}
               isRequired
               displayValue={displayFromDate}
-              label={t('reports.fromDate')}
+              label={t('reports.from_date')}
               formDateFormat={DATE_FORMAT}
               onChangeCallback={val => {
                 this.setFormField('date_range', 'custom');
@@ -316,7 +316,7 @@ export class Report extends React.Component<IProps> {
               component={DatePickerField}
               isRequired
               displayValue={displayToDate}
-              label={t('reports.toDate')}
+              label={t('reports.to_date')}
               formDateFormat={DATE_FORMAT}
               onChangeCallback={val => {
                 this.setFormField('date_range', 'custom');
@@ -329,7 +329,7 @@ export class Report extends React.Component<IProps> {
         {type === SALES && (
           <Field
             name="report_type"
-            label={t('reports.reportType')}
+            label={t('reports.report_type')}
             component={BaseDropdownPicker}
             fieldIcon="vial"
             items={REPORT_TYPE_OPTION()}

@@ -72,10 +72,10 @@ export const ESTIMATE_ACTIONS = {
   SEND: 'send',
   DELETE: 'delete',
   EDIT: 'edit',
-  CONVERT_TO_INVOICE: 'convertToInvoice',
-  MARK_AS_SENT: 'markAsSent',
-  MARK_AS_ACCEPTED: 'markAsAccepted',
-  MARK_AS_REJECTED: 'markAsRejected'
+  CONVERT_TO_INVOICE: 'convert_to_invoice',
+  MARK_AS_SENT: 'mark_as_sent',
+  MARK_AS_ACCEPTED: 'mark_as_accepted',
+  MARK_AS_REJECTED: 'mark_as_rejected'
 };
 
 export const MARK_AS_SENT = 'SENT';

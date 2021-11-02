@@ -34,7 +34,7 @@ export const itemsFilterFields = ({props, setFormField}) => {
       compareField: 'id',
       onSelect: item => setFormField('unit_id', item.id),
       headerProps: {
-        title: t('items.unitPlaceholder'),
+        title: t('items.unit_placeholder'),
         rightIconPress: null
       },
       emptyContentProps: {

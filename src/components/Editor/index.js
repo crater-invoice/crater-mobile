@@ -395,7 +395,7 @@ class EditorComponent extends Component<IProps, IStates> {
                       style={styles.insertFields}
                       color={theme?.viewLabel?.thirdColor}
                     >
-                      {t('notes.insertFields')}
+                      {t('notes.insert_fields')}
                     </Text>
                   </TouchableOpacity>
                 )}

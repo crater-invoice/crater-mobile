@@ -183,7 +183,7 @@ export default class CreateCompany extends Component<IProps, IStates> {
               hint={t('settings.company.address')}
               height={60}
               refLinkFn={ref => (companyRefs.street1 = ref)}
-              placeholder={t('settings.company.street1')}
+              placeholder={t('settings.company.street_1')}
               inputProps={{multiline: true}}
             />
 
@@ -192,14 +192,14 @@ export default class CreateCompany extends Component<IProps, IStates> {
               component={InputField}
               height={60}
               containerStyle={styles.addressStreetField}
-              placeholder={t('settings.company.street2')}
+              placeholder={t('settings.company.street_2')}
               inputProps={{multiline: true}}
             />
 
             <Field
               name={'zip'}
               component={InputField}
-              hint={t('settings.company.zipcode')}
+              hint={t('settings.company.zip_code')}
             />
           </>
         )}

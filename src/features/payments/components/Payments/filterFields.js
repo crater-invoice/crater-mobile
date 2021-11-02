@@ -44,17 +44,17 @@ export default paymentsFilterFields = ({props, setFormField}) => {
       displayName: 'name',
       label: t('payments.mode'),
       icon: 'align-center',
-      placeholder: t('payments.modePlaceholder'),
+      placeholder: t('payments.mode_placeholder'),
       navigation: navigation,
       compareField: 'id',
       onSelect: item => setFormField('payment_method_id', item.id),
       headerProps: {
-        title: t('payments.modePlaceholder'),
+        title: t('payments.mode_placeholder'),
         rightIconPress: null
       },
       listViewProps: {hasAvatar: true},
       emptyContentProps: {
-        contentType: 'paymentMode'
+        contentType: 'payment_mode'
       }
     }
   ];

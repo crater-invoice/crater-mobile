@@ -56,7 +56,7 @@ export class Tax extends React.Component {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('taxes.alertDescription'),
+      desc: t('taxes.alert_description'),
       showCancel: true,
       okPress: remove
     });
@@ -76,9 +76,9 @@ export class Tax extends React.Component {
     const disabled = !isAllowToEdit;
 
     const getTitle = () => {
-      let title = 'header.addTaxes';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewTax';
-      if (isEditScreen && isAllowToEdit) title = 'header.editTaxes';
+      let title = 'header.add_taxes';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_tax';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_taxes';
 
       return t(title);
     };
@@ -150,7 +150,7 @@ export class Tax extends React.Component {
         <Field
           name="compound_tax"
           component={ToggleSwitch}
-          hint={t('taxes.compoundTax')}
+          hint={t('taxes.compound_tax')}
           title-text-default
           disabled={disabled}
         />

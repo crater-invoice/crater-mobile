@@ -103,7 +103,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     }
 
     if (finalAmount() < 0) {
-      alertMe(t('invoices.alert.lessAmount'));
+      alertMe(t('invoices.alert.less_amount'));
       return;
     }
 
@@ -148,7 +148,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     function confirmationAlert(remove) {
       alertMe({
         title: t('alert.title'),
-        desc: t('users.text_alert_description'),
+        desc: t('users.alert_description'),
         showCancel: true,
         okPress: remove
       });
@@ -414,7 +414,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           notes={notes}
           getNotes={getNotes}
           isEditScreen={isEditScreen}
-          noteType={NOTES_TYPE_VALUE.RECURRING_INVOICE}
+          noteType={NOTES_TYPE_VALUE.INVOICE}
           onSelect={this.setFormField}
         />
 
@@ -424,7 +424,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           component={TemplateField}
           label={t('invoices.template')}
           icon={'file-alt'}
-          placeholder={t('invoices.templatePlaceholder')}
+          placeholder={t('invoices.template_placeholder')}
           navigation={navigation}
           disabled={disabled}
           isRequired

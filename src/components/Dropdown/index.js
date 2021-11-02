@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {TouchableOpacity, View, StatusBar} from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import {styles} from './styles';
-import {AssetIcon} from '../AssetIcon';
+import {AssetIcon} from '../asset-icon';
 import {colors} from '@/styles';
 import {definePlatformParam, isEmpty, isIosPlatform} from '@/constants';
 

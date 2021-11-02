@@ -146,9 +146,9 @@ export default class Invoices extends React.Component<IProps, IStates> {
     }
 
     const emptyTitle = search
-      ? 'search.noResult'
+      ? 'search.no_result'
       : isFilter
-      ? 'filter.empty.filterTitle'
+      ? 'filter.empty.filter_title'
       : title;
 
     return {
@@ -159,7 +159,7 @@ export default class Invoices extends React.Component<IProps, IStates> {
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('invoices.empty.buttonTitle'),
+          buttonTitle: t('invoices.empty.button_title'),
           buttonPress: () =>
             navigation.navigate(routes.CREATE_INVOICE, {
               type: 'ADD'

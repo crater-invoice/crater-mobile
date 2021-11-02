@@ -168,7 +168,7 @@ export class Address extends Component<IProps> {
             icon={'copy'}
             color={theme?.text?.fourthColor}
             leftIconSolid={false}
-            values={t('customers.address.sameAs')}
+            values={t('customers.address.same_as')}
             valueStyle={{color: theme?.text?.primaryColor}}
             onChangeCallback={() => this.fillShippingAddress(!status)}
           />
@@ -212,7 +212,7 @@ export class Address extends Component<IProps> {
           name={'address_street_1'}
           component={InputField}
           hint={t('customers.address.address')}
-          placeholder={t('customers.address.street1')}
+          placeholder={t('customers.address.street_1')}
           inputProps={{
             multiline: true,
             maxLength: MAX_LENGTH
@@ -225,7 +225,7 @@ export class Address extends Component<IProps> {
         <Field
           name={'address_street_2'}
           component={InputField}
-          placeholder={t('customers.address.street2')}
+          placeholder={t('customers.address.street_2')}
           inputProps={{
             multiline: true,
             maxLength: MAX_LENGTH
@@ -248,7 +248,7 @@ export class Address extends Component<IProps> {
         <Field
           name={'zip'}
           component={InputField}
-          hint={t('customers.address.zipcode')}
+          hint={t('customers.address.zip_code')}
           onSubmitEditing={handleSubmit(this.saveAddress)}
           refLinkFn={ref => (addressRefs.zip = ref)}
           disabled={disabled}
@@ -303,8 +303,8 @@ export class Address extends Component<IProps> {
           headerProps={{
             leftIconPress: () => this.onToggle(),
             title: hasBillingAddress
-              ? t('header.billingAddress')
-              : t('header.shippingAddress'),
+              ? t('header.billing_address')
+              : t('header.shipping_address'),
             placement: 'center',
             hasCircle: false,
             noBorder: false,

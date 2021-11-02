@@ -73,7 +73,7 @@ export default class CreateCategory extends Component<IProps, IStates> {
     function confirmationAlert(remove) {
       alertMe({
         title: t('alert.title'),
-        desc: t('categories.alertDescription'),
+        desc: t('categories.alert_description'),
         showCancel: true,
         okPress: remove
       });

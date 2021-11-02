@@ -117,9 +117,9 @@ export class Items extends React.Component<IProps> {
     const isFilter = isFilterApply(formValues);
 
     const emptyTitle = search
-      ? 'search.noResult'
+      ? 'search.no_result'
       : isFilter
-      ? 'filter.empty.filterTitle'
+      ? 'filter.empty.filter_title'
       : 'items.empty.title';
 
     const emptyContentProps = {
@@ -130,7 +130,7 @@ export class Items extends React.Component<IProps> {
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('items.empty.buttonTitle'),
+          buttonTitle: t('items.empty.button_title'),
           buttonPress: () => {
             navigation.navigate(routes.GLOBAL_ITEM, {
               type: 'ADD'

@@ -33,7 +33,7 @@ export const InvoiceSelectModal = (props: IProps) => {
       displayName="invoice_number"
       label={t('payments.invoice')}
       icon="align-center"
-      placeholder={t('payments.invoicePlaceholder')}
+      placeholder={t('payments.invoice_placeholder')}
       compareField="id"
       headerProps={{title: t('invoices.title'), rightIconPress: null}}
       emptyContentProps={{contentType: 'invoices'}}

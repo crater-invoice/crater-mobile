@@ -8,7 +8,7 @@ import {Content} from '../../Content';
 import t from 'locales/use-translation';
 import {STATUS_BAR_CONTENT} from '@/utils';
 import {View as CtView, CtDecorativeButton} from '@/components';
-import {AssetIcon} from '@/components/AssetIcon';
+import {AssetIcon} from '@/components/asset-icon';
 import {Filter} from '@/components/Filter';
 import {CompanyModal} from 'screens/companies';
 import {defineSize} from '@/constants';

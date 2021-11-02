@@ -34,9 +34,9 @@ export const ExpenseCategorySelectModal = (props: IProps) => {
       displayName="name"
       label={t('expenses.category')}
       icon="align-center"
-      placeholder={t('expenses.categoryPlaceholder')}
+      placeholder={t('expenses.category_placeholder')}
       compareField="id"
-      headerProps={{title: t('expenses.categoryPlaceholder')}}
+      headerProps={{title: t('expenses.category_placeholder')}}
       emptyContentProps={{contentType: 'categories'}}
       isEditable={!disabled}
       baseSelectProps={{disabled}}

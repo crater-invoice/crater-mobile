@@ -1,12 +1,12 @@
 import React from 'react';
 import Modal from 'react-native-modal';
-import styles from './styles';
+import {StyleProp, ViewStyle} from 'react-native';
 
 interface IProps {
   onToggle?: Function;
   visible?: Boolean;
   modalProps?: any;
-  style?: any;
+  style?: StyleProp<ViewStyle>;
   children?: any;
 }
 
@@ -21,7 +21,7 @@ export const AnimateModal = (props: IProps) => {
       backdropTransitionInTiming={100}
       backdropTransitionOutTiming={0}
       onBackButtonPress={() => onToggle()}
-      style={[styles.modalContainer, style]}
+      style={[{margin: 0, padding: 0}, style]}
       statusBarTranslucent={true}
       {...modalProps}
     >

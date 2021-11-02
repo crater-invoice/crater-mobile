@@ -5,7 +5,11 @@ import {ifProp, prop} from 'styled-tools';
 import {applyProp, getClass, hasProp} from '@/utils';
 import {fonts, fontSizes, colors, generateSize} from '../../styles';
 
-const CTText = ({children, ...props}) => <RNText {...props} allowFontScaling={false}>{children}</RNText>;
+const CTText = ({children, ...props}) => (
+  <RNText {...props} allowFontScaling={false}>
+    {children}
+  </RNText>
+);
 
 const StyledText = styled(CTText)`
 
@@ -368,9 +372,9 @@ const StyledText = styled(CTText)`
     ${prop('style')}
 `;
 
-export const Text = (props) => {
+export const Text = props => {
   return (
-    <StyledText {...getClass(props?.class)} {...props}>
+    <StyledText {...getClass(props.class)} {...props}>
       {props.children}
     </StyledText>
   );

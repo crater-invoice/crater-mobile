@@ -46,7 +46,7 @@ export const invoicesFilterFields = ({props, setFormField}) => {
   const datePickerFields = [
     {
       name: 'from_date',
-      label: t('invoices.fromDate'),
+      label: t('invoices.from_date'),
       onChangeCallback: (formDate, displayDate) => {
         selectedFromDate = displayDate;
         selectedFromDateValue = formDate;
@@ -56,7 +56,7 @@ export const invoicesFilterFields = ({props, setFormField}) => {
     },
     {
       name: 'to_date',
-      label: t('invoices.toDate'),
+      label: t('invoices.to_date'),
       onChangeCallback: (formDate, displayDate) => {
         selectedToDate = displayDate;
         selectedToDateValue = formDate;
@@ -69,7 +69,7 @@ export const invoicesFilterFields = ({props, setFormField}) => {
   const inputFields = [
     {
       name: 'invoice_number',
-      hint: t('invoices.invoiceNumber'),
+      hint: t('invoices.invoice_number'),
       leftIcon: 'hashtag',
       refLinkFn: ref => (filterRefs.invNumber = ref)
     }
@@ -83,7 +83,7 @@ export const invoicesFilterFields = ({props, setFormField}) => {
       items: [...FILTER_INVOICE_STATUS, ...FILTER_INVOICE_PAID_STATUS],
       onChangeCallback: val => setFormField('filterStatus', val),
       defaultPickerOptions: {
-        label: t('invoices.statusPlaceholder'),
+        label: t('invoices.status_placeholder'),
         value: ''
       }
     }

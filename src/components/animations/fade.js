@@ -12,9 +12,7 @@ interface IProps {
 export class FadeAnimation extends Component<IProps, IState> {
   constructor(props) {
     super(props);
-    this.state = {
-      opacityAnimate: new Animated.Value(0)
-    };
+    this.state = {opacityAnimate: new Animated.Value(0)};
   }
 
   componentDidMount() {

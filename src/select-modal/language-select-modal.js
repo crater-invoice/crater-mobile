@@ -20,7 +20,7 @@ export const LanguageSelectModal = (props: IProps) => (
     searchFields={['name']}
     compareField="code"
     isInternalSearch
-    placeholder={t('settings.preferences.languagePlaceholder')}
+    placeholder={t('settings.preferences.language_placeholder')}
     headerProps={{title: t('languages.title'), rightIconPress: null}}
     listViewProps={{hasAvatar: true}}
     emptyContentProps={{contentType: 'languages'}}

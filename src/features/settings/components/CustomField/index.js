@@ -128,7 +128,7 @@ export class CustomField extends React.Component<IProps> {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('customFields.removeAlertDescription'),
+      desc: t('custom_fields.remove_alert_description'),
       showCancel: true,
       okPress: () => removeCustomField({id, navigation})
     });
@@ -151,7 +151,7 @@ export class CustomField extends React.Component<IProps> {
             medium={theme?.mode === 'dark'}
             style={{marginLeft: 3}}
           >
-            {t('customFields.required')}
+            {t('custom_fields.required')}
           </Text>
         </View>
 
@@ -173,7 +173,7 @@ export class CustomField extends React.Component<IProps> {
       <View style={styles.row}>
         <View style={styles.positionView}>
           <Text secondary h4 style={{marginLeft: 3}}>
-            {t('customFields.displayInPortal')}
+            {t('custom_fields.display_in_Portal')}
           </Text>
         </View>
 
@@ -181,14 +181,14 @@ export class CustomField extends React.Component<IProps> {
           <Field
             name={`${FIELDS.FIELD}.${FIELDS.DISPLAY_PORTAL}`}
             component={ToggleSwitch}
-            hint={t('customFields.no')}
+            hint={t('custom_fields.no')}
             hintStyle={styles.leftText}
           />
         </View>
 
         <View style={styles.columnRight}>
           <Text secondary h4 style={{marginLeft: 3}}>
-            {t('customFields.yes')}
+            {t('custom_fields.yes')}
           </Text>
         </View>
       </View>
@@ -269,9 +269,9 @@ export class CustomField extends React.Component<IProps> {
     const disabled = !isAllowToEdit;
 
     const getTitle = () => {
-      let title = 'header.addCustomField';
-      if (isEditScreen && !isAllowToEdit) title = 'header.viewCustomField';
-      if (isEditScreen && isAllowToEdit) title = 'header.editCustomField';
+      let title = 'header.add_custom_field';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_custom_field';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_custom_field';
 
       return t(title);
     };
@@ -316,18 +316,18 @@ export class CustomField extends React.Component<IProps> {
           component={InputField}
           isRequired
           disabled={disabled}
-          hint={t('customFields.name')}
+          hint={t('custom_fields.name')}
         />
 
         <Field
           name={`${FIELDS.FIELD}.${FIELDS.MODAL_TYPE}`}
           component={BaseDropdownPicker}
-          label={t('customFields.model')}
+          label={t('custom_fields.model')}
           fieldIcon="align-center"
           items={MODAL_TYPES}
           disabled={disabled}
           defaultPickerOptions={{
-            label: t('customFields.modelPlaceholder'),
+            label: t('custom_fields.model_placeholder'),
             value: ''
           }}
           isRequired
@@ -337,13 +337,13 @@ export class CustomField extends React.Component<IProps> {
 
         <Field
           name={`${FIELDS.FIELD}.${FIELDS.TYPE}`}
-          label={t('customFields.type')}
+          label={t('custom_fields.type')}
           component={BaseDropdownPicker}
           isRequired
           fieldIcon="align-center"
           items={DATA_TYPES}
           defaultPickerOptions={{
-            label: t('customFields.typePlaceholder'),
+            label: t('custom_fields.type_placeholder'),
             value: ''
           }}
           disabled={disabled}
@@ -356,7 +356,7 @@ export class CustomField extends React.Component<IProps> {
           component={InputField}
           isRequired
           disabled={disabled}
-          hint={t('customFields.label')}
+          hint={t('custom_fields.label')}
         />
 
         {this.DATA_TYPE_OPTION_BASE_VIEW()}
@@ -364,7 +364,7 @@ export class CustomField extends React.Component<IProps> {
         <Field
           name={`${FIELDS.FIELD}.${FIELDS.ORDER}`}
           component={InputField}
-          hint={t('customFields.order')}
+          hint={t('custom_fields.order')}
           disabled={disabled}
           keyboardType={keyboardType.NUMERIC}
           isRequired

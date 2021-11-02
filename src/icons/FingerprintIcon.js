@@ -1,6 +1,6 @@
-import { colors } from '@/styles';
+import {colors} from '@/styles';
 export const FingerprintIcon = ({
-    stroke = colors.dark4
+  stroke = colors.dark4
 } = {}) => `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M22.0649 6.86548C23.192 9.06642 23.6096 11.65 23.0828 14.2624" stroke=${stroke} stroke-width="0.677344" stroke-miterlimit="10" stroke-linecap="round"/>
 <path d="M6.99231 1.84854C9.15499 0.786975 11.672 0.404106 14.2163 0.91711C17.1065 1.4998 19.5159 3.13431 21.1267 5.34161" stroke=${stroke} stroke-width="0.677344" stroke-miterlimit="10" stroke-linecap="round"/>

@@ -94,9 +94,9 @@ export class Expenses extends React.Component<IProps> {
     const isFilter = isFilterApply(formValues);
 
     const emptyTitle = search
-      ? 'search.noResult'
+      ? 'search.no_result'
       : isFilter
-      ? 'filter.empty.filterTitle'
+      ? 'filter.empty.filter_title'
       : 'expenses.empty.title';
 
     const emptyContentProps = {
@@ -107,7 +107,7 @@ export class Expenses extends React.Component<IProps> {
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('expenses.empty.buttonTitle'),
+          buttonTitle: t('expenses.empty.button_title'),
           buttonPress: () => {
             navigation.navigate(routes.EXPENSE, {
               type: 'ADD'

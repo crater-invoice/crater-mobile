@@ -299,10 +299,10 @@ const StyledButton = styled(Button)`
   ${prop('style')}
 `;
 
-export const ButtonView = (props) => {
+export const ButtonView = props => {
   return (
-    <StyledButton {...getClass(props?.class)} {...props}>
-       {props.children}
+    <StyledButton {...getClass(props.class)} {...props}>
+      {props.children}
     </StyledButton>
   );
 };

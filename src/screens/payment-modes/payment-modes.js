@@ -65,7 +65,7 @@ export class PaymentModes extends Component {
 
     alertMe({
       title: t('alert.title'),
-      desc: t('payments.alertMode'),
+      desc: t('payments.alert_mode'),
       showCancel: true,
       okPress: () =>
         dispatch(
@@ -102,9 +102,9 @@ export class PaymentModes extends Component {
     const disabled = !isAllowToEdit;
 
     const getTitle = () => {
-      let title = 'payments.addMode';
-      if (!isCreateMethod && !isAllowToEdit) title = 'header.viewPaymentMode';
-      if (!isCreateMethod && isAllowToEdit) title = 'payments.editMode';
+      let title = 'payments.add_mode';
+      if (!isCreateMethod && !isAllowToEdit) title = 'header.view_payment_mode';
+      if (!isCreateMethod && isAllowToEdit) title = 'payments.edit_mode';
 
       return t(title);
     };
@@ -124,7 +124,7 @@ export class PaymentModes extends Component {
             isAnimated
             bottomDivider
             contentContainerStyle={styles.contentContainerStyle}
-            emptyContentProps={{title: t('payments.empty.modeTitle')}}
+            emptyContentProps={{title: t('payments.empty.mode_title')}}
             itemContainer={styles.itemContainer}
           />
         </InfiniteScroll>
@@ -132,7 +132,7 @@ export class PaymentModes extends Component {
         <InputModal
           reference={ref => (this.modalReference = ref)}
           headerTitle={getTitle()}
-          hint={t('payments.modeHint')}
+          hint={t('payments.mode_hint')}
           fieldName="methodName"
           onSubmit={this.onSave}
           onRemove={this.onRemoveMethod}

@@ -79,7 +79,7 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
     function confirmationAlert(remove) {
       alertMe({
         title: t('alert.title'),
-        desc: t('recurring_invoices.text_alert_description'),
+        desc: t('recurring_invoices.alert_description'),
         showCancel: true,
         okPress: remove
       });

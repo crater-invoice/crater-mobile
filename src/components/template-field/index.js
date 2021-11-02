@@ -90,7 +90,7 @@ export class TemplateField extends Component<IProps> {
     const {visible, selectedTemplate: {name} = {}} = this.state;
     const bottomAction = [
       {
-        label: 'button.chooseTemplate',
+        label: 'button.choose_template',
         onPress: this.onSubmit
       }
     ];

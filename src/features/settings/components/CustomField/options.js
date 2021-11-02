@@ -24,7 +24,7 @@ const DEFAULT_TIME_FIELD = () => {
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
       component={TimePickerField}
-      label={t('customFields.defaultValue')}
+      label={t('custom_fields.default_value')}
       disabled={!isAllowToEdit}
     />
   );
@@ -36,7 +36,7 @@ const DEFAULT_NUMBER_FIELD = symbol => {
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
       component={InputField}
-      hint={t('customFields.defaultValue')}
+      hint={t('custom_fields.default_value')}
       keyboardType={keyboardType.NUMERIC}
       leftSymbol={symbol ?? currency?.symbol}
       disabled={!isAllowToEdit}
@@ -50,7 +50,7 @@ const DEFAULT_DATE_FIELD = () => {
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
       component={DatePickerField}
-      label={t('customFields.defaultValue')}
+      label={t('custom_fields.default_value')}
       icon={'calendar-alt'}
       formDateFormat="YYYY-MM-DD"
       disabled={!isAllowToEdit}
@@ -65,7 +65,7 @@ const DEFAULT_INPUT_FIELD = () => {
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
       component={InputField}
       disabled={!isAllowToEdit}
-      hint={t('customFields.defaultValue')}
+      hint={t('custom_fields.default_value')}
     />
   );
 };
@@ -77,7 +77,7 @@ const DEFAULT_TEXTAREA_FIELD = () => {
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
       component={InputField}
       disabled={!isAllowToEdit}
-      hint={t('customFields.defaultValue')}
+      hint={t('custom_fields.default_value')}
       inputProps={{
         multiline: true,
         maxLength: MAX_LENGTH
@@ -94,7 +94,7 @@ const PLACEHOLDER_FIELD = () => {
       name={`${FIELDS.FIELD}.${FIELDS.PLACEHOLDER}`}
       component={InputField}
       disabled={!isAllowToEdit}
-      hint={t('customFields.placeholder')}
+      hint={t('custom_fields.placeholder')}
     />
   );
 };
@@ -136,7 +136,7 @@ const SELECT_FIELD_DEFAULT_VALUE = () => {
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
       component={BaseDropdownPicker}
-      label={t('customFields.defaultValue')}
+      label={t('custom_fields.default_value')}
       fieldIcon="align-center"
       items={optionsFormat()}
       disabled={!isAllowToEdit}
@@ -150,8 +150,8 @@ const DEFAULT_CHECKBOX_FIELD = () => {
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
       component={CheckBox}
-      hint={t('customFields.defaultValue')}
-      label={t('customFields.check')}
+      hint={t('custom_fields.default_value')}
+      label={t('custom_fields.check')}
       disabled={!isAllowToEdit}
     />
   );
@@ -163,7 +163,7 @@ const DEFAULT_DATE_TIME_FIELD = () => {
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
       component={DateTimePickerField}
-      label={t('customFields.defaultValue')}
+      label={t('custom_fields.default_value')}
       disabled={!isAllowToEdit}
       callOnChangeInMount
       removeSecond

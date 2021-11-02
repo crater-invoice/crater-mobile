@@ -295,8 +295,8 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
       supportBiometryType === BIOMETRY_AUTH_TYPES.FINGERPRINT;
 
     const typeIdText = isFingerprintType
-      ? 'touchFaceId.finger'
-      : 'touchFaceId.face';
+      ? 'touch_face_id.finger'
+      : 'touch_face_id.face';
 
     const layoutProps = {
       hideScrollView: true,
@@ -312,8 +312,8 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
     };
 
     const TYPES_TITLES = {
-      [BIOMETRY_AUTH_TYPES.FINGERPRINT]: t('touchFaceId.touchId'),
-      [BIOMETRY_AUTH_TYPES.FACE]: t('touchFaceId.faceId')
+      [BIOMETRY_AUTH_TYPES.FINGERPRINT]: t('touch_face_id.touch_id'),
+      [BIOMETRY_AUTH_TYPES.FACE]: t('touch_face_id.face_id')
     };
 
     const type = TYPES_TITLES[supportBiometryType];
@@ -350,10 +350,10 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
             <HeadingView>
               <Title allowFontScaling={false}>{type}</Title>
               <SubTitle allowFontScaling={false}>
-                {t('touchFaceId.subTitle1')}
+                {t('touch_face_id.subtitle_1')}
               </SubTitle>
               <SubTitle2 allowFontScaling={false}>
-                {t('touchFaceId.subTitle2', {
+                {t('touch_face_id.subtitle_2', {
                   type
                 })}
               </SubTitle2>
@@ -434,7 +434,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
               size="lg"
               onPress={() => !isAllowToScan && this.setUpNow()}
             >
-              {t('button.setUpNow')}
+              {t('button.set_up_now')}
             </BaseButton>
 
             <GobBackButton onPress={() => navigation.goBack(null)}>
@@ -496,7 +496,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
           </EnrolledIconView>
           <EnrolledBody>
             <EnrolledTitle theme={theme} allowFontScaling={false}>
-              {t('touchFaceId.activated', {type})}
+              {t('touch_face_id.activated', {type})}
             </EnrolledTitle>
 
             <ToggleBiometryView>
@@ -504,10 +504,10 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
                 name="biometry"
                 component={ToggleSwitch}
                 status={true}
-                hint={t('touchFaceId.enableLogin', {
+                hint={t('touch_face_id.enable_login', {
                   type
                 })}
-                description={t('touchFaceId.enableLoginHint', {
+                description={t('touch_face_id.enable_login_hint', {
                   type
                 })}
                 onChangeCallback={status => {
@@ -562,10 +562,10 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
           </NotSupportedIconView>
           <NotSupportedTextView>
             <NotSupportedTitle allowFontScaling={false}>
-              {t('touchFaceId.notCompatible')}
+              {t('touch_face_id.not_compatible')}
             </NotSupportedTitle>
             <NotSupportedSubTitle allowFontScaling={false}>
-              {t('touchFaceId.hardwareNotAvailable', {
+              {t('touch_face_id.hardware_not_available', {
                 type: t(typeIdText)
               })}
             </NotSupportedSubTitle>

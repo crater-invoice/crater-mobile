@@ -147,9 +147,9 @@ export default class RecurringInvoices extends React.Component<
     }
 
     const emptyTitle = search
-      ? 'search.noResult'
+      ? 'search.no_result'
       : isFilter
-      ? 'filter.empty.filterTitle'
+      ? 'filter.empty.filter_title'
       : title;
 
     return {
@@ -160,7 +160,7 @@ export default class RecurringInvoices extends React.Component<
       }),
       ...(!search &&
         !isFilter && {
-          buttonTitle: t('recurring_invoices.empty.buttonTitle'),
+          buttonTitle: t('recurring_invoices.empty.button_title'),
           buttonPress: () =>
             navigation.navigate(routes.CREATE_RECURRING_INVOICE, {
               type: 'ADD'
