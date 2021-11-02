@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {BaseDropdownPicker, DatePickerField, InputField} from '@/components';
+import {BaseDropdownPicker, BaseDatePicker, InputField} from '@/components';
 import t from 'locales/use-translation';
 import {LIMIT_TYPES} from 'stores/recurring-invoices/helpers';
 
@@ -43,7 +43,7 @@ export const LimitField = (props: IProps) => {
       {limitByField.value === 'DATE' && (
         <Field
           name={limitDateField.name}
-          component={DatePickerField}
+          component={BaseDatePicker}
           label={t('recurring_invoices.limit_types.date')}
           icon={'calendar-alt'}
           isRequired

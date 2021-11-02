@@ -5,7 +5,7 @@ import {Text} from '../Text';
 import {styles} from './styles';
 
 type IProps = {
-  title?: String,
+  title?: string,
   dividerStyle?: Object,
   titleStyle?: Object,
   theme?: any

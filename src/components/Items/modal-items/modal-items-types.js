@@ -9,12 +9,12 @@ export interface IProps {
   /**
    * If true the user will be able to update the current item data.
    */
-  isAllowToEdit: Boolean;
+  isAllowToEdit: boolean;
 
   /**
    * Name of current screen.
    */
-  screen: String;
+  screen: string;
 
   /**
    * An array of objects with data for selected items.
@@ -51,15 +51,15 @@ export interface IProps {
   /**
    * Is field is disabled.
    */
-  disabled: Boolean;
+  disabled: boolean;
 
   /**
    * Discount per item.
    */
-  discount_per_item: Boolean;
+  discount_per_item: boolean;
 
   /**
    *  Tax per item.
    */
-  tax_per_item: Boolean;
+  tax_per_item: boolean;
 }

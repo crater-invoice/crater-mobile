@@ -23,10 +23,10 @@ interface IProps {
   emptyContentProps?: any;
   reference?: any;
   hideRefreshControl?: boolean;
-  getItems?: Function;
+  getItems?: () => void;
   getItemsInMount?: boolean;
-  onMount?: Function;
-  hideLoader?: Boolean;
+  onMount?: () => void;
+  hideLoader?: boolean;
   paginationLimit?: Number;
 }
 

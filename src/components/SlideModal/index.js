@@ -10,19 +10,19 @@ import {isAndroidPlatform} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
 
 type IProps = {
-  visible: Boolean,
-  onToggle: Function,
+  visible: boolean,
+  onToggle: () => void,
   headerProps: Object,
-  onSearch: Function,
-  bottomDivider: Boolean,
-  hasSearchField: Boolean,
+  onSearch: () => void,
+  bottomDivider: boolean,
+  hasSearchField: boolean,
   listViewProps: Object,
-  defaultLayout: Boolean,
+  defaultLayout: boolean,
   children: Object,
   bottomAction: Object,
   searchInputProps: Object,
   searchFieldProps: any,
-  isPagination: Boolean,
+  isPagination: boolean,
   infiniteScrollProps: any,
   scrollViewProps: any
 };

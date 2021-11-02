@@ -23,7 +23,7 @@ import {
 
 interface IProps {
   loading: boolean;
-  setBiometryAuthType: Function;
+  setBiometryAuthType: () => void;
   biometryAuthType: string;
   navigation: any;
 }

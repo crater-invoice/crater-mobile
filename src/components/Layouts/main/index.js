@@ -19,10 +19,10 @@ import {routes} from '@/navigation';
 interface IProps {
   children: any;
   headerProps?: any;
-  onSearch?: Function;
-  bottomDivider?: Boolean;
-  hasSearchField?: Boolean;
-  onToggleFilter?: Function;
+  onSearch?: () => void;
+  bottomDivider?: boolean;
+  hasSearchField?: boolean;
+  onToggleFilter?: () => void;
   filterProps?: Object;
   inputProps?: Object;
   dividerStyle?: Object;

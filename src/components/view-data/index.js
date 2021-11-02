@@ -8,17 +8,17 @@ type IProps = {
   /**
    * Label value of field.
    */
-  label?: String,
+  label?: string,
 
   /**
    * Value of field.
    */
-  values?: String,
+  values?: string,
 
   /**
    * Is field with pair.
    */
-  inPairs?: Boolean,
+  inPairs?: boolean,
 
   /**
    * An objects with data of field.

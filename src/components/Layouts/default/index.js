@@ -13,8 +13,8 @@ import {commonSelector} from 'stores/common/selectors';
 type IProps = {
   children?: Object,
   headerProps?: Object,
-  hasRightButton?: Boolean,
-  rightIcon?: String,
+  hasRightButton?: boolean,
+  rightIcon?: string,
   bottomAction?: any,
   loadingProps?: Object,
   dropdownProps?: Object,

@@ -3,8 +3,8 @@ import {Field, FieldArray} from 'redux-form';
 import {CUSTOM_FIELDS as FIELDS} from '../../constants';
 import {
   InputField,
-  DatePickerField,
-  TimePickerField,
+  BaseDatePicker,
+  BaseTimePicker,
   SelectFieldOptions,
   CheckBox,
   DateTimePickerField,
@@ -23,7 +23,7 @@ const DEFAULT_TIME_FIELD = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={TimePickerField}
+      component={BaseTimePicker}
       label={t('customFields.defaultValue')}
       disabled={!isAllowToEdit}
     />
@@ -49,7 +49,7 @@ const DEFAULT_DATE_FIELD = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={DatePickerField}
+      component={BaseDatePicker}
       label={t('customFields.defaultValue')}
       icon={'calendar-alt'}
       formDateFormat="YYYY-MM-DD"

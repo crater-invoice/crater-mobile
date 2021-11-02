@@ -271,7 +271,7 @@ interface IProps {
    * Called when the touch is released,
    * but not if cancelled (e.g. by a scroll that steals the responder lock).
    */
-  onPress?: Function;
+  onPress?: () => void;
 
   /**
    * If true, find image proper dimension width and height.

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {DatePickerField} from '@/components/DatePickerField';
+import {BaseDatePicker} from '@/components';
 
 export function DateType({field, name, disabled}) {
   const {label = null, is_required = false, placeholder = null} = field;
@@ -8,7 +8,7 @@ export function DateType({field, name, disabled}) {
   return (
     <Field
       name={name}
-      component={DatePickerField}
+      component={BaseDatePicker}
       label={label}
       formDateFormat="YYYY-MM-DD"
       isRequired={is_required}

@@ -26,13 +26,13 @@ import {CurrencySelectModal} from '@/select-modal';
 
 interface IProps {
   navigation: Object;
-  type: String;
-  getCustomerDetail: Function;
-  createCustomer: Function;
-  updateCustomer: Function;
-  handleSubmit: Function;
+  type: string;
+  getCustomerDetail: () => void;
+  createCustomer: () => void;
+  updateCustomer: () => void;
+  handleSubmit: () => void;
   customFields: any;
-  loading: Boolean;
+  loading: boolean;
   formValues: Object;
 }
 

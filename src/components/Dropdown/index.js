@@ -8,7 +8,7 @@ import {definePlatformParam, isEmpty, isIosPlatform} from '@/constants';
 
 type IProps = {
   options: Array,
-  onPress: Function,
+  onPress: () => void,
   cancelButtonIndex: Number,
   destructiveButtonIndex: Number
 };

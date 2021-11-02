@@ -15,19 +15,19 @@ import {AssetImage} from '../asset-image';
 import {commonSelector} from 'stores/common/selectors';
 
 type IProps = {
-  hasAvatar: Boolean,
-  isEmpty: Boolean,
+  hasAvatar: boolean,
+  isEmpty: boolean,
   containerStyle: Object,
   emptyContentProps: Object,
   rightTitleStyle: Object,
   leftTitleStyle: Object,
   leftSubTitleLabelStyle: Object,
   listItemProps: Object,
-  backgroundColor: String,
-  compareField: String,
+  backgroundColor: string,
+  compareField: string,
   checkedItems: Array,
   listViewContainerStyle: Object,
-  isAnimated?: Boolean,
+  isAnimated?: boolean,
   parentViewStyle?: any
 };
 

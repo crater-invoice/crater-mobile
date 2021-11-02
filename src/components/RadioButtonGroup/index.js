@@ -5,11 +5,11 @@ import {styles} from './styles';
 
 type IProps = {
   input: Object,
-  disabled: Boolean,
+  disabled: boolean,
   baseSelectContainerStyle: Object,
-  hint: String,
+  hint: string,
   initialValue: string,
-  onChangeCallback: Function,
+  onChangeCallback: () => void,
   theme: any
 };
 

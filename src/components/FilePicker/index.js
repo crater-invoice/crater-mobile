@@ -21,17 +21,17 @@ import {BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 
 interface IProps {
-  label: String;
+  label: string;
   containerStyle: Object;
-  onChangeCallback: Function;
+  onChangeCallback: () => void;
   style: Object;
   imageContainerStyle: Object;
-  hasAvatar: Boolean;
+  hasAvatar: boolean;
   loadingContainerStyle: Object;
   withDocument: boolean;
-  fileLoading: Function;
-  uploadedFileUrl: String;
-  uploadedFileType: String;
+  fileLoading: () => void;
+  uploadedFileUrl: string;
+  uploadedFileType: string;
   showUploadedImageAsCache: boolean;
 }
 

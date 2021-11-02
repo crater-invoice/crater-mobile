@@ -1,28 +1,29 @@
 import React, {Component, Fragment} from 'react';
+import {StyleSheet} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {AnimateModal} from '../animate-modal';
 import moment from 'moment';
 import t from 'locales/use-translation';
 import {CtButton} from '../button';
+import {colors} from '@/styles';
+import {isDarkMode} from '@/utils';
+import {BaseSelect} from '@/components';
 import {
   isIosPlatform,
   majorVersionIOS,
   TIME_FORMAT,
   TIME_FORMAT_MERIDIEM
 } from '@/constants';
-import {colors} from '@/styles';
-import styles from './styles';
-import {isDarkMode} from '@/utils';
-import {BaseSelect} from '@/components';
 
-export class TimePickerField extends Component {
+export class BaseTimePicker extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
       timeStamp: new Date(),
       selectedTimeStamp: new Date(),
-      displayMode: null
+      displayMode: null,
+      time: null
     };
   }
 
@@ -32,12 +33,10 @@ export class TimePickerField extends Component {
   }
 
   setInitialTimeValue = () => {
-    const {
-      input: {value}
-    } = this.props;
+    const {input} = this.props;
 
-    if (value) {
-      const split = value.split(':');
+    if (input?.value) {
+      const split = input?.value.split(':');
       const hour = split?.[0] ?? 0;
       const minute = split?.[1] ?? 0;
       const second = split?.[2] ?? 0;
@@ -99,17 +98,14 @@ export class TimePickerField extends Component {
   };
 
   onChangeTime = timeStamp => {
-    const {
-      input: {onChange},
-      onChangeCallback
-    } = this.props;
+    const {input, onChangeCallback} = this.props;
     this.onToggleModal();
     this.setState({
       selectedTimeStamp: timeStamp,
       time: moment(timeStamp).format(TIME_FORMAT_MERIDIEM)
     });
     const timeFormat = moment(timeStamp).format(TIME_FORMAT);
-    onChange?.(timeFormat);
+    input?.onChange?.(timeFormat);
     onChangeCallback?.(timeFormat);
   };
 
@@ -157,6 +153,7 @@ export class TimePickerField extends Component {
       </AnimateModal>
     );
   };
+
   render() {
     const {
       label,
@@ -177,7 +174,6 @@ export class TimePickerField extends Component {
         <BaseSelect
           label={label}
           icon={'clock'}
-          isRequired={true}
           onChangeCallback={this.onToggleModal}
           values={time}
           placeholder={placeholder ?? ' '}
@@ -190,4 +186,81 @@ export class TimePickerField extends Component {
       </>
     );
   }
+}
+
+const styles = StyleSheet.create({
+  button: {
+    marginTop: -5,
+    marginHorizontal: -5,
+    width: '110%'
+  }
+});
+
+interface IProps {
+  /**
+   * Label of date picker view.
+   */
+  label?: string;
+
+  /**
+   * Showing placeholder text until date not selecting.
+   */
+  placeholder?: string;
+
+  /**
+   * An additional field accessibility.
+   */
+  baseSelectProps?: any;
+
+  /**
+   * If true, required validation message shows.
+   */
+  isRequired?: boolean;
+
+  /**
+   * Redux form built-in input events.
+   */
+  input?: any;
+
+  /**
+   * Redux form built-in meta validation events.
+   */
+  meta?: any;
+
+  /**
+   * If true, disable press event.
+   */
+  disabled?: boolean;
+
+  /**
+   * An action to return the current time value.
+   */
+  onChangeCallback?: (callback: any) => void;
+}
+
+interface IStates {
+  /**
+   * If true the modal is showing.
+   */
+  visible?: boolean;
+
+  /**
+   * Selected date value.
+   */
+  selectedTimeStamp: Date | string;
+
+  /**
+   * Selected date actual value.
+   */
+  time: Date | string;
+
+  /**
+   * The currently selected date.
+   */
+  timeStamp: Date | string | any;
+
+  /**
+   * The display options.
+   */
+  displayMode: 'spinner' | 'default' | 'clock' | 'calendar' | any;
 }

@@ -94,7 +94,7 @@ interface IProps {
   /**
    * The text to shown on the left side of the currency.
    */
-  preText: String;
+  preText: string;
 
   /**
    * The style of the content container(View).

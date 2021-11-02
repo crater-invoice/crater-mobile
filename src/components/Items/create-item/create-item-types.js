@@ -4,12 +4,12 @@ export interface IProps {
   /**
    * Name of current screen.
    */
-  screen: String;
+  screen: string;
 
   /**
    * Type of current screen.
    */
-  type: String;
+  type: string;
 
   /**
    * dispatch change action.
@@ -46,12 +46,12 @@ export interface IProps {
   /**
    * Discount per item.
    */
-  discount_per_item: Boolean;
+  discount_per_item: boolean;
 
   /**
    * Id of the current Item.
    */
-  itemId: String;
+  itemId: string;
 
   /**
    * An array of objects with data for each tax.
@@ -61,7 +61,7 @@ export interface IProps {
   /**
    *  Tax per item.
    */
-  tax_per_item: Boolean;
+  tax_per_item: boolean;
 
   /**
    * An array of objects with data for each unit.

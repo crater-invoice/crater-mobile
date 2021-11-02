@@ -11,9 +11,9 @@ import {loadingSelector} from 'stores/payment-modes/selectors';
 interface IProps {
   isSaving: boolean;
   reference: any;
-  handleSubmit: Function;
-  addPaymentMode: Function;
-  dispatch: Function;
+  handleSubmit: () => void;
+  addPaymentMode: () => void;
+  dispatch: () => void;
 }
 
 class Modal extends Component<IProps> {

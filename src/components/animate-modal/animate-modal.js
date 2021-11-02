@@ -31,7 +31,7 @@ interface IProps {
   /**
    * If true the modal is showing.
    */
-  visible?: Boolean;
+  visible?: boolean;
 
   /**
    * An additional modal accessibility.

@@ -5,9 +5,9 @@ import {Text} from '../Text';
 import {styles} from './styles';
 
 type IProps = {
-  activeTab: String,
+  activeTab: string,
   tabs: Array<Object>,
-  setActiveTab: Function,
+  setActiveTab: () => void,
   style: Object,
   theme: any
 };

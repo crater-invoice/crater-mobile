@@ -14,7 +14,7 @@ interface IProps {
   /**
    * Name of font awesome icon.
    */
-  name: string;
+  name?: string;
 
   /**
    * Size of font awesome icon.

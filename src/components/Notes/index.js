@@ -33,7 +33,7 @@ interface IProps {
   /**
    * Current parent screen.
    */
-  noteType?: String;
+  noteType?: string;
 
   /**
    * Return when item select.

@@ -16,17 +16,17 @@ import {NOTES_FIELD_MODAL_TYPES as MODAL_TYPES} from '../../constants';
 interface IProps {
   navigation: any;
   type: any;
-  createNote: Function;
-  updateNote: Function;
-  getNotesLoading: Boolean;
-  removeNote: Function;
+  createNote: () => void;
+  updateNote: () => void;
+  getNotesLoading: boolean;
+  removeNote: () => void;
   id: Number;
   noteLoading: any;
-  handleSubmit: Function;
-  dispatch: Function;
+  handleSubmit: () => void;
+  dispatch: () => void;
   formValues: any;
-  getNoteDetail: Function;
-  getCreateNote: Function;
+  getNoteDetail: () => void;
+  getCreateNote: () => void;
   customFields: Array<any>;
 }
 

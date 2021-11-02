@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import t from 'locales/use-translation';
 import {checkConnection} from '@/constants';
 import {Text} from '../Text';
-import {BaseButton} from '../base/base-button';
+import {BaseButton} from '../base';
 import {commonSelector} from 'stores/common/selectors';
 import {AssetSvg} from '../asset-svg';
 import {LostConnectionIcon} from '@/icons';

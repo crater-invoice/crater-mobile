@@ -8,7 +8,7 @@ import t from 'locales/use-translation';
 import {alertMe, isEmpty} from '@/constants';
 import {
   InputField,
-  DatePickerField,
+  BaseDatePicker,
   DefaultLayout,
   SendMail,
   CustomField,
@@ -449,7 +449,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
             <Field
               name="invoice_date"
               isRequired
-              component={DatePickerField}
+              component={BaseDatePicker}
               label={t('invoices.invoiceDate')}
               icon={'calendar-alt'}
               onChangeCallback={val => this.setFormField('invoice_date', val)}
@@ -461,7 +461,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
             <Field
               name="due_date"
               isRequired
-              component={DatePickerField}
+              component={BaseDatePicker}
               label={t('invoices.dueDate')}
               icon={'calendar-alt'}
               onChangeCallback={val => this.setFormField('due_date', val)}

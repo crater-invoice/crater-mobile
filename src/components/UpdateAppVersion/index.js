@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {styles, Container} from './styles';
 import {Text} from '../Text';
 import {AssetImage} from '../asset-image';
-import {BaseButton} from '../base/base-button';
+import {BaseButton} from '../base';
 import t from 'locales/use-translation';
 import {commonSelector} from 'stores/common/selectors';
 import {isAndroidPlatform} from '@/constants';

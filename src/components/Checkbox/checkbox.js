@@ -87,42 +87,42 @@ interface IProps {
   /**
    * Label of checkbox view.
    */
-  label: String;
+  label: string;
 
   /**
    * Heading of checkbox view.
    */
-  hint: String;
+  hint?: string;
 
   /**
    * The style of the content container(CheckBox).
    */
-  containerStyle: StyleProp<ViewStyle> | any;
+  containerStyle?: StyleProp<ViewStyle> | any;
 
   /**
    * The style of the content container(Hading).
    */
-  hintStyle: StyleProp<ViewStyle> | any;
+  hintStyle?: StyleProp<ViewStyle> | any;
 
   /**
    * The style of the content container(label).
    */
-  labelStyle: StyleProp<ViewStyle> | any;
+  labelStyle?: StyleProp<ViewStyle> | any;
 
   /**
    * Redux form built-in input events.
    */
-  input: any;
+  input?: any;
 
   /**
    * Called when the touch is released.
    */
-  onChangeCallback: Function;
+  onChangeCallback?: () => void;
 
   /**
    * An additional modal accessibility.
    */
-  checkBoxProps: any;
+  checkBoxProps?: any;
 
   /**
    * Disables the checkbox field
@@ -133,5 +133,5 @@ interface IProps {
    * An active theme object.
    * @see ITheme
    */
-  theme: ITheme;
+  theme?: ITheme;
 }

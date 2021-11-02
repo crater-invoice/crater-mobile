@@ -51,7 +51,7 @@ interface IProps {
    * Delay of fade in animation in ms.
    * Defaults to 0
    */
-  delay: number;
+  delay?: number;
 }
 
 interface IStates {

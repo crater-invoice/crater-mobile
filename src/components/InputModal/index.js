@@ -12,14 +12,14 @@ import {commonSelector} from 'stores/common/selectors';
 
 type Iprops = {
   modalProps?: Object,
-  headerTitle?: String,
-  hint?: String,
-  fieldName?: String,
-  onRemove?: Function,
-  onSubmit?: Function,
-  showRemoveButton?: Boolean,
+  headerTitle?: string,
+  hint?: string,
+  fieldName?: string,
+  onRemove?: () => void,
+  onSubmit?: () => void,
+  showRemoveButton?: boolean,
   reference?: any,
-  onSubmitLoading?: Boolean
+  onSubmitLoading?: boolean
 };
 
 class inputModalComponent extends Component<Iprops> {

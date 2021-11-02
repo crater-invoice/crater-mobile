@@ -48,17 +48,17 @@ export const PLACEHOLDER_TYPES = {
 interface IProps {
   reference?: any;
   customFields?: Array<any>;
-  types?: Array<String>;
-  name?: String;
-  label?: String;
-  dispatch?: Function;
-  form?: String;
+  types?: Array<string>;
+  name?: string;
+  label?: string;
+  dispatch?: () => void;
+  form?: string;
   formValues?: any;
   isRequired?: boolean;
   showPreview?: boolean;
   customRightLabelComponent?: any;
   fieldInputProps?: any;
-  placeholder?: String;
+  placeholder?: string;
   htmlViewStyle?: StyleProp<ViewStyle> | any;
   containerStyle: StyleProp<ViewStyle> | any;
   labelStyle: StyleProp<ViewStyle> | any;

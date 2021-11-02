@@ -7,7 +7,7 @@ import {alertMe, isEmpty} from '@/constants';
 import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
 import {
   DefaultLayout,
-  DatePickerField,
+  BaseDatePicker,
   CustomField,
   Notes,
   ItemField,
@@ -328,7 +328,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
         <Field
           name={'starts_at'}
           isRequired
-          component={DatePickerField}
+          component={BaseDatePicker}
           label={t('recurring_invoices.start_date')}
           icon={'calendar-alt'}
           onChangeCallback={val => {

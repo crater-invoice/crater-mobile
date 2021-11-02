@@ -10,7 +10,7 @@ import {PermissionService} from '@/services';
 
 type IProps = {
   navigation: Object,
-  getPayments: Function,
+  getPayments: () => void,
   payments: Object,
   formValues: any
 };

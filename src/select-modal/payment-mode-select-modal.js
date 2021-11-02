@@ -17,7 +17,7 @@ interface IProps {
   /**
    * Is allowed to edit.
    */
-  disabled?: Boolean;
+  disabled?: boolean;
 }
 
 export const PaymentModeSelectModal = (props: IProps) => {

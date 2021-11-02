@@ -50,7 +50,7 @@ interface IProps {
   /**
    * If true, show loader together with content.
    */
-  withLoading?: Boolean;
+  withLoading?: boolean;
 
   /**
    * An additional loading accessibility.

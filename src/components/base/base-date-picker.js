@@ -1,39 +1,14 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
-import styles from './styles';
-import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import {connect} from 'react-redux';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import {StyleProp, ViewStyle} from 'react-native';
 import {DATE_FORMAT, isIosPlatform, majorVersionIOS} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseSelect} from '@/components';
+import {ITheme} from '@/interfaces';
 
-type IProps = {
-  label: String,
-  icon: String,
-  onChangeCallback: Function,
-  containerStyle: Object,
-  rightIcon: String,
-  displayValue: Boolean,
-  isRequired: Boolean,
-  formDateFormat: string,
-  input: any,
-  dateFormat: string,
-  selectedDate: string,
-  selectedDateValue: string,
-  meta: any,
-  placeholder: string,
-  baseSelectProps: any,
-  filter: any
-};
-
-type IStates = {
-  isDateTimePickerVisible: boolean,
-  value: string,
-  displayMode: any
-};
-
-export class DatePickerComponent extends Component<IProps, IStates> {
+class DatePicker extends Component<IProps, IStates> {
   pickerDateValue: any;
   displayValue: any;
 
@@ -185,7 +160,7 @@ export class DatePickerComponent extends Component<IProps, IStates> {
     }
 
     return (
-      <View style={styles.container}>
+      <>
         <BaseSelect
           label={label}
           icon={'calendar-alt'}
@@ -208,7 +183,7 @@ export class DatePickerComponent extends Component<IProps, IStates> {
           isDarkModeEnabled={theme?.mode === 'dark'}
           {...pickerOption}
         />
-      </View>
+      </>
     );
   }
 }
@@ -218,4 +193,104 @@ const mapStateToProps = state => ({
   ...commonSelector(state)
 });
 
-export const DatePickerField = connect(mapStateToProps)(DatePickerComponent);
+export const BaseDatePicker = connect(mapStateToProps)(DatePicker);
+
+interface IProps {
+  /**
+   * Label of date picker view.
+   */
+  label?: string;
+
+  /**
+   * An action to return the current time value.
+   */
+  onChangeCallback?: () => void;
+
+  /**
+   * The style of the content container(DatePicker).
+   */
+  containerStyle?: StyleProp<ViewStyle> | any;
+
+  /**
+   * Display selected date with formatting.
+   */
+  displayValue?: string;
+
+  /**
+   * If true, required validation message shows.
+   */
+  isRequired?: boolean;
+
+  /**
+   * Return selected date with formatting.
+   */
+  formDateFormat?: string;
+
+  /**
+   * Redux form built-in input events.
+   */
+  input?: any;
+
+  /**
+   * Selected date format type.  YYYY-MM-DD
+   */
+  dateFormat?: string;
+
+  /**
+   * Selected date timestamp.
+   */
+  selectedDate?: string;
+
+  /**
+   * Selected date timestamp formatted value.
+   */
+  selectedDateValue?: string;
+
+  /**
+   * Redux form built-in meta validation events.
+   */
+  meta?: any;
+
+  /**
+   * Showing placeholder text until date not selecting.
+   */
+  placeholder?: string;
+
+  /**
+   * An additional field accessibility.
+   */
+  baseSelectProps?: any;
+
+  /**
+   * If true, return the selected date timestamp and its value.
+   */
+  filter?: boolean;
+
+  /**
+   * If true, disable press event.
+   */
+  disabled?: boolean;
+
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
+  theme?: ITheme;
+}
+
+interface IStates {
+  /**
+   * If true the modal is showing.
+   */
+  isDateTimePickerVisible?: boolean;
+
+  /**
+   * Selected date value.
+   */
+  value: string;
+
+  /**
+   * The display options.
+   */
+  displayMode: 'spinner' | 'default' | 'clock' | 'calendar' | any;
+}

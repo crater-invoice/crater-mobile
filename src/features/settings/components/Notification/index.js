@@ -8,8 +8,8 @@ import {keyboardType} from '@/constants';
 
 type IProps = {
   navigation: Object,
-  handleSubmit: Function,
-  getAccountLoading: Boolean
+  handleSubmit: () => void,
+  getAccountLoading: boolean
 };
 export class Notification extends React.Component<IProps> {
   constructor(props) {

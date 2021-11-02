@@ -10,7 +10,7 @@ import {fonts} from '@/styles';
 type IProps = {
   navigation: Object,
   expenses: Object,
-  getNotes: Function,
+  getNotes: () => void,
   notes: any
 };
 

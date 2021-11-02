@@ -3,8 +3,7 @@ import {View} from 'react-native';
 import {reduxForm, Field, change} from 'redux-form';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import {DatePickerField} from '../DatePickerField';
-import {TimePickerField} from '../TimePickerField';
+import {BaseDatePicker, BaseTimePicker} from '../base';
 import {DATE_FORMAT} from '@/constants';
 import t from 'locales/use-translation';
 import styles from './styles';
@@ -15,11 +14,11 @@ import {commonSelector} from 'stores/common/selectors';
 const DATE_TIME_PICKER_FORM = 'DATE_TIME_PICKER_FORM';
 
 type Props = {
-  dateFieldName: String,
-  timeFieldName: String,
+  dateFieldName: string,
+  timeFieldName: string,
   input: any,
-  onChangeCallback: Function,
-  hideError: Boolean,
+  onChangeCallback: () => void,
+  hideError: boolean,
   meta: any
 };
 
@@ -132,7 +131,7 @@ class Picker extends Component<Props> {
           <View style={styles.dateColumn}>
             <Field
               name={dateFieldName}
-              component={DatePickerField}
+              component={BaseDatePicker}
               onChangeCallback={val => this.onChange({date: val})}
               placeholder={this.getDefaultDateValue(value)}
               formDateFormat="YYYY-MM-DD"
@@ -145,7 +144,7 @@ class Picker extends Component<Props> {
           <View style={styles.timeColumn(theme)}>
             <Field
               name={timeFieldName}
-              component={TimePickerField}
+              component={BaseTimePicker}
               placeholder={this.getDefaultTimeValue(value)}
               onChangeCallback={val => this.onChange({time: val})}
               baseSelectProps={{

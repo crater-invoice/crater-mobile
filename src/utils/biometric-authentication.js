@@ -10,9 +10,9 @@ const authenticationFail = () => {
 };
 
 interface IProps {
-  onSuccess?: Function;
-  onCancel?: Function;
-  onFail?: Function;
+  onSuccess?: () => void;
+  onCancel?: () => void;
+  onFail?: () => void;
 }
 export const biometricAuthentication = async ({
   onSuccess,

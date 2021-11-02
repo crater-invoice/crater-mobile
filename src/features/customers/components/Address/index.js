@@ -9,21 +9,21 @@ import {SlideModal, InputField, ActionButton, BaseSelect} from '@/components';
 import {CountrySelectModal} from '@/select-modal';
 
 type IProps = {
-  label: String,
-  icon: String,
-  onChangeCallback: Function,
-  placeholder: String,
+  label: string,
+  icon: string,
+  onChangeCallback: () => void,
+  placeholder: string,
   containerStyle: Object,
-  rightIcon: String,
-  leftIcon: String,
-  color: String,
-  value: String,
+  rightIcon: string,
+  leftIcon: string,
+  color: string,
+  value: string,
   items: Object,
-  rightIcon: String,
-  hasBillingAddress: Boolean,
+  rightIcon: string,
+  hasBillingAddress: boolean,
   meta: Object,
-  handleSubmit: Function,
-  type: String
+  handleSubmit: () => void,
+  type: string
 };
 
 let country = 'country_id';

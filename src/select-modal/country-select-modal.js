@@ -14,7 +14,7 @@ interface IProps {
   /**
    * Is allowed to edit.
    */
-  disabled?: Boolean;
+  disabled?: boolean;
 
   /**
    * An active theme object.

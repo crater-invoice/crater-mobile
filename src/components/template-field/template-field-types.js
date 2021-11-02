@@ -7,7 +7,7 @@ export type IProps = {
   /**
    * Return when field value change.
    */
-  onChangeCallback: Function,
+  onChangeCallback: () => void,
 
   /**
    * Content-Container style.
@@ -22,17 +22,17 @@ export type IProps = {
   /**
    * Label for Fake-input.
    */
-  label: String,
+  label: string,
 
   /**
    * Icon for Fake-input.
    */
-  icon: String,
+  icon: string,
 
   /**
    * Placeholder for Fake-input.
    */
-  placeholder: String,
+  placeholder: string,
 
   /**
    * Meta props for Fake-Input field.
@@ -42,10 +42,10 @@ export type IProps = {
   /**
    * Is field is disabled.
    */
-  disabled: Boolean,
+  disabled: boolean,
 
   /**
    * Is field is required.
    */
-  isRequired: Boolean
+  isRequired: boolean
 };

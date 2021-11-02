@@ -11,9 +11,9 @@ import {loadingSelector} from 'stores/item-units/selectors';
 interface IProps {
   isSaving: boolean;
   reference: any;
-  handleSubmit: Function;
-  addItemUnit: Function;
-  dispatch: Function;
+  handleSubmit: () => void;
+  addItemUnit: () => void;
+  dispatch: () => void;
 }
 
 class Modal extends Component<IProps> {

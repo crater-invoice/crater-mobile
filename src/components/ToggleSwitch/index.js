@@ -8,15 +8,15 @@ import {commonSelector} from 'stores/common/selectors';
 
 type IProps = {
   input: Object,
-  disabled: Boolean,
+  disabled: boolean,
   meta: Object,
   switchStyle: Object,
   containerStyle: Object,
   descriptionStyle: Object,
   hintStyle: Object,
   hint: string,
-  description: String,
-  switchType: String
+  description: string,
+  switchType: string
 };
 class Switch extends Component<IProps> {
   constructor(props) {

@@ -126,7 +126,7 @@ interface IProps {
   /**
    * The name of the active form.
    */
-  form?: String;
+  form?: string;
 
   /**
    * Gets form data.
@@ -136,7 +136,7 @@ interface IProps {
   /**
    * Type of active feature modal..
    */
-  type?: String;
+  type?: string;
 
   /**
    * If true the user will be able to update the custom field data.

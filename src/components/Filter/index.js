@@ -6,7 +6,7 @@ import styles from './styles';
 import {DefaultLayout} from '../Layouts';
 import {InputField} from '../InputField';
 import {SelectField} from '../SelectField';
-import {DatePickerField} from '../DatePickerField';
+import {BaseDatePicker} from '../base';
 import {ActionButton, CtDecorativeButton} from '../button';
 import t from 'locales/use-translation';
 import {
@@ -21,9 +21,9 @@ import {colors} from '@/styles';
 import {BaseDropdownPicker} from '@/components';
 
 type IProps = {
-  visible: Boolean,
-  onToggle: Function,
-  onSubmitFilter: Function,
+  visible: boolean,
+  onToggle: () => void,
+  onSubmitFilter: () => void,
   headerProps: Object,
   inputFields: Object,
   dropdownFields: Object,
@@ -130,7 +130,7 @@ export class Filter extends Component<IProps> {
           <CtView flex={1} justify-between>
             <Field
               name={name}
-              component={DatePickerField}
+              component={BaseDatePicker}
               filter={true}
               {...field}
             />

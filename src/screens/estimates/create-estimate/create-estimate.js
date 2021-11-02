@@ -4,7 +4,7 @@ import {find} from 'lodash';
 import {Field, change, initialize} from 'redux-form';
 import {
   InputField,
-  DatePickerField,
+  BaseDatePicker,
   DefaultLayout,
   SendMail,
   CustomField,
@@ -481,7 +481,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
             <Field
               name={'estimate_date'}
               isRequired
-              component={DatePickerField}
+              component={BaseDatePicker}
               label={t('estimates.estimateDate')}
               icon={'calendar-alt'}
               onChangeCallback={val => this.setFormField('estimate_date', val)}
@@ -493,7 +493,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
             <Field
               name="expiry_date"
               isRequired
-              component={DatePickerField}
+              component={BaseDatePicker}
               label={t('estimates.expiryDate')}
               icon={'calendar-alt'}
               onChangeCallback={val => this.setFormField('expiry_date', val)}

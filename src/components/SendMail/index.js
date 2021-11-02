@@ -28,10 +28,10 @@ import {
 } from '@/constants';
 
 type IProps = {
-  handleSubmit: Function,
-  onSendMail: Function,
-  headerTitle: String,
-  alertDesc: String
+  handleSubmit: () => void,
+  onSendMail: () => void,
+  headerTitle: string,
+  alertDesc: string
 };
 
 const emailField = {

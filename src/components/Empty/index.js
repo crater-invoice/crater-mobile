@@ -8,11 +8,11 @@ import {Text} from '../Text';
 import {PermissionService} from '@/services';
 
 type IProps = {
-  title: String,
-  description: String,
-  image: String,
-  buttonTitle: String,
-  buttonPress: Function,
+  title: string,
+  description: string,
+  image: string,
+  buttonTitle: string,
+  buttonPress: () => void,
   theme: any
 };
 export const Empty = ({

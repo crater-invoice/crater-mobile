@@ -10,7 +10,7 @@ import {
   InputField,
   DefaultLayout,
   FilePicker,
-  DatePickerField,
+  BaseDatePicker,
   CustomField,
   ActionButton
 } from '@/components';
@@ -28,18 +28,18 @@ interface IProps {
   navigation: any;
   type: string;
   id: number;
-  getExpenseDetail: Function;
-  createExpense: Function;
-  updateExpense: Function;
-  removeExpense: Function;
-  dispatch: Function;
+  getExpenseDetail: () => void;
+  createExpense: () => void;
+  updateExpense: () => void;
+  removeExpense: () => void;
+  dispatch: () => void;
   loading: boolean;
   endpointURL: string;
-  handleSubmit: Function;
+  handleSubmit: () => void;
   categories: Array<any>;
   customers: Array<any>;
-  fetchCategories: Function;
-  getCustomers: Function;
+  fetchCategories: () => void;
+  getCustomers: () => void;
   customFields: Array<any>;
   formValues: any;
 }
@@ -320,7 +320,7 @@ export class Expense extends React.Component<IProps, IState> {
 
         <Field
           name={`expense.${FIELDS.DATE}`}
-          component={DatePickerField}
+          component={BaseDatePicker}
           isRequired
           label={t('expenses.date')}
           icon={'calendar-alt'}

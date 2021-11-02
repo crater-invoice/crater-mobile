@@ -10,7 +10,7 @@ interface IProps {
   /**
    * Current key for params.
    */
-  keyName?: String;
+  keyName?: string;
 
   /**
    * An object with data for number-scheme field.
@@ -40,7 +40,7 @@ interface IProps {
   /**
    * Name of current form.
    */
-  form?: String;
+  form?: string;
 }
 
 export class NumberScheme extends Component<IProps> {

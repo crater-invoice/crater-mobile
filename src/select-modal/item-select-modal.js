@@ -18,7 +18,7 @@ interface IProps {
   /**
    * Is allowed to edit.
    */
-  disabled?: Boolean;
+  disabled?: boolean;
 }
 
 export const ItemSelectModal = (props: IProps) => {
