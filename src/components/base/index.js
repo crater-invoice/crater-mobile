@@ -11,3 +11,4 @@ export * from './base-date-time-picker';
 export * from './base-divider';
 export * from './base-action-sheet';
 export * from './base-switch';
+export * from './base-tabs';

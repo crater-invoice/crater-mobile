@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {StyleProp, ViewStyle} from 'react-native';
 import {SvgXml} from 'react-native-svg';
 import {DOUBLE_RIGHT_ICON, PENCIL_ICON, EYE_ICON} from '@/assets';
+import {IProps} from './type.d';
 import {
   CancelIcon,
   CheckIcon,
@@ -44,31 +44,4 @@ export class AssetSvg extends Component<IProps> {
       />
     );
   }
-}
-
-interface IProps {
-  /**
-   * Name of SVG icon.
-   */
-  name: string;
-
-  /**
-   * Color of fillable SVG icon.
-   */
-  fill?: string;
-
-  /**
-   * Width of SVG icon.
-   */
-  width?: number | string;
-
-  /**
-   * Height of SVG icon.
-   */
-  height?: number | string;
-
-  /**
-   * Styling for the icon container.
-   */
-  style?: StyleProp<ViewStyle> | any;
 }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {TouchableOpacity, View} from 'react-native';
-import {Text} from '../Text';
+import {Text} from '../text';
 import {styles} from './styles';
 
 type IProps = {

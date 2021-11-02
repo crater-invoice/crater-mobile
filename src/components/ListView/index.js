@@ -9,24 +9,24 @@ import {CurrencyFormat} from '../currency-format';
 import {FadeListAnimation, AssetIcon} from '@/components';
 import {definePlatformParam} from '@/constants';
 import {isRTL} from '@/utils';
-import {Text} from '../Text';
+import {Text} from '../text';
 import {AssetSvg} from '../asset-svg';
 import {AssetImage} from '../asset-image';
 import {commonSelector} from 'stores/common/selectors';
 
 type IProps = {
-  hasAvatar: boolean,
-  isEmpty: boolean,
-  containerStyle: Object,
-  emptyContentProps: Object,
-  rightTitleStyle: Object,
-  leftTitleStyle: Object,
-  leftSubTitleLabelStyle: Object,
-  listItemProps: Object,
-  backgroundColor: string,
-  compareField: string,
-  checkedItems: Array,
-  listViewContainerStyle: Object,
+  hasAvatar?: boolean,
+  isEmpty?: boolean,
+  containerStyle?: Object,
+  emptyContentProps?: Object,
+  rightTitleStyle?: Object,
+  leftTitleStyle?: Object,
+  leftSubTitleLabelStyle?: Object,
+  listItemProps?: Object,
+  backgroundColor?: string,
+  compareField?: string,
+  checkedItems?: Array,
+  listViewContainerStyle?: Object,
   isAnimated?: boolean,
   parentViewStyle?: any
 };

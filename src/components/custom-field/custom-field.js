@@ -3,6 +3,7 @@ import {FieldArray, change} from 'redux-form';
 import {CUSTOM_FIELD_DATA_TYPES as DATA_TYPES} from '@/features/settings/constants';
 import {isEmpty} from '@/constants';
 import {getInitialCustomFields, getCustomFieldValueParams} from '@/utils';
+import {IProps} from './type.d';
 import {
   InputType,
   SwitchType,
@@ -111,35 +112,3 @@ export const CustomField = (props: IProps) => {
     />
   );
 };
-
-interface IProps {
-  /**
-   * An array of objects with data for each custom field.
-   */
-  customFields?: Array<any>;
-
-  /**
-   * dispatch change action.
-   */
-  dispatch: (fun: object) => void;
-
-  /**
-   * The name of the active form.
-   */
-  form?: string;
-
-  /**
-   * Gets form data.
-   */
-  formValues: any;
-
-  /**
-   * Type of active feature modal..
-   */
-  type?: string;
-
-  /**
-   * If true the user will be able to update the custom field data.
-   */
-  isAllowToEdit: boolean;
-}

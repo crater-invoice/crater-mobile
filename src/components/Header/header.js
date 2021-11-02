@@ -5,7 +5,7 @@ import {AssetIcon} from '../asset-icon';
 import styles from './styles';
 import {colors} from '@/styles';
 import {Filter} from '../filter';
-import {Text} from '../Text';
+import {Text} from '../text';
 import {PermissionService} from '@/services';
 import {dismissKeyboard} from '@/constants';
 import {IProps} from './type.d';

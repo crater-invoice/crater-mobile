@@ -2,7 +2,7 @@ import React from 'react';
 import {Loading} from '../Loading';
 import {Empty} from '../empty';
 import {FadeAnimation} from '../animations';
-import {ITheme} from '@/interfaces';
+import {IProps} from './type.d';
 
 export const Content = ({
   children,
@@ -40,32 +40,3 @@ export const Content = ({
 
   return <FadeAnimation>{children}</FadeAnimation>;
 };
-
-interface IProps {
-  /**
-   * Either children or a render prop that receives a boolean reflecting whether
-   * the component is currently pressed.
-   */
-  children?: React.ReactNode | any;
-
-  /**
-   * If true, show loader together with content.
-   */
-  withLoading?: boolean;
-
-  /**
-   * An additional loading accessibility.
-   */
-  loadingProps?: any;
-
-  /**
-   * An additional empty content accessibility.
-   */
-  emptyProps?: any;
-
-  /**
-   * An active theme object.
-   * @see ITheme
-   */
-  theme?: ITheme;
-}

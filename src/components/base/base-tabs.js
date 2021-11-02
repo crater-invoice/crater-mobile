@@ -1,21 +1,19 @@
 import {getConditionStyles} from '@/constants';
 import React, {Component} from 'react';
-import {View, TouchableOpacity} from 'react-native';
-import {Text} from '../Text';
-import {styles} from './styles';
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  StyleProp,
+  ViewStyle
+} from 'react-native';
+import {Text} from '../text';
+import {fonts} from '@/styles';
+import {ITheme} from '@/interfaces';
 
-type IProps = {
-  activeTab: string,
-  tabs: Array<Object>,
-  setActiveTab: () => void,
-  style: Object,
-  theme: any
-};
-
-export class Tabs extends Component<IProps> {
+export class BaseTabs extends Component<IProps> {
   constructor(props) {
     super(props);
-    this.state = {};
   }
 
   componentWillMount() {
@@ -30,7 +28,7 @@ export class Tabs extends Component<IProps> {
 
     return (
       <View style={{...styles.container, ...style}}>
-        <View style={[styles.tabs, tabStyle && tabStyle]}>
+        <View style={[styles.tabs, tabStyle]}>
           {tabs.map(({id, Title, tabName}) => (
             <TouchableOpacity
               key={Title}
@@ -66,4 +64,68 @@ export class Tabs extends Component<IProps> {
       </View>
     );
   }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  tabs: {
+    width: '100%',
+    height: 38,
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  tab: theme => ({
+    flex: 1,
+    borderBottomWidth: 2,
+    borderColor: theme?.tab?.borderColor,
+    fontFamily: fonts.semiBold,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'left'
+  }),
+  selected_tab: theme => ({
+    borderBottomWidth: 2,
+    borderBottomColor: theme?.tab?.borderBottomColor
+  }),
+  selectedTabTitle: theme => ({
+    color: theme?.tab?.activeColor
+  })
+});
+
+interface IProps {
+  /**
+   * Name of currently active tab.
+   */
+  activeTab: string;
+
+  /**
+   * An array of objects with data for each tab option.
+   */
+  tabs: Array<any>;
+
+  /**
+   * Invoked with the the change event as an argument when the value changes.
+   */
+  setActiveTab?: (callback: any) => void;
+
+  /**
+   * Styling for the tab container.
+   */
+  style?: StyleProp<ViewStyle> | any;
+
+  /**
+   * Styles for the container surrounding the tab.
+   */
+  tabStyle?: StyleProp<ViewStyle> | any;
+
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
+  theme: ITheme;
 }

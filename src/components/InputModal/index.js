@@ -7,7 +7,7 @@ import {Field} from 'redux-form';
 import {InputField} from '../InputField';
 import {ActionButton, CtDecorativeButton} from '../button';
 import {Icon} from 'react-native-elements';
-import {Text} from '../Text';
+import {Text} from '../text';
 import {commonSelector} from 'stores/common/selectors';
 
 type Iprops = {

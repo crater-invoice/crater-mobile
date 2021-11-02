@@ -7,7 +7,7 @@ import {
   DefaultLayout,
   BaseSwitch,
   BaseDivider,
-  Tabs,
+  BaseTabs,
   Editor,
   PLACEHOLDER_TYPES as TYPE,
   Text,
@@ -251,7 +251,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
         loadingProps={{is: isFetchingInitialData}}
       >
         {roleBaseView(
-          <Tabs
+          <BaseTabs
             activeTab={activeTab}
             style={styles.tabs(theme)}
             tabStyle={styles.tabView}

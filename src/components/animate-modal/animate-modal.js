@@ -1,14 +1,14 @@
 import React from 'react';
-import Modal, {ModalProps} from 'react-native-modal';
-import {StyleProp, ViewStyle} from 'react-native';
+import Modal from 'react-native-modal';
+import {IProps} from './type.d';
 
 export const AnimateModal = (props: IProps) => {
   const {onToggle, visible, children, modalProps, style} = props;
   return (
     <Modal
       isVisible={visible}
-      animationIn={'fadeIn'}
-      animationOut={'fadeOut'}
+      animationIn="fadeIn"
+      animationOut="fadeOut"
       onBackdropPress={() => onToggle()}
       backdropTransitionInTiming={100}
       backdropTransitionOutTiming={0}
@@ -21,31 +21,3 @@ export const AnimateModal = (props: IProps) => {
     </Modal>
   );
 };
-
-interface IProps {
-  /**
-   * A function to toggle modal visibility.
-   */
-  onToggle?: () => any;
-
-  /**
-   * If true the modal is showing.
-   */
-  visible?: boolean;
-
-  /**
-   * An additional modal accessibility.
-   */
-  modalProps?: ModalProps | any;
-
-  /**
-   * Styling for the modal content container.
-   */
-  style?: StyleProp<ViewStyle> | any;
-
-  /**
-   * Either children or a render prop that receives a boolean reflecting whether
-   * the component is currently pressed.
-   */
-  children?: React.ReactNode | any;
-}

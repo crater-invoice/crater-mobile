@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
-import {Text} from '../Text';
+import {Text} from '../text';
 import {commonSelector} from 'stores/common/selectors';
 import {ITheme} from '@/interfaces';
 

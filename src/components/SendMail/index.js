@@ -10,7 +10,7 @@ import {
 } from 'redux-form';
 import styles from './styles';
 import {validate} from './validation';
-import {SlideModal} from '../SlideModal';
+import {SlideModal} from '../slide-modal';
 import {InputField} from '../InputField';
 import {ActionButton} from '../button';
 import t from 'locales/use-translation';

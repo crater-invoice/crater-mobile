@@ -7,7 +7,7 @@ import styles from './styles';
 import {IInputField} from './type.d';
 import {AssetIcon} from '../asset-icon';
 import {colors} from '@/styles';
-import {Text} from '../Text';
+import {Text} from '../text';
 import {BaseLabel, BaseError, ButtonView} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';

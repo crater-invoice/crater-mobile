@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Animated} from 'react-native';
+import {IProps, IStates} from './type.d';
 
-export class FadeAnimation extends Component<IProps, IState> {
+export class FadeAnimation extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {opacity: new Animated.Value(0)};
@@ -26,20 +27,4 @@ export class FadeAnimation extends Component<IProps, IState> {
       </Animated.View>
     );
   }
-}
-
-interface IState {
-  /**
-   * Animate the touchable to a new opacity.
-   * Defaults to 0
-   */
-  opacity: any;
-}
-
-interface IProps {
-  /**
-   * Duration of fade in animation in ms.
-   * Defaults to 200
-   */
-  duration?: Number;
 }

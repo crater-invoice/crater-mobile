@@ -10,7 +10,7 @@ import {
 import {connect} from 'react-redux';
 import {colors} from '@/styles';
 import {ITheme} from '@/interfaces';
-import {Text} from '../Text';
+import {Text} from '../text';
 import {commonSelector} from 'stores/common/selectors';
 import {isAndroidPlatform, isIosPlatform} from '@/constants';
 

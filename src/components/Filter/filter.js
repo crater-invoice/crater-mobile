@@ -8,11 +8,11 @@ import {SelectField} from '../SelectField';
 import {BaseDatePicker} from '../base';
 import {ActionButton, CtDecorativeButton} from '../button';
 import t from 'locales/use-translation';
-import {Text} from '../Text';
+import {Text} from '../text';
 import {View as CtView} from '../view';
 import {colors} from '@/styles';
 import {BaseDropdownPicker} from '@/components';
-import {ITheme} from '@/interfaces';
+import {IProps, IStates} from './type.d';
 import {
   isIosPlatform,
   isAndroidPlatform,
@@ -319,78 +319,3 @@ const styles = StyleSheet.create({
     })
   })
 });
-
-interface IProps {
-  /**
-   * If true the modal is showing.
-   */
-  visible?: boolean;
-
-  /**
-   * A function to toggle modal visibility.
-   */
-  onToggle?: () => any;
-
-  /**
-   * Invoked with the the change event as an argument when the value changes.
-   */
-  onSubmitFilter: () => void;
-
-  /**
-   * An additional field accessibility.
-   */
-  headerProps: any;
-
-  /**
-   * An array of objects with data for each input field.
-   */
-  inputFields: Array<any>;
-
-  /**
-   * An array of objects with data for each dropdown field.
-   */
-  dropdownFields: Array<any>;
-
-  /**
-   * An array of objects with data for each select field.
-   */
-  selectFields: Array<any>;
-
-  /**
-   * An array of objects with data for each date field.
-   */
-  datePickerFields: Array<any>;
-
-  /**
-   * An action to reset the current form values.
-   */
-  onResetFilter: () => void;
-
-  /**
-   * All props of the parent component.
-   */
-  clearFilter: any;
-
-  /**
-   * An active theme object.
-   * @see ITheme
-   */
-  theme: ITheme;
-}
-
-interface IStates {
-  /**
-   * If true the modal is showing.
-   */
-  visible: boolean;
-
-  /**
-   * The number of counts for applying filter fields.
-   */
-  counter: number;
-
-  /**
-   * If true, the keyboard is visible.
-   */
-  isKeyboardVisible: boolean;
-}

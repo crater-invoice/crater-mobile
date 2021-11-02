@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, StyleProp, ViewStyle, TextStyle} from 'react-native';
 import {Divider} from 'react-native-elements';
-import {Text} from '../Text';
+import {Text} from '../text';
 import {colors} from '@/styles';
 import {ITheme} from '@/interfaces';
 

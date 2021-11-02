@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Text} from '../Text';
+import {Text} from '../text';
 import {CtButton} from '../button';
 import {AssetImage} from '../asset-image';
 import {BUTTON_TYPE, hasTextLength} from '@/constants';
@@ -9,7 +9,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import {ITheme} from '@/interfaces';
+import {IProps} from './type.d';
 
 export const Empty = (props: IProps) => {
   const {
@@ -91,41 +91,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 40
   }
 });
-
-interface IProps {
-  /**
-   * Title of empty placeholder.
-   */
-  title?: string;
-
-  /**
-   * Description of empty placeholder.
-   */
-  description?: string;
-
-  /**
-   * Image of empty placeholder.
-   */
-  image?: string;
-
-  /**
-   * Title of empty placeholder button.
-   */
-  buttonTitle?: string;
-
-  /**
-   * An action to redirect a specific route.
-   */
-  buttonPress?: () => void;
-
-  /**
-   * An active theme object.
-   * @see ITheme
-   */
-  theme?: ITheme;
-
-  /**
-   * Current navigation object values.
-   */
-  route?: any;
-}

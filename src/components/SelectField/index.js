@@ -6,7 +6,7 @@ import t from 'locales/use-translation';
 import {IProps, IStates} from './type.d';
 import {headerTitle} from '@/styles';
 import styles from './styles';
-import {SlideModal} from '../SlideModal';
+import {SlideModal} from '../slide-modal';
 import {CtButton} from '../button';
 import {hasValue, isEmpty} from '@/constants';
 import {internalSearch as searchItem} from '@/utils';

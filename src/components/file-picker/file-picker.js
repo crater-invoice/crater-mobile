@@ -14,7 +14,7 @@ import {alertMe, isIosPlatform} from '@/constants';
 import {AssetImage} from '../asset-image';
 import {Content} from '../content';
 import {styles} from './styles';
-import {Text} from '../Text';
+import {Text} from '../text';
 import {CacheImage} from '../cache-image';
 import {BaseActionSheet, BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';

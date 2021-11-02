@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  Image,
-  StyleProp,
-  ImageStyle,
-  ImageSourcePropType,
-  ImageProps
-} from 'react-native';
+import {Image} from 'react-native';
 import LogoDark from '../../assets/crater-logo.png';
 import LogoWhite from '../../assets/crater-logo-white.png';
 import GoogleIcon from '../../assets/google.png';
@@ -18,6 +12,7 @@ import EmptyPayments from '../../assets/empty-payments-icon.png';
 import OpenEnvelop from '../../assets/envelop.png';
 import DefaultAvatar from '../../assets/default-avatar.jpg';
 import EmptyInvoicesDark from '../../assets/empty-invoices-icon-dark.png';
+import {IProps} from './type.d';
 
 export class AssetImage extends Component<IProps> {
   constructor(props) {
@@ -60,25 +55,3 @@ export class AssetImage extends Component<IProps> {
 }
 
 export default AssetImage;
-
-interface IProps {
-  /**
-   * Styling for the image container.
-   */
-  style?: StyleProp<ImageStyle> | any;
-
-  /**
-   * If true image fetch from remote URL.
-   */
-  uri?: boolean;
-
-  /**
-   * An additional image accessibility.
-   */
-  imageProps?: ImageProps | any;
-
-  /**
-   * The image source (either a remote URL or a local file resource).
-   */
-  source: ImageSourcePropType | any;
-}

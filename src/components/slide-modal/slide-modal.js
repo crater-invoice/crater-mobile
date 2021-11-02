@@ -1,31 +1,13 @@
 import React, {Component} from 'react';
-import {View, Modal} from 'react-native';
+import {View, Modal, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
-import styles from './styles';
 import {ListView} from '../ListView';
 import {MainLayout, DefaultLayout} from '../Layouts';
 import {InfiniteScroll} from '../infinite-scroll';
 import {ScrollView} from '../ScrollView';
-import {isAndroidPlatform} from '@/constants';
+import {isAndroidPlatform, defineSize} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
-
-type IProps = {
-  visible: boolean,
-  onToggle: () => void,
-  headerProps: Object,
-  onSearch: () => void,
-  bottomDivider: boolean,
-  hasSearchField: boolean,
-  listViewProps: Object,
-  defaultLayout: boolean,
-  children: Object,
-  bottomAction: Object,
-  searchInputProps: Object,
-  searchFieldProps: any,
-  isPagination: boolean,
-  infiniteScrollProps: any,
-  scrollViewProps: any
-};
+import {IProps} from './type.d';
 
 class Screen extends Component<IProps> {
   constructor(props) {
@@ -126,8 +108,25 @@ class Screen extends Component<IProps> {
   }
 }
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
 export const SlideModal = connect(mapStateToProps)(Screen);
+
+const styles = StyleSheet.create({
+  listViewContainer: {
+    paddingBottom: defineSize(0, 0, 0, 30),
+    flex: 0.99
+  },
+  modalContainer: {
+    flex: 1,
+    ...(isAndroidPlatform && {
+      marginTop: -20,
+      margin: 0,
+      padding: 0
+    })
+  },
+  header: {
+    paddingTop: 60,
+    height: 110
+  }
+});

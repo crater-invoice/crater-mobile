@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {CheckBox as RNCheckBox} from 'react-native-elements';
 import {connect} from 'react-redux';
-import {StyleSheet, StyleProp, ViewStyle} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {colors, fonts} from '@/styles';
 import {BaseLabel} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
-import {ITheme} from '@/interfaces';
+import {IProps} from './type.d';
 
 class BaseCheckBox extends Component<IProps> {
   toggleChecked = () => {
@@ -15,7 +15,7 @@ class BaseCheckBox extends Component<IProps> {
     } = this.props;
 
     onChange(!value);
-    onChangeCallback && onChangeCallback(!value);
+    onChangeCallback?.(!value);
   };
 
   render() {
@@ -59,10 +59,6 @@ class BaseCheckBox extends Component<IProps> {
   }
 }
 
-const mapStateToProps = state => commonSelector(state);
-
-export const CheckBox = connect(mapStateToProps)(BaseCheckBox);
-
 const styles = StyleSheet.create({
   container: {
     borderWidth: 0,
@@ -83,55 +79,6 @@ const styles = StyleSheet.create({
   })
 });
 
-interface IProps {
-  /**
-   * Label of checkbox view.
-   */
-  label: string;
+const mapStateToProps = state => commonSelector(state);
 
-  /**
-   * Heading of checkbox view.
-   */
-  hint?: string;
-
-  /**
-   * Styling for main container.
-   */
-  containerStyle?: StyleProp<ViewStyle> | any;
-
-  /**
-   * Styles for the container surrounding the hint.
-   */
-  hintStyle?: StyleProp<ViewStyle> | any;
-
-  /**
-   * Styles for the container surrounding the label.
-   */
-  labelStyle?: StyleProp<ViewStyle> | any;
-
-  /**
-   * Redux form built-in input events.
-   */
-  input?: any;
-
-  /**
-   * Invoked with the the change event as an argument when the value changes.
-   */
-  onChangeCallback?: () => void;
-
-  /**
-   * An additional modal accessibility.
-   */
-  checkBoxProps?: any;
-
-  /**
-   * Disables the checkbox field
-   */
-  disabled?: boolean;
-
-  /**
-   * An active theme object.
-   * @see ITheme
-   */
-  theme?: ITheme;
-}
+export const CheckBox = connect(mapStateToProps)(BaseCheckBox);
