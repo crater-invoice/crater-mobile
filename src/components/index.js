@@ -19,8 +19,6 @@ export * from './SelectField';
 export * from './Dropdown';
 export * from './Filter';
 export * from './AppLoader';
-export * from './LostConnection';
-export * from './UpdateAppVersion';
 export * from './CurrencyFormat';
 export * from './AnimateModal';
 export * from './AssetSvg';

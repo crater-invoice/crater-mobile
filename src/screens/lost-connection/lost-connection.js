@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
 import {BackHandler} from 'react-native';
-import {connect} from 'react-redux';
 import t from 'locales/use-translation';
+import {BaseButton, Text, AssetSvg} from '@/components';
 import {checkConnection} from '@/constants';
-import {Text} from '../Text';
-import {BaseButton} from '../base/base-button';
-import {commonSelector} from 'stores/common/selectors';
-import {AssetSvg} from '../AssetSvg';
 import {LostConnectionIcon} from '@/icons';
-import {styles, Container, Center} from './styles';
+import {styles, Container, Center} from './lost-connection-styles';
+import {INavigation, ITheme} from '@/interfaces';
+import {routes} from '@/navigation';
 
-export class LostConnection extends Component {
+export default class LostConnection extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {loading: false};
@@ -34,14 +32,13 @@ export class LostConnection extends Component {
     const {navigation} = this.props;
     const isConnected = await checkConnection();
     !isConnected
-      ? navigation.navigate(ROUTES.LOST_CONNECTION)
+      ? navigation.navigate(routes.LOST_CONNECTION)
       : navigation.pop();
   };
 
   render() {
     const {theme} = this.props;
     const {loading} = this.state;
-
     return (
       <Container>
         <Center>
@@ -77,6 +74,23 @@ export class LostConnection extends Component {
   }
 }
 
-const mapStateToProps = state => commonSelector(state);
+type IProps = {
+  /**
+   * A navigator is an object of navigation functions that a view can call.
+   * @see INavigation
+   */
+  navigation: INavigation,
 
-export default connect(mapStateToProps)(LostConnection);
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
+  theme: ITheme
+};
+
+type IStates = {
+  /**
+   * The loading indicator for the button.
+   */
+  loading?: Boolean
+};
