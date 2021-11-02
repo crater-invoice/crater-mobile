@@ -63,7 +63,7 @@ export default AssetImage;
 
 interface IProps {
   /**
-   * The style of the content container(Image).
+   * Styling for the image container.
    */
   style?: StyleProp<ImageStyle> | any;
 

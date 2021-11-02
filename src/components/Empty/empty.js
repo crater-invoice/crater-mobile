@@ -66,8 +66,6 @@ export const Empty = (props: IProps) => {
   );
 };
 
-export default Empty;
-
 const styles = StyleSheet.create({
   emptyContainer: {
     flex: 1,

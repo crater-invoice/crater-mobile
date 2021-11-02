@@ -8,7 +8,7 @@ export interface IProps {
   label?: string;
 
   /**
-   * The style of the content container(FilePicker).
+   * Styling for main container.
    */
   containerStyle?: StyleProp<ViewStyle> | any;
 
@@ -18,12 +18,12 @@ export interface IProps {
   onChangeCallback?: (callback: any) => void;
 
   /**
-   * The style of the content container(View).
+   * Styling for main container.
    */
   style?: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(Image).
+   * Styles for the container surrounding the image.
    */
   imageContainerStyle?: StyleProp<ViewStyle> | any;
 
@@ -33,7 +33,7 @@ export interface IProps {
   hasAvatar?: boolean;
 
   /**
-   * The style of the content container(Loader).
+   * Styles for the container surrounding the loader.
    */
   loadingContainerStyle?: StyleProp<ViewStyle> | any;
 

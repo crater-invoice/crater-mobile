@@ -231,7 +231,7 @@ interface IProps {
   label?: string;
 
   /**
-   * The style of the content container(Heading).
+   * Styles for the container surrounding the title.
    */
   labelStyle?: StyleProp<ViewStyle> | any;
 

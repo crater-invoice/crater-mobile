@@ -207,7 +207,7 @@ interface IProps {
   onChangeCallback?: () => void;
 
   /**
-   * The style of the content container(DatePicker).
+   * Styling for main container.
    */
   containerStyle?: StyleProp<ViewStyle> | any;
 

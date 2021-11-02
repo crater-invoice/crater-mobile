@@ -242,7 +242,7 @@ export class CacheImage extends React.Component<IProps, IStates> {
 
 interface IProps {
   /**
-   * The style of the content container(Icon).
+   * Styling for main container.
    */
   style?: any;
 
@@ -298,12 +298,12 @@ interface IProps {
   minHeight?: number;
 
   /**
-   * The style of the content container(Button).
+   * Styling for main container.
    */
   buttonStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(Loader).
+   * Styles for the container surrounding the loader.
    */
   loaderStyle?: StyleProp<ViewStyle> | any;
 

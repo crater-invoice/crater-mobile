@@ -58,7 +58,7 @@ interface IProps {
   isRequired?: boolean;
 
   /**
-   * The style of the content container(Icon).
+   * Styles for the container surrounding the title.
    */
   style?: any;
 }

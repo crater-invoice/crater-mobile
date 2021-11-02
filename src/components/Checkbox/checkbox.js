@@ -95,17 +95,17 @@ interface IProps {
   hint?: string;
 
   /**
-   * The style of the content container(CheckBox).
+   * Styling for main container.
    */
   containerStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(Hading).
+   * Styles for the container surrounding the hint.
    */
   hintStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(label).
+   * Styles for the container surrounding the label.
    */
   labelStyle?: StyleProp<ViewStyle> | any;
 

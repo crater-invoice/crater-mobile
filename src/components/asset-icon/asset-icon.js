@@ -32,7 +32,7 @@ interface IProps {
   color?: string;
 
   /**
-   * The style of the content container(Icon).
+   * Styling for the icon container.
    */
   style?: StyleProp<ViewStyle> | any;
 }

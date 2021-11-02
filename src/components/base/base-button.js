@@ -212,12 +212,12 @@ interface IProps {
   show?: boolean;
 
   /**
-   * The style of the content container(Button).
+   * Styling for the button container via class.
    */
   class?: string;
 
   /**
-   * The style of the content container(Button).
+   * Styling for the button container.
    */
   style?: StyleProp<ViewStyle> | any;
 }

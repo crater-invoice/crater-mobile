@@ -1,5 +1,6 @@
 import React from 'react';
-import {Loading, Empty} from '..';
+import {Loading} from '../Loading';
+import {Empty} from '../empty';
 import {FadeAnimation} from '../animations';
 import {ITheme} from '@/interfaces';
 

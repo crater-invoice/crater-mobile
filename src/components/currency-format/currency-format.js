@@ -77,7 +77,7 @@ export const SymbolStyle = {
 
 interface IProps {
   /**
-   * The style of the content container(View).
+   * Styling for main container.
    */
   style?: StyleProp<ViewStyle> | any;
 
@@ -97,27 +97,27 @@ interface IProps {
   preText: string;
 
   /**
-   * The style of the content container(View).
+   * Styling for main container.
    */
   containerStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(Currency).
+   * Styles for the container surrounding the currency.
    */
   currencyStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(Currency-View-Symbol).
+   * Styles for the container surrounding the currency symbol.
    */
   currencySymbolStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(Amount-View).
+   * Styles for the container surrounding the money.
    */
   moneyStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(Symbol-View).
+   * Styles for the container surrounding the symbol.
    */
   symbolStyle?: StyleProp<ViewStyle> | any;
 }

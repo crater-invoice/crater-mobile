@@ -70,27 +70,27 @@ export interface IProps {
   placeholder?: string;
 
   /**
-   * The style of the content container(HtmlPreview).
+   * Styles for the container surrounding the html preview.
    */
   htmlViewStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(View).
+   * Styling for main container.
    */
   containerStyle: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(Label).
+   * Styles for the container surrounding the title.
    */
   labelStyle: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(Html Label).
+   * Styles for the container surrounding the html preview label.
    */
   previewLabelStyle: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(Html View).
+   * Styling for main html preview container.
    */
   previewContainerStyle: StyleProp<ViewStyle> | any;
 

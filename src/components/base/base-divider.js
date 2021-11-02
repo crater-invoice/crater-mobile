@@ -60,12 +60,12 @@ interface IProps {
   title?: string;
 
   /**
-   * The style of the content container(Divider).
+   * Styling for main container.
    */
   dividerStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * The style of the content container(Heading).
+   * Styles for the container surrounding the title.
    */
   titleStyle?: StyleProp<TextStyle> | any;
 

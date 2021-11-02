@@ -1,43 +1,14 @@
 import React from 'react';
-import {
-  ScrollView,
-  RefreshControl,
-  ActivityIndicator,
-  StyleProp,
-  ViewStyle
-} from 'react-native';
+import {ScrollView, RefreshControl, ActivityIndicator} from 'react-native';
 import {connect} from 'react-redux';
 import debounce from 'lodash/debounce';
 import {styles} from './styles';
 import {colors} from '@/styles/colors';
-import Empty from '../empty';
+import {Empty} from '../empty';
 import {Content} from '../content';
 import {hasValue} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
-
-interface IProps {
-  style?: StyleProp<ViewStyle> | any;
-  contentContainerStyle?: StyleProp<ViewStyle> | any;
-  isEmpty?: boolean;
-  refreshControlColor?: string;
-  emptyContentProps?: any;
-  reference?: any;
-  hideRefreshControl?: boolean;
-  getItems?: () => void;
-  getItemsInMount?: boolean;
-  onMount?: () => void;
-  hideLoader?: boolean;
-  paginationLimit?: Number;
-}
-
-interface IState {
-  loading: boolean;
-  refreshing: boolean;
-  searchLoading: boolean;
-  isMore: boolean;
-  page: Number;
-  limit: Number;
-}
+import {IProps, IState} from './type.d';
 
 const isScrollToEnd = ({layoutMeasurement, contentOffset, contentSize}) => {
   const paddingToBottom = 65;
@@ -49,6 +20,10 @@ const isScrollToEnd = ({layoutMeasurement, contentOffset, contentSize}) => {
 };
 
 class ScrollList extends React.Component<IProps, IState> {
+  isLoading: boolean;
+  allParams: any;
+  allQueryStrings: any;
+
   constructor(props) {
     super(props);
     this.isLoading = false;
@@ -91,9 +66,9 @@ class ScrollList extends React.Component<IProps, IState> {
 
   getItems = ({
     fresh = true,
-    params,
-    queryString,
-    onSuccess,
+    params = {},
+    queryString = null,
+    onSuccess = null,
     resetQueryString = false,
     resetParams = false,
     showLoader = false
@@ -258,8 +233,6 @@ class ScrollList extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = state => ({
-  ...commonSelector(state)
-});
+const mapStateToProps = state => commonSelector(state);
 
 export const InfiniteScroll = connect(mapStateToProps)(ScrollList);

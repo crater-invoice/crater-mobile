@@ -68,7 +68,7 @@ interface IProps {
   height?: number | string;
 
   /**
-   * The style of the content container(Icon).
+   * Styling for the icon container.
    */
   style?: StyleProp<ViewStyle> | any;
 }

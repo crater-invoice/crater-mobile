@@ -9,7 +9,7 @@ import t from 'locales/use-translation';
 import {STATUS_BAR_CONTENT} from '@/utils';
 import {View as CtView, CtDecorativeButton} from '@/components';
 import {AssetIcon} from '@/components/asset-icon';
-import {Filter} from '@/components/Filter';
+import {Filter} from '@/components';
 import {CompanyModal} from 'screens/companies';
 import {defineSize} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';

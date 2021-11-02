@@ -39,7 +39,7 @@ interface IProps {
   modalProps?: ModalProps | any;
 
   /**
-   * The style of the content container(Modal).
+   * Styling for the modal content container.
    */
   style?: StyleProp<ViewStyle> | any;
 
