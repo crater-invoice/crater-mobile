@@ -18,13 +18,13 @@ import Reports from '@/features/more/containers/Reports';
 import Report from '@/features/more/containers/Report';
 
 import Settings from '@/features/settings/containers/Settings';
-import UpdateApp from '@/components/UpdateAppVersion';
+import {UpdateAppVersion} from 'screens/update-app-version';
 import {Endpoint} from 'screens/endpoint';
 import {Account} from 'screens/account';
 import Notification from '@/features/settings/containers/Notification';
 import {Preferences} from 'screens/preferences';
 import TouchOrFaceId from '@/features/settings/containers/Touch-Face-Id';
-import {LostConnection} from '@/components';
+import {LostConnection} from 'screens/lost-connection';
 
 import {Categories, CreateCategory} from 'screens/categories';
 
@@ -153,7 +153,7 @@ export const CommonNavigator = (
     {/* Settings Navigator */}
     <Stack.Screen
       name={routes.UPDATE_APP_VERSION}
-      component={UpdateApp}
+      component={UpdateAppVersion}
       options={{gestureEnabled: false}}
     />
     <Stack.Screen
