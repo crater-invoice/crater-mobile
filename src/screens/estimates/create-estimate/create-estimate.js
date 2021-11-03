@@ -109,6 +109,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
         estimate_number: data.estimate_no ?? estimateData?.nextNumber,
         prefix: meta.estimatePrefix ?? estimateData?.prefix
       };
+      this.setState({currency: data?.customer?.currency});
     }
 
     dispatch(initialize(CREATE_ESTIMATE_FORM, values));

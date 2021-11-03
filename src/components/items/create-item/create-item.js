@@ -367,7 +367,7 @@ export class CreateItem extends React.Component<IProps> {
       <DefaultLayout
         headerProps={{
           leftIconPress: () => navigation.goBack(null),
-          title: isCreateItem ? t('header.addItem') : t('header.edit_item'),
+          title: isCreateItem ? t('header.add_item') : t('header.edit_item'),
           placement: 'center',
           rightIcon: 'save',
           rightIconProps: {

@@ -82,6 +82,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   setInitialData = invoice => {
     if (invoice) {
       const {dispatch} = this.props;
+      this.setState({currency: invoice?.customer?.currency});
       dispatch(initialize(CREATE_RECURRING_INVOICE_FORM, invoice));
     }
     this.fetchNextInvoice();
