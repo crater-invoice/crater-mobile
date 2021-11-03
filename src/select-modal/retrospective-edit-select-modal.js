@@ -13,13 +13,13 @@ export const RetrospectiveEditSelectModal = (props: IProps) => (
   <SelectField
     {...props}
     items={props?.retrospectiveEdits ?? []}
-    displayName="key"
+    displayName={'title'}
     label={t('settings.preferences.retrospective_edits')}
     icon="calendar-alt"
     rightIcon="angle-right"
     placeholder={t('settings.preferences.retrospective_edits')}
-    searchFields={['key']}
-    compareField="value"
+    searchFields={['title']}
+    compareField="title"
     headerProps={{title: t('retrospective_edits.title'), rightIconPress: null}}
     emptyContentProps={{contentType: 'retrospective_edits'}}
     isInternalSearch

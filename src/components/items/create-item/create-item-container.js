@@ -24,12 +24,7 @@ const mapStateToProps = (state, {route}) => {
   const taxPerItem = route?.params?.tax_per_item;
   const isLoading = () => {
     return (
-      invoices?.isSaving ||
-      invoices?.isDeleting ||
-      estimates?.isSaving ||
-      estimates?.isDeleting ||
-      recurringInvoices?.isSaving ||
-      recurringInvoices?.isDeleting
+      invoices?.isSaving || estimates?.isSaving || recurringInvoices?.isSaving
     );
   };
   return {

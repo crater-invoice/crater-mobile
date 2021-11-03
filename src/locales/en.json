@@ -161,6 +161,7 @@
     },
     "status": {
       "title": "Status",
+      "placeholder": "Select a Status",
       "empty": {
         "title": "You have no any status",
         "description": "This section will contain the list of status."
@@ -431,7 +432,15 @@
       "discount_per_item_placeholder": "Enable this if you want to add Discount to individual invoice items. By default, Discount are added directly to the invoice.",
       "tax_per_item": "Tax Per Item",
       "tax_per_item_placeholder": "Enable this if you want to add Tax to individual invoice items. By default, Tax are added directly to the invoice.",
-      "retrospective_edits": "Disable Retrospective Edits"
+      "retrospective_edits": "Disable Retrospective Edits",
+      "allow": "Allow",
+      "disable_after_partial_payment_is_recorded": "Disable after partial payment is recorded",
+      "disable_after_full_payment_is_recorded": "Disable after full payment is recorded",
+      "disable_after_invoice_is_sent": "Disable after invoice is sent",
+      "create_status": "Create Status",
+      "active": "Active",
+      "on_hold": "On Hold",
+      "completed": "Completed"
     },
     "notes": "Notes"
   },

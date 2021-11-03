@@ -407,7 +407,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         <BaseButton
           show={isEditScreen && isAllowToEdit}
           type="primary-btn-outline"
-          loading={isSaving || isFetchingInitialData}
           disabled={isFetchingInitialData}
           onPress={handleSubmit(this.downloadInvoice)}
         >
@@ -415,7 +414,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         </BaseButton>
         <BaseButton
           show={isAllowToEdit}
-          loading={isSaving || isFetchingInitialData}
+          loading={isSaving}
           disabled={isFetchingInitialData || isSaving}
           onPress={handleSubmit(this.saveInvoice)}
         >

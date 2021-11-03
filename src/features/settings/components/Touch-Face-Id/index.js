@@ -304,7 +304,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
         leftIconPress: () => {
           navigation.goBack(null);
         },
-        title: t('settings.touchOrFaceId'),
+        title: t('settings.touch_or_Face_id'),
         placement: 'center',
         leftArrow: 'primary'
       },

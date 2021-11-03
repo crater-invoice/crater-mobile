@@ -21,6 +21,7 @@ import {
   RetrospectiveEditSelectModal,
   TimeZoneSelectModal
 } from '@/select-modal';
+import {find} from 'lodash-es';
 
 export default class Preferences extends Component<IProps, IStates> {
   constructor(props) {
@@ -44,11 +45,19 @@ export default class Preferences extends Component<IProps, IStates> {
   };
 
   setInitialData = preferences => {
-    const {dispatch} = this.props;
-    const {moment_date_format, discount_per_item, tax_per_item} = preferences;
+    const {dispatch, retrospectiveEdits} = this.props;
+    const {
+      moment_date_format,
+      retrospective_edits,
+      discount_per_item,
+      tax_per_item
+    } = preferences;
 
     const data = {
       ...preferences,
+      retrospective_edits: find(retrospectiveEdits, {
+        value: retrospective_edits
+      })?.title,
       date_format: moment_date_format.trim(),
       discount_per_item: isBooleanTrue(discount_per_item),
       tax_per_item: isBooleanTrue(tax_per_item)

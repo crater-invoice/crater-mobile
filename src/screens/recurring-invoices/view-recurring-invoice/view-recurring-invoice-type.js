@@ -27,6 +27,11 @@ export interface IProps {
    * Route props for params.
    */
   route: Object<any>;
+
+  /**
+   * An array of objects with data for selected items.
+   */
+  selectedItems: Array<any>;
 }
 
 export interface IStates {

@@ -43,11 +43,6 @@ export interface IProps {
   customers: Array<any>;
 
   /**
-   * An action to return a list of status.
-   */
-  fetchStatus?: () => void;
-
-  /**
    * An action to return a list of customer.
    */
   getCustomers?: () => void;

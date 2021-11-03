@@ -1,6 +1,7 @@
 import {createSelector} from 'reselect';
 import {capitalize, isEmpty} from '@/constants';
 import {BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR} from '@/utils';
+import t from 'locales/use-translation';
 
 export const formattedInvoices = (invoices, theme) => {
   if (isEmpty(invoices)) {
@@ -86,10 +87,10 @@ export const statusSelector = statusList => {
     return [];
   }
 
-  return statusList.map((status, id) => {
+  return statusList.map(status => {
     return {
-      id,
-      title: status,
+      ...status,
+      label: t(status.key),
       fullItem: status
     };
   });

@@ -9,7 +9,6 @@ export * from './invoice-select-modal';
 export * from './language-select-modal';
 export * from './note-select-modal';
 export * from './payment-mode-select-modal';
-export * from './recurring-status-select-modal';
 export * from './role-select-modal';
 export * from './retrospective-edit-select-modal';
 export * from './tax-select-modal';

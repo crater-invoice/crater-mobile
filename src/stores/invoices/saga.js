@@ -16,6 +16,10 @@ import {spinner} from './actions';
  */
 function* fetchInvoiceData() {
   try {
+    yield call(getCustomFields, {
+      payload: {queryString: {type: CUSTOM_FIELD_TYPES.INVOICE, limit: 'all'}}
+    });
+    yield put({type: types.CLEAR_INVOICE});
     const {invoiceTemplates} = yield call(req.fetchInvoiceTemplates);
     const {invoice_auto_generate} = yield call(getSettingInfo, {
       payload: {keys: ['invoice_auto_generate']}
@@ -35,7 +39,6 @@ function* fetchInvoiceData() {
  * @returns {IterableIterator<*>}
  */
 function* fetchInvoiceInitialDetails({payload}) {
-  yield put({type: types.CLEAR_INVOICE});
   yield call(fetchInvoiceData);
   yield put(fetchTaxAndDiscountPerItem());
   payload?.();
@@ -64,12 +67,8 @@ function* fetchInvoices({payload}) {
 function* fetchSingleInvoice({payload}) {
   try {
     const {id, onSuccess} = payload;
-    yield call(getCustomFields, {
-      payload: {queryString: {type: CUSTOM_FIELD_TYPES.INVOICE, limit: 'all'}}
-    });
     const response = yield call(req.fetchSingleInvoice, id);
 
-    yield put({type: types.CLEAR_INVOICE});
     yield call(fetchInvoiceData);
     yield put({
       type: types.ADD_INVOICE_ITEM_SUCCESS,

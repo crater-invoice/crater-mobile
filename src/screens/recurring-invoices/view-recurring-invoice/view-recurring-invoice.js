@@ -22,6 +22,7 @@ import {
 import styles from './view-recurring-invoice-styles';
 import {formattedInvoices} from 'stores/recurring-invoices/selectors';
 import {ARROW_ICON} from '@/assets';
+import {find} from 'lodash-es';
 
 export default class ViewRecurringInvoice extends Component<IProps, IStates> {
   constructor(props) {
@@ -37,12 +38,18 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
   }
 
   loadData = () => {
-    const {id, dispatch} = this.props;
-    dispatch(
-      fetchSingleRecurringInvoice(id, data =>
-        this.setState({data, isFetchingInitialData: false})
-      )
-    );
+    const {id, dispatch, statusList} = this.props;
+    const onSuccess = data =>
+      this.setState({
+        data: {
+          ...data,
+          status: find(statusList, {
+            value: data.status
+          })?.label
+        },
+        isFetchingInitialData: false
+      });
+    dispatch(fetchSingleRecurringInvoice(id, onSuccess));
   };
 
   onAddInvoice = () => {

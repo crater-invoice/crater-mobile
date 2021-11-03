@@ -4,7 +4,8 @@ import RecurringInvoices from './list-recurring-invoices';
 import {RECURRING_INVOICES_FORM} from 'stores/recurring-invoices/types';
 import {
   invoicesSelector,
-  loadingSelector
+  loadingSelector,
+  statusSelector
 } from 'stores/recurring-invoices/selectors';
 import {commonSelector} from 'stores/common/selectors';
 import {getCustomers} from '@/features/customers/actions';
@@ -20,7 +21,7 @@ const mapStateToProps = state => {
   } = state;
   return {
     customers,
-    statusList: update_status,
+    statusList: statusSelector(update_status),
     invoices: invoicesSelector(state),
     formValues: getFormValues(RECURRING_INVOICES_FORM)(state) || {},
     ...loadingSelector(state),
