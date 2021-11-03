@@ -7,13 +7,13 @@ import {alertMe, isEmpty} from '@/constants';
 import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
 import {
   DefaultLayout,
-  DatePickerField,
+  BaseDatePicker,
   CustomField,
   Notes,
   ItemField,
-  ToggleSwitch,
+  BaseSwitch,
   FinalAmount,
-  InputField,
+  BaseInput,
   BaseButtonGroup,
   BaseButton
 } from '@/components';
@@ -328,7 +328,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
         <Field
           name={'starts_at'}
           isRequired
-          component={DatePickerField}
+          component={BaseDatePicker}
           label={t('recurring_invoices.start_date')}
           icon={'calendar-alt'}
           onChangeCallback={val => {
@@ -339,7 +339,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
         />
         <Field
           name="next_invoice_at"
-          component={InputField}
+          component={BaseInput}
           inputProps={{}}
           meta={{}}
           hint={t('recurring_invoices.next_invoice_at')}
@@ -432,7 +432,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
 
         <Field
           name={'send_automatically'}
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('recurring_invoices.auto_sent.label')}
           description={t('recurring_invoices.auto_sent.description')}
         />

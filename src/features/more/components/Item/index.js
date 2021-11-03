@@ -3,17 +3,15 @@ import {View} from 'react-native';
 import styles from './styles';
 import {Field, change} from 'redux-form';
 import {
-  InputField,
-  CtDivider,
+  BaseInput,
+  BaseDivider,
   DefaultLayout,
-  SelectField,
   CurrencyFormat,
   Text,
   ActionButton
 } from '@/components';
 import {routes} from '@/navigation';
 import {ITEM_FORM} from '../../constants';
-import {colors} from '@/styles/colors';
 import t from 'locales/use-translation';
 import {definePlatformParam, keyboardType} from '@/constants';
 import {alertMe, hasValue, MAX_LENGTH} from '@/constants';
@@ -279,7 +277,7 @@ export class Item extends React.Component {
             ) : null
           )}
 
-        <CtDivider dividerStyle={styles.divider} />
+        <BaseDivider dividerStyle={styles.divider} />
 
         <View style={styles.subContainer}>
           <View>
@@ -364,7 +362,7 @@ export class Item extends React.Component {
       >
         <Field
           name="name"
-          component={InputField}
+          component={BaseInput}
           isRequired
           hint={t('items.name')}
           disabled={disabled}
@@ -373,7 +371,7 @@ export class Item extends React.Component {
 
         <Field
           name="price"
-          component={InputField}
+          component={BaseInput}
           isRequired
           leftSymbol={currency?.symbol}
           hint={t('items.price')}
@@ -417,7 +415,7 @@ export class Item extends React.Component {
 
         <Field
           name="description"
-          component={InputField}
+          component={BaseInput}
           hint={t('items.description')}
           inputProps={{
             multiline: true,

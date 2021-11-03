@@ -5,9 +5,9 @@ import {omit} from 'lodash';
 import styles from './customize-payment-style';
 import {
   DefaultLayout,
-  ToggleSwitch,
-  CtDivider,
-  Tabs,
+  BaseSwitch,
+  BaseDivider,
+  BaseTabs,
   Editor,
   PLACEHOLDER_TYPES as TYPE,
   Text,
@@ -118,7 +118,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
     const {theme} = this.props;
     return (
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
-        <CtDivider dividerStyle={styles.dividerLine} />
+        <BaseDivider dividerStyle={styles.dividerLine} />
 
         <Text
           color={theme.header.primary.color}
@@ -128,13 +128,13 @@ export default class CustomizePayment extends Component<IProps, IStates> {
         </Text>
         <Field
           name={'payment_auto_generate'}
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('customizes.auto_generate.payment')}
           description={t('customizes.auto_generate.payment_description')}
         />
         <Field
           name={'payment_email_attachment'}
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('customizes.email_attachment.payment')}
           description={t('customizes.email_attachment.payment_description')}
         />
@@ -251,7 +251,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
         loadingProps={{is: isFetchingInitialData}}
       >
         {roleBaseView(
-          <Tabs
+          <BaseTabs
             activeTab={activeTab}
             style={styles.tabs(theme)}
             tabStyle={styles.tabView}

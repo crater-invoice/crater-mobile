@@ -9,9 +9,9 @@ import {ARROW_ICON} from '@/assets';
 
 type IProps = {
   navigation: Object,
-  getCustomFields: Function,
+  getCustomFields: () => void,
   customFields: Object,
-  loading: Boolean
+  loading: boolean
 };
 
 export class CustomFields extends React.Component<IProps> {

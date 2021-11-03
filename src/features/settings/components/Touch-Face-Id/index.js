@@ -9,7 +9,7 @@ import {biometricAuthentication} from '@/utils';
 import {
   DefaultLayout,
   AssetSvg,
-  ToggleSwitch,
+  BaseSwitch,
   AnimatedCircularProgress,
   BaseButton
 } from '@/components';
@@ -23,7 +23,7 @@ import {
 
 interface IProps {
   loading: boolean;
-  setBiometryAuthType: Function;
+  setBiometryAuthType: () => void;
   biometryAuthType: string;
   navigation: any;
 }
@@ -502,7 +502,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
             <ToggleBiometryView>
               <Field
                 name="biometry"
-                component={ToggleSwitch}
+                component={BaseSwitch}
                 status={true}
                 hint={t('touch_face_id.enable_login', {
                   type

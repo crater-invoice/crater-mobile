@@ -2,12 +2,12 @@ import React from 'react';
 import {Field, FieldArray} from 'redux-form';
 import {CUSTOM_FIELDS as FIELDS} from '../../constants';
 import {
-  InputField,
-  DatePickerField,
-  TimePickerField,
+  BaseInput,
+  BaseDatePicker,
+  BaseTimePicker,
   SelectFieldOptions,
   CheckBox,
-  DateTimePickerField,
+  BaseDateTimePicker,
   BaseDropdownPicker
 } from '@/components';
 import {keyboardType, MAX_LENGTH, isEmpty} from '@/constants';
@@ -23,7 +23,7 @@ const DEFAULT_TIME_FIELD = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={TimePickerField}
+      component={BaseTimePicker}
       label={t('custom_fields.default_value')}
       disabled={!isAllowToEdit}
     />
@@ -35,7 +35,7 @@ const DEFAULT_NUMBER_FIELD = symbol => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={InputField}
+      component={BaseInput}
       hint={t('custom_fields.default_value')}
       keyboardType={keyboardType.NUMERIC}
       leftSymbol={symbol ?? currency?.symbol}
@@ -49,7 +49,7 @@ const DEFAULT_DATE_FIELD = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={DatePickerField}
+      component={BaseDatePicker}
       label={t('custom_fields.default_value')}
       icon={'calendar-alt'}
       formDateFormat="YYYY-MM-DD"
@@ -63,7 +63,7 @@ const DEFAULT_INPUT_FIELD = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={InputField}
+      component={BaseInput}
       disabled={!isAllowToEdit}
       hint={t('custom_fields.default_value')}
     />
@@ -75,7 +75,7 @@ const DEFAULT_TEXTAREA_FIELD = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={InputField}
+      component={BaseInput}
       disabled={!isAllowToEdit}
       hint={t('custom_fields.default_value')}
       inputProps={{
@@ -92,7 +92,7 @@ const PLACEHOLDER_FIELD = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.PLACEHOLDER}`}
-      component={InputField}
+      component={BaseInput}
       disabled={!isAllowToEdit}
       hint={t('custom_fields.placeholder')}
     />
@@ -162,7 +162,7 @@ const DEFAULT_DATE_TIME_FIELD = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={DateTimePickerField}
+      component={BaseDateTimePicker}
       label={t('custom_fields.default_value')}
       disabled={!isAllowToEdit}
       callOnChangeInMount

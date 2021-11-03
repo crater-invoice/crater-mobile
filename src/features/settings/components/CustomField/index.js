@@ -10,9 +10,9 @@ import {
 } from '@/constants';
 import t from 'locales/use-translation';
 import {
-  InputField,
+  BaseInput,
   DefaultLayout,
-  ToggleSwitch,
+  BaseSwitch,
   Text,
   ActionButton,
   BaseDropdownPicker
@@ -42,12 +42,12 @@ import styles from './styles';
 type IProps = {
   navigation: Object,
   formValues: Object,
-  handleSubmit: Function,
-  createCustomField: Function,
-  editCustomField: Function,
-  getCustomField: Function,
-  removeCustomField: Function,
-  type: String,
+  handleSubmit: () => void,
+  createCustomField: () => void,
+  editCustomField: () => void,
+  getCustomField: () => void,
+  removeCustomField: () => void,
+  type: string,
   loading: boolean,
   id: Number,
   field: any,
@@ -158,7 +158,7 @@ export class CustomField extends React.Component<IProps> {
         <View style={styles.column}>
           <Field
             name={`${FIELDS.FIELD}.${FIELDS.IS_REQUIRED}`}
-            component={ToggleSwitch}
+            component={BaseSwitch}
             switchStyle={{marginRight: 100}}
             hintStyle={styles.leftText}
             disabled={!isAllowToEdit}
@@ -180,7 +180,7 @@ export class CustomField extends React.Component<IProps> {
         <View style={styles.column}>
           <Field
             name={`${FIELDS.FIELD}.${FIELDS.DISPLAY_PORTAL}`}
-            component={ToggleSwitch}
+            component={BaseSwitch}
             hint={t('custom_fields.no')}
             hintStyle={styles.leftText}
           />
@@ -313,7 +313,7 @@ export class CustomField extends React.Component<IProps> {
       >
         <Field
           name={`${FIELDS.FIELD}.${FIELDS.NAME}`}
-          component={InputField}
+          component={BaseInput}
           isRequired
           disabled={disabled}
           hint={t('custom_fields.name')}
@@ -353,7 +353,7 @@ export class CustomField extends React.Component<IProps> {
 
         <Field
           name={`${FIELDS.FIELD}.${FIELDS.LABEL}`}
-          component={InputField}
+          component={BaseInput}
           isRequired
           disabled={disabled}
           hint={t('custom_fields.label')}
@@ -363,7 +363,7 @@ export class CustomField extends React.Component<IProps> {
 
         <Field
           name={`${FIELDS.FIELD}.${FIELDS.ORDER}`}
-          component={InputField}
+          component={BaseInput}
           hint={t('custom_fields.order')}
           disabled={disabled}
           keyboardType={keyboardType.NUMERIC}

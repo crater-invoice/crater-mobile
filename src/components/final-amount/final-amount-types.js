@@ -41,10 +41,10 @@ export type IProps = {
   /**
    * Discount per item.
    */
-  discount_per_item: Boolean,
+  discount_per_item: boolean,
 
   /**
    *  Tax per item.
    */
-  tax_per_item: Boolean
+  tax_per_item: boolean
 };

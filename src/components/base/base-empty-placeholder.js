@@ -13,55 +13,6 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
-interface IProps {
-  /**
-   * An active theme object.
-   * @see ITheme
-   */
-  theme?: ITheme;
-
-  /**
-   * Current navigation object values.
-   */
-  route?: any;
-
-  /**
-   * A navigator is an object of navigation functions that a view can call.
-   * @see INavigation
-   */
-  navigation?: INavigation;
-
-  /**
-   * Text of searched string.
-   */
-  search?: string;
-
-  /**
-   * Title of empty placeholder.
-   */
-  title?: string;
-
-  /**
-   * Description of empty placeholder.
-   */
-  description?: string;
-
-  /**
-   * Image of empty placeholder.
-   */
-  image?: string;
-
-  /**
-   * Title of empty placeholder button.
-   */
-  buttonTitle?: string;
-
-  /**
-   * An action to redirect a specific route.
-   */
-  buttonPress?: () => void;
-}
-
 export const EmptyPlaceholder = (props: IProps) => {
   const {route, theme} = props;
   const {
@@ -80,9 +31,7 @@ export const EmptyPlaceholder = (props: IProps) => {
 
   return (
     <View style={styles.emptyContainer}>
-      {image && (
-        <AssetImage imageSource={image} imageStyle={styles.emptyImage} />
-      )}
+      {image && <AssetImage source={image} style={styles.emptyImage} />}
 
       <Text
         mediumSize
@@ -149,3 +98,52 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => commonSelector(state);
 
 export const BaseEmptyPlaceholder = connect(mapStateToProps)(EmptyPlaceholder);
+
+interface IProps {
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
+  theme?: ITheme;
+
+  /**
+   * Current navigation object values.
+   */
+  route?: any;
+
+  /**
+   * A navigator is an object of navigation functions that a view can call.
+   * @see INavigation
+   */
+  navigation?: INavigation;
+
+  /**
+   * Text of searched string.
+   */
+  search?: string;
+
+  /**
+   * Title of empty placeholder.
+   */
+  title?: string;
+
+  /**
+   * Description of empty placeholder.
+   */
+  description?: string;
+
+  /**
+   * Image of empty placeholder.
+   */
+  image?: string;
+
+  /**
+   * Title of empty placeholder button.
+   */
+  buttonTitle?: string;
+
+  /**
+   * An action to redirect a specific route.
+   */
+  buttonPress?: () => void;
+}

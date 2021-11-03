@@ -1,0 +1,62 @@
+export type IProps = {
+  loading: boolean,
+  apiSearch: boolean,
+  concurrentMultiSelect: boolean,
+  isRequired: boolean,
+  pagination: boolean,
+  isMultiSelect: boolean,
+  isInternalSearch: boolean,
+  hasPagination: boolean,
+
+  onChangeCallback: () => void,
+  getItem: () => void,
+  onSearch: () => void,
+  getItems: () => void,
+  rightIconPress: () => void,
+  onSelect: () => void,
+
+  label: string,
+  icon: string,
+  placeholder: string,
+  rightIcon: string,
+  leftIcon: string,
+  color: string,
+  value: string,
+  displayName: any,
+  emptyContentImage: string,
+  compareField: any,
+  valueCompareField: any,
+
+  containerStyle: any,
+  meta: any,
+  headerProps: any,
+  input: any,
+  baseSelectProps: any,
+  onlyPlaceholder: any,
+  listViewProps: any,
+  searchInputProps: any,
+  hasFirstItem: boolean,
+  emptyContentProps: any,
+
+  items: Array,
+  selectedItem: Object<any>,
+  searchFields: Array,
+  isEditable: boolean,
+  isCompareField: boolean,
+  reference: any,
+  queryString: Object,
+  paginationLimit: Number,
+  customView: any,
+  inputModalName: string
+};
+
+export type IStates = {
+  search: string,
+  visible: boolean,
+  values: string,
+  selectedItems: Array<any>,
+  oldItems: Array<any>,
+  defaultItem: Array<any>,
+  searchItems: Array<any>,
+  oldValue: string
+};

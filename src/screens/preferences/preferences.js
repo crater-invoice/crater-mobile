@@ -8,8 +8,8 @@ import {isBooleanTrue} from '@/constants';
 import {fetchPreferences, updatePreferences} from 'stores/company/actions';
 import {
   DefaultLayout,
-  ToggleSwitch,
-  CtDivider,
+  BaseSwitch,
+  BaseDivider,
   ActionButton
 } from '@/components';
 import {
@@ -161,18 +161,18 @@ export default class Preferences extends Component<IProps, IStates> {
           onSelect={val => this.setFormField('retrospective_edits', val.value)}
         />
 
-        <CtDivider dividerStyle={styles.dividerLine} />
+        <BaseDivider dividerStyle={styles.dividerLine} />
 
         <Field
           name="discount_per_item"
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('settings.preferences.discount_per_item')}
           description={t('settings.preferences.discount_per_item_placeholder')}
         />
 
         <Field
           name="tax_per_item"
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('settings.preferences.tax_per_item')}
           description={t('settings.preferences.tax_per_item_placeholder')}
           mainContainerStyle={{marginVertical: 12}}

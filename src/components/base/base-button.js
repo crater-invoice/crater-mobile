@@ -14,64 +14,6 @@ import {
   isEmpty
 } from '@/constants';
 
-interface IProps {
-  /**
-   * Click action.
-   */
-  onPress?: () => void;
-
-  /**
-   * An active theme object.
-   * @see ITheme
-   */
-  theme?: ITheme;
-
-  /**
-   * The loading indicator for the button.
-   */
-  loading?: boolean;
-
-  /**
-   * If true, disable press event.
-   */
-  disabled?: boolean;
-
-  /**
-   * The component to render elements.
-   */
-  children: any;
-
-  /**
-   * Type of button.
-   */
-  type?:
-    | 'primary'
-    | 'primary-gradient'
-    | 'primary-outline'
-    | 'danger'
-    | 'danger-outline';
-
-  /**
-   * Size of button.
-   */
-  size?: 'sm' | 'md' | 'lg';
-
-  /**
-   * If true, show base button.
-   */
-  show?: boolean;
-
-  /**
-   * The style of the content container(Button).
-   */
-  class?: string;
-
-  /**
-   * The style of the content container(Button).
-   */
-  style?: StyleProp<ViewStyle> | undefined;
-}
-
 const bgColor = {
   primary: {
     light: colors.primary,
@@ -221,3 +163,62 @@ const styles = StyleSheet.create({
     color: bgColor?.[outlineType(type)]?.[theme?.mode]
   })
 });
+
+interface IProps {
+  /**
+   * Click action.
+   */
+  onPress?: () => void;
+
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
+  theme?: ITheme;
+
+  /**
+   * The loading indicator for the button.
+   */
+  loading?: boolean;
+
+  /**
+   * If true the user won't be able to press.
+   * @default false
+   */
+  disabled?: boolean;
+
+  /**
+   * The component to render elements.
+   */
+  children: any;
+
+  /**
+   * Type of button.
+   */
+  type?:
+    | 'primary'
+    | 'primary-gradient'
+    | 'primary-outline'
+    | 'danger'
+    | 'danger-outline';
+
+  /**
+   * Size of button.
+   */
+  size?: 'sm' | 'md' | 'lg';
+
+  /**
+   * If true, show base button.
+   */
+  show?: boolean;
+
+  /**
+   * Styling for the button container via class.
+   */
+  class?: string;
+
+  /**
+   * Styling for the button container.
+   */
+  style?: StyleProp<ViewStyle> | any;
+}

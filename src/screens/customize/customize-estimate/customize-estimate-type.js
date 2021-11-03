@@ -39,5 +39,5 @@ export interface IStates {
   /**
    * The loading indicator for the screen, displayed until the screen is ready to be displayed.
    */
-  isFetchingInitialData: Boolean;
+  isFetchingInitialData: boolean;
 }

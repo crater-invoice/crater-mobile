@@ -1,14 +1,6 @@
 import React, {FC} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {StyleProp, ViewStyle} from 'react-native';
-
-interface IProps {
-  name: string;
-  size?: number;
-  solid?: boolean;
-  color?: string;
-  style?: StyleProp<ViewStyle>;
-}
+import {IProps} from './type.d';
 
 export const AssetIcon: FC<IProps> = props => {
   const {name, style, size, solid, color} = props;

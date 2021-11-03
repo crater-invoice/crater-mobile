@@ -13,7 +13,7 @@ import {
 } from 'stores/company/actions';
 import {
   DefaultLayout,
-  InputField,
+  BaseInput,
   BaseButtonGroup,
   BaseButton,
   FilePicker
@@ -123,7 +123,7 @@ export default class CreateCompany extends Component<IProps, IStates> {
 
         <Field
           name="name"
-          component={InputField}
+          component={BaseInput}
           isRequired
           hint={t('settings.company.name')}
         />
@@ -154,7 +154,7 @@ export default class CreateCompany extends Component<IProps, IStates> {
           <>
             <Field
               name={'phone'}
-              component={InputField}
+              component={BaseInput}
               hint={t('settings.company.phone')}
               keyboardType={keyboardType.PHONE}
               refLinkFn={ref => (companyRefs.phone = ref)}
@@ -163,7 +163,7 @@ export default class CreateCompany extends Component<IProps, IStates> {
 
             <Field
               name={'state'}
-              component={InputField}
+              component={BaseInput}
               hint={t('customers.address.state')}
               refLinkFn={ref => (companyRefs.state = ref)}
               onSubmitEditing={() => companyRefs.city.focus()}
@@ -171,7 +171,7 @@ export default class CreateCompany extends Component<IProps, IStates> {
 
             <Field
               name={'city'}
-              component={InputField}
+              component={BaseInput}
               hint={t('customers.address.city')}
               onSubmitEditing={() => companyRefs.street1.focus()}
               refLinkFn={ref => (companyRefs.city = ref)}
@@ -179,7 +179,7 @@ export default class CreateCompany extends Component<IProps, IStates> {
 
             <Field
               name={'address_street_1'}
-              component={InputField}
+              component={BaseInput}
               hint={t('settings.company.address')}
               height={60}
               refLinkFn={ref => (companyRefs.street1 = ref)}
@@ -189,7 +189,7 @@ export default class CreateCompany extends Component<IProps, IStates> {
 
             <Field
               name={'address_street_2'}
-              component={InputField}
+              component={BaseInput}
               height={60}
               containerStyle={styles.addressStreetField}
               placeholder={t('settings.company.street_2')}
@@ -198,7 +198,7 @@ export default class CreateCompany extends Component<IProps, IStates> {
 
             <Field
               name={'zip'}
-              component={InputField}
+              component={BaseInput}
               hint={t('settings.company.zip_code')}
             />
           </>

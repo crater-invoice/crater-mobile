@@ -2,7 +2,7 @@ import React from 'react';
 import {styles} from './list-recurring-invoices-styles';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
-import {AssetImage, MainLayout, Tabs} from '@/components';
+import {AssetImage, MainLayout, BaseTabs} from '@/components';
 import {
   RECURRING_INVOICES_FORM,
   RECURRING_INVOICES_TABS,
@@ -205,7 +205,7 @@ export default class RecurringInvoices extends React.Component<
         filterProps={filterProps}
         navigation={navigation}
       >
-        <Tabs
+        <BaseTabs
           style={styles.tabs(theme)}
           activeTab={activeTab}
           setActiveTab={this.setActiveTab}

@@ -15,8 +15,8 @@ import {
 } from 'stores/customize/types';
 import {
   DefaultLayout,
-  ToggleSwitch,
-  CtDivider,
+  BaseSwitch,
+  BaseDivider,
   Editor,
   PLACEHOLDER_TYPES as TYPE,
   Text,
@@ -227,7 +227,7 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
           />
 
           <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
-            <CtDivider dividerStyle={styles.dividerLine} />
+            <BaseDivider dividerStyle={styles.dividerLine} />
 
             <Text
               color={theme.header.primary.color}
@@ -237,13 +237,13 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
             </Text>
             <Field
               name={'invoice_auto_generate'}
-              component={ToggleSwitch}
+              component={BaseSwitch}
               hint={t('customizes.auto_generate.invoice')}
               description={t('customizes.auto_generate.invoice_description')}
             />
             <Field
               name={'invoice_email_attachment'}
-              component={ToggleSwitch}
+              component={BaseSwitch}
               hint={t('customizes.email_attachment.invoice')}
               description={t('customizes.email_attachment.invoice_description')}
             />

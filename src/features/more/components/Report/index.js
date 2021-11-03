@@ -2,7 +2,7 @@ import React from 'react';
 import {Field, change} from 'redux-form';
 import {
   DefaultLayout,
-  DatePickerField,
+  BaseDatePicker,
   View as CtView,
   ActionButton,
   BaseDropdownPicker
@@ -28,8 +28,8 @@ import {store} from '@/stores';
 type IProps = {
   navigation: Object,
   taxTypes: Object,
-  type: String,
-  loading: Boolean,
+  type: string,
+  loading: boolean,
   handleSubmit: Function
 };
 
@@ -298,7 +298,7 @@ export class Report extends React.Component<IProps> {
           <CtView flex={1} justify-between>
             <Field
               name={'from_date'}
-              component={DatePickerField}
+              component={BaseDatePicker}
               isRequired
               displayValue={displayFromDate}
               label={t('reports.from_date')}
@@ -313,7 +313,7 @@ export class Report extends React.Component<IProps> {
           <CtView flex={1} justify-between>
             <Field
               name="to_date"
-              component={DatePickerField}
+              component={BaseDatePicker}
               isRequired
               displayValue={displayToDate}
               label={t('reports.to_date')}

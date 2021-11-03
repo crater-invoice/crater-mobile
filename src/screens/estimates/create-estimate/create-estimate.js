@@ -3,8 +3,8 @@ import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change, initialize} from 'redux-form';
 import {
-  InputField,
-  DatePickerField,
+  BaseInput,
+  BaseDatePicker,
   DefaultLayout,
   SendMail,
   CustomField,
@@ -481,7 +481,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
             <Field
               name={'estimate_date'}
               isRequired
-              component={DatePickerField}
+              component={BaseDatePicker}
               label={t('estimates.estimate_date')}
               icon={'calendar-alt'}
               onChangeCallback={val => this.setFormField('estimate_date', val)}
@@ -493,7 +493,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
             <Field
               name="expiry_date"
               isRequired
-              component={DatePickerField}
+              component={BaseDatePicker}
               label={t('estimates.expiry_date')}
               icon={'calendar-alt'}
               onChangeCallback={val => this.setFormField('expiry_date', val)}
@@ -540,7 +540,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
         <Field
           name="reference_number"
-          component={InputField}
+          component={BaseInput}
           hint={t('invoices.reference_number')}
           leftIcon={'hashtag'}
           disabled={disabled}

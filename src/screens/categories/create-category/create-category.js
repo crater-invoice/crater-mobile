@@ -7,7 +7,7 @@ import {CREATE_CATEGORY_FORM} from 'stores/categories/types';
 import {secondaryHeader} from 'utils/header';
 import {
   DefaultLayout,
-  InputField,
+  BaseInput,
   BaseButtonGroup,
   BaseButton
 } from '@/components';
@@ -129,7 +129,7 @@ export default class CreateCategory extends Component<IProps, IStates> {
       >
         <Field
           name="name"
-          component={InputField}
+          component={BaseInput}
           isRequired
           hint={t('categories.title')}
           onSubmitEditing={() => categoryRefs.description.focus()}
@@ -138,7 +138,7 @@ export default class CreateCategory extends Component<IProps, IStates> {
 
         <Field
           name="description"
-          component={InputField}
+          component={BaseInput}
           hint={t('categories.description')}
           inputProps={{multiline: true}}
           height={100}
