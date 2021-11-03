@@ -3,7 +3,7 @@ import {View, Modal, Keyboard, StyleSheet} from 'react-native';
 import {Field, reset, change} from 'redux-form';
 import {AssetIcon} from '../asset-icon';
 import {DefaultLayout} from '../layouts';
-import {InputField} from '../InputField';
+import {BaseInput} from '../base-input';
 import {SelectField} from '../select-field';
 import {BaseDatePicker} from '../base';
 import {ActionButton, CtDecorativeButton} from '../button';
@@ -59,7 +59,7 @@ export class Filter extends Component<IProps, IStates> {
         <View key={index}>
           <Field
             name={name}
-            component={InputField}
+            component={BaseInput}
             hint={hint}
             inputProps={{
               ...inputProps

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {InputField} from '@/components/InputField';
+import {BaseInput} from '@/components';
 
 export function InputType({field, name, disabled}) {
   const {label = null, is_required = false, placeholder = null} = field;
@@ -8,7 +8,7 @@ export function InputType({field, name, disabled}) {
   return (
     <Field
       name={name}
-      component={InputField}
+      component={BaseInput}
       hint={label}
       placeholder={placeholder}
       isRequired={is_required}

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Field} from 'redux-form';
 import {View, TouchableOpacity, ScrollView} from 'react-native';
 import styles from './styles';
-import {InputField} from '../InputField';
+import {BaseInput} from '../base-input';
 import {CtButton} from '../button';
 import {isEmpty} from '@/constants';
 import {BaseLabel} from '@/components';
@@ -27,7 +27,7 @@ const OptionList = ({fields, removeFirstItemOnPress, disabled}) => {
             <View style={[styles.column2, disabled && {flex: 5}]}>
               <Field
                 name={member}
-                component={InputField}
+                component={BaseInput}
                 inputContainerStyle={styles.input}
                 disabled={disabled}
               />

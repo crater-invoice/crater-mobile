@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles';
-import {DefaultLayout, InputField, BaseSwitch, BaseDivider} from '@/components';
+import {DefaultLayout, BaseInput, BaseSwitch, BaseDivider} from '@/components';
 import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {NOTIFICATION} from '../../constants';
@@ -99,7 +99,7 @@ export class Notification extends React.Component<IProps> {
       >
         <Field
           name={'notification_email'}
-          component={InputField}
+          component={BaseInput}
           hint={t('settings.notifications.send')}
           keyboardType={keyboardType.EMAIL}
           leftIcon={'envelope'}

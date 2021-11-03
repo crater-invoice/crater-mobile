@@ -11,7 +11,7 @@ import {
 import styles from './styles';
 import {validate} from './validation';
 import {SlideModal} from '../slide-modal';
-import {InputField} from '../InputField';
+import {BaseInput} from '../base-input';
 import {ActionButton} from '../button';
 import t from 'locales/use-translation';
 import {Content} from '../content';
@@ -180,7 +180,7 @@ class SendMailComponent extends Component<IProps> {
       >
         <Field
           name={emailField.from}
-          component={InputField}
+          component={BaseInput}
           hint={t('send_mail.from')}
           onSubmitEditing={() => mailRefs.to.focus()}
           keyboardType={keyboardType.EMAIL}
@@ -189,7 +189,7 @@ class SendMailComponent extends Component<IProps> {
 
         <Field
           name={emailField.to}
-          component={InputField}
+          component={BaseInput}
           hint={t('send_mail.to')}
           onSubmitEditing={() => mailRefs.subject.focus()}
           keyboardType={keyboardType.EMAIL}
@@ -199,7 +199,7 @@ class SendMailComponent extends Component<IProps> {
 
         <Field
           name={emailField.subject}
-          component={InputField}
+          component={BaseInput}
           hint={t('send_mail.subject')}
           refLinkFn={ref => (mailRefs.subject = ref)}
           isRequired

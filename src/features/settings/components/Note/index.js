@@ -2,7 +2,7 @@ import React from 'react';
 import {Field} from 'redux-form';
 import styles from './styles';
 import {
-  InputField,
+  BaseInput,
   DefaultLayout,
   Editor,
   PLACEHOLDER_TYPES as TYPES,
@@ -160,7 +160,7 @@ export default class Note extends React.Component<IProps> {
       >
         <Field
           name="name"
-          component={InputField}
+          component={BaseInput}
           isRequired
           hint={t('notes.title')}
           inputFieldStyle={styles.inputFieldStyle}

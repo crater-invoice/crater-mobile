@@ -7,7 +7,7 @@ import {routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {alertMe, isEmpty} from '@/constants';
 import {
-  InputField,
+  BaseInput,
   BaseDatePicker,
   DefaultLayout,
   SendMail,
@@ -509,7 +509,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
 
         <Field
           name="reference_number"
-          component={InputField}
+          component={BaseInput}
           hint={t('invoices.reference_number')}
           leftIcon={'hashtag'}
           disabled={disabled}

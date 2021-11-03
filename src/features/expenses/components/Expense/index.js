@@ -7,7 +7,7 @@ import t from 'locales/use-translation';
 import * as Linking from 'expo-linking';
 import {alertMe, isEmpty, keyboardType, MAX_LENGTH} from '@/constants';
 import {
-  InputField,
+  BaseInput,
   DefaultLayout,
   FilePicker,
   BaseDatePicker,
@@ -329,7 +329,7 @@ export class Expense extends React.Component<IProps, IState> {
 
         <Field
           name={`expense.${FIELDS.AMOUNT}`}
-          component={InputField}
+          component={BaseInput}
           isRequired
           leftSymbol={currency?.symbol}
           hint={t('expenses.amount')}
@@ -370,7 +370,7 @@ export class Expense extends React.Component<IProps, IState> {
 
         <Field
           name={`expense.${FIELDS.NOTES}`}
-          component={InputField}
+          component={BaseInput}
           hint={t('expenses.notes')}
           placeholder={t('expenses.notes_placeholder')}
           inputProps={{

@@ -10,7 +10,7 @@ import styles from './styles';
 import {colors} from '@/styles';
 import {
   AssetSvg,
-  InputField,
+  BaseInput,
   AnimateModal,
   HtmlView,
   Text,
@@ -396,7 +396,7 @@ class EditorComponent extends Component<IProps, IStates> {
     const field = (
       <Field
         name={name}
-        component={InputField}
+        component={BaseInput}
         height={150}
         placeholder={placeholder}
         inputProps={{multiline: true}}

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {InputField} from '../../InputField';
+import {BaseInput} from '../../base-input';
 import {MAX_LENGTH} from '@/constants';
 
 export function TextAreaType({field, name, disabled}) {
@@ -9,7 +9,7 @@ export function TextAreaType({field, name, disabled}) {
   return (
     <Field
       name={name}
-      component={InputField}
+      component={BaseInput}
       hint={label}
       placeholder={placeholder}
       inputProps={{

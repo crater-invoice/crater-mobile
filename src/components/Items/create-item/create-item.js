@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {Field, change} from 'redux-form';
 import styles from './create-item-styles';
 import {
-  InputField,
+  BaseInput,
   BaseDivider,
   DefaultLayout,
   CurrencyFormat,
@@ -380,7 +380,7 @@ export class CreateItem extends React.Component<IProps> {
         <Field
           name="name"
           isRequired
-          component={InputField}
+          component={BaseInput}
           hint={t('items.name')}
           onSubmitEditing={() => itemRefs.quantity.focus()}
         />
@@ -389,7 +389,7 @@ export class CreateItem extends React.Component<IProps> {
           <CtView flex={1} justify-between>
             <Field
               name={'quantity'}
-              component={InputField}
+              component={BaseInput}
               isRequired
               hint={t('items.quantity')}
               onSubmitEditing={() => itemRefs.price.focus()}
@@ -404,7 +404,7 @@ export class CreateItem extends React.Component<IProps> {
             <Field
               name="price"
               isRequired
-              component={InputField}
+              component={BaseInput}
               leftSymbol={currency?.symbol}
               hint={t('items.price')}
               keyboardType={keyboardType.DECIMAL}
@@ -439,7 +439,7 @@ export class CreateItem extends React.Component<IProps> {
 
             <Field
               name="discount"
-              component={InputField}
+              component={BaseInput}
               hint={t('items.discount')}
               keyboardType={keyboardType.DECIMAL}
               disabled={discount_type === 'none'}
@@ -469,7 +469,7 @@ export class CreateItem extends React.Component<IProps> {
 
         <Field
           name="description"
-          component={InputField}
+          component={BaseInput}
           hint={t('items.description')}
           inputProps={{
             multiline: true,

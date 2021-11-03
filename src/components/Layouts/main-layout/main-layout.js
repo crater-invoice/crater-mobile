@@ -3,7 +3,7 @@ import {View, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Field} from 'redux-form';
 import {styles, Container} from './styles';
-import {InputField, CtHeader} from '../..';
+import {BaseInput, CtHeader} from '../..';
 import {Content} from '../../content';
 import t from 'locales/use-translation';
 import {STATUS_BAR_CONTENT} from '@/utils';
@@ -91,7 +91,7 @@ const Layout = (props: IProps) => {
             <View style={styles.searchFieldContainer}>
               <Field
                 name="search"
-                component={InputField}
+                component={BaseInput}
                 placeholder={t('search.title')}
                 inputProps={{
                   ...(filterProps &&

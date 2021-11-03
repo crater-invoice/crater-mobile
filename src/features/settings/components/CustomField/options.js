@@ -2,7 +2,7 @@ import React from 'react';
 import {Field, FieldArray} from 'redux-form';
 import {CUSTOM_FIELDS as FIELDS} from '../../constants';
 import {
-  InputField,
+  BaseInput,
   BaseDatePicker,
   BaseTimePicker,
   SelectFieldOptions,
@@ -35,7 +35,7 @@ const DEFAULT_NUMBER_FIELD = symbol => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={InputField}
+      component={BaseInput}
       hint={t('custom_fields.default_value')}
       keyboardType={keyboardType.NUMERIC}
       leftSymbol={symbol ?? currency?.symbol}
@@ -63,7 +63,7 @@ const DEFAULT_INPUT_FIELD = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={InputField}
+      component={BaseInput}
       disabled={!isAllowToEdit}
       hint={t('custom_fields.default_value')}
     />
@@ -75,7 +75,7 @@ const DEFAULT_TEXTAREA_FIELD = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.DEFAULT_VALUE}`}
-      component={InputField}
+      component={BaseInput}
       disabled={!isAllowToEdit}
       hint={t('custom_fields.default_value')}
       inputProps={{
@@ -92,7 +92,7 @@ const PLACEHOLDER_FIELD = () => {
   return (
     <Field
       name={`${FIELDS.FIELD}.${FIELDS.PLACEHOLDER}`}
-      component={InputField}
+      component={BaseInput}
       disabled={!isAllowToEdit}
       hint={t('custom_fields.placeholder')}
     />

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {BaseDropdownPicker, BaseDatePicker, InputField} from '@/components';
+import {BaseDropdownPicker, BaseDatePicker, BaseInput} from '@/components';
 import t from 'locales/use-translation';
 import {LIMIT_TYPES} from 'stores/recurring-invoices/helpers';
 
@@ -53,7 +53,7 @@ export const LimitField = (props: IProps) => {
         <Field
           name={limitCountField.name}
           hint={t('recurring_invoices.limit_types.count')}
-          component={InputField}
+          component={BaseInput}
           inputProps={{
             autoCapitalize: 'characters'
           }}

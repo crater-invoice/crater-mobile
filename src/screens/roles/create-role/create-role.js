@@ -9,7 +9,7 @@ import {secondaryHeader} from 'utils/header';
 import {showNotification} from '@/utils';
 import {
   DefaultLayout,
-  InputField,
+  BaseInput,
   View,
   Text,
   CheckBox,
@@ -197,7 +197,7 @@ export default class CreateRole extends Component<IProps, IStates> {
       >
         <Field
           name="name"
-          component={InputField}
+          component={BaseInput}
           isRequired
           hint={t('roles.name')}
           disabled={disabled}

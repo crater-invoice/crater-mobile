@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import styles from './styles';
 import {Field, change} from 'redux-form';
 import {
-  InputField,
+  BaseInput,
   BaseDivider,
   DefaultLayout,
   CurrencyFormat,
@@ -362,7 +362,7 @@ export class Item extends React.Component {
       >
         <Field
           name="name"
-          component={InputField}
+          component={BaseInput}
           isRequired
           hint={t('items.name')}
           disabled={disabled}
@@ -371,7 +371,7 @@ export class Item extends React.Component {
 
         <Field
           name="price"
-          component={InputField}
+          component={BaseInput}
           isRequired
           leftSymbol={currency?.symbol}
           hint={t('items.price')}
@@ -415,7 +415,7 @@ export class Item extends React.Component {
 
         <Field
           name="description"
-          component={InputField}
+          component={BaseInput}
           hint={t('items.description')}
           inputProps={{
             multiline: true,

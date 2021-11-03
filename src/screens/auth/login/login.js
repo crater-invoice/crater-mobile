@@ -12,7 +12,7 @@ import {routes} from '@/navigation';
 import {IProps, IStates} from './login-type';
 import t from 'locales/use-translation';
 import {biometricAuthentication, STATUS_BAR_CONTENT} from '@/utils';
-import {InputField, AssetImage, Text, AssetSvg, BaseButton} from '@/components';
+import {BaseInput, AssetImage, Text, AssetSvg, BaseButton} from '@/components';
 import {login, biometryAuthLogin} from 'stores/auth/actions';
 import {
   BIOMETRY_AUTH_TYPES,
@@ -101,7 +101,7 @@ export default class Login extends React.Component<IProps, IStates> {
 
               <Field
                 name="username"
-                component={InputField}
+                component={BaseInput}
                 onSubmitEditing={() => loginRefs.password.focus()}
                 placeholder={t('login.email')}
                 keyboardType={keyboardType.EMAIL}
@@ -110,7 +110,7 @@ export default class Login extends React.Component<IProps, IStates> {
 
               <Field
                 name="password"
-                component={InputField}
+                component={BaseInput}
                 returnKeyType={keyboardReturnKeyType.GO}
                 onSubmitEditing={this.props.handleSubmit(this.onSubmit)}
                 placeholder={t('login.password')}

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Input} from 'react-native-elements';
 import debounce from 'lodash/debounce';
 import styles from './styles';
-import {IInputField} from './type.d';
+import {IProps} from './type.d';
 import {AssetIcon} from '../asset-icon';
 import {colors} from '@/styles';
 import {Text} from '../text';
@@ -19,7 +19,7 @@ import {
   keyboardType
 } from '@/constants';
 
-export class InputFieldComponent extends Component<IInputField> {
+class TextInput extends Component<IProps> {
   constructor(props) {
     super(props);
 
@@ -130,10 +130,9 @@ export class InputFieldComponent extends Component<IInputField> {
       placeholder
     } = this.props;
 
-    const {isSecureTextEntry, active, isOptionsVisible, inputVal} = this.state;
+    const {isSecureTextEntry, active, inputVal} = this.state;
 
     const sign = this.getSign();
-    const isOptions = autocomplete && isOptionsVisible && !!options.length;
 
     !hideError && onError && this.onErrorCallback(error);
 
@@ -298,4 +297,4 @@ const mapStateToProps = state => ({
   ...commonSelector(state)
 });
 
-export const InputField = connect(mapStateToProps)(InputFieldComponent);
+export const BaseInput = connect(mapStateToProps)(TextInput);

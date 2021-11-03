@@ -5,7 +5,7 @@ import {CUSTOMER_ADDRESS} from '../../constants';
 import t from 'locales/use-translation';
 import {keyboardType, MAX_LENGTH} from '@/constants';
 import styles from './styles';
-import {SlideModal, InputField, ActionButton, BaseSelect} from '@/components';
+import {SlideModal, BaseInput, ActionButton, BaseSelect} from '@/components';
 import {CountrySelectModal} from '@/select-modal';
 
 type IProps = {
@@ -176,7 +176,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={'name'}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.address.name')}
           disabled={disabled}
         />
@@ -193,7 +193,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={state}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.address.state')}
           onSubmitEditing={() => addressRefs.city.focus()}
           disabled={disabled}
@@ -201,7 +201,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={city}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.address.city')}
           onSubmitEditing={() => addressRefs.street1.focus()}
           refLinkFn={ref => (addressRefs.city = ref)}
@@ -210,7 +210,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={'address_street_1'}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.address.address')}
           placeholder={t('customers.address.street_1')}
           inputProps={{
@@ -224,7 +224,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={'address_street_2'}
-          component={InputField}
+          component={BaseInput}
           placeholder={t('customers.address.street_2')}
           inputProps={{
             multiline: true,
@@ -237,7 +237,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={'phone'}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.address.phone')}
           onSubmitEditing={() => addressRefs.zip.focus()}
           keyboardType={keyboardType.PHONE}
@@ -247,7 +247,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={'zip'}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.address.zip_code')}
           onSubmitEditing={handleSubmit(this.saveAddress)}
           refLinkFn={ref => (addressRefs.zip = ref)}

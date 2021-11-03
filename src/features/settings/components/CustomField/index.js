@@ -10,7 +10,7 @@ import {
 } from '@/constants';
 import t from 'locales/use-translation';
 import {
-  InputField,
+  BaseInput,
   DefaultLayout,
   BaseSwitch,
   Text,
@@ -313,7 +313,7 @@ export class CustomField extends React.Component<IProps> {
       >
         <Field
           name={`${FIELDS.FIELD}.${FIELDS.NAME}`}
-          component={InputField}
+          component={BaseInput}
           isRequired
           disabled={disabled}
           hint={t('custom_fields.name')}
@@ -353,7 +353,7 @@ export class CustomField extends React.Component<IProps> {
 
         <Field
           name={`${FIELDS.FIELD}.${FIELDS.LABEL}`}
-          component={InputField}
+          component={BaseInput}
           isRequired
           disabled={disabled}
           hint={t('custom_fields.label')}
@@ -363,7 +363,7 @@ export class CustomField extends React.Component<IProps> {
 
         <Field
           name={`${FIELDS.FIELD}.${FIELDS.ORDER}`}
-          component={InputField}
+          component={BaseInput}
           hint={t('custom_fields.order')}
           disabled={disabled}
           keyboardType={keyboardType.NUMERIC}

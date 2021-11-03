@@ -3,12 +3,10 @@ import {View} from 'react-native';
 import styles from './styles';
 import {Field, change} from 'redux-form';
 import {
-  InputField,
+  BaseInput,
   DefaultLayout,
   CustomField,
-  ActionButton,
-  BaseButton,
-  ButtonGroup
+  ActionButton
 } from '@/components';
 import {
   CUSTOMER_FORM,
@@ -215,7 +213,7 @@ export class Customer extends React.Component<IProps> {
       >
         <Field
           name={`customer.${FIELDS.NAME}`}
-          component={InputField}
+          component={BaseInput}
           isRequired
           hint={t('customers.display_name')}
           onSubmitEditing={() => customerRefs.contactName.focus()}
@@ -226,7 +224,7 @@ export class Customer extends React.Component<IProps> {
 
         <Field
           name={`customer.${FIELDS.CONTACT_NAME}`}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.contact_name')}
           onSubmitEditing={() => customerRefs.email.focus()}
           keyboardType={keyboardType.DEFAULT}
@@ -237,7 +235,7 @@ export class Customer extends React.Component<IProps> {
 
         <Field
           name={`customer.${FIELDS.EMAIL}`}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.email')}
           onSubmitEditing={() => customerRefs.phone.focus()}
           keyboardType={keyboardType.EMAIL}
@@ -247,7 +245,7 @@ export class Customer extends React.Component<IProps> {
 
         <Field
           name={`customer.${FIELDS.PHONE}`}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.phone')}
           onSubmitEditing={() => customerRefs.website.focus()}
           keyboardType={keyboardType.PHONE}
@@ -257,7 +255,7 @@ export class Customer extends React.Component<IProps> {
 
         <Field
           name={`customer.${FIELDS.WEBSITE}`}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.website')}
           keyboardType={keyboardType.URL}
           refLinkFn={ref => (customerRefs.website = ref)}

@@ -3,7 +3,7 @@ import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change, initialize} from 'redux-form';
 import {
-  InputField,
+  BaseInput,
   BaseDatePicker,
   DefaultLayout,
   SendMail,
@@ -540,7 +540,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
         <Field
           name="reference_number"
-          component={InputField}
+          component={BaseInput}
           hint={t('invoices.reference_number')}
           leftIcon={'hashtag'}
           disabled={disabled}

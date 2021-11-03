@@ -11,7 +11,7 @@ import {
   keyboardType
 } from '@/constants';
 import {sendForgotPasswordMail} from 'stores/auth/actions';
-import {InputField, AssetImage, CtHeader, Text, BaseButton} from '@/components';
+import {BaseInput, AssetImage, CtHeader, Text, BaseButton} from '@/components';
 
 export default class ForgotPassword extends React.Component<IProps, IStates> {
   constructor(props) {
@@ -96,7 +96,7 @@ export default class ForgotPassword extends React.Component<IProps, IStates> {
                 <>
                   <Field
                     name="email"
-                    component={InputField}
+                    component={BaseInput}
                     returnKeyType={keyboardReturnKeyType.GO}
                     onSubmitEditing={handleSubmit(this.onSendMail)}
                     placeholder={t('forgot.email_placeholder')}

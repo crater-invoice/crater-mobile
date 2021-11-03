@@ -3,12 +3,7 @@ import {Field} from 'redux-form';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {alertMe, keyboardType, MAX_LENGTH} from '@/constants';
-import {
-  DefaultLayout,
-  InputField,
-  BaseSwitch,
-  ActionButton
-} from '@/components';
+import {DefaultLayout, BaseInput, BaseSwitch, ActionButton} from '@/components';
 
 export class Tax extends React.Component {
   constructor(props) {
@@ -115,7 +110,7 @@ export class Tax extends React.Component {
       >
         <Field
           name="name"
-          component={InputField}
+          component={BaseInput}
           isRequired
           hint={t('taxes.type')}
           disabled={disabled}
@@ -125,7 +120,7 @@ export class Tax extends React.Component {
         <Field
           name="percent"
           isRequired
-          component={InputField}
+          component={BaseInput}
           hint={t('taxes.percentage') + ' (%)'}
           maxNumber={100}
           refLinkFn={ref => (taxRefs.percent = ref)}
@@ -136,7 +131,7 @@ export class Tax extends React.Component {
 
         <Field
           name="description"
-          component={InputField}
+          component={BaseInput}
           hint={t('taxes.description')}
           refLinkFn={ref => (taxRefs.description = ref)}
           height={80}

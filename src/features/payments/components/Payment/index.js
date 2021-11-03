@@ -4,7 +4,7 @@ import moment from 'moment';
 import styles from './styles';
 import t from 'locales/use-translation';
 import {
-  InputField,
+  BaseInput,
   DefaultLayout,
   BaseDatePicker,
   SendMail,
@@ -485,7 +485,7 @@ export class Payment extends React.Component<IProps> {
 
         <Field
           name={`payment.${FIELDS.AMOUNT}`}
-          component={InputField}
+          component={BaseInput}
           leftSymbol={selectedCustomer?.currency?.symbol ?? currency?.symbol}
           hint={t('payments.amount')}
           keyboardType={keyboardType.DECIMAL}

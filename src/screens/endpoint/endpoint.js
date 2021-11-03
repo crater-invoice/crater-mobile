@@ -8,7 +8,7 @@ import {IProps, IStates} from './endpoint-type';
 import {saveEndpointURL} from 'stores/common/actions';
 import {defineLargeSizeParam, hasTextLength, keyboardType} from '@/constants';
 import {
-  InputField,
+  BaseInput,
   AssetImage,
   CtHeader,
   BaseButton,
@@ -91,7 +91,7 @@ export default class Endpoint extends Component<IProps, IStates> {
               <View>
                 <Field
                   name="url"
-                  component={InputField}
+                  component={BaseInput}
                   hint={t('endpoint.endpoint_url')}
                   onSubmitEditing={handleSubmit(this.onSubmit)}
                   placeholder={t('endpoint.url_placeholder')}

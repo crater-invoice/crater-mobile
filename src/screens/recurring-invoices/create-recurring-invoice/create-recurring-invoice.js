@@ -13,7 +13,7 @@ import {
   ItemField,
   BaseSwitch,
   FinalAmount,
-  InputField,
+  BaseInput,
   BaseButtonGroup,
   BaseButton
 } from '@/components';
@@ -339,7 +339,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
         />
         <Field
           name="next_invoice_at"
-          component={InputField}
+          component={BaseInput}
           inputProps={{}}
           meta={{}}
           hint={t('recurring_invoices.next_invoice_at')}

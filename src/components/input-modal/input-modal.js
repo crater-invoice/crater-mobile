@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {styles} from './styles';
 import {AnimateModal} from '../animate-modal';
 import {Field} from 'redux-form';
-import {InputField} from '../InputField';
+import {BaseInput} from '../base-input';
 import {ActionButton, CtDecorativeButton} from '../button';
 import {Icon} from 'react-native-elements';
 import {Text} from '../text';
@@ -77,7 +77,7 @@ class inputModalComponent extends Component<Iprops> {
       <View style={styles.fieldView}>
         <Field
           name={fieldName}
-          component={InputField}
+          component={BaseInput}
           hint={hint}
           disabled={disabled}
           isRequired
