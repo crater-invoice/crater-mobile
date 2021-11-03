@@ -13,7 +13,7 @@ export interface IProps {
   onToggle?: () => any;
 
   /**
-   * An additional header accessibility.
+   * Additional props to pass to the Header.
    */
   headerProps?: any;
 
@@ -33,7 +33,7 @@ export interface IProps {
   hasSearchField?: boolean;
 
   /**
-   * An additional list view accessibility.
+   * Additional props to pass to the ListView.
    */
   listViewProps?: Object;
 
@@ -49,17 +49,17 @@ export interface IProps {
   children?: React.ReactNode | any;
 
   /**
-   * An additional bottom action accessibility.
+   * Additional props to pass to the BottomAction.
    */
   bottomAction?: any;
 
   /**
-   * An additional search bar accessibility.
+   * Additional props to pass to the SearchBar.
    */
   searchInputProps?: any;
 
   /**
-   * An additional search bar field accessibility.
+   * Additional props to pass to the SearchTextInput.
    */
   searchFieldProps?: any;
 
@@ -69,12 +69,12 @@ export interface IProps {
   isPagination?: boolean;
 
   /**
-   * An additional list view accessibility.
+   * Additional props to pass to the InfiniteScrollView.
    */
   infiniteScrollProps?: any;
 
   /**
-   * An additional scroll-view accessibility.
+   * Additional props to pass to the SearchView.
    */
   scrollViewProps?: any;
 

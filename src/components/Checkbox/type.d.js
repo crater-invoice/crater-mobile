@@ -38,7 +38,7 @@ export interface IProps {
   onChangeCallback?: () => void;
 
   /**
-   * An additional modal accessibility.
+   * Additional props to pass to the CheckBox.
    */
   checkBoxProps?: any;
 

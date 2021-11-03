@@ -66,7 +66,7 @@ export interface IProps {
   hasCircle?: boolean;
 
   /**
-   * An additional right icon props accessibility.
+   * Additional props to pass to the RightIcon.
    */
   rightIconProps?: any;
 

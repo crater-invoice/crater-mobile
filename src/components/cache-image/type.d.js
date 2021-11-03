@@ -18,12 +18,12 @@ export interface IProps {
   imageName?: string;
 
   /**
-   * An additional image accessibility.
+   * Additional props to pass to the Image.
    */
   imageProps?: Omit<ImageProps, 'source'>;
 
   /**
-   * An additional image loader accessibility.
+   * Additional props to pass to the ActivityIndicator.
    */
   loadingProps?: any;
 

@@ -17,7 +17,7 @@ export interface IProps {
   onSubmitFilter: () => void;
 
   /**
-   * An additional field accessibility.
+   * Additional props to pass to the Header.
    */
   headerProps: any;
 

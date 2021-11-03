@@ -10,7 +10,7 @@ export interface IProps {
   children?: React.ReactNode | any;
 
   /**
-   * An additional header accessibility.
+   * Additional props to pass to the Header.
    */
   headerProps?: any;
 
@@ -35,12 +35,12 @@ export interface IProps {
   onToggleFilter?: () => any;
 
   /**
-   * An additional filter accessibility.
+   * Additional props to pass to the Filter.
    */
   filterProps?: any;
 
   /**
-   * An additional field accessibility.
+   * Additional props to pass to the TextInput.
    */
   inputProps?: any;
 
@@ -50,12 +50,12 @@ export interface IProps {
   dividerStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * An additional image loader accessibility.
+   * Additional props to pass to the ActivityIndicator.
    */
   loadingProps?: any;
 
   /**
-   * An additional search bar field accessibility.
+   * Additional props to pass to the SearchBar.
    */
   searchFieldProps?: any;
 
@@ -71,17 +71,17 @@ export interface IProps {
   theme?: ITheme;
 
   /**
-   * An additional bottom action accessibility.
+   * Additional props to pass to the BottomAction.
    */
   bottomAction?: any;
 
   /**
-   * An additional keyboard accessibility.
+   * Additional props to pass to the Keyboard.
    */
   keyboardProps?: any;
 
   /**
-   * An additional content props accessibility.
+   * Additional props to pass to the Content.
    */
   contentProps?: any;
 }

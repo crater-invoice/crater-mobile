@@ -23,7 +23,7 @@ export interface IProps {
   refreshControlColor?: string;
 
   /**
-   * An additional empty placeholder accessibility.
+   * Additional props to pass to the EmptyPlaceholder.
    */
   emptyContentProps?: any;
 

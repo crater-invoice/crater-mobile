@@ -14,12 +14,12 @@ export interface IProps {
   withLoading?: boolean;
 
   /**
-   * An additional loading accessibility.
+   * Additional props to pass to the ActivityIndicator.
    */
   loadingProps?: any;
 
   /**
-   * An additional empty content accessibility.
+   * Additional props to pass to the EmptyPlaceholder.
    */
   emptyProps?: any;
 

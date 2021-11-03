@@ -208,7 +208,7 @@ interface IProps {
   placeholder?: string;
 
   /**
-   * An additional field accessibility.
+   * Additional props to pass to the BaseSelect.
    */
   baseSelectProps?: any;
 

@@ -17,7 +17,7 @@ export interface IProps {
   uri?: boolean;
 
   /**
-   * An additional image accessibility.
+   * Additional props to pass to the Image.
    */
   imageProps?: ImageProps | any;
 

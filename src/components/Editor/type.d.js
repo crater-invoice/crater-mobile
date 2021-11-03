@@ -60,7 +60,7 @@ export interface IProps {
   customRightLabelComponent?: React.ReactNode | any;
 
   /**
-   * An additional field accessibility.
+   * Additional props to pass to the BaseSelect.
    */
   fieldInputProps?: any;
 

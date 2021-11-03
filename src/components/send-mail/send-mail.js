@@ -41,8 +41,6 @@ const emailField = {
   msg: 'body'
 };
 
-const MAIL_FORM = 'sendMail/MAIL_FORM';
-
 class SendMailComponent extends Component<IProps> {
   keyboardDidShowListener: any;
   keyboardDidHideListener: any;
@@ -166,7 +164,7 @@ class SendMailComponent extends Component<IProps> {
   };
 
   setFormField = (field, value) => {
-    this.props.dispatch(change(MAIL_FORM, field, value || undefined));
+    this.props.dispatch(change('SEND_MAIL_FORM', field, value || undefined));
   };
 
   Screen = () => {
@@ -262,19 +260,19 @@ class SendMailComponent extends Component<IProps> {
 }
 
 const mapStateToProps = state => ({
-  formValues: getFormValues(MAIL_FORM)(state) || {},
+  formValues: getFormValues('SEND_MAIL_FORM')(state) || {},
   ...commonSelector(state)
 });
 
 const mapDispatchToProps = {
   getMailConfiguration
 };
-const SendMailReduxForm = reduxForm({
-  form: MAIL_FORM,
+const SendMailForm = reduxForm({
+  form: 'SEND_MAIL_FORM',
   validate
 })(SendMailComponent);
 
 export const SendMail = connect(
   mapStateToProps,
   mapDispatchToProps
-)(SendMailReduxForm);
+)(SendMailForm);

@@ -18,7 +18,7 @@ export interface IProps {
   containerStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * An additional empty placeholder accessibility.
+   * Additional props to pass to the EmptyPlaceholder.
    */
   emptyContentProps?: any;
 
@@ -38,7 +38,7 @@ export interface IProps {
   leftSubTitleLabelStyle?: StyleProp<ViewStyle> | any;
 
   /**
-   * An additional list view accessibility.
+   * Additional props to pass to the ListView.
    */
   listItemProps?: any;
 
@@ -81,7 +81,7 @@ export interface IProps {
   theme: ITheme;
 
   /**
-   * An additional content props accessibility.
+   * Additional props to pass to the Content.
    */
   contentProps?: any;
 }

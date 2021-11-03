@@ -14,7 +14,7 @@ export interface IProps {
   visible?: boolean;
 
   /**
-   * An additional modal accessibility.
+   * Additional props to pass to the Modal.
    */
   modalProps?: ModalProps | any;
 
