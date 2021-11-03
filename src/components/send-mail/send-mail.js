@@ -56,12 +56,12 @@ class SendMailComponent extends Component<IProps> {
   }
 
   componentDidMount() {
-    this.props.mailReference?.(this);
+    this.props.reference?.(this);
     this.keyboardListener();
   }
 
   componentWillUnmount() {
-    this.props.mailReference?.(undefined);
+    this.props.reference?.(undefined);
     this.keyboardDidShowListener?.remove?.();
     this.keyboardDidHideListener?.remove?.();
   }

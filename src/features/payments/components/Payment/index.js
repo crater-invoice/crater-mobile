@@ -339,7 +339,7 @@ export class Payment extends React.Component<IProps> {
   sendMailComponent = () => {
     return (
       <SendMail
-        mailReference={ref => (this.sendMailRef = ref)}
+        reference={ref => (this.sendMailRef = ref)}
         headerTitle={'header.send_mail_payment'}
         alertDesc={'payments.alert.send_payment'}
         user={this.props.formValues?.payment?.user}

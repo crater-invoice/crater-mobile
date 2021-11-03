@@ -70,7 +70,6 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
     this.state = {
       currency: props?.currency,
-      customerName: '',
       markAsStatus: null,
       isFetchingInitialData: true
     };
@@ -149,8 +148,9 @@ export default class Estimate extends React.Component<IProps, IStates> {
       isCreateScreen,
       navigation,
       isFetchingInitialData,
+      isSaving,
+      isDeleting,
       id,
-      withLoading,
       dispatch,
       estimateData: {estimateTemplates = []} = {}
     } = this.props;
@@ -158,7 +158,8 @@ export default class Estimate extends React.Component<IProps, IStates> {
     if (
       this.state.isFetchingInitialData ||
       isFetchingInitialData ||
-      withLoading
+      isSaving ||
+      isDeleting
     ) {
       return;
     }
@@ -347,7 +348,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
   sendMailComponent = () => {
     return (
       <SendMail
-        mailReference={ref => (this.sendMailRef = ref)}
+        reference={ref => (this.sendMailRef = ref)}
         headerTitle={'header.send_mail_estimate'}
         alertDesc={'estimates.alert.send_estimate'}
         user={this.props?.formValues?.customer}
@@ -381,7 +382,6 @@ export default class Estimate extends React.Component<IProps, IStates> {
       selectedItems,
       getItems,
       items,
-      withLoading,
       getCustomers,
       customers,
       formValues,
@@ -390,6 +390,8 @@ export default class Estimate extends React.Component<IProps, IStates> {
       isAllowToEdit,
       isAllowToDelete,
       isSaving,
+      isDeleting,
+      isLoading,
       notes,
       getNotes
     } = this.props;
@@ -435,7 +437,9 @@ export default class Estimate extends React.Component<IProps, IStates> {
         <BaseButton
           show={isEditScreen && isAllowToEdit}
           type="primary-btn-outline"
-          disabled={isFetchingInitialData}
+          disabled={
+            isFetchingInitialData || isSaving || isDeleting || isLoading
+          }
           onPress={handleSubmit(this.downloadEstimate)}
         >
           {t('button.view_pdf')}
@@ -443,7 +447,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
         <BaseButton
           show={isAllowToEdit}
           loading={isSaving}
-          disabled={isFetchingInitialData || isSaving}
+          disabled={isFetchingInitialData || isDeleting || isLoading}
           onPress={handleSubmit(this.saveEstimate)}
         >
           {t('button.save')}
@@ -468,10 +472,9 @@ export default class Estimate extends React.Component<IProps, IStates> {
           })
         }}
         bottomAction={bottomAction}
-        loadingProps={{is: isFetchingInitialData || withLoading}}
-        contentProps={{withLoading}}
+        loadingProps={{is: isFetchingInitialData}}
         dropdownProps={drownDownProps}
-        bodyStyle={`px-22 pt-10 pb-15 opacity-${withLoading ? 80 : 100}`}
+        bodyStyle="px-22 pt-10 pb-15"
       >
         {isEditScreen && !hasCompleteStatus && this.sendMailComponent()}
 

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import styles from './preferences-style';
+import {find} from 'lodash';
 import {Field, change, initialize} from 'redux-form';
+import styles from './preferences-style';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './preferences-type';
 import {PREFERENCES_FORM} from 'stores/company/types';
@@ -21,7 +22,6 @@ import {
   RetrospectiveEditSelectModal,
   TimeZoneSelectModal
 } from '@/select-modal';
-import {find} from 'lodash-es';
 
 export default class Preferences extends Component<IProps, IStates> {
   constructor(props) {

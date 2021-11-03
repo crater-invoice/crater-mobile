@@ -48,6 +48,7 @@ export const loadingSelector = createSelector(
   state => state?.invoices,
   invoices => ({
     isSaving: invoices?.isSaving,
-    isDeleting: invoices?.isDeleting
+    isDeleting: invoices?.isDeleting,
+    isLoading: invoices?.isLoading
   })
 );

@@ -47,6 +47,7 @@ export const loadingSelector = createSelector(
   state => state?.estimates,
   estimates => ({
     isSaving: estimates?.isSaving,
-    isDeleting: estimates?.isDeleting
+    isDeleting: estimates?.isDeleting,
+    isLoading: estimates?.isLoading
   })
 );

@@ -57,7 +57,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
 
     this.state = {
       currency: props?.currency,
-      customerName: '',
       markAsStatus: null,
       isFetchingInitialData: true
     };
@@ -316,7 +315,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
   sendMailComponent = () => {
     return (
       <SendMail
-        mailReference={ref => (this.sendMailRef = ref)}
+        reference={ref => (this.sendMailRef = ref)}
         headerTitle={'header.send_mail_invoice'}
         alertDesc={'invoices.alert.send_invoice'}
         user={this.props.formValues?.customer}
@@ -353,12 +352,13 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       getCustomers,
       customers,
       formValues,
-      withLoading,
       customFields,
       isAllowToEdit,
       isAllowToDelete,
       isEditScreen,
       isSaving,
+      isDeleting,
+      isLoading,
       notes,
       getNotes
     } = this.props;
@@ -407,7 +407,9 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         <BaseButton
           show={isEditScreen && isAllowToEdit}
           type="primary-btn-outline"
-          disabled={isFetchingInitialData}
+          disabled={
+            isFetchingInitialData || isSaving || isDeleting || isLoading
+          }
           onPress={handleSubmit(this.downloadInvoice)}
         >
           {t('button.view_pdf')}
@@ -415,7 +417,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         <BaseButton
           show={isAllowToEdit}
           loading={isSaving}
-          disabled={isFetchingInitialData || isSaving}
+          disabled={isFetchingInitialData || isDeleting || isLoading}
           onPress={handleSubmit(this.saveInvoice)}
         >
           {t('button.save')}
@@ -436,10 +438,9 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           })
         }}
         bottomAction={bottomAction}
-        loadingProps={{is: isFetchingInitialData || withLoading}}
-        contentProps={{withLoading}}
+        loadingProps={{is: isFetchingInitialData}}
         dropdownProps={drownDownProps}
-        bodyStyle={`px-22 pt-10 pb-15 opacity-${withLoading ? 80 : 100}`}
+        bodyStyle="px-22 pt-10 pb-15"
       >
         {isEditScreen && !hasCompleteStatus && this.sendMailComponent()}
 
