@@ -96,6 +96,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         invoice_number: data.invoice_no ?? invoiceData?.nextNumber,
         prefix: meta.invoicePrefix ?? invoiceData?.prefix
       };
+      this.setState({currency: data?.customer?.currency});
     }
 
     dispatch(initialize(CREATE_INVOICE_FORM, values));
