@@ -6,6 +6,8 @@ import {fetchTaxAndDiscountPerItem} from '../common/actions';
 import {showNotification, handleError} from '@/utils';
 import t from 'locales/use-translation';
 import {navigation} from '@/navigation';
+import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
+import {getCustomFields} from '@/features/settings/saga/custom-fields';
 
 /**
  * Fetch Next-Invoice-At saga
@@ -23,12 +25,16 @@ function* fetchNextInvoiceAt({payload}) {
  * Fetch invoice templates saga
  * @returns {IterableIterator<*>}
  */
-function* fetchInvoiceTemplates() {
+function* fetchRecurringInvoiceData() {
   try {
-    const response = yield call(req.fetchInvoiceTemplates);
+    yield call(getCustomFields, {
+      payload: {queryString: {type: CUSTOM_FIELD_TYPES.INVOICE, limit: 'all'}}
+    });
+    yield put({type: types.CLEAR_RECURRING_INVOICE});
+    const {invoiceTemplates} = yield call(req.fetchInvoiceTemplates);
     yield put({
       type: types.FETCH_INVOICE_TEMPLATES_SUCCESS,
-      payload: response?.invoiceTemplates
+      payload: invoiceTemplates
     });
   } catch (e) {}
 }
@@ -38,8 +44,7 @@ function* fetchInvoiceTemplates() {
  * @returns {IterableIterator<*>}
  */
 function* fetchRecurringInvoiceInitialDetails({payload}) {
-  yield put({type: types.CLEAR_RECURRING_INVOICE});
-  yield call(fetchInvoiceTemplates);
+  yield call(fetchRecurringInvoiceData);
   yield put(fetchTaxAndDiscountPerItem());
   payload?.();
 }
@@ -72,8 +77,7 @@ function* fetchSingleRecurringInvoice({payload}) {
     const {id, onSuccess} = payload;
     const response = yield call(req.fetchSingleRecurringInvoice, id);
     const recurringInvoice = response?.data;
-    yield put({type: types.CLEAR_RECURRING_INVOICE});
-    yield call(fetchInvoiceTemplates);
+    yield call(fetchRecurringInvoiceData);
     yield put({
       type: types.ADD_RECURRING_INVOICE_ITEM_SUCCESS,
       payload: recurringInvoice?.invoiceItems ?? []

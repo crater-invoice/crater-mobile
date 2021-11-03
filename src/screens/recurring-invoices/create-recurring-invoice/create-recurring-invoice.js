@@ -15,7 +15,8 @@ import {
   FinalAmount,
   InputField,
   BaseButtonGroup,
-  BaseButton
+  BaseButton,
+  BaseDropdownPicker
 } from '@/components';
 import {
   fetchRecurringInvoiceInitialDetails,
@@ -25,11 +26,10 @@ import {
   removeRecurringInvoice,
   fetchNextInvoiceAt
 } from 'stores/recurring-invoices/actions';
-import {CustomerSelectModal, StatusSelectModal} from '@/select-modal';
+import {CustomerSelectModal} from '@/select-modal';
 import {TemplateField} from '@/components';
 import styles from './create-recurring-invoice-styles';
 import {FrequencyField, LimitField} from '../recurring-invoices-common';
-import {statusSelector} from 'stores/recurring-invoices/selectors';
 import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
 import {
   total,
@@ -248,7 +248,6 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       isAllowToDelete,
       formValues,
       customers,
-      fetchStatus,
       getCustomers,
       selectedItems,
       items,
@@ -365,12 +364,14 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
 
         <Field
           name="status"
-          statusList={statusSelector(statusList)}
-          fetchStatus={fetchStatus}
-          component={StatusSelectModal}
-          placeholder={status ?? t('recurring_invoices.status.title')}
-          onSelect={item => {
-            this.setFormField('status', item);
+          component={BaseDropdownPicker}
+          label={t('recurring_invoices.status.title')}
+          items={statusList}
+          fieldIcon={'tag'}
+          onChangeCallback={item => this.setFormField('status', item)}
+          defaultPickerOptions={{
+            label: t('recurring_invoices.status.placeholder'),
+            value: ''
           }}
           disabled={disabled}
         />

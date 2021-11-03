@@ -17,6 +17,10 @@ import {FETCH_INVOICES_SUCCESS} from '../invoices/types';
  */
 function* fetchEstimateData() {
   try {
+    yield call(getCustomFields, {
+      payload: {queryString: {type: CUSTOM_FIELD_TYPES.ESTIMATE, limit: 'all'}}
+    });
+    yield put({type: types.CLEAR_ESTIMATE});
     const {estimateTemplates} = yield call(req.fetchEstimateTemplates);
     const {estimate_auto_generate} = yield call(getSettingInfo, {
       payload: {keys: ['estimate_auto_generate']}
@@ -40,7 +44,6 @@ function* fetchEstimateData() {
  * @returns {IterableIterator<*>}
  */
 function* fetchEstimateInitialDetails({payload}) {
-  yield put({type: types.CLEAR_ESTIMATE});
   yield call(fetchEstimateData);
   yield put(fetchTaxAndDiscountPerItem());
   payload?.();
@@ -72,12 +75,8 @@ function* fetchEstimates({payload}) {
 function* fetchSingleEstimate({payload}) {
   try {
     const {id, onSuccess} = payload;
-    yield call(getCustomFields, {
-      payload: {queryString: {type: CUSTOM_FIELD_TYPES.ESTIMATE, limit: 'all'}}
-    });
     const response = yield call(req.fetchSingleEstimate, id);
 
-    yield put({type: types.CLEAR_ESTIMATE});
     yield call(fetchEstimateData);
     yield put({
       type: types.ADD_ESTIMATE_ITEM_SUCCESS,

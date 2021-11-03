@@ -1,5 +1,6 @@
 import {isEmpty} from '@/constants';
 import {createSelector} from 'reselect';
+import t from 'locales/use-translation';
 
 const companyStore = state => state?.company;
 
@@ -26,7 +27,11 @@ export const retrospectiveEditsSelector = createSelector(
   retrospectiveEdits =>
     isEmpty(retrospectiveEdits)
       ? []
-      : retrospectiveEdits.map(edit => ({title: edit.key, fullItem: edit}))
+      : retrospectiveEdits.map(edit => ({
+          ...edit,
+          title: t(edit.key),
+          fullItem: {...edit, title: t(edit.key)}
+        }))
 );
 
 export const loadingSelector = createSelector(

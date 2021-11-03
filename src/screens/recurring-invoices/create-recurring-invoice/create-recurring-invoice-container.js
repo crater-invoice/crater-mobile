@@ -3,7 +3,10 @@ import {getFormValues, reduxForm} from 'redux-form';
 import CreateRecurringInvoice from './create-recurring-invoice';
 import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
 import {validate} from 'stores/recurring-invoices/validator';
-import {loadingSelector} from 'stores/recurring-invoices/selectors';
+import {
+  loadingSelector,
+  statusSelector
+} from 'stores/recurring-invoices/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
 import {
   commonSelector,
@@ -43,7 +46,7 @@ const mapStateToProps = (state, {route}) => {
     dateFormat,
     currency: currentCurrencySelector(state),
     customFields,
-    statusList: update_status,
+    statusList: statusSelector(update_status),
     formValues: getFormValues(CREATE_RECURRING_INVOICE_FORM)(state) || {},
     initialValues: initialValues(invoiceTemplates)
   };

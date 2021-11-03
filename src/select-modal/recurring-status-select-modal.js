@@ -25,6 +25,8 @@ export const StatusSelectModal = (props: IProps) => {
       isRequired
       label={t('recurring_invoices.status.title')}
       icon={'tag'}
+      displayName={'title'}
+      searchFields={['title']}
       headerProps={{title: t('recurring_invoices.status.title')}}
       emptyContentProps={{
         contentType: 'recurring_invoices.status'
