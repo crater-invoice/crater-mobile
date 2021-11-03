@@ -128,9 +128,7 @@ const Layout = (props: IProps) => {
           </Content>
         </View>
 
-        {bottomAction && (
-          <View style={styles.bottomView(theme)}>{bottomAction}</View>
-        )}
+        {bottomAction}
       </Container>
       {plusButtonOnPress ? (
         <View style={styles.floatingActionView}>

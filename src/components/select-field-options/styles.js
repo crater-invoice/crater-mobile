@@ -1,9 +1,10 @@
 import {StyleSheet} from 'react-native';
-import {colors, fonts} from '@/styles';
+import {colors} from '@/styles';
 
 export default styles = StyleSheet.create({
   row: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 7
   },
   column1: {
     flex: 0.4,
@@ -13,13 +14,14 @@ export default styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'center'
   },
-  scrollContainer: {
-    minHeight: 240,
-    borderWidth: 0.8,
+  scrollContainer: theme => ({
+    minHeight: 200,
     borderRadius: 6,
     marginTop: 12,
-    borderColor: colors.darkGray
-  },
+    borderWidth: 1.4,
+    borderColor: theme?.input?.borderColor,
+    marginBottom: 12
+  }),
   itemList: {
     paddingBottom: 20
   },

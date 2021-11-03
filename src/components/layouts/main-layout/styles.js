@@ -30,14 +30,6 @@ const styles = StyleSheet.create({
       marginTop: defineSize(-6, -6, -6, -13)
     })
   },
-  bottomView: theme => ({
-    backgroundColor: theme?.secondaryBgColor,
-    borderColor: theme?.input?.borderColor,
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    paddingBottom: defineSize(13, 13, 13, 35),
-    borderTopWidth: 1
-  }),
   columnSearch: {
     flex: 7
   },

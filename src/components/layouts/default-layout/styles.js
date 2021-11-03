@@ -14,14 +14,6 @@ const styles = StyleSheet.create({
     paddingTop: definePlatformParam(0, 16),
     marginBottom: defineSize(52, 52, 52, 82)
   },
-  bottomView: theme => ({
-    backgroundColor: theme?.secondaryBgColor,
-    borderColor: theme?.input?.borderColor,
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    paddingBottom: defineSize(14, 14, 14, 35),
-    borderTopWidth: 1
-  }),
   header: {
     ...(isAndroidPlatform && {marginTop: 10}),
     ...(isIPhoneX() && {

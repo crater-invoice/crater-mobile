@@ -1,15 +1,15 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Text} from '../text';
-import {CtButton} from '../button';
 import {AssetImage} from '../asset-image';
-import {BUTTON_TYPE, hasTextLength} from '@/constants';
+import {hasTextLength} from '@/constants';
 import {PermissionService} from '@/services';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import {IProps} from './type.d';
+import {BaseButton} from '../base';
 
 export const Empty = (props: IProps) => {
   const {
@@ -54,13 +54,14 @@ export const Empty = (props: IProps) => {
       </Text>
 
       {showButton && (
-        <CtButton
-          onPress={buttonPress && buttonPress}
-          btnTitle={buttonTitle}
-          type={BUTTON_TYPE.OUTLINE}
-          hasFocus={false}
-          buttonContainerStyle={styles.emptyButton}
-        />
+        <BaseButton
+          type="primary-outline"
+          base-class="mt-22 mx-40"
+          class="px-11"
+          onPress={buttonPress}
+        >
+          {buttonTitle}
+        </BaseButton>
       )}
     </View>
   );
@@ -85,9 +86,5 @@ const styles = StyleSheet.create({
   emptyDescription: {
     paddingHorizontal: 10,
     marginTop: 5
-  },
-  emptyButton: {
-    marginTop: 22,
-    marginHorizontal: 40
   }
 });

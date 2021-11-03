@@ -5,16 +5,14 @@ import {change} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './type.d';
 import {headerTitle} from '@/styles';
-import styles from './styles';
 import {SlideModal} from '../slide-modal';
-import {CtButton} from '../button';
 import {hasValue, isEmpty} from '@/constants';
 import {internalSearch as searchItem} from '@/utils';
 import {ARROW_ICON} from '@/assets';
 import {PaymentModeModal, UnitModal} from '../modal';
 import {PermissionService} from '@/services';
 import {commonSelector} from 'stores/common/selectors';
-import {BaseSelect} from '@/components';
+import {BaseButton, BaseButtonGroup, BaseSelect} from '@/components';
 
 export class SelectFieldComponent extends Component<IProps, IStates> {
   scrollViewReference: any;
@@ -328,18 +326,6 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     }
   };
 
-  BOTTOM_ACTION = () => (
-    <View style={styles.submitButton}>
-      <View style={{flex: 1}}>
-        <CtButton
-          onPress={this.onSubmit}
-          btnTitle={t('button.done')}
-          containerStyle={styles.handleBtn}
-        />
-      </View>
-    </View>
-  );
-
   render() {
     const {
       containerStyle,
@@ -382,7 +368,11 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         checkedItems: selectedItems
       };
       bottomActionProps = {
-        bottomAction: this.BOTTOM_ACTION()
+        bottomAction: (
+          <BaseButtonGroup>
+            <BaseButton onPress={this.onSubmit}>{t('button.done')}</BaseButton>
+          </BaseButtonGroup>
+        )
       };
     }
 
@@ -471,7 +461,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     );
 
     return (
-      <View style={styles.container}>
+      <View style={{flex: 1}}>
         {fieldView}
         <SlideModal
           visible={visible}

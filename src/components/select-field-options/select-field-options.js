@@ -3,9 +3,10 @@ import {Field} from 'redux-form';
 import {View, TouchableOpacity, ScrollView} from 'react-native';
 import styles from './styles';
 import {BaseInput} from '../base-input';
-import {CtButton} from '../button';
 import {isEmpty} from '@/constants';
-import {BaseLabel} from '@/components';
+import {AssetIcon, BaseButton, BaseLabel} from '@/components';
+import {colors} from '@/styles';
+import t from 'locales/use-translation';
 
 const removeItem = (fields, index, removeFirstItemOnPress) => {
   if (fields?.length === 1 && removeFirstItemOnPress) return;
@@ -59,7 +60,7 @@ const OptionList = ({fields, removeFirstItemOnPress, disabled}) => {
 };
 
 export const SelectFieldOptions = props => {
-  const {fields, addFirstItem, disabled} = props;
+  const {fields, addFirstItem, disabled, theme} = props;
 
   useEffect(() => {
     if (addFirstItem) {
@@ -72,16 +73,21 @@ export const SelectFieldOptions = props => {
     <>
       <View style={styles.row}>
         <View style={styles.column2}>
-          <BaseLabel {...(disabled && {'mt-8': true})}>Options</BaseLabel>
+          <BaseLabel pt-3>{t('custom_fields.options')}</BaseLabel>
         </View>
         {!disabled ? (
-          <View style={styles.column}>
-            <CtButton onPress={() => addItem(fields)} iconName={'plus'} />
-          </View>
+          <BaseButton
+            onPress={() => addItem(fields)}
+            class="px-10"
+            size="sm"
+            labelComponent={
+              <AssetIcon name={'plus'} size={13} color={colors.white} />
+            }
+          />
         ) : null}
       </View>
       <ScrollView
-        style={styles.scrollContainer}
+        style={styles.scrollContainer(theme)}
         showsVerticalScrollIndicator={false}
       >
         <OptionList fields={fields} {...props} />

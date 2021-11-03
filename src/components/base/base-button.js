@@ -39,10 +39,12 @@ export const Button = (props: IProps) => {
     disabled,
     type = 'primary',
     size = 'md',
-    style
+    style,
+    additionalProps,
+    labelComponent
   } = props;
   const isOutline = type.includes('outline');
-  const label = (
+  const label = !labelComponent ? (
     <Text
       h5
       white
@@ -51,6 +53,8 @@ export const Button = (props: IProps) => {
     >
       {props.children}
     </Text>
+  ) : (
+    labelComponent
   );
   const spinner = (
     <Loading
@@ -81,6 +85,7 @@ export const Button = (props: IProps) => {
         disabled={disabled || loading}
         opacity={disabled ? 0.7 : 1}
         style={isOutline && styles.outlineView(props)}
+        {...additionalProps}
       >
         {type === 'primary-gradient' ? (
           <LinearGradient {...gradientStyle}>{children}</LinearGradient>
@@ -190,7 +195,7 @@ interface IProps {
   /**
    * The component to render elements.
    */
-  children: any;
+  children?: any;
 
   /**
    * Type of button.
@@ -221,4 +226,15 @@ interface IProps {
    * Styling for the button container.
    */
   style?: StyleProp<ViewStyle> | any;
+
+  /**
+   * Additional props to pass to the button.
+   */
+  additionalProps?: any;
+
+  /**
+   * Either children or a render prop that receives a boolean reflecting whether
+   * the component is currently pressed.
+   */
+  labelComponent?: React.ReactNode | any;
 }

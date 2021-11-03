@@ -1,13 +1,11 @@
 import React, {Component, Fragment} from 'react';
-import {StyleSheet} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {AnimateModal} from '../animate-modal';
 import moment from 'moment';
 import t from 'locales/use-translation';
-import {CtButton} from '../button';
 import {colors} from '@/styles';
 import {isDarkMode} from '@/utils';
-import {BaseSelect} from '@/components';
+import {BaseButton, BaseSelect} from '@/components';
 import {
   isIosPlatform,
   majorVersionIOS,
@@ -145,11 +143,12 @@ export class BaseTimePicker extends Component<IProps, IStates> {
           display={displayMode}
         />
 
-        <CtButton
+        <BaseButton
           onPress={() => this.onChangeTime(timeStamp)}
-          btnTitle={t('button.change')}
-          containerStyle={styles.button}
-        />
+          additionalProps={{scale: 1}}
+        >
+          {t('button.change')}
+        </BaseButton>
       </AnimateModal>
     );
   };
@@ -187,14 +186,6 @@ export class BaseTimePicker extends Component<IProps, IStates> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  button: {
-    marginTop: -5,
-    marginHorizontal: -5,
-    width: '110%'
-  }
-});
 
 interface IProps {
   /**
