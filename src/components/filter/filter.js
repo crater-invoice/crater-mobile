@@ -5,8 +5,8 @@ import {AssetIcon} from '../asset-icon';
 import {DefaultLayout} from '../layouts';
 import {BaseInput} from '../base-input';
 import {SelectField} from '../select-field';
-import {BaseDatePicker} from '../base';
-import {ActionButton, CtDecorativeButton} from '../button';
+import {BaseDatePicker, BaseButtonGroup, BaseButton} from '../base';
+import {CtDecorativeButton} from '../button';
 import t from 'locales/use-translation';
 import {Text} from '../text';
 import {View as CtView} from '../view';
@@ -200,19 +200,23 @@ export class Filter extends Component<IProps, IStates> {
       ...headerProps
     };
 
-    const bottomAction = [
-      {
-        label: 'button.clear',
-        onPress: this.onClear,
-        type: 'btn-outline',
-        show: !isKeyboardVisible
-      },
-      {
-        label: 'search.title',
-        onPress: handleSubmit(this.onSubmit),
-        show: !isKeyboardVisible
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          onPress={this.onClear}
+          type="primary-outline"
+          show={!isKeyboardVisible}
+        >
+          {t('button.clear')}
+        </BaseButton>
+        <BaseButton
+          onPress={handleSubmit(this.onSubmit)}
+          show={!isKeyboardVisible}
+        >
+          {t('search.title')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <View>
@@ -258,7 +262,7 @@ export class Filter extends Component<IProps, IStates> {
           <View style={styles.modalContainer}>
             <DefaultLayout
               headerProps={headerView}
-              bottomAction={<ActionButton buttons={bottomAction} />}
+              bottomAction={bottomAction}
               keyboardProps={{
                 keyboardVerticalOffset: isIosPlatform ? 60 : 100
               }}

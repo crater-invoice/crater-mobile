@@ -20,7 +20,8 @@ import {
   Editor,
   PLACEHOLDER_TYPES as TYPE,
   Text,
-  ActionButton
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {
   fetchCustomizeSettings,
@@ -126,13 +127,19 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
       shipping,
       billing
     } = this.getTextAreaPlaceholderTypes();
-    const bottomAction = [
-      {
-        label: 'button.save',
-        onPress: () => handleSubmit(this.onSave)(),
-        loading: isSaving || isFetchingInitialData
-      }
-    ];
+
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          onPress={handleSubmit(this.onSave)}
+          loading={isSaving}
+          disabled={isFetchingInitialData}
+        >
+          {t('button.save')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
+
     const headerProps = {
       leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
       title: t('header.invoices'),
@@ -144,7 +151,7 @@ export default class CustomizeInvoice extends Component<IProps, IStates> {
     return (
       <DefaultLayout
         headerProps={headerProps}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData}}
         hideScrollView
       >

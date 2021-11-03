@@ -5,12 +5,14 @@ import {styles} from './styles';
 import {AnimateModal} from '../animate-modal';
 import {Field} from 'redux-form';
 import {BaseInput} from '../base-input';
-import {ActionButton, CtDecorativeButton} from '../button';
+import {CtDecorativeButton} from '../button';
 import {Icon} from 'react-native-elements';
 import {Text} from '../text';
 import {commonSelector} from 'stores/common/selectors';
+import {BaseButton, BaseButtonGroup} from '../base';
+import t from 'locales/use-translation';
 
-class inputModalComponent extends Component<Iprops> {
+class InputModalComponent extends Component<Iprops> {
   constructor(props) {
     super(props);
     this.state = {visible: false};
@@ -34,8 +36,8 @@ class inputModalComponent extends Component<Iprops> {
     const {
       showRemoveButton = false,
       showSaveButton = true,
-      onSubmitLoading = false,
-      onRemoveLoading = false,
+      isSaving = false,
+      isDeleting = false,
       onRemove,
       onSubmit
     } = this.props;
@@ -44,30 +46,35 @@ class inputModalComponent extends Component<Iprops> {
       return null;
     }
 
-    const bottomAction = [
-      {
-        label: 'button.cancel',
-        onPress: this.onToggle,
-        type: 'btn-outline',
-        show: !showRemoveButton,
-        loading: onSubmitLoading
-      },
-      {
-        label: 'button.remove',
-        onPress: () => onRemove?.(),
-        bgColor: 'btn-danger',
-        show: showRemoveButton,
-        loading: onRemoveLoading
-      },
-      {
-        label: 'button.save',
-        onPress: () => onSubmit?.(),
-        show: showSaveButton,
-        loading: onSubmitLoading
-      }
-    ];
-
-    return <ActionButton buttons={bottomAction} hide-container-style />;
+    return (
+      <BaseButtonGroup hide-container-style>
+        <BaseButton
+          onPress={this.onToggle}
+          type="primary-outline"
+          show={!showRemoveButton}
+          disabled={isSaving || isDeleting}
+        >
+          {t('button.cancel')}
+        </BaseButton>
+        <BaseButton
+          onPress={() => onRemove?.()}
+          type="danger"
+          show={showRemoveButton}
+          loading={isDeleting}
+          disabled={isSaving}
+        >
+          {t('button.remove')}
+        </BaseButton>
+        <BaseButton
+          onPress={() => onSubmit?.()}
+          show={showSaveButton}
+          loading={isSaving}
+          disabled={isDeleting}
+        >
+          {t('button.save')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
   };
 
   FIELD = () => {
@@ -106,7 +113,7 @@ class inputModalComponent extends Component<Iprops> {
   };
 
   render() {
-    const {modalProps, onSubmitLoading, onRemoveLoading} = this.props;
+    const {modalProps, isSaving, isDeleting} = this.props;
     return (
       <AnimateModal
         visible={this.state.visible}
@@ -115,8 +122,7 @@ class inputModalComponent extends Component<Iprops> {
           animationInTiming: 1,
           animationOutTiming: 1,
           onSwipeComplete: this.onToggle,
-          ...(!onSubmitLoading &&
-            !onRemoveLoading && {swipeDirection: ['left', 'right']}),
+          ...(!isSaving && !isDeleting && {swipeDirection: ['left', 'right']}),
           ...modalProps
         }}
       >
@@ -142,4 +148,4 @@ class inputModalComponent extends Component<Iprops> {
 
 const mapStateToProps = state => commonSelector(state);
 
-export const InputModal = connect(mapStateToProps)(inputModalComponent);
+export const InputModal = connect(mapStateToProps)(InputModalComponent);

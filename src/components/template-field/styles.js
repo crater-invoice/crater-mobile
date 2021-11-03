@@ -5,7 +5,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 10
+    marginTop: 12
   },
   imageList: {
     display: 'flex',

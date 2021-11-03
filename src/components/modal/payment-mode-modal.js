@@ -69,7 +69,7 @@ class Modal extends Component<IProps> {
         hint={t('payments.mode_hint')}
         fieldName="name"
         onSubmit={handleSubmit(this.onSubmit)}
-        onSubmitLoading={isSaving}
+        isSaving={isSaving}
       />
     );
   }

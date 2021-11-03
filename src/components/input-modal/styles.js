@@ -8,7 +8,8 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.secondaryBgColor,
     paddingHorizontal: 15,
     paddingVertical: 15,
-    marginHorizontal: 17
+    marginHorizontal: 17,
+    paddingBottom: 20
   }),
   heading: {
     fontSize: 17

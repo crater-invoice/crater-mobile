@@ -10,7 +10,8 @@ import {
   DefaultLayout,
   BaseSwitch,
   BaseDivider,
-  ActionButton
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {
   CurrencySelectModal,
@@ -89,13 +90,17 @@ export default class Preferences extends Component<IProps, IStates> {
     } = this.props;
     const {isFetchingInitialData} = this.state;
 
-    const bottomAction = [
-      {
-        label: 'button.save',
-        onPress: handleSubmit(this.onSubmit),
-        loading: isSaving || isFetchingInitialData
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          onPress={handleSubmit(this.onSubmit)}
+          loading={isSaving}
+          disabled={isFetchingInitialData}
+        >
+          {t('button.save')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <DefaultLayout
@@ -108,7 +113,7 @@ export default class Preferences extends Component<IProps, IStates> {
           rightIconPress: handleSubmit(this.onSubmit)
         }}
         loadingProps={{is: isFetchingInitialData}}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
       >
         <Field
           name="currency"

@@ -1,18 +1,23 @@
 import React, {Component} from 'react';
-import {TouchableWithoutFeedback, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import styles from './styles';
-import {SlideModal, AssetImage, ActionButton, BaseSelect} from '@/components';
 import {Icon} from 'react-native-elements';
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
 import {IProps} from './type.d';
+import {
+  SlideModal,
+  AssetImage,
+  BaseSelect,
+  BaseButtonGroup,
+  BaseButton
+} from '@/components';
 
 export class TemplateField extends Component<IProps> {
   constructor(props) {
     super(props);
 
     this.state = {
-      page: 1,
       visible: false,
       selectedTemplate: ''
     };
@@ -88,12 +93,13 @@ export class TemplateField extends Component<IProps> {
     } = this.props;
 
     const {visible, selectedTemplate: {name} = {}} = this.state;
-    const bottomAction = [
-      {
-        label: 'button.choose_template',
-        onPress: this.onSubmit
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton onPress={this.onSubmit}>
+          {t('button.choose_template')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <View style={styles.container}>
@@ -122,14 +128,15 @@ export class TemplateField extends Component<IProps> {
           }}
           bottomDivider
           defaultLayout
-          bottomAction={<ActionButton buttons={bottomAction} />}
+          bottomAction={bottomAction}
         >
           <View style={styles.imageList}>
             {templates &&
               templates.map((val, index) => (
-                <TouchableWithoutFeedback
+                <TouchableOpacity
                   onPress={() => this.onTemplateSelect(val)}
                   key={index}
+                  activeOpacity={0.7}
                 >
                   <View style={styles.imageContainer}>
                     <AssetImage
@@ -147,7 +154,7 @@ export class TemplateField extends Component<IProps> {
                       />
                     )}
                   </View>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
               ))}
           </View>
         </SlideModal>

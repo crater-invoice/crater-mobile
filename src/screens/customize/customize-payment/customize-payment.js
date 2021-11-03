@@ -11,7 +11,8 @@ import {
   Editor,
   PLACEHOLDER_TYPES as TYPE,
   Text,
-  ActionButton
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {
   CUSTOMIZE_PAYMENT_FORM,
@@ -219,21 +220,25 @@ export default class CustomizePayment extends Component<IProps, IStates> {
     const {navigation, isSaving, theme, handleSubmit} = this.props;
     const {activeTab, isFetchingInitialData} = this.state;
     let isPaymentMode = activeTab === PAYMENT_TABS.MODE;
-    let label = isPaymentMode ? 'button.add' : 'button.save';
 
     const roleBaseView = (superAdmin, user) =>
       PermissionService.isSuperAdmin() ? superAdmin : user;
 
-    const bottomAction = [
-      {
-        label,
-        onPress: () =>
-          isPaymentMode
-            ? this.paymentChild?.openModal?.()
-            : handleSubmit(this.onSave)(),
-        loading: isSaving || isFetchingInitialData
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          onPress={() =>
+            isPaymentMode
+              ? this.paymentChild?.openModal?.()
+              : handleSubmit(this.onSave)()
+          }
+          loading={isSaving}
+          disabled={isFetchingInitialData}
+        >
+          {isPaymentMode ? t('button.add') : t('button.save')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     const headerProps = {
       leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
@@ -247,7 +252,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
       <DefaultLayout
         hideScrollView
         headerProps={headerProps}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData}}
       >
         {roleBaseView(

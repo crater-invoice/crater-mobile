@@ -125,6 +125,10 @@ export const BaseButtonGroup = props => {
 
   if (isEmpty(baseButtons)) return null;
 
+  if (props?.['hide-container-style']) {
+    return <Row>{baseButtons}</Row>;
+  }
+
   return (
     <Container>
       <Row>{baseButtons}</Row>

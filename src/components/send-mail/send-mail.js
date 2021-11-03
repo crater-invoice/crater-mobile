@@ -12,12 +12,12 @@ import styles from './styles';
 import {validate} from './validation';
 import {SlideModal} from '../slide-modal';
 import {BaseInput} from '../base-input';
-import {ActionButton} from '../button';
 import t from 'locales/use-translation';
 import {Content} from '../content';
 import {Editor} from '../editor';
 import {getMailConfiguration} from '../../features/more/actions';
 import {commonSelector} from 'stores/common/selectors';
+import {BaseButtonGroup, BaseButton} from '../base';
 import {
   alertMe,
   EMAIL_REGEX,
@@ -85,16 +85,14 @@ class SendMailComponent extends Component<IProps> {
     const {alertDesc = '', onSendMail} = this.props;
     const {getMailConfigApiCalled} = this.state;
 
-    if (!getMailConfigApiCalled) {
+    if (!getMailConfigApiCalled || !hasObjectLength(values)) {
       return;
     }
 
     const errors = this.checkIsFieldsRequired(values);
 
     if (hasObjectLength(errors)) {
-      throw new SubmissionError({
-        ...errors
-      });
+      throw new SubmissionError({...errors});
     }
 
     alertMe({
@@ -217,7 +215,8 @@ class SendMailComponent extends Component<IProps> {
   render() {
     const {handleSubmit, headerTitle = '', formValues, theme} = this.props;
     const {visible, getMailConfigApiCalled, isKeyboardVisible} = this.state;
-
+    const isFetchingInitialData =
+      !hasObjectLength(formValues) || !getMailConfigApiCalled;
     const headerProps = {
       leftIconPress: () => this.onToggle(),
       title: t(headerTitle),
@@ -229,13 +228,17 @@ class SendMailComponent extends Component<IProps> {
       transparent: false
     };
 
-    const bottomAction = [
-      {
-        label: 'button.send',
-        onPress: handleSubmit(this.onSendMail),
-        show: !isKeyboardVisible
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          onPress={handleSubmit(this.onSendMail)}
+          show={!isKeyboardVisible}
+          disabled={isFetchingInitialData}
+        >
+          {t('button.send')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <SlideModal
@@ -243,11 +246,11 @@ class SendMailComponent extends Component<IProps> {
         visible={visible}
         onToggle={this.onToggle}
         headerProps={headerProps}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
       >
         <Content
           loadingProps={{
-            is: !hasObjectLength(formValues) || !getMailConfigApiCalled,
+            is: isFetchingInitialData,
             style: styles.loadingContainer
           }}
           theme={theme}
