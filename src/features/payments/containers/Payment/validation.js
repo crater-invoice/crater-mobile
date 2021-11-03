@@ -1,4 +1,4 @@
-import {validateCustomField} from '@/components/CustomField/validation';
+import {validateCustomField} from '@/components/custom-field';
 import {getError, isEmpty} from '@/constants';
 import {PAYMENT_FIELDS as FIELDS} from '../../constants';
 

@@ -11,7 +11,7 @@ type IProps = {
   headers?: Object,
   body?: Object,
   axiosProps?: any,
-  withMultipartFormData?: Boolean,
+  withMultipartFormData?: boolean,
   image: any,
   imageName: string,
   isPing: boolean,

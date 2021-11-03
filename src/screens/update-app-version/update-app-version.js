@@ -54,8 +54,8 @@ export default class UpdateAppVersion extends Component<IProps, IStates> {
         <View style={styles.main}>
           <View style={styles.logoContainer}>
             <AssetImage
-              imageSource={AssetImage.images[(theme?.mode)].logo}
-              imageStyle={styles.imgLogo}
+              source={AssetImage.images[(theme?.mode)].logo}
+              style={styles.imgLogo}
             />
           </View>
 
@@ -94,17 +94,17 @@ export default class UpdateAppVersion extends Component<IProps, IStates> {
   }
 }
 
-type IProps = {
+interface IProps {
   /**
    * An active theme object.
    * @see ITheme
    */
-  theme: ITheme
-};
+  theme: ITheme;
+}
 
-type IStates = {
+interface IStates {
   /**
    * The loading indicator for the button.
    */
-  loading?: Boolean
-};
+  loading?: Boolean;
+}

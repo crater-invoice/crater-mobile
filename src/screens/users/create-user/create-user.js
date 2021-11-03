@@ -9,7 +9,7 @@ import {RoleSelectModal} from '@/select-modal';
 import {CREATE_USER_FORM} from 'stores/users/types';
 import {
   DefaultLayout,
-  InputField,
+  BaseInput,
   BaseButtonGroup,
   BaseButton
 } from '@/components';
@@ -137,7 +137,7 @@ export default class CreateUser extends Component<IProps, IStates> {
         <Field
           name="name"
           isRequired
-          component={InputField}
+          component={BaseInput}
           hint={t('users.name')}
           disabled={disabled}
           onSubmitEditing={() => userRefs.email.focus()}
@@ -146,7 +146,7 @@ export default class CreateUser extends Component<IProps, IStates> {
         <Field
           name="email"
           isRequired
-          component={InputField}
+          component={BaseInput}
           disabled={disabled}
           hint={t('users.email')}
           refLinkFn={ref => (userRefs.email = ref)}
@@ -169,7 +169,7 @@ export default class CreateUser extends Component<IProps, IStates> {
 
         <Field
           name="password"
-          component={InputField}
+          component={BaseInput}
           hint={t('users.password')}
           secureTextEntry
           disabled={disabled}
@@ -181,7 +181,7 @@ export default class CreateUser extends Component<IProps, IStates> {
 
         <Field
           name="phone"
-          component={InputField}
+          component={BaseInput}
           hint={t('users.phone')}
           refLinkFn={ref => (userRefs.phone = ref)}
           disabled={disabled}

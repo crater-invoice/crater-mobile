@@ -1,0 +1,132 @@
+import React, {Component} from 'react';
+import {View, Modal, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import {ListView} from '../list-view';
+import {MainLayout, DefaultLayout} from '../layouts';
+import {InfiniteScroll} from '../infinite-scroll';
+import {ScrollView} from '../scroll-view';
+import {isAndroidPlatform, defineSize} from '@/constants';
+import {commonSelector} from 'stores/common/selectors';
+import {IProps} from './type.d';
+
+class Screen extends Component<IProps> {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    const {
+      visible,
+      onToggle,
+      headerProps,
+      onSearch,
+      bottomDivider = false,
+      listViewProps,
+      defaultLayout,
+      children,
+      bottomAction,
+      searchInputProps,
+      searchFieldProps,
+      isPagination = false,
+      infiniteScrollProps,
+      scrollViewProps,
+      customView,
+      theme
+    } = this.props;
+
+    const listViewChildren = isPagination ? (
+      <View style={styles.listViewContainer}>
+        <InfiniteScroll {...infiniteScrollProps}>
+          <ListView {...listViewProps} />
+        </InfiniteScroll>
+      </View>
+    ) : (
+      <View style={styles.listViewContainer}>
+        <ScrollView scrollViewProps={scrollViewProps}>
+          <ListView {...listViewProps} />
+        </ScrollView>
+      </View>
+    );
+
+    return (
+      <Modal
+        animationType="slide"
+        visible={visible}
+        onRequestClose={onToggle && onToggle}
+        hardwareAccelerated={true}
+        statusBarTranslucent={true}
+      >
+        <View style={styles.modalContainer}>
+          {!defaultLayout && (
+            <MainLayout
+              headerProps={{
+                ...headerProps,
+                ...(isAndroidPlatform && {
+                  containerStyle: styles.header
+                })
+              }}
+              onSearch={onSearch}
+              bottomDivider={bottomDivider}
+              bottomAction={bottomAction}
+              inputProps={searchInputProps && searchInputProps}
+              searchFieldProps={{
+                ...searchFieldProps,
+                ...(theme?.mode === 'dark' && {
+                  inputContainerStyle: {
+                    height: 38
+                  },
+                  inputFieldStyle: {
+                    marginTop: 10,
+                    marginBottom: 14
+                  }
+                }),
+                containerStyle: {marginTop: 10}
+              }}
+            >
+              {listViewChildren}
+            </MainLayout>
+          )}
+
+          {defaultLayout && (
+            <DefaultLayout
+              headerProps={{
+                ...headerProps,
+                ...(isAndroidPlatform && {
+                  containerStyle: styles.header
+                })
+              }}
+              bottomAction={bottomAction}
+            >
+              {children ? children : listViewChildren}
+            </DefaultLayout>
+          )}
+        </View>
+        {customView}
+      </Modal>
+    );
+  }
+}
+
+const mapStateToProps = state => commonSelector(state);
+
+export const SlideModal = connect(mapStateToProps)(Screen);
+
+const styles = StyleSheet.create({
+  listViewContainer: {
+    paddingBottom: defineSize(0, 0, 0, 30),
+    flex: 0.99
+  },
+  modalContainer: {
+    flex: 1,
+    ...(isAndroidPlatform && {
+      marginTop: -20,
+      margin: 0,
+      padding: 0
+    })
+  },
+  header: {
+    paddingTop: 60,
+    height: 110
+  }
+});

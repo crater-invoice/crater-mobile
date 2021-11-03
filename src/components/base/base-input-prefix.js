@@ -10,7 +10,7 @@ import {
   AssetIcon,
   BaseError,
   BaseLabel,
-  InputField,
+  BaseInput,
   View,
   Text
 } from '@/components';
@@ -46,7 +46,7 @@ const InputPrefix = props => {
         <Flex>
           <Field
             name={fieldName}
-            component={InputField}
+            component={BaseInput}
             keyboardType={keyboardType.NUMERIC}
             inputContainerStyle={styles.input}
             hideError={true}

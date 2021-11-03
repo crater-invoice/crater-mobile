@@ -1,7 +1,7 @@
 import React from 'react';
 import {change} from 'redux-form';
 import styles from './list-estimates-styles';
-import {Tabs, MainLayout, AssetImage} from '@/components';
+import {BaseTabs, MainLayout, AssetImage} from '@/components';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import estimateFilterFields from './list-estimates-filters';
@@ -203,7 +203,7 @@ export default class Estimates extends React.Component<IProps, IStates> {
         onSearch={this.onSearch}
         filterProps={filterProps}
       >
-        <Tabs
+        <BaseTabs
           style={styles.tabs(theme)}
           activeTab={activeTab}
           setActiveTab={this.setActiveTab}

@@ -1,29 +1,35 @@
 import React, {Component} from 'react';
 import {View, Keyboard, ScrollView} from 'react-native';
 import {Field, change} from 'redux-form';
-import {CUSTOMER_ADDRESS} from '../../constants';
-import t from 'locales/use-translation';
-import {keyboardType, MAX_LENGTH} from '@/constants';
 import styles from './styles';
-import {SlideModal, InputField, ActionButton, BaseSelect} from '@/components';
+import t from 'locales/use-translation';
+import {CUSTOMER_ADDRESS} from '../../constants';
+import {keyboardType, MAX_LENGTH} from '@/constants';
 import {CountrySelectModal} from '@/select-modal';
+import {
+  SlideModal,
+  BaseInput,
+  BaseSelect,
+  BaseButtonGroup,
+  BaseButton
+} from '@/components';
 
 type IProps = {
-  label: String,
-  icon: String,
-  onChangeCallback: Function,
-  placeholder: String,
+  label: string,
+  icon: string,
+  onChangeCallback: () => void,
+  placeholder: string,
   containerStyle: Object,
-  rightIcon: String,
-  leftIcon: String,
-  color: String,
-  value: String,
+  rightIcon: string,
+  leftIcon: string,
+  color: string,
+  value: string,
   items: Object,
-  rightIcon: String,
-  hasBillingAddress: Boolean,
+  rightIcon: string,
+  hasBillingAddress: boolean,
   meta: Object,
-  handleSubmit: Function,
-  type: String
+  handleSubmit: () => void,
+  type: string
 };
 
 let country = 'country_id';
@@ -176,7 +182,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={'name'}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.address.name')}
           disabled={disabled}
         />
@@ -193,7 +199,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={state}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.address.state')}
           onSubmitEditing={() => addressRefs.city.focus()}
           disabled={disabled}
@@ -201,7 +207,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={city}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.address.city')}
           onSubmitEditing={() => addressRefs.street1.focus()}
           refLinkFn={ref => (addressRefs.city = ref)}
@@ -210,7 +216,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={'address_street_1'}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.address.address')}
           placeholder={t('customers.address.street_1')}
           inputProps={{
@@ -224,7 +230,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={'address_street_2'}
-          component={InputField}
+          component={BaseInput}
           placeholder={t('customers.address.street_2')}
           inputProps={{
             multiline: true,
@@ -237,7 +243,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={'phone'}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.address.phone')}
           onSubmitEditing={() => addressRefs.zip.focus()}
           keyboardType={keyboardType.PHONE}
@@ -247,7 +253,7 @@ export class Address extends Component<IProps> {
 
         <Field
           name={'zip'}
-          component={InputField}
+          component={BaseInput}
           hint={t('customers.address.zip_code')}
           onSubmitEditing={handleSubmit(this.saveAddress)}
           refLinkFn={ref => (addressRefs.zip = ref)}
@@ -274,13 +280,16 @@ export class Address extends Component<IProps> {
     } = this.props;
 
     const {visible, values, isKeyboardVisible} = this.state;
-    const bottomAction = [
-      {
-        label: 'button.done',
-        onPress: handleSubmit(this.saveAddress),
-        show: !isKeyboardVisible && !disabled
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          onPress={handleSubmit(this.saveAddress)}
+          show={!isKeyboardVisible && !disabled}
+        >
+          {t('button.done')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <View style={[styles.container(theme), mainContainerStyle]}>
@@ -310,7 +319,7 @@ export class Address extends Component<IProps> {
             noBorder: false,
             transparent: false
           }}
-          bottomAction={<ActionButton buttons={bottomAction} />}
+          bottomAction={bottomAction}
         >
           {this.Screen()}
         </SlideModal>

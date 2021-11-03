@@ -551,6 +551,7 @@
     "yes": "Yes",
     "no": "No",
     "check": "Ticked by default",
+    "options": "Options",
     "remove_alert_description": "You will not be able to recover this Custom Field",
     "empty": {
       "title": "No custom fields yet!",

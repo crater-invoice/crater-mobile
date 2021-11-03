@@ -4,9 +4,9 @@ import moment from 'moment';
 import styles from './styles';
 import t from 'locales/use-translation';
 import {
-  InputField,
+  BaseInput,
   DefaultLayout,
-  DatePickerField,
+  BaseDatePicker,
   SendMail,
   CustomField,
   View as CtView,
@@ -43,15 +43,15 @@ import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
 type IProps = {
   navigation: Object,
   customers: Object,
-  getCreatePayment: Function,
-  getPaymentDetail: Function,
-  getUnpaidInvoices: Function,
-  createPayment: Function,
-  updatePayment: Function,
-  handleSubmit: Function,
-  type: String,
-  loading: Boolean,
-  getCustomers: Function,
+  getCreatePayment: () => void,
+  getPaymentDetail: () => void,
+  getUnpaidInvoices: () => void,
+  createPayment: () => void,
+  updatePayment: () => void,
+  handleSubmit: () => void,
+  type: string,
+  loading: boolean,
+  getCustomers: () => void,
   notesReference: any
 };
 
@@ -439,7 +439,7 @@ export class Payment extends React.Component<IProps> {
           <CtView flex={1} justify-between>
             <Field
               name={`payment.${FIELDS.DATE}`}
-              component={DatePickerField}
+              component={BaseDatePicker}
               dateTimeFormat={DATE_FORMAT}
               label={t('payments.date')}
               icon={'calendar-alt'}
@@ -485,7 +485,7 @@ export class Payment extends React.Component<IProps> {
 
         <Field
           name={`payment.${FIELDS.AMOUNT}`}
-          component={InputField}
+          component={BaseInput}
           leftSymbol={selectedCustomer?.currency?.symbol ?? currency?.symbol}
           hint={t('payments.amount')}
           keyboardType={keyboardType.DECIMAL}

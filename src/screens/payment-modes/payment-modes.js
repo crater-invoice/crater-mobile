@@ -98,8 +98,6 @@ export class PaymentModes extends Component {
       isAllowToEdit
     } = this.props;
     const {isCreateMethod} = this.state;
-    const loading = isSaving || isDeleting;
-    const disabled = !isAllowToEdit;
 
     const getTitle = () => {
       let title = 'payments.add_mode';
@@ -138,9 +136,8 @@ export class PaymentModes extends Component {
           onRemove={this.onRemoveMethod}
           showRemoveButton={!isCreateMethod}
           showSaveButton={isAllowToEdit}
-          onSubmitLoading={loading}
-          onRemoveLoading={loading}
-          // disabled={disabled}
+          isSaving={isSaving}
+          isDeleting={isDeleting}
         />
       </View>
     );

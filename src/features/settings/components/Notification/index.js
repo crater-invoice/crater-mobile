@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles';
-import {DefaultLayout, InputField, ToggleSwitch, CtDivider} from '@/components';
+import {DefaultLayout, BaseInput, BaseSwitch, BaseDivider} from '@/components';
 import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {NOTIFICATION} from '../../constants';
@@ -8,8 +8,8 @@ import {keyboardType} from '@/constants';
 
 type IProps = {
   navigation: Object,
-  handleSubmit: Function,
-  getAccountLoading: Boolean
+  handleSubmit: () => void,
+  getAccountLoading: boolean
 };
 export class Notification extends React.Component<IProps> {
   constructor(props) {
@@ -99,7 +99,7 @@ export class Notification extends React.Component<IProps> {
       >
         <Field
           name={'notification_email'}
-          component={InputField}
+          component={BaseInput}
           hint={t('settings.notifications.send')}
           keyboardType={keyboardType.EMAIL}
           leftIcon={'envelope'}
@@ -107,11 +107,11 @@ export class Notification extends React.Component<IProps> {
           isRequired
         />
 
-        <CtDivider dividerStyle={styles.dividerLine} />
+        <BaseDivider dividerStyle={styles.dividerLine} />
 
         <Field
           name="notify_invoice_viewed"
-          component={ToggleSwitch}
+          component={BaseSwitch}
           status={invoiceStatus === 'YES' ? true : false}
           hint={t('settings.notifications.invoice_viewed')}
           description={t('settings.notifications.invoice_viewed_description')}
@@ -120,7 +120,7 @@ export class Notification extends React.Component<IProps> {
 
         <Field
           name="notify_estimate_viewed"
-          component={ToggleSwitch}
+          component={BaseSwitch}
           status={estimateStatus === 'YES' ? true : false}
           hint={t('settings.notifications.estimate_viewed')}
           description={t('settings.notifications.estimate_viewed_description')}

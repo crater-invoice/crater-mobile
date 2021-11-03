@@ -3,7 +3,7 @@ import {find} from 'lodash';
 import {InternalPagination} from '@/components';
 import t from 'locales/use-translation';
 import {isEmpty} from '@/constants';
-import {SymbolStyle} from '@/components/CurrencyFormat/styles';
+import {SymbolStyle} from '@/components/currency-format';
 import {ITheme} from '@/interfaces';
 
 interface IProps {
@@ -25,7 +25,7 @@ interface IProps {
   /**
    * Is allowed to edit.
    */
-  disabled?: Boolean;
+  disabled?: boolean;
 
   /**
    * An active theme object.

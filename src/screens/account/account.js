@@ -12,8 +12,8 @@ import {LanguageSelectModal} from '@/select-modal';
 import {
   Text,
   DefaultLayout,
-  InputField,
-  CtDivider,
+  BaseInput,
+  BaseDivider,
   FilePicker,
   BaseButtonGroup,
   BaseButton,
@@ -99,14 +99,14 @@ export default class Account extends React.Component<IProps, IStates> {
           uploadedFileUrl={avatarUrl}
           containerStyle={styles.avatarContainer}
           imageContainerStyle={styles.imageContainerStyle}
-          imageStyle={styles.imageStyle}
+          style={styles.imageStyle}
           loadingContainerStyle={styles.loadingContainerStyle}
           fileLoading={val => this.setState({fileLoading: val})}
         />
 
         <Field
           name={'name'}
-          component={InputField}
+          component={BaseInput}
           isRequired
           hint={t('settings.account.name')}
           onSubmitEditing={() => accountRefs.email.focus()}
@@ -114,7 +114,7 @@ export default class Account extends React.Component<IProps, IStates> {
 
         <Field
           name={'email'}
-          component={InputField}
+          component={BaseInput}
           isRequired
           hint={t('settings.account.email')}
           onSubmitEditing={() => accountRefs.password.focus()}
@@ -124,7 +124,7 @@ export default class Account extends React.Component<IProps, IStates> {
 
         <Field
           name={'password'}
-          component={InputField}
+          component={BaseInput}
           hint={t('settings.account.password')}
           onSubmitEditing={() => accountRefs.confirm.focus()}
           secureTextEntry
@@ -134,7 +134,7 @@ export default class Account extends React.Component<IProps, IStates> {
 
         <Field
           name={'confirmPassword'}
-          component={InputField}
+          component={BaseInput}
           hint={t('settings.account.confirm_password')}
           secureTextEntry
           refLinkFn={ref => (accountRefs.confirm = ref)}
@@ -148,7 +148,7 @@ export default class Account extends React.Component<IProps, IStates> {
           isRequired
         />
 
-        <CtDivider dividerStyle={styles.dividerLine} />
+        <BaseDivider dividerStyle={styles.dividerLine} />
 
         <View class="my-17">
           <Text color={theme.viewLabel.secondaryColor} h4>

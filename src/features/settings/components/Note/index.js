@@ -2,7 +2,7 @@ import React from 'react';
 import {Field} from 'redux-form';
 import styles from './styles';
 import {
-  InputField,
+  BaseInput,
   DefaultLayout,
   Editor,
   PLACEHOLDER_TYPES as TYPES,
@@ -16,17 +16,17 @@ import {NOTES_FIELD_MODAL_TYPES as MODAL_TYPES} from '../../constants';
 interface IProps {
   navigation: any;
   type: any;
-  createNote: Function;
-  updateNote: Function;
-  getNotesLoading: Boolean;
-  removeNote: Function;
+  createNote: () => void;
+  updateNote: () => void;
+  getNotesLoading: boolean;
+  removeNote: () => void;
   id: Number;
   noteLoading: any;
-  handleSubmit: Function;
-  dispatch: Function;
+  handleSubmit: () => void;
+  dispatch: () => void;
   formValues: any;
-  getNoteDetail: Function;
-  getCreateNote: Function;
+  getNoteDetail: () => void;
+  getCreateNote: () => void;
   customFields: Array<any>;
 }
 
@@ -160,7 +160,7 @@ export default class Note extends React.Component<IProps> {
       >
         <Field
           name="name"
-          component={InputField}
+          component={BaseInput}
           isRequired
           hint={t('notes.title')}
           inputFieldStyle={styles.inputFieldStyle}

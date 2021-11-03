@@ -3,8 +3,8 @@ import {View} from 'react-native';
 import {Field, change} from 'redux-form';
 import styles from './final-amount-styles';
 import {
-  InputField,
-  CtDivider,
+  BaseInput,
+  BaseDivider,
   CurrencyFormat,
   Text,
   View as BaseView,
@@ -119,7 +119,7 @@ export const FinalAmount: FC<IProps> = props => {
           <View style={styles.discountField(theme)}>
             <Field
               name="discount"
-              component={InputField}
+              component={BaseInput}
               keyboardType={keyboardType.DECIMAL}
               fieldStyle={styles.discountInput(disabled, theme)}
               inputContainerStyle={styles.discountInputContainer}
@@ -234,7 +234,7 @@ export const FinalAmount: FC<IProps> = props => {
         />
       )}
 
-      <CtDivider dividerStyle={styles.divider(theme)} />
+      <BaseDivider dividerStyle={styles.divider(theme)} />
 
       <View style={[styles.subContainer]}>
         <View>

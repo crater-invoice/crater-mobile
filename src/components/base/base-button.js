@@ -14,64 +14,6 @@ import {
   isEmpty
 } from '@/constants';
 
-interface IProps {
-  /**
-   * Click action.
-   */
-  onPress?: () => void;
-
-  /**
-   * An active theme object.
-   * @see ITheme
-   */
-  theme?: ITheme;
-
-  /**
-   * The loading indicator for the button.
-   */
-  loading?: boolean;
-
-  /**
-   * If true, disable press event.
-   */
-  disabled?: boolean;
-
-  /**
-   * The component to render elements.
-   */
-  children: any;
-
-  /**
-   * Type of button.
-   */
-  type?:
-    | 'primary'
-    | 'primary-gradient'
-    | 'primary-outline'
-    | 'danger'
-    | 'danger-outline';
-
-  /**
-   * Size of button.
-   */
-  size?: 'sm' | 'md' | 'lg';
-
-  /**
-   * If true, show base button.
-   */
-  show?: boolean;
-
-  /**
-   * The style of the content container(Button).
-   */
-  class?: string;
-
-  /**
-   * The style of the content container(Button).
-   */
-  style?: StyleProp<ViewStyle> | undefined;
-}
-
 const bgColor = {
   primary: {
     light: colors.primary,
@@ -97,10 +39,12 @@ export const Button = (props: IProps) => {
     disabled,
     type = 'primary',
     size = 'md',
-    style
+    style,
+    additionalProps,
+    labelComponent
   } = props;
   const isOutline = type.includes('outline');
-  const label = (
+  const label = !labelComponent ? (
     <Text
       h5
       white
@@ -109,6 +53,8 @@ export const Button = (props: IProps) => {
     >
       {props.children}
     </Text>
+  ) : (
+    labelComponent
   );
   const spinner = (
     <Loading
@@ -139,6 +85,7 @@ export const Button = (props: IProps) => {
         disabled={disabled || loading}
         opacity={disabled ? 0.7 : 1}
         style={isOutline && styles.outlineView(props)}
+        {...additionalProps}
       >
         {type === 'primary-gradient' ? (
           <LinearGradient {...gradientStyle}>{children}</LinearGradient>
@@ -177,6 +124,10 @@ export const BaseButtonGroup = props => {
   }
 
   if (isEmpty(baseButtons)) return null;
+
+  if (props?.['hide-container-style']) {
+    return <Row>{baseButtons}</Row>;
+  }
 
   return (
     <Container>
@@ -221,3 +172,73 @@ const styles = StyleSheet.create({
     color: bgColor?.[outlineType(type)]?.[theme?.mode]
   })
 });
+
+interface IProps {
+  /**
+   * Click action.
+   */
+  onPress?: () => void;
+
+  /**
+   * An active theme object.
+   * @see ITheme
+   */
+  theme?: ITheme;
+
+  /**
+   * The loading indicator for the button.
+   */
+  loading?: boolean;
+
+  /**
+   * If true the user won't be able to press.
+   * @default false
+   */
+  disabled?: boolean;
+
+  /**
+   * The component to render elements.
+   */
+  children?: any;
+
+  /**
+   * Type of button.
+   */
+  type?:
+    | 'primary'
+    | 'primary-gradient'
+    | 'primary-outline'
+    | 'danger'
+    | 'danger-outline';
+
+  /**
+   * Size of button.
+   */
+  size?: 'sm' | 'md' | 'lg';
+
+  /**
+   * If true, show base button.
+   */
+  show?: boolean;
+
+  /**
+   * Styling for the button container via class.
+   */
+  class?: string;
+
+  /**
+   * Styling for the button container.
+   */
+  style?: StyleProp<ViewStyle> | any;
+
+  /**
+   * Additional props to pass to the button.
+   */
+  additionalProps?: any;
+
+  /**
+   * Either children or a render prop that receives a boolean reflecting whether
+   * the component is currently pressed.
+   */
+  labelComponent?: React.ReactNode | any;
+}

@@ -1,11 +1,19 @@
 import React from 'react';
 import {Field, change} from 'redux-form';
+import t from 'locales/use-translation';
+import moment from 'moment';
+import * as Linking from 'expo-linking';
+import QueryString from 'qs';
+import {routes} from '@/navigation';
+import {DATE_FORMAT} from '@/constants';
+import {store} from '@/stores';
 import {
   DefaultLayout,
-  DatePickerField,
+  BaseDatePicker,
   View as CtView,
-  ActionButton,
-  BaseDropdownPicker
+  BaseDropdownPicker,
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {
   REPORT_FORM,
@@ -17,19 +25,12 @@ import {
   REPORT_TYPE_OPTION,
   DATE_RANGE
 } from '../../constants';
-import t from 'locales/use-translation';
-import moment from 'moment';
-import * as Linking from 'expo-linking';
-import QueryString from 'qs';
-import {routes} from '@/navigation';
-import {DATE_FORMAT} from '@/constants';
-import {store} from '@/stores';
 
 type IProps = {
   navigation: Object,
   taxTypes: Object,
-  type: String,
-  loading: Boolean,
+  type: string,
+  loading: boolean,
   handleSubmit: Function
 };
 
@@ -265,13 +266,13 @@ export class Report extends React.Component<IProps> {
   render() {
     const {navigation, handleSubmit, loading, type} = this.props;
     const {displayFromDate, displayToDate} = this.state;
-    const bottomAction = [
-      {
-        label: 'button.generate_report',
-        onPress: handleSubmit(this.saveReport),
-        loading
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton onPress={handleSubmit(this.saveReport)} loading={loading}>
+          {t('button.generate_report')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <DefaultLayout
@@ -281,7 +282,7 @@ export class Report extends React.Component<IProps> {
           placement: 'center',
           leftArrow: 'primary'
         }}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
         loadingProps={{is: loading}}
       >
         <Field
@@ -298,7 +299,7 @@ export class Report extends React.Component<IProps> {
           <CtView flex={1} justify-between>
             <Field
               name={'from_date'}
-              component={DatePickerField}
+              component={BaseDatePicker}
               isRequired
               displayValue={displayFromDate}
               label={t('reports.from_date')}
@@ -313,7 +314,7 @@ export class Report extends React.Component<IProps> {
           <CtView flex={1} justify-between>
             <Field
               name="to_date"
-              component={DatePickerField}
+              component={BaseDatePicker}
               isRequired
               displayValue={displayToDate}
               label={t('reports.to_date')}

@@ -12,7 +12,7 @@ import {itemsDescriptionStyle} from '@/styles';
 
 type IProps = {
   navigation: Object,
-  getItems: Function,
+  getItems: () => void,
   items: Object
 };
 

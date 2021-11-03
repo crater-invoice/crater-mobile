@@ -5,13 +5,14 @@ import {omit} from 'lodash';
 import styles from './customize-payment-style';
 import {
   DefaultLayout,
-  ToggleSwitch,
-  CtDivider,
-  Tabs,
+  BaseSwitch,
+  BaseDivider,
+  BaseTabs,
   Editor,
   PLACEHOLDER_TYPES as TYPE,
   Text,
-  ActionButton
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {
   CUSTOMIZE_PAYMENT_FORM,
@@ -118,7 +119,7 @@ export default class CustomizePayment extends Component<IProps, IStates> {
     const {theme} = this.props;
     return (
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
-        <CtDivider dividerStyle={styles.dividerLine} />
+        <BaseDivider dividerStyle={styles.dividerLine} />
 
         <Text
           color={theme.header.primary.color}
@@ -128,13 +129,13 @@ export default class CustomizePayment extends Component<IProps, IStates> {
         </Text>
         <Field
           name={'payment_auto_generate'}
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('customizes.auto_generate.payment')}
           description={t('customizes.auto_generate.payment_description')}
         />
         <Field
           name={'payment_email_attachment'}
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('customizes.email_attachment.payment')}
           description={t('customizes.email_attachment.payment_description')}
         />
@@ -219,21 +220,25 @@ export default class CustomizePayment extends Component<IProps, IStates> {
     const {navigation, isSaving, theme, handleSubmit} = this.props;
     const {activeTab, isFetchingInitialData} = this.state;
     let isPaymentMode = activeTab === PAYMENT_TABS.MODE;
-    let label = isPaymentMode ? 'button.add' : 'button.save';
 
     const roleBaseView = (superAdmin, user) =>
       PermissionService.isSuperAdmin() ? superAdmin : user;
 
-    const bottomAction = [
-      {
-        label,
-        onPress: () =>
-          isPaymentMode
-            ? this.paymentChild?.openModal?.()
-            : handleSubmit(this.onSave)(),
-        loading: isSaving || isFetchingInitialData
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          onPress={() =>
+            isPaymentMode
+              ? this.paymentChild?.openModal?.()
+              : handleSubmit(this.onSave)()
+          }
+          loading={isSaving}
+          disabled={isFetchingInitialData}
+        >
+          {isPaymentMode ? t('button.add') : t('button.save')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     const headerProps = {
       leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
@@ -247,11 +252,11 @@ export default class CustomizePayment extends Component<IProps, IStates> {
       <DefaultLayout
         hideScrollView
         headerProps={headerProps}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData}}
       >
         {roleBaseView(
-          <Tabs
+          <BaseTabs
             activeTab={activeTab}
             style={styles.tabs(theme)}
             tabStyle={styles.tabView}

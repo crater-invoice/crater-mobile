@@ -1,18 +1,11 @@
 import React, {Component} from 'react';
 import {Animated} from 'react-native';
+import {IProps, IStates} from './type.d';
 
-interface IState {
-  opacityAnimate: any;
-}
-
-interface IProps {
-  duration?: Number;
-}
-
-export class FadeAnimation extends Component<IProps, IState> {
+export class FadeAnimation extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
-    this.state = {opacityAnimate: new Animated.Value(0)};
+    this.state = {opacity: new Animated.Value(0)};
   }
 
   componentDidMount() {
@@ -20,7 +13,7 @@ export class FadeAnimation extends Component<IProps, IState> {
   }
 
   fadeIn = () => {
-    Animated.timing(this.state.opacityAnimate, {
+    Animated.timing(this.state.opacity, {
       toValue: 1,
       duration: this.props.duration ?? 200,
       useNativeDriver: true
@@ -29,7 +22,7 @@ export class FadeAnimation extends Component<IProps, IState> {
 
   render() {
     return (
-      <Animated.View style={{flex: 1, opacity: this.state.opacityAnimate}}>
+      <Animated.View style={{flex: 1, opacity: this.state.opacity}}>
         {this.props.children}
       </Animated.View>
     );

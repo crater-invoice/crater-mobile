@@ -8,7 +8,7 @@ import {IProps, IStates} from './endpoint-type';
 import {saveEndpointURL} from 'stores/common/actions';
 import {defineLargeSizeParam, hasTextLength, keyboardType} from '@/constants';
 import {
-  InputField,
+  BaseInput,
   AssetImage,
   CtHeader,
   BaseButton,
@@ -84,14 +84,14 @@ export default class Endpoint extends Component<IProps, IStates> {
             <View class="flex-1 px-25 justify-center">
               <View style={styles.logoContainer}>
                 <AssetImage
-                  imageSource={AssetImage.images[(theme?.mode)].logo}
-                  imageStyle={styles.logo}
+                  source={AssetImage.images[(theme?.mode)].logo}
+                  style={styles.logo}
                 />
               </View>
               <View>
                 <Field
                   name="url"
-                  component={InputField}
+                  component={BaseInput}
                   hint={t('endpoint.endpoint_url')}
                   onSubmitEditing={handleSubmit(this.onSubmit)}
                   placeholder={t('endpoint.url_placeholder')}

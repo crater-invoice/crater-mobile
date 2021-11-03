@@ -8,9 +8,10 @@ import {isBooleanTrue} from '@/constants';
 import {fetchPreferences, updatePreferences} from 'stores/company/actions';
 import {
   DefaultLayout,
-  ToggleSwitch,
-  CtDivider,
-  ActionButton
+  BaseSwitch,
+  BaseDivider,
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {
   CurrencySelectModal,
@@ -98,13 +99,17 @@ export default class Preferences extends Component<IProps, IStates> {
     } = this.props;
     const {isFetchingInitialData} = this.state;
 
-    const bottomAction = [
-      {
-        label: 'button.save',
-        onPress: handleSubmit(this.onSubmit),
-        loading: isSaving || isFetchingInitialData
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          onPress={handleSubmit(this.onSubmit)}
+          loading={isSaving}
+          disabled={isFetchingInitialData}
+        >
+          {t('button.save')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <DefaultLayout
@@ -117,7 +122,7 @@ export default class Preferences extends Component<IProps, IStates> {
           rightIconPress: handleSubmit(this.onSubmit)
         }}
         loadingProps={{is: isFetchingInitialData}}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
       >
         <Field
           name="currency"
@@ -170,18 +175,18 @@ export default class Preferences extends Component<IProps, IStates> {
           onSelect={val => this.setFormField('retrospective_edits', val.value)}
         />
 
-        <CtDivider dividerStyle={styles.dividerLine} />
+        <BaseDivider dividerStyle={styles.dividerLine} />
 
         <Field
           name="discount_per_item"
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('settings.preferences.discount_per_item')}
           description={t('settings.preferences.discount_per_item_placeholder')}
         />
 
         <Field
           name="tax_per_item"
-          component={ToggleSwitch}
+          component={BaseSwitch}
           hint={t('settings.preferences.tax_per_item')}
           description={t('settings.preferences.tax_per_item_placeholder')}
           mainContainerStyle={{marginVertical: 12}}

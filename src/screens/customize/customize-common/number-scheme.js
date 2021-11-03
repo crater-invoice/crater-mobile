@@ -3,14 +3,14 @@ import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {NUMBERING_SCHEME_TYPE} from 'stores/customize/helpers';
 import {fetchNextNumber} from 'stores/customize/actions';
-import {BaseDropdownPicker, InputField} from '@/components';
+import {BaseDropdownPicker, BaseInput} from '@/components';
 import {keyboardType} from '@/constants';
 
 interface IProps {
   /**
    * Current key for params.
    */
-  keyName?: String;
+  keyName?: string;
 
   /**
    * An object with data for number-scheme field.
@@ -40,7 +40,7 @@ interface IProps {
   /**
    * Name of current form.
    */
-  form?: String;
+  form?: string;
 }
 
 export class NumberScheme extends Component<IProps> {
@@ -109,7 +109,7 @@ export class NumberScheme extends Component<IProps> {
         {numberSchemeField.value === 'company_level' && (
           <Field
             name={prefixField.name}
-            component={InputField}
+            component={BaseInput}
             hint={t('customizes.prefix')}
             inputProps={{autoCapitalize: 'characters'}}
             onChangeText={this.onChangeNumber}
@@ -120,7 +120,7 @@ export class NumberScheme extends Component<IProps> {
         )}
         <Field
           name={separatorField.name}
-          component={InputField}
+          component={BaseInput}
           hint={t('customizes.separator')}
           onChangeText={this.onChangeNumber}
           fieldName={t('customizes.prefix')}
@@ -129,7 +129,7 @@ export class NumberScheme extends Component<IProps> {
         />
         <Field
           name={numberLengthField.name}
-          component={InputField}
+          component={BaseInput}
           maxNumber={2}
           hint={t('customizes.number_length')}
           keyboardType={keyboardType.NUMERIC}
@@ -139,7 +139,7 @@ export class NumberScheme extends Component<IProps> {
         />
         <Field
           name="next_umber"
-          component={InputField}
+          component={BaseInput}
           hint={t('customizes.next_number')}
           inputProps={{}}
           meta={{}}

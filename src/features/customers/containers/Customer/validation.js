@@ -1,6 +1,6 @@
 import {getError, isEmpty} from '@/constants';
 import {CUSTOMER_FIELDS as FIELDS} from '../../constants';
-import {validateCustomField} from '@/components/CustomField/validation';
+import {validateCustomField} from '@/components/custom-field';
 
 export const validate = values => {
   const errors: any = {customer: {}, customFields: {}};

@@ -15,12 +15,13 @@ import {
 } from 'stores/customize/types';
 import {
   DefaultLayout,
-  ToggleSwitch,
-  CtDivider,
+  BaseSwitch,
+  BaseDivider,
   Editor,
   PLACEHOLDER_TYPES as TYPE,
   Text,
-  ActionButton
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {
   fetchCustomizeSettings,
@@ -128,13 +129,18 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
       shipping,
       billing
     } = this.getTextAreaPlaceholderTypes();
-    const bottomAction = [
-      {
-        label: 'button.save',
-        onPress: () => handleSubmit(this.onSave)(),
-        loading: isSaving || isFetchingInitialData
-      }
-    ];
+
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          onPress={handleSubmit(this.onSave)}
+          loading={isSaving}
+          disabled={isFetchingInitialData}
+        >
+          {t('button.save')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     const headerProps = {
       leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
@@ -148,7 +154,7 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
       <DefaultLayout
         hideScrollView
         headerProps={headerProps}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData}}
       >
         <ScrollView
@@ -230,7 +236,7 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
           />
 
           <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
-            <CtDivider dividerStyle={styles.dividerLine} />
+            <BaseDivider dividerStyle={styles.dividerLine} />
             <Text
               color={theme.header.primary.color}
               style={styles.autoGenerateHeader}
@@ -239,13 +245,13 @@ export default class CustomizeEstimate extends Component<IProps, IStates> {
             </Text>
             <Field
               name={'estimate_auto_generate'}
-              component={ToggleSwitch}
+              component={BaseSwitch}
               hint={t('customizes.auto_generate.estimate')}
               description={t('customizes.auto_generate.estimate_description')}
             />
             <Field
               name={'estimate_email_attachment'}
-              component={ToggleSwitch}
+              component={BaseSwitch}
               hint={t('customizes.email_attachment.estimate')}
               description={t(
                 'customizes.email_attachment.estimate_description'

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {BaseDropdownPicker, InputField} from '@/components';
+import {BaseDropdownPicker, BaseInput} from '@/components';
 import t from 'locales/use-translation';
 import {FREQUENCIES_TYPES} from 'stores/recurring-invoices/helpers';
 import {colors} from '@/styles';
@@ -51,7 +51,7 @@ export const FrequencyField = (props: IProps) => {
       {!frequencyPickerField.value && (
         <Field
           name={frequencyField.name}
-          component={InputField}
+          component={BaseInput}
           hint={t('recurring_invoices.display_frequency')}
           callbackWhenMount={callbackWhenMount}
           disabled={frequencyPickerField.value}

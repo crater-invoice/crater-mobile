@@ -63,5 +63,5 @@ export interface IStates {
   /**
    * update auto generate.
    */
-  isCreateMethod: Boolean;
+  isCreateMethod: boolean;
 }

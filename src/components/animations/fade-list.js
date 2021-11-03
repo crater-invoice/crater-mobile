@@ -1,13 +1,6 @@
 import React, {Component} from 'react';
 import {Animated} from 'react-native';
-
-interface IProps {
-  delay: number;
-}
-
-interface IStates {
-  opacity: any;
-}
+import {IProps, IStates} from './type.d';
 
 export class FadeListAnimation extends Component<IProps, IStates> {
   constructor(props) {

@@ -74,23 +74,23 @@ export default class LostConnection extends Component<IProps, IStates> {
   }
 }
 
-type IProps = {
+interface IProps {
   /**
    * A navigator is an object of navigation functions that a view can call.
    * @see INavigation
    */
-  navigation: INavigation,
+  navigation: INavigation;
 
   /**
    * An active theme object.
    * @see ITheme
    */
-  theme: ITheme
-};
+  theme: ITheme;
+}
 
-type IStates = {
+interface IStates {
   /**
    * The loading indicator for the button.
    */
-  loading?: Boolean
-};
+  loading?: Boolean;
+}

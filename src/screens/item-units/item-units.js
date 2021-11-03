@@ -12,7 +12,8 @@ import {
   InputModal,
   InfiniteScroll,
   DefaultLayout,
-  ActionButton
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
 import {
   addItemUnit,
@@ -97,11 +98,15 @@ export default class ItemUnits extends Component<IProps, IStates> {
       isDeleting
     } = this.props;
     const {isCreateMethod} = this.state;
-    const loading = isSaving || isDeleting;
     const isAllowToEdit = isCreateMethod ? true : true;
-    const bottomAction = [
-      {label: 'button.add', onPress: this.openModal, loading}
-    ];
+
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton onPress={() => this.openModal()}>
+          {t('button.add')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     const getTitle = () => {
       let title = 'items.add_hint';
@@ -123,7 +128,7 @@ export default class ItemUnits extends Component<IProps, IStates> {
       <DefaultLayout
         hideScrollView
         headerProps={headerProps}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
       >
         <View style={styles.childContainer}>
           <InfiniteScroll
@@ -150,8 +155,8 @@ export default class ItemUnits extends Component<IProps, IStates> {
             onRemove={this.onRemove}
             showRemoveButton={!isCreateMethod}
             showSaveButton={isAllowToEdit}
-            onSubmitLoading={loading}
-            onRemoveLoading={loading}
+            isSaving={isSaving}
+            isDeleting={isDeleting}
           />
         </View>
       </DefaultLayout>

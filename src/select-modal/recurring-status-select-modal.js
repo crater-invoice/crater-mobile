@@ -13,7 +13,7 @@ interface IProps {
   /**
    * Is allowed to edit.
    */
-  disabled?: Boolean;
+  disabled?: boolean;
 }
 
 export const StatusSelectModal = (props: IProps) => {
