@@ -257,11 +257,13 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           prefix,
           invoice_number
         } = formValues;
+
         const invoice = {
           customer_id,
           id,
           due: {due_amount, sub_total},
-          number: `${prefix}-${invoice_number}`
+          number: `${prefix}-${invoice_number}`,
+          customer: formValues.customer
         };
         navigation.navigate(routes.PAYMENT, {
           type: 'ADD',

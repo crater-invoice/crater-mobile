@@ -39,6 +39,7 @@ import {
   PaymentModeSelectModal
 } from '@/select-modal';
 import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
+import {routes} from '@/navigation';
 
 type IProps = {
   navigation: Object,
