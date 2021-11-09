@@ -2,24 +2,25 @@ import React, {Component} from 'react';
 import {Field, initialize} from 'redux-form';
 import {pick} from 'lodash';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './create-category-type';
-import {alertMe} from '@/constants';
-import {CREATE_CATEGORY_FORM} from 'stores/categories/types';
+import {IProps, IStates} from './create-tax-type';
+import {alertMe, keyboardType} from '@/constants';
+import {CREATE_TAX_FORM} from 'stores/taxes/types';
 import {secondaryHeader} from 'utils/header';
+import {
+  addTax,
+  updateTax,
+  removeTax,
+  fetchSingleTax
+} from 'stores/taxes/actions';
 import {
   DefaultLayout,
   BaseInput,
   BaseButtonGroup,
-  BaseButton
+  BaseButton,
+  BaseSwitch
 } from '@/components';
-import {
-  addCategory,
-  updateCategory,
-  removeCategory,
-  fetchSingleCategory
-} from 'stores/categories/actions';
 
-export default class CreateCategory extends Component<IProps, IStates> {
+export default class CreateTax extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {isFetchingInitialData: true};
@@ -32,19 +33,17 @@ export default class CreateCategory extends Component<IProps, IStates> {
   loadData = () => {
     const {isEditScreen, id, dispatch} = this.props;
     if (isEditScreen) {
-      dispatch(
-        fetchSingleCategory(id, category => this.setInitialData(category))
-      );
+      dispatch(fetchSingleTax(id, tax => this.setInitialData(tax)));
       return;
     }
 
     this.setState({isFetchingInitialData: false});
   };
 
-  setInitialData = category => {
+  setInitialData = tax => {
     const {dispatch} = this.props;
-    const data = pick(category, ['name', 'description']);
-    dispatch(initialize(CREATE_CATEGORY_FORM, data));
+    const data = pick(tax, ['name', 'percent', 'description', 'compound_tax']);
+    dispatch(initialize(CREATE_TAX_FORM, data));
     this.setState({isFetchingInitialData: false});
   };
 
@@ -58,29 +57,27 @@ export default class CreateCategory extends Component<IProps, IStates> {
 
     const onSuccess = res => {
       const onSelect = route?.params?.onSelect;
-      onSelect?.(res);
+      onSelect?.([{...res, tax_type_id: res?.id}]);
       navigation.goBack(null);
     };
     const params = {id, params: values, onSuccess};
 
-    isCreateScreen
-      ? dispatch(addCategory(params))
-      : dispatch(updateCategory(params));
+    isCreateScreen ? dispatch(addTax(params)) : dispatch(updateTax(params));
   };
 
-  removeCategory = () => {
+  removeTax = () => {
     const {id, dispatch} = this.props;
 
     function confirmationAlert(remove) {
       alertMe({
         title: t('alert.title'),
-        desc: t('categories.alert_description'),
+        desc: t('taxes.alert_description'),
         showCancel: true,
         okPress: remove
       });
     }
 
-    confirmationAlert(() => dispatch(removeCategory(id)));
+    confirmationAlert(() => dispatch(removeTax(id)));
   };
 
   render() {
@@ -92,7 +89,7 @@ export default class CreateCategory extends Component<IProps, IStates> {
       isDeleting,
       handleSubmit
     } = this.props;
-    const categoryRefs: any = {};
+    const taxRefs: any = {};
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
     const headerProps = secondaryHeader({
@@ -115,7 +112,7 @@ export default class CreateCategory extends Component<IProps, IStates> {
           show={isEditScreen && isAllowToDelete}
           loading={isDeleting}
           disabled={isFetchingInitialData || isSaving}
-          onPress={this.removeCategory}
+          onPress={this.removeTax}
         >
           {t('button.remove')}
         </BaseButton>
@@ -132,18 +129,38 @@ export default class CreateCategory extends Component<IProps, IStates> {
           name="name"
           component={BaseInput}
           isRequired
-          hint={t('categories.title')}
-          onSubmitEditing={() => categoryRefs.description.focus()}
+          hint={t('taxes.type')}
           disabled={disabled}
+          onSubmitEditing={() => taxRefs.percent.focus()}
+        />
+
+        <Field
+          name="percent"
+          isRequired
+          component={BaseInput}
+          hint={t('taxes.percentage') + ' (%)'}
+          maxNumber={100}
+          refLinkFn={ref => (taxRefs.percent = ref)}
+          disabled={disabled}
+          onSubmitEditing={() => taxRefs.description.focus()}
+          keyboardType={keyboardType.DECIMAL}
         />
 
         <Field
           name="description"
           component={BaseInput}
-          hint={t('categories.description')}
+          hint={t('taxes.description')}
+          refLinkFn={ref => (taxRefs.description = ref)}
+          height={80}
+          disabled={disabled}
           inputProps={{multiline: true}}
-          height={100}
-          refLinkFn={ref => (categoryRefs.description = ref)}
+        />
+
+        <Field
+          name="compound_tax"
+          component={BaseSwitch}
+          hint={t('taxes.compound_tax')}
+          title-text-default
           disabled={disabled}
         />
       </DefaultLayout>

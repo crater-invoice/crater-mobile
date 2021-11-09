@@ -29,6 +29,11 @@ const layoutProps = route => {
         title: t('header.notes'),
         navigateToRoute: routes.CREATE_NOTE
       };
+    case routes.TAXES:
+      return {
+        title: t('header.taxes'),
+        navigateToRoute: routes.CREATE_TAX
+      };
     default:
       return {title: '', navigateToRoute: null};
   }
@@ -96,6 +101,9 @@ const secondaryHeaderTitle = params => {
         'header.edit_note',
         'header.view_note'
       );
+
+    case routes.CREATE_TAX:
+      return getTitle('header.add_tax', 'header.edit_tax', 'header.view_tax');
 
     default:
       return '';

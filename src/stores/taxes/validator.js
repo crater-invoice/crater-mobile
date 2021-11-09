@@ -2,17 +2,11 @@ import {getError} from '@/constants';
 
 export const validate = values => {
   const errors = {};
-  const {name, percent} = values;
 
-  errors.name = getError(name, ['requiredField']);
+  errors.name = getError(values.name, ['required']);
   errors.percent = getError(
-    percent,
-    [
-      'requiredField',
-      'isNumberFormat',
-      'maxNumberRequired',
-      'minNumberRequired'
-    ],
+    values.percent,
+    ['required', 'isNumberFormat', 'maxNumberRequired', 'minNumberRequired'],
     (options = {fieldName: 'Tax Percent', maxNumber: 100, minNumber: -1})
   );
 

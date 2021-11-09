@@ -17,48 +17,6 @@ export const editSettingItem = payload => ({
   payload
 });
 
-//  Taxes
-// -------------------------------------------------
-export const getTaxes = payload => ({
-  type: TYPES.GET_TAXES,
-  payload
-});
-
-export const setTaxes = payload => ({
-  type: TYPES.SET_TAXES,
-  payload
-});
-
-export const addTax = payload => ({
-  type: TYPES.TAX_ADD,
-  payload
-});
-
-export const editTax = payload => ({
-  type: TYPES.TAX_EDIT,
-  payload
-});
-
-export const removeTax = payload => ({
-  type: TYPES.REMOVE_TAX,
-  payload
-});
-
-export const setTax = payload => ({
-  type: TYPES.SET_TAX,
-  payload
-});
-
-export const setEditTax = payload => ({
-  type: TYPES.SET_EDIT_TAX,
-  payload
-});
-
-export const setRemoveTax = payload => ({
-  type: TYPES.SET_REMOVE_TAX,
-  payload
-});
-
 // Custom Fields
 // -------------------------------------------------
 export const getCustomFields = (payload = {}) => ({

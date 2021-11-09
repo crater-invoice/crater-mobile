@@ -1,11 +1,21 @@
 import React from 'react';
-import {InfiniteScroll, ListView, MainLayout} from '@/components';
-import t from 'locales/use-translation';
 import {routes} from '@/navigation';
+import {IProps, IStates} from './list-taxes-type';
+import {isEmpty} from '@/constants';
+import {primaryHeader} from '@/utils';
+import {fetchTaxes} from 'stores/taxes/actions';
 import {itemsDescriptionStyle} from '@/styles';
-import {ARROW_ICON} from '@/assets';
+import {
+  MainLayout,
+  ListView,
+  InfiniteScroll,
+  BaseEmptyPlaceholder
+} from '@/components';
 
-export class Taxes extends React.Component {
+export default class Taxes extends React.Component<IProps, IStates> {
+  scrollViewReference: any;
+  focusListener: any;
+
   constructor(props) {
     super(props);
     this.scrollViewReference = React.createRef();
@@ -37,57 +47,36 @@ export class Taxes extends React.Component {
 
   onSelect = tax => {
     const {navigation} = this.props;
-    navigation.navigate(routes.TAX, {id: tax.id, tax, type: 'UPDATE'});
+    navigation.navigate(routes.CREATE_TAX, {type: 'UPDATE', id: tax.id});
   };
 
   render() {
-    const {taxTypes, navigation, getTaxes, route} = this.props;
+    const {taxTypes, dispatch, route} = this.props;
     const {search} = this.state;
-
-    const isEmpty = taxTypes && taxTypes.length <= 0;
-    const emptyTitle = search ? 'search.no_result' : 'taxes.empty.title';
-    const emptyContentProps = {
-      title: t(emptyTitle, {search}),
-      ...(!search && {
-        description: t('taxes.empty.description'),
-        buttonTitle: t('taxes.empty.button_title'),
-        buttonPress: () => {
-          navigation.navigate(routes.TAX, {type: 'ADD'});
-        }
-      })
-    };
-
-    const headerProps = {
-      leftIcon: ARROW_ICON,
-      leftIconPress: () => navigation.navigate(routes.SETTING_LIST),
-      title: t('header.taxes'),
-      placement: 'center',
-      route,
-      rightIcon: 'plus',
-      rightIconPress: () => navigation.navigate(routes.TAX, {type: 'ADD'})
-    };
 
     return (
       <MainLayout
-        headerProps={headerProps}
+        headerProps={primaryHeader({route})}
         onSearch={this.onSearch}
         bottomDivider
+        bodyStyle="is-full-listView"
       >
         <InfiniteScroll
-          getItems={getTaxes}
+          getItems={q => dispatch(fetchTaxes(q))}
           reference={ref => (this.scrollViewReference = ref)}
           getItemsInMount={false}
         >
           <ListView
+            isAnimated
+            bottomDivider
             items={taxTypes}
             onPress={this.onSelect}
-            isEmpty={isEmpty}
-            bottomDivider
+            isEmpty={isEmpty(taxTypes)}
             contentContainerStyle={{flex: 3}}
             leftSubTitleStyle={itemsDescriptionStyle(45)}
-            emptyContentProps={emptyContentProps}
-            route={route}
-            isAnimated
+            emptyPlaceholder={
+              <BaseEmptyPlaceholder {...this.props} search={search} />
+            }
           />
         </InfiniteScroll>
       </MainLayout>

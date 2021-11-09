@@ -58,8 +58,8 @@ const abilities = [
   // Tax Type
   {route: routes.TAXES, ability: 'view-tax-type'},
   {route: routes.TAXES, ability: 'create-tax-type'},
-  {route: routes.TAX, ability: 'edit-tax-type'},
-  {route: routes.TAX, ability: 'delete-tax-type'},
+  {route: routes.CREATE_TAX, ability: 'edit-tax-type'},
+  {route: routes.CREATE_TAX, ability: 'delete-tax-type'},
 
   // Custom Field
   {route: routes.CUSTOM_FIELDS, ability: 'view-custom-field'},

@@ -24,7 +24,7 @@ export type IProps = {
   /**
    * An action to return a list of tax.
    */
-  getTaxes?: () => void,
+  fetchTaxes?: () => void,
 
   /**
    * An active theme object.

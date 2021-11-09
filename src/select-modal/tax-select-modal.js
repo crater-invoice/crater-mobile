@@ -15,7 +15,7 @@ interface IProps {
   /**
    * An action to return a list of tax.
    */
-  getTaxes?: () => void;
+  fetchTaxes?: () => void;
 
   /**
    * Is allowed to edit.
@@ -30,14 +30,14 @@ interface IProps {
 }
 
 export const TaxSelectModal = (props: IProps) => {
-  const {taxTypes, getTaxes, disabled = false, theme} = props;
+  const {taxTypes, fetchTaxes, disabled = false, theme} = props;
 
   return (
     <SelectField
       input={{value: null}}
       {...props}
       items={taxTypes ?? []}
-      getItems={getTaxes}
+      getItems={fetchTaxes}
       apiSearch
       hasPagination
       isMultiSelect

@@ -5,7 +5,7 @@ import {routes} from '../navigation-routes';
 
 import Customer from '@/features/customers/containers/Customer';
 
-import {CreateCompany} from 'screens/companies';
+import CreateCompany from 'screens/companies/create-company';
 
 import Expense from '@/features/expenses/containers/Expense';
 
@@ -17,19 +17,20 @@ import Item from '@/features/more/containers/Item';
 import Reports from '@/features/more/containers/Reports';
 import Report from '@/features/more/containers/Report';
 
-import Settings from '@/features/settings/containers/Settings';
-import UpdateAppVersion from 'screens/update-app-version';
 import Endpoint from 'screens/endpoint';
+import LostConnection from 'screens/lost-connection';
+import UpdateAppVersion from 'screens/update-app-version';
+
 import Account from 'screens/account';
+
+import Settings from '@/features/settings/containers/Settings';
 import Notification from '@/features/settings/containers/Notification';
 import Preferences from 'screens/preferences';
 import TouchOrFaceId from '@/features/settings/containers/Touch-Face-Id';
-import LostConnection from 'screens/lost-connection';
 
 import {Categories, CreateCategory} from 'screens/categories';
 
-import Taxes from '@/features/settings/containers/Taxes';
-import Tax from '@/features/settings/containers/Tax';
+import {Taxes, CreateTax} from 'screens/taxes';
 
 import CustomFields from '@/features/settings/containers/CustomFields';
 import CustomField from '@/features/settings/containers/CustomField';
@@ -37,22 +38,28 @@ import CustomField from '@/features/settings/containers/CustomField';
 import {Notes, CreateNote} from 'screens/notes';
 
 import {Users, CreateUser} from 'screens/users';
+
+import {Roles, CreateRole} from 'screens/roles';
+
+import {ItemUnits} from 'screens/item-units';
+import {CreateItem} from '@/components/items/create-item';
+
+import CreateInvoice from 'screens/invoices/create-invoice';
+
+import {Estimates, CreateEstimate} from 'screens/estimates';
+
 import {
   RecurringInvoices,
   ViewRecurringInvoice,
   CreateRecurringInvoice
 } from 'screens/recurring-invoices';
-import {Roles, CreateRole} from 'screens/roles';
-import {ItemUnits} from 'screens/item-units';
-import {CreateItem} from '@/components/items/create-item';
+
 import {
   CustomizeList,
   CustomizeInvoice,
   CustomizeEstimate,
   CustomizePayment
 } from 'screens/customize';
-import {CreateInvoice} from 'screens/invoices/create-invoice';
-import {Estimates, CreateEstimate} from 'screens/estimates';
 
 const Stack = createStackNavigator();
 
@@ -203,7 +210,11 @@ export const CommonNavigator = (
 
     {/* Taxes Navigator */}
     <Stack.Screen name={routes.TAXES} component={Taxes} options={options} />
-    <Stack.Screen name={routes.TAX} component={Tax} options={options} />
+    <Stack.Screen
+      name={routes.CREATE_TAX}
+      component={CreateTax}
+      options={options}
+    />
 
     {/* Category Navigator */}
     <Stack.Screen

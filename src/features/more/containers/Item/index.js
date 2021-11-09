@@ -6,16 +6,17 @@ import * as MoreAction from '../../actions';
 import {ITEM_FORM} from '../../constants';
 import {unitsSelector} from '../../selectors';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
-import {getSettingInfo, getTaxes} from '@/features/settings/actions';
+import {getSettingInfo} from '@/features/settings/actions';
 import {fetchItemUnits} from 'stores/item-units/actions';
 import {currentCurrencySelector} from 'stores/company/selectors';
+import {taxTypesSelector} from 'stores/taxes/selectors';
+import {fetchTaxes} from 'stores/taxes/actions';
 
 const mapStateToProps = (state, {route}) => {
   const {
     more: {loading, item},
     settings: {taxByItems},
-    itemUnits: {units},
-    common: {taxTypes}
+    itemUnits: {units}
   } = state;
 
   const itemId = route?.params?.id;
@@ -28,7 +29,7 @@ const mapStateToProps = (state, {route}) => {
     loading: isLoading,
     formValues: getFormValues(ITEM_FORM)(state) || {},
     itemId,
-    taxTypes,
+    taxTypes: taxTypesSelector(state),
     taxByItems,
     currency: currentCurrencySelector(state),
     units: unitsSelector(units),
@@ -50,7 +51,7 @@ const mapDispatchToProps = {
   removeItem: MoreAction.removeItem,
   clearItem: MoreAction.clearItem,
   fetchItemUnits: fetchItemUnits,
-  getTaxes,
+  fetchTaxes,
   getSettingInfo
 };
 

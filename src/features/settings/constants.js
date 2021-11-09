@@ -7,9 +7,6 @@ import t from 'locales/use-translation';
 // -----------------------------------------
 export const NOTIFICATION = 'notification/NOTIFICATION';
 
-export const SEARCH_TAX = 'taxForm/SEARCH_TAX';
-export const TAX_FORM = 'taxForm/TAX_FORM';
-
 export const CUSTOM_FIELDS_FORM = 'custom-field/CUSTOM_FIELDS_FORM';
 export const CUSTOM_FIELD_FORM = 'custom-field/CUSTOM_FIELD_FORM';
 
@@ -44,16 +41,6 @@ export const REMOVE_FROM_CUSTOM_FIELDS =
   'custom-field/REMOVE_FROM_CUSTOM_FIELDS';
 export const UPDATE_FROM_CUSTOM_FIELDS =
   'custom-field/UPDATE_FROM_CUSTOM_FIELDS';
-
-// Taxes
-export const GET_TAXES = 'taxes/GET_TAXES';
-export const SET_TAXES = 'taxes/SET_TAXES';
-export const SET_TAX = 'taxes/SET_TAX';
-export const SET_EDIT_TAX = 'taxes/SET_EDIT_TAX';
-export const SET_REMOVE_TAX = 'taxes/SET_REMOVE_TAX';
-export const TAX_EDIT = 'taxes/TAX_EDIT';
-export const TAX_ADD = 'taxes/TAX_ADD';
-export const REMOVE_TAX = 'taxes/REMOVE_TAX';
 
 // Biometry Auth
 export const SET_BIOMETRY_AUTH_TYPE = 'authType/SET_BIOMETRY_AUTH_TYPE';

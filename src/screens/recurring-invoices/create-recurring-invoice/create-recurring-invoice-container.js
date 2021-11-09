@@ -3,28 +3,28 @@ import {getFormValues, reduxForm} from 'redux-form';
 import CreateRecurringInvoice from './create-recurring-invoice';
 import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
 import {validate} from 'stores/recurring-invoices/validator';
-import {
-  loadingSelector,
-  statusSelector
-} from 'stores/recurring-invoices/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
+import {getCustomers} from '@/features/customers/actions';
+import {getItems} from '@/features/more/actions';
+import {initialValues} from 'stores/recurring-invoices/helpers';
+import {fetchNotes} from 'stores/notes/actions';
+import {notesSelector} from 'stores/notes/selectors';
+import {taxTypesSelector} from 'stores/taxes/selectors';
+import {fetchTaxes} from 'stores/taxes/actions';
 import {
   commonSelector,
   permissionSelector,
   settingsSelector
 } from 'stores/common/selectors';
-import {getCustomers} from '@/features/customers/actions';
-import {getTaxes} from '@/features/settings/actions';
-import {getItems} from '@/features/more/actions';
-import {initialValues} from 'stores/recurring-invoices/helpers';
-import {fetchNotes} from 'stores/notes/actions';
-import {notesSelector} from 'stores/notes/selectors';
+import {
+  loadingSelector,
+  statusSelector
+} from 'stores/recurring-invoices/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
     common: {
       dateFormat,
-      taxTypes,
       config: {
         recurring_invoice_status: {update_status}
       }
@@ -44,7 +44,7 @@ const mapStateToProps = (state, {route}) => {
     items,
     notes: notesSelector(state),
     customers,
-    taxTypes,
+    taxTypes: taxTypesSelector(state),
     dateFormat,
     currency: currentCurrencySelector(state),
     customFields,
@@ -56,7 +56,7 @@ const mapStateToProps = (state, {route}) => {
 
 const mapDispatchToProps = {
   getCustomers,
-  getTaxes,
+  fetchTaxes,
   fetchNotes,
   getItems
 };

@@ -34,6 +34,7 @@ function* login({payload}) {
 function* biometryLogin({payload}) {
   try {
     yield call(fetchBootstrap, null);
+    showNotification({message: t('notification.login_success')});
     yield put(loginSuccess());
     yield put(checkOTAUpdate());
     payload?.();
