@@ -4,13 +4,14 @@ import {reduxForm, getFormValues} from 'redux-form';
 import {CREATE_INVOICE_FORM} from 'stores/invoices/types';
 import {validate} from 'stores/invoices/validator';
 import {getCustomers} from '@/features/customers/actions';
-import {getTaxes} from '@/features/settings/actions';
 import {getItems} from '@/features/more/actions';
 import {loadingSelector} from 'stores/invoices/selectors';
 import {initialValues} from 'stores/invoices/helpers';
 import {currentCurrencySelector} from 'stores/company/selectors';
 import {fetchNotes} from 'stores/notes/actions';
 import {notesSelector} from 'stores/notes/selectors';
+import {taxTypesSelector} from 'stores/taxes/selectors';
+import {fetchTaxes} from 'stores/taxes/actions';
 import {
   commonSelector,
   permissionSelector,
@@ -19,7 +20,6 @@ import {
 
 const mapStateToProps = (state, {route}) => {
   const {
-    common: {taxTypes},
     settings: {customFields},
     invoices: {selectedItems, invoiceData},
     more: {items},
@@ -35,7 +35,7 @@ const mapStateToProps = (state, {route}) => {
     items,
     notes: notesSelector(state),
     customers,
-    taxTypes,
+    taxTypes: taxTypesSelector(state),
     currency: currentCurrencySelector(state),
     customFields,
     formValues: getFormValues(CREATE_INVOICE_FORM)(state) || {},
@@ -45,7 +45,7 @@ const mapStateToProps = (state, {route}) => {
 
 const mapDispatchToProps = {
   getCustomers,
-  getTaxes,
+  fetchTaxes,
   fetchNotes,
   getItems
 };
@@ -55,7 +55,7 @@ const CreateInvoiceReduxForm = reduxForm({
   validate
 })(CreateInvoice);
 
-export const CreateInvoiceContainer = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(CreateInvoiceReduxForm);

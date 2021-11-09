@@ -1,13 +1,6 @@
-import {formatTaxTypes} from '@/utils';
 import * as types from './types';
 import {DATE_FORMAT, SET_MAIL_CONFIGURATION, SWITCH_THEME} from '@/constants';
-import {
-  SET_TAX,
-  SET_EDIT_TAX,
-  SET_REMOVE_TAX,
-  SET_TAXES,
-  SET_BIOMETRY_AUTH_TYPE
-} from '@/features/settings/constants';
+import {SET_BIOMETRY_AUTH_TYPE} from '@/features/settings/constants';
 import {lightTheme} from '@/theme';
 
 const initialState = {
@@ -17,7 +10,6 @@ const initialState = {
   tax_per_item: false,
   notifyInvoiceViewed: false,
   notifyEstimateViewed: false,
-  taxTypes: [],
   loading: false,
   dateFormat: DATE_FORMAT,
   endpointApi: null,
@@ -55,42 +47,6 @@ export default function commonReducer(state = initialState, action) {
         fiscalYear: current_company_settings.fiscal_year,
         locale: current_user_settings?.language ?? 'en'
       };
-
-    case SET_TAXES:
-      if (!payload.fresh) {
-        return {
-          ...state,
-          taxTypes: [...state.taxTypes, ...formatTaxTypes(payload.taxTypes)]
-        };
-      }
-
-      return {...state, taxTypes: formatTaxTypes(payload.taxTypes)};
-
-    case SET_TAX:
-      const tax = formatTaxTypes(payload.taxType);
-
-      return {
-        ...state,
-        taxTypes: [...tax, ...state.taxTypes]
-      };
-
-    case SET_EDIT_TAX:
-      let editTax = formatTaxTypes(payload.taxType);
-      const taxTypeList = state.taxTypes.filter(
-        ({fullItem}) => fullItem.id !== payload.id
-      );
-
-      return {
-        ...state,
-        taxTypes: [...editTax, ...taxTypeList]
-      };
-
-    case SET_REMOVE_TAX:
-      const remainTaxes = state.taxTypes.filter(
-        ({fullItem}) => fullItem.id !== payload.id
-      );
-
-      return {...state, taxTypes: remainTaxes};
 
     case SET_MAIL_CONFIGURATION:
       return {...state, mailDriver: payload.mailDriver};

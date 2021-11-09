@@ -313,7 +313,7 @@ export class Item extends React.Component {
       loading,
       taxTypes,
       formValues: {taxes},
-      getTaxes,
+      fetchTaxes,
       theme
     } = this.props;
 
@@ -396,12 +396,12 @@ export class Item extends React.Component {
           <Field
             name="taxes"
             taxTypes={taxTypes}
-            getTaxes={getTaxes}
+            fetchTaxes={fetchTaxes}
             component={TaxSelectModal}
             disabled={disabled}
             theme={theme}
             rightIconPress={() =>
-              navigation.navigate(routes.TAX, {
+              navigation.navigate(routes.CREATE_TAX, {
                 type: 'ADD',
                 onSelect: val => {
                   this.setFormField('taxes', [...val, ...taxes]);

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Field, initialize} from 'redux-form';
+import {pick} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-note-type';
 import {alertMe, hasTextLength, hasValue} from '@/constants';
@@ -47,9 +48,9 @@ export default class CreateNote extends Component<IProps, IStates> {
     );
   };
 
-  setInitialData = ({name, notes, type}) => {
+  setInitialData = note => {
     const {dispatch} = this.props;
-    const data = {name, notes, type};
+    const data = pick(note, ['name', 'notes', 'type']);
     dispatch(initialize(CREATE_NOTE_FORM, data));
     this.setState({isFetchingInitialData: false});
   };

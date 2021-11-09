@@ -8,9 +8,9 @@ export interface IProps {
   navigation: INavigation;
 
   /**
-   * An array of objects with data for each note.
+   * An array of objects with data for each tax.
    */
-  notes: Array<any>;
+  taxTypes: Array<any>;
 
   /**
    * dispatch change action.
@@ -25,7 +25,7 @@ export interface IProps {
 
 export interface IStates {
   /**
-   * Search note in list data.
+   * Search tax in list data.
    */
   search: string;
 }

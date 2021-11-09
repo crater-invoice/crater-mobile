@@ -38,8 +38,8 @@
       "preferences": "Preferences"
     },
     "taxes": "Tax Types",
-    "add_taxes": "Add Tax",
-    "edit_taxes": "Edit Tax",
+    "add_tax": "Add Tax",
+    "edit_tax": "Edit Tax",
     "add_item": "Add Item",
     "edit_item": "Edit Item",
     "items": "Items",

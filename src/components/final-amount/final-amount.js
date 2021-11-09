@@ -64,7 +64,7 @@ export const FinalAmount: FC<IProps> = props => {
     discount_per_item,
     tax_per_item,
     formValues,
-    getTaxes,
+    fetchTaxes,
     isAllowToEdit,
     theme,
     currency,
@@ -218,13 +218,13 @@ export const FinalAmount: FC<IProps> = props => {
         <Field
           name="taxes"
           taxTypes={taxTypes}
-          getTaxes={getTaxes}
+          fetchTaxes={fetchTaxes}
           component={TaxSelectModal}
           custom-view
           disabled={disabled}
           theme={theme}
           rightIconPress={() =>
-            navigation.navigate(routes.TAX, {
+            navigation.navigate(routes.CREATE_TAX, {
               type: 'ADD',
               onSelect: val => {
                 setFormField('taxes', [...val, ...taxes]);

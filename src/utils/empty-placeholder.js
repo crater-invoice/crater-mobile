@@ -15,6 +15,7 @@ export const emptyContentPlaceholder = props => {
             navigation.navigate(routes.CREATE_CATEGORY, {type: 'ADD'})
         })
       };
+
     case routes.USERS:
       return {
         title: t('search.no_result', {search}),
@@ -26,6 +27,7 @@ export const emptyContentPlaceholder = props => {
             navigation.navigate(routes.CREATE_USER, {type: 'ADD'})
         })
       };
+
     case routes.ROLES:
       return {
         title: t('search.no_result', {search}),
@@ -46,7 +48,19 @@ export const emptyContentPlaceholder = props => {
           description: t('notes.empty.description'),
           buttonTitle: t('notes.empty.button_title'),
           buttonPress: () =>
-            navigation.navigate(routes.CREATE_ROLE, {type: 'ADD'})
+            navigation.navigate(routes.CREATE_NOTE, {type: 'ADD'})
+        })
+      };
+
+    case routes.TAXES:
+      return {
+        title: t('search.no_result', {search}),
+        ...(!search && {
+          title: t('taxes.empty.title'),
+          description: t('taxes.empty.description'),
+          buttonTitle: t('taxes.empty.button_title'),
+          buttonPress: () =>
+            navigation.navigate(routes.CREATE_TAX, {type: 'ADD'})
         })
       };
 

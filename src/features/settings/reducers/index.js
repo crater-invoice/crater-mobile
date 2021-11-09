@@ -13,10 +13,7 @@ const initialState = {
     getSettingItemLoading: false,
     setSettingItemLoading: false,
     editSettingItemLoading: false,
-    // taxes
-    addTaxLoading: false,
-    getTaxLoading: false,
-    removeTaxLoading: false,
+
     // Custom Fields
     customFieldLoading: false,
     getCustomFieldLoading: false,
