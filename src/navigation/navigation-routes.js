@@ -78,7 +78,7 @@ export const routes = {
   EXPENSE: 'EXPENSE',
 
   // Notes
-  NOTE: 'NOTE',
+  CREATE_NOTE: 'CREATE_NOTE',
   NOTES: 'NOTES',
 
   // Payments

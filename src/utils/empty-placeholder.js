@@ -38,6 +38,18 @@ export const emptyContentPlaceholder = props => {
         })
       };
 
+    case routes.NOTES:
+      return {
+        title: t('search.no_result', {search}),
+        ...(!search && {
+          title: t('notes.empty.title'),
+          description: t('notes.empty.description'),
+          buttonTitle: t('notes.empty.button_title'),
+          buttonPress: () =>
+            navigation.navigate(routes.CREATE_ROLE, {type: 'ADD'})
+        })
+      };
+
     default:
       return {
         title: props?.title,

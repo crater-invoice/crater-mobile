@@ -75,6 +75,16 @@ export interface IProps {
   parentViewStyle?: StyleProp<ViewStyle> | any;
 
   /**
+   * If false, hide the bottom border.
+   */
+  bottomDivider?: boolean;
+
+  /**
+   * An array of objects with data for each item.
+   */
+  items?: Array<any>;
+
+  /**
    * An active theme object.
    * @see ITheme
    */
@@ -84,4 +94,29 @@ export interface IProps {
    * Additional props to pass to the Content.
    */
   contentProps?: any;
+
+  /**
+   * Called when selecting one of any options.
+   */
+  onPress?: (callback: any) => void;
+
+  /**
+   * Styling for content view container.
+   */
+  contentContainerStyle?: StyleProp<ViewStyle> | any;
+
+  /**
+   * Styles for the container surrounding the left subtitle.
+   */
+  leftSubTitleStyle?: StyleProp<ViewStyle> | any;
+
+  /**
+   * Show empty placeholder content if "isEmpty" props set to true.
+   */
+  emptyPlaceholder?: any;
+
+  /**
+   * The value of the selected item field.
+   */
+  valueCompareField: string | any;
 }

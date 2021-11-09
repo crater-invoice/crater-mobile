@@ -5,16 +5,17 @@ import * as actions from '../../actions';
 import {PAYMENT_FORM, PAYMENT_FIELDS as FIELDS} from '../../constants';
 import {Payment} from '../../components/Payment';
 import {getCustomers} from '@/features/customers/actions';
-import {getNotes} from '@/features/settings/actions';
 import {fetchPaymentModes} from 'stores/payment-modes/actions';
 import {getPaymentModesState} from '../../selectors';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
+import {fetchNotes} from 'stores/notes/actions';
+import {notesSelector} from 'stores/notes/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
     customers: {customers},
-    settings: {notes, customFields},
+    settings: {customFields},
     payments: {loading, unPaidInvoices},
     paymentModes: {modes}
   } = state;
@@ -25,7 +26,7 @@ const mapStateToProps = (state, {route}) => {
   return {
     customers,
     invoice,
-    notes,
+    notes: notesSelector(state),
     hasRecordPayment,
     loading: loading?.paymentLoading,
     withLoading: loading?.sendReceiptLoading,
@@ -51,7 +52,7 @@ const mapDispatchToProps = {
   ...actions,
   getCustomers,
   fetchPaymentModes,
-  getNotes
+  fetchNotes
 };
 
 const paymentReduxForm = reduxForm({

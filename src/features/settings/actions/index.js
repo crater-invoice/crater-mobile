@@ -59,58 +59,6 @@ export const setRemoveTax = payload => ({
   payload
 });
 
-// Notes
-// -------------------------------------------------
-export const getNotes = payload => ({
-  type: TYPES.GET_NOTES,
-  payload
-});
-
-export const setNotes = payload => ({
-  type: TYPES.SET_NOTES,
-  payload
-});
-
-export const getCreateNote = payload => ({
-  type: TYPES.GET_CREATE_NOTE,
-  payload
-});
-
-export const createNote = payload => ({
-  type: TYPES.CREATE_NOTE,
-  payload
-});
-
-export const removeNote = payload => ({
-  type: TYPES.REMOVE_NOTE,
-  payload
-});
-
-export const getNoteDetail = payload => ({
-  type: TYPES.GET_NOTE_DETAIL,
-  payload
-});
-
-export const updateNote = payload => ({
-  type: TYPES.UPDATE_NOTE,
-  payload
-});
-
-export const createFromNotes = payload => ({
-  type: TYPES.CREATE_FROM_NOTES,
-  payload
-});
-
-export const removeFromNotes = payload => ({
-  type: TYPES.REMOVE_FROM_NOTES,
-  payload
-});
-
-export const updateFromNotes = payload => ({
-  type: TYPES.UPDATE_FROM_NOTES,
-  payload
-});
-
 // Custom Fields
 // -------------------------------------------------
 export const getCustomFields = (payload = {}) => ({

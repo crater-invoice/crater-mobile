@@ -39,4 +39,4 @@ const PreferencesForm = reduxForm({form: PREFERENCES_FORM, validate})(
   Preferences
 );
 
-export const PreferencesContainer = connect(mapStateToProps)(PreferencesForm);
+export default connect(mapStateToProps)(PreferencesForm);

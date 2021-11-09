@@ -6,4 +6,4 @@ const mapStateToProps = state => ({
   ...commonSelector(state)
 });
 
-export const LostConnectionContainer = connect(mapStateToProps)(LostConnection);
+export default connect(mapStateToProps)(LostConnection);

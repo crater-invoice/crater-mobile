@@ -14,9 +14,11 @@ import {
   settingsSelector
 } from 'stores/common/selectors';
 import {getCustomers} from '@/features/customers/actions';
-import {getTaxes, getNotes} from '@/features/settings/actions';
+import {getTaxes} from '@/features/settings/actions';
 import {getItems} from '@/features/more/actions';
 import {initialValues} from 'stores/recurring-invoices/helpers';
+import {fetchNotes} from 'stores/notes/actions';
+import {notesSelector} from 'stores/notes/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
@@ -27,7 +29,7 @@ const mapStateToProps = (state, {route}) => {
         recurring_invoice_status: {update_status}
       }
     },
-    settings: {notes, customFields},
+    settings: {customFields},
     recurringInvoices: {selectedItems, invoiceTemplates},
     more: {items},
     customers: {customers}
@@ -40,7 +42,7 @@ const mapStateToProps = (state, {route}) => {
     selectedItems,
     invoiceTemplates,
     items,
-    notes,
+    notes: notesSelector(state),
     customers,
     taxTypes,
     dateFormat,
@@ -55,7 +57,7 @@ const mapStateToProps = (state, {route}) => {
 const mapDispatchToProps = {
   getCustomers,
   getTaxes,
-  getNotes,
+  fetchNotes,
   getItems
 };
 

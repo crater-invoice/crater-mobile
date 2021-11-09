@@ -22,4 +22,4 @@ const mapStateToProps = state => ({
 
 const AccountForm = reduxForm({form: ACCOUNT_FORM, validate})(Account);
 
-export const AccountContainer = connect(mapStateToProps)(AccountForm);
+export default connect(mapStateToProps)(AccountForm);
