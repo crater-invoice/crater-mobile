@@ -1,1 +1,3 @@
-export {EndpointContainer as Endpoint} from './endpoint-container';
+import Endpoint from './endpoint-container';
+
+export default Endpoint;

@@ -6,6 +6,4 @@ const mapStateToProps = state => ({
   ...commonSelector(state)
 });
 
-export const UpdateAppVersionContainer = connect(mapStateToProps)(
-  UpdateAppVersion
-);
+export default connect(mapStateToProps)(UpdateAppVersion);

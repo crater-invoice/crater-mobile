@@ -18,13 +18,13 @@ import Reports from '@/features/more/containers/Reports';
 import Report from '@/features/more/containers/Report';
 
 import Settings from '@/features/settings/containers/Settings';
-import {UpdateAppVersion} from 'screens/update-app-version';
-import {Endpoint} from 'screens/endpoint';
-import {Account} from 'screens/account';
+import UpdateAppVersion from 'screens/update-app-version';
+import Endpoint from 'screens/endpoint';
+import Account from 'screens/account';
 import Notification from '@/features/settings/containers/Notification';
-import {Preferences} from 'screens/preferences';
+import Preferences from 'screens/preferences';
 import TouchOrFaceId from '@/features/settings/containers/Touch-Face-Id';
-import {LostConnection} from 'screens/lost-connection';
+import LostConnection from 'screens/lost-connection';
 
 import {Categories, CreateCategory} from 'screens/categories';
 
@@ -34,8 +34,7 @@ import Tax from '@/features/settings/containers/Tax';
 import CustomFields from '@/features/settings/containers/CustomFields';
 import CustomField from '@/features/settings/containers/CustomField';
 
-import Notes from '@/features/settings/containers/Notes';
-import Note from '@/features/settings/containers/Note';
+import {Notes, CreateNote} from 'screens/notes';
 
 import {Users, CreateUser} from 'screens/users';
 import {
@@ -196,7 +195,11 @@ export const CommonNavigator = (
 
     {/* Notes Navigator */}
     <Stack.Screen name={routes.NOTES} component={Notes} options={options} />
-    <Stack.Screen name={routes.NOTE} component={Note} options={options} />
+    <Stack.Screen
+      name={routes.CREATE_NOTE}
+      component={CreateNote}
+      options={options}
+    />
 
     {/* Taxes Navigator */}
     <Stack.Screen name={routes.TAXES} component={Taxes} options={options} />

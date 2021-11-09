@@ -41,7 +41,6 @@ import {
 import {alertMe, isEmpty} from '@/constants';
 import {getApiFormattedCustomFields} from '@/utils';
 import {CustomerSelectModal} from '@/select-modal';
-import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
 import {setCalculationRef} from 'stores/common/helpers';
 import {showNotification} from '@/utils';
 import {IProps, IStates} from './create-estimate-type';
@@ -394,7 +393,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       isDeleting,
       isLoading,
       notes,
-      getNotes
+      fetchNotes
     } = this.props;
     const {markAsStatus, isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
@@ -553,9 +552,9 @@ export default class Estimate extends React.Component<IProps, IStates> {
           {...this.props}
           navigation={navigation}
           notes={notes}
-          getNotes={getNotes}
+          fetchNotes={fetchNotes}
           isEditScreen={isEditScreen}
-          noteType={NOTES_TYPE_VALUE.ESTIMATE}
+          noteType={'Estimate'}
           onSelect={this.setFormField}
         />
 

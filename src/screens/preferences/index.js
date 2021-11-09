@@ -1,1 +1,3 @@
-export {PreferencesContainer as Preferences} from './preferences-container';
+import Preferences from './preferences-container';
+
+export default Preferences;

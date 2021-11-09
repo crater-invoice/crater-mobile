@@ -38,7 +38,6 @@ import {
   CustomerSelectModal,
   PaymentModeSelectModal
 } from '@/select-modal';
-import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
 import {routes} from '@/navigation';
 
 type IProps = {
@@ -369,7 +368,7 @@ export class Payment extends React.Component<IProps> {
       currency,
       loading,
       notes,
-      getNotes
+      fetchNotes
     } = this.props;
 
     const {isLoading, selectedCustomer} = this.state;
@@ -511,9 +510,9 @@ export class Payment extends React.Component<IProps> {
           {...this.props}
           navigation={navigation}
           notes={notes}
-          getNotes={getNotes}
+          fetchNotes={fetchNotes}
           isEditScreen={isEditScreen}
-          noteType={NOTES_TYPE_VALUE.PAYMENT}
+          noteType={'Payment'}
           onSelect={this.setFormField}
         />
 

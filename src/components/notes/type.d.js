@@ -14,7 +14,7 @@ export interface IProps {
   /**
    * An action to return a list of notes.
    */
-  getNotes?: () => void;
+  fetchNotes?: () => void;
 
   /**
    * A navigator is an object of navigation functions that a view can call.

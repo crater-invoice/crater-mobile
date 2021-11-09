@@ -24,6 +24,11 @@ const layoutProps = route => {
         title: t('header.recurring_invoices'),
         navigateToRoute: routes.CREATE_RECURRING_INVOICE
       };
+    case routes.NOTES:
+      return {
+        title: t('header.notes'),
+        navigateToRoute: routes.CREATE_NOTE
+      };
     default:
       return {title: '', navigateToRoute: null};
   }
@@ -83,6 +88,13 @@ const secondaryHeaderTitle = params => {
         'header.setting.account',
         'header.setting.account',
         'header.setting.account'
+      );
+
+    case routes.CREATE_NOTE:
+      return getTitle(
+        'header.add_note',
+        'header.edit_note',
+        'header.view_note'
       );
 
     default:

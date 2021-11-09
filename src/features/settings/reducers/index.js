@@ -2,10 +2,6 @@ import {isEmpty} from '@/constants';
 import {
   SETTINGS_TRIGGER_SPINNER,
   SET_CUSTOM_FIELDS,
-  SET_NOTES,
-  CREATE_FROM_NOTES,
-  REMOVE_FROM_NOTES,
-  UPDATE_FROM_NOTES,
   CREATE_FROM_CUSTOM_FIELDS,
   REMOVE_FROM_CUSTOM_FIELDS,
   UPDATE_FROM_CUSTOM_FIELDS
@@ -24,12 +20,9 @@ const initialState = {
     // Custom Fields
     customFieldLoading: false,
     getCustomFieldLoading: false,
-    removeCustomFieldLoading: false,
-    // Notes
-    getNotesLoading: false
+    removeCustomFieldLoading: false
   },
-  customFields: [],
-  notes: []
+  customFields: []
 };
 
 export default function settingReducer(state = initialState, action) {
@@ -39,16 +32,6 @@ export default function settingReducer(state = initialState, action) {
     case SETTINGS_TRIGGER_SPINNER:
       return {...state, loading: {...payload}};
 
-    case SET_NOTES:
-      if (!payload.fresh) {
-        return {
-          ...state,
-          notes: [...state.notes, ...payload.notes]
-        };
-      }
-
-      return {...state, notes: payload.notes};
-
     case SET_CUSTOM_FIELDS:
       if (!payload.fresh) {
         return {
@@ -57,47 +40,6 @@ export default function settingReducer(state = initialState, action) {
         };
       }
       return {...state, customFields: payload.customFields};
-
-    case CREATE_FROM_NOTES:
-      return {
-        ...state,
-        notes: [...[payload.note], ...state.notes]
-      };
-
-    case REMOVE_FROM_NOTES: {
-      const id = payload.id;
-      const filterNote = state.notes.filter(note => note.id !== id);
-
-      return {
-        ...state,
-        notes: filterNote
-      };
-    }
-
-    case UPDATE_FROM_NOTES: {
-      const noteData = payload.note;
-      const notesList = [];
-
-      if (isEmpty(state.notes)) {
-        return {...state};
-      }
-
-      state.notes.map(note => {
-        let value = note;
-
-        if (note.id === noteData.id) {
-          value = {
-            ...noteData
-          };
-        }
-        notesList.push(value);
-      });
-
-      return {
-        ...state,
-        notes: notesList
-      };
-    }
 
     case CREATE_FROM_CUSTOM_FIELDS:
       return {
