@@ -2,19 +2,19 @@ import {getError} from '@/constants';
 
 export const validate = values => {
   const errors = {};
-  const {name, description, quantity, discount_type, price, discount} = values;
+  const {name, quantity, discount_type, price, discount} = values;
 
-  errors.name = getError(name, ['requiredField']);
+  errors.name = getError(name, ['required']);
 
   errors.quantity = getError(
     quantity,
-    ['requiredField', 'minNumberRequired', 'isNumberFormat'],
+    ['required', 'minNumberRequired', 'isNumberFormat'],
     (options = {fieldName: 'quantity', minNumber: 0})
   );
 
   errors.price = getError(
     price,
-    ['requiredField', 'minNumberRequired', 'isNumberFormat'],
+    ['required', 'minNumberRequired', 'isNumberFormat'],
     (options = {fieldName: 'price', minNumber: 0})
   );
 

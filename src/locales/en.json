@@ -763,7 +763,6 @@
   },
   "validation": {
     "required": "Required field is empty",
-    "field": "Required field is empty",
     "choose": "Choose at least one item",
     "email": "Please enter a valid email address",
     "password_compare": "Passwords do not match",
