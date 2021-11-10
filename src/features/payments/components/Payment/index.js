@@ -38,7 +38,7 @@ import {
   CustomerSelectModal,
   PaymentModeSelectModal
 } from '@/select-modal';
-import {routes} from '@/navigation';
+import {dismissRoute, routes} from '@/navigation';
 
 type IProps = {
   navigation: Object,
@@ -84,6 +84,7 @@ export class Payment extends React.Component<IProps> {
       isEditScreen,
       isCreateScreen,
       hasRecordPayment,
+      route,
       id
     } = this.props;
 
@@ -102,6 +103,12 @@ export class Payment extends React.Component<IProps> {
           }
 
           this.setFormField(`payment`, values);
+
+          const customer = route?.params?.customer;
+          if (customer) {
+            this.onSelectCustomer(customer);
+          }
+
           this.setState({isLoading: false});
         }
       });
@@ -301,12 +308,14 @@ export class Payment extends React.Component<IProps> {
 
   navigateToCustomer = () => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CREATE_CUSTOMER, {
-      type: 'ADD',
-      onSelect: item => {
-        this.customerReference?.changeDisplayValue?.(item);
-        this.onSelectCustomer(item);
-      }
+    dismissRoute(routes.CREATE_CUSTOMER, () => {
+      navigation.navigate(routes.CREATE_CUSTOMER, {
+        type: 'ADD',
+        onSelect: item => {
+          this.customerReference?.changeDisplayValue?.(item);
+          this.onSelectCustomer(item);
+        }
+      });
     });
   };
 

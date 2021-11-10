@@ -15,6 +15,7 @@ import {
   updateFromExpense,
   removeFromExpense
 } from '../actions';
+import {routes} from '@/navigation';
 
 function* getCreateExpense({payload: {onSuccess}}) {
   try {
@@ -57,7 +58,7 @@ function* createExpense({payload}) {
       yield call([Request, 'post'], options2);
     }
     yield put(createFromExpense({expense: response.data}));
-    navigation.goBack(null);
+    navigation.navigate(routes.MAIN_EXPENSES);
     showNotification({message: t('notification.expense_created')});
   } catch (e) {
     handleError(e);

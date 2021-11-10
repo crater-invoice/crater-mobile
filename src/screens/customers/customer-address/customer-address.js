@@ -4,7 +4,7 @@ import {Keyboard} from 'react-native';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './customer-address-type';
 import {hasObjectLength, keyboardType} from '@/constants';
-import {ADDRESS_FORM} from '@/stores/customers/types';
+import {ADDRESS_FORM} from 'stores/customers/types';
 import {CountrySelectModal} from '@/select-modal';
 import {
   DefaultLayout,

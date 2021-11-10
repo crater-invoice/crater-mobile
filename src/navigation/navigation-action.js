@@ -1,6 +1,7 @@
 import React from 'react';
 import {StackActions} from '@react-navigation/native';
 import {TransitionPresets} from '@react-navigation/stack';
+import {CommonActions} from '@react-navigation/native';
 import {PermissionService} from '@/services';
 import {routes} from './navigation-routes';
 
@@ -47,4 +48,18 @@ export const getActiveMainTab = () => {
   }
 
   return routes.MAIN_MORE;
+};
+
+export const dismissRoute = (route, callback = null) => {
+  navigationRef?.current?.dispatch?.(state => {
+    const filteredRoutes = state.routes.filter(r => r.name !== route);
+
+    return CommonActions.reset({
+      ...state,
+      routes: filteredRoutes,
+      index: filteredRoutes.length - 1
+    });
+  });
+
+  setTimeout(() => callback?.(), 100);
 };

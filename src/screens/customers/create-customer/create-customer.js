@@ -4,12 +4,14 @@ import {pick} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-customer-type';
 import {styles} from './create-customer-style';
-import {alertMe, isEmpty, keyboardType} from '@/constants';
+import {isEmpty, keyboardType} from '@/constants';
 import {secondaryHeader} from 'utils/header';
 import {CREATE_CUSTOMER_FORM} from 'stores/customers/types';
 import {CurrencySelectModal} from '@/select-modal';
 import {routes} from '@/navigation';
 import {getApiFormattedCustomFields} from '@/utils';
+import options from './customer-dropdown';
+import {addressParams, isAddress} from 'stores/customers/helpers';
 import {
   BaseButton,
   BaseButtonGroup,
@@ -21,16 +23,9 @@ import {
 import {
   addCustomer,
   updateCustomer,
-  removeCustomer,
   fetchSingleCustomer,
   fetchCustomerInitialDetails
 } from 'stores/customers/actions';
-import {
-  ACTIONS_VALUE,
-  addressParams,
-  CUSTOMER_ACTIONS,
-  isAddress
-} from '@/stores/customers/helpers';
 
 export default class CreateCustomer extends Component<IProps, IStates> {
   constructor(props) {
@@ -108,21 +103,6 @@ export default class CreateCustomer extends Component<IProps, IStates> {
       : dispatch(updateCustomer(params));
   };
 
-  removeCustomer = () => {
-    const {id, dispatch} = this.props;
-
-    function confirmationAlert(remove) {
-      alertMe({
-        title: t('alert.title'),
-        desc: t('customers.alert_description'),
-        showCancel: true,
-        okPress: remove
-      });
-    }
-
-    confirmationAlert(() => dispatch(removeCustomer(id)));
-  };
-
   setFormField = (field, value) => {
     this.props.dispatch(change(CREATE_CUSTOMER_FORM, field, value));
   };
@@ -135,30 +115,23 @@ export default class CreateCustomer extends Component<IProps, IStates> {
       disabled,
       initialData: formValues?.[type],
       billingAddress: formValues?.billing,
-      callback: values => {
-        this.setFormField(type, values);
-      }
+      callback: values => this.setFormField(type, values)
     });
-  };
-
-  onOptionSelect = action => {
-    if (action == ACTIONS_VALUE.REMOVE) this.removeCustomer();
   };
 
   render() {
     const {
-      navigation,
       handleSubmit,
       theme,
       currencies,
       customFields,
       isAllowToEdit,
-      isAllowToDelete,
       isEditScreen,
       formValues,
       isSaving,
       isDeleting
     } = this.props;
+
     const {isFetchingInitialData} = this.state;
 
     const disabled = !isAllowToEdit;
@@ -176,16 +149,6 @@ export default class CreateCustomer extends Component<IProps, IStates> {
 
     const billing = formValues?.billing;
     const shipping = formValues?.shipping;
-
-    const drownDownProps =
-      isEditScreen && !isFetchingInitialData
-        ? {
-            options: CUSTOMER_ACTIONS(),
-            onSelect: this.onOptionSelect,
-            cancelButtonIndex: 1,
-            destructiveButtonIndex: 2
-          }
-        : null;
 
     const bottomAction = (
       <BaseButtonGroup>
@@ -205,7 +168,7 @@ export default class CreateCustomer extends Component<IProps, IStates> {
         headerProps={headerProps}
         loadingProps={{is: isFetchingInitialData}}
         bottomAction={bottomAction}
-        dropdownProps={drownDownProps}
+        dropdownProps={options(this)}
       >
         <Field
           name="name"

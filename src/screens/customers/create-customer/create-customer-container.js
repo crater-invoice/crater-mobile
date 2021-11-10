@@ -12,7 +12,7 @@ import {
 import {
   currenciesSelector,
   currentCurrencySelector
-} from '@/stores/company/selectors';
+} from 'stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => ({
   ...loadingSelector(state),
