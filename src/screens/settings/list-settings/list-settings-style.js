@@ -2,7 +2,7 @@ import {defineSize} from '@/constants';
 import {StyleSheet} from 'react-native';
 import {fonts} from '@/styles';
 
-export default styles = StyleSheet.create({
+const styles = StyleSheet.create({
   listViewTitle: theme => ({
     fontFamily: theme?.mode === 'light' ? fonts.regular : fonts.medium,
     color: theme?.listItem?.secondary?.color,
@@ -18,3 +18,5 @@ export default styles = StyleSheet.create({
     marginVertical: -2
   }
 });
+
+export default styles;

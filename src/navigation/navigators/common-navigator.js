@@ -20,7 +20,7 @@ import UpdateAppVersion from 'screens/update-app-version';
 
 import Account from 'screens/account';
 
-import Settings from '@/features/settings/containers/Settings';
+import {Settings} from 'screens/settings';
 import Notification from '@/features/settings/containers/Notification';
 import Preferences from 'screens/preferences';
 import TouchOrFaceId from '@/features/settings/containers/Touch-Face-Id';
