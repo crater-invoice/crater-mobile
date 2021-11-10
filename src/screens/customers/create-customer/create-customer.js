@@ -63,7 +63,6 @@ export default class CreateCustomer extends Component<IProps, IStates> {
       'phone',
       'website',
       'currency_id',
-      'enable_portal',
       'customFields',
       'billing',
       'shipping',
@@ -206,10 +205,29 @@ export default class CreateCustomer extends Component<IProps, IStates> {
           name="phone"
           component={BaseInput}
           hint={t('customers.phone')}
-          onSubmitEditing={() => customerRefs.website.focus()}
+          onSubmitEditing={() => customerRefs.password.focus()}
           keyboardType={keyboardType.PHONE}
           refLinkFn={ref => (customerRefs.phone = ref)}
           disabled={disabled}
+        />
+
+        <Field
+          name={'password'}
+          component={BaseInput}
+          hint={t('settings.account.password')}
+          onSubmitEditing={() => customerRefs.confirm.focus()}
+          secureTextEntry
+          refLinkFn={ref => (customerRefs.password = ref)}
+          minCharacter={8}
+        />
+
+        <Field
+          name={'confirmPassword'}
+          component={BaseInput}
+          hint={t('settings.account.confirm_password')}
+          secureTextEntry
+          refLinkFn={ref => (customerRefs.confirm = ref)}
+          onSubmitEditing={() => customerRefs.website.focus()}
         />
 
         <Field

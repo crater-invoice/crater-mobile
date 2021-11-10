@@ -80,28 +80,28 @@ const getOptions = () => {
 
   if (PermissionService.isAllowToCreate(routes.ESTIMATES)) {
     options.push({
-      label: t('actions.CREATE_ESTIMATE'),
+      label: t('actions.new_estimate'),
       value: ACTIONS_VALUE.CREATE_ESTIMATE
     });
   }
 
   if (PermissionService.isAllowToCreate(routes.MAIN_INVOICES)) {
     options.push({
-      label: t('actions.CREATE_INVOICE'),
+      label: t('actions.new_invoice'),
       value: ACTIONS_VALUE.CREATE_INVOICE
     });
   }
 
   if (PermissionService.isAllowToCreate(routes.MAIN_PAYMENTS)) {
     options.push({
-      label: t('actions.CREATE_PAYMENT'),
+      label: t('actions.new_payment'),
       value: ACTIONS_VALUE.CREATE_PAYMENT
     });
   }
 
   if (PermissionService.isAllowToCreate(routes.MAIN_EXPENSES)) {
     options.push({
-      label: t('actions.CREATE_EXPENSE'),
+      label: t('actions.new_expense'),
       value: ACTIONS_VALUE.CREATE_EXPENSE
     });
   }

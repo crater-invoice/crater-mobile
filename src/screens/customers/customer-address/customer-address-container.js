@@ -12,6 +12,7 @@ const mapStateToProps = (state, {route}) => ({
   callback: route?.params?.callback,
   initialData: route?.params?.initialData,
   billingAddress: route?.params?.billingAddress,
+  disabled: route?.params?.disabled,
   initialValues: {
     name: null,
     country_id: null,

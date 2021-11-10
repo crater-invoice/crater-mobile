@@ -30,10 +30,11 @@ const mapStateToProps = (state, {route}) => ({
     phone: null,
     website: null,
     currency_id: null,
-    enable_portal: null,
     customFields: null,
     billing: null,
-    shipping: null
+    shipping: null,
+    password: null,
+    confirmPassword: null
   }
 });
 
