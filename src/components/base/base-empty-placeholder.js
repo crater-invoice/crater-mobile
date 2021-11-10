@@ -146,4 +146,9 @@ interface IProps {
    * An action to redirect a specific route.
    */
   buttonPress?: () => void;
+
+  /**
+   * if true, show the filter-based empty placeholder.
+   */
+  isFilter?: boolean;
 }

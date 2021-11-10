@@ -38,7 +38,7 @@ import {
   CustomerSelectModal,
   PaymentModeSelectModal
 } from '@/select-modal';
-import {routes} from '@/navigation';
+import {dismissRoute, routes} from '@/navigation';
 
 type IProps = {
   navigation: Object,
@@ -51,7 +51,7 @@ type IProps = {
   handleSubmit: () => void,
   type: string,
   loading: boolean,
-  getCustomers: () => void,
+  fetchCustomers: () => void,
   notesReference: any
 };
 
@@ -84,6 +84,7 @@ export class Payment extends React.Component<IProps> {
       isEditScreen,
       isCreateScreen,
       hasRecordPayment,
+      route,
       id
     } = this.props;
 
@@ -102,6 +103,12 @@ export class Payment extends React.Component<IProps> {
           }
 
           this.setFormField(`payment`, values);
+
+          const customer = route?.params?.customer;
+          if (customer) {
+            this.onSelectCustomer(customer);
+          }
+
           this.setState({isLoading: false});
         }
       });
@@ -301,12 +308,14 @@ export class Payment extends React.Component<IProps> {
 
   navigateToCustomer = () => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CUSTOMER, {
-      type: 'ADD',
-      onSelect: item => {
-        this.customerReference?.changeDisplayValue?.(item);
-        this.onSelectCustomer(item);
-      }
+    dismissRoute(routes.CREATE_CUSTOMER, () => {
+      navigation.navigate(routes.CREATE_CUSTOMER, {
+        type: 'ADD',
+        onSelect: item => {
+          this.customerReference?.changeDisplayValue?.(item);
+          this.onSelectCustomer(item);
+        }
+      });
     });
   };
 
@@ -354,7 +363,7 @@ export class Payment extends React.Component<IProps> {
       navigation,
       handleSubmit,
       customers,
-      getCustomers,
+      fetchCustomers,
       fetchPaymentModes,
       paymentModes,
       formValues,
@@ -459,7 +468,7 @@ export class Payment extends React.Component<IProps> {
         <Field
           name={`payment.${FIELDS.CUSTOMER}`}
           customers={customers}
-          getCustomers={getCustomers}
+          fetchCustomers={fetchCustomers}
           component={CustomerSelectModal}
           disabled={disabled}
           selectedItem={formValues?.payment?.customer}

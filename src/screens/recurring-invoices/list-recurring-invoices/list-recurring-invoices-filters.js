@@ -10,7 +10,7 @@ let selectedToDateValue = '';
 
 export const recurringInvoicesFilterFields = ({props, setFormField}) => {
   const {
-    getCustomers,
+    fetchCustomers,
     customers,
     navigation,
     statusList = [],
@@ -22,7 +22,7 @@ export const recurringInvoicesFilterFields = ({props, setFormField}) => {
       name: 'customer_id',
       apiSearch: true,
       hasPagination: true,
-      getItems: getCustomers,
+      getItems: fetchCustomers,
       items: customers,
       displayName: 'name',
       label: t('invoices.customer'),

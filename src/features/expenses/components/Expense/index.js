@@ -2,7 +2,7 @@ import React from 'react';
 import {Field, change} from 'redux-form';
 import moment from 'moment';
 import styles from './styles';
-import {routes} from '@/navigation';
+import {dismissRoute, routes} from '@/navigation';
 import t from 'locales/use-translation';
 import * as Linking from 'expo-linking';
 import {alertMe, isEmpty, keyboardType, MAX_LENGTH} from '@/constants';
@@ -39,7 +39,7 @@ interface IProps {
   categories: Array<any>;
   customers: Array<any>;
   fetchCategories: () => void;
-  getCustomers: () => void;
+  fetchCustomers: () => void;
   customFields: Array<any>;
   formValues: any;
 }
@@ -48,7 +48,7 @@ interface IState {
   attachmentReceipt: any;
   isLoading: boolean;
   imageUrl: string;
-  customerName: string;
+  customer: string;
   fileLoading: boolean;
   fileType: string;
 }
@@ -67,7 +67,7 @@ export class Expense extends React.Component<IProps, IState> {
       isLoading: true,
       imageUrl: null,
       fileLoading: false,
-      customerName: '',
+      customer: null,
       fileType: null
     };
   }
@@ -82,6 +82,7 @@ export class Expense extends React.Component<IProps, IState> {
       getExpenseDetail,
       isEditScreen,
       isCreateScreen,
+      route,
       id
     } = this.props;
 
@@ -89,6 +90,12 @@ export class Expense extends React.Component<IProps, IState> {
       getCreateExpense({
         onSuccess: () => {
           this.setFormField(`expense.${FIELDS.DATE}`, moment());
+
+          const customer = route?.params?.customer;
+          if (customer) {
+            this.setFormField(`expense.${FIELDS.CUSTOMER}`, customer.id);
+            this.setState({customer});
+          }
           this.setState({isLoading: false});
         }
       });
@@ -103,7 +110,7 @@ export class Expense extends React.Component<IProps, IState> {
           this.setState({
             imageUrl: receipt?.image,
             fileType: receipt?.type,
-            customerName: res?.customer?.name,
+            customer: res?.customer,
             isLoading: false
           });
           return;
@@ -197,13 +204,17 @@ export class Expense extends React.Component<IProps, IState> {
 
   navigateToCustomer = () => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CUSTOMER, {
-      type: 'ADD',
-      onSelect: item => {
-        this.setFormField(`expense.${FIELDS.CUSTOMER}`, item.id);
-        this.customerReference?.changeDisplayValue?.(item);
-      }
-    });
+
+    dismissRoute(routes.CREATE_CUSTOMER, () =>
+      navigation.navigate(routes.CREATE_CUSTOMER, {
+        type: 'ADD',
+        onSelect: customer => {
+          this.setState({customer});
+          this.setFormField(`expense.${FIELDS.CUSTOMER}`, customer.id);
+          this.customerReference?.changeDisplayValue?.(customer);
+        }
+      })
+    );
   };
 
   navigateToCategory = () => {
@@ -223,11 +234,10 @@ export class Expense extends React.Component<IProps, IState> {
       handleSubmit,
       categories,
       fetchCategories,
-      getCustomers,
+      fetchCustomers,
       customers,
       customFields,
       formValues,
-      currency,
       isEditScreen,
       isAllowToEdit,
       isAllowToDelete,
@@ -236,13 +246,7 @@ export class Expense extends React.Component<IProps, IState> {
     } = this.props;
     const disabled = !isAllowToEdit;
 
-    const {
-      imageUrl,
-      isLoading,
-      fileLoading,
-      fileType,
-      customerName
-    } = this.state;
+    const {imageUrl, isLoading, fileLoading, fileType, customer} = this.state;
 
     const isCreateExpense = isCreateScreen;
     const hasCustomField = isEditScreen
@@ -331,7 +335,7 @@ export class Expense extends React.Component<IProps, IState> {
           name={`expense.${FIELDS.AMOUNT}`}
           component={BaseInput}
           isRequired
-          leftSymbol={currency?.symbol}
+          leftSymbol={customer?.currency?.symbol}
           hint={t('expenses.amount')}
           disabled={disabled}
           keyboardType={keyboardType.DECIMAL}
@@ -354,15 +358,15 @@ export class Expense extends React.Component<IProps, IState> {
         <Field
           name={`expense.${FIELDS.CUSTOMER}`}
           component={CustomerSelectModal}
-          getCustomers={getCustomers}
-          placeholder={
-            customerName ? customerName : t('invoices.customer_placeholder')
-          }
+          fetchCustomers={fetchCustomers}
+          placeholder={t('invoices.customer_placeholder')}
+          selectedItem={customer}
           customers={customers}
           disabled={disabled}
-          onSelect={item =>
-            this.setFormField(`expense.${FIELDS.CUSTOMER}`, item.id)
-          }
+          onSelect={customer => {
+            this.setState({customer});
+            this.setFormField(`expense.${FIELDS.CUSTOMER}`, customer.id);
+          }}
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
           isRequired={false}

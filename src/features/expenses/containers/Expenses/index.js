@@ -4,11 +4,12 @@ import * as ExpensesAction from '../../actions';
 import {Expenses} from '../../components/Expenses';
 import {EXPENSE_SEARCH} from '../../constants';
 import {getExpensesState} from '../../selectors';
-import {getCustomers} from '@/features/customers/actions';
 import {commonSelector} from 'stores/common/selectors';
 import {fetchCategories} from 'stores/categories/actions';
 import {categoriesSelector} from 'stores/categories/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
+import {customersSelector} from 'stores/customers/selectors';
+import {fetchCustomers} from 'stores/customers/actions';
 
 const mapStateToProps = state => {
   const {
@@ -18,7 +19,7 @@ const mapStateToProps = state => {
   return {
     expenses: getExpensesState({expenses, currency}),
     currency,
-    customers: state.customers?.customers,
+    customers: customersSelector(state),
     categories: categoriesSelector(state),
     formValues: getFormValues(EXPENSE_SEARCH)(state) || {},
     ...commonSelector(state)
@@ -28,7 +29,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getExpenses: ExpensesAction.getExpenses,
   fetchCategories,
-  getCustomers
+  fetchCustomers
 };
 
 const ExpensesSearchReduxForm = reduxForm({

@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {navigatorOptions as options} from '../navigation-action';
 import {routes} from '../navigation-routes';
 
-import Customer from '@/features/customers/containers/Customer';
+import {CreateCustomer, CustomerAddress} from 'screens/customers';
 
 import CreateCompany from 'screens/companies/create-company';
 
@@ -63,8 +63,13 @@ export const CommonNavigator = (
   <>
     {/* Customer Navigator */}
     <Stack.Screen
-      name={routes.CUSTOMER}
-      component={Customer}
+      name={routes.CREATE_CUSTOMER}
+      component={CreateCustomer}
+      options={options}
+    />
+    <Stack.Screen
+      name={routes.CUSTOMER_ADDRESS}
+      component={CustomerAddress}
       options={options}
     />
 

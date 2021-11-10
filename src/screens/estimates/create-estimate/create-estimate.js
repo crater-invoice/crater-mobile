@@ -26,7 +26,7 @@ import {
 import {EDIT_ESTIMATE_ACTIONS} from 'stores/estimates/helpers';
 import {headerTitle} from '@/styles';
 import {TemplateField} from '@/components';
-import {routes} from '@/navigation';
+import {dismissRoute, routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {
   total,
@@ -93,7 +93,8 @@ export default class Estimate extends React.Component<IProps, IStates> {
     const {
       dispatch,
       estimateData: {estimateTemplates} = {},
-      estimateData
+      estimateData,
+      route
     } = this.props;
     let values = {
       ...initialValues(estimateTemplates),
@@ -111,6 +112,16 @@ export default class Estimate extends React.Component<IProps, IStates> {
       this.setState({currency: data?.customer?.currency});
     }
 
+    const customer = route?.params?.customer;
+    if (customer) {
+      values = {
+        ...values,
+        customer,
+        customer_id: customer.id
+      };
+      this.setState({currency: customer.currency});
+    }
+
     dispatch(initialize(CREATE_ESTIMATE_FORM, values));
     this.setState({isFetchingInitialData: false});
   };
@@ -124,12 +135,12 @@ export default class Estimate extends React.Component<IProps, IStates> {
     const {isFetchingInitialData} = this.state;
 
     if (isFetchingInitialData) {
-      navigation.navigate(routes.ESTIMATES);
+      navigation.goBack();
       return;
     }
 
     if (isEditScreen) {
-      navigation.navigate(routes.ESTIMATES);
+      navigation.goBack();
       return;
     }
 
@@ -137,7 +148,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       title: t('estimates.alert.draft_title'),
       showCancel: true,
       cancelText: t('alert.action.discard'),
-      cancelPress: () => navigation.navigate(routes.ESTIMATES),
+      cancelPress: () => navigation.goBack(),
       okText: t('alert.action.save_as_draft'),
       okPress: handleSubmit(this.draftEstimate)
     });
@@ -204,9 +215,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
         customFields: getApiFormattedCustomFields(values?.customFields)
       },
       navigation,
-      onSuccess: () => {
-        navigation.navigate(routes.ESTIMATES);
-      }
+      onSuccess: () => navigation.navigate(routes.ESTIMATES)
     };
     isCreateScreen
       ? dispatch(addEstimate(params))
@@ -363,14 +372,16 @@ export default class Estimate extends React.Component<IProps, IStates> {
     const {navigation} = this.props;
     const {currency} = this.state;
 
-    navigation.navigate(routes.CUSTOMER, {
-      type: 'ADD',
-      currency,
-      onSelect: item => {
-        this.customerReference?.changeDisplayValue?.(item);
-        this.setFormField('customer_id', item.id);
-        this.setState({currency: item.currency});
-      }
+    dismissRoute(routes.CREATE_CUSTOMER, () => {
+      navigation.navigate(routes.CREATE_CUSTOMER, {
+        type: 'ADD',
+        currency,
+        onSelect: item => {
+          this.customerReference?.changeDisplayValue?.(item);
+          this.setFormField('customer_id', item.id);
+          this.setState({currency: item.currency});
+        }
+      });
     });
   };
 
@@ -381,7 +392,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       estimateData: {estimateTemplates} = {},
       selectedItems,
       items,
-      getCustomers,
+      fetchCustomers,
       customers,
       formValues,
       customFields,
@@ -515,7 +526,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
         <Field
           name="customer_id"
-          getCustomers={getCustomers}
+          fetchCustomers={fetchCustomers}
           customers={customers}
           component={CustomerSelectModal}
           selectedItem={formValues?.customer}

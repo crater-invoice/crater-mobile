@@ -13,7 +13,7 @@ export default expenseFilterFields = ({props, setFormField}) => {
     categories,
     fetchCategories,
     navigation,
-    getCustomers,
+    fetchCustomers,
     customers
   } = props;
 
@@ -22,7 +22,7 @@ export default expenseFilterFields = ({props, setFormField}) => {
       name: 'customer_id',
       apiSearch: true,
       hasPagination: true,
-      getItems: getCustomers,
+      getItems: fetchCustomers,
       items: customers,
       displayName: 'name',
       label: t('payments.customer'),

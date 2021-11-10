@@ -4,13 +4,14 @@ import * as PaymentsAction from '../../actions';
 import {Payments} from '../../components/Payments';
 import {PAYMENT_SEARCH} from '../../constants';
 import {getPaymentsState, getPaymentModesState} from '../../selectors';
-import {getCustomers} from '@/features/customers/actions';
 import {fetchPaymentModes} from 'stores/payment-modes/actions';
 import {commonSelector} from 'stores/common/selectors';
+import {customersSelector} from 'stores/customers/selectors';
+import {fetchCustomers} from 'stores/customers/actions';
 
 const mapStateToProps = state => ({
   payments: getPaymentsState(state.payments?.payments),
-  customers: state.customers?.customers,
+  customers: customersSelector(state),
   paymentModes: getPaymentModesState(state?.paymentModes?.modes),
   formValues: getFormValues(PAYMENT_SEARCH)(state) || {},
   ...commonSelector(state)
@@ -18,7 +19,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getPayments: PaymentsAction.getPayments,
-  getCustomers,
+  fetchCustomers,
   fetchPaymentModes
 };
 

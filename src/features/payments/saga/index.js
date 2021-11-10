@@ -55,7 +55,7 @@ function* createPayment({payload}) {
     const response = yield call([Request, 'post'], options);
     yield put(createFromPayment({payment: response.data}));
     !hasRecordPayment
-      ? navigation.goBack(null)
+      ? navigation.navigate(routes.MAIN_PAYMENTS)
       : navigation.navigate(routes.MAIN_INVOICES);
     showNotification({message: t('notification.payment_created')});
   } catch (e) {

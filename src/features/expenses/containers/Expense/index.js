@@ -3,12 +3,13 @@ import {reduxForm, getFormValues} from 'redux-form';
 import {Expense} from '../../components/Expense';
 import {validate} from './validation';
 import * as actions from '../../actions';
-import {getCustomers} from '@/features/customers/actions';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {EXPENSE_FORM, EXPENSE_FIELDS as FIELDS} from '../../constants';
 import {fetchCategories} from 'stores/categories/actions';
 import {categoriesSelector} from 'stores/categories/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
+import {customersSelector} from 'stores/customers/selectors';
+import {fetchCustomers} from 'stores/customers/actions';
 
 const mapStateToProps = (state, {route}) => {
   const {
@@ -20,7 +21,7 @@ const mapStateToProps = (state, {route}) => {
 
   return {
     categories: categoriesSelector(state),
-    customers: state.customers?.customers,
+    customers: customersSelector(state),
     endpointURL,
     customFields,
     loading: loading?.expenseLoading,
@@ -43,7 +44,7 @@ const mapStateToProps = (state, {route}) => {
 const mapDispatchToProps = {
   ...actions,
   fetchCategories,
-  getCustomers
+  fetchCustomers
 };
 
 const addExpenseReduxForm = reduxForm({
