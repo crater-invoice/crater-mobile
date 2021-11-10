@@ -22,13 +22,17 @@ function* fetchCompanies(payload) {
 }
 
 /**
- * Fetch Languages saga
+ * Fetch Currencies saga
  * @returns {IterableIterator<*>}
  */
 export function* fetchCurrencies() {
   try {
+    if (CompanyServices.isCurrenciesItemLoaded) {
+      return;
+    }
     const {data} = yield call(req.fetchCurrencies);
     yield put({type: types.FETCH_CURRENCIES_SUCCESS, payload: data});
+    CompanyServices.setIsCurrenciesItemLoaded();
   } catch (e) {}
 }
 
