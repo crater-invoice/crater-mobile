@@ -254,8 +254,10 @@ export class CreateItem extends React.Component<IProps> {
       formValues: {quantity, price, taxes},
       discountPerItem,
       theme,
-      route
+      route,
+      screen
     } = this.props;
+    const isItemScreen = screen === 'item';
 
     const currency = route?.params?.currency;
     const color = theme?.listItem?.primary?.color;
@@ -282,7 +284,7 @@ export class CreateItem extends React.Component<IProps> {
           </View>
         </View>
 
-        {isBooleanTrue(discountPerItem) && (
+        {isBooleanTrue(discountPerItem) && !isItemScreen && (
           <View style={styles.subContainer}>
             <View>
               <Text gray medium style={{marginTop: 6}}>
@@ -444,7 +446,7 @@ export class CreateItem extends React.Component<IProps> {
           />
         )}
 
-        {isBooleanTrue(discountPerItem) && (
+        {isBooleanTrue(discountPerItem) && !isItemScreen && (
           <View>
             <Field
               name="discount_type"
