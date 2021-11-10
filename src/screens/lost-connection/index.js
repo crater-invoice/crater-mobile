@@ -1,3 +1,3 @@
-export {
-  LostConnectionContainer as LostConnection
-} from './lost-connection-container';
+import LostConnection from './lost-connection-container';
+
+export default LostConnection;

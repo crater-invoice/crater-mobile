@@ -15,7 +15,12 @@ const StyledText = styled(CTText)`
 
     color: ${colors.secondary};
     text-align: left;
-    font-family: ${fonts.regular};
+
+    ${props =>
+      !props?.['hide-font'] &&
+      css`
+        font-family: ${fonts.regular};
+      `};
 
     ${ifProp('h6', generateSize(fontSizes.h6))}
 

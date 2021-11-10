@@ -4,20 +4,22 @@ import {reduxForm, getFormValues} from 'redux-form';
 import {CREATE_INVOICE_FORM} from 'stores/invoices/types';
 import {validate} from 'stores/invoices/validator';
 import {getCustomers} from '@/features/customers/actions';
-import {getTaxes, getNotes} from '@/features/settings/actions';
+import {loadingSelector} from 'stores/invoices/selectors';
+import {initialValues} from 'stores/invoices/helpers';
+import {currentCurrencySelector} from 'stores/company/selectors';
+import {fetchNotes} from 'stores/notes/actions';
+import {notesSelector} from 'stores/notes/selectors';
+import {taxTypesSelector} from 'stores/taxes/selectors';
+import {fetchTaxes} from 'stores/taxes/actions';
 import {
   commonSelector,
   permissionSelector,
   settingsSelector
 } from 'stores/common/selectors';
-import {loadingSelector} from 'stores/invoices/selectors';
-import {initialValues} from 'stores/invoices/helpers';
-import {currentCurrencySelector} from 'stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
-    common: {taxTypes},
-    settings: {notes, customFields},
+    settings: {customFields},
     invoices: {selectedItems, invoiceData},
     items: {items},
     customers: {customers}
@@ -30,9 +32,9 @@ const mapStateToProps = (state, {route}) => {
     selectedItems,
     invoiceData,
     items,
-    notes,
+    notes: notesSelector(state),
     customers,
-    taxTypes,
+    taxTypes: taxTypesSelector(state),
     currency: currentCurrencySelector(state),
     customFields,
     formValues: getFormValues(CREATE_INVOICE_FORM)(state) || {},
@@ -42,8 +44,8 @@ const mapStateToProps = (state, {route}) => {
 
 const mapDispatchToProps = {
   getCustomers,
-  getTaxes,
-  getNotes
+  fetchTaxes,
+  fetchNotes
 };
 
 const CreateInvoiceReduxForm = reduxForm({
@@ -51,7 +53,7 @@ const CreateInvoiceReduxForm = reduxForm({
   validate
 })(CreateInvoice);
 
-export const CreateInvoiceContainer = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(CreateInvoiceReduxForm);

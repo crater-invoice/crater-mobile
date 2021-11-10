@@ -82,7 +82,7 @@ export interface IProps {
   /**
    * An action to return a list of notes.
    */
-  getNotes: () => void;
+  fetchNotes: () => void;
 
   /**
    * An array of objects with data for each template.

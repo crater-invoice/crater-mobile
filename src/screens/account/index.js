@@ -1,1 +1,3 @@
-export {AccountContainer as Account} from './account-container';
+import Account from './account-container';
+
+export default Account;

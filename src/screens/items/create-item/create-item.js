@@ -386,8 +386,8 @@ export class CreateItem extends React.Component<IProps> {
       units,
       isCreateScreen,
       fetchItemUnits,
-      getTaxes,
-      theme
+      theme,
+      fetchTaxes
     } = this.props;
 
     const isItemScreen = screen === 'item';
@@ -469,11 +469,11 @@ export class CreateItem extends React.Component<IProps> {
           <Field
             name="taxes"
             taxTypes={taxTypes}
-            getTaxes={getTaxes}
+            fetchTaxes={fetchTaxes}
             component={TaxSelectModal}
             theme={theme}
             rightIconPress={() =>
-              navigation.navigate(routes.TAX, {
+              navigation.navigate(routes.CREATE_TAX, {
                 type: 'ADD',
                 onSelect: val => {
                   this.setFormField('taxes', [...val, ...taxes]);

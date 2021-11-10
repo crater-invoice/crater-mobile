@@ -33,7 +33,6 @@ import {
 } from '@/components/final-amount/final-amount-calculation';
 import {getApiFormattedCustomFields, showNotification} from '@/utils';
 import {CustomerSelectModal} from '@/select-modal';
-import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
 import {setCalculationRef} from 'stores/common/helpers';
 import {IProps, IStates} from './create-invoice-type';
 import {
@@ -363,7 +362,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       isDeleting,
       isLoading,
       notes,
-      getNotes
+      fetchNotes
     } = this.props;
     const {markAsStatus, isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
@@ -521,9 +520,9 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           {...this.props}
           navigation={navigation}
           notes={notes}
-          getNotes={getNotes}
+          fetchNotes={fetchNotes}
           isEditScreen={isEditScreen}
-          noteType={NOTES_TYPE_VALUE.INVOICE}
+          noteType={'Invoice'}
           onSelect={this.setFormField}
         />
 

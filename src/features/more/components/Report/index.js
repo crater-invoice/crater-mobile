@@ -39,15 +39,9 @@ export class Report extends React.Component<IProps> {
     super(props);
 
     this.state = {
-      taxTypeList: [],
       displayFromDate: '',
       displayToDate: ''
     };
-  }
-
-  componentWillMount() {
-    const {taxTypes} = this.props;
-    this.setState({taxTypeList: taxTypes});
   }
 
   setFormField = (field, value) => {

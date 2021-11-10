@@ -27,7 +27,7 @@ class ListViewComponent extends Component<IProps> {
         mediumSize
         numberOfLines={1}
         color={theme?.listItem?.secondary?.color}
-        style={leftTitleStyle && leftTitleStyle}
+        style={leftTitleStyle}
       >
         {title}
       </Text>
@@ -72,7 +72,7 @@ class ListViewComponent extends Component<IProps> {
         <Text
           h5
           medium={theme?.mode === 'dark'}
-          style={leftSubTitleStyle && leftSubTitleStyle}
+          style={leftSubTitleStyle}
           numberOfLines={3}
           color={theme?.listItem?.fourth?.color}
         >
@@ -103,10 +103,7 @@ class ListViewComponent extends Component<IProps> {
               ) : (
                 <Text
                   h6
-                  style={[
-                    {color: labelTextColor},
-                    leftSubTitleLabelStyle && leftSubTitleLabelStyle
-                  ]}
+                  style={[{color: labelTextColor}, leftSubTitleLabelStyle]}
                 >
                   {label}
                 </Text>
@@ -165,10 +162,7 @@ class ListViewComponent extends Component<IProps> {
             <CurrencyFormat
               amount={item.amount}
               currency={item.currency}
-              style={[
-                styles.rightTitle(theme),
-                rightTitleStyle && rightTitleStyle
-              ]}
+              style={[styles.rightTitle(theme), rightTitleStyle]}
               currencyStyle={{
                 marginTop: definePlatformParam(-1.5, -6)
               }}
@@ -178,10 +172,7 @@ class ListViewComponent extends Component<IProps> {
           )
         }
         rightSubtitle={item.rightSubtitle}
-        rightTitleStyle={[
-          styles.rightTitle(theme),
-          rightTitleStyle && rightTitleStyle
-        ]}
+        rightTitleStyle={[styles.rightTitle(theme), rightTitleStyle]}
         rightSubtitleStyle={styles.rightSubTitle(theme)}
         titleProps={{allowFontScaling: false}}
         subtitleProps={{allowFontScaling: false}}
@@ -195,7 +186,7 @@ class ListViewComponent extends Component<IProps> {
             backgroundColor:
               (backgroundColor && backgroundColor) || theme?.backgroundColor
           },
-          itemContainer && itemContainer,
+          itemContainer,
           bottomDivider
             ? {
                 borderBottomWidth: StyleSheet.hairlineWidth
@@ -298,7 +289,7 @@ class ListViewComponent extends Component<IProps> {
         size={iconSize}
         color={colors.primaryLight}
         solid={leftIconSolid}
-        style={leftIconStyle && leftIconStyle}
+        style={leftIconStyle}
       />
     );
 
@@ -332,7 +323,7 @@ class ListViewComponent extends Component<IProps> {
         containerStyle={[
           styles.containerWithAvatar,
           {backgroundColor: theme?.backgroundColor},
-          itemContainer && itemContainer,
+          itemContainer,
           bottomDivider
             ? {
                 borderBottomWidth: StyleSheet.hairlineWidth

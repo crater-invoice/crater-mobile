@@ -3,12 +3,12 @@ import {getFormValues, reduxForm} from 'redux-form';
 import CreateCompany from './create-company';
 import {validateCompany as validate} from 'stores/company/validator';
 import {commonSelector, countriesSelector} from 'stores/common/selectors';
+import {CREATE_COMPANY_FORM} from 'stores/company/types';
 import {
   currenciesSelector,
   currentCurrencySelector,
   loadingSelector
 } from 'stores/company/selectors';
-import {CREATE_COMPANY_FORM} from 'stores/company/types';
 
 const mapStateToProps = (state, {route}) => {
   const isCreateScreen = route?.params?.type === 'ADD';
@@ -40,6 +40,4 @@ const CreateCompanyForm = reduxForm({form: CREATE_COMPANY_FORM, validate})(
   CreateCompany
 );
 
-export const CreateCompanyContainer = connect(mapStateToProps)(
-  CreateCompanyForm
-);
+export default connect(mapStateToProps)(CreateCompanyForm);

@@ -20,6 +20,8 @@ import common from 'stores/common/saga';
 import recurringInvoices from 'stores/recurring-invoices/saga';
 import categories from 'stores/categories/saga';
 import items from 'stores/items/saga';
+import notes from 'stores/notes/saga';
+import taxes from 'stores/taxes/saga';
 import {PermissionService} from '@/services';
 
 export default function* rootSaga() {
@@ -47,7 +49,9 @@ export default function* rootSaga() {
       itemUnits(),
       recurringInvoices(),
       items(),
-      common()
+      common(),
+      notes(),
+      taxes()
     ]);
   });
 }

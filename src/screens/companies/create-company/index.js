@@ -1,3 +1,3 @@
-export {
-  CreateCompanyContainer as CreateCompany
-} from './create-company-container';
+import CreateCompany from './create-company-container';
+
+export default CreateCompany;

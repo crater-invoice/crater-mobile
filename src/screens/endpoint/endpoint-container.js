@@ -16,4 +16,4 @@ const mapStateToProps = (state, {route}) => ({
 
 const EndpointForm = reduxForm({form: ENDPOINT_FORM, validate})(Endpoint);
 
-export const EndpointContainer = connect(mapStateToProps)(EndpointForm);
+export default connect(mapStateToProps)(EndpointForm);

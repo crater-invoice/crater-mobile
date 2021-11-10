@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import moment from 'moment';
 import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-recurring-invoice-type';
@@ -30,7 +31,6 @@ import {CustomerSelectModal} from '@/select-modal';
 import {TemplateField} from '@/components';
 import styles from './create-recurring-invoice-styles';
 import {FrequencyField, LimitField} from '../recurring-invoices-common';
-import {NOTES_TYPE_VALUE} from '@/features/settings/constants';
 import {
   total,
   tax,
@@ -43,7 +43,6 @@ import {
 } from '@/components/final-amount/final-amount-calculation';
 import {setCalculationRef} from 'stores/common/helpers';
 import {getApiFormattedCustomFields, secondaryHeader} from '@/utils';
-import moment from 'moment';
 
 export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   recurringInvoiceRefs: any;
@@ -256,7 +255,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       navigation,
       statusList,
       notes,
-      getNotes,
+      fetchNotes,
       isSaving,
       isDeleting,
       invoiceTemplates = [],
@@ -412,9 +411,9 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           {...this.props}
           navigation={navigation}
           notes={notes}
-          getNotes={getNotes}
+          fetchNotes={fetchNotes}
           isEditScreen={isEditScreen}
-          noteType={NOTES_TYPE_VALUE.INVOICE}
+          noteType={'Invoice'}
           onSelect={this.setFormField}
         />
 

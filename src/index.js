@@ -1,5 +1,5 @@
 import React, {Component, useState, useEffect} from 'react';
-import {AppState} from 'react-native';
+import {AppState, LogBox} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Appearance, AppearanceProvider} from 'react-native-appearance';
@@ -13,8 +13,9 @@ import {darkTheme, lightTheme} from './theme';
 import {TranslationService} from 'locales/use-translation';
 import {FlashMessage, Loading} from '@/components';
 
-console.disableYellowBox = true;
 console.warn = () => {};
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
 
 interface IState {
   theme: any;

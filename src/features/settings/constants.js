@@ -7,14 +7,9 @@ import t from 'locales/use-translation';
 // -----------------------------------------
 export const NOTIFICATION = 'notification/NOTIFICATION';
 
-export const SEARCH_TAX = 'taxForm/SEARCH_TAX';
-export const TAX_FORM = 'taxForm/TAX_FORM';
-
 export const CUSTOM_FIELDS_FORM = 'custom-field/CUSTOM_FIELDS_FORM';
 export const CUSTOM_FIELD_FORM = 'custom-field/CUSTOM_FIELD_FORM';
 
-export const NOTES_SEARCH = 'notes/NOTES_SEARCH';
-export const NOTE_FORM = 'notes/NOTE_FORM';
 export const TOUCH_FACE_ID_FORM = 'biometry/TOUCH_FACE_ID_FORM';
 
 // -----------------------------------------
@@ -32,20 +27,6 @@ export const GET_SETTING_INFO = 'GET_SETTING_INFO';
 export const GET_SETTING_ITEM = 'settings/GET_SETTING_ITEM';
 export const EDIT_SETTING_ITEM = 'settings/EDIT_SETTING_ITEM';
 
-// Notes
-export const GET_NOTES = 'notes/GET_NOTES';
-export const SET_NOTES = 'notes/SET_NOTES';
-export const GET_CREATE_NOTE = 'notes/GET_CREATE_NOTE';
-export const CREATE_NOTE = 'notes/CREATE_NOTE';
-export const REMOVE_NOTE = 'notes/REMOVE_NOTE';
-export const UPDATE_NOTE = 'notes/UPDATE_NOTE';
-export const GET_NOTE_DETAIL = 'notes/GET_NOTE_DETAIL';
-export const GET_UPDATE_NOTES = 'notes/GET_UPDATE_NOTES';
-export const SAVE_NOTES = 'notes/SAVE_NOTES';
-export const CREATE_FROM_NOTES = 'notes/CREATE_FROM_NOTES';
-export const REMOVE_FROM_NOTES = 'notes/REMOVE_FROM_NOTES';
-export const UPDATE_FROM_NOTES = 'notes/UPDATE_FROM_NOTES';
-
 // Custom Fields
 export const GET_CUSTOM_FIELDS = 'custom-field/GET_CUSTOM_FIELDS';
 export const SET_CUSTOM_FIELDS = 'custom-field/SET_CUSTOM_FIELDS';
@@ -60,16 +41,6 @@ export const REMOVE_FROM_CUSTOM_FIELDS =
   'custom-field/REMOVE_FROM_CUSTOM_FIELDS';
 export const UPDATE_FROM_CUSTOM_FIELDS =
   'custom-field/UPDATE_FROM_CUSTOM_FIELDS';
-
-// Taxes
-export const GET_TAXES = 'taxes/GET_TAXES';
-export const SET_TAXES = 'taxes/SET_TAXES';
-export const SET_TAX = 'taxes/SET_TAX';
-export const SET_EDIT_TAX = 'taxes/SET_EDIT_TAX';
-export const SET_REMOVE_TAX = 'taxes/SET_REMOVE_TAX';
-export const TAX_EDIT = 'taxes/TAX_EDIT';
-export const TAX_ADD = 'taxes/TAX_ADD';
-export const REMOVE_TAX = 'taxes/REMOVE_TAX';
 
 // Biometry Auth
 export const SET_BIOMETRY_AUTH_TYPE = 'authType/SET_BIOMETRY_AUTH_TYPE';
@@ -149,21 +120,6 @@ export const CUSTOM_FIELD_MODAL_TYPES = [
   {label: 'Estimate', value: MODAL_TYPE_VALUE.ESTIMATE},
   {label: 'Expense', value: MODAL_TYPE_VALUE.EXPENSE},
   {label: 'Payment', value: MODAL_TYPE_VALUE.PAYMENT}
-];
-
-// Notes Field Modal
-// -----------------------------------------
-
-export const NOTES_TYPE_VALUE = {
-  INVOICE: 'invoice',
-  ESTIMATE: 'estimate',
-  PAYMENT: 'payment'
-};
-
-export const NOTES_FIELD_MODAL_TYPES = [
-  {label: 'Invoice', value: NOTES_TYPE_VALUE.INVOICE},
-  {label: 'Estimate', value: NOTES_TYPE_VALUE.ESTIMATE},
-  {label: 'Payment', value: NOTES_TYPE_VALUE.PAYMENT}
 ];
 
 // Menus

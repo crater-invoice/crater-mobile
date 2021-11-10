@@ -17,7 +17,7 @@ interface IProps {
   /**
    * An action to return a list of note.
    */
-  getNotes?: () => void;
+  fetchNotes?: () => void;
 
   /**
    * An active theme object.
@@ -29,12 +29,12 @@ interface IProps {
 let notesReference = React.createRef();
 
 export const NoteSelectModal = (props: IProps) => {
-  const {notes, getNotes, theme, onSelect} = props;
+  const {notes, fetchNotes, theme, onSelect} = props;
   return (
     <SelectField
       {...props}
       items={notes}
-      getItems={getNotes}
+      getItems={fetchNotes}
       apiSearch
       hasPagination
       onlyPlaceholder

@@ -6,11 +6,9 @@ import {
   NOTIFICATION_MAIL_TYPE
 } from '../constants';
 
-import taxes from './taxes';
 import customFields from './custom-fields';
 import Request from 'utils/request';
 import General from './general';
-import Notes from './notes';
 import t from 'locales/use-translation';
 import {showNotification} from '@/utils';
 
@@ -62,5 +60,5 @@ export default function* settingsSaga() {
   yield takeEvery(GET_SETTING_ITEM, getSettingItem);
   yield takeEvery(EDIT_SETTING_ITEM, editSettingItem);
 
-  yield all([taxes(), customFields(), General(), Notes()]);
+  yield all([customFields(), General()]);
 }

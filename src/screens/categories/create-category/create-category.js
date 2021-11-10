@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Field, initialize} from 'redux-form';
+import {pick} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-category-type';
 import {alertMe} from '@/constants';
@@ -40,9 +41,9 @@ export default class CreateCategory extends Component<IProps, IStates> {
     this.setState({isFetchingInitialData: false});
   };
 
-  setInitialData = ({name, description}) => {
+  setInitialData = category => {
     const {dispatch} = this.props;
-    const data = {name, description};
+    const data = pick(category, ['name', 'description']);
     dispatch(initialize(CREATE_CATEGORY_FORM, data));
     this.setState({isFetchingInitialData: false});
   };

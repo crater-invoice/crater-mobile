@@ -1,3 +1,3 @@
-export {
-  UpdateAppVersionContainer as UpdateAppVersion
-} from './update-app-version-container';
+import UpdateAppVersion from './update-app-version-container';
+
+export default UpdateAppVersion;

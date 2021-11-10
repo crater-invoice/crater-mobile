@@ -44,7 +44,7 @@ export const routes = {
   CREATE_CATEGORY: 'CREATE_CATEGORY',
 
   // Taxes
-  TAX: 'TAX',
+  CREATE_TAX: 'CREATE_TAX',
   TAXES: 'TAXES',
 
   // Settings
@@ -79,7 +79,7 @@ export const routes = {
   EXPENSE: 'EXPENSE',
 
   // Notes
-  NOTE: 'NOTE',
+  CREATE_NOTE: 'CREATE_NOTE',
   NOTES: 'NOTES',
 
   // Payments

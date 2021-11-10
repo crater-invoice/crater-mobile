@@ -3,11 +3,13 @@ import {CreateItem} from './create-item';
 import {reduxForm, getFormValues} from 'redux-form';
 import {validate} from 'stores/items/validator';
 import {CREATE_ITEM_FORM} from 'stores/items/types';
-import {getTaxes} from '@/features/settings/actions';
 import {fetchItemUnits} from 'stores/item-units/actions';
 import {unitsSelector} from '@/features/more/selectors';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {loadingSelector} from 'stores/items/selectors';
+import {taxTypesSelector} from 'stores/taxes/selectors';
+import {fetchTaxes} from 'stores/taxes/actions';
+import {getSettingInfo} from '@/features/settings/actions';
 
 const mapStateToProps = (state, {route}) => {
   const {
@@ -27,11 +29,12 @@ const mapStateToProps = (state, {route}) => {
       invoices?.isSaving || estimates?.isSaving || recurringInvoices?.isSaving
     );
   };
+
   return {
     loading: isLoading(),
     formValues: getFormValues(CREATE_ITEM_FORM)(state) || {},
     itemId: item && (item.item_id || item.id),
-    taxTypes: state.common?.taxTypes,
+    taxTypes: taxTypesSelector(state),
     currency: route?.params?.currency,
     discountPerItem,
     taxPerItem,
@@ -56,7 +59,8 @@ const mapStateToProps = (state, {route}) => {
 
 const mapDispatchToProps = {
   fetchItemUnits,
-  getTaxes
+  fetchTaxes,
+  getSettingInfo
 };
 
 const createItemReduxForm = reduxForm({

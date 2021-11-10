@@ -3,17 +3,24 @@ import {Editor} from '@/components';
 import {View} from 'react-native';
 import t from 'locales/use-translation';
 import {Field} from 'redux-form';
-import {formatNotesType} from '@/utils';
 import {routes} from '@/navigation';
 import {NoteSelectModal} from '@/select-modal';
 import {IProps} from './type.d';
+import {notesTypeSelector} from 'stores/notes/selectors';
 
 let editorReference = React.createRef();
 
 export const Notes = (props: IProps) => {
-  const {isEditScreen, navigation, notes, getNotes, noteType, onSelect} = props;
+  const {
+    isEditScreen,
+    navigation,
+    notes,
+    fetchNotes,
+    noteType,
+    onSelect
+  } = props;
   const navigateToNote = () => {
-    navigation.navigate(routes.NOTE, {
+    navigation.navigate(routes.CREATE_NOTE, {
       type: 'ADD',
       modalType: noteType,
       onSelect: value => onSelect('notes', value?.notes)
@@ -24,7 +31,7 @@ export const Notes = (props: IProps) => {
       {...props}
       name="notes"
       label="notes.notes"
-      placeholder={t(`notes.placeholder.${noteType}`)}
+      placeholder={t(`notes.placeholder.${noteType.toLowerCase()}`)}
       fieldInputProps={{height: 80}}
       htmlViewStyle={{minHeight: 82}}
       containerStyle={{marginTop: -10, marginBottom: -10}}
@@ -40,8 +47,8 @@ export const Notes = (props: IProps) => {
         <View style={{marginTop: 5}}>
           <Field
             name="add_notes"
-            notes={formatNotesType(notes)}
-            getNotes={getNotes}
+            notes={notesTypeSelector(notes)}
+            fetchNotes={fetchNotes}
             component={NoteSelectModal}
             onSelect={value => {
               onSelect('notes', value?.notes);

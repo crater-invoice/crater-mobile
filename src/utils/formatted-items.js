@@ -1,6 +1,4 @@
 import {isEmpty} from '@/constants';
-import {NOTES_FIELD_MODAL_TYPES} from '@/features/settings/constants';
-import {find} from 'lodash-es';
 
 export const formatSelectPickerName = items => {
   if (isEmpty(items)) {
@@ -31,35 +29,6 @@ export const formatTaxTypes = taxes => {
       subtitle: {title: description},
       rightTitle: `${percent} %`,
       fullItem: tax
-    };
-  });
-};
-
-export const formatNotes = notes => {
-  if (isEmpty(notes)) {
-    return [];
-  }
-  return notes.map(note => {
-    const {name, type} = note;
-    const label = find(NOTES_FIELD_MODAL_TYPES, {value: type})?.label;
-
-    return {
-      title: name,
-      rightTitle: label,
-      fullItem: note
-    };
-  });
-};
-
-export const formatNotesType = notes => {
-  if (isEmpty(notes)) {
-    return [];
-  }
-  return notes.map(note => {
-    const {name} = note;
-    return {
-      title: name,
-      fullItem: note
     };
   });
 };

@@ -16,7 +16,7 @@ export default StyleSheet.create({
     height: 40,
     ...Platform.select({
       android: {
-        height: 45
+        height: 44
       }
     }),
     ...(isRTL() && {

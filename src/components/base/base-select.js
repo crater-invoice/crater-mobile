@@ -123,7 +123,10 @@ const styles = StyleSheet.create({
     backgroundColor: theme?.thirdBgColor,
     marginBottom: 10,
     borderRadius: 3,
-    height: 44
+    height: 44,
+    ...(isAndroidPlatform && {
+      height: 47
+    })
   }),
   disableView: theme => ({
     backgroundColor: theme?.input?.disableBackgroundColor,
