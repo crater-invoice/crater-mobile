@@ -5,7 +5,6 @@ import {CREATE_ESTIMATE_FORM} from 'stores/estimates/types';
 import {validate} from 'stores/estimates/validator';
 import {getCustomers} from '@/features/customers/actions';
 import {getTaxes, getNotes} from '@/features/settings/actions';
-import {getItems} from '@/features/more/actions';
 import {
   commonSelector,
   permissionSelector,
@@ -20,7 +19,7 @@ const mapStateToProps = (state, {route}) => {
     common: {taxTypes},
     settings: {notes, customFields},
     estimates: {selectedItems, estimateData},
-    more: {items},
+    items: {items},
     customers: {customers}
   } = state;
 
@@ -45,8 +44,7 @@ const mapStateToProps = (state, {route}) => {
 const mapDispatchToProps = {
   getCustomers,
   getTaxes,
-  getNotes,
-  getItems
+  getNotes
 };
 
 const CreateEstimateReduxForm = reduxForm({

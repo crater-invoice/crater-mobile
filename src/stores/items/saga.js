@@ -2,6 +2,9 @@ import {call, put, takeLatest} from 'redux-saga/effects';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
+import {showNotification, handleError} from '@/utils';
+import t from 'locales/use-translation';
+import {fetchTaxAndDiscountPerItem} from 'stores/common/actions';
 
 /**
  * Fetch items saga
@@ -9,19 +12,11 @@ import {spinner} from './actions';
  */
 function* fetchItems({payload}) {
   const {fresh = true, onSuccess, onFail, queryString} = payload;
-
   try {
-    const options = {
-      path: `items?${queryStrings.stringify(queryString)}`
-    };
-
-    const response = yield call([Request, 'get'], options);
-
-    if (response?.data) {
-      const data = response.data;
-      yield put(setItems({items: data, fresh}));
-    }
-
+    yield put(fetchTaxAndDiscountPerItem());
+    const response = yield call(req.fetchItems, queryString);
+    const items = response?.data ?? [];
+    yield put({type: types.FETCH_ITEMS_SUCCESS, payload: {items, fresh}});
     onSuccess?.(response);
   } catch (e) {
     onFail?.();
@@ -29,86 +24,43 @@ function* fetchItems({payload}) {
 }
 
 /**
- * Fetch single item saga
- * @returns {IterableIterator<*>}
- */
-function* fetchSingleItem({payload}) {
-  try {
-    const {id, onSuccess} = payload;
-    const response = yield call(req.fetchSingleitem, id);
-    onSuccess?.(response?.data);
-  } catch (e) {}
-}
-
-/**
  * Add item saga
  * @returns {IterableIterator<*>}
  */
-function* addItem({payload: {item, onResult, setItems}}) {
-  yield put(spinner({itemLoading: true}));
-
+export function* addItem({payload}) {
   try {
-    const {price, name, description, taxes, unit_id} = item;
-
-    const options = {
-      path: `items`,
-      body: {
-        name,
-        description,
-        price,
-        unit_id,
-        taxes
-      }
-    };
-
-    const response = yield call([Request, 'post'], options);
-
-    const items = [
-      {
-        ...response.data,
-        item_id: response.data.id,
-        ...item
-      }
-    ];
-
-    yield put(setItems({items}));
-
-    onResult?.();
-  } catch (e) {}
+    yield put(spinner('isSaving', true));
+    const {item, onSuccess, returnCallback} = payload;
+    const {data} = yield call(req.addItem, item);
+    const items = [{...data, item_id: data.id, ...item}];
+    yield put({type: types.ADD_ITEM_SUCCESS, payload: items});
+    showNotification({message: t('notification.item_created')});
+    if (returnCallback) {
+      return items;
+    }
+    onSuccess?.(items);
+  } catch (e) {
+    handleError(e);
+  } finally {
+    yield put(spinner('isSaving', false));
+  }
 }
 
 /**
  * Update item saga
  * @returns {IterableIterator<*>}
  */
-function* updateItem({payload: {item, onResult}}) {
+function* updateItem({payload}) {
   try {
-    const {price, name, description, item_id} = item;
-
-    const options = {
-      path: `items/${item_id}`,
-      body: {
-        name,
-        description,
-        price
-      }
-    };
-
-    const response = yield call([Request, 'put'], options);
-
-    const invoiceItem = [
-      {
-        ...response.item,
-        ...item
-      }
-    ];
-
-    yield put(removeInvoiceItem({id: invoiceItem.id}));
-
-    yield put(setInvoiceItems({invoiceItem}));
-
-    onResult?.();
-  } catch (e) {}
+    yield put(spinner('isSaving', true));
+    const {data} = yield call(req.updateItem, ...payload);
+    yield put({type: types.UPDATE_ITEM_SUCCESS, payload: data});
+    showNotification({message: t('notification.item_updated')});
+  } catch (e) {
+    handleError(e);
+  } finally {
+    yield put(spinner('isSaving', false));
+  }
 }
 
 /**
@@ -117,14 +69,20 @@ function* updateItem({payload: {item, onResult}}) {
  */
 function* removeItem({payload}) {
   try {
-    yield put(removeInvoiceItem({id}));
-    onResult?.();
-  } catch (e) {}
+    yield put(spinner('isDeleting', true));
+    const {id} = payload;
+    yield call(req.removeItem, id);
+    yield put({type: types.REMOVE_ITEM_SUCCESS, payload: id});
+    showNotification({message: t('notification.item_deleted')});
+  } catch (e) {
+    handleError(e);
+  } finally {
+    yield put(spinner('isDeleting', false));
+  }
 }
 
 export default function* itemsSaga() {
   yield takeLatest(types.FETCH_ITEMS, fetchItems);
-  yield takeLatest(types.FETCH_SINGLE_ITEM, fetchSingleItem);
   yield takeLatest(types.ADD_ITEM, addItem);
   yield takeLatest(types.UPDATE_ITEM, updateItem);
   yield takeLatest(types.REMOVE_ITEM, removeItem);

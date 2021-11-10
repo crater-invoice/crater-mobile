@@ -1,8 +1,14 @@
 import * as InvoicesAction from 'stores/invoices/actions';
 import * as EstimatesAction from 'stores/estimates/actions';
 import * as RecurringInvoicesAction from 'stores/recurring-invoices/actions';
+import * as itemAction from './actions';
 
 export const itemActions = {
+  item: {
+    addItem: itemAction.addItem,
+    setItems: itemAction.updateItem,
+    removeItem: itemAction.removeItem
+  },
   invoice: {
     addItem: InvoicesAction.addInvoiceItem,
     setItems: InvoicesAction.setInvoiceItems,

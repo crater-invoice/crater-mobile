@@ -5,7 +5,6 @@ import {CREATE_INVOICE_FORM} from 'stores/invoices/types';
 import {validate} from 'stores/invoices/validator';
 import {getCustomers} from '@/features/customers/actions';
 import {getTaxes, getNotes} from '@/features/settings/actions';
-import {getItems} from '@/features/more/actions';
 import {
   commonSelector,
   permissionSelector,
@@ -20,7 +19,7 @@ const mapStateToProps = (state, {route}) => {
     common: {taxTypes},
     settings: {notes, customFields},
     invoices: {selectedItems, invoiceData},
-    more: {items},
+    items: {items},
     customers: {customers}
   } = state;
   return {
@@ -44,8 +43,7 @@ const mapStateToProps = (state, {route}) => {
 const mapDispatchToProps = {
   getCustomers,
   getTaxes,
-  getNotes,
-  getItems
+  getNotes
 };
 
 const CreateInvoiceReduxForm = reduxForm({

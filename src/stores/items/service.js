@@ -1,47 +1,36 @@
 import Request from '@/utils/request';
 import * as queryString from 'query-string';
+
 /**
- * Fetch users
+ * Fetch items
  * @param q : queryString
  * @returns {*}
  */
-export const fetchUsers = q => {
-  return Request.get({path: `users?${queryString.stringify(q)}`});
+export const fetchItems = q =>
+  Request.get({path: `items?${queryString.stringify(q)}`});
+
+/**
+ * Add item
+ * @param item : item data
+ * @returns {*}
+ */
+export const addItem = item => {
+  const {price, name, description, taxes, unit_id} = item;
+  const body = {name, description, price, unit_id, taxes};
+  return Request.post({path: `items`, body});
 };
 
 /**
- * Fetch single user
- * @param id : user id
+ * Update item
+ * @param item : item data
  * @returns {*}
  */
-export const fetchSingleUser = id => {
-  return Request.get({path: `users/${id}`});
-};
+export const updateItem = item =>
+  Request.put({path: `items/${item?.item_id}`, body: item});
 
 /**
- * Add user
- * @param body : params
+ * Remove item
+ * @param id : item id
  * @returns {*}
  */
-export const addUser = body => {
-  return Request.post({path: `users`, body});
-};
-
-/**
- * Update user
- * @param id : user id
- * @param body : params
- * @returns {*}
- */
-export const updateUser = (id, body) => {
-  return Request.put({path: `users/${id}`, body});
-};
-
-/**
- * Remove user
- * @param id : user id
- * @returns {*}
- */
-export const removeUser = body => {
-  return Request.post({path: `users/delete`, body});
-};
+export const removeItem = body => Request.post({path: `items/delete`, body});

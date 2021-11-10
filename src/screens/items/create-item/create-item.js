@@ -32,6 +32,7 @@ import {IProps} from './create-item-types';
 export class CreateItem extends React.Component<IProps> {
   constructor(props) {
     super(props);
+    this.itemRefs = {};
   }
 
   setFormField = (field, value) => {
@@ -39,7 +40,20 @@ export class CreateItem extends React.Component<IProps> {
   };
 
   saveItem = values => {
-    const {itemId, navigation, type, screen, dispatch} = this.props;
+    const {
+      itemId,
+      navigation,
+      screen,
+      dispatch,
+      isDeleting,
+      isSaving,
+      isCreateScreen
+    } = this.props;
+
+    if (isSaving || isDeleting) {
+      return;
+    }
+
     if (this.finalAmount() < 0) {
       alert(t('items.less_amount'));
       return;
@@ -63,7 +77,7 @@ export class CreateItem extends React.Component<IProps> {
         })
     };
 
-    const callback = () => {
+    if (isCreateScreen) {
       dispatch(
         itemActions[screen].addItem({
           item,
@@ -72,14 +86,9 @@ export class CreateItem extends React.Component<IProps> {
           }
         })
       );
-    };
-
-    if (!itemId) {
-      callback();
     } else {
       const itemData = [{...item, item_id: itemId}];
-
-      if (type === 'UPDATE') {
+      if (screen !== 'item' && !isCreateScreen) {
         dispatch(itemActions[screen].removeItem({id: itemId}));
       }
       dispatch(itemActions[screen].setItems(itemData));
@@ -198,6 +207,48 @@ export class CreateItem extends React.Component<IProps> {
     return this.totalAmount() + this.itemCompoundTax();
   };
 
+  PRICE = () => {
+    const currency = this.props.route?.params?.currency;
+    return (
+      <Field
+        name="price"
+        isRequired
+        component={BaseInput}
+        leftSymbol={currency?.symbol}
+        hint={t('items.price')}
+        keyboardType={keyboardType.DECIMAL}
+        refLinkFn={ref => {
+          this.itemRefs.price = ref;
+        }}
+        isCurrencyInput
+      />
+    );
+  };
+
+  PRICE_AND_QUANTITY = () => {
+    return (
+      <CtView flex={1} flex-row>
+        <CtView flex={1} justify-between>
+          <Field
+            name={'quantity'}
+            component={BaseInput}
+            isRequired
+            hint={t('items.quantity')}
+            onSubmitEditing={() => this.itemRefs.price.focus()}
+            keyboardType={keyboardType.DECIMAL}
+            refLinkFn={ref => {
+              this.itemRefs.quantity = ref;
+            }}
+          />
+        </CtView>
+        <CtView flex={0.07} />
+        <CtView flex={1} justify-between>
+          {this.PRICE()}
+        </CtView>
+      </CtView>
+    );
+  };
+
   FINAL_AMOUNT = () => {
     const {
       formValues: {quantity, price, taxes},
@@ -220,11 +271,7 @@ export class CreateItem extends React.Component<IProps> {
               style={styles.label(theme)}
             />
           </View>
-          <View
-            style={{
-              marginTop: definePlatformParam(6, 5)
-            }}
-          >
+          <View style={{marginTop: definePlatformParam(6, 5)}}>
             <CurrencyFormat
               amount={this.itemSubTotal()}
               currency={currency}
@@ -329,23 +376,22 @@ export class CreateItem extends React.Component<IProps> {
       navigation,
       handleSubmit,
       loading,
-      formValues: {discount_type, taxes},
+      formValues: {discount_type, taxes, unit},
       initialValues,
-      type,
+      screen,
       discountPerItem,
       itemId,
       taxTypes,
       taxPerItem,
       units,
+      isCreateScreen,
       fetchItemUnits,
       getTaxes,
-      theme,
-      route
+      theme
     } = this.props;
 
-    const currency = route?.params?.currency;
-    const isCreateItem = type === 'ADD';
-    let itemRefs = {};
+    const isItemScreen = screen === 'item';
+    const unitName = unit?.name;
 
     const bottomAction = (
       <BaseButtonGroup>
@@ -353,7 +399,7 @@ export class CreateItem extends React.Component<IProps> {
           {t('button.save')}
         </BaseButton>
         <BaseButton
-          show={!isCreateItem}
+          show={!isCreateScreen}
           loading={loading}
           onPress={this.removeItem}
           type="danger"
@@ -367,7 +413,7 @@ export class CreateItem extends React.Component<IProps> {
       <DefaultLayout
         headerProps={{
           leftIconPress: () => navigation.goBack(null),
-          title: isCreateItem ? t('header.add_item') : t('header.edit_item'),
+          title: isCreateScreen ? t('header.add_item') : t('header.edit_item'),
           placement: 'center',
           rightIcon: 'save',
           rightIconProps: {
@@ -382,47 +428,19 @@ export class CreateItem extends React.Component<IProps> {
           isRequired
           component={BaseInput}
           hint={t('items.name')}
-          onSubmitEditing={() => itemRefs.quantity.focus()}
+          onSubmitEditing={() => this.itemRefs.quantity.focus()}
         />
 
-        <CtView flex={1} flex-row>
-          <CtView flex={1} justify-between>
-            <Field
-              name={'quantity'}
-              component={BaseInput}
-              isRequired
-              hint={t('items.quantity')}
-              onSubmitEditing={() => itemRefs.price.focus()}
-              keyboardType={keyboardType.DECIMAL}
-              refLinkFn={ref => {
-                itemRefs.quantity = ref;
-              }}
-            />
-          </CtView>
-          <CtView flex={0.07} />
-          <CtView flex={1} justify-between>
-            <Field
-              name="price"
-              isRequired
-              component={BaseInput}
-              leftSymbol={currency?.symbol}
-              hint={t('items.price')}
-              keyboardType={keyboardType.DECIMAL}
-              refLinkFn={ref => {
-                itemRefs.price = ref;
-              }}
-              isCurrencyInput
-            />
-          </CtView>
-        </CtView>
+        {isItemScreen ? this.PRICE() : this.PRICE_AND_QUANTITY()}
 
-        {(initialValues?.unit || !itemId) && (
+        {(!itemId || isItemScreen) && (
           <Field
             name="unit_id"
             component={UnitSelectModal}
             units={units}
             fetchItemUnits={fetchItemUnits}
             onSelect={item => this.setFormField('unit_id', item.id)}
+            placeholder={unitName ? unitName : t('items.unit_placeholder')}
           />
         )}
 

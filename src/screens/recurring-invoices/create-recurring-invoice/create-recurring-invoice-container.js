@@ -15,7 +15,6 @@ import {
 } from 'stores/common/selectors';
 import {getCustomers} from '@/features/customers/actions';
 import {getTaxes, getNotes} from '@/features/settings/actions';
-import {getItems} from '@/features/more/actions';
 import {initialValues} from 'stores/recurring-invoices/helpers';
 
 const mapStateToProps = (state, {route}) => {
@@ -29,7 +28,7 @@ const mapStateToProps = (state, {route}) => {
     },
     settings: {notes, customFields},
     recurringInvoices: {selectedItems, invoiceTemplates},
-    more: {items},
+    items: {items},
     customers: {customers}
   } = state;
   return {
@@ -55,8 +54,7 @@ const mapStateToProps = (state, {route}) => {
 const mapDispatchToProps = {
   getCustomers,
   getTaxes,
-  getNotes,
-  getItems
+  getNotes
 };
 
 const CreateRecurringInvoiceForm = reduxForm({

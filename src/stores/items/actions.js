@@ -6,37 +6,20 @@ import * as types from './types';
  * @param value
  * @returns {{type: string, payload: *}}
  */
-export function spinner(name, value) {
-  return {
-    type: types.SPINNER,
-    payload: {name, value}
-  };
-}
+export const spinner = (name, value) => ({
+  type: types.SPINNER,
+  payload: {name, value}
+});
 
 /**
- * Fetch users
+ * Fetch items
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function fetchUsers(payload = {}) {
-  return {
-    type: types.FETCH_USERS,
-    payload
-  };
-}
-
-/**
- * Fetch single user
- * @param id
- * @param onSuccess
- * @returns {{type: string, payload: *}}
- */
-export function fetchSingleUser(id, onSuccess) {
-  return {
-    type: types.FETCH_SINGLE_USER,
-    payload: {id, onSuccess}
-  };
-}
+export const fetchItems = (payload = {}) => ({
+  type: types.FETCH_ITEMS,
+  payload
+});
 
 /**
  * Add item
@@ -49,27 +32,23 @@ export const addItem = (payload = {}) => ({
 });
 
 /**
- * Update user
+ * Update item
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function updateUser(payload = {}) {
-  return {
-    type: types.UPDATE_USER,
-    payload
-  };
-}
+export const updateItem = (payload = {}) => ({
+  type: types.UPDATE_ITEM,
+  payload
+});
 
 /**
- * Remove user
+ * Remove item
  * @param id
  * @param navigation
  * @param onFail
  * @returns {{type: string, payload: *}}
  */
-export function removeUser(id, navigation, onFail) {
-  return {
-    type: types.REMOVE_USER,
-    payload: {id, navigation, onFail}
-  };
-}
+export const removeItem = (id, navigation, onFail) => ({
+  type: types.REMOVE_ITEM,
+  payload: {id, navigation, onFail}
+});

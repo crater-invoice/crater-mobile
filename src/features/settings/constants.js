@@ -204,7 +204,7 @@ export const SETTINGS_MENU = () => {
       },
       show:
         PermissionService.isAllowToView(routes.MAIN_PAYMENTS) ||
-        PermissionService.isAllowToView(routes.GLOBAL_ITEMS)
+        PermissionService.isAllowToView(routes.ITEMS)
     },
     {
       title: t('settings.taxes'),

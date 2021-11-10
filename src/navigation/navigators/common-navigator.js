@@ -11,9 +11,6 @@ import Expense from '@/features/expenses/containers/Expense';
 
 import Payment from '@/features/payments/containers/Payment';
 
-import Items from '@/features/more/containers/Items';
-import Item from '@/features/more/containers/Item';
-
 import Reports from '@/features/more/containers/Reports';
 import Report from '@/features/more/containers/Report';
 
@@ -45,7 +42,6 @@ import {
 } from 'screens/recurring-invoices';
 import {Roles, CreateRole} from 'screens/roles';
 import {ItemUnits} from 'screens/item-units';
-import {CreateItem} from '@/components/items/create-item';
 import {
   CustomizeList,
   CustomizeInvoice,
@@ -54,6 +50,7 @@ import {
 } from 'screens/customize';
 import {CreateInvoice} from 'screens/invoices/create-invoice';
 import {Estimates, CreateEstimate} from 'screens/estimates';
+import {Items, CreateItem} from 'screens/items';
 
 const Stack = createStackNavigator();
 
@@ -116,16 +113,7 @@ export const CommonNavigator = (
     <Stack.Screen name={routes.PAYMENT} component={Payment} options={options} />
 
     {/* Items Navigator */}
-    <Stack.Screen
-      name={routes.GLOBAL_ITEMS}
-      component={Items}
-      options={options}
-    />
-    <Stack.Screen
-      name={routes.GLOBAL_ITEM}
-      component={Item}
-      options={options}
-    />
+    <Stack.Screen name={routes.ITEMS} component={Items} options={options} />
 
     {/* Create Item Navigator */}
     <Stack.Screen
