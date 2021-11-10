@@ -16,10 +16,10 @@ const abilities = [
   {route: routes.CUSTOMER, ability: 'delete-customer'},
 
   // Item
-  {route: routes.GLOBAL_ITEMS, ability: 'view-item'},
-  {route: routes.GLOBAL_ITEMS, ability: 'create-item'},
-  {route: routes.GLOBAL_ITEM, ability: 'edit-item'},
-  {route: routes.GLOBAL_ITEM, ability: 'delete-item'},
+  {route: routes.ITEMS, ability: 'view-item'},
+  {route: routes.ITEMS, ability: 'create-item'},
+  {route: routes.CREATE_ITEM, ability: 'edit-item'},
+  {route: routes.CREATE_ITEM, ability: 'delete-item'},
 
   // Estimate
   {route: routes.ESTIMATES, ability: 'view-estimate'},

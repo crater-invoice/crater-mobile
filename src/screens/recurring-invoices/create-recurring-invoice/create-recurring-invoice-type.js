@@ -59,11 +59,6 @@ export interface IProps {
   items: Array<any>;
 
   /**
-   * An action to return a list of items.
-   */
-  getItems?: () => void;
-
-  /**
    * Custom-Fields created by user.
    */
   customFields: any;

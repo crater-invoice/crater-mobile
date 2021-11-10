@@ -1,12 +1,12 @@
 import React from 'react';
 import {BaseLabel, CurrencyFormat, ListView} from '@/components';
 import t from 'locales/use-translation';
-import styles from './modal-items-styles';
+import styles from './item-field-styles';
 import {Field} from 'redux-form';
 import {routes} from '@/navigation';
 import {ItemSelectModal} from '@/select-modal';
 import {isEmpty} from '@/constants';
-import {IProps} from './modal-items-types';
+import {IProps} from './item-field-types';
 
 export class ItemField extends React.Component<IProps> {
   constructor(props) {
@@ -93,7 +93,6 @@ export class ItemField extends React.Component<IProps> {
     const {
       selectedItems,
       items,
-      getItems,
       theme,
       currency,
       navigation,
@@ -134,7 +133,6 @@ export class ItemField extends React.Component<IProps> {
         <Field
           name="items"
           items={items}
-          getItems={getItems}
           component={ItemSelectModal}
           disabled={disabled}
           onSelect={this.onSelect}

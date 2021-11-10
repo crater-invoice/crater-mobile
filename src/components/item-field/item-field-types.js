@@ -27,11 +27,6 @@ export interface IProps {
   items: Array<any>;
 
   /**
-   * An action to return a list of items.
-   */
-  getItems?: () => void;
-
-  /**
    * An active theme object.
    * @see ITheme
    */

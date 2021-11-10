@@ -2,17 +2,6 @@ import Request from '@/utils/request';
 import * as queryString from 'query-string';
 
 /**
- * Add recurring-invoices item
- * @param body : params
- * @returns {*}
- */
-export const addRecurringInvoiceItem = item => {
-  const {price, name, description, taxes, unit_id} = item;
-  const body = {name, description, price, unit_id, taxes};
-  return Request.post({path: `items`, body});
-};
-
-/**
  * Fetch Next-Invoice-At
  * @param body : params
  * @returns {*}

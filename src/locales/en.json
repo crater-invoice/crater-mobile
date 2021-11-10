@@ -529,6 +529,7 @@
     }
   },
   "currencies": {
+    "title": "Currencies",
     "name": "Name",
     "empty": {
       "title": "No currencies yet!",

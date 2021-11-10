@@ -8,6 +8,7 @@ import t from 'locales/use-translation';
 import {navigation} from '@/navigation';
 import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
 import {getCustomFields} from '@/features/settings/saga/custom-fields';
+import {addItem} from '../items/saga';
 
 /**
  * Fetch Next-Invoice-At saga
@@ -161,8 +162,7 @@ function* addRecurringInvoiceItem({payload}) {
   try {
     yield put(spinner('isSaving', true));
     const {item, onSuccess} = payload;
-    const {data} = yield call(req.addRecurringInvoiceItem, item);
-    const items = [{...data, item_id: data.id, ...item}];
+    const items = yield call(addItem, {payload: {item, returnCallback: true}});
     yield put({
       type: types.ADD_RECURRING_INVOICE_ITEM_SUCCESS,
       payload: items ?? []

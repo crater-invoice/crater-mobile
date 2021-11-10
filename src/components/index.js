@@ -34,7 +34,7 @@ export * from './view';
 export * from './internal-pagination';
 export * from './button-view';
 export * from './notes';
-export * from './items';
+export * from './item-field';
 export * from './template-field';
 export * from './final-amount';
 export * from './view-data';

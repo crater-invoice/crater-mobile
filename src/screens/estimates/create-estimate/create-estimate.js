@@ -380,7 +380,6 @@ export default class Estimate extends React.Component<IProps, IStates> {
       handleSubmit,
       estimateData: {estimateTemplates} = {},
       selectedItems,
-      getItems,
       items,
       getCustomers,
       customers,
@@ -533,7 +532,6 @@ export default class Estimate extends React.Component<IProps, IStates> {
           currency={this.state.currency}
           selectedItems={selectedItems}
           items={getItemList(items)}
-          getItems={getItems}
           screen="estimate"
           setFormField={this.setFormField}
         />

@@ -2,55 +2,55 @@ import * as types from './types';
 import {isEmpty} from '@/constants';
 
 const initialState = {
-  users: [],
+  items: [],
   isSaving: false,
   isDeleting: false
 };
 
-export default function usersReducer(state = initialState, action) {
+export default function itemsReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {
     case types.SPINNER:
       return {...state, [payload.name]: payload.value};
 
-    case types.FETCH_USERS_SUCCESS:
+    case types.FETCH_ITEMS_SUCCESS:
       if (payload.fresh) {
-        return {...state, users: payload.users};
+        return {...state, items: payload.items};
       }
 
-      return {...state, users: [...state.users, ...payload.users]};
+      return {...state, items: [...state.items, ...payload.items]};
 
-    case types.ADD_USER_SUCCESS:
+    case types.ADD_ITEM_SUCCESS:
       return {
         ...state,
-        users: [...[payload], ...state.users]
+        items: [...[payload], ...state.items]
       };
 
-    case types.UPDATE_USER_SUCCESS:
-      const userData = payload;
-      const userList = [];
+    case types.UPDATE_ITEM_SUCCESS:
+      const itemData = payload;
+      const itemList = [];
 
-      if (isEmpty(state.users)) {
+      if (isEmpty(state.items)) {
         return state;
       }
 
-      state.users.map(user => {
-        const {id} = user;
-        let value = user;
+      state.items.map(item => {
+        const {id} = item;
+        let value = item;
 
-        if (id === userData.id) {
-          value = userData;
+        if (id === itemData.id) {
+          value = itemData;
         }
-        userList.push(value);
+        itemList.push(value);
       });
 
-      return {...state, users: userList};
+      return {...state, items: itemList};
 
-    case types.REMOVE_USER_SUCCESS:
+    case types.REMOVE_ITEM_SUCCESS:
       return {
         ...state,
-        users: state.users.filter(({id}) => id !== payload)
+        items: state.items.filter(({id}) => id !== payload)
       };
 
     default:

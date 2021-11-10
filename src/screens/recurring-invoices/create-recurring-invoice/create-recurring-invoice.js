@@ -251,7 +251,6 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       getCustomers,
       selectedItems,
       items,
-      getItems,
       customFields,
       navigation,
       statusList,
@@ -402,7 +401,6 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           currency={this.state.currency}
           selectedItems={selectedItems}
           items={getItemList(items)}
-          getItems={getItems}
           screen="recurring_invoice"
           setFormField={this.setFormField}
         />

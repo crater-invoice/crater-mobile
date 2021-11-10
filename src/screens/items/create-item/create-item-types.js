@@ -7,11 +7,6 @@ export interface IProps {
   screen: string;
 
   /**
-   * Type of current screen.
-   */
-  type: string;
-
-  /**
    * dispatch change action.
    */
   dispatch: (fun: object) => void;
@@ -46,7 +41,7 @@ export interface IProps {
   /**
    * Discount per item.
    */
-  discount_per_item: boolean;
+  discountPerItem: boolean;
 
   /**
    * Id of the current Item.
@@ -61,7 +56,7 @@ export interface IProps {
   /**
    *  Tax per item.
    */
-  tax_per_item: boolean;
+  taxPerItem: boolean;
 
   /**
    * An array of objects with data for each unit.
@@ -88,4 +83,19 @@ export interface IProps {
    * Route props for params.
    */
   route: Object<any>;
+
+  /**
+   * The loading indicator for the button.
+   */
+  isSaving: boolean;
+
+  /**
+   * The loading indicator for the button.
+   */
+  isDeleting: boolean;
+
+  /**
+   * It is a create screen view.
+   */
+  isCreateScreen: boolean;
 }
