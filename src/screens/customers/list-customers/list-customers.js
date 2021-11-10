@@ -1,18 +1,22 @@
 import React from 'react';
-import t from 'locales/use-translation';
-import {ListView, MainLayout, InfiniteScroll, AssetImage} from '@/components';
 import {routes} from '@/navigation';
-import {customersFilterFields as filterFields} from './filterFields';
+import {IProps, IStates} from './list-customers-type';
+import {isEmpty} from '@/constants';
 import {isFilterApply} from '@/utils';
-import {PermissionService} from '@/services';
+import filterFields from './list-customers-filters';
+import t from 'locales/use-translation';
+import {fetchCustomers} from '@/stores/customers/actions';
+import {
+  MainLayout,
+  ListView,
+  InfiniteScroll,
+  BaseEmptyPlaceholder
+} from '@/components';
 
-type IProps = {
-  customers: Object,
-  navigation: Object,
-  formValues: any
-};
+export default class Customers extends React.Component<IProps, IStates> {
+  scrollViewReference: any;
+  focusListener: any;
 
-export class Customers extends React.Component<IProps> {
   constructor(props) {
     super(props);
     this.scrollViewReference = React.createRef();
@@ -20,16 +24,19 @@ export class Customers extends React.Component<IProps> {
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
-
-    this.focusListener = navigation.addListener('focus', () => {
-      this.scrollViewReference?.getItems?.();
-    });
+    this.onFocus();
   }
 
   componentWillUnmount() {
     this.focusListener?.remove?.();
   }
+
+  onFocus = () => {
+    const {navigation} = this.props;
+    this.focusListener = navigation.addListener('focus', () => {
+      this.scrollViewReference?.getItems?.();
+    });
+  };
 
   onSearch = search => {
     this.setState({search});
@@ -41,7 +48,6 @@ export class Customers extends React.Component<IProps> {
 
   onResetFilter = () => {
     const {search} = this.state;
-
     this.scrollViewReference?.getItems?.({
       queryString: {search},
       resetQueryString: true,
@@ -51,21 +57,20 @@ export class Customers extends React.Component<IProps> {
 
   onSubmitFilter = ({name = '', contact_name = '', phone = ''}) => {
     const {search} = this.state;
-
     this.scrollViewReference?.getItems?.({
+      showLoader: true,
       queryString: {
         display_name: name,
         contact_name,
         phone,
         search
-      },
-      showLoader: true
+      }
     });
   };
 
   onSelect = customer => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CUSTOMER, {
+    navigation.navigate(routes.CREATE_CUSTOMER, {
       id: customer.id,
       type: 'UPDATE'
     });
@@ -76,44 +81,17 @@ export class Customers extends React.Component<IProps> {
       customers,
       navigation,
       handleSubmit,
-      getCustomer,
       formValues,
-      route
+      route,
+      dispatch
     } = this.props;
-
     const {search} = this.state;
-    const isEmpty = customers && customers.length <= 0;
     const isFilter = isFilterApply(formValues);
-
-    const emptyTitle = search
-      ? 'search.no_result'
-      : isFilter
-      ? 'filter.empty.filter_title'
-      : 'customers.empty.title';
-
-    const emptyContentProps = {
-      title: t(emptyTitle, {search}),
-      image: AssetImage.images.empty_customers,
-      ...(!search && {
-        description: t('customers.empty.description')
-      }),
-      ...(!search &&
-        !isFilter && {
-          buttonTitle: t('customers.empty.button_title'),
-          buttonPress: () => {
-            navigation.navigate(routes.CUSTOMER, {
-              type: 'ADD'
-            });
-          }
-        })
-    };
 
     const headerProps = {
       rightIcon: 'plus',
       rightIconPress: () => {
-        navigation.navigate(routes.CUSTOMER, {
-          type: 'ADD'
-        });
+        navigation.navigate(routes.CREATE_CUSTOMER, {type: 'ADD'});
       },
       title: t('header.customers'),
       route
@@ -121,7 +99,7 @@ export class Customers extends React.Component<IProps> {
 
     const filterProps = {
       onSubmitFilter: handleSubmit(this.onSubmitFilter),
-      inputFields: filterFields(),
+      inputFields: filterFields,
       clearFilter: this.props,
       onResetFilter: () => this.onResetFilter()
     };
@@ -134,21 +112,24 @@ export class Customers extends React.Component<IProps> {
         bottomDivider
       >
         <InfiniteScroll
-          getItems={getCustomer}
+          getItems={q => dispatch(fetchCustomers(q))}
           reference={ref => (this.scrollViewReference = ref)}
-          getItemsInMount={PermissionService.isAllowToView(
-            routes.MAIN_CUSTOMERS
-          )}
+          getItemsInMount={false}
         >
           <ListView
+            isAnimated
+            hasAvatar
             items={customers}
             onPress={this.onSelect}
-            isEmpty={isEmpty}
+            isEmpty={isEmpty(customers)}
             bottomDivider
-            hasAvatar
-            emptyContentProps={emptyContentProps}
-            route={route}
-            isAnimated
+            emptyPlaceholder={
+              <BaseEmptyPlaceholder
+                {...this.props}
+                search={search}
+                isFilter={isFilter}
+              />
+            }
           />
         </InfiniteScroll>
       </MainLayout>

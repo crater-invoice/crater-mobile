@@ -3,7 +3,6 @@ import CreateInvoice from './create-invoice';
 import {reduxForm, getFormValues} from 'redux-form';
 import {CREATE_INVOICE_FORM} from 'stores/invoices/types';
 import {validate} from 'stores/invoices/validator';
-import {getCustomers} from '@/features/customers/actions';
 import {getItems} from '@/features/more/actions';
 import {loadingSelector} from 'stores/invoices/selectors';
 import {initialValues} from 'stores/invoices/helpers';
@@ -12,6 +11,8 @@ import {fetchNotes} from 'stores/notes/actions';
 import {notesSelector} from 'stores/notes/selectors';
 import {taxTypesSelector} from 'stores/taxes/selectors';
 import {fetchTaxes} from 'stores/taxes/actions';
+import {customersSelector} from 'stores/customers/selectors';
+import {fetchCustomers} from 'stores/customers/actions';
 import {
   commonSelector,
   permissionSelector,
@@ -22,8 +23,7 @@ const mapStateToProps = (state, {route}) => {
   const {
     settings: {customFields},
     invoices: {selectedItems, invoiceData},
-    more: {items},
-    customers: {customers}
+    more: {items}
   } = state;
   return {
     ...loadingSelector(state),
@@ -34,7 +34,7 @@ const mapStateToProps = (state, {route}) => {
     invoiceData,
     items,
     notes: notesSelector(state),
-    customers,
+    customers: customersSelector(state),
     taxTypes: taxTypesSelector(state),
     currency: currentCurrencySelector(state),
     customFields,
@@ -44,7 +44,7 @@ const mapStateToProps = (state, {route}) => {
 };
 
 const mapDispatchToProps = {
-  getCustomers,
+  fetchCustomers,
   fetchTaxes,
   fetchNotes,
   getItems

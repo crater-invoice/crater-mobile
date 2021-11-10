@@ -12,8 +12,8 @@ const abilities = [
   // Customer
   {route: routes.MAIN_CUSTOMERS, ability: 'view-customer'},
   {route: routes.MAIN_CUSTOMERS, ability: 'create-customer'},
-  {route: routes.CUSTOMER, ability: 'edit-customer'},
-  {route: routes.CUSTOMER, ability: 'delete-customer'},
+  {route: routes.CREATE_CUSTOMER, ability: 'edit-customer'},
+  {route: routes.CREATE_CUSTOMER, ability: 'delete-customer'},
 
   // Item
   {route: routes.GLOBAL_ITEMS, ability: 'view-item'},

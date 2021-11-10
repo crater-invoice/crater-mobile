@@ -3,7 +3,7 @@ import {reducer as formReducer} from 'redux-form';
 import auth from 'stores/auth/reducer';
 import invoices from 'stores/invoices/reducer';
 import estimates from 'stores/estimates/reducer';
-import customers from '@/features/customers/reducers';
+import customers from 'stores/customers/reducer';
 import payments from '@/features/payments/reducers';
 import more from '@/features/more/reducers';
 import settings from '@/features/settings/reducers';

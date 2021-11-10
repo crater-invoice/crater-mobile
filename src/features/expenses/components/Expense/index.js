@@ -39,7 +39,7 @@ interface IProps {
   categories: Array<any>;
   customers: Array<any>;
   fetchCategories: () => void;
-  getCustomers: () => void;
+  fetchCustomers: () => void;
   customFields: Array<any>;
   formValues: any;
 }
@@ -197,7 +197,7 @@ export class Expense extends React.Component<IProps, IState> {
 
   navigateToCustomer = () => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CUSTOMER, {
+    navigation.navigate(routes.CREATE_CUSTOMER, {
       type: 'ADD',
       onSelect: item => {
         this.setFormField(`expense.${FIELDS.CUSTOMER}`, item.id);
@@ -223,7 +223,7 @@ export class Expense extends React.Component<IProps, IState> {
       handleSubmit,
       categories,
       fetchCategories,
-      getCustomers,
+      fetchCustomers,
       customers,
       customFields,
       formValues,
@@ -354,7 +354,7 @@ export class Expense extends React.Component<IProps, IState> {
         <Field
           name={`expense.${FIELDS.CUSTOMER}`}
           component={CustomerSelectModal}
-          getCustomers={getCustomers}
+          fetchCustomers={fetchCustomers}
           placeholder={
             customerName ? customerName : t('invoices.customer_placeholder')
           }

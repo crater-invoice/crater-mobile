@@ -105,6 +105,13 @@ const secondaryHeaderTitle = params => {
     case routes.CREATE_TAX:
       return getTitle('header.add_tax', 'header.edit_tax', 'header.view_tax');
 
+    case routes.CREATE_CUSTOMER:
+      return getTitle(
+        'header.add_customer',
+        'header.edit_customer',
+        'header.view_customer'
+      );
+
     default:
       return '';
   }

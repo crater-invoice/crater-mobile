@@ -51,7 +51,7 @@ type IProps = {
   handleSubmit: () => void,
   type: string,
   loading: boolean,
-  getCustomers: () => void,
+  fetchCustomers: () => void,
   notesReference: any
 };
 
@@ -301,7 +301,7 @@ export class Payment extends React.Component<IProps> {
 
   navigateToCustomer = () => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CUSTOMER, {
+    navigation.navigate(routes.CREATE_CUSTOMER, {
       type: 'ADD',
       onSelect: item => {
         this.customerReference?.changeDisplayValue?.(item);
@@ -354,7 +354,7 @@ export class Payment extends React.Component<IProps> {
       navigation,
       handleSubmit,
       customers,
-      getCustomers,
+      fetchCustomers,
       fetchPaymentModes,
       paymentModes,
       formValues,
@@ -459,7 +459,7 @@ export class Payment extends React.Component<IProps> {
         <Field
           name={`payment.${FIELDS.CUSTOMER}`}
           customers={customers}
-          getCustomers={getCustomers}
+          fetchCustomers={fetchCustomers}
           component={CustomerSelectModal}
           disabled={disabled}
           selectedItem={formValues?.payment?.customer}

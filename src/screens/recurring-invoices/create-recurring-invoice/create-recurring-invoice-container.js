@@ -4,13 +4,14 @@ import CreateRecurringInvoice from './create-recurring-invoice';
 import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
 import {validate} from 'stores/recurring-invoices/validator';
 import {currentCurrencySelector} from 'stores/company/selectors';
-import {getCustomers} from '@/features/customers/actions';
 import {getItems} from '@/features/more/actions';
 import {initialValues} from 'stores/recurring-invoices/helpers';
 import {fetchNotes} from 'stores/notes/actions';
 import {notesSelector} from 'stores/notes/selectors';
 import {taxTypesSelector} from 'stores/taxes/selectors';
 import {fetchTaxes} from 'stores/taxes/actions';
+import {customersSelector} from 'stores/customers/selectors';
+import {fetchCustomers} from 'stores/customers/actions';
 import {
   commonSelector,
   permissionSelector,
@@ -31,8 +32,7 @@ const mapStateToProps = (state, {route}) => {
     },
     settings: {customFields},
     recurringInvoices: {selectedItems, invoiceTemplates},
-    more: {items},
-    customers: {customers}
+    more: {items}
   } = state;
   return {
     ...loadingSelector(state),
@@ -43,7 +43,7 @@ const mapStateToProps = (state, {route}) => {
     invoiceTemplates,
     items,
     notes: notesSelector(state),
-    customers,
+    customers: customersSelector(state),
     taxTypes: taxTypesSelector(state),
     dateFormat,
     currency: currentCurrencySelector(state),
@@ -55,7 +55,7 @@ const mapStateToProps = (state, {route}) => {
 };
 
 const mapDispatchToProps = {
-  getCustomers,
+  fetchCustomers,
   fetchTaxes,
   fetchNotes,
   getItems

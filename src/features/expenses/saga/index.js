@@ -2,12 +2,12 @@ import {call, put, takeEvery} from 'redux-saga/effects';
 import Request from 'utils/request';
 import * as queryStrings from 'query-string';
 import * as TYPES from '../constants';
-import {getCustomers} from '@/features/customers/saga';
 import {getCustomFields} from '@/features/settings/saga/custom-fields';
 import {fetchCategories} from 'stores/categories/saga';
 import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
+import {fetchCustomers} from 'stores/customers/saga';
 import {
   setExpenses,
   expenseTriggerSpinner,
@@ -101,7 +101,7 @@ function* getExpenseDetail({payload: {id, onSuccess}}) {
     const response = yield call([Request, 'get'], options);
     const options2 = {path: `expenses/${id}/show/receipt`, throw_error: false};
     const response2 = yield call([Request, 'get'], options2);
-    yield call(getCustomers, {payload: {queryString: {limit: 'all'}}});
+    yield call(fetchCustomers, {payload: {queryString: {limit: 'all'}}});
     yield call(fetchCategories, {payload: {queryString: {limit: 'all'}}});
     yield call(getCustomFields, {
       payload: {

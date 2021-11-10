@@ -363,7 +363,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
     const {navigation} = this.props;
     const {currency} = this.state;
 
-    navigation.navigate(routes.CUSTOMER, {
+    navigation.navigate(routes.CREATE_CUSTOMER, {
       type: 'ADD',
       currency,
       onSelect: item => {
@@ -382,7 +382,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       selectedItems,
       getItems,
       items,
-      getCustomers,
+      fetchCustomers,
       customers,
       formValues,
       customFields,
@@ -516,7 +516,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
         <Field
           name="customer_id"
-          getCustomers={getCustomers}
+          fetchCustomers={fetchCustomers}
           customers={customers}
           component={CustomerSelectModal}
           selectedItem={formValues?.customer}

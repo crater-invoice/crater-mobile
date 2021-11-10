@@ -15,14 +15,14 @@ let selectedToDateValue = '';
 export const invoicesFilterFields = ({props, setFormField}) => {
   const filterRefs = {};
 
-  const {getCustomers, customers, navigation} = props;
+  const {fetchCustomers, customers, navigation} = props;
 
   const selectFields = [
     PermissionService.isAllowToView(routes.MAIN_CUSTOMERS) && {
       name: 'customer_id',
       apiSearch: true,
       hasPagination: true,
-      getItems: getCustomers,
+      getItems: fetchCustomers,
       items: customers,
       displayName: 'name',
       label: t('invoices.customer'),

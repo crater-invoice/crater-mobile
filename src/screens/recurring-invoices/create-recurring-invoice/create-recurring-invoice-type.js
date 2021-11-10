@@ -45,7 +45,7 @@ export interface IProps {
   /**
    * An action to return a list of customer.
    */
-  getCustomers?: () => void;
+  fetchCustomers?: () => void;
 
   /**
    * An array of objects with data for selected items.
