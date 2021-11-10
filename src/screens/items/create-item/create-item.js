@@ -77,7 +77,7 @@ export class CreateItem extends React.Component<IProps> {
         })
     };
 
-    if (isCreateScreen) {
+    if (isCreateScreen && !itemId) {
       dispatch(
         itemActions[screen].addItem({
           item,

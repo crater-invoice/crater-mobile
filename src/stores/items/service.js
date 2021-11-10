@@ -33,4 +33,5 @@ export const updateItem = item =>
  * @param id : item id
  * @returns {*}
  */
-export const removeItem = body => Request.post({path: `items/delete`, body});
+export const removeItem = ({id}) =>
+  Request.post({path: `items/delete`, body: {ids: [id]}});
