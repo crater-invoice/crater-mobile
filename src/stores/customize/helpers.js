@@ -22,7 +22,7 @@ export const CUSTOMIZES_MENU = () => {
     {
       title: t('header.items'),
       fullItem: {route: routes.ITEM_UNITS},
-      show: PermissionService.isAllowToView(routes.GLOBAL_ITEMS)
+      show: PermissionService.isAllowToView(routes.ITEMS)
     }
   ];
 };

@@ -3,7 +3,6 @@ import CreateInvoice from './create-invoice';
 import {reduxForm, getFormValues} from 'redux-form';
 import {CREATE_INVOICE_FORM} from 'stores/invoices/types';
 import {validate} from 'stores/invoices/validator';
-import {getItems} from '@/features/more/actions';
 import {loadingSelector} from 'stores/invoices/selectors';
 import {initialValues} from 'stores/invoices/helpers';
 import {currentCurrencySelector} from 'stores/company/selectors';
@@ -23,7 +22,7 @@ const mapStateToProps = (state, {route}) => {
   const {
     settings: {customFields},
     invoices: {selectedItems, invoiceData},
-    more: {items}
+    items: {items}
   } = state;
   return {
     ...loadingSelector(state),
@@ -46,8 +45,7 @@ const mapStateToProps = (state, {route}) => {
 const mapDispatchToProps = {
   fetchCustomers,
   fetchTaxes,
-  fetchNotes,
-  getItems
+  fetchNotes
 };
 
 const CreateInvoiceReduxForm = reduxForm({

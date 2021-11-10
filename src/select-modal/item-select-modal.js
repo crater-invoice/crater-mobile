@@ -3,6 +3,8 @@ import {AssetImage, SelectField} from '@/components';
 import {routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {colors, itemsDescriptionStyle} from '@/styles';
+import {store} from '@/stores';
+import {fetchItems} from '@/stores/items/actions';
 
 interface IProps {
   /**
@@ -11,24 +13,18 @@ interface IProps {
   items?: Array<any>;
 
   /**
-   * An action to return a list of item.
-   */
-  getItems?: () => void;
-
-  /**
    * Is allowed to edit.
    */
   disabled?: boolean;
 }
 
 export const ItemSelectModal = (props: IProps) => {
-  const {items, getItems, disabled} = props;
-
+  const {items, disabled} = props;
   return (
     <SelectField
       {...props}
       items={items ?? []}
-      getItems={getItems}
+      getItems={q => store.dispatch(fetchItems(q))}
       hasPagination
       apiSearch
       onlyPlaceholder
@@ -38,7 +34,7 @@ export const ItemSelectModal = (props: IProps) => {
       valueCompareField="item_id"
       icon={'percent'}
       placeholder={t('estimates.add_item')}
-      createActionRouteName={routes.GLOBAL_ITEMS}
+      createActionRouteName={routes.ITEMS}
       paginationLimit={15}
       isEditable={!disabled}
       baseSelectProps={{

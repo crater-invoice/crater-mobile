@@ -4,19 +4,19 @@ import {MainLayout, ListView, InfiniteScroll, AssetImage} from '@/components';
 import {routes} from '@/navigation';
 import {ARROW_ICON} from '@/assets';
 import t from 'locales/use-translation';
-import {ITEMS_FORM} from '../../constants';
-import {formatItems, isFilterApply} from '@/utils';
+import {ITEMS_FORM} from 'stores/items/types';
+import {isFilterApply} from '@/utils';
 import {defineSize, hasTextLength} from '@/constants';
-import filterFields from './filterFields';
+import filterFields from './list-items-filter';
 import {itemsDescriptionStyle} from '@/styles';
+import {fetchItems} from '@/stores/items/actions';
 
 type IProps = {
   navigation: Object,
-  getItems: () => void,
   items: Object
 };
 
-export class Items extends React.Component<IProps> {
+export default class Items extends React.Component<IProps> {
   constructor(props) {
     super(props);
     this.scrollViewReference = React.createRef();
@@ -38,9 +38,25 @@ export class Items extends React.Component<IProps> {
     });
   };
 
-  onSelect = ({id}) => {
-    const {navigation} = this.props;
-    navigation.navigate(routes.GLOBAL_ITEM, {type: 'UPDATE', id});
+  onSelect = item => {
+    const {
+      navigation,
+      isAllowToEdit,
+      currency,
+      discount_per_item,
+      tax_per_item
+    } = this.props;
+    if (!isAllowToEdit) {
+      return;
+    }
+    navigation.navigate(routes.CREATE_ITEM, {
+      item,
+      screen: 'item',
+      currency,
+      tax_per_item,
+      type: 'UPDATE',
+      discount_per_item
+    });
   };
 
   onResetFilter = () => {
@@ -78,15 +94,25 @@ export class Items extends React.Component<IProps> {
     });
   };
 
+  onCreateItem = () => {
+    const {navigation, currency, discount_per_item, tax_per_item} = this.props;
+    navigation.navigate(routes.CREATE_ITEM, {
+      screen: 'item',
+      type: 'ADD',
+      currency,
+      discount_per_item,
+      tax_per_item
+    });
+  };
+
   render() {
     const {
       navigation,
       items,
       handleSubmit,
       formValues,
-      getItems,
-      currency,
-      route
+      route,
+      dispatch
     } = this.props;
 
     const {search} = this.state;
@@ -99,11 +125,7 @@ export class Items extends React.Component<IProps> {
       rightIcon: 'plus',
       placement: 'center',
       rightIcon: 'plus',
-      rightIconPress: () => {
-        navigation.navigate(routes.GLOBAL_ITEM, {
-          type: 'ADD'
-        });
-      }
+      rightIconPress: this.onCreateItem
     };
 
     const filterProps = {
@@ -131,11 +153,7 @@ export class Items extends React.Component<IProps> {
       ...(!search &&
         !isFilter && {
           buttonTitle: t('items.empty.button_title'),
-          buttonPress: () => {
-            navigation.navigate(routes.GLOBAL_ITEM, {
-              type: 'ADD'
-            });
-          }
+          buttonPress: this.onCreateItem
         })
     };
 
@@ -148,13 +166,13 @@ export class Items extends React.Component<IProps> {
         bodyStyle="is-full-listView"
       >
         <InfiniteScroll
-          getItems={getItems}
+          getItems={q => dispatch(fetchItems(q))}
           reference={ref => (this.scrollViewReference = ref)}
           getItemsInMount={false}
           paginationLimit={defineSize(15, 15, 15, 20)}
         >
           <ListView
-            items={formatItems(items, currency)}
+            items={items}
             onPress={this.onSelect}
             isEmpty={isEmpty}
             bottomDivider

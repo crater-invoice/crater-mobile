@@ -9,6 +9,7 @@ import * as types from './types';
 import * as req from './service';
 import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
 import {spinner} from './actions';
+import {addItem} from '../items/saga';
 
 /**
  * Fetch invoice templates saga
@@ -143,8 +144,7 @@ function* addInvoiceItem({payload}) {
   try {
     yield put(spinner('isSaving', true));
     const {item, onSuccess} = payload;
-    const {data} = yield call(req.addInvoiceItem, item);
-    const items = [{...data, item_id: data.id, ...item}];
+    const items = yield call(addItem, {payload: {item, returnCallback: true}});
     yield put({type: types.ADD_INVOICE_ITEM_SUCCESS, payload: items ?? []});
     onSuccess?.();
   } catch (e) {

@@ -43,6 +43,7 @@ import {
   changeInvoiceStatus,
   removeInvoice
 } from 'stores/invoices/actions';
+
 export default class CreateInvoice extends React.Component<IProps, IStates> {
   invoiceRefs: any;
   sendMailRef: any;
@@ -360,7 +361,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       handleSubmit,
       invoiceData: {invoiceTemplates} = {},
       selectedItems,
-      getItems,
       items,
       fetchCustomers,
       customers,
@@ -513,7 +513,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           currency={this.state.currency}
           selectedItems={selectedItems}
           items={getItemList(items)}
-          getItems={getItems}
           setFormField={this.setFormField}
           screen="invoice"
         />

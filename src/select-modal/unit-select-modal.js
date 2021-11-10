@@ -14,6 +14,11 @@ interface IProps {
    * An action to return a list of unit.
    */
   fetchItemUnits?: () => void;
+
+  /**
+   * Is allowed to edit.
+   */
+  disabled?: boolean;
 }
 
 export const UnitSelectModal = (props: IProps) => {
@@ -21,6 +26,7 @@ export const UnitSelectModal = (props: IProps) => {
 
   return (
     <SelectField
+      placeholder={t('items.unit_placeholder')}
       {...props}
       items={units ?? []}
       getItems={fetchItemUnits}
@@ -29,7 +35,6 @@ export const UnitSelectModal = (props: IProps) => {
       displayName={'name'}
       label={t('items.unit')}
       icon={'balance-scale'}
-      placeholder={t('items.unit_placeholder')}
       compareField={'id'}
       emptyContentProps={{contentType: 'units'}}
       headerProps={{title: t('items.unit_placeholder')}}

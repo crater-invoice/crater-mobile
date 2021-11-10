@@ -1,11 +1,10 @@
 export const SPINNER = 'items/SPINNER';
 
+export const ITEMS_FORM = 'items/ITEMS_FORM';
 export const CREATE_ITEM_FORM = 'items/CREATE_ITEM_FORM';
 
 export const FETCH_ITEMS = 'items/FETCH_ITEMS';
 export const FETCH_ITEMS_SUCCESS = 'items/FETCH_ITEMS_SUCCESS';
-
-export const FETCH_SINGLE_ITEM = 'items/FETCH_SINGLE_ITEM';
 
 export const ADD_ITEM = 'items/ADD_ITEM';
 export const ADD_ITEM_SUCCESS = 'items/ADD_ITEM_SUCCESS';

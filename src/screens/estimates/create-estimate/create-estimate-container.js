@@ -3,7 +3,6 @@ import CreateEstimate from './create-estimate';
 import {reduxForm, getFormValues} from 'redux-form';
 import {CREATE_ESTIMATE_FORM} from 'stores/estimates/types';
 import {validate} from 'stores/estimates/validator';
-import {getItems} from '@/features/more/actions';
 import {loadingSelector} from 'stores/estimates/selectors';
 import {initialValues} from 'stores/estimates/helpers';
 import {currentCurrencySelector} from 'stores/company/selectors';
@@ -11,19 +10,19 @@ import {fetchNotes} from 'stores/notes/actions';
 import {notesSelector} from 'stores/notes/selectors';
 import {taxTypesSelector} from 'stores/taxes/selectors';
 import {fetchTaxes} from 'stores/taxes/actions';
+import {customersSelector} from 'stores/customers/selectors';
+import {fetchCustomers} from 'stores/customers/actions';
 import {
   commonSelector,
   permissionSelector,
   settingsSelector
 } from 'stores/common/selectors';
-import {customersSelector} from 'stores/customers/selectors';
-import {fetchCustomers} from 'stores/customers/actions';
 
 const mapStateToProps = (state, {route}) => {
   const {
     settings: {customFields},
     estimates: {selectedItems, estimateData},
-    more: {items}
+    items: {items}
   } = state;
 
   return {
@@ -47,8 +46,7 @@ const mapStateToProps = (state, {route}) => {
 const mapDispatchToProps = {
   fetchCustomers,
   fetchTaxes,
-  fetchNotes,
-  getItems
+  fetchNotes
 };
 
 const CreateEstimateReduxForm = reduxForm({

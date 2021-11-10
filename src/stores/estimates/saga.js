@@ -10,6 +10,7 @@ import * as req from './service';
 import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
 import {spinner} from './actions';
 import {FETCH_INVOICES_SUCCESS} from '../invoices/types';
+import {addItem} from '../items/saga';
 
 /**
  * Fetch estimate templates saga
@@ -151,8 +152,7 @@ function* addEstimateItem({payload}) {
   try {
     yield put(spinner('isSaving', true));
     const {item, onSuccess} = payload;
-    const {data} = yield call(req.addEstimateItem, item);
-    const items = [{...data, item_id: data.id, ...item}];
+    const items = yield call(addItem, {payload: {item, returnCallback: true}});
     yield put({type: types.ADD_ESTIMATE_ITEM_SUCCESS, payload: items ?? []});
     onSuccess?.();
   } catch (e) {

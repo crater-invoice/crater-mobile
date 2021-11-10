@@ -25,8 +25,9 @@ export const routes = {
   // Items
   ADD_ITEMS: 'ADD_ITEMS',
   EDIT_ITEM: 'EDIT_ITEM',
-  GLOBAL_ITEM: 'GLOBAL_ITEM',
-  GLOBAL_ITEMS: 'GLOBAL_ITEMS',
+
+  ITEMS: 'ITEMS',
+  CREATE_ITEM: 'CREATE_ITEM',
 
   // Estimate & items
   ESTIMATES: 'ESTIMATES',
@@ -93,8 +94,5 @@ export const routes = {
   LOST_CONNECTION: 'LOST_CONNECTION',
 
   // Update App Version
-  UPDATE_APP_VERSION: 'UPDATE_APP_VERSION',
-
-  // Create Item
-  CREATE_ITEM: 'CREATE_ITEM'
+  UPDATE_APP_VERSION: 'UPDATE_APP_VERSION'
 };
