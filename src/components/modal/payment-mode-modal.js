@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {reduxForm, change} from 'redux-form';
 import {InputModal} from '../input-modal';
-import {addPaymentMode} from 'stores/payment-modes/actions';
+import {addPaymentMode} from 'stores/payment-mode/actions';
 import t from 'locales/use-translation';
 import {hasValue} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
-import {loadingSelector} from 'stores/payment-modes/selectors';
+import {loadingSelector} from 'stores/payment-mode/selectors';
 
 interface IProps {
   isSaving: boolean;

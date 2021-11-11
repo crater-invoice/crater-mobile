@@ -2,10 +2,10 @@ import {connect} from 'react-redux';
 import {reduxForm, getFormValues} from 'redux-form';
 import CreateNote from './create-note';
 import {hasValue} from '@/constants';
-import {validate} from 'stores/notes/validator';
+import {validate} from 'stores/note/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
-import {loadingSelector} from 'stores/notes/selectors';
-import {CREATE_NOTE_FORM} from 'stores/notes/types';
+import {loadingSelector} from 'stores/note/selectors';
+import {CREATE_NOTE_FORM} from 'stores/note/types';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 
 const mapStateToProps = (state, {route}) => {

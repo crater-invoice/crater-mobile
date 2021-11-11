@@ -2,7 +2,7 @@ import t from 'locales/use-translation';
 import {
   FILTER_INVOICE_STATUS,
   FILTER_INVOICE_PAID_STATUS
-} from 'stores/invoices/types';
+} from 'stores/invoice/types';
 import {AssetImage} from '@/components';
 import {PermissionService} from '@/services';
 import {routes} from '@/navigation';

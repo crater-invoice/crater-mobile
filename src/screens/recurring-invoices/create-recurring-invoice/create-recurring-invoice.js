@@ -5,7 +5,7 @@ import t from 'locales/use-translation';
 import {IProps, IStates} from './create-recurring-invoice-type';
 import {routes} from '@/navigation';
 import {alertMe, isEmpty} from '@/constants';
-import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
+import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoice/types';
 import {
   DefaultLayout,
   BaseDatePicker,
@@ -26,7 +26,7 @@ import {
   updateRecurringInvoice,
   removeRecurringInvoice,
   fetchNextInvoiceAt
-} from 'stores/recurring-invoices/actions';
+} from 'stores/recurring-invoice/actions';
 import {CustomerSelectModal} from '@/select-modal';
 import {TemplateField} from '@/components';
 import styles from './create-recurring-invoice-styles';

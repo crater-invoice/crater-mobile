@@ -22,8 +22,8 @@ import {
   MARK_AS_ACCEPT,
   MARK_AS_REJECT,
   MARK_AS_SENT
-} from 'stores/estimates/types';
-import {EDIT_ESTIMATE_ACTIONS} from 'stores/estimates/helpers';
+} from 'stores/estimate/types';
+import {EDIT_ESTIMATE_ACTIONS} from 'stores/estimate/helpers';
 import {headerTitle} from '@/styles';
 import {TemplateField} from '@/components';
 import {dismissRoute, routes} from '@/navigation';
@@ -44,7 +44,7 @@ import {CustomerSelectModal} from '@/select-modal';
 import {setCalculationRef} from 'stores/common/helpers';
 import {showNotification} from '@/utils';
 import {IProps, IStates} from './create-estimate-type';
-import {initialValues} from 'stores/estimates/helpers';
+import {initialValues} from 'stores/estimate/helpers';
 import {
   fetchEstimateInitialDetails,
   fetchSingleEstimate,
@@ -53,7 +53,7 @@ import {
   removeEstimate,
   addEstimate,
   updateEstimate
-} from 'stores/estimates/actions';
+} from 'stores/estimate/actions';
 
 export default class Estimate extends React.Component<IProps, IStates> {
   estimateRefs: any;

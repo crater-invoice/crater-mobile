@@ -1,5 +1,5 @@
 import t from 'locales/use-translation';
-import {FILTER_ESTIMATE_STATUS} from 'stores/estimates/types';
+import {FILTER_ESTIMATE_STATUS} from 'stores/estimate/types';
 import {AssetImage} from '@/components';
 import {PermissionService} from '@/services';
 import {routes} from '@/navigation';

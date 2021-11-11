@@ -1,11 +1,11 @@
 import {connect} from 'react-redux';
 import Estimates from './list-estimates';
 import {reduxForm, getFormValues} from 'redux-form';
-import {ESTIMATES_FORM} from 'stores/estimates/types';
+import {ESTIMATES_FORM} from 'stores/estimate/types';
 import {commonSelector} from 'stores/common/selectors';
-import {estimateSelector, loadingSelector} from 'stores/estimates/selectors';
-import {customersSelector} from 'stores/customers/selectors';
-import {fetchCustomers} from 'stores/customers/actions';
+import {estimateSelector, loadingSelector} from 'stores/estimate/selectors';
+import {customersSelector} from 'stores/customer/selectors';
+import {fetchCustomers} from 'stores/customer/actions';
 
 const mapStateToProps = state => ({
   customers: customersSelector(state),

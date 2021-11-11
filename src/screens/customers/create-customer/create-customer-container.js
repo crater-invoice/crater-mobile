@@ -1,9 +1,9 @@
 import {connect} from 'react-redux';
 import {reduxForm, getFormValues} from 'redux-form';
 import CreateCustomer from './create-customer';
-import {validate} from 'stores/customers/validator';
-import {loadingSelector} from 'stores/customers/selectors';
-import {CREATE_CUSTOMER_FORM} from 'stores/customers/types';
+import {validate} from 'stores/customer/validator';
+import {loadingSelector} from 'stores/customer/selectors';
+import {CREATE_CUSTOMER_FORM} from 'stores/customer/types';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 import {
   commonSelector,

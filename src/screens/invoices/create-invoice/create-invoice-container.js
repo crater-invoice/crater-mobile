@@ -1,17 +1,17 @@
 import {connect} from 'react-redux';
 import CreateInvoice from './create-invoice';
 import {reduxForm, getFormValues} from 'redux-form';
-import {CREATE_INVOICE_FORM} from 'stores/invoices/types';
-import {validate} from 'stores/invoices/validator';
-import {loadingSelector} from 'stores/invoices/selectors';
-import {initialValues} from 'stores/invoices/helpers';
+import {CREATE_INVOICE_FORM} from 'stores/invoice/types';
+import {validate} from 'stores/invoice/validator';
+import {loadingSelector} from 'stores/invoice/selectors';
+import {initialValues} from 'stores/invoice/helpers';
 import {currentCurrencySelector} from 'stores/company/selectors';
-import {fetchNotes} from 'stores/notes/actions';
-import {notesSelector} from 'stores/notes/selectors';
-import {taxTypesSelector} from 'stores/taxes/selectors';
-import {fetchTaxes} from 'stores/taxes/actions';
-import {customersSelector} from 'stores/customers/selectors';
-import {fetchCustomers} from 'stores/customers/actions';
+import {fetchNotes} from 'stores/note/actions';
+import {notesSelector} from 'stores/note/selectors';
+import {taxTypesSelector} from 'stores/tax-type/selectors';
+import {fetchTaxes} from 'stores/tax-type/actions';
+import {customersSelector} from 'stores/customer/selectors';
+import {fetchCustomers} from 'stores/customer/actions';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 import {
   commonSelector,
@@ -21,8 +21,8 @@ import {
 
 const mapStateToProps = (state, {route}) => {
   const {
-    invoices: {selectedItems, invoiceData},
-    items: {items}
+    invoice: {selectedItems, invoiceData},
+    item: {items}
   } = state;
   return {
     ...loadingSelector(state),

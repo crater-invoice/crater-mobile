@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {reduxForm, getFormValues} from 'redux-form';
 import Address from './customer-address';
 import {commonSelector, countriesSelector} from 'stores/common/selectors';
-import {ADDRESS_FORM} from 'stores/customers/types';
+import {ADDRESS_FORM} from 'stores/customer/types';
 
 const mapStateToProps = (state, {route}) => ({
   ...commonSelector(state),

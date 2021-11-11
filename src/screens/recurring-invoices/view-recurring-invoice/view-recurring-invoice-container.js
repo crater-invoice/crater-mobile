@@ -1,13 +1,13 @@
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import ViewRecurringInvoice from './view-recurring-invoice';
-import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoices/types';
-import {validate} from 'stores/recurring-invoices/validator';
+import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoice/types';
+import {validate} from 'stores/recurring-invoice/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {
   loadingSelector,
   statusSelector
-} from 'stores/recurring-invoices/selectors';
+} from 'stores/recurring-invoice/selectors';
 import {routes} from '@/navigation';
 
 const mapStateToProps = (state, {route}) => {

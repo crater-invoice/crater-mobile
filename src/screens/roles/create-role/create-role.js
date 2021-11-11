@@ -4,7 +4,7 @@ import {find} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-role-type';
 import {alertMe, hasValue} from '@/constants';
-import {CREATE_ROLE_FORM} from 'stores/roles/types';
+import {CREATE_ROLE_FORM} from 'stores/role/types';
 import {secondaryHeader} from 'utils/header';
 import {showNotification} from '@/utils';
 import {
@@ -27,7 +27,7 @@ import {
   fetchSingleRole,
   selectAllPermissions,
   resetPermissions
-} from 'stores/roles/actions';
+} from 'stores/role/actions';
 
 export default class CreateRole extends Component<IProps, IStates> {
   constructor(props) {

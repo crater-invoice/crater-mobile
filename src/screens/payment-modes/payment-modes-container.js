@@ -3,9 +3,9 @@ import {PaymentModes} from './payment-modes';
 import {routes} from '@/navigation';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {getFormValues, reduxForm} from 'redux-form';
-import {PAYMENT_MODES_FORM} from 'stores/payment-modes/types';
-import {fetchPaymentModes} from 'stores/payment-modes/actions';
-import {loadingSelector, modesSelector} from 'stores/payment-modes/selectors';
+import {PAYMENT_MODES_FORM} from 'stores/payment-mode/types';
+import {fetchPaymentModes} from 'stores/payment-mode/actions';
+import {loadingSelector, modesSelector} from 'stores/payment-mode/selectors';
 
 const mapStateToProps = state => ({
   formValues: getFormValues(PAYMENT_MODES_FORM)(state) || {},

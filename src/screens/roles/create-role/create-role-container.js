@@ -1,14 +1,14 @@
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import CreateRole from './create-role';
-import {CREATE_ROLE_FORM} from 'stores/roles/types';
-import {validate} from 'stores/roles/validator';
+import {CREATE_ROLE_FORM} from 'stores/role/types';
+import {validate} from 'stores/role/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {
   formattedPermissionsSelector,
   permissionsSelector,
   loadingSelector
-} from 'stores/roles/selectors';
+} from 'stores/role/selectors';
 
 const mapStateToProps = (state, {route}) => ({
   permissions: permissionsSelector(state),

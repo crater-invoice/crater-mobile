@@ -2,25 +2,25 @@ import {all, takeEvery, select} from 'redux-saga/effects';
 import {REHYDRATE} from 'redux-persist/src/constants';
 
 import auth from 'stores/auth/saga';
-import invoices from 'stores/invoices/saga';
-import estimates from 'stores/estimates/saga';
-import customers from 'stores/customers/saga';
+import invoice from 'stores/invoice/saga';
+import estimate from 'stores/estimate/saga';
+import customer from 'stores/customer/saga';
 import expenses from '@/features/expenses/saga';
 import payments from '@/features/payments/saga';
 import settings from '@/features/settings/saga';
 import company from 'stores/company/saga';
-import roles from 'stores/roles/saga';
+import role from 'stores/role/saga';
 import users from 'stores/users/saga';
 import user from 'stores/user/saga';
 
-import paymentModes from 'stores/payment-modes/saga';
-import itemUnits from 'stores/item-units/saga';
+import paymentMode from 'stores/payment-mode/saga';
+import itemUnit from 'stores/item-unit/saga';
 import common from 'stores/common/saga';
-import recurringInvoices from 'stores/recurring-invoices/saga';
-import categories from 'stores/categories/saga';
-import items from 'stores/items/saga';
-import notes from 'stores/notes/saga';
-import taxes from 'stores/taxes/saga';
+import recurringInvoice from 'stores/recurring-invoice/saga';
+import category from 'stores/category/saga';
+import item from 'stores/item/saga';
+import note from 'stores/note/saga';
+import taxType from 'stores/tax-type/saga';
 import customField from 'stores/custom-field/saga';
 import {PermissionService} from '@/services';
 
@@ -32,24 +32,24 @@ export default function* rootSaga() {
 
     yield all([
       auth(),
-      invoices(),
-      estimates(),
-      customers(),
+      invoice(),
+      estimate(),
+      customer(),
       expenses(),
       payments(),
       settings(),
       company(),
-      roles(),
+      role(),
       users(),
       user(),
-      categories(),
-      paymentModes(),
-      itemUnits(),
-      recurringInvoices(),
-      items(),
+      category(),
+      paymentMode(),
+      itemUnit(),
+      recurringInvoice(),
+      item(),
       common(),
-      notes(),
-      taxes(),
+      note(),
+      taxType(),
       customField()
     ]);
   });

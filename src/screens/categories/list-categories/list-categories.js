@@ -2,7 +2,7 @@ import React from 'react';
 import {routes} from '@/navigation';
 import {IProps, IStates} from './list-categories-type';
 import {isEmpty} from '@/constants';
-import {fetchCategories} from 'stores/categories/actions';
+import {fetchCategories} from 'stores/category/actions';
 import {primaryHeader} from '@/utils';
 import {
   MainLayout,

@@ -4,14 +4,14 @@ import {pick} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-tax-type';
 import {alertMe, keyboardType} from '@/constants';
-import {CREATE_TAX_FORM} from 'stores/taxes/types';
+import {CREATE_TAX_FORM} from 'stores/tax-type/types';
 import {secondaryHeader} from 'utils/header';
 import {
   addTax,
   updateTax,
   removeTax,
   fetchSingleTax
-} from 'stores/taxes/actions';
+} from 'stores/tax-type/actions';
 import {
   DefaultLayout,
   BaseInput,

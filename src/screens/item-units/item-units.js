@@ -5,7 +5,7 @@ import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {alertMe, isEmpty} from '@/constants';
 import {IProps, IStates} from './item-units-type';
-import {ITEM_UNITS_FORM} from 'stores/item-units/types';
+import {ITEM_UNITS_FORM} from 'stores/item-unit/types';
 import styles from './item-units-style';
 import {
   ListView,
@@ -20,7 +20,7 @@ import {
   addItemUnit,
   updateItemUnit,
   removeItemUnit
-} from 'stores/item-units/actions';
+} from 'stores/item-unit/actions';
 import {ARROW_ICON} from '@/assets';
 
 export default class ItemUnits extends Component<IProps, IStates> {

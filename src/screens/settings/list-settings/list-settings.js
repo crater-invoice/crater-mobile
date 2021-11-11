@@ -5,7 +5,7 @@ import {IProps} from './list-settings-type';
 import styles from './list-settings-style';
 import {ListView, DefaultLayout} from '@/components';
 import {fetchBootstrap} from 'stores/common/actions';
-import {SETTINGS_MENU} from 'stores/settings/helpers';
+import {SETTINGS_MENU} from 'stores/setting/helpers';
 
 export default class Settings extends React.Component<IProps> {
   constructor(props) {

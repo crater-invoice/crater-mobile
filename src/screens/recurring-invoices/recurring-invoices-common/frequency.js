@@ -2,7 +2,7 @@ import React from 'react';
 import {Field} from 'redux-form';
 import {BaseDropdownPicker, BaseInput} from '@/components';
 import t from 'locales/use-translation';
-import {FREQUENCIES_TYPES} from 'stores/recurring-invoices/helpers';
+import {FREQUENCIES_TYPES} from 'stores/recurring-invoice/helpers';
 import {colors} from '@/styles';
 
 interface IProps {

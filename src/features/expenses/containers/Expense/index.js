@@ -5,11 +5,11 @@ import {validate} from './validation';
 import * as actions from '../../actions';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {EXPENSE_FORM, EXPENSE_FIELDS as FIELDS} from '../../constants';
-import {fetchCategories} from 'stores/categories/actions';
-import {categoriesSelector} from 'stores/categories/selectors';
+import {fetchCategories} from 'stores/category/actions';
+import {categoriesSelector} from 'stores/category/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
-import {customersSelector} from 'stores/customers/selectors';
-import {fetchCustomers} from 'stores/customers/actions';
+import {customersSelector} from 'stores/customer/selectors';
+import {fetchCustomers} from 'stores/customer/actions';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 
 const mapStateToProps = (state, {route}) => {

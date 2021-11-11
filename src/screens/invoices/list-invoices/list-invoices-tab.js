@@ -1,8 +1,9 @@
 import React, {useRef} from 'react';
 import {View} from 'react-native';
 import {ListView, InfiniteScroll} from '@/components';
-import {fetchInvoices} from 'stores/invoices/actions';
+import {fetchInvoices} from 'stores/invoice/actions';
 import {setTabRef} from 'stores/common/helpers';
+import {isEmpty} from '@/constants';
 
 type IProps = {
   parentProps: any
@@ -17,7 +18,6 @@ export const Tab = ({parentProps}: IProps) => {
     onSelect
   } = parentProps;
   const {invoices = [], dispatch, route} = props;
-  const isEmpty = invoices && invoices.length <= 0;
   return (
     <View style={{flex: 1}}>
       <InfiniteScroll
@@ -31,7 +31,7 @@ export const Tab = ({parentProps}: IProps) => {
         <ListView
           items={invoices}
           onPress={onSelect}
-          isEmpty={isEmpty}
+          isEmpty={isEmpty(invoices)}
           bottomDivider
           emptyContentProps={getEmptyContentProps(activeTab)}
           route={route}

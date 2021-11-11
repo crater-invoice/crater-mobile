@@ -6,7 +6,7 @@ import {Field} from 'redux-form';
 import {routes} from '@/navigation';
 import {NoteSelectModal} from '@/select-modal';
 import {IProps} from './type.d';
-import {notesTypeSelector} from 'stores/notes/selectors';
+import {notesTypeSelector} from 'stores/note/selectors';
 
 let editorReference = React.createRef();
 

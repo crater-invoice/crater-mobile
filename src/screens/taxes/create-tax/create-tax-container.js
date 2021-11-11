@@ -1,10 +1,10 @@
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import CreateTax from './create-tax';
-import {validate} from 'stores/taxes/validator';
+import {validate} from 'stores/tax-type/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
-import {loadingSelector} from 'stores/taxes/selectors';
-import {CREATE_TAX_FORM} from 'stores/taxes/types';
+import {loadingSelector} from 'stores/tax-type/selectors';
+import {CREATE_TAX_FORM} from 'stores/tax-type/types';
 
 const mapStateToProps = (state, {route}) => ({
   ...loadingSelector(state),

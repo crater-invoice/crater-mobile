@@ -1,19 +1,19 @@
 import {connect} from 'react-redux';
 import {CreateItem} from './create-item';
 import {reduxForm, getFormValues} from 'redux-form';
-import {validate} from 'stores/items/validator';
-import {CREATE_ITEM_FORM} from 'stores/items/types';
-import {fetchItemUnits} from 'stores/item-units/actions';
+import {validate} from 'stores/item/validator';
+import {CREATE_ITEM_FORM} from 'stores/item/types';
+import {fetchItemUnits} from 'stores/item-unit/actions';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
-import {loadingSelector} from 'stores/items/selectors';
-import {taxTypesSelector} from 'stores/taxes/selectors';
-import {fetchTaxes} from 'stores/taxes/actions';
+import {loadingSelector} from 'stores/item/selectors';
+import {taxTypesSelector} from 'stores/tax-type/selectors';
+import {fetchTaxes} from 'stores/tax-type/actions';
 import {getSettingInfo} from '@/features/settings/actions';
-import {unitsSelector} from 'stores/item-units/selectors';
+import {unitsSelector} from 'stores/item-unit/selectors';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 
 const mapStateToProps = (state, {route}) => {
-  const {invoices, estimates, recurringInvoices} = state;
+  const {invoice, estimate, recurringInvoice} = state;
 
   const item = route?.params?.item ?? {};
   const type = route?.params?.type;
@@ -23,7 +23,7 @@ const mapStateToProps = (state, {route}) => {
 
   return {
     loading:
-      invoices?.isSaving || estimates?.isSaving || recurringInvoices?.isSaving,
+      invoice?.isSaving || estimate?.isSaving || recurringInvoice?.isSaving,
     formValues: getFormValues(CREATE_ITEM_FORM)(state) || {},
     itemId: item && (item.item_id || item.id),
     taxTypes: taxTypesSelector(state),

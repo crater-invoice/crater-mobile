@@ -7,7 +7,7 @@ import {
   RECURRING_INVOICES_FORM,
   RECURRING_INVOICES_TABS,
   TAB_NAME
-} from 'stores/recurring-invoices/types';
+} from 'stores/recurring-invoice/types';
 import {isFilterApply, primaryHeader} from '@/utils';
 import {IProps, IStates} from './list-recurring-invoices-type';
 import {recurringInvoicesFilterFields} from './list-recurring-invoices-filters';

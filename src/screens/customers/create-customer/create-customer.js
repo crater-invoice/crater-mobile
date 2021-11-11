@@ -6,12 +6,12 @@ import {IProps, IStates} from './create-customer-type';
 import {styles} from './create-customer-style';
 import {isEmpty, keyboardType} from '@/constants';
 import {secondaryHeader} from 'utils/header';
-import {CREATE_CUSTOMER_FORM} from 'stores/customers/types';
+import {CREATE_CUSTOMER_FORM} from 'stores/customer/types';
 import {CurrencySelectModal} from '@/select-modal';
 import {routes} from '@/navigation';
 import {getApiFormattedCustomFields} from '@/utils';
 import options from './customer-dropdown';
-import {addressParams, isAddress} from 'stores/customers/helpers';
+import {addressParams, isAddress} from 'stores/customer/helpers';
 import {
   BaseButton,
   BaseButtonGroup,
@@ -25,7 +25,7 @@ import {
   updateCustomer,
   fetchSingleCustomer,
   fetchCustomerInitialDetails
-} from 'stores/customers/actions';
+} from 'stores/customer/actions';
 
 export default class CreateCustomer extends Component<IProps, IStates> {
   constructor(props) {

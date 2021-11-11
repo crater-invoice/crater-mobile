@@ -1,46 +1,46 @@
 import {combineReducers} from 'redux';
 import {reducer as formReducer} from 'redux-form';
 import auth from 'stores/auth/reducer';
-import invoices from 'stores/invoices/reducer';
-import estimates from 'stores/estimates/reducer';
-import customers from 'stores/customers/reducer';
+import invoice from 'stores/invoice/reducer';
+import estimate from 'stores/estimate/reducer';
+import customer from 'stores/customer/reducer';
 import payments from '@/features/payments/reducers';
 import settings from '@/features/settings/reducers';
 import expenses from '@/features/expenses/reducers';
 import common from 'stores/common/reducer';
-import roles from 'stores/roles/reducer';
+import role from 'stores/role/reducer';
 import users from 'stores/users/reducer';
 import user from 'stores/user/reducer';
 import company from 'stores/company/reducer';
-import itemUnits from 'stores/item-units/reducer';
-import paymentModes from 'stores/payment-modes/reducer';
-import recurringInvoices from 'stores/recurring-invoices/reducer';
-import items from 'stores/items/reducer';
-import categories from 'stores/categories/reducer';
-import notes from 'stores/notes/reducer';
-import taxes from 'stores/taxes/reducer';
+import itemUnit from 'stores/item-unit/reducer';
+import paymentMode from 'stores/payment-mode/reducer';
+import recurringInvoice from 'stores/recurring-invoice/reducer';
+import item from 'stores/item/reducer';
+import category from 'stores/category/reducer';
+import note from 'stores/note/reducer';
+import taxType from 'stores/tax-type/reducer';
 import customField from 'stores/custom-field/reducer';
 
 export default combineReducers({
   auth,
-  invoices,
-  estimates,
-  customers,
+  invoice,
+  estimate,
+  customer,
   expenses,
   payments,
   form: formReducer,
   common,
   settings,
-  roles,
+  role,
   users,
   user,
   company,
-  itemUnits,
-  paymentModes,
-  recurringInvoices,
-  items,
-  categories,
-  notes,
-  taxes,
+  itemUnit,
+  paymentMode,
+  recurringInvoice,
+  item,
+  category,
+  note,
+  taxType,
   customField
 });
