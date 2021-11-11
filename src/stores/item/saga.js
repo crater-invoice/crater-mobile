@@ -97,7 +97,7 @@ function* fetchItemInitialDetails({payload}) {
   payload?.();
 }
 
-export default function* itemsSaga() {
+export default function* itemSaga() {
   yield takeLatest(types.FETCH_ITEMS, fetchItems);
   yield takeLatest(types.ADD_ITEM, addItem);
   yield takeLatest(types.UPDATE_ITEM, updateItem);

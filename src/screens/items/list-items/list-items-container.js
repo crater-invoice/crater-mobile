@@ -1,8 +1,8 @@
 import {connect} from 'react-redux';
 import {reduxForm, getFormValues} from 'redux-form';
 import Items from './list-items';
-import {ITEMS_FORM} from 'stores/items/types';
-import {itemsSelector} from 'stores/items/selectors';
+import {ITEMS_FORM} from 'stores/item/types';
+import {itemsSelector} from 'stores/item/selectors';
 import {
   commonSelector,
   permissionSelector,

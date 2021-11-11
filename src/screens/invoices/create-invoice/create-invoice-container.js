@@ -22,7 +22,7 @@ import {
 const mapStateToProps = (state, {route}) => {
   const {
     invoice: {selectedItems, invoiceData},
-    items: {items}
+    item: {items}
   } = state;
   return {
     ...loadingSelector(state),

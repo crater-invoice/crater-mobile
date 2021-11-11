@@ -8,7 +8,7 @@ import * as types from './types';
 import * as req from './service';
 import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
 import {spinner} from './actions';
-import {addItem} from '../items/saga';
+import {addItem} from '../item/saga';
 import {modalTypes} from '../custom-field/helpers';
 
 /**

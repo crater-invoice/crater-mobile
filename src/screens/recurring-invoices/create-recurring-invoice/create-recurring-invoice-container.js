@@ -31,7 +31,7 @@ const mapStateToProps = (state, {route}) => {
       }
     },
     recurringInvoice: {selectedItems, invoiceTemplates},
-    items: {items}
+    item: {items}
   } = state;
   return {
     ...loadingSelector(state),

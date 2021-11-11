@@ -12,12 +12,13 @@ const formattedItems = items =>
       fullItem: item
     };
   });
+
 export const itemsSelector = createSelector(
-  state => state?.items?.items,
+  state => state?.item?.items,
   items => (!isEmpty(items) ? formattedItems(items) : [])
 );
 
 export const loadingSelector = createSelector(
-  state => state?.items,
+  state => state?.item,
   store => ({isSaving: store?.isSaving, isDeleting: store?.isDeleting})
 );

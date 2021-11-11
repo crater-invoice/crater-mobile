@@ -7,7 +7,7 @@ import {showNotification, handleError} from '@/utils';
 import t from 'locales/use-translation';
 import {navigation} from '@/navigation';
 import {fetchCustomFields} from 'stores/custom-field/saga';
-import {addItem} from '../items/saga';
+import {addItem} from '../item/saga';
 import {modalTypes} from '../custom-field/helpers';
 
 /**

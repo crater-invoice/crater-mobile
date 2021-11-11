@@ -15,7 +15,7 @@ import company from 'stores/company/reducer';
 import itemUnit from 'stores/item-unit/reducer';
 import paymentMode from 'stores/payment-mode/reducer';
 import recurringInvoice from 'stores/recurring-invoice/reducer';
-import items from 'stores/items/reducer';
+import item from 'stores/item/reducer';
 import category from 'stores/category/reducer';
 import note from 'stores/note/reducer';
 import taxType from 'stores/tax-type/reducer';
@@ -38,7 +38,7 @@ export default combineReducers({
   itemUnit,
   paymentMode,
   recurringInvoice,
-  items,
+  item,
   category,
   note,
   taxType,

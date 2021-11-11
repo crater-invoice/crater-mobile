@@ -1,11 +1,11 @@
 import {connect} from 'react-redux';
 import {CreateItem} from './create-item';
 import {reduxForm, getFormValues} from 'redux-form';
-import {validate} from 'stores/items/validator';
-import {CREATE_ITEM_FORM} from 'stores/items/types';
+import {validate} from 'stores/item/validator';
+import {CREATE_ITEM_FORM} from 'stores/item/types';
 import {fetchItemUnits} from 'stores/item-unit/actions';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
-import {loadingSelector} from 'stores/items/selectors';
+import {loadingSelector} from 'stores/item/selectors';
 import {taxTypesSelector} from 'stores/tax-type/selectors';
 import {fetchTaxes} from 'stores/tax-type/actions';
 import {getSettingInfo} from '@/features/settings/actions';

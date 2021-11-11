@@ -5,11 +5,11 @@ import styles from './create-item-styles';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {TaxSelectModal, UnitSelectModal} from '@/select-modal';
-import {itemActions} from 'stores/items/helper';
-import {CREATE_ITEM_FORM, ITEM_DISCOUNT_OPTION} from 'stores/items/types';
+import {itemActions} from 'stores/item/helper';
+import {CREATE_ITEM_FORM, ITEM_DISCOUNT_OPTION} from 'stores/item/types';
 import {IProps} from './create-item-types';
 import {getApiFormattedCustomFields, showNotification} from '@/utils';
-import {fetchItemInitialDetails} from 'stores/items/actions';
+import {fetchItemInitialDetails} from 'stores/item/actions';
 import {
   alertMe,
   definePlatformParam,

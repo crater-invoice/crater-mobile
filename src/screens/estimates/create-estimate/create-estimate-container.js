@@ -22,7 +22,7 @@ import {
 const mapStateToProps = (state, {route}) => {
   const {
     estimate: {selectedItems, estimateData},
-    items: {items}
+    item: {items}
   } = state;
 
   return {

@@ -4,7 +4,7 @@ import {routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {colors, itemsDescriptionStyle} from '@/styles';
 import {store} from '@/stores';
-import {fetchItems} from 'stores/items/actions';
+import {fetchItems} from 'stores/item/actions';
 
 interface IProps {
   /**
