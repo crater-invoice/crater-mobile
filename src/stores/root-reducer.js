@@ -8,7 +8,7 @@ import payments from '@/features/payments/reducers';
 import settings from '@/features/settings/reducers';
 import expenses from '@/features/expenses/reducers';
 import common from 'stores/common/reducer';
-import roles from 'stores/roles/reducer';
+import role from 'stores/role/reducer';
 import users from 'stores/users/reducer';
 import user from 'stores/user/reducer';
 import company from 'stores/company/reducer';
@@ -31,7 +31,7 @@ export default combineReducers({
   form: formReducer,
   common,
   settings,
-  roles,
+  role,
   users,
   user,
   company,

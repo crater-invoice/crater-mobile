@@ -4,7 +4,7 @@ import CreateUser from './create-user';
 import {CREATE_USER_FORM} from 'stores/users/types';
 import {validate} from 'stores/users/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
-import {fetchRoles} from 'stores/roles/actions';
+import {fetchRoles} from 'stores/role/actions';
 import {rolesSelector, loadingSelector} from 'stores/users/selectors';
 
 const mapStateToProps = (state, {route}) => ({

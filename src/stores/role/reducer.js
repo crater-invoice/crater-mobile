@@ -10,7 +10,7 @@ const initialState = {
   isDeleting: false
 };
 
-export default function rolesReducer(state = initialState, action) {
+export default function roleReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {

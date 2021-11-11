@@ -2,7 +2,7 @@ import {createSelector} from 'reselect';
 import {isEmpty} from '@/constants';
 
 const usersStore = state => state?.users;
-const rolesStore = state => state?.roles;
+const roleStore = state => state?.role;
 
 export const usersSelector = createSelector(
   usersStore,
@@ -18,7 +18,7 @@ export const usersSelector = createSelector(
 );
 
 export const rolesSelector = createSelector(
-  rolesStore,
+  roleStore,
   store => store?.roles
 );
 

@@ -111,7 +111,7 @@ function* removeRole({payload}) {
   }
 }
 
-export default function* rolesSaga() {
+export default function* roleSaga() {
   yield takeLatest(types.FETCH_ROLES, fetchRoles);
   yield takeLatest(types.FETCH_SINGLE_ROLE, fetchSingleRole);
   yield takeLatest(types.FETCH_PERMISSIONS, fetchPermissions);
