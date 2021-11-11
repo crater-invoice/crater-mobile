@@ -2,7 +2,7 @@ import {call, put, takeEvery} from 'redux-saga/effects';
 import Request from 'utils/request';
 import * as queryStrings from 'query-string';
 import * as TYPES from '../constants';
-import {fetchCategories} from 'stores/categories/saga';
+import {fetchCategories} from 'stores/category/saga';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 import {fetchCustomers} from 'stores/customers/saga';

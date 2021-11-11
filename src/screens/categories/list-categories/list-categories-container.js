@@ -2,8 +2,8 @@ import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import Categories from './list-categories';
 import {commonSelector} from 'stores/common/selectors';
-import {CATEGORIES_FORM} from 'stores/categories/types';
-import {categoriesSelector} from 'stores/categories/selectors';
+import {CATEGORIES_FORM} from 'stores/category/types';
+import {categoriesSelector} from 'stores/category/selectors';
 
 const mapStateToProps = state => ({
   categories: categoriesSelector(state),

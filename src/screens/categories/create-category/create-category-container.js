@@ -1,10 +1,10 @@
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import CreateCategory from './create-category';
-import {validate} from 'stores/categories/validator';
+import {validate} from 'stores/category/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
-import {loadingSelector} from 'stores/categories/selectors';
-import {CREATE_CATEGORY_FORM} from 'stores/categories/types';
+import {loadingSelector} from 'stores/category/selectors';
+import {CREATE_CATEGORY_FORM} from 'stores/category/types';
 
 const mapStateToProps = (state, {route}) => ({
   ...loadingSelector(state),

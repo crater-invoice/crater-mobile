@@ -4,7 +4,7 @@ import {pick} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-category-type';
 import {alertMe} from '@/constants';
-import {CREATE_CATEGORY_FORM} from 'stores/categories/types';
+import {CREATE_CATEGORY_FORM} from 'stores/category/types';
 import {secondaryHeader} from 'utils/header';
 import {
   DefaultLayout,
@@ -17,7 +17,7 @@ import {
   updateCategory,
   removeCategory,
   fetchSingleCategory
-} from 'stores/categories/actions';
+} from 'stores/category/actions';
 
 export default class CreateCategory extends Component<IProps, IStates> {
   constructor(props) {

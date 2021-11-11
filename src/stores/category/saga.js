@@ -93,7 +93,7 @@ function* removeCategory({payload}) {
   }
 }
 
-export default function* categoriesSaga() {
+export default function* categorySaga() {
   yield takeLatest(types.FETCH_CATEGORIES, fetchCategories);
   yield takeLatest(types.FETCH_SINGLE_CATEGORY, fetchSingleCategory);
   yield takeLatest(types.ADD_CATEGORY, addCategory);

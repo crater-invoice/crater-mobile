@@ -6,7 +6,7 @@ const initialState = {
   isDeleting: false
 };
 
-export default function categoriesReducer(state = initialState, action) {
+export default function categoryReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {
