@@ -82,7 +82,7 @@ function* removeItemUnit({payload}) {
   }
 }
 
-export default function* itemUnitsSaga() {
+export default function* itemUnitSaga() {
   yield takeEvery(types.FETCH_ITEM_UNITS, fetchItemUnits);
   yield takeEvery(types.ADD_ITEM_UNIT, addItemUnit);
   yield takeEvery(types.UPDATE_ITEM_UNIT, updateItemUnit);

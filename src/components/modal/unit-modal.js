@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {reduxForm, change} from 'redux-form';
 import {InputModal} from '../input-modal';
-import {addItemUnit} from 'stores/item-units/actions';
+import {addItemUnit} from 'stores/item-unit/actions';
 import t from 'locales/use-translation';
 import {hasValue} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
-import {loadingSelector} from 'stores/item-units/selectors';
+import {loadingSelector} from 'stores/item-unit/selectors';
 
 interface IProps {
   isSaving: boolean;

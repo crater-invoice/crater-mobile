@@ -3,13 +3,13 @@ import {CreateItem} from './create-item';
 import {reduxForm, getFormValues} from 'redux-form';
 import {validate} from 'stores/items/validator';
 import {CREATE_ITEM_FORM} from 'stores/items/types';
-import {fetchItemUnits} from 'stores/item-units/actions';
+import {fetchItemUnits} from 'stores/item-unit/actions';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {loadingSelector} from 'stores/items/selectors';
 import {taxTypesSelector} from 'stores/taxes/selectors';
 import {fetchTaxes} from 'stores/taxes/actions';
 import {getSettingInfo} from '@/features/settings/actions';
-import {unitsSelector} from 'stores/item-units/selectors';
+import {unitsSelector} from 'stores/item-unit/selectors';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 
 const mapStateToProps = (state, {route}) => {

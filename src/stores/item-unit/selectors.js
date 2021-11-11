@@ -1,14 +1,14 @@
 import {formatItemUnits} from '@/utils';
 import {createSelector} from 'reselect';
 
-const unitStore = state => state?.itemUnits;
+const unitStore = state => state?.itemUnit;
 
 export const unitsSelector = createSelector(
   unitStore,
-  itemUnits => formatItemUnits(itemUnits?.units)
+  store => formatItemUnits(store?.units)
 );
 
 export const loadingSelector = createSelector(
   unitStore,
-  mode => ({isSaving: mode?.isSaving, isDeleting: mode?.isDeleting})
+  store => ({isSaving: store?.isSaving, isDeleting: store?.isDeleting})
 );
