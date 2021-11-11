@@ -5,6 +5,9 @@ import t from 'locales/use-translation';
 import {formatListByName} from '@/utils';
 import styles from './payment-modes-style';
 import {alertMe, defineSize, isEmpty} from '@/constants';
+import {PAYMENT_MODES_FORM} from 'stores/payment-mode/types';
+import {ARROW_ICON} from '@/assets';
+import {routes} from '@/navigation';
 import {
   ListView,
   InputModal,
@@ -14,14 +17,11 @@ import {
   MainLayout,
   BaseEmptyPlaceholder
 } from '@/components';
-import {PAYMENT_MODES_FORM} from 'stores/payment-modes/types';
 import {
   addPaymentMode,
   updatePaymentMode,
   removePaymentMode
-} from 'stores/payment-modes/actions';
-import {ARROW_ICON} from '@/assets';
-import {routes} from '@/navigation';
+} from 'stores/payment-mode/actions';
 
 export class PaymentModes extends Component {
   constructor(props) {

@@ -83,7 +83,7 @@ function* removePaymentMode({payload}) {
   }
 }
 
-export default function* paymentModesSaga() {
+export default function* paymentModeSaga() {
   yield takeEvery(types.FETCH_PAYMENT_MODES, fetchPaymentModes);
   yield takeEvery(types.ADD_PAYMENT_MODE, addPaymentMode);
   yield takeEvery(types.UPDATE_PAYMENT_MODE, updatePaymentMode);

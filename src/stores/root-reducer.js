@@ -13,7 +13,7 @@ import users from 'stores/users/reducer';
 import user from 'stores/user/reducer';
 import company from 'stores/company/reducer';
 import itemUnits from 'stores/item-units/reducer';
-import paymentModes from 'stores/payment-modes/reducer';
+import paymentMode from 'stores/payment-mode/reducer';
 import recurringInvoices from 'stores/recurring-invoices/reducer';
 import items from 'stores/items/reducer';
 import category from 'stores/category/reducer';
@@ -36,7 +36,7 @@ export default combineReducers({
   user,
   company,
   itemUnits,
-  paymentModes,
+  paymentMode,
   recurringInvoices,
   items,
   category,

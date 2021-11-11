@@ -13,7 +13,7 @@ import role from 'stores/role/saga';
 import users from 'stores/users/saga';
 import user from 'stores/user/saga';
 
-import paymentModes from 'stores/payment-modes/saga';
+import paymentMode from 'stores/payment-mode/saga';
 import itemUnits from 'stores/item-units/saga';
 import common from 'stores/common/saga';
 import recurringInvoices from 'stores/recurring-invoices/saga';
@@ -43,7 +43,7 @@ export default function* rootSaga() {
       users(),
       user(),
       category(),
-      paymentModes(),
+      paymentMode(),
       itemUnits(),
       recurringInvoices(),
       items(),

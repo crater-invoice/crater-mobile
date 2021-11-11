@@ -4,7 +4,7 @@ import {validate} from './validation';
 import * as actions from '../../actions';
 import {PAYMENT_FORM, PAYMENT_FIELDS as FIELDS} from '../../constants';
 import {Payment} from '../../components/Payment';
-import {fetchPaymentModes} from 'stores/payment-modes/actions';
+import {fetchPaymentModes} from 'stores/payment-mode/actions';
 import {getPaymentModesState} from '../../selectors';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
@@ -17,7 +17,7 @@ import {customFieldsSelector} from 'stores/custom-field/selectors';
 const mapStateToProps = (state, {route}) => {
   const {
     payments: {loading, unPaidInvoices},
-    paymentModes: {modes}
+    paymentMode: {modes}
   } = state;
 
   const invoice = route?.params?.invoice;

@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect';
 
-const modeStore = state => state?.paymentModes;
+const modeStore = state => state?.paymentMode;
 
 export const modesSelector = createSelector(
   modeStore,
