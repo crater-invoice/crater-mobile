@@ -1,7 +1,6 @@
 import {call, put, takeLatest, takeEvery} from 'redux-saga/effects';
 import {routes} from '@/navigation';
-import {getCustomFields} from '@/features/settings/saga/custom-fields';
-import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
+import {fetchCustomFields} from 'stores/custom-field/saga';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 import {fetchTaxAndDiscountPerItem} from 'stores/common/actions';
@@ -11,6 +10,7 @@ import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
 import {spinner} from './actions';
 import {FETCH_INVOICES_SUCCESS} from '../invoices/types';
 import {addItem} from '../items/saga';
+import {modalTypes} from '../custom-field/helpers';
 
 /**
  * Fetch estimate templates saga
@@ -18,8 +18,8 @@ import {addItem} from '../items/saga';
  */
 function* fetchEstimateData() {
   try {
-    yield call(getCustomFields, {
-      payload: {queryString: {type: CUSTOM_FIELD_TYPES.ESTIMATE, limit: 'all'}}
+    yield call(fetchCustomFields, {
+      payload: {queryString: {type: modalTypes.ESTIMATE, limit: 'all'}}
     });
     yield put({type: types.CLEAR_ESTIMATE});
     const {estimateTemplates} = yield call(req.fetchEstimateTemplates);

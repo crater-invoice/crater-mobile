@@ -12,6 +12,7 @@ import {taxTypesSelector} from 'stores/taxes/selectors';
 import {fetchTaxes} from 'stores/taxes/actions';
 import {customersSelector} from 'stores/customers/selectors';
 import {fetchCustomers} from 'stores/customers/actions';
+import {customFieldsSelector} from 'stores/custom-field/selectors';
 import {
   commonSelector,
   permissionSelector,
@@ -20,7 +21,6 @@ import {
 
 const mapStateToProps = (state, {route}) => {
   const {
-    settings: {customFields},
     invoices: {selectedItems, invoiceData},
     items: {items}
   } = state;
@@ -36,7 +36,7 @@ const mapStateToProps = (state, {route}) => {
     customers: customersSelector(state),
     taxTypes: taxTypesSelector(state),
     currency: currentCurrencySelector(state),
-    customFields,
+    customFields: customFieldsSelector(state),
     formValues: getFormValues(CREATE_INVOICE_FORM)(state) || {},
     initialValues
   };

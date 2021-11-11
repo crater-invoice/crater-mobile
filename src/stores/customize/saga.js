@@ -3,7 +3,7 @@ import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
 import {routes} from '@/navigation';
-import {getCustomFields} from '@/features/settings/saga/custom-fields';
+import {fetchCustomFields} from 'stores/custom-field/saga';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 
@@ -14,7 +14,7 @@ import {showNotification, handleError} from '@/utils';
 function* fetchCustomizeSettings({payload}) {
   try {
     const {keys, onSuccess} = payload;
-    yield call(getCustomFields, {payload: {queryString: {limit: 'all'}}});
+    yield call(fetchCustomFields, {payload: {queryString: {limit: 'all'}}});
     const response = yield call(req.fetchCustomizeSettings, keys);
     onSuccess?.(response);
   } catch (e) {}

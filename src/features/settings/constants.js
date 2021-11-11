@@ -2,13 +2,9 @@
 // -----------------------------------------
 export const NOTIFICATION = 'notification/NOTIFICATION';
 
-export const CUSTOM_FIELDS_FORM = 'custom-field/CUSTOM_FIELDS_FORM';
-export const CUSTOM_FIELD_FORM = 'custom-field/CUSTOM_FIELD_FORM';
-
 export const TOUCH_FACE_ID_FORM = 'biometry/TOUCH_FACE_ID_FORM';
 
 // -----------------------------------------
-export const SETTINGS_SEARCH = 'settings/SETTINGS_SEARCH';
 export const SETTINGS_TRIGGER_SPINNER = 'settings/SETTINGS_TRIGGER_SPINNER';
 
 // Next Number
@@ -22,100 +18,8 @@ export const GET_SETTING_INFO = 'GET_SETTING_INFO';
 export const GET_SETTING_ITEM = 'settings/GET_SETTING_ITEM';
 export const EDIT_SETTING_ITEM = 'settings/EDIT_SETTING_ITEM';
 
-// Custom Fields
-export const GET_CUSTOM_FIELDS = 'custom-field/GET_CUSTOM_FIELDS';
-export const SET_CUSTOM_FIELDS = 'custom-field/SET_CUSTOM_FIELDS';
-export const CREATE_CUSTOM_FIELD = 'custom-field/CREATE_CUSTOM_FIELD';
-export const GET_CUSTOM_FIELD = 'custom-field/GET_CUSTOM_FIELD';
-export const EDIT_CUSTOM_FIELD = 'custom-field/EDIT_CUSTOM_FIELD';
-export const REMOVE_CUSTOM_FIELD = 'custom-field/REMOVE_CUSTOM_FIELD';
-
-export const CREATE_FROM_CUSTOM_FIELDS =
-  'custom-field/CREATE_FROM_CUSTOM_FIELDS';
-export const REMOVE_FROM_CUSTOM_FIELDS =
-  'custom-field/REMOVE_FROM_CUSTOM_FIELDS';
-export const UPDATE_FROM_CUSTOM_FIELDS =
-  'custom-field/UPDATE_FROM_CUSTOM_FIELDS';
-
 // Biometry Auth
 export const SET_BIOMETRY_AUTH_TYPE = 'authType/SET_BIOMETRY_AUTH_TYPE';
-
-export const CREATE_EXPENSE_CATEGORY = 'categories/CREATE_EXPENSE_CATEGORY';
-export const EDIT_EXPENSE_CATEGORY = 'categories/EDIT_EXPENSE_CATEGORY';
-export const REMOVE_EXPENSE_CATEGORY = 'categories/REMOVE_EXPENSE_CATEGORY';
-
-// CustomField Form Fields
-// -----------------------------------------
-export const CUSTOM_FIELDS = {
-  FIELD: 'field', // root object
-
-  NAME: 'name',
-  MODAL_TYPE: 'model_type',
-  IS_REQUIRED: 'is_required',
-  TYPE: 'type',
-  LABEL: 'label',
-  DEFAULT_VALUE: 'default_answer',
-  PLACEHOLDER: 'placeholder',
-  OPTIONS: 'options',
-  ORDER: 'order'
-};
-
-// Custom Field Data Type Option Values
-// -----------------------------------------
-export const DATA_TYPE_OPTION_VALUE = {
-  INPUT: 'Input',
-  TEXTAREA: 'TextArea',
-  PHONE: 'Phone',
-  URL: 'Url',
-  NUMBER: 'Number',
-  DROPDOWN: 'Dropdown',
-  SWITCH: 'Switch',
-  DATE: 'Date',
-  TIME: 'Time',
-  DATE_TIME: 'DateTime'
-};
-
-// Custom Field Data Type Options
-// -----------------------------------------
-const VALUE = DATA_TYPE_OPTION_VALUE;
-
-export const CUSTOM_FIELD_DATA_TYPE_LIST = [
-  {label: 'Text', value: VALUE.INPUT},
-  {label: 'Textarea', value: VALUE.TEXTAREA},
-  {label: 'Phone', value: VALUE.PHONE},
-  {label: 'URL', value: VALUE.URL},
-  {label: 'Number', value: VALUE.NUMBER},
-  {label: 'Select Field', value: VALUE.DROPDOWN},
-  {label: 'Switch Toggle', value: VALUE.SWITCH},
-  {label: 'Date', value: VALUE.DATE},
-  {label: 'Time', value: VALUE.TIME},
-  {label: 'Date & Time', value: VALUE.DATE_TIME}
-];
-
-// Custom Field Modal Type Values
-// -----------------------------------------
-export const MODAL_TYPE_VALUE = {
-  CUSTOMER: 'Customer',
-  INVOICE: 'Invoice',
-  ESTIMATE: 'Estimate',
-  EXPENSE: 'Expense',
-  PAYMENT: 'Payment'
-};
-
-// Custom Field Type
-// -----------------------------------------
-export const CUSTOM_FIELD_TYPES = MODAL_TYPE_VALUE;
-export const CUSTOM_FIELD_DATA_TYPES = DATA_TYPE_OPTION_VALUE;
-
-// Custom Field Modal
-// -----------------------------------------
-export const CUSTOM_FIELD_MODAL_TYPES = [
-  {label: 'Customer', value: MODAL_TYPE_VALUE.CUSTOMER},
-  {label: 'Invoice', value: MODAL_TYPE_VALUE.INVOICE},
-  {label: 'Estimate', value: MODAL_TYPE_VALUE.ESTIMATE},
-  {label: 'Expense', value: MODAL_TYPE_VALUE.EXPENSE},
-  {label: 'Payment', value: MODAL_TYPE_VALUE.PAYMENT}
-];
 
 // Term & Condition Field
 // -----------------------------------------

@@ -10,12 +10,12 @@ import {categoriesSelector} from 'stores/categories/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
 import {customersSelector} from 'stores/customers/selectors';
 import {fetchCustomers} from 'stores/customers/actions';
+import {customFieldsSelector} from 'stores/custom-field/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
     common: {endpointURL},
-    expenses: {loading},
-    settings: {customFields}
+    expenses: {loading}
   } = state;
   const id = route?.params?.id;
 
@@ -23,7 +23,7 @@ const mapStateToProps = (state, {route}) => {
     categories: categoriesSelector(state),
     customers: customersSelector(state),
     endpointURL,
-    customFields,
+    customFields: customFieldsSelector(state),
     loading: loading?.expenseLoading,
     id,
     currency: currentCurrencySelector(state),

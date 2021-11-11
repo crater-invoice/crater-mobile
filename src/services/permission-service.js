@@ -64,8 +64,8 @@ const abilities = [
   // Custom Field
   {route: routes.CUSTOM_FIELDS, ability: 'view-custom-field'},
   {route: routes.CUSTOM_FIELDS, ability: 'create-custom-field'},
-  {route: routes.CUSTOM_FIELD, ability: 'edit-custom-field'},
-  {route: routes.CUSTOM_FIELD, ability: 'delete-custom-field'},
+  {route: routes.CREATE_CUSTOM_FIELD, ability: 'edit-custom-field'},
+  {route: routes.CREATE_CUSTOM_FIELD, ability: 'delete-custom-field'},
 
   // Role
   {route: routes.ROLES, ability: 'view-role'},

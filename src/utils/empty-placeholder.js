@@ -86,6 +86,18 @@ export const emptyContentPlaceholder = props => {
           })
       };
 
+    case routes.CUSTOM_FIELDS:
+      return {
+        title: t('search.no_result', {search}),
+        ...(!search && {
+          title: t('custom_fields.empty.title'),
+          description: t('custom_fields.empty.description'),
+          buttonTitle: t('custom_fields.empty.button_title'),
+          buttonPress: () =>
+            navigation.navigate(routes.CREATE_CUSTOM_FIELD, {type: 'ADD'})
+        })
+      };
+
     default:
       return {
         title: props?.title,

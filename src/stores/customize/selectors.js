@@ -8,7 +8,7 @@ export const loadingSelector = createSelector(
   store => store?.isSaving
 );
 
-export const customFieldsSelector = createSelector(
-  settingsStore,
-  store => store?.customFields
-);
+// export const customFieldsSelector = createSelector(
+//   settingsStore,
+//   store => store?.customFields
+// );

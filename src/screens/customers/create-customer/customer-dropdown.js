@@ -5,8 +5,8 @@ import {PermissionService} from '@/services';
 import {alertMe} from '@/constants';
 import {removeCustomer} from 'stores/customers/actions';
 
-export default parentProps => {
-  const {props, state} = parentProps;
+export default data => {
+  const {props, state} = data;
   const {isEditScreen, isAllowToDelete} = props;
   const {isFetchingInitialData} = state;
 
@@ -18,7 +18,7 @@ export default parentProps => {
 
   return {
     options: options,
-    onSelect: action => onSelect(action, parentProps),
+    onSelect: action => onSelect(action, props),
     cancelButtonIndex: options.length,
     destructiveButtonIndex: options.length - 1,
     ...(!isAllowToDelete && {
@@ -35,8 +35,7 @@ const ACTIONS_VALUE = {
   CREATE_EXPENSE: 'CREATE_EXPENSE'
 };
 
-const onSelect = (action, parentProps) => {
-  const {props} = parentProps;
+const onSelect = (action, props) => {
   const {navigation, formValues, id, currencies} = props;
   const currency = find(currencies, {fullItem: {id: formValues.currency_id}})
     .fullItem;

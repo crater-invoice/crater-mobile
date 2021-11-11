@@ -1,7 +1,6 @@
 import {call, put, takeLatest, takeEvery} from 'redux-saga/effects';
 import {routes} from '@/navigation';
-import {getCustomFields} from '@/features/settings/saga/custom-fields';
-import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
+import {fetchCustomFields} from 'stores/custom-field/saga';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 import {fetchTaxAndDiscountPerItem} from 'stores/common/actions';
@@ -10,6 +9,7 @@ import * as req from './service';
 import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
 import {spinner} from './actions';
 import {addItem} from '../items/saga';
+import {modalTypes} from '../custom-field/helpers';
 
 /**
  * Fetch invoice templates saga
@@ -17,8 +17,8 @@ import {addItem} from '../items/saga';
  */
 function* fetchInvoiceData() {
   try {
-    yield call(getCustomFields, {
-      payload: {queryString: {type: CUSTOM_FIELD_TYPES.INVOICE, limit: 'all'}}
+    yield call(fetchCustomFields, {
+      payload: {queryString: {type: modalTypes.INVOICE, limit: 'all'}}
     });
     yield put({type: types.CLEAR_INVOICE});
     const {invoiceTemplates} = yield call(req.fetchInvoiceTemplates);

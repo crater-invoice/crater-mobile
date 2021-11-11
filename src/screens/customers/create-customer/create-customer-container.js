@@ -4,6 +4,7 @@ import CreateCustomer from './create-customer';
 import {validate} from 'stores/customers/validator';
 import {loadingSelector} from 'stores/customers/selectors';
 import {CREATE_CUSTOMER_FORM} from 'stores/customers/types';
+import {customFieldsSelector} from 'stores/custom-field/selectors';
 import {
   commonSelector,
   countriesSelector,
@@ -22,7 +23,7 @@ const mapStateToProps = (state, {route}) => ({
   currencies: currenciesSelector(state),
   countries: countriesSelector(state),
   currency: currentCurrencySelector(state),
-  customFields: state.settings?.customFields,
+  customFields: customFieldsSelector(state),
   initialValues: {
     name: null,
     contact_name: null,
