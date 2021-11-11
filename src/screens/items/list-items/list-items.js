@@ -6,7 +6,7 @@ import {ARROW_ICON} from '@/assets';
 import t from 'locales/use-translation';
 import {ITEMS_FORM} from 'stores/items/types';
 import {isFilterApply} from '@/utils';
-import {defineSize, hasTextLength} from '@/constants';
+import {defineSize, hasTextLength, isEmpty} from '@/constants';
 import filterFields from './list-items-filter';
 import {itemsDescriptionStyle} from '@/styles';
 import {IProps, IStates} from './list-items-type';
@@ -131,7 +131,6 @@ export default class Items extends React.Component<IProps, IStates> {
       onResetFilter: () => this.onResetFilter()
     };
 
-    const isEmpty = items && items.length <= 0;
     const isFilter = isFilterApply(formValues);
 
     const emptyTitle = search
@@ -170,7 +169,7 @@ export default class Items extends React.Component<IProps, IStates> {
           <ListView
             items={items}
             onPress={this.onSelect}
-            isEmpty={isEmpty}
+            isEmpty={isEmpty(items)}
             bottomDivider
             leftSubTitleStyle={itemsDescriptionStyle()}
             emptyContentProps={emptyContentProps}

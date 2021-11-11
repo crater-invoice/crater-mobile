@@ -7,7 +7,7 @@ import {routes} from '@/navigation';
 import estimateFilterFields from './list-estimates-filters';
 import {isFilterApply} from '@/utils';
 import {ARROW_ICON} from '@/assets';
-import {ESTIMATES_TABS, ESTIMATES_FORM, TAB_NAME} from 'stores/estimates/types';
+import {ESTIMATES_TABS, ESTIMATES_FORM, TAB_NAME} from 'stores/estimate/types';
 import {IProps, IStates} from './list-estimates-type';
 import {Tab} from './list-estimates-tab';
 import {tabRefs} from 'stores/common/helpers';

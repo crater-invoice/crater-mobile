@@ -7,6 +7,7 @@ import {routes} from '@/navigation';
 import paymentsFilterFields from './filterFields';
 import {isFilterApply} from '@/utils';
 import {PermissionService} from '@/services';
+import {isEmpty} from '@/constants';
 
 type IProps = {
   navigation: Object,
@@ -99,8 +100,6 @@ export class Payments extends React.Component<IProps> {
     } = this.props;
 
     const {search} = this.state;
-
-    const isEmpty = payments && payments.length <= 0;
     const isFilter = isFilterApply(formValues);
 
     const emptyTitle = search
@@ -161,7 +160,7 @@ export class Payments extends React.Component<IProps> {
           <ListView
             items={payments}
             onPress={this.onSelect}
-            isEmpty={isEmpty}
+            isEmpty={isEmpty(payments)}
             contentContainerStyle={{flex: 0}}
             bottomDivider
             emptyContentProps={emptyContentProps}

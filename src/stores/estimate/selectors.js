@@ -39,15 +39,15 @@ export const formatEstimateItems = (estimates, theme) => {
 };
 
 export const estimateSelector = createSelector(
-  [state => state.estimates.estimates, state => state.common?.theme],
+  [state => state.estimate.estimates, state => state.common?.theme],
   (estimates, theme) => formatEstimateItems(estimates, theme)
 );
 
 export const loadingSelector = createSelector(
-  state => state?.estimates,
-  estimates => ({
-    isSaving: estimates?.isSaving,
-    isDeleting: estimates?.isDeleting,
-    isLoading: estimates?.isLoading
+  state => state?.estimate,
+  store => ({
+    isSaving: store?.isSaving,
+    isDeleting: store?.isDeleting,
+    isLoading: store?.isLoading
   })
 );

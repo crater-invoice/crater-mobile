@@ -207,7 +207,7 @@ function* changeEstimateStatus({payload}) {
   }
 }
 
-export default function* estimatesSaga() {
+export default function* estimateSaga() {
   yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchEstimateInitialDetails);
   yield takeLatest(types.FETCH_ESTIMATES, fetchEstimates);
   yield takeLatest(types.FETCH_SINGLE_ESTIMATE, fetchSingleEstimate);

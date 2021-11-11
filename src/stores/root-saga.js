@@ -3,7 +3,7 @@ import {REHYDRATE} from 'redux-persist/src/constants';
 
 import auth from 'stores/auth/saga';
 import invoice from 'stores/invoice/saga';
-import estimates from 'stores/estimates/saga';
+import estimate from 'stores/estimate/saga';
 import customer from 'stores/customer/saga';
 import expenses from '@/features/expenses/saga';
 import payments from '@/features/payments/saga';
@@ -33,7 +33,7 @@ export default function* rootSaga() {
     yield all([
       auth(),
       invoice(),
-      estimates(),
+      estimate(),
       customer(),
       expenses(),
       payments(),

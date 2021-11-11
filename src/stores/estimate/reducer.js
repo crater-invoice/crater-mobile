@@ -17,7 +17,7 @@ const initialState = {
   selectedItems: []
 };
 
-export default function estimatesReducer(state = initialState, action) {
+export default function estimateReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {

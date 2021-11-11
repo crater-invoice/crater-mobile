@@ -1,10 +1,10 @@
 import {connect} from 'react-redux';
 import CreateEstimate from './create-estimate';
 import {reduxForm, getFormValues} from 'redux-form';
-import {CREATE_ESTIMATE_FORM} from 'stores/estimates/types';
-import {validate} from 'stores/estimates/validator';
-import {loadingSelector} from 'stores/estimates/selectors';
-import {initialValues} from 'stores/estimates/helpers';
+import {CREATE_ESTIMATE_FORM} from 'stores/estimate/types';
+import {validate} from 'stores/estimate/validator';
+import {loadingSelector} from 'stores/estimate/selectors';
+import {initialValues} from 'stores/estimate/helpers';
 import {currentCurrencySelector} from 'stores/company/selectors';
 import {fetchNotes} from 'stores/note/actions';
 import {notesSelector} from 'stores/note/selectors';
@@ -21,7 +21,7 @@ import {
 
 const mapStateToProps = (state, {route}) => {
   const {
-    estimates: {selectedItems, estimateData},
+    estimate: {selectedItems, estimateData},
     items: {items}
   } = state;
 
