@@ -22,6 +22,16 @@ export const fetchItems = (payload = {}) => ({
 });
 
 /**
+ * Fetch item initial details
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const fetchItemInitialDetails = payload => ({
+  type: types.FETCH_INITIAL_DETAILS,
+  payload
+});
+
+/**
  * Add item
  * @param payload
  * @returns {{type: string, payload: *}}

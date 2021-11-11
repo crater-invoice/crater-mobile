@@ -2,38 +2,64 @@ import React from 'react';
 import {View} from 'react-native';
 import {Field, change} from 'redux-form';
 import styles from './create-item-styles';
+import t from 'locales/use-translation';
+import {routes} from '@/navigation';
+import {TaxSelectModal, UnitSelectModal} from '@/select-modal';
+import {itemActions} from 'stores/items/helper';
+import {CREATE_ITEM_FORM, ITEM_DISCOUNT_OPTION} from 'stores/items/types';
+import {IProps} from './create-item-types';
+import {getApiFormattedCustomFields, showNotification} from '@/utils';
+import {fetchItemInitialDetails} from 'stores/items/actions';
 import {
+  alertMe,
+  definePlatformParam,
+  hasValue,
+  isBooleanTrue,
+  isEmpty,
+  isIosPlatform,
+  keyboardType,
+  MAX_LENGTH
+} from '@/constants';
+import {
+  Text,
   BaseInput,
   BaseDivider,
   DefaultLayout,
   CurrencyFormat,
   RadioButtonGroup,
   View as CtView,
-  Text,
   BaseButtonGroup,
-  BaseButton
+  BaseButton,
+  CustomField
 } from '@/components';
-import t from 'locales/use-translation';
-import {routes} from '@/navigation';
-import {
-  alertMe,
-  definePlatformParam,
-  hasValue,
-  isBooleanTrue,
-  isIosPlatform,
-  keyboardType,
-  MAX_LENGTH
-} from '@/constants';
-import {TaxSelectModal, UnitSelectModal} from '@/select-modal';
-import {itemActions} from 'stores/items/helper';
-import {CREATE_ITEM_FORM, ITEM_DISCOUNT_OPTION} from 'stores/items/types';
-import {IProps} from './create-item-types';
 
 export class CreateItem extends React.Component<IProps> {
+  itemRefs: any;
+
   constructor(props) {
     super(props);
+    this.state = {isFetchingInitialData: true};
     this.itemRefs = {};
   }
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  loadData = () => {
+    const {itemId, isItemScreen, dispatch} = this.props;
+
+    if (!itemId || isItemScreen) {
+      dispatch(
+        fetchItemInitialDetails(() =>
+          this.setState({isFetchingInitialData: false})
+        )
+      );
+      return;
+    }
+
+    this.setState({isFetchingInitialData: false});
+  };
 
   setFormField = (field, value) => {
     this.props.dispatch(change(CREATE_ITEM_FORM, field, value));
@@ -47,7 +73,8 @@ export class CreateItem extends React.Component<IProps> {
       dispatch,
       isDeleting,
       isSaving,
-      isCreateScreen
+      isCreateScreen,
+      isItemScreen
     } = this.props;
 
     if (isSaving || isDeleting) {
@@ -55,7 +82,7 @@ export class CreateItem extends React.Component<IProps> {
     }
 
     if (this.finalAmount() < 0) {
-      alert(t('items.less_amount'));
+      showNotification({message: t('items.less_amount')});
       return;
     }
 
@@ -65,6 +92,7 @@ export class CreateItem extends React.Component<IProps> {
       total: this.subTotal(),
       discount_val: this.totalDiscount(),
       tax: this.itemTax() + this.itemCompoundTax(),
+      customFields: getApiFormattedCustomFields(values?.customFields),
       taxes:
         values.taxes &&
         values.taxes.map(val => {
@@ -81,9 +109,7 @@ export class CreateItem extends React.Component<IProps> {
       dispatch(
         itemActions[screen].addItem({
           item,
-          onSuccess: () => {
-            navigation.goBack(null);
-          }
+          onSuccess: () => navigation.goBack(null)
         })
       );
     } else {
@@ -92,18 +118,18 @@ export class CreateItem extends React.Component<IProps> {
         dispatch(itemActions[screen].removeItem({id: itemId}));
       }
       dispatch(itemActions[screen].setItems(itemData));
-      navigation.goBack(null);
+      !isItemScreen && navigation.goBack(null);
     }
   };
 
   removeItem = () => {
-    const {dispatch, itemId, navigation, screen} = this.props;
+    const {dispatch, itemId, navigation, screen, isItemScreen} = this.props;
 
     alertMe({
       title: t('alert.title'),
       showCancel: true,
       okPress: () => {
-        navigation.goBack(null);
+        !isItemScreen && navigation.goBack(null);
         dispatch(itemActions[screen].removeItem({id: itemId}));
       }
     });
@@ -387,22 +413,38 @@ export class CreateItem extends React.Component<IProps> {
       taxPerItem,
       units,
       isCreateScreen,
+      isEditScreen,
+      isItemScreen,
       fetchItemUnits,
       theme,
-      fetchTaxes
+      fetchTaxes,
+      isSaving,
+      isDeleting,
+      formValues,
+      customFields
     } = this.props;
-
-    const isItemScreen = screen === 'item';
+    const {isFetchingInitialData} = this.state;
     const unitName = unit?.name;
+    const hasCustomField =
+      !itemId || isItemScreen
+        ? isEditScreen
+          ? formValues && formValues.hasOwnProperty('fields')
+          : !isEmpty(customFields)
+        : false;
 
     const bottomAction = (
       <BaseButtonGroup>
-        <BaseButton loading={loading} onPress={handleSubmit(this.saveItem)}>
+        <BaseButton
+          loading={loading || isSaving}
+          onPress={handleSubmit(this.saveItem)}
+          disabled={isFetchingInitialData || isDeleting}
+        >
           {t('button.save')}
         </BaseButton>
         <BaseButton
           show={!isCreateScreen}
-          loading={loading}
+          loading={loading || isDeleting}
+          disabled={isFetchingInitialData || isSaving}
           onPress={this.removeItem}
           type="danger"
         >
@@ -423,6 +465,7 @@ export class CreateItem extends React.Component<IProps> {
           },
           rightIconPress: handleSubmit(this.saveItem)
         }}
+        loadingProps={{is: isFetchingInitialData}}
         bottomAction={bottomAction}
       >
         <Field
@@ -486,6 +529,8 @@ export class CreateItem extends React.Component<IProps> {
         )}
 
         {this.FINAL_AMOUNT()}
+
+        {hasCustomField && <CustomField {...this.props} type={null} />}
 
         <Field
           name="description"

@@ -1,4 +1,5 @@
-import {getError} from '@/constants';
+import {validateCustomField} from '@/components';
+import {getError, isEmpty} from '@/constants';
 
 export const validate = values => {
   const errors = {};
@@ -27,6 +28,9 @@ export const validate = values => {
   }
 
   errors.discount_type = getError(discount_type, ['required']);
+
+  const fieldErrors = validateCustomField(values?.customFields);
+  !isEmpty(fieldErrors) && (errors.customFields = fieldErrors);
 
   return errors;
 };

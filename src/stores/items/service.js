@@ -1,5 +1,6 @@
-import Request from '@/utils/request';
+import {pick} from 'lodash';
 import * as queryString from 'query-string';
+import Request from '@/utils/request';
 
 /**
  * Fetch items
@@ -15,8 +16,14 @@ export const fetchItems = q =>
  * @returns {*}
  */
 export const addItem = item => {
-  const {price, name, description, taxes, unit_id} = item;
-  const body = {name, description, price, unit_id, taxes};
+  const body = pick(item, [
+    'name',
+    'description',
+    'price',
+    'unit_id',
+    'taxes',
+    'customFields'
+  ]);
   return Request.post({path: `items`, body});
 };
 
