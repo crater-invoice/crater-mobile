@@ -69,7 +69,6 @@ export default class Estimate extends React.Component<IProps, IStates> {
 
     this.state = {
       currency: props?.currency,
-      markAsStatus: null,
       isFetchingInitialData: true
     };
   }
@@ -395,6 +394,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
       fetchCustomers,
       customers,
       formValues,
+      formValues: {prefix, customer, status},
       customFields,
       isEditScreen,
       isAllowToEdit,
@@ -405,18 +405,18 @@ export default class Estimate extends React.Component<IProps, IStates> {
       notes,
       fetchNotes
     } = this.props;
-    const {markAsStatus, isFetchingInitialData} = this.state;
+    const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
 
     const hasCustomField = isEditScreen
       ? formValues && formValues.hasOwnProperty('fields')
       : !isEmpty(customFields);
 
-    let hasCompleteStatus = markAsStatus === 'COMPLETED';
+    let hasCompleteStatus = status === 'COMPLETED';
 
     const dropdownOptions =
       isEditScreen && !isFetchingInitialData
-        ? EDIT_ESTIMATE_ACTIONS(markAsStatus, isAllowToDelete)
+        ? EDIT_ESTIMATE_ACTIONS(status, isAllowToDelete)
         : [];
 
     let drownDownProps =
@@ -519,7 +519,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
           component={BaseInputPrefix}
           isRequired
           label={t('estimates.estimate_number')}
-          prefix={formValues?.prefix}
+          prefix={prefix}
           fieldName="estimate_number"
           disabled={disabled}
         />
@@ -529,7 +529,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
           fetchCustomers={fetchCustomers}
           customers={customers}
           component={CustomerSelectModal}
-          selectedItem={formValues?.customer}
+          selectedItem={customer}
           onSelect={item => {
             this.setFormField('customer_id', item.id);
             this.setState({currency: item.currency});

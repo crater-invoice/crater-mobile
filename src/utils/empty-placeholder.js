@@ -53,6 +53,24 @@ export const emptyContentPlaceholder = props => {
         })
       };
 
+    case routes.PAYMENT_MODES:
+      return {
+        title: t('search.no_result', {search}),
+        ...(!search && {
+          title: t('payment_modes.empty.title'),
+          description: t('payment_modes.empty.description')
+        })
+      };
+
+    case routes.ITEM_UNITS:
+      return {
+        title: t('search.no_result', {search}),
+        ...(!search && {
+          title: t('item_units.empty.title'),
+          description: t('item_units.empty.description')
+        })
+      };
+
     case routes.TAXES:
       return {
         title: t('search.no_result', {search}),

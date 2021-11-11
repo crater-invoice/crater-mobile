@@ -49,12 +49,7 @@ import {
   ViewRecurringInvoice,
   CreateRecurringInvoice
 } from 'screens/recurring-invoices';
-import {
-  CustomizeList,
-  CustomizeInvoice,
-  CustomizeEstimate,
-  CustomizePayment
-} from 'screens/customize';
+import {PaymentModes} from 'screens/payment-modes';
 
 const Stack = createStackNavigator();
 
@@ -219,25 +214,10 @@ export const CommonNavigator = (
       options={options}
     />
 
-    {/* Customize Navigator */}
+    {/* Payment Modes Navigator */}
     <Stack.Screen
-      name={routes.CUSTOMIZE_LIST}
-      component={CustomizeList}
-      options={options}
-    />
-    <Stack.Screen
-      name={routes.CUSTOMIZE_INVOICE}
-      component={CustomizeInvoice}
-      options={options}
-    />
-    <Stack.Screen
-      name={routes.CUSTOMIZE_ESTIMATE}
-      component={CustomizeEstimate}
-      options={options}
-    />
-    <Stack.Screen
-      name={routes.CUSTOMIZE_PAYMENT}
-      component={CustomizePayment}
+      name={routes.PAYMENT_MODES}
+      component={PaymentModes}
       options={options}
     />
 
