@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {Reports} from './list-reports';
+import Reports from './list-reports';
 import {commonSelector} from 'stores/common/selectors';
 
 const mapStateToProps = state => commonSelector(state);
