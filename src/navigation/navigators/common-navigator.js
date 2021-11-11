@@ -29,8 +29,7 @@ import {Categories, CreateCategory} from 'screens/categories';
 
 import {Taxes, CreateTax} from 'screens/taxes';
 
-import CustomFields from '@/features/settings/containers/CustomFields';
-import CustomField from '@/features/settings/containers/CustomField';
+import {CustomFields, CreateCustomField} from 'screens/custom-field';
 
 import {Notes, CreateNote} from 'screens/notes';
 
@@ -236,8 +235,8 @@ export const CommonNavigator = (
       options={options}
     />
     <Stack.Screen
-      name={routes.CUSTOM_FIELD}
-      component={CustomField}
+      name={routes.CREATE_CUSTOM_FIELD}
+      component={CreateCustomField}
       options={options}
     />
 

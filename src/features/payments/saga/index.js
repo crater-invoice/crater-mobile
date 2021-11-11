@@ -4,11 +4,11 @@ import * as queryStrings from 'query-string';
 import * as TYPES from '../constants';
 import {routes} from '@/navigation';
 import {hasValue, isBooleanTrue} from '@/constants';
-import {getCustomFields} from '@/features/settings/saga/custom-fields';
+import {fetchCustomFields} from 'stores/custom-field/saga';
 import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
-import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
+import {modalTypes} from 'stores/custom-field/helpers';
 import {
   paymentTriggerSpinner as spinner,
   saveUnpaidInvoices,
@@ -37,8 +37,8 @@ function* getCreatePayment({payload: {onSuccess}}) {
     });
     const isAuto = isBooleanTrue(isAutoGenerate);
     const response = yield call(getNextNumber, {payload: {key: 'payment'}});
-    yield call(getCustomFields, {
-      payload: {queryString: {type: CUSTOM_FIELD_TYPES.PAYMENT, limit: 'all'}}
+    yield call(fetchCustomFields, {
+      payload: {queryString: {type: modalTypes.PAYMENT, limit: 'all'}}
     });
     onSuccess?.({
       ...response,
@@ -86,10 +86,8 @@ function* getPaymentDetail({payload: {id, onSuccess}}) {
   try {
     const options = {path: `payments/${id}`};
     const response = yield call([Request, 'get'], options);
-    yield call(getCustomFields, {
-      payload: {
-        queryString: {type: CUSTOM_FIELD_TYPES.PAYMENT, limit: 'all'}
-      }
+    yield call(fetchCustomFields, {
+      payload: {queryString: {type: modalTypes.PAYMENT, limit: 'all'}}
     });
     onSuccess?.(response);
   } catch (e) {}

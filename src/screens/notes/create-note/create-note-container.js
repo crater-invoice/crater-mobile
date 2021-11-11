@@ -6,6 +6,7 @@ import {validate} from 'stores/notes/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {loadingSelector} from 'stores/notes/selectors';
 import {CREATE_NOTE_FORM} from 'stores/notes/types';
+import {customFieldsSelector} from 'stores/custom-field/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const selectedModalType = route?.params?.modalType;
@@ -14,7 +15,7 @@ const mapStateToProps = (state, {route}) => {
     ...commonSelector(state),
     ...permissionSelector(route),
     formValues: getFormValues(CREATE_NOTE_FORM)(state) || {},
-    customFields: state.settings?.customFields,
+    customFields: customFieldsSelector(state),
     selectedModalType,
     initialValues: {
       name: null,

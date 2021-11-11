@@ -17,53 +17,6 @@ export const editSettingItem = payload => ({
   payload
 });
 
-// Custom Fields
-// -------------------------------------------------
-export const getCustomFields = (payload = {}) => ({
-  type: TYPES.GET_CUSTOM_FIELDS,
-  payload
-});
-
-export const setCustomFields = (payload = {}) => ({
-  type: TYPES.SET_CUSTOM_FIELDS,
-  payload
-});
-
-export const createCustomField = (payload = {}) => ({
-  type: TYPES.CREATE_CUSTOM_FIELD,
-  payload
-});
-
-export const getCustomField = (payload = {}) => ({
-  type: TYPES.GET_CUSTOM_FIELD,
-  payload
-});
-
-export const editCustomField = (payload = {}) => ({
-  type: TYPES.EDIT_CUSTOM_FIELD,
-  payload
-});
-
-export const removeCustomField = (payload = {}) => ({
-  type: TYPES.REMOVE_CUSTOM_FIELD,
-  payload
-});
-
-export const createFromCustomFields = (payload = {}) => ({
-  type: TYPES.CREATE_FROM_CUSTOM_FIELDS,
-  payload
-});
-
-export const updateFromCustomFields = (payload = {}) => ({
-  type: TYPES.UPDATE_FROM_CUSTOM_FIELDS,
-  payload
-});
-
-export const removeFromCustomFields = (payload = {}) => ({
-  type: TYPES.REMOVE_FROM_CUSTOM_FIELDS,
-  payload
-});
-
 // General Settings
 
 export const getGeneralSetting = (payload = {}) => ({

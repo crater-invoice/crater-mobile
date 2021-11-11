@@ -8,9 +8,9 @@ export interface IProps {
   navigation: INavigation;
 
   /**
-   * An array of objects with data for each category.
+   * An array of objects with data for each custom-field.
    */
-  categories: Array<any>;
+  customFields: Array<any>;
 
   /**
    * dispatch change action.
@@ -25,7 +25,7 @@ export interface IProps {
 
 export interface IStates {
   /**
-   * Search category in list data.
+   * Search custom-field in list data.
    */
   search: string;
 }

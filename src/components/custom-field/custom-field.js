@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {FieldArray, change} from 'redux-form';
-import {CUSTOM_FIELD_DATA_TYPES as DATA_TYPES} from '@/features/settings/constants';
 import {isEmpty} from '@/constants';
 import {getInitialCustomFields, getCustomFieldValueParams} from '@/utils';
+import {dataTypes} from 'stores/custom-field/helpers';
 import {IProps} from './type.d';
 import {
   InputType,
@@ -33,43 +33,43 @@ const FIELDS = ({fields, customFields, disabled}) => {
     };
 
     switch (type) {
-      case DATA_TYPES.INPUT:
+      case dataTypes.INPUT:
         items.push(<InputType {...fieldProps} />);
         break;
 
-      case DATA_TYPES.TEXTAREA:
+      case dataTypes.TEXTAREA:
         items.push(<TextAreaType {...fieldProps} />);
         break;
 
-      case DATA_TYPES.PHONE:
+      case dataTypes.PHONE:
         items.push(<PhoneType {...fieldProps} />);
         break;
 
-      case DATA_TYPES.URL:
+      case dataTypes.URL:
         items.push(<UrlType {...fieldProps} />);
         break;
 
-      case DATA_TYPES.NUMBER:
+      case dataTypes.NUMBER:
         items.push(<NumberType {...fieldProps} />);
         break;
 
-      case DATA_TYPES.DROPDOWN:
+      case dataTypes.DROPDOWN:
         items.push(<DropdownType {...fieldProps} />);
         break;
 
-      case DATA_TYPES.SWITCH:
+      case dataTypes.SWITCH:
         items.push(<SwitchType {...fieldProps} />);
         break;
 
-      case DATA_TYPES.DATE:
+      case dataTypes.DATE:
         items.push(<DateType {...fieldProps} />);
         break;
 
-      case DATA_TYPES.TIME:
+      case dataTypes.TIME:
         items.push(<TimeType {...fieldProps} />);
         break;
 
-      case DATA_TYPES.DATE_TIME:
+      case dataTypes.DATE_TIME:
         items.push(<DateTimeType {...fieldProps} />);
         break;
 

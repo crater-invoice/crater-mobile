@@ -6,9 +6,9 @@ import {fetchTaxAndDiscountPerItem} from '../common/actions';
 import {showNotification, handleError} from '@/utils';
 import t from 'locales/use-translation';
 import {navigation} from '@/navigation';
-import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
-import {getCustomFields} from '@/features/settings/saga/custom-fields';
+import {fetchCustomFields} from 'stores/custom-field/saga';
 import {addItem} from '../items/saga';
+import {modalTypes} from '../custom-field/helpers';
 
 /**
  * Fetch Next-Invoice-At saga
@@ -28,8 +28,8 @@ function* fetchNextInvoiceAt({payload}) {
  */
 function* fetchRecurringInvoiceData() {
   try {
-    yield call(getCustomFields, {
-      payload: {queryString: {type: CUSTOM_FIELD_TYPES.INVOICE, limit: 'all'}}
+    yield call(fetchCustomFields, {
+      payload: {queryString: {type: modalTypes.INVOICE, limit: 'all'}}
     });
     yield put({type: types.CLEAR_RECURRING_INVOICE});
     const {invoiceTemplates} = yield call(req.fetchInvoiceTemplates);

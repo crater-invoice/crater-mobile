@@ -1,23 +1,14 @@
 import {StyleSheet, Platform} from 'react-native';
-import {colors, fonts} from '@/styles';
 import {definePlatformParam} from '@/constants';
 
-export default styles = StyleSheet.create({
-  flex: {
-    flex: 1
-  },
-  // Row Column
+const styles = StyleSheet.create({
   row: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 10
   },
   column: {
     flex: 1,
     marginLeft: definePlatformParam(-65, -55)
-  },
-  columnRight: {
-    paddingLeft: 5,
-    alignItems: 'center',
-    justifyContent: 'center'
   },
   leftText: {
     marginTop: 4,
@@ -35,12 +26,7 @@ export default styles = StyleSheet.create({
   positionView: {
     justifyContent: 'center',
     width: '45%'
-  },
-  // help
-  helpText: {
-    color: colors.darkGray,
-    fontFamily: fonts.regular,
-    fontSize: 14,
-    textAlign: 'left'
   }
 });
+
+export default styles;

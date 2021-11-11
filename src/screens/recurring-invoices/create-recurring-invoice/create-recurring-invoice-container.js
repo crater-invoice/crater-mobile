@@ -11,6 +11,7 @@ import {taxTypesSelector} from 'stores/taxes/selectors';
 import {fetchTaxes} from 'stores/taxes/actions';
 import {customersSelector} from 'stores/customers/selectors';
 import {fetchCustomers} from 'stores/customers/actions';
+import {customFieldsSelector} from 'stores/custom-field/selectors';
 import {
   commonSelector,
   permissionSelector,
@@ -29,7 +30,6 @@ const mapStateToProps = (state, {route}) => {
         recurring_invoice_status: {update_status}
       }
     },
-    settings: {customFields},
     recurringInvoices: {selectedItems, invoiceTemplates},
     items: {items}
   } = state;
@@ -46,7 +46,7 @@ const mapStateToProps = (state, {route}) => {
     taxTypes: taxTypesSelector(state),
     dateFormat,
     currency: currentCurrencySelector(state),
-    customFields,
+    customFields: customFieldsSelector(state),
     statusList: statusSelector(update_status),
     formValues: getFormValues(CREATE_RECURRING_INVOICE_FORM)(state) || {},
     initialValues: initialValues(invoiceTemplates)
