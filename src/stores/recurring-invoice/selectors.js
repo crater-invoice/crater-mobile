@@ -70,7 +70,7 @@ export const formatItems = (invoices, theme) => {
 };
 
 export const loadingSelector = createSelector(
-  state => state?.recurringInvoices,
+  state => state?.recurringInvoice,
   store => ({
     isSaving: store?.isSaving,
     isDeleting: store?.isDeleting
@@ -78,7 +78,7 @@ export const loadingSelector = createSelector(
 );
 
 export const invoicesSelector = createSelector(
-  [state => state?.recurringInvoices?.invoices, state => state.common?.theme],
+  [state => state?.recurringInvoice?.invoices, state => state.common?.theme],
   (invoices, theme) => formatItems(invoices, theme)
 );
 

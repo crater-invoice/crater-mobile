@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import {View} from 'react-native';
 import {ListView, InfiniteScroll} from '@/components';
-import {fetchRecurringInvoices} from 'stores/recurring-invoices/actions';
+import {fetchRecurringInvoices} from 'stores/recurring-invoice/actions';
 import {setTabRef} from 'stores/common/helpers';
 import {isEmpty} from '@/constants';
 

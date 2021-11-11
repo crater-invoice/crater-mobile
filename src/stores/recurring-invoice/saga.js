@@ -190,7 +190,7 @@ function* removeRecurringInvoiceItem({payload}) {
   }
 }
 
-export default function* recurringInvoicesSaga() {
+export default function* recurringInvoiceSaga() {
   yield takeLatest(types.FETCH_NEXT_INVOICE_AT, fetchNextInvoiceAt);
   yield takeLatest(
     types.FETCH_INITIAL_DETAILS,

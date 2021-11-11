@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import {reduxForm, getFormValues} from 'redux-form';
 import RecurringInvoices from './list-recurring-invoices';
-import {RECURRING_INVOICES_FORM} from 'stores/recurring-invoices/types';
+import {RECURRING_INVOICES_FORM} from 'stores/recurring-invoice/types';
 import {commonSelector} from 'stores/common/selectors';
 import {customersSelector} from 'stores/customer/selectors';
 import {fetchCustomers} from 'stores/customer/actions';
@@ -9,7 +9,7 @@ import {
   invoicesSelector,
   loadingSelector,
   statusSelector
-} from 'stores/recurring-invoices/selectors';
+} from 'stores/recurring-invoice/selectors';
 
 const mapStateToProps = state => {
   const {

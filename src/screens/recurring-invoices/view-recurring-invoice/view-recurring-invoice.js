@@ -6,7 +6,7 @@ import {alertMe, hasObjectLength, isArray} from '@/constants';
 import {
   RECURRING_INVOICES_ACTIONS,
   RECURRING_INVOICE_DROPDOWN
-} from 'stores/recurring-invoices/types';
+} from 'stores/recurring-invoice/types';
 import {
   DefaultLayout,
   ViewData,
@@ -18,9 +18,9 @@ import {
 import {
   fetchSingleRecurringInvoice,
   removeRecurringInvoice
-} from 'stores/recurring-invoices/actions';
+} from 'stores/recurring-invoice/actions';
 import styles from './view-recurring-invoice-styles';
-import {formattedInvoices} from 'stores/recurring-invoices/selectors';
+import {formattedInvoices} from 'stores/recurring-invoice/selectors';
 import {ARROW_ICON} from '@/assets';
 import {find} from 'lodash-es';
 

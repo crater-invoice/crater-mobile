@@ -10,7 +10,7 @@ const initialState = {
   isDeleting: false
 };
 
-export default function recurringInvoicesReducer(state = initialState, action) {
+export default function recurringInvoiceReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {

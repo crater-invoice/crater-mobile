@@ -16,7 +16,7 @@ import user from 'stores/user/saga';
 import paymentMode from 'stores/payment-mode/saga';
 import itemUnit from 'stores/item-unit/saga';
 import common from 'stores/common/saga';
-import recurringInvoices from 'stores/recurring-invoices/saga';
+import recurringInvoice from 'stores/recurring-invoice/saga';
 import category from 'stores/category/saga';
 import items from 'stores/items/saga';
 import note from 'stores/note/saga';
@@ -45,7 +45,7 @@ export default function* rootSaga() {
       category(),
       paymentMode(),
       itemUnit(),
-      recurringInvoices(),
+      recurringInvoice(),
       items(),
       common(),
       note(),
