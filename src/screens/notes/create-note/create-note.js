@@ -5,8 +5,8 @@ import t from 'locales/use-translation';
 import {IProps, IStates} from './create-note-type';
 import {alertMe, hasTextLength, hasValue} from '@/constants';
 import {secondaryHeader} from 'utils/header';
-import {CREATE_NOTE_FORM} from 'stores/notes/types';
-import {NOTE_TYPES} from 'stores/notes/helpers';
+import {CREATE_NOTE_FORM} from 'stores/note/types';
+import {NOTE_TYPES} from 'stores/note/helpers';
 import {
   DefaultLayout,
   BaseInput,
@@ -22,7 +22,7 @@ import {
   removeNote,
   fetchSingleNote,
   fetchNoteInitialDetails
-} from 'stores/notes/actions';
+} from 'stores/note/actions';
 
 export default class CreateNote extends Component<IProps, IStates> {
   constructor(props) {

@@ -2,8 +2,8 @@ import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import Notes from './list-notes';
 import {commonSelector} from 'stores/common/selectors';
-import {NOTES_FORM} from 'stores/notes/types';
-import {notesSelector} from 'stores/notes/selectors';
+import {NOTES_FORM} from 'stores/note/types';
+import {notesSelector} from 'stores/note/selectors';
 
 const mapStateToProps = state => ({
   notes: notesSelector(state),

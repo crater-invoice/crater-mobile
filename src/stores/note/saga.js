@@ -104,7 +104,7 @@ function* removeNote({payload}) {
   }
 }
 
-export default function* notesSaga() {
+export default function* noteSaga() {
   yield takeLatest(types.FETCH_NOTES, fetchNotes);
   yield takeLatest(types.FETCH_SINGLE_NOTE, fetchSingleNote);
   yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchNoteInitialDetails);

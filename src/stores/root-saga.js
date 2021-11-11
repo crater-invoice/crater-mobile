@@ -19,7 +19,7 @@ import common from 'stores/common/saga';
 import recurringInvoices from 'stores/recurring-invoices/saga';
 import category from 'stores/category/saga';
 import items from 'stores/items/saga';
-import notes from 'stores/notes/saga';
+import note from 'stores/note/saga';
 import taxes from 'stores/taxes/saga';
 import customField from 'stores/custom-field/saga';
 import {PermissionService} from '@/services';
@@ -48,7 +48,7 @@ export default function* rootSaga() {
       recurringInvoices(),
       items(),
       common(),
-      notes(),
+      note(),
       taxes(),
       customField()
     ]);

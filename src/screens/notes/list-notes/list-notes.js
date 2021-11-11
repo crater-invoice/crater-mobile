@@ -3,7 +3,7 @@ import {routes} from '@/navigation';
 import {IProps, IStates} from './list-notes-type';
 import {isEmpty} from '@/constants';
 import {primaryHeader} from '@/utils';
-import {fetchNotes} from 'stores/notes/actions';
+import {fetchNotes} from 'stores/note/actions';
 import {fontSizes} from '@/styles';
 import {
   MainLayout,

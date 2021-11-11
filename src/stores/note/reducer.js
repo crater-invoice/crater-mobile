@@ -6,7 +6,7 @@ const initialState = {
   isDeleting: false
 };
 
-export default function notesReducer(state = initialState, action) {
+export default function noteReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {
