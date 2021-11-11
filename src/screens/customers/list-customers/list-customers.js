@@ -5,7 +5,7 @@ import {isEmpty} from '@/constants';
 import {isFilterApply} from '@/utils';
 import filterFields from './list-customers-filters';
 import t from 'locales/use-translation';
-import {fetchCustomers} from 'stores/customers/actions';
+import {fetchCustomers} from 'stores/customer/actions';
 import {
   MainLayout,
   ListView,

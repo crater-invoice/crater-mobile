@@ -3,7 +3,7 @@ import {reducer as formReducer} from 'redux-form';
 import auth from 'stores/auth/reducer';
 import invoices from 'stores/invoices/reducer';
 import estimates from 'stores/estimates/reducer';
-import customers from 'stores/customers/reducer';
+import customer from 'stores/customer/reducer';
 import payments from '@/features/payments/reducers';
 import settings from '@/features/settings/reducers';
 import expenses from '@/features/expenses/reducers';
@@ -25,7 +25,7 @@ export default combineReducers({
   auth,
   invoices,
   estimates,
-  customers,
+  customer,
   expenses,
   payments,
   form: formReducer,

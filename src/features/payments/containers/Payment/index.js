@@ -10,8 +10,8 @@ import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
 import {fetchNotes} from 'stores/notes/actions';
 import {notesSelector} from 'stores/notes/selectors';
-import {customersSelector} from 'stores/customers/selectors';
-import {fetchCustomers} from 'stores/customers/actions';
+import {customersSelector} from 'stores/customer/selectors';
+import {fetchCustomers} from 'stores/customer/actions';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 
 const mapStateToProps = (state, {route}) => {

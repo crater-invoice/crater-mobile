@@ -4,8 +4,8 @@ import {reduxForm, getFormValues} from 'redux-form';
 import {INVOICES_FORM} from 'stores/invoices/types';
 import {commonSelector} from 'stores/common/selectors';
 import {invoicesSelector, loadingSelector} from 'stores/invoices/selectors';
-import {customersSelector} from 'stores/customers/selectors';
-import {fetchCustomers} from 'stores/customers/actions';
+import {customersSelector} from 'stores/customer/selectors';
+import {fetchCustomers} from 'stores/customer/actions';
 
 const mapStateToProps = state => ({
   customers: customersSelector(state),

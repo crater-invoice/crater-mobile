@@ -5,7 +5,7 @@ import * as TYPES from '../constants';
 import {fetchCategories} from 'stores/category/saga';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
-import {fetchCustomers} from 'stores/customers/saga';
+import {fetchCustomers} from 'stores/customer/saga';
 import {fetchCustomFields} from 'stores/custom-field/saga';
 import {
   setExpenses,

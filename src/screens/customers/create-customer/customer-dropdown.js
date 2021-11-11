@@ -3,7 +3,7 @@ import {find} from 'lodash';
 import {routes} from '@/navigation';
 import {PermissionService} from '@/services';
 import {alertMe} from '@/constants';
-import {removeCustomer} from 'stores/customers/actions';
+import {removeCustomer} from 'stores/customer/actions';
 
 export default data => {
   const {props, state} = data;

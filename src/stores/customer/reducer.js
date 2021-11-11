@@ -6,7 +6,7 @@ const initialState = {
   isDeleting: false
 };
 
-export default function customersReducer(state = initialState, action) {
+export default function customerReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {

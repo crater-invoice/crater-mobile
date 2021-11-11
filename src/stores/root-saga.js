@@ -4,7 +4,7 @@ import {REHYDRATE} from 'redux-persist/src/constants';
 import auth from 'stores/auth/saga';
 import invoices from 'stores/invoices/saga';
 import estimates from 'stores/estimates/saga';
-import customers from 'stores/customers/saga';
+import customer from 'stores/customer/saga';
 import expenses from '@/features/expenses/saga';
 import payments from '@/features/payments/saga';
 import settings from '@/features/settings/saga';
@@ -34,7 +34,7 @@ export default function* rootSaga() {
       auth(),
       invoices(),
       estimates(),
-      customers(),
+      customer(),
       expenses(),
       payments(),
       settings(),

@@ -115,7 +115,7 @@ function* removeCustomer({payload}) {
   }
 }
 
-export default function* customersSaga() {
+export default function* customerSaga() {
   yield takeLatest(types.FETCH_CUSTOMERS, fetchCustomers);
   yield takeLatest(types.FETCH_SINGLE_CUSTOMER, fetchSingleCustomer);
   yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchCustomerInitialDetails);

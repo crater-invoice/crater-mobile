@@ -3,8 +3,8 @@ import {reduxForm, getFormValues} from 'redux-form';
 import RecurringInvoices from './list-recurring-invoices';
 import {RECURRING_INVOICES_FORM} from 'stores/recurring-invoices/types';
 import {commonSelector} from 'stores/common/selectors';
-import {customersSelector} from 'stores/customers/selectors';
-import {fetchCustomers} from 'stores/customers/actions';
+import {customersSelector} from 'stores/customer/selectors';
+import {fetchCustomers} from 'stores/customer/actions';
 import {
   invoicesSelector,
   loadingSelector,

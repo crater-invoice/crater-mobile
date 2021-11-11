@@ -1,10 +1,10 @@
 import {createSelector} from 'reselect';
 import {isEmpty} from '@/constants';
 
-const customersStore = state => state?.customers;
+const customerStore = state => state?.customer;
 
 export const customersSelector = createSelector(
-  customersStore,
+  customerStore,
   store => {
     if (isEmpty(store?.customers)) return [];
     return store.customers.map(customer => ({
@@ -17,6 +17,6 @@ export const customersSelector = createSelector(
 );
 
 export const loadingSelector = createSelector(
-  customersStore,
+  customerStore,
   store => ({isSaving: store?.isSaving, isDeleting: store?.isDeleting})
 );
