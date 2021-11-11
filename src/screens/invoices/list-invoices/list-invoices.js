@@ -37,8 +37,7 @@ export default class Invoices extends React.Component<IProps, IStates> {
     this.focusListener = navigation.addListener('focus', () => {
       const {activeTab} = this.state;
       tabRefs?.getItems?.({
-        queryString: {status: activeTab !== 'ALL' ? activeTab : ''},
-        showLoader: true
+        queryString: {status: activeTab !== 'ALL' ? activeTab : ''}
       });
 
       if (InvoiceServices.isFirstInvoiceCreated) {

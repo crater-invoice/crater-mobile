@@ -10,6 +10,7 @@ import {loadingSelector} from 'stores/items/selectors';
 import {taxTypesSelector} from 'stores/taxes/selectors';
 import {fetchTaxes} from 'stores/taxes/actions';
 import {getSettingInfo} from '@/features/settings/actions';
+import {customFieldsSelector} from '@/stores/custom-field/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
@@ -24,23 +25,21 @@ const mapStateToProps = (state, {route}) => {
   const screen = route?.params?.screen;
   const discountPerItem = route?.params?.discount_per_item;
   const taxPerItem = route?.params?.tax_per_item;
-  const isLoading = () => {
-    return (
-      invoices?.isSaving || estimates?.isSaving || recurringInvoices?.isSaving
-    );
-  };
 
   return {
-    loading: isLoading(),
+    loading:
+      invoices?.isSaving || estimates?.isSaving || recurringInvoices?.isSaving,
     formValues: getFormValues(CREATE_ITEM_FORM)(state) || {},
     itemId: item && (item.item_id || item.id),
     taxTypes: taxTypesSelector(state),
     currency: route?.params?.currency,
+    isItemScreen: screen === 'item',
     discountPerItem,
     taxPerItem,
     type,
     screen,
     units: unitsSelector(units),
+    customFields: customFieldsSelector(state),
     ...permissionSelector(route),
     ...loadingSelector(state),
     ...commonSelector(state),

@@ -29,7 +29,7 @@ export interface IProps {
   isDeleting: boolean;
 
   /**
-   * Id of the current category.
+   * Id of the current custom-field.
    */
   id: string;
 
@@ -44,12 +44,12 @@ export interface IProps {
   isEditScreen: boolean;
 
   /**
-   * If true the user will be able to update the current category data.
+   * If true the user will be able to update the current custom-field data.
    */
   isAllowToEdit: boolean;
 
   /**
-   * If true the user will be able to remove the current category.
+   * If true the user will be able to remove the current custom-field.
    */
   isAllowToDelete: boolean;
 

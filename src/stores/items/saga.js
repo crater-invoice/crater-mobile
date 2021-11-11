@@ -5,6 +5,9 @@ import {spinner} from './actions';
 import {showNotification, handleError} from '@/utils';
 import t from 'locales/use-translation';
 import {fetchTaxAndDiscountPerItem} from 'stores/common/actions';
+import {navigation} from '@/navigation';
+import {fetchCustomFields} from '../custom-field/saga';
+import {modalTypes} from '../custom-field/helpers';
 
 /**
  * Fetch items saga
@@ -56,6 +59,7 @@ function* updateItem({payload}) {
     const {data} = yield call(req.updateItem, ...payload);
     yield put({type: types.UPDATE_ITEM_SUCCESS, payload: data});
     showNotification({message: t('notification.item_updated')});
+    navigation.goBack();
   } catch (e) {
     handleError(e);
   } finally {
@@ -74,6 +78,7 @@ function* removeItem({payload}) {
     yield call(req.removeItem, id);
     yield put({type: types.REMOVE_ITEM_SUCCESS, payload: id});
     showNotification({message: t('notification.item_deleted')});
+    navigation.goBack();
   } catch (e) {
     handleError(e);
   } finally {
@@ -81,9 +86,21 @@ function* removeItem({payload}) {
   }
 }
 
+/**
+ * Fetch item initial details saga
+ * @returns {IterableIterator<*>}
+ */
+function* fetchItemInitialDetails({payload}) {
+  yield call(fetchCustomFields, {
+    payload: {queryString: {type: modalTypes.ITEM, limit: 'all'}}
+  });
+  payload?.();
+}
+
 export default function* itemsSaga() {
   yield takeLatest(types.FETCH_ITEMS, fetchItems);
   yield takeLatest(types.ADD_ITEM, addItem);
   yield takeLatest(types.UPDATE_ITEM, updateItem);
   yield takeLatest(types.REMOVE_ITEM, removeItem);
+  yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchItemInitialDetails);
 }
