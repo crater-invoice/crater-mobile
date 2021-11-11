@@ -15,12 +15,12 @@ export const validate = (values, {type}) => {
     items,
     template_name
   } = values;
-  errors.customer_id = getError(customer_id, ['requiredField']);
+  errors.customer_id = getError(customer_id, ['required']);
   errors.starts_at = getError(starts_at, ['required']);
   errors.limit_by = getError(limit_by, ['required']);
   errors.status = getError(status, ['required']);
   errors.items = getError(items, ['requiredCheckArray']);
-  errors.template_name = getError(template_name, ['requiredField']);
+  errors.template_name = getError(template_name, ['required']);
 
   if (limit_by === 'DATE')
     errors.limit_date = getError(limit_date, ['required']);

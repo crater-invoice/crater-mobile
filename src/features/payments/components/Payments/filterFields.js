@@ -5,7 +5,7 @@ import {routes} from '@/navigation';
 
 export default paymentsFilterFields = ({props, setFormField}) => {
   const {
-    getCustomers,
+    fetchCustomers,
     fetchPaymentModes,
     customers,
     navigation,
@@ -17,7 +17,7 @@ export default paymentsFilterFields = ({props, setFormField}) => {
       name: 'customer_id',
       apiSearch: true,
       hasPagination: true,
-      getItems: getCustomers,
+      getItems: fetchCustomers,
       items: customers,
       displayName: 'name',
       label: t('payments.customer'),

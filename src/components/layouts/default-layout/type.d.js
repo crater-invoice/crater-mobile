@@ -84,4 +84,10 @@ export interface IProps {
    * Additional props to pass to the Content.
    */
   contentProps?: any;
+
+  /**
+   * Either children or a render prop that receives a boolean reflecting whether
+   * the component is currently pressed.
+   */
+  dropdownProps: any;
 }

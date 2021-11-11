@@ -9,7 +9,6 @@ type IValidationOptions = {
 type ErrorType =
   | 'emailFormat'
   | 'required'
-  | 'requiredField'
   | 'itemField'
   | 'requiredCheckArray'
   | 'minNumberRequired'
@@ -41,8 +40,6 @@ export function getError(
     emailFormat: () => (EMAIL_REGEX.test(value) ? null : 'validation.email'),
 
     required: () => (!trim(value) ? 'validation.required' : null),
-
-    requiredField: () => (!trim(value) ? 'validation.field' : null),
 
     itemField: () => (!value ? 'validation.choose' : null),
 

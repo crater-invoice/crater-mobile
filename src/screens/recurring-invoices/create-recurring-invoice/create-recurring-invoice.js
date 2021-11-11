@@ -230,7 +230,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     const {navigation} = this.props;
     const {currency} = this.state;
 
-    navigation.navigate(routes.CUSTOMER, {
+    navigation.navigate(routes.CREATE_CUSTOMER, {
       type: 'ADD',
       currency,
       onSelect: item => {
@@ -248,7 +248,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       isAllowToDelete,
       formValues,
       customers,
-      getCustomers,
+      fetchCustomers,
       selectedItems,
       items,
       customFields,
@@ -310,7 +310,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       >
         <Field
           name="customer_id"
-          getCustomers={getCustomers}
+          fetchCustomers={fetchCustomers}
           customers={customers}
           component={CustomerSelectModal}
           selectedItem={formValues?.customer}

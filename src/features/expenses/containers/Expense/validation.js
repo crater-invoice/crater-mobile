@@ -8,17 +8,17 @@ export const validate = values => {
   if (values) {
     errors['expense'][FIELDS.DATE] = getError(
       values?.['expense']?.[FIELDS.DATE],
-      ['requiredField']
+      ['required']
     );
 
     errors['expense'][FIELDS.CATEGORY] = getError(
       values?.['expense']?.[FIELDS.CATEGORY],
-      ['requiredField']
+      ['required']
     );
 
     errors['expense'][FIELDS.AMOUNT] = getError(
       values?.['expense']?.[FIELDS.AMOUNT],
-      ['requiredField', 'isNumberFormat']
+      ['required', 'isNumberFormat']
     );
 
     const fieldErrors = validateCustomField(values?.customFields);

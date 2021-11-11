@@ -6,19 +6,19 @@ export const validate = values => {
 
   errors.date_range = getError(
     date_range,
-    ['requiredField'],
+    ['required'],
     (options = {fieldName: 'Date Range'})
   );
 
   errors.from_date = getError(
     from_date,
-    ['requiredField'],
+    ['required'],
     (options = {fieldName: 'From Date'})
   );
 
   errors.to_date = getError(
     to_date,
-    ['requiredField'],
+    ['required'],
     (options = {fieldName: 'To Date'})
   );
 

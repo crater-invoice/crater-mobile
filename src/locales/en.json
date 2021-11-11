@@ -763,7 +763,6 @@
   },
   "validation": {
     "required": "Required field is empty",
-    "field": "Required field is empty",
     "choose": "Choose at least one item",
     "email": "Please enter a valid email address",
     "password_compare": "Passwords do not match",
@@ -808,6 +807,12 @@
     "role": "Role",
     "roles": "Roles",
     "role_placeholder": "Select Role"
+  },
+  "actions": {
+    "new_estimate": "New Estimate",
+    "new_invoice": "New Invoice",
+    "new_payment": "New Payment",
+    "new_expense": "New Expense"
   },
   "notification": {
     "success": "Success!",

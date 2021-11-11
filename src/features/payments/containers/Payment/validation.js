@@ -18,12 +18,12 @@ export const validate = values => {
 
     errors['payment'][FIELDS.CUSTOMER] = getError(
       values?.['payment']?.[FIELDS.CUSTOMER],
-      ['requiredField']
+      ['required']
     );
 
     errors['payment'][FIELDS.AMOUNT] = getError(
       values?.['payment']?.[FIELDS.AMOUNT],
-      ['requiredField', 'isNumberFormat']
+      ['required', 'isNumberFormat']
     );
 
     const fieldErrors = validateCustomField(values?.customFields);

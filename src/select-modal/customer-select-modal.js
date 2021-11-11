@@ -12,7 +12,7 @@ interface IProps {
   /**
    * An action to return a list of customer.
    */
-  getCustomers?: () => void;
+  fetchCustomers?: () => void;
 
   /**
    * Is allowed to edit.
@@ -21,14 +21,14 @@ interface IProps {
 }
 
 export const CustomerSelectModal = (props: IProps) => {
-  const {customers, getCustomers, disabled, isRequired = true} = props;
+  const {customers, fetchCustomers, disabled, isRequired = true} = props;
 
   return (
     <SelectField
       placeholder={t('estimates.customer_placeholder')}
       {...props}
       items={customers ?? []}
-      getItems={getCustomers}
+      getItems={fetchCustomers}
       isRequired={isRequired}
       apiSearch
       hasPagination

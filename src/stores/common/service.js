@@ -49,3 +49,15 @@ export const fetchBootstrap = () => {
 export const fetchCountries = () => {
   return Request.get({path: 'countries'});
 };
+
+class Services {
+  isCountriesItemLoaded: boolean;
+
+  constructor() {
+    this.isCountriesItemLoaded = false;
+  }
+
+  setIsCountriesItemLoaded = () => (this.isCountriesItemLoaded = true);
+}
+
+export const CommonServices = new Services();

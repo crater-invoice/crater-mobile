@@ -3,7 +3,7 @@ import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change, initialize} from 'redux-form';
 import {BaseInputPrefix, TemplateField} from '@/components';
-import {routes} from '@/navigation';
+import {dismissRoute, routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {alertMe, isEmpty} from '@/constants';
 import {
@@ -80,7 +80,8 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     const {
       dispatch,
       invoiceData: {invoiceTemplates} = {},
-      invoiceData
+      invoiceData,
+      route
     } = this.props;
     let values = {
       ...initialValues(invoiceTemplates),
@@ -98,6 +99,16 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       this.setState({currency: data?.customer?.currency});
     }
 
+    const customer = route?.params?.customer;
+    if (customer) {
+      values = {
+        ...values,
+        customer,
+        customer_id: customer.id
+      };
+      this.setState({currency: customer.currency});
+    }
+
     dispatch(initialize(CREATE_INVOICE_FORM, values));
     this.setState({isFetchingInitialData: false});
   };
@@ -111,12 +122,12 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     const {isFetchingInitialData} = this.state;
 
     if (isFetchingInitialData) {
-      navigation.navigate(routes.MAIN_INVOICES);
+      navigation.goBack();
       return;
     }
 
     if (isEditScreen) {
-      navigation.goBack(null);
+      navigation.goBack();
       return;
     }
 
@@ -124,7 +135,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       title: t('invoices.alert.draft_title'),
       showCancel: true,
       cancelText: t('alert.action.discard'),
-      cancelPress: () => navigation.navigate(routes.MAIN_INVOICES),
+      cancelPress: () => navigation.goBack(),
       okText: t('alert.action.save_as_draft'),
       okPress: handleSubmit(this.draftInvoice)
     });
@@ -185,9 +196,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       },
       navigation,
       status,
-      onSuccess: () => {
-        navigation.navigate(routes.MAIN_INVOICES);
-      }
+      onSuccess: () => navigation.navigate(routes.MAIN_INVOICES)
     };
     isCreateScreen
       ? dispatch(addInvoice(params))
@@ -333,14 +342,16 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     const {navigation} = this.props;
     const {currency} = this.state;
 
-    navigation.navigate(routes.CUSTOMER, {
-      type: 'ADD',
-      currency,
-      onSelect: item => {
-        this.customerReference?.changeDisplayValue?.(item);
-        this.setFormField('customer_id', item.id);
-        this.setState({currency: item.currency});
-      }
+    dismissRoute(routes.CREATE_CUSTOMER, () => {
+      navigation.navigate(routes.CREATE_CUSTOMER, {
+        type: 'ADD',
+        currency,
+        onSelect: item => {
+          this.customerReference?.changeDisplayValue?.(item);
+          this.setFormField('customer_id', item.id);
+          this.setState({currency: item.currency});
+        }
+      });
     });
   };
 
@@ -351,7 +362,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       invoiceData: {invoiceTemplates} = {},
       selectedItems,
       items,
-      getCustomers,
+      fetchCustomers,
       customers,
       formValues: {prefix, customer, status},
       formValues,
@@ -485,7 +496,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
 
         <Field
           name="customer_id"
-          getCustomers={getCustomers}
+          fetchCustomers={fetchCustomers}
           customers={customers}
           component={CustomerSelectModal}
           selectedItem={customer}

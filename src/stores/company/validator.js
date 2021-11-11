@@ -11,20 +11,20 @@ export const validate = values => {
     retrospective_edits
   } = values;
 
-  errors.currency = getError(currency, ['requiredField'], {
+  errors.currency = getError(currency, ['required'], {
     fieldName: 'Currency'
   });
 
-  errors.language = getError(language, ['requiredField'], {
+  errors.language = getError(language, ['required'], {
     fieldName: 'Language'
   });
-  errors.time_zone = getError(time_zone, ['requiredField']);
+  errors.time_zone = getError(time_zone, ['required']);
 
-  errors.date_format = getError(date_format, ['requiredField']);
+  errors.date_format = getError(date_format, ['required']);
 
-  errors.fiscal_year = getError(fiscal_year, ['requiredField']);
+  errors.fiscal_year = getError(fiscal_year, ['required']);
 
-  errors.retrospective_edits = getError(retrospective_edits, ['requiredField']);
+  errors.retrospective_edits = getError(retrospective_edits, ['required']);
 
   return errors;
 };

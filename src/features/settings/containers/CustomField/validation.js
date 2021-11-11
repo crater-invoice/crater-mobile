@@ -16,13 +16,11 @@ export const validate = values => {
   const order = FIELDS.ORDER;
 
   if (values && hasObjectLength(values[field])) {
-    errors[field][name] = getError(values[field][name], ['requiredField']);
-    errors[field][modalType] = getError(values[field][modalType], [
-      'requiredField'
-    ]);
-    errors[field][type] = getError(values[field][type], ['requiredField']);
-    errors[field][label] = getError(values[field][label], ['requiredField']);
-    errors[field][order] = getError(values[field][order], ['requiredField']);
+    errors[field][name] = getError(values[field][name], ['required']);
+    errors[field][modalType] = getError(values[field][modalType], ['required']);
+    errors[field][type] = getError(values[field][type], ['required']);
+    errors[field][label] = getError(values[field][label], ['required']);
+    errors[field][order] = getError(values[field][order], ['required']);
     if (values[field][type] === OPTION_VALUE.URL) {
       if (values[field][defaultValue]) {
         errors[field][defaultValue] = getError(values[field][defaultValue], [

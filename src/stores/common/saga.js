@@ -15,6 +15,7 @@ import {PING_SUCCESS} from '../auth/types';
 import {FETCH_COMPANIES_SUCCESS} from '../company/types';
 import {setCompanySetting, setSelectedCompany} from '../company/actions';
 import {setUserSetting} from '../user/actions';
+import {CommonServices} from './service';
 
 /**
  * Fetch Tax And Discount Per item saga.
@@ -130,8 +131,12 @@ export function* fetchBootstrap(payloadData) {
  */
 export function* fetchCountries() {
   try {
+    if (CommonServices.isCountriesItemLoaded) {
+      return;
+    }
     const {data} = yield call(req.fetchCountries);
     yield put({type: types.FETCH_COUNTRIES_SUCCESS, payload: data});
+    CommonServices.setIsCountriesItemLoaded();
   } catch (e) {}
 }
 

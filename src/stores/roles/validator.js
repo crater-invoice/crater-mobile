@@ -4,7 +4,7 @@ export const validate = values => {
   const errors: any = {};
   const {name} = values;
 
-  errors.name = getError(name, ['requiredField']);
+  errors.name = getError(name, ['required']);
 
   return errors;
 };

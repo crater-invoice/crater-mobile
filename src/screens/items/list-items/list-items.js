@@ -9,8 +9,8 @@ import {isFilterApply} from '@/utils';
 import {defineSize, hasTextLength} from '@/constants';
 import filterFields from './list-items-filter';
 import {itemsDescriptionStyle} from '@/styles';
-import {fetchItems} from '@/stores/items/actions';
 import {IProps, IStates} from './list-items-type';
+import {fetchItems} from 'stores/items/actions';
 
 export default class Items extends React.Component<IProps, IStates> {
   constructor(props) {

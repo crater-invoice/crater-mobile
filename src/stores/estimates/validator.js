@@ -16,17 +16,17 @@ export const validate = values => {
   errors.expiry_date = getError(expiry_date, ['required']);
 
   errors.estimate_number = getError(estimate_number, [
-    'requiredField',
+    'required',
     'isNumberFormat'
   ]);
 
   errors.items = getError(items, ['requiredCheckArray']);
 
-  errors.customer_id = getError(customer_id, ['requiredField'], {
+  errors.customer_id = getError(customer_id, ['required'], {
     fieldName: 'Customer'
   });
 
-  errors.template_name = getError(template_name, ['requiredField'], {
+  errors.template_name = getError(template_name, ['required'], {
     fieldName: 'Template'
   });
 

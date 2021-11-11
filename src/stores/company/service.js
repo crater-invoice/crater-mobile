@@ -115,12 +115,16 @@ export const uploadCompanyLogo = (logo, id) => {
 
 class Services {
   isPreferencesItemLoaded: boolean;
+  isCurrenciesItemLoaded: boolean;
 
   constructor() {
     this.isPreferencesItemLoaded = false;
+    this.isCurrenciesItemLoaded = false;
   }
 
   setIsPreferencesItemLoaded = () => (this.isPreferencesItemLoaded = true);
+
+  setIsCurrenciesItemLoaded = () => (this.isCurrenciesItemLoaded = true);
 }
 
 export const CompanyServices = new Services();

@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {navigatorOptions as options} from '../navigation-action';
 import {routes} from '../navigation-routes';
 
-import Customer from '@/features/customers/containers/Customer';
+import {CreateCustomer, CustomerAddress} from 'screens/customers';
 
 import CreateCompany from 'screens/companies/create-company';
 
@@ -20,7 +20,7 @@ import UpdateAppVersion from 'screens/update-app-version';
 
 import Account from 'screens/account';
 
-import Settings from '@/features/settings/containers/Settings';
+import {Settings} from 'screens/settings';
 import Notification from '@/features/settings/containers/Notification';
 import Preferences from 'screens/preferences';
 import TouchOrFaceId from '@/features/settings/containers/Touch-Face-Id';
@@ -63,8 +63,13 @@ export const CommonNavigator = (
   <>
     {/* Customer Navigator */}
     <Stack.Screen
-      name={routes.CUSTOMER}
-      component={Customer}
+      name={routes.CREATE_CUSTOMER}
+      component={CreateCustomer}
+      options={options}
+    />
+    <Stack.Screen
+      name={routes.CUSTOMER_ADDRESS}
+      component={CustomerAddress}
       options={options}
     />
 

@@ -15,15 +15,15 @@ export const validateCustomField = fields => {
     if (required && type !== DATA_TYPES.SWITCH) {
       if (type === DATA_TYPES.URL)
         fieldError['value'] = getError(field['value'], [
-          'requiredField',
+          'required',
           'urlFormat'
         ]);
       else if (type === DATA_TYPES.NUMBER)
         fieldError['value'] = getError(field['value'], [
-          'requiredField',
+          'required',
           'isNumberFormat'
         ]);
-      else fieldError['value'] = getError(field['value'], ['requiredField']);
+      else fieldError['value'] = getError(field['value'], ['required']);
       fieldErrors[index] = fieldError;
     }
   });
