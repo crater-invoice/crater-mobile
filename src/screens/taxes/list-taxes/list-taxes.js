@@ -3,7 +3,7 @@ import {routes} from '@/navigation';
 import {IProps, IStates} from './list-taxes-type';
 import {isEmpty} from '@/constants';
 import {primaryHeader} from '@/utils';
-import {fetchTaxes} from 'stores/taxes/actions';
+import {fetchTaxes} from 'stores/tax-type/actions';
 import {itemsDescriptionStyle} from '@/styles';
 import {
   MainLayout,

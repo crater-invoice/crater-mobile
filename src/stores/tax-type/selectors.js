@@ -1,10 +1,10 @@
 import {createSelector} from 'reselect';
 import {isEmpty} from '@/constants';
 
-const taxesStore = state => state?.taxes;
+const taxTypeStore = state => state?.taxType;
 
 export const taxTypesSelector = createSelector(
-  taxesStore,
+  taxTypeStore,
   store => {
     if (isEmpty(store?.taxTypes)) return [];
     return store.taxTypes.map(tax => ({
@@ -17,6 +17,6 @@ export const taxTypesSelector = createSelector(
 );
 
 export const loadingSelector = createSelector(
-  taxesStore,
+  taxTypeStore,
   store => ({isSaving: store?.isSaving, isDeleting: store?.isDeleting})
 );

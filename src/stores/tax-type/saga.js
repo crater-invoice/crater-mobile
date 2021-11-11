@@ -93,7 +93,7 @@ function* removeTax({payload}) {
   }
 }
 
-export default function* taxesSaga() {
+export default function* taxTypeSaga() {
   yield takeLatest(types.FETCH_TAXES, fetchTaxes);
   yield takeLatest(types.FETCH_SINGLE_TAX, fetchSingleTax);
   yield takeLatest(types.ADD_TAX, addTax);

@@ -6,7 +6,7 @@ const initialState = {
   isDeleting: false
 };
 
-export default function taxesReducer(state = initialState, action) {
+export default function taxTypeReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {

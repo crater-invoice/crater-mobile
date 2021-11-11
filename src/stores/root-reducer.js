@@ -18,7 +18,7 @@ import recurringInvoices from 'stores/recurring-invoices/reducer';
 import items from 'stores/items/reducer';
 import category from 'stores/category/reducer';
 import note from 'stores/note/reducer';
-import taxes from 'stores/taxes/reducer';
+import taxType from 'stores/tax-type/reducer';
 import customField from 'stores/custom-field/reducer';
 
 export default combineReducers({
@@ -41,6 +41,6 @@ export default combineReducers({
   items,
   category,
   note,
-  taxes,
+  taxType,
   customField
 });

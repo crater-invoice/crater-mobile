@@ -20,7 +20,7 @@ import recurringInvoices from 'stores/recurring-invoices/saga';
 import category from 'stores/category/saga';
 import items from 'stores/items/saga';
 import note from 'stores/note/saga';
-import taxes from 'stores/taxes/saga';
+import taxType from 'stores/tax-type/saga';
 import customField from 'stores/custom-field/saga';
 import {PermissionService} from '@/services';
 
@@ -49,7 +49,7 @@ export default function* rootSaga() {
       items(),
       common(),
       note(),
-      taxes(),
+      taxType(),
       customField()
     ]);
   });
