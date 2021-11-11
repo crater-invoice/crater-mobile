@@ -7,6 +7,7 @@ import QueryString from 'qs';
 import {routes} from '@/navigation';
 import {DATE_FORMAT} from '@/constants';
 import {store} from '@/stores';
+import {IProps, IStates} from './generate-report-type';
 import {
   DefaultLayout,
   BaseDatePicker,
@@ -16,25 +17,19 @@ import {
   BaseButton
 } from '@/components';
 import {
-  REPORT_FORM,
+  GENERATE_REPORT_FORM,
   SALES,
   PROFIT_AND_LOSS,
   EXPENSES,
-  TAXES,
+  TAXES
+} from 'stores/report/types';
+import {
   DATE_RANGE_OPTION,
   REPORT_TYPE_OPTION,
   DATE_RANGE
-} from '../../constants';
+} from 'stores/report/helpers';
 
-type IProps = {
-  navigation: Object,
-  taxTypes: Object,
-  type: string,
-  loading: boolean,
-  handleSubmit: Function
-};
-
-export class Report extends React.Component<IProps> {
+export default class GenerateReport extends React.Component<IProps, IStates> {
   constructor(props) {
     super(props);
 
@@ -45,7 +40,7 @@ export class Report extends React.Component<IProps> {
   }
 
   setFormField = (field, value) => {
-    this.props.dispatch(change(REPORT_FORM, field, value));
+    this.props.dispatch(change(GENERATE_REPORT_FORM, field, value));
   };
 
   saveReport = ({to_date, from_date, report_type}) => {
@@ -258,11 +253,11 @@ export class Report extends React.Component<IProps> {
   };
 
   render() {
-    const {navigation, handleSubmit, loading, type} = this.props;
+    const {navigation, handleSubmit, type} = this.props;
     const {displayFromDate, displayToDate} = this.state;
     const bottomAction = (
       <BaseButtonGroup>
-        <BaseButton onPress={handleSubmit(this.saveReport)} loading={loading}>
+        <BaseButton onPress={handleSubmit(this.saveReport)}>
           {t('button.generate_report')}
         </BaseButton>
       </BaseButtonGroup>
@@ -277,7 +272,6 @@ export class Report extends React.Component<IProps> {
           leftArrow: 'primary'
         }}
         bottomAction={bottomAction}
-        loadingProps={{is: loading}}
       >
         <Field
           name="date_range"

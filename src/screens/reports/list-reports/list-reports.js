@@ -1,26 +1,20 @@
 import React from 'react';
 import {View} from 'react-native';
-import styles from './styles';
+import styles from './list-reports-styles';
 import {ListView, DefaultLayout} from '@/components';
 import t from 'locales/use-translation';
-import {REPORTS_MENU} from '../../constants';
+import {REPORTS_MENU} from 'stores/report/helpers';
 import {routes} from '@/navigation';
+import {IProps} from './list-reports-type';
 
-export class Reports extends React.Component {
+export default class Reports extends React.Component<IProps> {
   constructor(props) {
     super(props);
-
-    this.state = {
-      endpointVisible: false
-    };
   }
 
   onSelectMenu = ({route, type}) => {
     const {navigation} = this.props;
-
-    if (route) {
-      navigation.navigate(route, {type});
-    }
+    if (route) navigation.navigate(route, {type});
   };
 
   render() {

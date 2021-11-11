@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
-import {Reports} from '../../components/Reports';
+import Reports from './list-reports';
 import {commonSelector} from 'stores/common/selectors';
 
 const mapStateToProps = state => commonSelector(state);
 
-export default connect(mapStateToProps)(Reports);
+export const ReportsContainer = connect(mapStateToProps)(Reports);
