@@ -57,7 +57,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
 
     this.state = {
       currency: props?.currency,
-      markAsStatus: null,
       isFetchingInitialData: true
     };
   }
@@ -261,6 +260,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       case INVOICE_ACTIONS.RECORD_PAYMENT:
         const {
           customer_id,
+          customer,
           due_amount,
           sub_total,
           prefix,
@@ -272,7 +272,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           id,
           due: {due_amount, sub_total},
           number: `${prefix}-${invoice_number}`,
-          customer: formValues.customer
+          customer: customer
         };
         navigation.navigate(routes.PAYMENT, {
           type: 'ADD',
@@ -364,6 +364,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       items,
       fetchCustomers,
       customers,
+      formValues: {prefix, customer, status},
       formValues,
       customFields,
       isAllowToEdit,
@@ -375,13 +376,13 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       notes,
       fetchNotes
     } = this.props;
-    const {markAsStatus, isFetchingInitialData} = this.state;
+    const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
     const hasCustomField = isEditScreen
       ? formValues && formValues.hasOwnProperty('fields')
       : !isEmpty(customFields);
-    let hasSentStatus = markAsStatus === 'SENT' || markAsStatus === 'VIEWED';
-    let hasCompleteStatus = markAsStatus === 'COMPLETED';
+    let hasSentStatus = status === 'SENT' || status === 'VIEWED';
+    let hasCompleteStatus = status === 'COMPLETED';
 
     const dropdownOptions =
       isEditScreen && !isFetchingInitialData
@@ -489,7 +490,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           label={t('invoices.invoice_number')}
           isRequired
           fieldName="invoice_number"
-          prefix={formValues?.prefix}
+          prefix={prefix}
           disabled={disabled}
         />
 
@@ -498,7 +499,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           fetchCustomers={fetchCustomers}
           customers={customers}
           component={CustomerSelectModal}
-          selectedItem={formValues?.customer}
+          selectedItem={customer}
           onSelect={item => {
             this.setFormField('customer_id', item.id);
             this.setState({currency: item.currency});
