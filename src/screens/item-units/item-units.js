@@ -11,22 +11,24 @@ import {
   ListView,
   InputModal,
   InfiniteScroll,
-  DefaultLayout,
   BaseButtonGroup,
-  BaseButton
+  BaseButton,
+  MainLayout,
+  BaseEmptyPlaceholder
 } from '@/components';
 import {
   addItemUnit,
   updateItemUnit,
   removeItemUnit
 } from 'stores/item-units/actions';
+import {ARROW_ICON} from '@/assets';
 
 export default class ItemUnits extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.scrollViewReference = React.createRef();
     this.modalReference = React.createRef();
-    this.state = {isCreateMethod: true};
+    this.state = {isCreateMethod: true, search: ''};
   }
 
   onToggle = () => this?.modalReference?.onToggle?.();
@@ -89,6 +91,14 @@ export default class ItemUnits extends Component<IProps, IStates> {
     this.onToggle();
   };
 
+  onSearch = search => {
+    this.setState({search});
+    this.scrollViewReference?.getItems?.({
+      queryString: {search},
+      showLoader: true
+    });
+  };
+
   render() {
     const {
       navigation,
@@ -97,7 +107,7 @@ export default class ItemUnits extends Component<IProps, IStates> {
       isSaving,
       isDeleting
     } = this.props;
-    const {isCreateMethod} = this.state;
+    const {isCreateMethod, search} = this.state;
     const isAllowToEdit = isCreateMethod ? true : true;
 
     const bottomAction = (
@@ -117,18 +127,21 @@ export default class ItemUnits extends Component<IProps, IStates> {
     };
 
     const headerProps = {
-      leftIconPress: () => navigation.navigate(routes.CUSTOMIZE_LIST),
-      title: t('header.units'),
-      rightIconPress: null,
+      leftIcon: ARROW_ICON,
+      leftIconPress: () => navigation.navigate(routes.SETTING_LIST),
+      title: t('header.item_units'),
       placement: 'center',
-      leftArrow: 'primary'
+      leftArrow: 'primary',
+      hasCircle: false
     };
 
     return (
-      <DefaultLayout
-        hideScrollView
+      <MainLayout
         headerProps={headerProps}
         bottomAction={bottomAction}
+        onSearch={this.onSearch}
+        bottomDivider
+        bodyStyle="is-full-listView"
       >
         <View style={styles.childContainer}>
           <InfiniteScroll
@@ -142,7 +155,9 @@ export default class ItemUnits extends Component<IProps, IStates> {
               isEmpty={isEmpty(units)}
               bottomDivider
               contentContainerStyle={styles.contentContainerStyle}
-              emptyContentProps={{title: t('payments.empty.mode_title')}}
+              emptyPlaceholder={
+                <BaseEmptyPlaceholder {...this.props} search={search} />
+              }
               itemContainer={styles.itemContainer}
             />
           </InfiniteScroll>
@@ -159,7 +174,7 @@ export default class ItemUnits extends Component<IProps, IStates> {
             isDeleting={isDeleting}
           />
         </View>
-      </DefaultLayout>
+      </MainLayout>
     );
   }
 }
