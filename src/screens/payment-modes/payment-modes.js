@@ -5,20 +5,30 @@ import t from 'locales/use-translation';
 import {formatListByName} from '@/utils';
 import styles from './payment-modes-style';
 import {alertMe, defineSize, isEmpty} from '@/constants';
-import {ListView, InputModal, InfiniteScroll} from '@/components';
+import {
+  ListView,
+  InputModal,
+  InfiniteScroll,
+  BaseButtonGroup,
+  BaseButton,
+  MainLayout,
+  BaseEmptyPlaceholder
+} from '@/components';
 import {PAYMENT_MODES_FORM} from 'stores/payment-modes/types';
 import {
   addPaymentMode,
   updatePaymentMode,
   removePaymentMode
 } from 'stores/payment-modes/actions';
+import {ARROW_ICON} from '@/assets';
+import {routes} from '@/navigation';
 
 export class PaymentModes extends Component {
   constructor(props) {
     super(props);
     this.scrollViewReference = React.createRef();
     this.modalReference = React.createRef();
-    this.state = {isCreateMethod: true};
+    this.state = {isCreateMethod: true, search: ''};
   }
 
   componentDidMount() {
@@ -89,15 +99,24 @@ export class PaymentModes extends Component {
     this.onToggle();
   };
 
+  onSearch = search => {
+    this.setState({search});
+    this.scrollViewReference?.getItems?.({
+      queryString: {search},
+      showLoader: true
+    });
+  };
+
   render() {
     const {
+      navigation,
       paymentModes,
       fetchPaymentModes,
       isSaving,
       isDeleting,
       isAllowToEdit
     } = this.props;
-    const {isCreateMethod} = this.state;
+    const {isCreateMethod, search} = this.state;
 
     const getTitle = () => {
       let title = 'payments.add_mode';
@@ -107,39 +126,65 @@ export class PaymentModes extends Component {
       return t(title);
     };
 
-    return (
-      <View style={styles.childContainer}>
-        <InfiniteScroll
-          getItems={fetchPaymentModes}
-          reference={ref => (this.scrollViewReference = ref)}
-          paginationLimit={defineSize(15, 15, 15, 20)}
-        >
-          <ListView
-            items={formatListByName(paymentModes)}
-            getFreshItems={onHide => onHide?.()}
-            onPress={this.onSelectPaymentMode}
-            isEmpty={isEmpty(paymentModes)}
-            isAnimated
-            bottomDivider
-            contentContainerStyle={styles.contentContainerStyle}
-            emptyContentProps={{title: t('payments.empty.mode_title')}}
-            itemContainer={styles.itemContainer}
-          />
-        </InfiniteScroll>
+    const headerProps = {
+      leftIcon: ARROW_ICON,
+      leftIconPress: () => navigation.navigate(routes.SETTING_LIST),
+      title: t('header.payment_modes'),
+      placement: 'center',
+      leftArrow: 'primary',
+      hasCircle: false
+    };
 
-        <InputModal
-          reference={ref => (this.modalReference = ref)}
-          headerTitle={getTitle()}
-          hint={t('payments.mode_hint')}
-          fieldName="methodName"
-          onSubmit={this.onSave}
-          onRemove={this.onRemoveMethod}
-          showRemoveButton={!isCreateMethod}
-          showSaveButton={isAllowToEdit}
-          isSaving={isSaving}
-          isDeleting={isDeleting}
-        />
-      </View>
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton onPress={() => this.openModal()}>
+          {t('button.add')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
+    return (
+      <MainLayout
+        headerProps={headerProps}
+        bottomAction={bottomAction}
+        onSearch={this.onSearch}
+        bottomDivider
+        bodyStyle="is-full-listView"
+      >
+        <View style={styles.childContainer}>
+          <InfiniteScroll
+            getItems={fetchPaymentModes}
+            reference={ref => (this.scrollViewReference = ref)}
+            paginationLimit={defineSize(15, 15, 15, 20)}
+          >
+            <ListView
+              items={formatListByName(paymentModes)}
+              getFreshItems={onHide => onHide?.()}
+              onPress={this.onSelectPaymentMode}
+              isEmpty={isEmpty(paymentModes)}
+              isAnimated
+              bottomDivider
+              contentContainerStyle={styles.contentContainerStyle}
+              emptyPlaceholder={
+                <BaseEmptyPlaceholder {...this.props} search={search} />
+              }
+              itemContainer={styles.itemContainer}
+            />
+          </InfiniteScroll>
+
+          <InputModal
+            reference={ref => (this.modalReference = ref)}
+            headerTitle={getTitle()}
+            hint={t('payments.mode_hint')}
+            fieldName="methodName"
+            onSubmit={this.onSave}
+            onRemove={this.onRemoveMethod}
+            showRemoveButton={!isCreateMethod}
+            showSaveButton={isAllowToEdit}
+            isSaving={isSaving}
+            isDeleting={isDeleting}
+          />
+        </View>
+      </MainLayout>
     );
   }
 }

@@ -36,7 +36,7 @@ export const PaymentModeSelectModal = (props: IProps) => {
       placeholder={t('payments.mode_placeholder')}
       compareField="id"
       headerProps={{title: t('payments.mode_placeholder')}}
-      emptyContentProps={{contentType: 'payment_mode'}}
+      emptyContentProps={{contentType: 'payment_modes'}}
       inputModalName="PaymentModeModal"
       isEditable={!disabled}
       baseSelectProps={{disabled}}
