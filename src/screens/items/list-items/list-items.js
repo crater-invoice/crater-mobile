@@ -10,13 +10,9 @@ import {defineSize, hasTextLength} from '@/constants';
 import filterFields from './list-items-filter';
 import {itemsDescriptionStyle} from '@/styles';
 import {fetchItems} from '@/stores/items/actions';
+import {IProps, IStates} from './list-items-type';
 
-type IProps = {
-  navigation: Object,
-  items: Object
-};
-
-export default class Items extends React.Component<IProps> {
+export default class Items extends React.Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.scrollViewReference = React.createRef();

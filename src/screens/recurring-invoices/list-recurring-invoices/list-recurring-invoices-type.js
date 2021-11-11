@@ -8,11 +8,6 @@ export interface IProps {
   navigation: INavigation;
 
   /**
-   * An array of objects with data for each user.
-   */
-  users: Array<any>;
-
-  /**
    * dispatch change action.
    */
   dispatch: (fun: object) => void;
@@ -38,11 +33,6 @@ export interface IProps {
    * Route props for params.
    */
   route: Object<any>;
-
-  /**
-   * An array of objects with data for selected items.
-   */
-  selectedItems: Array<any>;
 }
 
 export interface IStates {

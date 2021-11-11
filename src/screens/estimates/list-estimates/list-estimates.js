@@ -35,10 +35,11 @@ export default class Estimates extends React.Component<IProps, IStates> {
     const {navigation} = this.props;
     this.setActiveTab();
     this.focusListener = navigation.addListener('focus', () => {
-      if (!this.state.isLoaded) {
-        this.setState({isLoaded: true});
-        return;
-      }
+      const {activeTab} = this.state;
+      tabRefs?.getItems?.({
+        queryString: {status: activeTab !== 'ALL' ? activeTab : ''},
+        showLoader: true
+      });
     });
   };
 
