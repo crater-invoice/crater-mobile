@@ -1,7 +1,7 @@
 import {getError, isEmpty} from '@/constants';
 import {validateCustomField} from '@/components/custom-field';
 
-export const validate = (values, {type}) => {
+export const validate = values => {
   const errors: any = {};
   const {
     customer_id,

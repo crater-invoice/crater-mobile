@@ -1,26 +1,26 @@
-export const SPINNER = 'roles/SPINNER';
+export const SPINNER = 'role/SPINNER';
 
-export const ROLES_FORM = 'roles/ROLES_FORM';
-export const CREATE_ROLE_FORM = 'roles/CREATE_ROLE_FORM';
+export const ROLES_FORM = 'role/ROLES_FORM';
+export const CREATE_ROLE_FORM = 'role/CREATE_ROLE_FORM';
 
-export const FETCH_ROLES = 'roles/FETCH_ROLES';
-export const FETCH_ROLES_SUCCESS = 'roles/FETCH_ROLES_SUCCESS';
+export const FETCH_ROLES = 'role/FETCH_ROLES';
+export const FETCH_ROLES_SUCCESS = 'role/FETCH_ROLES_SUCCESS';
 
-export const FETCH_SINGLE_ROLE = 'roles/FETCH_SINGLE_ROLE';
-export const FETCH_SINGLE_ROLE_SUCCESS = 'roles/FETCH_SINGLE_ROLE_SUCCESS';
+export const FETCH_SINGLE_ROLE = 'role/FETCH_SINGLE_ROLE';
+export const FETCH_SINGLE_ROLE_SUCCESS = 'role/FETCH_SINGLE_ROLE_SUCCESS';
 
-export const FETCH_PERMISSIONS = 'roles/FETCH_PERMISSIONS';
-export const FETCH_PERMISSIONS_SUCCESS = 'roles/FETCH_PERMISSIONS_SUCCESS';
+export const FETCH_PERMISSIONS = 'role/FETCH_PERMISSIONS';
+export const FETCH_PERMISSIONS_SUCCESS = 'role/FETCH_PERMISSIONS_SUCCESS';
 
-export const ADD_ROLE = 'roles/ADD_ROLE';
-export const ADD_ROLE_SUCCESS = 'roles/ADD_ROLE_SUCCESS';
+export const ADD_ROLE = 'role/ADD_ROLE';
+export const ADD_ROLE_SUCCESS = 'role/ADD_ROLE_SUCCESS';
 
-export const UPDATE_ROLE = 'roles/UPDATE_ROLE';
-export const UPDATE_ROLE_SUCCESS = 'roles/UPDATE_ROLE_SUCCESS';
+export const UPDATE_ROLE = 'role/UPDATE_ROLE';
+export const UPDATE_ROLE_SUCCESS = 'role/UPDATE_ROLE_SUCCESS';
 
-export const REMOVE_ROLE = 'roles/REMOVE_ROLE';
-export const REMOVE_ROLE_SUCCESS = 'roles/REMOVE_ROLE_SUCCESS';
+export const REMOVE_ROLE = 'role/REMOVE_ROLE';
+export const REMOVE_ROLE_SUCCESS = 'role/REMOVE_ROLE_SUCCESS';
 
-export const UPDATE_PERMISSION = 'roles/UPDATE_PERMISSION';
-export const SELECT_ALL_PERMISSIONS = 'roles/SELECT_ALL_PERMISSIONS';
-export const RESET_PERMISSIONS = 'roles/RESET_PERMISSIONS';
+export const UPDATE_PERMISSION = 'role/UPDATE_PERMISSION';
+export const SELECT_ALL_PERMISSIONS = 'role/SELECT_ALL_PERMISSIONS';
+export const RESET_PERMISSIONS = 'role/RESET_PERMISSIONS';
