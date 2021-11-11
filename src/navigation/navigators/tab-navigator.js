@@ -7,7 +7,7 @@ import {Invoices} from 'screens/invoices';
 import {Customers} from 'screens/customers';
 import Payments from '@/features/payments/containers/Payments';
 import Expenses from '@/features/expenses/containers/Expenses';
-import More from '@/features/more/containers/More';
+import {More} from 'screens/more';
 import {getActiveMainTab} from '../navigation-action';
 
 const Stack = createStackNavigator();

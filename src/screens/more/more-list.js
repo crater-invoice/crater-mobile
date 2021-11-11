@@ -1,18 +1,15 @@
 import React from 'react';
-import styles from './styles';
+import styles from './more-list-styles';
 import {MainLayout, ListView} from '@/components';
-import {MORE_MENU} from '../../constants';
+import {MORE_MENU} from 'stores/more/helpers';
 import t from 'locales/use-translation';
 import {alertMe} from '@/constants';
 import {logoutSuccess} from 'stores/auth/actions';
+import {IProps} from './more-list-type';
 
-export class More extends React.Component {
+export default class More extends React.Component<IProps> {
   constructor(props) {
     super(props);
-
-    this.state = {
-      endpointVisible: false
-    };
   }
 
   onSelectMenu = item => {
@@ -34,12 +31,6 @@ export class More extends React.Component {
       okText: t('logout.title'),
       okPress: () => dispatch?.(logoutSuccess())
     });
-  };
-
-  toggleEndpointModal = () => {
-    this.setState(state => ({
-      endpointVisible: !state.endpointVisible
-    }));
   };
 
   render() {

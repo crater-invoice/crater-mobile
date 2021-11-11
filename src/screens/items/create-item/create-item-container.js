@@ -4,21 +4,16 @@ import {reduxForm, getFormValues} from 'redux-form';
 import {validate} from 'stores/items/validator';
 import {CREATE_ITEM_FORM} from 'stores/items/types';
 import {fetchItemUnits} from 'stores/item-units/actions';
-import {unitsSelector} from '@/features/more/selectors';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {loadingSelector} from 'stores/items/selectors';
 import {taxTypesSelector} from 'stores/taxes/selectors';
 import {fetchTaxes} from 'stores/taxes/actions';
 import {getSettingInfo} from '@/features/settings/actions';
-import {customFieldsSelector} from '@/stores/custom-field/selectors';
+import {unitsSelector} from 'stores/item-units/selectors';
+import {customFieldsSelector} from 'stores/custom-field/selectors';
 
 const mapStateToProps = (state, {route}) => {
-  const {
-    itemUnits: {units},
-    invoices,
-    estimates,
-    recurringInvoices
-  } = state;
+  const {invoices, estimates, recurringInvoices} = state;
 
   const item = route?.params?.item ?? {};
   const type = route?.params?.type;
@@ -38,7 +33,7 @@ const mapStateToProps = (state, {route}) => {
     taxPerItem,
     type,
     screen,
-    units: unitsSelector(units),
+    units: unitsSelector(state),
     customFields: customFieldsSelector(state),
     ...permissionSelector(route),
     ...loadingSelector(state),

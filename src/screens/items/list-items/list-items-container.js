@@ -8,14 +8,14 @@ import {
   permissionSelector,
   settingsSelector
 } from 'stores/common/selectors';
-import {unitsSelector} from '@/features/more/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
 import {fetchItemUnits} from 'stores/item-units/actions';
+import {unitsSelector} from 'stores/item-units/selectors';
 
 const mapStateToProps = (state, {route}) => ({
   items: itemsSelector(state),
   currency: currentCurrencySelector(state),
-  units: unitsSelector(state.itemUnits.units),
+  units: unitsSelector(state),
   formValues: getFormValues(ITEMS_FORM)(state) || {},
   ...commonSelector(state),
   ...permissionSelector(route),

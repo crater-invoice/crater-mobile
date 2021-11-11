@@ -3,13 +3,15 @@ import {settingsTriggerSpinner as spinner} from '../actions';
 import {
   GET_SETTING_ITEM,
   EDIT_SETTING_ITEM,
-  NOTIFICATION_MAIL_TYPE
+  NOTIFICATION_MAIL_TYPE,
+  GET_MAIL_CONFIGURATION
 } from '../constants';
 
 import Request from 'utils/request';
 import General from './general';
 import t from 'locales/use-translation';
 import {showNotification} from '@/utils';
+import {getSettingInfo} from '@/features/settings/saga/general';
 
 function* getSettingItem({payload: {onResult = null}}) {
   yield put(spinner({getSettingItemLoading: true}));
@@ -55,9 +57,18 @@ function* editSettingItem({payload}) {
   }
 }
 
+function* getMailConfiguration({payload: {body, onSuccess}}) {
+  try {
+    const options = {path: 'mail/config'};
+    const emailConfig = yield call([Request, 'get'], options);
+    const emailBody = yield call(getSettingInfo, {payload: {key: body}});
+    onSuccess?.({...emailConfig, emailBody});
+  } catch (e) {}
+}
+
 export default function* settingsSaga() {
   yield takeEvery(GET_SETTING_ITEM, getSettingItem);
   yield takeEvery(EDIT_SETTING_ITEM, editSettingItem);
-
+  yield takeEvery(GET_MAIL_CONFIGURATION, getMailConfiguration);
   yield all([General()]);
 }

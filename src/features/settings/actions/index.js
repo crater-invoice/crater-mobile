@@ -40,3 +40,9 @@ export const setBiometryAuthType = (payload = {}) => ({
   type: TYPES.SET_BIOMETRY_AUTH_TYPE,
   payload
 });
+
+// Get Mail Configuration
+export const getMailConfiguration = (payload = {}) => ({
+  type: TYPES.GET_MAIL_CONFIGURATION,
+  payload
+});

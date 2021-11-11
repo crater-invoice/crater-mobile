@@ -15,7 +15,7 @@ import {BaseInput} from '../base-input';
 import t from 'locales/use-translation';
 import {Content} from '../content';
 import {Editor} from '../editor';
-import {getMailConfiguration} from '../../features/more/actions';
+import {getMailConfiguration} from '@/features/settings/actions';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseButtonGroup, BaseButton} from '../base';
 import {
