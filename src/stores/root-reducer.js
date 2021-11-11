@@ -5,7 +5,6 @@ import invoices from 'stores/invoices/reducer';
 import estimates from 'stores/estimates/reducer';
 import customers from 'stores/customers/reducer';
 import payments from '@/features/payments/reducers';
-import more from '@/features/more/reducers';
 import settings from '@/features/settings/reducers';
 import expenses from '@/features/expenses/reducers';
 import common from 'stores/common/reducer';
@@ -27,7 +26,6 @@ export default combineReducers({
   invoices,
   estimates,
   customers,
-  more,
   expenses,
   payments,
   form: formReducer,

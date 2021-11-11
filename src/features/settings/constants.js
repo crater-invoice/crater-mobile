@@ -14,6 +14,8 @@ export const GET_NEXT_NUMBER = 'general/GET_NEXT_NUMBER';
 export const GET_GENERAL_SETTING = 'GET_GENERAL_SETTING';
 export const GET_SETTING_INFO = 'GET_SETTING_INFO';
 
+export const GET_MAIL_CONFIGURATION = 'GET_MAIL_CONFIGURATION';
+
 // Setting
 export const GET_SETTING_ITEM = 'settings/GET_SETTING_ITEM';
 export const EDIT_SETTING_ITEM = 'settings/EDIT_SETTING_ITEM';

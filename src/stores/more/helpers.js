@@ -2,11 +2,6 @@ import {routes} from '@/navigation';
 import {PermissionService} from '@/services';
 import t from 'locales/use-translation';
 
-// Actions
-// -----------------------------------------
-export const MORE_TRIGGER_SPINNER = 'more/MORE_TRIGGER_SPINNER';
-export const GET_MAIL_CONFIGURATION = 'GET_MAIL_CONFIGURATION';
-
 export const MORE_MENU = () => {
   return [
     {
