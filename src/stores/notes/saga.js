@@ -5,7 +5,7 @@ import {spinner} from './actions';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 import {navigation} from '@/navigation';
-import {getCustomFields} from '@/features/settings/saga/custom-fields';
+import {fetchCustomFields} from 'stores/custom-field/saga';
 
 /**
  * Fetch notes saga
@@ -33,7 +33,7 @@ function* fetchSingleNote({payload}) {
   try {
     const {id, onSuccess} = payload;
     const {data} = yield call(req.fetchSingleNote, id);
-    yield call(getCustomFields, {payload: {queryString: {limit: 'all'}}});
+    yield call(fetchCustomFields, {payload: {queryString: {limit: 'all'}}});
     onSuccess?.(data);
   } catch (e) {}
 }
@@ -43,7 +43,7 @@ function* fetchSingleNote({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* fetchNoteInitialDetails({payload}) {
-  yield call(getCustomFields, {payload: {queryString: {limit: 'all'}}});
+  yield call(fetchCustomFields, {payload: {queryString: {limit: 'all'}}});
   payload?.();
 }
 

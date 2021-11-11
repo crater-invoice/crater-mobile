@@ -53,6 +53,24 @@ export const emptyContentPlaceholder = props => {
         })
       };
 
+    case routes.PAYMENT_MODES:
+      return {
+        title: t('search.no_result', {search}),
+        ...(!search && {
+          title: t('payment_modes.empty.title'),
+          description: t('payment_modes.empty.description')
+        })
+      };
+
+    case routes.ITEM_UNITS:
+      return {
+        title: t('search.no_result', {search}),
+        ...(!search && {
+          title: t('item_units.empty.title'),
+          description: t('item_units.empty.description')
+        })
+      };
+
     case routes.TAXES:
       return {
         title: t('search.no_result', {search}),
@@ -84,6 +102,18 @@ export const emptyContentPlaceholder = props => {
               navigation.navigate(routes.CREATE_CUSTOMER, {type: 'ADD'});
             }
           })
+      };
+
+    case routes.CUSTOM_FIELDS:
+      return {
+        title: t('search.no_result', {search}),
+        ...(!search && {
+          title: t('custom_fields.empty.title'),
+          description: t('custom_fields.empty.description'),
+          buttonTitle: t('custom_fields.empty.button_title'),
+          buttonPress: () =>
+            navigation.navigate(routes.CREATE_CUSTOM_FIELD, {type: 'ADD'})
+        })
       };
 
     default:

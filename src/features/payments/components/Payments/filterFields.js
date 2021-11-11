@@ -54,7 +54,7 @@ export default paymentsFilterFields = ({props, setFormField}) => {
       },
       listViewProps: {hasAvatar: true},
       emptyContentProps: {
-        contentType: 'payment_mode'
+        contentType: 'payment_modes'
       }
     }
   ];

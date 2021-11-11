@@ -30,16 +30,24 @@ export const SETTINGS_MENU = () => {
       show: PermissionService.isSuperAdmin()
     },
     {
-      title: t('settings.customize'),
-      leftIcon: 'pen-square',
+      title: t('settings.payment_modes'),
+      leftIcon: 'credit-card',
+      leftIconSolid: true,
+      iconSize: 19,
+      fullItem: {
+        route: routes.PAYMENT_MODES
+      },
+      show: PermissionService.isAllowToView(routes.MAIN_PAYMENTS)
+    },
+    {
+      title: t('settings.item_units'),
+      leftIcon: 'product-hunt',
       leftIconSolid: true,
       iconSize: 21,
       fullItem: {
-        route: routes.CUSTOMIZE_LIST
+        route: routes.ITEM_UNITS
       },
-      show:
-        PermissionService.isAllowToView(routes.MAIN_PAYMENTS) ||
-        PermissionService.isAllowToView(routes.ITEMS)
+      show: PermissionService.isAllowToView(routes.ITEMS)
     },
     {
       title: t('settings.taxes'),

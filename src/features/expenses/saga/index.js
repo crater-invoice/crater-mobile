@@ -2,12 +2,11 @@ import {call, put, takeEvery} from 'redux-saga/effects';
 import Request from 'utils/request';
 import * as queryStrings from 'query-string';
 import * as TYPES from '../constants';
-import {getCustomFields} from '@/features/settings/saga/custom-fields';
 import {fetchCategories} from 'stores/categories/saga';
-import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 import {fetchCustomers} from 'stores/customers/saga';
+import {fetchCustomFields} from 'stores/custom-field/saga';
 import {
   setExpenses,
   expenseTriggerSpinner,
@@ -16,11 +15,12 @@ import {
   removeFromExpense
 } from '../actions';
 import {routes} from '@/navigation';
+import {modalTypes} from 'stores/custom-field/helpers';
 
 function* getCreateExpense({payload: {onSuccess}}) {
   try {
-    yield call(getCustomFields, {
-      payload: {queryString: {type: CUSTOM_FIELD_TYPES.EXPENSE, limit: 'all'}}
+    yield call(fetchCustomFields, {
+      payload: {queryString: {type: modalTypes.EXPENSE, limit: 'all'}}
     });
     onSuccess?.();
   } catch (e) {}
@@ -104,10 +104,8 @@ function* getExpenseDetail({payload: {id, onSuccess}}) {
     const response2 = yield call([Request, 'get'], options2);
     yield call(fetchCustomers, {payload: {queryString: {limit: 'all'}}});
     yield call(fetchCategories, {payload: {queryString: {limit: 'all'}}});
-    yield call(getCustomFields, {
-      payload: {
-        queryString: {type: CUSTOM_FIELD_TYPES.EXPENSE, limit: 'all'}
-      }
+    yield call(fetchCustomFields, {
+      payload: {queryString: {type: modalTypes.EXPENSE, limit: 'all'}}
     });
     onSuccess?.(response.data, response2);
   } catch (e) {}

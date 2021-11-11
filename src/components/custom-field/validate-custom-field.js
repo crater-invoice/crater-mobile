@@ -1,5 +1,5 @@
 import {getError, isEmpty} from '@/constants';
-import {CUSTOM_FIELD_DATA_TYPES as DATA_TYPES} from '@/features/settings/constants';
+import {dataTypes} from 'stores/custom-field/helpers';
 
 export const validateCustomField = fields => {
   if (isEmpty(fields)) {
@@ -12,13 +12,13 @@ export const validateCustomField = fields => {
     let fieldError = {};
     const {type} = field;
     const required = field?.isRequired || field?.required;
-    if (required && type !== DATA_TYPES.SWITCH) {
-      if (type === DATA_TYPES.URL)
+    if (required && type !== dataTypes.SWITCH) {
+      if (type === dataTypes.URL)
         fieldError['value'] = getError(field['value'], [
           'required',
           'urlFormat'
         ]);
-      else if (type === DATA_TYPES.NUMBER)
+      else if (type === dataTypes.NUMBER)
         fieldError['value'] = getError(field['value'], [
           'required',
           'isNumberFormat'

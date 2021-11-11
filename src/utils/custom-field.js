@@ -1,7 +1,7 @@
 import {find} from 'lodash';
 import {hasValue, isEmpty} from '@/constants';
-import {CUSTOM_FIELD_DATA_TYPES as DATA_TYPES} from '@/features/settings/constants';
 import {sortByItem} from './common';
+import {dataTypes} from 'stores/custom-field/helpers';
 
 export const getInitialCustomFields = (customFields, initialValues) => {
   if (isEmpty(initialValues)) {
@@ -44,7 +44,7 @@ export const getCustomFieldValueParams = customFields => {
       id,
       type,
       isRequired: is_required,
-      value: type !== DATA_TYPES.SWITCH ? value?.toString() : value
+      value: type !== dataTypes.SWITCH ? value?.toString() : value
     };
   });
 };
@@ -61,9 +61,9 @@ export const getApiFormattedCustomFields = customFields => {
 
     if (
       !hasValue(field?.value) &&
-      (field.type === DATA_TYPES.DATE ||
-        field.type === DATA_TYPES.TIME ||
-        field.type === DATA_TYPES.DATE_TIME)
+      (field.type === dataTypes.DATE ||
+        field.type === dataTypes.TIME ||
+        field.type === dataTypes.DATE_TIME)
     ) {
       isAllow = false;
     }

@@ -34,6 +34,11 @@ const layoutProps = route => {
         title: t('header.taxes'),
         navigateToRoute: routes.CREATE_TAX
       };
+    case routes.CUSTOM_FIELDS:
+      return {
+        title: t('header.custom_fields'),
+        navigateToRoute: routes.CREATE_CUSTOM_FIELD
+      };
     default:
       return {title: '', navigateToRoute: null};
   }
@@ -110,6 +115,13 @@ const secondaryHeaderTitle = params => {
         'header.add_customer',
         'header.edit_customer',
         'header.view_customer'
+      );
+
+    case routes.CREATE_CUSTOM_FIELD:
+      return getTitle(
+        'header.add_custom_field',
+        'header.edit_custom_field',
+        'header.view_custom_field'
       );
 
     default:

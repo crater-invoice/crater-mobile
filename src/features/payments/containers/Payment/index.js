@@ -12,10 +12,10 @@ import {fetchNotes} from 'stores/notes/actions';
 import {notesSelector} from 'stores/notes/selectors';
 import {customersSelector} from 'stores/customers/selectors';
 import {fetchCustomers} from 'stores/customers/actions';
+import {customFieldsSelector} from 'stores/custom-field/selectors';
 
 const mapStateToProps = (state, {route}) => {
   const {
-    settings: {customFields},
     payments: {loading, unPaidInvoices},
     paymentModes: {modes}
   } = state;
@@ -31,7 +31,7 @@ const mapStateToProps = (state, {route}) => {
     loading: loading?.paymentLoading,
     withLoading: loading?.sendReceiptLoading,
     unPaidInvoices,
-    customFields,
+    customFields: customFieldsSelector(state),
     paymentModes: getPaymentModesState(modes),
     formValues: getFormValues(PAYMENT_FORM)(state) || {},
     currency: currentCurrencySelector(state),

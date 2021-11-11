@@ -5,10 +5,10 @@ import {spinner} from './actions';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 import {navigation} from '@/navigation';
-import {getCustomFields} from '@/features/settings/saga/custom-fields';
+import {fetchCustomFields} from 'stores/custom-field/saga';
 import {fetchCurrencies} from 'stores/company/saga';
 import {fetchCountries} from 'stores/common/saga';
-import {CUSTOM_FIELD_TYPES} from '@/features/settings/constants';
+import {modalTypes} from '../custom-field/helpers';
 
 /**
  * Fetch customers saga
@@ -36,10 +36,8 @@ function* fetchSingleCustomer({payload}) {
   try {
     yield call(fetchCountries);
     yield call(fetchCurrencies);
-    yield call(getCustomFields, {
-      payload: {
-        queryString: {type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 'all'}
-      }
+    yield call(fetchCustomFields, {
+      payload: {queryString: {type: modalTypes.CUSTOMER, limit: 'all'}}
     });
     const {id, onSuccess} = payload;
     const {data} = yield call(req.fetchSingleCustomer, id);
@@ -54,8 +52,8 @@ function* fetchSingleCustomer({payload}) {
 function* fetchCustomerInitialDetails({payload}) {
   yield call(fetchCountries);
   yield call(fetchCurrencies);
-  yield call(getCustomFields, {
-    payload: {queryString: {type: CUSTOM_FIELD_TYPES.CUSTOMER, limit: 'all'}}
+  yield call(fetchCustomFields, {
+    payload: {queryString: {type: modalTypes.CUSTOMER, limit: 'all'}}
   });
   payload?.();
 }
