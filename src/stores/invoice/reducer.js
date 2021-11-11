@@ -17,7 +17,7 @@ const initialState = {
   selectedItems: []
 };
 
-export default function invoicesReducer(state = initialState, action) {
+export default function invoiceReducer(state = initialState, action) {
   const {payload, type} = action;
 
   switch (type) {

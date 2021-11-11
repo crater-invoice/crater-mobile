@@ -1,10 +1,10 @@
 import {connect} from 'react-redux';
 import CreateInvoice from './create-invoice';
 import {reduxForm, getFormValues} from 'redux-form';
-import {CREATE_INVOICE_FORM} from 'stores/invoices/types';
-import {validate} from 'stores/invoices/validator';
-import {loadingSelector} from 'stores/invoices/selectors';
-import {initialValues} from 'stores/invoices/helpers';
+import {CREATE_INVOICE_FORM} from 'stores/invoice/types';
+import {validate} from 'stores/invoice/validator';
+import {loadingSelector} from 'stores/invoice/selectors';
+import {initialValues} from 'stores/invoice/helpers';
 import {currentCurrencySelector} from 'stores/company/selectors';
 import {fetchNotes} from 'stores/note/actions';
 import {notesSelector} from 'stores/note/selectors';
@@ -21,7 +21,7 @@ import {
 
 const mapStateToProps = (state, {route}) => {
   const {
-    invoices: {selectedItems, invoiceData},
+    invoice: {selectedItems, invoiceData},
     items: {items}
   } = state;
   return {

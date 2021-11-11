@@ -19,8 +19,8 @@ import {
   BaseButtonGroup,
   BaseButton
 } from '@/components';
-import {CREATE_INVOICE_FORM, INVOICE_ACTIONS} from 'stores/invoices/types';
-import {EDIT_INVOICE_ACTIONS, initialValues} from 'stores/invoices/helpers';
+import {CREATE_INVOICE_FORM, INVOICE_ACTIONS} from 'stores/invoice/types';
+import {EDIT_INVOICE_ACTIONS, initialValues} from 'stores/invoice/helpers';
 import {
   total,
   tax,
@@ -42,7 +42,7 @@ import {
   updateInvoice,
   changeInvoiceStatus,
   removeInvoice
-} from 'stores/invoices/actions';
+} from 'stores/invoice/actions';
 
 export default class CreateInvoice extends React.Component<IProps, IStates> {
   invoiceRefs: any;

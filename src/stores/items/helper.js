@@ -1,4 +1,4 @@
-import * as InvoicesAction from 'stores/invoices/actions';
+import * as InvoicesAction from 'stores/invoice/actions';
 import * as EstimatesAction from 'stores/estimates/actions';
 import * as RecurringInvoicesAction from 'stores/recurring-invoices/actions';
 import * as itemAction from './actions';

@@ -13,7 +13,7 @@ import {unitsSelector} from 'stores/item-unit/selectors';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 
 const mapStateToProps = (state, {route}) => {
-  const {invoices, estimates, recurringInvoices} = state;
+  const {invoice, estimate, recurringInvoice} = state;
 
   const item = route?.params?.item ?? {};
   const type = route?.params?.type;
@@ -23,7 +23,7 @@ const mapStateToProps = (state, {route}) => {
 
   return {
     loading:
-      invoices?.isSaving || estimates?.isSaving || recurringInvoices?.isSaving,
+      invoice?.isSaving || estimate?.isSaving || recurringInvoice?.isSaving,
     formValues: getFormValues(CREATE_ITEM_FORM)(state) || {},
     itemId: item && (item.item_id || item.id),
     taxTypes: taxTypesSelector(state),

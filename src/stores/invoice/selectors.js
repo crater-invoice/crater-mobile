@@ -40,15 +40,15 @@ export const formatItems = (invoices, theme) => {
 };
 
 export const invoicesSelector = createSelector(
-  [state => state.invoices?.invoices, state => state.common?.theme],
+  [state => state.invoice?.invoices, state => state.common?.theme],
   (invoices, theme) => formatItems(invoices, theme)
 );
 
 export const loadingSelector = createSelector(
-  state => state?.invoices,
-  invoices => ({
-    isSaving: invoices?.isSaving,
-    isDeleting: invoices?.isDeleting,
-    isLoading: invoices?.isLoading
+  state => state?.invoice,
+  store => ({
+    isSaving: store?.isSaving,
+    isDeleting: store?.isDeleting,
+    isLoading: store?.isLoading
   })
 );

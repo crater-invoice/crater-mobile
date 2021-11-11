@@ -185,7 +185,7 @@ function* changeInvoiceStatus({payload}) {
   }
 }
 
-export default function* invoicesSaga() {
+export default function* invoiceSaga() {
   yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchInvoiceInitialDetails);
   yield takeLatest(types.FETCH_INVOICES, fetchInvoices);
   yield takeLatest(types.FETCH_SINGLE_INVOICE, fetchSingleInvoice);

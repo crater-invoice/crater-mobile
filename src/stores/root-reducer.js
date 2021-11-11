@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import {reducer as formReducer} from 'redux-form';
 import auth from 'stores/auth/reducer';
-import invoices from 'stores/invoices/reducer';
+import invoice from 'stores/invoice/reducer';
 import estimates from 'stores/estimates/reducer';
 import customer from 'stores/customer/reducer';
 import payments from '@/features/payments/reducers';
@@ -23,7 +23,7 @@ import customField from 'stores/custom-field/reducer';
 
 export default combineReducers({
   auth,
-  invoices,
+  invoice,
   estimates,
   customer,
   expenses,
