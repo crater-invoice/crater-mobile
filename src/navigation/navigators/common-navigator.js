@@ -11,9 +11,6 @@ import Expense from '@/features/expenses/containers/Expense';
 
 import Payment from '@/features/payments/containers/Payment';
 
-import Reports from '@/features/more/containers/Reports';
-import Report from '@/features/more/containers/Report';
-
 import Endpoint from 'screens/endpoint';
 import LostConnection from 'screens/lost-connection';
 import UpdateAppVersion from 'screens/update-app-version';
@@ -56,6 +53,7 @@ import {
   CustomizeEstimate,
   CustomizePayment
 } from 'screens/customize';
+import {Reports, GenerateReport} from 'screens/reports';
 
 const Stack = createStackNavigator();
 
@@ -136,7 +134,7 @@ export const CommonNavigator = (
     <Stack.Screen name={routes.REPORTS} component={Reports} options={options} />
     <Stack.Screen
       name={routes.GENERATE_REPORT}
-      component={Report}
+      component={GenerateReport}
       options={options}
     />
 
