@@ -2,7 +2,6 @@ export * from './layouts';
 export * from './button';
 export * from './asset-image';
 export * from './header';
-export * from './base-input';
 export * from './content';
 export * from './empty';
 export * from './list-view';

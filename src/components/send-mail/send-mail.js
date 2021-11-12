@@ -11,7 +11,7 @@ import {
 import styles from './styles';
 import {validate} from './validation';
 import {SlideModal} from '../slide-modal';
-import {BaseInput} from '../base-input';
+import {BaseInput} from '@/components';
 import t from 'locales/use-translation';
 import {Content} from '../content';
 import {Editor} from '../editor';

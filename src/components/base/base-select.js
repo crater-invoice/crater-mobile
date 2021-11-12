@@ -44,7 +44,7 @@ const SelectView = props => {
   const textColor = color
     ? color
     : values
-    ? theme?.text?.secondaryColor
+    ? theme?.input?.color
     : theme?.text?.fifthColor;
 
   const buttonStyle = [

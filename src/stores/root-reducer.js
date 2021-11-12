@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import {reducer as formReducer} from 'redux-form';
+
 import auth from 'stores/auth/reducer';
 import invoice from 'stores/invoice/reducer';
 import estimate from 'stores/estimate/reducer';
@@ -28,7 +29,6 @@ export default combineReducers({
   customer,
   expenses,
   payments,
-  form: formReducer,
   common,
   settings,
   role,
@@ -42,5 +42,6 @@ export default combineReducers({
   category,
   note,
   taxType,
-  customField
+  customField,
+  form: formReducer
 });

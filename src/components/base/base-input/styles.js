@@ -44,9 +44,6 @@ export default StyleSheet.create({
     marginLeft: 5,
     marginRight: 10
   },
-  activeHint: {
-    color: colors.white
-  },
   activeInput: {},
   inputTip: {
     opacity: 0.5,
@@ -69,9 +66,6 @@ export default StyleSheet.create({
     backgroundColor: theme?.input?.disableBackgroundColor,
     opacity: 0.6
   }),
-  lightThemeDisabledInput: {
-    color: colors.gray6
-  },
   pointIcon: {
     position: 'absolute',
     top: 3

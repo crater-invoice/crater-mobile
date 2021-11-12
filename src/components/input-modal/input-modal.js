@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {styles} from './styles';
 import {AnimateModal} from '../animate-modal';
 import {Field} from 'redux-form';
-import {BaseInput} from '../base-input';
+import {BaseInput} from '@/components';
 import {CtDecorativeButton} from '../button';
 import {Icon} from 'react-native-elements';
 import {Text} from '../text';

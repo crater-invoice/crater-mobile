@@ -3,7 +3,7 @@ import {View, Modal, Keyboard, StyleSheet} from 'react-native';
 import {Field, reset, change} from 'redux-form';
 import {AssetIcon} from '../asset-icon';
 import {DefaultLayout} from '../layouts';
-import {BaseInput} from '../base-input';
+import {BaseInput} from '@/components';
 import {SelectField} from '../select-field';
 import {BaseDatePicker, BaseButtonGroup, BaseButton} from '../base';
 import {CtDecorativeButton} from '../button';
