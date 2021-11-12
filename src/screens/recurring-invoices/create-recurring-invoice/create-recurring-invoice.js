@@ -43,7 +43,7 @@ import {
 } from '@/components/final-amount/final-amount-calculation';
 import {setCalculationRef} from 'stores/common/helpers';
 import {getApiFormattedCustomFields, secondaryHeader} from '@/utils';
-import {initialValues} from '@/stores/recurring-invoice/helpers';
+import {initialValues} from 'stores/recurring-invoice/helpers';
 
 export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   recurringInvoiceRefs: any;
