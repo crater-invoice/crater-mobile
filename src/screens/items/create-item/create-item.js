@@ -114,7 +114,7 @@ export class CreateItem extends React.Component<IProps> {
       );
     } else {
       const itemData = [{...item, item_id: itemId}];
-      if (screen !== 'item' && !isCreateScreen) {
+      if (screen !== 'item') {
         dispatch(itemActions[screen].removeItem({id: itemId}));
       }
       dispatch(itemActions[screen].setItems(itemData));
