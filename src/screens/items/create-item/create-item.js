@@ -29,7 +29,8 @@ import {
   View as CtView,
   BaseButtonGroup,
   BaseButton,
-  CustomField
+  CustomField,
+  taxList
 } from '@/components';
 
 export class CreateItem extends React.Component<IProps> {
@@ -329,48 +330,28 @@ export class CreateItem extends React.Component<IProps> {
         )}
 
         {taxes &&
-          taxes.map((val, index) =>
-            !val.compound_tax ? (
-              <View style={styles.subContainer} key={index}>
-                <View>
-                  <Text color={color} medium style={{marginTop: 6}}>
-                    {val.name} ({val.percent} %)
-                  </Text>
-                </View>
-                <View style={styles.center}>
-                  <CurrencyFormat
-                    amount={this.getTaxValue(val.percent)}
-                    currency={currency}
-                    style={styles.price(theme)}
-                    symbolStyle={styles.currencySymbol}
-                    currencySymbolStyle={styles.symbol(currency)}
-                  />
-                </View>
-              </View>
-            ) : null
-          )}
+          taxes.map(tax => {
+            if (tax.compound_tax) return;
+            return taxList({
+              key: tax.id,
+              currency,
+              theme,
+              label: `${tax.name} ${tax.percent} %`,
+              amount: this.getTaxValue(tax.percent)
+            });
+          })}
 
         {taxes &&
-          taxes.map(val =>
-            val.compound_tax ? (
-              <View style={styles.subContainer}>
-                <View>
-                  <Text color={color} medium style={{marginTop: 6}}>
-                    {this.getTaxName(val)} ({val.percent} %)
-                  </Text>
-                </View>
-                <View style={styles.center}>
-                  <CurrencyFormat
-                    amount={this.getCompoundTaxValue(val.percent)}
-                    currency={currency}
-                    style={styles.price(theme)}
-                    symbolStyle={styles.currencySymbol}
-                    currencySymbolStyle={styles.symbol(currency)}
-                  />
-                </View>
-              </View>
-            ) : null
-          )}
+          taxes.map(tax => {
+            if (!tax.compound_tax) return;
+            return taxList({
+              key: tax.id,
+              currency,
+              theme,
+              label: `${this.getTaxName(tax)} ${tax.percent} %`,
+              amount: this.getCompoundTaxValue(tax.percent)
+            });
+          })}
 
         <BaseDivider dividerStyle={styles.divider} />
 

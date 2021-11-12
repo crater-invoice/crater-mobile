@@ -2,6 +2,15 @@ import React, {FC} from 'react';
 import {View} from 'react-native';
 import {Field, change} from 'redux-form';
 import styles from './final-amount-styles';
+import {routes} from '@/navigation';
+import {colors} from '@/styles';
+import t from 'locales/use-translation';
+import {DISCOUNT_OPTION} from 'stores/common/types';
+import {isBooleanTrue} from '@/constants';
+import {isIosPlatform, definePlatformParam} from '@/helpers/platform';
+import {keyboardType} from '@/helpers/keyboard';
+import {TaxSelectModal} from '@/select-modal';
+import {IProps} from './final-amount-types';
 import {
   BaseInput,
   BaseDivider,
@@ -9,12 +18,9 @@ import {
   Text,
   View as BaseView,
   AssetIcon,
-  BaseDropdownPicker
+  BaseDropdownPicker,
+  taxList
 } from '@/components';
-import {routes} from '@/navigation';
-import {colors} from '@/styles';
-import t from 'locales/use-translation';
-import {DISCOUNT_OPTION} from 'stores/common/types';
 import {
   total,
   getCompoundTaxValue,
@@ -23,36 +29,6 @@ import {
   getTaxName,
   finalAmount
 } from '@/components/final-amount/final-amount-calculation';
-import {isBooleanTrue} from '@/constants';
-import {isIosPlatform, definePlatformParam} from '@/helpers/platform';
-import {keyboardType} from '@/helpers/keyboard';
-import {TaxSelectModal} from '@/select-modal';
-import {IProps} from './final-amount-types';
-
-const DISPLAY_ITEM_TAX: FC<IProps> = props => {
-  const {currency, theme} = props;
-  let taxes = itemTotalTaxes();
-
-  return taxes
-    ? taxes.map((val, index) => (
-        <View style={styles.subContainer} key={index}>
-          <View>
-            <Text darkGray medium style={{marginTop: 6}}>
-              {getTaxName(val)} ({val.percent} %)
-            </Text>
-          </View>
-          <View style={{justifyContent: 'center'}}>
-            <CurrencyFormat
-              amount={val.amount}
-              currency={currency}
-              style={styles.subAmount(theme)}
-              symbolStyle={styles.currencySymbol}
-            />
-          </View>
-        </View>
-      ))
-    : null;
-};
 
 export const FinalAmount: FC<IProps> = props => {
   const {
@@ -166,50 +142,39 @@ export const FinalAmount: FC<IProps> = props => {
       )}
 
       {taxes &&
-        taxes.map((val, index) =>
-          !val.compound_tax ? (
-            <View style={styles.subContainer} key={index}>
-              <View>
-                <Text darkGray h5 medium style={{marginTop: 6}}>
-                  {getTaxName(val)} ({val.percent} %)
-                </Text>
-              </View>
-              <View>
-                <CurrencyFormat
-                  amount={getTaxValue(val.percent)}
-                  currency={currency}
-                  style={styles.taxAmount(theme)}
-                  symbolStyle={styles.currencySymbol}
-                  currencySymbolStyle={styles.symbol(currency)}
-                />
-              </View>
-            </View>
-          ) : null
-        )}
+        taxes.map(tax => {
+          if (tax.compound_tax) return;
+          return taxList({
+            key: tax.id,
+            currency,
+            theme,
+            label: `${getTaxName(tax)} ${tax.percent} %`,
+            amount: getTaxValue(tax.percent)
+          });
+        })}
 
       {taxes &&
-        taxes.map((val, index) =>
-          val.compound_tax ? (
-            <View style={styles.subContainer} key={index}>
-              <View>
-                <Text darkGray h5 medium style={{marginTop: 6}}>
-                  {getTaxName(val)} ({val.percent} %)
-                </Text>
-              </View>
-              <View>
-                <CurrencyFormat
-                  amount={getCompoundTaxValue(val.percent)}
-                  currency={currency}
-                  style={styles.taxAmount(theme)}
-                  symbolStyle={styles.currencySymbol}
-                  currencySymbolStyle={styles.symbol(currency)}
-                />
-              </View>
-            </View>
-          ) : null
-        )}
+        taxes.map(tax => {
+          if (!tax.compound_tax) return;
+          return taxList({
+            key: tax.id,
+            currency,
+            theme,
+            label: `${getTaxName(tax)} ${tax.percent} %`,
+            amount: getCompoundTaxValue(tax.percent)
+          });
+        })}
 
-      {DISPLAY_ITEM_TAX(props)}
+      {itemTotalTaxes().map(tax =>
+        taxList({
+          key: tax.id,
+          currency,
+          theme,
+          label: `${getTaxName(tax)} ${tax.percent} %`,
+          amount: tax.amount,
+          withCurrencySymbolStyle: false
+        })
+      )}
 
       {!taxPerItem && (
         <Field
