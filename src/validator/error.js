@@ -1,9 +1,18 @@
 import {trim} from 'lodash';
-import {CRON_REGEX} from '.';
-import {EMAIL_REGEX, URL_REGEX, CHARACTER_ONLY_REGEX} from './regex';
+import {
+  EMAIL_REGEX,
+  URL_REGEX,
+  CHARACTER_ONLY_REGEX,
+  CRON_REGEX
+} from './regex';
 
 type IValidationOptions = {
-  fieldName?: string
+  fieldName?: string,
+  minNumber?: number,
+  maxNumber?: number,
+  maxCharacter?: number | string,
+  minCharacter?: number | string,
+  message?: string
 };
 
 type ErrorType =
@@ -23,7 +32,7 @@ type ErrorType =
   | 'cronFormat';
 
 export function getError(
-  value: string,
+  value: string | number | any,
   errorTypes: Array<ErrorType>,
   options: IValidationOptions = {}
 ) {
@@ -47,17 +56,13 @@ export function getError(
       value && value.length ? null : 'validation.choose',
 
     minNumberRequired: () =>
-      value <= minNumber ? getMinNumberError(fieldName, minNumber) : null,
+      value <= minNumber ? `validation.minimum_number` : null,
 
-    maxNumberRequired: () => {
-      return value > maxNumber ? 'validation.maximum_number' : null;
-    },
+    maxNumberRequired: () =>
+      value > maxNumber ? 'validation.maximum_number' : null,
 
-    maxCharacterRequired: () => {
-      return value.length > maxCharacter
-        ? 'validation.maximum_character'
-        : null;
-    },
+    maxCharacterRequired: () =>
+      value.length > maxCharacter ? 'validation.maximum_character' : null,
 
     minCharacterRequired: () => {
       if (value) {
@@ -66,10 +71,12 @@ export function getError(
           : null;
       }
     },
+
     characterOnlyRequired: () =>
       CHARACTER_ONLY_REGEX.test(value) ? null : 'validation.character',
 
     isNumberFormat: () => (isNaN(Number(value)) ? 'validation.numeric' : null),
+
     passwordCompared: () =>
       value
         ? value === fieldName
@@ -94,6 +101,3 @@ export function getError(
 
   return errorType ? errorTypeMap[errorType]() : null;
 }
-
-export const getMinNumberError = (fieldName, minNumber) =>
-  `validation.minimum_number`;

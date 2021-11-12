@@ -3,7 +3,7 @@ import styles from './account-style';
 import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
 import {APP_VERSION} from '../../../config';
-import {keyboardType} from '@/constants';
+import {keyboardType} from '@/helpers/keyboard';
 import {IProps, IStates} from './account-type';
 import {fetchCurrentUser, updateCurrentUser} from 'stores/user/actions';
 import {ACCOUNT_FORM} from 'stores/user/types';

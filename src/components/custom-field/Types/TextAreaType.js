@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {BaseInput} from '../../base-input';
+import {BaseInput} from '@/components';
 import {MAX_LENGTH} from '@/constants';
 
 export function TextAreaType({field, name, disabled}) {

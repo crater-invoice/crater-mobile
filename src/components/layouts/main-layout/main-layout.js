@@ -11,11 +11,11 @@ import {View as CtView, CtDecorativeButton} from '@/components';
 import {AssetIcon} from '@/components/asset-icon';
 import {Filter} from '@/components';
 import {CompanyModal} from 'screens/companies';
-import {defineSize} from '@/constants';
 import {commonSelector} from 'stores/common/selectors';
 import {PermissionService} from '@/services';
 import {routes} from '@/navigation';
 import {BaseDivider} from '@/components';
+import {defineSize} from '@/helpers/platform';
 import {IProps} from '../default-layout/type.d';
 
 const Layout = (props: IProps) => {

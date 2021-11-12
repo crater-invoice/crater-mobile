@@ -1,4 +1,5 @@
-import {getError, isEmpty} from '@/constants';
+import {isEmpty} from '@/constants';
+import {getError} from '@/validator';
 import {dataTypes} from 'stores/custom-field/helpers';
 
 export const validateCustomField = fields => {

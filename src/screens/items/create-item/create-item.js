@@ -10,14 +10,13 @@ import {CREATE_ITEM_FORM, ITEM_DISCOUNT_OPTION} from 'stores/item/types';
 import {IProps} from './create-item-types';
 import {getApiFormattedCustomFields, showNotification} from '@/utils';
 import {fetchItemInitialDetails} from 'stores/item/actions';
+import {keyboardType} from '@/helpers/keyboard';
+import {isIosPlatform, definePlatformParam} from '@/helpers/platform';
 import {
   alertMe,
-  definePlatformParam,
   hasValue,
   isBooleanTrue,
   isEmpty,
-  isIosPlatform,
-  keyboardType,
   MAX_LENGTH
 } from '@/constants';
 import {

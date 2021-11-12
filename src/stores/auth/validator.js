@@ -1,4 +1,4 @@
-import {getError} from '@/constants';
+import {getError} from '@/validator';
 
 export const loginValidator = values => {
   const errors = {};

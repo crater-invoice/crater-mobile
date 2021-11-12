@@ -7,11 +7,8 @@ import {navigateTo, resetNavigation, routes} from '@/navigation';
 import {fetchCompanies, setSelectedCompany} from 'stores/company/actions';
 import {IProps, IStates} from './company-modal-type';
 import {fetchBootstrap} from 'stores/common/actions';
-import {
-  defineSize,
-  hasTextLength as hasValue,
-  isAndroidPlatform
-} from '@/constants';
+import {defineSize, isAndroidPlatform} from '@/helpers/platform';
+import {hasTextLength as hasValue} from '@/constants';
 import {
   AnimateModal,
   AssetImage,

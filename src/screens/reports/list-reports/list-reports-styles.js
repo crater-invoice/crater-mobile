@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {fonts} from '@/styles';
-import {defineSize} from '@/constants';
+import {defineSize} from '@/helpers/platform';
 
 export default styles = StyleSheet.create({
   listViewTitle: theme => ({

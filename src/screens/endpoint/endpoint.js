@@ -6,7 +6,9 @@ import {Field} from 'redux-form';
 import {isRTL, STATUS_BAR_CONTENT} from '@/utils';
 import {IProps, IStates} from './endpoint-type';
 import {saveEndpointURL} from 'stores/common/actions';
-import {defineLargeSizeParam, hasTextLength, keyboardType} from '@/constants';
+import {hasTextLength} from '@/constants';
+import {defineLargeSizeParam} from '@/helpers/platform';
+import {keyboardType} from '@/helpers/keyboard';
 import {
   BaseInput,
   AssetImage,

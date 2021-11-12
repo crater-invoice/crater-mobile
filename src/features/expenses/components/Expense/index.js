@@ -5,7 +5,8 @@ import styles from './styles';
 import {dismissRoute, routes} from '@/navigation';
 import t from 'locales/use-translation';
 import * as Linking from 'expo-linking';
-import {alertMe, isEmpty, keyboardType, MAX_LENGTH} from '@/constants';
+import {alertMe, isEmpty, MAX_LENGTH} from '@/constants';
+import {keyboardType} from '@/helpers/keyboard';
 import {
   BaseInput,
   DefaultLayout,

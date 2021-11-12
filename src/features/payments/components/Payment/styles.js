@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {isAndroidPlatform} from '@/constants';
+import {isAndroidPlatform} from '@/helpers/platform';
 
 export default styles = StyleSheet.create({
   date: {

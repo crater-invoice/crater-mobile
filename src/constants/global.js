@@ -1,4 +1,4 @@
-import {Alert, Keyboard} from 'react-native';
+import {Alert} from 'react-native';
 
 export const MAX_LENGTH = 255;
 
@@ -56,10 +56,6 @@ export const isBooleanTrue = value =>
 export const hasTextLength = string => {
   return hasValue(string) && string.length !== 0;
 };
-
-export function dismissKeyboard() {
-  Keyboard.dismiss();
-}
 
 export function toObject(arr) {
   if (isEmpty(arr)) {

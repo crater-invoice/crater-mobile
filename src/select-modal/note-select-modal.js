@@ -1,12 +1,12 @@
 import React from 'react';
 import {SelectField, View} from '@/components';
 import t from 'locales/use-translation';
-import {defineSize} from '@/constants';
 import {TouchableOpacity} from 'react-native';
 import {Text} from '@/components';
 import {ITheme} from '@/interfaces';
 import {PermissionService} from '@/services';
 import {routes} from '@/navigation';
+import {defineSize} from '@/helpers/platform';
 
 interface IProps {
   /**

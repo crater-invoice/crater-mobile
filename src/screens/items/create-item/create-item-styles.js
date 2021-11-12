@@ -4,7 +4,7 @@ import {
   definePlatformParam,
   isAndroidPlatform,
   isIosPlatform
-} from '@/constants';
+} from '@/helpers/platform';
 
 export default styles = StyleSheet.create({
   amountContainer: theme => ({

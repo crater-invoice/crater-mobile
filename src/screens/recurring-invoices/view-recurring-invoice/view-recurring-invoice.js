@@ -22,7 +22,7 @@ import {
 import styles from './view-recurring-invoice-styles';
 import {formattedInvoices} from 'stores/recurring-invoice/selectors';
 import {ARROW_ICON} from '@/assets';
-import {find} from 'lodash-es';
+import {find} from 'lodash';
 
 export default class ViewRecurringInvoice extends Component<IProps, IStates> {
   constructor(props) {

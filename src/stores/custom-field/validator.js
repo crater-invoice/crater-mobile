@@ -1,4 +1,4 @@
-import {getError} from '@/constants';
+import {getError} from '@/validator';
 import {dataTypes} from './helpers';
 
 export const validate = values => {

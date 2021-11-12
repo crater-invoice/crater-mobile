@@ -1,4 +1,4 @@
-import {defineSize, SCREEN_WIDTH} from '@/constants';
+import {defineSize, SCREEN_WIDTH} from '@/helpers/platform';
 import {fonts} from './fonts';
 
 export const headerTitle = ({

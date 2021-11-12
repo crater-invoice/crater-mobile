@@ -1,6 +1,6 @@
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
-import {defineLargeSizeParam, SCREEN_WIDTH} from '@/constants';
+import {SCREEN_WIDTH, defineLargeSizeParam} from '@/helpers/platform';
 import {colors, fonts} from '@/styles';
 
 const customStyleSheet = StyleSheet.create({

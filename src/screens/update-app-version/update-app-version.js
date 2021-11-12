@@ -4,7 +4,7 @@ import * as Linking from 'expo-linking';
 import {styles, Container} from './update-app-version-styles';
 import {Text, AssetImage, BaseButton} from '@/components';
 import t from 'locales/use-translation';
-import {isAndroidPlatform} from '@/constants';
+import {isAndroidPlatform} from '@/helpers/platform';
 import {ITheme} from '@/interfaces';
 
 export default class UpdateAppVersion extends Component<IProps, IStates> {

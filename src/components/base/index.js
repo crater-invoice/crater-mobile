@@ -12,3 +12,4 @@ export * from './base-divider';
 export * from './base-action-sheet';
 export * from './base-switch';
 export * from './base-tabs';
+export * from './base-input';

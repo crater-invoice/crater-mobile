@@ -5,7 +5,7 @@ import {ListView} from '../list-view';
 import {MainLayout, DefaultLayout} from '../layouts';
 import {InfiniteScroll} from '../infinite-scroll';
 import {ScrollView} from '../scroll-view';
-import {isAndroidPlatform, defineSize} from '@/constants';
+import {isAndroidPlatform, defineSize} from '@/helpers/platform';
 import {commonSelector} from 'stores/common/selectors';
 import {IProps} from './type.d';
 

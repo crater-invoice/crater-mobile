@@ -1,5 +1,5 @@
 import {StyleSheet, Platform} from 'react-native';
-import {definePlatformParam} from '@/constants';
+import {definePlatformParam} from '@/helpers/platform';
 
 const styles = StyleSheet.create({
   row: {

@@ -16,15 +16,11 @@ import {
   Text,
   BaseLabel
 } from '@/components';
-import {
-  dismissKeyboard,
-  hasTextLength,
-  hasValue,
-  hitSlop,
-  isEmpty,
-  SCREEN_WIDTH
-} from '@/constants';
+import {hasTextLength, hasValue, hitSlop, isEmpty} from '@/constants';
+import {dismissKeyboard} from '@/helpers/keyboard';
+import {SCREEN_WIDTH} from '@/helpers/platform';
 import {IProps, IStates} from './type.d';
+
 export const PLACEHOLDER_TYPES = {
   CUSTOMER: 'Customer',
   INVOICE: 'Invoice',

@@ -6,11 +6,12 @@ import {ARROW_ICON} from '@/assets';
 import t from 'locales/use-translation';
 import {ITEMS_FORM} from 'stores/item/types';
 import {isFilterApply} from '@/utils';
-import {defineSize, hasTextLength, isEmpty} from '@/constants';
+import {hasTextLength, isEmpty} from '@/constants';
 import filterFields from './list-items-filter';
 import {itemsDescriptionStyle} from '@/styles';
 import {IProps, IStates} from './list-items-type';
 import {fetchItems} from 'stores/item/actions';
+import {defineSize} from '@/helpers/platform';
 
 export default class Items extends React.Component<IProps, IStates> {
   constructor(props) {

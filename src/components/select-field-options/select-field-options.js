@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Field} from 'redux-form';
 import {View, TouchableOpacity, ScrollView} from 'react-native';
 import styles from './styles';
-import {BaseInput} from '../base-input';
+import {BaseInput} from '@/components';
 import {isEmpty} from '@/constants';
 import {AssetIcon, BaseButton, BaseLabel} from '@/components';
 import {colors} from '@/styles';

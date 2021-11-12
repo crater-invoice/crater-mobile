@@ -9,7 +9,8 @@ import {store, persistor} from '@/stores';
 import {ApplicationNavigator} from './navigation';
 import {switchTheme} from './constants';
 import {colors, loadFonts} from './styles';
-import {darkTheme, lightTheme} from './theme';
+import {darkTheme} from './theme/dark';
+import {lightTheme} from './theme/light';
 import {TranslationService} from 'locales/use-translation';
 import {FlashMessage, Loading} from '@/components';
 

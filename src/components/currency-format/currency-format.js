@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Text} from '../text';
-import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
-import {formatMoney, definePlatformParam, isIosPlatform} from '@/constants';
+import {View, StyleSheet} from 'react-native';
+import {formatMoney} from '@/constants';
+import {isIosPlatform, definePlatformParam} from '@/helpers/platform';
 import {IProps} from './type.d';
 
 export class CurrencyFormat extends Component<IProps> {
