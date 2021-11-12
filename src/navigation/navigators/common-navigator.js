@@ -17,10 +17,9 @@ import UpdateAppVersion from 'screens/update-app-version';
 
 import Account from 'screens/account';
 
-import {Settings} from 'screens/settings';
-import Notification from '@/features/settings/containers/Notification';
+import {Settings, Notification, TouchOrFaceId} from 'screens/settings';
+
 import Preferences from 'screens/preferences';
-import TouchOrFaceId from '@/features/settings/containers/Touch-Face-Id';
 
 import {Categories, CreateCategory} from 'screens/categories';
 
@@ -35,19 +34,22 @@ import {Users, CreateUser} from 'screens/users';
 import {Roles, CreateRole} from 'screens/roles';
 
 import {ItemUnits} from 'screens/item-units';
+
 import {Items, CreateItem} from 'screens/items';
 
 import CreateInvoice from 'screens/invoices/create-invoice';
 
 import {Estimates, CreateEstimate} from 'screens/estimates';
 
+import {Reports, GenerateReport} from 'screens/reports';
+
+import {PaymentModes} from 'screens/payment-modes';
+
 import {
   RecurringInvoices,
   ViewRecurringInvoice,
   CreateRecurringInvoice
 } from 'screens/recurring-invoices';
-import {Reports, GenerateReport} from 'screens/reports';
-import {PaymentModes} from 'screens/payment-modes';
 
 const Stack = createStackNavigator();
 

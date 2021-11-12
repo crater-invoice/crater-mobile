@@ -8,7 +8,6 @@ import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {loadingSelector} from 'stores/item/selectors';
 import {taxTypesSelector} from 'stores/tax-type/selectors';
 import {fetchTaxes} from 'stores/tax-type/actions';
-import {getSettingInfo} from '@/features/settings/actions';
 import {unitsSelector} from 'stores/item-unit/selectors';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 
@@ -53,8 +52,7 @@ const mapStateToProps = (state, {route}) => {
 
 const mapDispatchToProps = {
   fetchItemUnits,
-  fetchTaxes,
-  getSettingInfo
+  fetchTaxes
 };
 
 const createItemReduxForm = reduxForm({

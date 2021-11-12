@@ -23,13 +23,13 @@ const mapDispatchToProps = {
   fetchPaymentModes
 };
 
-const paymentSearchReduxForm = reduxForm({
+const paymentsForm = reduxForm({
   form: 'payments/PAYMENT_SEARCH'
 })(Payments);
 
 const PaymentsContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(paymentSearchReduxForm);
+)(paymentsForm);
 
 export default PaymentsContainer;

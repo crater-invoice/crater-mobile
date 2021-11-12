@@ -80,7 +80,7 @@ export const updatePreferences = payload => ({
  * @returns {{type: string, payload: *}}
  */
 export const fetchCompanyInitialDetails = (isCreateScreen, onSuccess) => ({
-  type: types.FETCH_COMPANY_INITIAL_DETAILS,
+  type: types.FETCH_INITIAL_DETAILS,
   payload: {isCreateScreen, onSuccess}
 });
 
@@ -102,4 +102,26 @@ export const setSelectedCompany = payload => ({
 export const setCompanySetting = (payload = {}) => ({
   type: types.SET_COMPANY_SETTING,
   payload
+});
+
+/**
+ * fetch company settings
+ * @param keys
+ * @param onSuccess
+ * @returns {{type: string, payload: *}}
+ */
+export const fetchCompanySettings = (keys, onSuccess) => ({
+  type: types.FETCH_COMPANY_SETTINGS,
+  payload: {keys, onSuccess}
+});
+
+/**
+ * update company settings
+ * @param params
+ * @param navigation
+ * @returns {{type: string, payload: *}}
+ */
+export const updateCompanySettings = (params, navigation = null) => ({
+  type: types.UPDATE_COMPANY_SETTINGS,
+  payload: {params, navigation}
 });

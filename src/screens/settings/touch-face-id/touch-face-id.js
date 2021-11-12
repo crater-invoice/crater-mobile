@@ -4,8 +4,13 @@ import {Field} from 'redux-form';
 import * as LocalAuthentication from 'expo-local-authentication';
 import t from 'locales/use-translation';
 import {colors} from '@/styles';
-import Styles from './styles';
+import Styles from './touch-face-id-styles';
 import {biometricAuthentication} from '@/utils';
+import {isIosPlatform} from '@/helpers/platform';
+import {defineLargeSizeParam} from '@/helpers/size';
+import {BIOMETRY_AUTH_TYPES, hasValue, isEmpty} from '@/constants';
+import {setBiometryAuthType} from 'stores/setting/actions';
+import {IProps, IStates} from './touch-face-id-type';
 import {
   DefaultLayout,
   AssetSvg,
@@ -13,25 +18,6 @@ import {
   AnimatedCircularProgress,
   BaseButton
 } from '@/components';
-import {isIosPlatform} from '@/helpers/platform';
-import {defineLargeSizeParam} from '@/helpers/size';
-import {BIOMETRY_AUTH_TYPES, hasValue, isEmpty} from '@/constants';
-
-interface IProps {
-  loading: boolean;
-  setBiometryAuthType: () => void;
-  biometryAuthType: string;
-  navigation: any;
-}
-
-interface IStates {
-  isCompatible: boolean;
-  isEnrolled: boolean;
-  supportBiometryType: string;
-  isAllowToScan: boolean;
-  stopScanAnimation: boolean;
-  loading: boolean;
-}
 
 export default class TouchOrFaceId extends Component<IProps, IStates> {
   circleFillReference: any;
@@ -220,7 +206,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
     });
     this.fadeInView();
     this.bounceCheckIcon();
-    this.props.setBiometryAuthType(this.state.supportBiometryType);
+    this.props.dispatch(setBiometryAuthType(this.state.supportBiometryType));
   };
 
   refreshScanAnimation = () => {
@@ -274,7 +260,7 @@ export default class TouchOrFaceId extends Component<IProps, IStates> {
 
     this.navigateToSpecificBiometricType();
 
-    this.props.setBiometryAuthType(null);
+    this.props.dispatch(setBiometryAuthType(null));
   };
 
   render() {

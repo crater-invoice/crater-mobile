@@ -5,7 +5,6 @@ import * as TYPES from '../constants';
 import {routes} from '@/navigation';
 import {hasValue, isBooleanTrue} from '@/constants';
 import {fetchCustomFields} from 'stores/custom-field/saga';
-import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 import {modalTypes} from 'stores/custom-field/helpers';
@@ -32,11 +31,13 @@ function* getPayments({payload}) {
 
 function* getCreatePayment({payload: {onSuccess}}) {
   try {
-    const isAutoGenerate = yield call(getSettingInfo, {
-      payload: {key: 'payment_auto_generate'}
-    });
+    // const isAutoGenerate = yield call(getSettingInfo, {
+    //   payload: {key: 'payment_auto_generate'}
+    // });
+    const isAutoGenerate = false;
     const isAuto = isBooleanTrue(isAutoGenerate);
-    const response = yield call(getNextNumber, {payload: {key: 'payment'}});
+    // const response = yield call(getNextNumber, {payload: {key: 'payment'}});
+    const response = {};
     yield call(fetchCustomFields, {
       payload: {queryString: {type: modalTypes.PAYMENT, limit: 'all'}}
     });

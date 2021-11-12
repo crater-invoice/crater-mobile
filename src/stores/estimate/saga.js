@@ -6,7 +6,6 @@ import {showNotification, handleError} from '@/utils';
 import {fetchTaxAndDiscountPerItem} from 'stores/common/actions';
 import * as types from './types';
 import * as req from './service';
-import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
 import {spinner} from './actions';
 import {FETCH_INVOICES_SUCCESS} from '../invoice/types';
 import {addItem} from '../item/saga';
@@ -23,12 +22,14 @@ function* fetchEstimateData() {
     });
     yield put({type: types.CLEAR_ESTIMATE});
     const {estimateTemplates} = yield call(req.fetchEstimateTemplates);
-    const {estimate_auto_generate} = yield call(getSettingInfo, {
-      payload: {keys: ['estimate_auto_generate']}
-    });
-    const nextEstimateNumber = yield call(getNextNumber, {
-      payload: {key: 'estimate'}
-    });
+    // const {estimate_auto_generate} = yield call(getSettingInfo, {
+    //   payload: {keys: ['estimate_auto_generate']}
+    // });
+    // const nextEstimateNumber = yield call(getNextNumber, {
+    //   payload: {key: 'estimate'}
+    // });
+    const estimate_auto_generate = false;
+    const nextEstimateNumber = {};
     yield put({
       type: types.FETCH_ESTIMATE_DATA_SUCCESS,
       payload: {

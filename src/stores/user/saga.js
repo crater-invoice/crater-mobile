@@ -8,7 +8,7 @@ import {navigation} from '@/navigation';
 import {fetchLanguages} from '../company/saga';
 
 /**
- * Fetch current user
+ * Fetch current user saga
  * @returns {IterableIterator<*>}
  */
 function* fetchCurrentUser({payload}) {
@@ -22,7 +22,7 @@ function* fetchCurrentUser({payload}) {
 }
 
 /**
- * Update current user
+ * Update current user saga
  * @returns {IterableIterator<*>}
  */
 function* updateCurrentUser({payload}) {
