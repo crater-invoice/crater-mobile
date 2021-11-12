@@ -7,7 +7,7 @@ import {Empty} from '../empty';
 import {colors, fonts} from '@/styles';
 import {CurrencyFormat} from '../currency-format';
 import {FadeListAnimation, AssetIcon} from '@/components';
-import {definePlatformParam} from '@/constants';
+import {definePlatformParam} from '@/helpers/platform';
 import {isRTL} from '@/utils';
 import {Text} from '../text';
 import {AssetSvg} from '../asset-svg';

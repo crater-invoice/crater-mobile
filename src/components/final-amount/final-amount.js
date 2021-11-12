@@ -23,12 +23,9 @@ import {
   getTaxName,
   finalAmount
 } from '@/components/final-amount/final-amount-calculation';
-import {
-  definePlatformParam,
-  isBooleanTrue,
-  isIosPlatform,
-  keyboardType
-} from '@/constants';
+import {isBooleanTrue} from '@/constants';
+import {isIosPlatform, definePlatformParam} from '@/helpers/platform';
+import {keyboardType} from '@/helpers/keyboard';
 import {TaxSelectModal} from '@/select-modal';
 import {IProps} from './final-amount-types';
 

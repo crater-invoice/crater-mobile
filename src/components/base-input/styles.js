@@ -1,7 +1,7 @@
 import {StyleSheet, Platform} from 'react-native';
 import {colors, fonts} from '@/styles';
 import {isRTL} from '@/utils';
-import {definePlatformParam, isAndroidPlatform} from '@/constants';
+import {isAndroidPlatform, definePlatformParam} from '@/helpers/platform';
 
 export default StyleSheet.create({
   inputFieldWrapper: {

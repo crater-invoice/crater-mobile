@@ -1,5 +1,5 @@
-import {defineSize} from '@/constants';
 import {Platform, StyleSheet} from 'react-native';
+import {defineSize} from '@/helpers/platform';
 
 export default StyleSheet.create({
   modalContainer: {

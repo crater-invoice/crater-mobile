@@ -1,4 +1,3 @@
-import {isAndroidPlatform} from '@/constants';
 import React, {useState, useEffect} from 'react';
 import {Keyboard} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
@@ -9,6 +8,7 @@ import {TabNavigator} from './navigators/tab-navigator';
 import {AuthNavigator} from './navigators/auth-navigator';
 import {CommonNavigator} from './navigators/common-navigator';
 import {getActiveMainTab, navigateTo, navigationRef} from './navigation-action';
+import {isAndroidPlatform} from '@/helpers/platform';
 import {IProps} from './navigation-type';
 
 const Stack = createStackNavigator();

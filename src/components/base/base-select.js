@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {AssetIcon, BaseError, BaseLabel, ButtonView, Text} from '@/components';
 import {colors, fontSizes} from '@/styles';
 import {commonSelector} from 'stores/common/selectors';
-import {isAndroidPlatform} from '@/constants';
+import {isAndroidPlatform} from '@/helpers/platform';
 
 const SelectView = props => {
   const {

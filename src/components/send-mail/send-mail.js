@@ -18,13 +18,13 @@ import {Editor} from '../editor';
 import {getMailConfiguration} from '@/features/settings/actions';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseButtonGroup, BaseButton} from '../base';
+import {keyboardType} from '@/helpers/keyboard';
 import {
   alertMe,
   EMAIL_REGEX,
   hasObjectLength,
   hasTextLength,
-  hasValue,
-  keyboardType
+  hasValue
 } from '@/constants';
 
 type IProps = {

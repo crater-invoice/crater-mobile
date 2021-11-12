@@ -1,7 +1,7 @@
 import {StyleSheet, Platform} from 'react-native';
 import {colors, fonts} from '@/styles';
 import {SymbolStyle} from '@/components/currency-format';
-import {isAndroidPlatform, isIosPlatform} from '@/constants';
+import {isIosPlatform, isAndroidPlatform} from '@/helpers/platform';
 
 export default styles = StyleSheet.create({
   discount: {

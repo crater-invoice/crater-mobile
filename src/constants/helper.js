@@ -1,23 +1,5 @@
-import {Platform, findNodeHandle, Dimensions} from 'react-native';
-import Constants from 'expo-constants';
+import {findNodeHandle} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
-
-export function isIPhoneX() {
-  const {height, width} = Dimensions.get('window');
-  return (
-    Platform.OS === 'ios' &&
-    !Platform.isPad &&
-    !Platform.isTVOS &&
-    (height === 812 ||
-      width === 812 ||
-      height === 844 ||
-      width === 844 ||
-      height === 896 ||
-      width === 896 ||
-      height === 926 ||
-      width === 926)
-  );
-}
 
 export const trim = data => {
   return Object.keys(data).reduce((accumulator, key) => {
@@ -27,24 +9,6 @@ export const trim = data => {
     return accumulator;
   }, {});
 };
-
-export const isIosPlatform = Platform.OS === 'ios';
-
-export const isAndroidPlatform = Platform.OS === 'android';
-
-export const SCREEN_WIDTH = Dimensions.get('window').width;
-
-export const SCREEN_HEIGHT = Dimensions.get('window').height;
-
-export const definePlatformParam = (ios, android) =>
-  isIosPlatform ? ios : android;
-
-export const defineLargeSizeParam = (large, normal) =>
-  isIPhoneX() ? large : normal;
-
-export const isMajorScreenHeight = SCREEN_HEIGHT >= 800;
-
-export const isVerySmallScreen = SCREEN_WIDTH <= 340;
 
 export const scrollToInput = ({scrollView}, {target}) => {
   scrollView.scrollToFocusedInput(findNodeHandle(target));
@@ -133,43 +97,6 @@ export const checkConnection = async () => {
   return state.isConnected;
 };
 
-export const majorVersionIOS = parseInt(String(Platform.Version), 10);
-
 export const capitalize = word => {
   return word[0].toUpperCase() + word.slice(1).toLowerCase();
-};
-
-export const defineSize = (small, medium, large, extraLarge) => {
-  if (isIPhoneX()) {
-    return extraLarge;
-  }
-
-  if (isMajorScreenHeight) {
-    return large;
-  }
-
-  if (isVerySmallScreen) {
-    return small;
-  }
-
-  return medium;
-};
-
-export const keyboardType = {
-  DEFAULT: 'default',
-  NUMERIC: 'numeric',
-  DECIMAL: 'decimal-pad',
-  EMAIL: 'email-address',
-  PHONE: 'phone-pad',
-  URL: 'url'
-};
-
-export const keyboardReturnKeyType = {
-  DEFAULT: 'default',
-  GO: 'go',
-  GOOGLE: 'google',
-  NEXT: 'next',
-  SEARCH: 'search',
-  SEND: 'send',
-  DONE: 'done'
 };

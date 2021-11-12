@@ -13,12 +13,9 @@ import {View as CtView} from '../view';
 import {colors} from '@/styles';
 import {BaseDropdownPicker} from '@/components';
 import {IProps, IStates} from './type.d';
-import {
-  isIosPlatform,
-  isAndroidPlatform,
-  isEmpty,
-  hasObjectLength
-} from '@/constants';
+import {isIosPlatform} from '@/helpers/platform';
+import {isEmpty, hasObjectLength} from '@/constants';
+import {isAndroidPlatform} from '@/helpers/platform';
 
 export class Filter extends Component<IProps, IStates> {
   keyboardShowListener: any;

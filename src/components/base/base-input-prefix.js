@@ -5,7 +5,8 @@ import {connect} from 'react-redux';
 import {Field} from 'redux-form';
 import {colors} from '@/styles';
 import {commonSelector} from 'stores/common/selectors';
-import {isAndroidPlatform, keyboardType} from '@/constants';
+import {isAndroidPlatform} from '@/helpers/platform';
+import {keyboardType} from '@/helpers/keyboard';
 import {
   AssetIcon,
   BaseError,

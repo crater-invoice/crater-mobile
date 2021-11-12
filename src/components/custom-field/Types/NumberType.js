@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field} from 'redux-form';
-import {keyboardType} from '@/constants';
+import {keyboardType} from '@/helpers/keyboard';
 import {BaseInput} from '../../base-input';
 
 export function NumberType({field, name, disabled}) {

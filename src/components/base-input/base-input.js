@@ -11,13 +11,8 @@ import {Text} from '../text';
 import {BaseLabel, BaseError, ButtonView} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
-import {
-  hasTextLength,
-  hasValue,
-  hitSlop,
-  keyboardReturnKeyType,
-  keyboardType
-} from '@/constants';
+import {keyboardType, keyboardReturnKeyType} from '@/helpers/keyboard';
+import {hasTextLength, hasValue, hitSlop} from '@/constants';
 
 class TextInput extends Component<IProps> {
   constructor(props) {

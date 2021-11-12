@@ -3,7 +3,8 @@ import {Field, initialize} from 'redux-form';
 import {pick} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-tax-type';
-import {alertMe, keyboardType} from '@/constants';
+import {alertMe} from '@/constants';
+import {keyboardType} from '@/helpers/keyboard';
 import {CREATE_TAX_FORM} from 'stores/tax-type/types';
 import {secondaryHeader} from 'utils/header';
 import {

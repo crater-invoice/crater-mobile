@@ -4,7 +4,7 @@ import {DefaultLayout, BaseInput, BaseSwitch, BaseDivider} from '@/components';
 import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import {NOTIFICATION} from '../../constants';
-import {keyboardType} from '@/constants';
+import {keyboardType} from '@/helpers/keyboard';
 
 type IProps = {
   navigation: Object,

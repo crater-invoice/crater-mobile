@@ -1,6 +1,6 @@
-import {defineSize, isAndroidPlatform, isIosPlatform} from '@/constants';
 import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
+import {isIosPlatform, defineSize, isAndroidPlatform} from '@/helpers/platform';
 import {fonts} from '@/styles';
 
 const styles = StyleSheet.create({

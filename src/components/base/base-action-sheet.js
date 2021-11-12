@@ -3,7 +3,8 @@ import {TouchableOpacity, View, StatusBar, StyleSheet} from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import {AssetIcon} from '../asset-icon';
 import {colors} from '@/styles';
-import {definePlatformParam, isEmpty, isIosPlatform} from '@/constants';
+import {isEmpty} from '@/constants';
+import {isIosPlatform, definePlatformParam} from '@/helpers/platform';
 import {ITheme} from '@/interfaces';
 
 export class BaseActionSheet extends Component<IProps, IStates> {
