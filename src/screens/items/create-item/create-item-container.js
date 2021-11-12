@@ -24,7 +24,7 @@ const mapStateToProps = (state, {route}) => {
     loading:
       invoice?.isSaving || estimate?.isSaving || recurringInvoice?.isSaving,
     formValues: getFormValues(CREATE_ITEM_FORM)(state) || {},
-    itemId: item && (item.item_id || item.id),
+    itemId: item?.id,
     taxTypes: taxTypesSelector(state),
     currency: route?.params?.currency,
     isItemScreen: screen === 'item',
