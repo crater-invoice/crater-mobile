@@ -1,15 +1,12 @@
 import React from 'react';
-import {View, KeyboardAvoidingView, ScrollView, Platform} from 'react-native';
+import {View, KeyboardAvoidingView, ScrollView} from 'react-native';
 import {Field} from 'redux-form';
 import {styles, Container} from './forgot-password-style';
 import {IProps, IStates} from './forgot-password-type';
 import t from 'locales/use-translation';
-import {
-  defineLargeSizeParam,
-  hasTextLength,
-  keyboardReturnKeyType,
-  keyboardType
-} from '@/constants';
+import {hasTextLength} from '@/constants';
+import {defineLargeSizeParam} from '@/helpers/platform';
+import {keyboardType, keyboardReturnKeyType} from '@/helpers/keyboard';
 import {sendForgotPasswordMail} from 'stores/auth/actions';
 import {BaseInput, AssetImage, CtHeader, Text, BaseButton} from '@/components';
 

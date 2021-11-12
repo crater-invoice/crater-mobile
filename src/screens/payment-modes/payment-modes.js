@@ -4,10 +4,11 @@ import {change} from 'redux-form';
 import t from 'locales/use-translation';
 import {formatListByName} from '@/utils';
 import styles from './payment-modes-style';
-import {alertMe, defineSize, isEmpty} from '@/constants';
+import {alertMe, isEmpty} from '@/constants';
 import {PAYMENT_MODES_FORM} from 'stores/payment-mode/types';
 import {ARROW_ICON} from '@/assets';
 import {routes} from '@/navigation';
+import {defineSize} from '@/helpers/platform';
 import {
   ListView,
   InputModal,

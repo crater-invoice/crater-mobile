@@ -1,6 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
-import {defineSize} from '@/constants';
+import {defineSize} from '@/helpers/platform';
 
 const styles = StyleSheet.create({
   title: {

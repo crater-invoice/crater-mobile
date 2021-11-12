@@ -13,13 +13,8 @@ import {
   AnimatedCircularProgress,
   BaseButton
 } from '@/components';
-import {
-  BIOMETRY_AUTH_TYPES,
-  defineLargeSizeParam,
-  hasValue,
-  isEmpty,
-  isIosPlatform
-} from '@/constants';
+import {isIosPlatform, defineLargeSizeParam} from '@/helpers/platform';
+import {BIOMETRY_AUTH_TYPES, hasValue, isEmpty} from '@/constants';
 
 interface IProps {
   loading: boolean;

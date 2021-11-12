@@ -7,12 +7,12 @@ import {View, Text, ButtonView, Loading} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 import {colors} from '@/styles';
 import {ITheme} from '@/interfaces';
+import {isEmpty} from '@/constants';
 import {
-  defineLargeSizeParam,
   defineSize,
-  isAndroidPlatform,
-  isEmpty
-} from '@/constants';
+  defineLargeSizeParam,
+  isAndroidPlatform
+} from '@/helpers/platform';
 
 const bgColor = {
   primary: {

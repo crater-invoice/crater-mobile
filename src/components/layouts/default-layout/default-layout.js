@@ -5,7 +5,7 @@ import {styles, Container, Row} from './styles';
 import {CtHeader, View} from '../..';
 import {Content} from '../../content';
 import {ARROW_ICON} from '@/assets';
-import {definePlatformParam} from '@/constants';
+import {definePlatformParam} from '@/helpers/platform';
 import {STATUS_BAR_CONTENT} from '@/utils';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseActionSheet} from '@/components';

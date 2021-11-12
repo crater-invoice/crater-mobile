@@ -14,14 +14,13 @@ import t from 'locales/use-translation';
 import {biometricAuthentication, STATUS_BAR_CONTENT} from '@/utils';
 import {BaseInput, AssetImage, Text, AssetSvg, BaseButton} from '@/components';
 import {login, biometryAuthLogin} from 'stores/auth/actions';
+import {keyboardType, keyboardReturnKeyType} from '@/helpers/keyboard';
+import {defineLargeSizeParam} from '@/helpers/platform';
 import {
   BIOMETRY_AUTH_TYPES,
-  defineLargeSizeParam,
   hasObjectLength,
   hasValue,
-  hitSlop,
-  keyboardReturnKeyType,
-  keyboardType
+  hitSlop
 } from '@/constants';
 
 export default class Login extends React.Component<IProps, IStates> {

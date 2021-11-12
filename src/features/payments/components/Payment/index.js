@@ -20,13 +20,13 @@ import {
   ACTIONS_VALUE,
   PAYMENT_FIELDS as FIELDS
 } from '../../constants';
+import {keyboardType} from '@/helpers/keyboard';
 import {
   alertMe,
   capitalize,
   DATE_FORMAT,
   hasObjectLength,
-  isEmpty,
-  keyboardType
+  isEmpty
 } from '@/constants';
 import {
   BADGE_STATUS_BG_COLOR,

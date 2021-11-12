@@ -1,6 +1,7 @@
 import React from 'react';
 import {Field, FieldArray} from 'redux-form';
-import {keyboardType, isEmpty} from '@/constants';
+import {isEmpty} from '@/constants';
+import {keyboardType} from '@/helpers/keyboard';
 import t from 'locales/use-translation';
 import {dataTypes} from 'stores/custom-field/helpers';
 import {

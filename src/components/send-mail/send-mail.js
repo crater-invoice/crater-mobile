@@ -11,21 +11,16 @@ import {
 import styles from './styles';
 import {validate} from './validation';
 import {SlideModal} from '../slide-modal';
-import {BaseInput} from '../base-input';
+import {BaseInput} from '@/components';
 import t from 'locales/use-translation';
 import {Content} from '../content';
 import {Editor} from '../editor';
 import {getMailConfiguration} from '@/features/settings/actions';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseButtonGroup, BaseButton} from '../base';
-import {
-  alertMe,
-  EMAIL_REGEX,
-  hasObjectLength,
-  hasTextLength,
-  hasValue,
-  keyboardType
-} from '@/constants';
+import {keyboardType} from '@/helpers/keyboard';
+import {alertMe, hasObjectLength, hasTextLength, hasValue} from '@/constants';
+import {EMAIL_REGEX} from '@/validator';
 
 type IProps = {
   handleSubmit: () => void,

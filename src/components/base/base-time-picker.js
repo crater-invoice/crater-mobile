@@ -6,12 +6,8 @@ import t from 'locales/use-translation';
 import {colors} from '@/styles';
 import {isDarkMode} from '@/utils';
 import {BaseButton, BaseSelect} from '@/components';
-import {
-  isIosPlatform,
-  majorVersionIOS,
-  TIME_FORMAT,
-  TIME_FORMAT_MERIDIEM
-} from '@/constants';
+import {isIosPlatform, majorVersionIOS} from '@/helpers/platform';
+import {TIME_FORMAT, TIME_FORMAT_MERIDIEM} from '@/constants';
 
 export class BaseTimePicker extends Component<IProps, IStates> {
   constructor(props) {

@@ -1,4 +1,5 @@
-import {hasTextLength, isMajorScreenHeight} from '@/constants';
+import {hasTextLength} from '@/constants';
+import {isMajorScreenHeight} from '@/helpers/platform';
 import {colors} from '@/styles';
 
 export const applyProp = (props, prop) => {

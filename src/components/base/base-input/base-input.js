@@ -5,19 +5,12 @@ import {Input} from 'react-native-elements';
 import debounce from 'lodash/debounce';
 import styles from './styles';
 import {IProps} from './type.d';
-import {AssetIcon} from '../asset-icon';
 import {colors} from '@/styles';
-import {Text} from '../text';
-import {BaseLabel, BaseError, ButtonView} from '@/components';
+import {Text, BaseLabel, BaseError, ButtonView, AssetIcon} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
-import {
-  hasTextLength,
-  hasValue,
-  hitSlop,
-  keyboardReturnKeyType,
-  keyboardType
-} from '@/constants';
+import {keyboardType, keyboardReturnKeyType} from '@/helpers/keyboard';
+import {hasTextLength, hasValue, hitSlop} from '@/constants';
 
 class TextInput extends Component<IProps> {
   constructor(props) {
@@ -105,8 +98,6 @@ class TextInput extends Component<IProps> {
       inputContainerStyle,
       editable = true,
       hideError,
-      autocomplete,
-      options,
       disabled,
       textColor,
       height,

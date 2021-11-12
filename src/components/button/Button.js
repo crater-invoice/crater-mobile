@@ -5,7 +5,8 @@ import {colors} from '@/styles';
 import {Button} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {AssetImage} from '../asset-image';
-import {BUTTON_COLOR, BUTTON_TYPE, isAndroidPlatform} from '@/constants';
+import {BUTTON_COLOR, BUTTON_TYPE} from '@/constants';
+import {isAndroidPlatform} from '@/helpers/platform';
 import {AssetIcon} from '../asset-icon';
 import {commonSelector} from 'stores/common/selectors';
 

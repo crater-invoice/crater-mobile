@@ -2,11 +2,11 @@ import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
 import {headerTitle} from '@/styles';
 import {
-  definePlatformParam,
+  isIPhoneX,
   defineSize,
-  isAndroidPlatform,
-  isIPhoneX
-} from '@/constants';
+  definePlatformParam,
+  isAndroidPlatform
+} from '@/helpers/platform';
 
 const styles = StyleSheet.create({
   content: {

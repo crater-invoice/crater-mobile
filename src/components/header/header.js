@@ -7,7 +7,7 @@ import {colors} from '@/styles';
 import {Filter} from '../filter';
 import {Text} from '../text';
 import {PermissionService} from '@/services';
-import {dismissKeyboard} from '@/constants';
+import {dismissKeyboard} from '@/helpers/keyboard';
 import {IProps} from './type.d';
 
 export const CtHeader = ({
