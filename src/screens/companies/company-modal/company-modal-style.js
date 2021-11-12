@@ -1,6 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
-import {SCREEN_HEIGHT, defineSize} from '@/helpers/platform';
+import {SCREEN_HEIGHT, defineSize} from '@/helpers/size';
 
 const customStyleSheet = StyleSheet.create({
   closeButton: {

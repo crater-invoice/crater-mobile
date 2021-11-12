@@ -11,7 +11,7 @@ import filterFields from './list-items-filter';
 import {itemsDescriptionStyle} from '@/styles';
 import {IProps, IStates} from './list-items-type';
 import {fetchItems} from 'stores/item/actions';
-import {defineSize} from '@/helpers/platform';
+import {defineSize} from '@/helpers/size';
 
 export default class Items extends React.Component<IProps, IStates> {
   constructor(props) {

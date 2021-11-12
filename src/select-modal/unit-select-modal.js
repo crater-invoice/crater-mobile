@@ -1,7 +1,7 @@
 import React from 'react';
 import {SelectField} from '@/components';
 import t from 'locales/use-translation';
-import {defineSize} from '@/helpers/platform';
+import {defineSize} from '@/helpers/size';
 
 interface IProps {
   /**

@@ -8,7 +8,7 @@ import {alertMe, isEmpty} from '@/constants';
 import {PAYMENT_MODES_FORM} from 'stores/payment-mode/types';
 import {ARROW_ICON} from '@/assets';
 import {routes} from '@/navigation';
-import {defineSize} from '@/helpers/platform';
+import {defineSize} from '@/helpers/size';
 import {
   ListView,
   InputModal,

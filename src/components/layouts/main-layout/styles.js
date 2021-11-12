@@ -1,6 +1,7 @@
 import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
-import {isIosPlatform, defineSize, isAndroidPlatform} from '@/helpers/platform';
+import {isIosPlatform, isAndroidPlatform} from '@/helpers/platform';
+import {defineSize} from '@/helpers/size';
 import {fonts} from '@/styles';
 
 const styles = StyleSheet.create({

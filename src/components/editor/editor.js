@@ -18,7 +18,7 @@ import {
 } from '@/components';
 import {hasTextLength, hasValue, hitSlop, isEmpty} from '@/constants';
 import {dismissKeyboard} from '@/helpers/keyboard';
-import {SCREEN_WIDTH} from '@/helpers/platform';
+import {SCREEN_WIDTH} from '@/helpers/size';
 import {IProps, IStates} from './type.d';
 
 export const PLACEHOLDER_TYPES = {

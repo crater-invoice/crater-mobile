@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {colors} from '@/styles';
-import {defineSize, SCREEN_HEIGHT} from '@/helpers/platform';
+import {defineSize, SCREEN_HEIGHT} from '@/helpers/size';
 
 const styles = StyleSheet.create({
   modalViewContainer: {

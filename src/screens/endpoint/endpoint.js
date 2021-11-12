@@ -7,7 +7,7 @@ import {isRTL, STATUS_BAR_CONTENT} from '@/utils';
 import {IProps, IStates} from './endpoint-type';
 import {saveEndpointURL} from 'stores/common/actions';
 import {hasTextLength} from '@/constants';
-import {defineLargeSizeParam} from '@/helpers/platform';
+import {defineLargeSizeParam} from '@/helpers/size';
 import {keyboardType} from '@/helpers/keyboard';
 import {
   BaseInput,

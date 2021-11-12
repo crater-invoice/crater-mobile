@@ -1,6 +1,7 @@
 import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
-import {SCREEN_WIDTH, isIosPlatform} from '@/helpers/platform';
+import {isIosPlatform} from '@/helpers/platform';
+import {SCREEN_WIDTH} from '@/helpers/size';
 
 const styles = StyleSheet.create({
   logoContainer: {

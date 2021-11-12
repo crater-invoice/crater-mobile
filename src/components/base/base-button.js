@@ -8,11 +8,8 @@ import {commonSelector} from 'stores/common/selectors';
 import {colors} from '@/styles';
 import {ITheme} from '@/interfaces';
 import {isEmpty} from '@/constants';
-import {
-  defineSize,
-  defineLargeSizeParam,
-  isAndroidPlatform
-} from '@/helpers/platform';
+import {isAndroidPlatform} from '@/helpers/platform';
+import {defineSize, defineLargeSizeParam} from '@/helpers/size';
 
 const bgColor = {
   primary: {

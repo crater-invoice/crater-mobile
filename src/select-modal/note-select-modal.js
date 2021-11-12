@@ -6,7 +6,7 @@ import {Text} from '@/components';
 import {ITheme} from '@/interfaces';
 import {PermissionService} from '@/services';
 import {routes} from '@/navigation';
-import {defineSize} from '@/helpers/platform';
+import {defineSize} from '@/helpers/size';
 
 interface IProps {
   /**

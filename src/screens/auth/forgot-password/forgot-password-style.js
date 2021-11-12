@@ -1,11 +1,8 @@
 import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
 import {colors} from '@/styles';
-import {
-  defineLargeSizeParam,
-  isIosPlatform,
-  SCREEN_WIDTH
-} from '@/helpers/platform';
+import {isIosPlatform} from '@/helpers/platform';
+import {defineLargeSizeParam, SCREEN_WIDTH} from '@/helpers/size';
 
 const styles = StyleSheet.create({
   main: {

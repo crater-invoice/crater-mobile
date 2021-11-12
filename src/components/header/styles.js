@@ -1,6 +1,7 @@
 import {StyleSheet, StatusBar} from 'react-native';
 import {colors} from '@/styles';
-import {isAndroidPlatform, defineSize} from '@/helpers/platform';
+import {isAndroidPlatform} from '@/helpers/platform';
+import {defineSize} from '@/helpers/size';
 
 export default StyleSheet.create({
   transparent: {

@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import t from 'locales/use-translation';
 import {CtButton} from './Button';
 import {BUTTON_COLOR, BUTTON_TYPE, isEmpty} from '@/constants';
-import {defineSize} from '@/helpers/platform';
+import {defineSize} from '@/helpers/size';
 
 export const ActionButton = props => {
   const {buttons} = props;

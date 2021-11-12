@@ -15,7 +15,7 @@ import {commonSelector} from 'stores/common/selectors';
 import {PermissionService} from '@/services';
 import {routes} from '@/navigation';
 import {BaseDivider} from '@/components';
-import {defineSize} from '@/helpers/platform';
+import {defineSize} from '@/helpers/size';
 import {IProps} from '../default-layout/type.d';
 
 const Layout = (props: IProps) => {

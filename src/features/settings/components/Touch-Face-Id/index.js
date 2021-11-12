@@ -13,7 +13,8 @@ import {
   AnimatedCircularProgress,
   BaseButton
 } from '@/components';
-import {isIosPlatform, defineLargeSizeParam} from '@/helpers/platform';
+import {isIosPlatform} from '@/helpers/platform';
+import {defineLargeSizeParam} from '@/helpers/size';
 import {BIOMETRY_AUTH_TYPES, hasValue, isEmpty} from '@/constants';
 
 interface IProps {

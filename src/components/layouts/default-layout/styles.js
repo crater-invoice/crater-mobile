@@ -3,10 +3,10 @@ import styled from 'styled-components/native';
 import {headerTitle} from '@/styles';
 import {
   isIPhoneX,
-  defineSize,
   definePlatformParam,
   isAndroidPlatform
 } from '@/helpers/platform';
+import {defineSize} from '@/helpers/size';
 
 const styles = StyleSheet.create({
   content: {

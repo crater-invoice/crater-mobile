@@ -1,7 +1,7 @@
 import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
 import {colors} from '@/styles';
-import {SCREEN_WIDTH} from '@/helpers/platform';
+import {SCREEN_WIDTH} from '@/helpers/size';
 
 const styles = StyleSheet.create({
   main: {

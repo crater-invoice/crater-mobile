@@ -15,7 +15,7 @@ import {biometricAuthentication, STATUS_BAR_CONTENT} from '@/utils';
 import {BaseInput, AssetImage, Text, AssetSvg, BaseButton} from '@/components';
 import {login, biometryAuthLogin} from 'stores/auth/actions';
 import {keyboardType, keyboardReturnKeyType} from '@/helpers/keyboard';
-import {defineLargeSizeParam} from '@/helpers/platform';
+import {defineLargeSizeParam} from '@/helpers/size';
 import {
   BIOMETRY_AUTH_TYPES,
   hasObjectLength,

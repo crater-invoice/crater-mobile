@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {colors, fonts} from '@/styles';
-import {defineSize, isAndroidPlatform} from '@/helpers/platform';
+import {isAndroidPlatform} from '@/helpers/platform';
+import {defineSize} from '@/helpers/size';
 
 export const styles = StyleSheet.create({
   rightTitle: theme => ({
