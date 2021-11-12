@@ -11,7 +11,10 @@ export const getInitialCustomFields = (customFields, initialValues) => {
   let fields = [];
 
   initialValues.map(value => {
-    fields.push({...value.custom_field, defaultAnswer: value.defaultAnswer});
+    fields.push({
+      ...value.custom_field,
+      defaultAnswer: value.defaultAnswer ?? value.default_answer
+    });
   });
 
   if (!isEmpty(customFields)) {
