@@ -1,5 +1,6 @@
 import {validateCustomField} from '@/components/custom-field';
-import {getError, isEmpty} from '@/constants';
+import {isEmpty} from '@/constants';
+import {getError} from '@/validator';
 import {EXPENSE_FIELDS as FIELDS} from '../../constants';
 
 export const validate = values => {

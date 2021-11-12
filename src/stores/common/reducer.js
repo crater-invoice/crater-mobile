@@ -1,7 +1,7 @@
 import * as types from './types';
 import {DATE_FORMAT, SET_MAIL_CONFIGURATION, SWITCH_THEME} from '@/constants';
 import {SET_BIOMETRY_AUTH_TYPE} from '@/features/settings/constants';
-import {lightTheme} from '@/theme';
+import {lightTheme} from '@/theme/light';
 
 const initialState = {
   locale: 'en',

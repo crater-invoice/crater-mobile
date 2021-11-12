@@ -19,13 +19,8 @@ import {getMailConfiguration} from '@/features/settings/actions';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseButtonGroup, BaseButton} from '../base';
 import {keyboardType} from '@/helpers/keyboard';
-import {
-  alertMe,
-  EMAIL_REGEX,
-  hasObjectLength,
-  hasTextLength,
-  hasValue
-} from '@/constants';
+import {alertMe, hasObjectLength, hasTextLength, hasValue} from '@/constants';
+import {EMAIL_REGEX} from '@/validator';
 
 type IProps = {
   handleSubmit: () => void,
