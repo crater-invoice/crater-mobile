@@ -15,12 +15,12 @@ import {BaseInput} from '@/components';
 import t from 'locales/use-translation';
 import {Content} from '../content';
 import {Editor} from '../editor';
-import {getMailConfiguration} from '@/features/settings/actions';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseButtonGroup, BaseButton} from '../base';
 import {keyboardType} from '@/helpers/keyboard';
 import {alertMe, hasObjectLength, hasTextLength, hasValue} from '@/constants';
 import {EMAIL_REGEX} from '@/validator';
+import {fetchMailConfiguration} from 'stores/setting/actions';
 
 type IProps = {
   handleSubmit: () => void,
@@ -139,20 +139,22 @@ class SendMailComponent extends Component<IProps> {
   };
 
   getConfig = () => {
-    const {getMailConfiguration, user, body, subject} = this.props;
+    const {user, body, subject, dispatch} = this.props;
     const {getMailConfigApiCalled} = this.state;
 
     if (!getMailConfigApiCalled) {
-      getMailConfiguration({
-        body,
-        onSuccess: ({from_mail, emailBody}) => {
-          this.setState({getMailConfigApiCalled: true});
-          this.setFormField(emailField.from, from_mail);
-          this.setFormField(emailField.to, user?.email);
-          this.setFormField(emailField.subject, subject);
-          this.setFormField(emailField.msg, emailBody);
-        }
-      });
+      dispatch(
+        fetchMailConfiguration({
+          body,
+          onSuccess: ({from_mail, emailBody}) => {
+            this.setState({getMailConfigApiCalled: true});
+            this.setFormField(emailField.from, from_mail);
+            this.setFormField(emailField.to, user?.email);
+            this.setFormField(emailField.subject, subject);
+            this.setFormField(emailField.msg, emailBody);
+          }
+        })
+      );
     }
   };
 
@@ -262,15 +264,9 @@ const mapStateToProps = state => ({
   ...commonSelector(state)
 });
 
-const mapDispatchToProps = {
-  getMailConfiguration
-};
 const SendMailForm = reduxForm({
   form: 'SEND_MAIL_FORM',
   validate
 })(SendMailComponent);
 
-export const SendMail = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SendMailForm);
+export const SendMail = connect(mapStateToProps)(SendMailForm);

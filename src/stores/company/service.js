@@ -113,6 +113,27 @@ export const uploadCompanyLogo = (logo, id) => {
   });
 };
 
+/**
+ * Fetch company settings
+ * @param settings : keys
+ * @returns {*}
+ */
+export const fetchCompanySettings = settings => {
+  return Request.get({
+    path: `company/settings`,
+    axiosProps: {params: {settings}}
+  });
+};
+
+/**
+ * Update company settings
+ * @param settings : params
+ * @returns {*}
+ */
+export const updateCompanySettings = settings => {
+  return Request.post({path: `company/settings`, body: {settings}});
+};
+
 class Services {
   isPreferencesItemLoaded: boolean;
   isCurrenciesItemLoaded: boolean;

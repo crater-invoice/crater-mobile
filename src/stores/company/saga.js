@@ -197,14 +197,40 @@ function* updateCompany({payload}) {
   }
 }
 
+/**
+ * Fetch company settings saga
+ * @returns {IterableIterator<*>}
+ */
+function* fetchCompanySettings({payload}) {
+  try {
+    const {keys, onSuccess} = payload;
+    const response = yield call(req.fetchCompanySettings, keys);
+    onSuccess?.(response);
+  } catch (e) {}
+}
+
+/**
+ * Update company settings saga
+ * @returns {IterableIterator<*>}
+ */
+function* updateCompanySettings({payload}) {
+  try {
+    const {params, navigation} = payload;
+    yield call(req.updateCompanySettings, params);
+    if (navigation) navigation.goBack();
+    showNotification({message: t('notification.setting_updated')});
+  } catch (e) {
+    handleError(e);
+  }
+}
+
 export default function* companySaga() {
   yield takeEvery(types.FETCH_PREFERENCES, fetchPreferences);
   yield takeEvery(types.UPDATE_PREFERENCES, updatePreferences);
   yield takeEvery(types.FETCH_COMPANIES, fetchCompanies);
   yield takeLatest(types.ADD_COMPANY, addCompany);
   yield takeLatest(types.UPDATE_COMPANY, updateCompany);
-  yield takeEvery(
-    types.FETCH_COMPANY_INITIAL_DETAILS,
-    fetchCompanyInitialDetails
-  );
+  yield takeEvery(types.FETCH_INITIAL_DETAILS, fetchCompanyInitialDetails);
+  yield takeLatest(types.FETCH_COMPANY_SETTINGS, fetchCompanySettings);
+  yield takeLatest(types.UPDATE_COMPANY_SETTINGS, updateCompanySettings);
 }

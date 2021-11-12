@@ -55,7 +55,7 @@ const mapDispatchToProps = {
   fetchNotes
 };
 
-const paymentReduxForm = reduxForm({
+const createPaymentForm = reduxForm({
   form: 'payments/PAYMENT_FORM',
   validate
 })(Payment);
@@ -63,6 +63,6 @@ const paymentReduxForm = reduxForm({
 const PaymentContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(paymentReduxForm);
+)(createPaymentForm);
 
 export default PaymentContainer;

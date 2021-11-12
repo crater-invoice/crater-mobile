@@ -1,6 +1,6 @@
 import {getError} from '@/validator';
 
-export const validate = values => {
+export const validateNotification = values => {
   const errors = {};
   const {notification_email} = values;
 

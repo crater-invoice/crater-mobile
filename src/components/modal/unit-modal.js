@@ -85,11 +85,11 @@ const mapDispatchToProps = {
   addItemUnit
 };
 
-const unitReduxForm = reduxForm({
+const unitForm = reduxForm({
   form: 'UNIT_FORM'
 })(Modal);
 
 export const UnitModal = connect(
   mapStateToProps,
   mapDispatchToProps
-)(unitReduxForm);
+)(unitForm);
