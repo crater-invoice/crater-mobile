@@ -55,7 +55,7 @@ const mapDispatchToProps = {
   fetchTaxes
 };
 
-const createItemReduxForm = reduxForm({
+const createItemForm = reduxForm({
   form: CREATE_ITEM_FORM,
   validate
 })(CreateItem);
@@ -63,4 +63,4 @@ const createItemReduxForm = reduxForm({
 export const CreateItemContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(createItemReduxForm);
+)(createItemForm);

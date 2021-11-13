@@ -37,7 +37,7 @@ const mapDispatchToProps = {
   fetchCustomers
 };
 
-const CreateExpenseReduxForm = reduxForm({
+const CreateExpenseForm = reduxForm({
   form: CREATE_EXPENSE_FORM,
   validate
 })(CreateExpense);
@@ -45,4 +45,4 @@ const CreateExpenseReduxForm = reduxForm({
 export const CreateExpenseContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(CreateExpenseReduxForm);
+)(CreateExpenseForm);

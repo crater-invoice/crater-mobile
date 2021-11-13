@@ -2,7 +2,7 @@ import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {PermissionService} from '@/services';
 import {alertMe} from '@/constants';
-import {removePayment} from '@/stores/payment/actions';
+import {removePayment} from 'stores/payment/actions';
 
 export default data => {
   const {props, state} = data;
