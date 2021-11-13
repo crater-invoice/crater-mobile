@@ -437,7 +437,7 @@
       "discount_per_item_placeholder": "Enable this if you want to add Discount to individual invoice items. By default, Discount are added directly to the invoice.",
       "tax_per_item": "Tax Per Item",
       "tax_per_item_placeholder": "Enable this if you want to add Tax to individual invoice items. By default, Tax are added directly to the invoice.",
-      "retrospective_edits": "Disable Retrospective Edits",
+      "retrospective_edits": "Retrospective Edits",
       "allow": "Allow",
       "disable_after_partial_payment_is_recorded": "Disable after partial payment is recorded",
       "disable_after_full_payment_is_recorded": "Disable after full payment is recorded",
