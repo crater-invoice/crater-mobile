@@ -52,8 +52,8 @@ const abilities = [
   // Expense
   {route: routes.MAIN_EXPENSES, ability: 'view-expense'},
   {route: routes.MAIN_EXPENSES, ability: 'create-expense'},
-  {route: routes.EXPENSE, ability: 'edit-expense'},
-  {route: routes.EXPENSE, ability: 'delete-expense'},
+  {route: routes.CREATE_EXPENSE, ability: 'edit-expense'},
+  {route: routes.CREATE_EXPENSE, ability: 'delete-expense'},
 
   // Tax Type
   {route: routes.TAXES, ability: 'view-tax-type'},

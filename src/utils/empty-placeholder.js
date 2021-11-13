@@ -105,6 +105,27 @@ export const emptyContentPlaceholder = props => {
           })
       };
 
+    case routes.MAIN_EXPENSES:
+      emptyTitle = search
+        ? 'search.no_result'
+        : isFilter
+        ? 'filter.empty.filter_title'
+        : 'expenses.empty.title';
+      return {
+        title: t(emptyTitle, {search}),
+        image: AssetImage.images.empty_expenses,
+        ...(!search && {
+          description: t('expenses.empty.description')
+        }),
+        ...(!search &&
+          !isFilter && {
+            buttonTitle: t('expenses.empty.button_title'),
+            buttonPress: () => {
+              navigation.navigate(routes.CREATE_EXPENSE, {type: 'ADD'});
+            }
+          })
+      };
+
     case routes.MAIN_PAYMENTS:
       emptyTitle = search
         ? 'search.no_result'

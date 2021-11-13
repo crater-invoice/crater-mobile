@@ -1,7 +1,6 @@
 import React from 'react';
-import {Field, change} from 'redux-form';
-import moment from 'moment';
-import styles from './styles';
+import {Field, change, initialize} from 'redux-form';
+import styles from './create-expense-styles';
 import {dismissRoute, routes} from '@/navigation';
 import t from 'locales/use-translation';
 import * as Linking from 'expo-linking';
@@ -13,48 +12,24 @@ import {
   FilePicker,
   BaseDatePicker,
   CustomField,
-  ActionButton
+  BaseButtonGroup,
+  BaseButton
 } from '@/components';
-import {
-  EXPENSE_FORM,
-  EXPENSE_ACTIONS,
-  ACTIONS_VALUE,
-  EXPENSE_FIELDS as FIELDS
-} from '../../constants';
+import {CREATE_EXPENSE_FORM} from 'stores/expense/types';
+import {EXPENSE_ACTIONS, ACTIONS_VALUE} from '@/stores/expense/helpers';
 import {getApiFormattedCustomFields} from '@/utils';
 import _ from 'lodash';
 import {CustomerSelectModal, ExpenseCategorySelectModal} from '@/select-modal';
+import {IProps, IState} from './create-expense-type';
+import {
+  addExpense,
+  fetchExpenseInitialDetails,
+  fetchSingleExpense,
+  removeExpense,
+  updateExpense
+} from '@/stores/expense/actions';
 
-interface IProps {
-  navigation: any;
-  type: string;
-  id: number;
-  getExpenseDetail: () => void;
-  createExpense: () => void;
-  updateExpense: () => void;
-  removeExpense: () => void;
-  dispatch: () => void;
-  loading: boolean;
-  endpointURL: string;
-  handleSubmit: () => void;
-  categories: Array<any>;
-  customers: Array<any>;
-  fetchCategories: () => void;
-  fetchCustomers: () => void;
-  customFields: Array<any>;
-  formValues: any;
-}
-
-interface IState {
-  attachmentReceipt: any;
-  isLoading: boolean;
-  imageUrl: string;
-  customer: string;
-  fileLoading: boolean;
-  fileType: string;
-}
-
-export class Expense extends React.Component<IProps, IState> {
+export default class CreateExpense extends React.Component<IProps, IState> {
   customerReference: any;
   categoryReference: any;
 
@@ -64,8 +39,8 @@ export class Expense extends React.Component<IProps, IState> {
     this.categoryReference = React.createRef();
 
     this.state = {
+      isFetchingInitialData: true,
       attachmentReceipt: null,
-      isLoading: true,
       imageUrl: null,
       fileLoading: false,
       customer: null,
@@ -74,117 +49,78 @@ export class Expense extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
-    this.setInitialValues();
+    this.loadData();
   }
 
-  setInitialValues = () => {
-    const {
-      getCreateExpense,
-      getExpenseDetail,
-      isEditScreen,
-      isCreateScreen,
-      route,
-      id
-    } = this.props;
-
-    if (isCreateScreen) {
-      getCreateExpense({
-        onSuccess: () => {
-          this.setFormField(`expense.${FIELDS.DATE}`, moment());
-
-          const customer = route?.params?.customer;
-          if (customer) {
-            this.setFormField(`expense.${FIELDS.CUSTOMER}`, customer.id);
-            this.setState({customer});
-          }
-          this.setState({isLoading: false});
-        }
-      });
+  loadData = () => {
+    const {isEditScreen, id, dispatch} = this.props;
+    if (isEditScreen) {
+      dispatch(
+        fetchSingleExpense(id, (res, receipt) =>
+          this.setInitialData(res, receipt)
+        )
+      );
       return;
     }
+    dispatch(fetchExpenseInitialDetails(() => this.setInitialData(null)));
+    return;
+  };
 
-    if (isEditScreen) {
-      getExpenseDetail({
-        id,
-        onSuccess: (res, receipt) => {
-          this.setFormField(`expense`, res);
-          this.setState({
-            imageUrl: receipt?.image,
-            fileType: receipt?.type,
-            customer: res?.customer,
-            isLoading: false
-          });
-          return;
-        }
-      });
+  setInitialData = res => {
+    const {dispatch, route} = this.props;
+    const customer = route?.params?.customer;
+    if (res) {
+      dispatch(initialize(CREATE_EXPENSE_FORM, res));
+      if (res?.attachment_receipt_url) {
+        this.setState({
+          imageUrl: res?.attachment_receipt_url?.url,
+          fileType: res?.attachment_receipt_url?.type,
+          customer: res?.customer
+        });
+      }
     }
+
+    if (customer) {
+      this.setFormField('customer_id', customer.id);
+      this.setState({customer});
+    }
+
+    this.setState({isFetchingInitialData: false});
   };
 
   setFormField = (field, value) => {
-    this.props.dispatch(change(EXPENSE_FORM, field, value));
+    this.props.dispatch(change(CREATE_EXPENSE_FORM, field, value));
   };
 
-  onSubmit = values => {
-    let params = values?.expense;
+  onSave = values => {
+    const {isCreateScreen, id, isSaving, isDeleting, dispatch} = this.props;
+    const {attachmentReceipt, isFetchingInitialData} = this.state;
 
-    for (const key in values?.expense) {
-      params[key] = values?.expense[key] ?? '';
+    if (isSaving || isDeleting || isFetchingInitialData) {
+      return;
     }
-    if (values?.customFields) {
-      params = {
-        ...params,
+
+    const payload = {
+      id,
+      params: {
+        ...values,
         customFields: getApiFormattedCustomFields(values?.customFields)
-      };
-    } else {
-      params = _.omit(params, ['customFields']);
-    }
-    const {
-      createExpense,
-      navigation,
-      updateExpense,
-      isEditScreen,
-      isCreateScreen,
-      id
-    } = this.props;
-
-    const {attachmentReceipt, fileLoading, isLoading} = this.state;
-
-    if (fileLoading || isLoading) {
-      return;
-    }
-
-    if (isCreateScreen) {
-      createExpense({
-        params,
-        attachmentReceipt,
-        navigation
-      });
-      return;
-    }
-
-    if (isEditScreen) {
-      updateExpense({
-        id,
-        params,
-        attachmentReceipt,
-        navigation
-      });
-      return;
-    }
+      },
+      attachmentReceipt
+    };
+    isCreateScreen
+      ? dispatch(addExpense(payload))
+      : dispatch(updateExpense(payload));
   };
 
   removeExpense = () => {
-    const {removeExpense, navigation, route} = this.props;
+    const {id, navigation, dispatch} = this.props;
 
     alertMe({
       title: t('alert.title'),
       desc: t('expenses.alert_description'),
       showCancel: true,
-      okPress: () =>
-        removeExpense({
-          id: route?.params?.id,
-          navigation
-        })
+      okPress: () => dispatch(removeExpense(id, navigation))
     });
   };
 
@@ -211,7 +147,7 @@ export class Expense extends React.Component<IProps, IState> {
         type: 'ADD',
         onSelect: customer => {
           this.setState({customer});
-          this.setFormField(`expense.${FIELDS.CUSTOMER}`, customer.id);
+          this.setFormField('customer_id', customer.id);
           this.customerReference?.changeDisplayValue?.(customer);
         }
       })
@@ -223,7 +159,7 @@ export class Expense extends React.Component<IProps, IState> {
     navigation.navigate(routes.CREATE_CATEGORY, {
       type: 'ADD',
       onSelect: item => {
-        this.setFormField(`expense.${FIELDS.CATEGORY}`, item.id);
+        this.setFormField('expense_category_id', item.id);
         this.categoryReference?.changeDisplayValue?.(item);
       }
     });
@@ -243,24 +179,25 @@ export class Expense extends React.Component<IProps, IState> {
       isAllowToEdit,
       isAllowToDelete,
       isCreateScreen,
-      loading
+      isSaving,
+      isDeleting
     } = this.props;
+    const {imageUrl, fileType, customer, isFetchingInitialData} = this.state;
+
+    const categoryName = formValues?.expense_category?.name;
     const disabled = !isAllowToEdit;
-
-    const {imageUrl, isLoading, fileLoading, fileType, customer} = this.state;
-
     const isCreateExpense = isCreateScreen;
     const hasCustomField = isEditScreen
-      ? formValues?.expense && formValues.expense.hasOwnProperty('fields')
+      ? formValues && formValues.hasOwnProperty('fields')
       : !isEmpty(customFields);
 
     const dropdownOptions =
-      !isCreateExpense && !isLoading
+      !isCreateExpense && !isFetchingInitialData
         ? EXPENSE_ACTIONS(imageUrl, isAllowToDelete)
         : [];
 
     const drownDownProps =
-      !isCreateExpense && !isLoading
+      !isCreateExpense && !isFetchingInitialData
         ? {
             options: dropdownOptions,
             onSelect: this.onOptionSelect,
@@ -287,28 +224,32 @@ export class Expense extends React.Component<IProps, IState> {
       ...(!isEditScreen && {
         rightIcon: 'save',
         rightIconProps: {solid: true},
-        rightIconPress: handleSubmit(this.onSubmit)
+        rightIconPress: handleSubmit(this.onSave)
       })
     };
 
-    const bottomAction = [
-      {
-        label: 'button.save',
-        onPress: handleSubmit(this.onSubmit),
-        loading: loading || fileLoading || isLoading,
-        show: isAllowToEdit
-      }
-    ];
+    const bottomAction = (
+      <BaseButtonGroup>
+        <BaseButton
+          loading={isSaving}
+          disabled={isFetchingInitialData || isDeleting}
+          onPress={handleSubmit(this.onSave)}
+          show={isAllowToEdit}
+        >
+          {t('button.save')}
+        </BaseButton>
+      </BaseButtonGroup>
+    );
 
     return (
       <DefaultLayout
         headerProps={headerProps}
-        loadingProps={{is: isLoading}}
+        loadingProps={{is: isFetchingInitialData}}
         dropdownProps={drownDownProps}
-        bottomAction={<ActionButton buttons={bottomAction} />}
+        bottomAction={bottomAction}
       >
         <Field
-          name={`expense.${FIELDS.RECEIPT}`}
+          name="attachment_receipt"
           component={FilePicker}
           withDocument
           label={t('expenses.receipt')}
@@ -324,7 +265,7 @@ export class Expense extends React.Component<IProps, IState> {
         />
 
         <Field
-          name={`expense.${FIELDS.DATE}`}
+          name="expense_date"
           component={BaseDatePicker}
           isRequired
           label={t('expenses.date')}
@@ -333,7 +274,7 @@ export class Expense extends React.Component<IProps, IState> {
         />
 
         <Field
-          name={`expense.${FIELDS.AMOUNT}`}
+          name="amount"
           component={BaseInput}
           isRequired
           leftSymbol={customer?.currency?.symbol}
@@ -344,20 +285,21 @@ export class Expense extends React.Component<IProps, IState> {
         />
 
         <Field
-          name={`expense.${FIELDS.CATEGORY}`}
+          name="expense_category_id"
           categories={categories}
           fetchCategories={fetchCategories}
           component={ExpenseCategorySelectModal}
-          onSelect={item =>
-            this.setFormField(`expense.${FIELDS.CATEGORY}`, item.id)
+          placeholder={
+            categoryName ? categoryName : t('expenses.category_placeholder')
           }
+          onSelect={item => this.setFormField('expense_category_id', item.id)}
           rightIconPress={this.navigateToCategory}
           reference={ref => (this.categoryReference = ref)}
           disabled={disabled}
         />
 
         <Field
-          name={`expense.${FIELDS.CUSTOMER}`}
+          name="customer_id"
           component={CustomerSelectModal}
           fetchCustomers={fetchCustomers}
           placeholder={t('invoices.customer_placeholder')}
@@ -366,7 +308,7 @@ export class Expense extends React.Component<IProps, IState> {
           disabled={disabled}
           onSelect={customer => {
             this.setState({customer});
-            this.setFormField(`expense.${FIELDS.CUSTOMER}`, customer.id);
+            this.setFormField('customer_id', customer.id);
           }}
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
@@ -374,7 +316,7 @@ export class Expense extends React.Component<IProps, IState> {
         />
 
         <Field
-          name={`expense.${FIELDS.NOTES}`}
+          name="notes"
           component={BaseInput}
           hint={t('expenses.notes')}
           placeholder={t('expenses.notes_placeholder')}
