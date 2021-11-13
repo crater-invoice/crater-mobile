@@ -3,18 +3,18 @@ import {Field, change, initialize} from 'redux-form';
 import moment from 'moment';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-payment-type';
-import {DATE_FORMAT, isEmpty} from '@/constants';
+import {DATE_FORMAT, hasObjectLength, isEmpty} from '@/constants';
 import {keyboardType} from '@/helpers/keyboard';
 import {secondaryHeader} from 'utils/header';
 import {CREATE_PAYMENT_FORM} from 'stores/payment/types';
+import {dismissRoute, routes} from '@/navigation';
+import {getApiFormattedCustomFields, showNotification} from '@/utils';
+import options from './payment-dropdown';
 import {
   CustomerSelectModal,
   InvoiceSelectModal,
   PaymentModeSelectModal
 } from '@/select-modal';
-import {dismissRoute, routes} from '@/navigation';
-import {getApiFormattedCustomFields} from '@/utils';
-import options from './customer-dropdown';
 import {
   BaseButton,
   BaseButtonGroup,
@@ -70,12 +70,17 @@ export default class CreatePayment extends Component<IProps, IStates> {
   };
 
   setInitialData = async res => {
-    const {dispatch, hasRecordPayment, invoice} = this.props;
+    const {dispatch, hasRecordPayment, invoice, route} = this.props;
 
     let data = {
       payment_date: moment(),
       ...res
     };
+
+    await this.setState({
+      selectedCustomer: data?.customer,
+      selectedInvoice: data?.invoice
+    });
 
     if (hasRecordPayment) {
       data = {
@@ -92,34 +97,58 @@ export default class CreatePayment extends Component<IProps, IStates> {
       });
     }
 
+    const customer = route?.params?.customer;
+    if (customer) {
+      data = {...data, customer_id: customer.id};
+      await this.setState({selectedCustomer: customer});
+    }
+
     dispatch(initialize(CREATE_PAYMENT_FORM, data));
     this.setState({isFetchingInitialData: false});
   };
 
   onSave = values => {
-    const {id, isCreateScreen, navigation, dispatch, route} = this.props;
-    const {isFetchingInitialData} = this.state;
+    const {id, navigation, dispatch, route, hasRecordPayment} = this.props;
+    const {isFetchingInitialData, selectedInvoice} = this.state;
 
     if (this.props.isSaving || this.props.isDeleting || isFetchingInitialData) {
       return;
     }
 
+    if (hasObjectLength(selectedInvoice)) {
+      const amount = values?.amount ?? 0;
+      const due = selectedInvoice?.due_amount ?? 0;
+      const subTotal = selectedInvoice?.sub_total ?? 0;
+
+      if (due !== 0 && amount > due) {
+        showNotification({message: t('payments.alertAmount'), type: 'error'});
+        return;
+      }
+
+      if (due === 0 && amount > subTotal) {
+        showNotification({message: t('payments.alertAmount'), type: 'error'});
+        return;
+      }
+    }
+
     const onSuccess = res => {
       const onSelect = route?.params?.onSelect;
       onSelect?.(res);
-      navigation.goBack(null);
+      navigation.goBack();
     };
 
     const params = {
       id,
+      onSuccess,
+      navigation,
+      hasRecordPayment,
       params: {
         ...values,
         customFields: getApiFormattedCustomFields(values?.customFields)
-      },
-      onSuccess
+      }
     };
 
-    isCreateScreen
+    this.props.isCreateScreen
       ? dispatch(addPayment(params))
       : dispatch(updatePayment(params));
   };
@@ -182,8 +211,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
       isAllowToEdit,
       currency,
       notes,
-      fetchNotes,
-      theme
+      fetchNotes
     } = this.props;
 
     const {isFetchingInitialData, selectedCustomer} = this.state;
@@ -217,7 +245,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
         headerProps={headerProps}
         loadingProps={{is: isFetchingInitialData}}
         bottomAction={bottomAction}
-        // dropdownProps={options(this)}
+        dropdownProps={options(this)}
       >
         {isEditScreen && (
           <SendMail
@@ -261,7 +289,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
           fetchCustomers={fetchCustomers}
           component={CustomerSelectModal}
           disabled={disabled || isEditScreen}
-          selectedItem={formValues?.customer}
+          selectedItem={selectedCustomer}
           onSelect={item => this.onSelectCustomer(item)}
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
