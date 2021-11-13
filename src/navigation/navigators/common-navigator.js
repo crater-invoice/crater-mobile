@@ -7,7 +7,7 @@ import {CreateCustomer, CustomerAddress} from 'screens/customers';
 
 import CreateCompany from 'screens/companies/create-company';
 
-import Expense from '@/features/expenses/containers/Expense';
+import {CreateExpense} from 'screens/expenses';
 
 import Payment from '@/features/payments/containers/Payment';
 
@@ -102,7 +102,11 @@ export const CommonNavigator = (
     />
 
     {/* Expense Navigator */}
-    <Stack.Screen name={routes.EXPENSE} component={Expense} options={options} />
+    <Stack.Screen
+      name={routes.CREATE_EXPENSE}
+      component={CreateExpense}
+      options={options}
+    />
 
     {/* Invoice Navigator */}
     <Stack.Screen

@@ -5,7 +5,7 @@ import auth from 'stores/auth/saga';
 import invoice from 'stores/invoice/saga';
 import estimate from 'stores/estimate/saga';
 import customer from 'stores/customer/saga';
-import expenses from '@/features/expenses/saga';
+import expense from 'stores/expense/saga';
 import payments from '@/features/payments/saga';
 import settings from '@/features/settings/saga';
 import company from 'stores/company/saga';
@@ -34,7 +34,7 @@ export default function* rootSaga() {
       invoice(),
       estimate(),
       customer(),
-      expenses(),
+      expense(),
       payments(),
       settings(),
       company(),

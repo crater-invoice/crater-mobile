@@ -6,7 +6,7 @@ import BottomTab from '../navigation-bottom-tab';
 import {Invoices} from 'screens/invoices';
 import {Customers} from 'screens/customers';
 import Payments from '@/features/payments/containers/Payments';
-import Expenses from '@/features/expenses/containers/Expenses';
+import {Expenses} from 'screens/expenses';
 import {More} from 'screens/more';
 import {getActiveMainTab} from '../navigation-action';
 

@@ -8,7 +8,7 @@ let selectedFromDateValue = '';
 let selectedToDate = '';
 let selectedToDateValue = '';
 
-export default expenseFilterFields = ({props, setFormField}) => {
+export default expensesFilter = ({props, setFormField}) => {
   const {
     categories,
     fetchCategories,

@@ -66,7 +66,7 @@ const onSelect = (action, props) => {
       break;
 
     case ACTIONS_VALUE.CREATE_EXPENSE:
-      navigation.navigate(routes.EXPENSE, {type: 'ADD', customer});
+      navigation.navigate(routes.CREATE_EXPENSE, {type: 'ADD', customer});
       break;
 
     default:

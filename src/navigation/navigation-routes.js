@@ -68,8 +68,7 @@ export const routes = {
   CREATE_USER: 'CREATE_USER',
 
   // Expenses
-  ADD_EXPENSE: 'ADD_EXPENSE',
-  EXPENSE: 'EXPENSE',
+  CREATE_EXPENSE: 'CREATE_EXPENSE',
 
   // Notes
   CREATE_NOTE: 'CREATE_NOTE',

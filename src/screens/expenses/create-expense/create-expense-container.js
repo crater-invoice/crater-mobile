@@ -1,60 +1,48 @@
 import {connect} from 'react-redux';
 import {reduxForm, getFormValues} from 'redux-form';
-import {Expense} from '../../components/Expense';
-import {validate} from './validation';
-import * as actions from '../../actions';
+import CreateExpense from './create-expense';
+import {validate} from 'stores/expense/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
-import {EXPENSE_FORM, EXPENSE_FIELDS as FIELDS} from '../../constants';
+import {CREATE_EXPENSE_FORM} from 'stores/expense/types';
 import {fetchCategories} from 'stores/category/actions';
 import {categoriesSelector} from 'stores/category/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
 import {customersSelector} from 'stores/customer/selectors';
 import {fetchCustomers} from 'stores/customer/actions';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
+import {loadingSelector} from 'stores/expense/selectors';
+import {initialValues} from 'stores/expense/helpers';
 
 const mapStateToProps = (state, {route}) => {
   const {
-    common: {endpointURL},
-    expenses: {loading}
+    common: {endpointURL}
   } = state;
-  const id = route?.params?.id;
 
   return {
+    endpointURL,
+    initialValues,
     categories: categoriesSelector(state),
     customers: customersSelector(state),
-    endpointURL,
     customFields: customFieldsSelector(state),
-    loading: loading?.expenseLoading,
-    id,
     currency: currentCurrencySelector(state),
-    formValues: getFormValues(EXPENSE_FORM)(state) || {},
+    formValues: getFormValues(CREATE_EXPENSE_FORM)(state) || {},
     ...permissionSelector(route),
     ...commonSelector(state),
-    initialValues: {
-      expense: {
-        [FIELDS.RECEIPT]: '',
-        [FIELDS.NOTES]: '',
-        [FIELDS.CUSTOMER]: '',
-        [FIELDS.CUSTOM_FIELDS]: ''
-      }
-    }
+    ...loadingSelector(state)
   };
 };
 
 const mapDispatchToProps = {
-  ...actions,
   fetchCategories,
   fetchCustomers
 };
 
-const addExpenseReduxForm = reduxForm({
-  form: EXPENSE_FORM,
+const CreateExpenseReduxForm = reduxForm({
+  form: CREATE_EXPENSE_FORM,
   validate
-})(Expense);
+})(CreateExpense);
 
-const ExpenseContainer = connect(
+export const CreateExpenseContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(addExpenseReduxForm);
-
-export default ExpenseContainer;
+)(CreateExpenseReduxForm);

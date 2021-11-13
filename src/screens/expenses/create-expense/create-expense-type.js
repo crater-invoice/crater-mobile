@@ -1,11 +1,6 @@
-import {INavigation, ITheme} from '@/interfaces';
+import {INavigation} from '@/interfaces';
 
 export interface IProps {
-  /**
-   * An Object with data of current Currency.
-   */
-  currency: Object;
-
   /**
    * It is a create screen view.
    */
@@ -17,15 +12,9 @@ export interface IProps {
   id: string;
 
   /**
-   * dispatch change action.
+   * Dispatch change action.
    */
   dispatch: (fun: object) => void;
-
-  /**
-   * An active theme object.
-   * @see ITheme
-   */
-  theme: ITheme;
 
   /**
    * It is a update screen view.
@@ -43,20 +32,9 @@ export interface IProps {
   customers: Array<any>;
 
   /**
-   * An action to return a list of customers.
+   * An action to return a list of customer.
    */
   fetchCustomers?: () => void;
-
-  /**
-   * An array of objects with data for selected items.
-   */
-  selectedItems: Array<any>;
-
-  /**
-   * An array of objects with data for each items.
-   */
-
-  items: Array<any>;
 
   /**
    * Custom-Fields created by user.
@@ -70,24 +48,14 @@ export interface IProps {
   navigation: INavigation;
 
   /**
-   * An array of status.
+   * An array of objects with data for each category.
    */
-  statusList: Array<any>;
+  categories: Array<any>;
 
   /**
-   * An array of objects with data for each note.
+   * An action to return a list of categories.
    */
-  notes: Array<any>;
-
-  /**
-   * An action to return a list of notes.
-   */
-  fetchNotes: () => void;
-
-  /**
-   * An array of objects with data for each template.
-   */
-  invoiceTemplates: Array<any>;
+  fetchCategories: () => void;
 
   /**
    * Gets form data.
@@ -114,7 +82,18 @@ export interface IProps {
    * It will run validation, both sync and async, and, if the form is valid, it will call this.props.onSubmit(data) with the contents of the form data.
    */
   handleSubmit: (fun: object) => any;
+
+  /**
+   * Route props for params.
+   */
+  route: Object<any>;
+
+  /**
+   * End point URL for download the receipt.
+   */
+  endpointURL: String;
 }
+
 export interface IStates {
   /**
    * The loading indicator for the screen, displayed until the screen is ready to be displayed.
@@ -122,7 +101,32 @@ export interface IStates {
   isFetchingInitialData: boolean;
 
   /**
-   * An Object with data of current Currency.
+   * An Object with data of current currency.
    */
   currency: Object;
+
+  /**
+   * File for receipt.
+   */
+  attachmentReceipt: any;
+
+  /**
+   * URL of receipt.
+   */
+  imageUrl: String;
+
+  /**
+   * The loading indicator for the file picker.
+   */
+  fileLoading: Boolean;
+
+  /**
+   * An Object with data of current customer.
+   */
+  customer: Object<any>;
+
+  /**
+   * File type of receipt.
+   */
+  fileType: String;
 }
