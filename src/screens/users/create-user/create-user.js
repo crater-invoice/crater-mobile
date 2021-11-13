@@ -47,10 +47,10 @@ export default class CreateUser extends Component<IProps, IStates> {
   };
 
   onSave = params => {
-    const {id, isCreateScreen, dispatch} = this.props;
+    const {id, isCreateScreen, dispatch, isSaving, isDeleting} = this.props;
     const {isFetchingInitialData} = this.state;
 
-    if (this.props.isSaving || this.props.isDeleting || isFetchingInitialData) {
+    if (isSaving || isDeleting || isFetchingInitialData) {
       return;
     }
 

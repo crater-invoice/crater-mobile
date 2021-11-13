@@ -55,7 +55,7 @@ import {
   updateEstimate
 } from 'stores/estimate/actions';
 
-export default class Estimate extends React.Component<IProps, IStates> {
+export default class CreateEstimate extends React.Component<IProps, IStates> {
   estimateRefs: any;
   sendMailRef: any;
   customerReference: any;
@@ -464,23 +464,24 @@ export default class Estimate extends React.Component<IProps, IStates> {
         </BaseButton>
       </BaseButtonGroup>
     );
+    const headerProps = {
+      leftIconPress: () => this.onDraft(handleSubmit),
+      title: getTitle(),
+      placement: 'center',
+      withTitleStyle: headerTitle({
+        marginLeft: -15,
+        marginRight: -15
+      }),
+      ...(!isEditScreen && {
+        rightIcon: 'save',
+        rightIconProps: {solid: true},
+        rightIconPress: handleSubmit(this.saveEstimate)
+      })
+    };
 
     return (
       <DefaultLayout
-        headerProps={{
-          leftIconPress: () => this.onDraft(handleSubmit),
-          title: getTitle(),
-          placement: 'center',
-          withTitleStyle: headerTitle({
-            marginLeft: -15,
-            marginRight: -15
-          }),
-          ...(!isEditScreen && {
-            rightIcon: 'save',
-            rightIconProps: {solid: true},
-            rightIconPress: handleSubmit(this.saveEstimate)
-          })
-        }}
+        headerProps={headerProps}
         bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData}}
         dropdownProps={drownDownProps}

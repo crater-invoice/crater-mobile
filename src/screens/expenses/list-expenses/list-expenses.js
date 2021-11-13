@@ -1,21 +1,22 @@
 import React from 'react';
 import {change} from 'redux-form';
-import {MainLayout, ListView, InfiniteScroll, AssetImage} from '@/components';
+import {
+  MainLayout,
+  ListView,
+  InfiniteScroll,
+  BaseEmptyPlaceholder
+} from '@/components';
 import t from 'locales/use-translation';
-import {EXPENSE_SEARCH} from '../../constants';
+import {EXPENSES_FORM} from 'stores/expense/types';
 import {routes} from '@/navigation';
-import expenseFilterFields from './filterFields';
-import {isFilterApply} from '@/utils';
+import expensesFilter from './list-expenses-filter';
 import {PermissionService} from '@/services';
 import {isEmpty} from '@/constants';
+import {IProps, IStates} from './list-expenses-type';
+import {fetchExpenses} from '@/stores/expense/actions';
 
-type IProps = {
-  navigation: Object,
-  getExpenses: () => void,
-  expenses: Object
-};
-
-export class Expenses extends React.Component<IProps> {
+export default class Expenses extends React.Component<IProps, IStates> {
+  focusListener: any;
   constructor(props) {
     super(props);
     this.scrollViewReference = React.createRef();
@@ -32,19 +33,17 @@ export class Expenses extends React.Component<IProps> {
 
   onFocus = () => {
     const {navigation} = this.props;
-
     this.focusListener = navigation.addListener('focus', () => {
       this.scrollViewReference?.getItems?.();
     });
   };
 
-  onSelect = ({id}) => {
+  onSelect = expense => {
     const {navigation} = this.props;
-    navigation.navigate(routes.EXPENSE, {type: 'UPDATE', id});
-  };
-
-  setFormField = (field, value) => {
-    this.props.dispatch(change(EXPENSE_SEARCH, field, value));
+    navigation.navigate(routes.CREATE_EXPENSE, {
+      id: expense.id,
+      type: 'UPDATE'
+    });
   };
 
   onSearch = search => {
@@ -56,6 +55,10 @@ export class Expenses extends React.Component<IProps> {
     });
   };
 
+  setFormField = (field, value) => {
+    this.props.dispatch(change(EXPENSES_FORM, field, value));
+  };
+
   onResetFilter = () => {
     const {search} = this.state;
     this.scrollViewReference?.getItems?.({
@@ -65,7 +68,13 @@ export class Expenses extends React.Component<IProps> {
     });
   };
 
-  onSubmitFilter = ({from_date, to_date, expense_category_id, customer_id}) => {
+  onSubmitFilter = value => {
+    const {
+      from_date = '',
+      to_date = '',
+      expense_category_id = '',
+      customer_id = ''
+    } = value;
     const {search} = this.state;
 
     this.scrollViewReference?.getItems?.({
@@ -80,58 +89,27 @@ export class Expenses extends React.Component<IProps> {
     });
   };
 
+  onAddExpense = () => {
+    const {navigation} = this.props;
+    navigation.navigate(routes.CREATE_EXPENSE, {type: 'ADD'});
+  };
+
   render() {
+    const {expenses, handleSubmit, route, dispatch} = this.props;
     const {search} = this.state;
-    const {
-      navigation,
-      expenses,
-      handleSubmit,
-      getExpenses,
-      formValues,
-      route
-    } = this.props;
 
-    const isFilter = isFilterApply(formValues);
-
-    const emptyTitle = search
-      ? 'search.no_result'
-      : isFilter
-      ? 'filter.empty.filter_title'
-      : 'expenses.empty.title';
-
-    const emptyContentProps = {
-      title: t(emptyTitle, {search}),
-      image: AssetImage.images.empty_expenses,
-      ...(!search && {
-        description: t('expenses.empty.description')
-      }),
-      ...(!search &&
-        !isFilter && {
-          buttonTitle: t('expenses.empty.button_title'),
-          buttonPress: () => {
-            navigation.navigate(routes.EXPENSE, {
-              type: 'ADD'
-            });
-          }
-        })
+    const filterProps = {
+      onSubmitFilter: handleSubmit(this.onSubmitFilter),
+      ...expensesFilter(this),
+      clearFilter: this.props,
+      onResetFilter: () => this.onResetFilter()
     };
 
     const headerProps = {
       rightIcon: 'plus',
-      rightIconPress: () => {
-        navigation.navigate(routes.EXPENSE, {
-          type: 'ADD'
-        });
-      },
+      rightIconPress: () => this.onAddExpense(),
       title: t('header.expenses'),
       route
-    };
-
-    const filterProps = {
-      onSubmitFilter: handleSubmit(this.onSubmitFilter),
-      ...expenseFilterFields(this),
-      clearFilter: this.props,
-      onResetFilter: () => this.onResetFilter()
     };
 
     return (
@@ -142,7 +120,7 @@ export class Expenses extends React.Component<IProps> {
         filterProps={filterProps}
       >
         <InfiniteScroll
-          getItems={getExpenses}
+          getItems={q => dispatch(fetchExpenses(q))}
           reference={ref => (this.scrollViewReference = ref)}
           getItemsInMount={PermissionService.isAllowToView(
             routes.MAIN_EXPENSES
@@ -154,7 +132,9 @@ export class Expenses extends React.Component<IProps> {
             isEmpty={isEmpty(expenses)}
             contentContainerStyle={{flex: 1}}
             bottomDivider
-            emptyContentProps={emptyContentProps}
+            emptyPlaceholder={
+              <BaseEmptyPlaceholder {...this.props} search={search} />
+            }
             leftSubTitleStyle={{textAlign: 'justify'}}
             route={route}
             isAnimated
