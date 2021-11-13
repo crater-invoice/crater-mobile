@@ -66,23 +66,23 @@ export default class CreateExpense extends React.Component<IProps, IState> {
     return;
   };
 
-  setInitialData = res => {
+  setInitialData = async res => {
     const {dispatch, route} = this.props;
     const customer = route?.params?.customer;
     if (res) {
       dispatch(initialize(CREATE_EXPENSE_FORM, res));
       if (res?.attachment_receipt_url) {
-        this.setState({
+        await this.setState({
           imageUrl: res?.attachment_receipt_url?.url,
-          fileType: res?.attachment_receipt_url?.type,
-          customer: res?.customer
+          fileType: res?.attachment_receipt_url?.type
         });
       }
+      await this.setState({customer: res?.customer});
     }
 
     if (customer) {
       this.setFormField('customer_id', customer.id);
-      this.setState({customer});
+      await this.setState({customer});
     }
 
     this.setState({isFetchingInitialData: false});
