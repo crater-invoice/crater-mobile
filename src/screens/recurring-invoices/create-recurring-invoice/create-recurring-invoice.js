@@ -43,6 +43,7 @@ import {
 } from '@/components/final-amount/final-amount-calculation';
 import {setCalculationRef} from 'stores/common/helpers';
 import {getApiFormattedCustomFields, secondaryHeader} from '@/utils';
+import {initialValues} from 'stores/recurring-invoice/helpers';
 
 export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   recurringInvoiceRefs: any;
@@ -79,11 +80,15 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   };
 
   setInitialData = invoice => {
+    const {dispatch, invoiceTemplates = {}} = this.props;
+    let values = {
+      ...initialValues(invoiceTemplates)
+    };
     if (invoice) {
-      const {dispatch} = this.props;
+      values = {...values, ...invoice};
       this.setState({currency: invoice?.customer?.currency});
-      dispatch(initialize(CREATE_RECURRING_INVOICE_FORM, invoice));
     }
+    dispatch(initialize(CREATE_RECURRING_INVOICE_FORM, values));
     this.fetchNextInvoice();
     this.setState({isFetchingInitialData: false});
   };

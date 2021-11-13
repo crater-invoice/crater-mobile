@@ -17,6 +17,8 @@ import {routes} from '@/navigation';
 import {BaseDivider} from '@/components';
 import {defineSize} from '@/helpers/size';
 import {IProps} from '../default-layout/type.d';
+import {currentCompanySelector} from 'stores/company/selectors';
+import {hasValue} from '@/constants';
 
 const Layout = (props: IProps) => {
   const {
@@ -32,6 +34,7 @@ const Layout = (props: IProps) => {
     loadingProps,
     searchFieldProps,
     plusButtonOnPress,
+    selectedCompany,
     theme
   } = props;
 
@@ -82,7 +85,8 @@ const Layout = (props: IProps) => {
             theme={theme}
             filterProps={!props?.['with-input-filter'] && filterProps}
             {...(props?.['with-company'] &&
-              PermissionService.isAllowToManage(routes.CREATE_COMPANY) && {
+              PermissionService.isAllowToManage(routes.CREATE_COMPANY) &&
+              hasValue(selectedCompany) && {
                 rightComponent: <CompanyModal />
               })}
           />
@@ -155,6 +159,9 @@ const Layout = (props: IProps) => {
   );
 };
 
-const mapStateToProps = state => commonSelector(state);
+const mapStateToProps = state => ({
+  selectedCompany: currentCompanySelector(state),
+  ...commonSelector(state)
+});
 
 export const MainLayout = connect(mapStateToProps)(Layout);

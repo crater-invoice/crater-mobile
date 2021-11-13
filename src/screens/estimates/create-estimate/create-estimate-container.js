@@ -49,7 +49,7 @@ const mapDispatchToProps = {
   fetchNotes
 };
 
-const CreateEstimateReduxForm = reduxForm({
+const CreateEstimateForm = reduxForm({
   form: CREATE_ESTIMATE_FORM,
   validate
 })(CreateEstimate);
@@ -57,4 +57,4 @@ const CreateEstimateReduxForm = reduxForm({
 export const CreateEstimateContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(CreateEstimateReduxForm);
+)(CreateEstimateForm);

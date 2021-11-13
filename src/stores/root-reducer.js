@@ -5,9 +5,8 @@ import auth from 'stores/auth/reducer';
 import invoice from 'stores/invoice/reducer';
 import estimate from 'stores/estimate/reducer';
 import customer from 'stores/customer/reducer';
-import payments from '@/features/payments/reducers';
-import settings from '@/features/settings/reducers';
 import expense from 'stores/expense/reducer';
+import payment from 'stores/payment/reducer';
 import common from 'stores/common/reducer';
 import role from 'stores/role/reducer';
 import users from 'stores/users/reducer';
@@ -28,9 +27,8 @@ export default combineReducers({
   estimate,
   customer,
   expense,
-  payments,
+  payment,
   common,
-  settings,
   role,
   users,
   user,

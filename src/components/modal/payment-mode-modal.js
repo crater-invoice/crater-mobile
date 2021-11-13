@@ -84,11 +84,11 @@ const mapDispatchToProps = {
   addPaymentMode
 };
 
-const modeReduxForm = reduxForm({
+const modeForm = reduxForm({
   form: 'PAYMENT_MODE_FORM'
 })(Modal);
 
 export const PaymentModeModal = connect(
   mapStateToProps,
   mapDispatchToProps
-)(modeReduxForm);
+)(modeForm);

@@ -8,7 +8,6 @@ import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {loadingSelector} from 'stores/item/selectors';
 import {taxTypesSelector} from 'stores/tax-type/selectors';
 import {fetchTaxes} from 'stores/tax-type/actions';
-import {getSettingInfo} from '@/features/settings/actions';
 import {unitsSelector} from 'stores/item-unit/selectors';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 
@@ -25,7 +24,7 @@ const mapStateToProps = (state, {route}) => {
     loading:
       invoice?.isSaving || estimate?.isSaving || recurringInvoice?.isSaving,
     formValues: getFormValues(CREATE_ITEM_FORM)(state) || {},
-    itemId: item && (item.item_id || item.id),
+    itemId: item?.id,
     taxTypes: taxTypesSelector(state),
     currency: route?.params?.currency,
     isItemScreen: screen === 'item',
@@ -53,8 +52,7 @@ const mapStateToProps = (state, {route}) => {
 
 const mapDispatchToProps = {
   fetchItemUnits,
-  fetchTaxes,
-  getSettingInfo
+  fetchTaxes
 };
 
 const createItemReduxForm = reduxForm({

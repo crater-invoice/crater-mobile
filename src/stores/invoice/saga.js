@@ -6,7 +6,6 @@ import {showNotification, handleError} from '@/utils';
 import {fetchTaxAndDiscountPerItem} from 'stores/common/actions';
 import * as types from './types';
 import * as req from './service';
-import {getNextNumber, getSettingInfo} from '@/features/settings/saga/general';
 import {spinner} from './actions';
 import {addItem} from '../item/saga';
 import {modalTypes} from '../custom-field/helpers';
@@ -22,12 +21,14 @@ function* fetchInvoiceData() {
     });
     yield put({type: types.CLEAR_INVOICE});
     const {invoiceTemplates} = yield call(req.fetchInvoiceTemplates);
-    const {invoice_auto_generate} = yield call(getSettingInfo, {
-      payload: {keys: ['invoice_auto_generate']}
-    });
-    const nextInvoiceNumber = yield call(getNextNumber, {
-      payload: {key: 'invoice'}
-    });
+    // const {invoice_auto_generate} = yield call(getSettingInfo, {
+    //   payload: {keys: ['invoice_auto_generate']}
+    // });
+    // const nextInvoiceNumber = yield call(getNextNumber, {
+    //   payload: {key: 'invoice'}
+    // });
+    const invoice_auto_generate = false;
+    const nextInvoiceNumber = {};
     yield put({
       type: types.FETCH_INVOICE_DATA_SUCCESS,
       payload: {...nextInvoiceNumber, invoice_auto_generate, invoiceTemplates}

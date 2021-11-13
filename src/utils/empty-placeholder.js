@@ -126,6 +126,27 @@ export const emptyContentPlaceholder = props => {
           })
       };
 
+    case routes.MAIN_PAYMENTS:
+      emptyTitle = search
+        ? 'search.no_result'
+        : isFilter
+        ? 'filter.empty.filter_title'
+        : 'payments.empty.title';
+      return {
+        title: t(emptyTitle, {search}),
+        image: AssetImage.images.empty_payments,
+        ...(!search && {
+          description: t('payments.empty.description')
+        }),
+        ...(!search &&
+          !isFilter && {
+            buttonTitle: t('payments.empty.button_title'),
+            buttonPress: () => {
+              navigation.navigate(routes.CREATE_PAYMENT, {type: 'ADD'});
+            }
+          })
+      };
+
     case routes.CUSTOM_FIELDS:
       return {
         title: t('search.no_result', {search}),

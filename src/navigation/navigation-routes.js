@@ -75,7 +75,7 @@ export const routes = {
   NOTES: 'NOTES',
 
   // Payments
-  PAYMENT: 'PAYMENT',
+  CREATE_PAYMENT: 'CREATE_PAYMENT',
 
   // Report
   REPORTS: 'REPORTS',

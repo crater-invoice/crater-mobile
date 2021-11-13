@@ -1,10 +1,14 @@
 import {createSelector} from 'reselect';
+import {isEmpty} from '@/constants';
 
 const modeStore = state => state?.paymentMode;
 
 export const modesSelector = createSelector(
   modeStore,
-  store => store?.modes ?? []
+  store => {
+    if (isEmpty(store?.modes)) return [];
+    return store.modes.map(mode => ({title: mode?.name, fullItem: mode}));
+  }
 );
 
 export const loadingSelector = createSelector(

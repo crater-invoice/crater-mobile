@@ -48,7 +48,7 @@ const mapDispatchToProps = {
   fetchNotes
 };
 
-const CreateInvoiceReduxForm = reduxForm({
+const CreateInvoiceForm = reduxForm({
   form: CREATE_INVOICE_FORM,
   validate
 })(CreateInvoice);
@@ -56,4 +56,4 @@ const CreateInvoiceReduxForm = reduxForm({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CreateInvoiceReduxForm);
+)(CreateInvoiceForm);

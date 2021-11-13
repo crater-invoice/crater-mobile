@@ -274,7 +274,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           number: `${prefix}-${invoice_number}`,
           customer: customer
         };
-        navigation.navigate(routes.PAYMENT, {
+        navigation.navigate(routes.CREATE_PAYMENT, {
           type: 'ADD',
           invoice,
           hasRecordPayment: true

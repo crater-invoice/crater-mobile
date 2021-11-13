@@ -26,11 +26,11 @@ const mapStateToProps = (state, {route}) => {
   };
 };
 
-const GenerateReportReduxForm = reduxForm({
+const GenerateReportForm = reduxForm({
   form: GENERATE_REPORT_FORM,
   validate
 })(GenerateReport);
 
 export const GenerateReportContainer = connect(mapStateToProps)(
-  GenerateReportReduxForm
+  GenerateReportForm
 );

@@ -3,7 +3,7 @@ import {isEmpty} from '@/constants';
 import {getError} from '@/validator';
 
 export const validate = values => {
-  const {name, email, website, password, confirmPassword} = values;
+  const {name, email, website} = values;
   const errors = {};
 
   errors.name = getError(name, ['required']);
@@ -15,16 +15,6 @@ export const validate = values => {
   if (website) {
     errors.website = getError(website, ['urlFormat']);
   }
-
-  errors.password = getError(
-    values.password,
-    ['passwordCompared', 'minCharacterRequired'],
-    {minCharacter: 8, fieldName: confirmPassword}
-  );
-
-  errors.confirmPassword = getError(confirmPassword, ['passwordCompared'], {
-    fieldName: password
-  });
 
   const fieldErrors = validateCustomField(values?.customFields);
   !isEmpty(fieldErrors) && (errors.customFields = fieldErrors);
