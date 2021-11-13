@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import {View} from 'react-native';
 import {ListView, InfiniteScroll} from '@/components';
 import {fetchEstimates} from 'stores/estimate/actions';
-import {setTabRef} from 'stores/common/helpers';
+import {setEstimatesTabRef as setTabRef} from 'stores/common/helpers';
 import {isEmpty} from '@/constants';
 
 type IProps = {

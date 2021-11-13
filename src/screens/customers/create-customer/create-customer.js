@@ -221,7 +221,7 @@ export default class CreateCustomer extends Component<IProps, IStates> {
           disabled={disabled}
         />
 
-        {hasCustomField && <CustomField {...this.props} type={null} />}
+        {hasCustomField && <CustomField {...this.props} />}
 
         <Field
           name="currency_id"

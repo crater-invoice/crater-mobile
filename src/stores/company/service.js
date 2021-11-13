@@ -6,7 +6,7 @@ import * as types from './types';
  * @returns {*}
  */
 export const fetchCompanies = () => {
-  return Request.get({path: `companies/get`});
+  return Request.get({path: `companies`});
 };
 
 /**

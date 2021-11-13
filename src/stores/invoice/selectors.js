@@ -12,7 +12,7 @@ export const formatItems = (invoices, theme) => {
       invoice_number,
       user: {name, currency} = {},
       status,
-      formattedInvoiceDate,
+      formatted_invoice_date,
       total
     } = item;
 
@@ -33,7 +33,7 @@ export const formatItems = (invoices, theme) => {
       },
       amount: total,
       currency,
-      rightSubtitle: formattedInvoiceDate,
+      rightSubtitle: formatted_invoice_date,
       fullItem: item
     };
   });

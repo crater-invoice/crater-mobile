@@ -65,6 +65,14 @@ export const removeInvoice = id => {
   return Request.post({path: `invoices/delete`, body: {ids: [id]}});
 };
 
+/**
+ * Fetch next invoice number
+ * @returns {*}
+ */
+export const fetchNextInvoiceNumber = () => {
+  return Request.get({path: `next-number?key=invoice`});
+};
+
 class Services {
   isFirstInvoiceCreated: boolean;
 

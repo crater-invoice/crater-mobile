@@ -82,12 +82,12 @@ const FIELDS = ({fields, customFields, disabled}) => {
 };
 
 export const CustomField = (props: IProps) => {
-  const {customFields, dispatch, form, formValues, type, isAllowToEdit} = props;
+  const {customFields, dispatch, form, formValues, isAllowToEdit} = props;
 
   const [sortableFields, setSortableFields] = useState(null);
 
   useEffect(() => {
-    const values = type ? formValues?.[type]?.fields : formValues?.fields;
+    const values = formValues?.fields;
     const fields = getInitialCustomFields(customFields, values);
 
     setFormField('customFields', getCustomFieldValueParams(fields));

@@ -341,7 +341,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
           onSelect={this.setFormField}
         />
 
-        {hasCustomField && <CustomField {...this.props} type={null} />}
+        {hasCustomField && <CustomField {...this.props} />}
       </DefaultLayout>
     );
   }

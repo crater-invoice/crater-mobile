@@ -10,19 +10,21 @@ export const paymentsSelector = createSelector(
     if (isEmpty(store?.payments)) return [];
     return store.payments.map(payment => {
       const {
-        formattedPaymentDate,
+        formatted_payment_date,
         amount,
-        payment_mode,
+        payment_method,
         customer: {name},
         currency
       } = payment;
 
       return {
         title: `${name}`,
-        subtitle: {title: `${payment_mode ? '(' + payment_mode + ')' : ''}`},
+        subtitle: {
+          title: payment_method?.name ?? ''
+        },
         amount,
         currency,
-        rightSubtitle: formattedPaymentDate,
+        rightSubtitle: formatted_payment_date,
         fullItem: payment
       };
     });
@@ -39,7 +41,7 @@ export const unPaidInvoicesSelector = createSelector(
       const {
         status,
         invoice_number,
-        formattedDueDate,
+        formatted_due_date,
         due_amount,
         customer
       } = invoice;
@@ -61,7 +63,7 @@ export const unPaidInvoicesSelector = createSelector(
         },
         amount: due_amount,
         currency: customer?.currency,
-        rightSubtitle: formattedDueDate,
+        rightSubtitle: formatted_due_date,
         fullItem: invoice
       };
     });

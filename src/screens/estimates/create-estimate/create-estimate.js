@@ -578,7 +578,7 @@ export default class Estimate extends React.Component<IProps, IStates> {
           disabled={disabled}
         />
 
-        {hasCustomField && <CustomField {...this.props} type={null} />}
+        {hasCustomField && <CustomField {...this.props} />}
       </DefaultLayout>
     );
   }

@@ -2,33 +2,23 @@ import {isEmpty} from '@/constants';
 import {getError} from '@/validator';
 import {validateCustomField} from '@/components/custom-field';
 
-export const validate = (values, {type}) => {
+export const validate = values => {
   const errors: any = {};
   const {
+    invoice_number,
     customer_id,
-    starts_at,
-    limit_by,
-    limit_date,
-    limit_count,
-    status,
-    frequency_picker,
-    frequency,
     items,
-    template_name
+    template_name,
+    invoice_date,
+    due_date
   } = values;
+
+  errors.invoice_number = getError(invoice_number, ['required']);
   errors.customer_id = getError(customer_id, ['required']);
-  errors.starts_at = getError(starts_at, ['required']);
-  errors.limit_by = getError(limit_by, ['required']);
-  errors.status = getError(status, ['required']);
   errors.items = getError(items, ['requiredCheckArray']);
   errors.template_name = getError(template_name, ['required']);
-
-  if (limit_by === 'DATE')
-    errors.limit_date = getError(limit_date, ['required']);
-  if (limit_by === 'COUNT')
-    errors.limit_count = getError(limit_count, ['required']);
-  if (frequency_picker === '')
-    errors.frequency = getError(frequency, ['required', 'cronFormat']);
+  errors.invoice_date = getError(invoice_date, ['required']);
+  errors.due_date = getError(due_date, ['required']);
 
   const fieldErrors = validateCustomField(values?.customFields);
   !isEmpty(fieldErrors) && (errors.customFields = fieldErrors);

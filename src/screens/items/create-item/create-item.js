@@ -510,7 +510,7 @@ export class CreateItem extends React.Component<IProps> {
 
         {this.FINAL_AMOUNT()}
 
-        {hasCustomField && <CustomField {...this.props} type={null} />}
+        {hasCustomField && <CustomField {...this.props} />}
 
         <Field
           name="description"
