@@ -45,9 +45,9 @@ const abilities = [
   // Payment
   {route: routes.MAIN_PAYMENTS, ability: 'view-payment'},
   {route: routes.MAIN_PAYMENTS, ability: 'create-payment'},
-  {route: routes.PAYMENT, ability: 'edit-payment'},
-  {route: routes.PAYMENT, ability: 'delete-payment'},
-  {route: routes.PAYMENT, ability: 'send-payment'},
+  {route: routes.CREATE_PAYMENT, ability: 'edit-payment'},
+  {route: routes.CREATE_PAYMENT, ability: 'delete-payment'},
+  {route: routes.CREATE_PAYMENT, ability: 'send-payment'},
 
   // Expense
   {route: routes.MAIN_EXPENSES, ability: 'view-expense'},

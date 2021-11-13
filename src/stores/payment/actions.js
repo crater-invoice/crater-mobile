@@ -1,0 +1,110 @@
+import * as types from './types';
+
+/**
+ * Spinner
+ * @param name
+ * @param value
+ * @returns {{type: string, payload: *}}
+ */
+export function spinner(name, value) {
+  return {
+    type: types.SPINNER,
+    payload: {name, value}
+  };
+}
+
+/**
+ * Fetch payments
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export function fetchPayments(payload = {}) {
+  return {
+    type: types.FETCH_PAYMENTS,
+    payload
+  };
+}
+
+/**
+ * Fetch single payment
+ * @param id
+ * @param onSuccess
+ * @returns {{type: string, payload: *}}
+ */
+export function fetchSinglePayment(id, onSuccess) {
+  return {
+    type: types.FETCH_SINGLE_PAYMENT,
+    payload: {id, onSuccess}
+  };
+}
+
+/**
+ * Fetch payment initial details
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const fetchPaymentInitialDetails = payload => ({
+  type: types.FETCH_INITIAL_DETAILS,
+  payload
+});
+
+/**
+ * Add payment
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export function addPayment(payload = {}) {
+  return {
+    type: types.ADD_PAYMENT,
+    payload
+  };
+}
+
+/**
+ * Update payment
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export function updatePayment(payload = {}) {
+  return {
+    type: types.UPDATE_PAYMENT,
+    payload
+  };
+}
+
+/**
+ * Remove payment
+ * @param id
+ * @returns {{type: string, payload: *}}
+ */
+export function removePayment(id) {
+  return {
+    type: types.REMOVE_PAYMENT,
+    payload: {id}
+  };
+}
+
+/**
+ * Send payment receipt
+ * @param id
+ * @param params
+ * @returns {{type: string, payload: *}}
+ */
+export function sendPaymentReceipt(id, params) {
+  return {
+    type: types.SEND_PAYMENT_RECEIPT,
+    payload: {id, params}
+  };
+}
+
+/**
+ * Fetch unpaid invoices
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export function fetchUnpaidInvoices(payload = {}) {
+  return {
+    type: types.FETCH_UNPAID_INVOICES,
+    payload
+  };
+}

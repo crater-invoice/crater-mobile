@@ -4,6 +4,7 @@ import {AssetImage} from '@/components';
 
 export const emptyContentPlaceholder = props => {
   const {route, search, navigation, isFilter} = props;
+  let emptyTitle = '';
   switch (route?.name) {
     case routes.CATEGORIES:
       return {
@@ -84,7 +85,7 @@ export const emptyContentPlaceholder = props => {
       };
 
     case routes.MAIN_CUSTOMERS:
-      const emptyTitle = search
+      emptyTitle = search
         ? 'search.no_result'
         : isFilter
         ? 'filter.empty.filter_title'
@@ -100,6 +101,27 @@ export const emptyContentPlaceholder = props => {
             buttonTitle: t('customers.empty.button_title'),
             buttonPress: () => {
               navigation.navigate(routes.CREATE_CUSTOMER, {type: 'ADD'});
+            }
+          })
+      };
+
+    case routes.MAIN_PAYMENTS:
+      emptyTitle = search
+        ? 'search.no_result'
+        : isFilter
+        ? 'filter.empty.filter_title'
+        : 'payments.empty.title';
+      return {
+        title: t(emptyTitle, {search}),
+        image: AssetImage.images.empty_payments,
+        ...(!search && {
+          description: t('payments.empty.description')
+        }),
+        ...(!search &&
+          !isFilter && {
+            buttonTitle: t('payments.empty.button_title'),
+            buttonPress: () => {
+              navigation.navigate(routes.CREATE_PAYMENT, {type: 'ADD'});
             }
           })
       };

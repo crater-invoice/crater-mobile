@@ -124,6 +124,13 @@ const secondaryHeaderTitle = params => {
         'header.view_custom_field'
       );
 
+    case routes.CREATE_PAYMENT:
+      return getTitle(
+        'header.add_payment',
+        'header.edit_payment',
+        'header.view_payment'
+      );
+
     default:
       return '';
   }

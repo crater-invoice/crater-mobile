@@ -62,7 +62,7 @@ const onSelect = (action, props) => {
       break;
 
     case ACTIONS_VALUE.CREATE_PAYMENT:
-      navigation.navigate(routes.PAYMENT, {type: 'ADD', customer});
+      navigation.navigate(routes.CREATE_PAYMENT, {type: 'ADD', customer});
       break;
 
     case ACTIONS_VALUE.CREATE_EXPENSE:

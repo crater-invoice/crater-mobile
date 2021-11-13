@@ -3,7 +3,7 @@ import {AssetImage} from '@/components';
 import {PermissionService} from '@/services';
 import {routes} from '@/navigation';
 
-export default paymentsFilterFields = ({props, setFormField}) => {
+export default ({props, setFormField}: any) => {
   const {
     fetchCustomers,
     fetchPaymentModes,

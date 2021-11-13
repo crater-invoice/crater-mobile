@@ -23,10 +23,11 @@ import {EMAIL_REGEX} from '@/validator';
 import {fetchMailConfiguration} from 'stores/setting/actions';
 
 type IProps = {
-  handleSubmit: () => void,
-  onSendMail: () => void,
-  headerTitle: string,
-  alertDesc: string
+  handleSubmit?: () => void,
+  onSendMail?: () => void,
+  headerTitle?: string,
+  alertDesc?: string,
+  reference?: any
 };
 
 const emailField = {
