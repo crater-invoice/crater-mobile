@@ -9,7 +9,7 @@ import CreateCompany from 'screens/companies/create-company';
 
 import Expense from '@/features/expenses/containers/Expense';
 
-import Payment from '@/features/payments/containers/Payment';
+import {CreatePayment} from 'screens/payments';
 
 import Endpoint from 'screens/endpoint';
 import LostConnection from 'screens/lost-connection';
@@ -114,7 +114,11 @@ export const CommonNavigator = (
     />
 
     {/* Payment Navigator */}
-    <Stack.Screen name={routes.PAYMENT} component={Payment} options={options} />
+    <Stack.Screen
+      name={routes.CREATE_PAYMENT}
+      component={CreatePayment}
+      options={options}
+    />
 
     {/* Items Navigator */}
     <Stack.Screen name={routes.ITEMS} component={Items} options={options} />

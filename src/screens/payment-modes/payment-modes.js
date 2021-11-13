@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 import {change} from 'redux-form';
 import t from 'locales/use-translation';
-import {formatListByName} from '@/utils';
 import styles from './payment-modes-style';
 import {alertMe, isEmpty} from '@/constants';
 import {PAYMENT_MODES_FORM} from 'stores/payment-mode/types';
@@ -158,7 +157,7 @@ export class PaymentModes extends Component {
             paginationLimit={defineSize(15, 15, 15, 20)}
           >
             <ListView
-              items={formatListByName(paymentModes)}
+              items={paymentModes}
               getFreshItems={onHide => onHide?.()}
               onPress={this.onSelectPaymentMode}
               isEmpty={isEmpty(paymentModes)}

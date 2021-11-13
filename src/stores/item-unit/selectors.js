@@ -1,11 +1,14 @@
-import {formatItemUnits} from '@/utils';
 import {createSelector} from 'reselect';
+import {isEmpty} from '@/constants';
 
 const unitStore = state => state?.itemUnit;
 
 export const unitsSelector = createSelector(
   unitStore,
-  store => formatItemUnits(store?.units)
+  store => {
+    if (isEmpty(store.units)) return [];
+    return store.units.map(unit => ({title: unit?.name, fullItem: unit}));
+  }
 );
 
 export const loadingSelector = createSelector(

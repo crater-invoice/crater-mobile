@@ -1,26 +1,27 @@
 import React from 'react';
 import {change} from 'redux-form';
-import {MainLayout, ListView, InfiniteScroll, AssetImage} from '@/components';
 import t from 'locales/use-translation';
-import {PAYMENT_SEARCH} from '../../constants';
 import {routes} from '@/navigation';
-import paymentsFilterFields from './filterFields';
-import {isFilterApply} from '@/utils';
-import {PermissionService} from '@/services';
 import {isEmpty} from '@/constants';
+import {isFilterApply} from '@/utils';
+import filterFields from './list-payments-filters';
+import {fetchPayments} from 'stores/payment/actions';
+import {PAYMENTS_FORM} from 'stores/payment/types';
+import {IProps, IStates} from './list-payments-type';
+import {
+  MainLayout,
+  ListView,
+  InfiniteScroll,
+  BaseEmptyPlaceholder
+} from '@/components';
 
-type IProps = {
-  navigation: Object,
-  getPayments: () => void,
-  payments: Object,
-  formValues: any
-};
+export default class Payments extends React.Component<IProps, IStates> {
+  scrollViewReference: any;
+  focusListener: any;
 
-export class Payments extends React.Component<IProps> {
   constructor(props) {
     super(props);
     this.scrollViewReference = React.createRef();
-
     this.state = {search: ''};
   }
 
@@ -34,36 +35,25 @@ export class Payments extends React.Component<IProps> {
 
   onFocus = () => {
     const {navigation} = this.props;
-
     this.focusListener = navigation.addListener('focus', () => {
       this.scrollViewReference?.getItems?.();
     });
   };
 
-  onSelect = payment => {
-    const {navigation} = this.props;
-    navigation.navigate(routes.PAYMENT, {
-      id: payment.id,
-      type: 'UPDATE'
-    });
+  setFormField = (field, value) => {
+    this.props.dispatch(change(PAYMENTS_FORM, field, value));
   };
 
   onSearch = search => {
     this.setState({search});
-
     this.scrollViewReference?.getItems?.({
       queryString: {search},
       showLoader: true
     });
   };
 
-  setFormField = (field, value) => {
-    this.props.dispatch(change(PAYMENT_SEARCH, field, value));
-  };
-
   onResetFilter = () => {
     const {search} = this.state;
-
     this.scrollViewReference?.getItems?.({
       queryString: {search},
       resetQueryString: true,
@@ -89,56 +79,37 @@ export class Payments extends React.Component<IProps> {
     });
   };
 
+  onSelect = payment => {
+    const {navigation} = this.props;
+    navigation.navigate(routes.CREATE_PAYMENT, {
+      id: payment.id,
+      type: 'UPDATE'
+    });
+  };
+
   render() {
     const {
-      navigation,
       payments,
+      navigation,
       handleSubmit,
-      getPayments,
       formValues,
-      route
+      route,
+      dispatch
     } = this.props;
-
     const {search} = this.state;
     const isFilter = isFilterApply(formValues);
 
-    const emptyTitle = search
-      ? 'search.no_result'
-      : isFilter
-      ? 'filter.empty.filter_title'
-      : 'payments.empty.title';
-
-    const emptyContentProps = {
-      title: t(emptyTitle, {search}),
-      image: AssetImage.images.empty_payments,
-      ...(!search && {
-        description: t('payments.empty.description')
-      }),
-      ...(!search &&
-        !isFilter && {
-          buttonTitle: t('payments.empty.button_title'),
-          buttonPress: () => {
-            navigation.navigate(routes.PAYMENT, {
-              type: 'ADD'
-            });
-          }
-        })
-    };
-
     const headerProps = {
       rightIcon: 'plus',
-      rightIconPress: () => {
-        navigation.navigate(routes.PAYMENT, {
-          type: 'ADD'
-        });
-      },
+      rightIconPress: () =>
+        navigation.navigate(routes.CREATE_PAYMENT, {type: 'ADD'}),
       title: t('header.payments'),
       route
     };
 
     const filterProps = {
       onSubmitFilter: handleSubmit(this.onSubmitFilter),
-      ...paymentsFilterFields(this),
+      ...filterFields(this),
       clearFilter: this.props,
       onResetFilter: () => this.onResetFilter()
     };
@@ -147,25 +118,28 @@ export class Payments extends React.Component<IProps> {
       <MainLayout
         headerProps={headerProps}
         onSearch={this.onSearch}
-        bottomDivider
         filterProps={filterProps}
+        bottomDivider
       >
         <InfiniteScroll
-          getItems={getPayments}
+          getItems={q => dispatch(fetchPayments(q))}
           reference={ref => (this.scrollViewReference = ref)}
-          getItemsInMount={PermissionService.isAllowToView(
-            routes.MAIN_PAYMENTS
-          )}
+          getItemsInMount={false}
         >
           <ListView
+            isAnimated
+            bottomDivider
             items={payments}
             onPress={this.onSelect}
             isEmpty={isEmpty(payments)}
             contentContainerStyle={{flex: 0}}
-            bottomDivider
-            emptyContentProps={emptyContentProps}
-            route={route}
-            isAnimated
+            emptyPlaceholder={
+              <BaseEmptyPlaceholder
+                {...this.props}
+                search={search}
+                isFilter={isFilter}
+              />
+            }
           />
         </InfiniteScroll>
       </MainLayout>
