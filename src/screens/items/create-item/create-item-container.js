@@ -33,7 +33,7 @@ const mapStateToProps = (state, {route}) => {
     type,
     screen,
     units: unitsSelector(state),
-    customFields: customFieldsSelector(state),
+    // customFields: customFieldsSelector(state),
     ...permissionSelector(route),
     ...loadingSelector(state),
     ...commonSelector(state),
