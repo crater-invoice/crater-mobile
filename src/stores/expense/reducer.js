@@ -1,4 +1,3 @@
-import {isEmpty} from '@/constants';
 import * as types from './types';
 
 const initialState = {
@@ -25,24 +24,12 @@ export default function expenseReducer(state = initialState, action) {
       return {...state, expenses: [...[payload], ...state.expenses]};
 
     case types.UPDATE_EXPENSE_SUCCESS:
-      const expenseData = payload;
-      const expenseList = [];
-
-      if (isEmpty(state.expenses)) {
-        return state;
-      }
-
-      state.expenses.map(expense => {
-        const {id} = expense;
-        let value = expense;
-
-        if (id === expenseData.id) {
-          value = expenseData;
-        }
-        expenseList.push(value);
-      });
-
-      return {...state, expenses: expenseList};
+      return {
+        ...state,
+        expenses: state.expenses.map(expense =>
+          expense.id === payload.id ? payload : expense
+        )
+      };
 
     case types.REMOVE_EXPENSE_SUCCESS:
       return {

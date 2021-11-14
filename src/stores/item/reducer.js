@@ -1,5 +1,4 @@
 import * as types from './types';
-import {isEmpty} from '@/constants';
 
 const initialState = {
   items: [],
@@ -28,24 +27,12 @@ export default function itemReducer(state = initialState, action) {
       };
 
     case types.UPDATE_ITEM_SUCCESS:
-      const itemData = payload;
-      const itemList = [];
-
-      if (isEmpty(state.items)) {
-        return state;
-      }
-
-      state.items.map(item => {
-        const {id} = item;
-        let value = item;
-
-        if (id === itemData.id) {
-          value = itemData;
-        }
-        itemList.push(value);
-      });
-
-      return {...state, items: itemList};
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.id === payload.id ? payload : item
+        )
+      };
 
     case types.REMOVE_ITEM_SUCCESS:
       return {

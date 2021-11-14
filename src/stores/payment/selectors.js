@@ -12,16 +12,14 @@ export const paymentsSelector = createSelector(
       const {
         formatted_payment_date,
         amount,
-        payment_method,
-        customer: {name},
+        payment_number,
+        customer,
         currency
       } = payment;
 
       return {
-        title: `${name}`,
-        subtitle: {
-          title: payment_method?.name ?? ''
-        },
+        title: customer?.name ?? '',
+        subtitle: {title: payment_number ?? ''},
         amount,
         currency,
         rightSubtitle: formatted_payment_date,

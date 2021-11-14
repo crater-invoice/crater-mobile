@@ -17,26 +17,14 @@ import {modalTypes} from '../custom-field/helpers';
  */
 function* fetchEstimateData() {
   try {
+    yield put({type: types.CLEAR_ESTIMATE});
     yield call(fetchCustomFields, {
       payload: {queryString: {type: modalTypes.ESTIMATE, limit: 'all'}}
     });
-    yield put({type: types.CLEAR_ESTIMATE});
     const {estimateTemplates} = yield call(req.fetchEstimateTemplates);
-    // const {estimate_auto_generate} = yield call(getSettingInfo, {
-    //   payload: {keys: ['estimate_auto_generate']}
-    // });
-    // const nextEstimateNumber = yield call(getNextNumber, {
-    //   payload: {key: 'estimate'}
-    // });
-    const estimate_auto_generate = false;
-    const nextEstimateNumber = {};
     yield put({
       type: types.FETCH_ESTIMATE_DATA_SUCCESS,
-      payload: {
-        ...nextEstimateNumber,
-        estimate_auto_generate,
-        estimateTemplates
-      }
+      payload: {estimateTemplates}
     });
   } catch (e) {}
 }
@@ -48,7 +36,8 @@ function* fetchEstimateData() {
 function* fetchEstimateInitialDetails({payload}) {
   yield call(fetchEstimateData);
   yield put(fetchTaxAndDiscountPerItem());
-  payload?.();
+  const {nextNumber} = yield call(req.fetchNextEstimateNumber);
+  payload?.(nextNumber);
 }
 
 /**
@@ -77,14 +66,13 @@ function* fetchEstimates({payload}) {
 function* fetchSingleEstimate({payload}) {
   try {
     const {id, onSuccess} = payload;
-    const response = yield call(req.fetchSingleEstimate, id);
-
+    const {data} = yield call(req.fetchSingleEstimate, id);
     yield call(fetchEstimateData);
     yield put({
       type: types.ADD_ESTIMATE_ITEM_SUCCESS,
-      payload: response?.data?.estimateItems ?? []
+      payload: data?.items ?? []
     });
-    onSuccess?.(response);
+    onSuccess?.(data);
   } catch (e) {}
 }
 

@@ -12,7 +12,6 @@ import {
   Notes,
   ItemField,
   FinalAmount,
-  BaseInputPrefix,
   BaseButtonGroup,
   BaseButton
 } from '@/components';
@@ -81,35 +80,33 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
     const {isEditScreen, id, dispatch} = this.props;
 
     if (isEditScreen) {
-      dispatch(fetchSingleEstimate(id, res => this.setInitialData(res)));
+      dispatch(fetchSingleEstimate(id, this.setInitialData));
       return;
     }
-    dispatch(fetchEstimateInitialDetails(() => this.setInitialData(null)));
+    dispatch(
+      fetchEstimateInitialDetails(estimate_number =>
+        this.setInitialData({estimate_number})
+      )
+    );
     return;
   };
 
-  setInitialData = res => {
+  setInitialData = async res => {
     const {
       dispatch,
       estimateData: {estimateTemplates} = {},
       estimateData,
-      route
+      route,
+      currency
     } = this.props;
+
     let values = {
       ...initialValues(estimateTemplates),
       ...estimateData,
-      estimate_number: estimateData?.nextNumber
+      ...res
     };
-    if (res) {
-      const {data, meta} = res;
-      values = {
-        ...values,
-        ...data,
-        estimate_number: data.estimate_no ?? estimateData?.nextNumber,
-        prefix: meta.estimatePrefix ?? estimateData?.prefix
-      };
-      this.setState({currency: data?.customer?.currency});
-    }
+
+    await this.setState({currency: res?.customer?.currency ?? currency});
 
     const customer = route?.params?.customer;
     if (customer) {
@@ -118,7 +115,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
         customer,
         customer_id: customer.id
       };
-      this.setState({currency: customer.currency});
+      await this.setState({currency: customer.currency});
     }
 
     dispatch(initialize(CREATE_ESTIMATE_FORM, values));
@@ -175,13 +172,12 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
     }
 
     if (finalAmount() < 0) {
-      alert(t('estimates.alert.less_amount'));
+      showNotification({message: t('estimates.alert.less_amount')});
       return;
     }
 
     let estimate = {
       ...values,
-      estimate_number: `${values.prefix}-${values.estimate_number}`,
       estimate_no: values.estimate_number,
       total: finalAmount(),
       sub_total: total(),
@@ -394,7 +390,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
       fetchCustomers,
       customers,
       formValues,
-      formValues: {prefix, customer, status},
+      formValues: {customer, status},
       customFields,
       isEditScreen,
       isAllowToEdit,
@@ -517,11 +513,9 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
 
         <Field
           name="estimate_number"
-          component={BaseInputPrefix}
+          component={BaseInput}
           isRequired
-          label={t('estimates.estimate_number')}
-          prefix={prefix}
-          fieldName="estimate_number"
+          hint={t('estimates.estimate_number')}
           disabled={disabled}
         />
 
