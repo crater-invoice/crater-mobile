@@ -2,7 +2,6 @@ export * from './base-button';
 export * from './base-dropdown-picker';
 export * from './base-empty-placeholder';
 export * from './base-error';
-export * from './base-input-prefix';
 export * from './base-label';
 export * from './base-select';
 export * from './base-date-picker';

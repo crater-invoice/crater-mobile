@@ -1,6 +1,7 @@
 import React from 'react';
 import {SelectField} from '@/components';
 import t from 'locales/use-translation';
+import {fontSizes} from '@/styles';
 
 interface IProps {
   /**
@@ -22,6 +23,7 @@ export const RetrospectiveEditSelectModal = (props: IProps) => (
     compareField="title"
     headerProps={{title: t('retrospective_edits.title'), rightIconPress: null}}
     emptyContentProps={{contentType: 'retrospective_edits'}}
+    listViewProps={{leftTitleStyle: {fontSize: fontSizes.h4}}}
     isInternalSearch
     isRequired
   />

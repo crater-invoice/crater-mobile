@@ -16,22 +16,14 @@ import {modalTypes} from '../custom-field/helpers';
  */
 function* fetchInvoiceData() {
   try {
+    yield put({type: types.CLEAR_INVOICE});
     yield call(fetchCustomFields, {
       payload: {queryString: {type: modalTypes.INVOICE, limit: 'all'}}
     });
-    yield put({type: types.CLEAR_INVOICE});
     const {invoiceTemplates} = yield call(req.fetchInvoiceTemplates);
-    // const {invoice_auto_generate} = yield call(getSettingInfo, {
-    //   payload: {keys: ['invoice_auto_generate']}
-    // });
-    // const nextInvoiceNumber = yield call(getNextNumber, {
-    //   payload: {key: 'invoice'}
-    // });
-    const invoice_auto_generate = false;
-    const nextInvoiceNumber = {};
     yield put({
       type: types.FETCH_INVOICE_DATA_SUCCESS,
-      payload: {...nextInvoiceNumber, invoice_auto_generate, invoiceTemplates}
+      payload: {invoiceTemplates}
     });
   } catch (e) {}
 }
@@ -43,7 +35,8 @@ function* fetchInvoiceData() {
 function* fetchInvoiceInitialDetails({payload}) {
   yield call(fetchInvoiceData);
   yield put(fetchTaxAndDiscountPerItem());
-  payload?.();
+  const {nextNumber} = yield call(req.fetchNextInvoiceNumber);
+  payload?.(nextNumber);
 }
 
 /**
@@ -69,14 +62,13 @@ function* fetchInvoices({payload}) {
 function* fetchSingleInvoice({payload}) {
   try {
     const {id, onSuccess} = payload;
-    const response = yield call(req.fetchSingleInvoice, id);
-
+    const {data} = yield call(req.fetchSingleInvoice, id);
     yield call(fetchInvoiceData);
     yield put({
       type: types.ADD_INVOICE_ITEM_SUCCESS,
-      payload: response?.data?.invoiceItems ?? []
+      payload: data?.items ?? []
     });
-    onSuccess?.(response);
+    onSuccess?.(data);
   } catch (e) {}
 }
 

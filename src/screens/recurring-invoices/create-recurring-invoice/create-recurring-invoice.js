@@ -441,7 +441,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           description={t('recurring_invoices.auto_sent.description')}
         />
 
-        {hasCustomField && <CustomField {...this.props} type={null} />}
+        {hasCustomField && <CustomField {...this.props} />}
       </DefaultLayout>
     );
   }

@@ -13,7 +13,7 @@ import expensesFilter from './list-expenses-filter';
 import {PermissionService} from '@/services';
 import {isEmpty} from '@/constants';
 import {IProps, IStates} from './list-expenses-type';
-import {fetchExpenses} from '@/stores/expense/actions';
+import {fetchExpenses} from 'stores/expense/actions';
 
 export default class Expenses extends React.Component<IProps, IStates> {
   focusListener: any;

@@ -73,3 +73,11 @@ export const removeEstimate = id => {
 export const convertToInvoice = id => {
   return Request.post({path: `estimates/${id}/convert-to-invoice`});
 };
+
+/**
+ * Fetch next estimate number
+ * @returns {*}
+ */
+export const fetchNextEstimateNumber = () => {
+  return Request.get({path: `next-number?key=estimate`});
+};

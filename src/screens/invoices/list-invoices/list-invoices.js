@@ -12,7 +12,7 @@ import {PermissionService} from '@/services';
 import {IProps, IStates} from './list-invoices-type';
 import {invoicesFilterFields} from './list-invoices-filters';
 import {Tab} from './list-invoices-tab';
-import {tabRefs} from 'stores/common/helpers';
+import {invoicesTabRefs as tabRefs} from 'stores/common/helpers';
 
 export default class Invoices extends React.Component<IProps, IStates> {
   constructor(props) {

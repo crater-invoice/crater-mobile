@@ -1,4 +1,3 @@
-import {isEmpty} from '@/constants';
 import * as types from './types';
 
 const initialState = {
@@ -8,10 +7,6 @@ const initialState = {
   isDeleting: false,
   isSaving: false,
   estimateData: {
-    nextNumber: null,
-    prefix: null,
-    separator: null,
-    estimate_auto_generate: null,
     estimateTemplates: []
   },
   selectedItems: []
@@ -38,24 +33,12 @@ export default function estimateReducer(state = initialState, action) {
       return {...state, estimates: [...[payload], ...state.estimates]};
 
     case types.UPDATE_ESTIMATE_SUCCESS:
-      const estimateData = payload;
-      const estimateList = [];
-
-      if (isEmpty(state.estimates)) {
-        return state;
-      }
-
-      state.estimates.map(estimate => {
-        const {id} = estimate;
-        let value = estimate;
-
-        if (id === estimateData.id) {
-          value = estimateData;
-        }
-        estimateList.push(value);
-      });
-
-      return {...state, estimates: estimateList};
+      return {
+        ...state,
+        estimates: state.estimates.map(estimate =>
+          estimate.id === payload.id ? payload : estimate
+        )
+      };
 
     case types.REMOVE_ESTIMATE_SUCCESS:
       return {
@@ -81,10 +64,6 @@ export default function estimateReducer(state = initialState, action) {
         isDeleting: false,
         isSaving: false,
         estimateData: {
-          nextNumber: null,
-          prefix: null,
-          separator: null,
-          estimate_auto_generate: null,
           estimateTemplates: []
         }
       };

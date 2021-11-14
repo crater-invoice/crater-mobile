@@ -71,12 +71,12 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
 
     let newValue = '';
     for (const key in items) {
-      if (hasValue(key) && items[key]['fullItem'][compareField] === value) {
+      const field = items[key]['fullItem'][compareField];
+      if (hasValue(key) && field && field.trim() === value) {
         newValue = items[key]['fullItem'][displayName];
         break;
       }
     }
-
     concurrentMultiSelect &&
       (await this.setState({
         selectedItems: value,

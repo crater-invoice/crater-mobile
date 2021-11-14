@@ -1,5 +1,4 @@
 import * as types from './types';
-import {isEmpty} from '@/constants';
 
 const initialState = {
   invoices: [],
@@ -40,24 +39,12 @@ export default function recurringInvoiceReducer(state = initialState, action) {
       };
 
     case types.UPDATE_RECURRING_INVOICE_SUCCESS:
-      const invoiceData = payload;
-      const invoiceList = [];
-
-      if (isEmpty(state.invoices)) {
-        return state;
-      }
-
-      state.invoices.map(invoice => {
-        const {id} = invoice;
-        let value = invoice;
-
-        if (id === invoiceData.id) {
-          value = invoiceData;
-        }
-        invoiceList.push(value);
-      });
-
-      return {...state, invoices: invoiceList};
+      return {
+        ...state,
+        invoices: state.invoices.map(invoice =>
+          invoice.id === payload.id ? payload : invoice
+        )
+      };
 
     case types.REMOVE_RECURRING_INVOICE_SUCCESS:
       return {

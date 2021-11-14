@@ -13,7 +13,7 @@ import {IProps, IStates} from './list-recurring-invoices-type';
 import {recurringInvoicesFilterFields} from './list-recurring-invoices-filters';
 import {Tab} from './list-recurring-invoices-tab';
 import {change} from 'redux-form';
-import {tabRefs} from 'stores/common/helpers';
+import {recurringTabRefs as tabRefs} from 'stores/common/helpers';
 
 export default class RecurringInvoices extends React.Component<
   IProps,

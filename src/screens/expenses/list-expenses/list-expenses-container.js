@@ -23,11 +23,9 @@ const mapDispatchToProps = {
   fetchCustomers
 };
 
-const ExpensesSearchReduxForm = reduxForm({
-  form: EXPENSES_FORM
-})(Expenses);
+const ExpensesForm = reduxForm({form: EXPENSES_FORM})(Expenses);
 
 export const ExpensesContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ExpensesSearchReduxForm);
+)(ExpensesForm);

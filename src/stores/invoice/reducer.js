@@ -1,4 +1,3 @@
-import {isEmpty} from '@/constants';
 import * as types from './types';
 
 const initialState = {
@@ -8,10 +7,6 @@ const initialState = {
   isDeleting: false,
   isSaving: false,
   invoiceData: {
-    nextNumber: null,
-    prefix: null,
-    separator: null,
-    invoice_auto_generate: null,
     invoiceTemplates: []
   },
   selectedItems: []
@@ -38,21 +33,12 @@ export default function invoiceReducer(state = initialState, action) {
       return {...state, invoices: [...[payload], ...state.invoices]};
 
     case types.UPDATE_INVOICE_SUCCESS:
-      const invoiceData = payload;
-      const invoiceList = [];
-      if (isEmpty(state.invoices)) {
-        return state;
-      }
-      state.invoices.map(invoice => {
-        const {id} = invoice;
-        let value = invoice;
-
-        if (id === invoiceData.id) {
-          value = invoiceData;
-        }
-        invoiceList.push(value);
-      });
-      return {...state, invoices: invoiceList};
+      return {
+        ...state,
+        invoices: state.invoices.map(invoice =>
+          invoice.id === payload.id ? payload : invoice
+        )
+      };
 
     case types.REMOVE_INVOICE_SUCCESS:
       return {
@@ -78,10 +64,6 @@ export default function invoiceReducer(state = initialState, action) {
         isDeleting: false,
         isSaving: false,
         invoiceData: {
-          nextNumber: null,
-          prefix: null,
-          separator: null,
-          invoice_auto_generate: null,
           invoiceTemplates: []
         }
       };

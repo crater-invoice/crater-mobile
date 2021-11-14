@@ -2,7 +2,7 @@ import React from 'react';
 import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change, initialize} from 'redux-form';
-import {BaseInputPrefix, TemplateField} from '@/components';
+import {TemplateField} from '@/components';
 import {dismissRoute, routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {alertMe, isEmpty} from '@/constants';
@@ -69,35 +69,33 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     const {isEditScreen, id, dispatch} = this.props;
 
     if (isEditScreen) {
-      dispatch(fetchSingleInvoice(id, res => this.setInitialData(res)));
+      dispatch(fetchSingleInvoice(id, this.setInitialData));
       return;
     }
-    dispatch(fetchInvoiceInitialDetails(() => this.setInitialData(null)));
-    return;
+
+    dispatch(
+      fetchInvoiceInitialDetails(invoice_number =>
+        this.setInitialData({invoice_number})
+      )
+    );
   };
 
-  setInitialData = res => {
+  setInitialData = async res => {
     const {
       dispatch,
       invoiceData: {invoiceTemplates} = {},
       invoiceData,
-      route
+      route,
+      currency
     } = this.props;
+
     let values = {
       ...initialValues(invoiceTemplates),
       ...invoiceData,
-      invoice_number: invoiceData?.nextNumber
+      ...res
     };
-    if (res) {
-      const {data, meta} = res;
-      values = {
-        ...values,
-        ...data,
-        invoice_number: data.invoice_no ?? invoiceData?.nextNumber,
-        prefix: meta.invoicePrefix ?? invoiceData?.prefix
-      };
-      this.setState({currency: data?.customer?.currency});
-    }
+
+    await this.setState({currency: res?.customer?.currency ?? currency});
 
     const customer = route?.params?.customer;
     if (customer) {
@@ -106,7 +104,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         customer,
         customer_id: customer.id
       };
-      this.setState({currency: customer.currency});
+      await this.setState({currency: customer.currency});
     }
 
     dispatch(initialize(CREATE_INVOICE_FORM, values));
@@ -156,13 +154,12 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     }
 
     if (finalAmount() < 0) {
-      alert(t('invoices.alert.less_amount'));
+      showNotification({message: t('invoices.alert.less_amount')});
       return;
     }
 
     let invoice = {
       ...values,
-      invoice_number: `${values.prefix}-${values.invoice_number}`,
       invoice_no: values.invoice_number,
       total: finalAmount(),
       sub_total: total(),
@@ -204,7 +201,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
   };
 
   downloadInvoice = values => {
-    const url = values?.invoicePdfUrl;
+    const url = values?.invoice_pdf_url;
     Linking.openURL(url);
     return;
   };
@@ -263,7 +260,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           customer,
           due_amount,
           sub_total,
-          prefix,
           invoice_number
         } = formValues;
 
@@ -271,7 +267,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           customer_id,
           id,
           due: {due_amount, sub_total},
-          number: `${prefix}-${invoice_number}`,
+          number: invoice_number,
           customer: customer
         };
         navigation.navigate(routes.CREATE_PAYMENT, {
@@ -364,7 +360,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       items,
       fetchCustomers,
       customers,
-      formValues: {prefix, customer, status},
+      formValues: {customer, status},
       formValues,
       customFields,
       isAllowToEdit,
@@ -486,11 +482,9 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
 
         <Field
           name="invoice_number"
-          component={BaseInputPrefix}
-          label={t('invoices.invoice_number')}
           isRequired
-          fieldName="invoice_number"
-          prefix={prefix}
+          component={BaseInput}
+          hint={t('invoices.invoice_number')}
           disabled={disabled}
         />
 
@@ -549,7 +543,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           disabled={disabled}
         />
 
-        {hasCustomField && <CustomField {...this.props} type={null} />}
+        {hasCustomField && <CustomField {...this.props} />}
       </DefaultLayout>
     );
   }

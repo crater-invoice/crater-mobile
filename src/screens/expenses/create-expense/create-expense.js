@@ -1,11 +1,24 @@
 import React from 'react';
+import _ from 'lodash';
+import * as Linking from 'expo-linking';
 import {Field, change, initialize} from 'redux-form';
+import t from 'locales/use-translation';
 import styles from './create-expense-styles';
 import {dismissRoute, routes} from '@/navigation';
-import t from 'locales/use-translation';
-import * as Linking from 'expo-linking';
 import {alertMe, isEmpty, MAX_LENGTH} from '@/constants';
 import {keyboardType} from '@/helpers/keyboard';
+import {CREATE_EXPENSE_FORM} from 'stores/expense/types';
+import {EXPENSE_ACTIONS, ACTIONS_VALUE} from 'stores/expense/helpers';
+import {getApiFormattedCustomFields} from '@/utils';
+import {CustomerSelectModal, ExpenseCategorySelectModal} from '@/select-modal';
+import {IProps, IState} from './create-expense-type';
+import {
+  addExpense,
+  fetchExpenseInitialDetails,
+  fetchSingleExpense,
+  removeExpense,
+  updateExpense
+} from 'stores/expense/actions';
 import {
   BaseInput,
   DefaultLayout,
@@ -15,19 +28,6 @@ import {
   BaseButtonGroup,
   BaseButton
 } from '@/components';
-import {CREATE_EXPENSE_FORM} from 'stores/expense/types';
-import {EXPENSE_ACTIONS, ACTIONS_VALUE} from '@/stores/expense/helpers';
-import {getApiFormattedCustomFields} from '@/utils';
-import _ from 'lodash';
-import {CustomerSelectModal, ExpenseCategorySelectModal} from '@/select-modal';
-import {IProps, IState} from './create-expense-type';
-import {
-  addExpense,
-  fetchExpenseInitialDetails,
-  fetchSingleExpense,
-  removeExpense,
-  updateExpense
-} from '@/stores/expense/actions';
 
 export default class CreateExpense extends React.Component<IProps, IState> {
   customerReference: any;
@@ -66,23 +66,23 @@ export default class CreateExpense extends React.Component<IProps, IState> {
     return;
   };
 
-  setInitialData = res => {
+  setInitialData = async res => {
     const {dispatch, route} = this.props;
     const customer = route?.params?.customer;
     if (res) {
       dispatch(initialize(CREATE_EXPENSE_FORM, res));
       if (res?.attachment_receipt_url) {
-        this.setState({
+        await this.setState({
           imageUrl: res?.attachment_receipt_url?.url,
-          fileType: res?.attachment_receipt_url?.type,
-          customer: res?.customer
+          fileType: res?.attachment_receipt_url?.type
         });
       }
+      await this.setState({customer: res?.customer});
     }
 
     if (customer) {
       this.setFormField('customer_id', customer.id);
-      this.setState({customer});
+      await this.setState({customer});
     }
 
     this.setState({isFetchingInitialData: false});

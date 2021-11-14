@@ -87,7 +87,6 @@ export const initialValues = templates => {
     template_name: templates ? templates?.[0]?.name : null,
     notes: null,
     estimate_number: null,
-    prefix: null,
     customer_id: null
   };
 };
