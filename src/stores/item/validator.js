@@ -30,8 +30,8 @@ export const validate = values => {
 
   errors.discount_type = getError(discount_type, ['required']);
 
-  const fieldErrors = validateCustomField(values?.customFields);
-  !isEmpty(fieldErrors) && (errors.customFields = fieldErrors);
+  // const fieldErrors = validateCustomField(values?.customFields);
+  // !isEmpty(fieldErrors) && (errors.customFields = fieldErrors);
 
   return errors;
 };

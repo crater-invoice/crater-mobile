@@ -16,8 +16,8 @@ export const modalTypes = {
   INVOICE: 'Invoice',
   ESTIMATE: 'Estimate',
   EXPENSE: 'Expense',
-  PAYMENT: 'Payment',
-  ITEM: 'Item'
+  PAYMENT: 'Payment'
+  // ITEM: 'Item'
 };
 
 export const dataTypeList = [
@@ -38,6 +38,6 @@ export const modalTypeList = [
   {label: 'Invoice', value: modalTypes.INVOICE},
   {label: 'Estimate', value: modalTypes.ESTIMATE},
   {label: 'Expense', value: modalTypes.EXPENSE},
-  {label: 'Payment', value: modalTypes.PAYMENT},
-  {label: 'Item', value: modalTypes.ITEM}
+  {label: 'Payment', value: modalTypes.PAYMENT}
+  // {label: 'Item', value: modalTypes.ITEM}
 ];

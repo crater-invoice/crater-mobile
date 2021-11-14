@@ -91,9 +91,9 @@ function* removeItem({payload}) {
  * @returns {IterableIterator<*>}
  */
 function* fetchItemInitialDetails({payload}) {
-  yield call(fetchCustomFields, {
-    payload: {queryString: {type: modalTypes.ITEM, limit: 'all'}}
-  });
+  // yield call(fetchCustomFields, {
+  //   payload: {queryString: {type: modalTypes.ITEM, limit: 'all'}}
+  // });
   payload?.();
 }
 

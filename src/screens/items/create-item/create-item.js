@@ -49,14 +49,14 @@ export class CreateItem extends React.Component<IProps> {
   loadData = () => {
     const {itemId, isItemScreen, dispatch} = this.props;
 
-    if (!itemId || isItemScreen) {
-      dispatch(
-        fetchItemInitialDetails(() =>
-          this.setState({isFetchingInitialData: false})
-        )
-      );
-      return;
-    }
+    // if (!itemId || isItemScreen) {
+    //   dispatch(
+    //     fetchItemInitialDetails(() =>
+    //       this.setState({isFetchingInitialData: false})
+    //     )
+    //   );
+    //   return;
+    // }
 
     this.setState({isFetchingInitialData: false});
   };
@@ -92,7 +92,7 @@ export class CreateItem extends React.Component<IProps> {
       total: this.subTotal(),
       discount_val: this.totalDiscount(),
       tax: this.itemTax() + this.itemCompoundTax(),
-      customFields: getApiFormattedCustomFields(values?.customFields),
+      // customFields: getApiFormattedCustomFields(values?.customFields),
       taxes:
         values.taxes &&
         values.taxes.map(val => {
@@ -405,12 +405,12 @@ export class CreateItem extends React.Component<IProps> {
     } = this.props;
     const {isFetchingInitialData} = this.state;
     const unitName = unit?.name;
-    const hasCustomField =
-      !itemId || isItemScreen
-        ? isEditScreen
-          ? formValues && formValues.hasOwnProperty('fields')
-          : !isEmpty(customFields)
-        : false;
+    // const hasCustomField =
+    //   !itemId || isItemScreen
+    //     ? isEditScreen
+    //       ? formValues && formValues.hasOwnProperty('fields')
+    //       : !isEmpty(customFields)
+    //     : false;
 
     const bottomAction = (
       <BaseButtonGroup>
@@ -510,7 +510,7 @@ export class CreateItem extends React.Component<IProps> {
 
         {this.FINAL_AMOUNT()}
 
-        {hasCustomField && <CustomField {...this.props} />}
+        {/* {hasCustomField && <CustomField {...this.props} />} */}
 
         <Field
           name="description"
