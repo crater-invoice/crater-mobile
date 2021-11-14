@@ -55,7 +55,7 @@ class ScrollList extends React.Component<IProps, IState> {
     getItemsInMount && this.getItems();
     setTimeout(() => {
       this.getItems = debounce(this.getItems, 300);
-    }, 1500);
+    }, 1000);
 
     onMount?.();
   }
