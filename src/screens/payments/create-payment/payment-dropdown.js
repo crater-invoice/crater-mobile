@@ -48,7 +48,7 @@ const onSelect = (action, data) => {
       break;
 
     case ACTIONS_VALUE.SEND:
-      sendMailRef?.onToggle();
+      sendMailRef?.openModal?.();
       break;
 
     default:

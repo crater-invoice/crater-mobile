@@ -250,11 +250,9 @@ export default class CreatePayment extends Component<IProps, IStates> {
         {isEditScreen && (
           <SendMail
             reference={ref => (this.sendMailRef = ref)}
-            headerTitle="header.send_mail_payment"
-            alertDesc="payments.alert.send_payment"
-            user={this.props.formValues?.user}
-            body="payment_mail_body"
-            onSendMail={params => this.sendPaymentReceipt(params)}
+            toEmail={this.props.formValues?.customer?.email}
+            onSendMail={this.sendPaymentReceipt}
+            type="payment"
           />
         )}
 

@@ -67,3 +67,8 @@ export const currentCompanySelector = state => state.company?.selectedCompany;
 
 export const currentCurrencySelector = state =>
   state.company?.selectedCompanyCurrency;
+
+export const selectedCompanySettingSelector = createSelector(
+  companyStore,
+  store => store.selectedCompanySettings
+);

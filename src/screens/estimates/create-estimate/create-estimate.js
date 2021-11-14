@@ -246,7 +246,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
 
     switch (action) {
       case ESTIMATE_ACTIONS.SEND:
-        this.sendMailRef?.onToggle();
+        this.sendMailRef?.openModal?.();
         break;
 
       case ESTIMATE_ACTIONS.MARK_AS_SENT:
@@ -346,20 +346,6 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
         onSuccess: () =>
           showNotification({message: t('notification.estimate_sent')})
       })
-    );
-  };
-
-  sendMailComponent = () => {
-    return (
-      <SendMail
-        reference={ref => (this.sendMailRef = ref)}
-        headerTitle={'header.send_mail_estimate'}
-        alertDesc={'estimates.alert.send_estimate'}
-        user={this.props?.formValues?.customer}
-        subject="New Estimate"
-        body="estimate_mail_body"
-        onSendMail={params => this.sendEmail(params)}
-      />
     );
   };
 
@@ -483,7 +469,14 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
         dropdownProps={drownDownProps}
         bodyStyle="px-22 pt-10 pb-15"
       >
-        {isEditScreen && !hasCompleteStatus && this.sendMailComponent()}
+        {isEditScreen && !hasCompleteStatus && (
+          <SendMail
+            reference={ref => (this.sendMailRef = ref)}
+            toEmail={this.props?.formValues?.customer?.email}
+            onSendMail={this.sendEmail}
+            type="estimate"
+          />
+        )}
 
         <CtView flex={1} flex-row>
           <CtView flex={1} justify-between>
