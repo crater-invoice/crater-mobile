@@ -201,7 +201,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
   };
 
   downloadInvoice = values => {
-    const url = values?.invoicePdfUrl;
+    const url = values?.invoice_pdf_url;
     Linking.openURL(url);
     return;
   };

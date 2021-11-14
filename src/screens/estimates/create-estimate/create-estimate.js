@@ -222,7 +222,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
   };
 
   downloadEstimate = values => {
-    const url = values?.estimatePdfUrl;
+    const url = values?.estimate_pdf_url;
     Linking.openURL(url);
   };
 

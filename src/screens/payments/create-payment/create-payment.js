@@ -118,14 +118,14 @@ export default class CreatePayment extends Component<IProps, IStates> {
     if (hasObjectLength(selectedInvoice)) {
       const amount = values?.amount ?? 0;
       const due = selectedInvoice?.due_amount ?? 0;
-      const subTotal = selectedInvoice?.sub_total ?? 0;
+      const total = selectedInvoice?.total ?? 0;
 
       if (due !== 0 && amount > due) {
         showNotification({message: t('payments.alertAmount'), type: 'error'});
         return;
       }
 
-      if (due === 0 && amount > subTotal) {
+      if (due === 0 && amount > total) {
         showNotification({message: t('payments.alertAmount'), type: 'error'});
         return;
       }
