@@ -95,7 +95,7 @@ export const FinalAmount: FC<IProps> = props => {
               component={BaseInput}
               keyboardType={keyboardType.DECIMAL}
               fieldStyle={styles.discountInput(disabled, theme)}
-              inputContainerStyle={styles.discountInputContainer}
+              inputContainerStyle={styles.discountInputContainer(theme)}
               disabled={disabled}
               inputProps={{selectTextOnFocus: true}}
             />
@@ -120,7 +120,7 @@ export const FinalAmount: FC<IProps> = props => {
                   <BaseView class="flex-row justify-center items-center">
                     <Text
                       h4
-                      color={theme.text.darkGray}
+                      color={colors.darkGray}
                       style={styles.discountType(disabled)}
                     >
                       {valuesText ?? placeholderText}
@@ -188,9 +188,7 @@ export const FinalAmount: FC<IProps> = props => {
           rightIconPress={() =>
             navigation.navigate(routes.CREATE_TAX, {
               type: 'ADD',
-              onSelect: val => {
-                setFormField('taxes', [...val, ...taxes]);
-              }
+              onSelect: val => setFormField('taxes', [...val, ...taxes])
             })
           }
         />

@@ -1,6 +1,6 @@
 import {getError} from '@/validator';
 
-export const validate = values => {
+const rules = values => {
   const errors = {};
   const {from, to, subject, body} = values;
 
@@ -12,4 +12,20 @@ export const validate = values => {
   errors.body = getError(body, ['required']);
 
   return errors;
+};
+
+export const validate = values => rules(values);
+
+export const validateOnSubmit = values => {
+  const errors = rules(values);
+  let singleError = null;
+
+  for (const key in errors) {
+    if (errors[key]) {
+      singleError = errors[key];
+      break;
+    }
+  }
+
+  return singleError;
 };

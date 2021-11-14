@@ -1,15 +1,9 @@
 import React, {Component} from 'react';
 import {Keyboard, ScrollView} from 'react-native';
 import {connect} from 'react-redux';
-import {
-  reduxForm,
-  Field,
-  change,
-  SubmissionError,
-  getFormValues
-} from 'redux-form';
+import {reduxForm, Field, getFormValues, initialize} from 'redux-form';
 import styles from './styles';
-import {validate} from './validation';
+import {validate, validateOnSubmit} from './validation';
 import {SlideModal} from '../slide-modal';
 import {BaseInput} from '@/components';
 import t from 'locales/use-translation';
@@ -18,35 +12,19 @@ import {Editor} from '../editor';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseButtonGroup, BaseButton} from '../base';
 import {keyboardType} from '@/helpers/keyboard';
-import {alertMe, hasObjectLength, hasTextLength, hasValue} from '@/constants';
-import {EMAIL_REGEX} from '@/validator';
-import {fetchMailConfiguration} from 'stores/setting/actions';
+import {hasObjectLength} from '@/constants';
+import {fetchMailConfig} from 'stores/setting/actions';
+import {selectedCompanySettingSelector} from '@/stores/company/selectors';
 
-type IProps = {
-  handleSubmit?: () => void,
-  onSendMail?: () => void,
-  headerTitle?: string,
-  alertDesc?: string,
-  reference?: any
-};
-
-const emailField = {
-  from: 'from',
-  to: 'to',
-  subject: 'subject',
-  msg: 'body'
-};
-
-class SendMailComponent extends Component<IProps> {
-  keyboardDidShowListener: any;
-  keyboardDidHideListener: any;
+class Modal extends Component<IProps> {
+  keyboardShowListener: any;
+  keyboardHideListener: any;
 
   constructor(props) {
     super(props);
 
     this.state = {
       visible: false,
-      getMailConfigApiCalled: false,
       isKeyboardVisible: false
     };
   }
@@ -54,170 +32,83 @@ class SendMailComponent extends Component<IProps> {
   componentDidMount() {
     this.props.reference?.(this);
     this.keyboardListener();
+    this.loadData();
   }
 
   componentWillUnmount() {
-    this.props.reference?.(undefined);
-    this.keyboardDidShowListener?.remove?.();
-    this.keyboardDidHideListener?.remove?.();
+    this.keyboardShowListener?.remove?.();
+    this.keyboardHideListener?.remove?.();
   }
 
   keyboardListener = () => {
-    this.keyboardDidShowListener = Keyboard?.addListener?.(
-      'keyboardDidShow',
-      () => {
-        this.setState({isKeyboardVisible: true});
-      }
+    this.keyboardShowListener = Keyboard?.addListener?.('keyboardDidShow', () =>
+      this.setState({isKeyboardVisible: true})
     );
-    this.keyboardDidHideListener = Keyboard?.addListener?.(
-      'keyboardDidHide',
-      () => {
-        this.setState({isKeyboardVisible: false});
-      }
+    this.keyboardHideListener = Keyboard?.addListener?.('keyboardDidHide', () =>
+      this.setState({isKeyboardVisible: false})
     );
+  };
+
+  loadData = () => {
+    const {dispatch} = this.props;
+    dispatch(fetchMailConfig(({from_mail}) => this.setInitialData(from_mail)));
+  };
+
+  setInitialData = from => {
+    const {dispatch, toEmail, type, selectedCompanySettings} = this.props;
+    const subject = {
+      invoice: 'New Invoice',
+      estimate: 'New Estimate',
+      payment: ''
+    };
+
+    const body = {
+      invoice: selectedCompanySettings?.invoice_mail_body,
+      estimate: selectedCompanySettings?.estimate_mail_body,
+      payment: selectedCompanySettings?.payment_mail_body
+    };
+
+    const data = {
+      from,
+      to: toEmail,
+      subject: subject[type],
+      body: body[type]
+    };
+    dispatch(initialize('SEND_MAIL_FORM', data));
   };
 
   onSendMail = values => {
-    const {alertDesc = '', onSendMail} = this.props;
-    const {getMailConfigApiCalled} = this.state;
+    const error = validateOnSubmit(values);
 
-    if (!getMailConfigApiCalled || !hasObjectLength(values)) {
+    if (!hasObjectLength(values) || error) {
       return;
     }
 
-    const errors = this.checkIsFieldsRequired(values);
-
-    if (hasObjectLength(errors)) {
-      throw new SubmissionError({...errors});
-    }
-
-    alertMe({
-      title: t('alert.title'),
-      desc: t(alertDesc),
-      showCancel: true,
-      okPress: () => {
-        this.onToggle();
-        setTimeout(() => onSendMail?.(values), 200);
-      }
-    });
+    this.closeModal();
+    setTimeout(() => this.props.onSendMail?.(values), 300);
   };
 
-  checkIsFieldsRequired = values => {
-    let errors = {};
-
-    if (
-      !hasValue(values?.[emailField.from]) ||
-      !EMAIL_REGEX.test(values?.[emailField.from])
-    ) {
-      errors[emailField.from] = 'validation.email';
-    }
-
-    if (
-      !hasValue(values?.[emailField.to]) ||
-      !EMAIL_REGEX.test(values?.[emailField.to])
-    ) {
-      errors[emailField.to] = 'validation.email';
-    }
-
-    if (!hasValue(values?.[emailField.subject])) {
-      errors[emailField.subject] = 'validation.required';
-    }
-
-    if (
-      !hasValue(values?.[emailField.msg]) ||
-      !hasTextLength(values?.[emailField.msg])
-    ) {
-      errors[emailField.msg] = 'validation.required';
-    }
-
-    return errors;
+  openModal = () => {
+    this.setState({visible: true});
   };
 
-  onToggle = async () => {
-    const {visible} = this.state;
-    await this.setState({visible: !visible});
-    this.getConfig();
-  };
-
-  getConfig = () => {
-    const {user, body, subject, dispatch} = this.props;
-    const {getMailConfigApiCalled} = this.state;
-
-    if (!getMailConfigApiCalled) {
-      dispatch(
-        fetchMailConfiguration({
-          body,
-          onSuccess: ({from_mail, emailBody}) => {
-            this.setState({getMailConfigApiCalled: true});
-            this.setFormField(emailField.from, from_mail);
-            this.setFormField(emailField.to, user?.email);
-            this.setFormField(emailField.subject, subject);
-            this.setFormField(emailField.msg, emailBody);
-          }
-        })
-      );
-    }
-  };
-
-  setFormField = (field, value) => {
-    this.props.dispatch(change('SEND_MAIL_FORM', field, value || undefined));
-  };
-
-  Screen = () => {
-    const {isKeyboardVisible} = this.state;
-    let mailRefs = {};
-
-    return (
-      <ScrollView
-        style={[isKeyboardVisible && {paddingBottom: 120}]}
-        keyboardShouldPersistTaps="handled"
-      >
-        <Field
-          name={emailField.from}
-          component={BaseInput}
-          hint={t('send_mail.from')}
-          onSubmitEditing={() => mailRefs.to.focus()}
-          keyboardType={keyboardType.EMAIL}
-          isRequired
-        />
-
-        <Field
-          name={emailField.to}
-          component={BaseInput}
-          hint={t('send_mail.to')}
-          onSubmitEditing={() => mailRefs.subject.focus()}
-          keyboardType={keyboardType.EMAIL}
-          refLinkFn={ref => (mailRefs.to = ref)}
-          isRequired
-        />
-
-        <Field
-          name={emailField.subject}
-          component={BaseInput}
-          hint={t('send_mail.subject')}
-          refLinkFn={ref => (mailRefs.subject = ref)}
-          isRequired
-        />
-
-        <Editor
-          {...this.props}
-          name={emailField.msg}
-          label={'send_mail.body'}
-          isRequired
-          showPreview
-        />
-      </ScrollView>
-    );
+  closeModal = async () => {
+    this.setState({visible: false});
   };
 
   render() {
-    const {handleSubmit, headerTitle = '', formValues, theme} = this.props;
-    const {visible, getMailConfigApiCalled, isKeyboardVisible} = this.state;
-    const isFetchingInitialData =
-      !hasObjectLength(formValues) || !getMailConfigApiCalled;
+    const {handleSubmit, formValues, theme, type} = this.props;
+    const {visible, isKeyboardVisible} = this.state;
+    const isFetchingInitialData = !hasObjectLength(formValues);
+    let mailRefs = {};
+    const headerTitle = {
+      invoice: t('header.send_mail_invoice'),
+      estimate: t('header.send_mail_estimate'),
+      payment: t('header.send_mail_payment')
+    };
     const headerProps = {
-      leftIconPress: () => this.onToggle(),
-      title: t(headerTitle),
+      leftIconPress: this.closeModal,
+      title: headerTitle[type],
       rightIcon: 'paper-plane',
       rightIconPress: handleSubmit(this.onSendMail),
       placement: 'center',
@@ -242,7 +133,7 @@ class SendMailComponent extends Component<IProps> {
       <SlideModal
         defaultLayout
         visible={visible}
-        onToggle={this.onToggle}
+        onToggle={this.closeModal}
         headerProps={headerProps}
         bottomAction={bottomAction}
       >
@@ -253,7 +144,46 @@ class SendMailComponent extends Component<IProps> {
           }}
           theme={theme}
         >
-          {this.Screen()}
+          <ScrollView
+            style={[isKeyboardVisible && {paddingBottom: 120}]}
+            keyboardShouldPersistTaps="handled"
+          >
+            <Field
+              name="from"
+              component={BaseInput}
+              hint={t('send_mail.from')}
+              onSubmitEditing={() => mailRefs.to.focus()}
+              keyboardType={keyboardType.EMAIL}
+              isRequired
+            />
+
+            <Field
+              name="to"
+              component={BaseInput}
+              hint={t('send_mail.to')}
+              onSubmitEditing={() => mailRefs.subject.focus()}
+              keyboardType={keyboardType.EMAIL}
+              refLinkFn={ref => (mailRefs.to = ref)}
+              isRequired
+            />
+
+            <Field
+              name="subject"
+              component={BaseInput}
+              hint={t('send_mail.subject')}
+              refLinkFn={ref => (mailRefs.subject = ref)}
+              isRequired
+            />
+
+            <Editor
+              {...this.props}
+              name="body"
+              label="send_mail.body"
+              isRequired
+              showPreview
+              reference={null}
+            />
+          </ScrollView>
         </Content>
       </SlideModal>
     );
@@ -262,12 +192,13 @@ class SendMailComponent extends Component<IProps> {
 
 const mapStateToProps = state => ({
   formValues: getFormValues('SEND_MAIL_FORM')(state) || {},
+  selectedCompanySettings: selectedCompanySettingSelector(state),
   ...commonSelector(state)
 });
 
 const SendMailForm = reduxForm({
   form: 'SEND_MAIL_FORM',
   validate
-})(SendMailComponent);
+})(Modal);
 
 export const SendMail = connect(mapStateToProps)(SendMailForm);

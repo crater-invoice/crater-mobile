@@ -46,7 +46,12 @@ export const formatItems = (invoices, theme) => {
   }
 
   return invoices.map(item => {
-    const {status, total, customer: {name, currency} = {}} = item;
+    const {
+      status,
+      total,
+      formatted_created_at,
+      customer: {name, currency} = {}
+    } = item;
 
     return {
       title: name,
@@ -55,6 +60,7 @@ export const formatItems = (invoices, theme) => {
         ...(theme.mode === 'dark'
           ? {
               label: capitalize(status),
+              labelTextColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode],
               labelOutlineColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
             }
           : {
@@ -64,6 +70,7 @@ export const formatItems = (invoices, theme) => {
       },
       amount: total,
       currency,
+      rightSubtitle: formatted_created_at,
       fullItem: item
     };
   });

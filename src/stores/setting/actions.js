@@ -15,7 +15,7 @@ export const setBiometryAuthType = payload => ({
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const fetchMailConfiguration = (payload = {}) => ({
-  type: types.FETCH_MAIL_CONFIGURATION,
+export const fetchMailConfig = payload => ({
+  type: types.FETCH_MAIL_CONFIG,
   payload
 });

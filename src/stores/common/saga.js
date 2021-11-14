@@ -101,6 +101,7 @@ export function* fetchBootstrap(payloadData) {
       current_user,
       current_company,
       current_company_currency,
+      current_company_settings,
       current_user_settings,
       current_user_abilities = [],
       companies = []
@@ -119,7 +120,10 @@ export function* fetchBootstrap(payloadData) {
       })
     );
     yield put(
-      setCompanySetting({selectedCompanyCurrency: current_company_currency})
+      setCompanySetting({
+        selectedCompanyCurrency: current_company_currency,
+        selectedCompanySettings: current_company_settings
+      })
     );
     payloadData?.payload?.onSuccess?.(response);
   } catch (e) {}

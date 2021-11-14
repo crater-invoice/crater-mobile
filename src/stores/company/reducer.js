@@ -9,6 +9,7 @@ const initialState = {
   companies: [],
   selectedCompany: null,
   selectedCompanyCurrency: null,
+  selectedCompanySettings: null,
   isSaving: false
 };
 

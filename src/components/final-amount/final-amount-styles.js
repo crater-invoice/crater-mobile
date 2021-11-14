@@ -7,12 +7,17 @@ export default styles = StyleSheet.create({
   discount: {
     marginTop: 10
   },
-  discountInputContainer: {
+  discountInputContainer: theme => ({
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
-    borderTopWidth: 0
-  },
+    borderTopWidth: 0,
+    ...(theme.mode === 'dark' && {
+      borderColor: theme.backgroundColor,
+      backgroundColor: theme.backgroundColor,
+      paddingVertical: 2
+    })
+  }),
   discountInput: (disabled, theme) => ({
     display: 'flex',
     minWidth: 65,

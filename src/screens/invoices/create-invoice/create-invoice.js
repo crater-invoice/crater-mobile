@@ -230,7 +230,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
 
     switch (action) {
       case INVOICE_ACTIONS.SEND:
-        this.sendMailRef?.onToggle();
+        this.sendMailRef?.openModal?.();
         break;
 
       case INVOICE_ACTIONS.MARK_AS_SENT:
@@ -317,20 +317,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         onResult: () =>
           showNotification({message: t('notification.invoice_sent')})
       })
-    );
-  };
-
-  sendMailComponent = () => {
-    return (
-      <SendMail
-        reference={ref => (this.sendMailRef = ref)}
-        headerTitle={'header.send_mail_invoice'}
-        alertDesc={'invoices.alert.send_invoice'}
-        user={this.props.formValues?.customer}
-        subject="New Invoice"
-        body="invoice_mail_body"
-        onSendMail={params => this.sendEmail(params)}
-      />
     );
   };
 
@@ -452,7 +438,14 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         dropdownProps={drownDownProps}
         bodyStyle="px-22 pt-10 pb-15"
       >
-        {isEditScreen && !hasCompleteStatus && this.sendMailComponent()}
+        {isEditScreen && (
+          <SendMail
+            reference={ref => (this.sendMailRef = ref)}
+            toEmail={this.props.formValues?.customer?.email}
+            onSendMail={this.sendEmail}
+            type="invoice"
+          />
+        )}
 
         <CtView flex={1} flex-row>
           <CtView flex={1} justify-between>
