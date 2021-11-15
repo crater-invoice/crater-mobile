@@ -2,6 +2,8 @@ import {createSelector} from 'reselect';
 import {capitalize, isEmpty} from '@/constants';
 import {BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR} from '@/utils';
 
+const invoiceStore = state => state?.invoice;
+
 export const formatItems = (invoices, theme) => {
   if (isEmpty(invoices)) {
     return [];
@@ -45,10 +47,15 @@ export const invoicesSelector = createSelector(
 );
 
 export const loadingSelector = createSelector(
-  state => state?.invoice,
+  invoiceStore,
   store => ({
     isSaving: store?.isSaving,
     isDeleting: store?.isDeleting,
     isLoading: store?.isLoading
   })
+);
+
+export const templatesSelector = createSelector(
+  invoiceStore,
+  store => store.invoiceTemplates
 );

@@ -119,11 +119,6 @@ export interface IProps {
    * It will run validation, both sync and async, and, if the form is valid, it will call this.props.onSubmit(data) with the contents of the form data.
    */
   handleSubmit: (fun: object) => any;
-
-  /**
-   * Additional data to pass to the invoice item.
-   */
-  invoiceData: any;
 }
 export interface IStates {
   /**

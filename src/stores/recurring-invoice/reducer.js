@@ -17,10 +17,7 @@ export default function recurringInvoiceReducer(state = initialState, action) {
       return {...state, [payload.name]: payload.value};
 
     case types.FETCH_INVOICE_TEMPLATES_SUCCESS:
-      return {
-        ...state,
-        invoiceTemplates: payload
-      };
+      return {...state, invoiceTemplates: payload};
 
     case types.FETCH_RECURRING_INVOICES_SUCCESS:
       if (payload.fresh) {
@@ -69,8 +66,7 @@ export default function recurringInvoiceReducer(state = initialState, action) {
         ...state,
         isSaving: false,
         isDeleting: false,
-        selectedItems: [],
-        invoiceTemplates: []
+        selectedItems: []
       };
 
     default:

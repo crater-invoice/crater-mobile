@@ -4,7 +4,6 @@ export const INVOICES_FORM = 'invoice/INVOICES_FORM';
 export const CREATE_INVOICE_FORM = 'invoice/CREATE_INVOICE_FORM';
 
 export const FETCH_INITIAL_DETAILS = 'invoice/FETCH_INITIAL_DETAILS';
-export const FETCH_INVOICE_DATA_SUCCESS = 'invoice/FETCH_INVOICE_DATA_SUCCESS';
 
 export const SPINNER = 'invoice/SPINNER';
 
@@ -32,6 +31,9 @@ export const REMOVE_INVOICE_ITEM_SUCCESS =
 export const CHANGE_INVOICE_STATUS = 'invoice/CHANGE_INVOICE_STATUS';
 
 export const CLEAR_INVOICE = 'invoice/CLEAR_INVOICE';
+
+export const FETCH_INVOICE_TEMPLATES_SUCCESS =
+  'invoice/FETCH_INVOICE_TEMPLATES_SUCCESS';
 
 export const INVOICES_TABS = {
   DUE: 'DUE',

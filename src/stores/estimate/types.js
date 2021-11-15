@@ -4,8 +4,6 @@ export const ESTIMATES_FORM = 'estimate/ESTIMATES_FORM';
 export const CREATE_ESTIMATE_FORM = 'estimate/CREATE_ESTIMATE_FORM';
 
 export const FETCH_INITIAL_DETAILS = 'estimate/FETCH_INITIAL_DETAILS';
-export const FETCH_ESTIMATE_DATA_SUCCESS =
-  'estimate/FETCH_ESTIMATE_DATA_SUCCESS';
 
 export const SPINNER = 'estimate/SPINNER';
 
@@ -34,6 +32,9 @@ export const CONVERT_TO_INVOICE = 'estimate/CONVERT_TO_INVOICE';
 export const CHANGE_ESTIMATE_STATUS = 'estimate/CHANGE_ESTIMATE_STATUS';
 
 export const CLEAR_ESTIMATE = 'estimate/CLEAR_ESTIMATE';
+
+export const FETCH_ESTIMATE_TEMPLATES_SUCCESS =
+  'estimate/FETCH_ESTIMATE_TEMPLATES_SUCCESS';
 
 export const ESTIMATES_TABS = {
   DRAFT: 'DRAFT',

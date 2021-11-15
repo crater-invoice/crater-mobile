@@ -92,17 +92,10 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
   };
 
   setInitialData = async res => {
-    const {
-      dispatch,
-      estimateData: {estimateTemplates} = {},
-      estimateData,
-      route,
-      currency
-    } = this.props;
+    const {dispatch, estimateTemplates, route, currency} = this.props;
 
     let values = {
       ...initialValues(estimateTemplates),
-      ...estimateData,
       ...res
     };
 
@@ -159,7 +152,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
       isDeleting,
       id,
       dispatch,
-      estimateData: {estimateTemplates = []} = {}
+      estimateTemplates
     } = this.props;
 
     if (
@@ -370,7 +363,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
     const {
       navigation,
       handleSubmit,
-      estimateData: {estimateTemplates} = {},
+      estimateTemplates,
       selectedItems,
       items,
       fetchCustomers,

@@ -3,7 +3,7 @@ import CreateEstimate from './create-estimate';
 import {reduxForm, getFormValues} from 'redux-form';
 import {CREATE_ESTIMATE_FORM} from 'stores/estimate/types';
 import {validate} from 'stores/estimate/validator';
-import {loadingSelector} from 'stores/estimate/selectors';
+import {loadingSelector, templatesSelector} from 'stores/estimate/selectors';
 import {initialValues} from 'stores/estimate/helpers';
 import {currentCurrencySelector} from 'stores/company/selectors';
 import {fetchNotes} from 'stores/note/actions';
@@ -21,7 +21,7 @@ import {
 
 const mapStateToProps = (state, {route}) => {
   const {
-    estimate: {selectedItems, estimateData},
+    estimate: {selectedItems},
     item: {items}
   } = state;
 
@@ -31,8 +31,8 @@ const mapStateToProps = (state, {route}) => {
     ...settingsSelector(state),
     ...permissionSelector(route),
     selectedItems,
-    estimateData,
     items,
+    estimateTemplates: templatesSelector(state),
     notes: notesSelector(state),
     customers: customersSelector(state),
     taxTypes: taxTypesSelector(state),

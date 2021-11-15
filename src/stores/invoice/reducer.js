@@ -6,9 +6,7 @@ const initialState = {
   isLoading: false,
   isDeleting: false,
   isSaving: false,
-  invoiceData: {
-    invoiceTemplates: []
-  },
+  invoiceTemplates: [],
   selectedItems: []
 };
 
@@ -26,11 +24,11 @@ export default function invoiceReducer(state = initialState, action) {
 
       return {...state, invoices: [...state.invoices, ...payload.invoices]};
 
-    case types.FETCH_INVOICE_DATA_SUCCESS:
-      return {...state, invoiceData: payload};
-
     case types.ADD_INVOICE_SUCCESS:
       return {...state, invoices: [...[payload], ...state.invoices]};
+
+    case types.FETCH_INVOICE_TEMPLATES_SUCCESS:
+      return {...state, invoiceTemplates: payload};
 
     case types.UPDATE_INVOICE_SUCCESS:
       return {
@@ -62,10 +60,7 @@ export default function invoiceReducer(state = initialState, action) {
         isFetchingInitialData: false,
         isLoading: false,
         isDeleting: false,
-        isSaving: false,
-        invoiceData: {
-          invoiceTemplates: []
-        }
+        isSaving: false
       };
 
     default:
