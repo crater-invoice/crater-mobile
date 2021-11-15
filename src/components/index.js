@@ -1,5 +1,4 @@
 export * from './layouts';
-export * from './button';
 export * from './asset-image';
 export * from './header';
 export * from './content';

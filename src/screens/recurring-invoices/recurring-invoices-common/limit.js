@@ -32,10 +32,6 @@ export const LimitField = (props: IProps) => {
         component={BaseDropdownPicker}
         fieldIcon="pause-circle"
         items={LIMIT_TYPES}
-        defaultPickerOptions={{
-          label: t('recurring_invoices.limit_types.none'),
-          value: 'none'
-        }}
         onChangeCallback={limitByField.onChangeCallback}
         callbackWhenMount={() => {}}
         isRequired

@@ -2,6 +2,7 @@ import t from 'locales/use-translation';
 import moment from 'moment';
 
 export const LIMIT_TYPES = [
+  {label: t('recurring_invoices.limit_types.none'), value: 'NONE'},
   {label: t('recurring_invoices.limit_types.date'), value: 'DATE'},
   {label: t('recurring_invoices.limit_types.count'), value: 'COUNT'}
 ];
@@ -53,6 +54,7 @@ export const initialValues = templates => {
     template_name: templates ? templates?.[0]?.name : null,
     send_automatically: false,
     discount_type: 'fixed',
+    limit_by: 'NONE',
     discount: 0,
     taxes: []
   };

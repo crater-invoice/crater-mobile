@@ -4,8 +4,7 @@ import {connect} from 'react-redux';
 import {styles} from './styles';
 import {AnimateModal} from '../animate-modal';
 import {Field} from 'redux-form';
-import {BaseInput} from '@/components';
-import {CtDecorativeButton} from '../button';
+import {BaseInput, ButtonView} from '@/components';
 import {Icon} from 'react-native-elements';
 import {Text} from '../text';
 import {commonSelector} from 'stores/common/selectors';
@@ -104,9 +103,9 @@ class InputModalComponent extends Component<Iprops> {
           </Text>
         </View>
         <View>
-          <CtDecorativeButton onPress={this.onToggle} withHitSlop>
+          <ButtonView onPress={this.onToggle} withHitSlop>
             <Icon name="close" size={28} color={theme.listItem.fifth.color} />
-          </CtDecorativeButton>
+          </ButtonView>
         </View>
       </View>
     );

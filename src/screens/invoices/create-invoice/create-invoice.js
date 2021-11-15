@@ -81,17 +81,10 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
   };
 
   setInitialData = async res => {
-    const {
-      dispatch,
-      invoiceData: {invoiceTemplates} = {},
-      invoiceData,
-      route,
-      currency
-    } = this.props;
+    const {dispatch, invoiceTemplates, route, currency} = this.props;
 
     let values = {
       ...initialValues(invoiceTemplates),
-      ...invoiceData,
       ...res
     };
 
@@ -147,7 +140,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       isDeleting,
       isCreateScreen,
       dispatch,
-      invoiceData: {invoiceTemplates = []} = {}
+      invoiceTemplates
     } = this.props;
     if (isSaving || isDeleting || this.state.isFetchingInitialData) {
       return;
@@ -341,7 +334,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     const {
       navigation,
       handleSubmit,
-      invoiceData: {invoiceTemplates} = {},
+      invoiceTemplates,
       selectedItems,
       items,
       fetchCustomers,

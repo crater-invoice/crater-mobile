@@ -1,4 +1,4 @@
-import {call, put, takeLatest, takeEvery} from 'redux-saga/effects';
+import {call, put, takeLatest, takeEvery, select} from 'redux-saga/effects';
 import {routes} from '@/navigation';
 import {fetchCustomFields} from 'stores/custom-field/saga';
 import t from 'locales/use-translation';
@@ -10,6 +10,22 @@ import {spinner} from './actions';
 import {FETCH_INVOICES_SUCCESS} from '../invoice/types';
 import {addItem} from '../item/saga';
 import {modalTypes} from '../custom-field/helpers';
+import {isEmpty} from '@/constants';
+
+/**
+ * Fetch estimate templates saga
+ * @returns {IterableIterator<*>}
+ */
+function* fetchEstimateTemplates() {
+  const state = yield select();
+  if (isEmpty(state.estimate?.estimateTemplates)) {
+    const {estimateTemplates} = yield call(req.fetchEstimateTemplates);
+    yield put({
+      type: types.FETCH_ESTIMATE_TEMPLATES_SUCCESS,
+      payload: estimateTemplates
+    });
+  }
+}
 
 /**
  * Fetch estimate templates saga
@@ -21,11 +37,7 @@ function* fetchEstimateData() {
     yield call(fetchCustomFields, {
       payload: {queryString: {type: modalTypes.ESTIMATE, limit: 'all'}}
     });
-    const {estimateTemplates} = yield call(req.fetchEstimateTemplates);
-    yield put({
-      type: types.FETCH_ESTIMATE_DATA_SUCCESS,
-      payload: {estimateTemplates}
-    });
+    yield call(fetchEstimateTemplates);
   } catch (e) {}
 }
 

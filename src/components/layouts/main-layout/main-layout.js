@@ -3,11 +3,11 @@ import {View, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Field} from 'redux-form';
 import {styles, Container} from './styles';
-import {BaseInput, CtHeader} from '../..';
+import {BaseInput, ButtonView, CtHeader} from '../..';
 import {Content} from '../../content';
 import t from 'locales/use-translation';
 import {STATUS_BAR_CONTENT} from '@/utils';
-import {View as CtView, CtDecorativeButton} from '@/components';
+import {View as CtView} from '@/components';
 import {AssetIcon} from '@/components/asset-icon';
 import {Filter} from '@/components';
 import {CompanyModal} from 'screens/companies';
@@ -136,7 +136,7 @@ const Layout = (props: IProps) => {
       </Container>
       {plusButtonOnPress ? (
         <View style={styles.floatingActionView}>
-          <CtDecorativeButton
+          <ButtonView
             justify-center
             items-center
             background-color={theme?.icons.circle.backgroundColor}
@@ -146,13 +146,13 @@ const Layout = (props: IProps) => {
             scale={1}
           >
             <AssetIcon
-              name={'plus'}
+              name="plus"
               size={20}
               style={{
                 color: theme?.icons?.plus?.backgroundColor
               }}
             />
-          </CtDecorativeButton>
+          </ButtonView>
         </View>
       ) : null}
     </>

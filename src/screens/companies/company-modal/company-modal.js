@@ -14,7 +14,7 @@ import {
   AnimateModal,
   AssetImage,
   AssetSvg,
-  CtDecorativeButton,
+  ButtonView,
   Text,
   View
 } from '@/components';
@@ -106,7 +106,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
       const {id, name} = com;
       const isSelected = id === selectedCompany?.id;
       return (
-        <CtDecorativeButton
+        <ButtonView
           key={id}
           button={TouchableHighlight}
           underlayColor={theme.card.secondary.bgColor}
@@ -132,7 +132,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
               {name}
             </Text>
           </View>
-        </CtDecorativeButton>
+        </ButtonView>
       );
     };
 
@@ -164,9 +164,9 @@ export default class CompanyModal extends Component<IProps, IStates> {
 
     return (
       <View>
-        <CtDecorativeButton withHitSlop mr-11 onPress={this.openModal}>
+        <ButtonView withHitSlop mr-11 onPress={this.openModal}>
           {companyLogo(selectedCompany, 'medium')}
-        </CtDecorativeButton>
+        </ButtonView>
 
         <AnimateModal
           visible={visible}
@@ -195,7 +195,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
               >
                 {t('company.switch_company')}
               </Text>
-              <CtDecorativeButton
+              <ButtonView
                 style={Styles.closeButton}
                 onPress={this.onToggle}
                 withHitSlop
@@ -205,7 +205,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
                   width={15}
                   height={15}
                 />
-              </CtDecorativeButton>
+              </ButtonView>
             </View>
             <ScrollView
               contentContainerStyle={{
@@ -216,7 +216,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
             >
               {companies.map(com => COMPANIES_LIST(com))}
             </ScrollView>
-            <CtDecorativeButton
+            <ButtonView
               scale={1}
               justify-center
               items-center
@@ -232,7 +232,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
               <Text h5 ml-10 color={colors.primaryLight}>
                 {t('company.add_new_company')}
               </Text>
-            </CtDecorativeButton>
+            </ButtonView>
           </Modal>
         </AnimateModal>
       </View>

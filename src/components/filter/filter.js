@@ -3,10 +3,9 @@ import {View, Modal, Keyboard, StyleSheet} from 'react-native';
 import {Field, reset, change} from 'redux-form';
 import {AssetIcon} from '../asset-icon';
 import {DefaultLayout} from '../layouts';
-import {BaseInput} from '@/components';
+import {BaseInput, ButtonView} from '@/components';
 import {SelectField} from '../select-field';
 import {BaseDatePicker, BaseButtonGroup, BaseButton} from '../base';
-import {CtDecorativeButton} from '../button';
 import t from 'locales/use-translation';
 import {Text} from '../text';
 import {View as CtView} from '../view';
@@ -217,10 +216,10 @@ export class Filter extends Component<IProps, IStates> {
 
     return (
       <View>
-        <CtDecorativeButton
+        <ButtonView
           onPress={() => this.onToggleFilter()}
           activeOpacity={0.4}
-          scale={0.95}
+          scale={0.93}
           justify-center
           items-center
           withHitSlop
@@ -247,7 +246,7 @@ export class Filter extends Component<IProps, IStates> {
               </Text>
             </View>
           )}
-        </CtDecorativeButton>
+        </ButtonView>
 
         <Modal
           animationType="slide"

@@ -1,4 +1,4 @@
-import {call, put, takeLatest, takeEvery} from 'redux-saga/effects';
+import {call, put, takeLatest, takeEvery, select} from 'redux-saga/effects';
 import {routes} from '@/navigation';
 import {fetchCustomFields} from 'stores/custom-field/saga';
 import t from 'locales/use-translation';
@@ -9,9 +9,25 @@ import * as req from './service';
 import {spinner} from './actions';
 import {addItem} from '../item/saga';
 import {modalTypes} from '../custom-field/helpers';
+import {isEmpty} from '@/constants';
 
 /**
  * Fetch invoice templates saga
+ * @returns {IterableIterator<*>}
+ */
+function* fetchInvoiceTemplates() {
+  const state = yield select();
+  if (isEmpty(state.invoice?.invoiceTemplates)) {
+    const {invoiceTemplates} = yield call(req.fetchInvoiceTemplates);
+    yield put({
+      type: types.FETCH_INVOICE_TEMPLATES_SUCCESS,
+      payload: invoiceTemplates
+    });
+  }
+}
+
+/**
+ * Fetch invoice common details saga
  * @returns {IterableIterator<*>}
  */
 function* fetchInvoiceData() {
@@ -20,16 +36,12 @@ function* fetchInvoiceData() {
     yield call(fetchCustomFields, {
       payload: {queryString: {type: modalTypes.INVOICE, limit: 'all'}}
     });
-    const {invoiceTemplates} = yield call(req.fetchInvoiceTemplates);
-    yield put({
-      type: types.FETCH_INVOICE_DATA_SUCCESS,
-      payload: {invoiceTemplates}
-    });
+    yield call(fetchInvoiceTemplates);
   } catch (e) {}
 }
 
 /**
- * Fetch recurring invoice initial details saga
+ * Fetch invoice initial details saga
  * @returns {IterableIterator<*>}
  */
 function* fetchInvoiceInitialDetails({payload}) {

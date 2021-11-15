@@ -6,9 +6,7 @@ const initialState = {
   isLoading: false,
   isDeleting: false,
   isSaving: false,
-  estimateData: {
-    estimateTemplates: []
-  },
+  estimateTemplates: [],
   selectedItems: []
 };
 
@@ -26,8 +24,8 @@ export default function estimateReducer(state = initialState, action) {
 
       return {...state, estimates: [...state.estimates, ...payload.estimates]};
 
-    case types.FETCH_ESTIMATE_DATA_SUCCESS:
-      return {...state, estimateData: payload};
+    case types.FETCH_ESTIMATE_TEMPLATES_SUCCESS:
+      return {...state, estimateTemplates: payload};
 
     case types.ADD_ESTIMATE_SUCCESS:
       return {...state, estimates: [...[payload], ...state.estimates]};
@@ -62,10 +60,7 @@ export default function estimateReducer(state = initialState, action) {
         isFetchingInitialData: false,
         isLoading: false,
         isDeleting: false,
-        isSaving: false,
-        estimateData: {
-          estimateTemplates: []
-        }
+        isSaving: false
       };
 
     default:

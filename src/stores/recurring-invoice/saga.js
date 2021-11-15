@@ -1,4 +1,4 @@
-import {call, put, takeLatest} from 'redux-saga/effects';
+import {call, put, takeLatest, select} from 'redux-saga/effects';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
@@ -9,6 +9,7 @@ import {navigation} from '@/navigation';
 import {fetchCustomFields} from 'stores/custom-field/saga';
 import {addItem} from '../item/saga';
 import {modalTypes} from '../custom-field/helpers';
+import {isEmpty} from '@/constants';
 
 /**
  * Fetch Next-Invoice-At saga
@@ -26,17 +27,28 @@ function* fetchNextInvoiceAt({payload}) {
  * Fetch invoice templates saga
  * @returns {IterableIterator<*>}
  */
-function* fetchRecurringInvoiceData() {
-  try {
-    yield call(fetchCustomFields, {
-      payload: {queryString: {type: modalTypes.INVOICE, limit: 'all'}}
-    });
-    yield put({type: types.CLEAR_RECURRING_INVOICE});
+function* fetchInvoiceTemplates() {
+  const state = yield select();
+  if (isEmpty(state.recurringInvoice?.invoiceTemplates)) {
     const {invoiceTemplates} = yield call(req.fetchInvoiceTemplates);
     yield put({
       type: types.FETCH_INVOICE_TEMPLATES_SUCCESS,
       payload: invoiceTemplates
     });
+  }
+}
+
+/**
+ * Fetch recurring invoice common details saga
+ * @returns {IterableIterator<*>}
+ */
+function* fetchRecurringInvoiceData() {
+  try {
+    yield put({type: types.CLEAR_RECURRING_INVOICE});
+    yield call(fetchCustomFields, {
+      payload: {queryString: {type: modalTypes.INVOICE, limit: 'all'}}
+    });
+    yield call(fetchInvoiceTemplates);
   } catch (e) {}
 }
 
@@ -81,7 +93,7 @@ function* fetchSingleRecurringInvoice({payload}) {
     yield call(fetchRecurringInvoiceData);
     yield put({
       type: types.ADD_RECURRING_INVOICE_ITEM_SUCCESS,
-      payload: recurringInvoice?.invoiceItems ?? []
+      payload: recurringInvoice?.items ?? []
     });
     onSuccess?.(response?.data);
   } catch (e) {}

@@ -2,6 +2,8 @@ import {createSelector} from 'reselect';
 import {BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR} from '@/utils';
 import {capitalize, isEmpty} from '@/constants';
 
+const estimateStore = state => state?.estimate;
+
 export const formatEstimateItems = (estimates, theme) => {
   if (isEmpty(estimates)) {
     return [];
@@ -44,10 +46,15 @@ export const estimateSelector = createSelector(
 );
 
 export const loadingSelector = createSelector(
-  state => state?.estimate,
+  estimateStore,
   store => ({
     isSaving: store?.isSaving,
     isDeleting: store?.isDeleting,
     isLoading: store?.isLoading
   })
+);
+
+export const templatesSelector = createSelector(
+  estimateStore,
+  store => store.estimateTemplates
 );
