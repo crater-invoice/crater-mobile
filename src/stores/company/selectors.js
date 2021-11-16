@@ -22,18 +22,6 @@ export const fiscalYearsSelector = createSelector(
   fiscalYears => fiscalYears.map(year => ({title: year.key, fullItem: year}))
 );
 
-export const retrospectiveEditsSelector = createSelector(
-  state => state?.common?.config?.retrospective_edits,
-  retrospectiveEdits =>
-    isEmpty(retrospectiveEdits)
-      ? []
-      : retrospectiveEdits.map(edit => ({
-          ...edit,
-          title: t(edit.key),
-          fullItem: {...edit, title: t(edit.key)}
-        }))
-);
-
 export const loadingSelector = createSelector(
   companyStore,
   store => ({isSaving: store?.isSaving})

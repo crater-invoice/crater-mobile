@@ -8,7 +8,6 @@ import {
   timeZonesSelector,
   fiscalYearsSelector,
   dateFormatsSelector,
-  retrospectiveEditsSelector,
   currenciesSelector,
   languagesSelector,
   loadingSelector
@@ -23,7 +22,6 @@ const mapStateToProps = state => ({
   timezones: timeZonesSelector(state),
   dateFormats: dateFormatsSelector(state),
   fiscalYears: fiscalYearsSelector(state),
-  retrospectiveEdits: retrospectiveEditsSelector(state),
   initialValues: {
     carbon_date_format: null,
     moment_date_format: null,
