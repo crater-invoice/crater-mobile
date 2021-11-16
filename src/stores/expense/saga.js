@@ -7,6 +7,7 @@ import * as req from './service';
 import {spinner} from './actions';
 import {modalTypes} from '../custom-field/helpers';
 import {navigation} from '@/navigation';
+import {fetchCurrencies} from '../company/saga';
 
 /**
  * Fetch expense templates saga
@@ -17,6 +18,7 @@ function* fetchExpenseData() {
     yield call(fetchCustomFields, {
       payload: {queryString: {type: modalTypes.EXPENSE, limit: 'all'}}
     });
+    yield call(fetchCurrencies);
   } catch (e) {}
 }
 
