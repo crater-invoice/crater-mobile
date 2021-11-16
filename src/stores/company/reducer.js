@@ -44,6 +44,12 @@ export default function companyReducer(state = initialState, action) {
     case types.SET_COMPANY_SETTING:
       return {...state, ...payload};
 
+    case types.FETCH_COMPANY_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        selectedCompanySettings: {...state.selectedCompanySettings, ...payload}
+      };
+
     default:
       return state;
   }

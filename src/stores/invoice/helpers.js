@@ -3,6 +3,7 @@ import {PermissionService} from '@/services';
 import {routes} from '@/navigation';
 import {INVOICE_ACTIONS} from './types';
 import moment from 'moment';
+import {retrospectiveEdits} from '../company/types';
 
 export const EDIT_INVOICE_ACTIONS = (
   sentStatus = false,
@@ -70,4 +71,40 @@ export const initialValues = templates => {
     invoice_number: null,
     customer_id: null
   };
+};
+
+export const isAllowToEditInvoice = (route, isEditScreen, hasEditAbility) => {
+  const selectedRetrospectiveEdits = route?.params?.selectedRetrospectiveEdits;
+
+  if (!isEditScreen) {
+    return true;
+  }
+
+  if (!hasEditAbility) {
+    return false;
+  }
+
+  if (
+    selectedRetrospectiveEdits ===
+      retrospectiveEdits.DISABLE_ON_INVOICE_PARTIAL_PAID &&
+    route.params?.paid_status === 'PARTIALLY_PAID'
+  ) {
+    return false;
+  }
+
+  if (
+    selectedRetrospectiveEdits === retrospectiveEdits.DISABLE_ON_INVOICE_PAID &&
+    route.params?.paid_status === 'PAID'
+  ) {
+    return false;
+  }
+
+  if (
+    selectedRetrospectiveEdits === retrospectiveEdits.DISABLE_ON_INVOICE_SENT &&
+    route.params?.status === 'SENT'
+  ) {
+    return false;
+  }
+
+  return true;
 };

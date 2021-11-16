@@ -4,7 +4,7 @@ import {reduxForm, getFormValues} from 'redux-form';
 import {CREATE_INVOICE_FORM} from 'stores/invoice/types';
 import {validate} from 'stores/invoice/validator';
 import {loadingSelector, templatesSelector} from 'stores/invoice/selectors';
-import {initialValues} from 'stores/invoice/helpers';
+import {initialValues, isAllowToEditInvoice} from 'stores/invoice/helpers';
 import {currentCurrencySelector} from 'stores/company/selectors';
 import {fetchNotes} from 'stores/note/actions';
 import {notesSelector} from 'stores/note/selectors';
@@ -24,11 +24,18 @@ const mapStateToProps = (state, {route}) => {
     invoice: {selectedItems},
     item: {items}
   } = state;
+  const permissions = permissionSelector(route);
+  const isAllowToEdit = isAllowToEditInvoice(
+    route,
+    permissions.isEditScreen,
+    permissions.isAllowToEdit
+  );
   return {
     ...loadingSelector(state),
     ...commonSelector(state),
     ...settingsSelector(state),
-    ...permissionSelector(route),
+    ...permissions,
+    isAllowToEdit,
     selectedItems,
     items,
     invoiceTemplates: templatesSelector(state),
