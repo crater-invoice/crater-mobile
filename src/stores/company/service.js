@@ -84,7 +84,7 @@ export const fetchPreferences = () => {
   return Request.get({
     path: `company/settings`,
     axiosProps: {
-      params: {settings: types.PREFERENCES_SETTING_TYPE}
+      params: {settings: types.PREFERENCES_SETTING_KEYS}
     }
   });
 };
@@ -121,7 +121,7 @@ export const uploadCompanyLogo = (logo, id) => {
 export const fetchCompanySettings = settings => {
   return Request.get({
     path: `company/settings`,
-    axiosProps: {params: {settings}}
+    axiosProps: {params: {settings: settings ?? types.COMPANY_SETTING_KEYS}}
   });
 };
 

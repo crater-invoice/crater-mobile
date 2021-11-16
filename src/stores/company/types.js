@@ -30,9 +30,12 @@ export const UPDATE_PREFERENCES_SUCCESS =
   'preference/UPDATE_PREFERENCES_SUCCESS';
 
 export const FETCH_COMPANY_SETTINGS = 'company/FETCH_COMPANY_SETTINGS';
+export const FETCH_COMPANY_SETTINGS_SUCCESS =
+  'company/FETCH_COMPANY_SETTINGS_SUCCESS';
+
 export const UPDATE_COMPANY_SETTINGS = 'company/UPDATE_COMPANY_SETTINGS';
 
-export const PREFERENCES_SETTING_TYPE = [
+export const PREFERENCES_SETTING_KEYS = [
   'currency',
   'time_zone',
   'language',
@@ -43,3 +46,47 @@ export const PREFERENCES_SETTING_TYPE = [
   'tax_per_item',
   'retrospective_edits'
 ];
+
+export const COMPANY_SETTING_KEYS = [
+  'invoice_mail_body',
+  'estimate_mail_body',
+  'payment_mail_body',
+  'invoice_company_address_format',
+  'invoice_shipping_address_format',
+  'invoice_billing_address_format',
+  'estimate_company_address_format',
+  'estimate_shipping_address_format',
+  'estimate_billing_address_format',
+  'payment_company_address_format',
+  'payment_from_customer_address_format',
+  'currency',
+  'time_zone',
+  'language',
+  'fiscal_year',
+  'carbon_date_format',
+  'moment_date_format',
+  'notification_email',
+  'notify_invoice_viewed',
+  'notify_estimate_viewed',
+  'tax_per_item',
+  'discount_per_item',
+  'invoice_email_attachment',
+  'estimate_email_attachment',
+  'payment_auto_generate',
+  'payment_email_attachment',
+  'retrospective_edits',
+  'invoice_number_format',
+  'estimate_number_format',
+  'payment_number_format',
+  'estimate_set_expiry_date_automatically',
+  'estimate_expiry_date_days',
+  'invoice_set_due_date_automatically',
+  'invoice_due_date_days'
+];
+
+export const retrospectiveEdits = {
+  ALLOW: 'allow',
+  DISABLE_ON_INVOICE_PARTIAL_PAID: 'disable_on_invoice_partial_paid',
+  DISABLE_ON_INVOICE_PAID: 'disable_on_invoice_paid',
+  DISABLE_ON_INVOICE_SENT: 'disable_on_invoice_sent'
+};

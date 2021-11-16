@@ -14,7 +14,7 @@ import {BaseButtonGroup, BaseButton} from '../base';
 import {keyboardType} from '@/helpers/keyboard';
 import {hasObjectLength} from '@/constants';
 import {fetchMailConfig} from 'stores/setting/actions';
-import {selectedCompanySettingSelector} from '@/stores/company/selectors';
+import {selectedCompanySettingSelector} from 'stores/company/selectors';
 
 class Modal extends Component<IProps> {
   keyboardShowListener: any;

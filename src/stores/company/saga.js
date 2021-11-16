@@ -205,6 +205,7 @@ function* fetchCompanySettings({payload}) {
   try {
     const {keys, onSuccess} = payload;
     const response = yield call(req.fetchCompanySettings, keys);
+    yield put({type: types.FETCH_COMPANY_SETTINGS_SUCCESS, payload: response});
     onSuccess?.(response);
   } catch (e) {}
 }

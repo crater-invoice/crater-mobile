@@ -371,6 +371,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           component={BaseDropdownPicker}
           label={t('recurring_invoices.status.title')}
           items={statusList}
+          isRequired
           fieldIcon={'tag'}
           onChangeCallback={item => this.setFormField('status', item)}
           defaultPickerOptions={{
