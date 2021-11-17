@@ -5,7 +5,7 @@ import {Field, change, initialize} from 'redux-form';
 import {TemplateField} from '@/components';
 import {dismissRoute, routes} from '@/navigation';
 import t from 'locales/use-translation';
-import {alertMe, isEmpty} from '@/constants';
+import {alertMe} from '@/constants';
 import {
   BaseInput,
   BaseDatePicker,
@@ -338,9 +338,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     } = this.props;
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
-    const hasCustomField = isEditScreen
-      ? formValues && formValues.hasOwnProperty('fields')
-      : !isEmpty(customFields);
     let hasSentStatus = status === 'SENT' || status === 'VIEWED';
     let hasCompleteStatus = status === 'COMPLETED';
 
@@ -514,7 +511,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           disabled={disabled}
         />
 
-        {hasCustomField && <CustomField {...this.props} />}
+        <CustomField {...this.props} />
       </DefaultLayout>
     );
   }

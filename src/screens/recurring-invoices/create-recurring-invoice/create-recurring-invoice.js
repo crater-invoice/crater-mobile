@@ -273,9 +273,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
         status
       }
     } = this.props;
-    const hasCustomField = isEditScreen
-      ? formValues && formValues.hasOwnProperty('fields')
-      : !isEmpty(customFields);
+
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
     this.recurringInvoiceRefs(this);
@@ -442,7 +440,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           description={t('recurring_invoices.auto_sent.description')}
         />
 
-        {hasCustomField && <CustomField {...this.props} />}
+        <CustomField {...this.props} />
       </DefaultLayout>
     );
   }

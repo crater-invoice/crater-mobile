@@ -3,7 +3,7 @@ import {Field, change, initialize} from 'redux-form';
 import moment from 'moment';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-payment-type';
-import {DATE_FORMAT, hasObjectLength, isEmpty} from '@/constants';
+import {DATE_FORMAT, hasObjectLength} from '@/constants';
 import {keyboardType} from '@/helpers/keyboard';
 import {secondaryHeader} from 'utils/header';
 import {CREATE_PAYMENT_FORM} from 'stores/payment/types';
@@ -217,10 +217,6 @@ export default class CreatePayment extends Component<IProps, IStates> {
       rightIconPress: handleSubmit(this.onSave)
     });
 
-    const hasCustomField = isEditScreen
-      ? formValues && formValues.hasOwnProperty('fields')
-      : !isEmpty(customFields);
-
     const bottomAction = (
       <BaseButtonGroup>
         <BaseButton
@@ -335,7 +331,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
           onSelect={this.setFormField}
         />
 
-        {hasCustomField && <CustomField {...this.props} />}
+        <CustomField {...this.props} />
       </DefaultLayout>
     );
   }

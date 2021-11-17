@@ -5,7 +5,7 @@ import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
 import styles from './create-expense-styles';
 import {dismissRoute, routes} from '@/navigation';
-import {alertMe, isEmpty, MAX_LENGTH} from '@/constants';
+import {alertMe, MAX_LENGTH} from '@/constants';
 import {keyboardType} from '@/helpers/keyboard';
 import {CREATE_EXPENSE_FORM} from 'stores/expense/types';
 import {EXPENSE_ACTIONS, ACTIONS_VALUE} from 'stores/expense/helpers';
@@ -203,9 +203,6 @@ export default class CreateExpense extends React.Component<IProps, IState> {
     const categoryName = formValues?.expense_category?.name;
     const disabled = !isAllowToEdit;
     const isCreateExpense = isCreateScreen;
-    const hasCustomField = isEditScreen
-      ? formValues && formValues.hasOwnProperty('fields')
-      : !isEmpty(customFields);
 
     const dropdownOptions =
       !isCreateExpense && !isFetchingInitialData
@@ -367,7 +364,7 @@ export default class CreateExpense extends React.Component<IProps, IState> {
           height={80}
         />
 
-        {hasCustomField && <CustomField {...this.props} type="expense" />}
+        <CustomField {...this.props} />
       </DefaultLayout>
     );
   }
