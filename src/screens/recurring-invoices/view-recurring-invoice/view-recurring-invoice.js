@@ -7,14 +7,7 @@ import {
   RECURRING_INVOICES_ACTIONS,
   RECURRING_INVOICE_DROPDOWN
 } from 'stores/recurring-invoice/types';
-import {
-  DefaultLayout,
-  ViewData,
-  ListView,
-  ScrollView,
-  Text,
-  View
-} from '@/components';
+import {DefaultLayout, ViewData, ListView, Text, View} from '@/components';
 import {
   fetchSingleRecurringInvoice,
   removeRecurringInvoice
@@ -135,11 +128,7 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
     };
 
     return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.scrollContainer}
-      >
+      <>
         <Text h4 mt-17 color={this.props.theme.text.fifthColor}>
           {t('recurring_invoices.basic_info')}
         </Text>
@@ -173,7 +162,7 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
             values: frequency
           }}
         />
-      </ScrollView>
+      </>
     );
   };
 
@@ -187,18 +176,14 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
         <Text h4 mt-25 color={theme.text.fifthColor}>
           {t('recurring_invoices.invoices')}
         </Text>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={styles.scrollContainer}
-        >
+        <View style={styles.listIVew}>
           <ListView
             items={formattedInvoices(invoices, theme)}
             onPress={this.onSelectInvoice}
             bottomDivider
             isAnimated
           />
-        </ScrollView>
+        </View>
       </View>
     );
   };
