@@ -86,14 +86,13 @@ export function removePayment(id) {
 
 /**
  * Send payment receipt
- * @param id
- * @param params
+ * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function sendPaymentReceipt(id, params) {
+export function sendPaymentReceipt(payload = {}) {
   return {
     type: types.SEND_PAYMENT_RECEIPT,
-    payload: {id, params}
+    payload
   };
 }
 

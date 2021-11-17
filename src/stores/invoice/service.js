@@ -73,6 +73,16 @@ export const fetchNextInvoiceNumber = () => {
   return Request.get({path: `next-number?key=invoice`});
 };
 
+/**
+ * Send invoice
+ * @param id : invoice id
+ * @param body : params
+ * @returns {*}
+ */
+export const sendInvoice = (id, body) => {
+  return Request.post({path: `invoices/${id}/send`, body});
+};
+
 class Services {
   isFirstInvoiceCreated: boolean;
 

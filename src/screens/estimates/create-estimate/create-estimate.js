@@ -327,21 +327,6 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
     }
   };
 
-  sendEmail = params => {
-    const {navigation, dispatch, id} = this.props;
-
-    dispatch(
-      changeEstimateStatus({
-        id,
-        action: `${id}/send`,
-        navigation,
-        params,
-        onSuccess: () =>
-          showNotification({message: t('notification.estimate_sent')})
-      })
-    );
-  };
-
   navigateToCustomer = () => {
     const {navigation} = this.props;
     const {currency} = this.state;
@@ -466,7 +451,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
           <SendMail
             reference={ref => (this.sendMailRef = ref)}
             toEmail={this.props?.formValues?.customer?.email}
-            onSendMail={this.sendEmail}
+            id={this.props.id}
             type="estimate"
           />
         )}

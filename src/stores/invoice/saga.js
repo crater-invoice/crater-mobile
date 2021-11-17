@@ -185,6 +185,25 @@ function* changeInvoiceStatus({payload}) {
     onResult?.();
     navigation.navigate(routes.MAIN_INVOICES);
   } catch (e) {
+    handleError(e);
+  } finally {
+    yield put(spinner('isLoading', false));
+  }
+}
+
+/**
+ * Send invoice saga
+ * @returns {IterableIterator<*>}
+ */
+function* sendInvoice({payload}) {
+  try {
+    yield put(spinner('isLoading', true));
+    const {id, params, onSuccess} = payload;
+    const response = yield call(req.sendInvoice, id, params);
+    onSuccess?.(response);
+    showNotification({message: t('notification.invoice_sent')});
+  } catch (e) {
+    handleError(e);
   } finally {
     yield put(spinner('isLoading', false));
   }
@@ -200,4 +219,5 @@ export default function* invoiceSaga() {
   yield takeLatest(types.ADD_INVOICE_ITEM, addInvoiceItem);
   yield takeLatest(types.REMOVE_INVOICE_ITEM, removeInvoiceItem);
   yield takeEvery(types.CHANGE_INVOICE_STATUS, changeInvoiceStatus);
+  yield takeEvery(types.SEND_INVOICE, sendInvoice);
 }

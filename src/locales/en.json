@@ -699,7 +699,8 @@
     "send": "Send",
     "change": "Change",
     "set_up_now": "Set up now",
-    "later": "Will do it later"
+    "later": "Will do it later",
+    "preview": "Preview"
   },
   "filter": {
     "empty": {

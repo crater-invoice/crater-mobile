@@ -30,8 +30,7 @@ import {
   addPayment,
   updatePayment,
   fetchSinglePayment,
-  fetchPaymentInitialDetails,
-  sendPaymentReceipt
+  fetchPaymentInitialDetails
 } from 'stores/payment/actions';
 
 export default class CreatePayment extends Component<IProps, IStates> {
@@ -157,11 +156,6 @@ export default class CreatePayment extends Component<IProps, IStates> {
     this.props.dispatch(change(CREATE_PAYMENT_FORM, field, value));
   };
 
-  sendPaymentReceipt = params => {
-    const {dispatch, id} = this.props;
-    dispatch(sendPaymentReceipt(id, params));
-  };
-
   navigateToCustomer = () => {
     const {navigation} = this.props;
     dismissRoute(routes.CREATE_CUSTOMER, () => {
@@ -251,7 +245,9 @@ export default class CreatePayment extends Component<IProps, IStates> {
           <SendMail
             reference={ref => (this.sendMailRef = ref)}
             toEmail={this.props.formValues?.customer?.email}
-            onSendMail={this.sendPaymentReceipt}
+            id={this.props.id}
+            disable-from-email
+            hide-preview
             type="payment"
           />
         )}

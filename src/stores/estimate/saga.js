@@ -208,6 +208,24 @@ function* changeEstimateStatus({payload}) {
   }
 }
 
+/**
+ * Send estimate saga
+ * @returns {IterableIterator<*>}
+ */
+function* sendEstimate({payload}) {
+  try {
+    yield put(spinner('isLoading', true));
+    const {id, params, onSuccess} = payload;
+    const response = yield call(req.sendEstimate, id, params);
+    onSuccess?.(response);
+    showNotification({message: t('notification.estimate_sent')});
+  } catch (e) {
+    handleError(e);
+  } finally {
+    yield put(spinner('isLoading', false));
+  }
+}
+
 export default function* estimateSaga() {
   yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchEstimateInitialDetails);
   yield takeLatest(types.FETCH_ESTIMATES, fetchEstimates);
@@ -219,4 +237,5 @@ export default function* estimateSaga() {
   yield takeLatest(types.REMOVE_ESTIMATE_ITEM, removeEstimateItem);
   yield takeEvery(types.CONVERT_TO_INVOICE, convertToInvoice);
   yield takeEvery(types.CHANGE_ESTIMATE_STATUS, changeEstimateStatus);
+  yield takeEvery(types.SEND_ESTIMATE, sendEstimate);
 }
