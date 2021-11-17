@@ -56,7 +56,8 @@ class DropdownPicker extends Component {
       findValueByForm = true,
       placeholderTextColor = colors.darkGray,
       baseSelectProps,
-      customView
+      customView,
+      description
     } = this.props;
 
     const {selectedItemValue} = this.state;
@@ -112,6 +113,7 @@ class DropdownPicker extends Component {
             disabled={disabled}
             placeholder={placeholderText}
             values={valuesText}
+            description={description}
             {...baseSelectProps}
           />
         )}
