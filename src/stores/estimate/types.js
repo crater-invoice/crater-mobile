@@ -36,6 +36,8 @@ export const CLEAR_ESTIMATE = 'estimate/CLEAR_ESTIMATE';
 export const FETCH_ESTIMATE_TEMPLATES_SUCCESS =
   'estimate/FETCH_ESTIMATE_TEMPLATES_SUCCESS';
 
+export const SEND_ESTIMATE = 'estimate/SEND_ESTIMATE';
+
 export const ESTIMATES_TABS = {
   DRAFT: 'DRAFT',
   SENT: 'SENT',

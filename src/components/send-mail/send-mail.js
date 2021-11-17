@@ -12,9 +12,14 @@ import {Editor} from '../editor';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseButtonGroup, BaseButton} from '../base';
 import {keyboardType} from '@/helpers/keyboard';
-import {hasObjectLength} from '@/constants';
+import {alertMe, hasObjectLength} from '@/constants';
 import {fetchMailConfig} from 'stores/setting/actions';
 import {selectedCompanySettingSelector} from 'stores/company/selectors';
+import {sendInvoice} from '@/stores/invoice/actions';
+import {navigation} from '@/navigation';
+import Preview from './send-mail-preview';
+import {sendEstimate} from '@/stores/estimate/actions';
+import {sendPaymentReceipt} from '@/stores/payment/actions';
 
 class Modal extends Component<IProps> {
   keyboardShowListener: any;
@@ -25,7 +30,8 @@ class Modal extends Component<IProps> {
 
     this.state = {
       visible: false,
-      isKeyboardVisible: false
+      isKeyboardVisible: false,
+      isPreview: false
     };
   }
 
@@ -54,6 +60,25 @@ class Modal extends Component<IProps> {
     dispatch(fetchMailConfig(({from_mail}) => this.setInitialData(from_mail)));
   };
 
+  togglePreview = () => {
+    const {isPreview} = this.state;
+    const {formValues} = this.props;
+
+    if (isPreview) {
+      this.setState({isPreview: false});
+      return;
+    }
+
+    const error = validateOnSubmit(formValues);
+
+    if (error) {
+      alert('Please complete correctly all of the required fields.');
+      return;
+    }
+
+    this.setState({isPreview: true});
+  };
+
   setInitialData = from => {
     const {dispatch, toEmail, type, selectedCompanySettings} = this.props;
     const subject = {
@@ -77,15 +102,52 @@ class Modal extends Component<IProps> {
     dispatch(initialize('SEND_MAIL_FORM', data));
   };
 
-  onSendMail = values => {
+  onSendMail = async values => {
+    const {onSendMail, dispatch, type, id, loading} = this.props;
     const error = validateOnSubmit(values);
 
-    if (!hasObjectLength(values) || error) {
+    if (loading || !hasObjectLength(values) || error) {
       return;
     }
 
-    this.closeModal();
-    setTimeout(() => this.props.onSendMail?.(values), 300);
+    function confirmationAlert(callback) {
+      const alertMessage = {
+        invoice: t('invoices.alert.send_invoice'),
+        estimate: t('estimates.alert.send_estimate'),
+        payment: t('payments.alert.send_payment')
+      };
+      alertMe({
+        title: t('alert.title'),
+        desc: alertMessage?.[type],
+        showCancel: true,
+        okPress: callback
+      });
+    }
+
+    confirmationAlert(async () => {
+      if (onSendMail) {
+        await this.setState({visible: false});
+        onSendMail?.(values);
+        return;
+      }
+
+      const action = {
+        invoice: sendInvoice,
+        estimate: sendEstimate,
+        payment: sendPaymentReceipt
+      };
+
+      const data = {
+        id,
+        params: values,
+        onSuccess: async () => {
+          await this.setState({visible: false});
+          navigation.goBack();
+        }
+      };
+
+      dispatch(action?.[type]?.(data));
+    });
   };
 
   openModal = () => {
@@ -93,12 +155,13 @@ class Modal extends Component<IProps> {
   };
 
   closeModal = async () => {
+    if (this.props.loading) return;
     this.setState({visible: false});
   };
 
   render() {
-    const {handleSubmit, formValues, theme, type} = this.props;
-    const {visible, isKeyboardVisible} = this.state;
+    const {handleSubmit, formValues, theme, type, loading} = this.props;
+    const {visible, isKeyboardVisible, isPreview} = this.state;
     const isFetchingInitialData = !hasObjectLength(formValues);
     let mailRefs = {};
     const headerTitle = {
@@ -107,7 +170,8 @@ class Modal extends Component<IProps> {
       payment: t('header.send_mail_payment')
     };
     const headerProps = {
-      leftIconPress: this.closeModal,
+      leftIconPress: () =>
+        isPreview ? this.togglePreview() : this.closeModal(),
       title: headerTitle[type],
       rightIcon: 'paper-plane',
       rightIconPress: handleSubmit(this.onSendMail),
@@ -123,8 +187,18 @@ class Modal extends Component<IProps> {
           onPress={handleSubmit(this.onSendMail)}
           show={!isKeyboardVisible}
           disabled={isFetchingInitialData}
+          loading={loading}
         >
           {t('button.send')}
+        </BaseButton>
+        <BaseButton
+          onPress={this.togglePreview}
+          show={!isKeyboardVisible}
+          disabled={isFetchingInitialData || loading}
+          type="primary-outline"
+          show={!this.props['hide-preview']}
+        >
+          {!isPreview ? t('button.preview') : t('button.update')}
         </BaseButton>
       </BaseButtonGroup>
     );
@@ -144,55 +218,71 @@ class Modal extends Component<IProps> {
           }}
           theme={theme}
         >
-          <ScrollView
-            style={[isKeyboardVisible && {paddingBottom: 120}]}
-            keyboardShouldPersistTaps="handled"
-          >
-            <Field
-              name="from"
-              component={BaseInput}
-              hint={t('send_mail.from')}
-              onSubmitEditing={() => mailRefs.to.focus()}
-              keyboardType={keyboardType.EMAIL}
-              isRequired
-            />
+          {isPreview ? (
+            <Preview {...this.props} />
+          ) : (
+            <ScrollView
+              style={[isKeyboardVisible && {paddingBottom: 120}]}
+              keyboardShouldPersistTaps="handled"
+            >
+              <Field
+                name="from"
+                component={BaseInput}
+                hint={t('send_mail.from')}
+                onSubmitEditing={() => mailRefs.to.focus()}
+                keyboardType={keyboardType.EMAIL}
+                disabled={this.props['disable-from-email']}
+                isRequired
+              />
 
-            <Field
-              name="to"
-              component={BaseInput}
-              hint={t('send_mail.to')}
-              onSubmitEditing={() => mailRefs.subject.focus()}
-              keyboardType={keyboardType.EMAIL}
-              refLinkFn={ref => (mailRefs.to = ref)}
-              isRequired
-            />
+              <Field
+                name="to"
+                component={BaseInput}
+                hint={t('send_mail.to')}
+                onSubmitEditing={() => mailRefs.subject.focus()}
+                keyboardType={keyboardType.EMAIL}
+                refLinkFn={ref => (mailRefs.to = ref)}
+                isRequired
+              />
 
-            <Field
-              name="subject"
-              component={BaseInput}
-              hint={t('send_mail.subject')}
-              refLinkFn={ref => (mailRefs.subject = ref)}
-              isRequired
-            />
+              <Field
+                name="subject"
+                component={BaseInput}
+                hint={t('send_mail.subject')}
+                refLinkFn={ref => (mailRefs.subject = ref)}
+                isRequired
+              />
 
-            <Editor
-              {...this.props}
-              name="body"
-              label="send_mail.body"
-              isRequired
-              showPreview
-              reference={null}
-            />
-          </ScrollView>
+              <Editor
+                {...this.props}
+                name="body"
+                label="send_mail.body"
+                isRequired
+                showPreview
+                reference={null}
+              />
+            </ScrollView>
+          )}
         </Content>
       </SlideModal>
     );
   }
 }
 
+const loadingSelector = state => {
+  return (
+    state.invoice?.isLoading ||
+    state.estimate?.isLoading ||
+    state.payment?.isLoading
+  );
+};
+
 const mapStateToProps = state => ({
   formValues: getFormValues('SEND_MAIL_FORM')(state) || {},
   selectedCompanySettings: selectedCompanySettingSelector(state),
+  loading: loadingSelector(state),
+  endpointApi: state.common?.endpointApi,
+  idToken: state.auth?.idToken,
   ...commonSelector(state)
 });
 

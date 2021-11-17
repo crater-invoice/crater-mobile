@@ -35,6 +35,8 @@ export const CLEAR_INVOICE = 'invoice/CLEAR_INVOICE';
 export const FETCH_INVOICE_TEMPLATES_SUCCESS =
   'invoice/FETCH_INVOICE_TEMPLATES_SUCCESS';
 
+export const SEND_INVOICE = 'invoice/SEND_INVOICE';
+
 export const INVOICES_TABS = {
   DUE: 'DUE',
   DRAFT: 'DRAFT',

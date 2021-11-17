@@ -146,15 +146,15 @@ export function* fetchUnpaidInvoices({payload}) {
  */
 function* sendPaymentReceipt({payload}) {
   try {
-    const {id, params} = payload;
-    yield put(spinner('isSaving', true));
+    const {id, params, onSuccess} = payload;
+    yield put(spinner('isLoading', true));
     yield call(req.sendPaymentReceipt, id, params);
-    navigation.goBack();
+    onSuccess?.();
     showNotification({message: t('notification.payment_sent')});
   } catch (e) {
     handleError(e);
   } finally {
-    yield put(spinner('isSaving', false));
+    yield put(spinner('isLoading', false));
   }
 }
 

@@ -112,3 +112,13 @@ export const removeInvoiceItem = (payload = {}) => ({
   type: types.REMOVE_INVOICE_ITEM,
   payload
 });
+
+/**
+ * Send invoice
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const sendInvoice = (payload = {}) => ({
+  type: types.SEND_INVOICE,
+  payload
+});

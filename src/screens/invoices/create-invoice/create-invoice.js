@@ -298,21 +298,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     }
   };
 
-  sendEmail = params => {
-    const {navigation, dispatch, id} = this.props;
-
-    dispatch(
-      changeInvoiceStatus({
-        id,
-        action: `${id}/send`,
-        navigation,
-        params,
-        onResult: () =>
-          showNotification({message: t('notification.invoice_sent')})
-      })
-    );
-  };
-
   navigateToCustomer = () => {
     const {navigation} = this.props;
     const {currency} = this.state;
@@ -435,7 +420,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           <SendMail
             reference={ref => (this.sendMailRef = ref)}
             toEmail={this.props.formValues?.customer?.email}
-            onSendMail={this.sendEmail}
+            id={this.props.id}
             type="invoice"
           />
         )}
