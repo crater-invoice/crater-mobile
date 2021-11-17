@@ -1,6 +1,12 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {View as CtView, BaseLabel, BaseInput, Text} from '@/components';
+import {
+  View as CtView,
+  BaseLabel,
+  BaseInput,
+  Text,
+  BaseButton
+} from '@/components';
 import {IProps} from './type.d.js';
 import {keyboardType} from '@/helpers/keyboard.js';
 import {Field} from 'redux-form';
@@ -28,8 +34,19 @@ export const ExchangeRateField = (parentProps: IProps) => {
           <Field
             name="exchange_rate"
             component={BaseInput}
+            rightSymbol={customerCurrency}
             keyboardType={keyboardType.DECIMAL}
           />
+        </CtView>
+        <CtView flex={0.3} height-10 mt-11 ml-15 justify-between>
+          <BaseButton
+            type="primary-btn-outline"
+            onPress={() => setExchangeRate(state?.currency)}
+            show={true}
+            loading={false}
+          >
+            {t('button.refresh')}
+          </BaseButton>
         </CtView>
       </CtView>
       <Text mt-2 darkGray>

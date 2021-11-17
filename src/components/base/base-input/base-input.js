@@ -113,6 +113,7 @@ class TextInput extends Component<IProps> {
       leftIconStyle,
       isRequired = false,
       leftSymbol,
+      rightSymbol,
       onError,
       currency,
       theme,
@@ -174,6 +175,21 @@ class TextInput extends Component<IProps> {
       };
     }
 
+    if (rightSymbol) {
+      icons = {
+        rightIcon: (
+          <View style={styles.rightSymbolView}>
+            <Text
+              color={theme?.text?.secondaryColor}
+              style={styles.rightSymbol}
+            >
+              {rightSymbol}
+            </Text>
+          </View>
+        )
+      };
+    }
+
     if (secureTextEntry) {
       icons = {
         rightIcon: (
@@ -226,6 +242,7 @@ class TextInput extends Component<IProps> {
               color: theme?.input?.color
             },
             leftSymbol && styles.withLeftSymbolText,
+            rightSymbol && styles.withRightSymbolText,
             active && styles.activeInput,
             textColor && {color: textColor},
             textStyle && textStyle,

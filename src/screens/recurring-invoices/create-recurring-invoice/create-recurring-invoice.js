@@ -253,7 +253,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       currency,
       onSelect: item => {
         this.customerReference?.changeDisplayValue?.(item);
-        this.onCustomerSelect(customer);
+        this.onCustomerSelect(item);
       }
     });
   };
