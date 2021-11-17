@@ -10,7 +10,12 @@ import {keyboardType} from '@/helpers/keyboard';
 import {CREATE_EXPENSE_FORM} from 'stores/expense/types';
 import {EXPENSE_ACTIONS, ACTIONS_VALUE} from 'stores/expense/helpers';
 import {getApiFormattedCustomFields} from '@/utils';
-import {CustomerSelectModal, ExpenseCategorySelectModal} from '@/select-modal';
+import {
+  CurrencySelectModal,
+  CustomerSelectModal,
+  ExpenseCategorySelectModal,
+  PaymentModeSelectModal
+} from '@/select-modal';
 import {IProps, IState} from './create-expense-type';
 import {
   addExpense,
@@ -54,6 +59,7 @@ export default class CreateExpense extends React.Component<IProps, IState> {
 
   loadData = () => {
     const {isEditScreen, id, dispatch} = this.props;
+
     if (isEditScreen) {
       dispatch(
         fetchSingleExpense(id, (res, receipt) =>
@@ -62,15 +68,21 @@ export default class CreateExpense extends React.Component<IProps, IState> {
       );
       return;
     }
+
     dispatch(fetchExpenseInitialDetails(() => this.setInitialData(null)));
-    return;
   };
 
   setInitialData = async res => {
     const {dispatch, route} = this.props;
     const customer = route?.params?.customer;
+
     if (res) {
-      dispatch(initialize(CREATE_EXPENSE_FORM, res));
+      const data = {
+        ...res,
+        payment_method_id: res?.payment_method?.id,
+        currency_id: res?.currency?.id
+      };
+      dispatch(initialize(CREATE_EXPENSE_FORM, data));
       if (res?.attachment_receipt_url) {
         await this.setState({
           imageUrl: res?.attachment_receipt_url?.url,
@@ -180,7 +192,11 @@ export default class CreateExpense extends React.Component<IProps, IState> {
       isAllowToDelete,
       isCreateScreen,
       isSaving,
-      isDeleting
+      isDeleting,
+      currencies,
+      paymentModes,
+      fetchPaymentModes,
+      theme
     } = this.props;
     const {imageUrl, fileType, customer, isFetchingInitialData} = this.state;
 
@@ -277,7 +293,10 @@ export default class CreateExpense extends React.Component<IProps, IState> {
           name="amount"
           component={BaseInput}
           isRequired
-          leftSymbol={customer?.currency?.symbol}
+          leftSymbol={
+            _.find(currencies, {fullItem: {id: formValues?.currency_id}})
+              ?.rightTitle
+          }
           hint={t('expenses.amount')}
           disabled={disabled}
           keyboardType={keyboardType.DECIMAL}
@@ -299,6 +318,16 @@ export default class CreateExpense extends React.Component<IProps, IState> {
         />
 
         <Field
+          name="currency_id"
+          component={CurrencySelectModal}
+          currencies={currencies}
+          label={t('settings.preferences.currency')}
+          onSelect={val => this.setFormField('currency_id', val.id)}
+          isRequired
+          theme={theme}
+        />
+
+        <Field
           name="customer_id"
           component={CustomerSelectModal}
           fetchCustomers={fetchCustomers}
@@ -313,6 +342,16 @@ export default class CreateExpense extends React.Component<IProps, IState> {
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
           isRequired={false}
+        />
+
+        <Field
+          name="payment_method_id"
+          paymentModes={paymentModes}
+          fetchPaymentModes={fetchPaymentModes}
+          component={PaymentModeSelectModal}
+          disabled={disabled}
+          selectedItem={formValues?.payment_method}
+          onSelect={item => this.setFormField(`payment_method_id`, item.id)}
         />
 
         <Field
