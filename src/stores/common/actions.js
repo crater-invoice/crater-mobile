@@ -69,3 +69,16 @@ export function fetchCountries() {
     payload: {}
   };
 }
+
+/**
+ * Check exchange rate
+ * @param id currency id
+ * @param onSuccess
+ * @returns {{type: string, payload: *}}
+ */
+export function checkExchangeRate(id, onSuccess) {
+  return {
+    type: types.CHECK_EXCHANGE_RATE,
+    payload: {id, onSuccess}
+  };
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change, initialize} from 'redux-form';
-import {TemplateField} from '@/components';
+import {ExchangeRateField, TemplateField} from '@/components';
 import {dismissRoute, routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {alertMe, isEmpty} from '@/constants';
@@ -43,6 +43,7 @@ import {
   changeInvoiceStatus,
   removeInvoice
 } from 'stores/invoice/actions';
+import {checkExchangeRate} from 'stores/common/actions';
 
 export default class CreateInvoice extends React.Component<IProps, IStates> {
   invoiceRefs: any;
@@ -57,7 +58,8 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
 
     this.state = {
       currency: props?.currency,
-      isFetchingInitialData: true
+      isFetchingInitialData: true,
+      hasExchangeRate: false
     };
   }
 
@@ -81,15 +83,13 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
   };
 
   setInitialData = async res => {
-    const {dispatch, invoiceTemplates, route, currency} = this.props;
+    const {dispatch, invoiceTemplates, route} = this.props;
 
     let values = {
       ...initialValues(invoiceTemplates),
       ...res
     };
-
-    await this.setState({currency: res?.customer?.currency ?? currency});
-
+    let customerCurrency = res?.customer?.currency;
     const customer = route?.params?.customer;
     if (customer) {
       values = {
@@ -97,11 +97,21 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         customer,
         customer_id: customer.id
       };
-      await this.setState({currency: customer.currency});
+      customerCurrency = customer.currency;
     }
-
+    customerCurrency && (await this.setExchangeRate(customerCurrency));
     dispatch(initialize(CREATE_INVOICE_FORM, values));
     this.setState({isFetchingInitialData: false});
+  };
+
+  setExchangeRate = customerCurrency => {
+    const {currency, dispatch} = this.props;
+    const hasExchangeRate = customerCurrency?.id !== currency?.id;
+    this.setState({hasExchangeRate, currency: customerCurrency});
+    const onSuccess = ({exchangeRate}) =>
+      this.setFormField('exchange_rate', exchangeRate);
+    hasExchangeRate &&
+      dispatch(checkExchangeRate(customerCurrency.id, onSuccess));
   };
 
   setFormField = (field, value) => {
@@ -323,11 +333,16 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         currency,
         onSelect: item => {
           this.customerReference?.changeDisplayValue?.(item);
-          this.setFormField('customer_id', item.id);
-          this.setState({currency: item.currency});
+          this.onCustomerSelect(customer);
         }
       });
     });
+  };
+
+  onCustomerSelect = item => {
+    this.setFormField('exchange_rate', null);
+    this.setFormField('customer_id', item.id);
+    this.setExchangeRate(item.currency);
   };
 
   render() {
@@ -351,7 +366,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       notes,
       fetchNotes
     } = this.props;
-    const {isFetchingInitialData} = this.state;
+    const {isFetchingInitialData, hasExchangeRate} = this.state;
     const disabled = !isAllowToEdit;
     const hasCustomField = isEditScreen
       ? formValues && formValues.hasOwnProperty('fields')
@@ -480,14 +495,13 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           customers={customers}
           component={CustomerSelectModal}
           selectedItem={customer}
-          onSelect={item => {
-            this.setFormField('customer_id', item.id);
-            this.setState({currency: item.currency});
-          }}
+          onSelect={this.onCustomerSelect}
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
           disabled={disabled}
         />
+
+        {hasExchangeRate && <ExchangeRateField {...this} />}
 
         <ItemField
           {...this.props}

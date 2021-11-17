@@ -24,7 +24,8 @@ import {
   SendMail,
   BaseDatePicker,
   View as CtView,
-  Notes
+  Notes,
+  ExchangeRateField
 } from '@/components';
 import {
   addPayment,
@@ -33,6 +34,7 @@ import {
   fetchPaymentInitialDetails,
   sendPaymentReceipt
 } from 'stores/payment/actions';
+import {checkExchangeRate} from 'stores/common/actions';
 
 export default class CreatePayment extends Component<IProps, IStates> {
   invoiceReference: any;
@@ -43,7 +45,8 @@ export default class CreatePayment extends Component<IProps, IStates> {
     this.state = {
       isFetchingInitialData: true,
       selectedInvoice: null,
-      selectedCustomer: null
+      selectedCustomer: null,
+      hasExchangeRate: false
     };
     this.invoiceReference = React.createRef();
     this.sendMailRef = React.createRef();
@@ -71,6 +74,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
 
   setInitialData = async res => {
     const {dispatch, hasRecordPayment, invoice, route} = this.props;
+    let customerCurrency = res?.customer?.currency;
 
     let data = {
       payment_date: moment(),
@@ -101,8 +105,9 @@ export default class CreatePayment extends Component<IProps, IStates> {
     if (customer) {
       data = {...data, customer_id: customer.id};
       await this.setState({selectedCustomer: customer});
+      customerCurrency = customer.currency;
     }
-
+    customerCurrency && (await this.setExchangeRate(customerCurrency));
     dispatch(initialize(CREATE_PAYMENT_FORM, data));
     this.setState({isFetchingInitialData: false});
   };
@@ -169,28 +174,41 @@ export default class CreatePayment extends Component<IProps, IStates> {
         type: 'ADD',
         onSelect: customer => {
           this.customerReference?.changeDisplayValue?.(customer);
-          this.onSelectCustomer(customer);
+          this.onCustomerSelect(customer);
         }
       });
     });
-  };
-
-  onSelectCustomer = customer => {
-    const {formValues} = this.props;
-    if (customer?.id === formValues?.customer_id) {
-      return;
-    }
-    this.setFormField(`customer_id`, customer.id);
-    this.setState({selectedCustomer: customer});
-    this.invoiceReference?.changeDisplayValue?.(null);
-    this.setFormField(`amount`, null);
-    this.setFormField(`invoice_id`, null);
   };
 
   onSelectInvoice = invoice => {
     this.setFormField(`invoice_id`, invoice?.id);
     this.setFormField(`amount`, invoice?.due_amount);
     this.setState({selectedInvoice: invoice});
+  };
+
+  onCustomerSelect = customer => {
+    const {formValues} = this.props;
+    if (customer?.id === formValues?.customer_id) {
+      return;
+    }
+    this.setFormField(`exchange_rate`, null);
+    this.setFormField(`customer_id`, customer.id);
+    this.setState({selectedCustomer: customer});
+    this.invoiceReference?.changeDisplayValue?.(null);
+    this.setFormField(`amount`, null);
+    this.setFormField(`invoice_id`, null);
+
+    this.setExchangeRate(customer.currency);
+  };
+
+  setExchangeRate = customerCurrency => {
+    const {currency, dispatch} = this.props;
+    const hasExchangeRate = customerCurrency?.id !== currency?.id;
+    this.setState({hasExchangeRate, currency: customerCurrency});
+    const onSuccess = ({exchangeRate}) =>
+      this.setFormField('exchange_rate', exchangeRate);
+    hasExchangeRate &&
+      dispatch(checkExchangeRate(customerCurrency.id, onSuccess));
   };
 
   render() {
@@ -214,7 +232,11 @@ export default class CreatePayment extends Component<IProps, IStates> {
       fetchNotes
     } = this.props;
 
-    const {isFetchingInitialData, selectedCustomer} = this.state;
+    const {
+      isFetchingInitialData,
+      selectedCustomer,
+      hasExchangeRate
+    } = this.state;
 
     const disabled = !isAllowToEdit;
 
@@ -288,10 +310,12 @@ export default class CreatePayment extends Component<IProps, IStates> {
           component={CustomerSelectModal}
           disabled={disabled || isEditScreen}
           selectedItem={selectedCustomer}
-          onSelect={item => this.onSelectCustomer(item)}
+          onSelect={this.onCustomerSelect}
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
         />
+
+        {hasExchangeRate && <ExchangeRateField {...this} />}
 
         <Field
           name="invoice_id"

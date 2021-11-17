@@ -26,8 +26,10 @@ import {
   BaseDatePicker,
   CustomField,
   BaseButtonGroup,
+  ExchangeRateField,
   BaseButton
 } from '@/components';
+import {checkExchangeRate} from 'stores/common/actions';
 
 export default class CreateExpense extends React.Component<IProps, IState> {
   customerReference: any;
@@ -44,7 +46,8 @@ export default class CreateExpense extends React.Component<IProps, IState> {
       imageUrl: null,
       fileLoading: false,
       customer: null,
-      fileType: null
+      fileType: null,
+      hasExchangeRate: false
     };
   }
 
@@ -68,6 +71,7 @@ export default class CreateExpense extends React.Component<IProps, IState> {
 
   setInitialData = async res => {
     const {dispatch, route} = this.props;
+    let customerCurrency = res?.customer?.currency;
     const customer = route?.params?.customer;
     if (res) {
       dispatch(initialize(CREATE_EXPENSE_FORM, res));
@@ -83,8 +87,9 @@ export default class CreateExpense extends React.Component<IProps, IState> {
     if (customer) {
       this.setFormField('customer_id', customer.id);
       await this.setState({customer});
+      customerCurrency = customer.currency;
     }
-
+    customerCurrency && (await this.setExchangeRate(customerCurrency));
     this.setState({isFetchingInitialData: false});
   };
 
@@ -147,8 +152,8 @@ export default class CreateExpense extends React.Component<IProps, IState> {
         type: 'ADD',
         onSelect: customer => {
           this.setState({customer});
-          this.setFormField('customer_id', customer.id);
           this.customerReference?.changeDisplayValue?.(customer);
+          this.onCustomerSelect(customer);
         }
       })
     );
@@ -163,6 +168,22 @@ export default class CreateExpense extends React.Component<IProps, IState> {
         this.categoryReference?.changeDisplayValue?.(item);
       }
     });
+  };
+
+  onCustomerSelect = item => {
+    this.setFormField('exchange_rate', null);
+    this.setFormField('customer_id', item.id);
+    this.setExchangeRate(item.currency);
+  };
+
+  setExchangeRate = customerCurrency => {
+    const {currency, dispatch} = this.props;
+    const hasExchangeRate = customerCurrency?.id !== currency?.id;
+    this.setState({hasExchangeRate, currency: customerCurrency});
+    const onSuccess = ({exchangeRate}) =>
+      this.setFormField('exchange_rate', exchangeRate);
+    hasExchangeRate &&
+      dispatch(checkExchangeRate(customerCurrency.id, onSuccess));
   };
 
   render() {
@@ -182,7 +203,13 @@ export default class CreateExpense extends React.Component<IProps, IState> {
       isSaving,
       isDeleting
     } = this.props;
-    const {imageUrl, fileType, customer, isFetchingInitialData} = this.state;
+    const {
+      imageUrl,
+      fileType,
+      customer,
+      isFetchingInitialData,
+      hasExchangeRate
+    } = this.state;
 
     const categoryName = formValues?.expense_category?.name;
     const disabled = !isAllowToEdit;
@@ -306,14 +333,13 @@ export default class CreateExpense extends React.Component<IProps, IState> {
           selectedItem={customer}
           customers={customers}
           disabled={disabled}
-          onSelect={customer => {
-            this.setState({customer});
-            this.setFormField('customer_id', customer.id);
-          }}
+          onSelect={this.onCustomerSelect}
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
           isRequired={false}
         />
+
+        {hasExchangeRate && <ExchangeRateField {...this} />}
 
         <Field
           name="notes"

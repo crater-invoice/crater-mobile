@@ -150,4 +150,9 @@ export interface IStates {
    * Selected customer data.
    */
   selectedCustomer: any;
+
+  /**
+   * The Exchange rate field, displayed if the customer currency and base currency are not the same.
+   */
+  hasExchangeRate: boolean;
 }

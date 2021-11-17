@@ -17,7 +17,8 @@ import {
   BaseInput,
   BaseButtonGroup,
   BaseButton,
-  BaseDropdownPicker
+  BaseDropdownPicker,
+  ExchangeRateField
 } from '@/components';
 import {
   fetchRecurringInvoiceInitialDetails,
@@ -44,6 +45,7 @@ import {
 import {setCalculationRef} from 'stores/common/helpers';
 import {getApiFormattedCustomFields, secondaryHeader} from '@/utils';
 import {initialValues} from 'stores/recurring-invoice/helpers';
+import {checkExchangeRate} from 'stores/common/actions';
 
 export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   recurringInvoiceRefs: any;
@@ -57,7 +59,8 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     this.customerReference = React.createRef();
     this.state = {
       currency: props?.currency,
-      isFetchingInitialData: true
+      isFetchingInitialData: true,
+      hasExchangeRate: false
     };
   }
 
@@ -79,18 +82,28 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     );
   };
 
-  setInitialData = invoice => {
-    const {dispatch, invoiceTemplates = {}} = this.props;
+  setInitialData = async invoice => {
+    const {dispatch, invoiceTemplates = {}, route} = this.props;
     let values = {
       ...initialValues(invoiceTemplates)
     };
+    let customerCurrency = invoice?.customer?.currency;
     if (invoice) {
       values = {...values, ...invoice};
-      this.setState({currency: invoice?.customer?.currency});
     }
+    const customer = route?.params?.customer;
+    if (customer) {
+      values = {
+        ...values,
+        customer,
+        customer_id: customer.id
+      };
+      customerCurrency = customer.currency;
+    }
+    customerCurrency && (await this.setExchangeRate(customerCurrency));
     dispatch(initialize(CREATE_RECURRING_INVOICE_FORM, values));
     this.fetchNextInvoice();
-    this.setState({isFetchingInitialData: false});
+    await this.setState({isFetchingInitialData: false});
   };
 
   onSave = values => {
@@ -240,10 +253,25 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       currency,
       onSelect: item => {
         this.customerReference?.changeDisplayValue?.(item);
-        this.setFormField('customer_id', item.id);
-        this.setState({currency: item.currency});
+        this.onCustomerSelect(customer);
       }
     });
+  };
+
+  onCustomerSelect = item => {
+    this.setFormField('exchange_rate', null);
+    this.setFormField('customer_id', item.id);
+    this.setExchangeRate(item.currency);
+  };
+
+  setExchangeRate = customerCurrency => {
+    const {currency, dispatch} = this.props;
+    const hasExchangeRate = customerCurrency?.id !== currency?.id;
+    this.setState({hasExchangeRate, currency: customerCurrency});
+    const onSuccess = ({exchangeRate}) =>
+      this.setFormField('exchange_rate', exchangeRate);
+    hasExchangeRate &&
+      dispatch(checkExchangeRate(customerCurrency.id, onSuccess));
   };
 
   render() {
@@ -276,7 +304,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     const hasCustomField = isEditScreen
       ? formValues && formValues.hasOwnProperty('fields')
       : !isEmpty(customFields);
-    const {isFetchingInitialData} = this.state;
+    const {isFetchingInitialData, hasExchangeRate} = this.state;
     const disabled = !isAllowToEdit;
     this.recurringInvoiceRefs(this);
 
@@ -319,14 +347,13 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           customers={customers}
           component={CustomerSelectModal}
           selectedItem={formValues?.customer}
-          onSelect={item => {
-            this.setFormField('customer_id', item.id);
-            this.setState({currency: item.currency});
-          }}
+          onSelect={this.onCustomerSelect}
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
           disabled={disabled}
         />
+
+        {hasExchangeRate && <ExchangeRateField {...this} />}
 
         <Field
           name={'starts_at'}

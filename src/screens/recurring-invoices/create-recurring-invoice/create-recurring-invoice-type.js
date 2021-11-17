@@ -125,4 +125,9 @@ export interface IStates {
    * An Object with data of current Currency.
    */
   currency: Object;
+
+  /**
+   * The Exchange rate field, displayed if the customer currency and base currency are not the same.
+   */
+  hasExchangeRate: boolean;
 }

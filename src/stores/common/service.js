@@ -14,6 +14,14 @@ export const fetchTaxAndDiscountPerItem = () => {
 };
 
 /**
+ * Check exchange rate
+ * @param id : currency id
+ * @returns {*}
+ */
+export const checkExchangeRate = id =>
+  Request.get({path: `currencies/${id}/exchange-rate`});
+
+/**
  * Ping endpoint url
  * @param url
  * @returns {*}

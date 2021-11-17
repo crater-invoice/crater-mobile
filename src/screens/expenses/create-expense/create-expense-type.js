@@ -129,4 +129,9 @@ export interface IStates {
    * File type of receipt.
    */
   fileType: String;
+
+  /**
+   * The Exchange rate field, displayed if the customer currency and base currency are not the same.
+   */
+  hasExchangeRate: boolean;
 }
