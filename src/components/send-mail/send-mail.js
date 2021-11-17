@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Keyboard, ScrollView} from 'react-native';
+import {Keyboard, ScrollView, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {reduxForm, Field, getFormValues, initialize} from 'redux-form';
 import styles from './styles';
@@ -152,12 +152,16 @@ class Modal extends Component<IProps> {
 
   openModal = () => {
     this.setState({visible: true});
+    StatusBar.setBarStyle('dark-content', false);
   };
 
   closeModal = async () => {
     if (this.props.loading) return;
     this.setState({visible: false});
   };
+
+  onBackPress = () =>
+    this.state.isPreview ? this.togglePreview() : this.closeModal();
 
   render() {
     const {handleSubmit, formValues, theme, type, loading} = this.props;
@@ -170,8 +174,7 @@ class Modal extends Component<IProps> {
       payment: t('header.send_mail_payment')
     };
     const headerProps = {
-      leftIconPress: () =>
-        isPreview ? this.togglePreview() : this.closeModal(),
+      leftIconPress: this.onBackPress,
       title: headerTitle[type],
       rightIcon: 'paper-plane',
       rightIconPress: handleSubmit(this.onSendMail),
@@ -207,7 +210,7 @@ class Modal extends Component<IProps> {
       <SlideModal
         defaultLayout
         visible={visible}
-        onToggle={this.closeModal}
+        onToggle={this.onBackPress}
         headerProps={headerProps}
         bottomAction={bottomAction}
       >

@@ -2,8 +2,16 @@ import React from 'react';
 import {WebView} from 'react-native-webview';
 import * as queryString from 'query-string';
 import {SCREEN_HEIGHT} from '@/helpers/size';
+import {Loading} from '../loading';
 
-export default ({formValues, endpointApi, idToken, id, type}) => {
+const minHeight = SCREEN_HEIGHT / 1.3;
+const maxHeight = SCREEN_HEIGHT / 1.2;
+
+export default ({formValues, endpointApi, idToken, id, type, theme}) => {
+  const [isFetchingWebviewData, setIsFetchingWebviewData] = React.useState(
+    true
+  );
+
   const url = {
     invoice: `invoices/${id}/send`,
     estimate: `estimates/${id}/send`
@@ -15,20 +23,28 @@ export default ({formValues, endpointApi, idToken, id, type}) => {
   };
 
   const source = {
-    uri: `${endpointApi}${url[type]}`,
-    method: 'POST',
-    headers,
-    body: queryString.stringify({...formValues, is_preview: true})
+    uri: `${endpointApi}${url[type]}?${queryString.stringify({
+      ...formValues,
+      is_preview: true
+    })}`,
+    method: 'GET',
+    headers
   };
 
   return (
-    <WebView
-      source={source}
-      headers={headers}
-      startInLoadingState
-      style={{width: '100%', height: SCREEN_HEIGHT / 1.4}}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-    />
+    <>
+      {isFetchingWebviewData ? (
+        <Loading style={{minHeight}} size="large" theme={theme} />
+      ) : null}
+      <WebView
+        source={source}
+        headers={headers}
+        startInLoadingState
+        style={{width: '100%', minHeight, maxHeight}}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        onLoad={() => setIsFetchingWebviewData(false)}
+      />
+    </>
   );
 };
