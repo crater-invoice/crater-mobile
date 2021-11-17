@@ -116,10 +116,10 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
     const {
       data: {
         customer,
-        formattedStartsAt,
-        formattedNextInvoiceAt,
+        formatted_starts_at,
+        formatted_next_invoice_at,
         limit_by,
-        formattedLimitDate,
+        formatted_limit_date,
         limit_count,
         status,
         frequency
@@ -131,7 +131,7 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
     };
     const limitDate = {
       label: t('recurring_invoices.limit_types.date'),
-      values: formattedLimitDate
+      values: formatted_limit_date
     };
 
     return (
@@ -148,18 +148,20 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
           inPairs
           first={{
             label: t('recurring_invoices.start_date'),
-            values: formattedStartsAt
+            values: formatted_starts_at
           }}
           second={{
             label: t('recurring_invoices.next_invoice_at'),
-            values: formattedNextInvoiceAt
+            values: formatted_next_invoice_at
           }}
         />
-        <ViewData
-          inPairs
-          first={{label: t('recurring_invoices.limit_by'), values: limit_by}}
-          second={limit_by === 'DATE' ? limitDate : limitCount}
-        />
+        {limit_by !== 'NONE' && (
+          <ViewData
+            inPairs
+            first={{label: t('recurring_invoices.limit_by'), values: limit_by}}
+            second={limit_by === 'DATE' ? limitDate : limitCount}
+          />
+        )}
         <ViewData
           inPairs
           first={{
