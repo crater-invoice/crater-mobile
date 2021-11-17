@@ -368,10 +368,6 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
 
-    const hasCustomField = isEditScreen
-      ? formValues && formValues.hasOwnProperty('fields')
-      : !isEmpty(customFields);
-
     let hasCompleteStatus = status === 'COMPLETED';
 
     const dropdownOptions =
@@ -544,7 +540,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
           disabled={disabled}
         />
 
-        {hasCustomField && <CustomField {...this.props} />}
+        <CustomField {...this.props} />
       </DefaultLayout>
     );
   }

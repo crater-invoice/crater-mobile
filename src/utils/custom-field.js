@@ -4,18 +4,16 @@ import {sortByItem} from './common';
 import {dataTypes} from 'stores/custom-field/helpers';
 
 export const getInitialCustomFields = (customFields, initialValues) => {
-  if (isEmpty(initialValues)) {
-    return sortByItem(customFields, 'order');
-  }
-
   let fields = [];
 
-  initialValues.map(value => {
-    fields.push({
-      ...value.custom_field,
-      defaultAnswer: value.defaultAnswer ?? value.default_answer
+  if (!isEmpty(initialValues)) {
+    initialValues.map(value => {
+      fields.push({
+        ...value.custom_field,
+        defaultAnswer: value.defaultAnswer ?? value.default_answer
+      });
     });
-  });
+  }
 
   if (!isEmpty(customFields)) {
     customFields.map(customField => {

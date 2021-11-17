@@ -4,7 +4,6 @@ import {pick} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-customer-type';
 import {styles} from './create-customer-style';
-import {isEmpty} from '@/constants';
 import {keyboardType} from '@/helpers/keyboard';
 import {secondaryHeader} from 'utils/header';
 import {CREATE_CUSTOMER_FORM} from 'stores/customer/types';
@@ -143,10 +142,6 @@ export default class CreateCustomer extends Component<IProps, IStates> {
 
     const customerRefs: any = {};
 
-    const hasCustomField = isEditScreen
-      ? formValues && formValues.hasOwnProperty('fields')
-      : !isEmpty(customFields);
-
     const billing = formValues?.billing;
     const shipping = formValues?.shipping;
 
@@ -221,7 +216,7 @@ export default class CreateCustomer extends Component<IProps, IStates> {
           disabled={disabled}
         />
 
-        {hasCustomField && <CustomField {...this.props} />}
+        <CustomField {...this.props} />
 
         <Field
           name="currency_id"

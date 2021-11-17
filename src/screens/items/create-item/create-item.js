@@ -405,12 +405,7 @@ export class CreateItem extends React.Component<IProps> {
     } = this.props;
     const {isFetchingInitialData} = this.state;
     const unitName = unit?.name;
-    // const hasCustomField =
-    //   !itemId || isItemScreen
-    //     ? isEditScreen
-    //       ? formValues && formValues.hasOwnProperty('fields')
-    //       : !isEmpty(customFields)
-    //     : false;
+    // const hasCustomField = !itemId || isItemScreen ? true : false;
 
     const bottomAction = (
       <BaseButtonGroup>
