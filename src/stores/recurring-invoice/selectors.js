@@ -56,15 +56,15 @@ export const formatItems = (invoices, theme) => {
     return {
       title: name,
       subtitle: {
-        labelTextColor: BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode],
         ...(theme.mode === 'dark'
           ? {
-              label: capitalize(status),
-              labelTextColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode],
+              label: status,
+              labelTextColor: BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode],
               labelOutlineColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
             }
           : {
               label: status,
+              labelTextColor: BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode],
               labelBgColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
             })
       },
