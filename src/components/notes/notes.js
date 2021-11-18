@@ -17,7 +17,8 @@ export const Notes = (props: IProps) => {
     notes,
     fetchNotes,
     noteType,
-    onSelect
+    onSelect,
+    formValues
   } = props;
   const navigateToNote = () => {
     navigation.navigate(routes.CREATE_NOTE, {
@@ -42,7 +43,7 @@ export const Notes = (props: IProps) => {
       labelStyle={{marginBottom: -15}}
       previewLabelStyle={{marginBottom: -10}}
       reference={ref => (editorReference = ref)}
-      showPreview={isEditScreen}
+      showPreview={isEditScreen && formValues.notes}
       customRightLabelComponent={
         <View style={{marginTop: 5}}>
           <Field

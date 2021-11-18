@@ -42,7 +42,8 @@ export default styles = StyleSheet.create({
   }),
   discountType: disabled => ({
     paddingLeft: 15,
-    paddingRight: !disabled ? 10 : 20
+    paddingRight: !disabled ? 10 : 20,
+    includeFontPadding: false
   }),
   amountContainer: theme => ({
     borderWidth: 0.8,

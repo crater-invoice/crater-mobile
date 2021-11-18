@@ -228,6 +228,16 @@ class ListViewComponent extends Component<IProps> {
       );
     }
 
+    if (parentViewStyle) {
+      return (
+        <View
+          style={[{marginBottom: StyleSheet.hairlineWidth}, parentViewStyle]}
+        >
+          {children}
+        </View>
+      );
+    }
+
     return children;
   };
 
