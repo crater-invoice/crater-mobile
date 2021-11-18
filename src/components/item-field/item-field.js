@@ -127,7 +127,6 @@ export class ItemField extends React.Component<IProps> {
           }
           onPress={this.onEditItem}
           parentViewStyle={{marginBottom: 10}}
-          isAnimated
         />
 
         <Field

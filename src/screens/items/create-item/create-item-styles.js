@@ -26,7 +26,8 @@ export default styles = StyleSheet.create({
     color: theme?.listItem?.primary?.color,
     fontFamily: fonts.medium,
     marginTop: 6,
-    textAlign: 'left'
+    textAlign: 'left',
+    includeFontPadding: false
   }),
   price: theme => ({
     color: theme?.listItem?.primary?.color,

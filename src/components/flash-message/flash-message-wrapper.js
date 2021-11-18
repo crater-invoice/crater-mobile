@@ -55,11 +55,7 @@ export function getFlashMessageStatusBarHeight(
    * we do.
    */
   if (isAndroid) {
-    if (!!global && !!global.Expo) {
-      return +StatusBar.currentHeight + 6;
-    }
-
-    return 6;
+    return +StatusBar.currentHeight + 6;
   }
 
   if (isIPhoneX) {

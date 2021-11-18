@@ -17,7 +17,8 @@ export default styles = StyleSheet.create({
   }),
   itemLeftSubTitle: theme => ({
     color: theme?.listItem?.fourth?.color,
-    fontSize: 13
+    fontSize: 13,
+    includeFontPadding: false
   }),
   itemRightTitle: theme => ({
     fontFamily: fonts.regular,
