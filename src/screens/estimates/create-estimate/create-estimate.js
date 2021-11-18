@@ -164,8 +164,11 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
       return;
     }
 
-    if (finalAmount() < 0) {
-      showNotification({message: t('estimates.alert.less_amount')});
+    if (finalAmount() <= 0) {
+      showNotification({
+        message: t('estimates.alert.less_amount'),
+        type: 'error'
+      });
       return;
     }
 

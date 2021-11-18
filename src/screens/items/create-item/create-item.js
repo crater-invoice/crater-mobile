@@ -81,8 +81,8 @@ export class CreateItem extends React.Component<IProps> {
       return;
     }
 
-    if (this.finalAmount() < 0) {
-      showNotification({message: t('items.less_amount')});
+    if (this.finalAmount() <= 0) {
+      showNotification({message: t('items.less_amount'), type: 'error'});
       return;
     }
 

@@ -146,8 +146,11 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       return;
     }
 
-    if (finalAmount() < 0) {
-      showNotification({message: t('invoices.alert.less_amount')});
+    if (finalAmount() <= 0) {
+      showNotification({
+        message: t('invoices.alert.less_amount'),
+        type: 'error'
+      });
       return;
     }
 

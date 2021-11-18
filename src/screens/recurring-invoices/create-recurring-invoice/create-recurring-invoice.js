@@ -42,7 +42,11 @@ import {
   finalAmount
 } from '@/components/final-amount/final-amount-calculation';
 import {setCalculationRef} from 'stores/common/helpers';
-import {getApiFormattedCustomFields, secondaryHeader} from '@/utils';
+import {
+  getApiFormattedCustomFields,
+  secondaryHeader,
+  showNotification
+} from '@/utils';
 import {initialValues} from 'stores/recurring-invoice/helpers';
 
 export default class CreateRecurringInvoice extends Component<IProps, IStates> {
@@ -107,8 +111,11 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       return;
     }
 
-    if (finalAmount() < 0) {
-      alertMe(t('invoices.alert.less_amount'));
+    if (finalAmount() <= 0) {
+      showNotification({
+        message: t('invoices.alert.less_amount'),
+        type: 'error'
+      });
       return;
     }
 
