@@ -15,7 +15,12 @@ export default function expenseReducer(state = initialState, action) {
 
     case types.FETCH_EXPENSES_SUCCESS:
       if (payload.fresh) {
-        return {...state, expenses: payload.expenses};
+        return {
+          ...state,
+          expenses: payload.expenses,
+          isSaving: false,
+          isDeleting: false
+        };
       }
 
       return {...state, expenses: [...state.expenses, ...payload.expenses]};

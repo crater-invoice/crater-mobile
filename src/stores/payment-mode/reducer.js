@@ -15,7 +15,12 @@ export default function paymentModeReducer(state = initialState, action) {
 
     case types.FETCH_PAYMENT_MODES_SUCCESS:
       if (payload.fresh) {
-        return {...state, modes: payload.modes};
+        return {
+          ...state,
+          modes: payload.modes,
+          isSaving: false,
+          isDeleting: false
+        };
       }
       return {...state, modes: [...state.modes, ...payload.modes]};
 

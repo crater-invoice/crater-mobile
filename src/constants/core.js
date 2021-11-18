@@ -1,9 +1,3 @@
-export const BUTTON_TYPE = {
-  SOLID: 'solid',
-  OUTLINE: 'outline',
-  CLEAR: 'clear'
-};
-
 export const BUTTON_COLOR = {
   PRIMARY: 'primary',
   PRIMARY_LIGHT: 'primaryLight',
@@ -33,7 +27,6 @@ export const DATE_FORMAT = 'YYYY-MM-DD';
 export const TIME_FORMAT = 'HH:mm';
 export const TIME_FORMAT_MERIDIEM = 'hh:mm A';
 
-export const SET_MAIL_CONFIGURATION = 'SET_MAIL_CONFIGURATION';
 export const SWITCH_THEME = 'SWITCH_THEME';
 export const BIOMETRY_AUTH_TYPES = {
   FINGERPRINT: 'FINGERPRINT',

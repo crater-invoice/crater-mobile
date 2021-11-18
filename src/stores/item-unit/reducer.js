@@ -15,7 +15,12 @@ export default function itemUnitReducer(state = initialState, action) {
 
     case types.FETCH_ITEM_UNITS_SUCCESS:
       if (payload.fresh) {
-        return {...state, units: payload.units};
+        return {
+          ...state,
+          units: payload.units,
+          isSaving: false,
+          isDeleting: false
+        };
       }
 
       return {...state, units: [...state.units, ...payload.units]};

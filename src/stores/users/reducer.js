@@ -15,7 +15,12 @@ export default function usersReducer(state = initialState, action) {
 
     case types.FETCH_USERS_SUCCESS:
       if (payload.fresh) {
-        return {...state, users: payload.users};
+        return {
+          ...state,
+          users: payload.users,
+          isSaving: false,
+          isDeleting: false
+        };
       }
       return {...state, users: [...state.users, ...payload.users]};
 
