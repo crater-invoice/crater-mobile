@@ -24,7 +24,7 @@ export default function roleReducer(state = initialState, action) {
       }));
 
       if (payload.fresh) {
-        return {...state, roles: roleList};
+        return {...state, roles: roleList, isSaving: false, isDeleting: false};
       }
 
       return {...state, roles: [...state.roles, ...roleList]};

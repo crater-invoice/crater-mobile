@@ -43,7 +43,11 @@ import {
   finalAmount
 } from '@/components/final-amount/final-amount-calculation';
 import {setCalculationRef} from 'stores/common/helpers';
-import {getApiFormattedCustomFields, secondaryHeader} from '@/utils';
+import {
+  getApiFormattedCustomFields,
+  secondaryHeader,
+  showNotification
+} from '@/utils';
 import {initialValues} from 'stores/recurring-invoice/helpers';
 import {checkExchangeRate} from 'stores/common/actions';
 
@@ -120,8 +124,11 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       return;
     }
 
-    if (finalAmount() < 0) {
-      alertMe(t('invoices.alert.less_amount'));
+    if (finalAmount() <= 0) {
+      showNotification({
+        message: t('invoices.alert.less_amount'),
+        type: 'error'
+      });
       return;
     }
 
@@ -305,6 +312,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       ? formValues && formValues.hasOwnProperty('fields')
       : !isEmpty(customFields);
     const {isFetchingInitialData, hasExchangeRate} = this.state;
+
     const disabled = !isAllowToEdit;
     this.recurringInvoiceRefs(this);
 
@@ -398,6 +406,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           component={BaseDropdownPicker}
           label={t('recurring_invoices.status.title')}
           items={statusList}
+          isRequired
           fieldIcon={'tag'}
           onChangeCallback={item => this.setFormField('status', item)}
           defaultPickerOptions={{
@@ -468,7 +477,7 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
           description={t('recurring_invoices.auto_sent.description')}
         />
 
-        {hasCustomField && <CustomField {...this.props} />}
+        <CustomField {...this.props} />
       </DefaultLayout>
     );
   }

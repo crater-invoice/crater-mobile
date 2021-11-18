@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {find} from 'lodash';
 import {Field, change, initialize} from 'redux-form';
 import styles from './preferences-style';
 import t from 'locales/use-translation';
@@ -19,7 +18,6 @@ import {
   DateFormatSelectModal,
   FiscalYearSelectModal,
   LanguageSelectModal,
-  RetrospectiveEditSelectModal,
   TimeZoneSelectModal
 } from '@/select-modal';
 
@@ -45,7 +43,7 @@ export default class Preferences extends Component<IProps, IStates> {
   };
 
   setInitialData = preferences => {
-    const {dispatch, retrospectiveEdits} = this.props;
+    const {dispatch} = this.props;
     const {
       moment_date_format,
       retrospective_edits,
@@ -55,9 +53,6 @@ export default class Preferences extends Component<IProps, IStates> {
 
     const data = {
       ...preferences,
-      retrospective_edits: find(retrospectiveEdits, {
-        value: retrospective_edits
-      })?.title,
       date_format: moment_date_format.trim(),
       discount_per_item: isBooleanTrue(discount_per_item),
       tax_per_item: isBooleanTrue(tax_per_item)
@@ -91,7 +86,6 @@ export default class Preferences extends Component<IProps, IStates> {
       timezones,
       dateFormats,
       fiscalYears,
-      retrospectiveEdits,
       navigation,
       handleSubmit,
       isSaving,
@@ -142,6 +136,7 @@ export default class Preferences extends Component<IProps, IStates> {
           onSelect={val => this.setFormField('language', val.code)}
           isRequired
         />
+
         <Field
           name="time_zone"
           timezones={timezones}
@@ -166,13 +161,6 @@ export default class Preferences extends Component<IProps, IStates> {
           fiscalYears={fiscalYears}
           component={FiscalYearSelectModal}
           onSelect={val => this.setFormField('fiscal_year', val.value)}
-        />
-
-        <Field
-          name="retrospective_edits"
-          retrospectiveEdits={retrospectiveEdits}
-          component={RetrospectiveEditSelectModal}
-          onSelect={val => this.setFormField('retrospective_edits', val.value)}
         />
 
         <BaseDivider dividerStyle={styles.dividerLine} />

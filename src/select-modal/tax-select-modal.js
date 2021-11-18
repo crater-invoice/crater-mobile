@@ -30,7 +30,13 @@ interface IProps {
 }
 
 export const TaxSelectModal = (props: IProps) => {
-  const {taxTypes, fetchTaxes, disabled = false, theme} = props;
+  const {
+    taxTypes,
+    fetchTaxes,
+    disabled = false,
+    theme,
+    customViewClass
+  } = props;
 
   return (
     <SelectField
@@ -56,7 +62,7 @@ export const TaxSelectModal = (props: IProps) => {
         ...(props['custom-view']
           ? {
               customView: ({props}) => (
-                <View class="flex-row">
+                <View class={`flex-row ${customViewClass}`}>
                   <View style={{flex: 0.9}} />
                   <TouchableOpacity
                     onPress={() => props?.onChangeCallback?.()}

@@ -123,3 +123,13 @@ export const changeEstimateStatus = (payload = {}) => ({
   type: types.CHANGE_ESTIMATE_STATUS,
   payload
 });
+
+/**
+ * Send estimate
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const sendEstimate = (payload = {}) => ({
+  type: types.SEND_ESTIMATE,
+  payload
+});

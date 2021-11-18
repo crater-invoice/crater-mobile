@@ -81,8 +81,8 @@ export class CreateItem extends React.Component<IProps> {
       return;
     }
 
-    if (this.finalAmount() < 0) {
-      showNotification({message: t('items.less_amount')});
+    if (this.finalAmount() <= 0) {
+      showNotification({message: t('items.less_amount'), type: 'error'});
       return;
     }
 
@@ -405,12 +405,7 @@ export class CreateItem extends React.Component<IProps> {
     } = this.props;
     const {isFetchingInitialData} = this.state;
     const unitName = unit?.name;
-    // const hasCustomField =
-    //   !itemId || isItemScreen
-    //     ? isEditScreen
-    //       ? formValues && formValues.hasOwnProperty('fields')
-    //       : !isEmpty(customFields)
-    //     : false;
+    // const hasCustomField = !itemId || isItemScreen ? true : false;
 
     const bottomAction = (
       <BaseButtonGroup>
@@ -486,6 +481,7 @@ export class CreateItem extends React.Component<IProps> {
               hint={t('items.discount')}
               keyboardType={keyboardType.DECIMAL}
               disabled={discount_type === 'none'}
+              inputProps={{selectTextOnFocus: true}}
             />
           </View>
         )}

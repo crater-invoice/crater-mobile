@@ -165,8 +165,11 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
       return;
     }
 
-    if (finalAmount() < 0) {
-      showNotification({message: t('estimates.alert.less_amount')});
+    if (finalAmount() <= 0) {
+      showNotification({
+        message: t('estimates.alert.less_amount'),
+        type: 'error'
+      });
       return;
     }
 
@@ -328,21 +331,6 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
     }
   };
 
-  sendEmail = params => {
-    const {navigation, dispatch, id} = this.props;
-
-    dispatch(
-      changeEstimateStatus({
-        id,
-        action: `${id}/send`,
-        navigation,
-        params,
-        onSuccess: () =>
-          showNotification({message: t('notification.estimate_sent')})
-      })
-    );
-  };
-
   navigateToCustomer = () => {
     const {navigation} = this.props;
     const {currency} = this.state;
@@ -398,10 +386,6 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
     } = this.props;
     const {isFetchingInitialData, hasExchangeRate} = this.state;
     const disabled = !isAllowToEdit;
-
-    const hasCustomField = isEditScreen
-      ? formValues && formValues.hasOwnProperty('fields')
-      : !isEmpty(customFields);
 
     let hasCompleteStatus = status === 'COMPLETED';
 
@@ -482,7 +466,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
           <SendMail
             reference={ref => (this.sendMailRef = ref)}
             toEmail={this.props?.formValues?.customer?.email}
-            onSendMail={this.sendEmail}
+            id={this.props.id}
             type="estimate"
           />
         )}
@@ -575,7 +559,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
           disabled={disabled}
         />
 
-        {hasCustomField && <CustomField {...this.props} />}
+        <CustomField {...this.props} />
       </DefaultLayout>
     );
   }

@@ -182,9 +182,12 @@ export const FinalAmount: FC<IProps> = props => {
           taxTypes={taxTypes}
           fetchTaxes={fetchTaxes}
           component={TaxSelectModal}
-          custom-view
           disabled={disabled}
           theme={theme}
+          custom-view
+          {...(discountPerItem && {
+            customViewClass: 'mt-10'
+          })}
           rightIconPress={() =>
             navigation.navigate(routes.CREATE_TAX, {
               type: 'ADD',

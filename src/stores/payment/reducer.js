@@ -4,7 +4,8 @@ const initialState = {
   payments: [],
   unPaidInvoices: [],
   isSaving: false,
-  isDeleting: false
+  isDeleting: false,
+  isLoading: false
 };
 
 export default function paymentReducer(state = initialState, action) {
@@ -20,7 +21,8 @@ export default function paymentReducer(state = initialState, action) {
           ...state,
           payments: payload.payments,
           isSaving: false,
-          isDeleting: false
+          isDeleting: false,
+          isLoading: false
         };
       }
       return {

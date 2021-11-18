@@ -66,9 +66,6 @@ const styles = StyleSheet.create({
     backgroundColor: bgColor[type]
   }),
   notification: {
-    ...(isAndroidPlatform && {
-      marginTop: 30
-    }),
     ...(isIPhoneX() && {
       marginTop: 5
     })

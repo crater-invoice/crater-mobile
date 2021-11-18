@@ -5,7 +5,7 @@ import {Field, change, initialize} from 'redux-form';
 import {ExchangeRateField, TemplateField} from '@/components';
 import {dismissRoute, routes} from '@/navigation';
 import t from 'locales/use-translation';
-import {alertMe, isEmpty} from '@/constants';
+import {alertMe} from '@/constants';
 import {
   BaseInput,
   BaseDatePicker,
@@ -156,8 +156,11 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       return;
     }
 
-    if (finalAmount() < 0) {
-      showNotification({message: t('invoices.alert.less_amount')});
+    if (finalAmount() <= 0) {
+      showNotification({
+        message: t('invoices.alert.less_amount'),
+        type: 'error'
+      });
       return;
     }
 
@@ -308,21 +311,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     }
   };
 
-  sendEmail = params => {
-    const {navigation, dispatch, id} = this.props;
-
-    dispatch(
-      changeInvoiceStatus({
-        id,
-        action: `${id}/send`,
-        navigation,
-        params,
-        onResult: () =>
-          showNotification({message: t('notification.invoice_sent')})
-      })
-    );
-  };
-
   navigateToCustomer = () => {
     const {navigation} = this.props;
     const {currency} = this.state;
@@ -368,9 +356,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     } = this.props;
     const {isFetchingInitialData, hasExchangeRate} = this.state;
     const disabled = !isAllowToEdit;
-    const hasCustomField = isEditScreen
-      ? formValues && formValues.hasOwnProperty('fields')
-      : !isEmpty(customFields);
     let hasSentStatus = status === 'SENT' || status === 'VIEWED';
     let hasCompleteStatus = status === 'COMPLETED';
 
@@ -450,7 +435,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           <SendMail
             reference={ref => (this.sendMailRef = ref)}
             toEmail={this.props.formValues?.customer?.email}
-            onSendMail={this.sendEmail}
+            id={this.props.id}
             type="invoice"
           />
         )}
@@ -543,7 +528,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           disabled={disabled}
         />
 
-        {hasCustomField && <CustomField {...this.props} />}
+        <CustomField {...this.props} />
       </DefaultLayout>
     );
   }

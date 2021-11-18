@@ -81,3 +81,13 @@ export const convertToInvoice = id => {
 export const fetchNextEstimateNumber = () => {
   return Request.get({path: `next-number?key=estimate`});
 };
+
+/**
+ * Send estimate
+ * @param id : estimate id
+ * @param body : params
+ * @returns {*}
+ */
+export const sendEstimate = (id, body) => {
+  return Request.post({path: `estimates/${id}/send`, body});
+};

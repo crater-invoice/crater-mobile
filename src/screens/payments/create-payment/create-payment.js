@@ -3,7 +3,7 @@ import {Field, change, initialize} from 'redux-form';
 import moment from 'moment';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-payment-type';
-import {DATE_FORMAT, hasObjectLength, isEmpty} from '@/constants';
+import {DATE_FORMAT, hasObjectLength} from '@/constants';
 import {keyboardType} from '@/helpers/keyboard';
 import {secondaryHeader} from 'utils/header';
 import {CREATE_PAYMENT_FORM} from 'stores/payment/types';
@@ -31,8 +31,7 @@ import {
   addPayment,
   updatePayment,
   fetchSinglePayment,
-  fetchPaymentInitialDetails,
-  sendPaymentReceipt
+  fetchPaymentInitialDetails
 } from 'stores/payment/actions';
 import {checkExchangeRate} from 'stores/common/actions';
 
@@ -162,11 +161,6 @@ export default class CreatePayment extends Component<IProps, IStates> {
     this.props.dispatch(change(CREATE_PAYMENT_FORM, field, value));
   };
 
-  sendPaymentReceipt = params => {
-    const {dispatch, id} = this.props;
-    dispatch(sendPaymentReceipt(id, params));
-  };
-
   navigateToCustomer = () => {
     const {navigation} = this.props;
     dismissRoute(routes.CREATE_CUSTOMER, () => {
@@ -245,10 +239,6 @@ export default class CreatePayment extends Component<IProps, IStates> {
       rightIconPress: handleSubmit(this.onSave)
     });
 
-    const hasCustomField = isEditScreen
-      ? formValues && formValues.hasOwnProperty('fields')
-      : !isEmpty(customFields);
-
     const bottomAction = (
       <BaseButtonGroup>
         <BaseButton
@@ -273,7 +263,9 @@ export default class CreatePayment extends Component<IProps, IStates> {
           <SendMail
             reference={ref => (this.sendMailRef = ref)}
             toEmail={this.props.formValues?.customer?.email}
-            onSendMail={this.sendPaymentReceipt}
+            id={this.props.id}
+            disable-from-email
+            hide-preview
             type="payment"
           />
         )}
@@ -363,7 +355,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
           onSelect={this.setFormField}
         />
 
-        {hasCustomField && <CustomField {...this.props} />}
+        <CustomField {...this.props} />
       </DefaultLayout>
     );
   }

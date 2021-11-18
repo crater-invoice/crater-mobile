@@ -1,5 +1,5 @@
 import * as types from './types';
-import {DATE_FORMAT, SET_MAIL_CONFIGURATION, SWITCH_THEME} from '@/constants';
+import {DATE_FORMAT, SWITCH_THEME} from '@/constants';
 import {lightTheme} from '@/theme/light';
 import {SET_BIOMETRY_AUTH_TYPE} from '../setting/types';
 
@@ -8,13 +8,10 @@ const initialState = {
   timeZone: null,
   discount_per_item: false,
   tax_per_item: false,
-  notifyInvoiceViewed: false,
-  notifyEstimateViewed: false,
   loading: false,
   dateFormat: DATE_FORMAT,
   endpointApi: null,
   endpointURL: null,
-  mailDriver: null,
   fiscalYear: '2-1',
   biometryAuthType: null,
   lastOTACheckDate: null,
@@ -47,9 +44,6 @@ export default function commonReducer(state = initialState, action) {
         fiscalYear: current_company_settings.fiscal_year,
         locale: current_user_settings?.language ?? 'en'
       };
-
-    case SET_MAIL_CONFIGURATION:
-      return {...state, mailDriver: payload.mailDriver};
 
     case SET_BIOMETRY_AUTH_TYPE:
       return {...state, biometryAuthType: payload};

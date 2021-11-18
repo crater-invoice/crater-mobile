@@ -110,7 +110,7 @@ export const setCompanySetting = (payload = {}) => ({
  * @param onSuccess
  * @returns {{type: string, payload: *}}
  */
-export const fetchCompanySettings = (keys, onSuccess) => ({
+export const fetchCompanySettings = (keys = null, onSuccess = null) => ({
   type: types.FETCH_COMPANY_SETTINGS,
   payload: {keys, onSuccess}
 });

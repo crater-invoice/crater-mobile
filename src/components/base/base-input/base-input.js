@@ -149,14 +149,7 @@ class TextInput extends Component<IProps> {
       icons = {
         leftIcon: (
           <View style={styles.leftSymbolView}>
-            <Text
-              color={
-                active || hasTextLength(inputVal)
-                  ? theme?.text?.secondaryColor
-                  : theme?.text?.fifthColor
-              }
-              style={styles.leftSymbol}
-            >
+            <Text color={theme?.text?.fifthColor} style={styles.leftSymbol}>
               {currency.symbol}
             </Text>
           </View>
