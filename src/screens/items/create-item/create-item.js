@@ -481,6 +481,7 @@ export class CreateItem extends React.Component<IProps> {
               hint={t('items.discount')}
               keyboardType={keyboardType.DECIMAL}
               disabled={discount_type === 'none'}
+              inputProps={{selectTextOnFocus: true}}
             />
           </View>
         )}
