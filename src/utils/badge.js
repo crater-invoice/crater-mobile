@@ -6,8 +6,8 @@ export const BADGE_STATUS_BG_COLOR = {
     dark: colors.danger
   },
   ACTIVE: {
-    light: colors.warningLight,
-    dark: colors.warning
+    light: colors.successLight2,
+    dark: colors.success
   },
   DRAFT: {
     light: colors.warningLight,
@@ -60,6 +60,10 @@ export const BADGE_STATUS_BG_COLOR = {
 };
 
 export const BADGE_STATUS_TEXT_COLOR = {
+  ACTIVE: {
+    light: colors.successDark,
+    dark: colors.success
+  },
   DRAFT: {
     light: colors.warningDark,
     dark: colors.warning
