@@ -30,6 +30,7 @@ export default props => {
   const {isAllowToEdit, theme, formValues} = props;
   let dataType = formValues?.type;
   let optionView = [];
+  const alreadyInUsed = formValues?.in_use;
 
   const TIME_FIELD = (
     <Field
@@ -96,7 +97,7 @@ export default props => {
       component={SelectFieldOptions}
       addFirstItem
       removeFirstItemOnPress
-      disabled={!isAllowToEdit}
+      disabled={!isAllowToEdit || alreadyInUsed}
       theme={theme}
     />
   );

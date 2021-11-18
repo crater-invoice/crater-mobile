@@ -111,10 +111,12 @@ export default class CreateCustomField extends Component<IProps, IStates> {
       isSaving,
       isDeleting,
       handleSubmit,
+      formValues,
       theme
     } = this.props;
     const {isFetchingInitialData} = this.state;
     const disabled = !isAllowToEdit;
+    const alreadyInUsed = formValues?.in_use;
     const headerProps = secondaryHeader({
       ...this.props,
       rightIconPress: handleSubmit(this.onSave)
@@ -162,7 +164,8 @@ export default class CreateCustomField extends Component<IProps, IStates> {
           label={t('custom_fields.model')}
           fieldIcon="align-center"
           items={modalTypeList}
-          disabled={disabled}
+          disabled={disabled || alreadyInUsed}
+          description={alreadyInUsed && t('custom_fields.already_in_use')}
           isRequired
           defaultPickerOptions={{
             label: t('custom_fields.model_placeholder'),
@@ -200,7 +203,8 @@ export default class CreateCustomField extends Component<IProps, IStates> {
           isRequired
           fieldIcon="align-center"
           items={dataTypeList}
-          disabled={disabled}
+          disabled={disabled || alreadyInUsed}
+          description={alreadyInUsed && t('custom_fields.already_in_use')}
           defaultPickerOptions={{
             label: t('custom_fields.type_placeholder'),
             value: ''
@@ -219,6 +223,7 @@ export default class CreateCustomField extends Component<IProps, IStates> {
           isRequired
           hint={t('custom_fields.label')}
           disabled={disabled}
+          fieldStyle={{marginTop: 15}}
         />
 
         {options(this.props)}

@@ -13,8 +13,8 @@ export default ({formValues, endpointApi, idToken, id, type, theme}) => {
   );
 
   const url = {
-    invoice: `invoices/${id}/send`,
-    estimate: `estimates/${id}/send`
+    invoice: `invoices/${id}/send/preview`,
+    estimate: `estimates/${id}/send/preview`
   };
 
   const headers = {

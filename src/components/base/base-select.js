@@ -29,7 +29,8 @@ const SelectView = props => {
     theme,
     customView,
     leftIconProps,
-    leftSymbolStyle
+    leftSymbolStyle,
+    description
   } = props;
 
   if (customView) {
@@ -109,6 +110,7 @@ const SelectView = props => {
           />
         )}
       </ButtonView>
+      {description ? <Text class="h6 mx-2">{description}</Text> : null}
       <BaseError {...props} style={styles.validation} />
     </Container>
   );

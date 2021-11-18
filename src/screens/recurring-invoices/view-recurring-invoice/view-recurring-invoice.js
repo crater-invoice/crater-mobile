@@ -7,14 +7,7 @@ import {
   RECURRING_INVOICES_ACTIONS,
   RECURRING_INVOICE_DROPDOWN
 } from 'stores/recurring-invoice/types';
-import {
-  DefaultLayout,
-  ViewData,
-  ListView,
-  ScrollView,
-  Text,
-  View
-} from '@/components';
+import {DefaultLayout, ViewData, ListView, Text, View} from '@/components';
 import {
   fetchSingleRecurringInvoice,
   removeRecurringInvoice
@@ -116,10 +109,10 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
     const {
       data: {
         customer,
-        formattedStartsAt,
-        formattedNextInvoiceAt,
+        formatted_starts_at,
+        formatted_next_invoice_at,
         limit_by,
-        formattedLimitDate,
+        formatted_limit_date,
         limit_count,
         status,
         frequency
@@ -131,15 +124,11 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
     };
     const limitDate = {
       label: t('recurring_invoices.limit_types.date'),
-      values: formattedLimitDate
+      values: formatted_limit_date
     };
 
     return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.scrollContainer}
-      >
+      <>
         <Text h4 mt-17 color={this.props.theme.text.fifthColor}>
           {t('recurring_invoices.basic_info')}
         </Text>
@@ -148,18 +137,20 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
           inPairs
           first={{
             label: t('recurring_invoices.start_date'),
-            values: formattedStartsAt
+            values: formatted_starts_at
           }}
           second={{
             label: t('recurring_invoices.next_invoice_at'),
-            values: formattedNextInvoiceAt
+            values: formatted_next_invoice_at
           }}
         />
-        <ViewData
-          inPairs
-          first={{label: t('recurring_invoices.limit_by'), values: limit_by}}
-          second={limit_by === 'DATE' ? limitDate : limitCount}
-        />
+        {limit_by !== 'NONE' && (
+          <ViewData
+            inPairs
+            first={{label: t('recurring_invoices.limit_by'), values: limit_by}}
+            second={limit_by === 'DATE' ? limitDate : limitCount}
+          />
+        )}
         <ViewData
           inPairs
           first={{
@@ -171,7 +162,7 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
             values: frequency
           }}
         />
-      </ScrollView>
+      </>
     );
   };
 
@@ -185,18 +176,14 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
         <Text h4 mt-25 color={theme.text.fifthColor}>
           {t('recurring_invoices.invoices')}
         </Text>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={styles.scrollContainer}
-        >
+        <View style={styles.listIVew}>
           <ListView
             items={formattedInvoices(invoices, theme)}
             onPress={this.onSelectInvoice}
             bottomDivider
             isAnimated
           />
-        </ScrollView>
+        </View>
       </View>
     );
   };
