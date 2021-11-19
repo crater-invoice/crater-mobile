@@ -9,6 +9,8 @@ export const FETCH_USERS_SUCCESS = 'users/FETCH_USERS_SUCCESS';
 export const FETCH_SINGLE_USER = 'users/FETCH_SINGLE_USER';
 export const FETCH_SINGLE_USER_SUCCESS = 'users/FETCH_SINGLE_USER_SUCCESS';
 
+export const FETCH_INITIAL_DETAILS = 'users/FETCH_USER_INITIAL_DETAILS';
+
 export const ADD_USER = 'users/ADD_USER';
 export const ADD_USER_SUCCESS = 'users/ADD_USER_SUCCESS';
 

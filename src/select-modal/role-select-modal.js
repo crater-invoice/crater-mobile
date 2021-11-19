@@ -1,7 +1,6 @@
 import React from 'react';
 import {AssetImage, SelectField} from '@/components';
 import t from 'locales/use-translation';
-import {routes} from '@/navigation';
 
 interface IProps {
   /**
@@ -21,7 +20,8 @@ interface IProps {
 }
 
 export const RoleSelectModal = (props: IProps) => {
-  const {roles, fetchRoles, disabled} = props;
+  const {roles, fetchRoles, disabled, company_id} = props;
+
   return (
     <SelectField
       {...props}
@@ -31,11 +31,12 @@ export const RoleSelectModal = (props: IProps) => {
       isRequired
       getItems={fetchRoles}
       displayName="title"
-      label={t('users.role')}
-      icon={'align-center'}
-      createActionRouteName={routes.ROLES}
       compareField="id"
-      headerProps={{title: t('users.roles')}}
+      headerProps={{title: t('users.roles'), rightIconPress: null}}
+      infiniteScrollProps={{
+        hideLoader: false,
+        defaultQueryString: {company_id}
+      }}
       emptyContentProps={{
         contentType: 'roles',
         image: AssetImage.images.empty_customers

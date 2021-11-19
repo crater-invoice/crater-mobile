@@ -19,7 +19,7 @@ class DropdownPicker extends Component {
       callbackWhenMount
     } = this.props;
 
-    onChange(value);
+    onChange?.(value);
     this.setState({selectedItemValue: value});
     callbackWhenMount ? callbackWhenMount?.() : onChangeCallback?.(value);
   }
@@ -30,7 +30,7 @@ class DropdownPicker extends Component {
       input: {onChange}
     } = this.props;
 
-    onChange(v);
+    onChange?.(v);
 
     this.setState({selectedItemValue: v});
     onChangeCallback && onChangeCallback(v);

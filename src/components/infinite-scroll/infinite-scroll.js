@@ -30,7 +30,8 @@ class ScrollList extends React.Component<IProps, IState> {
     this.allParams = {};
     this.allQueryStrings = {
       orderByField: 'created_at',
-      orderBy: 'desc'
+      orderBy: 'desc',
+      ...props?.defaultQueryString
     };
     this.state = {
       loading: props?.hideLoader ? false : true,

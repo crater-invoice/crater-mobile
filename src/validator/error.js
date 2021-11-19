@@ -53,7 +53,7 @@ export function getError(
     itemField: () => (!value ? 'validation.choose' : null),
 
     requiredCheckArray: () =>
-      value && value.length ? null : 'validation.choose',
+      value && value.length ? null : message ?? 'validation.choose',
 
     minNumberRequired: () =>
       value <= minNumber ? `validation.minimum_number` : null,

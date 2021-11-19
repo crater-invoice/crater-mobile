@@ -79,7 +79,8 @@
     "users": "Users",
     "add_user": "Add User",
     "edit_user": "Edit User",
-    "view_user": "View User"
+    "view_user": "View User",
+    "companies": "Companies"
   },
   "tab_navigation": {
     "invoices": "Invoices",

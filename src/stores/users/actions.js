@@ -73,3 +73,13 @@ export function removeUser(id) {
     payload: {id}
   };
 }
+
+/**
+ * Fetch user initial details
+ * @param payload
+ * @returns {{type: string, payload: *}}
+ */
+export const fetchUserInitialDetails = payload => ({
+  type: types.FETCH_INITIAL_DETAILS,
+  payload
+});

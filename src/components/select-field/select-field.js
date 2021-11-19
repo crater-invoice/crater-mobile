@@ -12,7 +12,12 @@ import {ARROW_ICON} from '@/assets';
 import {PaymentModeModal, UnitModal} from '../modal';
 import {PermissionService} from '@/services';
 import {commonSelector} from 'stores/common/selectors';
-import {BaseButton, BaseButtonGroup, BaseSelect} from '@/components';
+import {
+  BaseButton,
+  BaseButtonGroup,
+  BaseMultiSelect,
+  BaseSelect
+} from '@/components';
 
 export class SelectFieldComponent extends Component<IProps, IStates> {
   scrollViewReference: any;
@@ -72,7 +77,11 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     let newValue = '';
     for (const key in items) {
       const field = items[key]['fullItem'][compareField];
-      if (hasValue(key) && field && field.trim() === value) {
+      if (
+        hasValue(key) &&
+        field &&
+        (typeof field === 'string' && field.trim() === value)
+      ) {
         newValue = items[key]['fullItem'][displayName];
         break;
       }
@@ -108,7 +117,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
       });
 
       if (!hasPagination || !apiSearch) {
-        meta.dispatch(change(meta.form, `search-${input?.name}`, ''));
+        meta?.dispatch?.(change(meta.form, `search-${input?.name}`, ''));
       }
     }
   };
@@ -205,11 +214,11 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
 
     if (!onSelect) {
       isMultiSelect
-        ? onChange([
+        ? onChange?.([
             ...value,
             ...[{...item, [valueCompareField]: item[compareField]}]
           ])
-        : onChange(item);
+        : onChange?.(item);
     } else {
       onSelect(item);
     }
@@ -249,13 +258,12 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
   };
 
   onSubmit = () => {
-    const {
-      input: {onChange, value}
-    } = this.props;
-
+    const {input, onSubmitCallback} = this.props;
     const {selectedItems} = this.state;
 
-    onChange(selectedItems);
+    onSubmitCallback
+      ? onSubmitCallback?.(selectedItems)
+      : input?.onChange?.(selectedItems);
 
     this.setState({
       oldItems: selectedItems
@@ -352,7 +360,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
       paginationLimit,
       customView,
       inputModalName,
-      createActionRouteName
+      createActionRouteName,
+      isMultiSelect
     } = this.props;
 
     const {visible, search, values, selectedItems, searchItems} = this.state;
@@ -386,7 +395,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         getItemsInMount: false,
         onMount: this.getPaginationItems,
         hideLoader: !isEmpty(items),
-        ...(paginationLimit && {paginationLimit})
+        ...(paginationLimit && {paginationLimit}),
+        ...this.props.infiniteScrollProps
       };
     }
 
@@ -443,22 +453,40 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
       }
     };
 
-    let fieldView = !customView ? (
-      <BaseSelect
-        label={label}
-        icon={icon}
-        isRequired={isRequired}
-        values={value && (values || placeholder)}
-        placeholder={placeholder}
-        onChangeCallback={this.onToggle}
-        containerStyle={containerStyle}
-        meta={meta}
-        rightIcon={'angle-down'}
-        {...baseSelectProps}
-      />
-    ) : (
-      customView
-    );
+    let fieldView = null;
+
+    if (customView) {
+      fieldView = customView;
+    } else if (isMultiSelect) {
+      fieldView = (
+        <BaseMultiSelect
+          label={label}
+          isRequired={isRequired}
+          onChangeCallback={this.onToggle}
+          containerStyle={containerStyle}
+          meta={meta}
+          rightIcon={'angle-down'}
+          items={this.props.multiSelectedItems}
+          displayName={this.props.displayName}
+          {...baseSelectProps}
+        />
+      );
+    } else {
+      fieldView = (
+        <BaseSelect
+          label={label}
+          icon={icon}
+          isRequired={isRequired}
+          values={value && (values || placeholder)}
+          placeholder={placeholder}
+          onChangeCallback={this.onToggle}
+          containerStyle={containerStyle}
+          meta={meta}
+          rightIcon={'angle-down'}
+          {...baseSelectProps}
+        />
+      );
+    }
 
     return (
       <View style={{flex: 1}}>

@@ -14,3 +14,4 @@ export * from './retrospective-edit-select-modal';
 export * from './tax-select-modal';
 export * from './time-zone-select-modal';
 export * from './unit-select-modal';
+export * from './company-select-modal';

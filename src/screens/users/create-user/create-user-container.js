@@ -6,19 +6,21 @@ import {validate} from 'stores/users/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {fetchRoles} from 'stores/role/actions';
 import {rolesSelector, loadingSelector} from 'stores/users/selectors';
+import {companiesSelector} from '@/stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => ({
   roles: rolesSelector(state),
   ...loadingSelector(state),
   ...commonSelector(state),
   ...permissionSelector(route),
+  companies: companiesSelector(state),
   formValues: getFormValues(CREATE_USER_FORM)(state) || {},
   initialValues: {
     name: null,
     email: null,
     password: null,
     phone: null,
-    role: null
+    companies: []
   }
 });
 

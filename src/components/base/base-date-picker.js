@@ -45,7 +45,7 @@ class DatePicker extends Component<IProps, IStates> {
     if (selectedDate && !value === false) {
       this.setState({value: selectedDate});
       this.pickerDateValue = selectedDate;
-      onChange(selectedDateValue);
+      onChange?.(selectedDateValue);
     } else {
       if (value) {
         let displayDate = moment(value).format(dateFormat);
@@ -53,7 +53,7 @@ class DatePicker extends Component<IProps, IStates> {
 
         this.setState({value: displayDate});
 
-        onChange(formDate);
+        onChange?.(formDate);
 
         this.pickerDateValue = formDate;
       }
@@ -100,7 +100,7 @@ class DatePicker extends Component<IProps, IStates> {
 
     this.showHideDateTimePicker();
 
-    onChange(formDate);
+    onChange?.(formDate);
 
     if (filter) {
       onChangeCallback && onChangeCallback(formDate, displayDate);

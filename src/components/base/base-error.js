@@ -19,7 +19,11 @@ export const Error = props => {
     theme
   } = props;
 
-  const hasError = !hideError && meta?.submitFailed && meta?.error;
+  const hasError =
+    !hideError &&
+    meta?.submitFailed &&
+    meta?.error &&
+    typeof meta.error === 'string';
 
   if (!hasError) {
     return null;

@@ -1,3 +1,4 @@
+import {hasValue, isEmpty} from '@/constants';
 import {getError} from '@/validator';
 
 export const validate = (values, {type}) => {
@@ -12,6 +13,9 @@ export const validate = (values, {type}) => {
     {minCharacter: 8}
   );
   errors.role = getError(values?.role, ['required']);
+  errors.companies = getError(values?.companies, ['requiredCheckArray'], {
+    message: 'validation.required'
+  });
 
   return errors;
 };
