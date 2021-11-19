@@ -12,7 +12,7 @@ export const formatItems = (invoices, theme) => {
   return invoices.map(item => {
     const {
       invoice_number,
-      user: {name, currency} = {},
+      customer: {name, currency} = {},
       status,
       formatted_invoice_date,
       total
