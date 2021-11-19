@@ -99,6 +99,7 @@ class TextInput extends Component<IProps> {
       editable = true,
       hideError,
       disabled,
+      disabledStyle,
       textColor,
       height,
       setActivity,
@@ -113,6 +114,7 @@ class TextInput extends Component<IProps> {
       leftIconStyle,
       isRequired = false,
       leftSymbol,
+      rightSymbol,
       onError,
       currency,
       theme,
@@ -161,6 +163,18 @@ class TextInput extends Component<IProps> {
           <View style={styles.leftSymbolView}>
             <Text color={theme?.text?.fifthColor} style={styles.leftSymbol}>
               {leftSymbol}
+            </Text>
+          </View>
+        )
+      };
+    }
+
+    if (rightSymbol) {
+      icons = {
+        rightIcon: (
+          <View style={styles.rightSymbolView}>
+            <Text color={colors.gray5} style={styles.rightSymbol}>
+              {rightSymbol}
             </Text>
           </View>
         )
@@ -219,6 +233,7 @@ class TextInput extends Component<IProps> {
               color: theme?.input?.color
             },
             leftSymbol && styles.withLeftSymbolText,
+            rightSymbol && styles.withRightSymbolText,
             active && styles.activeInput,
             textColor && {color: textColor},
             textStyle && textStyle,
@@ -233,7 +248,10 @@ class TextInput extends Component<IProps> {
             },
             inputContainerStyle && inputContainerStyle,
             rounded && {borderRadius: 5},
-            disabled && styles.disabledInput(theme),
+            disabled && [
+              styles.disabledInput(theme),
+              disabledStyle && disabledStyle
+            ],
             submitFailed &&
               error && {
                 borderColor: theme?.input?.validationBackgroundColor

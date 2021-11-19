@@ -13,7 +13,8 @@ import {
   ItemField,
   FinalAmount,
   BaseButtonGroup,
-  BaseButton
+  BaseButton,
+  ExchangeRateField
 } from '@/components';
 import {
   CREATE_ESTIMATE_FORM,
@@ -53,6 +54,10 @@ import {
   addEstimate,
   updateEstimate
 } from 'stores/estimate/actions';
+import {
+  checkExchangeRate,
+  checkExchangeRateProvider
+} from 'stores/common/actions';
 
 export default class CreateEstimate extends React.Component<IProps, IStates> {
   estimateRefs: any;
@@ -68,7 +73,9 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
 
     this.state = {
       currency: props?.currency,
-      isFetchingInitialData: true
+      isFetchingInitialData: true,
+      hasExchangeRate: false,
+      hasProvider: false
     };
   }
 
@@ -92,15 +99,13 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
   };
 
   setInitialData = async res => {
-    const {dispatch, estimateTemplates, route, currency} = this.props;
+    const {dispatch, estimateTemplates, route} = this.props;
 
     let values = {
       ...initialValues(estimateTemplates),
       ...res
     };
-
-    await this.setState({currency: res?.customer?.currency ?? currency});
-
+    let customerCurrency = res?.customer?.currency;
     const customer = route?.params?.customer;
     if (customer) {
       values = {
@@ -108,9 +113,10 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
         customer,
         customer_id: customer.id
       };
-      await this.setState({currency: customer.currency});
+      customerCurrency = customer.currency;
     }
-
+    customerCurrency &&
+      (await this.checkExchangeRateProvider(customerCurrency));
     dispatch(initialize(CREATE_ESTIMATE_FORM, values));
     this.setState({isFetchingInitialData: false});
   };
@@ -340,11 +346,39 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
         currency,
         onSelect: item => {
           this.customerReference?.changeDisplayValue?.(item);
-          this.setFormField('customer_id', item.id);
-          this.setState({currency: item.currency});
+          this.onCustomerSelect(item);
         }
       });
     });
+  };
+
+  onCustomerSelect = item => {
+    item && this.state.hasProvider && this.setState({hasProvider: false});
+    this.setFormField('exchange_rate', null);
+    this.setFormField('customer_id', item.id);
+    this.setExchangeRate(item.currency);
+  };
+
+  setExchangeRate = (customerCurrency, onResult) => {
+    const {currency, dispatch} = this.props;
+    const hasExchangeRate = customerCurrency?.id !== currency?.id;
+    this.setState({hasExchangeRate, currency: customerCurrency});
+    const onSuccess = ({exchangeRate}) => {
+      this.setFormField('exchange_rate', exchangeRate?.[0]);
+      onResult?.();
+    };
+    hasExchangeRate &&
+      dispatch(checkExchangeRate(customerCurrency.id, onSuccess));
+  };
+
+  checkExchangeRateProvider = customerCurrency => {
+    const {currency, dispatch} = this.props;
+    const hasExchangeRate = customerCurrency?.id !== currency?.id;
+    this.setState({hasExchangeRate, currency: customerCurrency});
+    const onSuccess = ({success}) =>
+      success && this.setState({hasProvider: true});
+    hasExchangeRate &&
+      dispatch(checkExchangeRateProvider(customerCurrency.id, onSuccess));
   };
 
   render() {
@@ -368,7 +402,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
       notes,
       fetchNotes
     } = this.props;
-    const {isFetchingInitialData} = this.state;
+    const {isFetchingInitialData, hasExchangeRate} = this.state;
     const disabled = !isAllowToEdit;
 
     let hasCompleteStatus = status === 'COMPLETED';
@@ -495,14 +529,14 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
           customers={customers}
           component={CustomerSelectModal}
           selectedItem={customer}
-          onSelect={item => {
-            this.setFormField('customer_id', item.id);
-            this.setState({currency: item.currency});
-          }}
+          onSelect={this.onCustomerSelect}
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
           disabled={disabled}
         />
+
+        {hasExchangeRate && <ExchangeRateField {...this} />}
+
         <ItemField
           {...this.props}
           currency={this.state.currency}

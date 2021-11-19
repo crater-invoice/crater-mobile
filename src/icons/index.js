@@ -9,3 +9,4 @@ export * from './setting-icon';
 export * from './percentage-icon';
 export * from './close-icon';
 export * from './lost-connection-icon';
+export * from './refresh-icon';

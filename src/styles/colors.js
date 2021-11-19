@@ -48,6 +48,7 @@ export const colors = {
   white7: '#E5E7EB',
   white8: '#d7d7d7',
   white9: '#EBDCC7',
+  white10: '#F8FAFC',
   black: '#000',
   black2: '#1F2937'
 };

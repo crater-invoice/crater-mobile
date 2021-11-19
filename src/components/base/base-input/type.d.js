@@ -44,6 +44,7 @@ export interface IProps {
   hintStyle: Object;
   containerStyle: Object;
   inputContainerStyle: Object;
+  disabledStyle: Object;
   inputStyle: Object;
 
   keyboardType: string;

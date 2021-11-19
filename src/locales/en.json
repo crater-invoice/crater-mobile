@@ -702,6 +702,7 @@
     "change": "Change",
     "set_up_now": "Set up now",
     "later": "Will do it later",
+    "refresh": "Refresh",
     "preview": "Preview"
   },
   "filter": {
@@ -760,6 +761,11 @@
     "role": "Role",
     "roles": "Roles",
     "role_placeholder": "Select Role"
+  },
+  "exchange_rate": {
+    "label": "Exchange Rate",
+    "base_currency": "1 {{baseCurrency}} = ",
+    "exchange_help_text": "Enter exchange rate to convert from {{baseCurrency}} to {{selectedCurrency}}."
   },
   "actions": {
     "new_estimate": "New Estimate",

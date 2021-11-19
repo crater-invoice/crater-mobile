@@ -16,7 +16,7 @@ import {
   ExpenseCategorySelectModal,
   PaymentModeSelectModal
 } from '@/select-modal';
-import {IProps, IState} from './create-expense-type';
+import {IProps, IStates} from './create-expense-type';
 import {
   addExpense,
   fetchExpenseInitialDetails,
@@ -31,10 +31,15 @@ import {
   BaseDatePicker,
   CustomField,
   BaseButtonGroup,
+  ExchangeRateField,
   BaseButton
 } from '@/components';
+import {
+  checkExchangeRate,
+  checkExchangeRateProvider
+} from 'stores/common/actions';
 
-export default class CreateExpense extends React.Component<IProps, IState> {
+export default class CreateExpense extends React.Component<IProps, IStates> {
   customerReference: any;
   categoryReference: any;
 
@@ -49,7 +54,10 @@ export default class CreateExpense extends React.Component<IProps, IState> {
       imageUrl: null,
       fileLoading: false,
       customer: null,
-      fileType: null
+      currency: null,
+      fileType: null,
+      hasExchangeRate: false,
+      hasProvider: false
     };
   }
 
@@ -74,6 +82,7 @@ export default class CreateExpense extends React.Component<IProps, IState> {
 
   setInitialData = async res => {
     const {dispatch, route} = this.props;
+    let selectedCurrency = res?.currency;
     const customer = route?.params?.customer;
 
     if (res) {
@@ -96,7 +105,8 @@ export default class CreateExpense extends React.Component<IProps, IState> {
       this.setFormField('customer_id', customer.id);
       await this.setState({customer});
     }
-
+    selectedCurrency &&
+      (await this.checkExchangeRateProvider(selectedCurrency));
     this.setState({isFetchingInitialData: false});
   };
 
@@ -158,9 +168,8 @@ export default class CreateExpense extends React.Component<IProps, IState> {
       navigation.navigate(routes.CREATE_CUSTOMER, {
         type: 'ADD',
         onSelect: customer => {
-          this.setState({customer});
-          this.setFormField('customer_id', customer.id);
           this.customerReference?.changeDisplayValue?.(customer);
+          this.onCustomerSelect(customer);
         }
       })
     );
@@ -175,6 +184,40 @@ export default class CreateExpense extends React.Component<IProps, IState> {
         this.categoryReference?.changeDisplayValue?.(item);
       }
     });
+  };
+
+  onCurrencySelect = item => {
+    item && this.state.hasProvider && this.setState({hasProvider: false});
+    this.setFormField('exchange_rate', null);
+    this.setFormField('currency_id', item.id);
+    this.setExchangeRate(item);
+  };
+
+  onCustomerSelect = item => {
+    this.setFormField('customer_id', item.id);
+    this.setState({customer});
+  };
+
+  setExchangeRate = (selectedCurrency, onResult) => {
+    const {currency, dispatch} = this.props;
+    const hasExchangeRate = selectedCurrency?.id !== currency?.id;
+    this.setState({hasExchangeRate, currency: selectedCurrency});
+    const onSuccess = ({exchangeRate}) => {
+      this.setFormField('exchange_rate', exchangeRate?.[0]);
+      onResult?.();
+    };
+    hasExchangeRate &&
+      dispatch(checkExchangeRate(selectedCurrency.id, onSuccess));
+  };
+
+  checkExchangeRateProvider = selectedCurrency => {
+    const {currency, dispatch} = this.props;
+    const hasExchangeRate = selectedCurrency?.id !== currency?.id;
+    this.setState({hasExchangeRate, currency: selectedCurrency});
+    const onSuccess = ({success}) =>
+      success && this.setState({hasProvider: true});
+    hasExchangeRate &&
+      dispatch(checkExchangeRateProvider(selectedCurrency.id, onSuccess));
   };
 
   render() {
@@ -198,7 +241,13 @@ export default class CreateExpense extends React.Component<IProps, IState> {
       fetchPaymentModes,
       theme
     } = this.props;
-    const {imageUrl, fileType, customer, isFetchingInitialData} = this.state;
+    const {
+      imageUrl,
+      fileType,
+      customer,
+      isFetchingInitialData,
+      hasExchangeRate
+    } = this.state;
 
     const categoryName = formValues?.expense_category?.name;
     const disabled = !isAllowToEdit;
@@ -319,10 +368,12 @@ export default class CreateExpense extends React.Component<IProps, IState> {
           component={CurrencySelectModal}
           currencies={currencies}
           label={t('settings.preferences.currency')}
-          onSelect={val => this.setFormField('currency_id', val.id)}
+          onSelect={this.onCurrencySelect}
           isRequired
           theme={theme}
         />
+
+        {hasExchangeRate && <ExchangeRateField {...this} />}
 
         <Field
           name="customer_id"
@@ -332,10 +383,7 @@ export default class CreateExpense extends React.Component<IProps, IState> {
           selectedItem={customer}
           customers={customers}
           disabled={disabled}
-          onSelect={customer => {
-            this.setState({customer});
-            this.setFormField('customer_id', customer.id);
-          }}
+          onSelect={this.onCustomerSelect}
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
           isRequired={false}

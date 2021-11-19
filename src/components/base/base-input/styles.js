@@ -86,6 +86,12 @@ export default StyleSheet.create({
     marginTop: 1,
     ...(isAndroidPlatform && {marginTop: 5})
   },
+  rightSymbol: {
+    fontSize: 16,
+    width: '100%',
+    fontWeight: '500',
+    ...(isAndroidPlatform && {marginTop: 5})
+  },
   leftSymbolView: {
     height: '100%',
     marginLeft: -20,
@@ -94,7 +100,17 @@ export default StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 5
   },
+  rightSymbolView: {
+    height: '100%',
+    justifyContent: 'center',
+    alignContent: 'center',
+    paddingRight: 10,
+    paddingLeft: 5
+  },
   withLeftSymbolText: {
+    paddingTop: definePlatformParam(1, 4)
+  },
+  withRightSymbolText: {
     paddingTop: definePlatformParam(1, 4)
   }
 });

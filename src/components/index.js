@@ -37,4 +37,5 @@ export * from './template-field';
 export * from './final-amount';
 export * from './view-data';
 export * from './flash-message';
+export * from './exchange-rate';
 export * from './common';
