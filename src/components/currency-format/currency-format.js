@@ -43,7 +43,7 @@ export class CurrencyFormat extends Component<IProps> {
       <View style={[styles.container, containerStyle && containerStyle]}>
         <Text
           numberOfLines={1}
-          style={(style && style, {includeFontPadding: false})}
+          style={{...style, ...{includeFontPadding: false}}}
         >
           {preText && preText}
         </Text>
