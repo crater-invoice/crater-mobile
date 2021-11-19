@@ -261,15 +261,15 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     const {input, onSubmitCallback} = this.props;
     const {selectedItems} = this.state;
 
-    input?.onChange?.(selectedItems);
+    onSubmitCallback
+      ? onSubmitCallback?.(selectedItems)
+      : input?.onChange?.(selectedItems);
 
     this.setState({
       oldItems: selectedItems
     });
 
     this.onToggle();
-
-    onSubmitCallback?.(selectedItems);
   };
 
   onRightIconPress = () => {
@@ -395,7 +395,8 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         getItemsInMount: false,
         onMount: this.getPaginationItems,
         hideLoader: !isEmpty(items),
-        ...(paginationLimit && {paginationLimit})
+        ...(paginationLimit && {paginationLimit}),
+        ...this.props.infiniteScrollProps
       };
     }
 

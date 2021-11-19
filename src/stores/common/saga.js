@@ -107,7 +107,10 @@ export function* fetchBootstrap(payloadData) {
       companies = []
     } = response;
     const default_language = current_user_settings?.language ?? 'en';
-    PermissionService.setPermissions(current_user_abilities);
+    PermissionService.setPermissions(
+      current_user_abilities,
+      current_user?.is_owner
+    );
     const isRTL = default_language === 'ar';
     setI18nManagerValue({isRTL});
     yield put({type: types.FETCH_BOOTSTRAP_SUCCESS, payload: response});

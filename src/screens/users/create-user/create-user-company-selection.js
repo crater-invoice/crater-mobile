@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text} from '@/components';
 import {Field} from 'redux-form';
+import {find} from 'lodash';
 import {CompanySelectModal, RoleSelectModal} from '@/select-modal';
 import t from 'locales/use-translation';
 import {isEmpty} from '@/constants';
@@ -16,6 +17,16 @@ export default props => {
     disabled
   } = props;
 
+  const onSelectCompanies = companies => {
+    const data = companies.map(company => {
+      return {
+        ...company,
+        ...find(formValues?.companies, {id: company.id})
+      };
+    });
+    setFormField('companies', data);
+  };
+
   return (
     <>
       <Field
@@ -26,12 +37,13 @@ export default props => {
         theme={theme}
         disabled={disabled}
         formValues={formValues}
+        onSubmitCallback={onSelectCompanies}
       />
 
       {!isEmpty(formValues?.companies)
         ? formValues?.companies.map((company, i) => {
             return (
-              <View class="flex-row items-center py-10" key={i}>
+              <View class="flex-row items-center py-3" key={i}>
                 <View class="flex-1">
                   <View justify-center>
                     <View flex-row items-center>
@@ -48,12 +60,13 @@ export default props => {
                   fetchRoles={fetchRoles}
                   component={RoleSelectModal}
                   rightIconPress={null}
+                  company_id={company.id}
                   onSelect={item =>
                     setFormField(`companies[${i}].role`, item.name)
                   }
                   disabled={disabled}
-                  placeholder={formValues?.role ?? t('users.role_placeholder')}
-                  selectedItem={formValues?.role}
+                  placeholder={t('users.role_placeholder')}
+                  selectedItem={formValues?.companies[i]?.selectedRole}
                 />
               </View>
             );

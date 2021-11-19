@@ -69,27 +69,18 @@ const abilities = [
 
 class Service {
   currentAbilities: any;
+  isSuperAdmin: boolean;
 
   constructor() {
     this.currentAbilities = [];
+    this.isSuperAdmin = false;
   }
 
-  setPermissions = currentAbilities => {
+  setPermissions = (currentAbilities, isSuperAdmin) => {
     if (!isEmpty(currentAbilities)) {
       this.currentAbilities = currentAbilities;
+      this.isSuperAdmin = isSuperAdmin;
     }
-  };
-
-  isSuperAdmin = () => {
-    if (isEmpty(this.currentAbilities)) {
-      return true;
-    }
-
-    if (this.currentAbilities?.[0]?.title === 'All abilities') {
-      return true;
-    }
-
-    return false;
   };
 
   hasPermission = ability => {
@@ -97,7 +88,7 @@ class Service {
       return true;
     }
 
-    if (this.isSuperAdmin()) {
+    if (this.isSuperAdmin) {
       return true;
     }
 

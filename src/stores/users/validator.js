@@ -17,13 +17,5 @@ export const validate = (values, {type}) => {
     message: 'validation.required'
   });
 
-  if (!isEmpty(values?.companies)) {
-    errors.companies = [];
-    values?.companies.map((company, i) => {
-      if (!hasValue(company?.role)) {
-        errors.companies[i] = {role: 'validation.required'};
-      }
-    });
-  }
   return errors;
 };

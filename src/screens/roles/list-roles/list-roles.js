@@ -50,7 +50,7 @@ export default class Roles extends Component<IProps, IStates> {
   };
 
   render() {
-    const {dispatch, roles, route} = this.props;
+    const {dispatch, roles, route, selectedCompany} = this.props;
     const {search} = this.state;
 
     return (
@@ -63,6 +63,7 @@ export default class Roles extends Component<IProps, IStates> {
           getItems={q => dispatch(fetchRoles(q))}
           reference={ref => (this.scrollViewReference = ref)}
           getItemsInMount={false}
+          defaultQueryString={{company_id: selectedCompany.id}}
         >
           <ListView
             items={roles}

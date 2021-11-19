@@ -26,8 +26,11 @@ import {PermissionService} from '@/services';
 export default function* rootSaga() {
   yield takeEvery(REHYDRATE, function* boot() {
     const reduxStore = yield select();
-    const abilities = reduxStore?.user?.currentAbilities;
-    PermissionService.setPermissions(abilities);
+    const userStore = reduxStore?.user;
+    PermissionService.setPermissions(
+      userStore?.currentAbilities,
+      userStore?.currentUser?.is_owner
+    );
 
     yield all([
       auth(),

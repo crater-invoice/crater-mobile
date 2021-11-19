@@ -13,7 +13,7 @@ import {navigation} from '@/navigation';
  * Fetch companies saga
  * @returns {IterableIterator<*>}
  */
-function* fetchCompanies(payload) {
+export function* fetchCompanies(payload) {
   try {
     const {data} = yield call(req.fetchCompanies);
     yield put({type: types.FETCH_COMPANIES_SUCCESS, payload: data});

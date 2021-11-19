@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {Field, change, initialize} from 'redux-form';
+import {find} from 'lodash';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './create-user-type';
 import {routes} from '@/navigation';
-import {alertMe} from '@/constants';
+import {alertMe, hasValue} from '@/constants';
 import {keyboardType} from '@/helpers/keyboard';
 import {secondaryHeader} from 'utils/header';
 import {RoleSelectModal} from '@/select-modal';
@@ -20,7 +21,8 @@ import {
   addUser,
   updateUser,
   removeUser,
-  fetchSingleUser
+  fetchSingleUser,
+  fetchUserInitialDetails
 } from 'stores/users/actions';
 import CompanyList from './create-user-company-selection';
 
@@ -40,22 +42,41 @@ export default class CreateUser extends Component<IProps, IStates> {
       dispatch(fetchSingleUser(id, this.setInitialData));
       return;
     }
-    this.setState({isFetchingInitialData: false});
+
+    dispatch(
+      fetchUserInitialDetails(() =>
+        this.setState({isFetchingInitialData: false})
+      )
+    );
   };
 
-  setInitialData = user => {
+  setInitialData = res => {
     const {dispatch} = this.props;
-    dispatch(initialize(CREATE_USER_FORM, user));
+    const companies = res?.companies?.map(company => {
+      const selectedRole = find(res.roles, {scope: company.id});
+      return {
+        ...company,
+        role: selectedRole?.name,
+        selectedRole
+      };
+    });
+
+    const data = {...res, companies};
+    dispatch(initialize(CREATE_USER_FORM, data));
     this.setState({isFetchingInitialData: false});
   };
 
   onSave = params => {
-    console.log({params});
-    return;
     const {id, isCreateScreen, dispatch, isSaving, isDeleting} = this.props;
     const {isFetchingInitialData} = this.state;
 
     if (isSaving || isDeleting || isFetchingInitialData) {
+      return;
+    }
+
+    let hasError = !hasValue(params?.companies[0]?.role);
+
+    if (hasError) {
       return;
     }
 
@@ -94,16 +115,12 @@ export default class CreateUser extends Component<IProps, IStates> {
 
   render() {
     const {
-      roles,
       isEditScreen,
       isAllowToEdit,
       isAllowToDelete,
-      formValues,
       isSaving,
       isDeleting,
-      fetchRoles,
-      handleSubmit,
-      companies
+      handleSubmit
     } = this.props;
     const userRefs: any = {};
     const {isFetchingInitialData} = this.state;

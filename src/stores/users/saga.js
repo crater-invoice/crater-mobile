@@ -5,6 +5,7 @@ import {spinner} from './actions';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 import {navigation} from '@/navigation';
+import {fetchCompanies} from '../company/saga';
 
 /**
  * Fetch users saga
@@ -30,6 +31,7 @@ function* fetchSingleUser({payload}) {
   try {
     const {id, onSuccess} = payload;
     const {data} = yield call(req.fetchSingleUser, id);
+    yield call(fetchCompanies);
     onSuccess?.(data);
   } catch (e) {}
 }
@@ -90,9 +92,19 @@ function* removeUser({payload}) {
   }
 }
 
+/**
+ * Fetch user initial details saga
+ * @returns {IterableIterator<*>}
+ */
+function* fetchUserInitialDetails({payload}) {
+  yield call(fetchCompanies);
+  payload?.();
+}
+
 export default function* usersSaga() {
   yield takeLatest(types.FETCH_USERS, fetchUsers);
   yield takeLatest(types.FETCH_SINGLE_USER, fetchSingleUser);
+  yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchUserInitialDetails);
   yield takeLatest(types.ADD_USER, addUser);
   yield takeLatest(types.UPDATE_USER, updateUser);
   yield takeLatest(types.REMOVE_USER, removeUser);

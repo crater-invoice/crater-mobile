@@ -27,7 +27,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 21,
       fullItem: {route: routes.PREFERENCES},
-      show: PermissionService.isSuperAdmin()
+      show: PermissionService.isSuperAdmin
     },
     {
       title: t('settings.payment_modes'),
@@ -63,7 +63,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 20,
       fullItem: {route: routes.NOTIFICATIONS},
-      show: PermissionService.isSuperAdmin()
+      show: PermissionService.isSuperAdmin
     },
     {
       title: t('settings.notes'),
@@ -93,7 +93,7 @@ export const SETTINGS_MENU = () => {
       leftIcon: 'link',
       iconSize: 20,
       fullItem: {route: routes.ENDPOINTS_SETTINGS},
-      show: PermissionService.isSuperAdmin()
+      show: PermissionService.isSuperAdmin
     }
   ];
 };
