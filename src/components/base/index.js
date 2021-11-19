@@ -4,6 +4,7 @@ export * from './base-empty-placeholder';
 export * from './base-error';
 export * from './base-label';
 export * from './base-select';
+export * from './base-multi-select';
 export * from './base-date-picker';
 export * from './base-time-picker';
 export * from './base-date-time-picker';

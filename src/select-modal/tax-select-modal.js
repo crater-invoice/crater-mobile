@@ -35,7 +35,8 @@ export const TaxSelectModal = (props: IProps) => {
     fetchTaxes,
     disabled = false,
     theme,
-    customViewClass
+    customViewClass,
+    multiSelectedItems
   } = props;
 
   return (
@@ -50,6 +51,7 @@ export const TaxSelectModal = (props: IProps) => {
       concurrentMultiSelect
       onlyPlaceholder
       compareField="id"
+      multiSelectedItems={multiSelectedItems}
       valueCompareField="tax_type_id"
       headerProps={{title: t('taxes.title')}}
       displayName="name"

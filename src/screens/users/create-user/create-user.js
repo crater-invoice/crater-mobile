@@ -12,7 +12,9 @@ import {
   DefaultLayout,
   BaseInput,
   BaseButtonGroup,
-  BaseButton
+  BaseButton,
+  View,
+  Text
 } from '@/components';
 import {
   addUser,
@@ -20,6 +22,7 @@ import {
   removeUser,
   fetchSingleUser
 } from 'stores/users/actions';
+import CompanyList from './create-user-company-selection';
 
 export default class CreateUser extends Component<IProps, IStates> {
   constructor(props) {
@@ -34,7 +37,7 @@ export default class CreateUser extends Component<IProps, IStates> {
   loadData = () => {
     const {isEditScreen, id, dispatch} = this.props;
     if (isEditScreen) {
-      dispatch(fetchSingleUser(id, user => this.setInitialData(user)));
+      dispatch(fetchSingleUser(id, this.setInitialData));
       return;
     }
     this.setState({isFetchingInitialData: false});
@@ -47,6 +50,8 @@ export default class CreateUser extends Component<IProps, IStates> {
   };
 
   onSave = params => {
+    console.log({params});
+    return;
     const {id, isCreateScreen, dispatch, isSaving, isDeleting} = this.props;
     const {isFetchingInitialData} = this.state;
 
@@ -97,7 +102,8 @@ export default class CreateUser extends Component<IProps, IStates> {
       isSaving,
       isDeleting,
       fetchRoles,
-      handleSubmit
+      handleSubmit,
+      companies
     } = this.props;
     const userRefs: any = {};
     const {isFetchingInitialData} = this.state;
@@ -151,21 +157,13 @@ export default class CreateUser extends Component<IProps, IStates> {
           disabled={disabled}
           hint={t('users.email')}
           refLinkFn={ref => (userRefs.email = ref)}
-          onSubmitEditing={() => userRefs.password.focus()}
           keyboardType={keyboardType.EMAIL}
         />
 
-        <Field
-          name="role"
-          roles={roles}
-          fetchRoles={fetchRoles}
-          component={RoleSelectModal}
-          rightIconPress={this.navigateToRole}
-          onSelect={item => this.setFormField(`role`, item.name)}
+        <CompanyList
+          {...this.props}
+          setFormField={this.setFormField}
           disabled={disabled}
-          refLinkFn={ref => (userRefs.role = ref)}
-          placeholder={formValues?.role ?? t('users.role_placeholder')}
-          selectedItem={formValues?.role}
         />
 
         <Field

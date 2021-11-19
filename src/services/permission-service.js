@@ -3,12 +3,6 @@ import {hasValue, isEmpty, toObject} from '@/constants';
 import {routes} from '@/navigation/navigation-routes';
 
 const abilities = [
-  // User
-  {route: routes.USERS, ability: 'view-user'},
-  {route: routes.USERS, ability: 'create-user'},
-  {route: routes.CREATE_USER, ability: 'edit-user'},
-  {route: routes.CREATE_USER, ability: 'delete-user'},
-
   // Customer
   {route: routes.MAIN_CUSTOMERS, ability: 'view-customer'},
   {route: routes.MAIN_CUSTOMERS, ability: 'create-customer'},
@@ -66,12 +60,6 @@ const abilities = [
   {route: routes.CUSTOM_FIELDS, ability: 'create-custom-field'},
   {route: routes.CREATE_CUSTOM_FIELD, ability: 'edit-custom-field'},
   {route: routes.CREATE_CUSTOM_FIELD, ability: 'delete-custom-field'},
-
-  // Role
-  {route: routes.ROLES, ability: 'view-role'},
-  {route: routes.ROLES, ability: 'create-role'},
-  {route: routes.CREATE_ROLE, ability: 'edit-role'},
-  {route: routes.CREATE_ROLE, ability: 'delete-role'},
 
   // Settings
   {route: routes.REPORTS, ability: 'view-report'},

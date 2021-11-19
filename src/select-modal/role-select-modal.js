@@ -31,8 +31,6 @@ export const RoleSelectModal = (props: IProps) => {
       isRequired
       getItems={fetchRoles}
       displayName="title"
-      label={t('users.role')}
-      icon={'align-center'}
       createActionRouteName={routes.ROLES}
       compareField="id"
       headerProps={{title: t('users.roles')}}

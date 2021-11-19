@@ -492,6 +492,7 @@ export class CreateItem extends React.Component<IProps> {
             taxTypes={taxTypes}
             fetchTaxes={fetchTaxes}
             component={TaxSelectModal}
+            multiSelectedItems={formValues?.taxes}
             theme={theme}
             rightIconPress={() =>
               navigation.navigate(routes.CREATE_TAX, {

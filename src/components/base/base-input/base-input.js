@@ -250,8 +250,8 @@ class TextInput extends Component<IProps> {
             this.onChangeValue?.(enteredValue);
 
             isCurrencyInput && this.isNumber(enteredValue)
-              ? onChange(Math.round(enteredValue * 100))
-              : onChange(enteredValue);
+              ? onChange?.(Math.round(enteredValue * 100))
+              : onChange?.(enteredValue);
           }}
           defaultValue={`${inputVal}`}
           secureTextEntry={isSecureTextEntry}
