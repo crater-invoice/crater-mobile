@@ -35,6 +35,7 @@ export const CompanySelectModal = (props: IProps) => {
       {...props}
       items={companies ?? []}
       multiSelectedItems={multiSelectedItems}
+      searchFields={['name']}
       isMultiSelect
       concurrentMultiSelect
       onlyPlaceholder
@@ -42,6 +43,7 @@ export const CompanySelectModal = (props: IProps) => {
       valueCompareField="id"
       isRequired
       headerProps={{title: t('header.companies'), rightIconPress: null}}
+      emptyContentProps={{contentType: 'companies'}}
       displayName="name"
       listViewProps={{contentContainerStyle: {flex: 2}}}
       isEditable={!disabled}

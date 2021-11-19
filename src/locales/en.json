@@ -745,7 +745,8 @@
     "name": "Name",
     "permissions": "Permissions",
     "select_all": "Select All",
-    "none": "None"
+    "none": "None",
+    "select_role_for": "Select role for {{name}}"
   },
   "users": {
     "add_new_user": "Add New User",
@@ -772,6 +773,12 @@
     "new_invoice": "New Invoice",
     "new_payment": "New Payment",
     "new_expense": "New Expense"
+  },
+  "companies": {
+    "empty": {
+      "title": "No companies yet!",
+      "description": "This section will contain the list of companies."
+    }
   },
   "notification": {
     "success": "Success!",

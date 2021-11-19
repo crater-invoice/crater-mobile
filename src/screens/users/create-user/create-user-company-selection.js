@@ -1,5 +1,4 @@
 import React from 'react';
-import {View, Text} from '@/components';
 import {Field} from 'redux-form';
 import {find} from 'lodash';
 import {CompanySelectModal, RoleSelectModal} from '@/select-modal';
@@ -41,36 +40,22 @@ export default props => {
       />
 
       {!isEmpty(formValues?.companies)
-        ? formValues?.companies.map((company, i) => {
-            return (
-              <View class="flex-row items-center py-3" key={i}>
-                <View class="flex-1">
-                  <View justify-center>
-                    <View flex-row items-center>
-                      <Text h4 pl-2 pr-14 color={theme.header.primary.color}>
-                        {company.name}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-
-                <Field
-                  name={`companies[${i}].role`}
-                  roles={roles}
-                  fetchRoles={fetchRoles}
-                  component={RoleSelectModal}
-                  rightIconPress={null}
-                  company_id={company.id}
-                  onSelect={item =>
-                    setFormField(`companies[${i}].role`, item.name)
-                  }
-                  disabled={disabled}
-                  placeholder={t('users.role_placeholder')}
-                  selectedItem={formValues?.companies[i]?.selectedRole}
-                />
-              </View>
-            );
-          })
+        ? formValues?.companies.map((company, i) => (
+            <Field
+              key={company?.id}
+              name={`companies[${i}].role`}
+              roles={roles}
+              fetchRoles={fetchRoles}
+              component={RoleSelectModal}
+              rightIconPress={null}
+              label={t('roles.select_role_for', {name: company.name})}
+              company_id={company.id}
+              onSelect={item => setFormField(`companies[${i}].role`, item.name)}
+              disabled={disabled}
+              placeholder={t('users.role_placeholder')}
+              selectedItem={formValues?.companies[i]?.selectedRole}
+            />
+          ))
         : null}
     </>
   );
