@@ -54,6 +54,7 @@ export default class CreateExpense extends React.Component<IProps, IStates> {
       imageUrl: null,
       fileLoading: false,
       customer: null,
+      currency: null,
       fileType: null,
       hasExchangeRate: false,
       hasProvider: false
@@ -81,7 +82,7 @@ export default class CreateExpense extends React.Component<IProps, IStates> {
 
   setInitialData = async res => {
     const {dispatch, route} = this.props;
-    let customerCurrency = res?.customer?.currency;
+    let selectedCurrency = res?.currency;
     const customer = route?.params?.customer;
 
     if (res) {
@@ -103,10 +104,9 @@ export default class CreateExpense extends React.Component<IProps, IStates> {
     if (customer) {
       this.setFormField('customer_id', customer.id);
       await this.setState({customer});
-      customerCurrency = customer.currency;
     }
-    customerCurrency &&
-      (await this.checkExchangeRateProvider(customerCurrency));
+    selectedCurrency &&
+      (await this.checkExchangeRateProvider(selectedCurrency));
     this.setState({isFetchingInitialData: false});
   };
 
@@ -168,7 +168,6 @@ export default class CreateExpense extends React.Component<IProps, IStates> {
       navigation.navigate(routes.CREATE_CUSTOMER, {
         type: 'ADD',
         onSelect: customer => {
-          this.setState({customer});
           this.customerReference?.changeDisplayValue?.(customer);
           this.onCustomerSelect(customer);
         }
@@ -187,31 +186,38 @@ export default class CreateExpense extends React.Component<IProps, IStates> {
     });
   };
 
-  onCustomerSelect = item => {
+  onCurrencySelect = item => {
     item && this.state.hasProvider && this.setState({hasProvider: false});
     this.setFormField('exchange_rate', null);
+    this.setFormField('currency_id', item.id);
+    this.setExchangeRate(item);
+  };
+
+  onCustomerSelect = item => {
     this.setFormField('customer_id', item.id);
-    this.setExchangeRate(item.currency);
+    this.setState({customer});
   };
 
-  setExchangeRate = customerCurrency => {
+  setExchangeRate = (selectedCurrency, onResult) => {
     const {currency, dispatch} = this.props;
-    const hasExchangeRate = customerCurrency?.id !== currency?.id;
-    this.setState({hasExchangeRate, currency: customerCurrency});
-    const onSuccess = ({exchangeRate}) =>
+    const hasExchangeRate = selectedCurrency?.id !== currency?.id;
+    this.setState({hasExchangeRate, currency: selectedCurrency});
+    const onSuccess = ({exchangeRate}) => {
       this.setFormField('exchange_rate', exchangeRate?.[0]);
+      onResult?.();
+    };
     hasExchangeRate &&
-      dispatch(checkExchangeRate(customerCurrency.id, onSuccess));
+      dispatch(checkExchangeRate(selectedCurrency.id, onSuccess));
   };
 
-  checkExchangeRateProvider = customerCurrency => {
+  checkExchangeRateProvider = selectedCurrency => {
     const {currency, dispatch} = this.props;
-    const hasExchangeRate = customerCurrency?.id !== currency?.id;
-    this.setState({hasExchangeRate, currency: customerCurrency});
+    const hasExchangeRate = selectedCurrency?.id !== currency?.id;
+    this.setState({hasExchangeRate, currency: selectedCurrency});
     const onSuccess = ({success}) =>
       success && this.setState({hasProvider: true});
     hasExchangeRate &&
-      dispatch(checkExchangeRateProvider(customerCurrency.id, onSuccess));
+      dispatch(checkExchangeRateProvider(selectedCurrency.id, onSuccess));
   };
 
   render() {
@@ -362,10 +368,12 @@ export default class CreateExpense extends React.Component<IProps, IStates> {
           component={CurrencySelectModal}
           currencies={currencies}
           label={t('settings.preferences.currency')}
-          onSelect={val => this.setFormField('currency_id', val.id)}
+          onSelect={this.onCurrencySelect}
           isRequired
           theme={theme}
         />
+
+        {hasExchangeRate && <ExchangeRateField {...this} />}
 
         <Field
           name="customer_id"
@@ -380,8 +388,6 @@ export default class CreateExpense extends React.Component<IProps, IStates> {
           reference={ref => (this.customerReference = ref)}
           isRequired={false}
         />
-
-        {hasExchangeRate && <ExchangeRateField {...this} />}
 
         <Field
           name="payment_method_id"

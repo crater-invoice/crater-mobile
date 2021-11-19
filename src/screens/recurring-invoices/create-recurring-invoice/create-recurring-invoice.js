@@ -277,12 +277,14 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     this.setExchangeRate(item.currency);
   };
 
-  setExchangeRate = customerCurrency => {
+  setExchangeRate = (customerCurrency, onResult) => {
     const {currency, dispatch} = this.props;
     const hasExchangeRate = customerCurrency?.id !== currency?.id;
     this.setState({hasExchangeRate, currency: customerCurrency});
-    const onSuccess = ({exchangeRate}) =>
+    const onSuccess = ({exchangeRate}) => {
       this.setFormField('exchange_rate', exchangeRate?.[0]);
+      onResult?.();
+    };
     hasExchangeRate &&
       dispatch(checkExchangeRate(customerCurrency.id, onSuccess));
   };

@@ -764,7 +764,7 @@
   "exchange_rate": {
     "label": "Exchange Rate",
     "base_currency": "1 {{baseCurrency}} = ",
-    "exchange_help_text": "Enter exchange rate to convert from {{baseCurrency}} to {{customerCurrency}}."
+    "exchange_help_text": "Enter exchange rate to convert from {{baseCurrency}} to {{selectedCurrency}}."
   },
   "actions": {
     "new_estimate": "New Estimate",

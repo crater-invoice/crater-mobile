@@ -65,7 +65,7 @@ export class ExchangeRateField extends Component<IProps, IStates> {
       state
     } = this.props;
     const baseCurrency = currency?.code;
-    const customerCurrency = state?.currency?.code;
+    const selectedCurrency = state?.currency?.code;
     const spin = this.spinValue.interpolate({
       inputRange: [0, 1],
       outputRange: ['0deg', '360deg']
@@ -109,7 +109,7 @@ export class ExchangeRateField extends Component<IProps, IStates> {
             <Field
               name="exchange_rate"
               component={BaseInput}
-              rightSymbol={customerCurrency}
+              rightSymbol={selectedCurrency}
               keyboardType={keyboardType.DECIMAL}
               inputContainerStyle={styles.reteContainer}
             />
@@ -118,7 +118,7 @@ export class ExchangeRateField extends Component<IProps, IStates> {
         <Text color={colors.white4} mb-4 h6 style={styles.description} darkGray>
           {t('exchange_rate.exchange_help_text', {
             baseCurrency,
-            customerCurrency
+            selectedCurrency
           })}
         </Text>
       </View>
