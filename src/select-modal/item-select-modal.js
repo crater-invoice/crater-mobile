@@ -28,7 +28,6 @@ export const ItemSelectModal = (props: IProps) => {
       hasPagination
       apiSearch
       onlyPlaceholder
-      isMultiSelect
       displayName="name"
       compareField="id"
       valueCompareField="item_id"
