@@ -12,7 +12,8 @@ import {
   FingerprintIcon,
   PercentageIcon,
   RectangleIcon,
-  SettingIcon
+  SettingIcon,
+  RefreshIcon
 } from '@/icons';
 
 export class AssetSvg extends Component<IProps> {
@@ -29,7 +30,8 @@ export class AssetSvg extends Component<IProps> {
     setting: SettingIcon,
     double_right: DOUBLE_RIGHT_ICON,
     pencil: PENCIL_ICON,
-    eye: EYE_ICON
+    eye: EYE_ICON,
+    refresh_circle: RefreshIcon
   };
 
   render() {

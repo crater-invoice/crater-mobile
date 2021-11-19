@@ -763,7 +763,7 @@
   },
   "exchange_rate": {
     "label": "Exchange Rate",
-    "base_currency": "1 {{baseCurrency}} =",
+    "base_currency": "1 {{baseCurrency}} = ",
     "exchange_help_text": "Enter exchange rate to convert from {{baseCurrency}} to {{customerCurrency}}."
   },
   "actions": {

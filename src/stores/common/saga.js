@@ -62,6 +62,18 @@ function* checkExchangeRate({payload}) {
 }
 
 /**
+ * Check exchange rate provider saga
+ * @returns {IterableIterator<*>}
+ */
+function* checkExchangeRateProvider({payload}) {
+  try {
+    const {id, onSuccess} = payload;
+    const response = yield call(req.checkExchangeRateProvider, id);
+    onSuccess?.(response);
+  } catch (e) {}
+}
+
+/**
  * Check OTA update saga
  * @returns {IterableIterator<*>}
  */
@@ -159,6 +171,10 @@ export function* fetchCountries() {
 export default function* commonSaga() {
   yield takeEvery(types.SAVE_ENDPOINT_URL, saveEndpointURL);
   yield takeEvery(types.CHECK_EXCHANGE_RATE, checkExchangeRate);
+  yield takeEvery(
+    types.CHECK_EXCHANGE_RATE_PROVIDER,
+    checkExchangeRateProvider
+  );
   yield takeEvery(types.CHECK_OTA_UPDATE, checkOTAUpdate);
   yield takeEvery(types.FETCH_BOOTSTRAP, fetchBootstrap);
   yield takeEvery(types.FETCH_COUNTRIES, fetchCountries);
