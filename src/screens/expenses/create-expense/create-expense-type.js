@@ -134,4 +134,9 @@ export interface IStates {
    * The Exchange rate field, displayed if the customer currency and base currency are not the same.
    */
   hasExchangeRate: boolean;
+
+  /**
+   * The Exchange rate refresh button, displayed if the provider exist for current currency .
+   */
+  hasProvider: boolean;
 }

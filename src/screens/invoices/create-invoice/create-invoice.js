@@ -43,7 +43,10 @@ import {
   changeInvoiceStatus,
   removeInvoice
 } from 'stores/invoice/actions';
-import {checkExchangeRate} from 'stores/common/actions';
+import {
+  checkExchangeRate,
+  checkExchangeRateProvider
+} from 'stores/common/actions';
 
 export default class CreateInvoice extends React.Component<IProps, IStates> {
   invoiceRefs: any;
@@ -59,7 +62,8 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     this.state = {
       currency: props?.currency,
       isFetchingInitialData: true,
-      hasExchangeRate: false
+      hasExchangeRate: false,
+      hasProvider: false
     };
   }
 
@@ -99,19 +103,10 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       };
       customerCurrency = customer.currency;
     }
-    customerCurrency && (await this.setExchangeRate(customerCurrency));
+    customerCurrency &&
+      (await this.checkExchangeRateProvider(customerCurrency));
     dispatch(initialize(CREATE_INVOICE_FORM, values));
     this.setState({isFetchingInitialData: false});
-  };
-
-  setExchangeRate = customerCurrency => {
-    const {currency, dispatch} = this.props;
-    const hasExchangeRate = customerCurrency?.id !== currency?.id;
-    this.setState({hasExchangeRate, currency: customerCurrency});
-    const onSuccess = ({exchangeRate}) =>
-      this.setFormField('exchange_rate', exchangeRate);
-    hasExchangeRate &&
-      dispatch(checkExchangeRate(customerCurrency.id, onSuccess));
   };
 
   setFormField = (field, value) => {
@@ -328,9 +323,32 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
   };
 
   onCustomerSelect = item => {
+    item && this.state.hasProvider && this.setState({hasProvider: false});
     this.setFormField('exchange_rate', null);
     this.setFormField('customer_id', item.id);
     this.setExchangeRate(item.currency);
+  };
+
+  setExchangeRate = (customerCurrency, onResult) => {
+    const {currency, dispatch} = this.props;
+    const hasExchangeRate = customerCurrency?.id !== currency?.id;
+    this.setState({hasExchangeRate, currency: customerCurrency});
+    const onSuccess = ({exchangeRate}) => {
+      this.setFormField('exchange_rate', exchangeRate?.[0]);
+      onResult?.();
+    };
+    hasExchangeRate &&
+      dispatch(checkExchangeRate(customerCurrency.id, onSuccess));
+  };
+
+  checkExchangeRateProvider = customerCurrency => {
+    const {currency, dispatch} = this.props;
+    const hasExchangeRate = customerCurrency?.id !== currency?.id;
+    this.setState({hasExchangeRate, currency: customerCurrency});
+    const onSuccess = ({success}) =>
+      success && this.setState({hasProvider: true});
+    hasExchangeRate &&
+      dispatch(checkExchangeRateProvider(customerCurrency.id, onSuccess));
   };
 
   render() {

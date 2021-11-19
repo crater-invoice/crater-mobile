@@ -1,68 +1,127 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {
-  View as CtView,
-  BaseLabel,
-  BaseInput,
-  Text,
-  BaseButton
-} from '@/components';
-import {IProps} from './type.d.js';
+import React, {Component} from 'react';
+import {View, BaseLabel, BaseInput, Text, AssetSvg} from '@/components';
+import {IProps, IStates} from './type.d.js';
 import {keyboardType} from '@/helpers/keyboard.js';
 import {Field} from 'redux-form';
 import t from 'locales/use-translation';
+import {colors} from '@/styles/colors.js';
+import {TouchableOpacity, Animated} from 'react-native';
+import {RefreshIcon} from '@/icons/refresh-icon.js';
+import {styles} from './exchange-rate-styles';
 
-export const ExchangeRateField = (parentProps: IProps) => {
-  const {props, state} = parentProps;
-  const baseCurrency = props?.currency?.code;
-  const customerCurrency = state?.currency?.code;
-  return (
-    <View style={styles.emptyContainer}>
-      <BaseLabel isRequired>{t('exchange_rate.label')}</BaseLabel>
-      <CtView flex={1} flex-row>
-        <CtView flex={0.28} justify-between>
-          <Field
-            name="currency_code"
-            component={BaseInput}
-            inputProps={{
-              value: t('exchange_rate.base_currency', {baseCurrency})
-            }}
-            disabled
-          />
-        </CtView>
-        <CtView flex={1} justify-between>
-          <Field
-            name="exchange_rate"
-            component={BaseInput}
-            rightSymbol={customerCurrency}
-            keyboardType={keyboardType.DECIMAL}
-          />
-        </CtView>
-        <CtView flex={0.3} height-10 mt-11 ml-15 justify-between>
-          <BaseButton
-            type="primary-btn-outline"
-            onPress={() => setExchangeRate(state?.currency)}
-            show={true}
-            loading={false}
-          >
-            {t('button.refresh')}
-          </BaseButton>
-        </CtView>
-      </CtView>
-      <Text mt-2 darkGray>
-        {t('exchange_rate.exchange_help_text', {
-          baseCurrency,
-          customerCurrency
-        })}
-      </Text>
-    </View>
-  );
-};
+const hitSlop = {top: 20, left: 25, bottom: 20, right: 25};
+const SPIN_OPTION = {START: 'start', STOP: 'stop'};
 
-const styles = StyleSheet.create({
-  emptyContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center'
+export class ExchangeRateField extends Component<IProps, IStates> {
+  spinValue: any;
+
+  constructor(props) {
+    super(props);
+    this.spinValue = new Animated.Value(0);
+    this.state = {refreshing: false};
   }
-});
+
+  onRefresh = () => {
+    const {refreshing} = this.state;
+    const {
+      setExchangeRate,
+      state: {currency}
+    } = this.props;
+
+    if (refreshing) return;
+    this.spinAnimation(SPIN_OPTION.START);
+    this.toggleRefreshing(true);
+    const onResult = () => {
+      setTimeout(() => {
+        this.toggleRefreshing(false);
+        this.spinAnimation(SPIN_OPTION.STOP);
+      }, 500);
+    };
+
+    setExchangeRate(currency, onResult);
+  };
+
+  spinAnimation = status => {
+    if (status === SPIN_OPTION.STOP) {
+      this.spinValue.setValue(0);
+      return;
+    }
+
+    Animated.loop(
+      Animated.timing(this.spinValue, {
+        toValue: 1,
+        duration: 1200,
+        useNativeDriver: true
+      })
+    ).start();
+  };
+
+  toggleRefreshing = status => this.setState({refreshing: status});
+
+  render() {
+    const {
+      props: {currency, isEditScreen},
+      state: {hasProvider},
+      state
+    } = this.props;
+    const baseCurrency = currency?.code;
+    const customerCurrency = state?.currency?.code;
+    const spin = this.spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg']
+    });
+
+    return (
+      <View flex={1} flex-column justify-center>
+        <View flex={1} flex-row justify-between mr-10>
+          <BaseLabel mt-9 style={styles.label} isRequired>
+            {t('exchange_rate.label')}
+          </BaseLabel>
+          {isEditScreen && hasProvider && (
+            <View justify-end>
+              <TouchableOpacity
+                onPress={this.onRefresh}
+                hitSlop={hitSlop}
+                style={styles.refresh}
+              >
+                <Animated.View style={{transform: [{rotate: spin}]}}>
+                  <AssetSvg name={RefreshIcon} width={18} height={18} />
+                </Animated.View>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+        <View flex={1} flex-row>
+          <View flex={0.34} justify-between>
+            <Field
+              name="currency_code"
+              component={BaseInput}
+              inputProps={{
+                value: t('exchange_rate.base_currency', {baseCurrency})
+              }}
+              inputContainerStyle={styles.codeContainer}
+              disabledStyle={styles.codeDisable}
+              textStyle={styles.codeText}
+              disabled
+            />
+          </View>
+          <View flex={1} justify-between>
+            <Field
+              name="exchange_rate"
+              component={BaseInput}
+              rightSymbol={customerCurrency}
+              keyboardType={keyboardType.DECIMAL}
+              inputContainerStyle={styles.reteContainer}
+            />
+          </View>
+        </View>
+        <Text color={colors.white4} mb-4 h6 style={styles.description} darkGray>
+          {t('exchange_rate.exchange_help_text', {
+            baseCurrency,
+            customerCurrency
+          })}
+        </Text>
+      </View>
+    );
+  }
+}
