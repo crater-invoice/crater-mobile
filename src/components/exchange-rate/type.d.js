@@ -13,6 +13,11 @@ export interface IProps {
    * States object from parent props.
    */
   setExchangeRate?: (fun: object) => void;
+
+  /**
+   * Is allowed to edit.
+   */
+  disabled?: boolean;
 }
 
 export interface IStates {

@@ -62,7 +62,8 @@ export class ExchangeRateField extends Component<IProps, IStates> {
     const {
       props: {currency, isEditScreen},
       state: {hasProvider},
-      state
+      state,
+      disabled
     } = this.props;
     const baseCurrency = currency?.code;
     const selectedCurrency = state?.currency?.code;
@@ -112,6 +113,7 @@ export class ExchangeRateField extends Component<IProps, IStates> {
               rightSymbol={selectedCurrency}
               keyboardType={keyboardType.DECIMAL}
               inputContainerStyle={styles.reteContainer}
+              disabled={disabled}
             />
           </View>
         </View>

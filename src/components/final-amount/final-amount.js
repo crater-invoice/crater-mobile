@@ -45,7 +45,7 @@ export const FinalAmount: FC<IProps> = props => {
     form
   } = props;
 
-  const disabled = !isAllowToEdit;
+  const disabled = !isAllowToEdit || props.disabled;
   let taxes = formValues?.taxes;
   let taxPerItem = isBooleanTrue(tax_per_item);
   let discountPerItem = isBooleanTrue(discount_per_item);
@@ -176,7 +176,7 @@ export const FinalAmount: FC<IProps> = props => {
         })
       )}
 
-      {!taxPerItem && (
+      {!taxPerItem && !disabled && (
         <Field
           name="taxes"
           taxTypes={taxTypes}

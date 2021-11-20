@@ -360,7 +360,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       items,
       fetchCustomers,
       customers,
-      formValues: {customer, status},
+      formValues: {customer, status, allow_edit},
       formValues,
       customFields,
       isAllowToEdit,
@@ -373,7 +373,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       fetchNotes
     } = this.props;
     const {isFetchingInitialData, hasExchangeRate} = this.state;
-    const disabled = !isAllowToEdit;
+    const disabled = !isAllowToEdit || !allow_edit;
     let hasSentStatus = status === 'SENT' || status === 'VIEWED';
     let hasCompleteStatus = status === 'COMPLETED';
 
@@ -401,8 +401,10 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
 
     const getTitle = () => {
       let title = 'header.add_invoice';
-      if (isEditScreen && !isAllowToEdit) title = 'header.view_invoice';
-      if (isEditScreen && isAllowToEdit) title = 'header.edit_invoice';
+      if ((isEditScreen && !isAllowToEdit) || !allow_edit)
+        title = 'header.view_invoice';
+      if (isEditScreen && isAllowToEdit && allow_edit)
+        title = 'header.edit_invoice';
 
       return t(title);
     };
@@ -432,18 +434,19 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       </BaseButtonGroup>
     );
 
+    const headerProps = {
+      leftIconPress: () => this.onDraft(handleSubmit),
+      title: getTitle(),
+      placement: 'center',
+      ...(!isEditScreen && {
+        rightIcon: 'save',
+        rightIconProps: {solid: true},
+        rightIconPress: handleSubmit(this.downloadInvoice)
+      })
+    };
     return (
       <DefaultLayout
-        headerProps={{
-          leftIconPress: () => this.onDraft(handleSubmit),
-          title: getTitle(),
-          placement: 'center',
-          ...(!isEditScreen && {
-            rightIcon: 'save',
-            rightIconProps: {solid: true},
-            rightIconPress: handleSubmit(this.downloadInvoice)
-          })
-        }}
+        headerProps={headerProps}
         bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData}}
         dropdownProps={drownDownProps}
@@ -504,7 +507,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           disabled={disabled}
         />
 
-        {hasExchangeRate && <ExchangeRateField {...this} />}
+        {hasExchangeRate && <ExchangeRateField disabled={disabled} {...this} />}
 
         <ItemField
           {...this.props}
@@ -513,9 +516,14 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           items={getItemList(items)}
           setFormField={this.setFormField}
           screen="invoice"
+          disabled={disabled}
         />
 
-        <FinalAmount {...this.props} currency={this.state.currency} />
+        <FinalAmount
+          {...this.props}
+          disabled={disabled}
+          currency={this.state.currency}
+        />
 
         <Field
           name="reference_number"
@@ -533,6 +541,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           isEditScreen={isEditScreen}
           noteType={'Invoice'}
           onSelect={this.setFormField}
+          disabled={disabled}
         />
 
         <Field
