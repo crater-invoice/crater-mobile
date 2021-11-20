@@ -23,11 +23,10 @@ export default styles = StyleSheet.create({
     overflow: 'hidden'
   },
   label: theme => ({
+    height: '100%',
     color: theme?.listItem?.primary?.color,
     fontFamily: fonts.medium,
-    marginTop: 6,
-    textAlign: 'left',
-    includeFontPadding: false
+    textAlignVertical: 'center'
   }),
   price: theme => ({
     color: theme?.listItem?.primary?.color,
@@ -62,5 +61,6 @@ export default styles = StyleSheet.create({
       currency?.swap_currency_symbol && {
         marginTop: -9
       })
-  })
+  }),
+  currencyFormatContainer: {overflow: 'hidden', alignSelf: 'flex-end'}
 });

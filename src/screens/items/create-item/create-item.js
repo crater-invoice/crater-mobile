@@ -291,7 +291,7 @@ export class CreateItem extends React.Component<IProps> {
     return (
       <View style={styles.amountContainer(theme)}>
         <View style={styles.subContainer}>
-          <View style={{overflow: 'hidden'}}>
+          <View style={styles.currencyFormatContainer}>
             <CurrencyFormat
               amount={price}
               currency={currency}

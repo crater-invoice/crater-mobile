@@ -55,7 +55,11 @@ export class CurrencyFormat extends Component<IProps> {
         </Text>
         <Text
           numberOfLines={1}
-          style={[secondComponentStyle, currencySymbolStyle]}
+          style={[
+            secondComponentStyle,
+            currencySymbolStyle,
+            {textAlignVertical: 'top'}
+          ]}
         >
           {secondComponent}
         </Text>
@@ -71,9 +75,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row'
   },
-  symbol: {
-    ...(isIosPlatform && {marginBottom: -2})
-  }
+  symbol: {textAlignVertical: 'center'}
 });
 
 export const SymbolStyle = {
