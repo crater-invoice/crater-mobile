@@ -67,9 +67,11 @@ export default class CreateCompany extends Component<IProps, IStates> {
       return;
     }
 
+    const params = {...values, address: values};
+
     isCreateScreen
-      ? dispatch(addCompany(values, logo))
-      : dispatch(updateCompany(values, logo));
+      ? dispatch(addCompany(params, logo))
+      : dispatch(updateCompany(params, logo));
   };
 
   setFormField = (field, value) => {
