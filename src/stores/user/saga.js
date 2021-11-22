@@ -5,7 +5,6 @@ import {setCurrentUser, spinner} from './actions';
 import t from 'locales/use-translation';
 import {showNotification, handleError} from '@/utils';
 import {navigation} from '@/navigation';
-import {fetchLanguages} from '../company/saga';
 
 /**
  * Fetch current user saga
@@ -15,7 +14,6 @@ function* fetchCurrentUser({payload}) {
   try {
     const {data} = yield call(req.fetchCurrentUser);
     const {language} = yield call(req.fetchUserSettings, ['language']);
-    yield call(fetchLanguages);
     yield put(setCurrentUser(data));
     payload?.({...data, language});
   } catch (e) {}

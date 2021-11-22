@@ -5,16 +5,16 @@ import Request from 'utils/request';
  * @returns {*}
  */
 export const fetchCurrentUser = () => {
-  return Request.get({path: `me`});
+  return Request.get(`/me`);
 };
 
 /**
  * Update current user
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateCurrentUser = body => {
-  return Request.put({path: `me`, body});
+export const updateCurrentUser = data => {
+  return Request.put(`/me`, data);
 };
 
 /**
@@ -23,10 +23,7 @@ export const updateCurrentUser = body => {
  * @returns {*}
  */
 export const fetchUserSettings = keys => {
-  return Request.get({
-    path: `me/settings`,
-    axiosProps: {params: {settings: keys}}
-  });
+  return Request.get(`/me/settings`, {axiosProps: {params: {settings: keys}}});
 };
 
 /**
@@ -35,7 +32,7 @@ export const fetchUserSettings = keys => {
  * @returns {*}
  */
 export const updateUserSettings = settings => {
-  return Request.put({path: `me/settings`, body: {settings}});
+  return Request.put(`/me/settings`, {settings});
 };
 
 /**
@@ -44,9 +41,9 @@ export const updateUserSettings = settings => {
  * @returns {*}
  */
 export const uploadAvatar = avatar => {
-  return Request.post({
-    path: `me/upload-avatar`,
-    image: avatar,
-    imageName: 'admin_avatar'
-  });
+  return Request.post(
+    `/me/upload-avatar`,
+    {image: avatar},
+    {imageName: 'admin_avatar'}
+  );
 };

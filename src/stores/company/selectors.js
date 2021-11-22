@@ -1,8 +1,9 @@
 import {isEmpty} from '@/constants';
 import {createSelector} from 'reselect';
-import t from 'locales/use-translation';
 
 const companyStore = state => state?.company;
+
+const configStore = state => state.common?.config;
 
 const toArray = (state, field) =>
   isEmpty(companyStore(state)[field]) ? [] : companyStore(state)[field];
@@ -15,11 +16,6 @@ export const timeZonesSelector = createSelector(
 export const dateFormatsSelector = createSelector(
   state => toArray(state, 'dateFormats'),
   dateFormats => dateFormats.map(_d => ({title: _d.display_date, fullItem: _d}))
-);
-
-export const fiscalYearsSelector = createSelector(
-  state => toArray(state, 'fiscalYears'),
-  fiscalYears => fiscalYears.map(year => ({title: year.key, fullItem: year}))
 );
 
 export const loadingSelector = createSelector(
@@ -38,15 +34,22 @@ export const currenciesSelector = createSelector(
     }))
 );
 
-export const languagesSelector = createSelector(
-  state => toArray(state, 'languages'),
-  languages =>
-    languages.map(_lng => ({
-      title: _lng.name,
-      leftAvatar: _lng.name.toUpperCase().charAt(0),
-      fullItem: _lng
-    }))
-);
+export const languagesSelector = state => {
+  const languages = configStore(state)?.languages;
+  if (isEmpty(languages)) return [];
+
+  return languages.map(_lng => ({
+    title: _lng.name,
+    leftAvatar: _lng.name.toUpperCase().charAt(0),
+    fullItem: _lng
+  }));
+};
+
+export const fiscalYearsSelector = state => {
+  const fiscalYears = configStore(state)?.fiscal_years;
+  if (isEmpty(fiscalYears)) return [];
+  return fiscalYears.map(year => ({title: year.key, fullItem: year}));
+};
 
 export const companiesSelector = state =>
   isEmpty(state?.company?.companies) ? [] : state?.company?.companies;

@@ -6,26 +6,26 @@ import * as queryString from 'query-string';
  * @returns {*}
  */
 export const fetchPaymentModes = q => {
-  return Request.get({path: `payment-methods?${queryString.stringify(q)}`});
+  return Request.get(`/payment-methods?${queryString.stringify(q)}`);
 };
 
 /**
  * Add payment-mode
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addPaymentMode = body => {
-  return Request.post({path: `payment-methods`, body});
+export const addPaymentMode = data => {
+  return Request.post(`/payment-methods`, data);
 };
 
 /**
  * Update payment-mode
  * @param id : payment-mode id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updatePaymentMode = body => {
-  return Request.put({path: `payment-methods/${body.id}`, body});
+export const updatePaymentMode = data => {
+  return Request.put(`/payment-methods/${data.id}`, data);
 };
 
 /**
@@ -34,5 +34,5 @@ export const updatePaymentMode = body => {
  * @returns {*}
  */
 export const removePaymentMode = id => {
-  return Request.delete({path: `payment-methods/${id}`});
+  return Request.delete(`/payment-methods/${id}`);
 };

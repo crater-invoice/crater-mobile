@@ -7,7 +7,7 @@ import * as queryString from 'query-string';
  * @returns {*}
  */
 export const fetchCustomers = q => {
-  return Request.get({path: `customers?${queryString.stringify(q)}`});
+  return Request.get(`/customers?${queryString.stringify(q)}`);
 };
 
 /**
@@ -16,26 +16,26 @@ export const fetchCustomers = q => {
  * @returns {*}
  */
 export const fetchSingleCustomer = id => {
-  return Request.get({path: `customers/${id}`});
+  return Request.get(`/customers/${id}`);
 };
 
 /**
  * Add customer
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addCustomer = body => {
-  return Request.post({path: `customers`, body});
+export const addCustomer = data => {
+  return Request.post(`/customers`, data);
 };
 
 /**
  * Update customer
  * @param id : customer id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateCustomer = (id, body) => {
-  return Request.put({path: `customers/${id}`, body});
+export const updateCustomer = (id, data) => {
+  return Request.put(`/customers/${id}`, data);
 };
 
 /**
@@ -44,5 +44,5 @@ export const updateCustomer = (id, body) => {
  * @returns {*}
  */
 export const removeCustomer = id => {
-  return Request.post({path: `customers/delete`, body: {ids: [id]}});
+  return Request.post(`/customers/delete`, {ids: [id]});
 };

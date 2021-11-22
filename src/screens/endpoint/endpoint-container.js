@@ -5,12 +5,10 @@ import {validateEndpoint as validate} from 'stores/common/validator';
 import {commonSelector} from 'stores/common/selectors';
 import {ENDPOINT_FORM} from 'stores/common/types';
 
-const mapStateToProps = (state, {route}) => ({
-  showBackButton: route?.params?.showBackButton,
+const mapStateToProps = state => ({
   ...commonSelector(state),
   initialValues: {
-    // url: state?.common?.endpointURL ?? '',
-    url: 'http://crater-web.test/'
+    url: state?.common?.endpointURL ?? ''
   }
 });
 

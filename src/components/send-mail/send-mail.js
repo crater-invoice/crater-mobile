@@ -15,11 +15,11 @@ import {keyboardType} from '@/helpers/keyboard';
 import {alertMe, hasObjectLength} from '@/constants';
 import {fetchMailConfig} from 'stores/setting/actions';
 import {selectedCompanySettingSelector} from 'stores/company/selectors';
-import {sendInvoice} from '@/stores/invoice/actions';
+import {sendInvoice} from 'stores/invoice/actions';
 import {navigation} from '@/navigation';
 import Preview from './send-mail-preview';
-import {sendEstimate} from '@/stores/estimate/actions';
-import {sendPaymentReceipt} from '@/stores/payment/actions';
+import {sendEstimate} from 'stores/estimate/actions';
+import {sendPaymentReceipt} from 'stores/payment/actions';
 
 class Modal extends Component<IProps> {
   keyboardShowListener: any;

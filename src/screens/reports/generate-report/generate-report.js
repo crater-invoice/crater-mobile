@@ -52,11 +52,11 @@ export default class GenerateReport extends React.Component<IProps, IStates> {
 
     const report = this.getReport({reportType: report_type});
 
-    Linking.openURL(
-      `${endpointURL}/reports/${report}${
-        selectedCompany.unique_hash
-      }?${QueryString.stringify(params)}`
-    );
+    const url = `${endpointURL}/reports/${report}${
+      selectedCompany.unique_hash
+    }?${QueryString.stringify(params)}`;
+
+    Linking.openURL(url);
   };
 
   getThisDate = (type, time) => {

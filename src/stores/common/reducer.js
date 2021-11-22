@@ -27,7 +27,7 @@ export default function commonReducer(state = initialState, action) {
       return {
         ...state,
         endpointURL: payload,
-        endpointApi: payload ? `${payload}/api/v1/` : null
+        endpointApi: payload ? `${payload}/api/v1` : null
       };
 
     case types.FETCH_TAX_AND_DISCOUNT_PER_ITEM_SUCCESS:

@@ -7,7 +7,7 @@ import * as queryString from 'query-string';
  * @returns {*}
  */
 export const fetchUsers = q => {
-  return Request.get({path: `users?${queryString.stringify(q)}`});
+  return Request.get(`/users?${queryString.stringify(q)}`);
 };
 
 /**
@@ -16,26 +16,26 @@ export const fetchUsers = q => {
  * @returns {*}
  */
 export const fetchSingleUser = id => {
-  return Request.get({path: `users/${id}`});
+  return Request.get(`/users/${id}`);
 };
 
 /**
  * Add user
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addUser = body => {
-  return Request.post({path: `users`, body});
+export const addUser = data => {
+  return Request.post(`/users`, data);
 };
 
 /**
  * Update user
  * @param id : user id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateUser = (id, body) => {
-  return Request.put({path: `users/${id}`, body});
+export const updateUser = (id, data) => {
+  return Request.put(`/users/${id}`, data);
 };
 
 /**
@@ -44,5 +44,5 @@ export const updateUser = (id, body) => {
  * @returns {*}
  */
 export const removeUser = id => {
-  return Request.post({path: `users/delete`, body: {users: [id]}});
+  return Request.post(`/users/delete`, {users: [id]});
 };

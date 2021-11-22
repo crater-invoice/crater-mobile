@@ -311,6 +311,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
               hint={t('payments.number')}
               isRequired
               disabled={!isAllowToEdit}
+              textStyle={{paddingLeft: 5}}
             />
           </CtView>
         </CtView>

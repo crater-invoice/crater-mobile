@@ -521,6 +521,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
           isRequired
           hint={t('estimates.estimate_number')}
           disabled={disabled}
+          textStyle={{paddingLeft: 5}}
         />
 
         <Field

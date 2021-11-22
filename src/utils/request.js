@@ -19,24 +19,20 @@ type IProps = {
 };
 
 export default class Request {
-  static get(params) {
-    return this.request({method: 'GET', ...params});
+  static get(path, options = {}) {
+    return this.request({method: 'GET', path, ...options});
   }
 
-  static post(params) {
-    return this.request({method: 'POST', ...params});
+  static post(path, data, options = {}) {
+    return this.request({method: 'POST', path, body: data, ...options});
   }
 
-  static put(params) {
-    return this.request({method: 'PUT', ...params});
+  static put(path, data, options = {}) {
+    return this.request({method: 'PUT', path, body: data, ...options});
   }
 
-  static delete(params) {
-    return this.request({method: 'DELETE', ...params});
-  }
-
-  static patch(params) {
-    return this.request({method: 'PATCH', ...params});
+  static delete(path, data, options = {}) {
+    return this.request({method: 'DELETE', path, body: data, ...options});
   }
 
   static createFormData = (body, withMultipartFormData) => {

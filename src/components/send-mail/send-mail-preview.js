@@ -23,7 +23,7 @@ export default ({formValues, endpointApi, idToken, id, type, theme}) => {
   };
 
   const source = {
-    uri: `${endpointApi}${url[type]}?${queryString.stringify({
+    uri: `${endpointApi}/${url[type]}?${queryString.stringify({
       ...formValues,
       is_preview: true
     })}`,

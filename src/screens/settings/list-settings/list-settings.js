@@ -28,9 +28,7 @@ export default class Settings extends React.Component<IProps> {
       return;
     }
 
-    item.route === routes.ENDPOINTS_SETTINGS
-      ? navigation.navigate(item.route, {showBackButton: true})
-      : navigation.navigate(item.route);
+    navigation.navigate(item.route);
   };
 
   render() {

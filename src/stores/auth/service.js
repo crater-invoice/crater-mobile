@@ -2,15 +2,11 @@ import Request from 'utils/request';
 
 /**
  * Login user
- * @param body
+ * @param data
  * @returns {*}
  */
-export const login = body => {
-  return Request.post({
-    path: 'auth/login',
-    body,
-    isAuthRequired: false
-  });
+export const login = data => {
+  return Request.post('/auth/login', data);
 };
 
 /**
@@ -19,9 +15,5 @@ export const login = body => {
  * @returns {*}
  */
 export const sendRecoveryEmail = email => {
-  return Request.post({
-    path: 'auth/password/email',
-    body: {email},
-    isAuthRequired: false
-  });
+  return Request.post('/auth/password/email', {email});
 };

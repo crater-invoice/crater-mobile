@@ -491,6 +491,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           component={BaseInput}
           hint={t('invoices.invoice_number')}
           disabled={disabled}
+          textStyle={{paddingLeft: 5}}
         />
 
         <Field

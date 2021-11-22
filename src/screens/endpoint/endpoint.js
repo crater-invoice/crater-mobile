@@ -44,7 +44,10 @@ export default class Endpoint extends Component<IProps, IStates> {
   };
 
   render() {
-    const {handleSubmit, showBackButton = false, theme} = this.props;
+    const {handleSubmit, theme, navigation} = this.props;
+
+    const showBackButton = navigation?.canGoBack?.();
+
     const layoutStyle = showBackButton
       ? defineLargeSizeParam('25%', '15%')
       : defineLargeSizeParam('48%', '32%');
@@ -53,15 +56,15 @@ export default class Endpoint extends Component<IProps, IStates> {
       <Container>
         {showBackButton ? (
           <CtHeader
+            placement="left"
+            noBorder
+            transparent
+            theme={theme}
             leftIcon={!isRTL() ? 'angle-left' : 'angle-right'}
             leftIconPress={this.onBack}
             title={t('header.back')}
             titleOnPress={this.onBack}
             titleStyle={styles.title}
-            placement="left"
-            noBorder
-            transparent
-            theme={theme}
           />
         ) : (
           <StatusBar

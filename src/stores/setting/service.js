@@ -5,5 +5,5 @@ import Request from 'utils/request';
  * @returns {*}
  */
 export const fetchMailConfig = () => {
-  return Request.get({path: `mail/config`});
+  return Request.get(`/mail/config`);
 };
