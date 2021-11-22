@@ -30,22 +30,24 @@ const isScrollToEnd = ({layoutMeasurement, contentOffset, contentSize}) => {
 export class InternalPaginationComponent extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
-    this.state = this.initialState;
+    this.state = this.initialState();
   }
 
   componentDidMount() {
     this.setInitialState();
   }
 
-  initialState = {
-    search: '',
-    visible: false,
-    searchItems: [],
-    itemList: [],
-    currentPage: 0,
-    loading: this.props?.hideLoader ? false : true,
-    searchLoading: false,
-    bottomLoader: false
+  initialState = () => {
+    return {
+      search: '',
+      visible: false,
+      searchItems: [],
+      itemList: [],
+      currentPage: 0,
+      loading: this.props?.hideLoader ? false : true,
+      searchLoading: false,
+      bottomLoader: false
+    };
   };
 
   setInitialState = async () => {
@@ -81,7 +83,7 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
     }
 
     if (visible) {
-      this.setState(this.initialState);
+      this.setState(this.initialState());
       meta.dispatch(change(meta.form, `search-${input?.name}`, ''));
     } else {
       this.setInitialState();
