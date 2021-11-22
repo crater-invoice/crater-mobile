@@ -23,11 +23,6 @@ export interface IProps {
    * @see ITheme
    */
   theme: ITheme;
-
-  /**
-   * If true, show header back button.
-   */
-  showBackButton: boolean;
 }
 
 export interface IStates {

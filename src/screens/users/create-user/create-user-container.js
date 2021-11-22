@@ -6,7 +6,7 @@ import {validate} from 'stores/users/validator';
 import {commonSelector, permissionSelector} from 'stores/common/selectors';
 import {fetchRoles} from 'stores/role/actions';
 import {rolesSelector, loadingSelector} from 'stores/users/selectors';
-import {companiesSelector} from '@/stores/company/selectors';
+import {companiesSelector} from 'stores/company/selectors';
 
 const mapStateToProps = (state, {route}) => ({
   roles: rolesSelector(state),

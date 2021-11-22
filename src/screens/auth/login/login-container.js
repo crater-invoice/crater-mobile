@@ -5,14 +5,17 @@ import Login from './login';
 import {commonSelector} from 'stores/common/selectors';
 import {LOGIN_FORM} from 'stores/auth/types';
 import {loginValidator as validate} from 'stores/auth/validator';
-import {biometryTypeSelector} from 'stores/auth/selectors';
+import {
+  biometryTypeSelector,
+  currentUserEmailSelector
+} from 'stores/auth/selectors';
 
 const mapStateToProps = state => ({
   biometryAuthType: biometryTypeSelector(state),
   ...commonSelector(state),
   initialValues: {
-    username: 'admin@craterapp.com',
-    password: 'crater@123',
+    username: currentUserEmailSelector(state),
+    password: '',
     device_name: Constants.deviceName
   }
 });
