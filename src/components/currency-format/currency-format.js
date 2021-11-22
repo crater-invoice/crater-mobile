@@ -25,13 +25,19 @@ export class CurrencyFormat extends Component<IProps> {
       : style;
     return (
       <View style={[styles.container, containerStyle && containerStyle]}>
-        <Text numberOfLines={1} style={{...style, ...addingFalse}}>
+        <Text numberOfLines={1} style={{...style, ...styles.addingFalse}}>
           {preText && preText}
         </Text>
-        <Text numberOfLines={1} style={[firstComponentStyle, addingFalse]}>
+        <Text
+          numberOfLines={1}
+          style={[firstComponentStyle, styles.addingFalse]}
+        >
           {`${firstComponent} `}
         </Text>
-        <Text numberOfLines={1} style={[secondComponentStyle, addingFalse]}>
+        <Text
+          numberOfLines={1}
+          style={[secondComponentStyle, styles.addingFalse]}
+        >
           {secondComponent}
         </Text>
       </View>
