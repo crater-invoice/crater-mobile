@@ -18,6 +18,7 @@ import {
   Text,
   View
 } from '@/components';
+import {PermissionService} from '@/services';
 
 export default class CompanyModal extends Component<IProps, IStates> {
   constructor(props) {
@@ -216,23 +217,25 @@ export default class CompanyModal extends Component<IProps, IStates> {
             >
               {companies.map(com => COMPANIES_LIST(com))}
             </ScrollView>
-            <ButtonView
-              scale={1}
-              justify-center
-              items-center
-              flex-row
-              style={Styles.bottomAction(theme)}
-              pt-8
-              pb-10
-              onPress={this.addNewCompany}
-            >
-              <Text h3 medium color={colors.primaryLight}>
-                +
-              </Text>
-              <Text h5 ml-10 color={colors.primaryLight}>
-                {t('company.add_new_company')}
-              </Text>
-            </ButtonView>
+            {PermissionService.isSuperAdmin ? (
+              <ButtonView
+                scale={1}
+                justify-center
+                items-center
+                flex-row
+                style={Styles.bottomAction(theme)}
+                pt-8
+                pb-10
+                onPress={this.addNewCompany}
+              >
+                <Text h3 medium color={colors.primaryLight}>
+                  +
+                </Text>
+                <Text h5 ml-10 color={colors.primaryLight}>
+                  {t('company.add_new_company')}
+                </Text>
+              </ButtonView>
+            ) : null}
           </Modal>
         </AnimateModal>
       </View>

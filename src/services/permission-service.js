@@ -1,5 +1,5 @@
 import {find} from 'lodash';
-import {hasValue, isEmpty, toObject} from '@/constants';
+import {hasValue, toObject} from '@/constants';
 import {routes} from '@/navigation/navigation-routes';
 
 const abilities = [
@@ -75,15 +75,13 @@ class Service {
   }
 
   setPermissions = (currentAbilities, isSuperAdmin) => {
-    if (!isEmpty(currentAbilities)) {
-      this.currentAbilities = currentAbilities;
-      this.isSuperAdmin = isSuperAdmin;
-    }
+    this.currentAbilities = currentAbilities ?? [];
+    this.isSuperAdmin = isSuperAdmin;
   };
 
   hasPermission = ability => {
     if (!hasValue(ability)) {
-      return false;
+      return true;
     }
 
     if (this.isSuperAdmin) {
