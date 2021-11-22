@@ -18,7 +18,8 @@ export const Notes = (props: IProps) => {
     fetchNotes,
     noteType,
     onSelect,
-    formValues
+    formValues,
+    isAllowToEdit
   } = props;
   const navigateToNote = () => {
     navigation.navigate(routes.CREATE_NOTE, {
@@ -44,23 +45,26 @@ export const Notes = (props: IProps) => {
       previewLabelStyle={{marginBottom: -10}}
       reference={ref => (editorReference = ref)}
       showPreview={isEditScreen && formValues.notes}
+      isAllowToEdit={isAllowToEdit}
       customRightLabelComponent={
-        <View style={{marginTop: 5}}>
-          <Field
-            name="add_notes"
-            notes={notesTypeSelector(notes)}
-            fetchNotes={fetchNotes}
-            component={NoteSelectModal}
-            onSelect={value => {
-              onSelect('notes', value?.notes);
-              editorReference?.togglePreview?.();
-            }}
-            rightIconPress={navigateToNote}
-            queryString={{
-              type: noteType
-            }}
-          />
-        </View>
+        isAllowToEdit && (
+          <View style={{marginTop: 5}}>
+            <Field
+              name="add_notes"
+              notes={notesTypeSelector(notes)}
+              fetchNotes={fetchNotes}
+              component={NoteSelectModal}
+              onSelect={value => {
+                onSelect('notes', value?.notes);
+                editorReference?.togglePreview?.();
+              }}
+              rightIconPress={navigateToNote}
+              queryString={{
+                type: noteType
+              }}
+            />
+          </View>
+        )
       }
     />
   );

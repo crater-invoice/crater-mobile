@@ -13,7 +13,6 @@ import {IProps, IStates} from './list-invoices-type';
 import {invoicesFilterFields} from './list-invoices-filters';
 import {Tab} from './list-invoices-tab';
 import {invoicesTabRefs as tabRefs} from 'stores/common/helpers';
-import {fetchCompanySettings} from 'stores/company/actions';
 
 export default class Invoices extends React.Component<IProps, IStates> {
   constructor(props) {
@@ -33,12 +32,10 @@ export default class Invoices extends React.Component<IProps, IStates> {
   }
 
   onFocus = () => {
-    const {navigation, dispatch} = this.props;
+    const {navigation} = this.props;
     this.setActiveTab();
     this.focusListener = navigation.addListener('focus', () => {
-      tabRefs?.getItems?.({
-        onSuccess: () => dispatch?.(fetchCompanySettings())
-      });
+      tabRefs?.getItems?.();
 
       if (InvoiceServices.isFirstInvoiceCreated) {
         InvoiceServices.toggleIsFirstInvoiceCreated(false);
@@ -69,12 +66,13 @@ export default class Invoices extends React.Component<IProps, IStates> {
 
   onSelect = invoice => {
     const {navigation, selectedRetrospectiveEdits} = this.props;
-    const {id, status, paid_status} = invoice;
+    const {id, status, paid_status, allow_edit} = invoice;
 
     navigation.navigate(routes.CREATE_INVOICE, {
       id,
       status,
       paid_status,
+      allow_edit,
       type: 'UPDATE',
       selectedRetrospectiveEdits
     });

@@ -129,22 +129,24 @@ export class ItemField extends React.Component<IProps> {
           parentViewStyle={{marginBottom: 10}}
         />
 
-        <Field
-          name="items"
-          items={items}
-          component={ItemSelectModal}
-          disabled={disabled}
-          onSelect={this.onSelect}
-          rightIconPress={() =>
-            navigation.navigate(routes.CREATE_ITEM, {
-              screen,
-              type: 'ADD',
-              currency,
-              discount_per_item,
-              tax_per_item
-            })
-          }
-        />
+        {!disabled && (
+          <Field
+            name="items"
+            items={items}
+            component={ItemSelectModal}
+            disabled={disabled}
+            onSelect={this.onSelect}
+            rightIconPress={() =>
+              navigation.navigate(routes.CREATE_ITEM, {
+                screen,
+                type: 'ADD',
+                currency,
+                discount_per_item,
+                tax_per_item
+              })
+            }
+          />
+        )}
       </>
     );
   }

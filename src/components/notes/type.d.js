@@ -31,4 +31,9 @@ export interface IProps {
    * Return when item select.
    */
   onSelect?: (fun: object) => void;
+
+  /**
+   * If true the user will be able to update the current item data.
+   */
+  isAllowToEdit: boolean;
 }

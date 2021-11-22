@@ -60,10 +60,11 @@ export class ExchangeRateField extends Component<IProps, IStates> {
 
   render() {
     const {
-      props: {currency, isEditScreen},
+      props: {currency, isEditScreen, isAllowToEdit},
       state: {hasProvider},
       state
     } = this.props;
+    const disabled = !isAllowToEdit;
     const baseCurrency = currency?.code;
     const selectedCurrency = state?.currency?.code;
     const spin = this.spinValue.interpolate({
@@ -100,7 +101,7 @@ export class ExchangeRateField extends Component<IProps, IStates> {
                 value: t('exchange_rate.base_currency', {baseCurrency})
               }}
               inputContainerStyle={styles.codeContainer}
-              disabledStyle={styles.codeDisable}
+              disabledStyle={disabled ? {} : styles.codeDisable}
               textStyle={styles.codeText}
               disabled
             />
@@ -112,6 +113,7 @@ export class ExchangeRateField extends Component<IProps, IStates> {
               rightSymbol={selectedCurrency}
               keyboardType={keyboardType.DECIMAL}
               inputContainerStyle={styles.reteContainer}
+              disabled={disabled}
             />
           </View>
         </View>
