@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import {showMessage} from '@/components';
 import {colors} from '@/styles';
 import {fontSizes, fonts} from '@/styles/fonts';
-import {isIPhoneX, isAndroidPlatform, isIosPlatform} from '@/helpers/platform';
+import {isIPhoneX, isIosPlatform} from '@/helpers/platform';
 import t from 'locales/use-translation';
 
 type MessageType =
