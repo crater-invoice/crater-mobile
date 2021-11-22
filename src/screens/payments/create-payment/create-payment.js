@@ -98,6 +98,8 @@ export default class CreatePayment extends Component<IProps, IStates> {
         customer: invoice?.customer,
         invoice: {invoice_number: invoice?.number}
       };
+      customerCurrency = invoice?.customer?.currency;
+
       await this.setState({
         selectedCustomer: invoice?.customer,
         selectedInvoice: invoice?.due

@@ -13,6 +13,11 @@ export interface IProps {
    * States object from parent props.
    */
   setExchangeRate?: (fun: object) => void;
+
+  /**
+   * If true the user will be able to update the current item data.
+   */
+  isAllowToEdit: boolean;
 }
 
 export interface IStates {

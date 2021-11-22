@@ -176,7 +176,7 @@ export const FinalAmount: FC<IProps> = props => {
         })
       )}
 
-      {!taxPerItem && (
+      {!taxPerItem && !disabled && (
         <Field
           name="taxes"
           taxTypes={taxTypes}
