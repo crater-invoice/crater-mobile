@@ -5,8 +5,7 @@ import Request from '@/utils/request';
  * @returns {*}
  */
 export const fetchTaxAndDiscountPerItem = () => {
-  return Request.get({
-    path: `company/settings`,
+  return Request.get(`/company/settings`, {
     axiosProps: {
       params: {settings: ['tax_per_item', 'discount_per_item']}
     }
@@ -19,7 +18,7 @@ export const fetchTaxAndDiscountPerItem = () => {
  * @returns {*}
  */
 export const checkExchangeRate = id =>
-  Request.get({path: `currencies/${id}/exchange-rate`});
+  Request.get(`/currencies/${id}/exchange-rate`);
 
 /**
  * Check exchange rate provider
@@ -27,7 +26,7 @@ export const checkExchangeRate = id =>
  * @returns {*}
  */
 export const checkExchangeRateProvider = id =>
-  Request.get({path: `currencies/${id}/active-provider`});
+  Request.get(`/currencies/${id}/active-provider`);
 
 /**
  * Ping endpoint url
@@ -35,11 +34,7 @@ export const checkExchangeRateProvider = id =>
  * @returns {*}
  */
 export const pingUrl = url => {
-  return Request.get({
-    path: `ping`,
-    isAuthRequired: false,
-    isPing: `${url}/api/`
-  });
+  return Request.get(`/ping`, {isPing: `${url}/api/`});
 };
 
 /**
@@ -47,7 +42,7 @@ export const pingUrl = url => {
  * @returns {*}
  */
 export const checkAppVersion = () => {
-  return Request.get({path: 'app/version', isAuthRequired: false});
+  return Request.get('/app/version');
 };
 
 /**
@@ -55,7 +50,7 @@ export const checkAppVersion = () => {
  * @returns {*}
  */
 export const fetchBootstrap = () => {
-  return Request.get({path: 'bootstrap'});
+  return Request.get('/bootstrap');
 };
 
 /**
@@ -63,7 +58,7 @@ export const fetchBootstrap = () => {
  * @returns {*}
  */
 export const fetchCountries = () => {
-  return Request.get({path: 'countries'});
+  return Request.get('/countries');
 };
 
 class Services {

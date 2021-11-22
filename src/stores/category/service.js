@@ -7,7 +7,7 @@ import * as queryString from 'query-string';
  * @returns {*}
  */
 export const fetchCategories = q => {
-  return Request.get({path: `categories?${queryString.stringify(q)}`});
+  return Request.get(`/categories?${queryString.stringify(q)}`);
 };
 
 /**
@@ -16,26 +16,26 @@ export const fetchCategories = q => {
  * @returns {*}
  */
 export const fetchSingleCategory = id => {
-  return Request.get({path: `categories/${id}`});
+  return Request.get(`/categories/${id}`);
 };
 
 /**
  * Add category
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addCategory = body => {
-  return Request.post({path: `categories`, body});
+export const addCategory = data => {
+  return Request.post(`/categories`, data);
 };
 
 /**
  * Update category
  * @param id : category id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateCategory = (id, body) => {
-  return Request.put({path: `categories/${id}`, body});
+export const updateCategory = (id, data) => {
+  return Request.put(`/categories/${id}`, data);
 };
 
 /**
@@ -44,5 +44,5 @@ export const updateCategory = (id, body) => {
  * @returns {*}
  */
 export const removeCategory = id => {
-  return Request.delete({path: `categories/${id}`});
+  return Request.delete(`/categories/${id}`);
 };

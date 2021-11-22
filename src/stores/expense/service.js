@@ -7,7 +7,7 @@ import * as queryString from 'query-string';
  * @returns {*}
  */
 export const fetchExpenses = q => {
-  return Request.get({path: `expenses?${queryString.stringify(q)}`});
+  return Request.get(`/expenses?${queryString.stringify(q)}`);
 };
 
 /**
@@ -16,30 +16,26 @@ export const fetchExpenses = q => {
  * @returns {*}
  */
 export const fetchSingleExpense = id => {
-  return Request.get({path: `expenses/${id}`});
+  return Request.get(`/expenses/${id}`);
 };
 
 /**
  * Add expense
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addExpense = body => {
-  return Request.post({path: `expenses`, body, withMultipartFormData: false});
+export const addExpense = data => {
+  return Request.post(`/expenses`, data, {withMultipartFormData: false});
 };
 
 /**
  * Update expense
  * @param id : expense id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateExpense = (id, body) => {
-  return Request.put({
-    path: `expenses/${id}`,
-    body,
-    withMultipartFormData: false
-  });
+export const updateExpense = (id, data) => {
+  return Request.put(`/expenses/${id}`, data, {withMultipartFormData: false});
 };
 
 /**
@@ -50,20 +46,19 @@ export const updateExpense = (id, body) => {
  * @returns {*}
  */
 export const uploadAttachmentReceipt = (id, attachmentReceipt, type) => {
-  return Request.post({
-    path: `expenses/${id}/upload/receipts`,
-    image: attachmentReceipt,
-    type,
-    imageName: 'attachment_receipt'
-  });
+  return Request.post(
+    `/expenses/${id}/upload/receipts`,
+    {image: attachmentReceipt},
+    {type, imageName: 'attachment_receipt'}
+  );
 };
 
 /**
  * Remove expense
  * @param id : expense id
- * @param body : Array of expense ids
+ * @param data : Array of expense ids
  * @returns {*}
  */
 export const removeExpense = id => {
-  return Request.post({path: `expenses/delete`, body: {ids: [id]}});
+  return Request.post(`/expenses/delete`, {ids: [id]});
 };

@@ -7,7 +7,7 @@ import * as queryString from 'query-string';
  * @returns {*}
  */
 export const fetchNotes = q => {
-  return Request.get({path: `notes?${queryString.stringify(q)}`});
+  return Request.get(`/notes?${queryString.stringify(q)}`);
 };
 
 /**
@@ -16,26 +16,26 @@ export const fetchNotes = q => {
  * @returns {*}
  */
 export const fetchSingleNote = id => {
-  return Request.get({path: `notes/${id}`});
+  return Request.get(`/notes/${id}`);
 };
 
 /**
  * Add note
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addNote = body => {
-  return Request.post({path: `notes`, body});
+export const addNote = data => {
+  return Request.post(`/notes`, data);
 };
 
 /**
  * Update note
  * @param id : note id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateNote = (id, body) => {
-  return Request.put({path: `notes/${id}`, body});
+export const updateNote = (id, data) => {
+  return Request.put(`/notes/${id}`, data);
 };
 
 /**
@@ -44,5 +44,5 @@ export const updateNote = (id, body) => {
  * @returns {*}
  */
 export const removeNote = id => {
-  return Request.delete({path: `notes/${id}`});
+  return Request.delete(`/notes/${id}`);
 };

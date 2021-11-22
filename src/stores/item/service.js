@@ -8,7 +8,7 @@ import Request from '@/utils/request';
  * @returns {*}
  */
 export const fetchItems = q =>
-  Request.get({path: `items?${queryString.stringify(q)}`});
+  Request.get(`/items?${queryString.stringify(q)}`);
 
 /**
  * Add item
@@ -16,7 +16,7 @@ export const fetchItems = q =>
  * @returns {*}
  */
 export const addItem = item => {
-  const body = pick(item, [
+  const data = pick(item, [
     'name',
     'description',
     'price',
@@ -24,21 +24,19 @@ export const addItem = item => {
     'taxes',
     'customFields'
   ]);
-  return Request.post({path: `items`, body});
+  return Request.post(`/items`, data);
 };
 
 /**
  * Update item
- * @param item : item data
+ * @param item
  * @returns {*}
  */
-export const updateItem = item =>
-  Request.put({path: `items/${item?.item_id}`, body: item});
+export const updateItem = item => Request.put(`/items/${item?.item_id}`, item);
 
 /**
  * Remove item
  * @param id : item id
  * @returns {*}
  */
-export const removeItem = ({id}) =>
-  Request.post({path: `items/delete`, body: {ids: [id]}});
+export const removeItem = ({id}) => Request.post(`/items/delete`, {ids: [id]});

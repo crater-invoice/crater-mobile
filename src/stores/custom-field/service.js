@@ -7,7 +7,7 @@ import * as queryString from 'query-string';
  * @returns {*}
  */
 export const fetchCustomFields = q => {
-  return Request.get({path: `custom-fields?${queryString.stringify(q)}`});
+  return Request.get(`/custom-fields?${queryString.stringify(q)}`);
 };
 
 /**
@@ -16,26 +16,26 @@ export const fetchCustomFields = q => {
  * @returns {*}
  */
 export const fetchSingleCustomField = id => {
-  return Request.get({path: `custom-fields/${id}`});
+  return Request.get(`/custom-fields/${id}`);
 };
 
 /**
  * Add custom-field
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addCustomField = body => {
-  return Request.post({path: `custom-fields`, body});
+export const addCustomField = data => {
+  return Request.post(`/custom-fields`, data);
 };
 
 /**
  * Update custom-field
  * @param id : custom-field id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateCustomField = (id, body) => {
-  return Request.put({path: `custom-fields/${id}`, body});
+export const updateCustomField = (id, data) => {
+  return Request.put(`/custom-fields/${id}`, data);
 };
 
 /**
@@ -44,5 +44,5 @@ export const updateCustomField = (id, body) => {
  * @returns {*}
  */
 export const removeCustomField = id => {
-  return Request.delete({path: `custom-fields/${id}`});
+  return Request.delete(`/custom-fields/${id}`);
 };
