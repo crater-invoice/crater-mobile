@@ -44,14 +44,6 @@ export const fetchCurrencies = () => {
 };
 
 /**
- * Fetch languages
- * @returns {*}
- */
-export const fetchLanguages = () => {
-  return Request.get(`/config/languages`);
-};
-
-/**
  * Fetch timezones
  * @returns {*}
  */
@@ -65,15 +57,6 @@ export const fetchTimezones = q => {
  */
 export const fetchDateFormats = q => {
   return Request.get(`/date/formats`);
-};
-
-/**
- * Fetch fiscal-years
- * @returns {*}
- */
-
-export const fetchFiscalYears = q => {
-  return Request.get(`/config/fiscal/years`);
 };
 
 /**

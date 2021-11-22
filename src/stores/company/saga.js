@@ -37,17 +37,6 @@ export function* fetchCurrencies() {
 }
 
 /**
- * Fetch Languages saga
- * @returns {IterableIterator<*>}
- */
-export function* fetchLanguages() {
-  try {
-    const {languages} = yield call(req.fetchLanguages);
-    yield put({type: types.FETCH_LANGUAGES_SUCCESS, payload: languages});
-  } catch (e) {}
-}
-
-/**
  * Fetch timezones saga
  * @returns {IterableIterator<*>}
  */
@@ -70,17 +59,6 @@ function* fetchDateFormats() {
 }
 
 /**
- * Fetch Fiscal-Years saga
- * @returns {IterableIterator<*>}
- */
-function* fetchFiscalYears() {
-  try {
-    const {fiscal_years} = yield call(req.fetchFiscalYears);
-    yield put({type: types.FETCH_FISCAL_YEARS_SUCCESS, payload: fiscal_years});
-  } catch (e) {}
-}
-
-/**
  * Fetch Preferences saga
  * @returns {IterableIterator<*>}
  */
@@ -92,8 +70,6 @@ function* fetchPreferences({payload}) {
       yield call(fetchCurrencies);
       yield call(fetchTimezones);
       yield call(fetchDateFormats);
-      yield call(fetchFiscalYears);
-      yield call(fetchLanguages);
       CompanyServices.setIsPreferencesItemLoaded();
     }
 

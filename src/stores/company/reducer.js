@@ -1,10 +1,8 @@
 import * as types from './types.js';
 
 const initialState = {
-  languages: [],
   timezones: [],
   dateFormats: [],
-  fiscalYears: [],
   currencies: [],
   companies: [],
   selectedCompany: null,
@@ -34,12 +32,6 @@ export default function companyReducer(state = initialState, action) {
 
     case types.FETCH_DATE_FORMATS_SUCCESS:
       return {...state, dateFormats: payload};
-
-    case types.FETCH_FISCAL_YEARS_SUCCESS:
-      return {...state, fiscalYears: payload};
-
-    case types.FETCH_LANGUAGES_SUCCESS:
-      return {...state, languages: payload};
 
     case types.SET_COMPANY_SETTING:
       return {...state, ...payload};
