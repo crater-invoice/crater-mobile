@@ -7,7 +7,7 @@ import QueryString from 'qs';
 import {routes} from '@/navigation';
 import {DATE_FORMAT} from '@/constants';
 import {store} from '@/stores';
-import {IProps, IStates} from './generate-report-type';
+import {IProps, IStates} from './generate-report-type.d';
 import {
   DefaultLayout,
   BaseDatePicker,

@@ -1,6 +1,6 @@
 import React from 'react';
 import {routes} from '@/navigation';
-import {IProps, IStates} from './list-categories-type';
+import {IProps, IStates} from './list-categories-type.d';
 import {isEmpty} from '@/constants';
 import {fetchCategories} from 'stores/category/actions';
 import {primaryHeader} from '@/utils';

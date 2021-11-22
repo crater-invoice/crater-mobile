@@ -9,7 +9,7 @@ import {isFilterApply} from '@/utils';
 import {InvoiceServices} from 'stores/invoice/service';
 import {openRatingReviewModal} from '@/utils';
 import {PermissionService} from '@/services';
-import {IProps, IStates} from './list-invoices-type';
+import {IProps, IStates} from './list-invoices-type.d';
 import {invoicesFilterFields} from './list-invoices-filters';
 import {Tab} from './list-invoices-tab';
 import {invoicesTabRefs as tabRefs} from 'stores/common/helpers';

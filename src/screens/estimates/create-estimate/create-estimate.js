@@ -43,7 +43,7 @@ import {getApiFormattedCustomFields} from '@/utils';
 import {CustomerSelectModal} from '@/select-modal';
 import {setCalculationRef} from 'stores/common/helpers';
 import {showNotification} from '@/utils';
-import {IProps, IStates} from './create-estimate-type';
+import {IProps, IStates} from './create-estimate-type.d';
 import {initialValues} from 'stores/estimate/helpers';
 import {
   fetchEstimateInitialDetails,

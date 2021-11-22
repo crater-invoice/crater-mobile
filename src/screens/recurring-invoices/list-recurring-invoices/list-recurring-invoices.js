@@ -9,7 +9,7 @@ import {
   TAB_NAME
 } from 'stores/recurring-invoice/types';
 import {isFilterApply, primaryHeader} from '@/utils';
-import {IProps, IStates} from './list-recurring-invoices-type';
+import {IProps, IStates} from './list-recurring-invoices-type.d';
 import {recurringInvoicesFilterFields} from './list-recurring-invoices-filters';
 import {Tab} from './list-recurring-invoices-tab';
 import {change} from 'redux-form';

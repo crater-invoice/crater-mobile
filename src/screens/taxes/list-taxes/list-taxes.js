@@ -1,6 +1,6 @@
 import React from 'react';
 import {routes} from '@/navigation';
-import {IProps, IStates} from './list-taxes-type';
+import {IProps, IStates} from './list-taxes-type.d';
 import {isEmpty} from '@/constants';
 import {primaryHeader} from '@/utils';
 import {fetchTaxes} from 'stores/tax-type/actions';

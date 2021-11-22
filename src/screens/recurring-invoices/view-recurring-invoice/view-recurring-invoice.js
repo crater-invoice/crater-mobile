@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './view-recurring-invoice-type';
+import {IProps, IStates} from './view-recurring-invoice-type.d';
 import {routes} from '@/navigation';
 import {alertMe, hasObjectLength, isArray} from '@/constants';
 import {

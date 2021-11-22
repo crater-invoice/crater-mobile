@@ -10,7 +10,7 @@ import {isIosPlatform} from '@/helpers/platform';
 import {defineLargeSizeParam} from '@/helpers/size';
 import {BIOMETRY_AUTH_TYPES, hasValue, isEmpty} from '@/constants';
 import {setBiometryAuthType} from 'stores/setting/actions';
-import {IProps, IStates} from './touch-face-id-type';
+import {IProps, IStates} from './touch-face-id-type.d';
 import {
   DefaultLayout,
   AssetSvg,

@@ -3,7 +3,7 @@ import {routes} from '@/navigation';
 import {primaryHeader} from '@/utils';
 import {isEmpty} from '@/constants';
 import styles from './list-custom-fields-style';
-import {IProps, IStates} from './list-custom-fields-type';
+import {IProps, IStates} from './list-custom-fields-type.d';
 import {fetchCustomFields} from 'stores/custom-field/actions';
 import {
   MainLayout,

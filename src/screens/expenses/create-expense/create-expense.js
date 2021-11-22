@@ -16,7 +16,7 @@ import {
   ExpenseCategorySelectModal,
   PaymentModeSelectModal
 } from '@/select-modal';
-import {IProps, IStates} from './create-expense-type';
+import {IProps, IStates} from './create-expense-type.d';
 import {
   addExpense,
   fetchExpenseInitialDetails,

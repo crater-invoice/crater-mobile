@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field, change, initialize} from 'redux-form';
 import {View} from 'react-native';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './create-custom-field-type';
+import {IProps, IStates} from './create-custom-field-type.d';
 import {alertMe, hasValue} from '@/constants';
 import {keyboardType} from '@/helpers/keyboard';
 import {CREATE_CUSTOM_FIELD_FORM} from 'stores/custom-field/types';

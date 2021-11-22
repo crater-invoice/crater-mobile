@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './create-recurring-invoice-type';
+import {IProps, IStates} from './create-recurring-invoice-type.d';
 import {routes} from '@/navigation';
 import {alertMe, isEmpty} from '@/constants';
 import {CREATE_RECURRING_INVOICE_FORM} from 'stores/recurring-invoice/types';

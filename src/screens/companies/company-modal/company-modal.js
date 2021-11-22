@@ -5,7 +5,7 @@ import t from 'locales/use-translation';
 import {colors} from '@/styles';
 import {navigateTo, resetNavigation, routes} from '@/navigation';
 import {fetchCompanies, setSelectedCompany} from 'stores/company/actions';
-import {IProps, IStates} from './company-modal-type';
+import {IProps, IStates} from './company-modal-type.d';
 import {fetchBootstrap} from 'stores/common/actions';
 import {isAndroidPlatform} from '@/helpers/platform';
 import {defineSize} from '@/helpers/size';

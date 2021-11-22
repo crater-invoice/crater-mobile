@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field, change, initialize} from 'redux-form';
 import styles from './preferences-style';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './preferences-type';
+import {IProps, IStates} from './preferences-type.d';
 import {PREFERENCES_FORM} from 'stores/company/types';
 import {isBooleanTrue} from '@/constants';
 import {fetchPreferences, updatePreferences} from 'stores/company/actions';

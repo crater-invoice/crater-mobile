@@ -34,7 +34,7 @@ import {
 import {getApiFormattedCustomFields, showNotification} from '@/utils';
 import {CustomerSelectModal} from '@/select-modal';
 import {setCalculationRef} from 'stores/common/helpers';
-import {IProps, IStates} from './create-invoice-type';
+import {IProps, IStates} from './create-invoice-type.d';
 import {
   addInvoice,
   fetchInvoiceInitialDetails,

@@ -12,7 +12,7 @@ import {routes} from '@/navigation';
 import expensesFilter from './list-expenses-filter';
 import {PermissionService} from '@/services';
 import {isEmpty} from '@/constants';
-import {IProps, IStates} from './list-expenses-type';
+import {IProps, IStates} from './list-expenses-type.d';
 import {fetchExpenses} from 'stores/expense/actions';
 
 export default class Expenses extends React.Component<IProps, IStates> {

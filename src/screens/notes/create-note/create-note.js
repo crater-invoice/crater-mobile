@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field, initialize} from 'redux-form';
 import {pick} from 'lodash';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './create-note-type';
+import {IProps, IStates} from './create-note-type.d';
 import {alertMe, hasTextLength, hasValue} from '@/constants';
 import {secondaryHeader} from 'utils/header';
 import {CREATE_NOTE_FORM} from 'stores/note/types';

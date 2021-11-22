@@ -4,7 +4,7 @@ import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
 import {APP_VERSION} from '../../../config';
 import {keyboardType} from '@/helpers/keyboard';
-import {IProps, IStates} from './account-type';
+import {IProps, IStates} from './account-type.d';
 import {fetchCurrentUser, updateCurrentUser} from 'stores/user/actions';
 import {ACCOUNT_FORM} from 'stores/user/types';
 import {secondaryHeader} from '@/utils';

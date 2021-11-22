@@ -7,7 +7,7 @@ import {isFilterApply} from '@/utils';
 import filterFields from './list-payments-filters';
 import {fetchPayments} from 'stores/payment/actions';
 import {PAYMENTS_FORM} from 'stores/payment/types';
-import {IProps, IStates} from './list-payments-type';
+import {IProps, IStates} from './list-payments-type.d';
 import {
   MainLayout,
   ListView,

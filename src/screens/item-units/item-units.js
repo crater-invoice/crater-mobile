@@ -4,7 +4,7 @@ import {change} from 'redux-form';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
 import {alertMe, isEmpty} from '@/constants';
-import {IProps, IStates} from './item-units-type';
+import {IProps, IStates} from './item-units-type.d';
 import {ITEM_UNITS_FORM} from 'stores/item-unit/types';
 import styles from './item-units-style';
 import {
