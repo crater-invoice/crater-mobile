@@ -25,13 +25,19 @@ export class CurrencyFormat extends Component<IProps> {
       : style;
     return (
       <View style={[styles.container, containerStyle && containerStyle]}>
-        <Text numberOfLines={1} style={{...style, ...addingFalse}}>
+        <Text numberOfLines={1} style={{...style, ...styles.paddingFalse}}>
           {preText && preText}
         </Text>
-        <Text numberOfLines={1} style={[firstComponentStyle, addingFalse]}>
+        <Text
+          numberOfLines={1}
+          style={[firstComponentStyle, styles.paddingFalse]}
+        >
           {`${firstComponent} `}
         </Text>
-        <Text numberOfLines={1} style={[secondComponentStyle, addingFalse]}>
+        <Text
+          numberOfLines={1}
+          style={[secondComponentStyle, styles.paddingFalse]}
+        >
           {secondComponent}
         </Text>
       </View>
@@ -47,7 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     textAlignVertical: 'center'
   },
-  addingFalse: {
+  paddingFalse: {
     includeFontPadding: false
   }
 });
