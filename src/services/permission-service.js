@@ -62,9 +62,7 @@ const abilities = [
   {route: routes.CREATE_CUSTOM_FIELD, ability: 'delete-custom-field'},
 
   // Settings
-  {route: routes.REPORTS, ability: 'view-report'},
-  {route: routes.NOTES, ability: 'note-settings'},
-  {route: routes.CREATE_COMPANY, ability: 'company-settings'}
+  {route: routes.NOTES, ability: 'note-settings'}
 ];
 
 class Service {
@@ -85,7 +83,7 @@ class Service {
 
   hasPermission = ability => {
     if (!hasValue(ability)) {
-      return true;
+      return false;
     }
 
     if (this.isSuperAdmin) {

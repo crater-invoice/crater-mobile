@@ -51,7 +51,7 @@ export const itemsFilterFields = ({props, setFormField}) => {
     }
   ];
 
-  if (PermissionService.isAllowToView(routes.ROLES)) {
+  if (PermissionService.isSuperAdmin) {
     return {inputFields, selectFields};
   } else {
     return {inputFields};
