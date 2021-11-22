@@ -1,7 +1,5 @@
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {colors, fonts} from '@/styles';
-import {SymbolStyle} from '@/components/currency-format';
-import {isIosPlatform, isAndroidPlatform} from '@/helpers/platform';
 
 export default styles = StyleSheet.create({
   discount: {
@@ -92,26 +90,5 @@ export default styles = StyleSheet.create({
   }),
   SelectPickerContainer: {
     marginTop: 0
-  },
-  baseSelectValueStyle: {
-    fontSize: 18,
-    ...Platform.select({
-      android: {
-        marginTop: -2
-      }
-    }),
-    ...SymbolStyle
-  },
-  currencySymbol: {
-    ...(isAndroidPlatform && {
-      marginTop: -5
-    })
-  },
-  symbol: currency => ({
-    ...(isIosPlatform && {marginTop: 2}),
-    ...(isAndroidPlatform &&
-      currency?.swap_currency_symbol && {
-        marginTop: -9
-      })
-  })
+  }
 });

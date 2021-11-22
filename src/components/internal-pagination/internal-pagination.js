@@ -147,40 +147,26 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
       bottomLoader
     } = this.state;
     const {items} = this.props;
-    console.log('1 ' + bottomLoader, searchLoading, loading);
     !bottomLoader && (await this.setState({bottomLoader: true}));
-    console.log('2');
 
     const currentItemsList = hasTextLength(search) ? searchItems : items;
-    console.log('3');
-
     const itemsList = currentItemsList.slice(
       currentPage * ITEMS_PER_PAGE,
       (currentPage + 1) * ITEMS_PER_PAGE
     );
-    console.log('4');
 
     this.setState({
       itemList: [...itemList, ...itemsList],
       currentPage: currentPage + 1
     });
-    console.log('5');
 
     if (searchLoading) {
-      console.log('60');
-
       this.setState({searchLoading: false});
     }
-
     if (loading) {
-      console.log('61');
-
       this.setState({loading: false});
     }
-
     bottomLoader && this.setState({bottomLoader: false});
-
-    console.log('exit ' + bottomLoader, searchLoading, loading);
   };
 
   render() {
@@ -220,7 +206,7 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
         ? searchItems.length / ITEMS_PER_PAGE
         : items.length / ITEMS_PER_PAGE
     );
-    const isMoreItems = currentPage <= lastPage;
+    const isMoreItems = currentPage < lastPage;
     const loaderColor =
       theme?.mode === 'light' ? colors.veryDarkGray : colors.white;
 
