@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field, initialize} from 'redux-form';
 import {pick} from 'lodash';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './create-tax-type';
+import {IProps, IStates} from './create-tax-type.d';
 import {alertMe} from '@/constants';
 import {keyboardType} from '@/helpers/keyboard';
 import {CREATE_TAX_FORM} from 'stores/tax-type/types';

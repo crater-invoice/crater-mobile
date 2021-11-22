@@ -19,7 +19,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 17,
       fullItem: {route: routes.CREATE_COMPANY},
-      show: PermissionService.isAllowToManage(routes.CREATE_COMPANY)
+      show: PermissionService.isSuperAdmin
     },
     {
       title: t('settings.preference'),
@@ -78,7 +78,7 @@ export const SETTINGS_MENU = () => {
       leftIcon: 'users',
       iconSize: 20,
       fullItem: {route: routes.ROLES},
-      show: PermissionService.isAllowToView(routes.ROLES)
+      show: PermissionService.isSuperAdmin
     },
     {
       title: t('settings.touch_or_Face_id'),

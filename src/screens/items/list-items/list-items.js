@@ -9,7 +9,7 @@ import {isFilterApply} from '@/utils';
 import {hasTextLength, isEmpty} from '@/constants';
 import filterFields from './list-items-filter';
 import {itemsDescriptionStyle} from '@/styles';
-import {IProps, IStates} from './list-items-type';
+import {IProps, IStates} from './list-items-type.d';
 import {fetchItems} from 'stores/item/actions';
 import {defineSize} from '@/helpers/size';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, KeyboardAvoidingView, ScrollView} from 'react-native';
 import {Field} from 'redux-form';
 import {styles, Container} from './forgot-password-style';
-import {IProps, IStates} from './forgot-password-type';
+import {IProps, IStates} from './forgot-password-type.d';
 import t from 'locales/use-translation';
 import {hasTextLength} from '@/constants';
 import {keyboardType, keyboardReturnKeyType} from '@/helpers/keyboard';

@@ -1,7 +1,7 @@
 import React from 'react';
 import t from 'locales/use-translation';
 import {routes} from '@/navigation';
-import {IProps} from './list-settings-type';
+import {IProps} from './list-settings-type.d';
 import styles from './list-settings-style';
 import {ListView, DefaultLayout} from '@/components';
 import {fetchBootstrap} from 'stores/common/actions';

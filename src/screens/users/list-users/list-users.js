@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {change} from 'redux-form';
 import {hasTextLength, isEmpty} from '@/constants';
 import {fetchUsers} from 'stores/users/actions';
-import {IProps, IStates} from './list-users-type';
+import {IProps, IStates} from './list-users-type.d';
 import {routes} from '@/navigation';
 import {primaryHeader} from '@/utils';
 import usersFilter from './list-users-filter';

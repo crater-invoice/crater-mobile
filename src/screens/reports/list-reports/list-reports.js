@@ -5,7 +5,7 @@ import {ListView, DefaultLayout} from '@/components';
 import t from 'locales/use-translation';
 import {REPORTS_MENU} from 'stores/report/helpers';
 import {routes} from '@/navigation';
-import {IProps} from './list-reports-type';
+import {IProps} from './list-reports-type.d';
 
 export default class Reports extends React.Component<IProps> {
   constructor(props) {

@@ -6,7 +6,7 @@ import t from 'locales/use-translation';
 import {keyboardType} from '@/helpers/keyboard';
 import {NOTIFICATION_FORM} from 'stores/setting/types';
 import {isBooleanTrue} from '@/constants';
-import {IProps, IStates} from './notification-type';
+import {IProps, IStates} from './notification-type.d';
 import {
   fetchCompanySettings,
   updateCompanySettings

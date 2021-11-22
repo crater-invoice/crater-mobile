@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field, change} from 'redux-form';
 import {find} from 'lodash';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './create-role-type';
+import {IProps, IStates} from './create-role-type.d';
 import {alertMe, hasValue} from '@/constants';
 import {CREATE_ROLE_FORM} from 'stores/role/types';
 import {secondaryHeader} from 'utils/header';

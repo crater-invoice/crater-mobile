@@ -34,7 +34,7 @@ import {
 import {getApiFormattedCustomFields, showNotification} from '@/utils';
 import {CustomerSelectModal} from '@/select-modal';
 import {setCalculationRef} from 'stores/common/helpers';
-import {IProps, IStates} from './create-invoice-type';
+import {IProps, IStates} from './create-invoice-type.d';
 import {
   addInvoice,
   fetchInvoiceInitialDetails,
@@ -412,7 +412,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     const bottomAction = (
       <BaseButtonGroup>
         <BaseButton
-          show={isEditScreen && isAllowToEdit}
+          show={isEditScreen}
           type="primary-btn-outline"
           disabled={
             isFetchingInitialData || isSaving || isDeleting || isLoading
@@ -432,18 +432,19 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       </BaseButtonGroup>
     );
 
+    const headerProps = {
+      leftIconPress: () => this.onDraft(handleSubmit),
+      title: getTitle(),
+      placement: 'center',
+      ...(!isEditScreen && {
+        rightIcon: 'save',
+        rightIconProps: {solid: true},
+        rightIconPress: handleSubmit(this.downloadInvoice)
+      })
+    };
     return (
       <DefaultLayout
-        headerProps={{
-          leftIconPress: () => this.onDraft(handleSubmit),
-          title: getTitle(),
-          placement: 'center',
-          ...(!isEditScreen && {
-            rightIcon: 'save',
-            rightIconProps: {solid: true},
-            rightIconPress: handleSubmit(this.downloadInvoice)
-          })
-        }}
+        headerProps={headerProps}
         bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData}}
         dropdownProps={drownDownProps}
@@ -513,9 +514,14 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           items={getItemList(items)}
           setFormField={this.setFormField}
           screen="invoice"
+          disabled={disabled}
         />
 
-        <FinalAmount {...this.props} currency={this.state.currency} />
+        <FinalAmount
+          {...this.props}
+          disabled={disabled}
+          currency={this.state.currency}
+        />
 
         <Field
           name="reference_number"

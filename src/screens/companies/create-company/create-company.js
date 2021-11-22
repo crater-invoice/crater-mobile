@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Field, change, initialize} from 'redux-form';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './create-company-type';
+import {IProps, IStates} from './create-company-type.d';
 import {secondaryHeader} from 'utils/header';
 import {CountrySelectModal, CurrencySelectModal} from '@/select-modal';
 import {CREATE_COMPANY_FORM} from 'stores/company/types';

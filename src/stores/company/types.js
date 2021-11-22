@@ -83,10 +83,3 @@ export const COMPANY_SETTING_KEYS = [
   'invoice_set_due_date_automatically',
   'invoice_due_date_days'
 ];
-
-export const retrospectiveEdits = {
-  ALLOW: 'allow',
-  DISABLE_ON_INVOICE_PARTIAL_PAID: 'disable_on_invoice_partial_paid',
-  DISABLE_ON_INVOICE_PAID: 'disable_on_invoice_paid',
-  DISABLE_ON_INVOICE_SENT: 'disable_on_invoice_sent'
-};

@@ -1,6 +1,6 @@
 import React from 'react';
 import {routes} from '@/navigation';
-import {IProps, IStates} from './list-notes-type';
+import {IProps, IStates} from './list-notes-type.d';
 import {isEmpty} from '@/constants';
 import {primaryHeader} from '@/utils';
 import {fetchNotes} from 'stores/note/actions';

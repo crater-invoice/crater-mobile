@@ -4,7 +4,7 @@ import t from 'locales/use-translation';
 import {styles, Container} from './endpoint-style';
 import {Field} from 'redux-form';
 import {isRTL, STATUS_BAR_CONTENT} from '@/utils';
-import {IProps, IStates} from './endpoint-type';
+import {IProps, IStates} from './endpoint-type.d';
 import {saveEndpointURL} from 'stores/common/actions';
 import {hasTextLength} from '@/constants';
 import {defineLargeSizeParam} from '@/helpers/size';

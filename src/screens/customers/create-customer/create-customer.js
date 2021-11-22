@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field, change, initialize} from 'redux-form';
 import {pick} from 'lodash';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './create-customer-type';
+import {IProps, IStates} from './create-customer-type.d';
 import {styles} from './create-customer-style';
 import {keyboardType} from '@/helpers/keyboard';
 import {secondaryHeader} from 'utils/header';
