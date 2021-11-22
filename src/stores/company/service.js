@@ -6,7 +6,7 @@ import * as types from './types';
  * @returns {*}
  */
 export const fetchCompanies = () => {
-  return Request.get({path: `companies`});
+  return Request.get(`/companies`);
 };
 
 /**
@@ -14,25 +14,25 @@ export const fetchCompanies = () => {
  * @returns {*}
  */
 export const fetchCompany = () => {
-  return Request.get({path: `current-company`});
+  return Request.get(`/current-company`);
 };
 
 /**
  * Add company
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addCompany = body => {
-  return Request.post({path: `companies`, body});
+export const addCompany = data => {
+  return Request.post(`/companies`, data);
 };
 
 /**
  * Update company
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateCompany = body => {
-  return Request.put({path: `company`, body});
+export const updateCompany = data => {
+  return Request.put(`/company`, data);
 };
 
 /**
@@ -40,7 +40,7 @@ export const updateCompany = body => {
  * @returns {*}
  */
 export const fetchCurrencies = () => {
-  return Request.get({path: `currencies`});
+  return Request.get(`/currencies`);
 };
 
 /**
@@ -48,7 +48,7 @@ export const fetchCurrencies = () => {
  * @returns {*}
  */
 export const fetchLanguages = () => {
-  return Request.get({path: `config/languages`});
+  return Request.get(`/config/languages`);
 };
 
 /**
@@ -56,7 +56,7 @@ export const fetchLanguages = () => {
  * @returns {*}
  */
 export const fetchTimezones = q => {
-  return Request.get({path: `timezones`});
+  return Request.get(`/timezones`);
 };
 
 /**
@@ -64,7 +64,7 @@ export const fetchTimezones = q => {
  * @returns {*}
  */
 export const fetchDateFormats = q => {
-  return Request.get({path: `date/formats`});
+  return Request.get(`/date/formats`);
 };
 
 /**
@@ -73,7 +73,7 @@ export const fetchDateFormats = q => {
  */
 
 export const fetchFiscalYears = q => {
-  return Request.get({path: `config/fiscal/years`});
+  return Request.get(`/config/fiscal/years`);
 };
 
 /**
@@ -81,8 +81,7 @@ export const fetchFiscalYears = q => {
  * @returns {*}
  */
 export const fetchPreferences = () => {
-  return Request.get({
-    path: `company/settings`,
+  return Request.get(`/company/settings`, {
     axiosProps: {
       params: {settings: types.PREFERENCES_SETTING_KEYS}
     }
@@ -91,11 +90,11 @@ export const fetchPreferences = () => {
 
 /**
  * Update preferences
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updatePreferences = body => {
-  return Request.post({path: `company/settings`, body});
+export const updatePreferences = data => {
+  return Request.post(`/company/settings`, data);
 };
 
 /**
@@ -105,12 +104,11 @@ export const updatePreferences = body => {
  * @returns {*}
  */
 export const uploadCompanyLogo = (logo, id) => {
-  return Request.post({
-    path: `company/upload-logo`,
-    image: logo,
-    imageName: 'company_logo',
-    headers: {company: id}
-  });
+  return Request.post(
+    `/company/upload-logo`,
+    {image: logo},
+    {imageName: 'company_logo', headers: {company: id}}
+  );
 };
 
 /**
@@ -119,19 +117,18 @@ export const uploadCompanyLogo = (logo, id) => {
  * @returns {*}
  */
 export const fetchCompanySettings = settings => {
-  return Request.get({
-    path: `company/settings`,
+  return Request.get(`/company/settings`, {
     axiosProps: {params: {settings: settings ?? types.COMPANY_SETTING_KEYS}}
   });
 };
 
 /**
  * Update company settings
- * @param settings : params
+ * @param settings
  * @returns {*}
  */
 export const updateCompanySettings = settings => {
-  return Request.post({path: `company/settings`, body: {settings}});
+  return Request.post(`/company/settings`, {settings});
 };
 
 class Services {

@@ -3,13 +3,13 @@ import * as queryString from 'query-string';
 
 /**
  * Fetch Next-Invoice-At
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const fetchNextInvoiceAt = body => {
-  return Request.get({
-    path: `recurring-invoice-frequency?${queryString.stringify(body)}`
-  });
+export const fetchNextInvoiceAt = data => {
+  return Request.get(
+    `/recurring-invoice-frequency?${queryString.stringify(data)}`
+  );
 };
 
 /**
@@ -17,7 +17,7 @@ export const fetchNextInvoiceAt = body => {
  * @returns {*}
  */
 export const fetchInvoiceTemplates = () => {
-  return Request.get({path: `invoices/templates`});
+  return Request.get(`/invoices/templates`);
 };
 
 /**
@@ -26,7 +26,7 @@ export const fetchInvoiceTemplates = () => {
  * @returns {*}
  */
 export const fetchRecurringInvoices = q => {
-  return Request.get({path: `recurring-invoices?${queryString.stringify(q)}`});
+  return Request.get(`/recurring-invoices?${queryString.stringify(q)}`);
 };
 
 /**
@@ -35,26 +35,26 @@ export const fetchRecurringInvoices = q => {
  * @returns {*}
  */
 export const fetchSingleRecurringInvoice = id => {
-  return Request.get({path: `recurring-invoices/${id}`});
+  return Request.get(`/recurring-invoices/${id}`);
 };
 
 /**
  * Add recurring-invoice
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addRecurringInvoice = body => {
-  return Request.post({path: `recurring-invoices`, body});
+export const addRecurringInvoice = data => {
+  return Request.post(`/recurring-invoices`, data);
 };
 
 /**
  * Update recurring-invoice
  * @param id : recurring-invoice id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateRecurringInvoice = (id, body) => {
-  return Request.put({path: `recurring-invoices/${id}`, body});
+export const updateRecurringInvoice = (id, data) => {
+  return Request.put(`/recurring-invoices/${id}`, data);
 };
 
 /**
@@ -63,5 +63,5 @@ export const updateRecurringInvoice = (id, body) => {
  * @returns {*}
  */
 export const removeRecurringInvoice = id => {
-  return Request.post({path: `recurring-invoices/delete`, body: {ids: [id]}});
+  return Request.post(`/recurring-invoices/delete`, {ids: [id]});
 };

@@ -6,7 +6,7 @@ import * as queryString from 'query-string';
  * @returns {*}
  */
 export const fetchInvoiceTemplates = () => {
-  return Request.get({path: `invoices/templates`});
+  return Request.get(`/invoices/templates`);
 };
 
 /**
@@ -15,7 +15,7 @@ export const fetchInvoiceTemplates = () => {
  * @returns {*}
  */
 export const fetchInvoices = q => {
-  return Request.get({path: `invoices?${queryString.stringify(q)}`});
+  return Request.get(`/invoices?${queryString.stringify(q)}`);
 };
 
 /**
@@ -24,36 +24,36 @@ export const fetchInvoices = q => {
  * @returns {*}
  */
 export const fetchSingleInvoice = id => {
-  return Request.get({path: `invoices/${id}`});
+  return Request.get(`/invoices/${id}`);
 };
 
 /**
  * Add invoice
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addInvoice = body => {
-  return Request.post({path: `invoices`, body});
+export const addInvoice = data => {
+  return Request.post(`/invoices`, data);
 };
 
 /**
  * Update invoice
  * @param id : invoice id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateInvoice = (id, body) => {
-  return Request.put({path: `invoices/${id}`, body});
+export const updateInvoice = (id, data) => {
+  return Request.put(`/invoices/${id}`, data);
 };
 
 /**
  * Update invoice status
  * @param action : update action
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const changeInvoiceStatus = (action, body) => {
-  return Request.post({path: `invoices/${action}`, body});
+export const changeInvoiceStatus = (action, data) => {
+  return Request.post(`/invoices/${action}`, data);
 };
 
 /**
@@ -62,7 +62,7 @@ export const changeInvoiceStatus = (action, body) => {
  * @returns {*}
  */
 export const removeInvoice = id => {
-  return Request.post({path: `invoices/delete`, body: {ids: [id]}});
+  return Request.post(`/invoices/delete`, {ids: [id]});
 };
 
 /**
@@ -70,17 +70,17 @@ export const removeInvoice = id => {
  * @returns {*}
  */
 export const fetchNextInvoiceNumber = () => {
-  return Request.get({path: `next-number?key=invoice`});
+  return Request.get(`/next-number?key=invoice`);
 };
 
 /**
  * Send invoice
  * @param id : invoice id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const sendInvoice = (id, body) => {
-  return Request.post({path: `invoices/${id}/send`, body});
+export const sendInvoice = (id, data) => {
+  return Request.post(`/invoices/${id}/send`, data);
 };
 
 class Services {

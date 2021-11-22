@@ -7,7 +7,7 @@ import * as queryString from 'query-string';
  * @returns {*}
  */
 export const fetchRoles = q => {
-  return Request.get({path: `roles?${queryString.stringify(q)}`});
+  return Request.get(`/roles?${queryString.stringify(q)}`);
 };
 
 /**
@@ -16,7 +16,7 @@ export const fetchRoles = q => {
  * @returns {*}
  */
 export const fetchSingleRole = id => {
-  return Request.get({path: `roles/${id}`});
+  return Request.get(`/roles/${id}`);
 };
 
 /**
@@ -24,26 +24,26 @@ export const fetchSingleRole = id => {
  * @returns {*}
  */
 export const fetchPermissions = () => {
-  return Request.get({path: `abilities`});
+  return Request.get(`/abilities`);
 };
 
 /**
  * Add role
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addRole = body => {
-  return Request.post({path: `roles`, body});
+export const addRole = data => {
+  return Request.post(`/roles`, data);
 };
 
 /**
  * Update role
  * @param id : role id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateRole = (id, body) => {
-  return Request.put({path: `roles/${id}`, body});
+export const updateRole = (id, data) => {
+  return Request.put(`/roles/${id}`, data);
 };
 
 /**
@@ -52,5 +52,5 @@ export const updateRole = (id, body) => {
  * @returns {*}
  */
 export const removeRole = id => {
-  return Request.delete({path: `roles/${id}`});
+  return Request.delete(`/roles/${id}`);
 };

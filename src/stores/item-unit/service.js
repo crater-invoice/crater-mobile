@@ -6,26 +6,26 @@ import * as queryString from 'query-string';
  * @returns {*}
  */
 export const fetchItemUnits = q => {
-  return Request.get({path: `units?${queryString.stringify(q)}`});
+  return Request.get(`/units?${queryString.stringify(q)}`);
 };
 
 /**
  * Add unit
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addItemUnit = body => {
-  return Request.post({path: `units`, body});
+export const addItemUnit = data => {
+  return Request.post(`/units`, data);
 };
 
 /**
  * Update unit
  * @param id : unit id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateItemUnit = body => {
-  return Request.put({path: `units/${body.id}`, body});
+export const updateItemUnit = data => {
+  return Request.put(`/units/${data.id}`, data);
 };
 
 /**
@@ -34,5 +34,5 @@ export const updateItemUnit = body => {
  * @returns {*}
  */
 export const removeItemUnit = id => {
-  return Request.delete({path: `units/${id}`});
+  return Request.delete(`/units/${id}`);
 };

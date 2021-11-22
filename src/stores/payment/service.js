@@ -7,7 +7,7 @@ import * as queryString from 'query-string';
  * @returns {*}
  */
 export const fetchPayments = q => {
-  return Request.get({path: `payments?${queryString.stringify(q)}`});
+  return Request.get(`/payments?${queryString.stringify(q)}`);
 };
 
 /**
@@ -16,26 +16,26 @@ export const fetchPayments = q => {
  * @returns {*}
  */
 export const fetchSinglePayment = id => {
-  return Request.get({path: `payments/${id}`});
+  return Request.get(`/payments/${id}`);
 };
 
 /**
  * Add payment
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addPayment = body => {
-  return Request.post({path: `payments`, body});
+export const addPayment = data => {
+  return Request.post(`/payments`, data);
 };
 
 /**
  * Update payment
  * @param id : payment id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updatePayment = (id, body) => {
-  return Request.put({path: `payments/${id}`, body});
+export const updatePayment = (id, data) => {
+  return Request.put(`/payments/${id}`, data);
 };
 
 /**
@@ -44,17 +44,17 @@ export const updatePayment = (id, body) => {
  * @returns {*}
  */
 export const removePayment = id => {
-  return Request.post({path: `payments/delete`, body: {ids: [id]}});
+  return Request.post(`/payments/delete`, {ids: [id]});
 };
 
 /**
  * Send payment receipt
  * @param id : payment id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const sendPaymentReceipt = (id, body) => {
-  return Request.post({path: `payments/${id}/send`, body});
+export const sendPaymentReceipt = (id, data) => {
+  return Request.post(`/payments/${id}/send`, data);
 };
 
 /**
@@ -63,7 +63,7 @@ export const sendPaymentReceipt = (id, body) => {
  * @returns {*}
  */
 export const fetchUnpaidInvoices = q => {
-  return Request.get({path: `invoices?${queryString.stringify(q)}`});
+  return Request.get(`/invoices?${queryString.stringify(q)}`);
 };
 
 /**
@@ -71,5 +71,5 @@ export const fetchUnpaidInvoices = q => {
  * @returns {*}
  */
 export const fetchNextPaymentNumber = () => {
-  return Request.get({path: `next-number?key=payment`});
+  return Request.get(`/next-number?key=payment`);
 };

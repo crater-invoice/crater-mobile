@@ -7,7 +7,7 @@ import * as queryString from 'query-string';
  * @returns {*}
  */
 export const fetchTaxes = q => {
-  return Request.get({path: `tax-types?${queryString.stringify(q)}`});
+  return Request.get(`/tax-types?${queryString.stringify(q)}`);
 };
 
 /**
@@ -16,26 +16,26 @@ export const fetchTaxes = q => {
  * @returns {*}
  */
 export const fetchSingleTax = id => {
-  return Request.get({path: `tax-types/${id}`});
+  return Request.get(`/tax-types/${id}`);
 };
 
 /**
  * Add tax
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const addTax = body => {
-  return Request.post({path: `tax-types`, body});
+export const addTax = data => {
+  return Request.post(`/tax-types`, data);
 };
 
 /**
  * Update tax
  * @param id : tax id
- * @param body : params
+ * @param data
  * @returns {*}
  */
-export const updateTax = (id, body) => {
-  return Request.put({path: `tax-types/${id}`, body});
+export const updateTax = (id, data) => {
+  return Request.put(`/tax-types/${id}`, data);
 };
 
 /**
@@ -44,5 +44,5 @@ export const updateTax = (id, body) => {
  * @returns {*}
  */
 export const removeTax = id => {
-  return Request.delete({path: `tax-types/${id}`});
+  return Request.delete(`/tax-types/${id}`);
 };
