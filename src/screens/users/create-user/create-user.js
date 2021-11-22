@@ -74,7 +74,14 @@ export default class CreateUser extends Component<IProps, IStates> {
       return;
     }
 
-    let hasError = !hasValue(params?.companies[0]?.role);
+    let hasError = false;
+
+    for (const company of params?.companies) {
+      if (!hasValue(company?.role)) {
+        hasError = true;
+        break;
+      }
+    }
 
     if (hasError) {
       return;
