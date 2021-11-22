@@ -360,7 +360,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       items,
       fetchCustomers,
       customers,
-      formValues: {customer, status, allow_edit},
+      formValues: {customer, status},
       formValues,
       customFields,
       isAllowToEdit,
@@ -373,7 +373,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       fetchNotes
     } = this.props;
     const {isFetchingInitialData, hasExchangeRate} = this.state;
-    const disabled = !isAllowToEdit || !allow_edit;
+    const disabled = !isAllowToEdit;
     let hasSentStatus = status === 'SENT' || status === 'VIEWED';
     let hasCompleteStatus = status === 'COMPLETED';
 
@@ -401,10 +401,8 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
 
     const getTitle = () => {
       let title = 'header.add_invoice';
-      if ((isEditScreen && !isAllowToEdit) || !allow_edit)
-        title = 'header.view_invoice';
-      if (isEditScreen && isAllowToEdit && allow_edit)
-        title = 'header.edit_invoice';
+      if (isEditScreen && !isAllowToEdit) title = 'header.view_invoice';
+      if (isEditScreen && isAllowToEdit) title = 'header.edit_invoice';
 
       return t(title);
     };
@@ -414,7 +412,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     const bottomAction = (
       <BaseButtonGroup>
         <BaseButton
-          show={isEditScreen && isAllowToEdit}
+          show={isEditScreen}
           type="primary-btn-outline"
           disabled={
             isFetchingInitialData || isSaving || isDeleting || isLoading
@@ -507,7 +505,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           disabled={disabled}
         />
 
-        {hasExchangeRate && <ExchangeRateField disabled={disabled} {...this} />}
+        {hasExchangeRate && <ExchangeRateField {...this} />}
 
         <ItemField
           {...this.props}
@@ -541,7 +539,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           isEditScreen={isEditScreen}
           noteType={'Invoice'}
           onSelect={this.setFormField}
-          disabled={disabled}
         />
 
         <Field

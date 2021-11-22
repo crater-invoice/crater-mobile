@@ -53,11 +53,10 @@ export class ItemField extends React.Component<IProps> {
       currency,
       screen,
       discount_per_item,
-      tax_per_item,
-      disabled
+      tax_per_item
     } = this.props;
 
-    if (!isAllowToEdit || disabled) {
+    if (!isAllowToEdit) {
       return;
     }
 
@@ -102,7 +101,7 @@ export class ItemField extends React.Component<IProps> {
       isAllowToEdit,
       screen
     } = this.props;
-    const disabled = !isAllowToEdit || this.props.disabled;
+    const disabled = !isAllowToEdit;
     const itemList = this.getItemList(selectedItems);
 
     return (

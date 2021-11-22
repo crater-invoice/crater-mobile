@@ -15,9 +15,9 @@ export interface IProps {
   setExchangeRate?: (fun: object) => void;
 
   /**
-   * Is allowed to edit.
+   * If true the user will be able to update the current item data.
    */
-  disabled?: boolean;
+  isAllowToEdit: boolean;
 }
 
 export interface IStates {

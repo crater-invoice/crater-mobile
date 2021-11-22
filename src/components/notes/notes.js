@@ -19,7 +19,7 @@ export const Notes = (props: IProps) => {
     noteType,
     onSelect,
     formValues,
-    disabled
+    isAllowToEdit
   } = props;
   const navigateToNote = () => {
     navigation.navigate(routes.CREATE_NOTE, {
@@ -45,9 +45,9 @@ export const Notes = (props: IProps) => {
       previewLabelStyle={{marginBottom: -10}}
       reference={ref => (editorReference = ref)}
       showPreview={isEditScreen && formValues.notes}
-      isAllowToEdit={!disabled}
+      isAllowToEdit={isAllowToEdit}
       customRightLabelComponent={
-        !disabled && (
+        isAllowToEdit && (
           <View style={{marginTop: 5}}>
             <Field
               name="add_notes"
@@ -62,7 +62,6 @@ export const Notes = (props: IProps) => {
               queryString={{
                 type: noteType
               }}
-              disabled={disabled}
             />
           </View>
         )
