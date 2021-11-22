@@ -48,8 +48,8 @@ export const updateExpense = (id, data) => {
 export const uploadAttachmentReceipt = (id, attachmentReceipt, type) => {
   return Request.post(
     `/expenses/${id}/upload/receipts`,
-    {image: attachmentReceipt},
-    {type, imageName: 'attachment_receipt'}
+    {},
+    {image: attachmentReceipt, type, imageName: 'attachment_receipt'}
   );
 };
 

@@ -89,8 +89,8 @@ export const updatePreferences = data => {
 export const uploadCompanyLogo = (logo, id) => {
   return Request.post(
     `/company/upload-logo`,
-    {image: logo},
-    {imageName: 'company_logo', headers: {company: id}}
+    {},
+    {image: logo, imageName: 'company_logo', headers: {company: id}}
   );
 };
 

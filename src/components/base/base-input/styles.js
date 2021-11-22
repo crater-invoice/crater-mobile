@@ -8,12 +8,15 @@ export default StyleSheet.create({
     flexShrink: 0,
     marginVertical: 10
   },
-  input: theme => ({
+  input: (theme, hasLeftIcon) => ({
     fontSize: 16,
     paddingTop: 1,
     fontFamily: theme?.mode === 'light' ? fonts.regular : fonts.medium,
     textAlign: 'left',
     height: 40,
+    ...(!hasLeftIcon && {
+      paddingLeft: 5
+    }),
     ...Platform.select({
       android: {
         height: 44
