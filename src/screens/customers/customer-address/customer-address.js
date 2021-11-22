@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field, initialize, change} from 'redux-form';
 import {Keyboard} from 'react-native';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './customer-address-type';
+import {IProps, IStates} from './customer-address-type.d';
 import {hasObjectLength} from '@/constants';
 import {keyboardType} from '@/helpers/keyboard';
 import {ADDRESS_FORM} from 'stores/customer/types';

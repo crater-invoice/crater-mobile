@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field, change, initialize} from 'redux-form';
 import {find} from 'lodash';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './create-user-type';
+import {IProps, IStates} from './create-user-type.d';
 import {routes} from '@/navigation';
 import {alertMe, hasValue} from '@/constants';
 import {keyboardType} from '@/helpers/keyboard';
@@ -74,7 +74,14 @@ export default class CreateUser extends Component<IProps, IStates> {
       return;
     }
 
-    let hasError = !hasValue(params?.companies[0]?.role);
+    let hasError = false;
+
+    for (const company of params?.companies) {
+      if (!hasValue(company?.role)) {
+        hasError = true;
+        break;
+      }
+    }
 
     if (hasError) {
       return;

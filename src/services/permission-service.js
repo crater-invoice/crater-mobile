@@ -1,5 +1,5 @@
 import {find} from 'lodash';
-import {hasValue, isEmpty, toObject} from '@/constants';
+import {hasValue, toObject} from '@/constants';
 import {routes} from '@/navigation/navigation-routes';
 
 const abilities = [
@@ -62,9 +62,7 @@ const abilities = [
   {route: routes.CREATE_CUSTOM_FIELD, ability: 'delete-custom-field'},
 
   // Settings
-  {route: routes.REPORTS, ability: 'view-report'},
-  {route: routes.NOTES, ability: 'note-settings'},
-  {route: routes.CREATE_COMPANY, ability: 'company-settings'}
+  {route: routes.NOTES, ability: 'note-settings'}
 ];
 
 class Service {
@@ -77,10 +75,8 @@ class Service {
   }
 
   setPermissions = (currentAbilities, isSuperAdmin) => {
-    if (!isEmpty(currentAbilities)) {
-      this.currentAbilities = currentAbilities;
-      this.isSuperAdmin = isSuperAdmin;
-    }
+    this.currentAbilities = currentAbilities ?? [];
+    this.isSuperAdmin = isSuperAdmin;
   };
 
   hasPermission = ability => {

@@ -9,7 +9,7 @@ import {
 import {Field} from 'redux-form';
 import {styles, Container} from './login-style';
 import {routes} from '@/navigation';
-import {IProps, IStates} from './login-type';
+import {IProps, IStates} from './login-type.d';
 import t from 'locales/use-translation';
 import {biometricAuthentication, STATUS_BAR_CONTENT} from '@/utils';
 import {BaseInput, AssetImage, Text, AssetSvg, BaseButton} from '@/components';

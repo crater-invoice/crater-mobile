@@ -12,8 +12,6 @@ import {AssetIcon} from '@/components/asset-icon';
 import {Filter} from '@/components';
 import {CompanyModal} from 'screens/companies';
 import {commonSelector} from 'stores/common/selectors';
-import {PermissionService} from '@/services';
-import {routes} from '@/navigation';
 import {BaseDivider} from '@/components';
 import {defineSize} from '@/helpers/size';
 import {IProps} from '../default-layout/type.d';
@@ -85,7 +83,6 @@ const Layout = (props: IProps) => {
             theme={theme}
             filterProps={!props?.['with-input-filter'] && filterProps}
             {...(props?.['with-company'] &&
-              PermissionService.isAllowToManage(routes.CREATE_COMPANY) &&
               hasValue(selectedCompany) && {
                 rightComponent: <CompanyModal />
               })}

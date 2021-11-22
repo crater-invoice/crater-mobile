@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {isEmpty} from '@/constants';
 import {fetchRoles} from 'stores/role/actions';
-import {IProps, IStates} from './list-roles-type';
+import {IProps, IStates} from './list-roles-type.d';
 import {routes} from '@/navigation';
 import {primaryHeader} from '@/utils';
 import {

@@ -5,7 +5,7 @@ import {MORE_MENU} from 'stores/more/helpers';
 import t from 'locales/use-translation';
 import {alertMe} from '@/constants';
 import {logoutSuccess} from 'stores/auth/actions';
-import {IProps} from './more-list-type';
+import {IProps} from './more-list-type.d';
 
 export default class More extends React.Component<IProps> {
   constructor(props) {

@@ -7,7 +7,7 @@ import {routes} from '@/navigation';
 import {TaxSelectModal, UnitSelectModal} from '@/select-modal';
 import {itemActions} from 'stores/item/helper';
 import {CREATE_ITEM_FORM, ITEM_DISCOUNT_OPTION} from 'stores/item/types';
-import {IProps} from './create-item-types';
+import {IProps} from './create-item-types.d';
 import {getApiFormattedCustomFields, showNotification} from '@/utils';
 import {fetchItemInitialDetails} from 'stores/item/actions';
 import {keyboardType} from '@/helpers/keyboard';

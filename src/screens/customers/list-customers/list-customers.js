@@ -1,6 +1,6 @@
 import React from 'react';
 import {routes} from '@/navigation';
-import {IProps, IStates} from './list-customers-type';
+import {IProps, IStates} from './list-customers-type.d';
 import {isEmpty} from '@/constants';
 import {isFilterApply} from '@/utils';
 import filterFields from './list-customers-filters';

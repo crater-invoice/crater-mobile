@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field, change, initialize} from 'redux-form';
 import moment from 'moment';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './create-payment-type';
+import {IProps, IStates} from './create-payment-type.d';
 import {DATE_FORMAT, hasObjectLength} from '@/constants';
 import {keyboardType} from '@/helpers/keyboard';
 import {secondaryHeader} from 'utils/header';

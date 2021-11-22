@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field, initialize} from 'redux-form';
 import {pick} from 'lodash';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './create-category-type';
+import {IProps, IStates} from './create-category-type.d';
 import {alertMe} from '@/constants';
 import {CREATE_CATEGORY_FORM} from 'stores/category/types';
 import {secondaryHeader} from 'utils/header';
