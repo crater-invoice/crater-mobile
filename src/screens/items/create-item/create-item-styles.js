@@ -1,10 +1,5 @@
 import {StyleSheet} from 'react-native';
 import {colors, fonts} from '@/styles';
-import {
-  definePlatformParam,
-  isAndroidPlatform,
-  isIosPlatform
-} from '@/helpers/platform';
 
 export default styles = StyleSheet.create({
   amountContainer: theme => ({
@@ -24,10 +19,7 @@ export default styles = StyleSheet.create({
   },
   label: theme => ({
     color: theme?.listItem?.primary?.color,
-    fontFamily: fonts.medium,
-    marginTop: 6,
-    textAlign: 'left',
-    includeFontPadding: false
+    fontFamily: fonts.medium
   }),
   price: theme => ({
     color: theme?.listItem?.primary?.color,
@@ -41,7 +33,6 @@ export default styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     textAlign: 'left',
-    marginTop: definePlatformParam(2, 0),
     fontFamily: theme?.mode === 'light' ? fonts.medium : fonts.semiBold
   }),
   divider: {
@@ -51,16 +42,5 @@ export default styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 8
   },
-  currencySymbol: {
-    ...(isAndroidPlatform && {
-      marginTop: -5
-    })
-  },
-  symbol: currency => ({
-    ...(isIosPlatform && {marginTop: 2}),
-    ...(isAndroidPlatform &&
-      currency?.swap_currency_symbol && {
-        marginTop: -9
-      })
-  })
+  currencyFormatContainer: {overflow: 'hidden', alignSelf: 'flex-end'}
 });

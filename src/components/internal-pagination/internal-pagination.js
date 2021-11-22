@@ -115,7 +115,7 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
     });
 
     await this.setState({searchItems: newData, currentPage: 0, itemList: []});
-    this.getItems();
+    await this.getItems();
   };
 
   getEmptyTitle = () => {
@@ -149,7 +149,8 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
       bottomLoader
     } = this.state;
     const {items} = this.props;
-    await this.setState({bottomLoader: true});
+    !bottomLoader && (await this.setState({bottomLoader: true}));
+
     const currentItemsList = hasTextLength(search) ? searchItems : items;
     const itemsList = currentItemsList.slice(
       currentPage * ITEMS_PER_PAGE,
@@ -160,15 +161,14 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
       itemList: [...itemList, ...itemsList],
       currentPage: currentPage + 1
     });
+
     if (searchLoading) {
       this.setState({searchLoading: false});
     }
     if (loading) {
       this.setState({loading: false});
     }
-    if (bottomLoader) {
-      this.setState({bottomLoader: false});
-    }
+    bottomLoader && this.setState({bottomLoader: false});
   };
 
   render() {
@@ -192,7 +192,6 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
       scrollViewStyle,
       contentContainerStyle
     } = this.props;
-
     const {
       visible,
       values,
@@ -209,7 +208,7 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
         ? searchItems.length / ITEMS_PER_PAGE
         : items.length / ITEMS_PER_PAGE
     );
-    const isMoreItems = currentPage <= lastPage;
+    const isMoreItems = currentPage < lastPage;
     const loaderColor =
       theme?.mode === 'light' ? colors.veryDarkGray : colors.white;
 

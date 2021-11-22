@@ -163,9 +163,6 @@ class ListViewComponent extends Component<IProps> {
               amount={item.amount}
               currency={item.currency}
               style={[styles.rightTitle(theme), rightTitleStyle]}
-              currencyStyle={{
-                marginTop: definePlatformParam(-1.5, -6)
-              }}
             />
           ) : (
             item.rightTitle

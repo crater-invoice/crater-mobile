@@ -11,7 +11,7 @@ import {IProps} from './create-item-types.d';
 import {getApiFormattedCustomFields, showNotification} from '@/utils';
 import {fetchItemInitialDetails} from 'stores/item/actions';
 import {keyboardType} from '@/helpers/keyboard';
-import {isIosPlatform, definePlatformParam} from '@/helpers/platform';
+import {definePlatformParam} from '@/helpers/platform';
 import {
   alertMe,
   hasValue,
@@ -291,7 +291,7 @@ export class CreateItem extends React.Component<IProps> {
     return (
       <View style={styles.amountContainer(theme)}>
         <View style={styles.subContainer}>
-          <View style={{overflow: 'hidden'}}>
+          <View style={styles.currencyFormatContainer}>
             <CurrencyFormat
               amount={price}
               currency={currency}
@@ -304,8 +304,6 @@ export class CreateItem extends React.Component<IProps> {
               amount={this.itemSubTotal()}
               currency={currency}
               style={styles.price(theme)}
-              symbolStyle={styles.currencySymbol}
-              currencySymbolStyle={styles.symbol(currency)}
             />
           </View>
         </View>
@@ -322,8 +320,6 @@ export class CreateItem extends React.Component<IProps> {
                 amount={this.totalDiscount()}
                 currency={currency}
                 style={styles.price(theme)}
-                symbolStyle={styles.currencySymbol}
-                currencySymbolStyle={styles.symbol(currency)}
               />
             </View>
           </View>
@@ -366,12 +362,6 @@ export class CreateItem extends React.Component<IProps> {
               amount={this.finalAmount()}
               currency={currency}
               style={styles.totalPrice(theme)}
-              moneyStyle={{
-                marginTop: definePlatformParam(2, 4.5)
-              }}
-              {...(isIosPlatform && {
-                currencySymbolStyle: styles.symbol(currency)
-              })}
             />
           </View>
         </View>

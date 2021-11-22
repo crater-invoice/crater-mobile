@@ -2,16 +2,8 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {fonts} from '@/styles';
 import {Text, CurrencyFormat} from '@/components';
-import {isAndroidPlatform, isIosPlatform} from '@/helpers/platform';
 
-export const taxList = ({
-  key,
-  currency,
-  theme,
-  label,
-  amount,
-  withCurrencySymbolStyle = true
-}) => {
+export const taxList = ({key, currency, theme, label, amount}) => {
   return (
     <View style={styles.container} key={key}>
       <View>
@@ -24,10 +16,6 @@ export const taxList = ({
           amount={amount}
           currency={currency}
           style={styles.amount(theme)}
-          symbolStyle={styles.symbol}
-          currencySymbolStyle={
-            withCurrencySymbolStyle && styles.currency(currency)
-          }
         />
       </View>
     </View>
@@ -40,23 +28,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  symbol: {
-    ...(isAndroidPlatform && {
-      marginTop: -5
-    })
-  },
   amount: theme => ({
     color: theme?.listItem?.primary?.color,
     fontSize: 16,
     ...(theme?.mode === 'dark' && {
       fontFamily: fonts.medium
     })
-  }),
-  currency: currency => ({
-    ...(isIosPlatform && {marginTop: 2}),
-    ...(isAndroidPlatform &&
-      currency?.swap_currency_symbol && {
-        marginTop: -9
-      })
   })
 });
