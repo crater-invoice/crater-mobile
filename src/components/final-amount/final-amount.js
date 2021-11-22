@@ -72,8 +72,6 @@ export const FinalAmount: FC<IProps> = props => {
             amount={total()}
             currency={currency}
             style={styles.subAmount(theme)}
-            symbolStyle={styles.currencySymbol}
-            currencySymbolStyle={styles.symbol(currency)}
           />
         </View>
       </View>
@@ -171,8 +169,7 @@ export const FinalAmount: FC<IProps> = props => {
           currency,
           theme,
           label: `${getTaxName(tax)} ${tax.percent} %`,
-          amount: tax.amount,
-          withCurrencySymbolStyle: false
+          amount: tax.amount
         })
       )}
 
@@ -216,12 +213,6 @@ export const FinalAmount: FC<IProps> = props => {
             amount={finalAmount()}
             currency={currency}
             style={styles.finalAmount(theme)}
-            currencyStyle={{
-              marginTop: definePlatformParam(-1.5, -6)
-            }}
-            {...(isIosPlatform && {
-              currencySymbolStyle: styles.symbol(currency)
-            })}
           />
         </View>
       </View>
