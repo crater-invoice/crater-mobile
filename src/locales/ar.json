@@ -1,776 +1,853 @@
 {
   "header": {
     "invoices": "الفواتير",
-    "addInvoice": "أضف الفاتورة",
-    "editInvoice": "تحرير الفاتورة",
-    "estimates": "تقديرات",
-    "addEstimate": "أضف تقدير",
-    "editEstimate": "تحرير التقدير",
-    "template": "حدد قالبًا",
+    "add_invoice": "اضافة فاتورة",
+    "edit_invoice": "تحرير الفاتورة",
+    "recurring_invoices": "الفواتير المتكررة",
+    "recurring_invoice": "الفاتورة المتكررة",
+    "add_recurring_invoice": "اضافة فاتورة متكررة",
+    "edit_recurring_invoice": "تحرير الفاتورة المتكررة",
+    "view_recurring_invoice": "مشاهدة الفاتورة المتكررة",
+    "estimates": "التقديرات",
+    "add_estimate": "اضافة تقدير",
+    "edit_estimate": "تحرير التقدير",
+    "template": "قم بتحديد قالب",
     "customers": "العملاء",
-    "addCustomer": "أضف الزبون",
-    "editCustomer": "تحرير العميل",
-    "selectCurrency": "اختر العملة",
-    "billingAddress": "عنوان وصول الفواتير",
-    "shippingAddress": "عنوان الشحن",
-    "country": "حدد الدولة",
-    "state": "اختر ولايه",
-    "city": "اختر مدينة",
+    "add_customer": "اضافة عميل",
+    "edit_customer": "تحرير العميل",
+    "billing_address": "عنوان الفواتير",
+    "shipping_address": "عنوان الشحن",
+    "country": "حدد البلد",
     "payments": "المدفوعات",
-    "addPayment": "إضافة الدفع",
-    "editPayment": "تحرير الدفع",
-    "expenses": "نفقات",
-    "addExpense": "أضف المصاريف",
-    "editExpense": "تحرير المصاريف",
-    "more": "أكثر",
-    "expenseCategory": "فئات المصاريف",
-    "addCategory": "إضافة فئة",
-    "editCategory": "تحرير الفئة",
-    "addNote": "اضف ملاحظة",
-    "editNote": "تحرير مذكرة",
-    "settings": "إعدادات",
-    "notifications": "تنبيه",
+    "add_payment": "اضافة دفعة",
+    "edit_payment": "تحرير المدفوعات",
+    "expenses": "النفقات",
+    "add_expense": "اضافة نفقة",
+    "edit_expense": "تحرير النفقة",
+    "more": "/ يتبع /",
+    "expense_category": "تصنيفات النفقة",
+    "add_category": "اضافة فئة",
+    "edit_category": "تحرير فئة",
+    "add_note": "اضافة مذكرة",
+    "edit_note": "تحرير مذكرة",
+    "settings": "المحددات",
+    "notifications": "الاشعار",
     "setting": {
       "company": "معلومات الشركة",
-      "account": "إعدادت الحساب",
-      "preferences": "التفضيلات",
-      "LanguageAndCurrency": "اللغة والعملة",
-      "endpoint": "نقطة نهاية API"
+      "account": "محددات الحساب",
+      "preferences": "التفضيلات"
     },
     "taxes": "أنواع الضرائب",
-    "addTaxes": "أضف ضريبة",
-    "editTaxes": "تحرير الضرائب",
-    "addItem": "اضافة عنصر",
-    "editItem": "تعديل عنصر",
-    "items": "العناصر",
-    "units": "الوحدات",
+    "add_tax": "اضافة الضريبة",
+    "edit_tax": "تحرير الضريبة",
+    "add_item": "اضافة بند",
+    "edit_item": "تحرير بند",
+    "items": "البنود",
+    "item_units": "وحدات البند",
+    "payment_modes": "أنماط الدفع",
     "reports": "التقارير",
-    "salesReport": "تقرير المبيعات",
-    "profitAndLossReport": "تقرير الربح والخسارة",
-    "expensesReport": "تقرير نفقات",
-    "taxesReport": "تقرير الضرائب",
-    "customize": "التخصيص",
-    "filter": "المرشحات",
-    "back": "عودة",
-    "addresses": "عناوين",
-    "currencies": "العملات",
-    "addCurrency": "أضف العملة",
-    "editCurrency": "تحرير العملة",
-    "sendMailInvoice": "إرسال الفاتورة",
-    "sendMailEstimate": "إرسال تقدير",
-    "sendMailPayment": "إرسال الدفعة",
-    "recurringInvoice": "الفواتير المتكررة",
-    "addRecurring": "أضف الفاتورة المتكررة",
-    "editRecurring": "تحرير الفاتورة المتكررة",
-    "customFields": "الحقول المخصصة",
-    "addCustomField": "أضف حقل مخصص",
-    "editCustomField": "تحرير حقل مخصص",
-    "notes": "ملاحظات",
-    "viewCustomer": "عرض العملاء",
-    "viewPayment": "مشاهدة الدفع",
-    "viewExpense": "مشاهدة ملف",
-    "viewInvoice": "عرض الفاتورة",
-    "viewEstimate": "عرض التقدير",
-    "viewItem": "عرض العنصر",
-    "viewTax": "عرض الضرائب",
-    "viewCustomField": "عرض الحقل المخصص",
-    "viewNote": "مشاهدة الملاحظة",
-    "viewCategory": "مشاهدة الفئة",
-    "viewUnit": "عرض وحدة العنصر",
-    "viewPaymentMode": "مشاهدة وضع الدفع"
+    "sales_report": "تقرير المبيعات",
+    "profit_and_lossReport": "تقرير الربح والخسارة",
+    "expenses_report": "تقرير النفقات",
+    "taxes_report": "تقرير الضرائب",
+    "filter": "مرشحات",
+    "back": "للخلف",
+    "send_mail_invoice": "ارسال الفاتورة",
+    "send_mail_estimate": "ارسال التقدير",
+    "send_mail_payment": "ارسال دفعة",
+    "custom_fields": "المجالات المهيأة",
+    "add_custom_field": "اضافة مجال مخصص",
+    "edit_custom_field": "تحرير مجال مخصص",
+    "notes": "Notes",
+    "view_customer": "مشاهدة العميل",
+    "view_payment": "مشاهدة المدفوعات",
+    "view_expense": "مشاهدة النفقات",
+    "view_invoice": "مشاهدة الفاتورة",
+    "view_estimate": "مشاهدة التقدير",
+    "view_item": "مشاهدة بند",
+    "view_tax": "مشاهدة الضريبة",
+    "view_custom_field": "مشاهدة مجال مخصص",
+    "view_note": "مشاهدة مذكرة",
+    "view_category": "مشاهدة الفئة",
+    "view_unit": "مشاهدة وحدة البند",
+    "view_payment_mode": "مشاهدة نمط السداد",
+    "add_company": "اضافة شركة",
+    "roles": "الوظائف والتصاريح",
+    "add_role": "اضافة دور",
+    "edit_role": "تحرير وظيفة",
+    "view_role": "مشاهدة وظيفة",
+    "users": "المستخدمين",
+    "add_user": "اضافة مستخدم",
+    "edit_user": "تحرير مستخدم",
+    "view_user": "مشاهدة مستخدم",
+    "companies": "الشركات"
   },
-  "tabNavigation": {
+  "tab_navigation": {
     "invoices": "الفواتير",
     "customers": "العملاء",
     "payments": "المدفوعات",
-    "expenses": "نفقات",
-    "more": "أكثر"
+    "expenses": "النفقات",
+    "more": "/ يتبع /"
   },
   "invoices": {
-    "title": "حدد الفاتورة",
+    "title": "اختيار الفاتورة",
     "tabs": {
-      "DUE": "بسبب",
-      "DRAFT": "مشروع",
-      "ALL": "الكل"
+      "due": "مستحق",
+      "draft": "مشروع",
+      "all": "كل"
     },
-    "invoiceDate": "تاريخ الفاتورة",
-    "dueDate": "تاريخ الاستحقاق",
-    "discount": "خصم",
-    "invoiceNumber": "رقم الفاتورة",
-    "referenceNumber": "رقم المرجع",
-    "template": "قالب",
-    "templatePlaceholder": "حدد أو أضف قالبًا جديدًا",
-    "customer": "الزبون",
-    "customerPlaceholder": "حدد أو أضف عميل جديد",
-    "items": "العناصر",
-    "unit": "وحدة",
-    "addItem": "اضافة عنصر",
-    "notes": "ملاحظات",
-    "notePlaceholder": "ملاحظات إضافية مرئية في الفاتورة",
-    "termsCondition": "الأحكام والشروط",
-    "taxPlaceholder": "+ أضف ضريبة",
+    "invoice_date": "تاريخ الفاتورة",
+    "due_date": "تاريخ الاستحقاق",
+    "discount": "الخصم",
+    "invoice_number": "رقم الفاتورة",
+    "reference_number": "رقم المرجع",
+    "template": "القالب",
+    "template_placeholder": "تحديد أو اضافة قالب جديد",
+    "customer": "العميل",
+    "customer_placeholder": "تحديد أو اضافة عميل جديد",
+    "items": "البنود",
     "subtotal": "المجموع الفرعي",
-    "totalAmount": "المبلغ الإجمالي",
+    "total_amount": "المبلغ الإجمالي",
     "status": "الحالة",
-    "statusPlaceholder": "حدد حالة",
-    "paidStatus": "الحالة المدفوعة",
-    "paidStatusPlaceholder": "حدد حالة مدفوعة",
-    "fromDate": "من التاريخ",
-    "toDate": "حتي اليوم",
-    "profileName": "اسم الشخصية",
-    "repeatEvery": "تكرار كل",
-    "repeatRecurring": {
-      "week": "أسبوع",
-      "weeks": "{{week}} أسبوع",
-      "month": "شهر",
-      "months": "{{month}} شهر",
-      "year": "عام",
-      "years": "{{year}} عام",
-      "custom": "مخصص"
-    },
-    "customRepeatRecurring": {
-      "days": "يوم(s)",
-      "weeks": "أسبوع(s)",
-      "months": "شهر(s)",
-      "years": "عام(s)"
-    },
-    "startOn": "ابدأ في",
-    "endsOn": "ينتهي في",
-    "neverExpire": "لا تنتهي أبدا",
+    "status_placeholder": "قم بتحديد حالة",
+    "from_date": "من تاريخ",
+    "to_date": "الى تاريخ",
     "alert": {
-      "lessAmount": "يجب ألا يقل المبلغ الإجمالي عن 0",
-      "removeDescription": "لن تتمكن من استرداد هذه الفاتورة",
-      "paymentAttachedTitle": "العمل: فشل",
-      "paymentAttachedDescription": "لا يمكن حذف فاتورة بدفعة موجودة.",
-      "draftTitle": "حفظ التغييرات؟",
-      "alreadyInUseNumber": "تم أخذ رقم الفاتورة بالفعل.",
-      "sendEmail": "سيتم إرسال هذه الفاتورة عبر البريد الإلكتروني إلى العميل",
-      "clone": "سيتم نسخ هذه الفاتورة في فاتورة جديدة",
-      "sendInvoice": "سيتم إرسال هذه الفاتورة عبر البريد الإلكتروني إلى العميل",
-      "markAsSent": "سيتم تمييز هذه الفاتورة على أنها مرسلة"
+      "less_amount": "اجمالي المقدار لا يجب أن يكون أقل من 0",
+      "remove_description": "لن تتمكن من استعادة هذا الفاتورة",
+      "draft_title": "حفظ التغييرات ؟",
+      "clone": "سيتم استنساخ هذه الفاتورة الى فاتورة جديدة",
+      "send_invoice": "سيتم ارسال هذه الفاتورة عبر البريد الالكتروني الى العميل",
+      "mark_as_sent": "سيتم تعليم هذه الفاتورة على أنها تم ارسالها"
     },
     "empty": {
       "due": {
-        "title": "ليس لديك فواتير مستحقة",
-        "description": "سيحتوي هذا القسم على قائمة الفواتير المستحقة."
+        "title": "لا يوجد لديك فواتير مستحقة",
+        "description": "سيحتوي هذا القسم على كشف بالفواتير المستحقة."
       },
       "draft": {
-        "title": "ليس لديك مسودة فواتير",
-        "description": "سيحتوي هذا القسم على قائمة مسودات الفواتير."
+        "title": "لا يوجد لديك مسودة للفواتير",
+        "description": "سيحتوي هذا القسم على كشف بمشروعات الفواتير."
       },
       "all": {
-        "title": "لم تقم بإنشاء أي فواتير"
+        "title": "أنت لم تخلق أي فواتير"
       },
-      "title": "ليس هناك فواتير بعد!",
-      "description": "سيحتوي هذا القسم على قائمة الفواتير.",
-      "buttonTitle": "إضافة فاتورة جديدة"
+      "title": "لا فواتير لحد الآن !",
+      "description": "سيحتوي هذا القسم على كشف بالفواتير.",
+      "button_title": "اضافة فاتورة جديدة"
     },
     "actions": {
-      "downloadPdf": "تحميل PDF",
-      "sendInvoice": "إرسال الفاتورة",
-      "reSendInvoice": "إعادة إرسال الفاتورة",
-      "editInvoice": "تحرير الفاتورة",
+      "send_invoice": "ارسال الفاتورة",
+      "resend_invoice": "اعادة ارسال الفاتورة",
       "delete": "حذف",
-      "recordPayment": "دفع قياسي",
-      "markAsSent": "وضع علامة كمرسلة",
-      "clone": "نسخة فاتورة"
+      "record_payment": "دفع السجل",
+      "mark_as_sent": "تعليم كما تم ارساله",
+      "clone": "استنساخ الفاتورة"
+    }
+  },
+  "recurring_invoices": {
+    "start_date": "تاريخ البدء",
+    "next_invoice_at": "الفاتورة التالية في",
+    "limit_by": "تحديد بواسطة",
+    "select_frequency": "اختيار التكرار",
+    "display_frequency": "التردد",
+    "basic_info": "معلومات أساسية",
+    "invoices": "الفواتير",
+    "alert_description": "لن يمكنك استعادة الفاتورة المتكررة",
+    "from_start_at_date": "من البداية في التاريخ",
+    "to_start_at_date": "للبدء في التاريخ",
+    "auto_sent": {
+      "label": "ارسال الفاتورة آليا",
+      "description": "قم باتاحة ذلك ، اذا كنت ترغب في ارسال الفاتورة آليا الى العميل عند تكوينه."
+    },
+    "status": {
+      "title": "الحالة",
+      "placeholder": "قم بتحديد حالة",
+      "empty": {
+        "title": "لا يوجد لديك أي حالة",
+        "description": "سيحتوي هذا القسم على كشف الحالة."
+      }
+    },
+    "tabs": {
+      "active": "فعال",
+      "on_hold": "ايقاف مؤقت",
+      "all": "كل"
+    },
+    "empty": {
+      "active": {
+        "title": "لا يوجد لديك فواتير متكررة فعالة",
+        "description": "سيحتوي هذا القسم على كشف بالفواتير المتكررة الفعالة."
+      },
+      "on_hold": {
+        "title": "لا يوجد لديك فواتير متكررة",
+        "description": "سيحتوي هذا القسم على كشف بالفواتير المتكررة التي تم تكرارها."
+      },
+      "all": {
+        "title": "لم تقوم بتكوين أي فواتير متكررة"
+      },
+      "title": "لا توجد فواتير متكررة حتى الآن !",
+      "description": "سيحتوي هذا القسم على كشف بالفواتير المتكررة.",
+      "button_title": "اضافة فاتورة متكررة جديدة"
+    },
+    "limit_types": {
+      "none": "لا شيء",
+      "date": "تاريخ الحد",
+      "count": "العدد"
+    },
+    "frequencies": {
+      "custom": "معدل",
+      "every_minute": "كل دقيقة",
+      "every_30_minute": "كل 30 دقيقة",
+      "every_hour": "كل ساعة",
+      "every_2_hour": "كل 2 ساعة",
+      "twice_a_day": "مرتين في اليوم",
+      "every_week": "كل أسبوع",
+      "every_15_days": "كل 15 يوما",
+      "first_day_of_month": "أول يوم من الشهر",
+      "every_6_month": "كل 6 شهر",
+      "every_year": "كل سنة"
+    },
+    "dropdown": {
+      "edit": "تحرير",
+      "delete": "حذف"
     }
   },
   "customers": {
-    "displayName": "اسم العرض",
-    "contactName": "اسم جهة الاتصال الأساسية",
-    "email": "البريد الإلكتروني",
-    "name": "اسم",
-    "phone": "هاتف",
-    "website": "موقع الكتروني",
-    "currency": "عملة",
-    "billingAddress": "عنوان وصول الفواتير",
-    "shippingAddress": "عنوان الشحن",
-    "customer": "الزبون",
-    "company": "شركة",
-    "enablePortal": "تمكين البوابة",
-    "password": "كلمه السر",
-    "filterDisplayName": "اسم العرض",
-    "filterContactName": "اسم جهة الاتصال",
-    "alertEmailAlreadyInUse": "البريد الاليكتروني قيد الاستخدام",
-    "alertDescription": "لن تتمكن من استرداد هذا العميل",
+    "display_name": "اسم العرض",
+    "contact_name": "اسم جهة الاتصال الأساسية",
+    "email": "البريد الالكتروني",
+    "phone": "التليفون",
+    "website": "الموقع الشبكي",
+    "billing_address": "عنوان الفواتير",
+    "shipping_address": "عنوان الشحن",
+    "customer": "العميل",
+    "filter_display_name": "اسم العرض",
+    "filter_contact_name": "اسم جهة الاتصال",
+    "alert_description": "لن تتمكن من استعادة هذا العميل",
+    "prefix": "بادئة",
     "address": {
-      "name": "اسم",
-      "country": "بلد",
-      "state": "حالة",
-      "city": "مدينة",
-      "address": "عنوان",
-      "street1": "شارع 1",
-      "street2": "شارع 2",
-      "addressStreet1": "العنوان شارع 1",
-      "addressStreet2": "العنوان شارع 2",
-      "phone": "هاتف",
-      "zipcode": "الرمز البريدي",
-      "sameAs": "نسخة من عنوان الفواتير"
+      "name": "الاسم",
+      "country": "البلد",
+      "state": "الحالة",
+      "city": "المدينة",
+      "address": "العنوان",
+      "street_1": "الشارع 1",
+      "street_2": "Street2",
+      "phone": "التليفون",
+      "zip_code": "الرمز البريدي",
+      "same_as": "نسخ من عنوان الفواتير"
     },
-    "removeCustomer": "حذف",
+    "remove_customer": "حذف",
     "empty": {
-      "title": "لا يوجد عملاء حتى الآن!",
-      "description": "سيحتوي هذا القسم على قائمة العملاء.",
-      "buttonTitle": "إضافة عميل جديد",
+      "title": "لا زبائن حتى الآن !",
+      "description": "سيحتوي هذا القسم على كشف بالمستخدمين.",
+      "button_title": "اضافة عميل جديد",
       "country": {
         "title": "لا يوجد بلد متاح"
       },
       "state": {
-        "title": "لا توجد ولاية متاحة"
+        "title": "لا توجد حالة متاحة"
       },
       "city": {
         "title": "لا توجد مدينة متاحة"
       }
     },
-    "title": "حدد الزبون",
-    "placeholder": "حدد العميل"
+    "title": "تحديد عميل",
+    "placeholder": "تحديد العميل"
   },
   "payments": {
-    "date": "يوم الدفع او الاستحقاق",
-    "number": "رقم الدفع",
-    "customer": "الزبون",
-    "customerPlaceholder": "حدد أو أضف عميل جديد",
-    "mode": "طريقة الدفع",
-    "modes": "طرق الدفع",
-    "prefix": "بادئة الدفع",
-    "addMode": "إضافة طريقة الدفع",
-    "editMode": "تحرير وضع الدفع",
-    "modeHint": "اسم الوضع",
-    "modePlaceholder": "حدد وضع الدفع",
-    "amount": "كمية",
-    "notes": "ملاحظات",
-    "notesPlaceholder": "ملاحظات إضافية",
-    "invoice": "فاتورة",
-    "invoicePlaceholder": "حدد الفاتورة",
-    "sendReceipt": "إرسال إيصال الدفع",
-    "alertAmount": "المبلغ الذي تم إدخاله أكبر من المبلغ المستحق لهذه الفاتورة.",
-    "alertDescription": "لن تتمكن من استرداد هذه الدفعة",
-    "alertMode": "لن تتمكن من استعادة وضع الدفع هذا",
-    "alreadyInUseMode": "وضع الدفع قيد الاستخدام بالفعل",
-    "alreadyInUseNumber": "تم أخذ رقم الدفع بالفعل.",
-    "alertSendDescription": "سيتم إرسال هذه الدفعة عبر البريد الإلكتروني إلى العميل",
-    "removePayment": "حذف",
+    "date": "تاريخ السداد",
+    "number": "رقم السداد",
+    "customer": "العميل",
+    "mode": "نمط السداد",
+    "modes": "أنماط الدفع",
+    "prefix": "بادئة السداد",
+    "add_mode": "اضافة نمط السداد",
+    "edit_mode": "تحرير نمط السداد",
+    "mode_hint": "اسم النمط",
+    "mode_placeholder": "تحديد نمط السداد",
+    "amount": "المبلغ",
+    "invoice": "الفاتورة",
+    "invoice_placeholder": "اختيار الفاتورة",
+    "send_receipt": "ارسال ايصال الدفع",
+    "alertAmount": "الدفع الذي تم ادخاله أكثر من المبلغ المستحق من هذه الفاتورة.",
+    "alert_description": "لن تتمكن من استعادة هذا الدفع",
+    "alert_mode": "لن يمكنك استعادة نمط السداد هذا",
+    "remove_payment": "حذف",
     "empty": {
-      "title": "لا توجد مدفوعات حتى الآن!",
-      "modeTitle": "لا توجد طرق دفع حتى الآن!",
-      "description": "سيحتوي هذا القسم على قائمة المدفوعات.",
-      "buttonTitle": "إضافة دفعة جديدة"
+      "title": "لا مدفوعات لحد الآن !",
+      "description": "سيحتوي هذا القسم على كشف بدفعات السداد.",
+      "button_title": "اضافة دفعة جديدة"
     },
     "alert": {
-      "sendPayment": "سيتم إرسال إيصال الدفع هذا عبر البريد الإلكتروني إلى العنوان المحدد"
+      "send_payment": "سيتم ارسال ايصال الدفع هذا بواسطة البريد الالكتروني الى العنوان المحدد"
     }
   },
-  "paymentMode": {
+  "payment_modes": {
     "empty": {
-      "title": "لا توجد طرق دفع حتى الآن!",
-      "description": "سيحتوي هذا القسم على قائمة طرق الدفع.",
-      "buttonTitle": "أضف طريقة دفع جديدة"
+      "title": "لا أنماط دفع لحد الآن !",
+      "description": "سيحتوي هذا القسم على كشف بأنماط السداد."
+    }
+  },
+  "item_units": {
+    "empty": {
+      "title": "لا وحدات بند بعد !",
+      "description": "سيحتوي هذا القسم على كشف وحدات البند."
     }
   },
   "expenses": {
-    "receipt": "إيصال",
-    "date": "تاريخ المصاريف",
-    "fromDate": "من التاريخ",
-    "toDate": "حتي اليوم",
-    "amount": "كمية",
+    "receipt": "ايصال",
+    "date": "تاريخ النفقة",
+    "from_date": "من تاريخ",
+    "to_date": "الى تاريخ",
+    "amount": "المبلغ",
     "category": "الفئة",
-    "categoryPlaceholder": "اختر الفئة",
-    "notes": "ملاحظات",
-    "notesPlaceholder": "ملاحظات إضافية",
-    "viewReceipt": "استلام عرض",
-    "alertDescription": "لن تتمكن من استرداد هذه المصاريف",
-    "removeExpense": "حذف",
-    "noCategories": "لا فئات حتى الآن!",
+    "category_placeholder": "اختيار فئة",
+    "notes": "Notes",
+    "notes_placeholder": "ملاحظات اضافية",
+    "view_receipt": "مشاهدة الايصال",
+    "alert_description": "أنت لن تكون قادر على إسترفاء هذا النجار",
+    "remove_expense": "حذف",
     "empty": {
-      "title": "لا توجد نفقات حتى الآن!",
-      "description": "سيحتوي هذا القسم على قائمة النفقات.",
-      "buttonTitle": "إضافة مصاريف جديدة"
+      "title": "لا نفقات حتى الآن !",
+      "description": "سيحتوي هذا القسم على كشف النفقات.",
+      "button_title": "اضافة نفقة جديدة"
     }
   },
   "items": {
-    "title": "حدد البند",
-    "name": "اسم العنصر",
-    "description": "وصف (اختياري)",
-    "quantity": "كمية",
+    "title": "اختيار بند",
+    "name": "اسم البند",
+    "description": "الوصف (اختياري)",
+    "quantity": "الكمية",
     "price": "السعر",
-    "subTotal": "المجموع الفرعي",
-    "discountType": "نوع الخصم",
-    "discount": "خصم",
-    "finalDiscount": "خصم",
-    "finalAmount": "كمية",
+    "subtotal": "المجموع الفرعي",
+    "discount_type": "نوع الخصم",
+    "discount": "الخصم",
+    "final_discount": "الخصم",
+    "final_amount": "المبلغ",
     "taxes": "الضرائب",
-    "selectTax": "حدد أو أضف ضرائب جديدة",
+    "select_tax": "تحديد أو اضافة ضرائب جديدة",
     "unit": "وحدة",
-    "unitHint": "إسم الوحدة",
-    "addUnit": "إضافة وحدة العنصر",
-    "editUnit": "تحرير وحدة العنصر",
-    "unitPlaceholder": "حدد الوحدة",
-    "alertDescription": "لن تتمكن من استرداد هذا العنصر",
-    "alertUnit": "لن تتمكن من استرداد وحدة العنصر هذه",
-    "alreadyInUseUnit": "وحدة العنصر قيد الاستخدام بالفعل",
-    "lessAmount": "يجب ألا يقل المبلغ الإجمالي عن 0",
-    "alreadyAttachTitle": "العمل: فشل",
-    "alreadyAttachDescription": "لا يمكن حذف عنصر قيد الاستخدام بالفعل",
+    "unit_hint": "اسم الوحدة",
+    "add_hint": "اضافة وحدة بند",
+    "edit_hint": "تحرير وحدة البند",
+    "unit_placeholder": "تحديد وحدة",
+    "alert_description": "لن يمكنك استعادة هذا البند",
+    "alert_unit": "لن يمكنك استعادة وحدة البند هذه",
+    "less_amount": "اجمالي المقدار لا يمكن أن يكون أقل من 0",
+    "already_attach_title": "فشل التصرف",
+    "already_attach_description": "لا يمكن حذف بند يتم استخدامه بالفعل",
     "empty": {
-      "title": "لا توجد عناصر حتى الآن!",
-      "description": "سيحتوي هذا القسم على قائمة العناصر.",
-      "buttonTitle": "أضف عناصر جديدة"
+      "title": "لا بنود حتى الآن !",
+      "description": "سيحتوي هذا القسم على كشف البنود.",
+      "button_title": "اضافة بنود جديدة"
     }
   },
   "more": {
-    "estimate": "تقديرات",
-    "recurringInvoice": "الفواتير المتكررة",
-    "items": "العناصر",
+    "estimate": "التقديرات",
+    "recurring_invoice": "الفواتير المتكررة",
+    "items": "البنود",
     "reports": "التقارير",
-    "settings": "إعدادات",
-    "logout": "تسجيل خروج"
+    "settings": "المحددات",
+    "logout": "انهاء الاتصال",
+    "users": "المستخدمين"
   },
   "categories": {
-    "title": "اسم التصنيف",
-    "description": "وصف",
-    "alertDescription": "لن تتمكن من استعادة هذه الفئة",
-    "alreadyUsed": "الفئة قيد الاستخدام بالفعل",
+    "title": "اسم الفئة",
+    "description": "الوصف",
+    "alert_description": "لن يمكنك استعادة هذه الفئة",
     "empty": {
-      "title": "لا فئات حتى الآن!",
-      "description": "سيحتوي هذا القسم على قائمة الفئات.",
-      "buttonTitle": "إضافة فئة جديدة"
+      "title": "لا فئات لحد الآن !",
+      "description": "سيحتوي هذا القسم على كشف الفئات.",
+      "button_title": "اضافة فئة جديدة"
     }
   },
   "notes": {
+    "notes": "Notes",
     "title": "اسم الملاحظة",
-    "description": "وصف",
-    "model": "نموذج",
-    "modelPlaceholder": "حدد النوع",
-    "alertDescription": "لن تتمكن من استعادة هذه الملاحظة",
-    "alreadyUsed": "الملاحظة قيد الاستخدام بالفعل",
+    "description": "الوصف",
+    "model_placeholder": "قم بتحديد نوع",
+    "alert_description": "لن تتمكن من استعادة هذه المذكرة",
     "empty": {
-      "title": "لا توجد ملاحظات حتى الآن!",
-      "description": "سيحتوي هذا القسم على قائمة الملاحظات.",
-      "buttonTitle": "أضف ملاحظة جديدة"
+      "title": "! لا ملاحظات بعد",
+      "description": "سيحتوي هذا القسم على كشف الملاحظات.",
+      "button_title": "اضافة مذكرة جديدة"
+    },
+    "placeholder": {
+      "invoice": "ملاحظات اضافية مرئية على الفاتورة",
+      "estimate": "ملاحظات إضافية واضحة بشأن التقديرات",
+      "payment": "ملاحظات إضافية واضحة بشأن المدفوعات"
     },
     "type": "نوع الملاحظة",
-    "select": "حدد ملاحظة",
-    "insertNote": "+ أدخل ملاحظة",
-    "insertFields": "+ أدخل الحقول"
+    "select": "قم بتحديد ملاحظة",
+    "insert_note": "+ ادراج مذكرة",
+    "insert_fields": "+ ادراج مجالات"
   },
   "units": {
     "empty": {
-      "title": "لا توجد وحدات بعد!",
-      "description": "سيحتوي هذا القسم على قائمة وحدات العنصر.",
-      "buttonTitle": "إضافة وحدة عنصر جديد"
+      "title": "لا وحدات حتى الآن !",
+      "description": "سيحتوي هذا القسم على كشف وحدات البند.",
+      "button_title": "اضافة وحدة بند جديدة"
     }
   },
   "settings": {
-    "accountSettings": "إعدادت الحساب",
-    "companyInformation": "معلومات الشركة",
+    "account_settings": "محددات الحساب",
+    "company_information": "معلومات الشركة",
     "preference": "التفضيلات",
-    "LanguageAndCurrency": "اللغة والعملة",
-    "notification": "إشعارات",
+    "notification": "الاعلامات",
     "taxes": "أنواع الضرائب",
-    "expenseCategory": "فئات المصاريف",
-    "customize": "التخصيص",
-    "touchOrFaceId": "اللمس / معرف الوجه",
+    "expense_category": "تصنيفات النفقة",
+    "payment_modes": "أنماط الدفع",
+    "item_units": "وحدات البند",
+    "touch_or_Face_id": "كود اللمس / الوجه",
     "endpoint": "نقطة نهاية API",
     "company": {
       "name": "اسم الشركة",
-      "email": "البريد الإلكتروني",
-      "phone": "هاتف",
-      "address": "عنوان",
-      "street1": "شارع 1",
-      "street2": "شارع 2",
-      "zipcode": "الرمز البريدي",
-      "website": "موقع الكتروني",
+      "phone": "التليفون",
+      "address": "العنوان",
+      "street_1": "الشارع 1",
+      "street_2": "Street2",
+      "zip_code": "الرمز البريدي",
       "logo": "شعار الشركة"
     },
     "account": {
-      "name": "اسم",
-      "email": "البريد الإلكتروني",
-      "password": "كلمه السر",
-      "confirmPassword": "تأكيد كلمة المرور",
-      "version": "الإصدار",
-      "avatar": "الصوره الشخصيه"
+      "name": "الاسم",
+      "email": "البريد الالكتروني",
+      "password": "كلمة السرية",
+      "confirm_password": "تأكيد كلمة السرية",
+      "version": "النسخة"
     },
     "notifications": {
-      "send": "إرسال الإخطارات إلى",
-      "invoiceViewed": "عرض الفاتورة",
-      "invoiceViewedUpdated": "تم تحديث إعداد الإعلام بنجاح",
-      "invoiceViewedDescription": "عندما يشاهد العميل رابط الفاتورة المرسل عبر البريد الإلكتروني.",
-      "estimateViewed": "عرض التقدير",
-      "estimateViewedDescription": "عندما يرى عميلك رابط التقدير المرسل عبر البريد الإلكتروني.",
-      "estimateViewedUpdated": "تم تحديث إعداد الإعلام بنجاح"
+      "send": "ارسال اشعارات الى",
+      "invoice_viewed": "تم مشاهدة الفاتورة",
+      "invoice_viewed_description": "عندما يكون العميل الخاص بك في مشاهدة الفاتورة التي يتم ارسالها بواسطة البريد الالكتروني.",
+      "estimate_viewed": "مشاهدة تم مشاهدتها",
+      "estimate_viewed_description": "عند مشاهدة العميل الخاص بك لوصلة التقدير التي يتم ارسالها بواسطة البريد الالكتروني."
     },
     "preferences": {
-      "currency": "عملة",
-      "currencyPlaceholder": "اختر العملة",
-      "language": "لغة",
-      "languagePlaceholder": "اختار اللغة",
-      "timeZone": "وحدة زمنية",
-      "timeZonePlaceholder": "اختر المجال الزمني",
-      "dateFormat": "صيغة التاريخ",
-      "dateFormatPlaceholder": "حدد تنسيق التاريخ",
-      "fiscalYear": "السنة المالية",
-      "fiscalYearPlaceholder": "حدد السنة المالية",
-      "discountSetting": "إعداد الخصم",
-      "discountPerItem": "الخصم لكل عنصر",
-      "discountPerItemPlaceholder": "قم بتمكين هذا إذا كنت تريد إضافة خصم إلى عناصر الفاتورة الفردية. بشكل افتراضي ، يتم إضافة الخصم مباشرة إلى الفاتورة.",
-      "taxPerItem": "الضريبة لكل عنصر",
-      "taxPerItemPlaceholder": "قم بتمكين هذا إذا كنت تريد إضافة الضريبة إلى عناصر الفاتورة الفردية. بشكل افتراضي ، يتم إضافة الضريبة مباشرة إلى الفاتورة.",
-      "settingUpdate": "تم تحديث الإعداد بنجاح"
+      "currency": "العملة",
+      "currency_placeholder": "تحديد العملة",
+      "language": "اللغة المفترضة",
+      "language_placeholder": "اختيار لغة",
+      "time_zone": "نطاق التوقيت",
+      "time_zone_placeholder": "تحديد نطاق التوقيت",
+      "date_format": "نسق التاريخ",
+      "date_format_placeholder": "اختيار نسق التاريخ",
+      "fiscal_year": "السنة المالية",
+      "fiscal_year_placeholder": "تحديد السنة المالية",
+      "discount_per_item": "الخصم لكل بند",
+      "discount_per_item_placeholder": "قم باتاحة هذا الاختيار اذا كنت تريد اضافة Discount الى بنود الفاتورة المفردة. افتراضيا ، يتم اضافة الخصم مباشرة الى الفاتورة.",
+      "tax_per_item": "الضريبة لكل بند",
+      "tax_per_item_placeholder": "قم باتاحة هذا الاختيار اذا كنت تريد اضافة الضريبة الى بنود الفاتورة المفردة. افتراضيا ، يتم اضافة الضريبة مباشرة الى الفاتورة.",
+      "retrospective_edits": "التحريرالاستزناصيا",
+      "create_status": "تكوين حالة",
+      "active": "فعال",
+      "on_hold": "ايقاف مؤقت",
+      "completed": "أنجز"
     },
-    "notes": "ملاحظات"
+    "notes": "Notes"
   },
   "login": {
-    "email": "أدخل بريدك الإلكتروني",
-    "password": "ادخل رقمك السري",
-    "invalid": "بيانات الاعتماد غير صالحة"
+    "email": "أدخل البريد الالكتروني",
+    "password": "أدخل كلمة السرية",
+    "invalid": "بيانات الاعتماد هذه لا تطابق سجلاتنا."
   },
   "logout": {
-    "confirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
-    "title": "تسجيل خروج"
+    "confirmation": "هل أنت متأكد من أنك تريد انهاء الاتصال ؟",
+    "title": "انهاء الاتصال"
   },
   "forgot": {
-    "emailLabel": "أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة تعيين كلمة المرور",
-    "emailPlaceholder": "أدخل بريدك الإلكتروني",
-    "emailSendTitle": "تحقق من بريدك الالكتروني",
-    "emailSendDescription": "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني ، يرجى اتباع التعليمات الموجودة في البريد الإلكتروني لإنشاء كلمة مرور جديدة",
-    "emailSendError": "لا يمكن إرسال البريد الإلكتروني إلى عنوان البريد الإلكتروني هذا."
+    "email_label": "أدخل البريد الالكتروني الخاص بك وسنرسل لك وصلة كلمة السرية",
+    "email_placeholder": "أدخل البريد الالكتروني لك",
+    "email_send_description": "تم ارسال وصلة اعادة ضبط كلمة السرية الى البريد الالكتروني الخاص بك ، برجاء اتباع التعليمات الموجودة على البريد الالكتروني لتكوين كلمة سرية جديدة.",
+    "email_send_error": "لا يمكن ارسال البريد الالكتروني لعنوان البريد الالكتروني هذا."
   },
-  "lostInternet": {
-    "title": "انقطع الاتصال",
-    "description": "يرجى التحقق من إعدادات هاتفك المحمول أو شبكة Wifi للتحقق من اتصالك بالإنترنت ثم المحاولة مرة أخرى."
+  "lost_internet": {
+    "title": "فقد الاتصال",
+    "description": "برجاء التحقق من محددات التليفون المحمول أو Wifi للتحقق من اتصال الانترنت الخاص بك ثم أعد المحاولة مرة أخرى."
   },
-  "updateApp": {
-    "title": "انتهت صلاحية إصدار التطبيق!",
-    "description": "هذا الإصدار من التطبيق قديم. الرجاء تثبيت آخر تحديث للاستمرار في استخدام Crater."
+  "update_app": {
+    "title": "انتهت صلاحية نسخة التطبيق !",
+    "description": "هذه النسخة من التطبيق خارج التاريخ. برجاء تركيب أحدث تعديل للاحتفاظ به باستخدام Crater."
   },
   "endpoint": {
-    "endpointURL": "عنوان URL لنقطة النهاية",
-    "endpointDesc": "سيتم استخدام عنوان URL أعلاه للاتصال بالتثبيت المستضاف ذاتيًا للحفرة.",
-    "urlPlaceHolder": "مثال: https://craterapp.com",
-    "alertInvalidUrl": "URL غير صالح"
+    "endpoint_url": "نقطة نهاية عنوان URL",
+    "endpoint_desc": "سيتم استخدام أعلى عنوان URL للاتصال مع crater الخاص بك الذي يتم استضافته ذاتيا.",
+    "url_placeholder": "Eg : https://craterapp.com",
+    "alert_invalid_url": "عنوان URL غير صحيح"
   },
   "estimates": {
     "tabs": {
-      "SENT": "أرسلت",
-      "DRAFT": "مشروع",
-      "ALL": "الكل"
+      "sent": "ارسال",
+      "draft": "مشروع",
+      "all": "كل"
     },
-    "estimateDate": "تاريخ التقدير",
-    "expiryDate": "تاريخ انتهاء الصلاحية",
-    "discount": "خصم",
-    "estimateNumber": "رقم التقدير",
-    "template": "قالب",
-    "templatePlaceholder": "حدد أو أضف قالبًا جديدًا",
-    "customer": "الزبون",
-    "customerPlaceholder": "حدد أو أضف عميل جديد",
-    "items": "العناصر",
-    "unit": "وحدة",
-    "taxPlaceholder": "+ أضف ضريبة",
-    "addItem": "اضافة عنصر",
-    "notes": "ملاحظات",
-    "notePlaceholder": "ملاحظات إضافية مرئية عند التقدير",
-    "fromDate": "من التاريخ",
-    "toDate": "حتي اليوم",
+    "estimate_date": "تاريخ التقدير",
+    "expiry_date": "تاريخ الانتهاء",
+    "estimate_number": "رقم التقدير",
+    "template": "القالب",
+    "template_placeholder": "تحديد أو اضافة قالب جديد",
+    "customer": "العميل",
+    "customer_placeholder": "تحديد أو اضافة عميل جديد",
+    "tax_placeholder": "+ اضافة الضريبة",
+    "add_item": "اضافة بند",
+    "from_date": "من تاريخ",
+    "to_date": "الى تاريخ",
     "status": "الحالة",
-    "statusPlaceholder": "حدد حالة",
-    "subtotal": "المجموع الفرعي",
-    "tax": "ضريبة",
-    "totalAmount": "المبلغ الإجمالي",
+    "status_placeholder": "قم بتحديد حالة",
+    "total_amount": "المبلغ الإجمالي",
     "alert": {
-      "convertToInvoiceDescription": "هل أنت متأكد أنك تريد تحويل هذا التقدير إلى فاتورة؟",
-      "removeDescription": "لن تتمكن من استرداد هذا التقدير",
-      "lessAmount": "يجب ألا يقل المبلغ الإجمالي عن 0",
-      "draftTitle": "حفظ التغييرات؟",
-      "alreadyInUseNumber": "تم أخذ الرقم التقديري بالفعل.",
-      "sendEstimate": "سيتم إرسال هذا التقدير عبر البريد الإلكتروني إلى العميل",
-      "markAsSent": "سيتم وضع علامة على هذا التقدير على أنه مرسل",
-      "markAsAccept": "سيتم وضع علامة على هذا التقدير على أنه مقبول",
-      "markAsReject": "سيتم وضع علامة مرفوض على هذا التقدير"
+      "convert_to_invoice_description": "هل أنت متأكد من أنك تريد تحويل هذا التقدير الى فاتورة ؟",
+      "remove_description": "لن تتمكن من استرجاع هذا التقدير",
+      "less_amount": "اجمالي المقدار لا يمكن أن يكون أقل من 0",
+      "draft_title": "حفظ التغييرات ؟",
+      "send_estimate": "سيتم ارسال هذا التقدير عبر البريد الالكتروني الى العميل",
+      "mark_as_sent": "سيتم تعليم هذا التقدير على أنه تم ارساله",
+      "mark_as_accept": "سيتم تعليم هذا التقدير على أنه مقبول",
+      "mark_as_reject": "سيتم تعليم هذا التقدير بأنه تم رفضه"
     },
     "empty": {
       "sent": {
-        "title": "ليس لديك أي تقديرات مرسلة",
-        "description": "سيحتوي هذا القسم على قائمة التقديرات المرسلة."
+        "title": "لا يوجد لديك تقديرات تم ارسالها",
+        "description": "سيحتوي هذا القسم على كشف بالتقديرات التي تم ارسالها."
       },
       "draft": {
-        "title": "ليس لديك مسودة تقديرات",
-        "description": "سيحتوي هذا القسم على قائمة مسودة التقديرات."
+        "title": "ليس لديك أي مشاريع تقديرات",
+        "description": "سيتضمن هذا الفرع قائمة مشاريع التقديرات."
       },
       "all": {
-        "title": "لم تقم بإنشاء أي تقديرات",
-        "description": "سيحتوي هذا القسم على قائمة التقديرات."
+        "title": "أنت لم تخلق أي تقديرات",
+        "description": "سيحتوي هذا القسم على كشف التقديرات."
       },
-      "buttonTitle": "أضف تقدير جديد"
+      "button_title": "اضافة تقدير جديد"
     },
     "actions": {
-      "downloadPdf": "تحميل PDF",
-      "sendEstimate": "إرسال تقدير",
-      "reSendEstimate": "إعادة إرسال التقدير",
-      "editEstimate": "تحرير التقدير",
+      "send_estimate": "ارسال التقدير",
+      "resend_estimate": "اعادة الانتهاء من التقدير",
       "delete": "حذف",
-      "convertToInvoice": "تحويل إلى فاتورة",
-      "markAsSent": "وضع علامة كمرسلة",
-      "markAsAccepted": "وضع علامة كمقبول",
-      "markAsRejected": "وضع علامة مرفوض"
+      "convert_to_invoice": "تحويل الى فاتورة",
+      "mark_as_sent": "تعليم كما تم ارساله",
+      "mark_as_accepted": "تعليم على أنه مقبول",
+      "mark_as_rejected": "تعليم بأنه تم رفضه"
     }
   },
   "currencies": {
-    "name": "اسم",
-    "code": "الشفرة",
-    "symbol": "رمز",
-    "precision": "الاحكام",
-    "thousSeparator": "ألف فاصل",
-    "decSeparator": "الفاصل العشري",
-    "position": "موضع",
-    "left": "اليسار",
-    "right": "حق",
-    "title": "اختر العملة",
-    "alertDescription": "لن تتمكن من استرداد هذه العملة",
+    "title": "العملات",
+    "name": "الاسم",
     "empty": {
-      "title": "لا توجد عملات حتى الآن!",
-      "description": "سيحتوي هذا القسم على قائمة العملات.",
-      "buttonTitle": "أضف عملة جديدة"
+      "title": "لا عملات لحد الآن !",
+      "description": "سيحتوي هذا القسم على كشف العملات.",
+      "button_title": "اضافة عملة جديدة"
     }
   },
-  "customFields": {
-    "name": "اسم",
+  "custom_fields": {
+    "name": "الاسم",
     "model": "نموذج",
-    "modelPlaceholder": "اختر موديل",
-    "type": "اكتب",
-    "typePlaceholder": "حدد النوع",
-    "select": "حدد خيار",
+    "model_placeholder": "تحديد نموذج",
+    "type": "النوع",
+    "type_placeholder": "قم بتحديد نوع",
     "required": "مطلوب",
-    "label": "ضع الكلمة المناسبة",
-    "defaultValue": "القيمة الافتراضية",
-    "displayInPortal": "عرض في البوابة",
-    "placeholder": "عنصر نائب",
-    "order": "طلب",
-    "yes": "نعم",
+    "label": "التسمية",
+    "default_value": "القيمة المفترضة",
+    "display_in_Portal": "عرض في portal",
+    "placeholder": "حاجز موضع",
+    "order": "الترتيب",
+    "yes": "نعم.",
     "no": "لا",
-    "help": "نص المساعدة",
-    "helpText": "أدخل نصًا لمساعدة المستخدمين على فهم الغرض من هذا الحقل المخصص.",
-    "check": "ضع علامة بشكل افتراضي",
-    "removeAlertDescription": "لن تتمكن من استعادة هذا الحقل المخصص",
-    "alreadyUsed": "الحقل المخصص قيد الاستخدام بالفعل",
+    "check": "تم الضغط عليه افتراضيا",
+    "options": "اختيارات",
+    "remove_alert_description": "لن تتمكن من استعادة هذا المجال المهيأ",
+    "already_in_use": "لا يمكن تعديل النموذج للمجالات التي يتم استخدامها بالفعل.",
     "empty": {
-      "title": "لا توجد حقول مخصصة حتى الآن!",
-      "description": "سيحتوي هذا القسم على قائمة الحقول المخصصة.",
-      "buttonTitle": "إضافة حقل مخصص جديد"
+      "title": "لا توجد مجالات مهيأة بعد !",
+      "description": "سيحتوي هذا القسم على كشف بالمجالات المهيأة.",
+      "button_title": "اضافة مجال مخصص جديد"
     }
   },
   "languages": {
-    "title": "اختار اللغة",
+    "title": "اختيار لغة",
     "empty": {
-      "title": "ما من لغات بعد!",
-      "description": "سيحتوي هذا القسم على قائمة اللغات."
+      "title": "لا لغات حتى الآن !",
+      "description": "سيحتوي هذا القسم على كشف اللغات."
     }
   },
-  "timeZones": {
-    "title": "اختر المجال الزمني",
+  "time_zones": {
+    "title": "تحديد نطاق التوقيت",
     "empty": {
-      "title": "لا توجد مناطق زمنية حتى الآن!",
-      "description": "سيحتوي هذا القسم على قائمة المناطق الزمنية."
+      "title": "لا توجد مناطق توقيت بعد !",
+      "description": "سيحتوي هذا القسم على كشف (Timezones)."
     }
   },
-  "dateFormats": {
-    "title": "حدد تنسيق التاريخ",
+  "date_formats": {
+    "title": "اختيار نسق التاريخ",
     "empty": {
-      "title": "لا توجد صيغ تاريخ حتى الآن!",
-      "description": "سيحتوي هذا القسم على قائمة تنسيقات التاريخ."
+      "title": "لا يوجد نسق تاريخ بعد !",
+      "description": "سيحتوي هذا القسم على كشف بنسق التاريخ."
     }
   },
-  "fiscalYears": {
-    "title": "حدد السنة المالية ",
+  "fiscal_years": {
+    "title": "تحديد السنة المالية",
     "empty": {
-      "title": "لا توجد سنوات مالية بعد!",
-      "description": "سيحتوي هذا القسم على قائمة السنوات المالية."
+      "title": "لا سنوات مالية لحد الآن !",
+      "description": "سيحتوي هذا القسم على كشف السنوات المالية."
+    }
+  },
+  "retrospective_edits": {
+    "title": "تحديد تحرير Rerospective",
+    "empty": {
+      "title": "لا إدم ـ ار مثي ـ ز",
+      "description": "سيحتوي هذا القسم على كشف بكل من Resrosective Edit+ها."
     }
   },
   "countries": {
     "empty": {
-      "title": "لا دول بعد!",
-      "description": "سيحتوي هذا القسم على قائمة البلدان."
+      "title": "لا دول حتى الآن !",
+      "description": "سيحتوي هذا القسم على كشف بالدول."
     }
   },
   "reports": {
-    "sales": "مبيعات",
-    "profitAndLoss": "خسارة الأرباح",
-    "expenses": "نفقات",
+    "sales": "المبيعات",
+    "profit_and_loss": "الربح & الخسارة",
+    "expenses": "النفقات",
     "taxes": "الضرائب",
-    "dateRange": "حدد النطاق الزمني",
-    "fromDate": "من التاريخ",
-    "toDate": "حتي اليوم",
-    "reportType": "Report Type",
-    "byCustomer": "بواسطة الزبون",
-    "byItem": "حسب البند",
+    "date_range": "تحديد مدى التاريخ",
+    "from_date": "من تاريخ",
+    "to_date": "الى تاريخ",
+    "report_type": "نوع التقرير",
+    "by_customer": "بواسطة العميل",
+    "by_item": "وفقا للبند",
     "today": "اليوم",
-    "thisWeek": "هذا الاسبوع",
-    "thisMonth": "هذا الشهر",
-    "thisQuarter": "هذا الربع",
-    "thisYear": "هذا العام",
-    "currentFiscalQuarter": "الربع المالي الحالي",
-    "currentFiscalYear": "السنة المالية الحالية",
-    "previousWeek": "الأسبوع السابق",
-    "previousMonth": "الشهر الماضى",
-    "previousQuarter": "الربع السابق",
-    "previousYear": "السنة الماضية",
-    "previousFiscalQuarter": "الربع المالي السابق",
-    "previousFiscalYear": "السنة المالية السابقة",
-    "custom": "مخصص"
+    "this_week": "هذا الأسبوع",
+    "this_month": "هذا الشهر",
+    "this_quarter": "هذا الربع",
+    "this_year": "هذا العام",
+    "current_fiscal_quarter": "الربع المالي الحالي",
+    "current_fiscal_year": "السنة المالية الحالية",
+    "previous_week": "الأسبوع السابق",
+    "previous_month": "الشهر السابق",
+    "previous_quarter": "الربع السابق",
+    "previous_year": "السنة السابقة",
+    "previous_fiscal_quarter": "الربع المالي السابق",
+    "previous_fiscal_year": "السنة المالية السابقة",
+    "custom": "معدل"
   },
   "taxes": {
     "title": "الضرائب",
-    "type": "الاسم الضريبي",
-    "description": "وصف",
-    "percentage": "نسبة الضريبة",
-    "compoundTax": "الضريبة المركبة",
-    "alertDescription": "لن تتمكن من استرداد هذه الضريبة",
-    "alreadyUsed": "الضريبة قيد الاستخدام بالفعل",
+    "type": "اسم الضريبة",
+    "description": "الوصف",
+    "percentage": "النسبة المئوية للضرائب",
+    "compound_tax": "ضريبة مركبة",
+    "alert_description": "لن تتمكن من استعادة هذه الضريبة",
     "empty": {
-      "title": "لا أنواع الضرائب حتى الآن!",
-      "description": "سيحتوي هذا القسم على قائمة أنواع الضرائب.",
-      "buttonTitle": "إضافة نوع الضريبة"
+      "title": "لا توجد أنواع ضرائب بعد !",
+      "description": "سيحتوي هذا القسم على كشف بأنواع الضرائب.",
+      "button_title": "اضافة نوع الضريبة"
     }
   },
-  "customizes": {
-    "prefix": {
-      "title": "اختصار",
-      "invoice": "بادئة الفاتورة",
-      "estimate": "تقدير البادئة",
-      "payment": "بادئة الدفع"
-    },
-    "autoGenerate": {
-      "invoice": "إنشاء رقم الفاتورة تلقائيًا",
-      "invoiceDescription": "قم بتعطيل هذا ، إذا كنت لا ترغب في إنشاء أرقام الفواتير تلقائيًا عند إنشاء فاتورة جديدة.",
-      "estimate": "رقم تقدير التوليد الذاتي",
-      "estimateDescription": "قم بتعطيل هذا ، إذا كنت لا ترغب في إنشاء أرقام تقدير تلقائيًا عند إنشاء تقدير جديد.",
-      "payment": "رقم الدفع التلقائي",
-      "paymentDescription": "قم بتعطيل هذا ، إذا كنت لا ترغب في إنشاء أرقام الدفع تلقائيًا عند إنشاء دفعة جديدة."
-    },
-    "setting": {
-      "invoice": "إعدادات الفاتورة",
-      "estimate": "تقدير الإعدادات",
-      "payment": "إعدادات الدفع"
-    },
-    "addresses": {
-      "billing": "تنسيق عنوان الفواتير",
-      "shipping": "تنسيق عنوان الشحن",
-      "company": "تنسيق عنوان الشركة",
-      "insertFields": "أدخل الحقول",
-      "contact": "اتصل",
-      "address": "عنوان",
-      "sendInvoiceEmailBody": "إرسال نص الفاتورة بالبريد الإلكتروني",
-      "sendEstimateEmailBody": "إرسال تقدير نص البريد الإلكتروني",
-      "sendPaymentEmailBody": "إرسال نص البريد الإلكتروني للدفع",
-      "customerAddress": "من تنسيق عنوان العميل"
-    }
-  },
-  "touchFaceId": {
-    "touchId": "معرف اتصال",
-    "faceId": "معرف الوجه",
-    "finger": "بصمة",
+  "touch_face_id": {
+    "touch_id": "كود اللمس",
+    "face_id": "كود الوجه",
+    "finger": "طباعة Fingerprint",
     "face": "وجه",
-    "notCompatible": "جهازك غير متوافق.",
-    "hardwareNotAvailable": "{{type}} الأجهزة غير متوفرة.",
-    "activated": "{{type}} مفعل",
-    "enableLogin": "{{type}} تسجيل الدخول",
-    "enableLoginHint": "يمكنك الآن استخدام {{type}} للوصول إلى حسابك بشكل أسرع وأسهل.",
-    "subTitle1": "المصادقة باستخدام التطبيق",
-    "subTitle2": "{{type}} بدلاً من إدخال كلمة المرور الخاصة بك.",
-    "login": "تسجيل الدخول مع {{type}}"
+    "not_compatible": "الجهاز الخاص بك غير متوافق.",
+    "hardware_not_available": "{ { type } } HardWare غير متاح.",
+    "activated": "تم تشغيل { { نوع } }",
+    "enable_login": "بدء الاتصال { { type } }",
+    "enable_login_hint": "يمكنك الآن استخدام { { { type } } للتوصل الى الحساب الخاص بك بطريقة أسرع وأسهل.",
+    "subtitle_1": "التوثيق باستخدام app's",
+    "subtitle_2": "{ { نوع } } بدلا من ادخال كلمة السرية الخاصة بك.",
+    "login": "بدء الاتصال مع { { type } }"
   },
-  "filePicker": {
-    "file": "انقر هنا لاختيار ملف",
-    "permission": "عذرا ، نحن بحاجة إلى أذونات لفة الكاميرا لإنجاح هذا!",
-    "camera": "الة تصوير",
-    "gallery": "صالة عرض"
+  "file_picker": {
+    "file": "اضغط هنا لاختيار ملف",
+    "permission": "عذرا ، نحن بحاجة إلى تصاريح لفة الكاميرا لجعل هذا العمل !",
+    "camera": "كاميرا",
+    "gallery": "الاستديو",
+    "document": "الوثيقة"
   },
-  "sendMail": {
-    "from": "من عند",
-    "to": "إلى",
-    "subject": "موضوع",
-    "body": "الجسم",
-    "sendEmailToast": "أرسل البريد الإلكتروني بنجاح"
+  "send_mail": {
+    "from": "من",
+    "to": "الى",
+    "subject": "الموضوع",
+    "body": "النص"
   },
   "alert": {
-    "title": "هل أنت واثق؟",
-    "exit": "هل ترغب فعلا بالخروج؟",
-    "alreadyInUse": "{{field}} مشغل حاليا",
+    "title": "هل أنت متأكد ؟",
     "action": {
-      "discard": "تجاهل",
-      "saveAsDraft": "حفظ كمسودة",
-      "emailNotExist": "البريد الإلكتروني للمستخدم غير موجود"
-    },
-    "requiredFields": "الحقول المطلوبة فارغة"
-  },
-  "termsCondition": {
-    "title": "البنود و الظروف",
-    "show": "إظهار الشروط والأحكام على PDF؟",
-    "edit": "تحرير الشروط والأحكام",
-    "description": "تحقق مما إذا كنت تريد إظهار الشروط والأحكام على ملف PDF."
+      "discard": "استبعاد",
+      "save_as_draft": "حفظ باسم مسودة"
+    }
   },
   "button": {
-    "remove": "إزالة",
+    "remove": "ازالة",
     "save": "حفظ",
-    "add": "أضف",
-    "edit": "تعديل",
-    "retry": "أعد المحاولة",
-    "done": "منجز",
-    "skip": "تخطى",
-    "clear": "واضح",
-    "viewPdf": "عرض ملف PDF",
-    "singIn": "تسجيل الدخول",
-    "singInGoogle": "الدخول مع جوجل",
-    "forget": "هل نسيت كلمة السر؟",
-    "update": "تحديث",
-    "updateCapital": "تحديث",
-    "chooseTemplate": "اختيار القالب",
-    "generateReport": " انشاء تقرير",
-    "recoveryEmail": "أرسل رابط إعادة التعيين",
-    "recoveryEmailAgain": "أعد الإرسال",
-    "cancel": "إلغاء",
-    "send": "إرسال",
-    "change": "يتغيرون",
-    "setUpNow": "الإعداد الآن",
-    "later": "سأفعل ذلك لاحقًا"
+    "add": "اضافة",
+    "retry": "اعادة المحاولة",
+    "done": "اتمام",
+    "clear": "محو",
+    "view_pdf": "مشاهدة PDF",
+    "sing_in": "تسجيل الدخول",
+    "forget": "هل نسيت كلمة السرية ؟",
+    "update": "تعديل",
+    "update_capital": "تعديل",
+    "choose_template": "اختيار قالب",
+    "generate_report": " تكوين تقرير",
+    "recovery_email": "ارسال وصلة اعادة الضبط",
+    "recovery_email_again": "ارسال مرة أخرى",
+    "cancel": "الغاء",
+    "send": "ارسال",
+    "change": "التغيير",
+    "set_up_now": "اعداد الآن",
+    "later": "سنفعل ذلك لاحقا",
+    "refresh": "تجديد",
+    "preview": "معاينة"
   },
   "filter": {
     "empty": {
-      "filterTitle": "لم يتم العثور على نتائج"
+      "filter_title": "لم يتم ايجاد نتائج"
     }
   },
   "search": {
     "title": "بحث",
-    "noResult": "لا توجد نتائج لـ \"{{search}}\"",
-    "noSearchResult": "لا توجد نتائج لـ"
-  },
-  "toast": {
-    "send_invoice_successfully": "تم إرسال الفاتورة بنجاح",
-    "send_payment_successfully": "تم إرسال الدفعة بنجاح",
-    "send_estimate_successfully": "تم إرسال التقدير بنجاح"
+    "no_result": "لا توجد نتائج ل ـ \"{ { search } }\"",
+    "no_search_result": "لا توجد نتائج الى"
   },
   "validation": {
-    "Customer": "الزبون",
-    "Invoice": "فاتورة",
-    "required": "الحقل المطلوب فارغ",
-    "field": "{{hint}} الحقل مطلوب",
-    "choose": "اختر عنصرًا واحدًا على الأقل",
-    "email": "لو سمحت أدخل بريد إليكتروني صالح",
-    "passwordCompare": "كلمة المرور غير مطابقة",
-    "minimumNumber": "يجب أن يكون أكبر من 0",
-    "maximumNumber": "يجب أن يكون أقل من {{maxNumber}}",
-    "maximumCharacter": "{{fieldName}} يجب أن يكون أقل من {{maxCharacter}} الشخصيات.",
-    "character": "الشخصيات فقط",
-    "numeric": "يجب أن تكون رقمية",
-    "moreThanDue": "{{hint}} يجب ألا يزيد عن المبلغ المستحق.",
-    "url": "URL غير صالح (مثال: https://craterapp.com)",
-    "wrong": "هناك خطأ ما. حاول مرة اخرى.",
-    "alreadyTaken": "مأخوذة",
-    "minCharacter": "الرجاء إدخال {{minCharacter}} أحرف على الأقل"
+    "required": "المجال المطلوب خالي",
+    "choose": "اختيار بند واحد على الأقل",
+    "email": "برجاء ادخال عنوان بريد الكتروني صحيح",
+    "password_compare": "كلمات السرية غير متوافقة",
+    "minimum_number": "يجب أن يكون أكبر من 0",
+    "maximum_number": "يجب أن يكون أقل من { { maxNumber } }",
+    "maximum_character": "يجب أن يكون { { fieldName } } أقل من { { maxCharacter } } حرف.",
+    "character": "الحروف فقط",
+    "numeric": "يجب أن يكون رقمي",
+    "more_than_due": "{ { تلميح } } لا يجب أن يكون أكثر من مقدار الاستحقاق.",
+    "url": "عنوان URL غير صحيح (مثال : https://craterapp.com)",
+    "wrong": "حدث شيء خاطئ. من فضلك حاول مرة أخرى",
+    "min_character": "برجاء ادخال حروف { { minCharacter } } على الأقل",
+    "cron": "برجاء ادخال نسق cron صحيح."
   },
   "company": {
-    "text_switch_company": "شركة سويتش",
-    "text_add_new_company": "اضافة شركة جديدة"
+    "switch_company": "تبديل الشركة",
+    "add_new_company": "اضافة شركة جديدة"
+  },
+  "roles": {
+    "add_new_role": "اضافة وظيفة جديدة",
+    "alert_description": "لن تتمكن من استعادة هذه الوظيفة",
+    "empty": {
+      "title": "لا أدوار حتى الآن !",
+      "description": "سيحتوي هذا القسم على كشف الوظائف."
+    },
+    "name": "الاسم",
+    "permissions": "التصاريح",
+    "select_all": "اختيار كل",
+    "none": "لا شيء",
+    "select_role_for": "تحديد وظيفة الى { { اسم } }"
+  },
+  "users": {
+    "add_new_user": "اضافة مستخدم جديد",
+    "alert_description": "لن تتمكن من استعادة هذا المستخدم",
+    "empty": {
+      "title": "لا يوجد مستخدمين بعد !",
+      "description": "سيحتوي هذا القسم على كشف بالمستخدمين."
+    },
+    "name": "الاسم",
+    "email": "البريد الالكتروني",
+    "phone": "التليفون",
+    "password": "كلمة السرية",
+    "role": "الوظيفة",
+    "roles": "الأدوار",
+    "role_placeholder": "تحديد وظيفة"
+  },
+  "exchange_rate": {
+    "label": "سعر الصرف",
+    "selected_currency": "1 { { selectedyC } } = ",
+    "exchange_help_text": "قم بادخال سعر صرف للتحويل من { { selectedycnurrency } } الى { { baseCurrency } }."
+  },
+  "actions": {
+    "new_estimate": "تقدير جديد",
+    "new_invoice": "فاتورة جديدة",
+    "new_payment": "دفعة جديدة",
+    "new_expense": "نفقة جديدة"
+  },
+  "companies": {
+    "empty": {
+      "title": "لا شركات لحد الآن !",
+      "description": "سيحتوي هذا القسم على كشف الشركات."
+    }
+  },
+  "notification": {
+    "success": "نجاح !",
+    "error": "خطأ !",
+    "login_success": "بدء الاتصال بنجاح",
+    "customer_created": "تم تكوين العميل بنجاح",
+    "customer_updated": "تم تعديل العميل بنجاح",
+    "customer_deleted": "تم حذف العميل بنجاح",
+    "role_created": "تم تكوين الدور بنجاح",
+    "role_updated": "تم تعديل الوظيفة بنجاح",
+    "role_deleted": "تم حذف الوظيفة بنجاح",
+    "expense_category_created": "تم تكوين تصنيف النفقة بنجاح",
+    "expense_category_updated": "تم تعديل فئة النفقة بنجاح",
+    "expense_category_deleted": "تم حذف فئة النفقة بنجاح",
+    "expense_already_in_use": "تصنيف النفقة يتم استخدامه بالفعل",
+    "note_created": "تم تكوين الملاحظة بنجاح",
+    "note_updated": "تم تعديل الملاحظة بنجاح",
+    "note_deleted": "تم حذف الملاحظة بنجاح",
+    "note_already_in_use": "تم استخدام الملاحظة بالفعل",
+    "custom_field_created": "تم تكوين مجال مخصص بنجاح",
+    "custom_field_updated": "تم تعديل المجال المهيأ بنجاح",
+    "custom_field_deleted": "تم حذف المجال المخصص بنجاح",
+    "custom_field_already_in_use": "تم بالفعل استخدام المجال المهيأ",
+    "tax_created": "تم تكوين نوع الضريبة بنجاح",
+    "tax_updated": "تم تعديل نوع الضريبة بنجاح",
+    "tax_deleted": "تم حذف نوع الضريبة بنجاح",
+    "tax_already_in_use": "تم استخدام الضريبة بالفعل",
+    "setting_updated": "تم تعديل المحددات بنجاح",
+    "invoice_setting_updated": "تم تعديل محددات الفواتير بنجاح",
+    "estimate_setting_updated": "تم تعديل محددات التقدير بنجاح",
+    "payment_setting_updated": "تم تعديل محددات السداد بنجاح",
+    "payment_mode_created": "تم تكوين نمط السداد بنجاح",
+    "payment_mode_updated": "تم تعديل نمط السداد بنجاح",
+    "payment_mode_deleted": "تم حذف نمط الدفع بنجاح",
+    "payment_mode_already_in_use": "نمط الدفع يتم استخدامه بالفعل",
+    "item_unit_created": "تم تكوين وحدة البند بنجاح",
+    "item_unit_updated": "تم تعديل وحدة البند بنجاح",
+    "item_unit_deleted": "تم حذف وحدة البند بنجاح",
+    "item_unit_already_in_use": "وحدة البند يتم استخدامها بالفعل",
+    "preference_updated": "تم تعديل التفضيلات بنجاح",
+    "company_updated": "تم تعديل معلومات الشركة بنجاح",
+    "account_updated": "تم تعديل محددات الحساب بنجاح",
+    "user_created": "تم تكوين المستخدم بنجاح",
+    "user_updated": "تم تعديل المستخدم بنجاح",
+    "user_deleted": "تم حذف المستخدم بنجاح",
+    "item_created": "تم تكوين البند بنجاح",
+    "item_updated": "تم تعديل البند بنجاح",
+    "item_deleted": "تم حذف البند بنجاح",
+    "estimate_created": "تم تكوين التقدير بنجاح",
+    "estimate_updated": "تم تعديل التقدير بنجاح",
+    "estimate_deleted": "تم حذف التقدير بنجاح",
+    "estimate_sent": "تم ارسال التقدير بنجاح",
+    "estimate_mark_as_sent": "تم تعليم التقدير كما تم ارساله بنجاح",
+    "estimate_marked_as_accepted": "تم تعليم التقدير باعتباره مقبولا",
+    "estimate_marked_as_rejected": "تم تعليمه على أنه مرفوض",
+    "expense_created": "تم تكوين النفقة بنجاح",
+    "expense_updated": "تم تعديل النفقة بنجاح",
+    "expense_deleted": "تم حذف النفقة بنجاح",
+    "payment_created": "تم تكوين السداد بنجاح",
+    "payment_updated": "تم تعديل السداد بنجاح",
+    "payment_deleted": "تم حذف السداد بنجاح",
+    "payment_sent": "تم ارسال السداد بنجاح",
+    "invoice_created": "تم تكوين الفاتورة بنجاح",
+    "invoice_updated": "تم تعديل الفاتورة بنجاح",
+    "invoice_deleted": "تم حذف الفاتورة بنجاح",
+    "invoice_marked_as_sent": "تم تعليم الفاتورة على أنها تم ارسالها بنجاح",
+    "invoice_sent": "تم ارسال الفاتورة بنجاح",
+    "invoice_cloned": "تم استنساخ الفاتورة بنجاح",
+    "recurring_invoice_created": "تم تكوين الفاتورة المتكررة بنجاح",
+    "recurring_invoice_updated": "تم تعديل الفاتورة المتكررة بنجاح",
+    "recurring_invoice_deleted": "تم حذف الفاتورة المتكررة بنجاح",
+    "password_reset_link": "تم ارسال وصلة اعادة ضبط كلمة السرية بنجاح.",
+    "company_created": "تم تكوين الشركة بنجاح"
   }
 }
