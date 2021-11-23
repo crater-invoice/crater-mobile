@@ -55,10 +55,11 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
 
   onSelectInvoice = invoice => {
     const {navigation} = this.props;
-
+    const {id, allow_edit} = invoice;
     navigation.navigate(routes.CREATE_INVOICE, {
-      id: invoice?.id,
-      type: 'UPDATE'
+      id,
+      type: 'UPDATE',
+      allow_edit
     });
   };
 

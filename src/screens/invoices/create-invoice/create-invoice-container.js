@@ -30,6 +30,7 @@ const mapStateToProps = (state, {route}) => {
     permissions.isEditScreen,
     permissions.isAllowToEdit
   );
+
   return {
     ...loadingSelector(state),
     ...commonSelector(state),
