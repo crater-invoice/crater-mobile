@@ -9,7 +9,7 @@ import {AuthNavigator} from './navigators/auth-navigator';
 import {CommonNavigator} from './navigators/common-navigator';
 import {getActiveMainTab, navigateTo, navigationRef} from './navigation-action';
 import {isAndroidPlatform} from '@/helpers/platform';
-import {IProps} from './navigation-type';
+import {IProps} from './navigation-type.d';
 
 const Stack = createStackNavigator();
 

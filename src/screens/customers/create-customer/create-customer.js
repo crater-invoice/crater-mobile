@@ -63,6 +63,7 @@ export default class CreateCustomer extends Component<IProps, IStates> {
       'phone',
       'website',
       'currency_id',
+      'prefix',
       'customFields',
       'billing',
       'shipping',
@@ -173,7 +174,6 @@ export default class CreateCustomer extends Component<IProps, IStates> {
           onSubmitEditing={() => customerRefs.contactName.focus()}
           keyboardType={keyboardType.DEFAULT}
           disabled={disabled}
-          withRef
         />
 
         <Field
@@ -184,7 +184,6 @@ export default class CreateCustomer extends Component<IProps, IStates> {
           keyboardType={keyboardType.DEFAULT}
           refLinkFn={ref => (customerRefs.contactName = ref)}
           disabled={disabled}
-          withRef
         />
 
         <Field
@@ -213,6 +212,15 @@ export default class CreateCustomer extends Component<IProps, IStates> {
           hint={t('customers.website')}
           keyboardType={keyboardType.URL}
           refLinkFn={ref => (customerRefs.website = ref)}
+          onSubmitEditing={() => customerRefs.prefix.focus()}
+          disabled={disabled}
+        />
+
+        <Field
+          name="prefix"
+          component={BaseInput}
+          hint={t('customers.prefix')}
+          refLinkFn={ref => (customerRefs.prefix = ref)}
           disabled={disabled}
         />
 
@@ -236,7 +244,7 @@ export default class CreateCustomer extends Component<IProps, IStates> {
           rightIcon="angle-right"
           placeholder={t('customers.billing_address')}
           values={isAddress(billing) && t('customers.billing_address')}
-          containerStyle={styles.billing}
+          containerStyle={styles.billing(theme)}
           onChangeCallback={() => this.navigateToAddress('billing')}
         />
 
@@ -245,7 +253,7 @@ export default class CreateCustomer extends Component<IProps, IStates> {
           rightIcon="angle-right"
           placeholder={t('customers.shipping_address')}
           values={isAddress(shipping) && t('customers.shipping_address')}
-          containerStyle={styles.shipping}
+          containerStyle={styles.shipping(theme)}
           onChangeCallback={() => this.navigateToAddress('shipping')}
         />
       </DefaultLayout>

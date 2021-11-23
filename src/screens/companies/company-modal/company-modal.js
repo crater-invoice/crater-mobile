@@ -94,7 +94,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
             'radius-32': true,
             'background-color': colors.primary
           })}
-          {...(isAndroidPlatform && {'pt-2': true})}
+          {...(isAndroidPlatform && {'pt-3': true})}
         >
           <Text h4 center medium color={colors.white}>
             {company?.name.toUpperCase().charAt(0)}

@@ -11,7 +11,7 @@ const AuthStack = createStackNavigator();
 
 export const AuthNavigator = (
   <>
-    <AuthStack.Screen name={routes.LOGIN} component={Login} options={options} />
+    <AuthStack.Screen name={routes.LOGIN} component={Login} />
     <AuthStack.Screen
       name={routes.FORGOT_PASSWORD}
       component={ForgotPassword}

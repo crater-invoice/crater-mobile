@@ -10,7 +10,7 @@ import {isBooleanTrue} from '@/constants';
 import {isIosPlatform, definePlatformParam} from '@/helpers/platform';
 import {keyboardType} from '@/helpers/keyboard';
 import {TaxSelectModal} from '@/select-modal';
-import {IProps} from './final-amount-types';
+import {IProps} from './final-amount-type.d';
 import {
   BaseInput,
   BaseDivider,

@@ -128,6 +128,10 @@ class TextInput extends Component<IProps> {
     const sign = this.getSign();
 
     !hideError && onError && this.onErrorCallback(error);
+    let leftIconColor =
+      theme?.mode === 'dark' && (active || hasTextLength(inputVal))
+        ? theme?.text?.secondaryColor
+        : theme?.text?.fifthColor;
 
     let icons = {};
     if (leftIcon) {
@@ -137,7 +141,7 @@ class TextInput extends Component<IProps> {
             name={leftIcon}
             solid={leftIconSolid}
             size={18}
-            color={colors.darkGray}
+            color={leftIconColor}
           />
         ),
         leftIconContainerStyle: [
@@ -150,7 +154,7 @@ class TextInput extends Component<IProps> {
       icons = {
         leftIcon: (
           <View style={styles.leftSymbolView}>
-            <Text color={theme?.text?.fifthColor} style={styles.leftSymbol}>
+            <Text color={leftIconColor} style={styles.leftSymbol}>
               {currency.symbol}
             </Text>
           </View>
@@ -161,7 +165,7 @@ class TextInput extends Component<IProps> {
       icons = {
         leftIcon: (
           <View style={styles.leftSymbolView}>
-            <Text color={theme?.text?.fifthColor} style={styles.leftSymbol}>
+            <Text color={leftIconColor} style={styles.leftSymbol}>
               {leftSymbol}
             </Text>
           </View>
@@ -261,6 +265,14 @@ class TextInput extends Component<IProps> {
           onSubmitEditing={e => onSubmitEditing?.(e.nativeEvent.text)}
           placeholder={placeholder}
           keyboardType={this.props.keyboardType ?? keyboardType.DEFAULT}
+          {...(this.props.keyboardType &&
+            (this.props.keyboardType === keyboardType.EMAIL ||
+              this.props.keyboardType === keyboardType.URL) && {
+              autoCapitalize: 'none'
+            })}
+          {...(secureTextEntry && {
+            autoCapitalize: 'none'
+          })}
           {...inputProps}
           {...methods}
           onChangeText={enteredValue => {

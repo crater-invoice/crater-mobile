@@ -224,6 +224,7 @@
     "filter_display_name": "Display Name",
     "filter_contact_name": "Contact Name",
     "alert_description": "You will not be able to recover this Customer",
+    "prefix": "Prefix",
     "address": {
       "name": "Name",
       "country": "Country",

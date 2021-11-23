@@ -21,7 +21,18 @@ import {
 export default class Endpoint extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
-    this.state = {isLoading: false};
+    this.state = {isLoading: false, showBackButton: false};
+  }
+
+  componentDidMount() {
+    const {navigation} = this.props;
+    this.focusListener = navigation.addListener('focus', () => {
+      this.setState({showBackButton: navigation?.canGoBack?.()});
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener?.remove?.();
   }
 
   onSubmit = async ({url: baseUrl}) => {
@@ -44,9 +55,8 @@ export default class Endpoint extends Component<IProps, IStates> {
   };
 
   render() {
-    const {handleSubmit, theme, navigation} = this.props;
-
-    const showBackButton = navigation?.canGoBack?.();
+    const {handleSubmit, theme} = this.props;
+    const {showBackButton} = this.state;
 
     const layoutStyle = showBackButton
       ? defineLargeSizeParam('25%', '15%')

@@ -94,6 +94,7 @@ function* addInvoice({payload}) {
     const {invoice, onSuccess} = payload;
     const {data} = yield call(req.addInvoice, invoice);
     yield put({type: types.ADD_INVOICE_SUCCESS, payload: data});
+    req.InvoiceServices.toggleIsFirstInvoiceCreated(true);
     onSuccess?.(data);
     showNotification({message: t('notification.invoice_created')});
   } catch (e) {

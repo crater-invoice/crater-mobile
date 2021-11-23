@@ -1,7 +1,9 @@
 import {createSelector} from 'reselect';
+import {find} from 'lodash';
 import {capitalize, isEmpty} from '@/constants';
 import {BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR} from '@/utils';
 import t from 'locales/use-translation';
+import {FREQUENCIES_TYPES} from './helpers';
 
 export const formattedInvoices = (invoices, theme) => {
   if (isEmpty(invoices)) {
@@ -50,12 +52,14 @@ export const formatItems = (invoices, theme) => {
       status,
       total,
       formatted_created_at,
-      customer: {name, currency} = {}
+      customer: {name, currency} = {},
+      frequency
     } = item;
 
     return {
       title: name,
       subtitle: {
+        title: find(FREQUENCIES_TYPES, {value: frequency})?.label ?? 'CUSTOM',
         ...(theme.mode === 'dark'
           ? {
               label: status,

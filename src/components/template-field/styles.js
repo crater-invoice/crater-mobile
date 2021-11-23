@@ -17,10 +17,8 @@ export default StyleSheet.create({
   image: {
     height: 220,
     width: wp(40),
-    borderWidth: 2,
-    borderColor: colors.lightGray,
-    marginVertical: 10,
-    resizeMode: 'stretch'
+    borderWidth: 1,
+    borderColor: colors.lightGray
   },
   active: {
     borderColor: colors.primary
@@ -28,15 +26,16 @@ export default StyleSheet.create({
   imageContainer: {
     position: 'relative',
     overflow: 'visible',
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    marginVertical: 12
   },
   iconStyle: {
     padding: 3
   },
   iconContainer: {
     position: 'absolute',
-    top: 0,
-    right: -10,
+    top: -7,
+    right: -7,
     zIndex: 100,
     backgroundColor: colors.primary,
     borderRadius: 20,

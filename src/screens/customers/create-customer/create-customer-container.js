@@ -31,6 +31,7 @@ const mapStateToProps = (state, {route}) => ({
     phone: null,
     website: null,
     currency_id: null,
+    prefix: null,
     customFields: null,
     billing: null,
     shipping: null
