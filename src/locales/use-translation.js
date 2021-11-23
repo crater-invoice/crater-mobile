@@ -8,6 +8,7 @@ import de from './de.json';
 import it from './it.json';
 import ar from './ar.json';
 import sk from './sk.json';
+import ko from './ko.json';
 
 Lng.fallbacks = true;
 
@@ -18,7 +19,8 @@ Lng.translations = {
   de, // German
   it, // Italian
   ar, // Arabic
-  sk //  Slovak
+  sk, //  Slovak,
+  ko //  Korean,
 };
 
 Lng.locale = Localization.locale;

@@ -1,0 +1,853 @@
+{
+  "header": {
+    "invoices": "송장",
+    "add_invoice": "송장 추가하기",
+    "edit_invoice": "송장 편집하기",
+    "recurring_invoices": "반복되지 않는 송장",
+    "recurring_invoice": "송장 송장",
+    "add_recurring_invoice": "반복 송장 추가하기",
+    "edit_recurring_invoice": "반복 송장 편집",
+    "view_recurring_invoice": "반복 송장 보기",
+    "estimates": "추정",
+    "add_estimate": "예상 추가",
+    "edit_estimate": "예상 편집",
+    "template": "템플릿 선택하기",
+    "customers": "고객",
+    "add_customer": "고객 추가",
+    "edit_customer": "고객 편집",
+    "billing_address": "청구 주소",
+    "shipping_address": "운송 주소",
+    "country": "국가 선택",
+    "payments": "지불",
+    "add_payment": "지불 추가",
+    "edit_payment": "지불 편집",
+    "expenses": "비용",
+    "add_expense": "비용 추가",
+    "edit_expense": "비용 편집",
+    "more": "더 많은",
+    "expense_category": "비용 카테고리",
+    "add_category": "범주 추가",
+    "edit_category": "범주 편집",
+    "add_note": "노트 추가하기",
+    "edit_note": "노트 편집하기",
+    "settings": "설정",
+    "notifications": "알림",
+    "setting": {
+      "company": "회사 정보",
+      "account": "계정 설정",
+      "preferences": "환경 설정"
+    },
+    "taxes": "세금 유형",
+    "add_tax": "세금 추가",
+    "edit_tax": "세금 편집",
+    "add_item": "Add Item",
+    "edit_item": "항목 편집하기",
+    "items": "아이템",
+    "item_units": "품목 단위",
+    "payment_modes": "지불 모드",
+    "reports": "보고서",
+    "sales_report": "판매 보고서",
+    "profit_and_lossReport": "이익 및 손실 보고서",
+    "expenses_report": "비용 보고서",
+    "taxes_report": "세금 보고서",
+    "filter": "필터",
+    "back": "뒤로",
+    "send_mail_invoice": "송장 보내기",
+    "send_mail_estimate": "예상 보내기",
+    "send_mail_payment": "지불 보내기",
+    "custom_fields": "사용자 정의 필드",
+    "add_custom_field": "사용자 정의 필드 추가",
+    "edit_custom_field": "사용자 정의 필드 편집",
+    "notes": "Notes",
+    "view_customer": "고객 보기",
+    "view_payment": "지불 보기",
+    "view_expense": "비용 보기",
+    "view_invoice": "송장 보기",
+    "view_estimate": "예상 보기",
+    "view_item": "항목 보기",
+    "view_tax": "세금 보기",
+    "view_custom_field": "사용자 정의 필드 보기",
+    "view_note": "노트 보기",
+    "view_category": "카테고리 보기",
+    "view_unit": "항목 단위 보기",
+    "view_payment_mode": "지불 모드 보기",
+    "add_company": "회사 추가",
+    "roles": "역할 및 권한",
+    "add_role": "역할 추가하기",
+    "edit_role": "역할 편집",
+    "view_role": "역할 보기",
+    "users": "사용자",
+    "add_user": "사용자 추가",
+    "edit_user": "사용자 편집",
+    "view_user": "사용자 보기",
+    "companies": "기업"
+  },
+  "tab_navigation": {
+    "invoices": "송장",
+    "customers": "고객",
+    "payments": "지불",
+    "expenses": "비용",
+    "more": "더 많은"
+  },
+  "invoices": {
+    "title": "송장 선택",
+    "tabs": {
+      "due": "이유",
+      "draft": "초안",
+      "all": "모든"
+    },
+    "invoice_date": "송장 날짜",
+    "due_date": "만료 날짜",
+    "discount": "할인",
+    "invoice_number": "송장 번호",
+    "reference_number": "참조 번호",
+    "template": "템플리트",
+    "template_placeholder": "새 템플리트 선택 또는 추가",
+    "customer": "고객",
+    "customer_placeholder": "새 고객 선택 또는 추가",
+    "items": "아이템",
+    "subtotal": "부분합",
+    "total_amount": "총 금액",
+    "status": "상태",
+    "status_placeholder": "상태 선택",
+    "from_date": "시작 날짜",
+    "to_date": "종료 날짜",
+    "alert": {
+      "less_amount": "총 금액은 0보다 작지 않아야 합니다.",
+      "remove_description": "이 송장을 복구할 수 없습니다.",
+      "draft_title": "변경사항을 저장합니까?",
+      "clone": "이 송장은 새 송장에 복제됩니다.",
+      "send_invoice": "이 송장은 고객에게 이메일로 전송됩니다.",
+      "mark_as_sent": "이 송장은 보낸 것으로 표시됩니다."
+    },
+    "empty": {
+      "due": {
+        "title": "송장이 없습니다.",
+        "description": "이 섹션에는 만기 송장 목록이 포함됩니다."
+      },
+      "draft": {
+        "title": "송장 초안이 없습니다.",
+        "description": "이 섹션에는 초안 송장 목록이 포함됩니다."
+      },
+      "all": {
+        "title": "송장을 작성하지 않았습니다."
+      },
+      "title": "송장이 아직 없어!",
+      "description": "이 섹션에는 송장 목록이 포함됩니다.",
+      "button_title": "새 송장 추가하기"
+    },
+    "actions": {
+      "send_invoice": "송장 보내기",
+      "resend_invoice": "송장 재전송",
+      "delete": "삭제",
+      "record_payment": "레코드 지불",
+      "mark_as_sent": "보낸 것으로 표시",
+      "clone": "복제 송장"
+    }
+  },
+  "recurring_invoices": {
+    "start_date": "시작 날짜",
+    "next_invoice_at": "다음 송장",
+    "limit_by": "로 제한하기",
+    "select_frequency": "빈도 선택",
+    "display_frequency": "주파수",
+    "basic_info": "기본 정보",
+    "invoices": "송장",
+    "alert_description": "이 반복 송장을 복구할 수 없습니다.",
+    "from_start_at_date": "시작 날짜 이후",
+    "to_start_at_date": "시작 날짜",
+    "auto_sent": {
+      "label": "자동으로 송장 보내기",
+      "description": "작성 시 고객에게 자동으로 송장을 전송하려는 경우 이를 사용 가능하게 하십시오."
+    },
+    "status": {
+      "title": "상태",
+      "placeholder": "상태 선택",
+      "empty": {
+        "title": "당신은 아무 지위도 없어요.",
+        "description": "이 섹션에는 상태 목록이 포함됩니다."
+      }
+    },
+    "tabs": {
+      "active": "활성",
+      "on_hold": "보류 중",
+      "all": "모든"
+    },
+    "empty": {
+      "active": {
+        "title": "활성 재발 송장이 없습니다.",
+        "description": "이 섹션에는 활성 반복 송장 목록이 포함됩니다."
+      },
+      "on_hold": {
+        "title": "반복되는 송장을 보유하지 않았습니다.",
+        "description": "이 섹션에는 보유된 반복 송장 목록이 포함됩니다."
+      },
+      "all": {
+        "title": "반복되는 송장을 작성하지 않았습니다."
+      },
+      "title": "반복되는 송장이 아직 없습니다!",
+      "description": "이 섹션에는 반복되는 송장 목록이 포함됩니다.",
+      "button_title": "새 반복 송장 추가"
+    },
+    "limit_types": {
+      "none": "없음",
+      "date": "한계 날짜",
+      "count": "계수"
+    },
+    "frequencies": {
+      "custom": "사용자 정의",
+      "every_minute": "매분",
+      "every_30_minute": "매 30 분",
+      "every_hour": "매 시간마다",
+      "every_2_hour": "2시간마다",
+      "twice_a_day": "두 번 A 일",
+      "every_week": "매주",
+      "every_15_days": "15일마다",
+      "first_day_of_month": "제1일의 첫째 날",
+      "every_6_month": "6개월마다",
+      "every_year": "해마다"
+    },
+    "dropdown": {
+      "edit": "편집",
+      "delete": "삭제"
+    }
+  },
+  "customers": {
+    "display_name": "표시 이름",
+    "contact_name": "기본 연락처 이름",
+    "email": "전자 우편",
+    "phone": "전화",
+    "website": "웹사이트",
+    "billing_address": "청구 주소",
+    "shipping_address": "운송 주소",
+    "customer": "고객",
+    "filter_display_name": "디스플레이명",
+    "filter_contact_name": "연락처 이름",
+    "alert_description": "이 고객을 복구할 수 없습니다.",
+    "prefix": "접두어",
+    "address": {
+      "name": "이름",
+      "country": "국가",
+      "state": "상태",
+      "city": "도시",
+      "address": "주소",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "phone": "전화",
+      "zip_code": "우편번호",
+      "same_as": "대금 청구 주소에서 복사"
+    },
+    "remove_customer": "삭제",
+    "empty": {
+      "title": "아직 손님이 없어요!",
+      "description": "이 섹션에는 고객 목록이 포함됩니다.",
+      "button_title": "새 고객 추가",
+      "country": {
+        "title": "사용 가능한 국가 없음"
+      },
+      "state": {
+        "title": "사용 가능 상태가 없음"
+      },
+      "city": {
+        "title": "사용 가능한 도시 없음"
+      }
+    },
+    "title": "고객 선택",
+    "placeholder": "고객 선택"
+  },
+  "payments": {
+    "date": "지불 날짜",
+    "number": "지불 번호",
+    "customer": "고객",
+    "mode": "지불 모드",
+    "modes": "지불 모드",
+    "prefix": "지불 접두어",
+    "add_mode": "지불 모드 추가",
+    "edit_mode": "지불 모드 편집",
+    "mode_hint": "모드 이름",
+    "mode_placeholder": "지불 모드 선택",
+    "amount": "금액",
+    "invoice": "송장",
+    "invoice_placeholder": "송장 선택",
+    "send_receipt": "지불 수령 보내기",
+    "alertAmount": "입력한 지불이 이 송장의 만기보다 많습니다.",
+    "alert_description": "이 지불을 복구할 수 없습니다.",
+    "alert_mode": "이 지불 모드를 복구할 수 없습니다.",
+    "remove_payment": "삭제",
+    "empty": {
+      "title": "아직 지불하지 않았어!",
+      "description": "이 섹션에는 지불 목록이 포함됩니다.",
+      "button_title": "새 지불 추가"
+    },
+    "alert": {
+      "send_payment": "이 지급 수령은 전자 우편을 통해 지정된 주소로 발송됩니다."
+    }
+  },
+  "payment_modes": {
+    "empty": {
+      "title": "아직 결제 모드는 없어!",
+      "description": "이 섹션에는 지불 모드 목록이 포함됩니다."
+    }
+  },
+  "item_units": {
+    "empty": {
+      "title": "아직 항목 단위가 없습니다!",
+      "description": "이 섹션에는 항목 단위 목록이 포함됩니다."
+    }
+  },
+  "expenses": {
+    "receipt": "영수증",
+    "date": "비용 날짜",
+    "from_date": "시작 날짜",
+    "to_date": "종료 날짜",
+    "amount": "금액",
+    "category": "카테고리",
+    "category_placeholder": "범주 선택",
+    "notes": "Notes",
+    "notes_placeholder": "추가 노트",
+    "view_receipt": "수령 보기",
+    "alert_description": "이 비용을 복구할 수 없습니다.",
+    "remove_expense": "삭제",
+    "empty": {
+      "title": "아직 경비가 없어요!",
+      "description": "이 섹션에는 비용 목록이 포함됩니다.",
+      "button_title": "새 비용 추가"
+    }
+  },
+  "items": {
+    "title": "항목 선택",
+    "name": "항목 이름",
+    "description": "설명 (선택사항)",
+    "quantity": "수량",
+    "price": "가격",
+    "subtotal": "부분합",
+    "discount_type": "할인 유형",
+    "discount": "할인",
+    "final_discount": "할인",
+    "final_amount": "금액",
+    "taxes": "세금",
+    "select_tax": "새 세금 선택 또는 추가",
+    "unit": "유닛",
+    "unit_hint": "단위 이름",
+    "add_hint": "항목 단위 추가하기",
+    "edit_hint": "항목 단위 편집",
+    "unit_placeholder": "선택 단위",
+    "alert_description": "이 항목을 복구할 수 없습니다.",
+    "alert_unit": "이 품목 단위를 복구할 수 없습니다.",
+    "less_amount": "총 금액이 0미만이어야 합니다.",
+    "already_attach_title": "조치 실패",
+    "already_attach_description": "이미 사용 중인 항목을 삭제할 수 없음",
+    "empty": {
+      "title": "아직 물건이 없어!",
+      "description": "이 섹션에는 항목 목록이 포함됩니다.",
+      "button_title": "새 항목 추가하기"
+    }
+  },
+  "more": {
+    "estimate": "추정",
+    "recurring_invoice": "반복되지 않는 송장",
+    "items": "아이템",
+    "reports": "보고서",
+    "settings": "설정",
+    "logout": "로그아웃",
+    "users": "사용자"
+  },
+  "categories": {
+    "title": "카테고리 이름",
+    "description": "설명",
+    "alert_description": "이 카테고리를 복구할 수 없습니다.",
+    "empty": {
+      "title": "아직 카테고리가 없어요!",
+      "description": "이 섹션에는 카테고리 목록이 포함됩니다.",
+      "button_title": "새 카테고리 추가하기"
+    }
+  },
+  "notes": {
+    "notes": "Notes",
+    "title": "주 이름",
+    "description": "설명",
+    "model_placeholder": "유형 선택하기",
+    "alert_description": "이 노트를 복구할 수 없습니다.",
+    "empty": {
+      "title": "아직 노트가 없어!",
+      "description": "이 섹션에는 노트 목록이 포함됩니다.",
+      "button_title": "새 노트 추가하기"
+    },
+    "placeholder": {
+      "invoice": "송장에 표시되는 추가 참고사항",
+      "estimate": "추정에 추가적인 참고사항이 표시됨",
+      "payment": "지불에 표시되는 추가 메모"
+    },
+    "type": "주 유형",
+    "select": "노트 선택하기",
+    "insert_note": "+노트 삽입하기",
+    "insert_fields": "+삽입 필드"
+  },
+  "units": {
+    "empty": {
+      "title": "아직 부대가 없어!",
+      "description": "이 섹션에는 항목 단위 목록이 포함됩니다.",
+      "button_title": "새 항목 단위 추가"
+    }
+  },
+  "settings": {
+    "account_settings": "계정 설정",
+    "company_information": "회사 정보",
+    "preference": "환경 설정",
+    "notification": "알림",
+    "taxes": "세금 유형",
+    "expense_category": "비용 카테고리",
+    "payment_modes": "지불 모드",
+    "item_units": "품목 단위",
+    "touch_or_Face_id": "터치/안면 ID",
+    "endpoint": "API 엔드포인트",
+    "company": {
+      "name": "회사 이름",
+      "phone": "전화",
+      "address": "주소",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "zip_code": "우편번호",
+      "logo": "회사 로고"
+    },
+    "account": {
+      "name": "이름",
+      "email": "전자 우편",
+      "password": "암호",
+      "confirm_password": "암호 확인",
+      "version": "버전"
+    },
+    "notifications": {
+      "send": "알림 보내기",
+      "invoice_viewed": "뷰가 표시된 송장",
+      "invoice_viewed_description": "고객이 전자 우편을 통해 보낸 송장 링크를 보는 경우.",
+      "estimate_viewed": "뷰에 대한 예상",
+      "estimate_viewed_description": "고객이 이메일을 통해 전송된 예상 링크를 보는 경우."
+    },
+    "preferences": {
+      "currency": "통화",
+      "currency_placeholder": "통화 선택",
+      "language": "기본 언어",
+      "language_placeholder": "언어 선택",
+      "time_zone": "시간대",
+      "time_zone_placeholder": "시간대 선택",
+      "date_format": "날짜 형식",
+      "date_format_placeholder": "날짜 형식 선택",
+      "fiscal_year": "금융의 해",
+      "fiscal_year_placeholder": "금융 연도 선택",
+      "discount_per_item": "항목당 할인",
+      "discount_per_item_placeholder": "개별 송장 항목에 할인을 추가하려면 이 옵션을 사용 가능하게 하십시오. 기본적으로 할인은 송장에 직접 추가됩니다.",
+      "tax_per_item": "품목당 세금",
+      "tax_per_item_placeholder": "개별 송장 항목에 세금을 추가하려면 이 옵션을 사용 가능하게 하십시오. 기본적으로 세금은 송장에 직접 추가됩니다.",
+      "retrospective_edits": "회고적인 편집",
+      "create_status": "상태 작성",
+      "active": "활성",
+      "on_hold": "보류 중",
+      "completed": "완료됨"
+    },
+    "notes": "Notes"
+  },
+  "login": {
+    "email": "이메일 입력하기",
+    "password": "암호 입력하기",
+    "invalid": "이러한 신임 정보는 레코드와 일치하지 않습니다."
+  },
+  "logout": {
+    "confirmation": "로그아웃하시겠습니까?",
+    "title": "로그아웃"
+  },
+  "forgot": {
+    "email_label": "이메일을 입력하고 비밀번호 재설정 링크를 발송합니다.",
+    "email_placeholder": "이메일 입력하기",
+    "email_send_description": "비밀번호 재설정 링크가 이메일로 발송되었습니다. 새 비밀번호를 작성하려면 이메일의 지시사항을 따르십시오.",
+    "email_send_error": "이 이메일 주소로 이메일을 발송할 수 없습니다."
+  },
+  "lost_internet": {
+    "title": "연결 유실",
+    "description": "모바일 또는 Wifi 설정을 확인하여 인터넷 연결을 확인한 다음 다시 시도하십시오."
+  },
+  "update_app": {
+    "title": "애플리케이션 버전이 만료되었습니다!",
+    "description": "이 버전의 앱은 최신 버전입니다. 크래터를 계속 사용하려면 최신 업데이트를 설치하십시오."
+  },
+  "endpoint": {
+    "endpoint_url": "엔드포인트 URL",
+    "endpoint_desc": "위 URL은 분화구의 자체 호스트 설치에 연결하는 데 사용됩니다.",
+    "url_placeholder": "예: https://craterapp.com",
+    "alert_invalid_url": "잘못된 URL"
+  },
+  "estimates": {
+    "tabs": {
+      "sent": "보냄",
+      "draft": "초안",
+      "all": "모든"
+    },
+    "estimate_date": "예상 날짜",
+    "expiry_date": "만기 날짜",
+    "estimate_number": "예상 번호",
+    "template": "템플리트",
+    "template_placeholder": "새 템플리트 선택 또는 추가",
+    "customer": "고객",
+    "customer_placeholder": "새 고객 선택 또는 추가",
+    "tax_placeholder": "+세금 추가",
+    "add_item": "Add Item",
+    "from_date": "시작 날짜",
+    "to_date": "종료 날짜",
+    "status": "상태",
+    "status_placeholder": "상태 선택",
+    "total_amount": "총 금액",
+    "alert": {
+      "convert_to_invoice_description": "이 예상 값을 송장으로 변환하시겠습니까?",
+      "remove_description": "이 예상을 복구할 수 없습니다.",
+      "less_amount": "총 금액이 0미만이어야 합니다.",
+      "draft_title": "변경사항을 저장합니까?",
+      "send_estimate": "이 예상은 이메일을 통해 고객에게 발송됩니다.",
+      "mark_as_sent": "이 추정은 송신된 것으로 표시됩니다.",
+      "mark_as_accept": "이 추정은 수락됨으로 표시됩니다.",
+      "mark_as_reject": "이 추정은 거부됨으로 표시됩니다."
+    },
+    "empty": {
+      "sent": {
+        "title": "당신은 보내는 돈이 없다.",
+        "description": "이 섹션에는 전송된 예상 목록이 포함됩니다."
+      },
+      "draft": {
+        "title": "당신은 초안을 작성하지 않았다",
+        "description": "이 섹션에는 초안 예상 목록이 포함됩니다."
+      },
+      "all": {
+        "title": "당신은 어떤 견적도 작성하지 않았습니다.",
+        "description": "이 섹션에는 예상 목록이 포함됩니다."
+      },
+      "button_title": "새 예상 추가"
+    },
+    "actions": {
+      "send_estimate": "예상 보내기",
+      "resend_estimate": "결과 예상",
+      "delete": "삭제",
+      "convert_to_invoice": "변환 대상 송장",
+      "mark_as_sent": "보낸 것으로 표시",
+      "mark_as_accepted": "승인됨으로 표시",
+      "mark_as_rejected": "거부됨으로 표시"
+    }
+  },
+  "currencies": {
+    "title": "통화",
+    "name": "이름",
+    "empty": {
+      "title": "아직 통화가 없어요!",
+      "description": "이 섹션에는 통화 목록이 포함됩니다.",
+      "button_title": "새 통화 추가"
+    }
+  },
+  "custom_fields": {
+    "name": "이름",
+    "model": "모델",
+    "model_placeholder": "모델 선택하기",
+    "type": "유형",
+    "type_placeholder": "유형 선택하기",
+    "required": "필수",
+    "label": "레이블",
+    "default_value": "기본값",
+    "display_in_Portal": "포털에 표시하기",
+    "placeholder": "자리 표시자",
+    "order": "주문",
+    "yes": "예",
+    "no": "아니오",
+    "check": "기본적으로 티크됨",
+    "options": "옵션",
+    "remove_alert_description": "이 사용자 정의 필드를 복구할 수 없습니다.",
+    "already_in_use": "이미 사용 중인 필드의 모델을 업데이트할 수 없습니다.",
+    "empty": {
+      "title": "사용자 정의 필드가 아직 없습니다!",
+      "description": "이 섹션에는 사용자 정의 필드 목록이 포함됩니다.",
+      "button_title": "새 사용자 정의 필드 추가"
+    }
+  },
+  "languages": {
+    "title": "언어 선택",
+    "empty": {
+      "title": "아직 언어는 없어!",
+      "description": "이 섹션에는 언어 목록이 포함됩니다."
+    }
+  },
+  "time_zones": {
+    "title": "시간대 선택",
+    "empty": {
+      "title": "아직 타임즈지는 없어!",
+      "description": "이 섹션에는 시간대 목록이 포함됩니다."
+    }
+  },
+  "date_formats": {
+    "title": "날짜 형식 선택",
+    "empty": {
+      "title": "날짜 형식이 아직 없습니다!",
+      "description": "이 섹션에는 날짜 형식 목록이 포함됩니다."
+    }
+  },
+  "fiscal_years": {
+    "title": "금융 연도 선택",
+    "empty": {
+      "title": "금융년은 아직 없어!",
+      "description": "이 섹션에는 재무 연도 목록이 포함됩니다."
+    }
+  },
+  "retrospective_edits": {
+    "title": "회고 Edits를 선택한다.",
+    "empty": {
+      "title": "후향적인 에그가 없어!",
+      "description": "이 섹션에는 회고적 편집 목록이 포함됩니다."
+    }
+  },
+  "countries": {
+    "empty": {
+      "title": "아직 어떤 국가도 없어!",
+      "description": "이 섹션에는 국가 목록이 포함됩니다."
+    }
+  },
+  "reports": {
+    "sales": "판매",
+    "profit_and_loss": "이익 및 손실",
+    "expenses": "비용",
+    "taxes": "세금",
+    "date_range": "날짜 범위 선택",
+    "from_date": "시작 날짜",
+    "to_date": "종료 날짜",
+    "report_type": "보고서 유형",
+    "by_customer": "고객별",
+    "by_item": "항목별",
+    "today": "오늘",
+    "this_week": "이번 주",
+    "this_month": "이번 달",
+    "this_quarter": "이 분기",
+    "this_year": "올해는",
+    "current_fiscal_quarter": "현재 회계 분기",
+    "current_fiscal_year": "현재 회계 연도",
+    "previous_week": "이전 주",
+    "previous_month": "이전 월",
+    "previous_quarter": "이전 분기",
+    "previous_year": "이전 연도",
+    "previous_fiscal_quarter": "이전 회계 분기",
+    "previous_fiscal_year": "이전 회계 연도",
+    "custom": "사용자 정의"
+  },
+  "taxes": {
+    "title": "세금",
+    "type": "세금 이름",
+    "description": "설명",
+    "percentage": "세금 백분율",
+    "compound_tax": "화합물 세금",
+    "alert_description": "이 세금을 복구할 수 없습니다.",
+    "empty": {
+      "title": "세금 유형이 아직 없습니다!",
+      "description": "이 섹션에는 세금 유형 목록이 포함됩니다.",
+      "button_title": "세금 유형 추가"
+    }
+  },
+  "touch_face_id": {
+    "touch_id": "터치 ID",
+    "face_id": "얼굴 ID",
+    "finger": "핑거프린트",
+    "face": "얼굴",
+    "not_compatible": "장치가 호환되지 않습니다.",
+    "hardware_not_available": "{{type}} 하드웨어를 사용할 수 없습니다.",
+    "activated": "{{type}}이 (가) 활성화됨",
+    "enable_login": "{{type}} 로그인",
+    "enable_login_hint": "이제 {{type}}을 (를) 사용하여 계정에 더 빠르고 쉽게 액세스할 수 있습니다.",
+    "subtitle_1": "애플리케이션을 사용하여 인증",
+    "subtitle_2": "비밀번호를 입력하는 대신 {{type}}을 (를) 사용하십시오.",
+    "login": "{{type}} (으) 로 로그인하십시오."
+  },
+  "file_picker": {
+    "file": "파일을 선택하려면 여기를 클릭하십시오.",
+    "permission": "죄송합니다. 이 작업을 수행하려면 카메라 롤 권한이 필요합니다.",
+    "camera": "카메라",
+    "gallery": "갤러리",
+    "document": "문서"
+  },
+  "send_mail": {
+    "from": "시작",
+    "to": "받기",
+    "subject": "주제",
+    "body": "본문"
+  },
+  "alert": {
+    "title": "확실해요?",
+    "action": {
+      "discard": "버리기",
+      "save_as_draft": "초안으로 저장"
+    }
+  },
+  "button": {
+    "remove": "제거",
+    "save": "저장",
+    "add": "추가",
+    "retry": "재시도",
+    "done": "완료",
+    "clear": "지우기",
+    "view_pdf": "PDF보기",
+    "sing_in": "로그인",
+    "forget": "비밀번호를 잊으셨어요?",
+    "update": "업데이트",
+    "update_capital": "업데이트",
+    "choose_template": "템플릿 선택",
+    "generate_report": " 리포트 생성하기",
+    "recovery_email": "재설정 링크 보내기",
+    "recovery_email_again": "다시 보내기",
+    "cancel": "취소",
+    "send": "보내기",
+    "change": "변경",
+    "set_up_now": "지금 설정하기",
+    "later": "나중에 하겠습니다.",
+    "refresh": "새로 고침",
+    "preview": "미리 보기"
+  },
+  "filter": {
+    "empty": {
+      "filter_title": "결과 없음"
+    }
+  },
+  "search": {
+    "title": "검색",
+    "no_result": "\"{{search}}\" 에 대한 결과가 없음",
+    "no_search_result": "결과 없음"
+  },
+  "validation": {
+    "required": "필수 필드가 비어 있음",
+    "choose": "항목을 하나 이상 선택하십시오.",
+    "email": "올바른 이메일 주소를 입력하십시오.",
+    "password_compare": "암호가 일치하지 않음",
+    "minimum_number": "0보다 커야 함",
+    "maximum_number": "{{maxNumber}} 보다 작아야 합니다.",
+    "maximum_character": "{{fieldName}}은 (는) {{maxCharacter}}자 미만이어야 합니다.",
+    "character": "문자 전용",
+    "numeric": "숫자여야 함",
+    "more_than_due": "{{힌트}} 금액보다 많지 않아야 합니다.",
+    "url": "올바르지 않은 URL (예: https://craterapp.com)",
+    "wrong": "뭔가 잘못되었어요. 다시 한번 해 보세요.",
+    "min_character": "최소 {{minCharacter}} 문자를 입력하십시오.",
+    "cron": "올바른 크론 형식을 입력하십시오."
+  },
+  "company": {
+    "switch_company": "스위치 회사",
+    "add_new_company": "새 회사 추가"
+  },
+  "roles": {
+    "add_new_role": "새 역할 추가하기",
+    "alert_description": "이 역할을 복구할 수 없습니다.",
+    "empty": {
+      "title": "아직 역할이 없어요!",
+      "description": "이 섹션에는 역할 목록이 포함됩니다."
+    },
+    "name": "이름",
+    "permissions": "권한",
+    "select_all": "모두 선택",
+    "none": "없음",
+    "select_role_for": "{{name}}에 대한 역할을 선택하십시오."
+  },
+  "users": {
+    "add_new_user": "새 사용자 추가",
+    "alert_description": "이 사용자를 복구할 수 없습니다.",
+    "empty": {
+      "title": "아직 사용자가 없어요!",
+      "description": "이 섹션에는 사용자 목록이 포함됩니다."
+    },
+    "name": "이름",
+    "email": "전자 우편",
+    "phone": "전화",
+    "password": "암호",
+    "role": "역할",
+    "roles": "역할",
+    "role_placeholder": "역할 선택"
+  },
+  "exchange_rate": {
+    "label": "환율",
+    "selected_currency": "1 {{selectedCurrency}} = ",
+    "exchange_help_text": "{{selected통화스와프}} 에서 {{baseCurrency}} (으) 로 변환할 환율을 입력합니다."
+  },
+  "actions": {
+    "new_estimate": "새 예상",
+    "new_invoice": "새 송장",
+    "new_payment": "새 지불",
+    "new_expense": "새 비용"
+  },
+  "companies": {
+    "empty": {
+      "title": "아직 회사는 없어!",
+      "description": "이 섹션에는 회사 목록이 포함됩니다."
+    }
+  },
+  "notification": {
+    "success": "성공!",
+    "error": "오류!",
+    "login_success": "성공적으로 로그인",
+    "customer_created": "성공적으로 작성된 고객",
+    "customer_updated": "고객 업데이트 성공",
+    "customer_deleted": "고객 삭제 성공",
+    "role_created": "성공적으로 작성된 역할",
+    "role_updated": "성공적으로 역할 업데이트",
+    "role_deleted": "성공적으로 역할 삭제됨",
+    "expense_category_created": "성공적으로 작성된 비용 카테고리",
+    "expense_category_updated": "비용 카테고리가 정상적으로 업데이트됨",
+    "expense_category_deleted": "비용 카테고리가 삭제되었습니다.",
+    "expense_already_in_use": "비용 범주가 이미 사용 중임",
+    "note_created": "성공적으로 작성된 노트",
+    "note_updated": "성공적으로 업데이트됨",
+    "note_deleted": "성공적으로 삭제됨",
+    "note_already_in_use": "참고는 이미 사용 중입니다.",
+    "custom_field_created": "사용자 정의 필드가 작성됨",
+    "custom_field_updated": "사용자 정의 필드가 업데이트됨",
+    "custom_field_deleted": "사용자 정의 필드를 삭제했습니다.",
+    "custom_field_already_in_use": "사용자 정의 필드가 이미 사용 중임",
+    "tax_created": "세금 유형이 작성되었습니다.",
+    "tax_updated": "세금 유형이 갱신되었습니다.",
+    "tax_deleted": "세금 유형이 삭제되었습니다.",
+    "tax_already_in_use": "세금은 이미 사용 중입니다.",
+    "setting_updated": "업데이트 성공",
+    "invoice_setting_updated": "송장 설정이 정상적으로 업데이트됨",
+    "estimate_setting_updated": "예상 설정이 업데이트되었습니다.",
+    "payment_setting_updated": "지불 설정이 갱신되었습니다.",
+    "payment_mode_created": "지불 모드가 성공적으로 작성됨",
+    "payment_mode_updated": "지불 모드가 정상적으로 갱신됨",
+    "payment_mode_deleted": "지불 모드가 정상적으로 삭제됨",
+    "payment_mode_already_in_use": "지불 모드가 이미 사용 중입니다.",
+    "item_unit_created": "항목 단위가 작성되었습니다.",
+    "item_unit_updated": "항목 단위가 갱신되었습니다.",
+    "item_unit_deleted": "항목 단위가 삭제되었습니다.",
+    "item_unit_already_in_use": "품목 단위가 이미 사용 중입니다.",
+    "preference_updated": "환경 설정 업데이트 성공",
+    "company_updated": "성공적으로 업데이트된 회사 정보",
+    "account_updated": "계정 설정이 성공적으로 업데이트됨",
+    "user_created": "사용자가 성공적으로 작성",
+    "user_updated": "사용자 업데이트 성공",
+    "user_deleted": "사용자 삭제 성공",
+    "item_created": "항목 작성 성공",
+    "item_updated": "항목을 정상적으로 갱신",
+    "item_deleted": "항목 삭제 완료",
+    "estimate_created": "성공적으로 작성된 예상",
+    "estimate_updated": "예상 업데이트 성공",
+    "estimate_deleted": "성공적으로 삭제된 예상",
+    "estimate_sent": "예상 성공",
+    "estimate_mark_as_sent": "성공적으로 전송된 것으로 표시된 예상",
+    "estimate_marked_as_accepted": "승인된 것으로 표시된 예상",
+    "estimate_marked_as_rejected": "거부된 것으로 표시된 예상",
+    "expense_created": "성공적으로 작성된 비용",
+    "expense_updated": "비용 업데이트 성공",
+    "expense_deleted": "성공적으로 삭제된 비용",
+    "payment_created": "성공적으로 작성된 지불",
+    "payment_updated": "성공적으로 업데이트된 지불",
+    "payment_deleted": "성공적으로 삭제된 지불",
+    "payment_sent": "지불 성공",
+    "invoice_created": "송장 작성 성공",
+    "invoice_updated": "송장 업데이트 완료",
+    "invoice_deleted": "송장 삭제 성공",
+    "invoice_marked_as_sent": "발송된 것으로 표시된 송장",
+    "invoice_sent": "송장 송신 성공",
+    "invoice_cloned": "복제된 송장 성공",
+    "recurring_invoice_created": "재귀 송장이 작성되었습니다.",
+    "recurring_invoice_updated": "재귀 송장이 갱신되었습니다.",
+    "recurring_invoice_deleted": "재귀 송장이 삭제되었습니다.",
+    "password_reset_link": "비밀번호 재설정 링크가 전송되었습니다.",
+    "company_created": "성공적으로 작성된 회사"
+  }
+}
