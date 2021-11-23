@@ -171,7 +171,7 @@ class Picker extends Component<IProps, IStates> {
       const file = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        quality: 0,
+        quality: 1,
         allowsMultipleSelection: false
       });
 
@@ -196,7 +196,7 @@ class Picker extends Component<IProps, IStates> {
       const file = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        quality: 0
+        quality: 1
       });
 
       this.onSelect(file, action, res => {

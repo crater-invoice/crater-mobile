@@ -1,19 +1,23 @@
 import React, {Component} from 'react';
 import {TouchableOpacity, View} from 'react-native';
+import {connect} from 'react-redux';
 import styles from './styles';
 import {Icon} from 'react-native-elements';
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
+import {commonSelector} from 'stores/common/selectors';
 import {IProps} from './type.d';
 import {
   SlideModal,
   AssetImage,
   BaseSelect,
   BaseButtonGroup,
-  BaseButton
+  BaseButton,
+  CacheImage
 } from '@/components';
+import {isEmpty} from '@/constants';
 
-export class TemplateField extends Component<IProps> {
+class Template extends Component<IProps> {
   constructor(props) {
     super(props);
 
@@ -89,7 +93,8 @@ export class TemplateField extends Component<IProps> {
       placeholder,
       meta,
       disabled,
-      isRequired = false
+      isRequired = false,
+      theme
     } = this.props;
 
     const {visible, selectedTemplate: {name} = {}} = this.state;
@@ -131,34 +136,44 @@ export class TemplateField extends Component<IProps> {
           bottomAction={bottomAction}
         >
           <View style={styles.imageList}>
-            {templates &&
-              templates.map((val, index) => (
-                <TouchableOpacity
-                  onPress={() => this.onTemplateSelect(val)}
-                  key={index}
-                  activeOpacity={0.7}
-                >
-                  <View style={styles.imageContainer}>
-                    <AssetImage
-                      uri
-                      source={val.path}
-                      style={[styles.image, name === val.name && styles.active]}
-                    />
-                    {name === val.name && (
-                      <Icon
-                        name="check"
-                        size={18}
-                        iconStyle={styles.iconStyle}
-                        color={colors.white}
-                        containerStyle={styles.iconContainer}
+            {!isEmpty(templates)
+              ? templates.map((val, index) => (
+                  <TouchableOpacity
+                    onPress={() => this.onTemplateSelect(val)}
+                    key={index}
+                    activeOpacity={0.9}
+                  >
+                    <View style={styles.imageContainer}>
+                      <CacheImage
+                        uri={val.path}
+                        imageName={val.name}
+                        resizeMode="cover"
+                        style={[
+                          styles.image,
+                          name === val.name && styles.active
+                        ]}
+                        theme={theme}
                       />
-                    )}
-                  </View>
-                </TouchableOpacity>
-              ))}
+                      {name === val.name && (
+                        <Icon
+                          name="check"
+                          size={18}
+                          iconStyle={styles.iconStyle}
+                          color={colors.white}
+                          containerStyle={styles.iconContainer}
+                        />
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                ))
+              : null}
           </View>
         </SlideModal>
       </View>
     );
   }
 }
+
+const mapStateToProps = state => commonSelector(state);
+
+export const TemplateField = connect(mapStateToProps)(Template);

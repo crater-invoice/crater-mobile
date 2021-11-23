@@ -1,11 +1,6 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import {
-  View,
-  ActivityIndicator,
-  TouchableOpacity,
-  Animated
-} from 'react-native';
+import {View, ActivityIndicator, TouchableOpacity, Image} from 'react-native';
 import {BASE_DIR, getPath} from './cache-manager';
 import {hasValue} from '@/constants';
 import styles from './cache-image-style';
@@ -19,17 +14,17 @@ export class CacheImage extends React.Component<IProps, IStates> {
   processInterval: any;
   underProcessingCounter: number;
   _isMounted = false;
+  isLoaded = false;
 
   constructor(props) {
     super(props);
     this.underProcessingCounter = 0;
+    this.isLoaded = false;
 
     this.state = {
       uri: undefined,
       downloadFail: false,
-      height: props?.temporaryHeight,
-      isLoaded: false,
-      opacityAnimate: new Animated.Value(0)
+      height: props?.temporaryHeight
     };
   }
 
@@ -60,14 +55,6 @@ export class CacheImage extends React.Component<IProps, IStates> {
       const path = await getPath(uri, imageName, this._isMounted);
       this.setFileUri(path, uri);
     }
-  };
-
-  initialAnimation = () => {
-    Animated.timing(this.state.opacityAnimate, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: true
-    }).start(() => {});
   };
 
   async load({uri, imageName}: IProps): Promise<void> {
@@ -146,26 +133,22 @@ export class CacheImage extends React.Component<IProps, IStates> {
       theme
     } = this.props;
 
-    const {uri, downloadFail, height, isLoaded, opacityAnimate} = this.state;
+    const {uri, downloadFail, height} = this.state;
 
     const imageStyle: any = [
       styles.image(theme),
       style,
       findImageHeight && {height},
-      findImageHeight && height === minHeight && minHeightStyle,
-      {opacity: opacityAnimate}
+      findImageHeight && height === minHeight && minHeightStyle
     ];
 
     const loaderProps: any = {
-      onLoadEnd: () => {
-        this.setState({isLoaded: true});
-        this.initialAnimation();
-      }
+      onLoadEnd: () => (this.isLoaded = true)
     };
 
     const loader = (
       <ActivityIndicator
-        size={'large'}
+        size={'small'}
         color={colors.primary}
         style={[
           styles.loader(theme),
@@ -182,7 +165,7 @@ export class CacheImage extends React.Component<IProps, IStates> {
         {loader}
 
         {downloadFail && (
-          <Animated.Image
+          <Image
             source={{uri: this.props.uri}}
             style={imageStyle}
             resizeMode={resizeMode}
@@ -194,7 +177,7 @@ export class CacheImage extends React.Component<IProps, IStates> {
         )}
 
         {!downloadFail && hasValue(uri) && (
-          <Animated.Image
+          <Image
             source={{uri}}
             style={imageStyle}
             resizeMode={resizeMode}
@@ -214,7 +197,7 @@ export class CacheImage extends React.Component<IProps, IStates> {
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={() =>
-            isLoaded &&
+            this.isLoaded &&
             onPress?.({
               height,
               uri,
