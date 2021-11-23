@@ -12,6 +12,7 @@ import ko from './ko.json';
 import lv from './lv.json';
 import sr from './sr.json';
 import sv from './sv.json';
+import nl from './nl.json';
 
 Lng.fallbacks = true;
 
@@ -26,7 +27,8 @@ Lng.translations = {
   ko, //  Korean,
   lv, // Latvian
   sr, // Serbian
-  sv // Swedish
+  sv, // Swedish
+  nl // Dutch
 };
 
 Lng.locale = Localization.locale;
