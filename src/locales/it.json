@@ -399,7 +399,7 @@
     "expense_category": "Categorie Spese",
     "payment_modes": "Modalità Pagamento",
     "item_units": "Unità di item",
-    "touch_or_Face_id": "ID touch \/ Face",
+    "touch_or_Face_id": "ID touch / Face",
     "endpoint": "Endpoint API",
     "company": {
       "name": "Nome azienda",
@@ -473,7 +473,7 @@
   "endpoint": {
     "endpoint_url": "URL endpoint",
     "endpoint_desc": "Sopra URL verrà utilizzato per connettersi con la vostra installazione autoalimentata di cratere.",
-    "url_placeholder": "Eg: https:\/\/craterapp.com",
+    "url_placeholder": "Eg: https://craterapp.com",
     "alert_invalid_url": "URL non valido"
   },
   "estimates": {
@@ -723,7 +723,7 @@
     "character": "Solo caratteri",
     "numeric": "deve essere numerico",
     "more_than_due": "{{hint}} Non dovrebbe essere più di A scadenza Importo.",
-    "url": "Url non valido (eg: https:\/\/craterapp.com)",
+    "url": "Url non valido (eg: https://craterapp.com)",
     "wrong": "Qualcosa è andato storto. Per favore, riprova.",
     "min_character": "Si prega di inserire almeno {{{minCharacter}} caratteri",
     "cron": "Si prega di inserire un formato cron valido."

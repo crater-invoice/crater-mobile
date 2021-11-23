@@ -399,7 +399,7 @@
     "expense_category": "Catégories de dépenses",
     "payment_modes": "Modes de paiement",
     "item_units": "Unités d'article",
-    "touch_or_Face_id": "ID contact \/ face",
+    "touch_or_Face_id": "ID contact / face",
     "endpoint": "Noeud final d'API",
     "company": {
       "name": "Nom de l'entreprise",
@@ -473,7 +473,7 @@
   "endpoint": {
     "endpoint_url": "URL du noeud final",
     "endpoint_desc": "Au-dessus de l'URL sera utilisé pour vous connecter avec votre installation auto-hébergée de cratère.",
-    "url_placeholder": "Eg: https:\/\/craterapp.com",
+    "url_placeholder": "Eg: https://craterapp.com",
     "alert_invalid_url": "URL non valide"
   },
   "estimates": {
@@ -723,7 +723,7 @@
     "character": "Caractères uniquement",
     "numeric": "Doit être numérique",
     "more_than_due": "{ { hint } } ne doit pas être supérieur à la quantité d'échéance.",
-    "url": "URL non valide (par exemple: https:\/\/craterapp.com)",
+    "url": "URL non valide (par exemple: https://craterapp.com)",
     "wrong": "Quelque chose s'est mal passé. Veuillez réessayer.",
     "min_character": "Entrez au moins { { minCharacter } } caractères",
     "cron": "Entrez un format cron valide."

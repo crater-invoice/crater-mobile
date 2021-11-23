@@ -399,7 +399,7 @@
     "expense_category": "Categorías de gastos",
     "payment_modes": "Modos de pago",
     "item_units": "Unidades de artículo",
-    "touch_or_Face_id": "Touch\/Face ID",
+    "touch_or_Face_id": "Touch/Face ID",
     "endpoint": "Punto final API",
     "company": {
       "name": "Nombre de empresa",
@@ -473,7 +473,7 @@
   "endpoint": {
     "endpoint_url": "Dirección URL",
     "endpoint_desc": "El URL anterior se utilizará para conectar con la instalación autoalojada del cráter.",
-    "url_placeholder": "Por ejemplo: https:\/\/craterapp.com",
+    "url_placeholder": "Por ejemplo: https://craterapp.com",
     "alert_invalid_url": "URL no válido"
   },
   "estimates": {
@@ -723,7 +723,7 @@
     "character": "Sólo caracteres",
     "numeric": "debe ser numérico",
     "more_than_due": "{{sugerencia}} No debe ser más que la cantidad debida.",
-    "url": "Url no válido (por ejemplo: https:\/\/craterapp.com)",
+    "url": "Url no válido (por ejemplo: https://craterapp.com)",
     "wrong": "Algo salió mal. Por favor, inténtelo de nuevo.",
     "min_character": "Especifique al menos {{minCharacter}} caracteres",
     "cron": "Especifique un formato cron válido."
