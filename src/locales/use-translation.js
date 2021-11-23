@@ -14,6 +14,7 @@ import sr from './sr.json';
 import sv from './sv.json';
 import nl from './nl.json';
 import ja from './ja.json';
+import vi from './vi.json';
 
 Lng.fallbacks = true;
 
@@ -30,7 +31,8 @@ Lng.translations = {
   sr, // Serbian
   sv, // Swedish
   nl, // Dutch
-  ja // Japanese
+  ja, // Japanese
+  vi // Vietnamese
 };
 
 Lng.locale = Localization.locale;
