@@ -31,7 +31,8 @@ import {
   addPayment,
   updatePayment,
   fetchSinglePayment,
-  fetchPaymentInitialDetails
+  fetchPaymentInitialDetails,
+  fetchNextPaymentNumber
 } from 'stores/payment/actions';
 import {
   checkExchangeRate,
@@ -99,7 +100,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
         invoice: {invoice_number: invoice?.number}
       };
       customerCurrency = invoice?.customer?.currency;
-
+      this.fetchNextPaymentNumber(invoice?.customer_id);
       await this.setState({
         selectedCustomer: invoice?.customer,
         selectedInvoice: invoice?.due
@@ -111,6 +112,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
       data = {...data, customer_id: customer.id};
       await this.setState({selectedCustomer: customer});
       customerCurrency = customer.currency;
+      this.fetchNextPaymentNumber(customer.id);
     }
     customerCurrency &&
       (await this.checkExchangeRateProvider(customerCurrency));
@@ -176,6 +178,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
         onSelect: customer => {
           this.customerReference?.changeDisplayValue?.(customer);
           this.onCustomerSelect(customer);
+          this.fetchNextPaymentNumber(customer.id);
         }
       });
     });
@@ -185,6 +188,12 @@ export default class CreatePayment extends Component<IProps, IStates> {
     this.setFormField(`invoice_id`, invoice?.id);
     this.setFormField(`amount`, invoice?.due_amount);
     this.setState({selectedInvoice: invoice});
+  };
+
+  fetchNextPaymentNumber = id => {
+    const onSuccess = nextNumber =>
+      this.setFormField('payment_number', nextNumber);
+    this.props.dispatch(fetchNextPaymentNumber(id, onSuccess));
   };
 
   onCustomerSelect = customer => {
@@ -199,7 +208,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
     this.invoiceReference?.changeDisplayValue?.(null);
     this.setFormField(`amount`, null);
     this.setFormField(`invoice_id`, null);
-
+    this.fetchNextPaymentNumber(customer.id);
     this.setExchangeRate(customer.currency);
   };
 

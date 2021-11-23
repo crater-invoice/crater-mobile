@@ -52,6 +52,18 @@ function* fetchInvoiceInitialDetails({payload}) {
 }
 
 /**
+ * Fetch next invoice number saga
+ * @returns {IterableIterator<*>}
+ */
+function* fetchNextInvoiceNumber({payload = {}}) {
+  try {
+    const {userId = null, onSuccess} = payload;
+    const {nextNumber} = yield call(req.fetchNextInvoiceNumber, userId);
+    onSuccess?.(nextNumber);
+  } catch (e) {}
+}
+
+/**
  * Fetch invoices saga
  * @returns {IterableIterator<*>}
  */
@@ -213,6 +225,7 @@ function* sendInvoice({payload}) {
 export default function* invoiceSaga() {
   yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchInvoiceInitialDetails);
   yield takeLatest(types.FETCH_INVOICES, fetchInvoices);
+  yield takeEvery(types.FETCH_NEXT_INVOICE_NUMBER, fetchNextInvoiceNumber);
   yield takeLatest(types.FETCH_SINGLE_INVOICE, fetchSingleInvoice);
   yield takeLatest(types.ADD_INVOICE, addInvoice);
   yield takeLatest(types.UPDATE_INVOICE, updateInvoice);

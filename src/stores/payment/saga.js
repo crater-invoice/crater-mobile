@@ -55,6 +55,18 @@ function* fetchPaymentInitialDetails({payload}) {
 }
 
 /**
+ * Fetch next payment number saga
+ * @returns {IterableIterator<*>}
+ */
+function* fetchNextPaymentNumber({payload = {}}) {
+  try {
+    const {userId = null, onSuccess} = payload;
+    const {nextNumber} = yield call(req.fetchNextPaymentNumber, userId);
+    onSuccess?.(nextNumber);
+  } catch (e) {}
+}
+
+/**
  * Add payment saga
  * @returns {IterableIterator<*>}
  */
@@ -162,6 +174,7 @@ export default function* paymentSaga() {
   yield takeLatest(types.FETCH_PAYMENTS, fetchPayments);
   yield takeLatest(types.FETCH_SINGLE_PAYMENT, fetchSinglePayment);
   yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchPaymentInitialDetails);
+  yield takeLatest(types.FETCH_NEXT_PAYMENT_NUMBER, fetchNextPaymentNumber);
   yield takeLatest(types.ADD_PAYMENT, addPayment);
   yield takeLatest(types.UPDATE_PAYMENT, updatePayment);
   yield takeLatest(types.REMOVE_PAYMENT, removePayment);
