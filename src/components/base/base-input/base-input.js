@@ -261,6 +261,14 @@ class TextInput extends Component<IProps> {
           onSubmitEditing={e => onSubmitEditing?.(e.nativeEvent.text)}
           placeholder={placeholder}
           keyboardType={this.props.keyboardType ?? keyboardType.DEFAULT}
+          {...(this.props.keyboardType &&
+            (this.props.keyboardType === keyboardType.EMAIL ||
+              this.props.keyboardType === keyboardType.URL) && {
+              autoCapitalize: 'none'
+            })}
+          {...(secureTextEntry && {
+            autoCapitalize: 'none'
+          })}
           {...inputProps}
           {...methods}
           onChangeText={enteredValue => {
