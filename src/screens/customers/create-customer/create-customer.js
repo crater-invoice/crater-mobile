@@ -244,7 +244,7 @@ export default class CreateCustomer extends Component<IProps, IStates> {
           rightIcon="angle-right"
           placeholder={t('customers.billing_address')}
           values={isAddress(billing) && t('customers.billing_address')}
-          containerStyle={styles.billing}
+          containerStyle={styles.billing(theme)}
           onChangeCallback={() => this.navigateToAddress('billing')}
         />
 
@@ -253,7 +253,7 @@ export default class CreateCustomer extends Component<IProps, IStates> {
           rightIcon="angle-right"
           placeholder={t('customers.shipping_address')}
           values={isAddress(shipping) && t('customers.shipping_address')}
-          containerStyle={styles.shipping}
+          containerStyle={styles.shipping(theme)}
           onChangeCallback={() => this.navigateToAddress('shipping')}
         />
       </DefaultLayout>

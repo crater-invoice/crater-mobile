@@ -178,7 +178,7 @@ export default class Address extends Component<IProps, IStates> {
           placeholder={t('customers.address.street_2')}
           inputProps={{multiline: true}}
           height={60}
-          containerStyle={{marginTop: -20}}
+          containerStyle={{marginTop: -15}}
           disabled={disabled}
         />
 

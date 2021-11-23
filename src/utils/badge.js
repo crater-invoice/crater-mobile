@@ -2,12 +2,12 @@ import {colors} from '@/styles';
 
 export const BADGE_STATUS_BG_COLOR = {
   ON_HOLD: {
-    light: colors.dangerLight,
-    dark: colors.danger
+    light: colors.warningLight,
+    dark: colors.warningDark
   },
   ACTIVE: {
-    light: colors.successLight2,
-    dark: colors.success
+    light: colors.infoLight,
+    dark: colors.infoLight
   },
   DRAFT: {
     light: colors.warningLight,
@@ -60,9 +60,13 @@ export const BADGE_STATUS_BG_COLOR = {
 };
 
 export const BADGE_STATUS_TEXT_COLOR = {
+  ON_HOLD: {
+    light: colors.warningDark,
+    dark: colors.warningDark2
+  },
   ACTIVE: {
-    light: colors.successDark,
-    dark: colors.success
+    light: colors.infoDark,
+    dark: colors.infoLight
   },
   DRAFT: {
     light: colors.warningDark,
