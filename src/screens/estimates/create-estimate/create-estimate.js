@@ -52,7 +52,8 @@ import {
   changeEstimateStatus,
   removeEstimate,
   addEstimate,
-  updateEstimate
+  updateEstimate,
+  fetchNextEstimateNumber
 } from 'stores/estimate/actions';
 import {
   checkExchangeRate,
@@ -114,6 +115,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
         customer_id: customer.id
       };
       customerCurrency = customer.currency;
+      this.fetchNextEstimateNumber(customer.id);
     }
     customerCurrency &&
       (await this.checkExchangeRateProvider(customerCurrency));
@@ -357,6 +359,13 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
     this.setFormField('exchange_rate', null);
     this.setFormField('customer_id', item.id);
     this.setExchangeRate(item.currency);
+    this.fetchNextEstimateNumber(item.id);
+  };
+
+  fetchNextEstimateNumber = id => {
+    const onSuccess = nextNumber =>
+      this.setFormField('estimate_number', nextNumber);
+    this.props.dispatch(fetchNextEstimateNumber(id, onSuccess));
   };
 
   setExchangeRate = (customerCurrency, onResult) => {

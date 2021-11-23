@@ -41,7 +41,8 @@ import {
   fetchSingleInvoice,
   updateInvoice,
   changeInvoiceStatus,
-  removeInvoice
+  removeInvoice,
+  fetchNextInvoiceNumber
 } from 'stores/invoice/actions';
 import {
   checkExchangeRate,
@@ -102,6 +103,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         customer_id: customer.id
       };
       customerCurrency = customer.currency;
+      this.fetchNextInvoiceNumber(customer.id);
     }
     customerCurrency &&
       (await this.checkExchangeRateProvider(customerCurrency));
@@ -327,6 +329,13 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     this.setFormField('exchange_rate', null);
     this.setFormField('customer_id', item.id);
     this.setExchangeRate(item.currency);
+    this.fetchNextInvoiceNumber(item.id);
+  };
+
+  fetchNextInvoiceNumber = id => {
+    const onSuccess = nextNumber =>
+      this.setFormField('invoice_number', nextNumber);
+    this.props.dispatch(fetchNextInvoiceNumber(id, onSuccess));
   };
 
   setExchangeRate = (customerCurrency, onResult) => {

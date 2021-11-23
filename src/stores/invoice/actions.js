@@ -22,6 +22,17 @@ export const fetchInvoiceInitialDetails = payload => ({
 });
 
 /**
+ * Fetch next invoice number
+ * @param userId user id
+ * @param onSuccess
+ * @returns {{type: string, payload: *}}
+ */
+export const fetchNextInvoiceNumber = (userId, onSuccess) => ({
+  type: types.FETCH_NEXT_INVOICE_NUMBER,
+  payload: {userId, onSuccess}
+});
+
+/**
  * Fetch invoices
  * @param payload
  * @returns {{type: string, payload: *}}

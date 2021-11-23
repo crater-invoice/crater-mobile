@@ -53,6 +53,18 @@ function* fetchEstimateInitialDetails({payload}) {
 }
 
 /**
+ * Fetch next estimate number saga
+ * @returns {IterableIterator<*>}
+ */
+function* fetchNextEstimateNumber({payload = {}}) {
+  try {
+    const {userId = null, onSuccess} = payload;
+    const {nextNumber} = yield call(req.fetchNextEstimateNumber, userId);
+    onSuccess?.(nextNumber);
+  } catch (e) {}
+}
+
+/**
  * Fetch estimates saga
  * @returns {IterableIterator<*>}
  */
@@ -228,6 +240,7 @@ function* sendEstimate({payload}) {
 
 export default function* estimateSaga() {
   yield takeLatest(types.FETCH_INITIAL_DETAILS, fetchEstimateInitialDetails);
+  yield takeEvery(types.FETCH_NEXT_ESTIMATE_NUMBER, fetchNextEstimateNumber);
   yield takeLatest(types.FETCH_ESTIMATES, fetchEstimates);
   yield takeLatest(types.FETCH_SINGLE_ESTIMATE, fetchSingleEstimate);
   yield takeLatest(types.ADD_ESTIMATE, addEstimate);

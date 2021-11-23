@@ -11,6 +11,7 @@ export const FETCH_INVOICES = 'invoice/FETCH_INVOICES';
 export const FETCH_INVOICES_SUCCESS = 'invoice/FETCH_INVOICES_SUCCESS';
 
 export const FETCH_SINGLE_INVOICE = 'invoice/FETCH_SINGLE_INVOICE';
+export const FETCH_NEXT_INVOICE_NUMBER = 'invoice/FETCH_NEXT_INVOICE_NUMBER';
 
 export const ADD_INVOICE = 'invoice/ADD_INVOICE';
 export const ADD_INVOICE_SUCCESS = 'invoice/ADD_INVOICE_SUCCESS';

@@ -22,6 +22,17 @@ export const fetchEstimateInitialDetails = payload => ({
 });
 
 /**
+ * Fetch next estimate number
+ * @param userId customer id
+ * @param onSuccess
+ * @returns {{type: string, payload: *}}
+ */
+export const fetchNextEstimateNumber = (userId, onSuccess) => ({
+  type: types.FETCH_NEXT_ESTIMATE_NUMBER,
+  payload: {userId, onSuccess}
+});
+
+/**
  * Fetch estimates
  * @param payload
  * @returns {{type: string, payload: *}}

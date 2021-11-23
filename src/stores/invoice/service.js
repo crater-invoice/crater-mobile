@@ -67,10 +67,11 @@ export const removeInvoice = id => {
 
 /**
  * Fetch next invoice number
+ * @param id : customer id
  * @returns {*}
  */
-export const fetchNextInvoiceNumber = () => {
-  return Request.get(`/next-number?key=invoice`);
+export const fetchNextInvoiceNumber = id => {
+  return Request.get(`/next-number?key=invoice&userId=${id}`);
 };
 
 /**

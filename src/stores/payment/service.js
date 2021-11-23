@@ -68,8 +68,9 @@ export const fetchUnpaidInvoices = q => {
 
 /**
  * Fetch next payment number
+ * @param id : customer id
  * @returns {*}
  */
-export const fetchNextPaymentNumber = () => {
-  return Request.get(`/next-number?key=payment`);
+export const fetchNextPaymentNumber = id => {
+  return Request.get(`/next-number?key=payment&userId=${id}`);
 };
