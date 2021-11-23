@@ -69,11 +69,7 @@ export default class CreateExpense extends React.Component<IProps, IStates> {
     const {isEditScreen, id, dispatch} = this.props;
 
     if (isEditScreen) {
-      dispatch(
-        fetchSingleExpense(id, (res, receipt) =>
-          this.setInitialData(res, receipt)
-        )
-      );
+      dispatch(fetchSingleExpense(id, this.setInitialData));
       return;
     }
 
@@ -147,14 +143,12 @@ export default class CreateExpense extends React.Component<IProps, IStates> {
   };
 
   onOptionSelect = action => {
-    const {endpointURL, id} = this.props;
-
     switch (action) {
       case ACTIONS_VALUE.REMOVE:
         return this.removeExpense();
 
       case ACTIONS_VALUE.DOWNLOAD:
-        return Linking.openURL(`${endpointURL}/expenses/${id}/receipt`);
+        return Linking.openURL(this.state.imageUrl);
 
       default:
         break;

@@ -228,7 +228,7 @@ class TextInput extends Component<IProps> {
           ]}
           {...icons}
           inputStyle={[
-            styles.input(theme),
+            styles.input(theme, !!icons.leftIcon),
             {
               color: theme?.input?.color
             },
@@ -236,7 +236,7 @@ class TextInput extends Component<IProps> {
             rightSymbol && styles.withRightSymbolText,
             active && styles.activeInput,
             textColor && {color: textColor},
-            textStyle && textStyle,
+            textStyle,
             height && {height},
             inputProps?.multiline && styles.multilineField
           ]}

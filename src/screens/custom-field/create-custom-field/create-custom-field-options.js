@@ -46,7 +46,7 @@ export default props => {
       name="default_answer"
       component={BaseInput}
       hint={t('custom_fields.default_value')}
-      keyboardType={keyboardType.NUMERIC}
+      keyboardType={keyboardType.DECIMAL}
       disabled={!isAllowToEdit}
     />
   );

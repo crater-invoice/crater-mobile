@@ -43,7 +43,7 @@ export const updateUserSettings = settings => {
 export const uploadAvatar = avatar => {
   return Request.post(
     `/me/upload-avatar`,
-    {image: avatar},
-    {imageName: 'admin_avatar'}
+    {},
+    {image: avatar, imageName: 'avatar'}
   );
 };

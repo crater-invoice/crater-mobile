@@ -60,7 +60,7 @@ export default class Request {
     formData.append(
       imageName,
       JSON.stringify({
-        name: `${imageName}.${fileType}`,
+        name: uri.includes('.') ? `${imageName}.${fileType}` : `${imageName}`,
         data: image.base64.trimRight()
       })
     );
