@@ -11,6 +11,7 @@ import {fetchTaxes} from 'stores/tax-type/actions';
 import {unitsSelector} from 'stores/item-unit/selectors';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 import {withExchangedAmount} from '@/utils';
+import {round} from 'lodash';
 
 const mapStateToProps = (state, {route}) => {
   const {invoice, estimate, recurringInvoice} = state;
@@ -23,8 +24,8 @@ const mapStateToProps = (state, {route}) => {
   const isItemScreen = screen === 'item';
   const price =
     isItemScreen || type !== 'ADD'
-      ? item?.price
-      : withExchangedAmount(item?.price);
+      ? round(item?.price)
+      : round(withExchangedAmount(item?.price));
 
   return {
     loading:
