@@ -65,16 +65,13 @@ export default class Invoices extends React.Component<IProps, IStates> {
   };
 
   onSelect = invoice => {
-    const {navigation, selectedRetrospectiveEdits} = this.props;
-    const {id, status, paid_status, allow_edit} = invoice;
+    const {navigation} = this.props;
+    const {id, allow_edit} = invoice;
 
     navigation.navigate(routes.CREATE_INVOICE, {
       id,
-      status,
-      paid_status,
       allow_edit,
-      type: 'UPDATE',
-      selectedRetrospectiveEdits
+      type: 'UPDATE'
     });
   };
 
