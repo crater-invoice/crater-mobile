@@ -1,0 +1,853 @@
+{
+  "header": {
+    "invoices": "Faturas",
+    "add_invoice": "Adicionar Fatura",
+    "edit_invoice": "Editar Fatura",
+    "recurring_invoices": "Faturas recorrentes",
+    "recurring_invoice": "Fatura Recorrente",
+    "add_recurring_invoice": "Adicionar Fatura Recorrente",
+    "edit_recurring_invoice": "Editar Fatura Recorrente",
+    "view_recurring_invoice": "Visualizar Fatura Recorrente",
+    "estimates": "Estimativas",
+    "add_estimate": "Adicionar Estimativa",
+    "edit_estimate": "Editar Estimativa",
+    "template": "Selecione um Modelo",
+    "customers": "Clientes",
+    "add_customer": "Adicionar Cliente",
+    "edit_customer": "Editar Cliente",
+    "billing_address": "Endereço de Faturamento",
+    "shipping_address": "Endereço de remessa",
+    "country": "Selecionar País",
+    "payments": "Pagamentos",
+    "add_payment": "Adicionar Pagamento",
+    "edit_payment": "Editar Pagamento",
+    "expenses": "Despesas",
+    "add_expense": "Adicionar Despesa",
+    "edit_expense": "Editar Despesa",
+    "more": "Mais",
+    "expense_category": "Categorias De Despesas",
+    "add_category": "Adicionar Categoria",
+    "edit_category": "Editar Categoria",
+    "add_note": "Adicionar Nota",
+    "edit_note": "Editar Nota",
+    "settings": "Configurações",
+    "notifications": "Notificação",
+    "setting": {
+      "company": "Informações da Empresa",
+      "account": "Configurações da Conta",
+      "preferences": "Preferências"
+    },
+    "taxes": "Tipos de impostos",
+    "add_tax": "Incluir Imposto",
+    "edit_tax": "Editar Imposto",
+    "add_item": "Adicionar Item",
+    "edit_item": "Editar Item",
+    "items": "Itens",
+    "item_units": "Unidades De Itens",
+    "payment_modes": "Modos De Pagamento",
+    "reports": "Relatórios",
+    "sales_report": "Relatório de vendas",
+    "profit_and_lossReport": "Relatório de Resultados & Perdas",
+    "expenses_report": "Relatório de Despesas",
+    "taxes_report": "Relatório de impostos",
+    "filter": "Filtros",
+    "back": "Voltar",
+    "send_mail_invoice": "Enviar Fatura",
+    "send_mail_estimate": "Enviar Estimativa",
+    "send_mail_payment": "Enviar Pagamento",
+    "custom_fields": "Campos Personalizados",
+    "add_custom_field": "Adicionar Campo Personalizado",
+    "edit_custom_field": "Editar Campo Personalizado",
+    "notes": "Notas",
+    "view_customer": "Visualizar Cliente",
+    "view_payment": "Pagamento de Vista",
+    "view_expense": "Visualizar Despesa",
+    "view_invoice": "Visualizar Fatura",
+    "view_estimate": "Estimativa De Visualização",
+    "view_item": "Item de Visualização",
+    "view_tax": "Imposto de Visualização",
+    "view_custom_field": "Visualizar Campo Personalizado",
+    "view_note": "Nota de Visualização",
+    "view_category": "Categoria de Visualização",
+    "view_unit": "Unidade de Item de Visualização",
+    "view_payment_mode": "Visualizar Modo de Pagamento",
+    "add_company": "Adicionar Empresa",
+    "roles": "Funções e Permissão",
+    "add_role": "Adicionar Função",
+    "edit_role": "Editar Função",
+    "view_role": "Função de Visualização",
+    "users": "Usuários",
+    "add_user": "Adicionar Usuário",
+    "edit_user": "Editar Usuário",
+    "view_user": "Visualizar Usuário",
+    "companies": "Empresas"
+  },
+  "tab_navigation": {
+    "invoices": "Faturas",
+    "customers": "Clientes",
+    "payments": "Pagamentos",
+    "expenses": "Despesas",
+    "more": "Mais"
+  },
+  "invoices": {
+    "title": "Selecionar Fatura",
+    "tabs": {
+      "due": "Devido",
+      "draft": "Rascunho",
+      "all": "TODOS"
+    },
+    "invoice_date": "Data Fatura",
+    "due_date": "Data de vencimento",
+    "discount": "DESCONTO",
+    "invoice_number": "Número da F",
+    "reference_number": "Número de Referência",
+    "template": "Modelo",
+    "template_placeholder": "Selecionar ou Adicionar um novo Modelo",
+    "customer": "Cliente",
+    "customer_placeholder": "Selecionar ou Adicionar novo Cliente",
+    "items": "Itens",
+    "subtotal": "SUBTOTAL",
+    "total_amount": "MONTANTE TOTAL",
+    "status": "Status",
+    "status_placeholder": "Selecione um Status",
+    "from_date": "Da Data",
+    "to_date": "Até Data",
+    "alert": {
+      "less_amount": "Valor Total não deve menos de 0",
+      "remove_description": "Você não será capaz de recuperar esta Invoice",
+      "draft_title": "Salvar mudanças?",
+      "clone": "Esta fatura será clonada em uma nova Invoice",
+      "send_invoice": "Esta fatura será enviada via e-mail para o cliente",
+      "mark_as_sent": "Esta fatura será marcada como enviado"
+    },
+    "empty": {
+      "due": {
+        "title": "Você não tem faturas devidas",
+        "description": "Esta seção conterá a lista de faturas devidas."
+      },
+      "draft": {
+        "title": "Você não tem nenhum rascunho de faturas",
+        "description": "Esta seção conterá a lista de faturas de rascunho."
+      },
+      "all": {
+        "title": "Você não criou nenhuma fatura"
+      },
+      "title": "Sem faturas ainda!",
+      "description": "Esta seção conterá a lista de faturas.",
+      "button_title": "Adicionar Nova Fatura"
+    },
+    "actions": {
+      "send_invoice": "Enviar Fatura",
+      "resend_invoice": "Reterminar Fatura",
+      "delete": "Excluir",
+      "record_payment": "Pagamento de Registro",
+      "mark_as_sent": "Marcar Como Enviado",
+      "clone": "Fatura Clone"
+    }
+  },
+  "recurring_invoices": {
+    "start_date": "Data de Início",
+    "next_invoice_at": "Próxima Fatura Em",
+    "limit_by": "Limite por",
+    "select_frequency": "Selecionar Frequência",
+    "display_frequency": "Frequência",
+    "basic_info": "INFO BÁSICO",
+    "invoices": "FATURAS",
+    "alert_description": "Você não será capaz de recuperar esta Fatura Recorrente",
+    "from_start_at_date": "Do Início Na Data",
+    "to_start_at_date": "Para Iniciar À Data",
+    "auto_sent": {
+      "label": "Enviar Fatura Automaticamente",
+      "description": "Ative isso, se você gostaria de enviar a fatura automaticamente para o cliente quando sua criada."
+    },
+    "status": {
+      "title": "Status",
+      "placeholder": "Selecione um Status",
+      "empty": {
+        "title": "Você não tem nenhum status",
+        "description": "Esta seção conterá a lista de status."
+      }
+    },
+    "tabs": {
+      "active": "Ativo",
+      "on_hold": "Em Hold",
+      "all": "Todos"
+    },
+    "empty": {
+      "active": {
+        "title": "Você não tem faturas recorrentes ativas",
+        "description": "Esta seção conterá a lista de faturas recorrentes ativas."
+      },
+      "on_hold": {
+        "title": "Você não tem faturas recorrentes retidas",
+        "description": "Esta seção conterá a lista de faturas recorrentes mantidas."
+      },
+      "all": {
+        "title": "Você não criou nenhuma fatura recorrente"
+      },
+      "title": "Sem faturas recorrentes ainda!",
+      "description": "Esta seção conterá a lista de faturas recorrentes.",
+      "button_title": "Adicionar Nova Fatura Recorrente"
+    },
+    "limit_types": {
+      "none": "Nenhum",
+      "date": "Data do Limite",
+      "count": "Contagem"
+    },
+    "frequencies": {
+      "custom": "Costume",
+      "every_minute": "A Cada Minuto",
+      "every_30_minute": "A cada 30 Minute",
+      "every_hour": "A Cada Hora",
+      "every_2_hour": "A cada 2 Horas",
+      "twice_a_day": "Duas vezes Por Dia",
+      "every_week": "Cada Semana",
+      "every_15_days": "A cada 15 Dias",
+      "first_day_of_month": "Primeiro Dia Do Mês",
+      "every_6_month": "A cada 6 Mês",
+      "every_year": "Todos os anos"
+    },
+    "dropdown": {
+      "edit": "Editar",
+      "delete": "Excluir"
+    }
+  },
+  "customers": {
+    "display_name": "Nome do display",
+    "contact_name": "Nome do Contato Principal",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "website": "Website",
+    "billing_address": "Endereço de Faturamento",
+    "shipping_address": "Endereço de remessa",
+    "customer": "Cliente",
+    "filter_display_name": "Nome do display",
+    "filter_contact_name": "Nome do contato",
+    "alert_description": "Você não será capaz de recuperar este Cliente",
+    "prefix": "Prefixo",
+    "address": {
+      "name": "Nome",
+      "country": "País",
+      "state": "Estado",
+      "city": "Cidade",
+      "address": "Endereço",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "phone": "Telefone",
+      "zip_code": "CEP",
+      "same_as": "Copiar do Endereço de Faturamento"
+    },
+    "remove_customer": "Excluir",
+    "empty": {
+      "title": "Sem clientes ainda!",
+      "description": "Esta seção conterá a lista de clientes.",
+      "button_title": "Adicionar Novo Cliente",
+      "country": {
+        "title": "Nenhum País Disponível"
+      },
+      "state": {
+        "title": "Nenhum Estado Disponível"
+      },
+      "city": {
+        "title": "Nenhuma Cidade Disponível"
+      }
+    },
+    "title": "Selecione um Cliente",
+    "placeholder": "Selecione Cliente"
+  },
+  "payments": {
+    "date": "Data de pagamento",
+    "number": "Número de pagamento",
+    "customer": "Cliente",
+    "mode": "Modo de pagamento",
+    "modes": "Modos De Pagamento",
+    "prefix": "Prefixo De Pagamento",
+    "add_mode": "Adicionar Modo de Pagamento",
+    "edit_mode": "Editar Modo de Pagamento",
+    "mode_hint": "Nome do Modo",
+    "mode_placeholder": "Selecionar Modo de Pagamento",
+    "amount": "Quantidade",
+    "invoice": "Fatura",
+    "invoice_placeholder": "Selecionar Fatura",
+    "send_receipt": "Enviar Recibo De Pagamento",
+    "alertAmount": "O Pagamento inserido é mais do que o devido valor desta fatura.",
+    "alert_description": "Você não será capaz de recuperar este Pagamento",
+    "alert_mode": "Você não será capaz de recuperar este Modo de Pagamento",
+    "remove_payment": "Excluir",
+    "empty": {
+      "title": "Sem pagamentos ainda!",
+      "description": "Esta seção contará com a lista de pagamentos.",
+      "button_title": "Adicionar Novo Pagamento"
+    },
+    "alert": {
+      "send_payment": "Este recibo de pagamento será enviado via e-mail para o endereço fornecido"
+    }
+  },
+  "payment_modes": {
+    "empty": {
+      "title": "Sem modos de pagamento ainda!",
+      "description": "Esta seção conterá a lista de modos de pagamento."
+    }
+  },
+  "item_units": {
+    "empty": {
+      "title": "Sem unidades de itens ainda!",
+      "description": "Esta seção conterá a lista de unidades de itens."
+    }
+  },
+  "expenses": {
+    "receipt": "Recebimento",
+    "date": "Data da despesa",
+    "from_date": "Da Data",
+    "to_date": "Até Data",
+    "amount": "Quantidade",
+    "category": "Categoria",
+    "category_placeholder": "Selecionar Categoria",
+    "notes": "Notas",
+    "notes_placeholder": "Notas adicionais",
+    "view_receipt": "Recebimento De Visualização",
+    "alert_description": "Você não será capaz de recuperar esta Despesa",
+    "remove_expense": "Excluir",
+    "empty": {
+      "title": "Sem gastos ainda!",
+      "description": "Esta seção conterá a lista de despesas.",
+      "button_title": "Adicionar Novo Gasto"
+    }
+  },
+  "items": {
+    "title": "Selecionar Item",
+    "name": "Nome do Item",
+    "description": "Descrição (opcional)",
+    "quantity": "Quantidade",
+    "price": "Preço",
+    "subtotal": "SUBTOTAL",
+    "discount_type": "Tipo de desconto",
+    "discount": "Desconto",
+    "final_discount": "DESCONTO",
+    "final_amount": "MONTANTE",
+    "taxes": "Impostos",
+    "select_tax": "Selecionar ou Adicionar Novos Impostos",
+    "unit": "Unidade",
+    "unit_hint": "Nome da Unidade",
+    "add_hint": "Adicionar Unidade de Item",
+    "edit_hint": "Editar Unidade de Item",
+    "unit_placeholder": "Unidade de seleção",
+    "alert_description": "Você não será capaz de recuperar este Item",
+    "alert_unit": "Você não será capaz de recuperar esta unidade de Item",
+    "less_amount": "Valor Total não deve ser inferior a 0",
+    "already_attach_title": "Falha na Ação",
+    "already_attach_description": "Não é possível excluir um item que já esteja em uso",
+    "empty": {
+      "title": "Nenhum item ainda!",
+      "description": "Esta seção conterá a lista de itens.",
+      "button_title": "Adicionar Novos Itens"
+    }
+  },
+  "more": {
+    "estimate": "Estimativas",
+    "recurring_invoice": "Faturas recorrentes",
+    "items": "Itens",
+    "reports": "Relatórios",
+    "settings": "Configurações",
+    "logout": "Logout",
+    "users": "Usuários"
+  },
+  "categories": {
+    "title": "Nome da Categoria",
+    "description": "Descrição",
+    "alert_description": "Você não será capaz de recuperar esta Categoria",
+    "empty": {
+      "title": "Sem categorias ainda!",
+      "description": "Esta seção conterá a lista de categorias.",
+      "button_title": "Adicionar Nova Categoria"
+    }
+  },
+  "notes": {
+    "notes": "Notas",
+    "title": "Nome da Nota",
+    "description": "Descrição",
+    "model_placeholder": "Selecione um Tipo",
+    "alert_description": "Você não será capaz de recuperar esta Nota",
+    "empty": {
+      "title": "Sem notas ainda!",
+      "description": "Esta seção conterá a lista de notas.",
+      "button_title": "Adicionar Nova Nota"
+    },
+    "placeholder": {
+      "invoice": "Notas adicionais visíveis na Fatura",
+      "estimate": "Notas adicionais visíveis na estimativa",
+      "payment": "Notas adicionais visíveis no pagamento"
+    },
+    "type": "Tipo de Nota",
+    "select": "Selecione uma Nota",
+    "insert_note": "+ Inserir Nota",
+    "insert_fields": "+ Inserir Campos"
+  },
+  "units": {
+    "empty": {
+      "title": "Sem unidades ainda!",
+      "description": "Esta seção conterá a lista de unidades de itens.",
+      "button_title": "Adicionar Nova Unidade de Item"
+    }
+  },
+  "settings": {
+    "account_settings": "Configurações da conta",
+    "company_information": "Info da Empresa",
+    "preference": "Preferências",
+    "notification": "Notificações",
+    "taxes": "Tipos de impostos",
+    "expense_category": "Categorias De Despesas",
+    "payment_modes": "Modos De Pagamento",
+    "item_units": "Unidades De Itens",
+    "touch_or_Face_id": "ID do Toque / Face",
+    "endpoint": "Terminal Da API",
+    "company": {
+      "name": "Nome da Empresa",
+      "phone": "Telefone",
+      "address": "Endereço",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "zip_code": "CEP",
+      "logo": "Logotipo da empresa"
+    },
+    "account": {
+      "name": "Nome",
+      "email": "E-mail",
+      "password": "Senha",
+      "confirm_password": "Confirmar Senha",
+      "version": "Versão"
+    },
+    "notifications": {
+      "send": "Enviar Notificações Para",
+      "invoice_viewed": "Fatura Visualizada",
+      "invoice_viewed_description": "Quando o seu cliente visua o link da fatura enviado via e-mail.",
+      "estimate_viewed": "Estimativa Visualizada",
+      "estimate_viewed_description": "Quando o seu cliente visua o link de estimativa enviado via e-mail."
+    },
+    "preferences": {
+      "currency": "Moeda",
+      "currency_placeholder": "Selecionar Moeda",
+      "language": "Idioma Padrão",
+      "language_placeholder": "Selecione Idioma",
+      "time_zone": "Fuso horário",
+      "time_zone_placeholder": "Selecionar Zona de Tempo",
+      "date_format": "Formato de Data",
+      "date_format_placeholder": "Selecionar Formato de Data",
+      "fiscal_year": "Ano Financeiro",
+      "fiscal_year_placeholder": "Selecionar Ano Financeiro",
+      "discount_per_item": "Desconto Por Item",
+      "discount_per_item_placeholder": "Ative isso se você quiser adicionar Desconto em itens de fatura individuais. Por padrão, a Desconto é incluída diretamente na fatura.",
+      "tax_per_item": "Imposto Por Item",
+      "tax_per_item_placeholder": "Ative isso se você quiser adicionar Imposto a itens de fatura individuais. Por padrão, o Imposto é incluído diretamente na fatura.",
+      "retrospective_edits": "Edital de retrospectiva",
+      "create_status": "Criar Status",
+      "active": "Ativo",
+      "on_hold": "Em Hold",
+      "completed": "Concluído"
+    },
+    "notes": "Notas"
+  },
+  "login": {
+    "email": "Insira seu e-mail",
+    "password": "Digite sua senha",
+    "invalid": "Essas credenciais não correspondem aos nossos registros."
+  },
+  "logout": {
+    "confirmation": "Tem certeza de que quer logout?",
+    "title": "Logout"
+  },
+  "forgot": {
+    "email_label": "Digite seu e-mail e nós enviaremos você reset link de senha",
+    "email_placeholder": "Digite Seu Email",
+    "email_send_description": "Um link de redefinição de Senha foi enviado para o seu e-mail, siga as instruções no e-mail para criar uma nova senha.",
+    "email_send_error": "O e-mail não pôde ser enviado para este endereço de e-mail."
+  },
+  "lost_internet": {
+    "title": "Perdidos de Conexão",
+    "description": "Por favor, verifique suas configurações de celular ou Wifi para verificar sua conectividade da internet e, em seguida, tente novamente."
+  },
+  "update_app": {
+    "title": "Versão Do App Expirado!",
+    "description": "Esta versão do app está desatualizada. Por favor, instale a atualização mais recente para continuar usando Crater."
+  },
+  "endpoint": {
+    "endpoint_url": "URL do Terminal",
+    "endpoint_desc": "Acima URL será usada para se conectar com sua instalação autohospedada de cratera.",
+    "url_placeholder": "Eg: https://craterapp.com",
+    "alert_invalid_url": "URL inválida"
+  },
+  "estimates": {
+    "tabs": {
+      "sent": "Enviado",
+      "draft": "Rascunho",
+      "all": "Todos"
+    },
+    "estimate_date": "Data de estimativa",
+    "expiry_date": "Data de expiração",
+    "estimate_number": "Número de estimativa",
+    "template": "Modelo",
+    "template_placeholder": "Selecionar ou Adicionar um novo Modelo",
+    "customer": "Cliente",
+    "customer_placeholder": "Selecionar ou Adicionar novo Cliente",
+    "tax_placeholder": "+ Adicionar Imposto",
+    "add_item": "Adicionar Item",
+    "from_date": "Da Data",
+    "to_date": "Até Data",
+    "status": "Status",
+    "status_placeholder": "Selecione um Status",
+    "total_amount": "MONTANTE TOTAL",
+    "alert": {
+      "convert_to_invoice_description": "Tem certeza de que deseja converter esta Estilista em uma Invoice?",
+      "remove_description": "Você não será capaz de recuperar esta Estilista",
+      "less_amount": "Valor Total não deve ser inferior a 0",
+      "draft_title": "Salvar mudanças?",
+      "send_estimate": "Esta estimativa será enviada via e-mail para o cliente",
+      "mark_as_sent": "Esta estimativa será marcada como enviado",
+      "mark_as_accept": "Esta estimativa será marcada como Aceita",
+      "mark_as_reject": "Esta estimativa será marcada como Rejeitada"
+    },
+    "empty": {
+      "sent": {
+        "title": "Você não tem estimativas enviadas",
+        "description": "Esta seção contará com a lista de estimativas enviadas."
+      },
+      "draft": {
+        "title": "Você não tem nenhum esboço de estimativas",
+        "description": "Esta seção contará com a lista de projeções de projetos."
+      },
+      "all": {
+        "title": "Você não criou nenhuma estimativa",
+        "description": "Esta seção contará com a lista de estimativas."
+      },
+      "button_title": "Adicionar Nova Estimativa"
+    },
+    "actions": {
+      "send_estimate": "Enviar Estimativa",
+      "resend_estimate": "Estimativa De Resfim",
+      "delete": "Excluir",
+      "convert_to_invoice": "Converter Para Fatura",
+      "mark_as_sent": "Marcar Como Enviado",
+      "mark_as_accepted": "Marcar Como Aceito",
+      "mark_as_rejected": "Marcar Como Rejeitado"
+    }
+  },
+  "currencies": {
+    "title": "Moedas",
+    "name": "Nome",
+    "empty": {
+      "title": "Sem moedas ainda!",
+      "description": "Esta seção conterá a lista de moedas.",
+      "button_title": "Adicionar Nova Moeda"
+    }
+  },
+  "custom_fields": {
+    "name": "Nome",
+    "model": "Modelo",
+    "model_placeholder": "Selecione um Modelo",
+    "type": "Tipo",
+    "type_placeholder": "Selecione um Tipo",
+    "required": "Necessário",
+    "label": "Rótulo",
+    "default_value": "Valor Padrão",
+    "display_in_Portal": "Exibição no portal",
+    "placeholder": "Marcador",
+    "order": "Ordem",
+    "yes": "Sim",
+    "no": "Não",
+    "check": "Ticado por padrão",
+    "options": "Opções",
+    "remove_alert_description": "Você não será capaz de recuperar este Campo Personalizado",
+    "already_in_use": "Não é possível atualizar modelo para campos que já estão em uso.",
+    "empty": {
+      "title": "Nenhum campo personalizado ainda!",
+      "description": "Esta seção conterá a lista de campos personalizados.",
+      "button_title": "Adicionar Novo Campo Personalizado"
+    }
+  },
+  "languages": {
+    "title": "Selecione Idioma",
+    "empty": {
+      "title": "Sem línguas ainda!",
+      "description": "Esta seção conterá a lista de Idiomas."
+    }
+  },
+  "time_zones": {
+    "title": "Selecionar o TimeZone",
+    "empty": {
+      "title": "Sem TimeZones ainda!",
+      "description": "Esta seção contará com a lista de Timezones."
+    }
+  },
+  "date_formats": {
+    "title": "Selecionar Formato de Data",
+    "empty": {
+      "title": "Sem formatos de data ainda!",
+      "description": "Esta seção conterá a lista de Formatos de Data."
+    }
+  },
+  "fiscal_years": {
+    "title": "Selecionar ano financeiro",
+    "empty": {
+      "title": "Sem Exercícios Financeiros ainda!",
+      "description": "Esta seção contará com a lista de Anos Financeiros."
+    }
+  },
+  "retrospective_edits": {
+    "title": "Selecionar Edições Retrospectivas",
+    "empty": {
+      "title": "Nenhum Edital Retrospectivo!",
+      "description": "Esta seção contará com a lista de Edições Retrospectivas."
+    }
+  },
+  "countries": {
+    "empty": {
+      "title": "Sem países ainda!",
+      "description": "Esta seção contará com a lista de países."
+    }
+  },
+  "reports": {
+    "sales": "Vendas",
+    "profit_and_loss": "Lucro & Perda",
+    "expenses": "Despesas",
+    "taxes": "Impostos",
+    "date_range": "Selecionar Intervalo De Data",
+    "from_date": "Da Data",
+    "to_date": "Até Data",
+    "report_type": "Tipo de Relatório",
+    "by_customer": "Por Cliente",
+    "by_item": "Por Item",
+    "today": "Hoje",
+    "this_week": "Esta Semana",
+    "this_month": "Este Mês",
+    "this_quarter": "Este Trimestre",
+    "this_year": "Este Ano",
+    "current_fiscal_quarter": "Trimestre Fiscal Atual",
+    "current_fiscal_year": "Ano Fiscal Atual",
+    "previous_week": "Semana anterior",
+    "previous_month": "Mês Anterior",
+    "previous_quarter": "Trimestre Anterior",
+    "previous_year": "Ano anterior",
+    "previous_fiscal_quarter": "Trimestre Fiscal Anterior",
+    "previous_fiscal_year": "Ano Fiscal Anterior",
+    "custom": "Costume"
+  },
+  "taxes": {
+    "title": "Impostos",
+    "type": "Nome fiscal",
+    "description": "Descrição",
+    "percentage": "Porcentagem De Imposto",
+    "compound_tax": "Imposto composto",
+    "alert_description": "Você não conseguirá recuperar este Imposto",
+    "empty": {
+      "title": "Sem Tipos de Imposto ainda!",
+      "description": "Esta seção conterá a lista de Tipos de Impostos.",
+      "button_title": "Adicionar Tipo de Imposto"
+    }
+  },
+  "touch_face_id": {
+    "touch_id": "ID do toque",
+    "face_id": "ID do Face",
+    "finger": "Impressão digital",
+    "face": "Face",
+    "not_compatible": "Seu dispositivo não é compatível.",
+    "hardware_not_available": "{{type}} HardWare não Disponível.",
+    "activated": "{{type}} ativado",
+    "enable_login": "{{type}} Login",
+    "enable_login_hint": "Agora você pode usar {{type}} para acessar sua conta mais rápido e mais fácil.",
+    "subtitle_1": "Autenticar usando o app's",
+    "subtitle_2": "{{type}} em vez de digitar sua senha.",
+    "login": "Faça login com {{type}}"
+  },
+  "file_picker": {
+    "file": "Clique aqui para escolher um arquivo",
+    "permission": "Desculpe, precisamos de permissões de rolo de câmera para fazer esse trabalho!",
+    "camera": "Câmera",
+    "gallery": "Galeria",
+    "document": "Documento"
+  },
+  "send_mail": {
+    "from": "De",
+    "to": "Para",
+    "subject": "Assunto",
+    "body": "Corpo"
+  },
+  "alert": {
+    "title": "Você tem certeza?",
+    "action": {
+      "discard": "Descartar",
+      "save_as_draft": "Salvar Como Rascunho"
+    }
+  },
+  "button": {
+    "remove": "Remover",
+    "save": "Salvar",
+    "add": "Adicionar",
+    "retry": "Nova tentativa",
+    "done": "Feito",
+    "clear": "Limpar",
+    "view_pdf": "Visualizar PDF",
+    "sing_in": "Assinar em",
+    "forget": "Esqueceu a Senha?",
+    "update": "Atualização",
+    "update_capital": "ATUALIZAÇÃO",
+    "choose_template": "Escolher Modelo",
+    "generate_report": " Gerar Relatório",
+    "recovery_email": "Enviar link de reset",
+    "recovery_email_again": "Enviar De Novo",
+    "cancel": "Cancelar",
+    "send": "Enviar",
+    "change": "Mudança",
+    "set_up_now": "Configure agora",
+    "later": "Fará isso mais tarde",
+    "refresh": "Atualização",
+    "preview": "Preview"
+  },
+  "filter": {
+    "empty": {
+      "filter_title": "Nenhum Resultados encontrado"
+    }
+  },
+  "search": {
+    "title": "Pesquisa",
+    "no_result": "Nenhum resultado para \"{{search}}\"",
+    "no_search_result": "Nenhum resultado para"
+  },
+  "validation": {
+    "required": "O campo obrigatório está vazio",
+    "choose": "Escolha pelo menos um item",
+    "email": "Por favor, insira um endereço de e-mail válido",
+    "password_compare": "Senhas não combinam",
+    "minimum_number": "deve ser maior que 0",
+    "maximum_number": "deve ser menor que {{maxNumber}}",
+    "maximum_character": "{{fieldName}} deve ser menor do que {{maxCharacter}} caracteres.",
+    "character": "Apenas caracteres",
+    "numeric": "deve ser numérico",
+    "more_than_due": "{{hint}} Não deve ser mais do que Due Amount.",
+    "url": "Url inválida (eg: https://craterapp.com)",
+    "wrong": "Algo deu errado. Por favor, tente novamente.",
+    "min_character": "Por favor digite pelo menos {{minCharacter}} caracteres",
+    "cron": "Por favor, digite um formato de cron válido."
+  },
+  "company": {
+    "switch_company": "EMPRESA SWITCH",
+    "add_new_company": "Adicionar Nova Empresa"
+  },
+  "roles": {
+    "add_new_role": "Adicionar Nova Função",
+    "alert_description": "Você não será capaz de recuperar esta Função",
+    "empty": {
+      "title": "Sem funções ainda!",
+      "description": "Esta seção conterá a lista de funções."
+    },
+    "name": "Nome",
+    "permissions": "Permissões",
+    "select_all": "Selecionar Todos",
+    "none": "Nenhum",
+    "select_role_for": "Selecionar função para {{nome}}"
+  },
+  "users": {
+    "add_new_user": "Adicionar Novo Usuário",
+    "alert_description": "Você não será capaz de recuperar este Usuário",
+    "empty": {
+      "title": "Sem usuários ainda!",
+      "description": "Esta seção conterá a lista de usuários."
+    },
+    "name": "Nome",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "password": "Senha",
+    "role": "Função",
+    "roles": "Funções",
+    "role_placeholder": "Selecionar Função"
+  },
+  "exchange_rate": {
+    "label": "Taxa de Bolsa",
+    "selected_currency": "1 {{{selectedCurrency}} = ",
+    "exchange_help_text": "Digite taxa de câmbio para converter de {{selectedCurrency}} para {{baseCurrency}}."
+  },
+  "actions": {
+    "new_estimate": "Nova Estimativa",
+    "new_invoice": "Nova Fatura",
+    "new_payment": "Novo Pagamento",
+    "new_expense": "Nova Despesa"
+  },
+  "companies": {
+    "empty": {
+      "title": "Sem empresas ainda!",
+      "description": "Esta seção contará com a lista de empresas."
+    }
+  },
+  "notification": {
+    "success": "Sucesso!",
+    "error": "Erro!",
+    "login_success": "Logado com sucesso",
+    "customer_created": "Cliente criado com sucesso",
+    "customer_updated": "Cliente atualizado com sucesso",
+    "customer_deleted": "Cliente excluído com sucesso",
+    "role_created": "Função criada com sucesso",
+    "role_updated": "Função atualizada com sucesso",
+    "role_deleted": "Função excluída com sucesso",
+    "expense_category_created": "Categoria de despesa criada com sucesso",
+    "expense_category_updated": "Categoria de despesa atualizada com sucesso",
+    "expense_category_deleted": "Categoria de despesa excluída com sucesso",
+    "expense_already_in_use": "Categoria de despesa já está em uso",
+    "note_created": "Nota criada com sucesso",
+    "note_updated": "Nota atualizada com sucesso",
+    "note_deleted": "Nota excluída com sucesso",
+    "note_already_in_use": "Nota já está em uso",
+    "custom_field_created": "Campo Personalizado criado com sucesso",
+    "custom_field_updated": "Campo personalizado atualizado com sucesso",
+    "custom_field_deleted": "Campo Personalizado excluído com sucesso",
+    "custom_field_already_in_use": "O Campo Personalizado já está em uso",
+    "tax_created": "Tipo de imposto criado com sucesso",
+    "tax_updated": "Tipo de imposto atualizado com sucesso",
+    "tax_deleted": "Tipo de imposto excluído com sucesso",
+    "tax_already_in_use": "Imposto já está em uso",
+    "setting_updated": "Configuração atualizada com sucesso",
+    "invoice_setting_updated": "Configurações da Fatura atualizadas",
+    "estimate_setting_updated": "Estimativa de Configuração atualizada com sucesso",
+    "payment_setting_updated": "Configuração de pagamento atualizado com sucesso",
+    "payment_mode_created": "Modo de pagamento criado com sucesso",
+    "payment_mode_updated": "Modo de pagamento atualizado com sucesso",
+    "payment_mode_deleted": "Modo de pagamento excluído com sucesso",
+    "payment_mode_already_in_use": "O modo de pagamento já está em uso",
+    "item_unit_created": "Unidade de itens criada com sucesso",
+    "item_unit_updated": "Unidade de itens atualizada com sucesso",
+    "item_unit_deleted": "Unidade de itens excluída com sucesso",
+    "item_unit_already_in_use": "Unidade de itens já está em uso",
+    "preference_updated": "Preferências atualizadas com sucesso",
+    "company_updated": "Informações da empresa atualizados com sucesso",
+    "account_updated": "Configurações da Conta Atualizadas com",
+    "user_created": "Usuário criado com sucesso",
+    "user_updated": "Usuário atualizado com sucesso",
+    "user_deleted": "Usuário excluído com sucesso",
+    "item_created": "Item criado com sucesso",
+    "item_updated": "Item atualizado com sucesso",
+    "item_deleted": "Item excluído com sucesso",
+    "estimate_created": "Estimativa criada com sucesso",
+    "estimate_updated": "Estimativa atualizada com sucesso",
+    "estimate_deleted": "Estimativa excluída com sucesso",
+    "estimate_sent": "Estimativa enviada com sucesso",
+    "estimate_mark_as_sent": "Estimativa marcada como enviada com sucesso",
+    "estimate_marked_as_accepted": "Estimativa marcada como aceita",
+    "estimate_marked_as_rejected": "Estimativa marcada como rejeitada",
+    "expense_created": "Despesa criada com sucesso",
+    "expense_updated": "Despesa atualizada com sucesso",
+    "expense_deleted": "Despesa excluída com sucesso",
+    "payment_created": "Pagamento criado com sucesso",
+    "payment_updated": "Pagamento atualizado com sucesso",
+    "payment_deleted": "Pagamento excluído com sucesso",
+    "payment_sent": "Pagamento enviado com sucesso",
+    "invoice_created": "Fatura criada com sucesso",
+    "invoice_updated": "Fatura atualizada com sucesso",
+    "invoice_deleted": "Fatura excluída com sucesso",
+    "invoice_marked_as_sent": "Fatura marcada como enviada com sucesso",
+    "invoice_sent": "Fatura enviada com sucesso",
+    "invoice_cloned": "Fatura clonada com sucesso",
+    "recurring_invoice_created": "Fatura Recorrente criada com sucesso",
+    "recurring_invoice_updated": "Fatura Recorrente atualizada com sucesso",
+    "recurring_invoice_deleted": "Fatura Recorrente excluída com sucesso",
+    "password_reset_link": "O link de reset de senha foi enviado com sucesso.",
+    "company_created": "Empresa criada com sucesso"
+  }
+}
