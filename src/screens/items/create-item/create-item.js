@@ -113,11 +113,11 @@ export class CreateItem extends React.Component<IProps> {
       let newItem = item;
       if (screen !== 'item') {
         const {price, total} = item;
-        const divide = true;
+        const itemAdd = true;
         newItem = {
           ...item,
-          price: withExchangedAmount(price, divide),
-          total: withExchangedAmount(total, divide),
+          price: withExchangedAmount(price, itemAdd),
+          total: withExchangedAmount(total, itemAdd),
           exchangePrice: price
         };
       }

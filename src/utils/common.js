@@ -16,7 +16,7 @@ export const sortByItem = (items, iteratee) => {
 
 export const isRTL = () => I18nManager.isRTL;
 
-export const withExchangedAmount = (price, divide) => {
+export const withExchangedAmount = (price, itemAdd) => {
   let rate = calculationRefs?.exchangeRate?.();
   let rateAmount = rate;
   let finalAmount = price;
@@ -26,10 +26,10 @@ export const withExchangedAmount = (price, divide) => {
   if (typeof rate === 'string') {
     rateAmount = parseFloat(rate);
   }
-  if (divide) {
-    finalAmount = price / rateAmount;
+  if (itemAdd) {
+    finalAmount = price * rateAmount;
   } else {
-    finalAmount = rateAmount * price;
+    finalAmount = price / rateAmount;
   }
   if (isNaN(finalAmount)) {
     return price;

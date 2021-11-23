@@ -11,7 +11,7 @@ import {fetchTaxes} from 'stores/tax-type/actions';
 import {unitsSelector} from 'stores/item-unit/selectors';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 import {withExchangedAmount} from '@/utils';
-import {round} from 'lodash';
+import {isNaN, round} from 'lodash';
 
 const mapStateToProps = (state, {route}) => {
   const {invoice, estimate, recurringInvoice} = state;
@@ -24,9 +24,8 @@ const mapStateToProps = (state, {route}) => {
   const isItemScreen = screen === 'item';
   const price =
     isItemScreen || type !== 'ADD'
-      ? round(item?.price)
+      ? item?.price
       : round(withExchangedAmount(item?.price));
-
   return {
     loading:
       invoice?.isSaving || estimate?.isSaving || recurringInvoice?.isSaving,
@@ -52,7 +51,7 @@ const mapStateToProps = (state, {route}) => {
       discount: 0,
       taxes: [],
       ...item,
-      price
+      price: isNaN(price) ? null : price
     }
   };
 };
