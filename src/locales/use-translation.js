@@ -9,6 +9,7 @@ import it from './it.json';
 import ar from './ar.json';
 import sk from './sk.json';
 import ko from './ko.json';
+import lv from './lv.json';
 
 Lng.fallbacks = true;
 
@@ -20,7 +21,8 @@ Lng.translations = {
   it, // Italian
   ar, // Arabic
   sk, //  Slovak,
-  ko //  Korean,
+  ko, //  Korean,
+  lv // Latvian
 };
 
 Lng.locale = Localization.locale;
