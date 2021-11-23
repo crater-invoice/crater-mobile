@@ -42,5 +42,9 @@ export default styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 8
   },
-  currencyFormatContainer: {overflow: 'hidden', alignSelf: 'flex-end'}
+  currencyFormatContainer: {
+    overflow: 'hidden',
+    alignSelf: 'flex-end',
+    alignSelf: 'flex-start'
+  }
 });
