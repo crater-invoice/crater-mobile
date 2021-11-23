@@ -16,6 +16,7 @@ import styles from './view-recurring-invoice-styles';
 import {formattedInvoices} from 'stores/recurring-invoice/selectors';
 import {ARROW_ICON} from '@/assets';
 import {find} from 'lodash';
+import {FREQUENCIES_TYPES} from '@/stores/recurring-invoice/helpers';
 
 export default class ViewRecurringInvoice extends Component<IProps, IStates> {
   constructor(props) {
@@ -37,8 +38,10 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
         data: {
           ...data,
           status: find(statusList, {
-            value: data.status
-          })?.label
+            value: data?.status
+          })?.label,
+          frequency:
+            find(FREQUENCIES_TYPES, {value: data?.frequency})?.label ?? 'CUSTOM'
         },
         isFetchingInitialData: false
       });
@@ -119,6 +122,7 @@ export default class ViewRecurringInvoice extends Component<IProps, IStates> {
         frequency
       }
     } = this.state;
+
     const limitCount = {
       label: t('recurring_invoices.limit_types.count'),
       values: limit_count

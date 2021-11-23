@@ -535,14 +535,6 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           currency={this.state.currency}
         />
 
-        <Field
-          name="reference_number"
-          component={BaseInput}
-          hint={t('invoices.reference_number')}
-          leftIcon={'hashtag'}
-          disabled={disabled}
-        />
-
         <Notes
           {...this.props}
           navigation={navigation}

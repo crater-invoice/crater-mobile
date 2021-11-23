@@ -15,7 +15,6 @@ import {
 } from '@/utils';
 import {fetchItemInitialDetails} from 'stores/item/actions';
 import {keyboardType} from '@/helpers/keyboard';
-import {definePlatformParam} from '@/helpers/platform';
 import {
   alertMe,
   hasValue,
@@ -314,7 +313,7 @@ export class CreateItem extends React.Component<IProps> {
               style={styles.label(theme)}
             />
           </View>
-          <View style={{marginTop: definePlatformParam(6, 5)}}>
+          <View style={styles.currencyFormatContainer}>
             <CurrencyFormat
               amount={this.itemSubTotal()}
               currency={currency}
