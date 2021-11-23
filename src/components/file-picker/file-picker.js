@@ -107,7 +107,7 @@ class Picker extends Component<IProps, IStates> {
   };
 
   askCameraPermission = async () => {
-    const {status} = await ImagePicker.requestCameraRollPermissionsAsync();
+    const {status} = await ImagePicker.requestCameraPermissionsAsync();
 
     if (status === 'denied') {
       this.requestToGrantPermission();
@@ -186,7 +186,6 @@ class Picker extends Component<IProps, IStates> {
   showCamera = async action => {
     try {
       const isAllow = await this.askCameraPermission();
-
       if (!isAllow) {
         return;
       }

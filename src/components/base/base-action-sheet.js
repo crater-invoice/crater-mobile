@@ -58,10 +58,10 @@ export class BaseActionSheet extends Component<IProps, IStates> {
         onPress={this.showActionSheet}
         style={styles.button}
         hitSlop={{
-          top: 13,
-          left: 13,
-          bottom: 13,
-          right: 13
+          top: 30,
+          left: 30,
+          bottom: 30,
+          right: 30
         }}
       >
         <AssetIcon
