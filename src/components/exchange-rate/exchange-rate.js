@@ -98,7 +98,7 @@ export class ExchangeRateField extends Component<IProps, IStates> {
               name="currency_code"
               component={BaseInput}
               inputProps={{
-                value: t('exchange_rate.base_currency', {baseCurrency})
+                value: t('exchange_rate.selected_currency', {selectedCurrency})
               }}
               inputContainerStyle={styles.codeContainer}
               disabledStyle={disabled ? {} : styles.codeDisable}
@@ -110,7 +110,7 @@ export class ExchangeRateField extends Component<IProps, IStates> {
             <Field
               name="exchange_rate"
               component={BaseInput}
-              rightSymbol={selectedCurrency}
+              rightSymbol={baseCurrency}
               keyboardType={keyboardType.DECIMAL}
               inputContainerStyle={styles.reteContainer}
               disabled={disabled}
@@ -119,8 +119,8 @@ export class ExchangeRateField extends Component<IProps, IStates> {
         </View>
         <Text color={colors.white4} mb-4 h6 style={styles.description} darkGray>
           {t('exchange_rate.exchange_help_text', {
-            baseCurrency,
-            selectedCurrency
+            selectedCurrency,
+            baseCurrency
           })}
         </Text>
       </View>

@@ -220,8 +220,9 @@ export default class CreatePayment extends Component<IProps, IStates> {
       this.setFormField('exchange_rate', exchangeRate?.[0]);
       onResult?.();
     };
+    const onFail = () => onResult?.();
     hasExchangeRate &&
-      dispatch(checkExchangeRate(customerCurrency.id, onSuccess));
+      dispatch(checkExchangeRate(customerCurrency.id, onSuccess, onFail));
   };
 
   checkExchangeRateProvider = customerCurrency => {

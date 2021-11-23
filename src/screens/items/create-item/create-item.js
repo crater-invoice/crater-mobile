@@ -8,7 +8,11 @@ import {TaxSelectModal, UnitSelectModal} from '@/select-modal';
 import {itemActions} from 'stores/item/helper';
 import {CREATE_ITEM_FORM, ITEM_DISCOUNT_OPTION} from 'stores/item/types';
 import {IProps} from './create-item-types.d';
-import {getApiFormattedCustomFields, showNotification} from '@/utils';
+import {
+  getApiFormattedCustomFields,
+  showNotification,
+  withExchangedAmount
+} from '@/utils';
 import {fetchItemInitialDetails} from 'stores/item/actions';
 import {keyboardType} from '@/helpers/keyboard';
 import {definePlatformParam} from '@/helpers/platform';
@@ -106,9 +110,20 @@ export class CreateItem extends React.Component<IProps> {
     };
 
     if (isCreateScreen && !itemId) {
+      let newItem = item;
+      if (screen !== 'item') {
+        const {price, total} = item;
+        const itemAdd = true;
+        newItem = {
+          ...item,
+          price: withExchangedAmount(price, itemAdd),
+          total: withExchangedAmount(total, itemAdd),
+          exchangePrice: price
+        };
+      }
       dispatch(
         itemActions[screen].addItem({
-          item,
+          item: newItem,
           onSuccess: () => navigation.goBack(null)
         })
       );

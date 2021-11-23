@@ -76,6 +76,8 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     this.loadData();
   }
 
+  exchangeRate = () => this.props?.formValues?.exchange_rate;
+
   loadData = () => {
     const {isCreateScreen, id, dispatch} = this.props;
     if (isCreateScreen) {
@@ -285,8 +287,9 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
       this.setFormField('exchange_rate', exchangeRate?.[0]);
       onResult?.();
     };
+    const onFail = () => onResult?.();
     hasExchangeRate &&
-      dispatch(checkExchangeRate(customerCurrency.id, onSuccess));
+      dispatch(checkExchangeRate(customerCurrency.id, onSuccess, onFail));
   };
 
   checkExchangeRateProvider = customerCurrency => {
