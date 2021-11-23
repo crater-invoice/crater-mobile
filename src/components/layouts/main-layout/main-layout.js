@@ -14,7 +14,7 @@ import {CompanyModal} from 'screens/companies';
 import {commonSelector} from 'stores/common/selectors';
 import {BaseDivider} from '@/components';
 import {defineSize} from '@/helpers/size';
-import {IProps} from '../default-layout/type.d';
+import {IProps} from './type.d';
 import {currentCompanySelector} from 'stores/company/selectors';
 import {hasValue} from '@/constants';
 

@@ -6,7 +6,7 @@ import {Field} from 'redux-form';
 import {routes} from '@/navigation';
 import {ItemSelectModal} from '@/select-modal';
 import {isEmpty} from '@/constants';
-import {IProps} from './item-field-types';
+import {IProps} from './item-field-type.d';
 
 export class ItemField extends React.Component<IProps> {
   constructor(props) {
