@@ -206,8 +206,9 @@ export default class CreateExpense extends React.Component<IProps, IStates> {
       this.setFormField('exchange_rate', exchangeRate?.[0]);
       onResult?.();
     };
+    const onFail = () => onResult?.();
     hasExchangeRate &&
-      dispatch(checkExchangeRate(selectedCurrency.id, onSuccess));
+      dispatch(checkExchangeRate(selectedCurrency.id, onSuccess, onFail));
   };
 
   checkExchangeRateProvider = selectedCurrency => {

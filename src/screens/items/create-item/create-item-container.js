@@ -10,6 +10,7 @@ import {taxTypesSelector} from 'stores/tax-type/selectors';
 import {fetchTaxes} from 'stores/tax-type/actions';
 import {unitsSelector} from 'stores/item-unit/selectors';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
+import {withExchangedAmount} from '@/utils';
 
 const mapStateToProps = (state, {route}) => {
   const {invoice, estimate, recurringInvoice} = state;
@@ -19,6 +20,11 @@ const mapStateToProps = (state, {route}) => {
   const screen = route?.params?.screen;
   const discountPerItem = route?.params?.discount_per_item;
   const taxPerItem = route?.params?.tax_per_item;
+  const isItemScreen = screen === 'item';
+  const price =
+    isItemScreen || type !== 'ADD'
+      ? item?.price
+      : withExchangedAmount(item?.price);
 
   return {
     loading:
@@ -27,25 +33,25 @@ const mapStateToProps = (state, {route}) => {
     itemId: item?.id,
     taxTypes: taxTypesSelector(state),
     currency: route?.params?.currency,
-    isItemScreen: screen === 'item',
     discountPerItem,
     taxPerItem,
     type,
     screen,
+    isItemScreen,
     units: unitsSelector(state),
     // customFields: customFieldsSelector(state),
     ...permissionSelector(route),
     ...loadingSelector(state),
     ...commonSelector(state),
     initialValues: {
-      price: null,
       quantity: 1,
       unit: null,
       unit_id: null,
       discount_type: 'none',
       discount: 0,
       taxes: [],
-      ...item
+      ...item,
+      price
     }
   };
 };

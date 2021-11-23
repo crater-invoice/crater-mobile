@@ -73,13 +73,14 @@ export function fetchCountries() {
 /**
  * Check exchange rate
  * @param id currency id
- * @param onSuccess
+ * @param onSuccess callback when success
+ * @param onFail callback when fail
  * @returns {{type: string, payload: *}}
  */
-export function checkExchangeRate(id, onSuccess) {
+export function checkExchangeRate(id, onSuccess, onFail) {
   return {
     type: types.CHECK_EXCHANGE_RATE,
-    payload: {id, onSuccess}
+    payload: {id, onSuccess, onFail}
   };
 }
 

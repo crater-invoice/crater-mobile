@@ -86,6 +86,8 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     );
   };
 
+  exchangeRate = () => this.props?.formValues?.exchange_rate;
+
   setInitialData = async res => {
     const {dispatch, invoiceTemplates, route} = this.props;
 
@@ -337,8 +339,9 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       this.setFormField('exchange_rate', exchangeRate?.[0]);
       onResult?.();
     };
+    const onFail = () => onResult?.();
     hasExchangeRate &&
-      dispatch(checkExchangeRate(customerCurrency.id, onSuccess));
+      dispatch(checkExchangeRate(customerCurrency.id, onSuccess, onFail));
   };
 
   checkExchangeRateProvider = customerCurrency => {

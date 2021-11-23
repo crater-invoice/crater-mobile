@@ -1,6 +1,7 @@
-import {omit, sortBy} from 'lodash';
-import {hasObjectLength} from '@/constants';
+import {isNaN, omit, sortBy} from 'lodash';
+import {hasObjectLength, hasValue} from '@/constants';
 import {I18nManager} from 'react-native';
+import {calculationRefs} from '@/stores/common/helpers';
 
 export const isFilterApply = formValues => {
   if (!formValues) return false;
@@ -14,6 +15,27 @@ export const sortByItem = (items, iteratee) => {
 };
 
 export const isRTL = () => I18nManager.isRTL;
+
+export const withExchangedAmount = (price, divide) => {
+  let rate = calculationRefs?.exchangeRate?.();
+  let rateAmount = rate;
+  let finalAmount = price;
+  if (!hasValue(rate)) {
+    return price;
+  }
+  if (typeof rate === 'string') {
+    rateAmount = parseFloat(rate);
+  }
+  if (divide) {
+    finalAmount = price / rateAmount;
+  } else {
+    finalAmount = rateAmount * price;
+  }
+  if (isNaN(finalAmount)) {
+    return price;
+  }
+  return finalAmount;
+};
 
 export const setI18nManagerValue = async ({isRTL}) => {
   try {

@@ -35,13 +35,17 @@ export function* addItem({payload}) {
     yield put(spinner('isSaving', true));
     const {item, onSuccess, returnCallback} = payload;
     const {data} = yield call(req.addItem, item);
-    const items = [{...data, item_id: data.id, ...item}];
-    yield put({type: types.ADD_ITEM_SUCCESS, payload: items});
+    let items = {...data, item_id: data.id, ...item};
+    const exchangePrice = item?.exchangePrice;
+    if (exchangePrice) {
+      items = {...items, price: exchangePrice, total: exchangePrice};
+    }
+    yield put({type: types.ADD_ITEM_SUCCESS, payload: [items]});
     showNotification({message: t('notification.item_created')});
     if (returnCallback) {
-      return items;
+      return [items];
     }
-    onSuccess?.(items);
+    onSuccess?.([items]);
   } catch (e) {
     handleError(e);
   } finally {

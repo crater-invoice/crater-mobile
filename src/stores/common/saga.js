@@ -58,7 +58,9 @@ function* checkExchangeRate({payload}) {
     const {id, onSuccess} = payload;
     const response = yield call(req.checkExchangeRate, id);
     onSuccess?.(response);
-  } catch (e) {}
+  } catch (e) {
+    payload?.onFail?.();
+  }
 }
 
 /**

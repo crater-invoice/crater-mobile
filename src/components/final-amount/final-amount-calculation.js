@@ -131,15 +131,12 @@ function getTaxName(tax) {
 }
 
 function getItemList(items) {
-  const {currency} = calculationRefs?.state;
-
   if (isEmpty(items)) {
     return [];
   }
 
   return items.map(item => {
-    let {name, description, price} = item;
-
+    let {name, description, price, currency} = item;
     return {
       title: name,
       subtitle: {title: description},
