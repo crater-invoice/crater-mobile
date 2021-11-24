@@ -22,13 +22,12 @@ export default function itemReducer(state = initialState, action) {
           isDeleting: false
         };
       }
-
       return {...state, items: [...state.items, ...payload.items]};
 
     case types.ADD_ITEM_SUCCESS:
       return {
         ...state,
-        items: [...[payload], ...state.items]
+        items: [...payload, ...state.items]
       };
 
     case types.UPDATE_ITEM_SUCCESS:
@@ -42,7 +41,7 @@ export default function itemReducer(state = initialState, action) {
     case types.REMOVE_ITEM_SUCCESS:
       return {
         ...state,
-        items: state.items.filter(({id}) => id !== payload)
+        items: state.items.filter(({id}) => id !== payload.id)
       };
 
     default:
