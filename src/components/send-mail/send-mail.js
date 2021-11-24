@@ -85,7 +85,7 @@ class Modal extends Component<IProps> {
     const subject = {
       invoice: 'New Invoice',
       estimate: 'New Estimate',
-      payment: ''
+      payment: 'New Payment'
     };
 
     const body = {
