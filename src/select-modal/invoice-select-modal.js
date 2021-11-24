@@ -17,11 +17,15 @@ interface IProps {
    * Is allowed to edit.
    */
   disabled?: boolean;
+
+  /**
+   * Description shown below Fake-input.
+   */
+  description?: String;
 }
 
 export const InvoiceSelectModal = (props: IProps) => {
-  const {invoices, getInvoices, disabled} = props;
-
+  const {invoices, getInvoices, disabled, description} = props;
   return (
     <SelectField
       placeholder=" "
@@ -38,7 +42,7 @@ export const InvoiceSelectModal = (props: IProps) => {
       headerProps={{title: t('invoices.title'), rightIconPress: null}}
       emptyContentProps={{contentType: 'invoices'}}
       isEditable={!disabled}
-      baseSelectProps={{disabled}}
+      baseSelectProps={{disabled, description}}
     />
   );
 };

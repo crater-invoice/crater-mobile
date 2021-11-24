@@ -83,6 +83,7 @@ export default class Payments extends React.Component<IProps, IStates> {
     const {navigation} = this.props;
     navigation.navigate(routes.CREATE_PAYMENT, {
       id: payment.id,
+      paymentInvoiceId: payment?.invoice?.id,
       type: 'UPDATE'
     });
   };

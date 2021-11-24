@@ -108,13 +108,13 @@ export function sendPaymentReceipt(payload = {}) {
 }
 
 /**
- * Fetch unpaid invoices
+ * Fetch payment invoices
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function fetchUnpaidInvoices(payload = {}) {
+export function fetchPaymentInvoices(payload = {}) {
   return {
-    type: types.FETCH_UNPAID_INVOICES,
+    type: types.FETCH_PAYMENT_INVOICES,
     payload
   };
 }

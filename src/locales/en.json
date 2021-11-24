@@ -269,6 +269,7 @@
     "amount": "Amount",
     "invoice": "Invoice",
     "invoice_placeholder": "Select Invoice",
+    "invoice_description": "Due Amount: {{due_amount}}",
     "send_receipt": "Send Payment Receipt",
     "alertAmount": "Entered Payment is more than due amount of this invoice.",
     "alert_description": "You will not be able to recover this Payment",

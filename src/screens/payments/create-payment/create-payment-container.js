@@ -12,40 +12,49 @@ import {currentCurrencySelector} from 'stores/company/selectors';
 import {customersSelector} from 'stores/customer/selectors';
 import {notesSelector} from 'stores/note/selectors';
 import {modesSelector} from 'stores/payment-mode/selectors';
-import {fetchUnpaidInvoices} from 'stores/payment/actions';
+import {fetchPaymentInvoices} from 'stores/payment/actions';
 import {
   loadingSelector,
-  unPaidInvoicesSelector
+  paymentInvoicesSelector
 } from 'stores/payment/selectors';
 
-const mapStateToProps = (state, {route}) => ({
-  ...loadingSelector(state),
-  ...commonSelector(state),
-  ...permissionSelector(route),
-  notes: notesSelector(state),
-  paymentModes: modesSelector(state),
-  customers: customersSelector(state),
-  currency: currentCurrencySelector(state),
-  customFields: customFieldsSelector(state),
-  unPaidInvoices: unPaidInvoicesSelector(state),
-  invoice: route?.params?.invoice,
-  hasRecordPayment: route?.params?.hasRecordPayment,
-  formValues: getFormValues(CREATE_PAYMENT_FORM)(state) || {},
-  initialValues: {
-    payment_date: null,
-    payment_number: null,
-    customer_id: null,
-    invoice_id: null,
-    amount: null,
-    payment_method_id: null,
-    notes: null
-  }
-});
+const mapStateToProps = (state, {route}) => {
+  const paymentInvoiceId = route?.params?.paymentInvoiceId;
+  const paymentInvoices = state?.payment?.paymentInvoices;
+  const theme = state?.common?.theme;
+  return {
+    ...loadingSelector(state),
+    ...commonSelector(state),
+    ...permissionSelector(route),
+    notes: notesSelector(state),
+    paymentModes: modesSelector(state),
+    customers: customersSelector(state),
+    currency: currentCurrencySelector(state),
+    customFields: customFieldsSelector(state),
+    invoice: route?.params?.invoice,
+    hasRecordPayment: route?.params?.hasRecordPayment,
+    formValues: getFormValues(CREATE_PAYMENT_FORM)(state) || {},
+    paymentInvoices: paymentInvoicesSelector(
+      paymentInvoices,
+      paymentInvoiceId,
+      theme
+    ),
+    initialValues: {
+      payment_date: null,
+      payment_number: null,
+      customer_id: null,
+      invoice_id: null,
+      amount: null,
+      payment_method_id: null,
+      notes: null
+    }
+  };
+};
 
 const mapDispatchToProps = {
   fetchCustomers,
   fetchPaymentModes,
-  fetchUnpaidInvoices,
+  fetchPaymentInvoices,
   fetchNotes
 };
 const CreatePaymentForm = reduxForm({form: CREATE_PAYMENT_FORM, validate})(
