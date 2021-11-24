@@ -14,7 +14,7 @@ export default function userReducer(state = initialState, action) {
       return {...state, [payload.name]: payload.value};
 
     case types.SET_CURRENT_USER:
-      return {...state, currentUser: payload, isSaving: false};
+      return {...state, currentUser: payload};
 
     case types.SET_USER_SETTING:
       return {...state, ...payload, isSaving: false};

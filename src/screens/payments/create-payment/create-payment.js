@@ -294,8 +294,6 @@ export default class CreatePayment extends Component<IProps, IStates> {
             reference={ref => (this.sendMailRef = ref)}
             toEmail={this.props.formValues?.customer?.email}
             id={this.props.id}
-            disable-from-email
-            hide-preview
             type="payment"
           />
         )}

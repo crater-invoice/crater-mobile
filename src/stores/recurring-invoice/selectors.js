@@ -4,6 +4,7 @@ import {capitalize, isEmpty} from '@/constants';
 import {BADGE_STATUS_BG_COLOR, BADGE_STATUS_TEXT_COLOR} from '@/utils';
 import t from 'locales/use-translation';
 import {FREQUENCIES_TYPES} from './helpers';
+import {RECURRING_INVOICES_TYPES} from './types';
 
 export const formattedInvoices = (invoices, theme) => {
   if (isEmpty(invoices)) {
@@ -60,14 +61,13 @@ export const formatItems = (invoices, theme) => {
       title: name,
       subtitle: {
         title: find(FREQUENCIES_TYPES, {value: frequency})?.label ?? 'CUSTOM',
+        label: RECURRING_INVOICES_TYPES[status],
         ...(theme.mode === 'dark'
           ? {
-              label: status,
               labelTextColor: BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode],
               labelOutlineColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
             }
           : {
-              label: status,
               labelTextColor: BADGE_STATUS_TEXT_COLOR?.[status]?.[theme.mode],
               labelBgColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
             })

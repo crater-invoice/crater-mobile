@@ -34,7 +34,11 @@ export default class Login extends React.Component<IProps, IStates> {
       return;
     }
     await this.setState({isLoading: true});
-    this.props.dispatch(login(values, () => this.setState({isLoading: false})));
+    const params = {
+      ...values,
+      device_name: values.username
+    };
+    this.props.dispatch(login(params, () => this.setState({isLoading: false})));
   };
 
   loginViaBiometry = async () => {

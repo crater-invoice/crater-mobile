@@ -16,6 +16,7 @@ function* fetchCurrentUser({payload}) {
     const {language} = yield call(req.fetchUserSettings, ['language']);
     yield put(setCurrentUser(data));
     payload?.({...data, language});
+    yield put(spinner('isSaving', false));
   } catch (e) {}
 }
 

@@ -63,9 +63,7 @@ class Screen extends Component<IProps> {
             <MainLayout
               headerProps={{
                 ...headerProps,
-                ...(isAndroidPlatform && {
-                  containerStyle: styles.header
-                })
+                containerStyle: styles.header
               }}
               onSearch={onSearch}
               bottomDivider={bottomDivider}
@@ -91,9 +89,7 @@ class Screen extends Component<IProps> {
             <DefaultLayout
               headerProps={{
                 ...headerProps,
-                ...(isAndroidPlatform && {
-                  containerStyle: styles.header
-                })
+                containerStyle: styles.header
               }}
               bottomAction={bottomAction}
             >
@@ -126,7 +122,11 @@ const styles = StyleSheet.create({
     })
   },
   header: {
-    paddingTop: 60,
-    height: 110
+    height: 100,
+    paddingTop: 40,
+    ...(isAndroidPlatform && {
+      paddingTop: 60,
+      height: 110
+    })
   }
 });

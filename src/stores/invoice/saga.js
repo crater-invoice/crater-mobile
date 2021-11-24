@@ -130,6 +130,10 @@ function* updateInvoice({payload}) {
     showNotification({message: t('notification.invoice_updated')});
   } catch (e) {
     handleError(e);
+    showNotification({
+      message: t('notification.invalid_due_amount_message'),
+      type: 'error'
+    });
   } finally {
     yield put(spinner('isSaving', false));
   }

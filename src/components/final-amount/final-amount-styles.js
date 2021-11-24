@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {colors, fonts} from '@/styles';
+import {isAndroidPlatform} from '@/helpers/platform';
 
 export default styles = StyleSheet.create({
   discount: {
@@ -24,7 +25,11 @@ export default styles = StyleSheet.create({
     justifyContent: 'center',
     ...(disabled && {
       backgroundColor: theme?.input?.disableBackgroundColor
-    })
+    }),
+    ...(isAndroidPlatform &&
+      theme?.mode == 'dark' && {
+        marginBottom: -5
+      })
   }),
   discountField: theme => ({
     flexDirection: 'row',

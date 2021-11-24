@@ -3,11 +3,11 @@ import {colors} from '@/styles';
 export const BADGE_STATUS_BG_COLOR = {
   ON_HOLD: {
     light: colors.warningLight,
-    dark: colors.warningDark
+    dark: colors.white9
   },
   ACTIVE: {
     light: colors.infoLight,
-    dark: colors.infoLight
+    dark: colors.warning
   },
   DRAFT: {
     light: colors.warningLight,
@@ -62,11 +62,11 @@ export const BADGE_STATUS_BG_COLOR = {
 export const BADGE_STATUS_TEXT_COLOR = {
   ON_HOLD: {
     light: colors.warningDark,
-    dark: colors.warningDark2
+    dark: colors.white9
   },
   ACTIVE: {
     light: colors.infoDark,
-    dark: colors.infoLight
+    dark: colors.warning
   },
   DRAFT: {
     light: colors.warningDark,

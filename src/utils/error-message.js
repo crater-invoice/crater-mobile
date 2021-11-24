@@ -64,6 +64,7 @@ export const handleError = e => {
   try {
     const error = e?.data?.error;
     const errors = e?.data?.errors;
+    const message = e?.data?.message;
 
     if (hasObjectLength(errors)) {
       const {key, error} = requiredErrorMessage(errors);

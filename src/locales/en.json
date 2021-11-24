@@ -450,7 +450,8 @@
   "login": {
     "email": "Enter your email",
     "password": "Enter your password",
-    "invalid": "These credentials do not match our records."
+    "invalid": "These credentials do not match our records.",
+    "invalid_biometry": "Please enter your credentials manually."
   },
   "logout": {
     "confirmation": "Are you sure you want to logout?",
@@ -848,6 +849,7 @@
     "recurring_invoice_updated": "Recurring Invoice updated successfully",
     "recurring_invoice_deleted": "Recurring Invoice deleted successfully",
     "password_reset_link": "The password reset link was sent successfully.",
-    "company_created": "Company created successfully"
+    "company_created": "Company created successfully",
+    "invalid_due_amount_message": "Total Invoice amount cannot be less than total paid amount for this Invoice. Please update the invoice or delete the associated payments to continue."
   }
 }
