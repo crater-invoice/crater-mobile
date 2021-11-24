@@ -155,7 +155,14 @@ export function* fetchBootstrap(payloadData) {
       })
     );
     payloadData?.payload?.onSuccess?.(response);
-  } catch (e) {}
+    if (payloadData?.returnResponse) {
+      return true;
+    }
+  } catch (e) {
+    if (payloadData?.returnResponse) {
+      return false;
+    }
+  }
 }
 
 /**

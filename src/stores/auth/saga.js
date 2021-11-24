@@ -33,7 +33,15 @@ function* login({payload}) {
  */
 function* biometryLogin({payload}) {
   try {
-    yield call(fetchBootstrap, null);
+    const isSuccess = yield call(fetchBootstrap, {returnResponse: true});
+    if (!isSuccess) {
+      payload?.();
+      showNotification({
+        message: 'Please enter your credentials manually.',
+        type: 'error'
+      });
+      return;
+    }
     showNotification({message: t('notification.login_success')});
     yield put(loginSuccess());
     yield put(checkOTAUpdate());
