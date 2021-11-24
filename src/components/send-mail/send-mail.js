@@ -20,6 +20,7 @@ import {navigation} from '@/navigation';
 import Preview from './send-mail-preview';
 import {sendEstimate} from 'stores/estimate/actions';
 import {sendPaymentReceipt} from 'stores/payment/actions';
+import {STATUS_BAR_CONTENT} from '@/utils';
 
 class Modal extends Component<IProps> {
   keyboardShowListener: any;
@@ -152,7 +153,7 @@ class Modal extends Component<IProps> {
 
   openModal = () => {
     this.setState({visible: true});
-    StatusBar.setBarStyle('dark-content', false);
+    StatusBar.setBarStyle(STATUS_BAR_CONTENT[(this.props.theme?.mode)], false);
   };
 
   closeModal = async () => {
@@ -201,7 +202,9 @@ class Modal extends Component<IProps> {
           type="primary-outline"
           show={!this.props['hide-preview']}
         >
-          {!isPreview ? t('button.preview') : t('button.update')}
+          {!isPreview
+            ? t('button.preview')
+            : t('recurring_invoices.dropdown.edit')}
         </BaseButton>
       </BaseButtonGroup>
     );
