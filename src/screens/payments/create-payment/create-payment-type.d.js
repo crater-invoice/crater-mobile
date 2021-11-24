@@ -90,7 +90,7 @@ export interface IProps {
   hasRecordPayment: boolean;
 
   /**
-   * An objects with data for selected unpaid invoice.
+   * An objects with data for selected payment invoice.
    */
   invoice: any;
 
@@ -105,9 +105,9 @@ export interface IProps {
   paymentModes: Array<any>;
 
   /**
-   * An array of objects with data for each unpaid invoice.
+   * An array of objects with data for each payment invoice.
    */
-  unPaidInvoices: Array<any>;
+  paymentInvoices: Array<any>;
 
   /**
    * An array of objects with data for each payment note.
@@ -125,9 +125,9 @@ export interface IProps {
   fetchPaymentModes?: () => void;
 
   /**
-   * An action to return a list of unpaid invoice.
+   * An action to return a list of payment invoice.
    */
-  fetchUnpaidInvoices?: () => void;
+  fetchPaymentInvoices?: () => void;
 
   /**
    * An action to return a list of payment note.
@@ -160,4 +160,9 @@ export interface IStates {
    * The Exchange rate refresh button, displayed if the provider exist for current currency .
    */
   hasProvider: boolean;
+
+  /**
+   * Due amount of current selected invoice.
+   */
+  due_amount: Number<any>;
 }
