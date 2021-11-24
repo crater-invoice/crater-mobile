@@ -60,7 +60,7 @@ export class ExchangeRateField extends Component<IProps, IStates> {
 
   render() {
     const {
-      props: {currency, isEditScreen, isAllowToEdit},
+      props: {currency, isEditScreen, isAllowToEdit, theme},
       state: {hasProvider},
       state
     } = this.props;
@@ -101,8 +101,8 @@ export class ExchangeRateField extends Component<IProps, IStates> {
                 value: t('exchange_rate.selected_currency', {selectedCurrency})
               }}
               inputContainerStyle={styles.codeContainer}
-              disabledStyle={disabled ? {} : styles.codeDisable}
-              textStyle={styles.codeText}
+              disabledStyle={disabled ? {} : styles.codeDisable(theme)}
+              textStyle={styles.codeText(theme)}
               disabled
             />
           </View>

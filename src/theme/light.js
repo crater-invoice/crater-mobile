@@ -15,7 +15,8 @@ export const lightTheme = {
     thirdColor: colors.veryDarkGray,
     fourthColor: colors.primaryLight,
     fifthColor: colors.darkGray,
-    sixthColor: colors.dark
+    sixthColor: colors.dark.anchor,
+    seventhColor: colors.gray6
   },
 
   // Component Input
@@ -25,7 +26,8 @@ export const lightTheme = {
     validationBackgroundColor: colors.dangerLight,
     placeholderColor: colors.darkGray,
     borderColor: colors.lightGray,
-    disableBackgroundColor: colors.lightGray
+    disableBackgroundColor: colors.lightGray,
+    firstColor: colors.white10
   },
 
   // Component Icons

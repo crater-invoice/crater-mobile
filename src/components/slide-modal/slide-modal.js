@@ -73,16 +73,14 @@ class Screen extends Component<IProps> {
               inputProps={searchInputProps && searchInputProps}
               searchFieldProps={{
                 ...searchFieldProps,
-                ...(theme?.mode === 'dark' && {
-                  inputContainerStyle: {
-                    height: 38
-                  },
-                  inputFieldStyle: {
-                    marginTop: 10,
-                    marginBottom: 14
-                  }
-                }),
-                containerStyle: {marginTop: 10}
+                inputContainerStyle: {
+                  height: 38
+                },
+                inputFieldStyle: {
+                  marginTop: 10,
+                  marginBottom: 14
+                },
+                containerStyle: {marginTop: 14}
               }}
             >
               {listViewChildren}
@@ -120,6 +118,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
+    marginTop: -20,
     ...(isAndroidPlatform && {
       marginTop: -20,
       margin: 0,
