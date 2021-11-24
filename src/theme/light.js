@@ -15,7 +15,7 @@ export const lightTheme = {
     thirdColor: colors.veryDarkGray,
     fourthColor: colors.primaryLight,
     fifthColor: colors.darkGray,
-    sixthColor: colors.dark.anchor,
+    sixthColor: colors.dark,
     seventhColor: colors.gray6
   },
 

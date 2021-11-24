@@ -48,6 +48,12 @@ export const RECURRING_INVOICES_TABS = {
   ALL: 'ALL'
 };
 
+export const RECURRING_INVOICES_TYPES = {
+  ACTIVE: 'ACTIVE',
+  ON_HOLD: 'ON HOLD',
+  COMPLETED: 'COMPLETED'
+};
+
 export const TAB_NAME = {
   active: t(`recurring_invoices.tabs.active`),
   on_hold: t(`recurring_invoices.tabs.on_hold`),
