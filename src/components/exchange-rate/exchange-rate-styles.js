@@ -7,15 +7,15 @@ export const styles = StyleSheet.create({
     borderBottomLeftRadius: 0,
     borderTopLeftRadius: 0
   },
-  codeText: {
+  codeText: theme => ({
     textAlign: 'center',
     marginRight: 3,
-    color: colors.gray6
-  },
-  codeDisable: {
-    opacity: 1,
-    backgroundColor: colors.white10
-  },
+    color: theme?.text?.seventhColor
+  }),
+  codeDisable: theme => ({
+    backgroundColor: theme?.input?.firstColor,
+    opacity: 1
+  }),
   codeContainer: {
     borderBottomRightRadius: 0,
     borderTopRightRadius: 0

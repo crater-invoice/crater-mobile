@@ -15,7 +15,8 @@ export const darkTheme = {
     thirdColor: colors.white7,
     fourthColor: colors.white2,
     fifthColor: colors.white4,
-    sixthColor: colors.white2
+    sixthColor: colors.white2,
+    seventhColor: colors.white2
   },
 
   // Component Input
@@ -25,7 +26,8 @@ export const darkTheme = {
     validationBackgroundColor: colors.danger,
     placeholderColor: colors.white4,
     borderColor: colors.gray6,
-    disableBackgroundColor: colors.dark2
+    disableBackgroundColor: colors.dark2,
+    firstColor: colors.dark2
   },
 
   // Component Icons
