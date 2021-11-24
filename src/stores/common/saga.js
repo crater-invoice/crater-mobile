@@ -5,7 +5,7 @@ import * as types from './types';
 import * as req from './service';
 import {setI18nManagerValue, showNotification} from '@/utils';
 import t from 'locales/use-translation';
-import {routes} from '@/navigation';
+import {routes, resetNavigation} from '@/navigation';
 import {hasValue} from '@/constants';
 import {APP_VERSION} from '../../../config';
 import {navigateTo} from '@/navigation/navigation-action';
@@ -16,6 +16,7 @@ import {FETCH_COMPANIES_SUCCESS} from '../company/types';
 import {setCompanySetting, setSelectedCompany} from '../company/actions';
 import {setUserSetting} from '../user/actions';
 import {CommonServices} from './service';
+import {TranslationService} from 'locales/use-translation';
 
 /**
  * Fetch Tax And Discount Per item saga.
@@ -132,12 +133,13 @@ export function* fetchBootstrap(payloadData) {
       current_user_abilities = [],
       companies = []
     } = response;
-    const default_language = current_user_settings?.language ?? 'en';
+    const locale = current_user_settings?.language ?? 'en';
     PermissionService.setPermissions(
       current_user_abilities,
       current_user?.is_owner
     );
-    const isRTL = default_language === 'ar';
+    TranslationService.setLocale(locale);
+    const isRTL = locale === 'ar';
     setI18nManagerValue({isRTL});
     yield put({type: types.FETCH_BOOTSTRAP_SUCCESS, payload: response});
     yield put({type: FETCH_COMPANIES_SUCCESS, payload: companies});
@@ -154,6 +156,12 @@ export function* fetchBootstrap(payloadData) {
         selectedCompanySettings: current_company_settings
       })
     );
+
+    const state = yield select();
+    if (state?.common?.locale !== locale) {
+      resetNavigation();
+    }
+
     payloadData?.payload?.onSuccess?.(response);
     if (payloadData?.returnResponse) {
       return true;
