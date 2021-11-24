@@ -17,6 +17,7 @@ import {defineSize} from '@/helpers/size';
 import {IProps} from './type.d';
 import {currentCompanySelector} from 'stores/company/selectors';
 import {hasValue} from '@/constants';
+import {PermissionService} from '@/services';
 
 const Layout = (props: IProps) => {
   const {
@@ -33,7 +34,8 @@ const Layout = (props: IProps) => {
     searchFieldProps,
     plusButtonOnPress,
     selectedCompany,
-    theme
+    theme,
+    route
   } = props;
 
   let bodyStyle = {};
@@ -131,7 +133,7 @@ const Layout = (props: IProps) => {
 
         {bottomAction}
       </Container>
-      {plusButtonOnPress ? (
+      {plusButtonOnPress && PermissionService.isAllowToCreate(route?.name) ? (
         <View style={styles.floatingActionView}>
           <ButtonView
             justify-center

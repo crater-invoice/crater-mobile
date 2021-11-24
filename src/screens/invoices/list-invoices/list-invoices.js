@@ -8,7 +8,6 @@ import {INVOICES_TABS, INVOICES_FORM, TAB_NAME} from 'stores/invoice/types';
 import {isFilterApply} from '@/utils';
 import {InvoiceServices} from 'stores/invoice/service';
 import {openRatingReviewModal} from '@/utils';
-import {PermissionService} from '@/services';
 import {IProps, IStates} from './list-invoices-type.d';
 import {invoicesFilterFields} from './list-invoices-filters';
 import {Tab} from './list-invoices-tab';
@@ -174,12 +173,8 @@ export default class Invoices extends React.Component<IProps, IStates> {
   };
 
   render() {
-    const {navigation, handleSubmit, theme} = this.props;
+    const {navigation, handleSubmit, theme, route} = this.props;
     const {activeTab} = this.state;
-    const headerProps = {
-      hasCircle: false,
-      title: t('header.invoices')
-    };
 
     const filterProps = {
       onSubmitFilter: handleSubmit(this.onSubmitFilter),
@@ -208,15 +203,14 @@ export default class Invoices extends React.Component<IProps, IStates> {
 
     return (
       <MainLayout
-        headerProps={headerProps}
+        headerProps={{title: t('header.invoices')}}
         onSearch={this.onSearch}
         filterProps={filterProps}
         with-input-filter
-        navigation={navigation}
-        {...(PermissionService.isAllowToCreate(routes.MAIN_INVOICES) && {
-          plusButtonOnPress: this.onAddInvoice
-        })}
         with-company
+        navigation={navigation}
+        route={route}
+        plusButtonOnPress={this.onAddInvoice}
       >
         <BaseTabs
           style={styles.tabs(theme)}

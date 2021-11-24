@@ -76,6 +76,11 @@ export default class Customers extends React.Component<IProps, IStates> {
     });
   };
 
+  onAddCustomer = () => {
+    const {navigation} = this.props;
+    navigation.navigate(routes.CREATE_CUSTOMER, {type: 'ADD'});
+  };
+
   render() {
     const {
       customers,
@@ -88,15 +93,6 @@ export default class Customers extends React.Component<IProps, IStates> {
     const {search} = this.state;
     const isFilter = isFilterApply(formValues);
 
-    const headerProps = {
-      rightIcon: 'plus',
-      rightIconPress: () => {
-        navigation.navigate(routes.CREATE_CUSTOMER, {type: 'ADD'});
-      },
-      title: t('header.customers'),
-      route
-    };
-
     const filterProps = {
       onSubmitFilter: handleSubmit(this.onSubmitFilter),
       inputFields: filterFields,
@@ -106,10 +102,15 @@ export default class Customers extends React.Component<IProps, IStates> {
 
     return (
       <MainLayout
-        headerProps={headerProps}
+        headerProps={{title: t('header.customers')}}
         onSearch={this.onSearch}
         filterProps={filterProps}
         bottomDivider
+        with-input-filter
+        with-company
+        navigation={navigation}
+        route={route}
+        plusButtonOnPress={this.onAddCustomer}
       >
         <InfiniteScroll
           getItems={q => dispatch(fetchCustomers(q))}

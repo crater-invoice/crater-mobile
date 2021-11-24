@@ -1,28 +1,27 @@
 import {StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
 import {SCREEN_HEIGHT, defineSize} from '@/helpers/size';
+import {definePlatformParam} from '@/helpers/platform';
 
 const customStyleSheet = StyleSheet.create({
   closeButton: {
     paddingRight: 20,
     paddingVertical: 15
   },
-  logo: (theme, isMedium) => ({
+  logo: theme => ({
     width: 36,
     height: 36,
     borderRadius: 36,
     borderWidth: 1,
-    borderColor: theme.divider.secondaryBgColor,
-    ...(isMedium && {
-      width: 34,
-      height: 34,
-      borderRadius: 34
-    })
+    borderColor: theme.divider.secondaryBgColor
   }),
   bottomAction: theme => ({
     borderTopWidth: 1,
     borderTopColor: theme.divider.secondaryBgColor
-  })
+  }),
+  caret: {
+    marginTop: definePlatformParam(1.5, 0)
+  }
 });
 
 const Styles = {

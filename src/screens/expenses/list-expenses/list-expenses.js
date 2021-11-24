@@ -95,7 +95,7 @@ export default class Expenses extends React.Component<IProps, IStates> {
   };
 
   render() {
-    const {expenses, handleSubmit, route, dispatch} = this.props;
+    const {expenses, handleSubmit, route, dispatch, navigation} = this.props;
     const {search} = this.state;
 
     const filterProps = {
@@ -105,19 +105,17 @@ export default class Expenses extends React.Component<IProps, IStates> {
       onResetFilter: () => this.onResetFilter()
     };
 
-    const headerProps = {
-      rightIcon: 'plus',
-      rightIconPress: () => this.onAddExpense(),
-      title: t('header.expenses'),
-      route
-    };
-
     return (
       <MainLayout
-        headerProps={headerProps}
+        headerProps={{title: t('header.expenses')}}
         onSearch={this.onSearch}
         bottomDivider
         filterProps={filterProps}
+        with-input-filter
+        with-company
+        navigation={navigation}
+        route={route}
+        plusButtonOnPress={this.onAddExpense}
       >
         <InfiniteScroll
           getItems={q => dispatch(fetchExpenses(q))}
