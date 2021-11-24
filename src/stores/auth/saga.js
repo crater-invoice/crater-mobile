@@ -36,10 +36,7 @@ function* biometryLogin({payload}) {
     const isSuccess = yield call(fetchBootstrap, {returnResponse: true});
     if (!isSuccess) {
       payload?.();
-      showNotification({
-        message: 'Please enter your credentials manually.',
-        type: 'error'
-      });
+      showNotification({message: t('login.invalid_biometry'), type: 'error'});
       return;
     }
     showNotification({message: t('notification.login_success')});
