@@ -126,6 +126,9 @@ export default class Preferences extends Component<IProps, IStates> {
           isRequired
           theme={theme}
           onSelect={val => this.setFormField('currency', val.id)}
+          baseSelectProps={{
+            description: t('settings.preferences.company_currency_unchangeable')
+          }}
           disabled
         />
 

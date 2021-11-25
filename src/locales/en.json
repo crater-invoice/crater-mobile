@@ -444,7 +444,8 @@
       "create_status": "Create Status",
       "active": "Active",
       "on_hold": "On Hold",
-      "completed": "Completed"
+      "completed": "Completed",
+      "company_currency_unchangeable": "Company currency cannot be changed"
     },
     "notes": "Notes"
   },
