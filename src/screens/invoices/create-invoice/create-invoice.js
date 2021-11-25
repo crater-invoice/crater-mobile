@@ -384,7 +384,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       notes,
       fetchNotes
     } = this.props;
-    const isUnpaid = paid_status === 'UNPAID';
+    const isUnpaid = isEditScreen ? paid_status === 'UNPAID' : true;
     const {isFetchingInitialData, hasExchangeRate} = this.state;
     const disabled = !isAllowToEdit;
     let hasSentStatus = status === 'SENT' || status === 'VIEWED';
