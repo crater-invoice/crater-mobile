@@ -177,7 +177,7 @@ class TextInput extends Component<IProps> {
       icons = {
         rightIcon: (
           <View style={styles.rightSymbolView}>
-            <Text color={colors.gray5} style={styles.rightSymbol}>
+            <Text color={colors.darkGray} medium style={styles.rightSymbol}>
               {rightSymbol}
             </Text>
           </View>

@@ -110,7 +110,11 @@ const SelectView = props => {
           />
         )}
       </ButtonView>
-      {description ? <Text class="h6 mx-2">{description}</Text> : null}
+      {description ? (
+        <Text class={`h6 mx-2 darkGray ${props['description-class']}`}>
+          {description}
+        </Text>
+      ) : null}
       <BaseError {...props} style={styles.validation} />
     </Container>
   );

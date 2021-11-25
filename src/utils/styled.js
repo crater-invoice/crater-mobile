@@ -8,6 +8,11 @@ export const applyProp = (props, prop) => {
   if (!property) return 0;
 
   const split = property.split('-');
+
+  if (property.charAt(0) === '-' && split.length === 3) {
+    return -split[split.length - 1];
+  }
+
   return split[split.length - 1];
 };
 
