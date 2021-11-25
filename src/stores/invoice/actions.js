@@ -13,7 +13,7 @@ export const spinner = (name, value) => ({
 
 /**
  * Fetch invoice initial details
- * @param onSuccess
+ * @param payload
  * @returns {{type: string, payload: *}}
  */
 export const fetchInvoiceInitialDetails = payload => ({
@@ -23,13 +23,12 @@ export const fetchInvoiceInitialDetails = payload => ({
 
 /**
  * Fetch next invoice number
- * @param userId user id
- * @param onSuccess
+ * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const fetchNextInvoiceNumber = (userId, onSuccess) => ({
+export const fetchNextInvoiceNumber = (payload = {}) => ({
   type: types.FETCH_NEXT_INVOICE_NUMBER,
-  payload: {userId, onSuccess}
+  payload
 });
 
 /**

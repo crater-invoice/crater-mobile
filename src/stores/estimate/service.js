@@ -76,11 +76,11 @@ export const convertToInvoice = id => {
 
 /**
  * Fetch next estimate number
- * @param id : customer id
+ * @param q : queryString
  * @returns {*}
  */
-export const fetchNextEstimateNumber = id => {
-  return Request.get(`/next-number?key=estimate&userId=${id}`);
+export const fetchNextEstimateNumber = q => {
+  return Request.get(`/next-number?${queryString.stringify(q)}`);
 };
 
 /**

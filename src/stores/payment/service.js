@@ -68,9 +68,9 @@ export const fetchPaymentInvoices = q => {
 
 /**
  * Fetch next payment number
- * @param id : customer id
+ * @param q : queryString
  * @returns {*}
  */
-export const fetchNextPaymentNumber = id => {
-  return Request.get(`/next-number?key=payment&userId=${id}`);
+export const fetchNextPaymentNumber = q => {
+  return Request.get(`/next-number?${queryString.stringify(q)}`);
 };
