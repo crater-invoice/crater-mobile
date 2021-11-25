@@ -30,6 +30,7 @@
       "package": "com.craterapp.app",
       "versionCode": 18,
       "softwareKeyboardLayoutMode": "pan",
+      "userInterfaceStyle": "automatic",
       "permissions": [
         "CAMERA",
         "READ_CALENDAR",
