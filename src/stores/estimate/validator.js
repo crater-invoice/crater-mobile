@@ -10,7 +10,8 @@ export const validate = values => {
     expiry_date,
     template_name,
     items,
-    customer_id
+    customer_id,
+    exchange_rate
   } = values;
 
   errors.estimate_date = getError(estimate_date, ['required']);
@@ -27,6 +28,11 @@ export const validate = values => {
   errors.template_name = getError(template_name, ['required'], {
     fieldName: 'Template'
   });
+
+  errors.exchange_rate = getError(exchange_rate, [
+    'required',
+    'isNumberFormat'
+  ]);
 
   const fieldErrors = validateCustomField(values?.customFields);
   !isEmpty(fieldErrors) && (errors.customFields = fieldErrors);

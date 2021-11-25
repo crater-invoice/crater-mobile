@@ -38,7 +38,7 @@ export function* addItem({payload}) {
     let items = {...data, item_id: data.id, ...item};
     const exchangePrice = item?.exchangePrice;
     if (exchangePrice) {
-      items = {...items, price: exchangePrice, total: exchangePrice};
+      items = {...items, price: exchangePrice};
     }
     yield put({type: types.ADD_ITEM_SUCCESS, payload: [items]});
     showNotification({message: t('notification.item_created')});

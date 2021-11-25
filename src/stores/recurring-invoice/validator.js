@@ -14,7 +14,8 @@ export const validate = values => {
     frequency_picker,
     frequency,
     items,
-    template_name
+    template_name,
+    exchange_rate
   } = values;
   errors.customer_id = getError(customer_id, ['required']);
   errors.starts_at = getError(starts_at, ['required']);
@@ -22,6 +23,10 @@ export const validate = values => {
   errors.status = getError(status, ['required']);
   errors.items = getError(items, ['requiredCheckArray']);
   errors.template_name = getError(template_name, ['required']);
+  errors.exchange_rate = getError(exchange_rate, [
+    'required',
+    'isNumberFormat'
+  ]);
 
   if (limit_by === 'DATE')
     errors.limit_date = getError(limit_date, ['required']);
