@@ -396,6 +396,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         ? EDIT_INVOICE_ACTIONS(
             hasSentStatus,
             hasCompleteStatus,
+            isAllowToEdit,
             isAllowToDelete
           )
         : [];
