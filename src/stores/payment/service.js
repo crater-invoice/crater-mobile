@@ -58,19 +58,19 @@ export const sendPaymentReceipt = (id, data) => {
 };
 
 /**
- * Fetch unpaid invoices
+ * Fetch payment invoices
  * @param q : queryString
  * @returns {*}
  */
-export const fetchUnpaidInvoices = q => {
+export const fetchPaymentInvoices = q => {
   return Request.get(`/invoices?${queryString.stringify(q)}`);
 };
 
 /**
  * Fetch next payment number
- * @param id : customer id
+ * @param q : queryString
  * @returns {*}
  */
-export const fetchNextPaymentNumber = id => {
-  return Request.get(`/next-number?key=payment&userId=${id}`);
+export const fetchNextPaymentNumber = q => {
+  return Request.get(`/next-number?${queryString.stringify(q)}`);
 };

@@ -7,6 +7,7 @@ import moment from 'moment';
 export const EDIT_INVOICE_ACTIONS = (
   sentStatus = false,
   completeStatus = false,
+  isAllowToEdit,
   isAllowToDelete
 ) => {
   let options = [];
@@ -30,10 +31,12 @@ export const EDIT_INVOICE_ACTIONS = (
       value: INVOICE_ACTIONS.SEND
     });
 
-  options.push({
-    label: t('invoices.actions.clone'),
-    value: INVOICE_ACTIONS.CLONE
-  });
+  if (PermissionService.isOwner) {
+    options.push({
+      label: t('invoices.actions.clone'),
+      value: INVOICE_ACTIONS.CLONE
+    });
+  }
 
   if (
     PermissionService.isAllowToCreate(routes.MAIN_PAYMENTS) &&
@@ -52,7 +55,11 @@ export const EDIT_INVOICE_ACTIONS = (
     });
 
   if (!PermissionService.isAllowToSend(routes.CREATE_INVOICE)) {
-    options = options.filter(o => o.value !== INVOICE_ACTIONS.SEND);
+    options = options.filter(
+      o =>
+        o.value !== INVOICE_ACTIONS.SEND &&
+        o.value !== INVOICE_ACTIONS.MARK_AS_SENT
+    );
   }
 
   return options;

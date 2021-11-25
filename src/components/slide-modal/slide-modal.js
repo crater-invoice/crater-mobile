@@ -5,7 +5,6 @@ import {ListView} from '../list-view';
 import {MainLayout, DefaultLayout} from '../layouts';
 import {InfiniteScroll} from '../infinite-scroll';
 import {ScrollView} from '../scroll-view';
-import {isAndroidPlatform} from '@/helpers/platform';
 import {defineSize} from '@/helpers/size';
 import {commonSelector} from 'stores/common/selectors';
 import {IProps} from './type.d';
@@ -63,9 +62,7 @@ class Screen extends Component<IProps> {
             <MainLayout
               headerProps={{
                 ...headerProps,
-                ...(isAndroidPlatform && {
-                  containerStyle: styles.header
-                })
+                containerStyle: styles.header
               }}
               onSearch={onSearch}
               bottomDivider={bottomDivider}
@@ -73,16 +70,14 @@ class Screen extends Component<IProps> {
               inputProps={searchInputProps && searchInputProps}
               searchFieldProps={{
                 ...searchFieldProps,
-                ...(theme?.mode === 'dark' && {
-                  inputContainerStyle: {
-                    height: 38
-                  },
-                  inputFieldStyle: {
-                    marginTop: 10,
-                    marginBottom: 14
-                  }
-                }),
-                containerStyle: {marginTop: 10}
+                inputContainerStyle: {
+                  height: 38
+                },
+                inputFieldStyle: {
+                  marginTop: 10,
+                  marginBottom: 14
+                },
+                containerStyle: {marginTop: 14}
               }}
             >
               {listViewChildren}
@@ -93,9 +88,7 @@ class Screen extends Component<IProps> {
             <DefaultLayout
               headerProps={{
                 ...headerProps,
-                ...(isAndroidPlatform && {
-                  containerStyle: styles.header
-                })
+                containerStyle: styles.header
               }}
               bottomAction={bottomAction}
             >
@@ -120,14 +113,10 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    ...(isAndroidPlatform && {
-      marginTop: -20,
-      margin: 0,
-      padding: 0
-    })
+    marginTop: -20,
   },
   header: {
+    height: 120,
     paddingTop: 60,
-    height: 110
   }
 });

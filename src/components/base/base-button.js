@@ -103,21 +103,29 @@ export const BaseButtonGroup = props => {
   const isMoreThanTwo = children?.length >= 2;
   const baseButtons = [];
 
-  const buttons = button => {
+  const buttons = (button, i = 0) => {
     const canCheckVisibility =
       button?.props && button.props.hasOwnProperty('show');
     if (canCheckVisibility) {
       button.props.show &&
-        baseButtons.push(<View class="flex-1 mx-15">{button}</View>);
+        baseButtons.push(
+          <View class="flex-1 mx-15" key={i}>
+            {button}
+          </View>
+        );
     } else {
-      baseButtons.push(<View class="flex-1 mx-15">{button}</View>);
+      baseButtons.push(
+        <View class="flex-1 mx-15" key={i}>
+          {button}
+        </View>
+      );
     }
   };
 
   if (!isMoreThanTwo) {
     buttons(children);
   } else {
-    children.map(c => buttons(c));
+    children.map((c, i) => buttons(c, i));
   }
 
   if (isEmpty(baseButtons)) return null;

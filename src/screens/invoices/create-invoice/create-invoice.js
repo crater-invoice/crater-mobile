@@ -2,7 +2,6 @@ import React from 'react';
 import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change, initialize} from 'redux-form';
-import {ExchangeRateField, TemplateField} from '@/components';
 import {dismissRoute, routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {alertMe} from '@/constants';
@@ -17,7 +16,9 @@ import {
   ItemField,
   FinalAmount,
   BaseButtonGroup,
-  BaseButton
+  BaseButton,
+  ExchangeRateField,
+  TemplateField
 } from '@/components';
 import {CREATE_INVOICE_FORM, INVOICE_ACTIONS} from 'stores/invoice/types';
 import {EDIT_INVOICE_ACTIONS, initialValues} from 'stores/invoice/helpers';
@@ -334,10 +335,11 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     this.fetchNextInvoiceNumber(item.id);
   };
 
-  fetchNextInvoiceNumber = id => {
+  fetchNextInvoiceNumber = userId => {
+    const {id = null, dispatch} = this.props;
     const onSuccess = nextNumber =>
       this.setFormField('invoice_number', nextNumber);
-    this.props.dispatch(fetchNextInvoiceNumber(id, onSuccess));
+    dispatch(fetchNextInvoiceNumber({userId, model_id: id, onSuccess}));
   };
 
   setExchangeRate = (customerCurrency, onResult) => {
@@ -372,7 +374,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       items,
       fetchCustomers,
       customers,
-      formValues: {customer, status},
+      formValues: {customer, status, paid_status},
       formValues,
       customFields,
       isAllowToEdit,
@@ -384,6 +386,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       notes,
       fetchNotes
     } = this.props;
+    const isUnpaid = isEditScreen ? paid_status === 'UNPAID' : true;
     const {isFetchingInitialData, hasExchangeRate} = this.state;
     const disabled = !isAllowToEdit;
     let hasSentStatus = status === 'SENT' || status === 'VIEWED';
@@ -394,6 +397,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
         ? EDIT_INVOICE_ACTIONS(
             hasSentStatus,
             hasCompleteStatus,
+            isAllowToEdit,
             isAllowToDelete
           )
         : [];
@@ -514,7 +518,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           onSelect={this.onCustomerSelect}
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
-          disabled={disabled}
+          disabled={disabled || !isUnpaid}
         />
 
         {hasExchangeRate && <ExchangeRateField {...this} />}

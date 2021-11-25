@@ -19,7 +19,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 17,
       fullItem: {route: routes.CREATE_COMPANY},
-      show: PermissionService.isSuperAdmin
+      show: PermissionService.isOwner
     },
     {
       title: t('settings.preference'),
@@ -27,7 +27,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 21,
       fullItem: {route: routes.PREFERENCES},
-      show: PermissionService.isSuperAdmin
+      show: PermissionService.isOwner
     },
     {
       title: t('settings.payment_modes'),
@@ -63,7 +63,7 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 20,
       fullItem: {route: routes.NOTIFICATIONS},
-      show: PermissionService.isSuperAdmin
+      show: PermissionService.isOwner
     },
     {
       title: t('settings.notes'),
@@ -71,14 +71,14 @@ export const SETTINGS_MENU = () => {
       leftIconSolid: true,
       iconSize: 20,
       fullItem: {route: routes.NOTES},
-      show: PermissionService.isAllowToManage(routes.NOTES)
+      show: PermissionService.isAllowToManage('manage-all-notes')
     },
     {
       title: t('header.roles'),
       leftIcon: 'users',
       iconSize: 20,
       fullItem: {route: routes.ROLES},
-      show: PermissionService.isSuperAdmin
+      show: PermissionService.isOwner
     },
     {
       title: t('settings.touch_or_Face_id'),
@@ -93,7 +93,7 @@ export const SETTINGS_MENU = () => {
       leftIcon: 'link',
       iconSize: 20,
       fullItem: {route: routes.ENDPOINTS_SETTINGS},
-      show: PermissionService.isSuperAdmin
+      show: PermissionService.isOwner
     }
   ];
 };

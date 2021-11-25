@@ -27,13 +27,12 @@ export function fetchPayments(payload = {}) {
 
 /**
  * Fetch next payment number
- * @param userId user id
- * @param onSuccess
+ * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const fetchNextPaymentNumber = (userId, onSuccess) => ({
+export const fetchNextPaymentNumber = (payload = {}) => ({
   type: types.FETCH_NEXT_PAYMENT_NUMBER,
-  payload: {userId, onSuccess}
+  payload
 });
 
 /**
@@ -108,13 +107,13 @@ export function sendPaymentReceipt(payload = {}) {
 }
 
 /**
- * Fetch unpaid invoices
+ * Fetch payment invoices
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function fetchUnpaidInvoices(payload = {}) {
+export function fetchPaymentInvoices(payload = {}) {
   return {
-    type: types.FETCH_UNPAID_INVOICES,
+    type: types.FETCH_PAYMENT_INVOICES,
     payload
   };
 }

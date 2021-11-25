@@ -2,7 +2,7 @@ import * as types from './types';
 
 const initialState = {
   payments: [],
-  unPaidInvoices: [],
+  paymentInvoices: [],
   isSaving: false,
   isDeleting: false,
   isLoading: false
@@ -20,6 +20,7 @@ export default function paymentReducer(state = initialState, action) {
         return {
           ...state,
           payments: payload.payments,
+          paymentInvoices: [],
           isSaving: false,
           isDeleting: false,
           isLoading: false
@@ -50,16 +51,16 @@ export default function paymentReducer(state = initialState, action) {
         payments: state.payments.filter(({id}) => id !== payload)
       };
 
-    case types.FETCH_UNPAID_INVOICES_SUCCESS:
+    case types.FETCH_PAYMENT_INVOICES_SUCCESS:
       if (payload.fresh) {
         return {
           ...state,
-          unPaidInvoices: payload.unPaidInvoices
+          paymentInvoices: payload.paymentInvoices
         };
       }
       return {
         ...state,
-        unPaidInvoices: [...state.unPaidInvoices, ...payload.unPaidInvoices]
+        paymentInvoices: [...state.paymentInvoices, ...payload.paymentInvoices]
       };
 
     default:

@@ -177,7 +177,7 @@ class TextInput extends Component<IProps> {
       icons = {
         rightIcon: (
           <View style={styles.rightSymbolView}>
-            <Text color={colors.gray5} style={styles.rightSymbol}>
+            <Text color={colors.darkGray} medium style={styles.rightSymbol}>
               {rightSymbol}
             </Text>
           </View>
@@ -191,7 +191,7 @@ class TextInput extends Component<IProps> {
           <ButtonView
             scale={0.8}
             onPress={this.toggleSecureTextEntry}
-            hitSlop={hitSlop(13, 13, 13, 13)}
+            hitSlop={hitSlop(30, 30, 30, 30)}
             class="justify-center items-center pt-2 px-15"
           >
             <AssetIcon

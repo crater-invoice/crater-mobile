@@ -51,7 +51,7 @@ export const itemsFilterFields = ({props, setFormField}) => {
     }
   ];
 
-  if (PermissionService.isSuperAdmin) {
+  if (PermissionService.isOwner) {
     return {inputFields, selectFields};
   } else {
     return {inputFields};

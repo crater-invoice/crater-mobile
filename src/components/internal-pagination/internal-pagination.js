@@ -250,6 +250,10 @@ export class InternalPaginationComponent extends Component<IProps, IStates> {
         containerStyle={containerStyle}
         meta={meta}
         rightIcon={'angle-down'}
+        {...(baseSelectProps &&
+          baseSelectProps?.description && {
+            'description-class': 'mb-7 -mt-4'
+          })}
         {...baseSelectProps}
       />
     ) : (

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {TouchableHighlight, ScrollView} from 'react-native';
+import {truncate} from 'lodash';
 import Styles from './company-modal-style';
 import t from 'locales/use-translation';
 import {colors} from '@/styles';
@@ -7,18 +8,19 @@ import {navigateTo, resetNavigation, routes} from '@/navigation';
 import {fetchCompanies, setSelectedCompany} from 'stores/company/actions';
 import {IProps, IStates} from './company-modal-type.d';
 import {fetchBootstrap} from 'stores/common/actions';
-import {isAndroidPlatform} from '@/helpers/platform';
+import {definePlatformParam, isAndroidPlatform} from '@/helpers/platform';
 import {defineSize} from '@/helpers/size';
 import {hasTextLength as hasValue} from '@/constants';
+import {PermissionService} from '@/services';
 import {
   AnimateModal,
+  AssetIcon,
   AssetImage,
   AssetSvg,
   ButtonView,
   Text,
   View
 } from '@/components';
-import {PermissionService} from '@/services';
 
 export default class CompanyModal extends Component<IProps, IStates> {
   constructor(props) {
@@ -65,16 +67,10 @@ export default class CompanyModal extends Component<IProps, IStates> {
     const {visible} = this.state;
     const {Modal} = Styles;
 
-    const companyLogo = (company, type) => {
-      const isMedium = type === 'medium';
-
+    const companyLogo = company => {
       if (hasValue(company?.logo)) {
         return (
-          <AssetImage
-            uri
-            source={company.logo}
-            style={Styles.logo(theme, isMedium)}
-          />
+          <AssetImage uri source={company.logo} style={Styles.logo(theme)} />
         );
       }
 
@@ -88,12 +84,6 @@ export default class CompanyModal extends Component<IProps, IStates> {
           items-center
           border-width={1}
           border-color={theme.divider.secondaryBgColor}
-          {...(isMedium && {
-            width: 32,
-            height: 32,
-            'radius-32': true,
-            'background-color': colors.primary
-          })}
           {...(isAndroidPlatform && {'pt-3': true})}
         >
           <Text h4 center medium color={colors.white}>
@@ -119,7 +109,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
           onPress={() => this.onSelectCompany(com)}
         >
           <View flex-row items-center>
-            {companyLogo(com, 'large')}
+            {companyLogo(com)}
             <Text
               h4
               pl-14
@@ -163,10 +153,47 @@ export default class CompanyModal extends Component<IProps, IStates> {
       }
     };
 
+    const companyName = s => {
+      if (typeof s !== 'string') return '';
+      const name = s.charAt(0).toUpperCase() + s.slice(1);
+      return truncate(name, {
+        length: 9,
+        omission: '..'
+      });
+    };
+
     return (
       <View>
-        <ButtonView withHitSlop mr-11 onPress={this.openModal}>
-          {companyLogo(selectedCompany, 'medium')}
+        <ButtonView mr-11 onPress={this.openModal}>
+          {selectedCompany ? (
+            <View
+              justify-center
+              items-center
+              flex-row
+              px-12
+              radius-5
+              background-color={colors.primary}
+              background-color={colors.primary}
+              border-width={1}
+              border-color={theme.divider.secondaryBgColor}
+              class={`py-${definePlatformParam(6, 4)}`}
+              {...(isAndroidPlatform && {'pt-5': true})}
+            >
+              <Text
+                class="h4 center medium pr-8"
+                color={colors.white}
+                letter-spacing={0.2}
+              >
+                {companyName(selectedCompany?.name)}
+              </Text>
+              <AssetIcon
+                name={'angle-down'}
+                size={17}
+                color={colors.white3}
+                style={Styles.caret}
+              />
+            </View>
+          ) : null}
         </ButtonView>
 
         <AnimateModal
@@ -217,7 +244,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
             >
               {companies.map(com => COMPANIES_LIST(com))}
             </ScrollView>
-            {PermissionService.isSuperAdmin ? (
+            {PermissionService.isOwner ? (
               <ButtonView
                 scale={1}
                 justify-center

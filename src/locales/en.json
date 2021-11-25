@@ -269,6 +269,7 @@
     "amount": "Amount",
     "invoice": "Invoice",
     "invoice_placeholder": "Select Invoice",
+    "invoice_description": "Due Amount: {{due_amount}}",
     "send_receipt": "Send Payment Receipt",
     "alertAmount": "Entered Payment is more than due amount of this invoice.",
     "alert_description": "You will not be able to recover this Payment",
@@ -443,14 +444,16 @@
       "create_status": "Create Status",
       "active": "Active",
       "on_hold": "On Hold",
-      "completed": "Completed"
+      "completed": "Completed",
+      "company_currency_unchangeable": "Company currency cannot be changed"
     },
     "notes": "Notes"
   },
   "login": {
     "email": "Enter your email",
     "password": "Enter your password",
-    "invalid": "These credentials do not match our records."
+    "invalid": "These credentials do not match our records.",
+    "invalid_biometry": "Please enter your credentials manually."
   },
   "logout": {
     "confirmation": "Are you sure you want to logout?",
@@ -848,6 +851,8 @@
     "recurring_invoice_updated": "Recurring Invoice updated successfully",
     "recurring_invoice_deleted": "Recurring Invoice deleted successfully",
     "password_reset_link": "The password reset link was sent successfully.",
-    "company_created": "Company created successfully"
+    "company_created": "Company created successfully",
+    "invalid_due_amount_message": "Total Invoice amount cannot be less than total paid amount for this Invoice. Please update the invoice or delete the associated payments to continue.",
+    "currency_unchangeable": "Selected customer's currency cannot be changed after creating transactions"
   }
 }

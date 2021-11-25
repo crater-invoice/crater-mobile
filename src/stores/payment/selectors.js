@@ -29,21 +29,20 @@ export const paymentsSelector = createSelector(
   }
 );
 
-export const unPaidInvoicesSelector = createSelector(
-  state => state.payment.unPaidInvoices,
-  state => state.common.theme,
-  (unPaidInvoices, theme) => {
-    if (isEmpty(unPaidInvoices)) return [];
+const formattedInvoice = (paymentInvoices, paymentInvoiceId, theme) => {
+  if (isEmpty(paymentInvoices)) return [];
+  return paymentInvoices.map(invoice => {
+    const {
+      status,
+      invoice_number,
+      formatted_due_date,
+      due_amount,
+      total,
+      customer,
+      id
+    } = invoice;
 
-    return unPaidInvoices.map(invoice => {
-      const {
-        status,
-        invoice_number,
-        formatted_due_date,
-        due_amount,
-        customer
-      } = invoice;
-
+    if (due_amount > 0 || id === paymentInvoiceId) {
       return {
         title: customer?.name,
         subtitle: {
@@ -59,14 +58,17 @@ export const unPaidInvoicesSelector = createSelector(
                 labelBgColor: BADGE_STATUS_BG_COLOR?.[status]?.[theme.mode]
               })
         },
-        amount: due_amount,
+        amount: total,
         currency: customer?.currency,
         rightSubtitle: formatted_due_date,
         fullItem: invoice
       };
-    });
-  }
-);
+    }
+  });
+};
+
+export const paymentInvoicesSelector = (invoices, paymentInvoiceId, theme) =>
+  formattedInvoice(invoices, paymentInvoiceId, theme);
 
 export const loadingSelector = createSelector(
   paymentStore,

@@ -1,6 +1,7 @@
 import React from 'react';
 import {SelectField} from '@/components';
 import t from 'locales/use-translation';
+import {hasObjectLength, isEmpty} from '@/constants';
 
 interface IProps {
   /**
@@ -17,16 +18,24 @@ interface IProps {
    * Is allowed to edit.
    */
   disabled?: boolean;
+
+  /**
+   * Description shown below Fake-input.
+   */
+  description?: String;
 }
 
 export const InvoiceSelectModal = (props: IProps) => {
-  const {invoices, getInvoices, disabled} = props;
+  const {getInvoices, disabled, description} = props;
+  const invoices = isEmpty(props?.invoices)
+    ? []
+    : props.invoices.filter(invoice => hasObjectLength(invoice));
 
   return (
     <SelectField
       placeholder=" "
       {...props}
-      items={invoices ?? []}
+      items={isEmpty(invoices) ? [] : invoices}
       getItems={getInvoices}
       apiSearch
       hasPagination
@@ -38,7 +47,7 @@ export const InvoiceSelectModal = (props: IProps) => {
       headerProps={{title: t('invoices.title'), rightIconPress: null}}
       emptyContentProps={{contentType: 'invoices'}}
       isEditable={!disabled}
-      baseSelectProps={{disabled}}
+      baseSelectProps={{disabled, description}}
     />
   );
 };

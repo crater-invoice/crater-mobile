@@ -1,6 +1,5 @@
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
-import Constants from 'expo-constants';
 import Login from './login';
 import {commonSelector} from 'stores/common/selectors';
 import {LOGIN_FORM} from 'stores/auth/types';
@@ -15,8 +14,7 @@ const mapStateToProps = state => ({
   ...commonSelector(state),
   initialValues: {
     username: currentUserEmailSelector(state),
-    password: '',
-    device_name: Constants.deviceName
+    password: ''
   }
 });
 

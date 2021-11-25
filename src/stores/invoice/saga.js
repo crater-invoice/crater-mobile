@@ -47,7 +47,8 @@ function* fetchInvoiceData() {
 function* fetchInvoiceInitialDetails({payload}) {
   yield call(fetchInvoiceData);
   yield put(fetchTaxAndDiscountPerItem());
-  const {nextNumber} = yield call(req.fetchNextInvoiceNumber);
+  const params = {key: 'invoice'};
+  const {nextNumber} = yield call(req.fetchNextInvoiceNumber, params);
   payload?.(nextNumber);
 }
 
@@ -57,8 +58,9 @@ function* fetchInvoiceInitialDetails({payload}) {
  */
 function* fetchNextInvoiceNumber({payload = {}}) {
   try {
-    const {userId = null, onSuccess} = payload;
-    const {nextNumber} = yield call(req.fetchNextInvoiceNumber, userId);
+    const {userId = null, model_id = null, onSuccess} = payload;
+    const params = {key: 'invoice', userId, model_id};
+    const {nextNumber} = yield call(req.fetchNextInvoiceNumber, params);
     onSuccess?.(nextNumber);
   } catch (e) {}
 }
@@ -129,7 +131,15 @@ function* updateInvoice({payload}) {
     onSuccess?.(data);
     showNotification({message: t('notification.invoice_updated')});
   } catch (e) {
+    const error = e?.data?.error;
+    const errors = e?.data?.errors;
     handleError(e);
+    if (!error && !errors) {
+      showNotification({
+        message: t('notification.invalid_due_amount_message'),
+        type: 'error'
+      });
+    }
   } finally {
     yield put(spinner('isSaving', false));
   }

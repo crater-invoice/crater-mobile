@@ -10,7 +10,8 @@ export const validate = values => {
     items,
     template_name,
     invoice_date,
-    due_date
+    due_date,
+    exchange_rate
   } = values;
 
   errors.invoice_number = getError(invoice_number, ['required']);
@@ -19,6 +20,10 @@ export const validate = values => {
   errors.template_name = getError(template_name, ['required']);
   errors.invoice_date = getError(invoice_date, ['required']);
   errors.due_date = getError(due_date, ['required']);
+  errors.exchange_rate = getError(exchange_rate, [
+    'required',
+    'isNumberFormat'
+  ]);
 
   const fieldErrors = validateCustomField(values?.customFields);
   !isEmpty(fieldErrors) && (errors.customFields = fieldErrors);

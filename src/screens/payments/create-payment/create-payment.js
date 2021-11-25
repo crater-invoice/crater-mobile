@@ -48,6 +48,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
     this.state = {
       isFetchingInitialData: true,
       selectedInvoice: null,
+      due_amount: null,
       selectedCustomer: null,
       hasExchangeRate: false,
       hasProvider: false
@@ -87,7 +88,8 @@ export default class CreatePayment extends Component<IProps, IStates> {
 
     await this.setState({
       selectedCustomer: data?.customer,
-      selectedInvoice: data?.invoice
+      selectedInvoice: data?.invoice,
+      due_amount: data?.invoice?.due_amount
     });
 
     if (hasRecordPayment) {
@@ -103,7 +105,8 @@ export default class CreatePayment extends Component<IProps, IStates> {
       this.fetchNextPaymentNumber(invoice?.customer_id);
       await this.setState({
         selectedCustomer: invoice?.customer,
-        selectedInvoice: invoice?.due
+        selectedInvoice: invoice?.due,
+        due_amount: invoice?.due_amount
       });
     }
 
@@ -187,24 +190,21 @@ export default class CreatePayment extends Component<IProps, IStates> {
   onSelectInvoice = invoice => {
     this.setFormField(`invoice_id`, invoice?.id);
     this.setFormField(`amount`, invoice?.due_amount);
-    this.setState({selectedInvoice: invoice});
+    this.setState({selectedInvoice: invoice, due_amount: invoice?.due_amount});
   };
 
-  fetchNextPaymentNumber = id => {
+  fetchNextPaymentNumber = userId => {
+    const {id = null, dispatch} = this.props;
     const onSuccess = nextNumber =>
       this.setFormField('payment_number', nextNumber);
-    this.props.dispatch(fetchNextPaymentNumber(id, onSuccess));
+    dispatch(fetchNextPaymentNumber({userId, model_id: id, onSuccess}));
   };
 
   onCustomerSelect = customer => {
-    const {formValues} = this.props;
-    if (customer?.id === formValues?.customer_id) {
-      return;
-    }
     customer && this.state.hasProvider && this.setState({hasProvider: false});
     this.setFormField(`exchange_rate`, null);
     this.setFormField(`customer_id`, customer.id);
-    this.setState({selectedCustomer: customer});
+    this.setState({selectedCustomer: customer, due_amount: null});
     this.invoiceReference?.changeDisplayValue?.(null);
     this.setFormField(`amount`, null);
     this.setFormField(`invoice_id`, null);
@@ -246,8 +246,8 @@ export default class CreatePayment extends Component<IProps, IStates> {
       fetchPaymentModes,
       paymentModes,
       formValues,
-      fetchUnpaidInvoices,
-      unPaidInvoices,
+      fetchPaymentInvoices,
+      paymentInvoices,
       customFields,
       isEditScreen,
       isAllowToEdit,
@@ -259,9 +259,12 @@ export default class CreatePayment extends Component<IProps, IStates> {
     const {
       isFetchingInitialData,
       selectedCustomer,
-      hasExchangeRate
+      hasExchangeRate,
+      due_amount
     } = this.state;
-
+    const description = due_amount
+      ? t('payments.invoice_description', {due_amount: due_amount / 100})
+      : '';
     const disabled = !isAllowToEdit;
 
     const headerProps = secondaryHeader({
@@ -294,43 +297,35 @@ export default class CreatePayment extends Component<IProps, IStates> {
             reference={ref => (this.sendMailRef = ref)}
             toEmail={this.props.formValues?.customer?.email}
             id={this.props.id}
-            disable-from-email
-            hide-preview
             type="payment"
           />
         )}
 
-        <CtView flex={1} flex-row>
-          <CtView flex={1} justify-between>
-            <Field
-              name="payment_date"
-              component={BaseDatePicker}
-              dateTimeFormat={DATE_FORMAT}
-              label={t('payments.date')}
-              icon={'calendar-alt'}
-              onChangeCallback={val => this.setFormField('payment_date', val)}
-              isRequired
-              disabled={disabled}
-            />
-          </CtView>
-          <CtView flex={0.07} />
-          <CtView flex={1} justify-between>
-            <Field
-              name="payment_number"
-              component={BaseInput}
-              hint={t('payments.number')}
-              isRequired
-              disabled={!isAllowToEdit}
-            />
-          </CtView>
-        </CtView>
+        <Field
+          name="payment_date"
+          component={BaseDatePicker}
+          dateTimeFormat={DATE_FORMAT}
+          label={t('payments.date')}
+          icon={'calendar-alt'}
+          onChangeCallback={val => this.setFormField('payment_date', val)}
+          isRequired
+          disabled={disabled}
+        />
+
+        <Field
+          name="payment_number"
+          component={BaseInput}
+          hint={t('payments.number')}
+          isRequired
+          disabled={!isAllowToEdit}
+        />
 
         <Field
           name="customer_id"
           customers={customers}
           fetchCustomers={fetchCustomers}
           component={CustomerSelectModal}
-          disabled={disabled || isEditScreen}
+          disabled={disabled}
           selectedItem={selectedCustomer}
           onSelect={this.onCustomerSelect}
           rightIconPress={this.navigateToCustomer}
@@ -341,17 +336,18 @@ export default class CreatePayment extends Component<IProps, IStates> {
 
         <Field
           name="invoice_id"
-          invoices={unPaidInvoices}
-          getInvoices={fetchUnpaidInvoices}
+          invoices={paymentInvoices}
+          getInvoices={fetchPaymentInvoices}
           component={InvoiceSelectModal}
           selectedItem={formValues?.invoice}
-          disabled={disabled || isEditScreen}
+          disabled={disabled}
           onSelect={item => this.onSelectInvoice(item)}
           reference={ref => (this.invoiceReference = ref)}
           queryString={{
             customer_id: formValues?.customer_id,
-            status: 'UNPAID'
+            status: isEditScreen ? '' : 'DUE'
           }}
+          description={description}
         />
 
         <Field

@@ -18,7 +18,8 @@ import {
   BaseButtonGroup,
   BaseButton,
   BaseDropdownPicker,
-  ExchangeRateField
+  ExchangeRateField,
+  TemplateField
 } from '@/components';
 import {
   fetchRecurringInvoiceInitialDetails,
@@ -29,7 +30,6 @@ import {
   fetchNextInvoiceAt
 } from 'stores/recurring-invoice/actions';
 import {CustomerSelectModal} from '@/select-modal';
-import {TemplateField} from '@/components';
 import styles from './create-recurring-invoice-styles';
 import {FrequencyField, LimitField} from '../recurring-invoices-common';
 import {

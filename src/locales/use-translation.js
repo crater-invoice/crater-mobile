@@ -47,10 +47,6 @@ class Translation {
   }
 
   setLocale = locale => {
-    if (this.locale === locale) {
-      return;
-    }
-
     this.locale = locale;
   };
 

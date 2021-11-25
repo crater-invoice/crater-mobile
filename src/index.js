@@ -11,7 +11,6 @@ import {switchTheme} from './constants';
 import {colors, loadFonts} from './styles';
 import {darkTheme} from './theme/dark';
 import {lightTheme} from './theme/light';
-import {TranslationService} from 'locales/use-translation';
 import {FlashMessage, Loading} from '@/components';
 
 console.warn = () => {};
@@ -31,12 +30,6 @@ class App extends Component<{}, IState> {
   componentDidMount() {
     this.switchCurrentTheme(Appearance.getColorScheme());
     AppState?.addEventListener?.('change', this.handleAppStateChange);
-
-    store?.subscribe?.(() => {
-      const state = store?.getState?.();
-      const locale = state?.common?.locale;
-      TranslationService.setLocale(locale);
-    });
   }
 
   componentWillUnmount() {

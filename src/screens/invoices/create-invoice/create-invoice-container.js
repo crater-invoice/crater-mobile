@@ -46,7 +46,7 @@ const mapStateToProps = (state, {route}) => {
     currency: currentCurrencySelector(state),
     customFields: customFieldsSelector(state),
     formValues: getFormValues(CREATE_INVOICE_FORM)(state) || {},
-    initialValues
+    initialValues: initialValues()
   };
 };
 

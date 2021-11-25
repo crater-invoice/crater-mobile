@@ -50,7 +50,8 @@ function* fetchPaymentInitialDetails({payload}) {
   yield call(fetchCustomFields, {
     payload: {queryString: {type: modalTypes.PAYMENT, limit: 'all'}}
   });
-  const {nextNumber} = yield call(req.fetchNextPaymentNumber);
+  const params = {key: 'payment'};
+  const {nextNumber} = yield call(req.fetchNextPaymentNumber, params);
   payload?.(nextNumber);
 }
 
@@ -60,8 +61,9 @@ function* fetchPaymentInitialDetails({payload}) {
  */
 function* fetchNextPaymentNumber({payload = {}}) {
   try {
-    const {userId = null, onSuccess} = payload;
-    const {nextNumber} = yield call(req.fetchNextPaymentNumber, userId);
+    const {userId = null, model_id = null, onSuccess} = payload;
+    const params = {key: 'payment', userId, model_id};
+    const {nextNumber} = yield call(req.fetchNextPaymentNumber, params);
     onSuccess?.(nextNumber);
   } catch (e) {}
 }
@@ -126,29 +128,29 @@ function* removePayment({payload}) {
 }
 
 /**
- * Fetch unpaid invoices saga
+ * Fetch payment invoices saga
  * @returns {IterableIterator<*>}
  */
-export function* fetchUnpaidInvoices({payload}) {
-  const {fresh = true, onSuccess, onFail, queryString} = payload;
+export function* fetchPaymentInvoices({payload}) {
   try {
+    const {fresh = true, onSuccess, queryString} = payload;
     if (!hasValue(queryString?.customer_id)) {
       yield put({
-        type: types.FETCH_UNPAID_INVOICES_SUCCESS,
-        payload: {unPaidInvoices: [], fresh: true}
+        type: types.FETCH_PAYMENT_INVOICES_SUCCESS,
+        payload: {paymentInvoices: [], fresh: true}
       });
       onSuccess?.();
       return;
     }
 
-    const response = yield call(req.fetchUnpaidInvoices, queryString);
+    const response = yield call(req.fetchPaymentInvoices, queryString);
     yield put({
-      type: types.FETCH_UNPAID_INVOICES_SUCCESS,
-      payload: {unPaidInvoices: response?.data, fresh}
+      type: types.FETCH_PAYMENT_INVOICES_SUCCESS,
+      payload: {paymentInvoices: response?.data, fresh}
     });
     onSuccess?.(response);
   } catch (e) {
-    onFail?.();
+    payload?.onFail?.();
   }
 }
 
@@ -178,6 +180,6 @@ export default function* paymentSaga() {
   yield takeLatest(types.ADD_PAYMENT, addPayment);
   yield takeLatest(types.UPDATE_PAYMENT, updatePayment);
   yield takeLatest(types.REMOVE_PAYMENT, removePayment);
-  yield takeLatest(types.FETCH_UNPAID_INVOICES, fetchUnpaidInvoices);
+  yield takeLatest(types.FETCH_PAYMENT_INVOICES, fetchPaymentInvoices);
   yield takeLatest(types.SEND_PAYMENT_RECEIPT, sendPaymentReceipt);
 }

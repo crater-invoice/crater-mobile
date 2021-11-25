@@ -15,7 +15,11 @@ const styles = StyleSheet.create({
     marginBottom: defineSize(52, 52, 52, 82)
   },
   header: {
-    ...(isAndroidPlatform && {marginTop: 10}),
+    ...(isAndroidPlatform && {
+      marginTop: 10,
+      paddingTop: 30,
+      height: 90
+    }),
     ...(isIPhoneX() && {
       height: 100,
       paddingTop: 40

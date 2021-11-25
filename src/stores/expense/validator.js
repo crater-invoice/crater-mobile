@@ -16,6 +16,10 @@ export const validate = values => {
 
     errors.currency_id = getError(values?.currency_id, ['required']);
 
+    errors.exchange_rate = getError(values?.exchange_rate, [
+      'required',
+      'isNumberFormat'
+    ]);
     const fieldErrors = validateCustomField(values?.customFields);
     !isEmpty(fieldErrors) && (errors.customFields = fieldErrors);
   }

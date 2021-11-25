@@ -32,7 +32,7 @@ export const addItem = item => {
  * @param item
  * @returns {*}
  */
-export const updateItem = item => Request.put(`/items/${item?.item_id}`, item);
+export const updateItem = item => Request.put(`/items/${item?.id}`, item);
 
 /**
  * Remove item

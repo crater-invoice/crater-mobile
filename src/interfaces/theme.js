@@ -13,7 +13,8 @@ export type ITheme = {
     thirdColor: string,
     fourthColor: string,
     fifthColor: string,
-    sixthColor: string
+    sixthColor: String,
+    seventhColor: string
   },
 
   // Component Input
@@ -23,7 +24,8 @@ export type ITheme = {
     validationBackgroundColor: string,
     placeholderColor: string,
     borderColor: string,
-    disableBackgroundColor: string
+    disableBackgroundColor: string,
+    firstColor: String
   },
 
   // Component Icons

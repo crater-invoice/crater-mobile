@@ -83,8 +83,14 @@ export default class Payments extends React.Component<IProps, IStates> {
     const {navigation} = this.props;
     navigation.navigate(routes.CREATE_PAYMENT, {
       id: payment.id,
+      paymentInvoiceId: payment?.invoice?.id,
       type: 'UPDATE'
     });
+  };
+
+  onAddPayment = () => {
+    const {navigation} = this.props;
+    navigation.navigate(routes.CREATE_PAYMENT, {type: 'ADD'});
   };
 
   render() {
@@ -99,14 +105,6 @@ export default class Payments extends React.Component<IProps, IStates> {
     const {search} = this.state;
     const isFilter = isFilterApply(formValues);
 
-    const headerProps = {
-      rightIcon: 'plus',
-      rightIconPress: () =>
-        navigation.navigate(routes.CREATE_PAYMENT, {type: 'ADD'}),
-      title: t('header.payments'),
-      route
-    };
-
     const filterProps = {
       onSubmitFilter: handleSubmit(this.onSubmitFilter),
       ...filterFields(this),
@@ -116,10 +114,15 @@ export default class Payments extends React.Component<IProps, IStates> {
 
     return (
       <MainLayout
-        headerProps={headerProps}
+        headerProps={{title: t('header.payments')}}
         onSearch={this.onSearch}
         filterProps={filterProps}
         bottomDivider
+        with-input-filter
+        with-company
+        navigation={navigation}
+        route={route}
+        plusButtonOnPress={this.onAddPayment}
       >
         <InfiniteScroll
           getItems={q => dispatch(fetchPayments(q))}
