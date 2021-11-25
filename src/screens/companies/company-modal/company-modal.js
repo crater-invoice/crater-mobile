@@ -157,7 +157,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
       if (typeof s !== 'string') return '';
       const name = s.charAt(0).toUpperCase() + s.slice(1);
       return truncate(name, {
-        length: 13,
+        length: 9,
         omission: '..'
       });
     };
@@ -182,7 +182,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
               <Text
                 class="h4 center medium pr-8"
                 color={colors.white}
-                letter-spacing={0.3}
+                letter-spacing={0.2}
               >
                 {companyName(selectedCompany?.name)}
               </Text>

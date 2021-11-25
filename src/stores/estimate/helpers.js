@@ -9,7 +9,11 @@ import {
 } from './types';
 import moment from 'moment';
 
-export const EDIT_ESTIMATE_ACTIONS = (markAs = '', isAllowToDelete) => {
+export const EDIT_ESTIMATE_ACTIONS = (
+  markAs = '',
+  isAllowToEdit,
+  isAllowToDelete
+) => {
   const markAsSent = [
     {
       label: t('estimates.actions.mark_as_sent'),
@@ -70,6 +74,18 @@ export const EDIT_ESTIMATE_ACTIONS = (markAs = '', isAllowToDelete) => {
     items = [...markAsSent, ...markAsAccept];
   } else {
     items = [...markAsSent, ...markAsAccept, ...markAsReject];
+  }
+
+  if (!PermissionService.isAllowToSend(routes.CREATE_ESTIMATE)) {
+    items = items.filter(o => o.value !== ESTIMATE_ACTIONS.MARK_AS_SENT);
+  }
+
+  if (!isAllowToEdit) {
+    items = items.filter(
+      o =>
+        o.value !== ESTIMATE_ACTIONS.MARK_AS_ACCEPTED &&
+        o.value !== ESTIMATE_ACTIONS.MARK_AS_REJECTED
+    );
   }
 
   return isAllowToDelete

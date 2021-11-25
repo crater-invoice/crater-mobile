@@ -46,7 +46,7 @@ export const CurrencySelectModal = (props: IProps) => {
       fullItem: {id: Number(input?.value)}
     });
 
-    return currency?.fullItem?.symbol;
+    return currency?.fullItem?.code;
   };
 
   const getSelectedCurrencyTitle = () => {

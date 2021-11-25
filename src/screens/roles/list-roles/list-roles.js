@@ -46,7 +46,11 @@ export default class Roles extends Component<IProps, IStates> {
 
   onSelect = role => {
     const {navigation} = this.props;
-    navigation.navigate(routes.CREATE_ROLE, {id: role.id, type: 'UPDATE'});
+    navigation.navigate(routes.CREATE_ROLE, {
+      id: role.id,
+      hasAbility: role.name != 'super admin',
+      type: 'UPDATE'
+    });
   };
 
   render() {

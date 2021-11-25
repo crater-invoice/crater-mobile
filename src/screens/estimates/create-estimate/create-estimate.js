@@ -423,7 +423,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
 
     const dropdownOptions =
       isEditScreen && !isFetchingInitialData
-        ? EDIT_ESTIMATE_ACTIONS(status, isAllowToDelete)
+        ? EDIT_ESTIMATE_ACTIONS(status, isAllowToEdit, isAllowToDelete)
         : [];
 
     let drownDownProps =
