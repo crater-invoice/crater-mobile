@@ -489,7 +489,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
           meta={meta}
           rightIcon={'angle-down'}
           {...(baseSelectProps.description && {
-            'description-class': 'mb-5 -mt-4'
+            'description-class': 'mb-7 -mt-4'
           })}
           {...baseSelectProps}
         />
