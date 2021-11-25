@@ -31,7 +31,7 @@ export const EDIT_INVOICE_ACTIONS = (
       value: INVOICE_ACTIONS.SEND
     });
 
-  if (PermissionService.isSuperAdmin) {
+  if (PermissionService.isOwner) {
     options.push({
       label: t('invoices.actions.clone'),
       value: INVOICE_ACTIONS.CLONE

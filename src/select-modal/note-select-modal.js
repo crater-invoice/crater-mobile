@@ -44,7 +44,7 @@ export const NoteSelectModal = (props: IProps) => {
       emptyContentProps={{contentType: 'notes'}}
       onSelect={onSelect}
       customView={
-        PermissionService.isAllowToManage(routes.NOTES) ? (
+        PermissionService.isAllowToView(routes.NOTES) ? (
           <TouchableOpacity onPress={() => notesReference?.onToggle?.()}>
             <Text
               primary

@@ -244,7 +244,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
             >
               {companies.map(com => COMPANIES_LIST(com))}
             </ScrollView>
-            {PermissionService.isSuperAdmin ? (
+            {PermissionService.isOwner ? (
               <ButtonView
                 scale={1}
                 justify-center

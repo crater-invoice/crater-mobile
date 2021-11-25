@@ -62,21 +62,21 @@ const abilities = [
   {route: routes.CREATE_CUSTOM_FIELD, ability: 'delete-custom-field'},
 
   // Settings
-  {route: routes.NOTES, ability: 'note-settings'}
+  {route: routes.NOTES, ability: 'view-all-notes'}
 ];
 
 class Service {
   currentAbilities: any;
-  isSuperAdmin: boolean;
+  isOwner: boolean;
 
   constructor() {
     this.currentAbilities = [];
-    this.isSuperAdmin = false;
+    this.isOwner = false;
   }
 
-  setPermissions = (currentAbilities, isSuperAdmin) => {
+  setPermissions = (currentAbilities, isOwner) => {
     this.currentAbilities = currentAbilities ?? [];
-    this.isSuperAdmin = isSuperAdmin;
+    this.isOwner = isOwner;
   };
 
   hasPermission = ability => {
@@ -84,7 +84,7 @@ class Service {
       return true;
     }
 
-    if (this.isSuperAdmin) {
+    if (this.isOwner) {
       return true;
     }
 
@@ -119,8 +119,7 @@ class Service {
     return this.hasPermission(ability);
   };
 
-  isAllowToManage = route => {
-    const ability = toObject(abilities.filter(a => a.route === route))?.ability;
+  isAllowToManage = ability => {
     return this.hasPermission(ability);
   };
 

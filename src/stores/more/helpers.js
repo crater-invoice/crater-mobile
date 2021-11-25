@@ -32,14 +32,14 @@ export const MORE_MENU = () => {
       leftIcon: 'users',
       iconSize: 20,
       fullItem: {route: routes.USERS},
-      show: PermissionService.isSuperAdmin
+      show: PermissionService.isOwner
     },
     {
       title: t('more.reports'),
       leftIcon: 'signal',
       iconSize: 15,
       fullItem: {route: routes.REPORTS},
-      show: PermissionService.isSuperAdmin
+      show: PermissionService.isOwner
     },
     {
       title: t('header.custom_fields'),
