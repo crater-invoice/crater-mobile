@@ -122,10 +122,9 @@ const styles = StyleSheet.create({
     })
   },
   header: {
-    height: 100,
-    paddingTop: 40,
+    height: 120,
+    paddingTop: 60,
     ...(isAndroidPlatform && {
-      paddingTop: 60,
       height: 110
     })
   }
