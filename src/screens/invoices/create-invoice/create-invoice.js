@@ -372,7 +372,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       items,
       fetchCustomers,
       customers,
-      formValues: {customer, status},
+      formValues: {customer, status, paid_status},
       formValues,
       customFields,
       isAllowToEdit,
@@ -384,6 +384,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       notes,
       fetchNotes
     } = this.props;
+    const isUnpaid = isEditScreen ? paid_status === 'UNPAID' : true;
     const {isFetchingInitialData, hasExchangeRate} = this.state;
     const disabled = !isAllowToEdit;
     let hasSentStatus = status === 'SENT' || status === 'VIEWED';
@@ -514,7 +515,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
           onSelect={this.onCustomerSelect}
           rightIconPress={this.navigateToCustomer}
           reference={ref => (this.customerReference = ref)}
-          disabled={disabled}
+          disabled={disabled || !isUnpaid}
         />
 
         {hasExchangeRate && <ExchangeRateField {...this} />}
