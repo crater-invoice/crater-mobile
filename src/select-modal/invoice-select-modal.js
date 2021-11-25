@@ -1,6 +1,7 @@
 import React from 'react';
 import {SelectField} from '@/components';
 import t from 'locales/use-translation';
+import {hasObjectLength, isEmpty} from '@/constants';
 
 interface IProps {
   /**
@@ -25,12 +26,16 @@ interface IProps {
 }
 
 export const InvoiceSelectModal = (props: IProps) => {
-  const {invoices, getInvoices, disabled, description} = props;
+  const {getInvoices, disabled, description} = props;
+  const invoices = isEmpty(props?.invoices)
+    ? []
+    : props.invoices.filter(invoice => hasObjectLength(invoice));
+
   return (
     <SelectField
       placeholder=" "
       {...props}
-      items={invoices ?? []}
+      items={isEmpty(invoices) ? [] : invoices}
       getItems={getInvoices}
       apiSearch
       hasPagination
