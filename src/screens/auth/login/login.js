@@ -74,7 +74,7 @@ export default class Login extends React.Component<IProps, IStates> {
         <TouchableOpacity
           onPress={() => navigation.navigate(routes.ENDPOINTS)}
           style={styles.setting}
-          hitSlop={hitSlop(15, 15, 15, 15)}
+          hitSlop={hitSlop(20, 20, 20, 20)}
         >
           <AssetSvg
             name={AssetSvg.icons.setting}
