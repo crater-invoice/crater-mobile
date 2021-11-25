@@ -117,7 +117,7 @@ export class ExchangeRateField extends Component<IProps, IStates> {
             />
           </View>
         </View>
-        <Text color={colors.white4} mb-4 h6 style={styles.description} darkGray>
+        <Text mb-4 h6 style={styles.description} darkGray>
           {t('exchange_rate.exchange_help_text', {
             selectedCurrency,
             baseCurrency

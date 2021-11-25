@@ -45,6 +45,8 @@ import {Reports, GenerateReport} from 'screens/reports';
 
 import {PaymentModes} from 'screens/payment-modes';
 
+import Webview from 'screens/webview';
+
 import {
   RecurringInvoices,
   ViewRecurringInvoice,
@@ -255,5 +257,7 @@ export const CommonNavigator = (
       component={CreateRole}
       options={options}
     />
+
+    <Stack.Screen name={routes.WEBVIEW} component={Webview} options={options} />
   </>
 );

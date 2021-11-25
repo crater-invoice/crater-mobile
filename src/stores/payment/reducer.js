@@ -20,6 +20,7 @@ export default function paymentReducer(state = initialState, action) {
         return {
           ...state,
           payments: payload.payments,
+          paymentInvoices: [],
           isSaving: false,
           isDeleting: false,
           isLoading: false
