@@ -2,7 +2,6 @@ import React from 'react';
 import * as Linking from 'expo-linking';
 import {find} from 'lodash';
 import {Field, change, initialize} from 'redux-form';
-import {ExchangeRateField, TemplateField} from '@/components';
 import {dismissRoute, routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {alertMe} from '@/constants';
@@ -17,7 +16,9 @@ import {
   ItemField,
   FinalAmount,
   BaseButtonGroup,
-  BaseButton
+  BaseButton,
+  ExchangeRateField,
+  TemplateField
 } from '@/components';
 import {CREATE_INVOICE_FORM, INVOICE_ACTIONS} from 'stores/invoice/types';
 import {EDIT_INVOICE_ACTIONS, initialValues} from 'stores/invoice/helpers';
@@ -338,7 +339,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     const {id = null, dispatch} = this.props;
     const onSuccess = nextNumber =>
       this.setFormField('invoice_number', nextNumber);
-    dispatch(fetchNextInvoiceNumber({userId, modal_id: id, onSuccess}));
+    dispatch(fetchNextInvoiceNumber({userId, model_id: id, onSuccess}));
   };
 
   setExchangeRate = (customerCurrency, onResult) => {

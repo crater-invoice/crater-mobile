@@ -197,7 +197,7 @@ export default class CreatePayment extends Component<IProps, IStates> {
     const {id = null, dispatch} = this.props;
     const onSuccess = nextNumber =>
       this.setFormField('payment_number', nextNumber);
-    dispatch(fetchNextPaymentNumber({userId, modal_id: id, onSuccess}));
+    dispatch(fetchNextPaymentNumber({userId, model_id: id, onSuccess}));
   };
 
   onCustomerSelect = customer => {

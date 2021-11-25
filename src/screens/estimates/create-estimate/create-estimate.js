@@ -14,7 +14,8 @@ import {
   FinalAmount,
   BaseButtonGroup,
   BaseButton,
-  ExchangeRateField
+  ExchangeRateField,
+  TemplateField
 } from '@/components';
 import {
   CREATE_ESTIMATE_FORM,
@@ -25,7 +26,7 @@ import {
 } from 'stores/estimate/types';
 import {EDIT_ESTIMATE_ACTIONS} from 'stores/estimate/helpers';
 import {headerTitle} from '@/styles';
-import {TemplateField} from '@/components';
+
 import {dismissRoute, routes} from '@/navigation';
 import t from 'locales/use-translation';
 import {
@@ -368,7 +369,7 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
     const {id, dispatch} = this.props;
     const onSuccess = nextNumber =>
       this.setFormField('estimate_number', nextNumber);
-    dispatch(fetchNextEstimateNumber({userId, modal_id: id, onSuccess}));
+    dispatch(fetchNextEstimateNumber({userId, model_id: id, onSuccess}));
   };
 
   setExchangeRate = (customerCurrency, onResult) => {

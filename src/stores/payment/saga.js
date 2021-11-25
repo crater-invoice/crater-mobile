@@ -61,8 +61,8 @@ function* fetchPaymentInitialDetails({payload}) {
  */
 function* fetchNextPaymentNumber({payload = {}}) {
   try {
-    const {userId = null, modal_id = null, onSuccess} = payload;
-    const params = {key: 'payment', userId, modal_id};
+    const {userId = null, model_id = null, onSuccess} = payload;
+    const params = {key: 'payment', userId, model_id};
     const {nextNumber} = yield call(req.fetchNextPaymentNumber, params);
     onSuccess?.(nextNumber);
   } catch (e) {}
