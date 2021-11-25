@@ -49,7 +49,7 @@ const mapStateToProps = (state, {route}) => {
     customFields: customFieldsSelector(state),
     statusList: statusSelector(update_status),
     formValues: getFormValues(CREATE_RECURRING_INVOICE_FORM)(state) || {},
-    initialValues
+    initialValues: initialValues()
   };
 };
 

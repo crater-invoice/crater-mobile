@@ -24,8 +24,8 @@ export class CurrencyFormat extends Component<IProps> {
       ? combinedSymbolStyle
       : style;
     return (
-      <View style={[styles.container, containerStyle && containerStyle]}>
-        <Text numberOfLines={1} style={{...style, ...styles.paddingFalse}}>
+      <View style={[styles.container, containerStyle]}>
+        <Text numberOfLines={1} style={[style, styles.paddingFalse]}>
           {preText && preText}
         </Text>
         <Text
