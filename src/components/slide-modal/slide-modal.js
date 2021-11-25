@@ -5,7 +5,6 @@ import {ListView} from '../list-view';
 import {MainLayout, DefaultLayout} from '../layouts';
 import {InfiniteScroll} from '../infinite-scroll';
 import {ScrollView} from '../scroll-view';
-import {isAndroidPlatform} from '@/helpers/platform';
 import {defineSize} from '@/helpers/size';
 import {commonSelector} from 'stores/common/selectors';
 import {IProps} from './type.d';
@@ -115,17 +114,9 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     marginTop: -20,
-    ...(isAndroidPlatform && {
-      marginTop: -20,
-      margin: 0,
-      padding: 0
-    })
   },
   header: {
     height: 120,
     paddingTop: 60,
-    ...(isAndroidPlatform && {
-      height: 110
-    })
   }
 });
