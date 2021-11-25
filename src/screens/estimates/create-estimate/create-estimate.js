@@ -364,10 +364,11 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
     this.fetchNextEstimateNumber(item.id);
   };
 
-  fetchNextEstimateNumber = id => {
+  fetchNextEstimateNumber = userId => {
+    const {id, dispatch} = this.props;
     const onSuccess = nextNumber =>
       this.setFormField('estimate_number', nextNumber);
-    this.props.dispatch(fetchNextEstimateNumber(id, onSuccess));
+    dispatch(fetchNextEstimateNumber({userId, modal_id: id, onSuccess}));
   };
 
   setExchangeRate = (customerCurrency, onResult) => {

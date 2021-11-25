@@ -334,10 +334,11 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     this.fetchNextInvoiceNumber(item.id);
   };
 
-  fetchNextInvoiceNumber = id => {
+  fetchNextInvoiceNumber = userId => {
+    const {id = null, dispatch} = this.props;
     const onSuccess = nextNumber =>
       this.setFormField('invoice_number', nextNumber);
-    this.props.dispatch(fetchNextInvoiceNumber(id, onSuccess));
+    dispatch(fetchNextInvoiceNumber({userId, modal_id: id, onSuccess}));
   };
 
   setExchangeRate = (customerCurrency, onResult) => {

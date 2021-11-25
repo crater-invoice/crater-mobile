@@ -47,7 +47,8 @@ function* fetchInvoiceData() {
 function* fetchInvoiceInitialDetails({payload}) {
   yield call(fetchInvoiceData);
   yield put(fetchTaxAndDiscountPerItem());
-  const {nextNumber} = yield call(req.fetchNextInvoiceNumber);
+  const params = {key: 'invoice'};
+  const {nextNumber} = yield call(req.fetchNextInvoiceNumber, params);
   payload?.(nextNumber);
 }
 
@@ -57,8 +58,9 @@ function* fetchInvoiceInitialDetails({payload}) {
  */
 function* fetchNextInvoiceNumber({payload = {}}) {
   try {
-    const {userId = null, onSuccess} = payload;
-    const {nextNumber} = yield call(req.fetchNextInvoiceNumber, userId);
+    const {userId = null, modal_id = null, onSuccess} = payload;
+    const params = {key: 'invoice', userId, modal_id};
+    const {nextNumber} = yield call(req.fetchNextInvoiceNumber, params);
     onSuccess?.(nextNumber);
   } catch (e) {}
 }

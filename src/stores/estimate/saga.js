@@ -48,7 +48,8 @@ function* fetchEstimateData() {
 function* fetchEstimateInitialDetails({payload}) {
   yield call(fetchEstimateData);
   yield put(fetchTaxAndDiscountPerItem());
-  const {nextNumber} = yield call(req.fetchNextEstimateNumber);
+  const params = {key: 'estimate'};
+  const {nextNumber} = yield call(req.fetchNextEstimateNumber, params);
   payload?.(nextNumber);
 }
 
@@ -58,8 +59,9 @@ function* fetchEstimateInitialDetails({payload}) {
  */
 function* fetchNextEstimateNumber({payload = {}}) {
   try {
-    const {userId = null, onSuccess} = payload;
-    const {nextNumber} = yield call(req.fetchNextEstimateNumber, userId);
+    const {userId = null, modal_id = null, onSuccess} = payload;
+    const params = {key: 'estimate', userId, modal_id};
+    const {nextNumber} = yield call(req.fetchNextEstimateNumber, params);
     onSuccess?.(nextNumber);
   } catch (e) {}
 }

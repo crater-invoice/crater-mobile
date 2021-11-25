@@ -50,7 +50,8 @@ function* fetchPaymentInitialDetails({payload}) {
   yield call(fetchCustomFields, {
     payload: {queryString: {type: modalTypes.PAYMENT, limit: 'all'}}
   });
-  const {nextNumber} = yield call(req.fetchNextPaymentNumber);
+  const params = {key: 'payment'};
+  const {nextNumber} = yield call(req.fetchNextPaymentNumber, params);
   payload?.(nextNumber);
 }
 
@@ -60,8 +61,9 @@ function* fetchPaymentInitialDetails({payload}) {
  */
 function* fetchNextPaymentNumber({payload = {}}) {
   try {
-    const {userId = null, onSuccess} = payload;
-    const {nextNumber} = yield call(req.fetchNextPaymentNumber, userId);
+    const {userId = null, modal_id = null, onSuccess} = payload;
+    const params = {key: 'payment', userId, modal_id};
+    const {nextNumber} = yield call(req.fetchNextPaymentNumber, params);
     onSuccess?.(nextNumber);
   } catch (e) {}
 }

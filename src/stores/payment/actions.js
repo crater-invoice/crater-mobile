@@ -27,13 +27,12 @@ export function fetchPayments(payload = {}) {
 
 /**
  * Fetch next payment number
- * @param userId user id
- * @param onSuccess
+ * @param payload
  * @returns {{type: string, payload: *}}
  */
-export const fetchNextPaymentNumber = (userId, onSuccess) => ({
+export const fetchNextPaymentNumber = (payload = {}) => ({
   type: types.FETCH_NEXT_PAYMENT_NUMBER,
-  payload: {userId, onSuccess}
+  payload
 });
 
 /**

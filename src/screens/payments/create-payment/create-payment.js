@@ -193,10 +193,11 @@ export default class CreatePayment extends Component<IProps, IStates> {
     this.setState({selectedInvoice: invoice, due_amount: invoice?.due_amount});
   };
 
-  fetchNextPaymentNumber = id => {
+  fetchNextPaymentNumber = userId => {
+    const {id = null, dispatch} = this.props;
     const onSuccess = nextNumber =>
       this.setFormField('payment_number', nextNumber);
-    this.props.dispatch(fetchNextPaymentNumber(id, onSuccess));
+    dispatch(fetchNextPaymentNumber({userId, modal_id: id, onSuccess}));
   };
 
   onCustomerSelect = customer => {
@@ -300,30 +301,24 @@ export default class CreatePayment extends Component<IProps, IStates> {
           />
         )}
 
-        <CtView flex={1} flex-row>
-          <CtView flex={1} justify-between>
-            <Field
-              name="payment_date"
-              component={BaseDatePicker}
-              dateTimeFormat={DATE_FORMAT}
-              label={t('payments.date')}
-              icon={'calendar-alt'}
-              onChangeCallback={val => this.setFormField('payment_date', val)}
-              isRequired
-              disabled={disabled}
-            />
-          </CtView>
-          <CtView flex={0.07} />
-          <CtView flex={1} justify-between>
-            <Field
-              name="payment_number"
-              component={BaseInput}
-              hint={t('payments.number')}
-              isRequired
-              disabled={!isAllowToEdit}
-            />
-          </CtView>
-        </CtView>
+        <Field
+          name="payment_date"
+          component={BaseDatePicker}
+          dateTimeFormat={DATE_FORMAT}
+          label={t('payments.date')}
+          icon={'calendar-alt'}
+          onChangeCallback={val => this.setFormField('payment_date', val)}
+          isRequired
+          disabled={disabled}
+        />
+
+        <Field
+          name="payment_number"
+          component={BaseInput}
+          hint={t('payments.number')}
+          isRequired
+          disabled={!isAllowToEdit}
+        />
 
         <Field
           name="customer_id"
