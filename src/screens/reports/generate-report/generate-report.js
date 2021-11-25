@@ -2,7 +2,6 @@ import React from 'react';
 import {Field, change} from 'redux-form';
 import t from 'locales/use-translation';
 import moment from 'moment';
-import * as Linking from 'expo-linking';
 import QueryString from 'qs';
 import {routes} from '@/navigation';
 import {DATE_FORMAT} from '@/constants';
@@ -52,11 +51,15 @@ export default class GenerateReport extends React.Component<IProps, IStates> {
 
     const report = this.getReport({reportType: report_type});
 
-    const url = `${endpointURL}/reports/${report}${
+    const uri = `${endpointURL}/reports/${report}${
       selectedCompany.unique_hash
     }?${QueryString.stringify(params)}`;
 
-    Linking.openURL(url);
+    const {navigation} = this.props;
+    navigation.navigate(routes.WEBVIEW, {
+      uri,
+      headerTitle: this.getReport({isTitle: true})
+    });
   };
 
   getThisDate = (type, time) => {
