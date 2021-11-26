@@ -74,7 +74,7 @@ class Screen extends Component<IProps> {
                   height: 38
                 },
                 inputFieldStyle: {
-                  marginTop: 10,
+                  marginTop: theme?.mode === 'dark' ? 14 : 10,
                   marginBottom: 14
                 },
                 containerStyle: {marginTop: 14}
@@ -113,10 +113,10 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    marginTop: -20,
+    marginTop: -20
   },
   header: {
     height: 120,
-    paddingTop: 60,
+    paddingTop: 60
   }
 });
