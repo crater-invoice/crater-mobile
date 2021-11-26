@@ -8,6 +8,7 @@ import {ScrollView} from '../scroll-view';
 import {defineSize} from '@/helpers/size';
 import {commonSelector} from 'stores/common/selectors';
 import {IProps} from './type.d';
+import {isIosPlatform} from '@/helpers/platform';
 
 class Screen extends Component<IProps> {
   constructor(props) {
@@ -73,10 +74,7 @@ class Screen extends Component<IProps> {
                 inputContainerStyle: {
                   height: 38
                 },
-                inputFieldStyle: {
-                  marginTop: 10,
-                  marginBottom: 14
-                },
+                inputFieldStyle: styles.inputField(theme),
                 containerStyle: {marginTop: 14}
               }}
             >
@@ -113,10 +111,14 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    marginTop: -20,
+    marginTop: -20
   },
   header: {
     height: 120,
-    paddingTop: 60,
-  }
+    paddingTop: 60
+  },
+  inputField: theme => ({
+    marginTop: theme?.mode === 'dark' && isIosPlatform ? 14 : 10,
+    marginBottom: 14
+  })
 });

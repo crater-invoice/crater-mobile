@@ -35,13 +35,21 @@ export default class CreateCompany extends Component<IProps, IStates> {
   }
 
   loadData = () => {
-    const {dispatch, isCreateScreen} = this.props;
+    const {dispatch, isCreateScreen, selectedCompany, currency} = this.props;
 
     dispatch(
       fetchCompanyInitialDetails(isCreateScreen, data => {
         if (data) {
           this.setInitialData(data);
           return;
+        }
+
+        if (isCreateScreen && selectedCompany && currency) {
+          this.setFormField(
+            'country_id',
+            selectedCompany.address.country_id.toString()
+          );
+          this.setFormField('currency', currency.id.toString());
         }
         this.setState({isFetchingInitialData: false});
       })

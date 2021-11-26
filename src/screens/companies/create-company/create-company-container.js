@@ -6,6 +6,7 @@ import {commonSelector, countriesSelector} from 'stores/common/selectors';
 import {CREATE_COMPANY_FORM} from 'stores/company/types';
 import {
   currenciesSelector,
+  currentCompanySelector,
   currentCurrencySelector,
   loadingSelector
 } from 'stores/company/selectors';
@@ -21,6 +22,7 @@ const mapStateToProps = (state, {route}) => {
     currency: currentCurrencySelector(state),
     countries: countriesSelector(state),
     currencies: currenciesSelector(state),
+    selectedCompany: currentCompanySelector(state),
     formValues: getFormValues(CREATE_COMPANY_FORM)(state) || {},
     initialValues: {
       name: null,
