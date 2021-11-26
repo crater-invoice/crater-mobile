@@ -7,6 +7,7 @@ import {routes} from '@/navigation';
 import {DATE_FORMAT} from '@/constants';
 import {store} from '@/stores';
 import {IProps, IStates} from './generate-report-type.d';
+import {isAndroidPlatform} from '@/helpers/platform';
 import {
   DefaultLayout,
   BaseDatePicker,
@@ -48,6 +49,10 @@ export default class GenerateReport extends React.Component<IProps, IStates> {
     const {selectedCompany} = this.props;
 
     const params = {from_date, to_date};
+
+    if (isAndroidPlatform) {
+      params.preview = true;
+    }
 
     const report = this.getReport({reportType: report_type});
 
