@@ -155,8 +155,7 @@ export default class CompanyModal extends Component<IProps, IStates> {
 
     const companyName = s => {
       if (typeof s !== 'string') return '';
-      const name = s.charAt(0).toUpperCase() + s.slice(1);
-      return truncate(name, {
+      return truncate(s, {
         length: 9,
         omission: '..'
       });
