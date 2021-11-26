@@ -157,6 +157,7 @@ export default class CreateCompany extends Component<IProps, IStates> {
             placeholder=""
             isRequired
             theme={theme}
+            baseSelectProps={{description: t('company.currency_set_alert')}}
           />
         )}
 
