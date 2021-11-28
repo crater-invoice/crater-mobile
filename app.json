@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.craterapp.app",
-      "buildNumber": "19",
+      "buildNumber": "20",
       "usesIcloudStorage": true,
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID to save login"
