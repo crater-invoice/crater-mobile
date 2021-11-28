@@ -733,7 +733,8 @@
   },
   "company": {
     "switch_company": "SWITCH COMPANY",
-    "add_new_company": "Add New Company"
+    "add_new_company": "Add New Company",
+    "currency_set_alert": "The company's currency cannot be changed later."
   },
   "roles": {
     "add_new_role": "Add New Role",

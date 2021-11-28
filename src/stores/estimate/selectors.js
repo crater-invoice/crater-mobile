@@ -13,7 +13,7 @@ export const formatEstimateItems = (estimates, theme) => {
       estimate_number,
       customer: {name, currency} = {},
       status,
-      formattedEstimateDate,
+      formatted_estimate_date,
       total
     } = item;
 
@@ -34,7 +34,7 @@ export const formatEstimateItems = (estimates, theme) => {
       },
       amount: total,
       currency,
-      rightSubtitle: formattedEstimateDate,
+      rightSubtitle: formatted_estimate_date,
       fullItem: item
     };
   });

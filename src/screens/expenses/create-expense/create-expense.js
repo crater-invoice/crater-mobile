@@ -189,7 +189,7 @@ export default class CreateExpense extends React.Component<IProps, IStates> {
 
   onCustomerSelect = item => {
     this.setFormField('customer_id', item.id);
-    this.setState({customer});
+    this.setState({customer: item});
   };
 
   setExchangeRate = (selectedCurrency, onResult) => {

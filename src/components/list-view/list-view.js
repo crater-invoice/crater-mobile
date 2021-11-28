@@ -14,6 +14,7 @@ import {AssetSvg} from '../asset-svg';
 import {AssetImage} from '../asset-image';
 import {commonSelector} from 'stores/common/selectors';
 import {IProps} from './type.d';
+import {hasValue} from '@/constants';
 
 class ListViewComponent extends Component<IProps> {
   constructor(props) {
@@ -158,7 +159,7 @@ class ListViewComponent extends Component<IProps> {
         title={this.leftTitle(item.title ?? item?.fullItem?.customer?.name)}
         subtitle={this.leftSubTitle(item.subtitle)}
         rightTitle={
-          item.amount ? (
+          hasValue(item?.amount) ? (
             <CurrencyFormat
               amount={item.amount}
               currency={item.currency}
