@@ -23,12 +23,3 @@ export const EXPENSE_ACTIONS = (imageUrl = '', isAllowToDelete) => {
 
   return options;
 };
-
-export const initialValues = {
-  attachment_receipt: null,
-  expense_date: moment(),
-  amount: null,
-  expense_category_id: null,
-  customer_id: null,
-  notes: null
-};

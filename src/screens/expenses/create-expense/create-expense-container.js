@@ -10,13 +10,13 @@ import {customersSelector} from 'stores/customer/selectors';
 import {fetchCustomers} from 'stores/customer/actions';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 import {loadingSelector} from 'stores/expense/selectors';
-import {initialValues} from 'stores/expense/helpers';
 import {modesSelector} from 'stores/payment-mode/selectors';
 import {fetchPaymentModes} from 'stores/payment-mode/actions';
 import {
   currenciesSelector,
   currentCurrencySelector
 } from 'stores/company/selectors';
+import moment from 'moment';
 
 const mapStateToProps = (state, {route}) => {
   const {
@@ -25,7 +25,6 @@ const mapStateToProps = (state, {route}) => {
   const currency = currentCurrencySelector(state);
   return {
     endpointURL,
-    initialValues,
     categories: categoriesSelector(state),
     customers: customersSelector(state),
     customFields: customFieldsSelector(state),
@@ -38,12 +37,12 @@ const mapStateToProps = (state, {route}) => {
     ...loadingSelector(state),
     initialValues: {
       attachment_receipt: null,
-      expense_date: null,
+      expense_date: moment(),
       amount: null,
       expense_category_id: null,
-      currency_id: currency?.id,
       customer_id: null,
       notes: null,
+      currency_id: currency?.id,
       payment_method_id: null,
       exchange_rate: 1
     }
