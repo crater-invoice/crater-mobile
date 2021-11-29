@@ -90,7 +90,7 @@ function* checkOTAUpdate(payload) {
       ? moment(currentDate).isSame(lastOTACheckDate)
       : false;
 
-    if (isSameDate || !endpointApi) {
+    if (!endpointApi) {
       return;
     }
 
