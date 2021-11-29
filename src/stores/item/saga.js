@@ -37,10 +37,10 @@ export function* addItem({payload}) {
     const {data} = yield call(req.addItem, item);
     let items = {...data, item_id: data.id, ...item};
     const exchangePrice = item?.exchangePrice;
-    if (exchangePrice) {
-      items = {...items, price: exchangePrice};
-    }
     yield put({type: types.ADD_ITEM_SUCCESS, payload: [items]});
+    if (exchangePrice) {
+      items = {...items, price: exchangePrice, total: exchangePrice};
+    }
     showNotification({message: t('notification.item_created')});
     if (returnCallback) {
       return [items];
