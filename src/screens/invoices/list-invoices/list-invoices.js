@@ -17,7 +17,7 @@ export default class Invoices extends React.Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: INVOICES_TABS.DUE,
+      activeTab: INVOICES_TABS.DRAFT,
       search: ''
     };
   }
@@ -43,7 +43,7 @@ export default class Invoices extends React.Component<IProps, IStates> {
     });
   };
 
-  setActiveTab = (activeTab = INVOICES_TABS.DUE) => {
+  setActiveTab = (activeTab = INVOICES_TABS.DRAFT) => {
     this.setState({activeTab});
     const {search} = this.state;
     const {formValues} = this.props;
@@ -95,10 +95,10 @@ export default class Invoices extends React.Component<IProps, IStates> {
   };
 
   changeTabOnFilter = (activeTab = this.state.activeTab) => {
-    if (activeTab === INVOICES_TABS.DUE) {
-      this.setActiveTab(INVOICES_TABS.DUE);
-    } else if (activeTab === INVOICES_TABS.DRAFT) {
+    if (activeTab === INVOICES_TABS.DRAFT) {
       this.setActiveTab(INVOICES_TABS.DRAFT);
+    } else if (activeTab === INVOICES_TABS.SENT) {
+      this.setActiveTab(INVOICES_TABS.SENT);
     } else {
       this.setActiveTab(INVOICES_TABS.ALL);
     }
@@ -138,12 +138,12 @@ export default class Invoices extends React.Component<IProps, IStates> {
     let title = '';
     let description = '';
 
-    if (activeTab === INVOICES_TABS.DUE) {
-      title = 'invoices.empty.due.title';
-      description = 'invoices.empty.due.description';
-    } else if (activeTab === INVOICES_TABS.DRAFT) {
+    if (activeTab === INVOICES_TABS.DRAFT) {
       title = 'invoices.empty.draft.title';
       description = 'invoices.empty.draft.description';
+    } else if (activeTab === INVOICES_TABS.SENT) {
+      title = 'invoices.empty.sent.title';
+      description = 'invoices.empty.sent.description';
     } else {
       title = 'invoices.empty.all.title';
       description = 'invoices.empty.description';
@@ -185,13 +185,13 @@ export default class Invoices extends React.Component<IProps, IStates> {
 
     const tabs = [
       {
-        Title: INVOICES_TABS.DUE,
-        tabName: TAB_NAME.due,
+        Title: INVOICES_TABS.DRAFT,
+        tabName: TAB_NAME.draft,
         render: <Tab parentProps={this} />
       },
       {
-        Title: INVOICES_TABS.DRAFT,
-        tabName: TAB_NAME.draft,
+        Title: INVOICES_TABS.SENT,
+        tabName: TAB_NAME.sent,
         render: <Tab parentProps={this} />
       },
       {

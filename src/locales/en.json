@@ -92,8 +92,8 @@
   "invoices": {
     "title": "Select Invoice",
     "tabs": {
-      "due": "Due",
       "draft": "Draft",
+      "sent": "Sent",
       "all": "ALL"
     },
     "invoice_date": "Invoice Date",
@@ -121,13 +121,13 @@
       "mark_as_sent": "This invoice will be marked as sent"
     },
     "empty": {
-      "due": {
-        "title": "You have no due invoices",
-        "description": "This section will contain the list of due invoices."
-      },
       "draft": {
         "title": "You have no draft invoices",
         "description": "This section will contain the list of draft invoices."
+      },
+      "sent": {
+        "title": "You have no sent invoices",
+        "description": "This section will contain the list of sent invoices."
       },
       "all": {
         "title": "You haven't created any invoices"

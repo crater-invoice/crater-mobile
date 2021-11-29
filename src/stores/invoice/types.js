@@ -39,14 +39,14 @@ export const FETCH_INVOICE_TEMPLATES_SUCCESS =
 export const SEND_INVOICE = 'invoice/SEND_INVOICE';
 
 export const INVOICES_TABS = {
-  DUE: 'DUE',
   DRAFT: 'DRAFT',
+  SENT: 'SENT',
   ALL: 'ALL'
 };
 
 export const TAB_NAME = {
-  due: t(`invoices.tabs.due`),
   draft: t(`invoices.tabs.draft`),
+  sent: t(`invoices.tabs.sent`),
   all: t(`invoices.tabs.all`)
 };
 
