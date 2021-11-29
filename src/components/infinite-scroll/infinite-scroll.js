@@ -62,7 +62,7 @@ class ScrollList extends React.Component<IProps, IState> {
   }
 
   componentWillUnmount() {
-    this.props.reference?.(undefined);
+    // this.props.reference?.(undefined);
   }
 
   getItems = ({
