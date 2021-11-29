@@ -211,8 +211,11 @@ export default class CreateExpense extends React.Component<IProps, IStates> {
     this.setState({hasExchangeRate, currency: selectedCurrency});
     const onSuccess = ({success}) =>
       success && this.setState({hasProvider: true});
+    const onFail = () => this.setState({hasProvider: false});
     hasExchangeRate &&
-      dispatch(checkExchangeRateProvider(selectedCurrency.id, onSuccess));
+      dispatch(
+        checkExchangeRateProvider(selectedCurrency.id, onSuccess, onFail)
+      );
   };
 
   render() {

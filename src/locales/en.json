@@ -853,7 +853,6 @@
     "recurring_invoice_deleted": "Recurring Invoice deleted successfully",
     "password_reset_link": "The password reset link was sent successfully.",
     "company_created": "Company created successfully",
-    "invalid_due_amount_message": "Total Invoice amount cannot be less than total paid amount for this Invoice. Please update the invoice or delete the associated payments to continue.",
-    "currency_unchangeable": "Selected customer's currency cannot be changed after creating transactions"
+    "invalid_due_amount_message": "Total Invoice amount cannot be less than total paid amount for this Invoice. Please update the invoice or delete the associated payments to continue."
   }
 }

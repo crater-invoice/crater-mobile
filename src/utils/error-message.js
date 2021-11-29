@@ -56,14 +56,6 @@ const alreadyInUseErrorMessage = error => {
 const requiredErrorMessage = errors => {
   const key = Object.keys(errors)?.[0];
   const error = Object.values(errors)?.[0]?.[0];
-
-  if (error === 'you_cannot_edit_currency') {
-    showNotification({
-      message: t('notification.currency_unchangeable'),
-      type: 'error'
-    });
-    return {key, error};
-  }
   error && showNotification({message: error, type: 'error'});
   return {key, error};
 };
@@ -81,6 +73,10 @@ export const handleError = e => {
 
     if (error && typeof error === 'string' && error.includes('_attached')) {
       alreadyInUseErrorMessage(error);
+    }
+
+    if (message && !errors) {
+      showNotification({message, type: 'error'});
     }
   } catch (e) {}
 };
