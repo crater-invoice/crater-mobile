@@ -4,7 +4,7 @@
     "slug": "crater",
     "privacy": "public",
     "platforms": ["ios", "android", "web"],
-    "version": "5.0.0",
+    "version": "5.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -28,7 +28,7 @@
     },
     "android": {
       "package": "com.craterapp.app",
-      "versionCode": 19,
+      "versionCode": 20,
       "softwareKeyboardLayoutMode": "pan",
       "userInterfaceStyle": "automatic",
       "permissions": [
