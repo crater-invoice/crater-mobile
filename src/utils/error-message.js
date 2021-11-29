@@ -53,6 +53,21 @@ const alreadyInUseErrorMessage = error => {
   }
 };
 
+const customErrorMessage = message => {
+  switch (message) {
+    case 'total_invoice_amount_must_be_more_than_paid_amount':
+      showNotification({
+        message: t('notification.invalid_due_amount_message'),
+        type: 'error'
+      });
+      break;
+
+    default:
+      showNotification({message, type: 'error'});
+      break;
+  }
+};
+
 const requiredErrorMessage = errors => {
   const key = Object.keys(errors)?.[0];
   const error = Object.values(errors)?.[0]?.[0];
@@ -73,9 +88,15 @@ export const handleError = e => {
 
     if (error && typeof error === 'string' && error.includes('_attached')) {
       alreadyInUseErrorMessage(error);
+      return;
     }
 
-    if (message && !errors) {
+    if (error && typeof error === 'string') {
+      customErrorMessage(error);
+      return;
+    }
+
+    if (message) {
       showNotification({message, type: 'error'});
     }
   } catch (e) {}
