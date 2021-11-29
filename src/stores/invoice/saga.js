@@ -131,15 +131,7 @@ function* updateInvoice({payload}) {
     onSuccess?.(data);
     showNotification({message: t('notification.invoice_updated')});
   } catch (e) {
-    const error = e?.data?.error;
-    const errors = e?.data?.errors;
     handleError(e);
-    if (!error && !errors) {
-      showNotification({
-        message: t('notification.invalid_due_amount_message'),
-        type: 'error'
-      });
-    }
   } finally {
     yield put(spinner('isSaving', false));
   }
