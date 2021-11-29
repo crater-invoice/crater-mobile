@@ -53,10 +53,7 @@ export default class RecurringInvoices extends React.Component<
       ...formValues
     };
 
-    tabRefs?.getItems?.({
-      queryString,
-      showLoader: true
-    });
+    tabRefs?.getItems?.({queryString, showLoader: true, hideLoader: true});
   };
 
   onSelect = invoice => {

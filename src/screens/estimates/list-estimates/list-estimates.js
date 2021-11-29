@@ -48,7 +48,7 @@ export default class Estimates extends React.Component<IProps, IStates> {
       search,
       ...formValues
     };
-    tabRefs?.getItems?.({queryString, showLoader: true});
+    tabRefs?.getItems?.({queryString, showLoader: true, hideLoader: true});
   };
 
   onSelect = estimate => {

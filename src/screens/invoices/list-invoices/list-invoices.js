@@ -53,10 +53,7 @@ export default class Invoices extends React.Component<IProps, IStates> {
       ...formValues
     };
 
-    tabRefs?.getItems?.({
-      queryString,
-      showLoader: true
-    });
+    tabRefs?.getItems?.({queryString, showLoader: true, hideLoader: true});
   };
 
   setFormField = (field, value) => {

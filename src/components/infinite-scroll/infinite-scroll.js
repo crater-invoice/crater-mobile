@@ -72,9 +72,10 @@ class ScrollList extends React.Component<IProps, IState> {
     onSuccess = null,
     resetQueryString = false,
     resetParams = false,
-    showLoader = false
+    showLoader = false,
+    hideLoader = false
   } = {}) => {
-    if (this.isLoading) {
+    if (!hideLoader && this.isLoading) {
       return;
     }
 
