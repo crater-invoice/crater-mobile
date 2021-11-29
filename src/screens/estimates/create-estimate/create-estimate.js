@@ -391,8 +391,11 @@ export default class CreateEstimate extends React.Component<IProps, IStates> {
     this.setState({hasExchangeRate, currency: customerCurrency});
     const onSuccess = ({success}) =>
       success && this.setState({hasProvider: true});
+    const onFail = () => this.setState({hasProvider: false});
     hasExchangeRate &&
-      dispatch(checkExchangeRateProvider(customerCurrency.id, onSuccess));
+      dispatch(
+        checkExchangeRateProvider(customerCurrency.id, onSuccess, onFail)
+      );
   };
 
   render() {

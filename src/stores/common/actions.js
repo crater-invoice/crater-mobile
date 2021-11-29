@@ -88,11 +88,12 @@ export function checkExchangeRate(id, onSuccess, onFail) {
  * Check exchange rate provider
  * @param id currency id
  * @param onSuccess
+ * @param onFail callback when fail
  * @returns {{type: string, payload: *}}
  */
-export function checkExchangeRateProvider(id, onSuccess) {
+export function checkExchangeRateProvider(id, onSuccess, onFail) {
   return {
     type: types.CHECK_EXCHANGE_RATE_PROVIDER,
-    payload: {id, onSuccess}
+    payload: {id, onSuccess, onFail}
   };
 }

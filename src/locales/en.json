@@ -92,8 +92,8 @@
   "invoices": {
     "title": "Select Invoice",
     "tabs": {
-      "due": "Due",
       "draft": "Draft",
+      "sent": "Sent",
       "all": "ALL"
     },
     "invoice_date": "Invoice Date",
@@ -121,13 +121,13 @@
       "mark_as_sent": "This invoice will be marked as sent"
     },
     "empty": {
-      "due": {
-        "title": "You have no due invoices",
-        "description": "This section will contain the list of due invoices."
-      },
       "draft": {
         "title": "You have no draft invoices",
         "description": "This section will contain the list of draft invoices."
+      },
+      "sent": {
+        "title": "You have no sent invoices",
+        "description": "This section will contain the list of sent invoices."
       },
       "all": {
         "title": "You haven't created any invoices"
@@ -853,7 +853,6 @@
     "recurring_invoice_deleted": "Recurring Invoice deleted successfully",
     "password_reset_link": "The password reset link was sent successfully.",
     "company_created": "Company created successfully",
-    "invalid_due_amount_message": "Total Invoice amount cannot be less than total paid amount for this Invoice. Please update the invoice or delete the associated payments to continue.",
-    "currency_unchangeable": "Selected customer's currency cannot be changed after creating transactions"
+    "invalid_due_amount_message": "Total Invoice amount cannot be less than total paid amount for this Invoice. Please update the invoice or delete the associated payments to continue."
   }
 }
