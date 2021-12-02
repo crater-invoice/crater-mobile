@@ -3,7 +3,11 @@
     "name": "Crater Invoice",
     "slug": "crater",
     "privacy": "public",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "5.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,12 +19,14 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.craterapp.app",
-      "buildNumber": "20",
+      "buildNumber": "21",
       "usesIcloudStorage": true,
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID to save login"
