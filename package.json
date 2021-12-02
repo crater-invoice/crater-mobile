@@ -42,7 +42,7 @@
     "expo-updates": "~0.8.2",
     "htmlparser2": "^4.1.0",
     "i18n-js": "^3.3.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "moment": "^2.26.0",
     "query-string": "^6.8.3",
     "react": "16.13.1",
