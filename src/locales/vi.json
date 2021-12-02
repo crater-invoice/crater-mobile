@@ -1,0 +1,853 @@
+{
+  "header": {
+    "invoices": "Hóa đơn",
+    "add_invoice": "Thêm hóa đơn",
+    "edit_invoice": "Sửa hóa đơn",
+    "recurring_invoices": "Giọng nói định kỳ",
+    "recurring_invoice": "Hóa đơn định kỳ",
+    "add_recurring_invoice": "Thêm hóa đơn định kỳ",
+    "edit_recurring_invoice": "Sửa hóa đơn định kỳ",
+    "view_recurring_invoice": "Xem hóa đơn định kỳ",
+    "estimates": "Ước tính",
+    "add_estimate": "Thêm ước tính",
+    "edit_estimate": "Chỉnh sửa ước tính",
+    "template": "Chọn mẫu",
+    "customers": "Khách hàng",
+    "add_customer": "Thêm khách hàng",
+    "edit_customer": "Sửa khách hàng",
+    "billing_address": "Địa chỉ thanh toán",
+    "shipping_address": "Địa chỉ tàu",
+    "country": "Chọn quốc gia",
+    "payments": "Thanh toán",
+    "add_payment": "Thêm thanh toán",
+    "edit_payment": "Sửa thanh toán",
+    "expenses": "Chi phí",
+    "add_expense": "Thêm chi phí",
+    "edit_expense": "Sửa chi phí",
+    "more": "Thêm nữa",
+    "expense_category": "Danh mục chi phí",
+    "add_category": "Thêm danh mục",
+    "edit_category": "Sửa danh mục",
+    "add_note": "Thêm Ghi chú",
+    "edit_note": "Sửa chú thích",
+    "settings": "Thiết lập",
+    "notifications": "Thông báo",
+    "setting": {
+      "company": "Thông tin chung",
+      "account": "Thiết lập tài",
+      "preferences": "Tùy chọn"
+    },
+    "taxes": "Kiểu thuế",
+    "add_tax": "Thêm Thuế",
+    "edit_tax": "Sửa thuế",
+    "add_item": "Thêm mục",
+    "edit_item": "Sửa mục",
+    "items": "Các mục",
+    "item_units": "Đơn vị mục",
+    "payment_modes": "Chế độ thanh toán",
+    "reports": "Báo cáo",
+    "sales_report": "Báo cáo hàng",
+    "profit_and_lossReport": "Báo cáo lợi nhu&Loss",
+    "expenses_report": "Báo cáo phí",
+    "taxes_report": "Báo cáo thuế",
+    "filter": "Bộ lọc",
+    "back": "Quay lại",
+    "send_mail_invoice": "Gửi hóa đơn",
+    "send_mail_estimate": "Gửi ước tính",
+    "send_mail_payment": "Gửi thanh toán",
+    "custom_fields": "Trường tùy chỉnh",
+    "add_custom_field": "Thêm trường tùy chỉnh",
+    "edit_custom_field": "Sửa trường tùy chỉnh",
+    "notes": "Ghi chú",
+    "view_customer": "Xem khách hàng",
+    "view_payment": "Xem thanh toán",
+    "view_expense": "Xem chi phí",
+    "view_invoice": "Xem hóa đơn",
+    "view_estimate": "Xem ước tính",
+    "view_item": "Xem mục",
+    "view_tax": "Xem thuế",
+    "view_custom_field": "Xem trường tùy chỉnh",
+    "view_note": "Xem Ghi chú",
+    "view_category": "Xem danh mục",
+    "view_unit": "Đơn vị xem mục",
+    "view_payment_mode": "Xem chế độ thanh toán",
+    "add_company": "Thêm Công ty",
+    "roles": "Vai trò và quyền",
+    "add_role": "Thêm vai trò",
+    "edit_role": "Sửa vai trò",
+    "view_role": "Xem vai trò",
+    "users": "Người dùng",
+    "add_user": "Thêm người dùng",
+    "edit_user": "Sửa người dùng",
+    "view_user": "Xem người dùng",
+    "companies": "Công ty"
+  },
+  "tab_navigation": {
+    "invoices": "Hóa đơn",
+    "customers": "Khách hàng",
+    "payments": "Thanh toán",
+    "expenses": "Chi phí",
+    "more": "Thêm nữa"
+  },
+  "invoices": {
+    "title": "Chọn hóa đơn",
+    "tabs": {
+      "due": "Do",
+      "draft": "Bản nháp",
+      "all": "Tất cả"
+    },
+    "invoice_date": "Ngày hóa đơn",
+    "due_date": "Ngày đến hạn",
+    "discount": "CHIẾT KHẤU",
+    "invoice_number": "Số hóa đơn",
+    "reference_number": "Số tham chiếu",
+    "template": "Mẫu",
+    "template_placeholder": "Chọn hoặc Thêm mẫu mới",
+    "customer": "Khách hàng",
+    "customer_placeholder": "Chọn hoặc thêm khách hàng mới",
+    "items": "Các mục",
+    "subtotal": "TỔNG PHỤ",
+    "total_amount": "TỔNG SỐ TIỀN",
+    "status": "Trạng thái",
+    "status_placeholder": "Chọn trạng thái",
+    "from_date": "Từ Ngày",
+    "to_date": "Cho Ngày",
+    "alert": {
+      "less_amount": "Tổng sô ́ tiền không nên nhỏ hơn 0",
+      "remove_description": "Bạn sẽ không thể phục hồi được giọng nói này",
+      "draft_title": "Lưu thay đổi?",
+      "clone": "Hóa đơn này sẽ được nhân bản thành một hô ̀ sơ mới",
+      "send_invoice": "Hóa đơn này sẽ được gửi qua email cho khách hàng",
+      "mark_as_sent": "Hóa đơn này sẽ được đánh dấu là gửi"
+    },
+    "empty": {
+      "due": {
+        "title": "Bạn không có hóa đơn do",
+        "description": "Phần này sẽ chứa danh sách các hóa đơn do xuất hóa."
+      },
+      "draft": {
+        "title": "Bạn không có hóa đơn bản thảo",
+        "description": "Phần này sẽ chứa danh sách hóa đơn bản nháp."
+      },
+      "all": {
+        "title": "Bạn chưa tạo bất kỳ hóa đơn nào"
+      },
+      "title": "Chưa có hóa đơn!",
+      "description": "Phần này sẽ chứa danh sách hóa đơn.",
+      "button_title": "Thêm hóa đơn mới"
+    },
+    "actions": {
+      "send_invoice": "Gửi hóa đơn",
+      "resend_invoice": "Gửi lại hóa đơn",
+      "delete": "&amp; Xoá",
+      "record_payment": "Thanh toán thu",
+      "mark_as_sent": "Ðánh dấu là đã gửi",
+      "clone": "Hóa đơn nhân bản"
+    }
+  },
+  "recurring_invoices": {
+    "start_date": "Ngày bắt đầu",
+    "next_invoice_at": "Hóa đơn kê ́ tiếp",
+    "limit_by": "Giới hạn bởi",
+    "select_frequency": "Chọn tần số",
+    "display_frequency": "Tần số",
+    "basic_info": "THÔNG TIN BASIC",
+    "invoices": "HÓA ĐƠN",
+    "alert_description": "Bạn sẽ không thể khôi phục lại hóa đơn định kỳ này",
+    "from_start_at_date": "Từ bắt đầu vào ngày",
+    "to_start_at_date": "Để bắt đầu tại ngày",
+    "auto_sent": {
+      "label": "Gửi tự động hóa đơn",
+      "description": "Bật này, nếu bạn muốn gửi tự động hóa đơn cho khách hàng khi được tạo."
+    },
+    "status": {
+      "title": "Trạng thái",
+      "placeholder": "Chọn trạng thái",
+      "empty": {
+        "title": "Bạn không có tư cách nào",
+        "description": "Phần này sẽ chứa danh sách trạng thái."
+      }
+    },
+    "tabs": {
+      "active": "Hoạt động",
+      "on_hold": "Tạm giư ̃",
+      "all": "Tất cả"
+    },
+    "empty": {
+      "active": {
+        "title": "Bạn không có hóa đơn định kỳ hoạt động",
+        "description": "Phần này sẽ chứa danh sách các hóa đơn định kỳ đang hoạt động."
+      },
+      "on_hold": {
+        "title": "Bạn không có hóa đơn định kỳ",
+        "description": "Phần này sẽ chứa danh sách các hóa đơn được định kỳ định kỳ."
+      },
+      "all": {
+        "title": "Bạn chưa tạo bất kỳ hóa đơn định kỳ nào"
+      },
+      "title": "Không có hóa đơn!",
+      "description": "Phần này sẽ chứa danh sách hóa đơn định kỳ.",
+      "button_title": "Thêm hóa đơn định kỳ mới"
+    },
+    "limit_types": {
+      "none": "Không có",
+      "date": "Ngày giới hạn",
+      "count": "Số lượng"
+    },
+    "frequencies": {
+      "custom": "Tự chọn",
+      "every_minute": "Mỗi phút",
+      "every_30_minute": "Mỗi 30 phút",
+      "every_hour": "Mỗi giờ",
+      "every_2_hour": "Mỗi 2 giờ",
+      "twice_a_day": "Hai Lần Một Ngày",
+      "every_week": "Mỗi tuần",
+      "every_15_days": "Mỗi 15 ngày",
+      "first_day_of_month": "Ngày đầu tháng",
+      "every_6_month": "Mỗi 6 tháng",
+      "every_year": "Mỗi năm"
+    },
+    "dropdown": {
+      "edit": "Chỉnh sửa",
+      "delete": "&amp; Xoá"
+    }
+  },
+  "customers": {
+    "display_name": "Tên hiển thị",
+    "contact_name": "Tên liên hệ chính",
+    "email": "Email",
+    "phone": "Điện thoại",
+    "website": "Trang web",
+    "billing_address": "Địa chỉ thanh toán",
+    "shipping_address": "Địa chỉ tàu",
+    "customer": "Khách hàng",
+    "filter_display_name": "Tên hiển thị",
+    "filter_contact_name": "Tên liên hệ",
+    "alert_description": "Bạn sẽ không thể phục hồi khách hàng này",
+    "prefix": "Tiền tố",
+    "address": {
+      "name": "Tên",
+      "country": "Quốc gia",
+      "state": "Trạng thái",
+      "city": "Thành phố",
+      "address": "Địa chỉ",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "phone": "Điện thoại",
+      "zip_code": "Mã zip",
+      "same_as": "Sao chép tư ̀ địa chỉ thanh toán"
+    },
+    "remove_customer": "&amp; Xoá",
+    "empty": {
+      "title": "Chưa có khách hàng!",
+      "description": "Phần này sẽ chứa danh sách khách hàng.",
+      "button_title": "Thêm khách hàng mới",
+      "country": {
+        "title": "Không có sẵn quốc gia"
+      },
+      "state": {
+        "title": "Không có sẵn trạng thái"
+      },
+      "city": {
+        "title": "Không có sẵn thành phố"
+      }
+    },
+    "title": "Chọn Khách hàng",
+    "placeholder": "Chọn khách hàng"
+  },
+  "payments": {
+    "date": "Ngày thanh toán",
+    "number": "Số thanh toán",
+    "customer": "Khách hàng",
+    "mode": "Chế Độ Thanh",
+    "modes": "Chế độ thanh toán",
+    "prefix": "Tiền tô ́ thanh toán",
+    "add_mode": "Thêm Chế độ thanh toán",
+    "edit_mode": "Sửa Chế độ thanh toán",
+    "mode_hint": "Tên chế độ",
+    "mode_placeholder": "Chọn chế độ thanh toán",
+    "amount": "Số tiền",
+    "invoice": "Hóa đơn",
+    "invoice_placeholder": "Chọn hóa đơn",
+    "send_receipt": "Gửi biên lai thanh toán",
+    "alertAmount": "Nhập thanh toán nhiều hơn sô ́ lượng hóa đơn này.",
+    "alert_description": "Bạn sẽ không thể thu lại thanh toán này",
+    "alert_mode": "Bạn sẽ không thể khôi phục được Chế độ thanh toán này",
+    "remove_payment": "&amp; Xoá",
+    "empty": {
+      "title": "Chưa thanh toán!",
+      "description": "Phần này sẽ chứa danh sách thanh toán.",
+      "button_title": "Thêm thanh toán mới"
+    },
+    "alert": {
+      "send_payment": "Biên nhận thanh toán này sẽ được gửi qua email đến địa chỉ đã cho"
+    }
+  },
+  "payment_modes": {
+    "empty": {
+      "title": "Không có chế độ thanh toán.",
+      "description": "Phần này sẽ chứa danh sách chê ́ độ thanh toán."
+    }
+  },
+  "item_units": {
+    "empty": {
+      "title": "Chưa có đơn vị mục tiêu!",
+      "description": "Phần này sẽ chứa danh sách các đơn vị mục."
+    }
+  },
+  "expenses": {
+    "receipt": "Biên lai",
+    "date": "Ngày chi phí",
+    "from_date": "Từ Ngày",
+    "to_date": "Cho Ngày",
+    "amount": "Số tiền",
+    "category": "Danh mục",
+    "category_placeholder": "Chọn danh mục",
+    "notes": "Ghi chú",
+    "notes_placeholder": "Ghi chú thêm",
+    "view_receipt": "Xem biên lai",
+    "alert_description": "Bạn sẽ không thể phục hồi Chi phí này",
+    "remove_expense": "&amp; Xoá",
+    "empty": {
+      "title": "Vẫn chưa có chi phí!",
+      "description": "Phần này sẽ chứa danh sách chi phí.",
+      "button_title": "Thêm chi phí mới"
+    }
+  },
+  "items": {
+    "title": "Chọn mục",
+    "name": "Tên mục",
+    "description": "Mô tả (tùy chọn)",
+    "quantity": "Số lượng",
+    "price": "Giá",
+    "subtotal": "TỔNG PHỤ",
+    "discount_type": "Kiểu giảm giá",
+    "discount": "Giảm giá",
+    "final_discount": "CHIẾT KHẤU",
+    "final_amount": "SỐ",
+    "taxes": "Thuế",
+    "select_tax": "Chọn hoặc thêm thuê ́ mới",
+    "unit": "Đơn vị",
+    "unit_hint": "Tên đơn vị",
+    "add_hint": "Thêm đơn vị mục",
+    "edit_hint": "Sửa đơn vị mục",
+    "unit_placeholder": "Chọn đơn vị",
+    "alert_description": "Bạn sẽ không thể phục hồi mục này",
+    "alert_unit": "Bạn sẽ không thể khôi phục lại đơn vị mục này",
+    "less_amount": "Tổng sô ́ tiền không thể nhỏ hơn 0",
+    "already_attach_title": "Thao tác bị",
+    "already_attach_description": "Không thể xóa mục đã được sử dụng",
+    "empty": {
+      "title": "Chưa có đồ vật!",
+      "description": "Phần này sẽ chứa danh sách mục.",
+      "button_title": "Thêm mục mới"
+    }
+  },
+  "more": {
+    "estimate": "Ước tính",
+    "recurring_invoice": "Giọng nói định kỳ",
+    "items": "Các mục",
+    "reports": "Báo cáo",
+    "settings": "Thiết lập",
+    "logout": "Đăng xuất",
+    "users": "Người dùng"
+  },
+  "categories": {
+    "title": "Tên danh mục",
+    "description": "Mô tả",
+    "alert_description": "Bạn sẽ không thể phục hồi danh mục này",
+    "empty": {
+      "title": "Chưa có hạng mục nào!",
+      "description": "Phần này sẽ chứa danh sách các danh mục.",
+      "button_title": "Thêm danh mục mới"
+    }
+  },
+  "notes": {
+    "notes": "Ghi chú",
+    "title": "Tên chú thích",
+    "description": "Mô tả",
+    "model_placeholder": "Chọn kiểu",
+    "alert_description": "Bạn sẽ không thể khôi phục Ghi chú này",
+    "empty": {
+      "title": "Chưa có ghi chú!",
+      "description": "Phần này sẽ chứa danh sách ghi chú.",
+      "button_title": "Thêm ghi chú mới"
+    },
+    "placeholder": {
+      "invoice": "Ghi chú thêm trên Invoice",
+      "estimate": "Ghi chú thêm vào ước tính",
+      "payment": "Ghi chú thêm khi thanh toán"
+    },
+    "type": "Loại chú thích",
+    "select": "Chọn Ghi chú",
+    "insert_note": "+ Chèn Ghi chú",
+    "insert_fields": "+ Chèn trường"
+  },
+  "units": {
+    "empty": {
+      "title": "Chưa có đơn vị!",
+      "description": "Phần này sẽ chứa danh sách các đơn vị mục.",
+      "button_title": "Thêm đơn vị mục mới"
+    }
+  },
+  "settings": {
+    "account_settings": "Thiết lập tài",
+    "company_information": "Thông tin về",
+    "preference": "Tùy chọn",
+    "notification": "Thông báo",
+    "taxes": "Kiểu thuế",
+    "expense_category": "Danh mục chi phí",
+    "payment_modes": "Chế độ thanh toán",
+    "item_units": "Đơn vị mục",
+    "touch_or_Face_id": "ID/Đối mặt",
+    "endpoint": "Điểm cuối API",
+    "company": {
+      "name": "Tên công ty",
+      "phone": "Điện thoại",
+      "address": "Địa chỉ",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "zip_code": "Mã zip",
+      "logo": "Logo công ty"
+    },
+    "account": {
+      "name": "Tên",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "confirm_password": "Xác nhận mật",
+      "version": "Phiên bản"
+    },
+    "notifications": {
+      "send": "Gửi Thông Báo Vào",
+      "invoice_viewed": "Xem hóa đơn",
+      "invoice_viewed_description": "Khi khách hàng của bạn xem dạng liên kết hóa đơn đã gửi qua email.",
+      "estimate_viewed": "Xem ước tính",
+      "estimate_viewed_description": "Khi khách hàng của bạn xem liên kết ước tính được gửi qua email."
+    },
+    "preferences": {
+      "currency": "Tiền tệ",
+      "currency_placeholder": "Chọn tiền tệ",
+      "language": "&amp; Ngôn ngữ",
+      "language_placeholder": "Chọn Ngôn ngữ",
+      "time_zone": "Múi giơ ̀",
+      "time_zone_placeholder": "Chọn múi giơ ̀",
+      "date_format": "Định dạng ngày",
+      "date_format_placeholder": "Chọn định dạng ngày",
+      "fiscal_year": "Năm tài chính",
+      "fiscal_year_placeholder": "Chọn năm tài chính",
+      "discount_per_item": "Giảm giá trên mỗi mục",
+      "discount_per_item_placeholder": "Bật này nếu bạn muốn thêm Discount vào các mục hóa đơn riêng. Theo mặc định, Discount được thêm trực tiếp vào hóa đơn.",
+      "tax_per_item": "Thuế trên mỗi mục",
+      "tax_per_item_placeholder": "Bật đây nếu bạn muốn thêm thuế vào các mục hóa đơn cá nhân. Theo mặc định, Tax được thêm trực tiếp vào hóa đơn.",
+      "retrospective_edits": "Hồi tưởng Edits",
+      "create_status": "Tạo trạng thái",
+      "active": "Hoạt động",
+      "on_hold": "Tạm giư ̃",
+      "completed": "Hoàn thành"
+    },
+    "notes": "Ghi chú"
+  },
+  "login": {
+    "email": "Nhập email của bạn",
+    "password": "Nhập mật khẩu của bạn",
+    "invalid": "Chứng danh này không khớp với bản ghi của chúng tôi."
+  },
+  "logout": {
+    "confirmation": "Bạn có chắc là muốn đăng xuất không?",
+    "title": "Đăng xuất"
+  },
+  "forgot": {
+    "email_label": "Nhập email và chúng tôi sẽ gửi cho bạn thiết lập lại liên kết mật khẩu",
+    "email_placeholder": "Nhập Email của bạn",
+    "email_send_description": "Một liên kết đặt lại mật khẩu đã được gửi vào email của bạn, Vui lòng làm theo hướng dẫn trên email để tạo mật khẩu mới.",
+    "email_send_error": "Không thể gửi email cho địa chỉ email này."
+  },
+  "lost_internet": {
+    "title": "Mất kết nối",
+    "description": "Vui lòng kiểm tra thiết lập di động hoặc Wifi để xác minh kết nối internet rồi thử lại."
+  },
+  "update_app": {
+    "title": "Phiên Bản Ứng Dụng Đã Hết Hạn!",
+    "description": "Phiên bản này của ứng dụng không được ngày. Hãy cài đặt bản cập nhật mới nhất để tiếp tục sử dụng Crater."
+  },
+  "endpoint": {
+    "endpoint_url": "URL điểm cuối",
+    "endpoint_desc": "Trên URL sẽ được dùng để kết nối với cài đặt miệng núi lửa tự chủ trì.",
+    "url_placeholder": "Eg: https://craterapp.com",
+    "alert_invalid_url": "Địa chỉ Mạng"
+  },
+  "estimates": {
+    "tabs": {
+      "sent": "Đã gửi",
+      "draft": "Bản nháp",
+      "all": "Tất cả"
+    },
+    "estimate_date": "Ngày ước tính",
+    "expiry_date": "Ngày hết hạn",
+    "estimate_number": "Số ước tính",
+    "template": "Mẫu",
+    "template_placeholder": "Chọn hoặc Thêm mẫu mới",
+    "customer": "Khách hàng",
+    "customer_placeholder": "Chọn hoặc thêm khách hàng mới",
+    "tax_placeholder": "+ Thêm thuế",
+    "add_item": "Thêm mục",
+    "from_date": "Từ Ngày",
+    "to_date": "Cho Ngày",
+    "status": "Trạng thái",
+    "status_placeholder": "Chọn trạng thái",
+    "total_amount": "TỔNG SỐ TIỀN",
+    "alert": {
+      "convert_to_invoice_description": "Bạn có chắc là muốn chuyển đổi Estimate này thành một giọng nói không?",
+      "remove_description": "Bạn sẽ không thể phục hồi Estimate này",
+      "less_amount": "Tổng sô ́ tiền không thể nhỏ hơn 0",
+      "draft_title": "Lưu thay đổi?",
+      "send_estimate": "Ước tính này sẽ được gửi qua email đến khách hàng",
+      "mark_as_sent": "Ước tính này sẽ được đánh dấu là đã gửi",
+      "mark_as_accept": "Ước tính này sẽ được đánh dấu là Chấp nhận",
+      "mark_as_reject": "Ước tính này sẽ được đánh dấu là từ chối"
+    },
+    "empty": {
+      "sent": {
+        "title": "Bạn không có ước tính nào",
+        "description": "Phần này sẽ chứa danh sách ước tính gửi."
+      },
+      "draft": {
+        "title": "Bạn không có ước tính dự thảo",
+        "description": "Phần này sẽ chứa danh sách ước tính bản nháp."
+      },
+      "all": {
+        "title": "Bạn chưa tạo ra bất kỳ ước tính nào",
+        "description": "Phần này sẽ chứa danh sách ước tính."
+      },
+      "button_title": "Thêm ước tính mới"
+    },
+    "actions": {
+      "send_estimate": "Gửi ước tính",
+      "resend_estimate": "Gửi lại ước tính",
+      "delete": "&amp; Xoá",
+      "convert_to_invoice": "Chuyển Đổi Sang Hóa Đơn",
+      "mark_as_sent": "Ðánh dấu là đã gửi",
+      "mark_as_accepted": "Đánh Dấu Như Đã Chấp Nhận",
+      "mark_as_rejected": "Đánh dấu như bị từ chối"
+    }
+  },
+  "currencies": {
+    "title": "Tiền tệ",
+    "name": "Tên",
+    "empty": {
+      "title": "Không có tiền tệ!",
+      "description": "Phần này sẽ chứa danh sách tiền tệ.",
+      "button_title": "Thêm tiền tệ mới"
+    }
+  },
+  "custom_fields": {
+    "name": "Tên",
+    "model": "Mô hình",
+    "model_placeholder": "Chọn mô hình",
+    "type": "Kiểu",
+    "type_placeholder": "Chọn kiểu",
+    "required": "Yêu cầu",
+    "label": "Nhãn",
+    "default_value": "Mặc định",
+    "display_in_Portal": "Hiển thị trong cổng",
+    "placeholder": "Trình giư ̃ chô ̃",
+    "order": "Trật tự",
+    "yes": "Vâng.",
+    "no": "Không.",
+    "check": "Đang kích thích theo mặc định",
+    "options": "Tùy chọn",
+    "remove_alert_description": "Bạn sẽ không thể khôi phục được trường tùy chỉnh này",
+    "already_in_use": "Không thể cập nhật mô hình cho các trường đã được sử dụng.",
+    "empty": {
+      "title": "Chưa có trường tùy chỉnh!",
+      "description": "Phần này sẽ chứa danh sách trường tùy chỉnh.",
+      "button_title": "Thêm trường tùy chỉnh mới"
+    }
+  },
+  "languages": {
+    "title": "Chọn Ngôn ngữ",
+    "empty": {
+      "title": "Chưa có ngôn ngữ!",
+      "description": "Phần này sẽ chứa danh sách Ngôn ngư ̃."
+    }
+  },
+  "time_zones": {
+    "title": "Chọn thời gian chơ ̀",
+    "empty": {
+      "title": "Vẫn chưa có Zone TimeZone!",
+      "description": "Phần này sẽ chứa danh sách Timezones."
+    }
+  },
+  "date_formats": {
+    "title": "Chọn định dạng ngày",
+    "empty": {
+      "title": "Chưa có định dạng gì hết!",
+      "description": "Phần này sẽ chứa danh sách các định dạng Ngày."
+    }
+  },
+  "fiscal_years": {
+    "title": "Chọn năm tài chính",
+    "empty": {
+      "title": "Không có năm tài chính!",
+      "description": "Phần này sẽ chứa danh sách các năm tài chính."
+    }
+  },
+  "retrospective_edits": {
+    "title": "Chọn edits",
+    "empty": {
+      "title": "Không Có Cái Nhìn Hồi Tưởng!",
+      "description": "Phần này sẽ chứa danh sách các biên tập lại của Retrospective."
+    }
+  },
+  "countries": {
+    "empty": {
+      "title": "Chưa có quốc gia!",
+      "description": "Phần này sẽ chứa danh sách các quốc gia."
+    }
+  },
+  "reports": {
+    "sales": "Bán hàng",
+    "profit_and_loss": "Lợi nhuận & Loss",
+    "expenses": "Chi phí",
+    "taxes": "Thuế",
+    "date_range": "Chọn phạm vi Ngày",
+    "from_date": "Từ Ngày",
+    "to_date": "Cho Ngày",
+    "report_type": "Kiểu báo cáo",
+    "by_customer": "Theo Khách Hàng",
+    "by_item": "Theo mục",
+    "today": "Hôm nay",
+    "this_week": "Tuần này",
+    "this_month": "Tháng này",
+    "this_quarter": "Quý này",
+    "this_year": "Năm nay",
+    "current_fiscal_quarter": "Quý tài chính hiện tại",
+    "current_fiscal_year": "Năm tài chính hiện tại",
+    "previous_week": "Tuần trước",
+    "previous_month": "Tháng trước",
+    "previous_quarter": "Quý trước",
+    "previous_year": "Năm trước",
+    "previous_fiscal_quarter": "Quý tài chính trước đây",
+    "previous_fiscal_year": "Năm tài chính trước",
+    "custom": "Tự chọn"
+  },
+  "taxes": {
+    "title": "Thuế",
+    "type": "Tên thuế",
+    "description": "Mô tả",
+    "percentage": "Phần trăm Thuế",
+    "compound_tax": "Thuế phức hợp",
+    "alert_description": "Bạn sẽ không thể khôi phục lại thuế này",
+    "empty": {
+      "title": "Chưa có loại thuế nào hết!",
+      "description": "Phần này sẽ chứa danh sách các loại thuế.",
+      "button_title": "Thêm kiểu thuế"
+    }
+  },
+  "touch_face_id": {
+    "touch_id": "ID chạm",
+    "face_id": "ID khuôn mặt",
+    "finger": "Dấu tay",
+    "face": "Mặt",
+    "not_compatible": "Thiết bị của bạn không tương thích.",
+    "hardware_not_available": "{{kiểu}} HardWare không có sẵn.",
+    "activated": "{{kiểu}} được kích hoạt",
+    "enable_login": "{{kiểu}} Đăng nhập",
+    "enable_login_hint": "Bây giờ bạn có thể sử dụng {{type}} để truy cập tài khoản của bạn nhanh hơn và dễ dàng hơn.",
+    "subtitle_1": "Xác thực bằng ứng dụng",
+    "subtitle_2": "{{kiểu}} thay vì nhập mật khẩu của bạn.",
+    "login": "Ðăng nhập với {{kiểu}}"
+  },
+  "file_picker": {
+    "file": "Nhắp vào đây để chọn tập tin",
+    "permission": "Xin lỗi, chúng tôi cần giấy phép quay phim để làm công việc này!",
+    "camera": "Máy ảnh",
+    "gallery": "Gallery",
+    "document": "Tài liệu"
+  },
+  "send_mail": {
+    "from": "Từ",
+    "to": "Đến",
+    "subject": "Chủ đề",
+    "body": "Cơ thể"
+  },
+  "alert": {
+    "title": "Anh chắc chứ?",
+    "action": {
+      "discard": "Hủy bỏ",
+      "save_as_draft": "Lưu như nháp"
+    }
+  },
+  "button": {
+    "remove": "Gỡ bỏ",
+    "save": "Lưu",
+    "add": "Thêm",
+    "retry": "Thử lại",
+    "done": "Đã xong",
+    "clear": "Xóa",
+    "view_pdf": "Xem PDF",
+    "sing_in": "Ký vào",
+    "forget": "Quên Mật Khẩu?",
+    "update": "Cập nhật",
+    "update_capital": "CẬP nhật",
+    "choose_template": "Chọn mẫu",
+    "generate_report": " Tạo Báo cáo",
+    "recovery_email": "Gửi liên kết đặt lại",
+    "recovery_email_again": "Gửi Lại",
+    "cancel": "Hủy",
+    "send": "Gửi",
+    "change": "Thay đổi",
+    "set_up_now": "Thiết lập bây giơ ̀",
+    "later": "Sẽ làm sau.",
+    "refresh": "Làm mới",
+    "preview": "Xem thử"
+  },
+  "filter": {
+    "empty": {
+      "filter_title": "Không tìm thấy kết quả"
+    }
+  },
+  "search": {
+    "title": "Tìm kiếm",
+    "no_result": "Không có kết quả cho \"{{search}}\"",
+    "no_search_result": "Không có kết quả cho"
+  },
+  "validation": {
+    "required": "Trường yêu cầu rỗng",
+    "choose": "Chọn ít nhất một mục",
+    "email": "Hãy nhập địa chỉ email hợp lệ",
+    "password_compare": "Mật khẩu không khớp",
+    "minimum_number": "phải lớn hơn 0",
+    "maximum_number": "phải nhỏ hơn {{maxNumber}}",
+    "maximum_character": "{{fieldName}} phải nhỏ hơn {{Nhân ký}} ký tự.",
+    "character": "Chỉ ký tự",
+    "numeric": "phải là sô ́",
+    "more_than_due": "{{gợi}} không được nhiều hơn So với Amount.",
+    "url": "Url không hợp lệ (eg: https://craterapp.com)",
+    "wrong": "Có gì đó không ổn. Làm ơn, hãy thử lại.",
+    "min_character": "Vui lòng nhập tối thiểu {{minCharacter}} ký tự",
+    "cron": "Vui lòng nhập định dạng cOn hợp lệ."
+  },
+  "company": {
+    "switch_company": "CÔNG TY CHUYỂN ĐỔI",
+    "add_new_company": "Thêm Công ty mới"
+  },
+  "roles": {
+    "add_new_role": "Thêm vai trò mới",
+    "alert_description": "Bạn sẽ không thể khôi phục vai trò này",
+    "empty": {
+      "title": "Chưa có vai trò gì!",
+      "description": "Phần này sẽ chứa danh sách vai trò."
+    },
+    "name": "Tên",
+    "permissions": "Quyền",
+    "select_all": "Chọn tất cả",
+    "none": "Không có",
+    "select_role_for": "Chọn vai trò cho {{name}}"
+  },
+  "users": {
+    "add_new_user": "Thêm người dùng mới",
+    "alert_description": "Bạn sẽ không thể phục hồi Người dùng này",
+    "empty": {
+      "title": "Chưa có người dùng!",
+      "description": "Phần này sẽ chứa danh sách người dùng."
+    },
+    "name": "Tên",
+    "email": "Email",
+    "phone": "Điện thoại",
+    "password": "Mật khẩu",
+    "role": "Vai trò",
+    "roles": "Vai trò",
+    "role_placeholder": "Chọn vai trò"
+  },
+  "exchange_rate": {
+    "label": "Tỷ giá Trao",
+    "selected_currency": "1 {{selectedCurrentcy}} = ",
+    "exchange_help_text": "Nhập tỷ giá chuyển đổi để chuyển đổi tư ̀ {{selectedCurrentcy}} thành {{baseCurrentcy}}."
+  },
+  "actions": {
+    "new_estimate": "Ước tính mới",
+    "new_invoice": "Hóa đơn mới",
+    "new_payment": "Thanh toán mới",
+    "new_expense": "Chi phí mới"
+  },
+  "companies": {
+    "empty": {
+      "title": "Chưa có công ty nào!",
+      "description": "Phần này sẽ chứa danh sách các công ty."
+    }
+  },
+  "notification": {
+    "success": "Thành công!",
+    "error": "Lỗi!",
+    "login_success": "Ðã đăng nhập thành công",
+    "customer_created": "Đã tạo thành công",
+    "customer_updated": "Đã cập nhật thành công",
+    "customer_deleted": "Đã xóa thành công khách",
+    "role_created": "Vai trò tạo thành công",
+    "role_updated": "Ðã cập nhật thành công",
+    "role_deleted": "Vai trò đã bị xóa",
+    "expense_category_created": "Danh mục chi phí được tạo",
+    "expense_category_updated": "Danh mục chi phí cập nhật",
+    "expense_category_deleted": "Đã xóa danh mục chi phí",
+    "expense_already_in_use": "Danh mục chi phí đã được sử dụng",
+    "note_created": "Ghi chú thành công",
+    "note_updated": "Ghi chú thành công",
+    "note_deleted": "Ghi chú thành công",
+    "note_already_in_use": "Lưu ý đang được sử dụng",
+    "custom_field_created": "Trường tùy chỉnh tạo thành công",
+    "custom_field_updated": "Ðã cập nhật trường tùy chỉnh",
+    "custom_field_deleted": "Ðã xóa trường tùy chỉnh",
+    "custom_field_already_in_use": "Trường tùy chỉnh đã được sử dụng",
+    "tax_created": "Kiểu nhập đã tạo thành công",
+    "tax_updated": "Ðã cập nhật kiểu nhập",
+    "tax_deleted": "Xóa kiểu nhập thành công",
+    "tax_already_in_use": "Thuế đã được sử dụng",
+    "setting_updated": "Cài đặt đã thành công",
+    "invoice_setting_updated": "Thiết lập hóa đơn đã cập",
+    "estimate_setting_updated": "Cài đặt ước tính đã cập",
+    "payment_setting_updated": "Cài đặt thanh toán đã cập",
+    "payment_mode_created": "Chế độ thanh toán đã tạo",
+    "payment_mode_updated": "Chế độ thanh toán đã cập",
+    "payment_mode_deleted": "Chế độ thanh toán đã xóa",
+    "payment_mode_already_in_use": "Chế độ thanh toán đã được sử dụng",
+    "item_unit_created": "Ðã tạo đơn vị mục được",
+    "item_unit_updated": "Ðã cập nhật đơn vị mục",
+    "item_unit_deleted": "Đã xóa thành công đơn vị",
+    "item_unit_already_in_use": "Đơn vị mục đang được sử dụng",
+    "preference_updated": "Ðã cập nhật tùy chọn",
+    "company_updated": "Thông tin công ty đã cập",
+    "account_updated": "Thiết lập tài khoản đã cập",
+    "user_created": "Người dùng đã thành công",
+    "user_updated": "Người dùng đã cập nhật",
+    "user_deleted": "Người dùng đã xóa thành",
+    "item_created": "Mục đã tạo thành công",
+    "item_updated": "Ðã cập nhật thành công",
+    "item_deleted": "Mục đã xóa thành công",
+    "estimate_created": "Đã tạo thành công",
+    "estimate_updated": "Ðã cập nhật thành công",
+    "estimate_deleted": "Đã xóa thành công",
+    "estimate_sent": "Đã gửi thành công",
+    "estimate_mark_as_sent": "Đã đánh dấu thành công",
+    "estimate_marked_as_accepted": "Ước tính được đánh dấu là",
+    "estimate_marked_as_rejected": "Ước tính được đánh dấu là",
+    "expense_created": "Chi phí tạo thành công",
+    "expense_updated": "Chi phí đã cập nhật",
+    "expense_deleted": "Chi phí xóa thành công",
+    "payment_created": "Thanh toán tạo thành công",
+    "payment_updated": "Thanh toán đã cập nhật",
+    "payment_deleted": "Thanh toán đã bị xóa",
+    "payment_sent": "Thanh toán đã được gửi",
+    "invoice_created": "Hóa đơn đã thành công",
+    "invoice_updated": "Hóa đơn đã cập nhật",
+    "invoice_deleted": "Hóa đơn đã xóa",
+    "invoice_marked_as_sent": "Hóa đơn được đánh dấu thành công",
+    "invoice_sent": "Gửi hóa đơn thành công",
+    "invoice_cloned": "Lập hóa đơn thành công",
+    "recurring_invoice_created": "Hóa đơn lặp lại được tạo thành công",
+    "recurring_invoice_updated": "Hóa đơn định kỳ đã được cập nhật",
+    "recurring_invoice_deleted": "Hóa đơn lặp lại đã xóa thành công",
+    "password_reset_link": "Đã gửi thành công liên kết đặt lại mật khẩu.",
+    "company_created": "Công ty đã thành công"
+  }
+}

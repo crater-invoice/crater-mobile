@@ -1,0 +1,853 @@
+{
+  "header": {
+    "invoices": "Facturen",
+    "add_invoice": "Factuur toevoegen",
+    "edit_invoice": "Factuur bewerken",
+    "recurring_invoices": "Terugkerende facturen",
+    "recurring_invoice": "Terugkerende factuur",
+    "add_recurring_invoice": "Terugkerende factuur toevoegen",
+    "edit_recurring_invoice": "Periodieke factuur bewerken",
+    "view_recurring_invoice": "Terugkerende factuur bekijken",
+    "estimates": "Ramingen",
+    "add_estimate": "Schatting toevoegen",
+    "edit_estimate": "Schatting bewerken",
+    "template": "Selecteer een sjabloon",
+    "customers": "Klanten",
+    "add_customer": "Klant toevoegen",
+    "edit_customer": "Klant bewerken",
+    "billing_address": "Factureringsadres",
+    "shipping_address": "Verzendadres",
+    "country": "Land selecteren",
+    "payments": "Betalingen",
+    "add_payment": "Betaling toevoegen",
+    "edit_payment": "Betaling bewerken",
+    "expenses": "Kosten",
+    "add_expense": "Kosten toevoegen",
+    "edit_expense": "Kosten bewerken",
+    "more": "Meer",
+    "expense_category": "Kostencategorieën",
+    "add_category": "Categorie toevoegen",
+    "edit_category": "Categorie bewerken",
+    "add_note": "Opmerking toevoegen",
+    "edit_note": "Opmerking bewerken",
+    "settings": "Instellingen",
+    "notifications": "Kennisgeving",
+    "setting": {
+      "company": "Bedrijfsinformatie",
+      "account": "Accountinstellingen",
+      "preferences": "Voorkeuren"
+    },
+    "taxes": "Belastingtypen",
+    "add_tax": "Belasting toevoegen",
+    "edit_tax": "Belasting bewerken",
+    "add_item": "Item toevoegen",
+    "edit_item": "Item bewerken",
+    "items": "Posten",
+    "item_units": "Itemeenheden",
+    "payment_modes": "Betalingswijzen",
+    "reports": "Verslagen",
+    "sales_report": "Verkooprapport",
+    "profit_and_lossReport": "Winst-en verliesrekening",
+    "expenses_report": "Kostenrapport",
+    "taxes_report": "Rapport belastingen",
+    "filter": "Filters",
+    "back": "Terug",
+    "send_mail_invoice": "Factuur verzenden",
+    "send_mail_estimate": "Schatting verzenden",
+    "send_mail_payment": "Betaling verzenden",
+    "custom_fields": "Aangepaste velden",
+    "add_custom_field": "Aangepast veld toevoegen",
+    "edit_custom_field": "Aangepast veld bewerken",
+    "notes": "Opmerkingen",
+    "view_customer": "Klant weergeven",
+    "view_payment": "Betaling bekijken",
+    "view_expense": "Kosten weergeven",
+    "view_invoice": "Factuur bekijken",
+    "view_estimate": "Schatting bekijken",
+    "view_item": "Item bekijken",
+    "view_tax": "Belasting bekijken",
+    "view_custom_field": "Aangepast veld bekijken",
+    "view_note": "Notitie bekijken",
+    "view_category": "Viewcategorie",
+    "view_unit": "Itemeenheid bekijken",
+    "view_payment_mode": "Betalingsmodus bekijken",
+    "add_company": "Bedrijf toevoegen",
+    "roles": "Rollen en machtiging",
+    "add_role": "Rol toevoegen",
+    "edit_role": "Rol bewerken",
+    "view_role": "Rol bekijken",
+    "users": "Gebruikers",
+    "add_user": "Gebruiker toevoegen",
+    "edit_user": "Gebruiker bewerken",
+    "view_user": "Gebruiker bekijken",
+    "companies": "Ondernemingen"
+  },
+  "tab_navigation": {
+    "invoices": "Facturen",
+    "customers": "Klanten",
+    "payments": "Betalingen",
+    "expenses": "Kosten",
+    "more": "Meer"
+  },
+  "invoices": {
+    "title": "Factuur selecteren",
+    "tabs": {
+      "due": "Vervalt op",
+      "draft": "Concept",
+      "all": "ALLE"
+    },
+    "invoice_date": "Factuurdatum",
+    "due_date": "Vervaldatum",
+    "discount": "KORTING",
+    "invoice_number": "Factuurnummer",
+    "reference_number": "Referentienummer",
+    "template": "Sjabloon",
+    "template_placeholder": "Een nieuwe sjabloon selecteren of toevoegen",
+    "customer": "Klant",
+    "customer_placeholder": "Nieuwe klant selecteren of toevoegen",
+    "items": "Posten",
+    "subtotal": "SUBTOTAAL",
+    "total_amount": "TOTAAL BEDRAG",
+    "status": "Status",
+    "status_placeholder": "Selecteer een status",
+    "from_date": "Vanaf datum",
+    "to_date": "Tot-datum",
+    "alert": {
+      "less_amount": "Totaal bedrag mag niet kleiner zijn dan 0",
+      "remove_description": "U kunt deze factuur niet herstellen",
+      "draft_title": "Wijzigingen opslaan?",
+      "clone": "Deze factuur wordt in een nieuwe factuur gekloond",
+      "send_invoice": "Deze factuur wordt verzonden via e-mail naar de klant",
+      "mark_as_sent": "Deze factuur wordt gemarkeerd als verzonden"
+    },
+    "empty": {
+      "due": {
+        "title": "U hebt geen verschuldigde facturen",
+        "description": "Deze sectie bevat de lijst van de verschuldigde facturen."
+      },
+      "draft": {
+        "title": "U hebt geen conceptfacturen",
+        "description": "Deze sectie bevat de lijst van conceptfacturen."
+      },
+      "all": {
+        "title": "U hebt geen facturen gemaakt"
+      },
+      "title": "Nog geen facturen!",
+      "description": "Deze sectie bevat de lijst van facturen.",
+      "button_title": "Nieuwe factuur toevoegen"
+    },
+    "actions": {
+      "send_invoice": "Factuur verzenden",
+      "resend_invoice": "Factuur opnieuw verzenden",
+      "delete": "Wissen",
+      "record_payment": "Recordbetaling",
+      "mark_as_sent": "Markeren Als Verzonden",
+      "clone": "Factuur klonen"
+    }
+  },
+  "recurring_invoices": {
+    "start_date": "Begindatum",
+    "next_invoice_at": "Volgende factuur op",
+    "limit_by": "Limiet voor",
+    "select_frequency": "Interval selecteren",
+    "display_frequency": "Frequentie",
+    "basic_info": "BASISGEGEVENS",
+    "invoices": "FACTUREN",
+    "alert_description": "U kunt deze terugkerende factuur niet herstellen",
+    "from_start_at_date": "Van begin op datum",
+    "to_start_at_date": "Om Op Datum Te Starten",
+    "auto_sent": {
+      "label": "Factuur automatisch verzenden",
+      "description": "Schakel dit in als u de factuur automatisch naar de klant wilt verzenden wanneer het wordt gemaakt."
+    },
+    "status": {
+      "title": "Status",
+      "placeholder": "Selecteer een status",
+      "empty": {
+        "title": "U hebt geen enkele status",
+        "description": "Deze sectie bevat de status."
+      }
+    },
+    "tabs": {
+      "active": "Actief",
+      "on_hold": "Aangehouden",
+      "all": "Alle"
+    },
+    "empty": {
+      "active": {
+        "title": "U hebt geen actieve terugkerende facturen",
+        "description": "Deze sectie bevat de lijst van actieve terugkerende facturen."
+      },
+      "on_hold": {
+        "title": "U hebt geen terugkerende facturen",
+        "description": "Deze sectie bevat de lijst van terugkerende facturen."
+      },
+      "all": {
+        "title": "U hebt geen terugkerende facturen gemaakt"
+      },
+      "title": "Nog geen terugkerende facturen!",
+      "description": "Deze sectie bevat de lijst van terugkerende facturen.",
+      "button_title": "Nieuwe periodieke factuur toevoegen"
+    },
+    "limit_types": {
+      "none": "Geen",
+      "date": "Limietdatum",
+      "count": "Aantal"
+    },
+    "frequencies": {
+      "custom": "Aangepast",
+      "every_minute": "Elke minuut",
+      "every_30_minute": "Elke 30 minuten",
+      "every_hour": "Elk uur",
+      "every_2_hour": "Elke 2 uur",
+      "twice_a_day": "Tweemaal per dag",
+      "every_week": "Elke week",
+      "every_15_days": "Elke 15 dagen",
+      "first_day_of_month": "Eerste Dag Van De Maand",
+      "every_6_month": "Elke 6 maanden",
+      "every_year": "Elk jaar"
+    },
+    "dropdown": {
+      "edit": "Bewerken",
+      "delete": "Wissen"
+    }
+  },
+  "customers": {
+    "display_name": "Weergavenaam",
+    "contact_name": "Naam primaire contactpersoon",
+    "email": "E-mail",
+    "phone": "Telefoon",
+    "website": "Website",
+    "billing_address": "Factureringsadres",
+    "shipping_address": "Verzendadres",
+    "customer": "Klant",
+    "filter_display_name": "Weergavenaam",
+    "filter_contact_name": "Naam contactpersoon",
+    "alert_description": "U kunt deze klant niet herstellen",
+    "prefix": "Voorvoegsel",
+    "address": {
+      "name": "Naam",
+      "country": "Land",
+      "state": "Status",
+      "city": "Stad",
+      "address": "Adres",
+      "street_1": "Straat1",
+      "street_2": "Straat2",
+      "phone": "Telefoon",
+      "zip_code": "Postcode",
+      "same_as": "Kopiëren van factureringsadres"
+    },
+    "remove_customer": "Wissen",
+    "empty": {
+      "title": "Nog geen klanten!",
+      "description": "Deze sectie bevat de lijst van klanten.",
+      "button_title": "Nieuwe klant toevoegen",
+      "country": {
+        "title": "Geen land beschikbaar"
+      },
+      "state": {
+        "title": "Geen status beschikbaar"
+      },
+      "city": {
+        "title": "Geen stad beschikbaar"
+      }
+    },
+    "title": "Een klant selecteren",
+    "placeholder": "Klant selecteren"
+  },
+  "payments": {
+    "date": "Betaaldatum",
+    "number": "Betalingsnummer",
+    "customer": "Klant",
+    "mode": "Betalingsmodus",
+    "modes": "Betalingswijzen",
+    "prefix": "Betalingsvoorvoegsel",
+    "add_mode": "Betalingsmodus toevoegen",
+    "edit_mode": "Betalingsmodus bewerken",
+    "mode_hint": "Werkstandnaam",
+    "mode_placeholder": "Betalingsmodus selecteren",
+    "amount": "Bedrag",
+    "invoice": "Factuur",
+    "invoice_placeholder": "Factuur selecteren",
+    "send_receipt": "Betalingsontvangst verzenden",
+    "alertAmount": "De opgegeven betaling is meer dan het verschuldigde bedrag van deze factuur.",
+    "alert_description": "U kunt deze betaling niet herstellen",
+    "alert_mode": "U kunt deze betalingsmodus niet herstellen",
+    "remove_payment": "Wissen",
+    "empty": {
+      "title": "Nog geen betalingen!",
+      "description": "Deze sectie bevat de lijst van betalingen.",
+      "button_title": "Nieuwe betaling toevoegen"
+    },
+    "alert": {
+      "send_payment": "Dit ontvangstbewijs wordt verzonden via e-mail naar het opgegeven adres"
+    }
+  },
+  "payment_modes": {
+    "empty": {
+      "title": "Nog geen betalingswijzen!",
+      "description": "Deze sectie bevat de lijst van betalingswijzen."
+    }
+  },
+  "item_units": {
+    "empty": {
+      "title": "Nog geen eenheden!",
+      "description": "Deze sectie bevat de lijst van itemeenheden."
+    }
+  },
+  "expenses": {
+    "receipt": "Ontvangst",
+    "date": "Kostendatum",
+    "from_date": "Vanaf datum",
+    "to_date": "Tot-datum",
+    "amount": "Bedrag",
+    "category": "Categorie",
+    "category_placeholder": "Categorie selecteren",
+    "notes": "Opmerkingen",
+    "notes_placeholder": "Aanvullende aantekeningen",
+    "view_receipt": "Ontvangst bekijken",
+    "alert_description": "U zult niet in staat zijn om deze Expense te herstellen",
+    "remove_expense": "Wissen",
+    "empty": {
+      "title": "Nog geen kosten!",
+      "description": "Deze sectie bevat de lijst van kosten.",
+      "button_title": "Nieuwe kosten toevoegen"
+    }
+  },
+  "items": {
+    "title": "Item selecteren",
+    "name": "Itemnaam",
+    "description": "Beschrijving (facultatief)",
+    "quantity": "Hoeveelheid",
+    "price": "Prijs",
+    "subtotal": "SUBTOTAAL",
+    "discount_type": "Kortingstype",
+    "discount": "Korting",
+    "final_discount": "KORTING",
+    "final_amount": "BEDRAG",
+    "taxes": "Belastingen",
+    "select_tax": "Nieuwe belastingen selecteren of toevoegen",
+    "unit": "Eenheid",
+    "unit_hint": "Naam eenheid",
+    "add_hint": "Itemeenheid toevoegen",
+    "edit_hint": "Itemeenheid bewerken",
+    "unit_placeholder": "Eenheid selecteren",
+    "alert_description": "U kunt dit item niet herstellen",
+    "alert_unit": "U kunt deze artikeleenheid niet herstellen",
+    "less_amount": "Totaal mag niet kleiner zijn dan 0",
+    "already_attach_title": "Actie mislukt",
+    "already_attach_description": "Een item dat al in gebruik is, kan niet worden verwijderd",
+    "empty": {
+      "title": "Nog geen items!",
+      "description": "Deze sectie bevat de lijst van items.",
+      "button_title": "Nieuwe items toevoegen"
+    }
+  },
+  "more": {
+    "estimate": "Ramingen",
+    "recurring_invoice": "Terugkerende facturen",
+    "items": "Posten",
+    "reports": "Verslagen",
+    "settings": "Instellingen",
+    "logout": "Afmelden",
+    "users": "Gebruikers"
+  },
+  "categories": {
+    "title": "Categorienaam",
+    "description": "Omschrijving",
+    "alert_description": "U kunt deze categorie niet herstellen",
+    "empty": {
+      "title": "Nog geen categorieën!",
+      "description": "Deze sectie bevat de lijst van categorieën.",
+      "button_title": "Nieuwe categorie toevoegen"
+    }
+  },
+  "notes": {
+    "notes": "Opmerkingen",
+    "title": "Notitienaam",
+    "description": "Omschrijving",
+    "model_placeholder": "Selecteer een type",
+    "alert_description": "U kunt deze notitie niet herstellen",
+    "empty": {
+      "title": "Nog geen aantekeningen!",
+      "description": "Deze sectie bevat de lijst van notities.",
+      "button_title": "Nieuwe notitie toevoegen"
+    },
+    "placeholder": {
+      "invoice": "Extra noten zichtbaar op factuur",
+      "estimate": "Extra noten zichtbaar op schatting",
+      "payment": "Aanvullende opmerkingen zichtbaar bij betaling"
+    },
+    "type": "Type notitie",
+    "select": "Selecteer een notitie",
+    "insert_note": "+ Aantekening invoegen",
+    "insert_fields": "+ Velden invoegen"
+  },
+  "units": {
+    "empty": {
+      "title": "Nog geen eenheden!",
+      "description": "Deze sectie bevat de lijst van itemeenheden.",
+      "button_title": "Nieuwe artikeleenheid toevoegen"
+    }
+  },
+  "settings": {
+    "account_settings": "Accountinstellingen",
+    "company_information": "Bedrijfsinformatie",
+    "preference": "Voorkeuren",
+    "notification": "Kennisgevingen",
+    "taxes": "Belastingtypen",
+    "expense_category": "Kostencategorieën",
+    "payment_modes": "Betalingswijzen",
+    "item_units": "Itemeenheden",
+    "touch_or_Face_id": "Aanraak/gezicht-ID",
+    "endpoint": "API-eindpunt",
+    "company": {
+      "name": "Bedrijfsnaam",
+      "phone": "Telefoon",
+      "address": "Adres",
+      "street_1": "Straat1",
+      "street_2": "Straat2",
+      "zip_code": "Postcode",
+      "logo": "Bedrijfslogo"
+    },
+    "account": {
+      "name": "Naam",
+      "email": "E-mail",
+      "password": "Wachtwoord",
+      "confirm_password": "Wachtwoord bevestigen",
+      "version": "Versie"
+    },
+    "notifications": {
+      "send": "Berichten verzenden naar",
+      "invoice_viewed": "Factuur bekeken",
+      "invoice_viewed_description": "Wanneer uw klant de link naar de factuur via e-mail bekijkt.",
+      "estimate_viewed": "Schatting bekeken",
+      "estimate_viewed_description": "Wanneer uw klant de geschatte link via e-mail bekijkt."
+    },
+    "preferences": {
+      "currency": "Valuta",
+      "currency_placeholder": "Valuta selecteren",
+      "language": "Standaardtaal",
+      "language_placeholder": "Taal selecteren",
+      "time_zone": "Tijdzone",
+      "time_zone_placeholder": "Tijdzone selecteren",
+      "date_format": "Datumnotatie",
+      "date_format_placeholder": "DATUMNOTATIE SELECTEREN",
+      "fiscal_year": "Begrotingsjaar",
+      "fiscal_year_placeholder": "Boekjaar selecteren",
+      "discount_per_item": "Korting per item",
+      "discount_per_item_placeholder": "Schakel dit in als u korting wilt toevoegen aan afzonderlijke factuurartikelen. Standaard worden de korting direct aan de factuur toegevoegd.",
+      "tax_per_item": "Belasting per item",
+      "tax_per_item_placeholder": "Schakel dit in als u belasting wilt toevoegen aan afzonderlijke factuurartikelen. Standaard worden belasting rechtstreeks aan de factuur toegevoegd.",
+      "retrospective_edits": "Bewerkingen met terugwerkende kracht",
+      "create_status": "Status maken",
+      "active": "Actief",
+      "on_hold": "Aangehouden",
+      "completed": "Voltooid"
+    },
+    "notes": "Opmerkingen"
+  },
+  "login": {
+    "email": "Voer uw e-mail in",
+    "password": "Voer uw wachtwoord in",
+    "invalid": "Deze legitimatiegegevens komen niet overeen met onze records."
+  },
+  "logout": {
+    "confirmation": "Weet u zeker dat u zich wilt afmelden?",
+    "title": "Afmelden"
+  },
+  "forgot": {
+    "email_label": "Voer uw e-mail en wij sturen u reset wachtwoord link",
+    "email_placeholder": "Geef uw e-mail op",
+    "email_send_description": "Een wachtwoord reset link is verzonden naar uw e-mail, Volg de instructies op de e-mail om een nieuw wachtwoord te maken.",
+    "email_send_error": "E-mail kan niet naar dit e-mailadres worden verzonden."
+  },
+  "lost_internet": {
+    "title": "Verbinding verbroken",
+    "description": "Controleer uw mobiele of Wifi-instellingen om uw internetverbinding te controleren en probeer het dan opnieuw."
+  },
+  "update_app": {
+    "title": "App-versie vervallen!",
+    "description": "Deze versie van de app is verouderd. Installeer de laatste update voor het gebruik van Crater."
+  },
+  "endpoint": {
+    "endpoint_url": "URL van eindpunt",
+    "endpoint_desc": "De bovenstaande URL wordt gebruikt om verbinding te maken met uw zelfgehoste installatie van krater.",
+    "url_placeholder": "Bijvoorbeeld: https://craterapp.com",
+    "alert_invalid_url": "Ongeldige URL"
+  },
+  "estimates": {
+    "tabs": {
+      "sent": "Verzonden",
+      "draft": "Concept",
+      "all": "Alle"
+    },
+    "estimate_date": "Schattingsdatum",
+    "expiry_date": "Vervaldatum",
+    "estimate_number": "Schattingsnummer",
+    "template": "Sjabloon",
+    "template_placeholder": "Een nieuwe sjabloon selecteren of toevoegen",
+    "customer": "Klant",
+    "customer_placeholder": "Nieuwe klant selecteren of toevoegen",
+    "tax_placeholder": "+ Belasting toevoegen",
+    "add_item": "Item toevoegen",
+    "from_date": "Vanaf datum",
+    "to_date": "Tot-datum",
+    "status": "Status",
+    "status_placeholder": "Selecteer een status",
+    "total_amount": "TOTAAL BEDRAG",
+    "alert": {
+      "convert_to_invoice_description": "Weet u zeker dat u deze schatting wilt converteren naar een factuur?",
+      "remove_description": "U kunt deze schatting niet herstellen",
+      "less_amount": "Totaal mag niet kleiner zijn dan 0",
+      "draft_title": "Wijzigingen opslaan?",
+      "send_estimate": "Deze schatting wordt verzonden via e-mail naar de klant",
+      "mark_as_sent": "Deze schatting wordt gemarkeerd als verzonden",
+      "mark_as_accept": "Deze schatting wordt gemarkeerd als Geaccepteerd",
+      "mark_as_reject": "Deze schatting wordt gemarkeerd als Afgewezen"
+    },
+    "empty": {
+      "sent": {
+        "title": "U hebt geen verzonden schattingen",
+        "description": "Deze sectie bevat de lijst van verzonden schattingen."
+      },
+      "draft": {
+        "title": "U hebt geen conceptschattingen",
+        "description": "Dit gedeelte bevat de lijst van ontwerp-ramingen."
+      },
+      "all": {
+        "title": "Je hebt geen schattingen gemaakt.",
+        "description": "Deze sectie bevat de lijst van schattingen."
+      },
+      "button_title": "Nieuwe schatting toevoegen"
+    },
+    "actions": {
+      "send_estimate": "Schatting verzenden",
+      "resend_estimate": "Schatting opnieuw verzenden",
+      "delete": "Wissen",
+      "convert_to_invoice": "Converteren naar factuur",
+      "mark_as_sent": "Markeren Als Verzonden",
+      "mark_as_accepted": "Markeren Als Geaccepteerd",
+      "mark_as_rejected": "Markeren Als Afgewezen"
+    }
+  },
+  "currencies": {
+    "title": "Valuta's",
+    "name": "Naam",
+    "empty": {
+      "title": "Nog geen valuta!",
+      "description": "Deze sectie bevat de lijst van valuta's.",
+      "button_title": "Nieuwe valuta toevoegen"
+    }
+  },
+  "custom_fields": {
+    "name": "Naam",
+    "model": "Model",
+    "model_placeholder": "Selecteer een model",
+    "type": "Type invoer",
+    "type_placeholder": "Selecteer een type",
+    "required": "Vereist",
+    "label": "Etiket",
+    "default_value": "Standaardwaarde",
+    "display_in_Portal": "Afbeelden in portal",
+    "placeholder": "Plaatshouder",
+    "order": "Volgorde",
+    "yes": "Ja",
+    "no": "Nee",
+    "check": "Standaard aangevinkt",
+    "options": "Opties",
+    "remove_alert_description": "U kunt dit aangepaste veld niet herstellen",
+    "already_in_use": "Model kan niet worden bijgewerkt voor velden die al in gebruik zijn.",
+    "empty": {
+      "title": "Nog geen aangepaste velden!",
+      "description": "Deze sectie bevat de lijst van aangepaste velden.",
+      "button_title": "Nieuw aangepast veld toevoegen"
+    }
+  },
+  "languages": {
+    "title": "Taal selecteren",
+    "empty": {
+      "title": "Nog geen talen!",
+      "description": "Deze sectie bevat de lijst van talen."
+    }
+  },
+  "time_zones": {
+    "title": "Tijdzone selecteren",
+    "empty": {
+      "title": "Nog geen TimeZones!",
+      "description": "Deze sectie bevat de lijst van tijdzones."
+    }
+  },
+  "date_formats": {
+    "title": "DATUMNOTATIE SELECTEREN",
+    "empty": {
+      "title": "Nog geen datumnotaties!",
+      "description": "Deze sectie bevat de lijst van datumnotaties."
+    }
+  },
+  "fiscal_years": {
+    "title": "Selecteer boekjaar",
+    "empty": {
+      "title": "Nog geen boekjaren!",
+      "description": "Deze rubriek bevat de lijst van financiële jaren."
+    }
+  },
+  "retrospective_edits": {
+    "title": "Bewerkingen met terugwerkende kracht selecteren",
+    "empty": {
+      "title": "Geen Retrospectieve Bewerkingen!",
+      "description": "Deze sectie bevat de lijst van herhalende bewerkingen."
+    }
+  },
+  "countries": {
+    "empty": {
+      "title": "Nog geen landen!",
+      "description": "Deze sectie bevat de lijst van landen."
+    }
+  },
+  "reports": {
+    "sales": "Verkoop",
+    "profit_and_loss": "Winst & verlies",
+    "expenses": "Kosten",
+    "taxes": "Belastingen",
+    "date_range": "Datumbereik selecteren",
+    "from_date": "Vanaf datum",
+    "to_date": "Tot-datum",
+    "report_type": "Rapporttype",
+    "by_customer": "Op klant",
+    "by_item": "Op item",
+    "today": "Vandaag",
+    "this_week": "Deze week",
+    "this_month": "Deze maand",
+    "this_quarter": "Dit kwartaal",
+    "this_year": "Dit jaar",
+    "current_fiscal_quarter": "Huidig fiscaal kwartaal",
+    "current_fiscal_year": "Huidig fiscaal jaar",
+    "previous_week": "Vorige week",
+    "previous_month": "Vorige maand",
+    "previous_quarter": "Vorig kwartaal",
+    "previous_year": "Vorig jaar",
+    "previous_fiscal_quarter": "Vorig fiscale kwartaal",
+    "previous_fiscal_year": "Vorig fiscaal jaar",
+    "custom": "Aangepast"
+  },
+  "taxes": {
+    "title": "Belastingen",
+    "type": "Belastingnaam",
+    "description": "Omschrijving",
+    "percentage": "Belastingpercentage",
+    "compound_tax": "Samengestelde belasting",
+    "alert_description": "U kunt deze belasting niet herstellen",
+    "empty": {
+      "title": "Nog geen belastingtypen!",
+      "description": "Deze sectie bevat de lijst van belastingtypen.",
+      "button_title": "Belastingtype toevoegen"
+    }
+  },
+  "touch_face_id": {
+    "touch_id": "Touch-ID",
+    "face_id": "Gezicht-ID",
+    "finger": "Vingerafdruk",
+    "face": "Gezicht",
+    "not_compatible": "Uw apparaat is niet compatibel.",
+    "hardware_not_available": "{ { type } } Hardware is niet beschikbaar.",
+    "activated": "{ { type } } geactiveerd",
+    "enable_login": "{ { type } } Aanmelden",
+    "enable_login_hint": "U kunt nu { { type } } gebruiken om uw account sneller en eenvoudiger te openen.",
+    "subtitle_1": "Verifiëren met toepassing van app's",
+    "subtitle_2": "{ { type } } in plaats van uw wachtwoord in te voeren.",
+    "login": "Aanmelden met { { type } }"
+  },
+  "file_picker": {
+    "file": "Klik hier om een bestand te kiezen",
+    "permission": "Sorry, we hebben camera nodig om dit te laten werken!",
+    "camera": "Camera",
+    "gallery": "Galerij",
+    "document": "Document"
+  },
+  "send_mail": {
+    "from": "Van",
+    "to": "Tot",
+    "subject": "Onderwerp",
+    "body": "Corpus"
+  },
+  "alert": {
+    "title": "Weet je het zeker?",
+    "action": {
+      "discard": "Verwijderen",
+      "save_as_draft": "Opslaan als concept"
+    }
+  },
+  "button": {
+    "remove": "Verwijderen",
+    "save": "Opslaan",
+    "add": "Toevoegen",
+    "retry": "Opnieuw proberen",
+    "done": "Gereed",
+    "clear": "Leegmaken",
+    "view_pdf": "PDF bekijken",
+    "sing_in": "Aanmelden",
+    "forget": "Wachtwoord vergeten?",
+    "update": "Bijwerken",
+    "update_capital": "BIJWERKEN",
+    "choose_template": "Sjabloon kiezen",
+    "generate_report": " Rapport genereren",
+    "recovery_email": "Reset-link verzenden",
+    "recovery_email_again": "Opnieuw verzenden",
+    "cancel": "Annuleren",
+    "send": "Verzenden",
+    "change": "Wijziging",
+    "set_up_now": "Nu instellen",
+    "later": "Zal het later doen.",
+    "refresh": "Vernieuwen",
+    "preview": "Voorbeeld"
+  },
+  "filter": {
+    "empty": {
+      "filter_title": "Geen resultaten gevonden"
+    }
+  },
+  "search": {
+    "title": "Zoeken",
+    "no_result": "Geen resultaten voor \"{ { search } }\"",
+    "no_search_result": "Geen resultaten voor"
+  },
+  "validation": {
+    "required": "Verplicht veld is leeg",
+    "choose": "Kies ten minste één item",
+    "email": "Geef een geldig e-mailadres op",
+    "password_compare": "Wachtwoorden komen niet overeen",
+    "minimum_number": "moet groter zijn dan 0",
+    "maximum_number": "moet kleiner zijn dan { { maxNumber } }",
+    "maximum_character": "{ { fieldName } } moet kleiner zijn dan { { maxCharacter } } tekens.",
+    "character": "Alleen tekens",
+    "numeric": "moet numeriek zijn",
+    "more_than_due": "{ { hint } } mag niet hoger zijn dan het verschuldigde bedrag.",
+    "url": "Ongeldige URL (bijvoorbeeld: https://craterapp.com)",
+    "wrong": "Er is iets misgegaan. Probeer het opnieuw.",
+    "min_character": "Geef ten minste { { minCharacter } } tekens op",
+    "cron": "Geef een geldige cron-indeling op."
+  },
+  "company": {
+    "switch_company": "BEDRIJF WISSELEN",
+    "add_new_company": "Nieuw bedrijf toevoegen"
+  },
+  "roles": {
+    "add_new_role": "Nieuwe rol toevoegen",
+    "alert_description": "U kunt deze rol niet herstellen",
+    "empty": {
+      "title": "Nog geen rollen!",
+      "description": "Deze sectie bevat de lijst van rollen."
+    },
+    "name": "Naam",
+    "permissions": "Machtigingen",
+    "select_all": "Alles selecteren",
+    "none": "Geen",
+    "select_role_for": "Selecteer een rol voor { { name } }"
+  },
+  "users": {
+    "add_new_user": "Nieuwe gebruiker toevoegen",
+    "alert_description": "U kunt deze gebruiker niet herstellen",
+    "empty": {
+      "title": "Nog geen gebruikers!",
+      "description": "Deze sectie bevat de lijst van gebruikers."
+    },
+    "name": "Naam",
+    "email": "E-mail",
+    "phone": "Telefoon",
+    "password": "Wachtwoord",
+    "role": "Rol",
+    "roles": "Rollen",
+    "role_placeholder": "Rol selecteren"
+  },
+  "exchange_rate": {
+    "label": "Wisselkoers",
+    "selected_currency": "1 { { selectedCurrency } } = ",
+    "exchange_help_text": "Geef wisselkoers op om te converteren van { { selectedCurrency } } naar { { baseCurrency } }."
+  },
+  "actions": {
+    "new_estimate": "Nieuwe schatting",
+    "new_invoice": "Nieuwe factuur",
+    "new_payment": "Nieuwe betaling",
+    "new_expense": "Nieuwe kosten"
+  },
+  "companies": {
+    "empty": {
+      "title": "Nog geen bedrijven!",
+      "description": "Deze sectie bevat de lijst van bedrijven."
+    }
+  },
+  "notification": {
+    "success": "Geslaagd!",
+    "error": "Fout!",
+    "login_success": "Aangemeld",
+    "customer_created": "Klant is gemaakt",
+    "customer_updated": "Klant is bijgewerkt",
+    "customer_deleted": "Klant is gewist",
+    "role_created": "Rol is gemaakt",
+    "role_updated": "De rol is bijgewerkt",
+    "role_deleted": "Rol is gewist",
+    "expense_category_created": "Kostencategorie is gemaakt",
+    "expense_category_updated": "Kostencategorie is bijgewerkt",
+    "expense_category_deleted": "Kostencategorie is gewist",
+    "expense_already_in_use": "Kostencategorie is al in gebruik",
+    "note_created": "Notitie is gemaakt",
+    "note_updated": "Notitie is bijgewerkt",
+    "note_deleted": "Notitie is gewist",
+    "note_already_in_use": "Notitie is al in gebruik",
+    "custom_field_created": "Aangepast veld gemaakt",
+    "custom_field_updated": "Aangepast veld bijgewerkt",
+    "custom_field_deleted": "Aangepast veld is gewist",
+    "custom_field_already_in_use": "Aangepast veld is al in gebruik",
+    "tax_created": "Belastingtype is gemaakt",
+    "tax_updated": "Belastingtype is bijgewerkt",
+    "tax_deleted": "Belastingtype is gewist",
+    "tax_already_in_use": "Belasting is al in gebruik",
+    "setting_updated": "Instelling is bijgewerkt",
+    "invoice_setting_updated": "Factuurinstelling is bijgewerkt",
+    "estimate_setting_updated": "Schatting van instelling is bijgewerkt",
+    "payment_setting_updated": "Betalingsinstelling is bijgewerkt",
+    "payment_mode_created": "Betalingsmodus is gemaakt",
+    "payment_mode_updated": "Betaalmodus is bijgewerkt",
+    "payment_mode_deleted": "Betalingsmodus is gewist",
+    "payment_mode_already_in_use": "De betalingsmodus is al in gebruik",
+    "item_unit_created": "Item-eenheid is gemaakt",
+    "item_unit_updated": "Item-eenheid is bijgewerkt",
+    "item_unit_deleted": "Item-eenheid is gewist",
+    "item_unit_already_in_use": "Item-eenheid is al in gebruik",
+    "preference_updated": "Voorkeuren zijn bijgewerkt",
+    "company_updated": "Bedrijfsinformatie is bijgewerkt",
+    "account_updated": "Accountinstellingen zijn bijgewerkt",
+    "user_created": "Gebruiker is gemaakt",
+    "user_updated": "Gebruiker is bijgewerkt",
+    "user_deleted": "Gebruiker is gewist",
+    "item_created": "Item is gemaakt",
+    "item_updated": "Item is bijgewerkt",
+    "item_deleted": "Item is gewist",
+    "estimate_created": "Schatting is gemaakt",
+    "estimate_updated": "Schatting is bijgewerkt",
+    "estimate_deleted": "Schatting is gewist",
+    "estimate_sent": "Schatting is verzonden",
+    "estimate_mark_as_sent": "Schatting gemarkeerd als verzonden",
+    "estimate_marked_as_accepted": "Schatting gemarkeerd als geaccepteerd",
+    "estimate_marked_as_rejected": "Schatting gemarkeerd als afgewezen",
+    "expense_created": "Kosten zijn gemaakt",
+    "expense_updated": "Kosten bijgewerkt",
+    "expense_deleted": "Kosten gewist",
+    "payment_created": "Betaling is gemaakt",
+    "payment_updated": "Betaling is bijgewerkt",
+    "payment_deleted": "Betaling is gewist",
+    "payment_sent": "Betaling is verzonden",
+    "invoice_created": "Factuur is gemaakt",
+    "invoice_updated": "Factuur is bijgewerkt",
+    "invoice_deleted": "Factuur is gewist",
+    "invoice_marked_as_sent": "Factuur gemarkeerd als verzonden",
+    "invoice_sent": "Factuur is verzonden",
+    "invoice_cloned": "Factuur is gekloond",
+    "recurring_invoice_created": "Terugkerende factuur is gemaakt",
+    "recurring_invoice_updated": "Terugkerende factuur is bijgewerkt",
+    "recurring_invoice_deleted": "Terugkerende factuur is gewist",
+    "password_reset_link": "De link voor het opnieuw instellen van het wachtwoord is verzonden.",
+    "company_created": "Bedrijf is gemaakt"
+  }
+}

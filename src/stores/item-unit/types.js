@@ -1,0 +1,15 @@
+export const SPINNER = 'unit/SPINNER';
+
+export const ITEM_UNITS_FORM = 'unit/ITEM_UNITS_FORM';
+
+export const FETCH_ITEM_UNITS = 'unit/FETCH_ITEM_UNITS';
+export const FETCH_ITEM_UNITS_SUCCESS = 'unit/FETCH_ITEM_UNITS_SUCCESS';
+
+export const ADD_ITEM_UNIT = 'unit/ADD_ITEM_UNIT';
+export const ADD_ITEM_UNIT_SUCCESS = 'unit/ADD_ITEM_UNIT_SUCCESS';
+
+export const UPDATE_ITEM_UNIT = 'unit/UPDATE_ITEM_UNIT';
+export const UPDATE_ITEM_UNIT_SUCCESS = 'unit/UPDATE_ITEM_UNIT_SUCCESS';
+
+export const REMOVE_ITEM_UNIT = 'unit/REMOVE_ITEM_UNIT';
+export const REMOVE_ITEM_UNIT_SUCCESS = 'unit/REMOVE_ITEM_UNIT_SUCCESS';

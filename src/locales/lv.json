@@ -1,0 +1,853 @@
+{
+  "header": {
+    "invoices": "Rēķini",
+    "add_invoice": "Pievienot rēķinu",
+    "edit_invoice": "Rediģēt rēķinu",
+    "recurring_invoices": "Periodiskie rēķini",
+    "recurring_invoice": "Atkārtots rēķins",
+    "add_recurring_invoice": "Pievienot atkārtoto rēķinu",
+    "edit_recurring_invoice": "Rediģēt atkārtoto rēķinu",
+    "view_recurring_invoice": "Skatīt atkārtoto rēķinu",
+    "estimates": "Aplēses",
+    "add_estimate": "Pievienot tāmi",
+    "edit_estimate": "Rediģēt tāmi",
+    "template": "Izvēlieties sagatavi",
+    "customers": "Klienti",
+    "add_customer": "Pievienot klientu",
+    "edit_customer": "Rediģēt klientu",
+    "billing_address": "Norēķinu adrese",
+    "shipping_address": "Kuģošanas adrese",
+    "country": "Izvēlēties valsti",
+    "payments": "Maksājumi",
+    "add_payment": "Pievienot maksājumu",
+    "edit_payment": "Rediģēt maksājumu",
+    "expenses": "Izdevumi",
+    "add_expense": "Pievienot izdevumus",
+    "edit_expense": "Rediģēt izdevumus",
+    "more": "Vairāk",
+    "expense_category": "Izdevumu kategorijas",
+    "add_category": "Pievienot kategoriju",
+    "edit_category": "Rediģēt kategoriju",
+    "add_note": "Pievienot piezīmi",
+    "edit_note": "Rediģēt piezīmi",
+    "settings": "Iestatījumi",
+    "notifications": "Paziņojums",
+    "setting": {
+      "company": "Informācija par uzņēmumu",
+      "account": "Konta iestatījumi",
+      "preferences": "Preferences"
+    },
+    "taxes": "Nodokļu veidi",
+    "add_tax": "Pievienot nodokli",
+    "edit_tax": "Rediģēt nodokli",
+    "add_item": "Pievienot punktu",
+    "edit_item": "Rediģēt vienību",
+    "items": "Posteņi",
+    "item_units": "Vienību vienības",
+    "payment_modes": "Maksājumu režīmi",
+    "reports": "Ziņojumi",
+    "sales_report": "Pārdošanas ziņojums",
+    "profit_and_lossReport": "Peļņas un zaudējumu pārskats",
+    "expenses_report": "Izdevumu pārskats",
+    "taxes_report": "Nodokļi Ziņojums",
+    "filter": "Filtri",
+    "back": "Atpakaļ",
+    "send_mail_invoice": "Nosūtīt rēķinu",
+    "send_mail_estimate": "Sūtīt tāmi",
+    "send_mail_payment": "Sūtīt maksājumu",
+    "custom_fields": "Pielāgotas jomas",
+    "add_custom_field": "Pievienot pielāgotu lauku",
+    "edit_custom_field": "Rediģēt pielāgotu lauku",
+    "notes": "Piezīmes",
+    "view_customer": "Apskatīt pasūtītāju",
+    "view_payment": "Skatīt maksājumu",
+    "view_expense": "Skatīt izdevumu",
+    "view_invoice": "Skatīt rēķinu",
+    "view_estimate": "Skata aprēķins",
+    "view_item": "Skata punkts",
+    "view_tax": "Skatīt nodokli",
+    "view_custom_field": "View Custom field",
+    "view_note": "Skatīt piezīmi",
+    "view_category": "Skatīt kategoriju",
+    "view_unit": "Skata punktu vienība",
+    "view_payment_mode": "Skatīt maksājumu režīmu",
+    "add_company": "Pievienot uzņēmumu",
+    "roles": "Lomas un Permission",
+    "add_role": "Pievienot lomu",
+    "edit_role": "Rediģēt lomu",
+    "view_role": "Skatīt lomu",
+    "users": "Lietotāji",
+    "add_user": "Pievienot lietotāju",
+    "edit_user": "Rediģēt lietotāju",
+    "view_user": "Skatīt lietotāju",
+    "companies": "Uzņēmumi"
+  },
+  "tab_navigation": {
+    "invoices": "Rēķini",
+    "customers": "Klienti",
+    "payments": "Maksājumi",
+    "expenses": "Izdevumi",
+    "more": "Vairāk"
+  },
+  "invoices": {
+    "title": "Izvēlieties rēķinu",
+    "tabs": {
+      "due": "Termiņš",
+      "draft": "Projekts",
+      "all": "VISI"
+    },
+    "invoice_date": "Rēķina datums",
+    "due_date": "Termiņa beigu datums",
+    "discount": "ATLAIDE",
+    "invoice_number": "Rēķina numurs",
+    "reference_number": "Atsauces numurs",
+    "template": "Veidne",
+    "template_placeholder": "Izvēlēties vai pievienot jaunu sagatavi",
+    "customer": "Klients",
+    "customer_placeholder": "Izvēlieties vai Pievienot jaunu Pasūtītāju",
+    "items": "Posteņi",
+    "subtotal": "APAKŠKOPĀ",
+    "total_amount": "KOPĒJĀ SUMMA",
+    "status": "Statuss",
+    "status_placeholder": "Izvēlēties statusu",
+    "from_date": "No datuma",
+    "to_date": "Līdz Datam",
+    "alert": {
+      "less_amount": "Kopējā summa nedrīkst būt mazāka par 0",
+      "remove_description": "Jūs nevarēsiet atgūt šo Invoice",
+      "draft_title": "Saglabāt izmaiņas?",
+      "clone": "Šis rēķins tiks klonēts jaunā Invoice",
+      "send_invoice": "Šis rēķins tiks nosūtīts pa e-pastu klientam",
+      "mark_as_sent": "Šis rēķins tiks atzīmēts kā nosūtīts"
+    },
+    "empty": {
+      "due": {
+        "title": "Jums nav pienācīgu rēķinu",
+        "description": "Šajā iedaļā būs attiecīgo rēķinu saraksts."
+      },
+      "draft": {
+        "title": "Jums nav rēķinu projektu",
+        "description": "Šajā iedaļā būs rēķinu projektu saraksts."
+      },
+      "all": {
+        "title": "Jūs neesat izveidojis rēķinus"
+      },
+      "title": "Vēl nav rēķinu!",
+      "description": "Šajā sadaļā būs iekļauts rēķinu saraksts.",
+      "button_title": "Pievienot jaunu rēķinu"
+    },
+    "actions": {
+      "send_invoice": "Nosūtīt rēķinu",
+      "resend_invoice": "Tālākpārdošanas rēķins",
+      "delete": "Dzēst",
+      "record_payment": "Ieraksta maksājums",
+      "mark_as_sent": "Atzīmēt Kā nosūtīts",
+      "clone": "Klons Rēķins"
+    }
+  },
+  "recurring_invoices": {
+    "start_date": "Sākuma datums",
+    "next_invoice_at": "Nākamais rēķins",
+    "limit_by": "Robeža ar",
+    "select_frequency": "Izvēlieties frekvenču",
+    "display_frequency": "Biežums",
+    "basic_info": "PAMATINFORMĀCIJA",
+    "invoices": "RĒĶINI",
+    "alert_description": "Jūs nevarēsiet atgūt šo atkārtoto rēķinu.",
+    "from_start_at_date": "No sākuma datuma",
+    "to_start_at_date": "Sākt pēc datuma",
+    "auto_sent": {
+      "label": "Automātiski sūtīt rēķinu",
+      "description": "Ieslēdziet šo, ja vēlaties automātiski nosūtīt rēķinu klientam, kad tā ir izveidota."
+    },
+    "status": {
+      "title": "Statuss",
+      "placeholder": "Izvēlēties statusu",
+      "empty": {
+        "title": "Jums nav nekādu statusu",
+        "description": "Šajā iedaļā iekļaus statusa sarakstu."
+      }
+    },
+    "tabs": {
+      "active": "Aktīvais",
+      "on_hold": "Turn",
+      "all": "Visi"
+    },
+    "empty": {
+      "active": {
+        "title": "Jums nav aktīvu periodisku rēķinu",
+        "description": "Šajā iedaļā iekļaus aktīvo periodisko rēķinu sarakstu."
+      },
+      "on_hold": {
+        "title": "Jums nav notikušas periodiskus rēķinus",
+        "description": "Šajā iedaļā būs saraksts ar atkārtotiem rēķiniem."
+      },
+      "all": {
+        "title": "Jūs neesat radījuši atkārtotus rēķinus"
+      },
+      "title": "Vēl nav nekādu periodisku rēķinu!",
+      "description": "Šajā iedaļā būs saraksts ar atkārtotiem rēķiniem.",
+      "button_title": "Pievienot jaunu atkārtoto rēķinu"
+    },
+    "limit_types": {
+      "none": "Nav",
+      "date": "Limita datums",
+      "count": "Skaits"
+    },
+    "frequencies": {
+      "custom": "Pielāgots",
+      "every_minute": "Katru Minūti",
+      "every_30_minute": "Katrs 30 minūte",
+      "every_hour": "Katru Stundu",
+      "every_2_hour": "Ik pēc 2 stundām",
+      "twice_a_day": "Divas Reizes Dienā",
+      "every_week": "Katru nedēļu",
+      "every_15_days": "Ik pēc 15 dienām",
+      "first_day_of_month": "Pirmā Mēneša Diena",
+      "every_6_month": "Ik pēc 6 mēnešiem",
+      "every_year": "Katru gadu"
+    },
+    "dropdown": {
+      "edit": "Rediģēt",
+      "delete": "Dzēst"
+    }
+  },
+  "customers": {
+    "display_name": "Rādīt vārdu",
+    "contact_name": "Primārā kontaktpersona",
+    "email": "E-pasts:",
+    "phone": "Tālrunis:",
+    "website": "Tīmekļa vietne",
+    "billing_address": "Norēķinu adrese",
+    "shipping_address": "Kuģošanas adrese",
+    "customer": "Klients",
+    "filter_display_name": "Rādīt vārdu",
+    "filter_contact_name": "Kontaktu nosaukums",
+    "alert_description": "Jūs nevarēsiet atgūt šo Klientu",
+    "prefix": "Prefikss",
+    "address": {
+      "name": "Nosaukums",
+      "country": "Valsts",
+      "state": "Valsts",
+      "city": "Pilsēta",
+      "address": "Adrese:",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "phone": "Tālrunis:",
+      "zip_code": "Zip Kods",
+      "same_as": "Kopija no atdzesēšanas adreses"
+    },
+    "remove_customer": "Dzēst",
+    "empty": {
+      "title": "Vēl nav klienti!",
+      "description": "Šajā sadaļā būs ietverts klientu saraksts.",
+      "button_title": "Pievienot jaunu klientu",
+      "country": {
+        "title": "Nav pieejama valsts"
+      },
+      "state": {
+        "title": "Nav Valsts"
+      },
+      "city": {
+        "title": "Nav City Pieejams"
+      }
+    },
+    "title": "Izvēlieties klientu",
+    "placeholder": "Izvēlieties klientu"
+  },
+  "payments": {
+    "date": "Maksājuma datums",
+    "number": "Maksājuma numurs",
+    "customer": "Klients",
+    "mode": "Maksājumu režīms",
+    "modes": "Maksājumu režīmi",
+    "prefix": "Maksājumu prefikss",
+    "add_mode": "Pievienot maksājuma režīmu",
+    "edit_mode": "Rediģēt maksājumu režīmu",
+    "mode_hint": "Režīma nosaukums",
+    "mode_placeholder": "Izvēlieties maksājumu režīmu",
+    "amount": "Summa",
+    "invoice": "Faktūrrēķins",
+    "invoice_placeholder": "Izvēlieties rēķinu",
+    "send_receipt": "Sūtīt maksājuma saņemšanu",
+    "alertAmount": "Ievadītais maksājums ir lielāks par šī rēķina summu.",
+    "alert_description": "Jūs nevarēsiet atgūt šo maksājumu.",
+    "alert_mode": "Jūs nevarēsiet atgūt šo maksājumu režīmu",
+    "remove_payment": "Dzēst",
+    "empty": {
+      "title": "Vēl nav nekādu maksājumu!",
+      "description": "Šajā sadaļā būs iekļauts maksājumu saraksts.",
+      "button_title": "Pievienot jaunu maksājumu"
+    },
+    "alert": {
+      "send_payment": "Šis maksājuma kvīts tiks nosūtīts pa e-pastu uz doto adresi"
+    }
+  },
+  "payment_modes": {
+    "empty": {
+      "title": "Vēl nav maksājumu režīmu!",
+      "description": "Šajā iedaļā būs iekļauts maksājumu veidu saraksts."
+    }
+  },
+  "item_units": {
+    "empty": {
+      "title": "Vēl nav vienības vienības!",
+      "description": "Šajā iedaļā iekļaus vienību sarakstu."
+    }
+  },
+  "expenses": {
+    "receipt": "Kvīts",
+    "date": "Rēķina datums",
+    "from_date": "No datuma",
+    "to_date": "Līdz Datam",
+    "amount": "Summa",
+    "category": "Kategorija",
+    "category_placeholder": "Izvēlieties kategoriju",
+    "notes": "Piezīmes",
+    "notes_placeholder": "Papildu piezīmes",
+    "view_receipt": "Skatīt kvīti",
+    "alert_description": "Jūs nevarēsiet atgūt šo izdevumu.",
+    "remove_expense": "Dzēst",
+    "empty": {
+      "title": "Vēl nav nekādu izdevumu!",
+      "description": "Šajā sadaļā būs iekļauts izdevumu saraksts.",
+      "button_title": "Pievienot jaunus izdevumus"
+    }
+  },
+  "items": {
+    "title": "Izvēlieties punktu",
+    "name": "Posteņa nosaukums",
+    "description": "Apraksts (pēc izvēles)",
+    "quantity": "Daudzums",
+    "price": "Cena",
+    "subtotal": "APAKŠKOPĀ",
+    "discount_type": "Diskonta veids",
+    "discount": "Atlaide",
+    "final_discount": "ATLAIDE",
+    "final_amount": "SUMMA",
+    "taxes": "Nodokļi",
+    "select_tax": "Izvēlieties vai pievienot jaunus nodokļus",
+    "unit": "Vienība",
+    "unit_hint": "Vienības nosaukums",
+    "add_hint": "Pievienot vienumu vienību",
+    "edit_hint": "Rediģēt vienību bloku",
+    "unit_placeholder": "Izvēlieties vienību",
+    "alert_description": "Jūs nevarēsiet atgūt šo posteni.",
+    "alert_unit": "Jūs nevarēsiet atgūt šo posteni vienību.",
+    "less_amount": "Kopējais daudzums nedrīkst būt mazāks par 0",
+    "already_attach_title": "Neveiksmīga darbība",
+    "already_attach_description": "Nevar izdzēst vienumu, kas jau ir lietošanā",
+    "empty": {
+      "title": "Vēl nav mantas!",
+      "description": "Šajā sadaļā būs iekļauts vienību saraksts.",
+      "button_title": "Pievienot jaunus vienumus"
+    }
+  },
+  "more": {
+    "estimate": "Aplēses",
+    "recurring_invoice": "Periodiskie rēķini",
+    "items": "Posteņi",
+    "reports": "Ziņojumi",
+    "settings": "Iestatījumi",
+    "logout": "Logout",
+    "users": "Lietotāji"
+  },
+  "categories": {
+    "title": "Kategorijas nosaukums",
+    "description": "Apraksts",
+    "alert_description": "Jūs nevarēsiet atgūt šo kategoriju.",
+    "empty": {
+      "title": "Vēl nav kategorijas!",
+      "description": "Šajā sadaļā būs iekļauts kategoriju saraksts.",
+      "button_title": "Pievienot jaunu kategoriju"
+    }
+  },
+  "notes": {
+    "notes": "Piezīmes",
+    "title": "Piezīme Vārds",
+    "description": "Apraksts",
+    "model_placeholder": "Izvēlēties tipu",
+    "alert_description": "Jūs nevarēsiet atgūt šo piezīmi.",
+    "empty": {
+      "title": "Vēl piezīmes!",
+      "description": "Šajā iedaļā ir saraksts ar piezīmēm.",
+      "button_title": "Pievienot jaunu piezīmi"
+    },
+    "placeholder": {
+      "invoice": "Papildu piezīmes, kas redzamas rēķinā",
+      "estimate": "Papildu piezīmes, kas redzamas pēc aplēsēm",
+      "payment": "Papildu piezīmes par maksājumu"
+    },
+    "type": "Piezīmes",
+    "select": "Izvēlieties piezīmi",
+    "insert_note": "+ Ievietot piezīmi",
+    "insert_fields": "+ Ievietot Laukus"
+  },
+  "units": {
+    "empty": {
+      "title": "Vēl nav vienību!",
+      "description": "Šajā iedaļā iekļaus vienību sarakstu.",
+      "button_title": "Pievienot jaunu elementu vienību"
+    }
+  },
+  "settings": {
+    "account_settings": "Konta iestatījumi",
+    "company_information": "Informācija par uzņēmumu",
+    "preference": "Preferences",
+    "notification": "Paziņojumi",
+    "taxes": "Nodokļu veidi",
+    "expense_category": "Izdevumu kategorijas",
+    "payment_modes": "Maksājumu režīmi",
+    "item_units": "Vienību vienības",
+    "touch_or_Face_id": "Skāriene/sejas ID",
+    "endpoint": "API Endpoint",
+    "company": {
+      "name": "Uzņēmuma nosaukums",
+      "phone": "Tālrunis:",
+      "address": "Adrese:",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "zip_code": "Zip Kods",
+      "logo": "Uzņēmuma logotips"
+    },
+    "account": {
+      "name": "Nosaukums",
+      "email": "E-pasts:",
+      "password": "Parole",
+      "confirm_password": "Apstiprināt paroli",
+      "version": "Versija"
+    },
+    "notifications": {
+      "send": "Sūtīt paziņojumus uz",
+      "invoice_viewed": "Rēķins skatīts",
+      "invoice_viewed_description": "Kad jūsu klients skatos rēķinu saiti nosūtīts pa e-pastu.",
+      "estimate_viewed": "Aplēse",
+      "estimate_viewed_description": "Kad jūsu klients skatos aplēses saiti nosūtīts pa e-pastu."
+    },
+    "preferences": {
+      "currency": "Valūta",
+      "currency_placeholder": "Izvēlēties valūtu",
+      "language": "Noklusētā valoda",
+      "language_placeholder": "Izvēlieties valodu",
+      "time_zone": "Laika josla",
+      "time_zone_placeholder": "Izvēlieties laika joslu",
+      "date_format": "Datuma formāts",
+      "date_format_placeholder": "Izvēlieties datuma formātu",
+      "fiscal_year": "Finanšu gads",
+      "fiscal_year_placeholder": "Izvēlieties finanšu gadu",
+      "discount_per_item": "Atlaide Par Vienību",
+      "discount_per_item_placeholder": "Ieslēdziet šo, ja vēlaties pievienot atlaidi atsevišķiem rēķina posteņiem. Pēc noklusējuma, Atlaide tiek pievienota tieši uz rēķinu.",
+      "tax_per_item": "Nodokļi Par Vienību",
+      "tax_per_item_placeholder": "Ieslēdziet šo, ja vēlaties pievienot nodokli atsevišķiem rēķina posteņiem. Pēc noklusējuma, nodoklis tiek pievienots tieši rēķinu.",
+      "retrospective_edits": "Retrospektīva rediģēšana",
+      "create_status": "Izveidot statusu",
+      "active": "Aktīvais",
+      "on_hold": "Turn",
+      "completed": "Pabeigts"
+    },
+    "notes": "Piezīmes"
+  },
+  "login": {
+    "email": "Ievadiet savu e-pasta adresi",
+    "password": "Ievadiet paroli",
+    "invalid": "Šīs pilnvaras neatbilst mūsu ierakstiem."
+  },
+  "logout": {
+    "confirmation": "Vai esi drošs, ka gribi izlogot?",
+    "title": "Logout"
+  },
+  "forgot": {
+    "email_label": "Ievadiet savu e-pastu un mēs nosūtīsim jums atiestatīt paroles saiti",
+    "email_placeholder": "Ievadiet savu e-pastu",
+    "email_send_description": "Paroles atiestatīšanas saite ir nosūtīta uz jūsu e-pastu, Lūdzu, izpildiet norādījumus uz e-pastu, lai izveidotu jaunu paroli.",
+    "email_send_error": "E-pasts nevar tikt nosūtīts uz šo e-pasta adresi."
+  },
+  "lost_internet": {
+    "title": "Savienojums zaudēts",
+    "description": "Lūdzu, pārbaudiet savu mobilo vai Wifi iestatījumus, lai pārbaudītu jūsu interneta savienojumu un pēc tam mēģiniet vēlreiz."
+  },
+  "update_app": {
+    "title": "App Versija Beidzies!",
+    "description": "Šī lietotnes versija ir novecovai. Lūdzu, instalējiet jaunāko atjauninājumu, lai saglabātu Crater lietošanu."
+  },
+  "endpoint": {
+    "endpoint_url": "Parametra URL",
+    "endpoint_desc": "Virs URL tiks izmantots, lai izveidotu savienojumu ar savu pašuzņēmīgo uzstādīšanu krāteris.",
+    "url_placeholder": "Eg: https://craterapp.com",
+    "alert_invalid_url": "Nederīgs URL"
+  },
+  "estimates": {
+    "tabs": {
+      "sent": "Sūtīts",
+      "draft": "Projekts",
+      "all": "Visi"
+    },
+    "estimate_date": "Aplēse Datums",
+    "expiry_date": "Derīguma Termiņš",
+    "estimate_number": "Aplēse Numurs",
+    "template": "Veidne",
+    "template_placeholder": "Izvēlēties vai pievienot jaunu sagatavi",
+    "customer": "Klients",
+    "customer_placeholder": "Izvēlieties vai Pievienot jaunu Pasūtītāju",
+    "tax_placeholder": "+ Add Tax",
+    "add_item": "Pievienot punktu",
+    "from_date": "No datuma",
+    "to_date": "Līdz Datam",
+    "status": "Statuss",
+    "status_placeholder": "Izvēlēties statusu",
+    "total_amount": "KOPĒJĀ SUMMA",
+    "alert": {
+      "convert_to_invoice_description": "Vai esat pārliecināts, ka vēlaties pārvērst šo aplēsi Invoice?",
+      "remove_description": "Jūs nevarēsiet atgūt šo aplēsi",
+      "less_amount": "Kopējais daudzums nedrīkst būt mazāks par 0",
+      "draft_title": "Saglabāt izmaiņas?",
+      "send_estimate": "Šī aplēse tiks nosūtīta pa e-pastu klientam",
+      "mark_as_sent": "Šis aprēķins tiks atzīmēts kā nosūtīts",
+      "mark_as_accept": "Šī aplēse tiks atzīmēta kā akceptēts",
+      "mark_as_reject": "Šī aplēse tiks atzīmēta kā noraidītas"
+    },
+    "empty": {
+      "sent": {
+        "title": "Jums nav nosūtīts novērtējums",
+        "description": "Šajā iedaļā būs saraksts ar nosūtītajām tāmēm."
+      },
+      "draft": {
+        "title": "Jums nav tāmes projekta",
+        "description": "Šajā iedaļā būs tāmes projekta saraksts."
+      },
+      "all": {
+        "title": "Jūs neesat radījuši nekādas aplēses",
+        "description": "Šajā iedaļā būs iekļauts aplēšu saraksts."
+      },
+      "button_title": "Pievienot jaunu tāmi"
+    },
+    "actions": {
+      "send_estimate": "Sūtīt tāmi",
+      "resend_estimate": "Aplēse",
+      "delete": "Dzēst",
+      "convert_to_invoice": "Konvertēt uz rēķinu",
+      "mark_as_sent": "Atzīmēt Kā nosūtīts",
+      "mark_as_accepted": "Atzīmēt Kā pieņemts",
+      "mark_as_rejected": "Atzīme Kā Noraidīts."
+    }
+  },
+  "currencies": {
+    "title": "Valūtas",
+    "name": "Nosaukums",
+    "empty": {
+      "title": "Vēl nav valūtas!",
+      "description": "Šajā sadaļā būs iekļauts valūtu saraksts.",
+      "button_title": "Pievienot jaunu valūtu"
+    }
+  },
+  "custom_fields": {
+    "name": "Nosaukums",
+    "model": "Paraugs",
+    "model_placeholder": "Izvēlēties modeli",
+    "type": "Tips:",
+    "type_placeholder": "Izvēlēties tipu",
+    "required": "Nepieciešams",
+    "label": "Etiķete",
+    "default_value": "Noklusētā vērtība",
+    "display_in_Portal": "Rādīt portālā",
+    "placeholder": "Vietturis",
+    "order": "Order",
+    "yes": "Jā",
+    "no": "Nav",
+    "check": "Atzīme pēc noklusējuma",
+    "options": "Opcijas",
+    "remove_alert_description": "Jūs nevarēsiet atgūt šo Custom Field",
+    "already_in_use": "Nevar atjaunināt modeli laukiem, kas jau tiek izmantoti.",
+    "empty": {
+      "title": "Vēl nav pielāgos laukus!",
+      "description": "Šajā sadaļā būs saraksts ar pielāgotām laukiem.",
+      "button_title": "Pievienot jaunu pielāgotu lauku"
+    }
+  },
+  "languages": {
+    "title": "Izvēlieties valodu",
+    "empty": {
+      "title": "Vēl nav valodas!",
+      "description": "Šajā sadaļā būs iekļauts valodu saraksts."
+    }
+  },
+  "time_zones": {
+    "title": "Izvēlieties laika joslu",
+    "empty": {
+      "title": "Vēl nav laika!",
+      "description": "Šajā sadaļā būs saraksts ar Timezones."
+    }
+  },
+  "date_formats": {
+    "title": "Izvēlieties datuma formātu",
+    "empty": {
+      "title": "Nav datuma formāti vēl!",
+      "description": "Šajā sadaļā būs saraksts ar datumu formātiem."
+    }
+  },
+  "fiscal_years": {
+    "title": "Izvēlieties finanšu gadu",
+    "empty": {
+      "title": "Vēl Nav Finanšu Gadu!",
+      "description": "Šajā iedaļā iekļaus finanšu gadu sarakstu."
+    }
+  },
+  "retrospective_edits": {
+    "title": "Izvēlieties retrospektīvu rediģēto",
+    "empty": {
+      "title": "Nav Retrospekcijas!",
+      "description": "Šajā sadaļā būs iekļauts retrospektīvās rediģēšanas saraksts."
+    }
+  },
+  "countries": {
+    "empty": {
+      "title": "Vēl nav valstis!",
+      "description": "Šajā sadaļā būs iekļauts valstu saraksts."
+    }
+  },
+  "reports": {
+    "sales": "Pārdošanas apjoms",
+    "profit_and_loss": "Peļņa un zaudējumi",
+    "expenses": "Izdevumi",
+    "taxes": "Nodokļi",
+    "date_range": "Izvēlēties datuma diapazonu",
+    "from_date": "No datuma",
+    "to_date": "Līdz Datam",
+    "report_type": "Ziņojuma veids",
+    "by_customer": "Pasūtītājs",
+    "by_item": "Ar posteni",
+    "today": "Šodien",
+    "this_week": "Šonedēļ",
+    "this_month": "Šomēnes",
+    "this_quarter": "Šis ceturksnis",
+    "this_year": "Šis gads",
+    "current_fiscal_quarter": "Pašreizējais fiskālais ceturksnis",
+    "current_fiscal_year": "Pašreizējais fiskālais gads",
+    "previous_week": "Iepriekšējā nedēļa",
+    "previous_month": "Iepriekšējais mēnesis",
+    "previous_quarter": "Iepriekšējais ceturksnis",
+    "previous_year": "Iepriekšējā gadā",
+    "previous_fiscal_quarter": "Iepriekšējais fiskālais ceturksnis",
+    "previous_fiscal_year": "Iepriekšējais fiskālais gads",
+    "custom": "Pielāgots"
+  },
+  "taxes": {
+    "title": "Nodokļi",
+    "type": "Nodokļu nosaukums",
+    "description": "Apraksts",
+    "percentage": "Nodokļu procenti",
+    "compound_tax": "Saliktais nodoklis",
+    "alert_description": "Jūs nevarēsiet atgūt šo nodokli.",
+    "empty": {
+      "title": "Vēl nav nodokļu veidi!",
+      "description": "Šajā iedaļā iekļaus nodokļu veidu sarakstu.",
+      "button_title": "Pievienot nodokļu tipu"
+    }
+  },
+  "touch_face_id": {
+    "touch_id": "Skārda ID",
+    "face_id": "Sejas ID",
+    "finger": "Pirkstu nospiedumu",
+    "face": "Sejas",
+    "not_compatible": "Jūsu ierīce nav savietojama.",
+    "hardware_not_available": "{{type}} HardWare nav pieejams.",
+    "activated": "{{{tips}} aktivizēts",
+    "enable_login": "{{{tips}} Ielogojies",
+    "enable_login_hint": "Tagad varat izmantot {{{tips}}, lai piekļūtu savam kontam ātrāk un vieglāk.",
+    "subtitle_1": "Autentificēties, izmantojot lietotnes",
+    "subtitle_2": "{{{tips}} vietā, ievadot savu paroli.",
+    "login": "Piesakies ar {{{tips}}"
+  },
+  "file_picker": {
+    "file": "Klikšķiniet šeit, lai izvēlētos failu",
+    "permission": "Atvainojiet, mums ir nepieciešams kameras roll atļaujas, lai padarītu šo darbu!",
+    "camera": "Fotokamera",
+    "gallery": "Galerija",
+    "document": "Dokumenta veids"
+  },
+  "send_mail": {
+    "from": "No",
+    "to": "Uz",
+    "subject": "Priekšmets",
+    "body": "Ķermeņa daļa"
+  },
+  "alert": {
+    "title": "Esi drošs?",
+    "action": {
+      "discard": "Izmest",
+      "save_as_draft": "Saglabāt kā projektu"
+    }
+  },
+  "button": {
+    "remove": "Izņemt",
+    "save": "Saglabāt",
+    "add": "Pievienot",
+    "retry": "Pārmēģināt",
+    "done": "Paveiktais",
+    "clear": "Tīrīt",
+    "view_pdf": "Apskatīt PDF",
+    "sing_in": "Pierakstīties",
+    "forget": "Aizmirsu paroli?",
+    "update": "Atjauninājums",
+    "update_capital": "UPDATE",
+    "choose_template": "Izvēlēties sagatavi",
+    "generate_report": " Ģenerēt ziņojumu",
+    "recovery_email": "Sūtīt atiestatīšanas saiti",
+    "recovery_email_again": "Sūtīt vēlreiz",
+    "cancel": "Atcelt",
+    "send": "Sūtīt",
+    "change": "Izmaiņas",
+    "set_up_now": "Uzstādīt tagad",
+    "later": "To darīs vēlāk",
+    "refresh": "Atsvaidzināt",
+    "preview": "Priekšskatīt"
+  },
+  "filter": {
+    "empty": {
+      "filter_title": "Rezultāti nav atrasti"
+    }
+  },
+  "search": {
+    "title": "Meklēt",
+    "no_result": "Nav rezultātu priekš \"{{{meklēšana}}\"",
+    "no_search_result": "Nav rezultātu"
+  },
+  "validation": {
+    "required": "Vajadzīgais lauks ir tukšs",
+    "choose": "Izvēlēties vismaz vienu vienumu",
+    "email": "Lūdzu ievadiet derīgu e-pasta adresi",
+    "password_compare": "Paroles neatbilst",
+    "minimum_number": "jābūt lielākam par 0",
+    "maximum_number": "jābūt mazākam par {{maxNumber}}",
+    "maximum_character": "{{fieldName}}} ir jābūt mazākam par {{maxCharacter}} rakstzīmēm.",
+    "character": "Tikai rakstzīmes",
+    "numeric": "ir jābūt skaitliskai",
+    "more_than_due": "{{hint}} nevajadzētu būt vairāk par pienācīgu summu.",
+    "url": "Nederīgs url (piemēram: https://craterapp.com)",
+    "wrong": "Kaut kas notika nepareizi. Lūdzu, mēģiniet vēlreiz.",
+    "min_character": "Lūdzu, ievadiet vismaz {{minCharacter}} rakstzīmes",
+    "cron": "Lūdzu ievadiet derīgu cron formātu."
+  },
+  "company": {
+    "switch_company": "PĀRSLĒGT UZŅĒMUMU",
+    "add_new_company": "Pievienot jaunu uzņēmumu"
+  },
+  "roles": {
+    "add_new_role": "Pievienot jaunu lomu",
+    "alert_description": "Jūs nevarēsiet atgūt šo lomu.",
+    "empty": {
+      "title": "Vēl nav lomas!",
+      "description": "Šajā sadaļā būs iekļauts saraksts ar lomām."
+    },
+    "name": "Nosaukums",
+    "permissions": "Atļaujas",
+    "select_all": "Izvēlieties visu",
+    "none": "Nav",
+    "select_role_for": "Izvēlieties funkciju {{nosaukums}}"
+  },
+  "users": {
+    "add_new_user": "Pievienot jaunu lietotāju",
+    "alert_description": "Jūs nevarēsiet atgūt šo Lietotāju.",
+    "empty": {
+      "title": "Vēl nav lietotāju!",
+      "description": "Šajā sadaļā būs lietotāju saraksts."
+    },
+    "name": "Nosaukums",
+    "email": "E-pasts:",
+    "phone": "Tālrunis:",
+    "password": "Parole",
+    "role": "Loma",
+    "roles": "Lomas",
+    "role_placeholder": "Izvēlieties lomu"
+  },
+  "exchange_rate": {
+    "label": "Valūtas kurss",
+    "selected_currency": "1 {{selected Currency}}} ",
+    "exchange_help_text": "Ievadiet maiņas kursu, lai konvertētu no {{selected Currency}} līdz {{baeCurrency}}."
+  },
+  "actions": {
+    "new_estimate": "Jauna aplēse",
+    "new_invoice": "Jauns rēķins",
+    "new_payment": "Jauns maksājums",
+    "new_expense": "Jauni izdevumi"
+  },
+  "companies": {
+    "empty": {
+      "title": "Uzņēmumi vēl nav!",
+      "description": "Šajā sadaļā būs iekļauts uzņēmumu saraksts."
+    }
+  },
+  "notification": {
+    "success": "Veiksme!",
+    "error": "Kļūda!",
+    "login_success": "Pieteicies veiksmīgi",
+    "customer_created": "Veiksmīgi izveidots klients",
+    "customer_updated": "Klients veiksmīgi atjaunināja",
+    "customer_deleted": "Klients veiksmīgi izdzēsts",
+    "role_created": "Veiksmīgi izveidota loma",
+    "role_updated": "Loma atjaunināta veiksmīgi",
+    "role_deleted": "Loma dzēsts veiksmīgi",
+    "expense_category_created": "Izdevumu kategorija veiksmīgi izveidota",
+    "expense_category_updated": "Izdevumu kategorija atjaunināta veiksmīgi",
+    "expense_category_deleted": "Izdevumu kategorija veiksmīgi izdzēsts",
+    "expense_already_in_use": "Izdevumu kategorija jau ir lietošanā",
+    "note_created": "Piezīme izveidota veiksmīgi",
+    "note_updated": "Piezīme atjaunināta veiksmīgi",
+    "note_deleted": "Piezīme dzēsts veiksmīgi",
+    "note_already_in_use": "Piezīme jau ir lietošanā",
+    "custom_field_created": "Pielāgots lauks veiksmīgi izveidots",
+    "custom_field_updated": "Pielāgots lauks veiksmīgi atjaunināts",
+    "custom_field_deleted": "Pielāgots lauks veiksmīgi izdzēsts",
+    "custom_field_already_in_use": "Pielāgots lauks jau ir lietošanā",
+    "tax_created": "Nodokļu veids, kas izveidots veiksmīgi",
+    "tax_updated": "Nodokļu veids ir veiksmīgi atjaunināts",
+    "tax_deleted": "Nodokļu veids dzēsts veiksmīgi",
+    "tax_already_in_use": "Nodoklis jau tiek izmantots",
+    "setting_updated": "Uzstādījums atjaunināts veiksmīgi",
+    "invoice_setting_updated": "Veiksmīgi atjauninātais rēķins",
+    "estimate_setting_updated": "Aplēse, kas veiksmīgi atjaunināta",
+    "payment_setting_updated": "Maksājumu iestatīšana ir veiksmīgi atjaunināta",
+    "payment_mode_created": "Veiksmīgi izveidots maksājumu režīms",
+    "payment_mode_updated": "Maksājumu režīms veiksmīgi atjaunināts",
+    "payment_mode_deleted": "Maksājumu režīms veiksmīgi izdzēsts",
+    "payment_mode_already_in_use": "Maksājumu režīms jau tiek izmantots",
+    "item_unit_created": "Vienība veiksmīgi izveidota",
+    "item_unit_updated": "Prece ir veiksmīgi atjaunināta",
+    "item_unit_deleted": "Vienība veiksmīgi izdzēsts",
+    "item_unit_already_in_use": "Vienība jau ir lietošanā",
+    "preference_updated": "Preferences ir veiksmīgi atjauninātas",
+    "company_updated": "Veiksmīgi atjaunināta uzņēmuma informācija",
+    "account_updated": "Konta iestatījumi ir veiksmīgi atjaunināti",
+    "user_created": "Lietotājs veiksmīgi izveidoja",
+    "user_updated": "Lietotājs veiksmīgi atjaunināja",
+    "user_deleted": "Lietotājs veiksmīgi izdzēsts",
+    "item_created": "Prece veiksmīgi izveidota",
+    "item_updated": "Prece ir veiksmīgi atjaunināta",
+    "item_deleted": "Prece veiksmīgi izdzēsts",
+    "estimate_created": "Aplēse veiksmīgi izveidota",
+    "estimate_updated": "Aplēse veiksmīgi atjaunināta",
+    "estimate_deleted": "Aplēse veiksmīgi izdzēsts",
+    "estimate_sent": "Aplēse ir veiksmīgi nosūtīta",
+    "estimate_mark_as_sent": "Novērtēts iezīmēts kā veiksmīgi nosūtīts",
+    "estimate_marked_as_accepted": "Novērtējums, kas atzīmēts kā pieņemts",
+    "estimate_marked_as_rejected": "Novērtējums, kas atzīmēts kā noraidīts",
+    "expense_created": "Veiksmīgi radīti izdevumi",
+    "expense_updated": "Veiksmīgi atjaunināti izdevumi",
+    "expense_deleted": "Izdevumi dzēsts veiksmīgi",
+    "payment_created": "Veiksmīgi izveidots maksājums",
+    "payment_updated": "Veiksmīgi atjaunots maksājums",
+    "payment_deleted": "Maksājumu dzēsts veiksmīgi",
+    "payment_sent": "Veiksmīgi nosūtītais maksājums",
+    "invoice_created": "Veiksmīgi izveidots rēķins",
+    "invoice_updated": "Veiksmīgi aktualizēts rēķins",
+    "invoice_deleted": "Rēķins veiksmīgi izdzēsts",
+    "invoice_marked_as_sent": "Rēķins, kas atzīmēts kā veiksmīgi nosūtīts",
+    "invoice_sent": "Veiksmīgi nosūtīts rēķins",
+    "invoice_cloned": "Rēķins klonēts veiksmīgi",
+    "recurring_invoice_created": "Atkārtots rēķins izveidots veiksmīgi",
+    "recurring_invoice_updated": "Atkārtots rēķins atjaunināts veiksmīgi",
+    "recurring_invoice_deleted": "Atkārtots rēķins svītrots veiksmīgi",
+    "password_reset_link": "Paroles atiestatīšanas saite tika nosūtīta veiksmīgi.",
+    "company_created": "Veiksmīgi izveidots uzņēmums"
+  }
+}

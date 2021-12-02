@@ -1,19 +1,23 @@
-import { isIPhoneX, SCREEN_WIDTH } from '@/constants';
-import { fonts } from './fonts';
+import {defineSize, SCREEN_WIDTH} from '@/helpers/size';
+import {fonts} from './fonts';
 
-export const headerTitle = ({ marginLeft = -7, marginRight = -12,theme=null }) => {
-    return {
-        marginLeft: isIPhoneX() ? 0 : marginLeft,
-        marginRight: isIPhoneX() ? 0 : marginRight,
-        textAlign: 'center',
-        fontFamily: theme?.mode === 'dark' ? fonts.poppinsMedium : fonts.poppins,
-        textAlign: 'left'
-    };
+export const headerTitle = ({
+  marginLeft = -7,
+  marginRight = -12,
+  theme = null
+}) => {
+  return {
+    marginLeft: defineSize(marginLeft, marginLeft, marginLeft, 0),
+    marginRight: defineSize(marginRight, marginRight, marginRight, 0),
+    textAlign: 'center',
+    fontFamily: theme?.mode === 'dark' ? fonts.medium : fonts.regular,
+    textAlign: 'left'
+  };
 };
 
 export const itemsDescriptionStyle = (widthMinus = 43) => {
-    return {
-        width: SCREEN_WIDTH - widthMinus,
-        textAlign: 'justify'
-    };
+  return {
+    width: SCREEN_WIDTH - widthMinus,
+    textAlign: 'justify'
+  };
 };

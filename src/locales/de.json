@@ -1,0 +1,853 @@
+{
+  "header": {
+    "invoices": "Rechnungen",
+    "add_invoice": "Rechnung hinzufügen",
+    "edit_invoice": "Rechnung bearbeiten",
+    "recurring_invoices": "Wiederkehrende Rechnungen",
+    "recurring_invoice": "Wiederkehrende Rechnung",
+    "add_recurring_invoice": "Wiederkehrende Rechnung hinzufügen",
+    "edit_recurring_invoice": "Wiederkehrende Rechnung bearbeiten",
+    "view_recurring_invoice": "Wiederkehrende Rechnung anzeigen",
+    "estimates": "Schätzungen",
+    "add_estimate": "Schätzung hinzufügen",
+    "edit_estimate": "Schätzung bearbeiten",
+    "template": "Schablone auswählen",
+    "customers": "Kunden",
+    "add_customer": "Kunden hinzufügen",
+    "edit_customer": "Kunden bearbeiten",
+    "billing_address": "Rechnungsadresse",
+    "shipping_address": "Versandadresse",
+    "country": "Land auswählen",
+    "payments": "Zahlungen",
+    "add_payment": "Zahlung hinzufügen",
+    "edit_payment": "Zahlung bearbeiten",
+    "expenses": "Ausgaben",
+    "add_expense": "Aufwand hinzufügen",
+    "edit_expense": "Aufwand bearbeiten",
+    "more": "Mehr",
+    "expense_category": "Aufwand-Kategorien",
+    "add_category": "Kategorie hinzufügen",
+    "edit_category": "Kategorie bearbeiten",
+    "add_note": "Notiz hinzufügen",
+    "edit_note": "Notiz bearbeiten",
+    "settings": "Einstellungen",
+    "notifications": "Benachrichtigung",
+    "setting": {
+      "company": "Unternehmensinformationen",
+      "account": "Kontoeinstellungen",
+      "preferences": "Vorgaben"
+    },
+    "taxes": "Steuertypen",
+    "add_tax": "Steuer hinzufügen",
+    "edit_tax": "Steuer bearbeiten",
+    "add_item": "Element hinzufügen",
+    "edit_item": "Element bearbeiten",
+    "items": "Artikel",
+    "item_units": "Elementeinheiten",
+    "payment_modes": "Zahlungsmodi",
+    "reports": "Berichte",
+    "sales_report": "Verkaufsbericht",
+    "profit_and_lossReport": "Profit & Loss Report",
+    "expenses_report": "Ausgabenbericht",
+    "taxes_report": "Steuern-Bericht",
+    "filter": "Filter",
+    "back": "Zurück",
+    "send_mail_invoice": "Rechnung senden",
+    "send_mail_estimate": "Schätzung senden",
+    "send_mail_payment": "Zahlung senden",
+    "custom_fields": "Benutzerdefinierte Felder",
+    "add_custom_field": "Benutzerdefiniertes Feld hinzufügen",
+    "edit_custom_field": "Benutzerdefiniertes Feld bearbeiten",
+    "notes": "Anmerkungen",
+    "view_customer": "Kunde anzeigen",
+    "view_payment": "Zahlung anzeigen",
+    "view_expense": "Aufwand anzeigen",
+    "view_invoice": "Rechnung anzeigen",
+    "view_estimate": "Schätzung anzeigen",
+    "view_item": "Element anzeigen",
+    "view_tax": "Steuer anzeigen",
+    "view_custom_field": "Benutzerdefiniertes Feld anzeigen",
+    "view_note": "Hinweis anzeigen",
+    "view_category": "Kategorie anzeigen",
+    "view_unit": "Artikeleinheit anzeigen",
+    "view_payment_mode": "Zahlungsmodus anzeigen",
+    "add_company": "Firma hinzufügen",
+    "roles": "Rollen und Berechtigung",
+    "add_role": "Rolle hinzufügen",
+    "edit_role": "Rolle bearbeiten",
+    "view_role": "Rolle anzeigen",
+    "users": "Benutzer",
+    "add_user": "Benutzer hinzufügen",
+    "edit_user": "Benutzer bearbeiten",
+    "view_user": "Benutzer anzeigen",
+    "companies": "Unternehmen"
+  },
+  "tab_navigation": {
+    "invoices": "Rechnungen",
+    "customers": "Kunden",
+    "payments": "Zahlungen",
+    "expenses": "Ausgaben",
+    "more": "Mehr"
+  },
+  "invoices": {
+    "title": "Rechnung auswählen",
+    "tabs": {
+      "due": "Fällig",
+      "draft": "Entwurf",
+      "all": "ALL"
+    },
+    "invoice_date": "Rechnungsdatum",
+    "due_date": "Fälligkeitsdatum",
+    "discount": "RABATT",
+    "invoice_number": "Rechnungsnummer",
+    "reference_number": "Referenznummer",
+    "template": "Vorlage",
+    "template_placeholder": "Neue Vorlage auswählen oder hinzufügen",
+    "customer": "Kunde",
+    "customer_placeholder": "Neuen Kunden auswählen oder hinzufügen",
+    "items": "Artikel",
+    "subtotal": "ZWISCHENSUMME",
+    "total_amount": "GESAMTBETRAG",
+    "status": "Status",
+    "status_placeholder": "Status auswählen",
+    "from_date": "Anfangsdatum",
+    "to_date": "Enddatum",
+    "alert": {
+      "less_amount": "Gesamtbetrag sollte nicht kleiner als 0 sein",
+      "remove_description": "Sie werden nicht in der Lage sein, diese Rechnung zu erholen",
+      "draft_title": "Änderungen speichern?",
+      "clone": "Diese Rechnung wird in eine neue Rechnung geklont",
+      "send_invoice": "Diese Rechnung wird per E-Mail an den Kunden verschickt",
+      "mark_as_sent": "Diese Rechnung wird als gesendet markiert"
+    },
+    "empty": {
+      "due": {
+        "title": "Sie haben keine fälligen Rechnungen",
+        "description": "Dieser Abschnitt enthält die Liste der fälligen Rechnungen."
+      },
+      "draft": {
+        "title": "Sie haben keine Entwurfsrechnungen",
+        "description": "Dieser Abschnitt enthält die Liste der Entwürfe von Rechnungen."
+      },
+      "all": {
+        "title": "Sie haben keine Rechnungen erstellt"
+      },
+      "title": "Noch keine Rechnungen!",
+      "description": "Dieser Abschnitt enthält die Liste der Rechnungen.",
+      "button_title": "Neue Rechnung hinzufügen"
+    },
+    "actions": {
+      "send_invoice": "Rechnung senden",
+      "resend_invoice": "Rechnung erneut senden",
+      "delete": "Löschen",
+      "record_payment": "Zahlung aufzeichnen",
+      "mark_as_sent": "Als gesendet markieren",
+      "clone": "Rechnung klonen"
+    }
+  },
+  "recurring_invoices": {
+    "start_date": "Startdatum",
+    "next_invoice_at": "Nächste Rechnung bei",
+    "limit_by": "Begrenzung durch",
+    "select_frequency": "Häufigkeit auswählen",
+    "display_frequency": "Häufigkeit",
+    "basic_info": "BASIC-INFO",
+    "invoices": "RECHNUNGEN",
+    "alert_description": "Sie können diese wiederkehrende Rechnung nicht wiederherstellen",
+    "from_start_at_date": "Anfangsdatum",
+    "to_start_at_date": "Anfangsdatum",
+    "auto_sent": {
+      "label": "Rechnung automatisch senden",
+      "description": "Aktivieren Sie diese Option, wenn Sie die Rechnung beim Erstellen automatisch an den Kunden senden möchten."
+    },
+    "status": {
+      "title": "Status",
+      "placeholder": "Status auswählen",
+      "empty": {
+        "title": "Sie haben keinen Status",
+        "description": "Dieser Abschnitt enthält die Liste mit dem Status."
+      }
+    },
+    "tabs": {
+      "active": "Aktiv",
+      "on_hold": "Auf Zurückstellung",
+      "all": "Alle"
+    },
+    "empty": {
+      "active": {
+        "title": "Sie haben keine aktiven wiederkehrenden Rechnungen",
+        "description": "Dieser Abschnitt enthält die Liste der aktiven wiederkehrenden Rechnungen."
+      },
+      "on_hold": {
+        "title": "Sie haben keine wiederkehrenden Rechnungen",
+        "description": "Dieser Abschnitt enthält die Liste der gehaltenen wiederkehrenden Rechnungen."
+      },
+      "all": {
+        "title": "Sie haben keine wiederkehrenden Rechnungen erstellt"
+      },
+      "title": "Keine wiederkehrenden Rechnungen noch!",
+      "description": "Dieser Abschnitt enthält die Liste der wiederkehrenden Rechnungen.",
+      "button_title": "Neue wiederkehrende Rechnung hinzufügen"
+    },
+    "limit_types": {
+      "none": "Keine",
+      "date": "Grenzwert",
+      "count": "Anzahl"
+    },
+    "frequencies": {
+      "custom": "Angepasst",
+      "every_minute": "Jede Minute",
+      "every_30_minute": "Alle 30 Minuten",
+      "every_hour": "Jede Stunde",
+      "every_2_hour": "Alle 2 Stunden",
+      "twice_a_day": "Zweimal A Tag",
+      "every_week": "Jede Woche",
+      "every_15_days": "Alle 15 Tage",
+      "first_day_of_month": "Erster Tag des Monats",
+      "every_6_month": "Alle 6 Monate",
+      "every_year": "Jedes Jahr"
+    },
+    "dropdown": {
+      "edit": "Bearbeiten",
+      "delete": "Löschen"
+    }
+  },
+  "customers": {
+    "display_name": "Anzeigename",
+    "contact_name": "Primärer Kontaktname",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "website": "Website",
+    "billing_address": "Rechnungsadresse",
+    "shipping_address": "Versandadresse",
+    "customer": "Kunde",
+    "filter_display_name": "Anzeigename",
+    "filter_contact_name": "Kontaktname",
+    "alert_description": "Sie werden diesen Kunden nicht wiederherstellen können.",
+    "prefix": "Präfix",
+    "address": {
+      "name": "Name",
+      "country": "Land",
+      "state": "Status",
+      "city": "Stadt",
+      "address": "Adresse",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "phone": "Telefon",
+      "zip_code": "Postleitzahl",
+      "same_as": "Aus Rechnungsadresse kopieren"
+    },
+    "remove_customer": "Löschen",
+    "empty": {
+      "title": "Noch keine Kunden!",
+      "description": "Dieser Abschnitt enthält die Liste der Kunden.",
+      "button_title": "Neuen Kunden hinzufügen",
+      "country": {
+        "title": "Kein Land verfügbar"
+      },
+      "state": {
+        "title": "Kein Status verfügbar"
+      },
+      "city": {
+        "title": "Keine Stadt verfügbar"
+      }
+    },
+    "title": "Kunden auswählen",
+    "placeholder": "Kunden auswählen"
+  },
+  "payments": {
+    "date": "Zahlungsdatum",
+    "number": "Zahlungsnummer",
+    "customer": "Kunde",
+    "mode": "Zahlungsmodus",
+    "modes": "Zahlungsmodi",
+    "prefix": "Zahlungspräfix",
+    "add_mode": "Zahlungsmodus hinzufügen",
+    "edit_mode": "Zahlungsmodus bearbeiten",
+    "mode_hint": "Modusname",
+    "mode_placeholder": "Zahlungsmodus auswählen",
+    "amount": "Betrag",
+    "invoice": "Rechnung",
+    "invoice_placeholder": "Rechnung auswählen",
+    "send_receipt": "Zahlungseingang senden",
+    "alertAmount": "Die eingegebene Zahlung ist mehr als der fällige Betrag dieser Rechnung.",
+    "alert_description": "Sie werden diese Zahlung nicht wiederherstellen können.",
+    "alert_mode": "Sie können diesen Zahlungsmodus nicht wiederherstellen",
+    "remove_payment": "Löschen",
+    "empty": {
+      "title": "Noch keine Zahlungen!",
+      "description": "Dieser Abschnitt enthält die Liste der Zahlungen.",
+      "button_title": "Neue Zahlung hinzufügen"
+    },
+    "alert": {
+      "send_payment": "Dieser Zahlungseingang wird per E-Mail an die angegebene Adresse gesendet"
+    }
+  },
+  "payment_modes": {
+    "empty": {
+      "title": "Noch keine Zahlungsmodi!",
+      "description": "Dieser Abschnitt enthält die Liste der Zahlungsmodi."
+    }
+  },
+  "item_units": {
+    "empty": {
+      "title": "Noch keine Artikeleinheiten!",
+      "description": "Dieser Abschnitt enthält die Liste der Elementeinheiten."
+    }
+  },
+  "expenses": {
+    "receipt": "Wareneingang",
+    "date": "Ausgabendatum",
+    "from_date": "Anfangsdatum",
+    "to_date": "Enddatum",
+    "amount": "Betrag",
+    "category": "Kategorie",
+    "category_placeholder": "Kategorie auswählen",
+    "notes": "Anmerkungen",
+    "notes_placeholder": "Zusätzliche Hinweise",
+    "view_receipt": "Wareneingang anzeigen",
+    "alert_description": "Sie werden diesen Aufwand nicht wiederherstellen können.",
+    "remove_expense": "Löschen",
+    "empty": {
+      "title": "Noch keine Ausgaben!",
+      "description": "Dieser Abschnitt enthält die Liste der Ausgaben.",
+      "button_title": "Neuen Aufwand hinzufügen"
+    }
+  },
+  "items": {
+    "title": "Element auswählen",
+    "name": "Elementname",
+    "description": "Beschreibung (optional)",
+    "quantity": "Menge",
+    "price": "Preis",
+    "subtotal": "ZWISCHENSUMME",
+    "discount_type": "Rabattart",
+    "discount": "Rabatt",
+    "final_discount": "RABATT",
+    "final_amount": "BETRAG",
+    "taxes": "Steuern",
+    "select_tax": "Neue Steuern auswählen oder hinzufügen",
+    "unit": "Einheit",
+    "unit_hint": "Einheitenname",
+    "add_hint": "Artikeleinheit hinzufügen",
+    "edit_hint": "Artikeleinheit bearbeiten",
+    "unit_placeholder": "Einheit auswählen",
+    "alert_description": "Sie können dieses Element nicht wiederherstellen.",
+    "alert_unit": "Sie können diese Artikeleinheit nicht wiederherstellen",
+    "less_amount": "Gesamtbetrag schuld't weniger als 0",
+    "already_attach_title": "Aktion fehlgeschlagen",
+    "already_attach_description": "Ein Element, das bereits verwendet wird, kann nicht gelöscht werden.",
+    "empty": {
+      "title": "Noch keine Artikel!",
+      "description": "Dieser Abschnitt enthält die Liste der Elemente.",
+      "button_title": "Neue Elemente hinzufügen"
+    }
+  },
+  "more": {
+    "estimate": "Schätzungen",
+    "recurring_invoice": "Wiederkehrende Rechnungen",
+    "items": "Artikel",
+    "reports": "Berichte",
+    "settings": "Einstellungen",
+    "logout": "Abmeldung",
+    "users": "Benutzer"
+  },
+  "categories": {
+    "title": "Kategoriename",
+    "description": "Beschreibung",
+    "alert_description": "Sie können diese Kategorie nicht wiederherstellen",
+    "empty": {
+      "title": "Noch keine Kategorien!",
+      "description": "Dieser Abschnitt enthält die Liste der Kategorien.",
+      "button_title": "Neue Kategorie hinzufügen"
+    }
+  },
+  "notes": {
+    "notes": "Anmerkungen",
+    "title": "Notename",
+    "description": "Beschreibung",
+    "model_placeholder": "Typ auswählen",
+    "alert_description": "Sie können diese Notiz nicht wiederherstellen.",
+    "empty": {
+      "title": "Noch keine Notizen!",
+      "description": "Dieser Abschnitt enthält die Liste der Notizen.",
+      "button_title": "Neue Notiz hinzufügen"
+    },
+    "placeholder": {
+      "invoice": "Zusätzliche Notizen auf Invoice sichtbar",
+      "estimate": "Zusätzliche Hinweise auf Schätzung sichtbar",
+      "payment": "Zusätzliche Hinweise auf Zahlung sichtbar"
+    },
+    "type": "Notentyp",
+    "select": "Notiz auswählen",
+    "insert_note": "+ Hinweis einfügen",
+    "insert_fields": "+ Felder einfügen"
+  },
+  "units": {
+    "empty": {
+      "title": "Noch keine Einheiten!",
+      "description": "Dieser Abschnitt enthält die Liste der Elementeinheiten.",
+      "button_title": "Neue Artikeleinheit hinzufügen"
+    }
+  },
+  "settings": {
+    "account_settings": "Kontoeinstellungen",
+    "company_information": "Unternehmensinformationen",
+    "preference": "Vorgaben",
+    "notification": "Benachrichtigungen",
+    "taxes": "Steuertypen",
+    "expense_category": "Aufwand-Kategorien",
+    "payment_modes": "Zahlungsmodi",
+    "item_units": "Elementeinheiten",
+    "touch_or_Face_id": "Touch/Face-ID",
+    "endpoint": "API-Endpunkt",
+    "company": {
+      "name": "Firmenname",
+      "phone": "Telefon",
+      "address": "Adresse",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "zip_code": "Postleitzahl",
+      "logo": "Firmenlogo"
+    },
+    "account": {
+      "name": "Name",
+      "email": "E-Mail",
+      "password": "Kennwort",
+      "confirm_password": "Kennwort bestätigen",
+      "version": "Version"
+    },
+    "notifications": {
+      "send": "Benachrichtigungen senden an",
+      "invoice_viewed": "Angezeigte Rechnung",
+      "invoice_viewed_description": "Wenn Ihr Kunde den per E-Mail zugesandten Rechnungslink ansieht.",
+      "estimate_viewed": "Geschätzte Schätzung",
+      "estimate_viewed_description": "Wenn Ihr Kunde den Schätzlink, der per E-Mail gesendet wird, ansieht."
+    },
+    "preferences": {
+      "currency": "Währung",
+      "currency_placeholder": "Währung auswählen",
+      "language": "Standardsprache",
+      "language_placeholder": "Sprache auswählen",
+      "time_zone": "Zeitzone",
+      "time_zone_placeholder": "Zeitzone auswählen",
+      "date_format": "Datumsformat",
+      "date_format_placeholder": "Datumsformat auswählen",
+      "fiscal_year": "Finanzjahr",
+      "fiscal_year_placeholder": "Geschäftsjahr auswählen",
+      "discount_per_item": "Rabatt pro Artikel",
+      "discount_per_item_placeholder": "Aktivieren Sie diese Option, wenn Sie den Eintrag 'Discount' zu einzelnen Rechnungselementen hinzufügen möchten. Standardmäßig wird Discount direkt zur Rechnung hinzugefügt.",
+      "tax_per_item": "Steuer pro Artikel",
+      "tax_per_item_placeholder": "Aktivieren Sie diese Option, wenn Sie Steuern zu einzelnen Rechnungspositionen hinzufügen möchten. Die Steuer wird standardmäßig direkt zur Rechnung hinzugefügt.",
+      "retrospective_edits": "Retrospektive Edits",
+      "create_status": "Status erstellen",
+      "active": "Aktiv",
+      "on_hold": "Auf Zurückstellung",
+      "completed": "Abgeschlossen"
+    },
+    "notes": "Anmerkungen"
+  },
+  "login": {
+    "email": "Geben Sie Ihre E-Mail ein",
+    "password": "Geben Sie Ihr Kennwort ein",
+    "invalid": "Diese Berechtigungsnachweise stimmen nicht mit unseren Datensätzen überein."
+  },
+  "logout": {
+    "confirmation": "Sind Sie sicher, dass Sie sich abmelden möchten?",
+    "title": "Abmeldung"
+  },
+  "forgot": {
+    "email_label": "Geben Sie Ihre E-Mail ein, und wir senden Ihnen den Link zum Zurücksetzen des Kennworts.",
+    "email_placeholder": "Geben Sie Ihre E-Mail ein",
+    "email_send_description": "Ein Link zum Zurücksetzen des Kennworts wurde an Ihre E-Mail gesendet. Bitte folgen Sie den Anweisungen in der E-Mail, um ein neues Kennwort zu erstellen.",
+    "email_send_error": "E-Mail konnte nicht an diese E-Mail-Adresse gesendet werden."
+  },
+  "lost_internet": {
+    "title": "Verbindung verloren",
+    "description": "Überprüfen Sie Ihre Mobile-oder Wifi-Einstellungen, um Ihre Internetverbindung zu überprüfen und versuchen Sie es dann erneut."
+  },
+  "update_app": {
+    "title": "App-Version abgelaufen!",
+    "description": "Diese Version der App ist nicht mehr aktuell. Bitte installieren Sie das neueste Update, um den Crater zu verwenden."
+  },
+  "endpoint": {
+    "endpoint_url": "Endpunkt-URL",
+    "endpoint_desc": "Oberhalb der URL wird die Verbindung mit Ihrer selbst gehosteten Installation von Krater verwendet.",
+    "url_placeholder": "ZB: https://craterapp.com",
+    "alert_invalid_url": "Ungültige URL"
+  },
+  "estimates": {
+    "tabs": {
+      "sent": "Gesendet",
+      "draft": "Entwurf",
+      "all": "Alle"
+    },
+    "estimate_date": "Schätzdatum",
+    "expiry_date": "Ablaufdatum",
+    "estimate_number": "Schätznummer",
+    "template": "Vorlage",
+    "template_placeholder": "Neue Vorlage auswählen oder hinzufügen",
+    "customer": "Kunde",
+    "customer_placeholder": "Neuen Kunden auswählen oder hinzufügen",
+    "tax_placeholder": "+ Steuer hinzufügen",
+    "add_item": "Element hinzufügen",
+    "from_date": "Anfangsdatum",
+    "to_date": "Enddatum",
+    "status": "Status",
+    "status_placeholder": "Status auswählen",
+    "total_amount": "GESAMTBETRAG",
+    "alert": {
+      "convert_to_invoice_description": "Sind Sie sicher, dass Sie diese Schätzung in eine Rechnung umwandeln möchten?",
+      "remove_description": "Sie werden diese Schätzung nicht wiederherstellen können.",
+      "less_amount": "Gesamtbetrag schuld't weniger als 0",
+      "draft_title": "Änderungen speichern?",
+      "send_estimate": "Diese Schätzung wird per E-Mail an den Kunden gesendet",
+      "mark_as_sent": "Diese Schätzung wird als gesendet markiert.",
+      "mark_as_accept": "Diese Schätzung wird als 'Akzeptiert' markiert.",
+      "mark_as_reject": "Diese Schätzung wird als Zurückgewiesen markiert."
+    },
+    "empty": {
+      "sent": {
+        "title": "Sie haben keine abgeschickten Schätzungen",
+        "description": "Dieser Abschnitt enthält die Liste der gesendeten Schätzungen."
+      },
+      "draft": {
+        "title": "Sie haben keinen Entwurf für Schätzungen",
+        "description": "Dieser Abschnitt enthält die Liste der Entwürfe für Schätzungen."
+      },
+      "all": {
+        "title": "Sie haben keine Schätzungen erstellt",
+        "description": "Dieser Abschnitt enthält die Liste der Schätzungen."
+      },
+      "button_title": "Neue Schätzung hinzufügen"
+    },
+    "actions": {
+      "send_estimate": "Schätzung senden",
+      "resend_estimate": "Schätzung erneut senden",
+      "delete": "Löschen",
+      "convert_to_invoice": "In Rechnung konvertieren",
+      "mark_as_sent": "Als gesendet markieren",
+      "mark_as_accepted": "Als akzeptiert markieren",
+      "mark_as_rejected": "Als zurückgewiesen markieren"
+    }
+  },
+  "currencies": {
+    "title": "Währungen",
+    "name": "Name",
+    "empty": {
+      "title": "Noch keine Währungen!",
+      "description": "Dieser Abschnitt enthält die Liste der Währungen.",
+      "button_title": "Neue Währung hinzufügen"
+    }
+  },
+  "custom_fields": {
+    "name": "Name",
+    "model": "Modell",
+    "model_placeholder": "Modell auswählen",
+    "type": "Typ",
+    "type_placeholder": "Typ auswählen",
+    "required": "Erforderlich",
+    "label": "Bezeichnung",
+    "default_value": "Standardwert",
+    "display_in_Portal": "Im Portal anzeigen",
+    "placeholder": "Platzhalter",
+    "order": "Reihenfolge",
+    "yes": "Ja",
+    "no": "Nein",
+    "check": "Standardmäßig gekippt",
+    "options": "Optionen",
+    "remove_alert_description": "Sie werden dieses benutzerdefinierte Feld nicht wiederherstellen können.",
+    "already_in_use": "Modell für Felder, die bereits verwendet werden, kann nicht aktualisiert werden.",
+    "empty": {
+      "title": "Noch keine benutzerdefinierten Felder!",
+      "description": "Dieser Abschnitt enthält die Liste der angepassten Felder.",
+      "button_title": "Neues benutzerdefiniertes Feld hinzufügen"
+    }
+  },
+  "languages": {
+    "title": "Sprache auswählen",
+    "empty": {
+      "title": "Noch keine Sprachen!",
+      "description": "Dieser Abschnitt enthält die Liste der Sprachen."
+    }
+  },
+  "time_zones": {
+    "title": "Zeitzone auswählen",
+    "empty": {
+      "title": "Noch keine TimeZones!",
+      "description": "Dieser Abschnitt enthält die Liste der Zeitzonen."
+    }
+  },
+  "date_formats": {
+    "title": "Datumsformat auswählen",
+    "empty": {
+      "title": "Noch keine Datumsformate!",
+      "description": "Dieser Abschnitt enthält die Liste der Datumsformate."
+    }
+  },
+  "fiscal_years": {
+    "title": "Finanzjahr auswählen",
+    "empty": {
+      "title": "Noch keine Finanzjahre!",
+      "description": "Dieser Abschnitt enthält die Liste der Finanzjahre."
+    }
+  },
+  "retrospective_edits": {
+    "title": "Retrospektive Edits auswählen",
+    "empty": {
+      "title": "Keine Retrospektive Edits!",
+      "description": "Dieser Abschnitt enthält die Liste der Retrospektive Edits."
+    }
+  },
+  "countries": {
+    "empty": {
+      "title": "Noch keine Länder!",
+      "description": "Dieser Abschnitt enthält die Liste der Länder."
+    }
+  },
+  "reports": {
+    "sales": "Verkäufe",
+    "profit_and_loss": "Gewinn & Verlust",
+    "expenses": "Ausgaben",
+    "taxes": "Steuern",
+    "date_range": "Datumsbereich auswählen",
+    "from_date": "Anfangsdatum",
+    "to_date": "Enddatum",
+    "report_type": "Berichtstyp",
+    "by_customer": "Vom Kunden",
+    "by_item": "Nach Artikel",
+    "today": "Heute",
+    "this_week": "Diese Woche",
+    "this_month": "In diesem Monat",
+    "this_quarter": "Dieses Quartal",
+    "this_year": "Dieses Jahr",
+    "current_fiscal_quarter": "Aktuelles Geschäftsquartal",
+    "current_fiscal_year": "Aktuelles Geschäftsjahr",
+    "previous_week": "Vorherige Woche",
+    "previous_month": "Vorheriger Monat",
+    "previous_quarter": "Vorheriges Quartal",
+    "previous_year": "Voriges Jahr",
+    "previous_fiscal_quarter": "Vorheriges Geschäftsquartal",
+    "previous_fiscal_year": "Voriges Geschäftsjahr",
+    "custom": "Angepasst"
+  },
+  "taxes": {
+    "title": "Steuern",
+    "type": "Steuername",
+    "description": "Beschreibung",
+    "percentage": "Steuerprozentsatz",
+    "compound_tax": "Verbundsteuer",
+    "alert_description": "Sie werden nicht in der Lage sein, diese Steuer zu erholen",
+    "empty": {
+      "title": "Noch keine Steuerarten!",
+      "description": "Dieser Abschnitt enthält die Liste der Steuertypen.",
+      "button_title": "Steuertyp hinzufügen"
+    }
+  },
+  "touch_face_id": {
+    "touch_id": "Touch-ID",
+    "face_id": "Gesicht-ID",
+    "finger": "Fingerabdruck",
+    "face": "Teilfläche",
+    "not_compatible": "Ihre Einheit ist nicht kompatibel.",
+    "hardware_not_available": "{{type}} HardWare ist nicht verfügbar.",
+    "activated": "{{type}} aktiviert",
+    "enable_login": "{{type}} anmelden",
+    "enable_login_hint": "Sie können jetzt {{type}} verwenden, um schneller und einfacher auf Ihr Konto zuzugreifen.",
+    "subtitle_1": "Authentifizierung mit App-Funktion",
+    "subtitle_2": "{{type}} eingeben, anstatt Ihr Kennwort einzugeben.",
+    "login": "Melden Sie sich mit {{type}} an."
+  },
+  "file_picker": {
+    "file": "Klicken Sie hier, um eine Datei auszuwählen",
+    "permission": "Es tut mir leid, wir brauchen die Berechtigungen der Kamera, um diese Arbeit zu machen!",
+    "camera": "Kamera",
+    "gallery": "Galerie",
+    "document": "Dokument"
+  },
+  "send_mail": {
+    "from": "Von",
+    "to": "Bis",
+    "subject": "Betreff",
+    "body": "Hauptteil"
+  },
+  "alert": {
+    "title": "Sind Sie sicher?",
+    "action": {
+      "discard": "Verwerfen",
+      "save_as_draft": "Als Entwurf speichern"
+    }
+  },
+  "button": {
+    "remove": "Entfernen",
+    "save": "Speichern",
+    "add": "Hinzufügen",
+    "retry": "Wiederholung",
+    "done": "Fertig",
+    "clear": "Löschen",
+    "view_pdf": "PDF anzeigen",
+    "sing_in": "Anmelden",
+    "forget": "Passwort vergessen?",
+    "update": "Aktualisieren",
+    "update_capital": "UPDATE",
+    "choose_template": "Schablone auswählen",
+    "generate_report": " Bericht generieren",
+    "recovery_email": "Rücksetzlink senden",
+    "recovery_email_again": "Erneut senden",
+    "cancel": "Abbrechen",
+    "send": "Senden",
+    "change": "Ändern",
+    "set_up_now": "Jetzt einrichten",
+    "later": "Wird es später tun",
+    "refresh": "Aktualisieren",
+    "preview": "Vorschau"
+  },
+  "filter": {
+    "empty": {
+      "filter_title": "Keine Ergebnisse gefunden"
+    }
+  },
+  "search": {
+    "title": "Suchen",
+    "no_result": "Keine Ergebnisse für \"{{search}}\"",
+    "no_search_result": "Keine Ergebnisse für"
+  },
+  "validation": {
+    "required": "Erforderliches Feld ist leer",
+    "choose": "Mindestens ein Element auswählen",
+    "email": "Geben Sie eine gültige E-Mail-Adresse ein.",
+    "password_compare": "Kennwörter stimmen nicht überein",
+    "minimum_number": "muss größer als 0 sein",
+    "maximum_number": "muss kleiner sein als {{maxNumber}}",
+    "maximum_character": "{{fieldName}} muss kleiner als {{maxCharacter}} Zeichen sein.",
+    "character": "Nur Zeichen",
+    "numeric": "muss numerisch sein",
+    "more_than_due": "{{hint}} Sollte nicht mehr als fällige Menge sein.",
+    "url": "Ungültige URL (z. B.: https://craterapp.com)",
+    "wrong": "Etwas ging schief. Versuchen Sie es erneut.",
+    "min_character": "Geben Sie mindestens {{minCharacter}} Zeichen ein.",
+    "cron": "Geben Sie ein gültiges Cron-Format ein."
+  },
+  "company": {
+    "switch_company": "SWITCH COMPANY",
+    "add_new_company": "Neue Firma hinzufügen"
+  },
+  "roles": {
+    "add_new_role": "Neue Rolle hinzufügen",
+    "alert_description": "Sie können diese Rolle nicht wiederherstellen.",
+    "empty": {
+      "title": "Noch keine Rollen!",
+      "description": "Dieser Abschnitt enthält die Liste der Rollen."
+    },
+    "name": "Name",
+    "permissions": "Berechtigungen",
+    "select_all": "Alles auswählen",
+    "none": "Keine",
+    "select_role_for": "Rolle für {{name}} auswählen"
+  },
+  "users": {
+    "add_new_user": "Neuen Benutzer hinzufügen",
+    "alert_description": "Sie können diesen Benutzer nicht wiederherstellen.",
+    "empty": {
+      "title": "Noch keine User!",
+      "description": "Dieser Abschnitt enthält die Liste der Benutzer."
+    },
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "password": "Kennwort",
+    "role": "Rolle",
+    "roles": "Rollen",
+    "role_placeholder": "Rolle auswählen"
+  },
+  "exchange_rate": {
+    "label": "Wechselkurs",
+    "selected_currency": "1 {{selectedCurrency}} = ",
+    "exchange_help_text": "Geben Sie den Wechselkurs ein, der von {{selectedCurrency}} in {{baseCurrency}} konvertiert werden soll."
+  },
+  "actions": {
+    "new_estimate": "Neue Schätzung",
+    "new_invoice": "Neue Rechnung",
+    "new_payment": "Neue Zahlung",
+    "new_expense": "Neuer Aufwand"
+  },
+  "companies": {
+    "empty": {
+      "title": "Noch keine Unternehmen!",
+      "description": "Dieser Abschnitt enthält die Liste der Unternehmen."
+    }
+  },
+  "notification": {
+    "success": "Erfolg!",
+    "error": "Fehler!",
+    "login_success": "Anmeldung erfolgreich",
+    "customer_created": "Kunde wurde erfolgreich erstellt",
+    "customer_updated": "Kunde wurde erfolgreich aktualisiert",
+    "customer_deleted": "Kunde wurde erfolgreich gelöscht",
+    "role_created": "Rolle wurde erfolgreich erstellt",
+    "role_updated": "Rolle wurde erfolgreich aktualisiert",
+    "role_deleted": "Rolle erfolgreich gelöscht",
+    "expense_category_created": "Aufwandskategorie erfolgreich erstellt",
+    "expense_category_updated": "Aufwandskategorie erfolgreich aktualisiert",
+    "expense_category_deleted": "Aufwandskategorie erfolgreich gelöscht",
+    "expense_already_in_use": "Aufwandskategorie ist bereits im Gebrauch",
+    "note_created": "Notiz erfolgreich erstellt",
+    "note_updated": "Hinweis erfolgreich aktualisiert",
+    "note_deleted": "Hinweis erfolgreich gelöscht",
+    "note_already_in_use": "Hinweis ist bereits im Gebrauch",
+    "custom_field_created": "Benutzerdefiniertes Feld erfolgreich erstellt",
+    "custom_field_updated": "Benutzerdefiniertes Feld erfolgreich aktualisiert",
+    "custom_field_deleted": "Benutzerdefiniertes Feld erfolgreich gelöscht",
+    "custom_field_already_in_use": "Benutzerdefiniertes Feld wird bereits verwendet",
+    "tax_created": "Steuertyp erfolgreich erstellt",
+    "tax_updated": "Steuerart erfolgreich aktualisiert",
+    "tax_deleted": "Steuertyp erfolgreich gelöscht",
+    "tax_already_in_use": "Steuer ist bereits im Einsatz",
+    "setting_updated": "Einstellung erfolgreich aktualisiert",
+    "invoice_setting_updated": "Rechnungseinstellung erfolgreich aktualisiert",
+    "estimate_setting_updated": "Abschätzungseinstellung erfolgreich aktualisiert",
+    "payment_setting_updated": "Zahlungseinstellung erfolgreich aktualisiert",
+    "payment_mode_created": "Zahlungsmodus erfolgreich erstellt",
+    "payment_mode_updated": "Zahlungsmodus erfolgreich aktualisiert",
+    "payment_mode_deleted": "Zahlungsmodus erfolgreich gelöscht",
+    "payment_mode_already_in_use": "Zahlungsmodus ist bereits im Gebrauch",
+    "item_unit_created": "Artikeleinheit erfolgreich erstellt",
+    "item_unit_updated": "Artikeleinheit erfolgreich aktualisiert",
+    "item_unit_deleted": "Artikeleinheit erfolgreich gelöscht",
+    "item_unit_already_in_use": "Artikeleinheit ist bereits im Gebrauch",
+    "preference_updated": "Einstellungen erfolgreich aktualisiert",
+    "company_updated": "Unternehmensinformationen erfolgreich aktualisiert",
+    "account_updated": "Kontoeinstellungen erfolgreich aktualisiert",
+    "user_created": "Benutzer wurde erfolgreich erstellt",
+    "user_updated": "Benutzer erfolgreich aktualisiert",
+    "user_deleted": "Benutzer erfolgreich gelöscht",
+    "item_created": "Element erfolgreich erstellt",
+    "item_updated": "Element erfolgreich aktualisiert",
+    "item_deleted": "Element erfolgreich gelöscht",
+    "estimate_created": "Schätzung wurde erfolgreich erstellt",
+    "estimate_updated": "Schätzung erfolgreich aktualisiert",
+    "estimate_deleted": "Schätzung erfolgreich gelöscht",
+    "estimate_sent": "Schätzung erfolgreich gesendet",
+    "estimate_mark_as_sent": "Geschätzte als erfolgreich gesendete Schätzung",
+    "estimate_marked_as_accepted": "Geschätzte als akzeptierte Schätzung",
+    "estimate_marked_as_rejected": "Als zurückgewiesene Schätzung",
+    "expense_created": "Aufwand wurde erfolgreich erstellt",
+    "expense_updated": "Aufwand wurde erfolgreich aktualisiert",
+    "expense_deleted": "Aufwand wurde erfolgreich gelöscht",
+    "payment_created": "Die Zahlung wurde erfolgreich erstellt",
+    "payment_updated": "Zahlung erfolgreich aktualisiert",
+    "payment_deleted": "Zahlung erfolgreich gelöscht",
+    "payment_sent": "Zahlung erfolgreich gesendet",
+    "invoice_created": "Rechnung erfolgreich erstellt",
+    "invoice_updated": "Rechnung erfolgreich aktualisiert",
+    "invoice_deleted": "Rechnung erfolgreich gelöscht",
+    "invoice_marked_as_sent": "Die Rechnung wurde als erfolgreich gesendet markiert.",
+    "invoice_sent": "Rechnung erfolgreich gesendet",
+    "invoice_cloned": "Rechnung erfolgreich geklont",
+    "recurring_invoice_created": "Wiederkehrende Rechnung wurde erfolgreich erstellt",
+    "recurring_invoice_updated": "Wiederkehrende Rechnung erfolgreich aktualisiert",
+    "recurring_invoice_deleted": "Wiederkehrende Rechnung erfolgreich gelöscht",
+    "password_reset_link": "Der Link zum Zurücksetzen des Kennworts wurde erfolgreich gesendet.",
+    "company_created": "Firma erfolgreich erstellt"
+  }
+}

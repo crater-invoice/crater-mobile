@@ -1,0 +1,853 @@
+{
+  "header": {
+    "invoices": "請求書",
+    "add_invoice": "請求書の",
+    "edit_invoice": "請求の編集",
+    "recurring_invoices": "繰り返し請求書",
+    "recurring_invoice": "繰り返し請求書",
+    "add_recurring_invoice": "繰り返し請求書の追加",
+    "edit_recurring_invoice": "繰り返し請求書の編集",
+    "view_recurring_invoice": "繰り返し請求書の表示",
+    "estimates": "推定",
+    "add_estimate": "見積もりの追加",
+    "edit_estimate": "見積もりの編集",
+    "template": "テンプレートの選択",
+    "customers": "顧客",
+    "add_customer": "顧客の追加",
+    "edit_customer": "顧客の編集",
+    "billing_address": "請求先住所",
+    "shipping_address": "配送先住所",
+    "country": "国の選択",
+    "payments": "支払い",
+    "add_payment": "支払いの追加",
+    "edit_payment": "支払いの編集",
+    "expenses": "費用",
+    "add_expense": "経費の追加",
+    "edit_expense": "経費の編集",
+    "more": "その他",
+    "expense_category": "経費のカテゴリー",
+    "add_category": "カテゴリーの追加",
+    "edit_category": "カテゴリーの編集",
+    "add_note": "メモの追加",
+    "edit_note": "メモの編集",
+    "settings": "設定",
+    "notifications": "通知",
+    "setting": {
+      "company": "会社情報",
+      "account": "アカウント設定",
+      "preferences": "設定"
+    },
+    "taxes": "税タイプ",
+    "add_tax": "税金の追加",
+    "edit_tax": "税金の編集",
+    "add_item": "アイテムの追加",
+    "edit_item": "アイテムの編集",
+    "items": "事項",
+    "item_units": "部品単位",
+    "payment_modes": "支払モード",
+    "reports": "レポート",
+    "sales_report": "セールス・レポート",
+    "profit_and_lossReport": "利益および損失レポート",
+    "expenses_report": "経費レポート",
+    "taxes_report": "「税」レポート",
+    "filter": "フィルター",
+    "back": "バック",
+    "send_mail_invoice": "請求書を",
+    "send_mail_estimate": "見積もりの送信",
+    "send_mail_payment": "支払いの送信",
+    "custom_fields": "カスタム・フィールド",
+    "add_custom_field": "カスタムフィールドの追加",
+    "edit_custom_field": "カスタムフィールドの編集",
+    "notes": "備考",
+    "view_customer": "顧客の表示",
+    "view_payment": "支払いの表示",
+    "view_expense": "費用の表示",
+    "view_invoice": "請求の表示",
+    "view_estimate": "見積もりの表示",
+    "view_item": "アイテムの表示",
+    "view_tax": "税金の表示",
+    "view_custom_field": "カスタムフィールドの表示",
+    "view_note": "メモの表示",
+    "view_category": "カテゴリーの表示",
+    "view_unit": "アイテム単位の表示",
+    "view_payment_mode": "支払モードの表示",
+    "add_company": "会社の追加",
+    "roles": "役割および権限",
+    "add_role": "役割の追加",
+    "edit_role": "役割の編集",
+    "view_role": "役割の表示",
+    "users": "利用者",
+    "add_user": "ユーザーの追加",
+    "edit_user": "ユーザーの編集",
+    "view_user": "ユーザーの表示",
+    "companies": "企業"
+  },
+  "tab_navigation": {
+    "invoices": "請求書",
+    "customers": "顧客",
+    "payments": "支払い",
+    "expenses": "費用",
+    "more": "その他"
+  },
+  "invoices": {
+    "title": "請求書の",
+    "tabs": {
+      "due": "デュー",
+      "draft": "ドラフト",
+      "all": "オール"
+    },
+    "invoice_date": "請求書日付",
+    "due_date": "期限",
+    "discount": "ディスカウント",
+    "invoice_number": "請求書番号",
+    "reference_number": "参照番号",
+    "template": "テンプレート",
+    "template_placeholder": "新規テンプレートの選択または追加",
+    "customer": "顧客",
+    "customer_placeholder": "新規顧客の選択または追加",
+    "items": "事項",
+    "subtotal": "小計",
+    "total_amount": "合計金額",
+    "status": "状況",
+    "status_placeholder": "状況の選択",
+    "from_date": "開始日",
+    "to_date": "終了日",
+    "alert": {
+      "less_amount": "合計金額は 0 より小さくなければなりません",
+      "remove_description": "この請求書を復旧することはできません",
+      "draft_title": "変更を保存する",
+      "clone": "この請求書は新規請求書に複製されます",
+      "send_invoice": "この請求書はお客様に電子メールで送信されます",
+      "mark_as_sent": "この請求書は送信済みとマークされ"
+    },
+    "empty": {
+      "due": {
+        "title": "期限請求書はありません",
+        "description": "このセクションには、期限付き請求書のリストが含まれます。"
+      },
+      "draft": {
+        "title": "ドラフト請求書がありません",
+        "description": "このセクションには、ドラフト請求書のリストが含まれます。"
+      },
+      "all": {
+        "title": "請求書を作成していません"
+      },
+      "title": "請求書はまだありません",
+      "description": "このセクションには、請求書のリストが表示されます。",
+      "button_title": "新規請求書の"
+    },
+    "actions": {
+      "send_invoice": "請求書を",
+      "resend_invoice": "販売請求書の",
+      "delete": "削除",
+      "record_payment": "支払いの記録",
+      "mark_as_sent": "送信済みのマーク",
+      "clone": "請求書の複製"
+    }
+  },
+  "recurring_invoices": {
+    "start_date": "開始日",
+    "next_invoice_at": "次の請求書",
+    "limit_by": "制限",
+    "select_frequency": "頻度の選択",
+    "display_frequency": "周波数",
+    "basic_info": "基本情報",
+    "invoices": "請求書",
+    "alert_description": "この繰り返し請求書をリカバリーすることはできません",
+    "from_start_at_date": "開始日から開始",
+    "to_start_at_date": "開始予定日",
+    "auto_sent": {
+      "label": "請求を自動的に",
+      "description": "作成時に請求書を自動的に顧客に送信したい場合は、これを有効にします。"
+    },
+    "status": {
+      "title": "状況",
+      "placeholder": "状況の選択",
+      "empty": {
+        "title": "ステータスがありません",
+        "description": "このセクションには、状況のリストが含まれます。"
+      }
+    },
+    "tabs": {
+      "active": "アクティブ",
+      "on_hold": "保留中",
+      "all": "オール"
+    },
+    "empty": {
+      "active": {
+        "title": "アクティブな繰り返し請求書はありません",
+        "description": "このセクションには、アクティブな繰り返し請求書のリストが表示されます。"
+      },
+      "on_hold": {
+        "title": "保留中の繰り返し請求書はありません",
+        "description": "このセクションには、保留された繰り返し請求書のリストが含まれます。"
+      },
+      "all": {
+        "title": "繰り返し請求書を作成していません"
+      },
+      "title": "繰り返し請求書はありません。",
+      "description": "このセクションには、繰り返し請求書のリストが含まれます。",
+      "button_title": "新規繰り返し請求書の追加"
+    },
+    "limit_types": {
+      "none": "なし",
+      "date": "制限日",
+      "count": "伯爵"
+    },
+    "frequencies": {
+      "custom": "カスタム",
+      "every_minute": "すべての分",
+      "every_30_minute": "30 分ごと",
+      "every_hour": "すべての時間",
+      "every_2_hour": "2 時間ごと",
+      "twice_a_day": "トワイス A デー",
+      "every_week": "毎週",
+      "every_15_days": "15 日ごと",
+      "first_day_of_month": "月の最初の日",
+      "every_6_month": "6 カ月ごと",
+      "every_year": "毎年"
+    },
+    "dropdown": {
+      "edit": "編集",
+      "delete": "削除"
+    }
+  },
+  "customers": {
+    "display_name": "表示名",
+    "contact_name": "主要連絡先名",
+    "email": "E メール",
+    "phone": "電話",
+    "website": "Web サイト",
+    "billing_address": "請求先住所",
+    "shipping_address": "配送先住所",
+    "customer": "顧客",
+    "filter_display_name": "表示名",
+    "filter_contact_name": "連絡先名",
+    "alert_description": "この顧客を復旧することはできません。",
+    "prefix": "接頭辞",
+    "address": {
+      "name": "名称",
+      "country": "カントリー",
+      "state": "状態",
+      "city": "シティ",
+      "address": "所在地",
+      "street_1": "番地 1",
+      "street_2": "番地 2",
+      "phone": "電話",
+      "zip_code": "郵便番号",
+      "same_as": "請求先住所からのコピー"
+    },
+    "remove_customer": "削除",
+    "empty": {
+      "title": "まだ顧客はいません",
+      "description": "このセクションには、顧客のリストが含まれます。",
+      "button_title": "新規顧客の追加",
+      "country": {
+        "title": "使用可能な国が"
+      },
+      "state": {
+        "title": "使用可能な状態なし"
+      },
+      "city": {
+        "title": "使用可能な市区"
+      }
+    },
+    "title": "顧客の選択",
+    "placeholder": "顧客の選択"
+  },
+  "payments": {
+    "date": "支払日",
+    "number": "支払番号",
+    "customer": "顧客",
+    "mode": "支払モード",
+    "modes": "支払モード",
+    "prefix": "支払接頭部",
+    "add_mode": "支払モードの追加",
+    "edit_mode": "支払モードの編集",
+    "mode_hint": "モード名",
+    "mode_placeholder": "支払モードの選択",
+    "amount": "金額",
+    "invoice": "インボイス",
+    "invoice_placeholder": "請求書の",
+    "send_receipt": "支払い受領の送信",
+    "alertAmount": "入力された支払は、この請求書の予定額を超えています。",
+    "alert_description": "この支払いを回復することはできません。",
+    "alert_mode": "この支払いモードを復旧することはできません。",
+    "remove_payment": "削除",
+    "empty": {
+      "title": "支払いがまだありません",
+      "description": "このセクションには支払いのリストが表示されます。",
+      "button_title": "新規支払いの追加"
+    },
+    "alert": {
+      "send_payment": "この支払い領収書は、指定された住所に E メールで送信されます"
+    }
+  },
+  "payment_modes": {
+    "empty": {
+      "title": "まだ決済モードがありません",
+      "description": "このセクションには、支払モードのリストが表示されます。"
+    }
+  },
+  "item_units": {
+    "empty": {
+      "title": "アイテムはまだありません。",
+      "description": "このセクションには、部品ユニットのリストが含まれます。"
+    }
+  },
+  "expenses": {
+    "receipt": "受領",
+    "date": "経費日付",
+    "from_date": "開始日",
+    "to_date": "終了日",
+    "amount": "金額",
+    "category": "種別",
+    "category_placeholder": "カテゴリーの選択",
+    "notes": "備考",
+    "notes_placeholder": "追加メモ",
+    "view_receipt": "受入の表示",
+    "alert_description": "この経費を回収できません",
+    "remove_expense": "削除",
+    "empty": {
+      "title": "まだ費用はない !",
+      "description": "このセクションには、経費のリストが含まれます。",
+      "button_title": "新規経費の追加"
+    }
+  },
+  "items": {
+    "title": "アイテムの選択",
+    "name": "アイテム名",
+    "description": "説明 (オプション)",
+    "quantity": "数量",
+    "price": "プライス",
+    "subtotal": "小計",
+    "discount_type": "割引タイプ",
+    "discount": "ディスカウント",
+    "final_discount": "ディスカウント",
+    "final_amount": "金額",
+    "taxes": "税",
+    "select_tax": "新規税の選択または追加",
+    "unit": "ユニット",
+    "unit_hint": "ユニット名",
+    "add_hint": "部品ユニットの追加",
+    "edit_hint": "項目単位の編集",
+    "unit_placeholder": "単位の選択",
+    "alert_description": "この項目をリカバリーすることはできません",
+    "alert_unit": "この項目単位を回復することはできません",
+    "less_amount": "合計が 0 未満で実行されていない合計金額",
+    "already_attach_title": "失敗したアクション",
+    "already_attach_description": "既に使用されている部品は削除できません",
+    "empty": {
+      "title": "まだアイテムがない !",
+      "description": "このセクションには、項目のリストが含まれます。",
+      "button_title": "新規項目の追加"
+    }
+  },
+  "more": {
+    "estimate": "推定",
+    "recurring_invoice": "繰り返し請求書",
+    "items": "事項",
+    "reports": "レポート",
+    "settings": "設定",
+    "logout": "ログアウト",
+    "users": "利用者"
+  },
+  "categories": {
+    "title": "カテゴリー名",
+    "description": "解説",
+    "alert_description": "このカテゴリーをリカバリーすることはできません",
+    "empty": {
+      "title": "カテゴリーがまだありません",
+      "description": "このセクションには、カテゴリーのリストが含まれます。",
+      "button_title": "新規カテゴリーの追加"
+    }
+  },
+  "notes": {
+    "notes": "備考",
+    "title": "メモ名",
+    "description": "解説",
+    "model_placeholder": "タイプの選択",
+    "alert_description": "このメモを回復することはできません。",
+    "empty": {
+      "title": "まだメモはない !",
+      "description": "このセクションには、メモのリストが含まれます。",
+      "button_title": "新規メモの追加"
+    },
+    "placeholder": {
+      "invoice": "請求書に表示される追加",
+      "estimate": "見積に表示される追加メモ",
+      "payment": "支払いに表示される追加メモ"
+    },
+    "type": "メモ・タイプ",
+    "select": "メモの選択",
+    "insert_note": "+ ノートを挿入",
+    "insert_fields": "+ フィールドの挿入"
+  },
+  "units": {
+    "empty": {
+      "title": "まだユニットはない !",
+      "description": "このセクションには、部品ユニットのリストが含まれます。",
+      "button_title": "新規アイテム・ユニットの追加"
+    }
+  },
+  "settings": {
+    "account_settings": "アカウント設定",
+    "company_information": "会社情報",
+    "preference": "設定",
+    "notification": "届出",
+    "taxes": "税タイプ",
+    "expense_category": "経費のカテゴリー",
+    "payment_modes": "支払モード",
+    "item_units": "部品単位",
+    "touch_or_Face_id": "タッチ / フェース ID",
+    "endpoint": "API エンドポイント",
+    "company": {
+      "name": "会社名",
+      "phone": "電話",
+      "address": "所在地",
+      "street_1": "番地 1",
+      "street_2": "番地 2",
+      "zip_code": "郵便番号",
+      "logo": "会社ロゴ"
+    },
+    "account": {
+      "name": "名称",
+      "email": "E メール",
+      "password": "パスワード",
+      "confirm_password": "パスワードの確認",
+      "version": "バージョン"
+    },
+    "notifications": {
+      "send": "通知の送信先",
+      "invoice_viewed": "請求書の表示",
+      "invoice_viewed_description": "顧客が、 E メールを介して送信された請求書リンクを表示する",
+      "estimate_viewed": "見積もりの見積もり",
+      "estimate_viewed_description": "顧客が、 E メールで送信された見積もりリンクを表示する場合。"
+    },
+    "preferences": {
+      "currency": "通貨",
+      "currency_placeholder": "通貨の選択",
+      "language": "デフォルト言語",
+      "language_placeholder": "言語の選択",
+      "time_zone": "タイム・ゾーン",
+      "time_zone_placeholder": "時間帯の選択",
+      "date_format": "日付形式",
+      "date_format_placeholder": "日付形式の選択",
+      "fiscal_year": "会計年度",
+      "fiscal_year_placeholder": "会計年度の選択",
+      "discount_per_item": "アイテムごとの割引",
+      "discount_per_item_placeholder": "個別の請求書項目にディスカウントを追加する場合は、これを有効にします。 デフォルトでは、ディスカウントは請求書に直接追加されます。",
+      "tax_per_item": "アイテムごとの税",
+      "tax_per_item_placeholder": "個別の請求書項目に税金を追加する場合は、これを有効にします。 デフォルトでは、税金は直接請求書に追加されます。",
+      "retrospective_edits": "振り返り編集",
+      "create_status": "状況の作成",
+      "active": "アクティブ",
+      "on_hold": "保留中",
+      "completed": "竣工"
+    },
+    "notes": "備考"
+  },
+  "login": {
+    "email": "E メールの入力",
+    "password": "パスワードの入力",
+    "invalid": "これらの資格情報は、弊社のレコードと一致"
+  },
+  "logout": {
+    "confirmation": "ログアウトしますか ?",
+    "title": "ログアウト"
+  },
+  "forgot": {
+    "email_label": "E メールを入力し、パスワードのリセット・リンクを送信します。",
+    "email_placeholder": "E メールの入力",
+    "email_send_description": "パスワードのリセットのリンクが E メールに送信されました。新規パスワードを作成するには、 E メールの説明に従ってください。",
+    "email_send_error": "E メールをこの E メール・アドレスに送信できませんでした。"
+  },
+  "lost_internet": {
+    "title": "接続逸失",
+    "description": "モバイル接続または WiFi 設定を確認してインターネット接続を確認してから、再試行してください。"
+  },
+  "update_app": {
+    "title": "アプリケーション・バージョンが有効期限切れです !",
+    "description": "このバージョンのアプリケーションは古くなっています。 Craterを使用するには、最新の更新をインストールしてください。"
+  },
+  "endpoint": {
+    "endpoint_url": "エンドポイント URL",
+    "endpoint_desc": "Above URL は、セルフサービス・クレーターのセルフ・ホスト・インストールとの接続に使用されます。",
+    "url_placeholder": "Eg: https://craterapp.com",
+    "alert_invalid_url": "無効な URL"
+  },
+  "estimates": {
+    "tabs": {
+      "sent": "送信済み",
+      "draft": "ドラフト",
+      "all": "オール"
+    },
+    "estimate_date": "推定日",
+    "expiry_date": "有効期限日付",
+    "estimate_number": "見積番号",
+    "template": "テンプレート",
+    "template_placeholder": "新規テンプレートの選択または追加",
+    "customer": "顧客",
+    "customer_placeholder": "新規顧客の選択または追加",
+    "tax_placeholder": "+ 税金の追加",
+    "add_item": "アイテムの追加",
+    "from_date": "開始日",
+    "to_date": "終了日",
+    "status": "状況",
+    "status_placeholder": "状況の選択",
+    "total_amount": "合計金額",
+    "alert": {
+      "convert_to_invoice_description": "この見積もりを請求書に変換しますか ?",
+      "remove_description": "この見積もりを復旧することはできません",
+      "less_amount": "合計が 0 未満で実行されていない合計金額",
+      "draft_title": "変更を保存する",
+      "send_estimate": "この見積もりは E メールでお客様に送信されます",
+      "mark_as_sent": "この見積もりは送信済みとマークされます",
+      "mark_as_accept": "この見積は「受け入れ済み」とマークされます",
+      "mark_as_reject": "この見積は「拒否済み」とマークされます"
+    },
+    "empty": {
+      "sent": {
+        "title": "送信済み見積もりがありません",
+        "description": "このセクションには、送信済み見積もりのリストが含まれます。"
+      },
+      "draft": {
+        "title": "ドラフトの見積もりがありません",
+        "description": "このセクションには、ドラフト見積もりのリストが含まれます。"
+      },
+      "all": {
+        "title": "見積もりを作成していません",
+        "description": "このセクションには、見積もりのリストが含まれます。"
+      },
+      "button_title": "新規見積もりの追加"
+    },
+    "actions": {
+      "send_estimate": "見積もりの送信",
+      "resend_estimate": "再送推定値",
+      "delete": "削除",
+      "convert_to_invoice": "請求書に変換",
+      "mark_as_sent": "送信済みのマーク",
+      "mark_as_accepted": "受け入れ済みとしてマーク",
+      "mark_as_rejected": "拒否としてマーク"
+    }
+  },
+  "currencies": {
+    "title": "通貨",
+    "name": "名称",
+    "empty": {
+      "title": "まだ通貨はありません",
+      "description": "このセクションには、通貨のリストが含まれます。",
+      "button_title": "新規通貨の追加"
+    }
+  },
+  "custom_fields": {
+    "name": "名称",
+    "model": "モデル",
+    "model_placeholder": "モデルの選択",
+    "type": "種類",
+    "type_placeholder": "タイプの選択",
+    "required": "必須",
+    "label": "ラベル",
+    "default_value": "デフォルト値",
+    "display_in_Portal": "ポータルに表示",
+    "placeholder": "プレースホルダー",
+    "order": "命令",
+    "yes": "そうだ",
+    "no": "違う。",
+    "check": "デフォルトでは「対象」",
+    "options": "オプション",
+    "remove_alert_description": "このカスタム・フィールドをリカバリーすることはできません",
+    "already_in_use": "既に使用されているフィールドのモデルを更新できません。",
+    "empty": {
+      "title": "カスタム・フィールドはありません",
+      "description": "このセクションには、カスタム・フィールドのリストが含まれます。",
+      "button_title": "新規カスタム・フィールドの追加"
+    }
+  },
+  "languages": {
+    "title": "言語の選択",
+    "empty": {
+      "title": "言語はまだありません",
+      "description": "このセクションには、言語のリストが含まれます。"
+    }
+  },
+  "time_zones": {
+    "title": "タイムゾーンの選択",
+    "empty": {
+      "title": "タイムゾーンはまだありません !",
+      "description": "このセクションには、タイムズーンのリストが表示されます。"
+    }
+  },
+  "date_formats": {
+    "title": "日付形式の選択",
+    "empty": {
+      "title": "日付形式がまだありません",
+      "description": "このセクションには、日付形式のリストが含まれます。"
+    }
+  },
+  "fiscal_years": {
+    "title": "会計年度の選択",
+    "empty": {
+      "title": "会計年度はまだです !",
+      "description": "このセクションには、会計年度のリストが含まれます。"
+    }
+  },
+  "retrospective_edits": {
+    "title": "振り返り編集の選択",
+    "empty": {
+      "title": "振り返り編集がありません。",
+      "description": "このセクションには、 Retrospective Editsのリストが含まれています。"
+    }
+  },
+  "countries": {
+    "empty": {
+      "title": "まだ国はない !",
+      "description": "このセクションには、国のリストが含まれます。"
+    }
+  },
+  "reports": {
+    "sales": "売上",
+    "profit_and_loss": "利益と損失",
+    "expenses": "費用",
+    "taxes": "税",
+    "date_range": "日付範囲の選択",
+    "from_date": "開始日",
+    "to_date": "終了日",
+    "report_type": "レポート・タイプ",
+    "by_customer": "顧客別",
+    "by_item": "項目別",
+    "today": "現代",
+    "this_week": "今週",
+    "this_month": "今月",
+    "this_quarter": "この四半期",
+    "this_year": "今年",
+    "current_fiscal_quarter": "現在の会計四半期",
+    "current_fiscal_year": "現在の会計年度",
+    "previous_week": "前の週",
+    "previous_month": "前の月",
+    "previous_quarter": "前の四半期",
+    "previous_year": "前年",
+    "previous_fiscal_quarter": "前の会計四半期",
+    "previous_fiscal_year": "前の会計年度",
+    "custom": "カスタム"
+  },
+  "taxes": {
+    "title": "税",
+    "type": "税金名",
+    "description": "解説",
+    "percentage": "税の割合",
+    "compound_tax": "複合税",
+    "alert_description": "この税金を回収することはできません。",
+    "empty": {
+      "title": "税金タイプはまだありません",
+      "description": "このセクションには、税金タイプのリストが表示されます。",
+      "button_title": "税金タイプの追加"
+    }
+  },
+  "touch_face_id": {
+    "touch_id": "タッチ ID",
+    "face_id": "フェース ID",
+    "finger": "フィンガープリント",
+    "face": "フェイス",
+    "not_compatible": "デバイスに互換性がありません。",
+    "hardware_not_available": "{{type}} ハード・ウェアは使用できません。",
+    "activated": "{{type}} がアクティブになりました",
+    "enable_login": "{{type}} ログイン",
+    "enable_login_hint": "{{type}} を使用して、より迅速かつ簡単にアカウントにアクセスできるようになりました。",
+    "subtitle_1": "アプリを使用した認証",
+    "subtitle_2": "{{type}} パスワードを入力する代わりに、",
+    "login": "{{type}} でログインします"
+  },
+  "file_picker": {
+    "file": "ここをクリックしてファイルを選択してください",
+    "permission": "この作業を行うには、カメラ・ロールのアクセス権が必要です。",
+    "camera": "カメラ",
+    "gallery": "ギャラリー",
+    "document": "文書"
+  },
+  "send_mail": {
+    "from": "差出人",
+    "to": "宛先",
+    "subject": "科目",
+    "body": "本文"
+  },
+  "alert": {
+    "title": "- 確かか ?",
+    "action": {
+      "discard": "破棄",
+      "save_as_draft": "ドラフトとして保存"
+    }
+  },
+  "button": {
+    "remove": "削除",
+    "save": "セーブ",
+    "add": "追加",
+    "retry": "再試行",
+    "done": "ドーネ",
+    "clear": "Clear - クリア",
+    "view_pdf": "PDF の表示",
+    "sing_in": "サインイン",
+    "forget": "パスワードを忘れたのか ?",
+    "update": "アップデート",
+    "update_capital": "アップデート",
+    "choose_template": "テンプレートの選択",
+    "generate_report": " レポートの生成",
+    "recovery_email": "リセット送信リンク",
+    "recovery_email_again": "再送信",
+    "cancel": "キャンセル",
+    "send": "送信",
+    "change": "チェンジ",
+    "set_up_now": "今すぐセットアップ",
+    "later": "後で実行します",
+    "refresh": "リフレッシュ",
+    "preview": "プレビュー"
+  },
+  "filter": {
+    "empty": {
+      "filter_title": "結果が見つかりませ"
+    }
+  },
+  "search": {
+    "title": "サーチ",
+    "no_result": "\"{{search}}\" の結果がありません",
+    "no_search_result": "結果 :"
+  },
+  "validation": {
+    "required": "必須フィールドが空です",
+    "choose": "1 つ以上の項目を選択",
+    "email": "有効な E メール・アドレスを入力してください",
+    "password_compare": "パスワードが一致しません",
+    "minimum_number": "0 より大きくなければなりません",
+    "maximum_number": "は {{maxNumber}} より小さくなければなりません",
+    "maximum_character": "{{fieldName}} は {{maxCharacter}} 文字未満でなければなりません。",
+    "character": "文字のみ",
+    "numeric": "は数値である必要",
+    "more_than_due": "{{hint}} 期限切れの金額を超えてはなりません。",
+    "url": "無効な URL (例 : https://craterapp.com)",
+    "wrong": "何かがおかしい もう一度やり直してください。",
+    "min_character": "少なくとも {{minCharacter}} 文字を入力してください",
+    "cron": "有効な cron 形式を入力してください。"
+  },
+  "company": {
+    "switch_company": "スイッチ会社",
+    "add_new_company": "新規企業の追加"
+  },
+  "roles": {
+    "add_new_role": "新規役割の追加",
+    "alert_description": "この役割を回復することはできません",
+    "empty": {
+      "title": "役割がありません。",
+      "description": "このセクションには、役割のリストが含まれます。"
+    },
+    "name": "名称",
+    "permissions": "アクセス権",
+    "select_all": "すべて選択",
+    "none": "なし",
+    "select_role_for": "{{name}} の役割を選択してください"
+  },
+  "users": {
+    "add_new_user": "新規ユーザーの追加",
+    "alert_description": "このユーザーを復旧することはできません",
+    "empty": {
+      "title": "まだユーザーがいません",
+      "description": "このセクションには、ユーザーのリストが含まれます。"
+    },
+    "name": "名称",
+    "email": "E メール",
+    "phone": "電話",
+    "password": "パスワード",
+    "role": "役割",
+    "roles": "役割",
+    "role_placeholder": "役割の選択"
+  },
+  "exchange_rate": {
+    "label": "為替レート",
+    "selected_currency": "1 {{selectedCurrency} } = ",
+    "exchange_help_text": "{ {selectedCurrency}} から {{baseCurrency}}に変換する為替レートを入力してください。"
+  },
+  "actions": {
+    "new_estimate": "新規見積",
+    "new_invoice": "新規請求書",
+    "new_payment": "新規支払い",
+    "new_expense": "新規経費"
+  },
+  "companies": {
+    "empty": {
+      "title": "まだ企業じゃない !",
+      "description": "このセクションには、企業のリストが含まれます。"
+    }
+  },
+  "notification": {
+    "success": "成功!",
+    "error": "エラー!",
+    "login_success": "正常にログインしました",
+    "customer_created": "顧客が正常に作成",
+    "customer_updated": "顧客が正常に更新",
+    "customer_deleted": "顧客が正常に削除",
+    "role_created": "役割は正常に作成",
+    "role_updated": "役割は正常に更新",
+    "role_deleted": "役割は正常に削除",
+    "expense_category_created": "経費カテゴリーを正常に作成しました",
+    "expense_category_updated": "経費カテゴリーを正常に更新しました",
+    "expense_category_deleted": "経費カテゴリーを正常に削除しました",
+    "expense_already_in_use": "経費カテゴリーは既に使用されています",
+    "note_created": "正常に作成された",
+    "note_updated": "メモは正常に更新",
+    "note_deleted": "メモは正常に削除",
+    "note_already_in_use": "注は既に使用中です",
+    "custom_field_created": "カスタム・フィールドを正常に作成",
+    "custom_field_updated": "カスタム・フィールドを正常に更新",
+    "custom_field_deleted": "カスタム・フィールドを正常に削除",
+    "custom_field_already_in_use": "カスタム・フィールドは既に使用中です",
+    "tax_created": "正常に作成された税金タイプ",
+    "tax_updated": "税金タイプの更新が正常に",
+    "tax_deleted": "税金タイプの削除が正常に",
+    "tax_already_in_use": "税金は既に使用中です",
+    "setting_updated": "更新が正常に更新",
+    "invoice_setting_updated": "請求書設定が正常に更新",
+    "estimate_setting_updated": "見積設定が正常に更新され",
+    "payment_setting_updated": "支払設定が正常に更新さ",
+    "payment_mode_created": "支払モードの作成に成功",
+    "payment_mode_updated": "支払モードの更新が正常に",
+    "payment_mode_deleted": "支払モードの削除に成功",
+    "payment_mode_already_in_use": "支払モードは既に使用されています",
+    "item_unit_created": "アイテム・ユニットが正常に作成",
+    "item_unit_updated": "アイテム・ユニットが正常に更新",
+    "item_unit_deleted": "アイテム・ユニットが正常に削除",
+    "item_unit_already_in_use": "部品ユニットは既に使用されています",
+    "preference_updated": "設定が正常に更新",
+    "company_updated": "情報が正常に更新され",
+    "account_updated": "アカウントの設定が正常に更新",
+    "user_created": "ユーザー作成に成功",
+    "user_updated": "ユーザーが正常に更新",
+    "user_deleted": "ユーザーを正常に削除",
+    "item_created": "項目が正常に作成",
+    "item_updated": "項目は正常に更新",
+    "item_deleted": "項目は正常に削除",
+    "estimate_created": "見積もりが正常に作成され",
+    "estimate_updated": "見積もりが正常に完了しました",
+    "estimate_deleted": "見積もりが正常に完了しました",
+    "estimate_sent": "見積もりが正常に完了しました",
+    "estimate_mark_as_sent": "見積が正常に送信されました",
+    "estimate_marked_as_accepted": "見積としてマークが付けられた",
+    "estimate_marked_as_rejected": "拒否のマークが付いた見積",
+    "expense_created": "経費は正常に作成され",
+    "expense_updated": "経費は正常に更新され",
+    "expense_deleted": "経費は正常に削除され",
+    "payment_created": "支払いが正常に作成",
+    "payment_updated": "支払いが正常に更新",
+    "payment_deleted": "支払いが正常に削除",
+    "payment_sent": "支払いが正常に送信",
+    "invoice_created": "請求書は正常に",
+    "invoice_updated": "請求書の更新",
+    "invoice_deleted": "請求が正常に削除",
+    "invoice_marked_as_sent": "送り状が正常に送信された",
+    "invoice_sent": "請求書の送信",
+    "invoice_cloned": "請求書の複製",
+    "recurring_invoice_created": "繰り返し請求が正常に作成されました",
+    "recurring_invoice_updated": "繰り返し請求書が正常に更新されました",
+    "recurring_invoice_deleted": "繰り返し請求が正常に削除されました",
+    "password_reset_link": "パスワードのリセット・リンクが正常に送信されました。",
+    "company_created": "会社が正常に作成"
+  }
+}

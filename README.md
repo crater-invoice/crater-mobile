@@ -29,7 +29,7 @@ Below are the steps for starting up the crater app locally for development. If y
 
 ## Web
 
--   [Repository Link](https://github.com/bytefuryco/crater)
+-   [Repository Link](https://github.com/crater-invoice/crater)
 -   [Download Link](https://craterapp.com/downloads)
 
 ## Mobile App Links
@@ -37,14 +37,14 @@ Below are the steps for starting up the crater app locally for development. If y
 -   [Android](https://play.google.com/store/apps/details?id=com.craterapp.app)
 -   [IOS](https://apps.apple.com/app/id1489169767)
 
-## Credits
+## Copyright
 
-Crater is a product of [Bytefury](https://bytefury.com)
+© 2021 Crater Invoice, Inc.
 
 ## License
 
-Crater is released under the Attribution Assurance License.
-See [LICENSE](https://craterapp.com/license) for full details & use-cases.
+Crater is released under the GNU AFFERO GENERAL PUBLIC LICENSE Version 3.
+See [LICENSE](LICENSE) for details.
 
 ## Release Channels:
 

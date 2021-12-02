@@ -1,10 +1,16 @@
 /**
- * Main Root component imported for export crater app.
  *
- * @version 1.0.0
- * @author [crater](https://craterapp.com)
+ * Main app
+ *
+ * App Name:          Crater Invoice
+ * Author:            Bytefury
+ *
+ * @since             5.0.1
+ *
+ * @format
+ * @flow
  */
 
-import App from './src'
+import App from './src';
 
-export default App
+export default App;

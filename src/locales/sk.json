@@ -1,0 +1,759 @@
+{
+  "header": {
+    "invoices": "Faktúry",
+    "addInvoice": "Nová faktúra",
+    "editInvoice": "Úprava faktúry",
+    "estimates": "Cenový odhad",
+    "addEstimate": "Nový cenový odhad",
+    "editEstimate": "Upraviť cenový odhad",
+    "template": "Výber vzhľadu",
+    "customers": "Zákazníci",
+    "addCustomer": "Pridať zákazníka",
+    "editCustomer": "Upraviť zákazníka",
+    "selectCurrency": "Výber meny",
+    "billingAddress": "Fakturačná adresa",
+    "shippingAddress": "Adresa doručenia",
+    "country": "Výber krajiny",
+    "state": "Výber štátu",
+    "city": "Výber mesta",
+    "payments": "Platby",
+    "addPayment": "Pridať platbu",
+    "editPayment": "Upraviť platbu",
+    "expenses": "Výdaje",
+    "addExpense": "Pridať výdaj",
+    "editExpense": "Upraviť výdaj",
+    "more": "Viac",
+    "expenseCategory": "Kategórie výdajov",
+    "addCategory": "Pridať kategóriu",
+    "editCategory": "Upraviť kategóriu",
+    "addNote": "Pridať poznámku",
+    "editNote": "Upraviť poznámku ",
+    "settings": "Nastavenia",
+    "notifications": "Upoozornenia",
+    "setting": {
+      "company": "Informácie o spoločnosti",
+      "account": "Nastavenie účtu",
+      "preferences": "Preferencie",
+      "LanguageAndCurrency": "Jazyk a Mena",
+      "endpoint": "API Endpoint"
+    },
+    "taxes": "Typy daní",
+    "addTaxes": "Pridať daň",
+    "editTaxes": "Upraviť daň",
+    "addItem": "Pridať položku",
+    "editItem": "Upraviť položku",
+    "items": "Položky",
+    "units": "Jednotky",
+    "reports": "Reporty",
+    "salesReport": "Report predajov",
+    "profitAndLossReport": "Zisky a Straty",
+    "expensesReport": "Výdaje",
+    "taxesReport": "Dane",
+    "customize": "Prispôsobenie",
+    "filter": "Filter",
+    "back": "Naspäť",
+    "addresses": "Adresy",
+    "currencies": "Meny",
+    "addCurrency": "Pridať menu",
+    "editCurrency": "Upraviť menu",
+    "sendMailInvoice": "Odoslať faktúru",
+    "sendMailEstimate": "Odoslať cenový odhad",
+    "sendMailPayment": "Odoslať platbu",
+    "recurringInvoice": "Pravidelné faktúry",
+    "addRecurring": "Pridať pravidelnú faktúru",
+    "editRecurring": "Upraviť pravidelnú faktúru",
+    "customFields": "Vlastné polia",
+    "addCustomField": "Pridať vlastné pole",
+    "editCustomField": "Upraviť vlastné pole",
+    "notes": "Poznámky",
+    "viewCustomer": "Zobraziť zákazníka",
+    "viewPayment": "Zobraziť platbu",
+    "viewExpense": "Zobraziť náklady",
+    "viewInvoice": "Zobraziť faktúru",
+    "viewEstimate": "Zobraziť odhad",
+    "viewItem": "Zobraziť položku",
+    "viewTax": "Zobraziť daň",
+    "viewCustomField": "Zobraziť vlastné pole",
+    "viewNote": "Zobraziť poznámku",
+    "viewCategory": "Zobraziť kategóriu",
+    "viewUnit": "Zobraziť jednotku položky",
+    "viewPaymentMode": "Zobraziť režim platby"
+  },
+  "tabNavigation": {
+    "invoices": "Faktúry",
+    "customers": "Zákazníci",
+    "payments": "Platby",
+    "expenses": "Výdaje",
+    "more": "Viac"
+  },
+  "invoices": {
+    "title": "Faktúry",
+    "tabs": {
+      "DUE": "Termín",
+      "DRAFT": "Koncept",
+      "ALL": "Všetko"
+    },
+    "invoiceDate": "Dátum Vystavenia",
+    "dueDate": "Dátum splatnosti",
+    "discount": "Zľava",
+    "invoiceNumber": "Číslo faktúry",
+    "referenceNumber": "Referenčné číslo",
+    "template": "Vzhľad",
+    "templatePlaceholder": "Vybrať alebo vytvoriť nový vzhľad",
+    "customer": "Zákazník",
+    "customerPlaceholder": "Vybrať alebo vytvoriť nového zákazníka",
+    "items": "Položky",
+    "unit": "Jednotky",
+    "addItem": "Pridať položku",
+    "notes": "Poznámky",
+    "notePlaceholder": "Dodatočné poznámky zobrazené na faktúre",
+    "termsCondition": "Podmienky",
+    "taxPlaceholder": "+ Pridať daň",
+    "subtotal": "Medzisúčet",
+    "totalAmount": "Súčet",
+    "status": "Stav",
+    "statusPlaceholder": "Vyberte stav",
+    "paidStatus": "Stav platby",
+    "paidStatusPlaceholder": "Vyberte stav platby",
+    "fromDate": "Od dátumu",
+    "toDate": "Do dátumu",
+    "profileName": "Názov profilu",
+    "repeatEvery": "Opakovat každý",
+    "repeatRecurring": {
+      "week": "Týždeň",
+      "weeks": "{{week}} Týždeň",
+      "month": "Mesiac",
+      "months": "{{month}} Mesiac",
+      "year": "Roky",
+      "years": "{{year}} Roky",
+      "custom": "Vlastné"
+    },
+    "customRepeatRecurring": {
+      "days": "Deň(Dni)",
+      "weeks": "Týždeň(ne)",
+      "months": "Mesiac(e)",
+      "years": "Rok(y)"
+    },
+    "startOn": "Začiatok",
+    "endsOn": "Koniec",
+    "neverExpire": "Neobmedzená platnosť",
+    "alert": {
+      "lessAmount": "Celková suma nesmie byt nižšia ako 0",
+      "removeDescription": "Túto faktúru nebudete môcť obnoviť",
+      "paymentAttachedTitle": "Akcia neúspešná",
+      "paymentAttachedDescription": "Nie je možné zmazať fakúru s existujúcou platbou",
+      "draftTitle": "Uložiť zmeny?",
+      "alreadyInUseNumber": "Číslo faktúry sa už používa",
+      "sendEmail": "Táto faktúra bude odoslaná zákazníkovi emailom",
+      "clone": "Faktúra bude okopírovaná do novej",
+      "sendInvoice": "Táto faktúra bude odoslaná zákazníkovi emailom",
+      "markAsSent": "Označit faktúru ako odoslanú"
+    },
+    "empty": {
+      "due": {
+        "title": "Niesú žiadne splatné faktúry!",
+        "description": "Tato sekcia bude obsahovať zoznam splatných faktúr"
+      },
+      "draft": {
+        "title": "Niesú žiadne koncepty faktúr!",
+        "description": "Táto sekcia bude obsahovať zoznam konceptov faktúr"
+      },
+      "all": {
+        "title": "Ešte ste nevytvorili žiadnu faktúru!"
+      },
+      "title": "Zatiaľ žiadne faktúry!",
+      "description": "Táto sekcia bude obsahovať zoznam faktúr",
+      "buttonTitle": "Vytvoriť novú faktúru"
+    },
+    "actions": {
+      "downloadPdf": "Stiahnuť PDF",
+      "sendInvoice": "Odoslať faktúru",
+      "reSendInvoice": "Znova odoslať faktúru",
+      "editInvoice": "Upraviť faktúru",
+      "delete": "Zmazať",
+      "recordPayment": "Zaznamenať platbu",
+      "markAsSent": "Označit ako odoslanú",
+      "clone": "Okopírovať faktúru"
+    }
+  },
+  "customers": {
+    "displayName": "Zobrazované meno",
+    "contactName": "Meno primárneho kontaktu",
+    "email": "Email",
+    "name": "Meno",
+    "phone": "Telefón",
+    "website": "Webové stránky",
+    "currency": "Mena",
+    "billingAddress": "Fakturačná adresa",
+    "shippingAddress": "Doručovacia Adresa",
+    "customer": "Zákazník",
+    "company": "Firma",
+    "enablePortal": "Povoliť portál",
+    "password": "Heslo",
+    "filterDisplayName": "Zobrazované meno",
+    "filterContactName": "Kontaktné meno",
+    "alertEmailAlreadyInUse": "Emailová adresa sa uz používa",
+    "alertDescription": "Nebude možné obnoviť zákazníka",
+    "address": {
+      "name": "Meno",
+      "country": "Krajina",
+      "state": "Štát",
+      "city": "Mesto",
+      "address": "Adresa",
+      "street1": "Ulica 1",
+      "street2": "Ulica 2",
+      "addressStreet1": "Ulica adresy 1",
+      "addressStreet2": "Ulica adresy 2",
+      "phone": "Telefón",
+      "zipcode": "PSČ",
+      "sameAs": "Kopírovať podľa fakturačnej adresy"
+    },
+    "removeCustomer": "Zmazať",
+    "empty": {
+      "title": "Zatiaľ žiadny zákazníci!",
+      "description": "Táto sekcia bude obsahovať zoznam zákazníkov",
+      "buttonTitle": "Pridať nového zákazníka",
+      "country": {
+        "title": "Nie je dostupná krajina"
+      },
+      "state": {
+        "title": "Nie je dostupny štát"
+      },
+      "city": {
+        "title": "Nie je dostupné mesto"
+      }
+    },
+    "title": "Vybrať zákazníka",
+    "placeholder": "Vybrať zákazníka"
+  },
+  "payments": {
+    "date": "Dátum platby",
+    "number": "Číslo platby",
+    "customer": "Zákazník",
+    "customerPlaceholder": "Vybrať alebo vytvoriť nového zákazníka",
+    "mode": "Spôsob platby",
+    "modes": "Spôsoby platieb",
+    "prefix": "Predpona",
+    "addMode": "Pridať spôsob platby",
+    "editMode": "Upraviť spôsob platby",
+    "modeHint": "Názov",
+    "modePlaceholder": "Vybrať spôsob platby",
+    "amount": "Čiastka",
+    "notes": "Poznámky",
+    "notesPlaceholder": "Dodatočné poznámky",
+    "invoice": "Faktúra",
+    "invoicePlaceholder": "Vybrať faktúru",
+    "sendReceipt": "Odoslať potvrdenie o platbe",
+    "alertAmount": "Zadaná platba je vyššia ako suma na faktúre",
+    "alertDescription": "Nebude možné obnoviť túto platbu",
+    "alertMode": "Nebude možné obnoviť spôsob platby",
+    "alreadyInUseMode": "Tento spôsob platby sa uz používa",
+    "alreadyInUseNumber": "Toto čislo platby už existuje",
+    "alertSendDescription": "Platba bude odoslaná zákazníkovi e-mailom",
+    "removePayment": "Zmazať",
+    "empty": {
+      "title": "Zatiaľ žiadne platby!",
+      "modeTitle": "Zatiaľ žiadne spôsoby platieb!",
+      "description": "Táto sekcia bude obsahovať zoznam platieb",
+      "buttonTitle": "Pridať novú platbu"
+    },
+    "alert": {
+      "sendPayment": "Toto potvrdenie o platbe bude zaslané e-mailom na uvedenú adresu"
+    }
+  },
+  "paymentMode": {
+    "empty": {
+      "title": "Zatiaľ žiadne spôsoby platieb!",
+      "description": "Táto sekcia bude obsahovať zoznam spôsobov platieb",
+      "buttonTitle": "Pridať nový spôsob platby"
+    }
+  },
+  "expenses": {
+    "receipt": "Doklad o zaplatení",
+    "date": "Dátum výdaju",
+    "fromDate": "Od dátumu",
+    "toDate": "Do dátumu",
+    "amount": "Čiastka",
+    "category": "Kategória",
+    "categoryPlaceholder": "Vybrať kategóriu",
+    "notes": "Poznámky",
+    "notesPlaceholder": "Dodatočné poznámky",
+    "viewReceipt": "Zobraziť doklad",
+    "alertDescription": "Nebude možné obnoviť tento výdaj",
+    "removeExpense": "Zmazať",
+    "noCategories": "Zatiaľ žiadne kategórie!",
+    "empty": {
+      "title": "Zatiaľ žiadne výdaje!",
+      "description": "Táto sekcia bude obsahovať zoznam výdajov",
+      "buttonTitle": "Pridať nový výdaj"
+    }
+  },
+  "items": {
+    "title": "Vybrať položku",
+    "name": "Názov položky",
+    "description": "Popis (voliteľné)",
+    "quantity": "Množstvo",
+    "price": "Cena",
+    "subTotal": "Medzisúčet",
+    "discountType": "Typ zľavy",
+    "discount": "Zľava",
+    "finalDiscount": "Zľava",
+    "finalAmount": "Čiastka",
+    "taxes": "Dane",
+    "selectTax": "Vybrať alebo pridať novú daň",
+    "unit": "Jednotka",
+    "unitHint": "Názov jednotky",
+    "addUnit": "Pridať jednotku položky",
+    "editUnit": "Upraviť jednotku položky",
+    "unitPlaceholder": "Vybrať jednotku",
+    "alertDescription": "Nebude možné obnoviť túto položku",
+    "alertUnit": "Nebude možné obnoviť túto jednotku položky",
+    "alreadyInUseUnit": "Jednotka položky uz existuje",
+    "lessAmount": "Celková suma nemôže byť nižšia ako 0",
+    "alreadyAttachTitle": "Akcia neúspešná",
+    "alreadyAttachDescription": "Nie je možné zmazať položku ktorá sa používa",
+    "empty": {
+      "title": "Zatiaľ žiadne položky!",
+      "description": "Táto sekcia bude obsahovať zoznam položiek",
+      "buttonTitle": "Pridať novú položku"
+    }
+  },
+  "more": {
+    "estimate": "cenový odhad",
+    "recurringInvoice": "Pravidelné",
+    "items": "Položky",
+    "reports": "Reporty",
+    "settings": "Nastavenia",
+    "logout": "Odhlásiť sa"
+  },
+  "categories": {
+    "title": "Názov kategórie",
+    "description": "Popis",
+    "alertDescription": "Nebude možne obnoviť túto kategóriu",
+    "alreadyUsed": "Kategória už existuje",
+    "empty": {
+      "title": "Zatiaľ žiadne kategórie!",
+      "description": "Táto sekcia bude obsahovať zoznam kategórii",
+      "buttonTitle": "Pridať novú kategóriu"
+    }
+  },
+  "notes": {
+    "title": "Názov poznámky",
+    "description": "Popis",
+    "model": "Model",
+    "modelPlaceholder": "Vybrať typ",
+    "alertDescription": "Nebude možné obnoviť túto poznámku",
+    "alreadyUsed": "Poznámka už existuje",
+    "empty": {
+      "title": "Zatiľ žiadne poznámky!",
+      "description": "Táto sekcia bude obsahovať zoznam poznámok",
+      "buttonTitle": "Pridať novú poznámku"
+    },
+    "type": "Typ poznámky",
+    "select": "Vybrať poznámku",
+    "insertNote": "+ Pridať poznámku",
+    "insertFields": "+ Pridať polia"
+  },
+  "units": {
+    "empty": {
+      "title": "Zatiaľ žiadne jednotky!",
+      "description": "Táto časť bude obsahovať zoznam jednotiek položiek.",
+      "buttonTitle": "Pridať novú jednotku položky"
+    }
+  },
+  "settings": {
+    "accountSettings": "Nastavenie účtu",
+    "companyInformation": "Informácie o firme",
+    "preference": "Preferencie",
+    "LanguageAndCurrency": "Jazyk a Mena",
+    "notification": "Upozornenia",
+    "taxes": "Typy daní",
+    "expenseCategory": "Kategórie výdajov",
+    "customize": "Prispôsobenie",
+    "endpoint": "API Endpoint",
+    "company": {
+      "name": "Názov firmy",
+      "email": "Email",
+      "phone": "Telefón",
+      "address": "Adresa",
+      "street1": "Ulica1",
+      "street2": "Ulica2",
+      "zipcode": "PSČ",
+      "website": "Webové stránky",
+      "logo": "Logo firmy"
+    },
+    "account": {
+      "name": "Meno",
+      "email": "Email",
+      "password": "Heslo",
+      "confirmPassword": "Potvrdiť heslo",
+      "version": "Verzia",
+      "avatar": "Profilová fotka"
+    },
+    "notifications": {
+      "send": "Odoslať notifikáciu",
+      "invoiceViewed": "Faktúra bola zobrazená",
+      "invoiceViewedUpdated": "Nastavenie upozornení bolo úspešne aktualizované",
+      "invoiceViewedDescription": "Keď zákazník zobrazí odkaz na faktúru odoslaný e-mailom.",
+      "estimateViewed": "Cenový odhad bol zobrazený",
+      "estimateViewedDescription": "Keď zákazník zobrazí odkaz na cenový odhad odoslaný e-mailom.",
+      "estimateViewedUpdated": "Nastavenie upozornení bolo úspešne aktualizované"
+    },
+    "preferences": {
+      "currency": "Mena",
+      "currencyPlaceholder": "Vybrať menu",
+      "language": "Jazyk",
+      "languagePlaceholder": "Vybrať jazyk",
+      "timeZone": "Časové pásmo",
+      "timeZonePlaceholder": "Vybrať časové pásmo",
+      "dateFormat": "Formát dátumu",
+      "dateFormatPlaceholder": "Vybrať formát dátumu",
+      "fiscalYear": "Fiškálný rok",
+      "fiscalYearPlaceholder": "Vybrať fiškálny rok",
+      "discountSetting": "Nastavenie zľiav",
+      "discountPerItem": "Zľava na položku",
+      "discountPerItemPlaceholder": "Túto možnosť povoľte, ak chcete pridať zľavu k jednotlivým položkám faktúry. Štandardne sa zľava pripočítava priamo k faktúre.",
+      "taxPerItem": "Daň pre každú položku zvlášť",
+      "taxPerItemPlaceholder": "Túto možnosť povoľte, ak chcete pridať daň k jednotlivým položkám faktúry. Štandardne sa daň pripočítava priamo k faktúre. ",
+      "settingUpdate": "Nastavenia úspešne aktualizované"
+    },
+    "notes": "Poznámky"
+  },
+  "login": {
+    "email": "Emailová adresa",
+    "password": "Heslo",
+    "invalid": "Zlé prihlasovacie údaje"
+  },
+  "logout": {
+    "confirmation": "Ste si istý, že sa chcete odhlasiť?",
+    "title": "Odhlásiť sa"
+  },
+  "forgot": {
+    "emailLabel": "Zadajte svoj e-mail a pošleme vám odkaz na obnovenie hesla ",
+    "emailPlaceholder": "Zadajte email",
+    "emailSendTitle": "Skontrolujte svoju emailovú schránku",
+    "emailSendDescription": " Odkaz na zmenu hesla Vám bol zaslaný na email, prosim postupujte podľa instrukcii v emaily",
+    "emailSendError": "Nie je možné zaslať na uvedenú emailovú adresu"
+  },
+  "lostInternet": {
+    "title": "Strata pripojenia",
+    "description": "Skontrolujte svoje internetové pripojenie"
+  },
+  "updateApp": {
+    "title": "Vypršala platnosť aplikácie",
+    "description": "Táto verzia aplikácie je zastaraná. Ak chcete ďalej používať Crater, nainštalujte si najnovšiu aktualizáciu. "
+  },
+  "endpoint": {
+    "endpointURL": "URL Adresa serveru",
+    "endpointDesc": "Vyššie uvedená adresa URL sa použije na spojenie s vašim serverom Crater",
+    "urlPlaceHolder": "Eg: https://craterapp.com",
+    "alertInvalidUrl": "Neplatná adresa"
+  },
+  "estimates": {
+    "tabs": {
+      "SENT": "Odoslané",
+      "DRAFT": "Koncept",
+      "ALL": "Všetko"
+    },
+    "estimateDate": "Dátum cenového odhadu",
+    "expiryDate": "Dátum Ukončenia Platnosti",
+    "discount": "DISCOUNT",
+    "estimateNumber": "Číslo cenového odhadu",
+    "template": "Vzhľad",
+    "templatePlaceholder": "Vybrať alebo pridať nový vzhľad",
+    "customer": "Zákazník",
+    "customerPlaceholder": "Vybrať alebo pridať nového zákazníka",
+    "items": "Položky",
+    "unit": "Jednotka",
+    "taxPlaceholder": "+ Pridať daň",
+    "addItem": "Pridať položku",
+    "notes": "Poznámky",
+    "notePlaceholder": "Dodatočné poznámky viditeľné na cenovom odhade",
+    "fromDate": "Od dátumu",
+    "toDate": "Do dátumu",
+    "status": "Stav",
+    "statusPlaceholder": "Vybrať stav",
+    "subtotal": "Medzisúčet",
+    "tax": "Daň",
+    "totalAmount": "Celková čiastka",
+    "alert": {
+      "convertToInvoiceDescription": "Ste si isty, že chcete zmeniť cenový odhadu na faktúru?",
+      "removeDescription": "Nebude možne obnovit túto cenovú ponuku",
+      "lessAmount": "Celková suma nesmie byt nižšia ako 0",
+      "draftTitle": "Uložit zmeny?",
+      "alreadyInUseNumber": "Číslo cenovej ponuky už existuje",
+      "sendEstimate": "Cenový odhadu bude odoslaný zákazníkovi emailom",
+      "markAsSent": "Cenová ponuka bude označena ako odoslaná",
+      "markAsAccept": "Cenová ponuka bude označená ako akceptovaná",
+      "markAsReject": "Cenová ponuka bude označená ako odmietnutá"
+    },
+    "empty": {
+      "sent": {
+        "title": "Niesú odoslané žiadne cenové ponuky!",
+        "description": "Táto sekcia bude obsahovať zoznam odoslaných cenových ponúk."
+      },
+      "draft": {
+        "title": "Niesú žiadne návrhy cenových odhadov!",
+        "description": "Táto sekcia bude obsahovať zoznam navrhnutých cenových ponúk"
+      },
+      "all": {
+        "title": "Niesu zatiaľ vytvorené žiadne cenové ponuky!",
+        "description": "Táto sekcia bude obsahovať zoznam všetkých cenových ponúk"
+      },
+      "buttonTitle": "Pridať novú cenovú ponuku"
+    },
+    "actions": {
+      "downloadPdf": "Stiahnuť PDF",
+      "sendEstimate": "Odoslať cenový odhad",
+      "reSendEstimate": "Znova odoslať cenový odhad",
+      "editEstimate": "Upraviť cenový odhad",
+      "delete": "Zmazať",
+      "convertToInvoice": "Konvertovať na faktúru",
+      "markAsSent": "Označit ako odoslanú",
+      "markAsAccepted": "Označit ako akceptovanú",
+      "markAsRejected": "Označit ako odmietnutú"
+    }
+  },
+  "currencies": {
+    "name": "Názov",
+    "code": "Kód",
+    "symbol": "Symbol",
+    "precision": "Presnosť",
+    "thousSeparator": "Oddelovač tisíciek",
+    "decSeparator": "Oddelovač desatinných miest",
+    "position": "Pozícia",
+    "left": "Vľavo",
+    "right": "Vpravo",
+    "title": "Vybrať menu",
+    "alertDescription": "Nebude možné obnoviť túto menu",
+    "empty": {
+      "title": "Zatiaľ žiadne meny!",
+      "description": "Táto sekcia bude obsahovať zoznam mien",
+      "buttonTitle": "Pridať novú menu"
+    }
+  },
+  "customFields": {
+    "name": "Názov",
+    "model": "Model",
+    "modelPlaceholder": "Vyberte model",
+    "type": "Typ",
+    "typePlaceholder": "Vyberte typ",
+    "select": "Vyberte možnosť",
+    "required": "Povinné",
+    "label": "Značka",
+    "defaultValue": "Predvolená hodnota",
+    "displayInPortal": "Zobraziť na portáli",
+    "placeholder": "Zástupný znak",
+    "order": "Zoradenie",
+    "yes": "Áno",
+    "no": "Nie",
+    "help": "Pomocný text",
+    "helpText": "Vložte pomocný text ktorý opíše využitie tohto pola",
+    "check": "Predvolene označené",
+    "removeAlertDescription": "Nebude možné obnoviť toto pole",
+    "alreadyUsed": "Toto vlastne pole uz existuje",
+    "empty": {
+      "title": "Neexistuju žiadne vlastne polia!",
+      "description": "Táto sekcia bude obsahovať zoznam všektých vlastných polí",
+      "buttonTitle": "Pridať nové vlastné pole"
+    }
+  },
+  "languages": {
+    "title": "Vybrať jazyk",
+    "empty": {
+      "title": "Zatiaľ neexistujú žiadne jazyky!",
+      "description": "Táto sekcia bude obsahovať zoznam dostupných jazykov"
+    }
+  },
+  "timeZones": {
+    "title": "Vybrať časovú zónu",
+    "empty": {
+      "title": "Zatiaľ neexistujú žiadne časové zóny!",
+      "description": "Táto sekcia bude obsahovať zoznam časových zón"
+    }
+  },
+  "dateFormats": {
+    "title": "Vybrat formát dátumu",
+    "empty": {
+      "title": "Zatiaľ žiadne dátumové formáty!",
+      "description": "Táto sekcia bude obsahovať zoznam dátumových formátov."
+    }
+  },
+  "fiscalYears": {
+    "title": "Vybrať fiškálny rok",
+    "empty": {
+      "title": "Zatiaľ žiadny fiškálny rok!",
+      "description": "Táto sekcia bude obsahovať zoznam fiškálnych rokov"
+    }
+  },
+  "countries": {
+    "empty": {
+      "title": "Zatiľ žiadne krajiny!",
+      "description": "Táto sekcia bude obsahovať zoznam krajín."
+    }
+  },
+  "reports": {
+    "sales": "Predaje",
+    "profitAndLoss": "Zisky a straty",
+    "expenses": "Výdaje",
+    "taxes": "Daňe",
+    "dateRange": "Vyberte rozsah dátumu",
+    "fromDate": "Od dátumu",
+    "toDate": "Do dátumu",
+    "reportType": "Typ reportu",
+    "byCustomer": "Podľa zákazníka",
+    "byItem": "Podľa položky",
+    "today": "Dnes",
+    "thisWeek": "Tento týždeň",
+    "thisMonth": "Tento mesiac",
+    "thisQuarter": "Tento štvrťrok",
+    "thisYear": "Tento rok",
+    "currentFiscalQuarter": "Aktuálny fiškálny štvrťrok",
+    "currentFiscalYear": "Aktuálny fiškálny rok",
+    "previousWeek": "Minulý týždeň",
+    "previousMonth": "Minulý mesiac",
+    "previousQuarter": "Minulý štvrťrok",
+    "previousYear": "Minulý rok",
+    "previousFiscalQuarter": "Minulý fiškálny štvrťrok",
+    "previousFiscalYear": "Minulý fiškálny rok",
+    "custom": "Vlastné"
+  },
+  "taxes": {
+    "title": "Dane",
+    "type": "Názov dane",
+    "description": "Popis",
+    "percentage": "Percentá dane",
+    "compoundTax": "Zložená daň",
+    "alertDescription": "Nebude možné obnoviť daň",
+    "alreadyUsed": "Táto daň už existuje",
+    "empty": {
+      "title": "Zatiaľ žiadne typy daní!",
+      "description": "Táto sekcia bude obsahovať zoznam daní.",
+      "buttonTitle": "Pridať typ dane"
+    }
+  },
+  "customizes": {
+    "prefix": {
+      "title": "Predpona",
+      "invoice": "Predpona faktúry",
+      "estimate": "Predpona cenového odhadu",
+      "payment": "Predpona platby"
+    },
+    "autoGenerate": {
+      "invoice": "Automaticky generovať číslo faktúry",
+      "invoiceDescription": "Toto deaktivujte, ak si neprajete automaticky generovať čísla faktúr pri vytváraní novej faktúry.",
+      "estimate": "Automaticky generovať číslo cenového odhadu",
+      "estimateDescription": "Toto deaktivujte, ak si neprajete automaticky generovať čísla faktúr pri vytváraní nového cenového odhadu.",
+      "payment": "Automaticky generovať číslo platby",
+      "paymentDescription": "Toto deaktivujte, ak si neprajete automaticky generovať čísla faktúr pri vytváraní novej platby."
+    },
+    "setting": {
+      "invoice": "Nastavenie faktúry",
+      "estimate": "Nastavenie cenového odhadu",
+      "payment": "Nastavenie platby"
+    },
+    "addresses": {
+      "billing": "Formát fakturačnej adresy",
+      "shipping": "Formát doručovacej adresy",
+      "company": "Formát firemnej adresy",
+      "insertFields": "Vložit polia",
+      "contact": "Kontakt",
+      "address": "Adresa",
+      "sendInvoiceEmailBody": "Odoslat faktúru s textom emailu",
+      "sendEstimateEmailBody": "Odoslat cenový odhad s textom emailu",
+      "sendPaymentEmailBody": "Odoslat platbu s textom emailu",
+      "customerAddress": "Z formátu adresy zákazníka "
+    }
+  },
+  "filePicker": {
+    "file": "Kliknite sem pre vybratie súboru",
+    "permission": "Prepáčte ale pre funkcnosť je potrebné povoliť prístup k fotoaparátu",
+    "camera": "Fotoaparát",
+    "gallery": "Galéria"
+  },
+  "sendMail": {
+    "from": "Od",
+    "to": "Pre",
+    "subject": "Predmet",
+    "body": "Text emailu",
+    "sendEmailToast": "Email bol úspešne odoslaný"
+  },
+  "alert": {
+    "title": "Ste si isty?",
+    "exit": "Naozaj chcete odisť?",
+    "alreadyInUse": "{{field}} sa už používa",
+    "action": {
+      "discard": "Zahodiť",
+      "saveAsDraft": "Uložiť ako koncept",
+      "emailNotExist": "Email používateľa neexistuje"
+    },
+    "requiredFields": "Povinné pole je prázdne"
+  },
+  "termsCondition": {
+    "title": "Podmienky",
+    "show": "Zobrazit podmienky na PDF?",
+    "edit": "Upraviť podmienky",
+    "description": "Skontrolujte, či chcete zobraziť zmluvné podmienky PDF."
+  },
+  "button": {
+    "remove": "Zmazať",
+    "save": "Uložiť",
+    "add": "Pridať",
+    "edit": "Upraviť",
+    "retry": "Opakovať",
+    "done": "Hotovo",
+    "skip": "Vynechať",
+    "clear": "Vyčistiť",
+    "viewPdf": "Zobraziť PDF",
+    "singIn": "Zaregistrovať sa",
+    "singInGoogle": "Prihlásiť sa pomocou google účtu",
+    "forget": "Zabudol si heslo?",
+    "update": "Aktualizovať",
+    "updateCapital": "Aktualizovať",
+    "chooseTemplate": "Vybrať vzhľad",
+    "generateReport": " Vygenerovať report",
+    "recoveryEmail": "Odoslať resetovací link",
+    "recoveryEmailAgain": "Znova odoslať",
+    "cancel": "Zrušiť",
+    "send": "Odoslať",
+    "change": "Zmeniť"
+  },
+  "filter": {
+    "empty": {
+      "filterTitle": "Neboli nájdene žiadne výsledky!"
+    }
+  },
+  "search": {
+    "title": "Hľadať",
+    "noResult": "Žiadne výsledky pre \"{{search}}\"",
+    "noSearchResult": "Žiadne výsledky pre"
+  },
+  "toast": {
+    "send_invoice_successfully": "Faktúra úspešne odoslaná",
+    "send_payment_successfully": "Platba úspešne odoslaná",
+    "send_estimate_successfully": "Cenový odhad úspešne odoslaný"
+  },
+  "validation": {
+    "Customer": "Zákazník",
+    "Invoice": "Faktúra",
+    "required": "Povinné pole je prázdne",
+    "field": "{{hint}} povinne pole",
+    "choose": "Vyberte aspoň jednu položku",
+    "email": "Zadajte platnú emailovú adresu",
+    "passwordCompare": "Heslá sa nezhodujú",
+    "minimumNumber": "musí byť väčší ako 0",
+    "maximumNumber": "musí byť menší ako {{maxNumber}}",
+    "maximumCharacter": "{{fieldName}} musí byť menší ako {{maxCharacter}} znakov.",
+    "character": "Iba znaky",
+    "numeric": "musí byť číslo",
+    "moreThanDue": "{{hint}} Nemalo by byť vačšia ako suma.",
+    "url": "Nesprávna adresa (eg: https://craterapp.com)",
+    "wrong": "Niečo neprebehlo v poriadku, odskúšajte prosím znova.",
+    "alreadyTaken": "Už sa používa",
+    "minCharacter": "Prosím použite minimálne {{minCharacter}} znakov"
+  },
+  "company": {
+    "text_switch_company": "SPÍNAJTE SPOLOČNOSŤ",
+    "text_add_new_company": "Pridať novú spoločnosť"
+  }
+}

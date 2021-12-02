@@ -1,0 +1,853 @@
+{
+  "header": {
+    "invoices": "Fakturor",
+    "add_invoice": "Lägg till faktura",
+    "edit_invoice": "Redigera faktura",
+    "recurring_invoices": "Återkommande röster",
+    "recurring_invoice": "Återkommande faktura",
+    "add_recurring_invoice": "Lägg till återkommande faktura",
+    "edit_recurring_invoice": "Redigera återkommande faktura",
+    "view_recurring_invoice": "Visa Upprepningsfaktura",
+    "estimates": "Uppskattningar",
+    "add_estimate": "Lägg till uppstimat",
+    "edit_estimate": "Redigera uppstimat",
+    "template": "Välj en mall",
+    "customers": "Kunder",
+    "add_customer": "Lägg till kund",
+    "edit_customer": "Redigera kund",
+    "billing_address": "Fakturering",
+    "shipping_address": "Leveransadress",
+    "country": "Välj land",
+    "payments": "Betalningar",
+    "add_payment": "Lägg till betalning",
+    "edit_payment": "Redigera betalning",
+    "expenses": "Utgifter",
+    "add_expense": "Lägg till utgift",
+    "edit_expense": "Ändra utgift",
+    "more": "Mer",
+    "expense_category": "Utgiftskategorier",
+    "add_category": "Lägg till kategori",
+    "edit_category": "Redigera kategori",
+    "add_note": "Lägg till kommentar",
+    "edit_note": "Redigera anteckning",
+    "settings": "Inställningar",
+    "notifications": "Underrättelse",
+    "setting": {
+      "company": "Företagsinformation",
+      "account": "Kontoinställningar",
+      "preferences": "Inställningar"
+    },
+    "taxes": "Momstyper",
+    "add_tax": "Lägg till skatt",
+    "edit_tax": "Redigera moms",
+    "add_item": "Lägg till objekt",
+    "edit_item": "Redigera objekt",
+    "items": "Objekt",
+    "item_units": "Artikelenheter",
+    "payment_modes": "Betalningslägen",
+    "reports": "Rapporter",
+    "sales_report": "Försäljningsrapport",
+    "profit_and_lossReport": "Resultat av vinst och förlust",
+    "expenses_report": "Utgiftsrapport",
+    "taxes_report": "Taxes rapport",
+    "filter": "Filter",
+    "back": "Bakåt",
+    "send_mail_invoice": "Skicka faktura",
+    "send_mail_estimate": "Skicka påstimat",
+    "send_mail_payment": "Skicka betalning",
+    "custom_fields": "Anpassade fält",
+    "add_custom_field": "Lägg till anpassat fält",
+    "edit_custom_field": "Redigera anpassat fält",
+    "notes": "Anmärkningar",
+    "view_customer": "Visa kund",
+    "view_payment": "Visa betalning",
+    "view_expense": "Visa utgifter",
+    "view_invoice": "Visa faktura",
+    "view_estimate": "Visa Estimat",
+    "view_item": "Visa objekt",
+    "view_tax": "Visa moms",
+    "view_custom_field": "Visa anpassat fält",
+    "view_note": "Visa anteckning",
+    "view_category": "Vykategori",
+    "view_unit": "Visa artikelenhet",
+    "view_payment_mode": "Visa betalningsläge",
+    "add_company": "Lägg till bolag",
+    "roles": "Roller och behörighet",
+    "add_role": "Lägg till roll",
+    "edit_role": "Redigera roll",
+    "view_role": "Visa roll",
+    "users": "Användare",
+    "add_user": "Lägg till användare",
+    "edit_user": "Redigera användare",
+    "view_user": "Visa användare",
+    "companies": "Företag"
+  },
+  "tab_navigation": {
+    "invoices": "Fakturor",
+    "customers": "Kunder",
+    "payments": "Betalningar",
+    "expenses": "Utgifter",
+    "more": "Mer"
+  },
+  "invoices": {
+    "title": "Välj faktura",
+    "tabs": {
+      "due": "Slutdatum",
+      "draft": "Utkast",
+      "all": "ALLA"
+    },
+    "invoice_date": "Inröstningsdatum",
+    "due_date": "Slutdatum",
+    "discount": "RABATT",
+    "invoice_number": "Fakturnummer",
+    "reference_number": "Referensnummer",
+    "template": "Mall",
+    "template_placeholder": "Välj eller lägg till en ny mall",
+    "customer": "Kund",
+    "customer_placeholder": "Välj eller lägg till ny kund",
+    "items": "Objekt",
+    "subtotal": "DELSUMMA",
+    "total_amount": "TOTALT BELOPP",
+    "status": "Status",
+    "status_placeholder": "Välj en status",
+    "from_date": "Från datum",
+    "to_date": "Till-datum",
+    "alert": {
+      "less_amount": "Totalt belopp bör inte vara mindre än 0",
+      "remove_description": "Du kommer inte att kunna återställa den här fakturan",
+      "draft_title": "Spara ändringar?",
+      "clone": "Fakturan kommer att klonas till en ny faktura",
+      "send_invoice": "Fakturan kommer att skickas via e-post till kunden",
+      "mark_as_sent": "Fakturan kommer att markeras som skickat"
+    },
+    "empty": {
+      "due": {
+        "title": "Du har inga fakturor",
+        "description": "Det här avsnittet innehåller listan med fakturor."
+      },
+      "draft": {
+        "title": "Du har inga utkastsfakturor",
+        "description": "Det här avsnittet innehåller listan över utkastsfakturor."
+      },
+      "all": {
+        "title": "Du har inte skapat några fakturor"
+      },
+      "title": "Inga fakturor än!",
+      "description": "Det här avsnittet innehåller en lista över fakturor.",
+      "button_title": "Lägg till ny faktura"
+    },
+    "actions": {
+      "send_invoice": "Skicka faktura",
+      "resend_invoice": "Sänd faktura igen",
+      "delete": "Radera",
+      "record_payment": "Postbetalning",
+      "mark_as_sent": "Markera som Skickat",
+      "clone": "Klonfaktura"
+    }
+  },
+  "recurring_invoices": {
+    "start_date": "Startdatum",
+    "next_invoice_at": "Nästa faktura vid",
+    "limit_by": "Begränsa av",
+    "select_frequency": "Välj frekvens",
+    "display_frequency": "Frekvens",
+    "basic_info": "GRUNDLÄGGANDE INFORMATION",
+    "invoices": "FAKTUROR",
+    "alert_description": "Du kommer inte att kunna återhämta den här återkommande fakturan",
+    "from_start_at_date": "Från start-datum",
+    "to_start_at_date": "Så här startar du på datum",
+    "auto_sent": {
+      "label": "Skicka faktura automatiskt",
+      "description": "Aktivera det här alternativet om du vill skicka fakturan automatiskt till kunden när den skapas."
+    },
+    "status": {
+      "title": "Status",
+      "placeholder": "Välj en status",
+      "empty": {
+        "title": "Du har ingen status",
+        "description": "Det här avsnittet innehåller en lista över status."
+      }
+    },
+    "tabs": {
+      "active": "Aktiv",
+      "on_hold": "Spärrade",
+      "all": "Alla"
+    },
+    "empty": {
+      "active": {
+        "title": "Du har inga aktiva återkommande fakturor",
+        "description": "Det här avsnittet innehåller listan över aktiva återkommande fakturor."
+      },
+      "on_hold": {
+        "title": "Du har inga återkommande fakturor",
+        "description": "Det här avsnittet innehåller listan över upprepade återkommande fakturor."
+      },
+      "all": {
+        "title": "Du har inte skapat några återkommande fakturor"
+      },
+      "title": "Inga återkommande fakturor än!",
+      "description": "Det här avsnittet innehåller en lista över återkommande fakturor.",
+      "button_title": "Lägg till ny återkommande faktura"
+    },
+    "limit_types": {
+      "none": "Ingen-",
+      "date": "Gränsdatum",
+      "count": "Antal"
+    },
+    "frequencies": {
+      "custom": "Egen",
+      "every_minute": "Varje minut",
+      "every_30_minute": "Var 30 minut",
+      "every_hour": "Varje timme",
+      "every_2_hour": "Var 2 timme",
+      "twice_a_day": "Två gånger om dagen",
+      "every_week": "Varje vecka",
+      "every_15_days": "Var 15: ar",
+      "first_day_of_month": "Första dagen i månaden",
+      "every_6_month": "Var 6 :e månad",
+      "every_year": "Varje år"
+    },
+    "dropdown": {
+      "edit": "Redigera",
+      "delete": "Radera"
+    }
+  },
+  "customers": {
+    "display_name": "Visningsnamn",
+    "contact_name": "Namn på primär kontakt",
+    "email": "E-post",
+    "phone": "Telefon",
+    "website": "Webbplats",
+    "billing_address": "Fakturering",
+    "shipping_address": "Leveransadress",
+    "customer": "Kund",
+    "filter_display_name": "Visningsnamn",
+    "filter_contact_name": "Kontaktperson",
+    "alert_description": "Du kommer inte att kunna återställa den här kunden",
+    "prefix": "Prefix",
+    "address": {
+      "name": "NamnName",
+      "country": "Land",
+      "state": "Delstat",
+      "city": "Stad",
+      "address": "Adress",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "phone": "Telefon",
+      "zip_code": "Postnummer",
+      "same_as": "Kopiera från faktureringsadress"
+    },
+    "remove_customer": "Radera",
+    "empty": {
+      "title": "Inga kunder än!",
+      "description": "Det här avsnittet kommer att innehålla listan över kunder.",
+      "button_title": "Lägg till ny kund",
+      "country": {
+        "title": "Inget land är tillgängligt"
+      },
+      "state": {
+        "title": "Ingen delstat tillgänglig"
+      },
+      "city": {
+        "title": "Ingen stad tillgänglig"
+      }
+    },
+    "title": "Välj en kund",
+    "placeholder": "Välj kund"
+  },
+  "payments": {
+    "date": "Betalningsdatum",
+    "number": "Betalningsnummer",
+    "customer": "Kund",
+    "mode": "Betalningsläge",
+    "modes": "Betalningslägen",
+    "prefix": "Betalningsprefix",
+    "add_mode": "Lägg till betalningsläge",
+    "edit_mode": "Redigera betalningsläge",
+    "mode_hint": "Lägesnamn",
+    "mode_placeholder": "Välj betalningsläge",
+    "amount": "Belopp",
+    "invoice": "Röströst",
+    "invoice_placeholder": "Välj faktura",
+    "send_receipt": "Mottagningsmottagare",
+    "alertAmount": "Angiven betalning är mer än förfallna belopp för den här fakturan.",
+    "alert_description": "Du kommer inte att kunna återställa den här betalningen",
+    "alert_mode": "Du kommer inte att kunna återställa det här betalningsläget",
+    "remove_payment": "Radera",
+    "empty": {
+      "title": "Inga betalningar än!",
+      "description": "Det här avsnittet innehåller listan över betalningar.",
+      "button_title": "Lägg till ny betalning"
+    },
+    "alert": {
+      "send_payment": "Betalningsmottaget skickas via e-post till den angivna adressen"
+    }
+  },
+  "payment_modes": {
+    "empty": {
+      "title": "Inga betallägen än!",
+      "description": "Det här avsnittet innehåller listan över betalningslägen."
+    }
+  },
+  "item_units": {
+    "empty": {
+      "title": "Inga objekt enheter än!",
+      "description": "Det här avsnittet innehåller en lista över objektenheter."
+    }
+  },
+  "expenses": {
+    "receipt": "Kvitto",
+    "date": "Utgiftsdatum",
+    "from_date": "Från datum",
+    "to_date": "Till-datum",
+    "amount": "Belopp",
+    "category": "Kategori",
+    "category_placeholder": "Välj kategori",
+    "notes": "Anmärkningar",
+    "notes_placeholder": "Kompletterande anmärkningar",
+    "view_receipt": "Visa kvitto",
+    "alert_description": "Du kommer inte att kunna återställa den här utgift",
+    "remove_expense": "Radera",
+    "empty": {
+      "title": "Inga utgifter än!",
+      "description": "Detta avsnitt kommer att innehålla en förteckning över utgifter.",
+      "button_title": "Lägg till ny utgift"
+    }
+  },
+  "items": {
+    "title": "Välj objekt",
+    "name": "Objektnamn",
+    "description": "Beskrivning (valfritt)",
+    "quantity": "Kvantitet",
+    "price": "Pris",
+    "subtotal": "DELSUMMA",
+    "discount_type": "Rabattyp",
+    "discount": "Rabatt",
+    "final_discount": "RABATT",
+    "final_amount": "BELOPP",
+    "taxes": "Skatter",
+    "select_tax": "Välj eller lägg till nya skatter",
+    "unit": "Enhet",
+    "unit_hint": "Enhetsnamn",
+    "add_hint": "Lägg till artikelenhet",
+    "edit_hint": "Redigera artikelenhet",
+    "unit_placeholder": "Välj enhet",
+    "alert_description": "Du kommer inte att kunna återställa det här objektet",
+    "alert_unit": "Du kommer inte att kunna återställa den här artikelenheten",
+    "less_amount": "Totalt belopp bör inte vara mindre än 0",
+    "already_attach_title": "Åtgärden misslyckades",
+    "already_attach_description": "Det går inte att ta bort ett objekt som redan används",
+    "empty": {
+      "title": "Inga objekt än!",
+      "description": "Det här avsnittet innehåller listan med objekt.",
+      "button_title": "Lägg till nya objekt"
+    }
+  },
+  "more": {
+    "estimate": "Uppskattningar",
+    "recurring_invoice": "Återkommande röster",
+    "items": "Objekt",
+    "reports": "Rapporter",
+    "settings": "Inställningar",
+    "logout": "Loggut",
+    "users": "Användare"
+  },
+  "categories": {
+    "title": "Kategorinamn",
+    "description": "Beskrivning",
+    "alert_description": "Du kommer inte att kunna återställa den här kategorin",
+    "empty": {
+      "title": "Inga kategorier än!",
+      "description": "Det här avsnittet innehåller en lista över kategorier.",
+      "button_title": "Lägg till ny kategori"
+    }
+  },
+  "notes": {
+    "notes": "Anmärkningar",
+    "title": "Kommentar",
+    "description": "Beskrivning",
+    "model_placeholder": "Välj en typ",
+    "alert_description": "Du kommer inte att kunna återställa den här anteckningen",
+    "empty": {
+      "title": "Inga anteckningar än!",
+      "description": "Det här avsnittet innehåller en lista över anteckningar.",
+      "button_title": "Lägg till ny kommentar"
+    },
+    "placeholder": {
+      "invoice": "Ytterligare anmärkningar som är synliga på fakturan",
+      "estimate": "Ytterligare anmärkningar som är synliga vid beräkning",
+      "payment": "Ytterligare anmärkningar som är synliga vid betalning"
+    },
+    "type": "Typ av anteckningar",
+    "select": "Välj en anteckning",
+    "insert_note": "+ Infoga anteckning",
+    "insert_fields": "+ Infoga fält"
+  },
+  "units": {
+    "empty": {
+      "title": "Inga enheter än!",
+      "description": "Det här avsnittet innehåller en lista över objektenheter.",
+      "button_title": "Lägg till ny artikelenhet"
+    }
+  },
+  "settings": {
+    "account_settings": "Kontoinställningar",
+    "company_information": "Företagsinfo",
+    "preference": "Inställningar",
+    "notification": "Underrättelser",
+    "taxes": "Momstyper",
+    "expense_category": "Utgiftskategorier",
+    "payment_modes": "Betalningslägen",
+    "item_units": "Artikelenheter",
+    "touch_or_Face_id": "Touch / Face-ID",
+    "endpoint": "API-slutpunkt",
+    "company": {
+      "name": "Företagsnamn",
+      "phone": "Telefon",
+      "address": "Adress",
+      "street_1": "Street1",
+      "street_2": "Street2",
+      "zip_code": "Postnummer",
+      "logo": "Företagslogotyp"
+    },
+    "account": {
+      "name": "NamnName",
+      "email": "E-post",
+      "password": "Lösenord",
+      "confirm_password": "Bekräfta lösenord",
+      "version": "Version"
+    },
+    "notifications": {
+      "send": "Skicka aviseringar till",
+      "invoice_viewed": "Faktura visad",
+      "invoice_viewed_description": "När kunden ser fakturarken som skickas via e-post.",
+      "estimate_viewed": "Uppskattad visad",
+      "estimate_viewed_description": "När din kund ser den beräknade länken via e-post."
+    },
+    "preferences": {
+      "currency": "Valuta",
+      "currency_placeholder": "Välj valuta",
+      "language": "Standardspråk",
+      "language_placeholder": "Välj språk",
+      "time_zone": "Tidszon",
+      "time_zone_placeholder": "Välj tidszon",
+      "date_format": "Datumformat",
+      "date_format_placeholder": "Välj datumformat",
+      "fiscal_year": "Räkenskapsår",
+      "fiscal_year_placeholder": "Välj budgetår",
+      "discount_per_item": "Rabatt per artikel",
+      "discount_per_item_placeholder": "Aktivera det här om du vill lägga till Rabatt till enskilda fakturaobjekt. Som standard läggs Rabcount till direkt på fakturan.",
+      "tax_per_item": "Moms per artikel",
+      "tax_per_item_placeholder": "Aktivera det här om du vill lägga till moms till enskilda fakturaobjekt. Som standard läggs skatten till direkt på fakturan.",
+      "retrospective_edits": "Retroaktiva redigeringar",
+      "create_status": "Skapa status",
+      "active": "Aktiv",
+      "on_hold": "Spärrade",
+      "completed": "Slutförd"
+    },
+    "notes": "Anmärkningar"
+  },
+  "login": {
+    "email": "Fyll i din mejl",
+    "password": "Ange ditt lösenord",
+    "invalid": "De här kreditiven stämmer inte med våra register."
+  },
+  "logout": {
+    "confirmation": "Är du säker på att du vill logga ut?",
+    "title": "Loggut"
+  },
+  "forgot": {
+    "email_label": "Ange ditt e-postmeddelande och vi kommer att skicka dig återställning av lösenordslänk",
+    "email_placeholder": "Skriv in din mejl",
+    "email_send_description": "En lösenordsåterställning har skickats till din e-post. Följ instruktionerna i e-postmeddelandet om du vill skapa ett nytt lösenord.",
+    "email_send_error": "Mejl kunde inte skickas till den här mejladressen."
+  },
+  "lost_internet": {
+    "title": "Anslutning förlorad",
+    "description": "Kontrollera din mobil-eller WiFi-inställningar för att verifiera internetanslutningen och försök sedan igen."
+  },
+  "update_app": {
+    "title": "Appversion är utökad!",
+    "description": "Den här versionen av appen är inte aktuell. Installera den senaste uppdateringen för att fortsätta att använda Crater."
+  },
+  "endpoint": {
+    "endpoint_url": "Slutpunkt-URL",
+    "endpoint_desc": "Ovanför URL-adressen används för att ansluta till din självinstallerade installation av kratern.",
+    "url_placeholder": "Eg: https://craterapp.com",
+    "alert_invalid_url": "Ogiltig URL"
+  },
+  "estimates": {
+    "tabs": {
+      "sent": "Skickat",
+      "draft": "Utkast",
+      "all": "Alla"
+    },
+    "estimate_date": "Uppskattningsdatum",
+    "expiry_date": "Sista giltighetsdatum",
+    "estimate_number": "Uppskattningsnummer",
+    "template": "Mall",
+    "template_placeholder": "Välj eller lägg till en ny mall",
+    "customer": "Kund",
+    "customer_placeholder": "Välj eller lägg till ny kund",
+    "tax_placeholder": "+ Lägg till moms",
+    "add_item": "Lägg till objekt",
+    "from_date": "Från datum",
+    "to_date": "Till-datum",
+    "status": "Status",
+    "status_placeholder": "Välj en status",
+    "total_amount": "TOTALT BELOPP",
+    "alert": {
+      "convert_to_invoice_description": "Är du säker på att du vill konvertera den här Estimaten till en Faktura?",
+      "remove_description": "Du kommer inte att kunna återhämta denna Estimat",
+      "less_amount": "Totalt belopp bör inte vara mindre än 0",
+      "draft_title": "Spara ändringar?",
+      "send_estimate": "Denna uppskattning kommer att sändas via e-post till kunden",
+      "mark_as_sent": "Uppskattningen kommer att markeras som skickad",
+      "mark_as_accept": "Uppskattningen kommer att markeras som accepterad",
+      "mark_as_reject": "Denna uppskattning kommer att markeras som avvisad"
+    },
+    "empty": {
+      "sent": {
+        "title": "Du har inga skickade uppskattningar",
+        "description": "Detta avsnitt kommer att innehålla en lista över skickade uppskattningar."
+      },
+      "draft": {
+        "title": "Du har inga utkastberäkningar",
+        "description": "Detta avsnitt kommer att innehålla en lista över preliminära uppskattningar."
+      },
+      "all": {
+        "title": "Du har inte skapat några uppskattningar.",
+        "description": "Det här avsnittet innehåller en lista över uppskattningar."
+      },
+      "button_title": "Lägg till ny uppstimat"
+    },
+    "actions": {
+      "send_estimate": "Skicka påstimat",
+      "resend_estimate": "Skicka om Estimate",
+      "delete": "Radera",
+      "convert_to_invoice": "Konvertera till faktura",
+      "mark_as_sent": "Markera som Skickat",
+      "mark_as_accepted": "Markera som accepterad",
+      "mark_as_rejected": "Markera som avvisad"
+    }
+  },
+  "currencies": {
+    "title": "Valutor",
+    "name": "NamnName",
+    "empty": {
+      "title": "Inga valutor än!",
+      "description": "Det här avsnittet innehåller listan med valutor.",
+      "button_title": "Lägg till ny valuta"
+    }
+  },
+  "custom_fields": {
+    "name": "NamnName",
+    "model": "Modell",
+    "model_placeholder": "Välj en modell",
+    "type": "Typ",
+    "type_placeholder": "Välj en typ",
+    "required": "Krävs",
+    "label": "Etikett",
+    "default_value": "Standardvärde",
+    "display_in_Portal": "Visa i portalen",
+    "placeholder": "Platshållare",
+    "order": "Ordning",
+    "yes": "Ja, ja.",
+    "no": "Nej.",
+    "check": "Sparas som standard",
+    "options": "Optioner",
+    "remove_alert_description": "Du kommer inte att kunna återställa det här anpassade fältet",
+    "already_in_use": "Det går inte att uppdatera modellen för fält som redan används.",
+    "empty": {
+      "title": "Inga anpassade fält ännu!",
+      "description": "Det här avsnittet innehåller en lista över anpassade fält.",
+      "button_title": "Lägg till nytt anpassat fält"
+    }
+  },
+  "languages": {
+    "title": "Välj språk",
+    "empty": {
+      "title": "Inga språk än!",
+      "description": "Det här avsnittet innehåller listan med språk."
+    }
+  },
+  "time_zones": {
+    "title": "Välj tidszon",
+    "empty": {
+      "title": "Ingen TimeZones än!",
+      "description": "Det här avsnittet kommer att innehålla listan över tidszoner."
+    }
+  },
+  "date_formats": {
+    "title": "Välj datumformat",
+    "empty": {
+      "title": "Inga datumformat ännu.",
+      "description": "Det här avsnittet innehåller en lista över datumformat."
+    }
+  },
+  "fiscal_years": {
+    "title": "Välj räkenskapsår",
+    "empty": {
+      "title": "Inga finansiella år ännu!",
+      "description": "Detta avsnitt kommer att innehålla en lista över budgetåren."
+    }
+  },
+  "retrospective_edits": {
+    "title": "Välj represumtiva redigeringar",
+    "empty": {
+      "title": "Inga represumtioner!",
+      "description": "Det här avsnittet innehåller listan över Retrospective Edits."
+    }
+  },
+  "countries": {
+    "empty": {
+      "title": "Inga länder ännu!",
+      "description": "Detta avsnitt kommer att innehålla en förteckning över länder."
+    }
+  },
+  "reports": {
+    "sales": "Försäljning",
+    "profit_and_loss": "Vinst och förlust",
+    "expenses": "Utgifter",
+    "taxes": "Skatter",
+    "date_range": "Välj datumintervall",
+    "from_date": "Från datum",
+    "to_date": "Till-datum",
+    "report_type": "Rapporttyp",
+    "by_customer": "Efter kund",
+    "by_item": "Efter objekt",
+    "today": "I dag",
+    "this_week": "Den här veckan",
+    "this_month": "Den här månaden",
+    "this_quarter": "Detta kvartal",
+    "this_year": "Det här året",
+    "current_fiscal_quarter": "Aktuellt skattekvartal",
+    "current_fiscal_year": "Aktuellt räkenskapsår",
+    "previous_week": "Föregående vecka",
+    "previous_month": "Föregående månad",
+    "previous_quarter": "Föregående kvartal",
+    "previous_year": "Föregående år",
+    "previous_fiscal_quarter": "Föregående Fiscal Quarter",
+    "previous_fiscal_year": "Föregående räkenskapsår",
+    "custom": "Egen"
+  },
+  "taxes": {
+    "title": "Skatter",
+    "type": "Skattenamn",
+    "description": "Beskrivning",
+    "percentage": "Momsprocent",
+    "compound_tax": "Sammansatt skatt",
+    "alert_description": "Du kommer inte att kunna återvinna den här skatten",
+    "empty": {
+      "title": "Inga momstyper ännu!",
+      "description": "Det här avsnittet innehåller listan över momstyper.",
+      "button_title": "Lägg till momstyp"
+    }
+  },
+  "touch_face_id": {
+    "touch_id": "Touch-ID",
+    "face_id": "Face-ID",
+    "finger": "Fingeravtryck",
+    "face": "Ansiktet",
+    "not_compatible": "Enheten är inte kompatibel.",
+    "hardware_not_available": "{ { type } } HardWare är inte tillgängliga.",
+    "activated": "{ { type } } aktiverades",
+    "enable_login": "Logga in { { type } }",
+    "enable_login_hint": "Du kan nu använda { { type } } för att komma åt ditt konto snabbare och enklare.",
+    "subtitle_1": "Autentisera med appens",
+    "subtitle_2": "{ { type } } i stället för att ange ditt lösenord.",
+    "login": "Logga in med { { type } }"
+  },
+  "file_picker": {
+    "file": "Klicka här om du vill välja en fil",
+    "permission": "Ledsen, vi behöver kamerabehörighet för att få det här att fungera!",
+    "camera": "Kamera",
+    "gallery": "Galleri",
+    "document": "Dokument"
+  },
+  "send_mail": {
+    "from": "Från",
+    "to": "Till",
+    "subject": "Ämne",
+    "body": "Innehåll"
+  },
+  "alert": {
+    "title": "Är du säker på det?",
+    "action": {
+      "discard": "Kassera",
+      "save_as_draft": "Spara som utkast"
+    }
+  },
+  "button": {
+    "remove": "Ta bort",
+    "save": "Spara",
+    "add": "Lägg till",
+    "retry": "Försök igen",
+    "done": "Gjort",
+    "clear": "Undan!",
+    "view_pdf": "Visa PDF",
+    "sing_in": "Logga in",
+    "forget": "Har du glömt lösenordet?",
+    "update": "Uppdatera",
+    "update_capital": "UPPDATERA",
+    "choose_template": "Välj mall",
+    "generate_report": " Generera rapport",
+    "recovery_email": "Återställ länk",
+    "recovery_email_again": "Skicka igen",
+    "cancel": "Avbryt",
+    "send": "Skicka",
+    "change": "Förändring",
+    "set_up_now": "Uppställning nu",
+    "later": "Ska göra det senare.",
+    "refresh": "Uppdatera",
+    "preview": "Förhandsgranska"
+  },
+  "filter": {
+    "empty": {
+      "filter_title": "Inga resultat hittades"
+    }
+  },
+  "search": {
+    "title": "Sök",
+    "no_result": "Det finns inga resultat för \"{ { search } }\"",
+    "no_search_result": "Inga resultat för"
+  },
+  "validation": {
+    "required": "Obligatoriskt fält är tomt",
+    "choose": "Välj minst ett objekt",
+    "email": "Du måste ange en giltig mejladress",
+    "password_compare": "Lösenorden matchar inte",
+    "minimum_number": "måste vara större än 0",
+    "maximum_number": "måste vara mindre än { { maxNumber } }",
+    "maximum_character": "{ { fieldName } } måste vara mindre än { { maxCharacter } } tecken.",
+    "character": "Endast tecken",
+    "numeric": "måste vara numeriskt",
+    "more_than_due": "{ { tips } } bör inte vara mer än förfallobelopp.",
+    "url": "Ogiltig URL (exempel: https://craterapp.com)",
+    "wrong": "Något gick fel. Snälla, försök igen.",
+    "min_character": "Ange minst { { minCharacter } } tecken",
+    "cron": "Ange ett giltigt cron-format."
+  },
+  "company": {
+    "switch_company": "BYT BOLAG",
+    "add_new_company": "Lägg till nytt företag"
+  },
+  "roles": {
+    "add_new_role": "Lägg till ny roll",
+    "alert_description": "Du kommer inte att kunna återställa den här Rollen",
+    "empty": {
+      "title": "Inga roller än!",
+      "description": "Det här avsnittet innehåller en lista över roller."
+    },
+    "name": "NamnName",
+    "permissions": "Behörigheter",
+    "select_all": "Markera alla",
+    "none": "Ingen-",
+    "select_role_for": "Välj roll för { { name } }"
+  },
+  "users": {
+    "add_new_user": "Lägg till ny användare",
+    "alert_description": "Du kommer inte att kunna återställa den här användaren",
+    "empty": {
+      "title": "Inga användare ännu!",
+      "description": "Det här avsnittet kommer att innehålla listan över användare."
+    },
+    "name": "NamnName",
+    "email": "E-post",
+    "phone": "Telefon",
+    "password": "Lösenord",
+    "role": "Roll",
+    "roles": "Roller",
+    "role_placeholder": "Välj roll"
+  },
+  "exchange_rate": {
+    "label": "Växelkurser",
+    "selected_currency": "1 { { selectedCurrency } } = ",
+    "exchange_help_text": "Ange växelkursen för att konvertera från { { selectedCurrency } } till { { baseCurrency } }."
+  },
+  "actions": {
+    "new_estimate": "Ny uppstimat",
+    "new_invoice": "Ny faktura",
+    "new_payment": "Ny betalning",
+    "new_expense": "Ny utgift"
+  },
+  "companies": {
+    "empty": {
+      "title": "Inga företag än!",
+      "description": "Det här avsnittet kommer att innehålla listan över bolag."
+    }
+  },
+  "notification": {
+    "success": "Framgång!",
+    "error": "Fel!",
+    "login_success": "Inloggad",
+    "customer_created": "Kunden har skapats",
+    "customer_updated": "Kunden uppdaterades",
+    "customer_deleted": "Kunden togs bort",
+    "role_created": "Rollen har skapats",
+    "role_updated": "Rollen uppdaterades",
+    "role_deleted": "Rollen togs bort",
+    "expense_category_created": "Utgiftskategorin skapades",
+    "expense_category_updated": "Utgiftskategorin uppdaterades",
+    "expense_category_deleted": "Utgiftskategorin togs bort",
+    "expense_already_in_use": "Utgiftskategorin används redan",
+    "note_created": "Anteckning skapades",
+    "note_updated": "Anmärkning uppdaterades",
+    "note_deleted": "Anmärkning togs bort",
+    "note_already_in_use": "Anteckningen används redan",
+    "custom_field_created": "Anpassat fält har skapats",
+    "custom_field_updated": "Anpassat fält uppdaterades",
+    "custom_field_deleted": "Det anpassade fältet togs bort",
+    "custom_field_already_in_use": "Eget fält används redan",
+    "tax_created": "Skattetypen har skapats",
+    "tax_updated": "Skattetypen uppdaterades",
+    "tax_deleted": "Skattetypen togs bort",
+    "tax_already_in_use": "Skatt är redan i bruk",
+    "setting_updated": "Inställningen uppdaterades",
+    "invoice_setting_updated": "Faktureringen har uppdaterats",
+    "estimate_setting_updated": "Uppskattning har uppdaterats",
+    "payment_setting_updated": "Betalningsinställningen uppdaterades",
+    "payment_mode_created": "Betalningsläget skapades",
+    "payment_mode_updated": "Betalningsläget uppdaterades",
+    "payment_mode_deleted": "Betalningsläget togs bort",
+    "payment_mode_already_in_use": "Betalningsläget används redan",
+    "item_unit_created": "Artikelenhet skapades",
+    "item_unit_updated": "Artikelenhet uppdaterades",
+    "item_unit_deleted": "Artikelenheten togs bort",
+    "item_unit_already_in_use": "Artikelenhet används redan",
+    "preference_updated": "Inställningarna uppdaterades",
+    "company_updated": "Företagsuppdatering uppdaterades",
+    "account_updated": "Kontoinställningar uppdaterades",
+    "user_created": "Användaren skapades",
+    "user_updated": "Användaren uppdaterades",
+    "user_deleted": "Användaren togs bort",
+    "item_created": "Objektet skapades",
+    "item_updated": "Objektet uppdaterades",
+    "item_deleted": "Objektet togs bort",
+    "estimate_created": "Uppskattning skapades",
+    "estimate_updated": "Uppskattning uppdaterades",
+    "estimate_deleted": "Uppskattning togs bort",
+    "estimate_sent": "Uppskattning skickad",
+    "estimate_mark_as_sent": "Uppskattning markerad som skickad",
+    "estimate_marked_as_accepted": "Uppskattning markerad som accepterad",
+    "estimate_marked_as_rejected": "Uppskattning markerad som avvisad",
+    "expense_created": "Utgifterna skapades",
+    "expense_updated": "Utgifterna har uppdaterats",
+    "expense_deleted": "Utgifterna togs bort",
+    "payment_created": "Betalningen har skapats",
+    "payment_updated": "Betalningen uppdaterades",
+    "payment_deleted": "Betalningen togs bort",
+    "payment_sent": "Betalningen har skickats",
+    "invoice_created": "Faktura skapades",
+    "invoice_updated": "Faktura uppdaterades",
+    "invoice_deleted": "Fakturan togs bort",
+    "invoice_marked_as_sent": "Faktura markerad som skickad",
+    "invoice_sent": "Faktura skickad",
+    "invoice_cloned": "Fakturerad klonad",
+    "recurring_invoice_created": "Återkommande faktura skapades",
+    "recurring_invoice_updated": "Återkommande faktura uppdaterades",
+    "recurring_invoice_deleted": "Återkommande faktura togs bort",
+    "password_reset_link": "Lösenordsåterställningslänken har skickats.",
+    "company_created": "Företaget har skapats"
+  }
+}

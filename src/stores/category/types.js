@@ -1,0 +1,20 @@
+export const SPINNER = 'category/SPINNER';
+
+export const CATEGORIES_FORM = 'category/CATEGORIES_FORM';
+export const CREATE_CATEGORY_FORM = 'category/CREATE_CATEGORY_FORM';
+
+export const FETCH_CATEGORIES = 'category/FETCH_CATEGORIES';
+export const FETCH_CATEGORIES_SUCCESS = 'category/FETCH_CATEGORIES_SUCCESS';
+
+export const FETCH_SINGLE_CATEGORY = 'category/FETCH_SINGLE_CATEGORY';
+export const FETCH_SINGLE_CATEGORY_SUCCESS =
+  'category/FETCH_SINGLE_CATEGORY_SUCCESS';
+
+export const ADD_CATEGORY = 'category/ADD_CATEGORY';
+export const ADD_CATEGORY_SUCCESS = 'category/ADD_CATEGORY_SUCCESS';
+
+export const UPDATE_CATEGORY = 'category/UPDATE_CATEGORY';
+export const UPDATE_CATEGORY_SUCCESS = 'category/UPDATE_CATEGORY_SUCCESS';
+
+export const REMOVE_CATEGORY = 'category/REMOVE_CATEGORY';
+export const REMOVE_CATEGORY_SUCCESS = 'category/REMOVE_CATEGORY_SUCCESS';
