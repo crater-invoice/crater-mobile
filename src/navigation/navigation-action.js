@@ -8,7 +8,8 @@ import {routes} from './navigation-routes';
 export const navigatorOptions = {
   animationEnabled: true,
   gestureEnabled: true,
-  ...TransitionPresets.SlideFromRightIOS
+  ...TransitionPresets.SlideFromRightIOS,
+  gestureResponseDistance: {horizontal: 110, vertical: 200}
 };
 
 export let navigationRef: any = React.createRef();
