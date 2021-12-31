@@ -44,6 +44,11 @@ export interface IProps {
    * i.e. None, Fixed, Percentage.
    */
   options: Array<any>;
+
+  /**
+   * The ist of radio buttons return vertical.
+   */
+  isList: boolean;
 }
 
 export interface IStates {

@@ -11,9 +11,12 @@ export const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 30
+  },
+  horizontalButton: {
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   hintStyle: {
     marginBottom: 15

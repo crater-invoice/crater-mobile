@@ -37,6 +37,7 @@
       "account": "Account Settings",
       "preferences": "Preferences"
     },
+    "taxation": "Taxation",
     "taxes": "Tax Types",
     "add_tax": "Add Tax",
     "edit_tax": "Edit Tax",
@@ -396,6 +397,7 @@
     "company_information": "Company Info",
     "preference": "Preferences",
     "notification": "Notifications",
+    "taxation": "Taxation",
     "taxes": "Tax Types",
     "expense_category": "Expense Categories",
     "payment_modes": "Payment Modes",
@@ -647,6 +649,7 @@
       "button_title": "Add Tax Type"
     }
   },
+  "taxation": {"type": "Taxation type"},
   "touch_face_id": {
     "touch_id": "Touch ID",
     "face_id": "Face ID",
@@ -807,6 +810,7 @@
     "tax_updated": "Tax type updated successfully",
     "tax_deleted": "Tax type deleted successfully",
     "tax_already_in_use": "Tax is already in use",
+    "taxation_updated": "Taxation updated successfully",
     "setting_updated": "Setting updated successfully",
     "invoice_setting_updated": "Invoice Setting updated successfully",
     "estimate_setting_updated": "Estimate Setting updated successfully",

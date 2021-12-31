@@ -50,6 +50,14 @@ export const SETTINGS_MENU = () => {
       show: PermissionService.isAllowToView(routes.ITEMS)
     },
     {
+      title: t('settings.taxation'),
+      leftIconSvg: PercentageIcon,
+      leftIconSolid: true,
+      iconSize: 17,
+      fullItem: {route: routes.TAXATION},
+      show: PermissionService.isAllowToView(routes.TAXATION)
+    },
+    {
       title: t('settings.taxes'),
       leftIconSvg: PercentageIcon,
       leftIconSolid: true,
@@ -97,3 +105,16 @@ export const SETTINGS_MENU = () => {
     }
   ];
 };
+
+export const TAXATION_OPTION = [
+  {
+    key: 'company',
+    label: 'Company',
+    description: 'company description'
+  },
+  {
+    key: 'customer',
+    label: 'Customer',
+    description: 'customer description'
+  }
+];
