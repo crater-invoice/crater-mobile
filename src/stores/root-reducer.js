@@ -19,6 +19,7 @@ import item from 'stores/item/reducer';
 import category from 'stores/category/reducer';
 import note from 'stores/note/reducer';
 import taxType from 'stores/tax-type/reducer';
+import taxation from 'stores/taxation/reducer';
 import customField from 'stores/custom-field/reducer';
 import setting from 'stores/setting/reducer';
 
@@ -41,6 +42,7 @@ export default combineReducers({
   category,
   note,
   taxType,
+  taxation,
   customField,
   setting,
   form: formReducer

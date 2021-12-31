@@ -20,6 +20,7 @@ import category from 'stores/category/saga';
 import item from 'stores/item/saga';
 import note from 'stores/note/saga';
 import taxType from 'stores/tax-type/saga';
+import taxation from 'stores/taxation/saga';
 import customField from 'stores/custom-field/saga';
 import {PermissionService} from '@/services';
 
@@ -52,6 +53,7 @@ export default function* rootSaga() {
       common(),
       note(),
       taxType(),
+      taxation(),
       customField()
     ]);
   });
