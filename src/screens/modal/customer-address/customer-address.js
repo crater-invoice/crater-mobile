@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Field, initialize} from 'redux-form';
 import t from 'locales/use-translation';
-import {IProps, IStates} from './company-address-type.d';
-import {COMPANY_ADDRESS_FORM} from 'stores/company/types';
+import {IProps, IStates} from './customer-address-type.d';
+import {SHIPPING_ADDRESS_FORM} from 'stores/customer/types';
 import {
   BaseButton,
   ModalLayout,
@@ -10,7 +10,7 @@ import {
   BaseButtonGroup
 } from '@/components';
 
-export default class CompanyAddress extends Component<IProps, IStates> {
+export default class CustomerAddress extends Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {isFetchingInitialData: true};
@@ -21,8 +21,8 @@ export default class CompanyAddress extends Component<IProps, IStates> {
   }
 
   loadData = () => {
-    const {dispatch, selectedCompany} = this.props;
-    dispatch(initialize(COMPANY_ADDRESS_FORM, selectedCompany?.address));
+    const {dispatch, address} = this.props;
+    dispatch(initialize(SHIPPING_ADDRESS_FORM, address));
     this.setState({isFetchingInitialData: false});
   };
 
@@ -50,7 +50,7 @@ export default class CompanyAddress extends Component<IProps, IStates> {
 
     return (
       <ModalLayout
-        title={t('modal.company_address')}
+        title={t('modal.shipping_address')}
         sub-title={t('modal.sales_tax_heading')}
         bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData}}

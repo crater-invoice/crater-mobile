@@ -3,6 +3,7 @@ export const SPINNER = 'customer/SPINNER';
 export const CUSTOMERS_FORM = 'customer/CUSTOMERS_FORM';
 export const CREATE_CUSTOMER_FORM = 'customer/CREATE_CUSTOMER_FORM';
 export const ADDRESS_FORM = 'customer/ADDRESS_FORM';
+export const SHIPPING_ADDRESS_FORM = 'customer/SHIPPING_ADDRESS_FORM';
 
 export const FETCH_CUSTOMERS = 'customer/FETCH_CUSTOMERS';
 export const FETCH_CUSTOMERS_SUCCESS = 'customer/FETCH_CUSTOMERS_SUCCESS';

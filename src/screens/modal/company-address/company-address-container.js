@@ -3,17 +3,12 @@ import {reduxForm} from 'redux-form';
 import CompanyAddress from './company-address';
 import {commonSelector} from 'stores/common/selectors';
 import validate from './company-address-validator';
-import {
-  currentCompanySelector,
-  currentCurrencySelector,
-  loadingSelector
-} from 'stores/company/selectors';
+import {COMPANY_ADDRESS_FORM} from 'stores/company/types';
+import {currentCompanySelector} from 'stores/company/selectors';
 
 const mapStateToProps = state => ({
   ...commonSelector(state),
   selectedCompany: currentCompanySelector(state),
-  currency: currentCurrencySelector(state),
-  ...loadingSelector(state),
   initialValues: {
     state: null,
     city: null,
@@ -23,7 +18,7 @@ const mapStateToProps = state => ({
   }
 });
 
-const CompanyAddressForm = reduxForm({form: 'COMPANY_ADDRESS_FORM', validate})(
+const CompanyAddressForm = reduxForm({form: COMPANY_ADDRESS_FORM, validate})(
   CompanyAddress
 );
 
