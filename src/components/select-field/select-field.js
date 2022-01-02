@@ -90,7 +90,6 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         break;
       }
     }
-
     concurrentMultiSelect &&
       (await this.setState({
         selectedItems: value,

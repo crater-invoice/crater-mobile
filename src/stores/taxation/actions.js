@@ -14,25 +14,13 @@ export function spinner(name, value) {
 }
 
 /**
- * Fetch taxation
- * @param onSuccess
- * @returns {{type: string, payload: *}}
- */
-export function fetchTaxation(onSuccess) {
-  return {
-    type: types.FETCH_TAXATION,
-    payload: {onSuccess}
-  };
-}
-
-/**
- * Update taxation
+ * Fetch sales tax rate
  * @param payload
  * @returns {{type: string, payload: *}}
  */
-export function updateTaxationType(payload = {}) {
+export function fetchSalesTaxRate(payload = {}) {
   return {
-    type: types.UPDATE_TAXATION,
+    type: types.FETCH_SALES_TAX_RATE,
     payload
   };
 }

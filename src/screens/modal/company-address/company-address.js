@@ -21,8 +21,8 @@ export default class CompanyAddress extends Component<IProps, IStates> {
   }
 
   loadData = () => {
-    const {dispatch, selectedCompany} = this.props;
-    dispatch(initialize(COMPANY_ADDRESS_FORM, selectedCompany?.address));
+    const {dispatch, address} = this.props;
+    dispatch(initialize(COMPANY_ADDRESS_FORM, address));
     this.setState({isFetchingInitialData: false});
   };
 

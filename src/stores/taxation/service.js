@@ -1,14 +1,14 @@
 import Request from 'utils/request';
 
 /**
- * Fetch taxation
- * @returns {*}
- */
-export const fetchTaxation = () => Request.get('/tax-types');
-
-/**
- * Update taxation
+ * Fetch sales tax rate
  * @param data
  * @returns {*}
  */
-export const updateTaxationType = data => Request.put(`/tax-types`, data);
+export const fetchSalesTaxRate = data => {
+  return Request.post(
+    `/api/m/sales/tax/us/tax`,
+    {...data, address: data},
+    {'base-url': true}
+  );
+};

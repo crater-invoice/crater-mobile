@@ -38,7 +38,7 @@ export default class Invoices extends React.Component<IProps, IStates> {
 
       if (InvoiceServices.isFirstInvoiceCreated) {
         InvoiceServices.toggleIsFirstInvoiceCreated(false);
-        openRatingReviewModal();
+        setTimeout(() => openRatingReviewModal(), 2000);
       }
     });
   };

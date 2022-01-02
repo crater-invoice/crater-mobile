@@ -49,6 +49,8 @@ import {
   checkExchangeRate,
   checkExchangeRateProvider
 } from 'stores/common/actions';
+import {fetchSalesTaxRate} from 'stores/taxation/actions';
+import {setSalesTaxUsFieldValue, taxationTypes} from 'stores/taxation/helper';
 
 export default class CreateInvoice extends React.Component<IProps, IStates> {
   invoiceRefs: any;
@@ -91,10 +93,11 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
   exchangeRate = () => this.props?.formValues?.exchange_rate;
 
   setInitialData = async res => {
-    const {dispatch, invoiceTemplates, route} = this.props;
+    const {dispatch, invoiceTemplates, route, isCreateScreen} = this.props;
 
     let values = {
       ...initialValues(invoiceTemplates),
+      ...setSalesTaxUsFieldValue(res),
       ...res
     };
     let customerCurrency = res?.customer?.currency;
@@ -111,7 +114,8 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     customerCurrency &&
       (await this.checkExchangeRateProvider(customerCurrency));
     dispatch(initialize(CREATE_INVOICE_FORM, values));
-    this.setState({isFetchingInitialData: false});
+    await this.setState({isFetchingInitialData: false});
+    isCreateScreen && this.fetchSalesTaxRate();
   };
 
   setFormField = (field, value) => {
@@ -311,6 +315,12 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     }
   };
 
+  onCreateNewCustomer = data => {
+    this.customerReference?.changeDisplayValue?.(data);
+    this.onCustomerSelect(data);
+    this.fetchSalesTaxRate(taxationTypes.CUSTOMER_LEVEL, data?.shipping ?? {});
+  };
+
   navigateToCustomer = () => {
     const {navigation} = this.props;
     const {currency} = this.state;
@@ -319,10 +329,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       navigation.navigate(routes.CREATE_CUSTOMER, {
         type: 'ADD',
         currency,
-        onSelect: item => {
-          this.customerReference?.changeDisplayValue?.(item);
-          this.onCustomerSelect(item);
-        }
+        onSelect: this.onCreateNewCustomer
       });
     });
   };
@@ -333,6 +340,13 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
     this.setFormField('customer_id', item.id);
     this.setExchangeRate(item.currency);
     this.fetchNextInvoiceNumber(item.id);
+    this.fetchSalesTaxRate(taxationTypes.CUSTOMER_LEVEL, item?.shipping ?? {});
+  };
+
+  fetchSalesTaxRate = (type = taxationTypes.COMPANY_LEVEL, address = null) => {
+    const {dispatch} = this.props;
+    const params = {form: CREATE_INVOICE_FORM, type, address};
+    dispatch(fetchSalesTaxRate(params));
   };
 
   fetchNextInvoiceNumber = userId => {
@@ -389,6 +403,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       notes,
       fetchNotes
     } = this.props;
+
     const isUnpaid = isEditScreen ? paid_status === 'UNPAID' : true;
     const {isFetchingInitialData, hasExchangeRate} = this.state;
     const disabled = !isAllowToEdit;

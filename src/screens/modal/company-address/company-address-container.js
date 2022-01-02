@@ -4,11 +4,10 @@ import CompanyAddress from './company-address';
 import {commonSelector} from 'stores/common/selectors';
 import validate from './company-address-validator';
 import {COMPANY_ADDRESS_FORM} from 'stores/company/types';
-import {currentCompanySelector} from 'stores/company/selectors';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, {route}) => ({
   ...commonSelector(state),
-  selectedCompany: currentCompanySelector(state),
+  address: route?.params?.address,
   initialValues: {
     state: null,
     city: null,

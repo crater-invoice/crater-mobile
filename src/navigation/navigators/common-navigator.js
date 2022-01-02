@@ -23,8 +23,6 @@ import Preferences from 'screens/preferences';
 
 import {Categories, CreateCategory} from 'screens/categories';
 
-import {Taxation} from 'screens/taxation';
-
 import {Taxes, CreateTax} from 'screens/taxes';
 
 import {CustomFields, CreateCustomField} from 'screens/custom-field';
@@ -181,11 +179,6 @@ export const CommonNavigator = (
     <Stack.Screen
       name={routes.NOTIFICATIONS}
       component={Notification}
-      options={options}
-    />
-    <Stack.Screen
-      name={routes.TAXATION}
-      component={Taxation}
       options={options}
     />
     <Stack.Screen
