@@ -2,6 +2,7 @@ export const SPINNER = 'preference/SPINNER';
 
 export const PREFERENCES_FORM = 'preference/PREFERENCES_FORM';
 export const CREATE_COMPANY_FORM = 'company/CREATE_COMPANY_FORM';
+export const COMPANY_ADDRESS_FORM = 'company/COMPANY_ADDRESS_FORM';
 
 export const FETCH_PREFERENCES = 'preference/FETCH_PREFERENCES';
 

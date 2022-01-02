@@ -649,7 +649,9 @@
       "button_title": "Add Tax Type"
     }
   },
-  "taxation": {"type": "Taxation type"},
+  "taxation": {
+    "type": "Taxation type"
+  },
   "touch_face_id": {
     "touch_id": "Touch ID",
     "face_id": "Face ID",
@@ -858,5 +860,10 @@
     "password_reset_link": "The password reset link was sent successfully.",
     "company_created": "Company created successfully",
     "invalid_due_amount_message": "Total Invoice amount cannot be less than total paid amount for this Invoice. Please update the invoice or delete the associated payments to continue."
+  },
+  "modal": {
+    "shipping_address": "Enter Shipping Address",
+    "company_address": "Enter Company Address",
+    "sales_tax_heading": "The information below is required in order to fetch sales tax."
   }
 }
