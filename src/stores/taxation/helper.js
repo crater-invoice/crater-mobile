@@ -22,5 +22,7 @@ export const taxationTypes = {
 
 export const setSalesTaxUsFieldValue = values => {
   const taxes = values?.taxes ?? [];
-  return {salesTaxUs: find(taxes, {name: 'SalesTaxUs'})};
+  let salesTaxUs = find(taxes, {name: 'SalesTaxUs'});
+  salesTaxUs && (salesTaxUs = {...salesTaxUs, id: salesTaxUs.tax_type_id});
+  return {salesTaxUs};
 };

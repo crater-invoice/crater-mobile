@@ -37,7 +37,6 @@ class ListViewComponent extends Component<IProps> {
 
   getCheckedItem = item => {
     const {compareField, checkedItems, valueCompareField} = this.props;
-
     if (checkedItems) {
       return (
         checkedItems.filter(

@@ -4,7 +4,7 @@ export interface IProps {
   /**
    * An Object with data of current Currency.
    */
-  currency: Object;
+  currency: any;
 
   /**
    * It is a create screen view.

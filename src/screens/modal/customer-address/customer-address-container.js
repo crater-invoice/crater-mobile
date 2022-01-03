@@ -4,10 +4,13 @@ import CustomerAddress from './customer-address';
 import {commonSelector} from 'stores/common/selectors';
 import validate from './customer-address-validator';
 import {SHIPPING_ADDRESS_FORM} from 'stores/customer/types';
+import {loadingSelector} from 'stores/taxation/selectors';
 
 const mapStateToProps = (state, {route}) => ({
   ...commonSelector(state),
   address: route?.params?.address,
+  parentForm: route?.params?.parentForm,
+  isSaving: loadingSelector(state),
   initialValues: {
     state: null,
     city: null,

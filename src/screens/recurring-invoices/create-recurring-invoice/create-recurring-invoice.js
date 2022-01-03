@@ -279,12 +279,12 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
     });
   };
 
-  onCustomerSelect = item => {
-    item && this.state.hasProvider && this.setState({hasProvider: false});
+  onCustomerSelect = data => {
+    data && this.state.hasProvider && this.setState({hasProvider: false});
     this.setFormField('exchange_rate', null);
-    this.setFormField('customer_id', item.id);
-    this.setExchangeRate(item.currency);
-    this.fetchSalesTaxRate(taxationTypes.CUSTOMER_LEVEL, item?.shipping ?? {});
+    this.setFormField('customer_id', data.id);
+    this.setExchangeRate(data.currency);
+    this.fetchSalesTaxRate(taxationTypes.CUSTOMER_LEVEL, data?.shipping ?? {});
   };
 
   fetchSalesTaxRate = (type = taxationTypes.COMPANY_LEVEL, address = null) => {

@@ -1,20 +1,19 @@
-import {put, takeLatest, call, select} from 'redux-saga/effects';
+import {put, takeLatest, call, select, delay} from 'redux-saga/effects';
 import {initialize} from 'redux-form';
 import {find} from 'lodash';
 import * as types from './types';
 import * as req from './service';
 import {spinner} from './actions';
-import t from 'locales/use-translation';
-import {showNotification, handleError} from '@/utils';
+import {handleError} from '@/utils';
+import {hasValue, isBooleanTrue} from '@/constants';
+import {isFullAddress, taxationTypes} from './helper';
+import {routes, navigation} from '@/navigation';
+import {store} from '@/stores';
+import {fetchBootstrap} from '../common/actions';
 import {
   currentCompanyAddressSelector,
   selectedCompanySettingSelector
 } from '../company/selectors';
-import {hasValue, isBooleanTrue, isEmpty} from '@/constants';
-import {isFullAddress, taxationTypes} from './helper';
-import {routes} from '@/navigation';
-import {navigation} from '@/navigation';
-import {store} from '@/stores';
 
 function* updateTaxes(form, salesTaxUs) {
   const state = yield select();
@@ -47,13 +46,36 @@ function* updateTaxes(form, salesTaxUs) {
 }
 
 function* navigateToAddressScreen(payload, type, address) {
-  const route =
-    type === taxationTypes.CUSTOMER_LEVEL
-      ? routes.SHIPPING_ADDRESS_MODAL
-      : routes.COMPANY_ADDRESS_MODAL;
+  const state = yield select();
+  const formValues = state.form[payload.form]?.values;
+
+  let route = null;
+  let addressInitialValues = address;
+
+  if (type === taxationTypes.CUSTOMER_LEVEL) {
+    route = routes.SHIPPING_ADDRESS_MODAL;
+    addressInitialValues = {
+      customer_id: formValues?.customer_id,
+      address_street_1: address?.address_street_1,
+      address_street_2: address?.address_street_2,
+      city: address?.city,
+      state: address?.state,
+      zip: address?.zip,
+      ...address
+    };
+  } else {
+    route = routes.COMPANY_ADDRESS_MODAL;
+  }
+
   if (type === payload.type) {
     yield call(updateTaxes, payload.form, null);
-    navigation.navigateTo({route, params: {address}});
+    navigation.navigateTo({
+      route,
+      params: {
+        address: addressInitialValues,
+        parentForm: payload.form
+      }
+    });
   }
 }
 
@@ -63,14 +85,19 @@ function* navigateToAddressScreen(payload, type, address) {
  */
 function* fetchSalesTaxRate({payload}) {
   const state = yield select();
-  const {form} = payload;
+  const {form, goBack = false} = payload;
   try {
+    yield put(spinner('isSaving', true));
     const selectedCompany = selectedCompanySettingSelector(state);
     const isEnabled = isBooleanTrue(selectedCompany?.sales_tax_us_enabled);
     const type = selectedCompany?.sales_tax_type;
     let address = null;
 
     if (!isEnabled) {
+      return;
+    }
+
+    if (type != payload.type) {
       return;
     }
 
@@ -91,10 +118,18 @@ function* fetchSalesTaxRate({payload}) {
 
     const {data: salesTaxUs} = yield call(req.fetchSalesTaxRate, address);
 
+    if (goBack) {
+      yield type === taxationTypes.COMPANY_LEVEL && put(fetchBootstrap());
+      navigation.goBack();
+      yield delay(200);
+    }
+
     yield call(updateTaxes, form, salesTaxUs);
   } catch (e) {
     yield call(updateTaxes, form, null);
     handleError(e);
+  } finally {
+    yield put(spinner('isSaving', false));
   }
 }
 

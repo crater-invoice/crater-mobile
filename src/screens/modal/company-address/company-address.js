@@ -3,6 +3,8 @@ import {Field, initialize} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './company-address-type.d';
 import {COMPANY_ADDRESS_FORM} from 'stores/company/types';
+import {fetchSalesTaxRate} from 'stores/taxation/actions';
+import {taxationTypes} from 'stores/taxation/helper';
 import {
   BaseButton,
   ModalLayout,
@@ -26,10 +28,15 @@ export default class CompanyAddress extends Component<IProps, IStates> {
     this.setState({isFetchingInitialData: false});
   };
 
-  onSave = values => {
-    const {dispatch} = this.props;
-    const params = {...values, address: values};
-    // dispatch(updateCompany(params));
+  onSave = address => {
+    const {dispatch, parentForm} = this.props;
+    const params = {
+      form: parentForm,
+      type: taxationTypes.COMPANY_LEVEL,
+      goBack: true,
+      address
+    };
+    dispatch(fetchSalesTaxRate(params));
   };
 
   render() {
