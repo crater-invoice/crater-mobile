@@ -254,7 +254,11 @@
       }
     },
     "title": "Select a Customer",
-    "placeholder": "Select Customer"
+    "placeholder": "Select Customer",
+    "portal_access": "Portal Access",
+    "portal_access_description": "Would you like to allow this customer to login to the Customer Portal?",
+    "password": "Password",
+    "confirm_password": "Confirm Password"
   },
   "payments": {
     "date": "Payment Date",

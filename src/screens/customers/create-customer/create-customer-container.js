@@ -34,7 +34,8 @@ const mapStateToProps = (state, {route}) => ({
     prefix: null,
     customFields: null,
     billing: null,
-    shipping: null
+    shipping: null,
+    enable_portal: false
   }
 });
 
