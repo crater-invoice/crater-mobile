@@ -17,6 +17,7 @@ import {
   BaseButtonGroup,
   BaseInput,
   BaseSelect,
+  BaseSwitch,
   CustomField,
   DefaultLayout
 } from '@/components';
@@ -56,7 +57,7 @@ export default class CreateCustomer extends Component<IProps, IStates> {
 
   setInitialData = customer => {
     const {dispatch} = this.props;
-    const data = pick(customer, [
+    let data = pick(customer, [
       'name',
       'contact_name',
       'email',
@@ -67,8 +68,10 @@ export default class CreateCustomer extends Component<IProps, IStates> {
       'customFields',
       'billing',
       'shipping',
-      'fields'
+      'fields',
+      'enable_portal'
     ]);
+    data = {...data, isEditScreen: true, password_set: !true};
     dispatch(initialize(CREATE_CUSTOMER_FORM, data));
     this.setState({isFetchingInitialData: false});
   };
@@ -124,12 +127,12 @@ export default class CreateCustomer extends Component<IProps, IStates> {
       handleSubmit,
       theme,
       currencies,
-      customFields,
       isAllowToEdit,
-      isEditScreen,
-      formValues,
+      formValues: {billing, shipping, enable_portal, password_set},
       isSaving,
-      isDeleting
+      isDeleting,
+      isCreateScreen,
+      isEditScreen
     } = this.props;
 
     const {isFetchingInitialData} = this.state;
@@ -142,10 +145,6 @@ export default class CreateCustomer extends Component<IProps, IStates> {
     });
 
     const customerRefs: any = {};
-
-    const billing = formValues?.billing;
-    const shipping = formValues?.shipping;
-
     const bottomAction = (
       <BaseButtonGroup>
         <BaseButton
@@ -194,6 +193,7 @@ export default class CreateCustomer extends Component<IProps, IStates> {
           keyboardType={keyboardType.EMAIL}
           refLinkFn={ref => (customerRefs.email = ref)}
           disabled={disabled}
+          isRequired={enable_portal}
         />
 
         <Field
@@ -225,6 +225,39 @@ export default class CreateCustomer extends Component<IProps, IStates> {
         />
 
         <CustomField {...this.props} />
+
+        <Field
+          name="enable_portal"
+          component={BaseSwitch}
+          hint={t('customers.portal_access')}
+          description={t('customers.portal_access_description')}
+          disabled={disabled}
+        />
+
+        {enable_portal && (
+          <>
+            <Field
+              name={'password'}
+              component={BaseInput}
+              hint={t('customers.password')}
+              secureTextEntry
+              isRequired={!isCreateScreen || (isEditScreen && !password_set)}
+              onSubmitEditing={() => customerRefs.confirm.focus()}
+              refLinkFn={ref => (customerRefs.password = ref)}
+              minCharacter={8}
+            />
+
+            <Field
+              name={'confirm_password'}
+              component={BaseInput}
+              hint={t('customers.confirm_password')}
+              blurOnSubmit={true}
+              secureTextEntry
+              onSubmitEditing={() => customerRefs.confirm.blur()}
+              refLinkFn={ref => (customerRefs.confirm = ref)}
+            />
+          </>
+        )}
 
         <Field
           name="currency_id"
