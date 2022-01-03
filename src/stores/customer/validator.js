@@ -3,10 +3,36 @@ import {isEmpty} from '@/constants';
 import {getError} from '@/validator';
 
 export const validate = values => {
-  const {name, email, website} = values;
+  const {
+    name,
+    email,
+    website,
+    password,
+    confirm_password,
+    enable_portal,
+    isEditScreen,
+    password_added
+  } = values;
   const errors = {};
 
   errors.name = getError(name, ['required']);
+
+  if (enable_portal) {
+    errors.email = getError(email, ['required']);
+
+    const isPasswordRequired =
+      !isEditScreen || (isEditScreen && !password_added) ? 'required' : '';
+
+    errors.password = getError(
+      password,
+      ['passwordCompared', isPasswordRequired],
+      {fieldName: confirm_password}
+    );
+
+    errors.confirm_password = getError(confirm_password, ['passwordCompared'], {
+      fieldName: password
+    });
+  }
 
   if (email) {
     errors.email = getError(email, ['emailFormat']);
