@@ -34,7 +34,7 @@ export const checkExchangeRateProvider = id =>
  * @returns {*}
  */
 export const pingUrl = url => {
-  return Request.get(`/ping`, {isPing: `${url}/api/`});
+  return Request.get(`ping`, {isPing: `${url}/api/`});
 };
 
 /**
