@@ -53,11 +53,46 @@ const alreadyInUseErrorMessage = error => {
   }
 };
 
-const customErrorMessage = message => {
+const errorMessage = message => {
   switch (message) {
     case 'total_invoice_amount_must_be_more_than_paid_amount':
       showNotification({
         message: t('notification.invalid_due_amount_message'),
+        type: 'error'
+      });
+      break;
+
+    case 'address_incomplete':
+      showNotification({
+        message: t('notification.address_incomplete'),
+        type: 'error'
+      });
+      break;
+
+    case 'invalid_state':
+      showNotification({
+        message: t('notification.invalid_state'),
+        type: 'error'
+      });
+      break;
+
+    case 'invalid_city':
+      showNotification({
+        message: t('notification.invalid_city'),
+        type: 'error'
+      });
+      break;
+
+    case 'invalid_postal_code':
+      showNotification({
+        message: t('notification.invalid_postal_code'),
+        type: 'error'
+      });
+      break;
+
+    case 'invalid_format':
+      showNotification({
+        message: t('notification.address_incomplete'),
         type: 'error'
       });
       break;
@@ -92,12 +127,12 @@ export const handleError = e => {
     }
 
     if (error && typeof error === 'string') {
-      customErrorMessage(error);
+      errorMessage(error);
       return;
     }
 
     if (message) {
-      showNotification({message, type: 'error'});
+      errorMessage(message);
     }
   } catch (e) {}
 };
