@@ -69,9 +69,10 @@ export default class CreateCustomer extends Component<IProps, IStates> {
       'billing',
       'shipping',
       'fields',
-      'enable_portal'
+      'enable_portal',
+      'password_added'
     ]);
-    data = {...data, isEditScreen: true, password_set: !true};
+    data = {...data, isEditScreen: true};
     dispatch(initialize(CREATE_CUSTOMER_FORM, data));
     this.setState({isFetchingInitialData: false});
   };
@@ -128,7 +129,7 @@ export default class CreateCustomer extends Component<IProps, IStates> {
       theme,
       currencies,
       isAllowToEdit,
-      formValues: {billing, shipping, enable_portal, password_set},
+      formValues: {billing, shipping, enable_portal, password_added},
       isSaving,
       isDeleting,
       isCreateScreen,
@@ -241,7 +242,7 @@ export default class CreateCustomer extends Component<IProps, IStates> {
               component={BaseInput}
               hint={t('customers.password')}
               secureTextEntry
-              isRequired={!isCreateScreen || (isEditScreen && !password_set)}
+              isRequired={isCreateScreen || (isEditScreen && !password_added)}
               onSubmitEditing={() => customerRefs.confirm.focus()}
               refLinkFn={ref => (customerRefs.password = ref)}
               minCharacter={8}

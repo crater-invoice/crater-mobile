@@ -11,7 +11,7 @@ export const validate = values => {
     confirm_password,
     enable_portal,
     isEditScreen,
-    password_set
+    password_added
   } = values;
   const errors = {};
 
@@ -19,6 +19,19 @@ export const validate = values => {
 
   if (enable_portal) {
     errors.email = getError(email, ['required']);
+
+    const isPasswordRequired =
+      !isEditScreen || (isEditScreen && !password_added) ? 'required' : '';
+
+    errors.password = getError(
+      password,
+      ['passwordCompared', isPasswordRequired],
+      {fieldName: confirm_password}
+    );
+
+    errors.confirm_password = getError(confirm_password, ['passwordCompared'], {
+      fieldName: password
+    });
   }
 
   if (email) {
@@ -28,19 +41,6 @@ export const validate = values => {
   if (website) {
     errors.website = getError(website, ['urlFormat']);
   }
-
-  if (!isEditScreen || (isEditScreen && !password_set)) {
-    errors.password = getError(password, ['required']);
-  }
-
-  errors.password = getError(
-    password,
-    ['passwordCompared', 'minCharacterRequired'],
-    {minCharacter: 8, fieldName: confirm_password}
-  );
-  errors.confirm_password = getError(confirm_password, ['passwordCompared'], {
-    fieldName: password
-  });
 
   const fieldErrors = validateCustomField(values?.customFields);
   !isEmpty(fieldErrors) && (errors.customFields = fieldErrors);
