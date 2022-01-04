@@ -36,7 +36,7 @@ const Layout = (props: IProps) => {
       />
       <BaseView class="z-200">
         <BaseButtonView
-          class="absolute top-20 lg:top-32 xl:top-40 right-0 py-22 pl-30 pr-20"
+          class="absolute top-20 lg:top-32 xl:top-35 right-0 py-22 pl-30 pr-20"
           with-hitSlop
           scale={1}
           onPress={() => navigation.goBack()}

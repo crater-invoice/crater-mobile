@@ -25,8 +25,8 @@ export const validate = values => {
 
     errors.password = getError(
       password,
-      ['passwordCompared', isPasswordRequired],
-      {fieldName: confirm_password}
+      ['passwordCompared', 'minCharacterRequired', isPasswordRequired],
+      {minCharacter: 8, fieldName: confirm_password}
     );
 
     errors.confirm_password = getError(confirm_password, ['passwordCompared'], {
