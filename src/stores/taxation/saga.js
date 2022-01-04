@@ -86,13 +86,13 @@ function* navigateToAddressScreen(payload, type, address) {
 function* fetchSalesTaxRate({payload}) {
   const state = yield select();
   const {form, goBack = false} = payload;
+  const selectedCompany = selectedCompanySettingSelector(state);
+  const type = selectedCompany?.sales_tax_type;
+  let address = null;
+
   try {
     yield put(spinner('isSaving', true));
-    const selectedCompany = selectedCompanySettingSelector(state);
     const isEnabled = isBooleanTrue(selectedCompany?.sales_tax_us_enabled);
-    const type = selectedCompany?.sales_tax_type;
-    let address = null;
-
     if (!isEnabled) {
       return;
     }
@@ -121,13 +121,14 @@ function* fetchSalesTaxRate({payload}) {
     if (goBack) {
       yield type === taxationTypes.COMPANY_LEVEL && put(fetchBootstrap());
       navigation.goBack();
-      yield delay(200);
+      yield delay(300);
     }
 
     yield call(updateTaxes, form, salesTaxUs);
   } catch (e) {
     yield call(updateTaxes, form, null);
     handleError(e);
+    yield !goBack && call(navigateToAddressScreen, payload, type, address);
   } finally {
     yield put(spinner('isSaving', false));
   }
