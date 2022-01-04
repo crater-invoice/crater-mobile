@@ -36,7 +36,7 @@ const Layout = (props: IProps) => {
       />
       <BaseView class="z-200">
         <BaseButtonView
-          class="absolute top-20 right-0 py-22 pl-30 pr-20"
+          class="absolute top-20 lg:top-32 xl:top-40 right-0 py-22 pl-30 pr-20"
           with-hitSlop
           scale={1}
           onPress={() => navigation.goBack()}
@@ -52,11 +52,10 @@ const Layout = (props: IProps) => {
       <KeyboardAvoidingView
         style={{flex: 1, paddingTop: 30}}
         contentContainerStyle={{flex: 1}}
-        // keyboardVerticalOffset={definePlatformParam(60, 0)}
         behavior="height"
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          <BaseView class="mt-33 px-20">
+          <BaseView class="mt-33 lg:mt-40 xl:mt-48 px-22">
             <Text class="h3 left" color={theme?.viewLabel?.primaryColor}>
               {props.title}
             </Text>

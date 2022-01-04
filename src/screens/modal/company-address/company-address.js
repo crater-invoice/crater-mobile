@@ -67,19 +67,18 @@ export default class CompanyAddress extends Component<IProps, IStates> {
           component={BaseInput}
           hint={t('settings.company.address')}
           height={60}
-          placeholder={t('settings.company.street_1')}
           inputProps={{multiline: true}}
           isRequired
         />
 
-        <Field
+        {/* <Field
           name="address_street_2"
           component={BaseInput}
           height={60}
           placeholder={t('settings.company.street_2')}
           inputProps={{multiline: true}}
           containerStyle={{marginTop: -15}}
-        />
+        /> */}
 
         <Field
           name="city"

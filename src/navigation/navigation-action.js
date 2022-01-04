@@ -4,12 +4,13 @@ import {TransitionPresets} from '@react-navigation/stack';
 import {CommonActions} from '@react-navigation/native';
 import {PermissionService} from '@/services';
 import {routes} from './navigation-routes';
+import {SCREEN_WIDTH} from '@/helpers/size';
 
 export const navigatorOptions = {
   animationEnabled: true,
   gestureEnabled: true,
   ...TransitionPresets.SlideFromRightIOS,
-  gestureResponseDistance: {horizontal: 110, vertical: 200}
+  gestureResponseDistance: {horizontal: SCREEN_WIDTH * 0.3, vertical: 200}
 };
 
 export let navigationRef: any = React.createRef();

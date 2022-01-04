@@ -1,5 +1,6 @@
 import {hasObjectLength, hasTextLength as hasValue} from '@/constants';
 import {isAndroidPlatform, isIosPlatform, isIPhoneX} from '@/helpers/platform';
+import {SCREEN_HEIGHT} from '@/helpers/size';
 import properties from '../helpers/styled';
 
 /**
@@ -16,6 +17,10 @@ function formattedPropertyName(property) {
 
   if (property.includes('xl:')) {
     return property.split('xl:').pop();
+  }
+
+  if (property.includes('lg:')) {
+    return property.split('lg:').pop();
   }
 
   if (property.charAt(0) === '-') {
@@ -61,6 +66,10 @@ function isAllowToApply(property) {
   }
 
   if (property.includes('and:') && !isAndroidPlatform) {
+    return false;
+  }
+
+  if (property.includes('lg:') && SCREEN_HEIGHT < 775) {
     return false;
   }
 

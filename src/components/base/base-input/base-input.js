@@ -19,7 +19,6 @@ class TextInput extends Component<IProps> {
     this.state = {
       isSecureTextEntry: this.props.secureTextEntry,
       active: false,
-      isOptionsVisible: false,
       inputVal: ''
     };
   }
@@ -207,7 +206,6 @@ class TextInput extends Component<IProps> {
     let methods: any = {
       onFocus: event => {
         this.toggleFocus(true);
-        this.setState({isOptionsVisible: true});
         setActivity?.(true);
         onFocus?.(event);
       },
