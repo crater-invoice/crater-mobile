@@ -14,10 +14,12 @@ import {
   currentCompanyAddressSelector,
   selectedCompanySettingSelector
 } from '../company/selectors';
+import {settingsSelector} from '../common/selectors';
 
 function* updateTaxes(form, salesTaxUs) {
   const state = yield select();
   const formValues = state.form[form]?.values;
+
   let taxes = formValues?.taxes ?? [];
 
   if (!hasValue(salesTaxUs)) {
@@ -86,6 +88,7 @@ function* navigateToAddressScreen(payload, type, address) {
 function* fetchSalesTaxRate({payload}) {
   const state = yield select();
   const {form, goBack = false} = payload;
+  const formValues = state.form[form]?.values;
   const selectedCompany = selectedCompanySettingSelector(state);
   const type = selectedCompany?.sales_tax_type;
   let address = null;
@@ -98,6 +101,13 @@ function* fetchSalesTaxRate({payload}) {
     }
 
     if (type != payload.type) {
+      return;
+    }
+
+    const taxPerItem = hasValue(formValues?.tax_per_item)
+      ? formValues?.tax_per_item
+      : settingsSelector(state)?.tax_per_item;
+    if (isBooleanTrue(taxPerItem)) {
       return;
     }
 
