@@ -90,7 +90,6 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
         break;
       }
     }
-
     concurrentMultiSelect &&
       (await this.setState({
         selectedItems: value,
@@ -290,6 +289,21 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
     return;
   };
 
+  onLeftIconPress = () => {
+    const {input, onSubmitCallback, concurrentMultiSelect} = this.props;
+    const {selectedItems} = this.state;
+
+    if (concurrentMultiSelect) {
+      onSubmitCallback
+        ? onSubmitCallback?.(selectedItems)
+        : input?.onChange?.(selectedItems);
+
+      this.setState({oldItems: selectedItems});
+    }
+
+    this.onToggle();
+  };
+
   toggleInputModal = () => {
     this.inputModelReference?.onToggle?.();
   };
@@ -407,7 +421,7 @@ export class SelectFieldComponent extends Component<IProps, IStates> {
 
     let layoutHeaderProps = {
       leftIcon: ARROW_ICON,
-      leftIconPress: () => this.onToggle(),
+      leftIconPress: this.onLeftIconPress,
       withTitleStyle: headerTitle({}),
       placement: 'center',
       rightIcon: 'plus',

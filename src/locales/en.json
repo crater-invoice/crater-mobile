@@ -37,6 +37,7 @@
       "account": "Account Settings",
       "preferences": "Preferences"
     },
+    "taxation": "Taxation",
     "taxes": "Tax Types",
     "add_tax": "Add Tax",
     "edit_tax": "Edit Tax",
@@ -253,7 +254,11 @@
       }
     },
     "title": "Select a Customer",
-    "placeholder": "Select Customer"
+    "placeholder": "Select Customer",
+    "portal_access": "Portal Access",
+    "portal_access_description": "Would you like to allow this customer to login to the Customer Portal?",
+    "password": "Password",
+    "confirm_password": "Confirm Password"
   },
   "payments": {
     "date": "Payment Date",
@@ -396,6 +401,7 @@
     "company_information": "Company Info",
     "preference": "Preferences",
     "notification": "Notifications",
+    "taxation": "Taxation",
     "taxes": "Tax Types",
     "expense_category": "Expense Categories",
     "payment_modes": "Payment Modes",
@@ -647,6 +653,9 @@
       "button_title": "Add Tax Type"
     }
   },
+  "taxation": {
+    "type": "Taxation type"
+  },
   "touch_face_id": {
     "touch_id": "Touch ID",
     "face_id": "Face ID",
@@ -807,6 +816,7 @@
     "tax_updated": "Tax type updated successfully",
     "tax_deleted": "Tax type deleted successfully",
     "tax_already_in_use": "Tax is already in use",
+    "taxation_updated": "Taxation updated successfully",
     "setting_updated": "Setting updated successfully",
     "invoice_setting_updated": "Invoice Setting updated successfully",
     "estimate_setting_updated": "Estimate Setting updated successfully",
@@ -853,6 +863,15 @@
     "recurring_invoice_deleted": "Recurring Invoice deleted successfully",
     "password_reset_link": "The password reset link was sent successfully.",
     "company_created": "Company created successfully",
-    "invalid_due_amount_message": "Total Invoice amount cannot be less than total paid amount for this Invoice. Please update the invoice or delete the associated payments to continue."
+    "invalid_due_amount_message": "Total Invoice amount cannot be less than total paid amount for this Invoice. Please update the invoice or delete the associated payments to continue.",
+    "address_incomplete": "Please enter proper address.",
+    "invalid_state": "Please enter proper state.",
+    "invalid_city": "Please enter proper city.",
+    "invalid_postal_code": "Please enter proper zip code."
+  },
+  "modal": {
+    "shipping_address": "Enter Shipping Address",
+    "company_address": "Enter Company Address",
+    "sales_tax_heading": "The information below is required in order to fetch sales tax."
   }
 }

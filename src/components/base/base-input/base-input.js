@@ -10,7 +10,7 @@ import {Text, BaseLabel, BaseError, ButtonView, AssetIcon} from '@/components';
 import {commonSelector} from 'stores/common/selectors';
 import {currentCurrencySelector} from 'stores/company/selectors';
 import {keyboardType, keyboardReturnKeyType} from '@/helpers/keyboard';
-import {hasTextLength, hasValue, hitSlop} from '@/constants';
+import {hasTextLength, hasValue} from '@/constants';
 
 class TextInput extends Component<IProps> {
   constructor(props) {
@@ -19,7 +19,6 @@ class TextInput extends Component<IProps> {
     this.state = {
       isSecureTextEntry: this.props.secureTextEntry,
       active: false,
-      isOptionsVisible: false,
       inputVal: ''
     };
   }
@@ -191,8 +190,7 @@ class TextInput extends Component<IProps> {
           <ButtonView
             scale={0.8}
             onPress={this.toggleSecureTextEntry}
-            hitSlop={hitSlop(30, 30, 30, 30)}
-            class="justify-center items-center pt-2 px-15"
+            class="justify-center items-center px-15 flex-1"
           >
             <AssetIcon
               name={isSecureTextEntry ? 'eye' : 'eye-slash'}
@@ -207,7 +205,6 @@ class TextInput extends Component<IProps> {
     let methods: any = {
       onFocus: event => {
         this.toggleFocus(true);
-        this.setState({isOptionsVisible: true});
         setActivity?.(true);
         onFocus?.(event);
       },

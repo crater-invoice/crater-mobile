@@ -44,7 +44,7 @@ export function addCompany(params, logo) {
  * @param logo
  * @returns {{type: string, payload: *}}
  */
-export function updateCompany(params, logo) {
+export function updateCompany(params, logo = null) {
   return {
     type: types.UPDATE_COMPANY,
     payload: {params, logo}

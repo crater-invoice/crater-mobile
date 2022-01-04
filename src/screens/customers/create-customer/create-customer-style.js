@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   currency: {
-    marginTop: 15
+    marginTop: 24
   },
   billing: theme => ({
     marginTop: -10,

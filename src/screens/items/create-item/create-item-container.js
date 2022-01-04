@@ -12,6 +12,7 @@ import {unitsSelector} from 'stores/item-unit/selectors';
 import {customFieldsSelector} from 'stores/custom-field/selectors';
 import {withExchangedAmount} from '@/utils';
 import {isNaN, round} from 'lodash';
+import {hasValue} from '@/constants';
 
 const mapStateToProps = (state, {route}) => {
   const {invoice, estimate, recurringInvoice} = state;
@@ -51,7 +52,7 @@ const mapStateToProps = (state, {route}) => {
       discount: 0,
       taxes: [],
       ...item,
-      price: isNaN(price) ? null : price
+      price: !hasValue(price) || isNaN(price) ? 0 : price
     }
   };
 };

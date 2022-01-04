@@ -6,11 +6,12 @@ import {routes} from '@/navigation';
 import {colors} from '@/styles';
 import t from 'locales/use-translation';
 import {DISCOUNT_OPTION} from 'stores/common/types';
-import {isBooleanTrue} from '@/constants';
-import {isIosPlatform, definePlatformParam} from '@/helpers/platform';
+import {hasValue, isBooleanTrue} from '@/constants';
+import {definePlatformParam} from '@/helpers/platform';
 import {keyboardType} from '@/helpers/keyboard';
 import {TaxSelectModal} from '@/select-modal';
 import {IProps} from './final-amount-type.d';
+import {formatTaxType} from 'stores/tax-type/selectors';
 import {
   BaseInput,
   BaseDivider,
@@ -32,7 +33,6 @@ import {
 
 export const FinalAmount: FC<IProps> = props => {
   const {
-    taxTypes,
     navigation,
     discount_per_item,
     tax_per_item,
@@ -44,14 +44,19 @@ export const FinalAmount: FC<IProps> = props => {
     dispatch,
     form
   } = props;
-
   const disabled = !isAllowToEdit;
   let taxes = formValues?.taxes;
+
   let taxPerItem = isBooleanTrue(tax_per_item);
   let discountPerItem = isBooleanTrue(discount_per_item);
+
   const setFormField = (field, value) => {
     dispatch(change(form, field, value));
   };
+
+  const taxTypes = !hasValue(formValues?.salesTaxUs)
+    ? props.taxTypes
+    : [...[formatTaxType(formValues?.salesTaxUs)], ...props.taxTypes];
 
   return (
     <View style={styles.amountContainer(theme)}>

@@ -47,6 +47,9 @@ import {PaymentModes} from 'screens/payment-modes';
 
 import Webview from 'screens/webview';
 
+import CompanyAddressModal from 'screens/modal/company-address';
+import CustomerShippingAddressModal from 'screens/modal/customer-address';
+
 import {
   RecurringInvoices,
   ViewRecurringInvoice,
@@ -255,6 +258,18 @@ export const CommonNavigator = (
     <Stack.Screen
       name={routes.CREATE_ROLE}
       component={CreateRole}
+      options={options}
+    />
+
+    {/* Modal */}
+    <Stack.Screen
+      name={routes.COMPANY_ADDRESS_MODAL}
+      component={CompanyAddressModal}
+      options={options}
+    />
+    <Stack.Screen
+      name={routes.SHIPPING_ADDRESS_MODAL}
+      component={CustomerShippingAddressModal}
       options={options}
     />
 

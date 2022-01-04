@@ -13,3 +13,5 @@ export * from './base-action-sheet';
 export * from './base-switch';
 export * from './base-tabs';
 export * from './base-input';
+export * from './base-view';
+export * from './base-button-view';

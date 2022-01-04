@@ -76,24 +76,25 @@ export default class Request {
     return formData;
   };
 
-  static async request({
-    path,
-    method,
-    body,
-    headers = {},
-    image,
-    imageName = '',
-    isPing = null,
-    type = 'create',
-    axiosProps,
-    withMultipartFormData = false,
-    throw_error = true
-  }: IProps) {
+  static async request(props: IProps) {
+    const {
+      path,
+      method,
+      body,
+      headers = {},
+      image,
+      imageName = '',
+      isPing = null,
+      type = 'create',
+      axiosProps,
+      withMultipartFormData = false,
+      throw_error = true
+    } = props;
     const reduxStore = store.getState();
     const {idToken} = reduxStore.auth;
-    const {endpointApi} = reduxStore.common;
+    const {endpointApi, endpointURL} = reduxStore.common;
     const {selectedCompany} = reduxStore.company;
-    let apiUrl = endpointApi;
+    let apiUrl = props['base-url'] ? endpointURL : endpointApi;
 
     if (isPing) {
       apiUrl = isPing;

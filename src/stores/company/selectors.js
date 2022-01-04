@@ -56,6 +56,9 @@ export const companiesSelector = state =>
 
 export const currentCompanySelector = state => state.company?.selectedCompany;
 
+export const currentCompanyAddressSelector = state =>
+  state.company?.selectedCompany?.address;
+
 export const currentCurrencySelector = state =>
   state.company?.selectedCompanyCurrency;
 
