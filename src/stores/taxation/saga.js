@@ -126,7 +126,14 @@ function* fetchSalesTaxRate({payload}) {
       return;
     }
 
-    const {data: salesTaxUs} = yield call(req.fetchSalesTaxRate, address);
+    const response = yield call(req.fetchSalesTaxRate, address);
+    const {data: salesTaxUs} = response;
+
+    if (response.error) {
+      yield call(updateTaxes, form, null);
+      handleError(response.message);
+      yield !goBack && call(navigateToAddressScreen, payload, type, address);
+    }
 
     if (goBack) {
       yield type === taxationTypes.COMPANY_LEVEL && put(fetchBootstrap());
