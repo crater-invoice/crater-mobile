@@ -263,9 +263,10 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   };
 
   onCreateNewCustomer = data => {
+    const {billing = {}, shipping = {}} = data;
     this.customerReference?.changeDisplayValue?.(data);
     this.onCustomerSelect(data);
-    this.fetchSalesTaxRate(taxationTypes.CUSTOMER_LEVEL, data?.shipping ?? {});
+    this.fetchSalesTaxRate(taxationTypes.CUSTOMER_LEVEL, shipping, billing);
   };
 
   navigateToCustomer = () => {
@@ -280,16 +281,26 @@ export default class CreateRecurringInvoice extends Component<IProps, IStates> {
   };
 
   onCustomerSelect = data => {
+    const {id, currency, billing = {}, shipping = {}} = data;
     data && this.state.hasProvider && this.setState({hasProvider: false});
     this.setFormField('exchange_rate', null);
-    this.setFormField('customer_id', data.id);
-    this.setExchangeRate(data.currency);
-    this.fetchSalesTaxRate(taxationTypes.CUSTOMER_LEVEL, data?.shipping ?? {});
+    this.setFormField('customer_id', id);
+    this.setExchangeRate(currency);
+    this.fetchSalesTaxRate(taxationTypes.CUSTOMER_LEVEL, shipping, billing);
   };
 
-  fetchSalesTaxRate = (type = taxationTypes.COMPANY_LEVEL, address = null) => {
+  fetchSalesTaxRate = (
+    type = taxationTypes.COMPANY_LEVEL,
+    shipping = null,
+    billing = null
+  ) => {
     const {dispatch} = this.props;
-    const params = {form: CREATE_RECURRING_INVOICE_FORM, type, address};
+    const params = {
+      form: CREATE_RECURRING_INVOICE_FORM,
+      type,
+      shipping,
+      billing
+    };
     dispatch(fetchSalesTaxRate(params));
   };
 
