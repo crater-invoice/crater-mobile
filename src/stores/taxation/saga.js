@@ -12,7 +12,7 @@ import {store} from '@/stores';
 import {fetchBootstrap} from '../common/actions';
 import {
   currentCompanyAddressSelector,
-  selectedCompanySettingSelector
+  selectedCompanySalesTaxSettingSelector
 } from '../company/selectors';
 import {settingsSelector} from '../common/selectors';
 
@@ -89,9 +89,16 @@ function* fetchSalesTaxRate({payload}) {
   const state = yield select();
   const {form, goBack = false} = payload;
   const formValues = state.form[form]?.values;
-  const selectedCompany = selectedCompanySettingSelector(state);
-  const type = selectedCompany?.sales_tax_type;
-  const addressType = selectedCompany?.sales_tax_address_type;
+  const selectedCompany = yield select(selectedCompanySalesTaxSettingSelector);
+  const type = hasValue(formValues?.sales_tax_type)
+    ? formValues?.sales_tax_type
+    : selectedCompany?.sales_tax_type;
+  const addressType = hasValue(formValues?.sales_tax_address_type)
+    ? formValues?.sales_tax_address_type
+    : selectedCompany?.sales_tax_address_type;
+  const taxPerItem = hasValue(formValues?.tax_per_item)
+    ? formValues?.tax_per_item
+    : settingsSelector(state)?.tax_per_item;
   let address = null;
   try {
     yield put(spinner('isSaving', true));
@@ -104,9 +111,6 @@ function* fetchSalesTaxRate({payload}) {
       return;
     }
 
-    const taxPerItem = hasValue(formValues?.tax_per_item)
-      ? formValues?.tax_per_item
-      : settingsSelector(state)?.tax_per_item;
     if (isBooleanTrue(taxPerItem)) {
       return;
     }
