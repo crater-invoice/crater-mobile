@@ -23,7 +23,7 @@ function* updateTaxes(form, salesTaxUs) {
   let taxes = formValues?.taxes ?? [];
 
   if (!hasValue(salesTaxUs)) {
-    store.dispatch(
+    yield store.dispatch(
       initialize(form, {
         ...formValues,
         salesTaxUs: null,
@@ -42,7 +42,7 @@ function* updateTaxes(form, salesTaxUs) {
   } else {
     taxes.unshift(formattedSalesTax);
   }
-  store.dispatch(
+  yield store.dispatch(
     initialize(form, {...formValues, taxes, salesTaxUs: formattedSalesTax})
   );
 }
