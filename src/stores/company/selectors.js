@@ -1,4 +1,4 @@
-import {isEmpty} from '@/constants';
+import {isBooleanTrue, isEmpty} from '@/constants';
 import {createSelector} from 'reselect';
 
 const companyStore = state => state?.company;
@@ -64,3 +64,18 @@ export const currentCurrencySelector = state =>
 
 export const selectedCompanySettingSelector = state =>
   state?.company?.selectedCompanySettings;
+
+const salesTaxSettings = settings => {
+  if (!isBooleanTrue(settings?.sales_tax_us_enabled)) {
+    return {};
+  }
+  return {
+    sales_tax_us_enabled: settings.sales_tax_us_enabled,
+    sales_tax_type: settings.sales_tax_type,
+    sales_tax_address_type: settings.sales_tax_address_type
+  };
+};
+export const selectedCompanySalesTaxSettingSelector = createSelector(
+  state => state?.company?.selectedCompanySettings,
+  settings => salesTaxSettings(settings)
+);

@@ -10,6 +10,7 @@ import {fetchCustomFields} from 'stores/custom-field/saga';
 import {addItem} from '../item/saga';
 import {modalTypes} from '../custom-field/helpers';
 import {isEmpty} from '@/constants';
+import {selectedCompanySalesTaxSettingSelector} from '../company/selectors';
 
 /**
  * Fetch Next-Invoice-At saga
@@ -107,7 +108,11 @@ function* addRecurringInvoice({payload}) {
   try {
     yield put(spinner('isSaving', true));
     const {invoice, onSuccess} = payload;
-    const response = yield call(req.addRecurringInvoice, invoice);
+    const salesTaxSettings = yield select(
+      selectedCompanySalesTaxSettingSelector
+    );
+    const params = {...invoice, ...salesTaxSettings};
+    const response = yield call(req.addRecurringInvoice, params);
     yield put({
       type: types.ADD_RECURRING_INVOICE_SUCCESS,
       payload: response?.data

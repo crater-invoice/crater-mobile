@@ -6,13 +6,13 @@ import * as req from './service';
 import {spinner} from './actions';
 import {handleError} from '@/utils';
 import {hasValue, isBooleanTrue} from '@/constants';
-import {isFullAddress, taxationTypes} from './helper';
+import {isFullAddress, salesTax, taxationTypes} from './helper';
 import {routes, navigation} from '@/navigation';
 import {store} from '@/stores';
 import {fetchBootstrap} from '../common/actions';
 import {
   currentCompanyAddressSelector,
-  selectedCompanySettingSelector
+  selectedCompanySalesTaxSettingSelector
 } from '../company/selectors';
 import {settingsSelector} from '../common/selectors';
 
@@ -27,7 +27,7 @@ function* updateTaxes(form, salesTaxUs) {
       initialize(form, {
         ...formValues,
         salesTaxUs: null,
-        taxes: taxes.filter(tax => tax.name !== 'SalesTaxUs')
+        taxes: taxes.filter(tax => tax.name !== salesTax)
       })
     );
     return;
@@ -47,16 +47,16 @@ function* updateTaxes(form, salesTaxUs) {
   );
 }
 
-function* navigateToAddressScreen(payload, type, address) {
+function* navigateToAddressScreen(payload, type, address, addressType) {
   const state = yield select();
   const formValues = state.form[payload.form]?.values;
-
   let route = null;
   let addressInitialValues = address;
 
   if (type === taxationTypes.CUSTOMER_LEVEL) {
-    route = routes.SHIPPING_ADDRESS_MODAL;
+    route = routes.CUSTOMER_ADDRESS_MODAL;
     addressInitialValues = {
+      addressType,
       customer_id: formValues?.customer_id,
       address_street_1: address?.address_street_1,
       address_street_2: address?.address_street_2,
@@ -89,10 +89,17 @@ function* fetchSalesTaxRate({payload}) {
   const state = yield select();
   const {form, goBack = false} = payload;
   const formValues = state.form[form]?.values;
-  const selectedCompany = selectedCompanySettingSelector(state);
-  const type = selectedCompany?.sales_tax_type;
+  const selectedCompany = yield select(selectedCompanySalesTaxSettingSelector);
+  const type = hasValue(formValues?.sales_tax_type)
+    ? formValues?.sales_tax_type
+    : selectedCompany?.sales_tax_type;
+  const addressType = hasValue(formValues?.sales_tax_address_type)
+    ? formValues?.sales_tax_address_type
+    : selectedCompany?.sales_tax_address_type;
+  const taxPerItem = hasValue(formValues?.tax_per_item)
+    ? formValues?.tax_per_item
+    : settingsSelector(state)?.tax_per_item;
   let address = null;
-
   try {
     yield put(spinner('isSaving', true));
     const isEnabled = isBooleanTrue(selectedCompany?.sales_tax_us_enabled);
@@ -104,15 +111,12 @@ function* fetchSalesTaxRate({payload}) {
       return;
     }
 
-    const taxPerItem = hasValue(formValues?.tax_per_item)
-      ? formValues?.tax_per_item
-      : settingsSelector(state)?.tax_per_item;
     if (isBooleanTrue(taxPerItem)) {
       return;
     }
 
     if (type === taxationTypes.CUSTOMER_LEVEL) {
-      address = payload?.address;
+      address = payload[addressType];
     } else {
       address = payload?.address ?? currentCompanyAddressSelector(state);
     }
@@ -122,11 +126,19 @@ function* fetchSalesTaxRate({payload}) {
     }
 
     if (!isFullAddress(address)) {
-      yield call(navigateToAddressScreen, payload, type, address);
+      yield call(navigateToAddressScreen, payload, type, address, addressType);
       return;
     }
 
-    const {data: salesTaxUs} = yield call(req.fetchSalesTaxRate, address);
+    const response = yield call(req.fetchSalesTaxRate, address);
+    const {data: salesTaxUs} = response;
+
+    if (response.error) {
+      yield call(updateTaxes, form, null);
+      handleError(response.message);
+      yield !goBack &&
+        call(navigateToAddressScreen, payload, type, address, addressType);
+    }
 
     if (goBack) {
       yield type === taxationTypes.COMPANY_LEVEL && put(fetchBootstrap());
@@ -138,7 +150,8 @@ function* fetchSalesTaxRate({payload}) {
   } catch (e) {
     yield call(updateTaxes, form, null);
     handleError(e);
-    yield !goBack && call(navigateToAddressScreen, payload, type, address);
+    yield !goBack &&
+      call(navigateToAddressScreen, payload, type, address, addressType);
   } finally {
     yield put(spinner('isSaving', false));
   }

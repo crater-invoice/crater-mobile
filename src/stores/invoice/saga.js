@@ -10,6 +10,7 @@ import {spinner} from './actions';
 import {addItem} from '../item/saga';
 import {modalTypes} from '../custom-field/helpers';
 import {isEmpty} from '@/constants';
+import {selectedCompanySalesTaxSettingSelector} from '../company/selectors';
 
 /**
  * Fetch invoice templates saga
@@ -106,7 +107,11 @@ function* addInvoice({payload}) {
   try {
     yield put(spinner('isSaving', true));
     const {invoice, onSuccess} = payload;
-    const {data} = yield call(req.addInvoice, invoice);
+    const salesTaxSettings = yield select(
+      selectedCompanySalesTaxSettingSelector
+    );
+    const params = {...invoice, ...salesTaxSettings};
+    const {data} = yield call(req.addInvoice, params);
     yield put({type: types.ADD_INVOICE_SUCCESS, payload: data});
     req.InvoiceServices.toggleIsFirstInvoiceCreated(true);
     onSuccess?.(data);

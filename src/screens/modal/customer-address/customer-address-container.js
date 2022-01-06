@@ -3,13 +3,14 @@ import {reduxForm} from 'redux-form';
 import CustomerAddress from './customer-address';
 import {commonSelector} from 'stores/common/selectors';
 import validate from './customer-address-validator';
-import {SHIPPING_ADDRESS_FORM} from 'stores/customer/types';
+import {CUSTOMER_ADDRESS_FORM} from 'stores/customer/types';
 import {loadingSelector} from 'stores/taxation/selectors';
 
 const mapStateToProps = (state, {route}) => ({
   ...commonSelector(state),
   address: route?.params?.address,
   parentForm: route?.params?.parentForm,
+  addressType: route?.params?.address?.addressType,
   isSaving: loadingSelector(state),
   initialValues: {
     state: null,
@@ -20,7 +21,7 @@ const mapStateToProps = (state, {route}) => ({
   }
 });
 
-const CustomerAddressForm = reduxForm({form: SHIPPING_ADDRESS_FORM, validate})(
+const CustomerAddressForm = reduxForm({form: CUSTOMER_ADDRESS_FORM, validate})(
   CustomerAddress
 );
 
