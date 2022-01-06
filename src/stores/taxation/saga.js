@@ -23,11 +23,13 @@ function* updateTaxes(form, salesTaxUs) {
   let taxes = formValues?.taxes ?? [];
 
   if (!hasValue(salesTaxUs)) {
-    store.dispatch(
+    yield store.dispatch(
       initialize(form, {
         ...formValues,
         salesTaxUs: null,
-        taxes: taxes.filter(tax => tax.name !== salesTax)
+        taxes: taxes.filter(
+          ({name, type}) => name !== salesTax && type !== 'MODULE'
+        )
       })
     );
     return;
@@ -42,7 +44,7 @@ function* updateTaxes(form, salesTaxUs) {
   } else {
     taxes.unshift(formattedSalesTax);
   }
-  store.dispatch(
+  yield store.dispatch(
     initialize(form, {...formValues, taxes, salesTaxUs: formattedSalesTax})
   );
 }
