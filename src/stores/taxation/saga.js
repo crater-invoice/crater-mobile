@@ -27,7 +27,9 @@ function* updateTaxes(form, salesTaxUs) {
       initialize(form, {
         ...formValues,
         salesTaxUs: null,
-        taxes: taxes.filter(tax => tax.name !== salesTax)
+        taxes: taxes.filter(
+          ({name, type}) => name !== salesTax && type !== 'MODULE'
+        )
       })
     );
     return;
