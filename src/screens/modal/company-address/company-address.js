@@ -66,6 +66,7 @@ export default class CompanyAddress extends Component<IProps, IStates> {
           name="address_street_1"
           component={BaseInput}
           hint={t('settings.company.address')}
+          placeholder="Example: 123, My Street"
           height={60}
           inputProps={{multiline: true}}
           isRequired
@@ -84,6 +85,7 @@ export default class CompanyAddress extends Component<IProps, IStates> {
           name="city"
           component={BaseInput}
           hint={t('customers.address.city')}
+          placeholder="Example: Los Angeles"
           isRequired
         />
 
@@ -91,6 +93,7 @@ export default class CompanyAddress extends Component<IProps, IStates> {
           name="state"
           component={BaseInput}
           hint={t('customers.address.state')}
+          placeholder="Example: CA"
           isRequired
         />
 
@@ -98,6 +101,7 @@ export default class CompanyAddress extends Component<IProps, IStates> {
           name="zip"
           component={BaseInput}
           hint={t('settings.company.zip_code')}
+          placeholder="Example: 90024"
           isRequired
         />
       </ModalLayout>
