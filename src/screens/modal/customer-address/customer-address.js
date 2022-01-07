@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field, initialize} from 'redux-form';
 import t from 'locales/use-translation';
 import {IProps, IStates} from './customer-address-type.d';
-import {SHIPPING_ADDRESS_FORM} from 'stores/customer/types';
+import {CUSTOMER_ADDRESS_FORM} from 'stores/customer/types';
 import {fetchSalesTaxRate} from 'stores/taxation/actions';
 import {taxationTypes} from 'stores/taxation/helper';
 import {
@@ -24,23 +24,23 @@ export default class CustomerAddress extends Component<IProps, IStates> {
 
   loadData = () => {
     const {dispatch, address} = this.props;
-    dispatch(initialize(SHIPPING_ADDRESS_FORM, address));
+    dispatch(initialize(CUSTOMER_ADDRESS_FORM, address));
     this.setState({isFetchingInitialData: false});
   };
 
   onSave = address => {
-    const {dispatch, parentForm} = this.props;
-    const params = {
+    const {dispatch, parentForm, addressType} = this.props;
+    let params = {
       form: parentForm,
       type: taxationTypes.CUSTOMER_LEVEL,
-      goBack: true,
-      address
+      goBack: true
     };
+    params[addressType] = address;
     dispatch(fetchSalesTaxRate(params));
   };
 
   render() {
-    const {handleSubmit, isSaving} = this.props;
+    const {handleSubmit, isSaving, addressType} = this.props;
     const {isFetchingInitialData} = this.state;
 
     const bottomAction = (
@@ -57,7 +57,7 @@ export default class CustomerAddress extends Component<IProps, IStates> {
 
     return (
       <ModalLayout
-        title={t('modal.shipping_address')}
+        title={t(`modal.${addressType}`)}
         sub-title={t('modal.sales_tax_heading')}
         bottomAction={bottomAction}
         loadingProps={{is: isFetchingInitialData}}

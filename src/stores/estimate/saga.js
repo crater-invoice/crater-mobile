@@ -11,6 +11,7 @@ import {FETCH_INVOICES_SUCCESS} from '../invoice/types';
 import {addItem} from '../item/saga';
 import {modalTypes} from '../custom-field/helpers';
 import {isEmpty} from '@/constants';
+import {selectedCompanySalesTaxSettingSelector} from '../company/selectors';
 
 /**
  * Fetch estimate templates saga
@@ -110,7 +111,11 @@ function* addEstimate({payload}) {
   try {
     yield put(spinner('isSaving', true));
     const {estimate, onSuccess} = payload;
-    const {data} = yield call(req.addEstimate, estimate);
+    const salesTaxSettings = yield select(
+      selectedCompanySalesTaxSettingSelector
+    );
+    const params = {...estimate, ...salesTaxSettings};
+    const {data} = yield call(req.addEstimate, params);
     yield put({type: types.ADD_ESTIMATE_SUCCESS, payload: data});
     onSuccess?.(data);
     showNotification({message: t('notification.estimate_created')});

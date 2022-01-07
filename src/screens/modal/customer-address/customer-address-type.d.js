@@ -43,6 +43,16 @@ export interface IProps {
    * Selected company currency.
    */
   currency: any;
+
+  /**
+   * Object of address.
+   */
+  address: Object<any>;
+
+  /**
+   * The type of address for sales tax if sales-tax-type-is customer.
+   */
+  addressType: string;
 }
 
 export interface IStates {
