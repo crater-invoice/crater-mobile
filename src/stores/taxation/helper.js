@@ -1,6 +1,8 @@
 import {hasTextLength as hasValue} from '@/constants';
 import {find} from 'lodash';
 
+export const salesTax = 'Sales Tax';
+
 export const isFullAddress = address => {
   const fields = ['address_street_1', 'city', 'state', 'zip'];
   let isValid = true;
@@ -22,7 +24,7 @@ export const taxationTypes = {
 
 export const setSalesTaxUsFieldValue = values => {
   const taxes = values?.taxes ?? [];
-  let salesTaxUs = find(taxes, {name: 'SalesTaxUs'});
+  let salesTaxUs = find(taxes, {name: salesTax, type: 'MODULE'});
   salesTaxUs && (salesTaxUs = {...salesTaxUs, id: salesTaxUs.tax_type_id});
   return {salesTaxUs};
 };

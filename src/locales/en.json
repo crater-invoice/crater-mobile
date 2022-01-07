@@ -870,7 +870,8 @@
     "invalid_postal_code": "Please enter proper zip code."
   },
   "modal": {
-    "shipping_address": "Enter Shipping Address",
+    "shipping": "Enter Shipping Address",
+    "billing": "Enter Billing Address",
     "company_address": "Enter Company Address",
     "sales_tax_heading": "The information below is required in order to fetch sales tax."
   }
