@@ -10,7 +10,7 @@ export const navigatorOptions = {
   animationEnabled: true,
   gestureEnabled: true,
   ...TransitionPresets.SlideFromRightIOS,
-  gestureResponseDistance: {horizontal: SCREEN_WIDTH * 0.3, vertical: 200}
+  gestureResponseDistance: {horizontal: SCREEN_WIDTH * 0.9, vertical: 200}
 };
 
 export let navigationRef: any = React.createRef();
