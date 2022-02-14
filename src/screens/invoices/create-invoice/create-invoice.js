@@ -175,6 +175,7 @@ export default class CreateInvoice extends React.Component<IProps, IStates> {
       sub_total: total(),
       tax: tax() + CompoundTax(),
       discount_val: totalDiscount(),
+      currency_id: this.state.currency.id,
       taxes: values.taxes
         ? values.taxes.map(val => {
             return {
