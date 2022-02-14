@@ -5,7 +5,7 @@
  * App Name:          Crater Invoice
  * Author:            Bytefury
  *
- * @since             5.0.1
+ * @since             6.0.2
  *
  * @format
  * @flow
