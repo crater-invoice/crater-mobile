@@ -22,7 +22,7 @@ export default class RecurringInvoices extends React.Component<
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: RECURRING_INVOICES_TABS.ACTIVE,
+      activeTab: RECURRING_INVOICES_TABS.ALL,
       search: ''
     };
   }
@@ -43,7 +43,7 @@ export default class RecurringInvoices extends React.Component<
     this.setActiveTab();
   };
 
-  setActiveTab = (activeTab = RECURRING_INVOICES_TABS.ACTIVE) => {
+  setActiveTab = (activeTab = RECURRING_INVOICES_TABS.ALL) => {
     this.setState({activeTab});
     const {search} = this.state;
     const {formValues} = this.props;
@@ -179,6 +179,11 @@ export default class RecurringInvoices extends React.Component<
 
     const tabs = [
       {
+        Title: RECURRING_INVOICES_TABS.ALL,
+        tabName: TAB_NAME.all,
+        render: <Tab parentProps={this} />
+      },
+      {
         Title: RECURRING_INVOICES_TABS.ACTIVE,
         tabName: TAB_NAME.active,
         render: <Tab parentProps={this} />
@@ -186,11 +191,6 @@ export default class RecurringInvoices extends React.Component<
       {
         Title: RECURRING_INVOICES_TABS.ON_HOLD,
         tabName: TAB_NAME.on_hold,
-        render: <Tab parentProps={this} />
-      },
-      {
-        Title: RECURRING_INVOICES_TABS.ALL,
-        tabName: TAB_NAME.all,
         render: <Tab parentProps={this} />
       }
     ];
