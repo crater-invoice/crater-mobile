@@ -22,7 +22,7 @@
     "@react-navigation/material-top-tabs": "^5.2.2",
     "@react-navigation/native": "^5.0.0-alpha.27",
     "@react-navigation/stack": "^5.0.0-alpha.58",
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "babel-eslint": "^10.0.3",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-flowtype": "^4.3.0",
