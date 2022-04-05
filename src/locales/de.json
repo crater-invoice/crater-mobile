@@ -8,9 +8,9 @@
     "add_recurring_invoice": "Wiederkehrende Rechnung hinzufügen",
     "edit_recurring_invoice": "Wiederkehrende Rechnung bearbeiten",
     "view_recurring_invoice": "Wiederkehrende Rechnung anzeigen",
-    "estimates": "Schätzungen",
-    "add_estimate": "Schätzung hinzufügen",
-    "edit_estimate": "Schätzung bearbeiten",
+    "estimates": "Angebote",
+    "add_estimate": "Angebot hinzufügen",
+    "edit_estimate": "Angebot bearbeiten",
     "template": "Schablone auswählen",
     "customers": "Kunden",
     "add_customer": "Kunden hinzufügen",
@@ -53,7 +53,7 @@
     "filter": "Filter",
     "back": "Zurück",
     "send_mail_invoice": "Rechnung senden",
-    "send_mail_estimate": "Schätzung senden",
+    "send_mail_estimate": "Angebot senden",
     "send_mail_payment": "Zahlung senden",
     "custom_fields": "Benutzerdefinierte Felder",
     "add_custom_field": "Benutzerdefiniertes Feld hinzufügen",
@@ -63,7 +63,7 @@
     "view_payment": "Zahlung anzeigen",
     "view_expense": "Aufwand anzeigen",
     "view_invoice": "Rechnung anzeigen",
-    "view_estimate": "Schätzung anzeigen",
+    "view_estimate": "Angebot anzeigen",
     "view_item": "Element anzeigen",
     "view_tax": "Steuer anzeigen",
     "view_custom_field": "Benutzerdefiniertes Feld anzeigen",
@@ -344,7 +344,7 @@
     }
   },
   "more": {
-    "estimate": "Schätzungen",
+    "estimate": "Angebote",
     "recurring_invoice": "Wiederkehrende Rechnungen",
     "items": "Artikel",
     "reports": "Berichte",
@@ -375,7 +375,7 @@
     },
     "placeholder": {
       "invoice": "Zusätzliche Notizen auf Invoice sichtbar",
-      "estimate": "Zusätzliche Hinweise auf Schätzung sichtbar",
+      "estimate": "Zusätzliche Hinweise auf Angebot sichtbar",
       "payment": "Zusätzliche Hinweise auf Zahlung sichtbar"
     },
     "type": "Notentyp",
@@ -421,7 +421,7 @@
       "send": "Benachrichtigungen senden an",
       "invoice_viewed": "Angezeigte Rechnung",
       "invoice_viewed_description": "Wenn Ihr Kunde den per E-Mail zugesandten Rechnungslink ansieht.",
-      "estimate_viewed": "Geschätzte Schätzung",
+      "estimate_viewed": "Angezeigte Angebote",
       "estimate_viewed_description": "Wenn Ihr Kunde den Schätzlink, der per E-Mail gesendet wird, ansieht."
     },
     "preferences": {
@@ -497,33 +497,33 @@
     "status_placeholder": "Status auswählen",
     "total_amount": "GESAMTBETRAG",
     "alert": {
-      "convert_to_invoice_description": "Sind Sie sicher, dass Sie diese Schätzung in eine Rechnung umwandeln möchten?",
-      "remove_description": "Sie werden diese Schätzung nicht wiederherstellen können.",
+      "convert_to_invoice_description": "Sind Sie sicher, dass Sie dieses Angebot in eine Rechnung umwandeln möchten?",
+      "remove_description": "Sie werden dieses Angebot nicht wiederherstellen können.",
       "less_amount": "Gesamtbetrag schuld't weniger als 0",
       "draft_title": "Änderungen speichern?",
-      "send_estimate": "Diese Schätzung wird per E-Mail an den Kunden gesendet",
-      "mark_as_sent": "Diese Schätzung wird als gesendet markiert.",
-      "mark_as_accept": "Diese Schätzung wird als 'Akzeptiert' markiert.",
-      "mark_as_reject": "Diese Schätzung wird als Zurückgewiesen markiert."
+      "send_estimate": "Dieses Angebot wird per E-Mail an den Kunden gesendet",
+      "mark_as_sent": "Dieses Angebot wird als 'Gesendet' markiert.",
+      "mark_as_accept": "Dieses Angebot wird als 'Akzeptiert' markiert.",
+      "mark_as_reject": "Dieses Angebot wird als 'Zurückgewiesen' markiert."
     },
     "empty": {
       "sent": {
-        "title": "Sie haben keine abgeschickten Schätzungen",
-        "description": "Dieser Abschnitt enthält die Liste der gesendeten Schätzungen."
+        "title": "Sie haben keine abgeschickten Angebote",
+        "description": "Dieser Abschnitt enthält die Liste der gesendeten Angebote."
       },
       "draft": {
-        "title": "Sie haben keinen Entwurf für Schätzungen",
-        "description": "Dieser Abschnitt enthält die Liste der Entwürfe für Schätzungen."
+        "title": "Sie haben keinen Angebotsentuwrf",
+        "description": "Dieser Abschnitt enthält die Liste der Angebotsentwürfe."
       },
       "all": {
-        "title": "Sie haben keine Schätzungen erstellt",
-        "description": "Dieser Abschnitt enthält die Liste der Schätzungen."
+        "title": "Sie haben keine Angebot erstellt",
+        "description": "Dieser Abschnitt enthält die Liste der Angebote."
       },
-      "button_title": "Neue Schätzung hinzufügen"
+      "button_title": "Neues Angebot hinzufügen"
     },
     "actions": {
-      "send_estimate": "Schätzung senden",
-      "resend_estimate": "Schätzung erneut senden",
+      "send_estimate": "Angebot senden",
+      "resend_estimate": "Angebot erneut senden",
       "delete": "Löschen",
       "convert_to_invoice": "In Rechnung konvertieren",
       "mark_as_sent": "Als gesendet markieren",
@@ -766,7 +766,7 @@
     "exchange_help_text": "Geben Sie den Wechselkurs ein, der von {{selectedCurrency}} in {{baseCurrency}} konvertiert werden soll."
   },
   "actions": {
-    "new_estimate": "Neue Schätzung",
+    "new_estimate": "Neues Angebot",
     "new_invoice": "Neue Rechnung",
     "new_payment": "Neue Zahlung",
     "new_expense": "Neuer Aufwand"
@@ -805,7 +805,7 @@
     "tax_already_in_use": "Steuer ist bereits im Einsatz",
     "setting_updated": "Einstellung erfolgreich aktualisiert",
     "invoice_setting_updated": "Rechnungseinstellung erfolgreich aktualisiert",
-    "estimate_setting_updated": "Abschätzungseinstellung erfolgreich aktualisiert",
+    "estimate_setting_updated": "Angebotseinstellung erfolgreich aktualisiert",
     "payment_setting_updated": "Zahlungseinstellung erfolgreich aktualisiert",
     "payment_mode_created": "Zahlungsmodus erfolgreich erstellt",
     "payment_mode_updated": "Zahlungsmodus erfolgreich aktualisiert",
@@ -824,13 +824,13 @@
     "item_created": "Element erfolgreich erstellt",
     "item_updated": "Element erfolgreich aktualisiert",
     "item_deleted": "Element erfolgreich gelöscht",
-    "estimate_created": "Schätzung wurde erfolgreich erstellt",
-    "estimate_updated": "Schätzung erfolgreich aktualisiert",
-    "estimate_deleted": "Schätzung erfolgreich gelöscht",
-    "estimate_sent": "Schätzung erfolgreich gesendet",
-    "estimate_mark_as_sent": "Geschätzte als erfolgreich gesendete Schätzung",
-    "estimate_marked_as_accepted": "Geschätzte als akzeptierte Schätzung",
-    "estimate_marked_as_rejected": "Als zurückgewiesene Schätzung",
+    "estimate_created": "Angebot wurde erfolgreich erstellt",
+    "estimate_updated": "Angebot erfolgreich aktualisiert",
+    "estimate_deleted": "Angebot erfolgreich gelöscht",
+    "estimate_sent": "Angebot erfolgreich gesendet",
+    "estimate_mark_as_sent": "Das Angebot wurde als erfolgreich 'Gesendete' markiert.",
+    "estimate_marked_as_accepted": "Das Angebot wurde als 'Akzeptiert' markiert.",
+    "estimate_marked_as_rejected": "Das Angebot wurde als 'Zurückgewiesene' markiert.",
     "expense_created": "Aufwand wurde erfolgreich erstellt",
     "expense_updated": "Aufwand wurde erfolgreich aktualisiert",
     "expense_deleted": "Aufwand wurde erfolgreich gelöscht",
