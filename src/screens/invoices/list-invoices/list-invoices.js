@@ -17,7 +17,7 @@ export default class Invoices extends React.Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: INVOICES_TABS.DRAFT,
+      activeTab: INVOICES_TABS.ALL,
       search: ''
     };
   }
@@ -43,7 +43,7 @@ export default class Invoices extends React.Component<IProps, IStates> {
     });
   };
 
-  setActiveTab = (activeTab = INVOICES_TABS.DRAFT) => {
+  setActiveTab = (activeTab = INVOICES_TABS.ALL) => {
     this.setState({activeTab});
     const {search} = this.state;
     const {formValues} = this.props;
@@ -182,6 +182,11 @@ export default class Invoices extends React.Component<IProps, IStates> {
 
     const tabs = [
       {
+        Title: INVOICES_TABS.ALL,
+        tabName: TAB_NAME.all,
+        render: <Tab parentProps={this} />
+      },
+      {
         Title: INVOICES_TABS.DRAFT,
         tabName: TAB_NAME.draft,
         render: <Tab parentProps={this} />
@@ -189,11 +194,6 @@ export default class Invoices extends React.Component<IProps, IStates> {
       {
         Title: INVOICES_TABS.SENT,
         tabName: TAB_NAME.sent,
-        render: <Tab parentProps={this} />
-      },
-      {
-        Title: INVOICES_TABS.ALL,
-        tabName: TAB_NAME.all,
         render: <Tab parentProps={this} />
       }
     ];

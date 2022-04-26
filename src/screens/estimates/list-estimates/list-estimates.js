@@ -18,7 +18,7 @@ export default class Estimates extends React.Component<IProps, IStates> {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: ESTIMATES_TABS.DRAFT,
+      activeTab: ESTIMATES_TABS.ALL,
       search: ''
     };
   }
@@ -39,7 +39,7 @@ export default class Estimates extends React.Component<IProps, IStates> {
     });
   };
 
-  setActiveTab = (activeTab = ESTIMATES_TABS.DRAFT) => {
+  setActiveTab = (activeTab = ESTIMATES_TABS.ALL) => {
     this.setState({activeTab});
     const {search} = this.state;
     const {formValues} = this.props;
@@ -178,6 +178,11 @@ export default class Estimates extends React.Component<IProps, IStates> {
 
     const tabs = [
       {
+        Title: ESTIMATES_TABS.ALL,
+        tabName: TAB_NAME.ALL,
+        render: <Tab parentProps={this} />
+      },
+      {
         Title: ESTIMATES_TABS.DRAFT,
         tabName: TAB_NAME.DRAFT,
         render: <Tab parentProps={this} />
@@ -185,11 +190,6 @@ export default class Estimates extends React.Component<IProps, IStates> {
       {
         Title: ESTIMATES_TABS.SENT,
         tabName: TAB_NAME.SENT,
-        render: <Tab parentProps={this} />
-      },
-      {
-        Title: ESTIMATES_TABS.ALL,
-        tabName: TAB_NAME.ALL,
         render: <Tab parentProps={this} />
       }
     ];
